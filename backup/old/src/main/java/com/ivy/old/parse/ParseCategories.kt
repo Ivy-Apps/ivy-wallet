@@ -1,6 +1,7 @@
 package com.ivy.old.parse
 
 import arrow.core.Either
+import com.ivy.backup.base.ImportBackupError
 import com.ivy.backup.base.optional
 import com.ivy.common.toUUID
 import com.ivy.data.Sync
@@ -8,15 +9,14 @@ import com.ivy.data.SyncState
 import com.ivy.data.category.Category
 import com.ivy.data.category.CategoryState
 import com.ivy.data.category.CategoryType
-import com.ivy.old.ImportOldDataError
 import org.json.JSONObject
 import java.time.LocalDateTime
 
 internal fun parseCategories(
     json: JSONObject,
     now: LocalDateTime
-): Either<ImportOldDataError, List<Category>> =
-    Either.catch(ImportOldDataError.Parse::Categories) {
+): Either<ImportBackupError, List<Category>> =
+    Either.catch(ImportBackupError.Parse::Categories) {
         val categoriesJson = json.getJSONArray("categories")
         val categories = mutableListOf<Category>()
         for (i in 0 until categoriesJson.length()) {

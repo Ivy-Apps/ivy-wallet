@@ -17,7 +17,7 @@ import java.io.File
 suspend fun extractBackupJson(
     context: Context,
     backupFilePath: Uri
-): Either<ExtractBackupJsonError, JSONObject> =
+): Either<ImportBackupError, JSONObject> =
     either {
         // region Unzip
         val files = unzipBackupZip(context, zipFilePath = backupFilePath).bind()
@@ -33,7 +33,7 @@ suspend fun extractBackupJson(
 private fun unzipBackupZip(
     context: Context,
     zipFilePath: Uri
-): Either<ExtractBackupJsonError, NonEmptyList<File>> {
+): Either<ImportBackupError, NonEmptyList<File>> {
     val folderName = "backup" + System.currentTimeMillis()
     val unzippedFolder = File(context.cacheDir, folderName)
 
@@ -46,7 +46,7 @@ private fun unzipBackupZip(
     val unzippedFiles = unzippedFolder.listFiles()?.toList()
         ?.takeIf { it.isNotEmpty() }
         ?.toNonEmptyList()
-        ?: return ExtractBackupJsonError.UnzipFailed(null).left()
+        ?: return ImportBackupError.UnzipFailed(null).left()
 
     unzippedFolder.delete()
 
@@ -56,7 +56,7 @@ private fun unzipBackupZip(
 private fun readBackupJson(
     context: Context,
     files: NonEmptyList<File>
-): Either<ExtractBackupJsonError, String> {
+): Either<ImportBackupError, String> {
     fun hasJsonExtension(file: File): Boolean {
         val name = file.name
         val lastIndexOf = name.lastIndexOf(".")
@@ -66,29 +66,19 @@ private fun readBackupJson(
 
     val jsonFiles = files.filter(::hasJsonExtension)
     if (jsonFiles.size != 1)
-        return ExtractBackupJsonError.UnexpectedBackupZipFormat(null).left()
+        return ImportBackupError.UnexpectedBackupZipFormat(null).left()
 
     return readFile(
         context,
         jsonFiles.first().toUri(),
         Charsets.UTF_16
-    )?.right() ?: ExtractBackupJsonError.FailedToReadJsonFile(null).left()
+    )?.right() ?: ImportBackupError.FailedToReadJsonFile(null).left()
 }
 // endregion
 
 // region Parse
-private fun parse(jsonString: String): Either<ExtractBackupJsonError, JSONObject> =
-    Either.catch({ ExtractBackupJsonError.FailedToParseJson(it) }) {
+private fun parse(jsonString: String): Either<ImportBackupError, JSONObject> =
+    Either.catch({ ImportBackupError.FailedToParseJson(it) }) {
         JSONObject(jsonString)
     }
 // endregion
-
-sealed interface ExtractBackupJsonError {
-    val reason: Throwable?
-
-    data class UnzipFailed(override val reason: Throwable?) : ExtractBackupJsonError
-    data class UnexpectedBackupZipFormat(override val reason: Throwable?) : ExtractBackupJsonError
-    data class FailedToReadJsonFile(override val reason: Throwable?) : ExtractBackupJsonError
-    data class FailedToParseJson(override val reason: Throwable) : ExtractBackupJsonError
-
-}

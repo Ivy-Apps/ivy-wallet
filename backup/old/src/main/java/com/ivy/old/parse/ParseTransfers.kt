@@ -3,6 +3,7 @@ package com.ivy.old.parse
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
+import com.ivy.backup.base.ImportBackupError
 import com.ivy.backup.base.data.BatchTransferData
 import com.ivy.backup.base.data.FaultTolerantList
 import com.ivy.backup.base.optional
@@ -18,7 +19,6 @@ import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnMetadata
 import com.ivy.data.transaction.TrnState
-import com.ivy.old.ImportOldDataError
 import org.json.JSONObject
 import java.time.LocalDateTime
 
@@ -33,8 +33,8 @@ internal fun parseTransfers(
     accountsMap: Map<String, Account>,
     categoriesMap: Map<String, Category>,
     timeProvider: TimeProvider,
-): Either<ImportOldDataError, TransfersData> =
-    Either.catch(ImportOldDataError.Parse::Transfers) {
+): Either<ImportBackupError, TransfersData> =
+    Either.catch(ImportBackupError.Parse::Transfers) {
         val transactionsJson = json.getJSONArray("transactions")
         val transfers = mutableListOf<BatchTransferData>()
         val partlyCorrupted = mutableListOf<Transaction>()

@@ -1,6 +1,7 @@
 package com.ivy.old.parse
 
 import arrow.core.Either
+import com.ivy.backup.base.ImportBackupError
 import com.ivy.backup.base.optional
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.toUUID
@@ -13,7 +14,6 @@ import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnMetadata
 import com.ivy.data.transaction.TrnState
-import com.ivy.old.ImportOldDataError
 import org.json.JSONObject
 import java.time.LocalDateTime
 
@@ -23,8 +23,8 @@ internal fun parseTransactions(
     accountsMap: Map<String, Account>,
     categoriesMap: Map<String, Category>,
     timeProvider: TimeProvider,
-): Either<ImportOldDataError, List<Transaction>> =
-    Either.catch(ImportOldDataError.Parse::Transactions) {
+): Either<ImportBackupError, List<Transaction>> =
+    Either.catch(ImportBackupError.Parse::Transactions) {
         val transactionsJson = json.getJSONArray("transactions")
         val transactions = mutableListOf<Transaction>()
         for (i in 0 until transactionsJson.length()) {
