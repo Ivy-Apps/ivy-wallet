@@ -12,7 +12,7 @@ import com.ivy.drive.google_drive.data.GoogleDriveError
 
 private const val APP_NAME = "Ivy Wallet"
 
-fun driveInstance(
+internal fun driveInstance(
     context: Context,
     googleAccount: GoogleSignInAccount
 ): Either<GoogleDriveError, Drive> = Either.catch {

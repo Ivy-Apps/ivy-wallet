@@ -1,4 +1,4 @@
-package com.ivy.drive.google_drive
+package com.ivy.drive.google_drive.api
 
 import arrow.core.Either
 import arrow.core.computations.either
@@ -7,6 +7,8 @@ import com.ivy.drive.google_drive.data.GoogleDriveError
 import java.nio.file.Path
 
 interface GoogleDriveService {
+    fun isMounted(): Boolean
+
     suspend fun read(path: Path): Either<GoogleDriveError, ByteArray?>
 
     suspend fun readAsString(myPath: Path): Either<GoogleDriveError, String?> = either {

@@ -8,7 +8,7 @@ internal suspend fun exportAccountsJson(
     accountDao: AccountDao
 ): JSONArray = exportJson(
     findAll = accountDao::findAllBlocking,
-    toJson = {
+    json = {
         put("id", it.id)
         put("name", it.name)
         put("currency", it.currency)
@@ -26,7 +26,7 @@ internal suspend fun exportAccountFoldersJson(
     accountFolderDao: AccountFolderDao
 ): JSONArray = exportJson(
     findAll = accountFolderDao::findAllBlocking,
-    toJson = {
+    json = {
         put("id", it.id)
         put("name", it.name)
         put("color", it.color)

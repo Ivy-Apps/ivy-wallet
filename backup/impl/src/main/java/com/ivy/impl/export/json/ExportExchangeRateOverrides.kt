@@ -7,7 +7,7 @@ internal suspend fun exportExchangeRatesOverridesToJson(
     exchangeRateOverrideDao: ExchangeRateOverrideDao
 ): JSONArray = exportJson(
     findAll = exchangeRateOverrideDao::findAllBlocking,
-    toJson = {
+    json = {
         put("baseCurrency", it.baseCurrency)
         put("currency", it.currency)
         put("rate", it.rate)

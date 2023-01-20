@@ -9,6 +9,7 @@ import arrow.core.computations.either
 import com.google.api.client.http.ByteArrayContent
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.model.File
+import com.ivy.drive.google_drive.api.GoogleDriveService
 import com.ivy.drive.google_drive.data.DriveMimeType
 import com.ivy.drive.google_drive.data.GoogleDriveError
 import com.ivy.drive.google_drive.data.GoogleDriveFileId
@@ -19,9 +20,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GoogleDriveServiceImpl @Inject constructor(
+internal class GoogleDriveServiceImpl @Inject constructor(
     private val googleDriveProvider: GoogleDriveProvider
 ) : GoogleDriveService, GoogleDriveProvider by googleDriveProvider {
+    override fun isMounted(): Boolean = errorOrDrive.isRight()
 
     override suspend fun read(path: Path): Either<GoogleDriveError, ByteArray?> = either {
         fetchFileFromPath(path).bind()?.let { file ->

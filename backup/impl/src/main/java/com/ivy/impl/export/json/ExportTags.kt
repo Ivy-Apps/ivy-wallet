@@ -7,7 +7,7 @@ internal suspend fun exportTagsToJson(
     tagDao: TagDao
 ): JSONArray = exportJson(
     findAll = tagDao::findAllBlocking,
-    toJson = {
+    json = {
         put("id", it.id)
         put("color", it.color)
         put("name", it.name)

@@ -1,5 +1,7 @@
 package com.ivy.settings
 
+import android.net.Uri
+
 sealed interface SettingsEvent {
     object Back : SettingsEvent
     data class BaseCurrencyChange(val newCurrency: String) : SettingsEvent
@@ -13,5 +15,7 @@ sealed interface SettingsEvent {
 
     object AddFrame : SettingsEvent
     object NukeAccCache : SettingsEvent
+
+    data class BackupData(val backupLocation: Uri) : SettingsEvent
 }
 

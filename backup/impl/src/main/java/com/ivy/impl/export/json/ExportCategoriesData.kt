@@ -7,7 +7,7 @@ internal suspend fun exportCategoriesJson(
     categoryDao: CategoryDao
 ): JSONArray = exportJson(
     findAll = categoryDao::findAllBlocking,
-    toJson = {
+    json = {
         put("id", it.id)
         put("name", it.name)
         put("color", it.color)

@@ -7,7 +7,7 @@ import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
 import com.ivy.core.domain.action.settings.theme.ThemeFlow
 import com.ivy.data.CurrencyCode
 import com.ivy.data.Theme
-import com.ivy.drive.google_drive.GoogleDriveInitializer
+import com.ivy.drive.google_drive.api.GoogleDriveConnection
 import com.ivy.navigation.Navigator
 import com.ivy.navigation.destinations.Destination
 import com.ivy.onboarding.action.OnboardingFinishedAct
@@ -25,7 +25,7 @@ class RootViewModel @Inject constructor(
     private val syncExchangeRatesAct: SyncExchangeRatesAct,
     baseCurrencyFlow: BaseCurrencyFlow,
     private val themeFlow: ThemeFlow,
-    private val googleDriveInitializer: GoogleDriveInitializer
+    private val googleDriveConnection: GoogleDriveConnection
 ) : FlowViewModel<RootViewModel.InternalState, RootState, RootEvent>() {
     override val initialState = InternalState(baseCurrency = "")
 
@@ -63,7 +63,7 @@ class RootViewModel @Inject constructor(
             }
         }
 
-        googleDriveInitializer.mount()
+        googleDriveConnection.mount()
     }
     // endregion
 

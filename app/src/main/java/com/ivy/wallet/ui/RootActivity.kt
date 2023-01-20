@@ -24,6 +24,9 @@ import androidx.compose.runtime.getValue
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.ivy.accounts.AccountsScreen
 import com.ivy.api.screen.backup.ImportBackupScreen
@@ -34,12 +37,13 @@ import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.time.timeNow
 import com.ivy.common.time.toEpochMilli
 import com.ivy.core.ui.RootScreen
+import com.ivy.core.ui.Toaster
 import com.ivy.data.file.FileType
 import com.ivy.debug.TestScreen
 import com.ivy.design.api.IvyUI
 import com.ivy.design.api.setAppDesign
 import com.ivy.design.api.systems.ivyWalletDesign
-import com.ivy.drive.google_drive.GoogleDriveInitializer
+import com.ivy.drive.google_drive.api.GoogleDriveConnection
 import com.ivy.file.CreateFileLauncher
 import com.ivy.file.FilePickerLauncher
 import com.ivy.home.HomeScreen
@@ -59,6 +63,8 @@ import com.ivy.transaction.edit.transfer.EditTransferScreen
 import com.ivy.transaction.edit.trn.EditTransactionScreen
 import com.ivy.wallet.BuildConfig
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.time.LocalDate
 import java.time.LocalTime
@@ -80,7 +86,10 @@ class RootActivity : AppCompatActivity(), RootScreen {
     lateinit var createFileLauncher: CreateFileLauncher
 
     @Inject
-    lateinit var googleDriveInitializer: GoogleDriveInitializer
+    lateinit var googleDriveConnection: GoogleDriveConnection
+
+    @Inject
+    lateinit var toaster: Toaster
 
 
     private val viewModel: RootViewModel by viewModels()
@@ -91,9 +100,17 @@ class RootActivity : AppCompatActivity(), RootScreen {
         // region setup ActivityForResult launchers
         filePickerLauncher.wire(this)
         createFileLauncher.wire(this)
-        googleDriveInitializer.wire(this)
+        googleDriveConnection.wire(this)
         // endregion
 
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                toaster.messages.collectLatest {
+                    Toast.makeText(this@RootActivity, it, Toast.LENGTH_LONG)
+                        .show()
+                }
+            }
+        }
 
         // Make the app drawing area fullscreen (draw behind status and nav bars)
         WindowCompat.setDecorFitsSystemWindows(window, false)

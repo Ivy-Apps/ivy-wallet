@@ -33,6 +33,7 @@ import com.ivy.design.l3_ivyComponents.button.ButtonSize
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
 import com.ivy.settings.data.BackupImportState
+import java.time.Instant
 
 /*
 - Dark Mode
@@ -160,7 +161,7 @@ private fun BoxScope.UI(
             IvyButton(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 size = ButtonSize.Big,
-                visibility = Visibility.Focused,
+                visibility = Visibility.Medium,
                 feeling = Feeling.Positive,
                 text = "Add Ivy frame",
                 icon = null
@@ -169,11 +170,29 @@ private fun BoxScope.UI(
             }
         }
         item {
+            SpacerVer(height = 16.dp)
+            val rootScreen = rootScreen()
+            IvyButton(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                size = ButtonSize.Big,
+                visibility = Visibility.Medium,
+                feeling = Feeling.Positive,
+                text = "Backup data",
+                icon = null
+            ) {
+                rootScreen.createFile(
+                    fileName = "Ivy-Wallet-Backup-${Instant.now().epochSecond}.zip"
+                ) {
+                    onEvent(SettingsEvent.BackupData(backupLocation = it))
+                }
+            }
+        }
+        item {
             SpacerVer(height = 24.dp)
             IvyButton(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 size = ButtonSize.Big,
-                visibility = Visibility.Focused,
+                visibility = Visibility.Medium,
                 feeling = Feeling.Negative,
                 text = "Nuke account's cache",
                 icon = null

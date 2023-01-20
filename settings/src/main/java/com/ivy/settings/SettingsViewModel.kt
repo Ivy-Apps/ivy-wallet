@@ -1,5 +1,6 @@
 package com.ivy.settings
 
+import androidx.lifecycle.viewModelScope
 import arrow.core.Either.Left
 import arrow.core.Either.Right
 import com.ivy.core.domain.SimpleFlowViewModel
@@ -13,8 +14,10 @@ import com.ivy.core.domain.action.settings.startdayofmonth.StartDayOfMonthFlow
 import com.ivy.core.domain.action.settings.startdayofmonth.WriteStartDayOfMonthAct
 import com.ivy.core.domain.algorithm.accountcache.NukeAccountCacheAct
 import com.ivy.core.domain.pure.util.combine
-import com.ivy.drive.google_drive.GoogleDriveInitializer
-import com.ivy.drive.google_drive.GoogleDriveService
+import com.ivy.core.ui.Toaster
+import com.ivy.drive.google_drive.api.GoogleDriveConnection
+import com.ivy.drive.google_drive.api.GoogleDriveService
+import com.ivy.impl.export.BackupDataAct
 import com.ivy.navigation.Navigator
 import com.ivy.navigation.destinations.Destination
 import com.ivy.settings.data.BackupImportState
@@ -22,6 +25,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.time.LocalDateTime
@@ -39,9 +43,11 @@ class SettingsViewModel @Inject constructor(
     private val writeHideBalanceAct: WriteHideBalanceAct,
     private val appLockedFlow: AppLockedFlow,
     private val writeAppLockedAct: WriteAppLockedAct,
-    private val googleDriveInitializer: GoogleDriveInitializer,
+    private val googleDriveConnection: GoogleDriveConnection,
     private val googleDriveService: GoogleDriveService,
     private val nukeAccountCacheAct: NukeAccountCacheAct,
+    private val backupDataAct: BackupDataAct,
+    private val toaster: Toaster,
 ) : SimpleFlowViewModel<SettingsState, SettingsEvent>() {
     override val initialUi: SettingsState = SettingsState(
         baseCurrency = "",
@@ -59,7 +65,7 @@ class SettingsViewModel @Inject constructor(
         startDayOfMonthFlow(),
         hideBalanceFlow(Unit),
         appLockedFlow(Unit),
-        googleDriveInitializer.driveMounted,
+        googleDriveConnection.driveMounted,
         importOldDataState
     ) { baseCurrency, startDayOfMonth, hideBalance,
         appLocked, driveMounted, importOldData ->
@@ -97,6 +103,7 @@ class SettingsViewModel @Inject constructor(
             SettingsEvent.NukeAccCache -> {
                 nukeAccountCacheAct(Unit)
             }
+            is SettingsEvent.BackupData -> handleBackupData(event)
         }
     }
 
@@ -105,7 +112,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     private suspend fun handleMountDrive() {
-        if (googleDriveInitializer.driveMounted.value) {
+        if (googleDriveConnection.driveMounted.value) {
             withContext(Dispatchers.IO) {
                 val result = googleDriveService.write(
                     path = Path("Ivy-Wallet-Debug-sync-folder/Backup/test.txt"),
@@ -124,11 +131,34 @@ class SettingsViewModel @Inject constructor(
                 }
             }
         } else {
-            googleDriveInitializer.connect()
+            googleDriveConnection.connect()
         }
     }
 
     private fun handleAddFrame() {
         navigator.navigate(Destination.addFrame.destination(Unit))
+    }
+
+
+    var backupInProgress = false
+    private suspend fun handleBackupData(event: SettingsEvent.BackupData) {
+        if (backupInProgress) return
+        viewModelScope.launch {
+            backupInProgress = true
+            when (val result = backupDataAct(BackupDataAct.Input(event.backupLocation))) {
+                is Left -> {
+                    result.value.reason?.printStackTrace()
+                    toaster.show("Error: ${result.value.reason}")
+                }
+                is Right -> {
+                    if (result.value.uploadedToDrive) {
+                        toaster.show("Success! Data uploaded to your Google Drive.")
+                    } else {
+                        toaster.show("Local backup successful!")
+                    }
+                }
+            }
+            backupInProgress = false
+        }
     }
 }

@@ -19,5 +19,6 @@ dependencies {
     implementation(project(":navigation"))
     implementation(project(":backup:old"))
     implementation(project(":drive:google-drive"))
+    implementation(project(":backup:impl"))
     Testing()
 }

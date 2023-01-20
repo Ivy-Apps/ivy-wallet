@@ -10,7 +10,7 @@ internal suspend fun exportTransactionsJson(
     transactionDao: TransactionDao
 ): JSONArray = exportJson(
     findAll = transactionDao::findAllBlocking,
-    toJson = {
+    json = {
         put("id", it.id)
         put("accountId", it.accountId)
         put("type", it.type.code)
@@ -31,7 +31,7 @@ internal suspend fun exportTrnMetadataJson(
     trnMetadataDao: TrnMetadataDao
 ): JSONArray = exportJson(
     findAll = trnMetadataDao::findAllBlocking,
-    toJson = {
+    json = {
         put("id", it.id)
         put("trnId", it.trnId)
         put("key", it.key)
@@ -44,7 +44,7 @@ internal suspend fun exportTrnLinkRecordsJson(
     trnLinkRecordDao: TrnLinkRecordDao
 ): JSONArray = exportJson(
     findAll = trnLinkRecordDao::findAllBlocking,
-    toJson = {
+    json = {
         put("id", it.id)
         put("trnId", it.trnId)
         put("batchId", it.batchId)
@@ -56,7 +56,7 @@ internal suspend fun exportTrnTagsJson(
     trnTagDao: TrnTagDao
 ): JSONArray = exportJson(
     findAll = trnTagDao::findAllBlocking,
-    toJson = {
+    json = {
         put("trnId", it.trnId)
         put("tagId", it.tagId)
         putLastUpdated(it.lastUpdated)

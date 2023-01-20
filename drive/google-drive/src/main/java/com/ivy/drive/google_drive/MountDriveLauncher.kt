@@ -16,7 +16,7 @@ import com.ivy.drive.google_drive.data.GoogleDriveError
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class MountDriveLauncher @Inject constructor(
+internal class MountDriveLauncher @Inject constructor(
     @ApplicationContext
     private val appContext: Context,
 ) : ActivityLauncher<Unit, Either<GoogleDriveError, Drive>>() {

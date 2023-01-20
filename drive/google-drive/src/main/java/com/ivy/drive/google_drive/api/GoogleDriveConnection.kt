@@ -1,9 +1,9 @@
-package com.ivy.drive.google_drive
+package com.ivy.drive.google_drive.api
 
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.flow.StateFlow
 
-interface GoogleDriveInitializer {
+interface GoogleDriveConnection {
     /**
      * Call in Activity's onCreate to register ActivityResultLauncher
      */

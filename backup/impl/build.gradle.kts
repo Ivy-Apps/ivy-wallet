@@ -16,5 +16,6 @@ dependencies {
     implementation(project(":core:persistence"))
     api(project(":backup:base"))
     implementation(project(":android:file-system"))
+    implementation(project(":drive:google-drive"))
     Testing()
 }

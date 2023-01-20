@@ -6,13 +6,13 @@ import java.time.Instant
 
 internal suspend fun <T> exportJson(
     findAll: suspend () -> List<T>,
-    toJson: JSONObject.(T) -> Unit,
+    json: JSONObject.(T) -> Unit,
 ): JSONArray {
-    val json = JSONArray()
+    val jsonArr = JSONArray()
     findAll().forEach {
-        json.put(JSONObject().toJson(it))
+        jsonArr.put(JSONObject().apply { json(it) })
     }
-    return json
+    return jsonArr
 }
 
 internal fun JSONObject.putLastUpdated(

@@ -8,6 +8,8 @@ import arrow.core.Either
 import java.io.*
 import java.nio.charset.Charset
 
+// TODO: Refactor and re-work! It's a fine mess...
+
 fun writeToFile(context: Context, uri: Uri, content: String) {
     try {
         val contentResolver = context.contentResolver
@@ -35,6 +37,29 @@ fun writeToFileUnsafe(context: Context, uri: Uri, content: ByteArray) {
         }
     }
 }
+
+fun readFileAsBytes(
+    context: Context,
+    uri: Uri,
+): ByteArray? {
+    return try {
+        val contentResolver = context.contentResolver
+        var fileContent: ByteArray? = null
+        contentResolver.openFileDescriptor(uri, FDMode.Read.value)?.use {
+            FileInputStream(it.fileDescriptor).use { fileInputStream ->
+                fileContent = fileInputStream.readBytes()
+            }
+        }
+        fileContent
+    } catch (e: FileNotFoundException) {
+        e.printStackTrace()
+        null
+    } catch (e: IOException) {
+        e.printStackTrace()
+        null
+    }
+}
+
 
 fun readFile(
     context: Context,

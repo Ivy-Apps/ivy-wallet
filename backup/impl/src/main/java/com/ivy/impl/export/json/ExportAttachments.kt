@@ -7,7 +7,7 @@ internal suspend fun exportAttachmentsJson(
     attachmentDao: AttachmentDao
 ): JSONArray = exportJson(
     findAll = attachmentDao::findAllBlocking,
-    toJson = {
+    json = {
         put("id", it.id)
         put("associatedId", it.associatedId)
         put("uri", it.uri)
