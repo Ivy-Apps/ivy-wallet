@@ -3,6 +3,7 @@ package com.ivy.old.parse
 import arrow.core.Either
 import com.ivy.backup.base.ImportBackupError
 import com.ivy.backup.base.optional
+import com.ivy.backup.base.parseItems
 import com.ivy.common.toUUID
 import com.ivy.data.Sync
 import com.ivy.data.SyncState
@@ -14,16 +15,15 @@ import java.time.LocalDateTime
 internal fun parseAccounts(
     json: JSONObject,
     now: LocalDateTime
-): Either<ImportBackupError, List<Account>> =
-    Either.catch(ImportBackupError.Parse::Accounts) {
-        val accountsJson = json.getJSONArray("accounts")
-        val accounts = mutableListOf<Account>()
-        for (i in 0 until accountsJson.length()) {
-            val accJson = accountsJson.getJSONObject(i)
-            accounts.add(accJson.parseAccount(now))
-        }
-        accounts
+): Either<ImportBackupError, List<Account>> = parseItems(
+    json = json,
+    now = now,
+    key = "accounts",
+    error = ImportBackupError.Parse::Accounts,
+    parse = {
+        parseAccount(it)
     }
+)
 
 private fun JSONObject.parseAccount(
     now: LocalDateTime
