@@ -14,7 +14,7 @@ import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.data.ItemIconId
 import com.ivy.data.Sync
 import com.ivy.data.SyncState
-import com.ivy.data.account.Folder
+import com.ivy.data.account.AccountFolder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -55,7 +55,7 @@ internal class CreateAccFolderViewModel @Inject constructor(
     }
 
     private suspend fun handleCreateFolder(event: CreateAccFolderEvent.CreateFolder) {
-        val newFolder = Folder(
+        val newAccountFolder = AccountFolder(
             id = UUID.randomUUID().toString(),
             name = folderName,
             icon = folderIconId.value,
@@ -66,10 +66,10 @@ internal class CreateAccFolderViewModel @Inject constructor(
                 lastUpdated = timeProvider.timeNow(),
             )
         )
-        writeAccountFolderAct(Modify.save(newFolder))
+        writeAccountFolderAct(Modify.save(newAccountFolder))
         writeAccountFolderContentAct(
             WriteAccountFolderContentAct.Input(
-                folderId = newFolder.id,
+                folderId = newAccountFolder.id,
                 accountIds = event.accounts.map { it.id }
             )
         )

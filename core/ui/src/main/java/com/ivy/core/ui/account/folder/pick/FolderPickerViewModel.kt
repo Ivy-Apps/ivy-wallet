@@ -21,7 +21,7 @@ class FolderPickerViewModel @Inject constructor(
             FolderPickerState(
                 folders = accountsFolders
                     .filterIsInstance<AccountListItem.FolderWithAccounts>()
-                    .map { mapFolderUiAct(it.folder) }
+                    .map { mapFolderUiAct(it.accountFolder) }
             )
         }
 

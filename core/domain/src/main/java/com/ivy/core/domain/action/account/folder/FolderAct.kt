@@ -6,14 +6,14 @@ import com.ivy.core.domain.action.Action
 import com.ivy.core.persistence.dao.account.AccountFolderDao
 import com.ivy.core.persistence.entity.account.AccountFolderEntity
 import com.ivy.data.Sync
-import com.ivy.data.account.Folder
+import com.ivy.data.account.AccountFolder
 import javax.inject.Inject
 
 class FolderAct @Inject constructor(
     private val accountFolderDao: AccountFolderDao,
     private val timeProvider: TimeProvider,
-) : Action<String, Folder?>() {
-    override suspend fun action(folderId: String): Folder? =
+) : Action<String, AccountFolder?>() {
+    override suspend fun action(folderId: String): AccountFolder? =
         accountFolderDao.findById(folderId)?.let {
             toDomain(it, timeProvider)
         }
@@ -22,7 +22,7 @@ class FolderAct @Inject constructor(
 fun toDomain(
     entity: AccountFolderEntity,
     timeProvider: TimeProvider,
-) = Folder(
+) = AccountFolder(
     id = entity.id,
     name = entity.name,
     icon = entity.icon,

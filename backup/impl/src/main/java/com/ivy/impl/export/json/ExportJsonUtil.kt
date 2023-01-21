@@ -1,5 +1,6 @@
 package com.ivy.impl.export.json
 
+import com.ivy.data.SyncState
 import org.json.JSONArray
 import org.json.JSONObject
 import java.time.Instant
@@ -15,8 +16,10 @@ internal suspend fun <T> exportJson(
     return jsonArr
 }
 
-internal fun JSONObject.putLastUpdated(
-    instant: Instant
+internal fun JSONObject.putSync(
+    syncState: SyncState,
+    lastUpdated: Instant
 ) {
-    put("lastUpdated", instant.epochSecond)
+    put("syncState", syncState.code)
+    put("lastUpdated", lastUpdated.epochSecond)
 }

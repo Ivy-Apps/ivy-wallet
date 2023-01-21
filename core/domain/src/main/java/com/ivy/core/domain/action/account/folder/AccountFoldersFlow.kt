@@ -34,7 +34,7 @@ class AccountFoldersFlow @Inject constructor(
         val accountsNotInFolder = foldersMap.filterKeys { accFolderId ->
             // accounts with folder "none" aren't in any folder
             if (accFolderId == "none") return@filterKeys true
-            val folderIds = folders.map { it.folder.id }
+            val folderIds = folders.map { it.accountFolder.id }
             // the referenced folder by the account doesn't exists if:
             !folderIds.contains(accFolderId)
         }.values.flatten()
@@ -45,7 +45,7 @@ class AccountFoldersFlow @Inject constructor(
         result.sortedBy {
             when (it) {
                 is AccountHolder -> it.account.orderNum
-                is FolderWithAccounts -> it.folder.orderNum
+                is FolderWithAccounts -> it.accountFolder.orderNum
                 is AccountListItem.Archived -> Double.MAX_VALUE - 10 // put archived as last
             }
         }
@@ -55,7 +55,7 @@ class AccountFoldersFlow @Inject constructor(
         foldersMap: Map<FolderId, List<Account>>,
         entity: AccountFolderEntity
     ) = FolderWithAccounts(
-        folder = toDomain(entity, timeProvider),
+        accountFolder = toDomain(entity, timeProvider),
         accounts = foldersMap[entity.id] ?: emptyList(),
     )
 }

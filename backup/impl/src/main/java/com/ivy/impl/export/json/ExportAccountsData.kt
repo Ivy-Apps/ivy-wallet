@@ -18,7 +18,7 @@ internal suspend fun exportAccountsJson(
         put("orderNum", it.orderNum)
         put("excluded", it.excluded)
         put("state", it.state.code)
-        putLastUpdated(it.lastUpdated)
+        putSync(it.sync, it.lastUpdated)
     },
 )
 
@@ -32,6 +32,6 @@ internal suspend fun exportAccountFoldersJson(
         put("color", it.color)
         put("icon", it.icon)
         put("orderNum", it.orderNum)
-        putLastUpdated(it.lastUpdated)
+        putSync(it.sync, it.lastUpdated)
     }
 )

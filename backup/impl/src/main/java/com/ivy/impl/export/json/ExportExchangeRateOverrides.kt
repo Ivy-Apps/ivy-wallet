@@ -11,6 +11,6 @@ internal suspend fun exportExchangeRatesOverridesToJson(
         put("baseCurrency", it.baseCurrency)
         put("currency", it.currency)
         put("rate", it.rate)
-        putLastUpdated(it.lastUpdated)
+        putSync(it.sync, it.lastUpdated)
     }
 )

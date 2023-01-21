@@ -6,7 +6,8 @@ import arrow.core.right
 import com.ivy.backup.base.ImportBackupError
 import com.ivy.backup.base.data.BatchTransferData
 import com.ivy.backup.base.data.FaultTolerantList
-import com.ivy.backup.base.optional
+import com.ivy.backup.base.maybe
+import com.ivy.backup.base.parseTrnTime
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.toUUID
 import com.ivy.core.domain.action.transaction.transfer.TransferData
@@ -33,7 +34,7 @@ internal fun parseTransfers(
     accountsMap: Map<String, Account>,
     categoriesMap: Map<String, Category>,
     timeProvider: TimeProvider,
-): Either<ImportBackupError, TransfersData> =
+): Either<ImportBackupError.Parse, TransfersData> =
     Either.catch(ImportBackupError.Parse::Transfers) {
         val transactionsJson = json.getJSONArray("transactions")
         val transfers = mutableListOf<BatchTransferData>()
@@ -73,17 +74,17 @@ private fun JSONObject.parseTransfer(
     accountsMap: Map<String, Account>,
     categoriesMap: Map<String, Category>,
     timeProvider: TimeProvider,
-): Either<Transaction, BatchTransferData>? = optional {
+): Either<Transaction, BatchTransferData>? = maybe {
     val oldTrnId = getString("id")
     val accountFrom = accountsMap[getString("accountId")]
     val accountTo = accountsMap[getString("toAccountId")]
 
     val fromAmount = getDouble("amount")
-    val toAmount = optional { getDouble("toAmount") } ?: fromAmount
+    val toAmount = maybe { getDouble("toAmount") } ?: fromAmount
 
-    val category = optional { categoriesMap[getString("categoryId")] }
-    val title = optional { getString("title") }
-    val description = optional { getString("description") }
+    val category = maybe { categoriesMap[getString("categoryId")] }
+    val title = maybe { getString("title") }
+    val description = maybe { getString("description") }
     val trnTime = parseTrnTime(this, timeProvider = timeProvider)
     val sync = Sync(
         state = SyncState.Syncing,

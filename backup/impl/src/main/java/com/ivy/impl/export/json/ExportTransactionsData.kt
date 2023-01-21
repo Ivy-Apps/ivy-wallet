@@ -23,7 +23,7 @@ internal suspend fun exportTransactionsJson(
         put("categoryId", it.categoryId)
         put("state", it.state)
         put("purpose", it.purpose?.code)
-        putLastUpdated(it.lastUpdated)
+        putSync(it.sync, it.lastUpdated)
     }
 )
 
@@ -36,7 +36,7 @@ internal suspend fun exportTrnMetadataJson(
         put("trnId", it.trnId)
         put("key", it.key)
         put("value", it.value)
-        putLastUpdated(it.lastUpdated)
+        putSync(it.sync, it.lastUpdated)
     }
 )
 
@@ -48,7 +48,7 @@ internal suspend fun exportTrnLinkRecordsJson(
         put("id", it.id)
         put("trnId", it.trnId)
         put("batchId", it.batchId)
-        putLastUpdated(it.lastUpdated)
+        putSync(it.sync, it.lastUpdated)
     }
 )
 
@@ -59,6 +59,6 @@ internal suspend fun exportTrnTagsJson(
     json = {
         put("trnId", it.trnId)
         put("tagId", it.tagId)
-        putLastUpdated(it.lastUpdated)
+        putSync(it.sync, it.lastUpdated)
     }
 )

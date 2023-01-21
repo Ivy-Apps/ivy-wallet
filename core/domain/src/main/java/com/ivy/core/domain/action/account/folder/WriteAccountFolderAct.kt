@@ -7,16 +7,16 @@ import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.persistence.dao.account.AccountFolderDao
 import com.ivy.core.persistence.entity.account.AccountFolderEntity
 import com.ivy.data.SyncState
-import com.ivy.data.account.Folder
+import com.ivy.data.account.AccountFolder
 import javax.inject.Inject
 
 class WriteAccountFolderAct @Inject constructor(
     private val accountFolderDao: AccountFolderDao,
     private val timeProvider: TimeProvider,
-) : Action<Modify<Folder>, Unit>() {
+) : Action<Modify<AccountFolder>, Unit>() {
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override suspend fun action(modify: Modify<Folder>) = when (modify) {
+    override suspend fun action(modify: Modify<AccountFolder>) = when (modify) {
         is Modify.Delete -> delete(modify.itemIds)
         is Modify.Save -> save(modify.items)
     }
@@ -25,9 +25,9 @@ class WriteAccountFolderAct @Inject constructor(
         accountFolderDao.updateSync(folderId = it, sync = SyncState.Deleting)
     }
 
-    private suspend fun save(folders: List<Folder>) {
+    private suspend fun save(accountFolders: List<AccountFolder>) {
         accountFolderDao.save(
-            folders.filter(::validate)
+            accountFolders.filter(::validate)
                 .map {
                     it.copy(name = it.name.trim())
                 }
@@ -37,13 +37,13 @@ class WriteAccountFolderAct @Inject constructor(
         )
     }
 
-    private fun validate(folder: Folder): Boolean {
-        if (folder.name.isBlank()) return false
+    private fun validate(accountFolder: AccountFolder): Boolean {
+        if (accountFolder.name.isBlank()) return false
         return true
     }
 
     private fun toEntity(
-        domain: Folder,
+        domain: AccountFolder,
         timeProvider: TimeProvider,
     ) = AccountFolderEntity(
         id = domain.id,

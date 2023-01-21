@@ -14,6 +14,6 @@ internal suspend fun exportAttachmentsJson(
         put("source", it.source.code)
         put("filename", it.filename)
         put("type", it.type?.code)
-        putLastUpdated(it.lastUpdated)
+        putSync(it.sync, it.lastUpdated)
     }
 )

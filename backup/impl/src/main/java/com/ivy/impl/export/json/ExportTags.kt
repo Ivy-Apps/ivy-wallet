@@ -13,6 +13,6 @@ internal suspend fun exportTagsToJson(
         put("name", it.name)
         put("orderNum", it.orderNum)
         put("state", it.state.code)
-        putLastUpdated(it.lastUpdated)
+        putSync(it.sync, it.lastUpdated)
     }
 )

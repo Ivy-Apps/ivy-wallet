@@ -10,6 +10,8 @@ sealed interface ImportBackupError {
 
     sealed interface Parse : ImportBackupError {
         data class Accounts(override val reason: Throwable) : Parse
+        data class AccountFolders(override val reason: Throwable) : Parse
+        data class Attachments(override val reason: Throwable) : Parse
         data class Categories(override val reason: Throwable) : Parse
         data class Transactions(override val reason: Throwable) : Parse
         data class Transfers(override val reason: Throwable) : Parse

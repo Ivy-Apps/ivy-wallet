@@ -14,7 +14,7 @@ import com.ivy.core.ui.action.mapping.account.MapFolderUiAct
 import com.ivy.data.Sync
 import com.ivy.data.SyncState
 import com.ivy.data.account.Account
-import com.ivy.data.account.Folder
+import com.ivy.data.account.AccountFolder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -56,7 +56,7 @@ internal class ReorderAccountsViewModel @Inject constructor(
                     is AccountListItem.Archived -> it.accounts.toReorderAccListItems()
                     is AccountListItem.FolderWithAccounts -> listOf(
                         ReorderAccListItemUi.FolderHolder(
-                            folder = mapFolderUiAct(it.folder)
+                            folder = mapFolderUiAct(it.accountFolder)
                         )
                     ) + it.accounts.toReorderAccListItems() + listOf(
                         ReorderAccListItemUi.FolderEnd
@@ -91,7 +91,7 @@ internal class ReorderAccountsViewModel @Inject constructor(
             }
         }
         val folders = internalItems.filterIsInstance<AccountListItem.FolderWithAccounts>()
-            .map { it.folder }
+            .map { it.accountFolder }
 
         val reordered = event.reordered.mapIndexedNotNull { index, item ->
             // TODO: Optimize this expensive search logic with a map
@@ -128,7 +128,7 @@ internal class ReorderAccountsViewModel @Inject constructor(
                     )
                 }
             writeAccountsAct(Modify.saveMany(accountsToUpdate))
-            val foldersToUpdate = reordered.filterIsInstance<Either.Right<Folder>>()
+            val foldersToUpdate = reordered.filterIsInstance<Either.Right<AccountFolder>>()
                 .map { it.value }
                 .map {
                     it.copy(

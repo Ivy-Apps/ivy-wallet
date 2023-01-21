@@ -16,6 +16,6 @@ internal suspend fun exportCategoriesJson(
         put("parentCategoryId", it.parentCategoryId)
         put("type", it.type.code)
         put("state", it.state.code)
-        putLastUpdated(it.lastUpdated)
+        putSync(it.sync, it.lastUpdated)
     }
 )

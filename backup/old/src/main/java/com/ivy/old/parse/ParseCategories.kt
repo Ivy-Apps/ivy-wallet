@@ -2,7 +2,7 @@ package com.ivy.old.parse
 
 import arrow.core.Either
 import com.ivy.backup.base.ImportBackupError
-import com.ivy.backup.base.optional
+import com.ivy.backup.base.maybe
 import com.ivy.backup.base.parseItems
 import com.ivy.common.toUUID
 import com.ivy.data.Sync
@@ -16,13 +16,12 @@ import java.time.LocalDateTime
 internal fun parseCategories(
     json: JSONObject,
     now: LocalDateTime
-): Either<ImportBackupError, List<Category>> = parseItems(
+): Either<ImportBackupError.Parse, List<Category>> = parseItems(
     json = json,
-    now = now,
     key = "categories",
     error = ImportBackupError.Parse::Categories,
     parse = {
-        parseCategory(it)
+        parseCategory(now)
     }
 )
 
@@ -35,7 +34,7 @@ private fun JSONObject.parseCategory(
     parentCategoryId = null,
     orderNum = getDouble("orderNum"),
     color = getInt("color"),
-    icon = optional { getString("icon") },
+    icon = maybe { getString("icon") },
     state = CategoryState.Default,
     sync = Sync(
         state = SyncState.Syncing,

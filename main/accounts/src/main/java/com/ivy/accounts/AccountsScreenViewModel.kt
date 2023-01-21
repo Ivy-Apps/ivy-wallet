@@ -134,7 +134,7 @@ class AccountsScreenViewModel @Inject constructor(
                 combineList(balances.map { exchangeFlow(ExchangeFlow.Input(it)) })
             ) { folderBalance, balancesBaseCurrency ->
                 AccountListItemUi.FolderWithAccounts(
-                    folder = mapFolderUiAct(item.folder),
+                    folder = mapFolderUiAct(item.accountFolder),
                     accItems = item.accounts.mapIndexed { index, acc ->
                         AccountListItemUi.AccountWithBalance(
                             account = mapAccountUiAct(acc),

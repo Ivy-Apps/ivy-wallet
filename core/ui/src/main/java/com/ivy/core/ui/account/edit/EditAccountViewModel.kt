@@ -107,8 +107,8 @@ internal class EditAccountViewModel @Inject constructor(
         accountFoldersFlow(Unit), folderId
     ) { folders, folderId ->
         folders.filterIsInstance<AccountListItem.FolderWithAccounts>()
-            .firstOrNull { it.folder.id == folderId }
-            ?.let { mapFolderUiAct(it.folder) }
+            .firstOrNull { it.accountFolder.id == folderId }
+            ?.let { mapFolderUiAct(it.accountFolder) }
     }
 
     @OptIn(FlowPreview::class)

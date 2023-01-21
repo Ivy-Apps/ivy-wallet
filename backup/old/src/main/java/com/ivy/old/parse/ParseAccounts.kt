@@ -2,7 +2,7 @@ package com.ivy.old.parse
 
 import arrow.core.Either
 import com.ivy.backup.base.ImportBackupError
-import com.ivy.backup.base.optional
+import com.ivy.backup.base.maybe
 import com.ivy.backup.base.parseItems
 import com.ivy.common.toUUID
 import com.ivy.data.Sync
@@ -15,13 +15,12 @@ import java.time.LocalDateTime
 internal fun parseAccounts(
     json: JSONObject,
     now: LocalDateTime
-): Either<ImportBackupError, List<Account>> = parseItems(
+): Either<ImportBackupError.Parse, List<Account>> = parseItems(
     json = json,
-    now = now,
     key = "accounts",
     error = ImportBackupError.Parse::Accounts,
     parse = {
-        parseAccount(it)
+        parseAccount(now)
     }
 )
 
@@ -32,7 +31,7 @@ private fun JSONObject.parseAccount(
     name = getString("name"),
     currency = getString("currency"),
     color = getInt("color"),
-    icon = optional { getString("icon") },
+    icon = maybe { getString("icon") },
     excluded = getBoolean("includeInBalance").not(),
     folderId = null,
     orderNum = getDouble("orderNum"),

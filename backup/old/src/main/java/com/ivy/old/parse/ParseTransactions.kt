@@ -2,7 +2,9 @@ package com.ivy.old.parse
 
 import arrow.core.Either
 import com.ivy.backup.base.ImportBackupError
-import com.ivy.backup.base.optional
+import com.ivy.backup.base.maybe
+import com.ivy.backup.base.optionalUUID
+import com.ivy.backup.base.parseTrnTime
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.toUUID
 import com.ivy.data.Sync
@@ -23,7 +25,7 @@ internal fun parseTransactions(
     accountsMap: Map<String, Account>,
     categoriesMap: Map<String, Category>,
     timeProvider: TimeProvider,
-): Either<ImportBackupError, List<Transaction>> =
+): Either<ImportBackupError.Parse, List<Transaction>> =
     Either.catch(ImportBackupError.Parse::Transactions) {
         val transactionsJson = json.getJSONArray("transactions")
         val transactions = mutableListOf<Transaction>()
@@ -64,10 +66,10 @@ private fun JSONObject.parseTransaction(
             amount = getDouble("amount"),
             currency = account.currency,
         ),
-        category = optional { categoriesMap[getString("categoryId")] },
+        category = maybe { categoriesMap[getString("categoryId")] },
         time = parseTrnTime(this, timeProvider = timeProvider),
-        title = optional { getString("title") },
-        description = optional { getString("description") },
+        title = maybe { getString("title") },
+        description = maybe { getString("description") },
         state = TrnState.Default,
         purpose = null,
         tags = emptyList(),

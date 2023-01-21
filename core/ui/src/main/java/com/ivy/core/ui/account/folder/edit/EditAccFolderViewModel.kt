@@ -16,7 +16,7 @@ import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.data.ItemIconId
 import com.ivy.data.Sync
 import com.ivy.data.SyncState
-import com.ivy.data.account.Folder
+import com.ivy.data.account.AccountFolder
 import com.ivy.design.l0_system.color.Purple
 import com.ivy.design.l0_system.color.toComposeColor
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -45,7 +45,7 @@ internal class EditAccFolderViewModel @Inject constructor(
         accounts = emptyList(),
     )
 
-    private var folder: Folder? = null
+    private var accountFolder: AccountFolder? = null
     private var folderName = ""
     private val initialName = MutableStateFlow(initialUi.initialName)
     private val iconId = MutableStateFlow<ItemIconId?>(null)
@@ -77,7 +77,7 @@ internal class EditAccFolderViewModel @Inject constructor(
 
     private suspend fun handleInitial(event: EditAccFolderEvent.Initial) {
         folderAct(event.folderId)?.let { folder ->
-            this.folder = folder
+            this.accountFolder = folder
             folderName = folder.name
             initialName.value = folder.name
             iconId.value = folder.icon
@@ -88,7 +88,7 @@ internal class EditAccFolderViewModel @Inject constructor(
     }
 
     private suspend fun handleEditFolder() {
-        val updated = folder?.copy(
+        val updated = accountFolder?.copy(
             name = folderName,
             color = color.value.toArgb(),
             icon = iconId.value,
@@ -125,7 +125,7 @@ internal class EditAccFolderViewModel @Inject constructor(
     }
 
     private suspend fun handleDelete() {
-        folder?.let {
+        accountFolder?.let {
             writeAccountFolderAct(Modify.delete(it.id))
         }
     }

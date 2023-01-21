@@ -1,7 +1,7 @@
 package com.ivy.backup.base.data
 
 import com.ivy.data.account.Account
-import com.ivy.data.account.Folder
+import com.ivy.data.account.AccountFolder
 import com.ivy.data.attachment.Attachment
 import com.ivy.data.category.Category
 import com.ivy.data.tag.Tag
@@ -17,7 +17,7 @@ data class BackupData(
     // endregion
 
     // region Ivy New data
-    val accountFolders: Map<Folder, List<UUID>>?,
+    val accountFolders: Map<AccountFolder, List<UUID>>?,
     val tags: List<Tag>?,
     val attachments: List<Attachment>?,
     // endregion
