@@ -1,0 +1,76 @@
+sync {
+    shape: sql_table
+    item_id: "uuid" {constraint: foreign_key}
+    state: "int: Syncing | Deleted | Synced"
+    last_updated: "long: epoch seconds"
+}
+sync -> transactions: "\"item_id\" FK"
+sync -> accounts: "\"item_id\" FK"
+sync -> categories: "\"item_id\" FK"
+
+accounts {
+    shape: sql_table
+    id: uuid {constraint: primary_key}
+    name: "string"
+    icon_id: "string"
+    color_int: "int"
+    asset_code: "string"
+    archived: "boolean"
+    order_num: "double"
+    type: "int: Normal | Liability | Excluded"
+}
+
+value {
+    shape: sql_table
+    id: "uuid" {constraint: primary_key}
+    account: "uuid" {constraint: foreign_key}
+    amount: "double: positive number"
+    asset_code: "string"
+}
+value -> accounts: "\"account\" FK"
+
+ledger {
+    shape: sql_table
+    entry_id: "uuid" {constraint: primary_key}
+    debit: "uuid: value id (optional)" {constraint: foreign_key}
+    credit: "uuid: value id (optional)" {constraint: foreign_key}
+    timestamp: "long: epoch seconds"
+    transaction_id: "uuid" {constraint: foreign_key}
+}
+ledger -> value: "\"debit\" FK"
+ledger -> value: "\"credit\" FK"
+ledger -> transactions: "\"transaction_id\" FK"
+
+due_ledger {
+    shape: sql_table
+    entry_id: "uuid" {constraint: primary_key}
+    debit: "uuid: value id (optional)" {constraint: foreign_key}
+    credit: "uuid: value id (optional)" {constraint: foreign_key}
+    timestamp: "long: epoch seconds"
+    transaction_id: "uuid" {constraint: foreign_key}
+}
+due_ledger -> value: "\"debit\" FK"
+due_ledger -> value: "\"credit\" FK"
+due_ledger -> transactions: "\"transaction_id\" FK"
+
+
+transactions {
+    shape: sql_table
+    id: uuid {constraint: primary_key}
+    title: "string (optional)"
+    description: "string (optional)"
+    category_id: "uuid (optional)" {constraint: foreign_key}
+    hidden: "boolean"
+}
+transactions -> categories: "\"category_id\" FK"
+
+categories {
+    shape: sql_table
+    id: uuid {constraint: primary_key}
+    name: string
+    icon_id: "string"
+    color_int: "int"
+    order_num: "double"
+    parent_category_id: "uuid (optional)" {constraint: foreign_key}
+}
+categories -> categories: "\"parent_category_id\" FK"
