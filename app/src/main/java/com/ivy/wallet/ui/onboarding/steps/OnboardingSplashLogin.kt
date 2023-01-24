@@ -333,7 +333,7 @@ private fun LocalAccountExplanation() {
     Text(
         modifier = Modifier.padding(start = 32.dp, end = 32.dp),
         text = "Your data will be saved only locally on your phone. " +
-                "You risk losing your data if your uninstall the app or change your device. " +
+                "You risk losing your data if you uninstall the app or change your device. " +
                 "To prevent data loss, we recommend exporting backup from settings regularly.",
         style = UI.typo.c.style(
             color = Gray,

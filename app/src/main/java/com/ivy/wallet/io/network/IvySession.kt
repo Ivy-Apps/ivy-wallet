@@ -13,9 +13,9 @@ class IvySession(
     private var authToken: String? = null
 
     fun loadFromCache() {
-        userId = sharedPrefs.getString(SharedPrefs.SESSION_USER_ID, null)
-            ?.let { UUID.fromString(it) }
-        authToken = sharedPrefs.getString(SharedPrefs.SESSION_AUTH_TOKEN, null)
+//        userId = sharedPrefs.getString(SharedPrefs.SESSION_USER_ID, null)
+//            ?.let { UUID.fromString(it) }
+//        authToken = sharedPrefs.getString(SharedPrefs.SESSION_AUTH_TOKEN, null)
     }
 
     fun getSessionToken() = authToken ?: throw NoSessionException()
@@ -24,9 +24,7 @@ class IvySession(
 
     fun getUserIdSafe(): UUID? = userId
 
-    fun isLoggedIn(): Boolean {
-        return userId != null && authToken != null
-    }
+    fun isLoggedIn(): Boolean = false
 
     suspend fun initiate(authResponse: AuthResponse) {
         val user = authResponse.user

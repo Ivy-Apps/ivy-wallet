@@ -235,27 +235,6 @@ private fun BoxWithConstraintsScope.UI(
         }
 
         item {
-            SettingsSectionDivider(text = "Sync (temporary)")
-
-            Spacer(Modifier.height(16.dp))
-
-            FetchMissingTransactionsButton(
-                opFetchTrns = opFetchTrns,
-                onFetchMissingTransactions = onFetchMissingTransactions
-            )
-
-            Spacer(Modifier.height(16.dp))
-
-            SettingsPrimaryButton(
-                icon = R.drawable.ic_vue_security_shield_person,
-                text = "Login to restore old data (use before 2023!)",
-                textColor = UI.colors.pureInverse,
-            ) {
-                onLogin()
-            }
-        }
-
-        item {
             SettingsSectionDivider(text = stringResource(R.string.import_export))
 
             Spacer(Modifier.height(16.dp))
