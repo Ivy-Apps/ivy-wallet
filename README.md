@@ -132,7 +132,7 @@ and free software that can make the world a better place.
 - Challenging the status quo.
 - Technical excellence and **eliminating complexity at any cost**.
 
-> We're always open to new ideas and proposals! Have an idea? 💡 Join our [Telegram community](https://t.me/+ETavgioAvWg4NThk) or [submit us a PR](https://github.com/Ivy-Apps/ivy-wallet/blob/main/CONTRIBUTING.md) - we appreacite both!
+> We're always open to new ideas and proposals! Have an idea? 💡 Join our [Telegram community](https://t.me/+ETavgioAvWg4NThk) or [submit us a PR](https://github.com/Ivy-Apps/ivy-wallet/blob/main/CONTRIBUTING.md) - we appreciate both!
 
 ## Community
 Be the change! Join our [Telegram community](https://t.me/+ETavgioAvWg4NThk), star our GitHub repo [![GitHub Repo stars](https://img.shields.io/github/stars/Ivy-Apps/ivy-wallet?style=social)](https://github.com/Ivy-Apps/ivy-wallet/stargazers), and
