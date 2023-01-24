@@ -15,44 +15,29 @@ accounts {
     icon_id: "string"
     color_int: "int"
     asset_code: "string"
-    archived: "boolean"
     order_num: "double"
-    type: "int: Normal | Liability | Excluded"
+    archived: "boolean"
+    include_in_balance: "boolean"
+    type: "int: Asset.Cash(1) | Asset.Bank(2) | Asset.Loan(3)\
+        | Asset.Investment(4) | Asset.Other(5)\
+        | Liability.CreditCard(-1) | Liability.Loan(-2) | Liability.Other(-3)"
 }
-
-value {
-    shape: sql_table
-    id: "uuid" {constraint: primary_key}
-    account: "uuid" {constraint: foreign_key}
-    amount: "double: positive number"
-    asset_code: "string"
-}
-value -> accounts: "\"account\" FK"
 
 ledger {
     shape: sql_table
     entry_id: "uuid" {constraint: primary_key}
-    debit: "uuid: value id (optional)" {constraint: foreign_key}
-    credit: "uuid: value id (optional)" {constraint: foreign_key}
+    from_account: "uuid (optional)" {constraint: foreign_key}
+    from_amount: "positive double (optional)"
+    from_asset_code: "string (optional)"
+    to_account: "uuid (optional)" {constraint: foreign_key}
+    to_amount: "positive double (optional)"
+    to_asset_code: "string (optional)"
     timestamp: "long: epoch seconds"
     transaction_id: "uuid" {constraint: foreign_key}
 }
-ledger -> value: "\"debit\" FK"
-ledger -> value: "\"credit\" FK"
+ledger -> accounts: "\"from_account\" FK"
+ledger -> accounts: "\"to_account\" FK"
 ledger -> transactions: "\"transaction_id\" FK"
-
-due_ledger {
-    shape: sql_table
-    entry_id: "uuid" {constraint: primary_key}
-    debit: "uuid: value id (optional)" {constraint: foreign_key}
-    credit: "uuid: value id (optional)" {constraint: foreign_key}
-    timestamp: "long: epoch seconds"
-    transaction_id: "uuid" {constraint: foreign_key}
-}
-due_ledger -> value: "\"debit\" FK"
-due_ledger -> value: "\"credit\" FK"
-due_ledger -> transactions: "\"transaction_id\" FK"
-
 
 transactions {
     shape: sql_table
