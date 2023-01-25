@@ -7,6 +7,7 @@ sync {
 sync -> transactions: "\"item_id\" FK"
 sync -> accounts: "\"item_id\" FK"
 sync -> categories: "\"item_id\" FK"
+sync -> recurring_rules: "\"item_id\" FK"
 
 accounts {
     shape: sql_table
@@ -23,6 +24,84 @@ accounts {
         | Liability.CreditCard(-1) | Liability.Loan(-2) | Liability.Other(-3)"
 }
 
+
+categories {
+    shape: sql_table
+    id: uuid {constraint: primary_key}
+    name: string
+    icon_id: "string"
+    color_int: "int"
+    order_num: "double"
+    parent_category_id: "uuid (optional)" {constraint: foreign_key}
+}
+categories -> categories: "\"parent_category_id\" FK"
+
+
+trn_tag_join {
+    shape: sql_table
+    transaction_id: uuid {constraint: primary_key}
+    tag_id: uuid {constraint: primary_key}
+}
+trn_tag_join -> transactions: "\"transction_id\" FK"
+trn_tag_join -> tags: "\"tag_id\" FK"
+tags {
+    shape: sql_table
+    id: uuid {constraint: primary_key}
+    name: string
+    color_int: "int"
+    order_num: "double"
+}
+
+
+trn_attachement_join {
+    shape: sql_table
+    attachment_id: uuid {constraint: primary_key}
+    tag_id: uuid {constraint: primary_key}
+}
+trn_attachement_join -> transactions: "\"transction_id\" FK"
+trn_attachement_join -> attachments: "\"attachment_id\" FK"
+attachments {
+    shape: sql_table
+    id: uuid {constraint: primary_key}
+    transaction_id: uuid {constraint: foreign_key}
+    uri: "string"
+    name: "string"
+}
+
+# Recurring
+recurring_tag_join {
+    shape: sql_table
+    recurring_rule_id: uuid {constraint: primary_key}
+    tag_id: uuid {constraint: primary_key}
+}
+recurring_tag_join -> recurring_rules: "\"recurring_rule_id\" FK"
+recurring_tag_join -> tags: "\"tag_id\" FK"
+
+recurring_attachment_join {
+    shape: sql_table
+    recurring_rule_id: uuid {constraint: primary_key}
+    attachment_id: uuid {constraint: primary_key}
+}
+recurring_attachment_join -> recurring_rules: "\"recurring_rule_id\" FK"
+recurring_attachment_join -> attachments: "\"attachment_id\" FK"
+
+recurring_rules {
+    shape: sql_table
+    id: uuid {constraint: primary_key}
+    start_time: "long: epoch seconds"
+    interval_seconds: "long"
+    end_time: "long: epoch seconds (optional)"
+    auto_execute: boolean
+    entries_json: "string: entries JSON"
+    category_id: "uuid (optional)" {constraint: foreign_key}
+    title: "string (optional)"   
+    description: "string (optional)"   
+}
+recurring_rules -> categories: "\"category_id\" FK"
+# Recurring
+
+
+# Ledger & transactions
 ledger {
     shape: sql_table
     entry_id: "uuid" {constraint: primary_key}
@@ -39,23 +118,17 @@ ledger -> accounts: "\"from_account\" FK"
 ledger -> accounts: "\"to_account\" FK"
 ledger -> transactions: "\"transaction_id\" FK"
 
+
 transactions {
     shape: sql_table
     id: uuid {constraint: primary_key}
+    timestamp: "long: epoch seconds"
     title: "string (optional)"
     description: "string (optional)"
     category_id: "uuid (optional)" {constraint: foreign_key}
+    recurring_rule_id: "uuid (optional)" {constraint: foreign_key}
     hidden: "boolean"
 }
 transactions -> categories: "\"category_id\" FK"
-
-categories {
-    shape: sql_table
-    id: uuid {constraint: primary_key}
-    name: string
-    icon_id: "string"
-    color_int: "int"
-    order_num: "double"
-    parent_category_id: "uuid (optional)" {constraint: foreign_key}
-}
-categories -> categories: "\"parent_category_id\" FK"
+transactions -> recurring_rules: "\"recurring_rule_id\" FK"
+# Ledger & transactions
