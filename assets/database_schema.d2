@@ -1,14 +1,4 @@
-sync {
-    shape: sql_table
-    item_id: "uuid" {constraint: foreign_key}
-    state: "int: Syncing | Deleted | Synced"
-    last_updated: "long: epoch seconds"
-}
-sync -> transactions: "\"item_id\" FK"
-sync -> accounts: "\"item_id\" FK"
-sync -> categories: "\"item_id\" FK"
-sync -> recurring_rules: "\"item_id\" FK"
-
+# Accounts
 accounts {
     shape: sql_table
     id: uuid {constraint: primary_key}
@@ -23,8 +13,25 @@ accounts {
         | Asset.Investment(4) | Asset.Other(5)\
         | Liability.CreditCard(-1) | Liability.Loan(-2) | Liability.Other(-3)"
 }
+# Accounts
 
 
+# Sync
+sync {
+    shape: sql_table
+    item_id: "uuid" {constraint: foreign_key}
+    state: "int: Syncing | Deleted | Synced"
+    last_updated: "long: epoch seconds"
+}
+sync -> transactions: "\"item_id\" FK"
+sync -> due_transactions: "\"item_id\" FK"
+sync -> accounts: "\"item_id\" FK"
+sync -> categories: "\"item_id\" FK"
+sync -> recurring_rules: "\"item_id\" FK"
+# Sync
+
+
+# Categories
 categories {
     shape: sql_table
     id: uuid {constraint: primary_key}
@@ -35,8 +42,10 @@ categories {
     parent_category_id: "uuid (optional)" {constraint: foreign_key}
 }
 categories -> categories: "\"parent_category_id\" FK"
+# Categories
 
 
+# Tags
 trn_tag_join {
     shape: sql_table
     transaction_id: uuid {constraint: primary_key}
@@ -51,8 +60,10 @@ tags {
     color_int: "int"
     order_num: "double"
 }
+# Tags
 
 
+# Attachments
 trn_attachement_join {
     shape: sql_table
     attachment_id: uuid {constraint: primary_key}
@@ -67,6 +78,8 @@ attachments {
     uri: "string"
     name: "string"
 }
+# Attachments
+
 
 # Recurring
 recurring_tag_join {
@@ -112,12 +125,12 @@ ledger {
     to_amount: "positive double (optional)"
     to_asset_code: "string (optional)"
     timestamp: "long: epoch seconds"
+    special_purpose: "int: None(0) | Fee(1)"
     transaction_id: "uuid" {constraint: foreign_key}
 }
 ledger -> accounts: "\"from_account\" FK"
 ledger -> accounts: "\"to_account\" FK"
 ledger -> transactions: "\"transaction_id\" FK"
-
 
 transactions {
     shape: sql_table
@@ -132,3 +145,49 @@ transactions {
 transactions -> categories: "\"category_id\" FK"
 transactions -> recurring_rules: "\"recurring_rule_id\" FK"
 # Ledger & transactions
+
+
+# [DUE] Ledger & transactions
+due_ledger {
+    shape: sql_table
+    entry_id: "uuid" {constraint: primary_key}
+    from_account: "uuid (optional)" {constraint: foreign_key}
+    from_amount: "positive double (optional)"
+    from_asset_code: "string (optional)"
+    to_account: "uuid (optional)" {constraint: foreign_key}
+    to_amount: "positive double (optional)"
+    to_asset_code: "string (optional)"
+    timestamp: "long: epoch seconds"
+    special_purpose: "int: None(0) | Fee(1)"
+    transaction_id: "uuid" {constraint: foreign_key}
+}
+due_ledger -> accounts: "\"from_account\" FK"
+due_ledger -> accounts: "\"to_account\" FK"
+due_ledger -> due_transactions: "\"transaction_id\" FK"
+
+due_transactions {
+    shape: sql_table
+    id: uuid {constraint: primary_key}
+    timestamp: "long: epoch seconds"
+    title: "string (optional)"
+    description: "string (optional)"
+    category_id: "uuid (optional)" {constraint: foreign_key}
+    recurring_rule_id: "uuid (optional)" {constraint: foreign_key}
+}
+due_transactions -> categories: "\"category_id\" FK"
+due_transactions -> recurring_rules: "\"recurring_rule_id\" FK"
+# [DUE] Ledger & transactions
+
+
+# Account cache
+account_cache {
+    shape: sql_table
+    account_id: uuid {constraint: primary_key}
+    incomes_json: "string: RawStats as JSON"
+    expenses_json: "string: RawStats as JSON"
+    incomes_count: "int"
+    expenses_count: "int"
+    timestamp: "long: epoch seconds"
+}
+account_cache -> accounts: "\"account_id\" FK"
+# Account cache
