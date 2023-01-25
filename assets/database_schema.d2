@@ -13,6 +13,20 @@ accounts {
         | Asset.Investment(4) | Asset.Other(5)\
         | Liability.CreditCard(-1) | Liability.Loan(-2) | Liability.Other(-3)"
 }
+
+credit_card_info {
+    shape: sql_table
+    account_id: uuid {constraint: primary_key}
+    statement_days: "int: 1-31"
+    due_days: "int: 1-31""
+}
+credit_card_info -> accounts: "\"account_id\" FK"
+
+loan_info {
+    shape: sql_table
+    account_id: uuid {constraint: primary_key}
+}
+loan_info -> accounts: "\"account_id\" FK"
 # Accounts
 
 
