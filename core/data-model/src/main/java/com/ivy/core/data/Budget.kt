@@ -1,5 +1,6 @@
 package com.ivy.core.data
 
+import com.ivy.core.data.attribute.CategoryId
 import java.time.LocalDateTime
 import java.util.*
 

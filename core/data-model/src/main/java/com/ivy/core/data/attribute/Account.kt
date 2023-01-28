@@ -1,8 +1,9 @@
-package com.ivy.core.data
+package com.ivy.core.data.attribute
 
+import com.ivy.core.data.*
 import java.util.*
 
-sealed interface Account : Reorderable {
+sealed interface Account : Reorderable, Archiveable {
     val id: UUID
     val asset: AssetCode
     val visuals: ItemVisuals
@@ -20,6 +21,7 @@ sealed interface Asset : Account {
         override val includeInBalance: Boolean,
         override val folderId: FolderId?,
         override val orderNum: Double,
+        override val archived: Boolean,
     ) : Asset {
         override val liquid = true
     }
@@ -31,6 +33,7 @@ sealed interface Asset : Account {
         override val includeInBalance: Boolean,
         override val folderId: FolderId?,
         override val orderNum: Double,
+        override val archived: Boolean,
     ) : Asset {
         override val liquid = true
     }
@@ -45,6 +48,7 @@ sealed interface Asset : Account {
         override val includeInBalance: Boolean,
         override val folderId: FolderId?,
         override val orderNum: Double,
+        override val archived: Boolean,
     ) : Asset {
         override val liquid = false
     }
@@ -59,6 +63,7 @@ sealed interface Asset : Account {
         override val includeInBalance: Boolean,
         override val folderId: FolderId?,
         override val orderNum: Double,
+        override val archived: Boolean,
     ) : Asset {
         override val liquid = false
     }
@@ -73,6 +78,7 @@ sealed interface Asset : Account {
         override val includeInBalance: Boolean,
         override val folderId: FolderId?,
         override val orderNum: Double,
+        override val archived: Boolean,
 
         override val liquid: Boolean,
     ) : Asset
@@ -84,6 +90,7 @@ sealed interface Asset : Account {
         override val includeInBalance: Boolean,
         override val folderId: FolderId?,
         override val orderNum: Double,
+        override val archived: Boolean,
 
         override val liquid: Boolean,
     ) : Asset
@@ -97,6 +104,7 @@ sealed interface Liability : Account {
         override val includeInBalance: Boolean,
         override val folderId: FolderId?,
         override val orderNum: Double,
+        override val archived: Boolean,
 
         val limit: Value,
         val billingDate: MonthDate,
@@ -113,6 +121,7 @@ sealed interface Liability : Account {
         override val includeInBalance: Boolean,
         override val folderId: FolderId?,
         override val orderNum: Double,
+        override val archived: Boolean,
 
         // TODO: Consider what other attributes will the Loan have
     ) : Liability
@@ -124,6 +133,7 @@ sealed interface Liability : Account {
         override val includeInBalance: Boolean,
         override val folderId: FolderId?,
         override val orderNum: Double,
+        override val archived: Boolean,
     ) : Liability
 }
 
