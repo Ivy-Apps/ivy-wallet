@@ -1,4 +1,4 @@
-package com.ivy.core.data.attribute
+package com.ivy.core.data
 
 import java.util.*
 

@@ -1,42 +1,47 @@
-package com.ivy.core.data.attribute
+package com.ivy.core.data
 
-import com.ivy.core.data.*
+import androidx.annotation.FloatRange
+import com.ivy.core.data.common.*
+import java.time.LocalDateTime
 import java.util.*
 
 sealed interface Account : Reorderable, Archiveable {
     val id: UUID
     val asset: AssetCode
-    val visuals: ItemVisuals
+    val name: String
+    val description: String?
+    val iconId: ItemIconId
+    val color: IvyColor
     val includeInBalance: Boolean
     val folderId: FolderId?
 }
 
 sealed interface Asset : Account {
-    val liquid: Boolean
-
     data class Cash(
         override val id: UUID,
         override val asset: AssetCode,
-        override val visuals: ItemVisuals,
+        override val name: String,
+        override val description: String?,
+        override val iconId: ItemIconId,
+        override val color: IvyColor,
         override val includeInBalance: Boolean,
         override val folderId: FolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
-    ) : Asset {
-        override val liquid = true
-    }
+    ) : Asset
 
     data class Bank(
         override val id: UUID,
         override val asset: AssetCode,
-        override val visuals: ItemVisuals,
+        override val name: String,
+        override val description: String?,
+        override val iconId: ItemIconId,
+        override val color: IvyColor,
         override val includeInBalance: Boolean,
         override val folderId: FolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
-    ) : Asset {
-        override val liquid = true
-    }
+    ) : Asset
 
     /**
      * You gave a Loan to someone and they owe you money.
@@ -44,14 +49,15 @@ sealed interface Asset : Account {
     data class Loan(
         override val id: UUID,
         override val asset: AssetCode,
-        override val visuals: ItemVisuals,
+        override val name: String,
+        override val description: String?,
+        override val iconId: ItemIconId,
+        override val color: IvyColor,
         override val includeInBalance: Boolean,
         override val folderId: FolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
-    ) : Asset {
-        override val liquid = false
-    }
+    ) : Asset
 
     /**
      * Illiquid asset like Stocks, Crypto, Gold.
@@ -59,14 +65,15 @@ sealed interface Asset : Account {
     data class Investment(
         override val id: UUID,
         override val asset: AssetCode,
-        override val visuals: ItemVisuals,
+        override val name: String,
+        override val description: String?,
+        override val iconId: ItemIconId,
+        override val color: IvyColor,
         override val includeInBalance: Boolean,
         override val folderId: FolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
-    ) : Asset {
-        override val liquid = false
-    }
+    ) : Asset
 
     /**
      * Money put in Savings account. We don't know if they are liquid
@@ -74,25 +81,27 @@ sealed interface Asset : Account {
     data class Savings(
         override val id: UUID,
         override val asset: AssetCode,
-        override val visuals: ItemVisuals,
+        override val name: String,
+        override val description: String?,
+        override val iconId: ItemIconId,
+        override val color: IvyColor,
         override val includeInBalance: Boolean,
         override val folderId: FolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
-
-        override val liquid: Boolean,
     ) : Asset
 
     data class Other(
         override val id: UUID,
         override val asset: AssetCode,
-        override val visuals: ItemVisuals,
+        override val name: String,
+        override val description: String?,
+        override val iconId: ItemIconId,
+        override val color: IvyColor,
         override val includeInBalance: Boolean,
         override val folderId: FolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
-
-        override val liquid: Boolean,
     ) : Asset
 }
 
@@ -100,7 +109,10 @@ sealed interface Liability : Account {
     data class CreditCard(
         override val id: UUID,
         override val asset: AssetCode,
-        override val visuals: ItemVisuals,
+        override val name: String,
+        override val description: String?,
+        override val iconId: ItemIconId,
+        override val color: IvyColor,
         override val includeInBalance: Boolean,
         override val folderId: FolderId?,
         override val orderNum: Double,
@@ -117,19 +129,39 @@ sealed interface Liability : Account {
     data class Loan(
         override val id: UUID,
         override val asset: AssetCode,
-        override val visuals: ItemVisuals,
+        override val name: String,
+        override val description: String?,
+        override val iconId: ItemIconId,
+        override val color: IvyColor,
         override val includeInBalance: Boolean,
         override val folderId: FolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
 
-        // TODO: Consider what other attributes will the Loan have
+        /**
+         * The borrowed amount
+         */
+        val principal: Value,
+        @FloatRange(from = 0.0, to = 1.0)
+        val interest: Float,
+        /**
+         * By when the loan must be returned
+         */
+        val term: LocalDateTime,
+        /**
+         * How much do you pay each interval
+         */
+        val installmentPayment: Value,
+        // TODO: Define payment interval
     ) : Liability
 
     data class Other(
         override val id: UUID,
         override val asset: AssetCode,
-        override val visuals: ItemVisuals,
+        override val name: String,
+        override val description: String?,
+        override val iconId: ItemIconId,
+        override val color: IvyColor,
         override val includeInBalance: Boolean,
         override val folderId: FolderId?,
         override val orderNum: Double,

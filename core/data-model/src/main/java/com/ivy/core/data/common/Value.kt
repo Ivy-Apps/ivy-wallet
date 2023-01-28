@@ -1,4 +1,4 @@
-package com.ivy.core.data
+package com.ivy.core.data.common
 
 /**
  * Represents monetary value. (like 10 USD, 5 EUR, 0.005 BTC, 12 GOLD_GRAM)

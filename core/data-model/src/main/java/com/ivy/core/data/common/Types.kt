@@ -1,4 +1,4 @@
-package com.ivy.core.data
+package com.ivy.core.data.common
 
 /**
  * Int that is **>0** and in the range [1, [Int.MAX_VALUE]].

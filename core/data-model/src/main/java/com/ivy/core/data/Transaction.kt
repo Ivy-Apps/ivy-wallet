@@ -1,10 +1,6 @@
-package com.ivy.core.data.transaction
+package com.ivy.core.data
 
-import com.ivy.core.data.AttachmentId
-import com.ivy.core.data.Value
-import com.ivy.core.data.attribute.AccountId
-import com.ivy.core.data.attribute.CategoryId
-import com.ivy.core.data.attribute.TagId
+import com.ivy.core.data.common.Value
 import java.time.LocalDateTime
 import java.util.*
 
