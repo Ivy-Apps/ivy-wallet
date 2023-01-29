@@ -476,7 +476,10 @@ fun DependencyHandler.Arrow(
     dependency("io.arrow-kt:arrow-core", api = api)
     dependency("io.arrow-kt:arrow-fx-coroutines", api = api)
     dependency("io.arrow-kt:arrow-fx-stm", api = api)
-//    dependency("io.arrow-kt:arrow-optics")
+
+    // Optics
+    dependency("io.arrow-kt:arrow-optics", api = api)
+    ksp("io.arrow-kt:arrow-optics-ksp-plugin:${Versions.arrow}")
 }
 
 fun DependencyHandler.Testing(

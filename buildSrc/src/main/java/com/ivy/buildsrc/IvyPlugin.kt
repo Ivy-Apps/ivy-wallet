@@ -18,6 +18,7 @@ abstract class IvyPlugin : Plugin<Project> {
 //        robolectric(project)
         androidTest(project)
         lint(project)
+        kspSourceSets(project)
     }
 
     private fun kotest(project: Project) {
@@ -57,9 +58,27 @@ abstract class IvyPlugin : Plugin<Project> {
             plugin("kotlin-kapt")
             plugin("dagger.hilt.android.plugin")
             plugin("io.kotest")
+            plugin("com.google.devtools.ksp")
 
             //TODO: Enable if we migrate to kotlinx serialization
 //            plugin("kotlinx-serialization")
+        }
+    }
+
+    private fun kspSourceSets(project: Project) {
+        project.androidLibrary().sourceSets {
+            getByName("main").apply {
+                java.srcDir("build/generated/ksp/debug")
+                kotlin.srcDir("build/generated/ksp/debug")
+                java.srcDir("build/generated/ksp/demo")
+                kotlin.srcDir("build/generated/ksp/demo")
+            }
+            getByName("test").apply {
+                java.srcDir("build/generated/ksp/debug")
+                kotlin.srcDir("build/generated/ksp/debug")
+                java.srcDir("build/generated/ksp/demo")
+                kotlin.srcDir("build/generated/ksp/demo")
+            }
         }
     }
 

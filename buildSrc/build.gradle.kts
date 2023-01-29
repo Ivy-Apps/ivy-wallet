@@ -14,9 +14,11 @@ dependencies {
 
     //https://kotlinlang.org/docs/releases.html#release-details
     // Must match kotlinVersion from dependencies.kt
+    // Warning: KSP must match Kotlin's version
     val kotlinVersion = "1.7.20"
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
     implementation(kotlin("serialization", version = kotlinVersion))
+    implementation("com.google.devtools.ksp:symbol-processing-gradle-plugin:1.7.20-1.0.8")
 
     //https://developer.android.com/training/dependency-injection/hilt-android
     // Must match hiltVersion from dependencies.kt
