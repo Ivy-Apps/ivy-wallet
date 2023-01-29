@@ -1,74 +1,121 @@
 direction: down
 
-feature-viewmodel {
-    HomeViewModel
-    AccountsViewModel
-    "Create/Edit Transacstion viewmodels" {
-        # NewTransactionViewModel
-        # EditTransactionViewModel
-        # NewTransferViewModel
-        # EditTransferViewModel
+feature: ":feature modules" {
+    ui: "Compose UI" {
+        "Usually a Screen"
+        "Destination in the Navigation graph"
     }
+    state: "UI State" {
+        "Data class only of Compose primitives"
+    }
+    event: "Event" {
+        "ADT with all possible user interactions"
+    }
+    vm: "ViewModel" {
+        "Produces UI State"
+        "Handles Event"
+    }
+
+    actions: "Actions (impure)" {
+        "Feature-level actions"
+    }
+
+    ui -> state: "Latest state"
+    ui -> event: "User interactions"
+    state -> vm: "Produced by the ViewModel"
+    event -> vm: "Sent to the ViewModel"
+    vm -> actions: "Feauture-level logic"
 }
+feature.ui -> core-ui.uiComponents: "@Composables"
+feature.actions -> core-ui.barrier: "Read-only Flows (RX) + Calculations (pure)"
+feature.actions -> core-domain.barrier: "Write Actions (impure) + Reading Snapshots (impure)"
 
 core-ui {
     barrier: Abstraction Barrier {
         fill: "#f0ff3a"
-        PeriodDataUiFlow
-    }
-
-    PeriodDataUi {
-        items {
-            DueDividerUi
-            DateDividerUi
-            TransactionUi
-            TransferUi
+        "Read Actions (impure)" {
+            "Flow (RX)"
         }
-        "income: ValueUi"
-        "expense: ValueUi"
+        "Calculations (pure)" {
+            "E.g. format: Value -> Boolean -> ValueUi"
+        }
     }
 
-    barrier -> PeriodDataUi
+    uiComponents: UI Components {
+        fill: "#f0ff3a"
+        "Compose UI" {
+            "UI Components"
+            "Modals"
+        }
+    }
+
+    
+    uiMap: "Map Domain to UI data" {
+        "Data -> DataUi (e.g. Transaction -> TransactionUi)"
+    }
+
+    barrier -> uiMap
+    uiComponents -> uiMap
 }
+core-ui.uiMap -> core-domain.barrier: "Read-only Flows (RX)"
+
 
 core-domain {
     barrier: Abstraction Barrier {
         fill: "#f0ff3a"
-        TotalBalanceFlow
-        PeriodDataFlow
+        "Write Actions (impure)" {
+            suspend
+        }
+        read: "Read Actions (impure)" {
+            "Flow (RX)"
+            "suspend (snapshot)"
+        }
     }
 
-    data {
-        Transaction
-        TrnCalcHistoryEntry
-        TrnCalcEntry
-        AccountsMap
-        CategoriesMap
-        TagsMap
+    calculations: "Caculations" {
+        "Pure processing layer"
     }
 
-    barrier -> data
+    data: "Domain Data" {
+        "ADTs describing the domain"
+    }
+
+    barrier -> calculations -> data
 }
+core-domain.data -> core-persistence.barrier: "Write/Read stuff from persistence"
+
 
 core-persistence {
     barrier: Abstraction Barrier {
         fill: "#f0ff3a"
-        TranscationRead
-        TransactionWrite
-    }
-
-    database {
-        accounts {
-            shape: cylinder
+        read: "Read Actions (impure)" {
+            "Flow (RX)"
+            "suspend (snapshot)"
         }
-        ledger {
-            shape: cylinder
+        write: "Write Actions (impure)" {
+            "suspend"
         }
     }
 
-    barrier -> database
+    validation: "Validation layer (pure)" {
+        "Ensures data being written is correct"
+        "Ensures data being read is correct"
+    }
+
+    db: "Relational Database" {
+        sql: "SQL tables" {
+            shape: cylinder
+        }
+    }
+
+    datastore: "DataStore" {
+        kvs: "Key-Value Storage" {
+            shape: cylinder
+        }
+    }
+
+    barrier.read -> validation: "Validate reads"
+    barrier.write -> validation: "Validate writes"
+    validation -> db
+    validation -> datastore
 }
-
-feature-viewmodel -> core-ui.barrier: "Abstraction barrier"
-core-ui.PeriodDataUi -> core-domain.barrier: "Abstraction barrier"
-core-domain.data -> core-persistence.barrier: "Abstraction barrier"
