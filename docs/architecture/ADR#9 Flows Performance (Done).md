@@ -1,4 +1,4 @@
-# ADR#9: Flows Performance 👀
+# ADR#9: Flows Performance ✅
 
 Ivy Wallet loads data turbo slow when there are many transactions. See [Issue#1719](https://github.com/Ivy-Apps/ivy-wallet/issues/1719)... 🐢
 

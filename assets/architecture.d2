@@ -1,0 +1,74 @@
+direction: down
+
+feature-viewmodel {
+    HomeViewModel
+    AccountsViewModel
+    "Create/Edit Transacstion viewmodels" {
+        # NewTransactionViewModel
+        # EditTransactionViewModel
+        # NewTransferViewModel
+        # EditTransferViewModel
+    }
+}
+
+core-ui {
+    barrier: Abstraction Barrier {
+        fill: "#f0ff3a"
+        PeriodDataUiFlow
+    }
+
+    PeriodDataUi {
+        items {
+            DueDividerUi
+            DateDividerUi
+            TransactionUi
+            TransferUi
+        }
+        "income: ValueUi"
+        "expense: ValueUi"
+    }
+
+    barrier -> PeriodDataUi
+}
+
+core-domain {
+    barrier: Abstraction Barrier {
+        fill: "#f0ff3a"
+        TotalBalanceFlow
+        PeriodDataFlow
+    }
+
+    data {
+        Transaction
+        TrnCalcHistoryEntry
+        TrnCalcEntry
+        AccountsMap
+        CategoriesMap
+        TagsMap
+    }
+
+    barrier -> data
+}
+
+core-persistence {
+    barrier: Abstraction Barrier {
+        fill: "#f0ff3a"
+        TranscationRead
+        TransactionWrite
+    }
+
+    database {
+        accounts {
+            shape: cylinder
+        }
+        ledger {
+            shape: cylinder
+        }
+    }
+
+    barrier -> database
+}
+
+feature-viewmodel -> core-ui.barrier: "Abstraction barrier"
+core-ui.PeriodDataUi -> core-domain.barrier: "Abstraction barrier"
+core-domain.data -> core-persistence.barrier: "Abstraction barrier"
