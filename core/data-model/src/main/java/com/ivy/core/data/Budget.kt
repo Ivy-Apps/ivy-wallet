@@ -20,5 +20,5 @@ data class Budget(
 ) : Reorderable
 
 enum class BudgetInterval {
-    Weekly, Monthly, Yearly
+    Daily, Weekly, Monthly, Yearly
 }
