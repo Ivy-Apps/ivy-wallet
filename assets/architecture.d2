@@ -123,8 +123,14 @@ core-persistence {
 core-data-model {
     fill: purple
     font-color: white
-    adts: "ADTs describing Ivy Wallet's domain"
-    "The Backbone of Ivy Wallet"
+    data: "Domain data" {
+        Transaction
+    }
+    optimized: "Optimzed" {
+        "Select only the needed parts of the domain data"
+        TrnHistory
+        TrnCalc
+    }
 }
 core-domain -> core-data-model
 core-persistence -> core-data-model
