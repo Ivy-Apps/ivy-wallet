@@ -82,8 +82,8 @@ core-domain {
 
     barrier -> calculations -> data
 }
-core-domain.data -> core-persistence.barrier: "Write/Read stuff from persistence"
-
+core-domain.data -> core-persistence.barrier: "Write/Read from persistence as Domain"
+core-domain -> core-exchange-provider
 
 core-persistence {
     barrier: Abstraction Barrier {
@@ -118,4 +118,49 @@ core-persistence {
     barrier.write -> validation: "Validate writes"
     validation -> db
     validation -> datastore
+}
+
+core-data-model {
+    fill: purple
+    font-color: white
+    adts: "ADTs describing Ivy Wallet's domain"
+    "The Backbone of Ivy Wallet"
+}
+core-domain -> core-data-model
+core-persistence -> core-data-model
+
+core-exchange-provider {
+    "Fetches remote exchange rates for a base-currency"
+}
+
+# Other services
+sms-parser {
+    "Parses transactions from SMS"
+}
+sms-parser -> core-domain.barrier
+
+notifications-parser {
+    "Parses transactions from Notifications"
+}
+notifications-parser -> core-domain.barrier
+
+
+sync {
+    fetch: "Fetches Backup JSON from Google Drive"
+    merge: "Merges the data with the local DB"
+    upload: "Uploads data to Google Drive"
+}
+sync -> google-drive
+sync -> backup
+
+backup {
+    "Export backup JSON"
+    "Import backup JSON"
+    "Import old backup JSON"
+}
+backup -> core-domain.barrier: "Read data snapshot / Write to persistence"
+
+
+google-drive {
+    "GoogleDriveService: get & upload data to drive"
 }
