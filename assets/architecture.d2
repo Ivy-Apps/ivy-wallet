@@ -1,6 +1,6 @@
 direction: down
 
-feature: ":feature modules" {
+feature: "Feature modules" {
     ui: "Compose UI" {
         "Usually a Screen"
         "Destination in the Navigation graph"
@@ -30,7 +30,7 @@ feature.ui -> core-ui.uiComponents: "@Composables"
 feature.actions -> core-ui.barrier: "Read-only Flows (RX) + Calculations (pure)"
 feature.actions -> core-domain.barrier: "Write Actions (impure) + Reading Snapshots (impure)"
 
-core-ui {
+core-ui: ":core:ui" {
     barrier: Abstraction Barrier {
         fill: "#f0ff3a"
         "Read Actions (impure)" {
@@ -41,10 +41,10 @@ core-ui {
         }
     }
 
-    uiComponents: UI Components {
+    uiComponents: "UI Components: (impure)" {
         fill: "#f0ff3a"
         "Compose UI" {
-            "UI Components"
+            "Common UI Components"
             "Modals"
         }
     }
@@ -60,8 +60,8 @@ core-ui {
 core-ui.uiMap -> core-domain.barrier: "Read-only Flows (RX)"
 
 
-core-domain {
-    barrier: Abstraction Barrier {
+core-domain: ":core:domain" {
+    barrier: Abstraction Barrier (exposed) {
         fill: "#f0ff3a"
         "Write Actions (impure)" {
             suspend
@@ -72,21 +72,44 @@ core-domain {
         }
     }
 
+    actions: "Actions (impure)" {
+        "Provide DI"
+        "Execute Effects"
+    }
+
     calculations: "Caculations" {
         "Pure processing layer"
     }
 
-    data: "Domain Data" {
-        "ADTs describing the domain"
+    actions -> calculations: "Domain logic"
+    barrier -> actions
+}
+core-domain.actions -> core-persistence.barrier: "Write/Read from persistence as Domain"
+core-domain.actions -> core-exchange-provider.barrier: "Fetch remote exchange rates"
+
+core-exchange-provider: ":core:exchange-provider" {
+    barrier: "Abstraction Barrier (exposed)" {
+        fill: "#f0ff3a"
+        RemoteExchangeProvider {
+            "suspend fun fetchExchangeRates(baseCurrency: CurrencyCode): Result"
+        }
     }
 
-    barrier -> calculations -> data
-}
-core-domain.data -> core-persistence.barrier: "Write/Read from persistence as Domain"
-core-domain -> core-exchange-provider
+    provider: Provider {
+        effect: "Fetches remote exchange rates for a base-currency"
+        calculation: "Calculations" {
+            "Filter only valid rates"
+            "Convert to base currency"
+        }
 
-core-persistence {
-    barrier: Abstraction Barrier {
+        effect -> calculation
+    }
+
+    barrier -> provider
+}
+
+core-persistence: ":core:persistence" {
+    barrier: "Abstraction Barrier (exposed)" {
         fill: "#f0ff3a"
         read: "Read Actions (impure)" {
             "Flow (RX)"
@@ -95,6 +118,11 @@ core-persistence {
         write: "Write Actions (impure)" {
             "suspend"
         }
+    }
+
+    actions: "Actions (impure)" {
+        dao: "DAOs"
+        store: "DataStore"
     }
 
     validation: "Validation layer (pure)" {
@@ -114,44 +142,31 @@ core-persistence {
         }
     }
 
-    barrier.read -> validation: "Validate reads"
-    barrier.write -> validation: "Validate writes"
-    validation -> db
-    validation -> datastore
+    barrier -> actions
+    actions.dao -> db
+    actions.store -> datastore
+    actions -> validation
 }
 
 core-data-model {
     fill: purple
     font-color: white
     data: "Domain data" {
-        Transaction
+        "ADTs best describing the domain"
+        "example: Transaction"
     }
     optimized: "Optimzed" {
         "Select only the needed parts of the domain data"
-        TrnHistory
-        TrnCalc
+        "example: TrnHistory"
+        "example: TrnCalc"
     }
 }
-core-domain -> core-data-model
-core-persistence -> core-data-model
+core-domain -> core-data-model: "Uses"
+core-persistence -> core-data-model: "Uses"
 
-core-exchange-provider {
-    "Fetches remote exchange rates for a base-currency"
-}
 
 # Other services
-sms-parser {
-    "Parses transactions from SMS"
-}
-sms-parser -> core-domain.barrier
-
-notifications-parser {
-    "Parses transactions from Notifications"
-}
-notifications-parser -> core-domain.barrier
-
-
-sync {
+sync: ":sync" {
     fetch: "Fetches Backup JSON from Google Drive"
     merge: "Merges the data with the local DB"
     upload: "Uploads data to Google Drive"
@@ -159,14 +174,25 @@ sync {
 sync -> google-drive
 sync -> backup
 
-backup {
+backup: ":backup" {
     "Export backup JSON"
     "Import backup JSON"
     "Import old backup JSON"
 }
 backup -> core-domain.barrier: "Read data snapshot / Write to persistence"
 
-
-google-drive {
+google-drive: ":drive:google-drive" {
     "GoogleDriveService: get & upload data to drive"
 }
+
+sms-parser: "automate:sms-parser" {
+    parse: "Parses transactions from SMS"
+    auto: "Automatically adds valid transactions"
+}
+sms-parser -> core-domain.barrier
+
+notifications-parser: "automate:notification-parser" {
+    parse: "Parses transactions from Notificaitons"
+    auto: "Automatically adds valid transactions"
+}
+notifications-parser -> core-domain.barrier

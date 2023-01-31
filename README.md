@@ -59,6 +59,7 @@ practices** and **software architecture.**
 - [Modular architecture](https://android-developers.googleblog.com/2022/09/announcing-new-guide-to-android-app-modularization.html)
 - [FRP (Functional Reactive Programming)](https://www.toptal.com/android/functional-reactive-programming-part-1)
 - [MVVM (Model-View-ViewModel)](https://www.techtarget.com/whatis/definition/Model-View-ViewModel#:~:text=Model%2DView%2DViewModel%20(MVVM)%20is%20a%20software%20design,Ken%20Cooper%20and%20John%20Gossman.)
+- [Onion Architecture (FP)](https://www.codeguru.com/csharp/understanding-onion-architecture/)
 
 We've documented every major architecture decision as **ADR (Architecture Decision Record)**
 in **[docs/architecture](docs/architecture/)**. The best thing about ADRs is that you can see not
