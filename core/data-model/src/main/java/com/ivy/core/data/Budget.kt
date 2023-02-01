@@ -14,11 +14,7 @@ data class Budget(
     val color: IvyColor,
     val amount: Value,
     val carryOver: Boolean,
-    val interval: BudgetInterval,
+    val period: TimePeriod,
     val categories: List<CategoryId>,
     override val orderNum: Double
 ) : Reorderable
-
-enum class BudgetInterval {
-    Daily, Weekly, Monthly, Yearly
-}

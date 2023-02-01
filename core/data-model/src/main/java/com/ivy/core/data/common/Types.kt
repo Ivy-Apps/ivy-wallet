@@ -2,46 +2,45 @@ package com.ivy.core.data.common
 
 /**
  * Int that is **>0** and in the range [1, [Int.MAX_VALUE]].
- * Use [Int.asPositive] to create one.
+ * Use [PositiveInt.new] or [Int.asPositive] to create one.
  */
 @JvmInline
-value class PositiveInt(val int: Int)
+value class PositiveInt private constructor(val value: Int) {
+    companion object {
+        /**
+         * @throws error if the [Int] isn't positive: **this > 0**
+         * @return a valid [PositiveInt]
+         */
+        fun new(value: Int): PositiveInt = if (value > 0.0) PositiveInt(value) else
+            error("PositiveInt error: $value is not a positive number.")
+    }
+}
 
 /**
  * @throws error if the [Int] isn't positive: **this > 0**
  * @return a valid [PositiveInt]
  */
-fun Int.asPositive(): PositiveInt =
-    if (this > 0.0) PositiveInt(this) else
-        error("PositiveInt error: $this is not a positive number.")
+fun Int.asPositive(): PositiveInt = PositiveInt.new(this)
 
 
 /**
  * Double that is **>0** and in the range (0, [Double.MAX_VALUE]].
- * Use [Double.asPositive] to create one.
+ * Use [PositiveDouble.new] or [Double.asPositive] to create one.
  */
 @JvmInline
-value class PositiveDouble internal constructor(val double: Double)
+value class PositiveDouble private constructor(val value: Double) {
+    companion object {
+        /**
+         * @throws error if the [Double] isn't positive: **this > 0**
+         * @return a valid [PositiveDouble]
+         */
+        fun new(value: Double): PositiveDouble = if (value > 0.0) PositiveDouble(value) else
+            error("PositiveDouble error: $value is not a positive number.")
+    }
+}
 
 /**
  * @throws error if the [Double] isn't positive: **this > 0**
  * @return a valid [PositiveDouble]
  */
-fun Double.asPositive(): PositiveDouble =
-    if (this > 0.0) PositiveDouble(this) else
-        error("PositiveDouble error: $this is not a positive number.")
-
-
-/**
- * An int between 1 and 31 inclusively representing a date in a month.
- * Use [Int.asMonthDate] to create one.
- */
-@JvmInline
-value class MonthDate internal constructor(val int: Int)
-
-/**
- * @throws error if the int isn't between 1 and 31
- * @return a valid [MonthDate]
- */
-fun Int.asMonthDate(): MonthDate = if (this in 1..31)
-    MonthDate(this) else error("MonthDate error: $this is not a valid date in a month")
+fun Double.asPositive(): PositiveDouble = PositiveDouble.new(this)
