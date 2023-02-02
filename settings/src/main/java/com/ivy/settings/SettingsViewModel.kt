@@ -1,5 +1,7 @@
 package com.ivy.settings
 
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.viewModelScope
 import arrow.core.Either.Left
 import arrow.core.Either.Right
@@ -88,6 +90,13 @@ class SettingsViewModel @Inject constructor(
 
             is SettingsEvent.StartDayOfMonth -> {
                 writeStartDayOfMonthAct(event.startDayOfMonth)
+            }
+
+//            changing locale to the selected language {will fallback to default strings.xml file if language is not supported}
+            is SettingsEvent.LanguageChange ->{
+                AppCompatDelegate.setApplicationLocales(
+                    LocaleListCompat.forLanguageTags(event.languageCode)
+                )
             }
 
             is SettingsEvent.HideBalance -> {

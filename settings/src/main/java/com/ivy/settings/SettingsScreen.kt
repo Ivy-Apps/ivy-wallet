@@ -33,6 +33,7 @@ import com.ivy.design.l3_ivyComponents.button.ButtonSize
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
 import com.ivy.settings.data.BackupImportState
+import com.ivy.settings.data.Language
 import java.time.Instant
 
 /*
@@ -62,7 +63,6 @@ import java.time.Instant
 fun BoxScope.SettingsScreen() {
     val viewModel: SettingsViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
-
     UI(state = state, onEvent = viewModel::onEvent)
 }
 
@@ -73,6 +73,7 @@ private fun BoxScope.UI(
 ) {
     val currencyModal = rememberIvyModal()
     val startDayOfMonthModal = rememberIvyModal()
+    val languagePickerModal = rememberIvyModal()
 
     LazyColumn(
         modifier = Modifier
@@ -134,6 +135,15 @@ private fun BoxScope.UI(
                 icon = null
             ) {
                 onEvent(SettingsEvent.ImportOldData)
+            }
+            SpacerVer(height = 12.dp)
+            IvyButton(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                size = ButtonSize.Big, visibility = Visibility.Medium,
+                feeling = Feeling.Positive, text = "Languages",
+                icon = null
+            ) {
+                languagePickerModal.show()
             }
         }
         item {
@@ -215,6 +225,13 @@ private fun BoxScope.UI(
         onStartDayOfMonthChange = { startDayOfMonth ->
             onEvent(SettingsEvent.StartDayOfMonth(startDayOfMonth = startDayOfMonth))
         })
+    LanguagePickerModal(
+        modal = languagePickerModal,
+        onLanguageChange = { languageCode->
+            onEvent(SettingsEvent.LanguageChange(languageCode))
+        }
+    )
+
 }
 
 @Composable
@@ -240,6 +257,42 @@ private fun BoxScope.StartDayOfMonthModal(
                     icon = null
                 ) {
                     onStartDayOfMonthChange(number)
+                    modal.hide()
+                }
+            }
+        }
+        SpacerVer(height = 24.dp)
+    }
+}
+
+//TODO:have to highlight the selected language
+@Composable
+private fun BoxScope.LanguagePickerModal(
+    modal: IvyModal,
+    onLanguageChange: (String) -> Unit,
+) {
+    //getting our list of supported languages
+     val list by lazy{
+         enumValues<Language>().toList()
+     }
+    Modal(
+        modal = modal,
+        actions = {
+        }
+    ) {
+        Title(text = "Choose Your Language")
+        SpacerVer(height = 24.dp)
+        LazyColumn {
+            items(list) { language ->
+                SpacerVer(height = 12.dp)
+                IvyButton(
+                    size = ButtonSize.Big,
+                    visibility = Visibility.Medium,
+                    feeling = Feeling.Positive,
+                    text = language.name,
+                    icon = null
+                ) {
+                    onLanguageChange(language.languageCode)
                     modal.hide()
                 }
             }

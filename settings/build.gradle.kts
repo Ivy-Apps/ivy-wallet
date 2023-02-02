@@ -1,3 +1,4 @@
+import com.ivy.buildsrc.AppCompat_1
 import com.ivy.buildsrc.Hilt
 import com.ivy.buildsrc.Testing
 
@@ -20,5 +21,8 @@ dependencies {
     implementation(project(":backup:old"))
     implementation(project(":drive:google-drive"))
     implementation(project(":backup:impl"))
+    AppCompat_1(true)
     Testing()
+
+
 }
