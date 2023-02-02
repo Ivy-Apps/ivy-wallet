@@ -1,8 +1,6 @@
 package com.ivy.common.test
 
 import com.ivy.common.time.provider.TimeProvider
-import com.ivy.common.time.toEpochMilli
-import com.ivy.common.time.toEpochSeconds
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -24,13 +22,3 @@ fun testTimeProvider(
     timeNow: LocalDateTime = LocalDateTime.now(),
     zoneOffsetHours: Int = 0,
 ) = TestTimeProvider(time = timeNow, zoneOffsetHours = zoneOffsetHours)
-
-fun epochSecondsNow(): Long {
-    val provider = testTimeProvider()
-    return provider.timeNow().toEpochSeconds(provider)
-}
-
-fun epocMillisNow(): Long {
-    val provider = testTimeProvider()
-    return provider.timeNow().toEpochMilli(provider)
-}

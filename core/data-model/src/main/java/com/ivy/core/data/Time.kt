@@ -28,7 +28,7 @@ enum class WeekDay(val value: Int) {
 
 /**
  * An int between 1 and 31 inclusively representing a date in a month.
- * Use [MonthDate.new] to create one.
+ * Use [MonthDate.of] to create one.
  */
 @JvmInline
 value class MonthDate private constructor(val value: Int) {
@@ -37,7 +37,7 @@ value class MonthDate private constructor(val value: Int) {
          * @throws error if the int isn't between 1 and 31
          * @return a valid [MonthDate]
          */
-        fun new(value: Int): MonthDate = if (value in 1..31)
+        fun of(value: Int): MonthDate = if (value in 1..31)
             MonthDate(value) else error("MonthDate error: $value is not a valid date in a month")
     }
 }
