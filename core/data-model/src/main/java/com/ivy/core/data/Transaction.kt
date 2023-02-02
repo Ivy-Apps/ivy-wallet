@@ -14,6 +14,7 @@ sealed interface Transaction {
     val title: String?
     val description: String?
     val hidden: Boolean
+    val autoAdded: Boolean
 
     data class Income(
         override val id: UUID,
@@ -26,7 +27,8 @@ sealed interface Transaction {
         override val attachments: List<AttachmentId>,
         override val title: String?,
         override val description: String?,
-        override val hidden: Boolean
+        override val hidden: Boolean,
+        override val autoAdded: Boolean,
     ) : Transaction
 
     data class Expense(
@@ -40,7 +42,8 @@ sealed interface Transaction {
         override val attachments: List<AttachmentId>,
         override val title: String?,
         override val description: String?,
-        override val hidden: Boolean
+        override val hidden: Boolean,
+        override val autoAdded: Boolean,
     ) : Transaction
 
     data class Transfer(
@@ -54,7 +57,8 @@ sealed interface Transaction {
         override val attachments: List<AttachmentId>,
         override val title: String?,
         override val description: String?,
-        override val hidden: Boolean
+        override val hidden: Boolean,
+        override val autoAdded: Boolean,
     ) : Transaction
 }
 

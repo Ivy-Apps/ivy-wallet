@@ -2,7 +2,6 @@ package com.ivy.core.data
 
 import androidx.annotation.FloatRange
 import com.ivy.core.data.common.*
-import java.time.LocalDateTime
 import java.util.*
 
 sealed interface Account : Reorderable, Archiveable {
@@ -13,7 +12,7 @@ sealed interface Account : Reorderable, Archiveable {
     val iconId: ItemIconId
     val color: IvyColor
     val includeInBalance: Boolean
-    val folderId: FolderId?
+    val folderId: AccountFolderId?
 }
 
 sealed interface Asset : Account {
@@ -25,7 +24,7 @@ sealed interface Asset : Account {
         override val iconId: ItemIconId,
         override val color: IvyColor,
         override val includeInBalance: Boolean,
-        override val folderId: FolderId?,
+        override val folderId: AccountFolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
     ) : Asset
@@ -38,7 +37,7 @@ sealed interface Asset : Account {
         override val iconId: ItemIconId,
         override val color: IvyColor,
         override val includeInBalance: Boolean,
-        override val folderId: FolderId?,
+        override val folderId: AccountFolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
     ) : Asset
@@ -54,7 +53,7 @@ sealed interface Asset : Account {
         override val iconId: ItemIconId,
         override val color: IvyColor,
         override val includeInBalance: Boolean,
-        override val folderId: FolderId?,
+        override val folderId: AccountFolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
     ) : Asset
@@ -70,7 +69,7 @@ sealed interface Asset : Account {
         override val iconId: ItemIconId,
         override val color: IvyColor,
         override val includeInBalance: Boolean,
-        override val folderId: FolderId?,
+        override val folderId: AccountFolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
     ) : Asset
@@ -86,7 +85,7 @@ sealed interface Asset : Account {
         override val iconId: ItemIconId,
         override val color: IvyColor,
         override val includeInBalance: Boolean,
-        override val folderId: FolderId?,
+        override val folderId: AccountFolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
     ) : Asset
@@ -99,7 +98,7 @@ sealed interface Asset : Account {
         override val iconId: ItemIconId,
         override val color: IvyColor,
         override val includeInBalance: Boolean,
-        override val folderId: FolderId?,
+        override val folderId: AccountFolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
     ) : Asset
@@ -114,7 +113,7 @@ sealed interface Liability : Account {
         override val iconId: ItemIconId,
         override val color: IvyColor,
         override val includeInBalance: Boolean,
-        override val folderId: FolderId?,
+        override val folderId: AccountFolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
 
@@ -134,7 +133,7 @@ sealed interface Liability : Account {
         override val iconId: ItemIconId,
         override val color: IvyColor,
         override val includeInBalance: Boolean,
-        override val folderId: FolderId?,
+        override val folderId: AccountFolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
 
@@ -144,15 +143,6 @@ sealed interface Liability : Account {
         val principal: Value,
         @FloatRange(from = 0.0, to = 1.0)
         val interest: Float,
-        /**
-         * By when the loan must be returned
-         */
-        val term: LocalDateTime,
-        /**
-         * How much do you pay each interval
-         */
-        val installmentPayment: Value,
-        // TODO: Define payment interval
     ) : Liability
 
     data class Other(
@@ -163,7 +153,7 @@ sealed interface Liability : Account {
         override val iconId: ItemIconId,
         override val color: IvyColor,
         override val includeInBalance: Boolean,
-        override val folderId: FolderId?,
+        override val folderId: AccountFolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
     ) : Liability
@@ -172,3 +162,17 @@ sealed interface Liability : Account {
 
 @JvmInline
 value class AccountId(val id: UUID)
+
+
+@JvmInline
+value class AccountFolderId(val id: UUID)
+
+data class AccountFolder(
+    val id: UUID,
+    val asset: AssetCode,
+    val name: String,
+    val description: String?,
+    val iconId: ItemIconId,
+    val color: IvyColor,
+    override val orderNum: Double,
+) : Reorderable

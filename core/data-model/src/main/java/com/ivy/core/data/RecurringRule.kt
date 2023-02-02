@@ -4,8 +4,8 @@ import java.time.LocalDateTime
 
 data class RecurringRule(
     val transaction: Transaction,
-    val autoExecute: Boolean,
-    val start: LocalDateTime,
+    val starting: LocalDateTime,
     val repeating: List<RepeatInterval>,
     val end: LocalDateTime?,
+    val autoExecute: Boolean,
 )
