@@ -13,6 +13,17 @@ data class Value(
  * - fiat currency (like EUR, USD, GBP)
  * - crypto currency (like BTC, ETH, ADA)
  * - something abstract (like GOLD, WATER, BMW)
+ *
+ * Use [AssetCode.of] to create one.
  */
 @JvmInline
-value class AssetCode(val code: String)
+value class AssetCode private constructor(val code: String) {
+    companion object {
+        /**
+         * @throws error if the code is blank
+         * @return valid trimmed [AssetCode]
+         */
+        fun of(code: String): AssetCode = if (code.isNotBlank())
+            AssetCode(code.trim()) else error("AssetCode error: code cannot be blank!")
+    }
+}

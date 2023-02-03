@@ -29,7 +29,7 @@ class RawStatsTest : FreeSpec({
         asset: String,
         time: LocalDateTime = testTimeProvider.timeNow()
     ) = LedgerEntry.Single.Income(
-        Value(PositiveDouble.of(amount), AssetCode(asset)),
+        Value(PositiveDouble.of(amount), AssetCode.of(asset)),
         time = time
     )
 
@@ -38,7 +38,7 @@ class RawStatsTest : FreeSpec({
         asset: String,
         time: LocalDateTime = testTimeProvider.timeNow()
     ) = LedgerEntry.Single.Expense(
-        Value(PositiveDouble.of(amount), AssetCode(asset)),
+        Value(PositiveDouble.of(amount), AssetCode.of(asset)),
         time = time
     )
 
@@ -50,7 +50,7 @@ class RawStatsTest : FreeSpec({
         newestTransaction: LocalDateTime = testTimeProvider.timeNow(),
     ): RawStats {
         fun fixMap(map: Map<String, Double>) =
-            map.map { (key, value) -> AssetCode(key) to PositiveDouble.of(value) }.toMap()
+            map.map { (key, value) -> AssetCode.of(key) to PositiveDouble.of(value) }.toMap()
 
         return RawStats(
             incomes = fixMap(incomes),
@@ -169,7 +169,10 @@ class RawStatsTest : FreeSpec({
         }
 
         val arbInput = arbitrary {
-            val assetCode = AssetCode(Arb.string(maxSize = 10).bind())
+            val assetCode = AssetCode.of(
+                Arb.string(minSize = 1, maxSize = 10)
+                    .filter { it.isNotBlank() }.bind()
+            )
             val expense = arbAmount.bind()
             val income = arbAmount.bind()
             val time = Arb.localDateTime().bind()
