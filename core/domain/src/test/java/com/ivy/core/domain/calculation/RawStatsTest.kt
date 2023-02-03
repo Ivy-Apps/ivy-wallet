@@ -1,6 +1,8 @@
 package com.ivy.core.domain.calculation
 
 import com.ivy.common.test.testTimeProvider
+import com.ivy.core.data.AccountId
+import com.ivy.core.data.AccountValue
 import com.ivy.core.data.common.AssetCode
 import com.ivy.core.data.common.NonNegativeInt
 import com.ivy.core.data.common.PositiveDouble
@@ -10,11 +12,13 @@ import com.ivy.core.domain.data.RawStats
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.data.row
 import io.kotest.datatest.withData
+import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.*
-import io.kotest.property.forAll
+import io.kotest.property.checkAll
 import java.time.LocalDateTime
+import java.util.*
 
 class RawStatsTest : FreeSpec({
     // region Test helpers
@@ -111,7 +115,7 @@ class RawStatsTest : FreeSpec({
             )
         ) { (entries, expected) ->
             for (i in 1..10) {
-                // Calculation: same input => same output
+                // Calculation prop: same input => same output
                 val res = rawStats(
                     // entries order must not effect the calculation
                     entries = entries.shuffled(),
@@ -120,13 +124,14 @@ class RawStatsTest : FreeSpec({
 
                 res shouldBe expected
             }
-
         }
     }
 
     "newest transaction time property" {
         val newestTime = Arb.localDateTime().next()
 
+        // region Setup
+        // Generates entry before newest
         val arbEntry = arbitrary {
             val arbTime = Arb.localDateTime(
                 maxLocalDateTime = newestTime.minusSeconds(1)
@@ -139,7 +144,7 @@ class RawStatsTest : FreeSpec({
         }
 
         val arbEntries = arbitrary {
-            val randomEntries = Arb.list(arbEntry, range = 1..100).bind()
+            val randomEntries = Arb.list(arbEntry, range = 0..100).bind()
             val newestEntry = if (Arb.boolean().bind()) {
                 expense(1.0, "TEST", newestTime)
             } else {
@@ -147,11 +152,68 @@ class RawStatsTest : FreeSpec({
             }
             (randomEntries + newestEntry).shuffled()
         }
+        // endregion
 
         // PROPERTY
-        forAll(arbEntries) { entries ->
+        checkAll(arbEntries) { entries ->
             val calculated = rawStats(entries, interpretTransfer = { emptyList() })
-            calculated.newestTransaction == newestTime
+            calculated.newestTransaction shouldBe newestTime
+        }
+    }
+
+    "interpret transfer property" {
+        // Setup
+        val arbAmount = arbitrary {
+            val value = Arb.int(min = 1).bind().toDouble()
+            PositiveDouble.of(value)
+        }
+
+        val arbInput = arbitrary {
+            val assetCode = AssetCode(Arb.string(maxSize = 10).bind())
+            val expense = arbAmount.bind()
+            val income = arbAmount.bind()
+            val time = Arb.localDateTime().bind()
+
+            LedgerEntry.Transfer(
+                from = AccountValue(
+                    AccountId(UUID.randomUUID()), Value(expense, assetCode)
+                ),
+                to = AccountValue(
+                    AccountId(UUID.randomUUID()), Value(income, assetCode)
+                ),
+                time = time
+            ) to listOf(
+                expense(expense.value, assetCode.code, time = time),
+                income(income.value, assetCode.code, time = time),
+            )
+        }
+
+        // PROPERTY
+        checkAll(Arb.list(arbInput)) { input ->
+            val transfers = input.map { it.first }.shuffled()
+            val entries = input.flatMap { it.second }.shuffled()
+
+            val res1 = rawStats(transfers, interpretTransfer = {
+                listOf(
+                    expense(
+                        it.from.value.amount.value,
+                        it.from.value.asset.code,
+                        time = it.time
+                    ),
+                    income(
+                        it.to.value.amount.value,
+                        it.to.value.asset.code,
+                        time = it.time
+                    )
+                )
+            })
+            val res2 = rawStats(entries, interpretTransfer = { emptyList() })
+
+            res1.incomes shouldContainExactly res2.incomes
+            res1.expenses shouldContainExactly res2.expenses
+            res1.incomesCount shouldBe res2.incomesCount
+            res1.expensesCount shouldBe res2.expensesCount
+            res1.newestTransaction shouldBe res2.newestTransaction
         }
     }
 })
