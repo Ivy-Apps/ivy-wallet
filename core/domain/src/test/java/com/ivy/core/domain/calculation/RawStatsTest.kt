@@ -250,11 +250,11 @@ class RawStatsTest : FreeSpec({
                             "BGN" to 25.0,
                             "USD" to 200.0,
                         ),
-                        incomesCount = 2,
                         expenses = mapOf(
                             "BGN" to 25.0,
                             "USD" to 200.0,
                         ),
+                        incomesCount = 2,
                         expensesCount = 2,
                     ),
                     // b
@@ -263,11 +263,11 @@ class RawStatsTest : FreeSpec({
                             "BGN" to 75.0,
                             "EUR" to 300.0,
                         ),
-                        incomesCount = 3,
                         expenses = mapOf(
                             "BGN" to 75.0,
                             "EUR" to 300.0,
                         ),
+                        incomesCount = 3,
                         expensesCount = 3,
                     ),
                     // result
@@ -277,12 +277,12 @@ class RawStatsTest : FreeSpec({
                             "USD" to 200.0,
                             "EUR" to 300.0,
                         ),
-                        incomesCount = 5,
                         expenses = mapOf(
                             "BGN" to 100.0,
                             "USD" to 200.0,
                             "EUR" to 300.0,
                         ),
+                        incomesCount = 5,
                         expensesCount = 5,
                     )
                 ),
