@@ -9,6 +9,8 @@ import com.ivy.core.data.common.PositiveDouble
 import com.ivy.core.data.common.Value
 import com.ivy.core.data.optimized.LedgerEntry
 import com.ivy.core.domain.data.RawStats
+import io.kotest.matchers.maps.shouldContainExactly
+import io.kotest.matchers.shouldBe
 import java.time.LocalDateTime
 import java.util.*
 
@@ -69,4 +71,15 @@ fun stats(
         expensesCount = NonNegativeInt.of(expensesCount),
         newestTransaction = newestTransaction,
     )
+}
+
+fun rawStatsEquality(
+    res1: RawStats,
+    res2: RawStats,
+) {
+    res1.incomes shouldContainExactly res2.incomes
+    res1.expenses shouldContainExactly res2.expenses
+    res1.incomesCount shouldBe res2.incomesCount
+    res1.expensesCount shouldBe res2.expensesCount
+    res1.newestTransaction shouldBe res2.newestTransaction
 }

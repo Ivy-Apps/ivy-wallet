@@ -2,14 +2,17 @@ package com.ivy.core.domain.calculation.account
 
 import com.ivy.common.test.testTimeProvider
 import com.ivy.core.data.AccountId
-import com.ivy.core.domain.calculation.expense
-import com.ivy.core.domain.calculation.income
-import com.ivy.core.domain.calculation.stats
-import com.ivy.core.domain.calculation.transfer
+import com.ivy.core.domain.calculation.*
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.data.row
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
+import io.kotest.property.Arb
+import io.kotest.property.arbitrary.arbitrary
+import io.kotest.property.arbitrary.boolean
+import io.kotest.property.arbitrary.int
+import io.kotest.property.arbitrary.list
+import io.kotest.property.checkAll
 import java.util.*
 
 class AccountRawStatsTest : FreeSpec({
@@ -103,6 +106,33 @@ class AccountRawStatsTest : FreeSpec({
                 val res = accountRawStats(AccountId(account), entries)
 
                 res shouldBe expected
+            }
+        }
+    }
+
+    "transfers in-out property" {
+        with(testTimeProvider) {
+            val arbPair = arbitrary {
+                val amount = Arb.int(min = 1).bind().toDouble()
+                val asset = Arb.assetCode().bind().code
+                val expense = Arb.boolean().bind()
+                if (expense) {
+                    transferOut(amount, asset) to expense(amount, asset)
+                } else {
+                    transferIn(amount, asset) to income(amount, asset)
+                }
+            }
+
+            // PROPERTY: Transfer-In = Income && Transfer-Out = Expense
+            checkAll(Arb.list(arbPair)) { input ->
+                val accountId = AccountId(account)
+                val transfers = input.map { it.first }
+                val singles = input.map { it.second }
+
+                rawStatsEquality(
+                    accountRawStats(accountId, transfers),
+                    accountRawStats(accountId, singles)
+                )
             }
         }
     }

@@ -3,14 +3,12 @@ package com.ivy.core.domain.calculation
 import com.ivy.common.test.testTimeProvider
 import com.ivy.core.data.AccountId
 import com.ivy.core.data.AccountValue
-import com.ivy.core.data.common.AssetCode
 import com.ivy.core.data.common.PositiveDouble
 import com.ivy.core.data.common.Value
 import com.ivy.core.data.optimized.LedgerEntry
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.data.row
 import io.kotest.datatest.withData
-import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.*
@@ -118,7 +116,7 @@ class RawStatsTest : FreeSpec({
             }
             // endregion
 
-            // PROPERTY
+            // PROPERTY: The newest transaction is the one with largest epoch seconds
             checkAll(arbEntries) { entries ->
                 val calculated = rawStats(entries, interpretTransfer = { emptyList() })
                 calculated.newestTransaction shouldBe newestTime
@@ -130,15 +128,12 @@ class RawStatsTest : FreeSpec({
         with(testTimeProvider) {
             // Setup
             val arbAmount = arbitrary {
-                val value = Arb.int(min = 1).bind().toDouble()
+                val value = Arb.positiveInt().bind().toDouble()
                 PositiveDouble.of(value)
             }
 
             val arbInput = arbitrary {
-                val assetCode = AssetCode.of(
-                    Arb.string(minSize = 1, maxSize = 10)
-                        .filter { it.isNotBlank() }.bind()
-                )
+                val assetCode = Arb.assetCode().bind()
                 val expense = arbAmount.bind()
                 val income = arbAmount.bind()
                 val time = Arb.localDateTime().bind()
@@ -157,7 +152,7 @@ class RawStatsTest : FreeSpec({
                 )
             }
 
-            // PROPERTY
+            // PROPERTY: Transfers can be mapped to Income-Expense with a interpretation
             checkAll(Arb.list(arbInput)) { input ->
                 val transfers = input.map { it.first }.shuffled()
                 val entries = input.flatMap { it.second }.shuffled()
@@ -178,11 +173,7 @@ class RawStatsTest : FreeSpec({
                 })
                 val res2 = rawStats(entries, interpretTransfer = { emptyList() })
 
-                res1.incomes shouldContainExactly res2.incomes
-                res1.expenses shouldContainExactly res2.expenses
-                res1.incomesCount shouldBe res2.incomesCount
-                res1.expensesCount shouldBe res2.expensesCount
-                res1.newestTransaction shouldBe res2.newestTransaction
+                rawStatsEquality(res1, res2)
             }
         }
     }
