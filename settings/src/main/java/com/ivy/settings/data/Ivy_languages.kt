@@ -4,7 +4,6 @@ package com.ivy.settings.data
 enum class Language(val languageCode: String) {
     ENGLISH("en"),
     SPANISH("es"),
-    FRENCH("fr"),
     ARABIC("ar"),
     BULGARIAN("bg"),
     HINDI("hi"),
