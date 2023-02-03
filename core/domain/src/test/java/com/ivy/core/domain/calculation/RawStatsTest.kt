@@ -177,4 +177,120 @@ class RawStatsTest : FreeSpec({
             }
         }
     }
+
+    "sum: RawStats + RawStats" - {
+        with(testTimeProvider) {
+            withData(
+                nameFn = { (caseName, _, _, _) ->
+                    "Case: $caseName"
+                },
+                row(
+                    "Incomes",
+                    // a
+                    stats(
+                        incomes = mapOf(
+                            "BGN" to 25.0,
+                            "USD" to 200.0,
+                        ),
+                        incomesCount = 2,
+                    ),
+                    // b
+                    stats(
+                        incomes = mapOf(
+                            "BGN" to 75.0,
+                            "EUR" to 300.0,
+                        ),
+                        incomesCount = 3,
+                    ),
+                    // result
+                    stats(
+                        incomes = mapOf(
+                            "BGN" to 100.0,
+                            "USD" to 200.0,
+                            "EUR" to 300.0,
+                        ),
+                        incomesCount = 5,
+                    )
+                ),
+
+                row(
+                    "Expenses",
+                    // a
+                    stats(
+                        expenses = mapOf(
+                            "BGN" to 25.0,
+                            "USD" to 200.0,
+                        ),
+                        expensesCount = 2,
+                    ),
+                    // b
+                    stats(
+                        expenses = mapOf(
+                            "BGN" to 75.0,
+                            "EUR" to 300.0,
+                        ),
+                        expensesCount = 3,
+                    ),
+                    // result
+                    stats(
+                        expenses = mapOf(
+                            "BGN" to 100.0,
+                            "USD" to 200.0,
+                            "EUR" to 300.0,
+                        ),
+                        expensesCount = 5,
+                    )
+                ),
+
+                row(
+                    "Both",
+                    // a
+                    stats(
+                        incomes = mapOf(
+                            "BGN" to 25.0,
+                            "USD" to 200.0,
+                        ),
+                        incomesCount = 2,
+                        expenses = mapOf(
+                            "BGN" to 25.0,
+                            "USD" to 200.0,
+                        ),
+                        expensesCount = 2,
+                    ),
+                    // b
+                    stats(
+                        incomes = mapOf(
+                            "BGN" to 75.0,
+                            "EUR" to 300.0,
+                        ),
+                        incomesCount = 3,
+                        expenses = mapOf(
+                            "BGN" to 75.0,
+                            "EUR" to 300.0,
+                        ),
+                        expensesCount = 3,
+                    ),
+                    // result
+                    stats(
+                        incomes = mapOf(
+                            "BGN" to 100.0,
+                            "USD" to 200.0,
+                            "EUR" to 300.0,
+                        ),
+                        incomesCount = 5,
+                        expenses = mapOf(
+                            "BGN" to 100.0,
+                            "USD" to 200.0,
+                            "EUR" to 300.0,
+                        ),
+                        expensesCount = 5,
+                    )
+                ),
+            ) { (_, a, b, expected) ->
+                val res = a + b
+
+                rawStatsEquality(res, expected)
+            }
+        }
+    }
 })

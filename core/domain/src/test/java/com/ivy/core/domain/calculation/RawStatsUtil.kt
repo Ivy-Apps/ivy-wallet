@@ -55,10 +55,10 @@ fun transfer(
 
 context(TimeProvider)
 fun stats(
-    incomes: Map<String, Double>,
-    expenses: Map<String, Double>,
-    incomesCount: Int,
-    expensesCount: Int,
+    incomes: Map<String, Double> = emptyMap(),
+    expenses: Map<String, Double> = emptyMap(),
+    incomesCount: Int = 0,
+    expensesCount: Int = 0,
     newestTransaction: LocalDateTime = timeNow(),
 ): RawStats {
     fun fixMap(map: Map<String, Double>) =
