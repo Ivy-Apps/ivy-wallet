@@ -178,6 +178,7 @@ class RawStatsTest : FreeSpec({
         }
     }
 
+
     "sum: RawStats + RawStats" - {
         with(testTimeProvider) {
             withData(
