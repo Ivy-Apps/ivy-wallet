@@ -30,7 +30,7 @@ fun BoxWithConstraintsScope.AddKeywordModal(
     dismiss: () -> Unit,
     onKeywordChanged: (String) -> Unit
 ) {
-    var modalKeyword by remember(id) { mutableStateOf(selectEndTextFieldValue(keyword)) }
+    var modalKeyword by remember { mutableStateOf(selectEndTextFieldValue(keyword)) }
 
     IvyModal(
         id = id,
