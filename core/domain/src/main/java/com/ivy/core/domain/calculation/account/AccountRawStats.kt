@@ -17,10 +17,12 @@ fun accountRawStats(
         val transferEntries = mutableListOf<LedgerEntry.Single>()
         if (it.from.account == account) {
             // transfer going out of the account
+            // are interpreted as expenses
             transferEntries.add(LedgerEntry.Single.Expense(it.from.value, it.time))
         }
         if (it.to.account == account) {
             // transfer going in the account
+            // are interpreted as incomes
             transferEntries.add(LedgerEntry.Single.Income(it.to.value, it.time))
         }
         transferEntries
