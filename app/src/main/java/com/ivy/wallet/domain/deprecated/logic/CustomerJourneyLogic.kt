@@ -51,7 +51,7 @@ class CustomerJourneyLogic(
 
     companion object {
         val ACTIVE_CARDS = listOf(
-            ivyCloudNuke(),
+//            ivyCloudNuke(),
             adjustBalanceCard(),
             addPlannedPaymentCard(),
             didYouKnow_pinAddTransactionWidgetCard(),
@@ -303,17 +303,6 @@ class CustomerJourneyLogic(
     }
 }
 
-@Preview
-@Composable
-private fun PreviewIvyCloudNuke() {
-    IvyWalletComponentPreview {
-        CustomerJourneyCard(
-            cardData = CustomerJourneyLogic.ivyCloudNuke(),
-            onCTA = { },
-            onDismiss = {}
-        )
-    }
-}
 
 @Preview
 @Composable
