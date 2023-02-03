@@ -23,6 +23,7 @@ import com.ivy.impl.export.BackupDataAct
 import com.ivy.navigation.Navigator
 import com.ivy.navigation.destinations.Destination
 import com.ivy.settings.data.BackupImportState
+import com.ivy.settings.data.Language
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -57,10 +58,14 @@ class SettingsViewModel @Inject constructor(
         hideBalance = false,
         appLocked = false,
         driveMounted = false,
-        importOldData = BackupImportState.Idle
+        importOldData = BackupImportState.Idle,
+        supportedLanguages = enumValues<Language>().toList(),
+        currentLanguage = AppCompatDelegate.getApplicationLocales()[0].toString()
     )
 
     private val importOldDataState = MutableStateFlow(initialUi.importOldData)
+
+    private val currentLanguageState = MutableStateFlow(initialUi.currentLanguage)
 
     override val uiFlow: Flow<SettingsState> = combine(
         baseCurrencyFlow(),
@@ -68,9 +73,10 @@ class SettingsViewModel @Inject constructor(
         hideBalanceFlow(Unit),
         appLockedFlow(Unit),
         googleDriveConnection.driveMounted,
-        importOldDataState
+        importOldDataState,
+        currentLanguageState
     ) { baseCurrency, startDayOfMonth, hideBalance,
-        appLocked, driveMounted, importOldData ->
+        appLocked, driveMounted, importOldData ,currentLanguage->
         SettingsState(
             baseCurrency = baseCurrency,
             startDayOfMonth = startDayOfMonth,
@@ -78,6 +84,8 @@ class SettingsViewModel @Inject constructor(
             appLocked = appLocked,
             driveMounted = driveMounted,
             importOldData = importOldData,
+            supportedLanguages = initialUi.supportedLanguages,
+            currentLanguage=currentLanguage
         )
     }
 
@@ -97,6 +105,7 @@ class SettingsViewModel @Inject constructor(
                 AppCompatDelegate.setApplicationLocales(
                     LocaleListCompat.forLanguageTags(event.languageCode)
                 )
+                currentLanguageState.value=event.languageCode
             }
 
             is SettingsEvent.HideBalance -> {

@@ -229,7 +229,9 @@ private fun BoxScope.UI(
         modal = languagePickerModal,
         onLanguageChange = { languageCode->
             onEvent(SettingsEvent.LanguageChange(languageCode))
-        }
+        },
+        state.supportedLanguages,
+        state.currentLanguage
     )
 
 }
@@ -270,11 +272,9 @@ private fun BoxScope.StartDayOfMonthModal(
 private fun BoxScope.LanguagePickerModal(
     modal: IvyModal,
     onLanguageChange: (String) -> Unit,
+    supportedLanguages:List<Language>,
+    currentLanguageCode:String
 ) {
-    //getting our list of supported languages
-     val list by lazy{
-         enumValues<Language>().toList()
-     }
     Modal(
         modal = modal,
         actions = {
@@ -283,11 +283,11 @@ private fun BoxScope.LanguagePickerModal(
         Title(text = "Choose Your Language")
         SpacerVer(height = 24.dp)
         LazyColumn {
-            items(list) { language ->
+            items(supportedLanguages) { language ->
                 SpacerVer(height = 12.dp)
                 IvyButton(
                     size = ButtonSize.Big,
-                    visibility = Visibility.Medium,
+                    visibility = setVisibility(currentLanguageCode,language),
                     feeling = Feeling.Positive,
                     text = language.name,
                     icon = null
@@ -299,6 +299,12 @@ private fun BoxScope.LanguagePickerModal(
         }
         SpacerVer(height = 24.dp)
     }
+}
+fun setVisibility(currentLanguageCode: String,language: Language) : Visibility {
+    if(currentLanguageCode==language.languageCode){
+        return Visibility.Focused
+    }
+    return Visibility.Medium
 }
 
 
@@ -313,7 +319,9 @@ private fun Preview() {
                 hideBalance = false,
                 appLocked = false,
                 driveMounted = false,
-                importOldData = BackupImportState.Idle
+                importOldData = BackupImportState.Idle,
+                supportedLanguages = emptyList(),
+                currentLanguage = ""
             ),
             onEvent = {}
         )
