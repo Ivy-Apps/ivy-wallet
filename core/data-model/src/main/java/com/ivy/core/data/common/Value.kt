@@ -36,3 +36,11 @@ value class AssetCode private constructor(val code: String) {
                 .map { AssetCode(it.trim()) }
     }
 }
+
+sealed interface SignedValue {
+    val value: Value
+
+    data class Positive(override val value: Value) : SignedValue
+    data class Negative(override val value: Value) : SignedValue
+    data class Zero(override val value: Value) : SignedValue
+}

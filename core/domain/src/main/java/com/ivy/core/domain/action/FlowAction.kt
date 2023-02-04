@@ -16,9 +16,9 @@ abstract class FlowAction<I, T> {
 
     /**
      * @return true if you want to emit only distinct (different from the last emitted) values.
-     * By default will emit only distinct values, to change that return false.
+     * By default will NOT emit only distinct values, to change that return true.
      */
-    protected open fun emitDistinctValues(): Boolean = true
+    protected open fun emitDistinctValues(): Boolean = false
 
     operator fun invoke(input: I): Flow<T> {
         val flow = createFlow(input)

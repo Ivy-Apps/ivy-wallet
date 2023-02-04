@@ -15,6 +15,7 @@ sealed interface Transaction {
     val description: String?
     val hidden: Boolean
     val autoAdded: Boolean
+    val recurring: RecurringRuleId?
 
     data class Income(
         override val id: UUID,
@@ -29,6 +30,7 @@ sealed interface Transaction {
         override val description: String?,
         override val hidden: Boolean,
         override val autoAdded: Boolean,
+        override val recurring: RecurringRuleId?
     ) : Transaction
 
     data class Expense(
@@ -44,6 +46,7 @@ sealed interface Transaction {
         override val description: String?,
         override val hidden: Boolean,
         override val autoAdded: Boolean,
+        override val recurring: RecurringRuleId?
     ) : Transaction
 
     data class Transfer(
@@ -59,6 +62,7 @@ sealed interface Transaction {
         override val description: String?,
         override val hidden: Boolean,
         override val autoAdded: Boolean,
+        override val recurring: RecurringRuleId?
     ) : Transaction
 }
 
