@@ -227,11 +227,11 @@ private fun BoxScope.UI(
         })
     LanguagePickerModal(
         modal = languagePickerModal,
-        onLanguageChange = { languageCode->
+        supportedLanguages = state.supportedLanguages,
+        currentLanguageCode = state.currentLanguage,
+        onLanguageChange = { languageCode ->
             onEvent(SettingsEvent.LanguageChange(languageCode))
-        },
-        state.supportedLanguages,
-        state.currentLanguage
+        }
     )
 
 }
@@ -272,8 +272,8 @@ private fun BoxScope.StartDayOfMonthModal(
 private fun BoxScope.LanguagePickerModal(
     modal: IvyModal,
     onLanguageChange: (String) -> Unit,
-    supportedLanguages:List<Language>,
-    currentLanguageCode:String
+    supportedLanguages: List<Language>,
+    currentLanguageCode: String
 ) {
     Modal(
         modal = modal,
@@ -287,7 +287,7 @@ private fun BoxScope.LanguagePickerModal(
                 SpacerVer(height = 12.dp)
                 IvyButton(
                     size = ButtonSize.Big,
-                    visibility = setVisibility(currentLanguageCode,language),
+                    visibility = if (currentLanguageCode == language.languageCode) Visibility.Focused else Visibility.Medium,
                     feeling = Feeling.Positive,
                     text = language.name,
                     icon = null
@@ -299,12 +299,6 @@ private fun BoxScope.LanguagePickerModal(
         }
         SpacerVer(height = 24.dp)
     }
-}
-fun setVisibility(currentLanguageCode: String,language: Language) : Visibility {
-    if(currentLanguageCode==language.languageCode){
-        return Visibility.Focused
-    }
-    return Visibility.Medium
 }
 
 

@@ -10,6 +10,6 @@ data class SettingsState(
     val appLocked: Boolean,
     val driveMounted: Boolean,
     val importOldData: BackupImportState,
-    val supportedLanguages:List<Language>,
-    val currentLanguage:String
+    val supportedLanguages: List<Language>,
+    val currentLanguage: String
 )

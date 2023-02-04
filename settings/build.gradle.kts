@@ -21,7 +21,7 @@ dependencies {
     implementation(project(":backup:old"))
     implementation(project(":drive:google-drive"))
     implementation(project(":backup:impl"))
-    AppCompat(true)
+    AppCompat(false)
     Testing()
 
 
