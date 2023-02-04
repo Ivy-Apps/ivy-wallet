@@ -7,7 +7,7 @@ import com.ivy.core.data.calculation.ExchangeRates
 import com.ivy.core.data.common.AssetCode
 import com.ivy.core.data.common.NonNegativeDouble
 import com.ivy.core.data.common.PositiveDouble
-import com.ivy.core.data.common.asPositive
+import com.ivy.core.data.common.toPositiveUnsafe
 
 /**
  * Exchanges an [amount] in [from] asset to [to] asset.
@@ -23,7 +23,7 @@ suspend fun ExchangeRates.exchange(
     if (amount.value == 0.0) return@option amount // no need to exchange
 
     val rate = findRate(from, to).bind()
-    NonNegativeDouble.of(rate.value * amount.value)
+    NonNegativeDouble.fromDoubleUnsafe(rate.value * amount.value)
 }
 
 suspend fun ExchangeRates.findRate(
@@ -34,7 +34,7 @@ suspend fun ExchangeRates.findRate(
         rates[asset].toOption()
 
     return option {
-        if (from == to) return@option 1.0.asPositive() // no need to exchange
+        if (from == to) return@option 1.0.toPositiveUnsafe() // no need to exchange
 
         when (base) {
             from -> {
@@ -46,6 +46,7 @@ suspend fun ExchangeRates.findRate(
                  */
                 rate(to).bind()
             }
+
             to -> {
                 /*
                 Case: EUR -> BGN
@@ -55,8 +56,9 @@ suspend fun ExchangeRates.findRate(
                 1 EUR (from) = 1 / 0.51 (rate from) = 1.96 BGN (to)
                  */
                 val rateBaseFrom = rate(from).bind()
-                PositiveDouble.of(1.0 / rateBaseFrom.value)
+                PositiveDouble.fromDoubleUnsafe(1.0 / rateBaseFrom.value)
             }
+
             else -> {
                 /*
                 Case: EUR -> USD
@@ -73,7 +75,7 @@ suspend fun ExchangeRates.findRate(
                  */
                 val rateFrom = rate(from).bind()
                 val rateTo = rate(to).bind()
-                PositiveDouble.of(rateTo.value / rateFrom.value)
+                PositiveDouble.fromDoubleUnsafe(rateTo.value / rateFrom.value)
             }
         }
     }

@@ -3,7 +3,7 @@ package com.ivy.core.domain.calculation
 import com.ivy.core.data.common.AssetCode
 import com.ivy.core.data.common.NonNegativeInt
 import com.ivy.core.data.common.PositiveDouble
-import com.ivy.core.data.common.asNonNegative
+import com.ivy.core.data.common.toNonNegativeUnsafe
 import com.ivy.core.data.optimized.LedgerEntry
 import com.ivy.core.domain.data.RawStats
 import java.time.LocalDateTime
@@ -53,10 +53,10 @@ fun rawStats(
     }
 
     return RawStats(
-        incomes = incomes.mapValues { PositiveDouble.of(it.value) },
-        expenses = expenses.mapValues { PositiveDouble.of(it.value) },
-        incomesCount = incomesCount.asNonNegative(),
-        expensesCount = expensesCount.asNonNegative(),
+        incomes = incomes.mapValues { PositiveDouble.fromDoubleUnsafe(it.value) },
+        expenses = expenses.mapValues { PositiveDouble.fromDoubleUnsafe(it.value) },
+        incomesCount = incomesCount.toNonNegativeUnsafe(),
+        expensesCount = expensesCount.toNonNegativeUnsafe(),
         newestTransaction = newestTrnTime,
     )
 }
@@ -80,14 +80,14 @@ infix operator fun RawStats.plus(other: RawStats): RawStats {
         val sum = mutableMapOf<AssetCode, Double>()
         map1.forEach(sum::aggregate)
         other.forEach(sum::aggregate)
-        return sum.mapValues { PositiveDouble.of(it.value) }
+        return sum.mapValues { PositiveDouble.fromDoubleUnsafe(it.value) }
     }
 
     return RawStats(
         incomes = sumMaps(incomes, other.incomes),
         expenses = sumMaps(expenses, other.expenses),
-        incomesCount = NonNegativeInt.of(incomesCount.value + other.incomesCount.value),
-        expensesCount = NonNegativeInt.of(expensesCount.value + other.expensesCount.value),
+        incomesCount = NonNegativeInt.fromIntUnsafe(incomesCount.value + other.incomesCount.value),
+        expensesCount = NonNegativeInt.fromIntUnsafe(expensesCount.value + other.expensesCount.value),
         newestTransaction = maxOf(newestTransaction, other.newestTransaction)
     )
 }

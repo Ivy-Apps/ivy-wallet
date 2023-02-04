@@ -12,7 +12,7 @@ import com.ivy.core.domain.data.RawStats
 import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import java.time.LocalDateTime
-import java.util.*
+import java.util.UUID
 
 context(TimeProvider)
 fun income(
@@ -20,7 +20,7 @@ fun income(
     asset: String,
     time: LocalDateTime = timeNow(),
 ) = LedgerEntry.Single.Income(
-    Value(PositiveDouble.of(amount), AssetCode.of(asset)),
+    Value(PositiveDouble.fromDoubleUnsafe(amount), AssetCode.fromStringUnsafe(asset)),
     time = time
 )
 
@@ -30,7 +30,7 @@ fun expense(
     asset: String,
     time: LocalDateTime = timeNow(),
 ) = LedgerEntry.Single.Expense(
-    Value(PositiveDouble.of(amount), AssetCode.of(asset)),
+    Value(PositiveDouble.fromDoubleUnsafe(amount), AssetCode.fromStringUnsafe(asset)),
     time = time
 )
 
@@ -45,10 +45,12 @@ fun transfer(
     time: LocalDateTime = timeNow(),
 ) = LedgerEntry.Transfer(
     from = AccountValue(
-        AccountId(fromAccount), Value(PositiveDouble.of(fromAmount), AssetCode.of(fromAsset))
+        AccountId(fromAccount),
+        Value(PositiveDouble.fromDoubleUnsafe(fromAmount), AssetCode.fromStringUnsafe(fromAsset))
     ),
     to = AccountValue(
-        AccountId(toAccount), Value(PositiveDouble.of(toAmount), AssetCode.of(toAsset))
+        AccountId(toAccount),
+        Value(PositiveDouble.fromDoubleUnsafe(toAmount), AssetCode.fromStringUnsafe(toAsset))
     ),
     time = time,
 )
@@ -62,13 +64,17 @@ fun stats(
     newestTransaction: LocalDateTime = timeNow(),
 ): RawStats {
     fun fixMap(map: Map<String, Double>) =
-        map.map { (key, value) -> AssetCode.of(key) to PositiveDouble.of(value) }.toMap()
+        map.map { (key, value) ->
+            AssetCode.fromStringUnsafe(key) to PositiveDouble.fromDoubleUnsafe(
+                value
+            )
+        }.toMap()
 
     return RawStats(
         incomes = fixMap(incomes),
         expenses = fixMap(expenses),
-        incomesCount = NonNegativeInt.of(incomesCount),
-        expensesCount = NonNegativeInt.of(expensesCount),
+        incomesCount = NonNegativeInt.fromIntUnsafe(incomesCount),
+        expensesCount = NonNegativeInt.fromIntUnsafe(expensesCount),
         newestTransaction = newestTransaction,
     )
 }

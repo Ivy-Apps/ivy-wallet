@@ -1,5 +1,9 @@
 package com.ivy.core.data.common
 
+import arrow.core.Option
+import arrow.core.getOrElse
+import arrow.core.toOption
+
 /**
  * Represents monetary value. (like 10 USD, 5 EUR, 0.005 BTC, 12 GOLD_GRAM)
  */
@@ -14,7 +18,7 @@ data class Value(
  * - crypto currency (like BTC, ETH, ADA)
  * - something abstract (like GOLD, WATER, BMW)
  *
- * Use [AssetCode.of] to create one.
+ * Use [AssetCode.fromStringUnsafe] to create one.
  */
 @JvmInline
 value class AssetCode private constructor(val code: String) {
@@ -23,7 +27,12 @@ value class AssetCode private constructor(val code: String) {
          * @throws error if the code is blank
          * @return valid trimmed [AssetCode]
          */
-        fun of(code: String): AssetCode = if (code.isNotBlank())
-            AssetCode(code.trim()) else error("AssetCode error: code cannot be blank!")
+        fun fromStringUnsafe(code: String): AssetCode =
+            fromString(code).map { AssetCode(it.trim()) }
+                .getOrElse {
+                    error("AssetCode error: code cannot be blank!")
+                }
+
+        fun fromString(code: String): Option<String> = code.takeIf { it.isNotBlank() }.toOption()
     }
 }
