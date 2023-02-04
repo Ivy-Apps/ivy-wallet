@@ -96,7 +96,7 @@ object Versions {
     const val hiltNavigationCompose = "1.1.0-alpha01"
 
     //https://developer.android.com/jetpack/androidx/releases/appcompat
-    const val appCompat = "1.4.2"
+    const val appCompat = "1.6.0-rc01"
 
     //https://developer.android.com/jetpack/androidx/releases/core
     const val coreKtx = "1.9.0-alpha05"
@@ -406,6 +406,7 @@ fun DependencyHandler.AppCompat(api: Boolean) {
     //https://developer.android.com/jetpack/androidx/releases/appcompat
     dependency("androidx.appcompat:appcompat:${Versions.appCompat}", api = api)
 }
+
 
 fun DependencyHandler.Coroutines(
     api: Boolean
