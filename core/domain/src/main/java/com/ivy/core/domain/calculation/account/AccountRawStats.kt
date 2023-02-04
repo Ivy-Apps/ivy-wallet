@@ -12,19 +12,18 @@ fun accountRawStats(
     account: AccountId,
     entries: List<LedgerEntry>
 ): RawStats = rawStats(
-    entries,
-    interpretTransfer = {
-        val transferEntries = mutableListOf<LedgerEntry.Single>()
-        if (it.from.account == account) {
+    entries
+) { (from, to, time) ->
+    buildList {
+        if (from.account == account) {
             // transfer going out of the account
             // are interpreted as expenses
-            transferEntries.add(LedgerEntry.Single.Expense(it.from.value, it.time))
+            add(LedgerEntry.Single.Expense(from.value, time))
         }
-        if (it.to.account == account) {
+        if (to.account == account) {
             // transfer going in the account
             // are interpreted as incomes
-            transferEntries.add(LedgerEntry.Single.Income(it.to.value, it.time))
+            add(LedgerEntry.Single.Income(to.value, time))
         }
-        transferEntries
     }
-)
+}
