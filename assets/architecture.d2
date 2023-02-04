@@ -1,0 +1,198 @@
+direction: down
+
+feature: "Feature modules" {
+    ui: "Compose UI" {
+        "Usually a Screen"
+        "Destination in the Navigation graph"
+    }
+    state: "UI State" {
+        "Data class only of Compose primitives"
+    }
+    event: "Event" {
+        "ADT with all possible user interactions"
+    }
+    vm: "ViewModel" {
+        "Produces UI State"
+        "Handles Event"
+    }
+
+    actions: "Actions (impure)" {
+        "Feature-level actions"
+    }
+
+    ui -> state: "Latest state"
+    ui -> event: "User interactions"
+    state -> vm: "Produced by the ViewModel"
+    event -> vm: "Sent to the ViewModel"
+    vm -> actions: "Feauture-level logic"
+}
+feature.ui -> core-ui.uiComponents: "@Composables"
+feature.actions -> core-ui.barrier: "Read-only Flows (RX) + Calculations (pure)"
+feature.actions -> core-domain.barrier: "Write Actions (impure) + Reading Snapshots (impure)"
+
+core-ui: ":core:ui" {
+    barrier: Abstraction Barrier {
+        fill: "#f0ff3a"
+        "Read Actions (impure)" {
+            "Flow (RX)"
+        }
+        "Calculations (pure)" {
+            "E.g. format: Value -> Boolean -> ValueUi"
+        }
+    }
+
+    uiComponents: "UI Components: (impure)" {
+        fill: "#f0ff3a"
+        "Compose UI" {
+            "Common UI Components"
+            "Modals"
+        }
+    }
+
+    
+    uiMap: "Map Domain to UI data" {
+        "Data -> DataUi (e.g. Transaction -> TransactionUi)"
+    }
+
+    barrier -> uiMap
+    uiComponents -> uiMap
+}
+core-ui.uiMap -> core-domain.barrier: "Read-only Flows (RX)"
+
+
+core-domain: ":core:domain" {
+    barrier: Abstraction Barrier (exposed) {
+        fill: "#f0ff3a"
+        "Write Actions (impure)" {
+            suspend
+        }
+        read: "Read Actions (impure)" {
+            "Flow (RX)"
+            "suspend (snapshot)"
+        }
+    }
+
+    actions: "Actions (impure)" {
+        "Provide DI"
+        "Execute Effects"
+    }
+
+    calculations: "Caculations" {
+        "Pure processing layer"
+    }
+
+    actions -> calculations: "Domain logic"
+    barrier -> actions
+}
+core-domain.actions -> core-persistence.barrier: "Write/Read from persistence as Domain"
+core-domain.actions -> core-exchange-provider.barrier: "Fetch remote exchange rates"
+
+core-exchange-provider: ":core:exchange-provider" {
+    barrier: "Abstraction Barrier (exposed)" {
+        fill: "#f0ff3a"
+        RemoteExchangeProvider {
+            "suspend fun fetchExchangeRates(baseCurrency: CurrencyCode): Result"
+        }
+    }
+
+    provider: Provider {
+        effect: "Fetches remote exchange rates for a base-currency"
+        calculation: "Calculations" {
+            "Filter only valid rates"
+            "Convert to base currency"
+        }
+
+        effect -> calculation
+    }
+
+    barrier -> provider
+}
+
+core-persistence: ":core:persistence" {
+    barrier: "Abstraction Barrier (exposed)" {
+        fill: "#f0ff3a"
+        read: "Read Actions (impure)" {
+            "Flow (RX)"
+            "suspend (snapshot)"
+        }
+        write: "Write Actions (impure)" {
+            "suspend"
+        }
+    }
+
+    actions: "Actions (impure)" {
+        dao: "DAOs"
+        store: "DataStore"
+    }
+
+    validation: "Validation layer (pure)" {
+        "Ensures data being written is correct"
+        "Ensures data being read is correct"
+    }
+
+    db: "Relational Database" {
+        sql: "SQL tables" {
+            shape: cylinder
+        }
+    }
+
+    datastore: "DataStore" {
+        kvs: "Key-Value Storage" {
+            shape: cylinder
+        }
+    }
+
+    barrier -> actions
+    actions.dao -> db
+    actions.store -> datastore
+    actions -> validation
+}
+
+core-data-model {
+    fill: purple
+    font-color: white
+    data: "Domain data" {
+        "ADTs best describing the domain"
+        "example: Transaction"
+    }
+    optimized: "Optimzed" {
+        "Select only the needed parts of the domain data"
+        "example: TrnHistory"
+        "example: TrnCalc"
+    }
+}
+core-domain -> core-data-model: "Uses"
+core-persistence -> core-data-model: "Uses"
+
+
+# Other services
+sync: ":sync" {
+    fetch: "Fetches Backup JSON from Google Drive"
+    merge: "Merges the data with the local DB"
+    upload: "Uploads data to Google Drive"
+}
+sync -> google-drive
+sync -> backup
+
+backup: ":backup" {
+    "Export backup JSON"
+    "Import backup JSON"
+    "Import old backup JSON"
+}
+backup -> core-domain.barrier: "Read data snapshot / Write to persistence"
+
+google-drive: ":drive:google-drive" {
+    "GoogleDriveService: get & upload data to drive"
+}
+
+sms-parser: "automate:sms-parser" {
+    parse: "Parses transactions from SMS"
+    auto: "Automatically adds valid transactions"
+}
+sms-parser -> core-domain.barrier
+
+notifications-parser: "automate:notification-parser" {
+    parse: "Parses transactions from Notificaitons"
+    auto: "Automatically adds valid transactions"
+}
+notifications-parser -> core-domain.barrier

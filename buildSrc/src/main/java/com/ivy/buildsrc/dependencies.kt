@@ -38,6 +38,7 @@ object Versions {
     //https://kotlinlang.org/docs/releases.html#release-details
     //WARNING: Version must match in buildSrc build.gradle.kts
     const val kotlin = "1.7.20"
+
     //https://github.com/Kotlin/kotlinx.coroutines
     const val coroutines = "1.6.4"
 
@@ -75,10 +76,13 @@ object Versions {
     // endregion
 
     //https://arrow-kt.io/docs/quickstart/
-    const val arrow: String = "1.0.1"
+    const val arrow: String = "1.1.5"
 
     //https://kotest.io/
     const val kotest: String = "5.4.2"
+
+    //https://github.com/kotest/kotest-extensions-arrow
+    const val kotestArrow = "1.3.0"
     const val junitJupiter: String = "5.8.2"
 
     //https://developer.android.com/training/dependency-injection/hilt-android
@@ -473,7 +477,10 @@ fun DependencyHandler.Arrow(
     dependency("io.arrow-kt:arrow-core", api = api)
     dependency("io.arrow-kt:arrow-fx-coroutines", api = api)
     dependency("io.arrow-kt:arrow-fx-stm", api = api)
-//    dependency("io.arrow-kt:arrow-optics")
+
+    // Optics
+    dependency("io.arrow-kt:arrow-optics", api = api)
+    ksp("io.arrow-kt:arrow-optics-ksp-plugin:${Versions.arrow}")
 }
 
 fun DependencyHandler.Testing(
@@ -532,8 +539,17 @@ fun DependencyHandler.Kotest() {
     testDependency("org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}", api = api)
 
 
+    // Kotest - Arrow extensions
+    val kotestArrow = Versions.kotestArrow
     testDependency(
-        "io.kotest.extensions:kotest-property-arrow:${Versions.arrow}", api = api
+        "io.kotest.extensions:kotest-assertions-arrow:$kotestArrow", api = api
+    )
+    testDependency(
+        "io.kotest.extensions:kotest-assertions-arrow-fx-coroutines:$kotestArrow",
+        api = api
+    )
+    testDependency(
+        "io.kotest.extensions:kotest-property-arrow:$kotestArrow", api = api
     )
 }
 

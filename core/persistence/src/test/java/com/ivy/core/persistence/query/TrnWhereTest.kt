@@ -17,7 +17,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
 import io.kotest.property.PropertyContext
 import io.kotest.property.arbitrary.*
-import io.kotest.property.arrow.nonEmptyList
+import io.kotest.property.arrow.core.nonEmptyList
 import io.kotest.property.checkAll
 import io.kotest.property.exhaustive.exhaustive
 import java.util.*

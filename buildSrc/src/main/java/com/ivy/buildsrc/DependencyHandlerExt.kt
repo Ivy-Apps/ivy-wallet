@@ -52,6 +52,14 @@ fun DependencyHandler.kapt(value: String) {
     this.kapt(dependency = value)
 }
 
+fun DependencyHandler.ksp(value: String) {
+    this.ksp(dependency = value)
+}
+
+internal fun DependencyHandler.ksp(dependency: Any) {
+    this.add("ksp", dependency)
+}
+
 internal fun DependencyHandler.testImplementation(value: Any) {
     this.add("testImplementation", value)
 }
