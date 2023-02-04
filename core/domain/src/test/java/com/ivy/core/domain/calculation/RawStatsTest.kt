@@ -11,10 +11,15 @@ import io.kotest.data.row
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
-import io.kotest.property.arbitrary.*
+import io.kotest.property.arbitrary.arbitrary
+import io.kotest.property.arbitrary.boolean
+import io.kotest.property.arbitrary.list
+import io.kotest.property.arbitrary.localDateTime
+import io.kotest.property.arbitrary.next
+import io.kotest.property.arbitrary.positiveInt
 import io.kotest.property.checkAll
 import java.time.LocalDateTime
-import java.util.*
+import java.util.UUID
 
 class RawStatsTest : FreeSpec({
     val testTimeProvider = testTimeProvider()
@@ -129,7 +134,7 @@ class RawStatsTest : FreeSpec({
             // Setup
             val arbAmount = arbitrary {
                 val value = Arb.positiveInt().bind().toDouble()
-                PositiveDouble.of(value)
+                PositiveDouble.fromDoubleUnsafe(value)
             }
 
             val arbInput = arbitrary {

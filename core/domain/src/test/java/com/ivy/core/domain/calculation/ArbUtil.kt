@@ -7,7 +7,7 @@ import io.kotest.property.arbitrary.filter
 import io.kotest.property.arbitrary.string
 
 fun Arb.Companion.assetCode(): Arb<AssetCode> = arbitrary {
-    AssetCode.of(
+    AssetCode.fromStringUnsafe(
         Arb.string(minSize = 1, maxSize = 12)
             .filter { it.isNotBlank() }.bind()
     )

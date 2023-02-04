@@ -1,8 +1,12 @@
 package com.ivy.core.data.common
 
+import arrow.core.Option
+import arrow.core.getOrElse
+import arrow.core.toOption
+
 /**
  * Int that is **>=0** and in the range [0, [Int.MAX_VALUE]].
- * Use [NonNegativeInt.of] or [Int.asPositive] to create one.
+ * Use [NonNegativeInt.fromIntUnsafe] or [Int.toNonNegativeUnsafe] to create one.
  */
 @JvmInline
 value class NonNegativeInt private constructor(val value: Int) {
@@ -11,21 +15,26 @@ value class NonNegativeInt private constructor(val value: Int) {
          * @throws error if the [Int] isn't positive: **this >= 0**
          * @return a valid [NonNegativeInt]
          */
-        fun of(value: Int): NonNegativeInt = if (value >= 0.0) NonNegativeInt(value) else
+        fun fromIntUnsafe(value: Int): NonNegativeInt = fromInt(value).getOrElse {
             error("PositiveInt error: $value is not a non-negative (>= 0) number.")
+        }
+
+        fun fromInt(value: Int): Option<NonNegativeInt> =
+            value.takeIf { it >= 0.0 }.toOption().map(::NonNegativeInt)
     }
 }
 
 
 /**
- * See [NonNegativeInt.of].
+ * See [NonNegativeInt.fromInt] and [NonNegativeInt.fromIntUnsafe].
  */
-fun Int.asNonNegative(): NonNegativeInt = NonNegativeInt.of(this)
+fun Int.toNonNegativeUnsafe(): NonNegativeInt = NonNegativeInt.fromIntUnsafe(this)
+fun Int.toNonNegative(): Option<NonNegativeInt> = NonNegativeInt.fromInt(this)
 
 
 /**
  * Int that is **>0** and in the range [1, [Int.MAX_VALUE]].
- * Use [PositiveInt.of] or [Int.asPositive] to create one.
+ * Use [PositiveInt.fromIntUnsafe] or [Int.toPositiveUnsafe] to create one.
  */
 @JvmInline
 value class PositiveInt private constructor(val value: Int) {
@@ -34,20 +43,25 @@ value class PositiveInt private constructor(val value: Int) {
          * @throws error if the [Int] isn't positive: **this > 0**
          * @return a valid [PositiveInt]
          */
-        fun of(value: Int): PositiveInt = if (value > 0.0) PositiveInt(value) else
+        fun fromIntUnsafe(value: Int): PositiveInt = fromInt(value).getOrElse {
             error("PositiveInt error: $value is not a positive (> 0) number.")
+        }
+
+        fun fromInt(value: Int): Option<PositiveInt> =
+            value.takeIf { value > 0.0 }.toOption().map(::PositiveInt)
     }
 }
 
 /**
- * See [PositiveInt.of].
+ * See [PositiveInt.fromIntUnsafe].
  */
-fun Int.asPositive(): PositiveInt = PositiveInt.of(this)
+fun Int.toPositiveUnsafe(): PositiveInt = PositiveInt.fromIntUnsafe(this)
+fun Int.toPositive(): Option<PositiveInt> = PositiveInt.fromInt(this)
 
 
 /**
  * Double that is **>=0** and in the range [0, [Double.MAX_VALUE]].
- * Use [NonNegativeDouble.of] or [Double.asNonNegative] to create one.
+ * Use [NonNegativeDouble.fromDoubleUnsafe] or [Double.toNonNegativeUnsafe] to create one.
  */
 @JvmInline
 value class NonNegativeDouble private constructor(val value: Double) {
@@ -56,20 +70,26 @@ value class NonNegativeDouble private constructor(val value: Double) {
          * @throws error if the [Double] isn't positive: **this >= 0**
          * @return a valid [NonNegativeDouble]
          */
-        fun of(value: Double): NonNegativeDouble = if (value >= 0.0) NonNegativeDouble(value) else
-            error("NonNegativeDouble error: $value is not a non-negative (>= 0) number.")
+        fun fromDoubleUnsafe(value: Double): NonNegativeDouble =
+            fromDouble(value).map(::NonNegativeDouble)
+                .getOrElse {
+                    error("NonNegativeDouble error: $value is not a non-negative (>= 0) number.")
+                }
+
+        fun fromDouble(value: Double): Option<Double> = value.takeIf { value >= 0.0 }.toOption()
     }
 }
 
 /**
- * See [NonNegativeDouble.of].
+ * See [NonNegativeDouble.fromDoubleUnsafe].
  */
-fun Double.asNonNegative(): NonNegativeDouble = NonNegativeDouble.of(this)
+fun Double.toNonNegativeUnsafe(): NonNegativeDouble = NonNegativeDouble.fromDoubleUnsafe(this)
+fun Double.toNonNegative(): Option<Double> = NonNegativeDouble.fromDouble(this)
 
 
 /**
  * Double that is **>0** and in the range (0, [Double.MAX_VALUE]].
- * Use [PositiveDouble.of] or [Double.asPositive] to create one.
+ * Use [PositiveDouble.fromDoubleUnsafe] or [Double.toPositiveUnsafe] to create one.
  */
 @JvmInline
 value class PositiveDouble private constructor(val value: Double) {
@@ -78,12 +98,18 @@ value class PositiveDouble private constructor(val value: Double) {
          * @throws error if the [Double] isn't positive: **this > 0**
          * @return a valid [PositiveDouble]
          */
-        fun of(value: Double): PositiveDouble = if (value > 0.0) PositiveDouble(value) else
-            error("PositiveDouble error: $value is not a positive (> 0) number.")
+        fun fromDoubleUnsafe(value: Double): PositiveDouble =
+            fromDouble(value).map(::PositiveDouble).getOrElse {
+                error("PositiveDouble error: $value is not a positive (> 0) number.")
+            }
+
+        fun fromDouble(value: Double): Option<Double> = value.takeIf { value > 0.0 }.toOption()
+
     }
 }
 
 /**
- * See [PositiveDouble.of].
+ * See [PositiveDouble.fromDoubleUnsafe].
  */
-fun Double.asPositive(): PositiveDouble = PositiveDouble.of(this)
+fun Double.toPositiveUnsafe(): PositiveDouble = PositiveDouble.fromDoubleUnsafe(this)
+fun Double.toPositive(): Option<Double> = PositiveDouble.fromDouble(this)

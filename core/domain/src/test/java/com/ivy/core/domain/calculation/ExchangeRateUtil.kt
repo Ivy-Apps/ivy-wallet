@@ -8,8 +8,8 @@ fun exchangeRates(
     base: String,
     rates: Map<String, Double>
 ) = ExchangeRates(
-    base = AssetCode.of(base),
+    base = AssetCode.fromStringUnsafe(base),
     rates = rates.map { (asset, value) ->
-        AssetCode.of(asset) to PositiveDouble.of(value)
+        AssetCode.fromStringUnsafe(asset) to PositiveDouble.fromDoubleUnsafe(value)
     }.toMap()
 )

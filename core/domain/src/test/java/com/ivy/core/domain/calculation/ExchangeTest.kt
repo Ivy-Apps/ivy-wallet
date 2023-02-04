@@ -3,7 +3,7 @@ package com.ivy.core.domain.calculation
 import arrow.core.None
 import arrow.core.Some
 import com.ivy.core.data.common.AssetCode
-import com.ivy.core.data.common.asNonNegative
+import com.ivy.core.data.common.toNonNegativeUnsafe
 import io.kotest.assertions.arrow.core.shouldBeSome
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.data.row
@@ -50,9 +50,9 @@ class ExchangeTest : FreeSpec({
                 )
             ) { (from, to) ->
                 val res = exchange(
-                    from = AssetCode.of(from.second),
-                    to = AssetCode.of(to.second),
-                    amount = from.first.asNonNegative()
+                    from = AssetCode.fromStringUnsafe(from.second),
+                    to = AssetCode.fromStringUnsafe(to.second),
+                    amount = from.first.toNonNegativeUnsafe()
                 )
 
                 res.map { it.value.round() } shouldBeSome to.first.round()
@@ -70,7 +70,7 @@ class ExchangeTest : FreeSpec({
             arbValidAsset, arbValidAsset, Arb.positiveInt()
         ) { asset1, asset2, randomAmount ->
             with(rates) {
-                val original = randomAmount.toDouble().asNonNegative()
+                val original = randomAmount.toDouble().toNonNegativeUnsafe()
                 val exchanged = exchange(
                     from = asset1,
                     to = asset2,
@@ -98,10 +98,12 @@ class ExchangeTest : FreeSpec({
                     // from valid, to invalid
                     arbValidAsset.bind() to Arb.assetCode().bind()
                 }
+
                 2 -> {
                     // from invalid, to valid
                     Arb.assetCode().bind() to arbValidAsset.bind()
                 }
+
                 else -> {
                     // both invalid
                     Arb.assetCode().bind() to Arb.assetCode().bind()
@@ -118,7 +120,7 @@ class ExchangeTest : FreeSpec({
                 exchange(
                     from = from,
                     to = to,
-                    amount = amount.toDouble().asNonNegative(),
+                    amount = amount.toDouble().toNonNegativeUnsafe(),
                 ) shouldBe None
             }
         }
