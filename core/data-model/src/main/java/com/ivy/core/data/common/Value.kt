@@ -27,12 +27,12 @@ value class AssetCode private constructor(val code: String) {
          * @throws error if the code is blank
          * @return valid trimmed [AssetCode]
          */
-        fun fromStringUnsafe(code: String): AssetCode =
-            fromString(code).map { AssetCode(it.trim()) }
-                .getOrElse {
-                    error("AssetCode error: code cannot be blank!")
-                }
+        fun fromStringUnsafe(code: String): AssetCode = fromString(code).getOrElse {
+            error("AssetCode error: code cannot be blank!")
+        }
 
-        fun fromString(code: String): Option<String> = code.takeIf { it.isNotBlank() }.toOption()
+        fun fromString(code: String): Option<AssetCode> =
+            code.takeIf { it.isNotBlank() }.toOption()
+                .map { AssetCode(it.trim()) }
     }
 }

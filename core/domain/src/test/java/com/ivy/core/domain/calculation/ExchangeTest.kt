@@ -8,6 +8,8 @@ import io.kotest.assertions.arrow.core.shouldBeSome
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.data.row
 import io.kotest.datatest.withData
+import io.kotest.matchers.doubles.shouldBeGreaterThan
+import io.kotest.matchers.doubles.shouldBeLessThan
 import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.arbitrary
@@ -50,9 +52,9 @@ class ExchangeTest : FreeSpec({
                 )
             ) { (from, to) ->
                 val res = exchange(
+                    amount = from.first.toNonNegativeUnsafe(),
                     from = AssetCode.fromStringUnsafe(from.second),
-                    to = AssetCode.fromStringUnsafe(to.second),
-                    amount = from.first.toNonNegativeUnsafe()
+                    to = AssetCode.fromStringUnsafe(to.second)
                 )
 
                 res.map { it.value.round() } shouldBeSome to.first.round()
@@ -72,16 +74,16 @@ class ExchangeTest : FreeSpec({
             with(rates) {
                 val original = randomAmount.toDouble().toNonNegativeUnsafe()
                 val exchanged = exchange(
+                    amount = original,
                     from = asset1,
-                    to = asset2,
-                    amount = original
+                    to = asset2
                 )
                 exchanged.isDefined() shouldBe true
 
                 exchange(
+                    amount = (exchanged as Some).value,
                     from = asset2,
-                    to = asset1,
-                    amount = (exchanged as Some).value
+                    to = asset1
                 ).map { it.value.round() } shouldBeSome original.value.round()
             }
         }
@@ -124,5 +126,31 @@ class ExchangeTest : FreeSpec({
                 ) shouldBe None
             }
         }
+    }
+
+    "EDGE CASE: Disappearing rate ~= 0" {
+        // Arrange
+        val smallRates = exchangeRates(
+            base = "BGN",
+            rates = mapOf(
+                "y" to 0.00000000000000000000000000000000000000000000000000000000001,
+                "x" to 1_000_000_000_000_000.0,
+            )
+        )
+
+        // Act
+        val res = smallRates.exchange(
+            amount = 1.0.toNonNegativeUnsafe(),
+            from = AssetCode.fromStringUnsafe("x"),
+            to = AssetCode.fromStringUnsafe("y")
+        )
+
+        // Assert
+        println(res)
+        res.isDefined() shouldBe true
+        val exchanged = (res as Some).value.value
+        exchanged shouldBeLessThan 1.0
+        exchanged shouldBeGreaterThan 0.0
+        exchanged.round() shouldBe "0.00"
     }
 })

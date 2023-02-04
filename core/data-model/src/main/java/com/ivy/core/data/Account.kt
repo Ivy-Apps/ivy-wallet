@@ -4,6 +4,7 @@ import androidx.annotation.FloatRange
 import com.ivy.core.data.common.*
 import java.util.*
 
+// TODO: Support attachments to Accounts? Some users wanted to attach loan documents
 sealed interface Account : Reorderable, Archiveable {
     val id: UUID
     val asset: AssetCode
@@ -56,6 +57,13 @@ sealed interface Asset : Account {
         override val folderId: AccountFolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
+
+        /**
+         * The lent amount
+         */
+        val principal: Value,
+        @FloatRange(from = 0.0, to = 1.0)
+        val interest: Float,
     ) : Asset
 
     /**
@@ -162,7 +170,6 @@ sealed interface Liability : Account {
 
 @JvmInline
 value class AccountId(val id: UUID)
-
 
 @JvmInline
 value class AccountFolderId(val id: UUID)

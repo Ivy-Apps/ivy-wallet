@@ -15,9 +15,9 @@ import com.ivy.core.data.common.toPositiveUnsafe
  * @return Some successfully exchanged amount or None
  */
 suspend fun ExchangeRates.exchange(
+    amount: NonNegativeDouble,
     from: AssetCode,
-    to: AssetCode,
-    amount: NonNegativeDouble
+    to: AssetCode
 ): Option<NonNegativeDouble> = option {
     if (from == to) return@option amount // no need to exchange
     if (amount.value == 0.0) return@option amount // no need to exchange
@@ -56,7 +56,7 @@ suspend fun ExchangeRates.findRate(
                 1 EUR (from) = 1 / 0.51 (rate from) = 1.96 BGN (to)
                  */
                 val rateBaseFrom = rate(from).bind()
-                PositiveDouble.fromDoubleUnsafe(1.0 / rateBaseFrom.value)
+                PositiveDouble.fromDouble(1.0 / rateBaseFrom.value).bind()
             }
 
             else -> {
@@ -75,7 +75,7 @@ suspend fun ExchangeRates.findRate(
                  */
                 val rateFrom = rate(from).bind()
                 val rateTo = rate(to).bind()
-                PositiveDouble.fromDoubleUnsafe(rateTo.value / rateFrom.value)
+                PositiveDouble.fromDouble(rateTo.value / rateFrom.value).bind()
             }
         }
     }

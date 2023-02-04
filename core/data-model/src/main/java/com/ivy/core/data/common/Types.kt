@@ -48,7 +48,7 @@ value class PositiveInt private constructor(val value: Int) {
         }
 
         fun fromInt(value: Int): Option<PositiveInt> =
-            value.takeIf { value > 0.0 }.toOption().map(::PositiveInt)
+            value.takeIf { it > 0.0 }.toOption().map(::PositiveInt)
     }
 }
 
@@ -71,12 +71,12 @@ value class NonNegativeDouble private constructor(val value: Double) {
          * @return a valid [NonNegativeDouble]
          */
         fun fromDoubleUnsafe(value: Double): NonNegativeDouble =
-            fromDouble(value).map(::NonNegativeDouble)
-                .getOrElse {
-                    error("NonNegativeDouble error: $value is not a non-negative (>= 0) number.")
-                }
+            fromDouble(value).getOrElse {
+                error("NonNegativeDouble error: $value is not a non-negative (>= 0) number.")
+            }
 
-        fun fromDouble(value: Double): Option<Double> = value.takeIf { value >= 0.0 }.toOption()
+        fun fromDouble(value: Double): Option<NonNegativeDouble> =
+            value.takeIf { it >= 0.0 }.toOption().map(::NonNegativeDouble)
     }
 }
 
@@ -84,7 +84,7 @@ value class NonNegativeDouble private constructor(val value: Double) {
  * See [NonNegativeDouble.fromDoubleUnsafe].
  */
 fun Double.toNonNegativeUnsafe(): NonNegativeDouble = NonNegativeDouble.fromDoubleUnsafe(this)
-fun Double.toNonNegative(): Option<Double> = NonNegativeDouble.fromDouble(this)
+fun Double.toNonNegative(): Option<NonNegativeDouble> = NonNegativeDouble.fromDouble(this)
 
 
 /**
@@ -98,12 +98,12 @@ value class PositiveDouble private constructor(val value: Double) {
          * @throws error if the [Double] isn't positive: **this > 0**
          * @return a valid [PositiveDouble]
          */
-        fun fromDoubleUnsafe(value: Double): PositiveDouble =
-            fromDouble(value).map(::PositiveDouble).getOrElse {
-                error("PositiveDouble error: $value is not a positive (> 0) number.")
-            }
+        fun fromDoubleUnsafe(value: Double): PositiveDouble = fromDouble(value).getOrElse {
+            error("PositiveDouble error: $value is not a positive (> 0) number.")
+        }
 
-        fun fromDouble(value: Double): Option<Double> = value.takeIf { value > 0.0 }.toOption()
+        fun fromDouble(value: Double): Option<PositiveDouble> =
+            value.takeIf { it > 0.0 }.toOption().map(::PositiveDouble)
 
     }
 }
@@ -112,4 +112,4 @@ value class PositiveDouble private constructor(val value: Double) {
  * See [PositiveDouble.fromDoubleUnsafe].
  */
 fun Double.toPositiveUnsafe(): PositiveDouble = PositiveDouble.fromDoubleUnsafe(this)
-fun Double.toPositive(): Option<Double> = PositiveDouble.fromDouble(this)
+fun Double.toPositive(): Option<PositiveDouble> = PositiveDouble.fromDouble(this)
