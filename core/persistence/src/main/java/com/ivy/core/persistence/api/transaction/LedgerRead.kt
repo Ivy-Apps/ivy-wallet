@@ -1,21 +1,19 @@
-package com.ivy.core.persistence.api
+package com.ivy.core.persistence.api.transaction
 
 import com.ivy.core.data.AccountId
 import com.ivy.core.data.optimized.LedgerEntry
-import kotlinx.coroutines.flow.Flow
+import com.ivy.core.persistence.api.Read
 import java.time.LocalDateTime
 
-interface LedgerRead {
-    fun entries(query: QueryEntries): Flow<List<LedgerEntry>>
-
-    sealed interface QueryEntries {
+interface LedgerRead : Read<LedgerEntry, Nothing, LedgerRead.Query> {
+    sealed interface Query {
         data class ForAccount(
             val accountId: AccountId
-        ) : QueryEntries
+        ) : Query
 
         data class ForAccountAfter(
             val accountId: AccountId,
             val after: LocalDateTime
-        ) : QueryEntries
+        ) : Query
     }
 }

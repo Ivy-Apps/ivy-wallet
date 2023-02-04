@@ -18,3 +18,6 @@ data class Budget(
     val categories: List<CategoryId>,
     override val orderNum: Double
 ) : Reorderable
+
+@JvmInline
+value class BudgetId(val id: UUID)
