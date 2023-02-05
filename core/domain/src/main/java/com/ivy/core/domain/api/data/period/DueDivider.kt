@@ -1,4 +1,4 @@
-package com.ivy.core.domain.api.data
+package com.ivy.core.domain.api.data.period
 
 import com.ivy.core.data.common.Value
 

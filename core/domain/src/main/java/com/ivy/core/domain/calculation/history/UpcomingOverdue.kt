@@ -4,13 +4,21 @@ import com.ivy.core.data.RecurringRule
 import com.ivy.core.data.TimeRange
 import com.ivy.core.data.Transaction
 import com.ivy.core.data.calculation.ExchangeRates
-import com.ivy.core.domain.api.data.DueDivider
+import com.ivy.core.domain.api.data.period.DueDivider
 import com.ivy.core.domain.calculation.history.data.RawDueDivider
 import com.ivy.core.domain.calculation.history.data.Sorted
 import com.ivy.core.domain.calculation.recurring.generateRecurring
 import java.util.*
 
-fun generateDue(
+fun groupedDueTransactions(
+    rules: List<RecurringRule>,
+    dueTransactions: List<Transaction>,
+    period: TimeRange,
+): SortedMap<RawDueDivider, Sorted<Transaction>> = groupDueTransactions(
+    generateDueTransactions(rules, dueTransactions, period)
+)
+
+private fun generateDueTransactions(
     rules: List<RecurringRule>,
     dueTransactions: List<Transaction>,
     period: TimeRange,
@@ -25,7 +33,7 @@ fun generateDue(
     }
 }
 
-fun groupDueTransactions(
+private fun groupDueTransactions(
     dueTransactions: List<Transaction>
 ): SortedMap<RawDueDivider, Sorted<Transaction>> = TODO()
 

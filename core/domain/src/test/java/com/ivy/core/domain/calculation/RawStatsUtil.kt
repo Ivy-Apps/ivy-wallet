@@ -3,16 +3,16 @@ package com.ivy.core.domain.calculation
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.data.AccountId
 import com.ivy.core.data.AccountValue
+import com.ivy.core.data.calculation.RawStats
 import com.ivy.core.data.common.AssetCode
 import com.ivy.core.data.common.NonNegativeInt
 import com.ivy.core.data.common.PositiveDouble
 import com.ivy.core.data.common.Value
 import com.ivy.core.data.optimized.LedgerEntry
-import com.ivy.core.domain.data.RawStats
 import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import java.time.LocalDateTime
-import java.util.UUID
+import java.util.*
 
 context(TimeProvider)
 fun income(

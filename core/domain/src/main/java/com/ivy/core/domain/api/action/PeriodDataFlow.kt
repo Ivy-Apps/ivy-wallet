@@ -3,11 +3,11 @@ package com.ivy.core.domain.api.action
 import com.ivy.core.data.TimeRange
 import com.ivy.core.data.Transaction
 import com.ivy.core.data.calculation.ExchangeRates
+import com.ivy.core.data.calculation.RawStats
 import com.ivy.core.domain.action.FlowAction
-import com.ivy.core.domain.api.data.Collapsable
+import com.ivy.core.domain.api.data.period.Collapsable
 import com.ivy.core.domain.calculation.history.*
 import com.ivy.core.domain.calculation.history.data.*
-import com.ivy.core.domain.data.RawStats
 import com.ivy.core.domain.pure.util.flattenLatest
 import com.ivy.core.persistence.api.recurring.DueTransactionRead
 import com.ivy.core.persistence.api.recurring.RecurringRuleRead
@@ -85,14 +85,8 @@ class PeriodDataFlow @Inject constructor(
         combine(
             recurringRuleRead.many(RecurringRuleRead.Query.ForPeriod(period)),
             dueTransactionRead.many(DueTransactionRead.Query.ForPeriod(period))
-        ) { recurringRules, exceptions ->
-            val dueTransactions = generateDue(
-                rules = recurringRules,
-                dueTransactions = exceptions,
-                period = period
-            )
-
-            groupDueTransactions(dueTransactions)
+        ) { rules, exceptions ->
+            groupedDueTransactions(rules, exceptions, period)
         }
 
 
@@ -102,6 +96,6 @@ class PeriodDataFlow @Inject constructor(
         transactionRead.many(
             TransactionRead.Query.ForPeriod(period)
         ).map { trns ->
-            groupByDate(trns) to historyRawStats(trns)
+            groupHistoryTransactions(trns) to historyRawStats(trns)
         }
 }

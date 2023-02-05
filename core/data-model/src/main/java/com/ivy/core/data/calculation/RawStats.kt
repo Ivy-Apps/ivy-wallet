@@ -1,4 +1,4 @@
-package com.ivy.core.domain.data
+package com.ivy.core.data.calculation
 
 import com.ivy.core.data.common.AssetCode
 import com.ivy.core.data.common.NonNegativeInt

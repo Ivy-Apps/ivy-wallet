@@ -1,11 +1,11 @@
 package com.ivy.core.domain.calculation
 
+import com.ivy.core.data.calculation.RawStats
 import com.ivy.core.data.common.AssetCode
 import com.ivy.core.data.common.NonNegativeInt
 import com.ivy.core.data.common.PositiveDouble
 import com.ivy.core.data.common.toNonNegativeUnsafe
 import com.ivy.core.data.optimized.LedgerEntry
-import com.ivy.core.domain.data.RawStats
 import java.time.LocalDateTime
 
 /**

@@ -8,6 +8,7 @@ import com.ivy.data.category.Category
 import com.ivy.data.tag.Tag
 import java.util.*
 
+@Deprecated("will be removed!")
 data class Transaction(
     val id: UUID,
 
