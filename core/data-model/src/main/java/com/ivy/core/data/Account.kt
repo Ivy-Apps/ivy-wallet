@@ -2,10 +2,11 @@ package com.ivy.core.data
 
 import androidx.annotation.FloatRange
 import com.ivy.core.data.common.*
+import java.time.LocalDateTime
 import java.util.*
 
 // TODO: Support attachments to Accounts? Some users wanted to attach loan documents
-sealed interface Account : Reorderable, Archiveable {
+sealed interface Account : Reorderable, Archiveable, Syncable {
     val id: UUID
     val asset: AssetCode
     val name: String
@@ -28,6 +29,7 @@ sealed interface Asset : Account {
         override val folderId: AccountFolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
+        override val lastUpdated: LocalDateTime,
     ) : Asset
 
     data class Bank(
@@ -41,6 +43,7 @@ sealed interface Asset : Account {
         override val folderId: AccountFolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
+        override val lastUpdated: LocalDateTime,
     ) : Asset
 
     /**
@@ -57,6 +60,7 @@ sealed interface Asset : Account {
         override val folderId: AccountFolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
+        override val lastUpdated: LocalDateTime,
 
         /**
          * The lent amount
@@ -80,6 +84,7 @@ sealed interface Asset : Account {
         override val folderId: AccountFolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
+        override val lastUpdated: LocalDateTime,
     ) : Asset
 
     /**
@@ -96,6 +101,7 @@ sealed interface Asset : Account {
         override val folderId: AccountFolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
+        override val lastUpdated: LocalDateTime,
     ) : Asset
 
     data class Other(
@@ -109,6 +115,7 @@ sealed interface Asset : Account {
         override val folderId: AccountFolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
+        override val lastUpdated: LocalDateTime,
     ) : Asset
 }
 
@@ -124,6 +131,7 @@ sealed interface Liability : Account {
         override val folderId: AccountFolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
+        override val lastUpdated: LocalDateTime,
 
         val limit: Value,
         val billingDate: MonthDate,
@@ -144,6 +152,7 @@ sealed interface Liability : Account {
         override val folderId: AccountFolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
+        override val lastUpdated: LocalDateTime,
 
         /**
          * The borrowed amount
@@ -164,6 +173,7 @@ sealed interface Liability : Account {
         override val folderId: AccountFolderId?,
         override val orderNum: Double,
         override val archived: Boolean,
+        override val lastUpdated: LocalDateTime,
     ) : Liability
 }
 
@@ -182,4 +192,5 @@ data class AccountFolder(
     val iconId: ItemIconId,
     val color: IvyColor,
     override val orderNum: Double,
-) : Reorderable
+    override val lastUpdated: LocalDateTime,
+) : Reorderable, Syncable

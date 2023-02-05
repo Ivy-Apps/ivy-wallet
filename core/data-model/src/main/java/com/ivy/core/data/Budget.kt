@@ -1,9 +1,7 @@
 package com.ivy.core.data
 
-import com.ivy.core.data.common.ItemIconId
-import com.ivy.core.data.common.IvyColor
-import com.ivy.core.data.common.Reorderable
-import com.ivy.core.data.common.Value
+import com.ivy.core.data.common.*
+import java.time.LocalDateTime
 import java.util.*
 
 data class Budget(
@@ -16,8 +14,9 @@ data class Budget(
     val carryOver: Boolean,
     val period: TimePeriod,
     val categories: List<CategoryId>,
-    override val orderNum: Double
-) : Reorderable
+    override val orderNum: Double,
+    override val lastUpdated: LocalDateTime,
+) : Reorderable, Syncable
 
 @JvmInline
 value class BudgetId(val id: UUID)

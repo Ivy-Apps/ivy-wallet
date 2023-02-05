@@ -9,8 +9,6 @@ import com.ivy.core.domain.calculation.account.accountRawStats
 import com.ivy.core.domain.calculation.account.cache.accountRawStatsWithCache
 import com.ivy.core.persistence.api.account.AccountCacheRead
 import com.ivy.core.persistence.api.account.AccountCacheWrite
-import com.ivy.core.persistence.api.data.Saveable
-import com.ivy.core.persistence.api.data.SyncState
 import com.ivy.core.persistence.api.transaction.LedgerQuery
 import com.ivy.core.persistence.api.transaction.LedgerRead
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -50,9 +48,6 @@ class AccountRawStatsFlow @Inject constructor(
                 accountId = accountId,
                 rawStats = rawStats,
             )
-            accountCacheWrite.save(
-                // Account Cache must not be synced => mark it as Synced so sync won't be performed
-                Saveable(accountCache, SyncState.Synced, timeProvider.timeNow())
-            )
+            accountCacheWrite.save(accountCache)
         }
 }

@@ -2,6 +2,6 @@ package com.ivy.core.persistence.api.attachment
 
 import com.ivy.core.data.Attachment
 import com.ivy.core.data.AttachmentId
-import com.ivy.core.persistence.api.Write
+import com.ivy.core.persistence.api.WriteSyncable
 
-interface AttachmentWrite : Write<Attachment, AttachmentId>
+interface AttachmentWrite : WriteSyncable<Attachment, AttachmentId>
