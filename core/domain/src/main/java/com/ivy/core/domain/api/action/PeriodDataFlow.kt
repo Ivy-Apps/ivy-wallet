@@ -1,9 +1,10 @@
-package com.ivy.core.domain.api
+package com.ivy.core.domain.api.action
 
 import com.ivy.core.data.TimeRange
 import com.ivy.core.data.Transaction
 import com.ivy.core.data.calculation.ExchangeRates
 import com.ivy.core.domain.action.FlowAction
+import com.ivy.core.domain.api.data.Collapsable
 import com.ivy.core.domain.calculation.history.*
 import com.ivy.core.domain.calculation.history.data.*
 import com.ivy.core.domain.data.RawStats
@@ -31,6 +32,7 @@ interface MockedCollapsedFlow {
     operator fun invoke(): Flow<Set<Collapsable>>
 }
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class PeriodDataFlow @Inject constructor(
     private val selectedPeriodFlow: MockedSelectedPeriodFlow,
     private val recurringRuleRead: RecurringRuleRead,
@@ -45,37 +47,41 @@ class PeriodDataFlow @Inject constructor(
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun createFlow(input: Input): Flow<PeriodData> = selectedPeriodFlow()
-        .flatMapLatest { period ->
-            combine(
-                dueFlow(period),
-                actualFlow(period)
-            ) { due, (history, rawStats) ->
-                ratesFlow().map { rates ->
-                    with(rates) {
-                        Triple(
-                            exchangeDue(due),
-                            exchangeHistory(history),
-                            exchangePeriodRawStats(rawStats)
-                        )
-                    }
-                }.flatMapLatest { (due, history, periodValues) ->
-                    collapsedFlow().map { collapsed ->
-                        PeriodData(
-                            periodIncome = periodValues.income,
-                            periodExpense = periodValues.expense,
-                            transactionList = transactionList(
-                                due = due,
-                                history = history,
-                                collapsed = collapsed
-                            )
-                        )
-                    }
-                }
-            }
-        }.flattenLatest()
+    override fun createFlow(input: Input): Flow<PeriodData> =
+        selectedPeriodFlow().flatMapLatest(::periodDataFlow)
 
-    private fun dueFlow(period: TimeRange): Flow<SortedMap<RawDueDivider, Sorted<Transaction>>> =
+    private fun periodDataFlow(
+        period: TimeRange
+    ): Flow<PeriodData> = combine(
+        rawDueFlow(period),
+        rawActualFlow(period)
+    ) { rawDue, (rawHistory, rawStats) ->
+        ratesFlow().flatMapLatest { rates ->
+            // exchanged
+            val (due, history, periodValues) = with(rates) {
+                Triple(
+                    exchangeDue(rawDue),
+                    exchangeHistory(rawHistory),
+                    exchangeHistoryRawStats(rawStats)
+                )
+            }
+            collapsedFlow().map { collapsed ->
+                PeriodData(
+                    periodIncome = periodValues.income,
+                    periodExpense = periodValues.expense,
+                    transactionList = transactionList(
+                        due = due,
+                        history = history,
+                        collapsed = collapsed
+                    )
+                )
+            }
+        }
+    }.flattenLatest()
+
+    private fun rawDueFlow(
+        period: TimeRange
+    ): Flow<SortedMap<RawDueDivider, Sorted<Transaction>>> =
         combine(
             recurringRuleRead.many(RecurringRuleRead.Query.ForPeriod(period)),
             dueTransactionRead.many(DueTransactionRead.Query.ForPeriod(period))
@@ -90,10 +96,12 @@ class PeriodDataFlow @Inject constructor(
         }
 
 
-    private fun actualFlow(period: TimeRange): Flow<Pair<SortedMap<RawDateDivider, Sorted<Transaction>>, RawStats>> =
+    private fun rawActualFlow(
+        period: TimeRange
+    ): Flow<Pair<SortedMap<RawDateDivider, Sorted<Transaction>>, RawStats>> =
         transactionRead.many(
             TransactionRead.Query.ForPeriod(period)
         ).map { trns ->
-            groupByDate(trns) to periodRawStats(trns)
+            groupByDate(trns) to historyRawStats(trns)
         }
 }

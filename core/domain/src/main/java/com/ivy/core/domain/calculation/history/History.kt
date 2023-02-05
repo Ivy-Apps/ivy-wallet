@@ -2,7 +2,7 @@ package com.ivy.core.domain.calculation.history
 
 import com.ivy.core.data.Transaction
 import com.ivy.core.data.calculation.ExchangeRates
-import com.ivy.core.domain.calculation.history.data.DateDivider
+import com.ivy.core.domain.api.data.DateDivider
 import com.ivy.core.domain.calculation.history.data.RawDateDivider
 import com.ivy.core.domain.calculation.history.data.Sorted
 import java.util.*

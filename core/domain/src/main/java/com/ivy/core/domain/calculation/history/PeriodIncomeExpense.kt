@@ -5,7 +5,7 @@ import com.ivy.core.data.calculation.ExchangeRates
 import com.ivy.core.data.common.Value
 import com.ivy.core.domain.data.RawStats
 
-fun periodRawStats(
+fun historyRawStats(
     transactions: List<Transaction>
 ): RawStats = TODO()
 
@@ -15,6 +15,6 @@ data class PeriodIncomeExpense(
 )
 
 context(ExchangeRates)
-fun exchangePeriodRawStats(
-    periodStats: RawStats
+fun exchangeHistoryRawStats(
+    historyStats: RawStats
 ): PeriodIncomeExpense = TODO()

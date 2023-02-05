@@ -1,4 +1,4 @@
-package com.ivy.core.domain.calculation.history.data
+package com.ivy.core.domain.api.data
 
 import com.ivy.core.data.common.Value
 

@@ -4,7 +4,7 @@ import com.ivy.core.data.RecurringRule
 import com.ivy.core.data.TimeRange
 import com.ivy.core.data.Transaction
 import com.ivy.core.data.calculation.ExchangeRates
-import com.ivy.core.domain.calculation.history.data.DueDivider
+import com.ivy.core.domain.api.data.DueDivider
 import com.ivy.core.domain.calculation.history.data.RawDueDivider
 import com.ivy.core.domain.calculation.history.data.Sorted
 import com.ivy.core.domain.calculation.recurring.generateRecurring
