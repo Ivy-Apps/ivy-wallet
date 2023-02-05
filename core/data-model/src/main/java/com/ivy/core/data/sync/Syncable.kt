@@ -1,4 +1,4 @@
-package com.ivy.core.data.common
+package com.ivy.core.data.sync
 
 import java.time.LocalDateTime
 

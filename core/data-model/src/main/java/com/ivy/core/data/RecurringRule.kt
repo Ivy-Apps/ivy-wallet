@@ -1,7 +1,7 @@
 package com.ivy.core.data
 
 import arrow.core.NonEmptyList
-import com.ivy.core.data.common.Syncable
+import com.ivy.core.data.sync.Syncable
 import java.time.LocalDateTime
 import java.util.*
 

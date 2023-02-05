@@ -1,4 +1,4 @@
-package com.ivy.core.persistence.api.data
+package com.ivy.core.data.sync
 
 import arrow.core.Option
 import arrow.core.getOrElse

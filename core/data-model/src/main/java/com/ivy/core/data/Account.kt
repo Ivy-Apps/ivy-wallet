@@ -2,6 +2,7 @@ package com.ivy.core.data
 
 import androidx.annotation.FloatRange
 import com.ivy.core.data.common.*
+import com.ivy.core.data.sync.Syncable
 import java.time.LocalDateTime
 import java.util.*
 

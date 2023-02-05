@@ -1,9 +1,9 @@
 package com.ivy.core.persistence.api
 
 import arrow.core.Either
+import com.ivy.core.data.sync.SyncState
 import com.ivy.core.persistence.api.data.PersistenceError
 import com.ivy.core.persistence.api.data.Saveable
-import com.ivy.core.persistence.api.data.SyncState
 
 interface WriteSyncable<T, TID> {
     suspend fun save(
