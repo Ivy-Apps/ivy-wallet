@@ -8,6 +8,7 @@ import com.ivy.data.tag.Tag
 import com.ivy.data.transaction.Transaction
 import java.util.*
 
+@Deprecated("will be removed!")
 data class BackupData(
     // region Core data
     val accounts: List<Account>,

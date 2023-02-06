@@ -2,6 +2,7 @@ package com.ivy.data.attachment
 
 import com.ivy.data.Sync
 
+@Deprecated("will be removed!")
 data class Attachment(
     val id: String,
     val associatedId: String,
