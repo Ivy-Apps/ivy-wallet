@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
  * for every terminal operator (collector).
  * If you want to execute the computation only once for multiple subscribers use [SharedFlowAction].
  *
- * By default the created flow will emit only distinct values.
+ * By default the created flow will NOT emit only distinct values.
  * To change that behavior override [emitDistinctValues].
  */
 abstract class FlowAction<I, T> {
