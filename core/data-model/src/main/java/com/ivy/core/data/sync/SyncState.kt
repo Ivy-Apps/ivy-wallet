@@ -8,6 +8,7 @@ const val StateSynced = 1
 const val StateSyncing = 2
 const val StateDeleting = 3
 
+@Deprecated("remove bad concept")
 enum class SyncState(val code: Int) {
     Synced(StateSynced), Syncing(StateSyncing), Deleting(StateDeleting);
 

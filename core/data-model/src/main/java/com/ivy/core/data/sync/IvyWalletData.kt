@@ -17,10 +17,12 @@ data class IvyWalletData(
 
 data class SyncData<T : Syncable>(
     val items: List<T>,
-    val deleted: Set<DeletionRecord>
+    val deleted: Set<Syncable>
 )
 
+// TODO: This doesn't seem perfect because "removed" is duplicated.
 data class DeletionRecord(
-    val id: UUID,
+    override val id: UUID,
     override val lastUpdated: LocalDateTime,
+    override val removed: Boolean,
 ) : Syncable

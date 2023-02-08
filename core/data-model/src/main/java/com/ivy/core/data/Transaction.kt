@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 import java.util.*
 
 sealed interface Transaction : Syncable {
-    val id: UUID
+    override val id: UUID
     val fee: Value?
     val time: TransactionTime
     val category: CategoryId?
@@ -33,6 +33,7 @@ sealed interface Transaction : Syncable {
         override val autoAdded: Boolean,
         override val recurring: RecurringRuleId?,
         override val lastUpdated: LocalDateTime,
+        override val removed: Boolean,
     ) : Transaction
 
     data class Expense(
@@ -50,6 +51,7 @@ sealed interface Transaction : Syncable {
         override val autoAdded: Boolean,
         override val recurring: RecurringRuleId?,
         override val lastUpdated: LocalDateTime,
+        override val removed: Boolean,
     ) : Transaction
 
     data class Transfer(
@@ -67,6 +69,7 @@ sealed interface Transaction : Syncable {
         override val autoAdded: Boolean,
         override val recurring: RecurringRuleId?,
         override val lastUpdated: LocalDateTime,
+        override val removed: Boolean,
     ) : Transaction
 }
 

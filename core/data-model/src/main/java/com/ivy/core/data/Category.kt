@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 import java.util.*
 
 data class Category(
-    val id: UUID,
+    override val id: UUID,
     val name: String,
     val description: String?,
     val iconId: ItemIconId,
@@ -19,6 +19,7 @@ data class Category(
     override val orderNum: Double,
     override val archived: Boolean,
     override val lastUpdated: LocalDateTime,
+    override val removed: Boolean,
 ) : Reorderable, Archiveable, Syncable
 
 @JvmInline

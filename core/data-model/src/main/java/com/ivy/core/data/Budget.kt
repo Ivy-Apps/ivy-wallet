@@ -1,16 +1,13 @@
 package com.ivy.core.data
 
 import arrow.core.NonEmptyList
-import com.ivy.core.data.common.ItemIconId
-import com.ivy.core.data.common.IvyColor
-import com.ivy.core.data.common.Reorderable
-import com.ivy.core.data.common.Value
+import com.ivy.core.data.common.*
 import com.ivy.core.data.sync.Syncable
 import java.time.LocalDateTime
 import java.util.*
 
 data class Budget(
-    val id: UUID,
+    override val id: UUID,
     val name: String,
     val description: String?,
     val iconId: ItemIconId,
@@ -22,6 +19,7 @@ data class Budget(
     val accounts: BudgetAccounts,
     override val orderNum: Double,
     override val lastUpdated: LocalDateTime,
+    override val removed: Boolean,
 ) : Reorderable, Syncable
 
 sealed interface BudgetCategories {

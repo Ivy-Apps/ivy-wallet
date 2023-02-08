@@ -1,9 +1,9 @@
 package com.ivy.core.domain.api.action
 
-import com.ivy.core.data.TimeRange
 import com.ivy.core.data.Transaction
 import com.ivy.core.data.calculation.ExchangeRates
 import com.ivy.core.data.calculation.RawStats
+import com.ivy.core.data.common.TimeRange
 import com.ivy.core.domain.action.FlowAction
 import com.ivy.core.domain.api.data.period.Collapsable
 import com.ivy.core.domain.calculation.history.*

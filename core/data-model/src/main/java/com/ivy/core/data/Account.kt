@@ -8,7 +8,7 @@ import java.util.*
 
 // TODO: Support attachments to Accounts? Some users wanted to attach loan documents
 sealed interface Account : Reorderable, Archiveable, Syncable {
-    val id: UUID
+    override val id: UUID
     val asset: AssetCode
     val name: String
     val description: String?
@@ -31,6 +31,7 @@ sealed interface Asset : Account {
         override val orderNum: Double,
         override val archived: Boolean,
         override val lastUpdated: LocalDateTime,
+        override val removed: Boolean,
     ) : Asset
 
     data class Bank(
@@ -45,6 +46,7 @@ sealed interface Asset : Account {
         override val orderNum: Double,
         override val archived: Boolean,
         override val lastUpdated: LocalDateTime,
+        override val removed: Boolean,
     ) : Asset
 
     /**
@@ -62,6 +64,7 @@ sealed interface Asset : Account {
         override val orderNum: Double,
         override val archived: Boolean,
         override val lastUpdated: LocalDateTime,
+        override val removed: Boolean,
 
         /**
          * The lent amount
@@ -86,6 +89,7 @@ sealed interface Asset : Account {
         override val orderNum: Double,
         override val archived: Boolean,
         override val lastUpdated: LocalDateTime,
+        override val removed: Boolean,
     ) : Asset
 
     /**
@@ -103,6 +107,7 @@ sealed interface Asset : Account {
         override val orderNum: Double,
         override val archived: Boolean,
         override val lastUpdated: LocalDateTime,
+        override val removed: Boolean,
     ) : Asset
 
     data class Other(
@@ -117,6 +122,7 @@ sealed interface Asset : Account {
         override val orderNum: Double,
         override val archived: Boolean,
         override val lastUpdated: LocalDateTime,
+        override val removed: Boolean,
     ) : Asset
 }
 
@@ -133,6 +139,7 @@ sealed interface Liability : Account {
         override val orderNum: Double,
         override val archived: Boolean,
         override val lastUpdated: LocalDateTime,
+        override val removed: Boolean,
 
         val limit: Value,
         val billingDate: MonthDate,
@@ -154,6 +161,7 @@ sealed interface Liability : Account {
         override val orderNum: Double,
         override val archived: Boolean,
         override val lastUpdated: LocalDateTime,
+        override val removed: Boolean,
 
         /**
          * The borrowed amount
@@ -175,6 +183,7 @@ sealed interface Liability : Account {
         override val orderNum: Double,
         override val archived: Boolean,
         override val lastUpdated: LocalDateTime,
+        override val removed: Boolean,
     ) : Liability
 }
 
@@ -186,7 +195,7 @@ value class AccountId(val id: UUID)
 value class AccountFolderId(val id: UUID)
 
 data class AccountFolder(
-    val id: UUID,
+    override val id: UUID,
     val asset: AssetCode,
     val name: String,
     val description: String?,
@@ -194,4 +203,5 @@ data class AccountFolder(
     val color: IvyColor,
     override val orderNum: Double,
     override val lastUpdated: LocalDateTime,
+    override val removed: Boolean,
 ) : Reorderable, Syncable

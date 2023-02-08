@@ -1,8 +1,8 @@
 package com.ivy.core.domain.calculation.recurring
 
 import com.ivy.core.data.RecurringRule
-import com.ivy.core.data.TimeRange
 import com.ivy.core.data.Transaction
+import com.ivy.core.data.common.TimeRange
 
 
 fun generateRecurring(
