@@ -26,14 +26,19 @@ data class SavingGoal(
 value class SavingGoalId(val id: UUID)
 
 data class SavingGoalRecord(
-    val id: UUID,
+    override val id: UUID,
     val savingGoalId: SavingGoalId,
     val accountId: AccountId,
     val type: SavingGoalRecordType,
     val amount: Value,
     val title: String?,
     val description: String?,
-)
+    override val lastUpdated: LocalDateTime,
+    override val removed: Boolean,
+) : Syncable
+
+@JvmInline
+value class SavingGoalRecordId(val id: UUID)
 
 enum class SavingGoalRecordType {
     Deposit, Withdraw

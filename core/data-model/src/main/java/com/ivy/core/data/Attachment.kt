@@ -27,4 +27,4 @@ enum class AttachmentType(val code: Int) {
 }
 
 @JvmInline
-value class AttachmentId(val id: String)
+value class AttachmentId(val id: UUID)

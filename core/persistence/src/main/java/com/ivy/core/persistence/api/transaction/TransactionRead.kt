@@ -3,9 +3,9 @@ package com.ivy.core.persistence.api.transaction
 import com.ivy.core.data.Transaction
 import com.ivy.core.data.TransactionId
 import com.ivy.core.data.common.TimeRange
-import com.ivy.core.persistence.api.Read
+import com.ivy.core.persistence.api.ReadSyncable
 
-interface TransactionRead : Read<Transaction, TransactionId, TransactionQuery> {
+interface TransactionRead : ReadSyncable<Transaction, TransactionId, TransactionQuery> {
 
 }
 

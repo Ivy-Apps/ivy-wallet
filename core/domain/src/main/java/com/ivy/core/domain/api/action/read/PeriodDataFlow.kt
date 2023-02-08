@@ -1,4 +1,4 @@
-package com.ivy.core.domain.api.action
+package com.ivy.core.domain.api.action.read
 
 import com.ivy.core.data.Transaction
 import com.ivy.core.data.calculation.ExchangeRates

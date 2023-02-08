@@ -4,22 +4,24 @@ import com.ivy.core.data.sync.IvyWalletData
 import com.ivy.core.data.sync.PartialIvyWalletData
 import com.ivy.core.data.sync.SyncData
 import com.ivy.core.data.sync.Syncable
+import com.ivy.core.domain.calculation.syncDataFrom
 import java.util.*
 
 // TODO: Consider what happens when lastUpdated == lastUpdated? (check "onlyNewerThan" fun
 
 fun merge(
     remote: IvyWalletData, // full remote backup JSON
-    local: PartialIvyWalletData // full DB but selecting only "id", "removed", "last_updated"
+    localPartial: PartialIvyWalletData // full DB but selecting only "id", "removed", "last_updated"
 ): MergeResult {
-    val accounts = mergeItems(remote.accounts, local.accounts)
-    val transactions = mergeItems(remote.transactions, local.transactions)
-    val categories = mergeItems(remote.categories, local.categories)
-    val tags = mergeItems(remote.tags, local.tags)
-    val recurringRules = mergeItems(remote.recurringRules, local.recurringRules)
-    val attachments = mergeItems(remote.attachments, local.attachments)
-    val budgets = mergeItems(remote.budgets, local.budgets)
-    val savingsGoal = mergeItems(remote.savingGoals, local.savingGoals)
+    val accounts = mergeItems(remote.accounts, localPartial.accounts)
+    val transactions = mergeItems(remote.transactions, localPartial.transactions)
+    val categories = mergeItems(remote.categories, localPartial.categories)
+    val tags = mergeItems(remote.tags, localPartial.tags)
+    val recurringRules = mergeItems(remote.recurringRules, localPartial.recurringRules)
+    val attachments = mergeItems(remote.attachments, localPartial.attachments)
+    val budgets = mergeItems(remote.budgets, localPartial.budgets)
+    val savingGoals = mergeItems(remote.savingGoals, localPartial.savingGoals)
+    val savingGoalRecords = mergeItems(remote.savingGoalRecords, localPartial.savingGoalRecords)
 
     // TODO: Filter transactions w/o account
 
@@ -32,7 +34,8 @@ fun merge(
             recurringRules = recurringRules.localToUpdate,
             attachments = attachments.localToUpdate,
             budgets = budgets.localToUpdate,
-            savingGoals = savingsGoal.localToUpdate,
+            savingGoals = savingGoals.localToUpdate,
+            savingGoalRecords = savingGoalRecords.localToUpdate,
         ),
         remoteToUpdate = PartialIvyWalletData(
             accounts = accounts.remoteToUpdate,
@@ -42,7 +45,8 @@ fun merge(
             recurringRules = recurringRules.remoteToUpdate,
             attachments = attachments.remoteToUpdate,
             budgets = budgets.remoteToUpdate,
-            savingGoals = savingsGoal.remoteToUpdate,
+            savingGoals = savingGoals.remoteToUpdate,
+            savingGoalRecords = savingGoalRecords.remoteToUpdate
         )
     )
 }
@@ -57,14 +61,6 @@ inline fun <reified T : Syncable> mergeItems(
     return MergeItem(
         localToUpdate = syncDataFrom(remoteMap.onlyNewerThan(localMap)),
         remoteToUpdate = syncDataFrom(localMap.onlyNewerThan(remoteMap)),
-    )
-}
-
-inline fun <reified T : Syncable> syncDataFrom(combined: List<Syncable>): SyncData<T> {
-    val map = combined.groupBy { it.removed }
-    return SyncData(
-        items = map[false]?.map { it as T } ?: emptyList(), // not deleted
-        deleted = map[true]?.toSet() ?: emptySet()
     )
 }
 

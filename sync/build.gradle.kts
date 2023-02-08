@@ -12,5 +12,6 @@ dependencies {
     Hilt()
     implementation(project(":common:main"))
     implementation(project(":core:domain"))
+    implementation(project(":backup:base"))
     Testing()
 }

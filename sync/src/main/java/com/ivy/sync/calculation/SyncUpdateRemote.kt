@@ -8,17 +8,18 @@ fun updatedRemoteBackup(
     remote: IvyWalletData,
     newerLocal: IvyWalletData,
 ): IvyWalletData = IvyWalletData(
-    accounts = applyNewerLocal(remote.accounts, newerLocal.accounts),
-    transactions = applyNewerLocal(remote.transactions, newerLocal.transactions),
-    categories = applyNewerLocal(remote.categories, newerLocal.categories),
-    tags = applyNewerLocal(remote.tags, newerLocal.tags),
-    recurringRules = applyNewerLocal(remote.recurringRules, newerLocal.recurringRules),
-    attachments = applyNewerLocal(remote.attachments, newerLocal.attachments),
-    budgets = applyNewerLocal(remote.budgets, newerLocal.budgets),
-    savingGoals = applyNewerLocal(remote.savingGoals, newerLocal.savingGoals),
+    accounts = updateRemote(remote.accounts, newerLocal.accounts),
+    transactions = updateRemote(remote.transactions, newerLocal.transactions),
+    categories = updateRemote(remote.categories, newerLocal.categories),
+    tags = updateRemote(remote.tags, newerLocal.tags),
+    recurringRules = updateRemote(remote.recurringRules, newerLocal.recurringRules),
+    attachments = updateRemote(remote.attachments, newerLocal.attachments),
+    budgets = updateRemote(remote.budgets, newerLocal.budgets),
+    savingGoals = updateRemote(remote.savingGoals, newerLocal.savingGoals),
+    savingGoalRecords = updateRemote(remote.savingGoalRecords, newerLocal.savingGoalRecords)
 )
 
-private fun <T : Syncable> applyNewerLocal(
+private fun <T : Syncable> updateRemote(
     remote: SyncData<T>,
     local: SyncData<T>
 ): SyncData<T> {
