@@ -2,8 +2,9 @@ package com.ivy.core.persistence.api.tag
 
 import com.ivy.core.data.Tag
 import com.ivy.core.data.TagId
-import com.ivy.core.persistence.api.Read
+import com.ivy.core.persistence.api.ReadSyncable
 
-interface TagRead : Read<Tag, TagId, TagRead.Query> {
-    sealed interface Query
+interface TagRead : ReadSyncable<Tag, TagId, TagQuery> {
 }
+
+sealed interface TagQuery

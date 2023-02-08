@@ -2,8 +2,9 @@ package com.ivy.core.persistence.api.budget
 
 import com.ivy.core.data.Budget
 import com.ivy.core.data.BudgetId
-import com.ivy.core.persistence.api.Read
+import com.ivy.core.persistence.api.ReadSyncable
 
-interface BudgetRead : Read<Budget, BudgetId, BudgetRead.Query> {
-    sealed interface Query
+interface BudgetRead : ReadSyncable<Budget, BudgetId, BudgetQuery> {
 }
+
+sealed interface BudgetQuery
