@@ -145,6 +145,15 @@ private fun BoxScope.UI(
             ) {
                 languagePickerModal.show()
             }
+            SpacerVer(height = 12.dp)
+            IvyButton(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                size = ButtonSize.Big, visibility = Visibility.Medium,
+                feeling = Feeling.Positive, text = "Exchange rates",
+                icon = null
+            ) {
+                onEvent(SettingsEvent.ExchangeRates)
+            }
         }
         item {
             SpacerVer(height = 24.dp)

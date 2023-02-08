@@ -165,6 +165,7 @@ dependencies {
     implementation(project(":drive:google-drive"))
     implementation(project(":photo-frame"))
     implementation(project(":backup:api"))
+    implementation(project(":exchange-rates"))
 
     Hilt()
 
