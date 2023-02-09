@@ -8,8 +8,8 @@ import com.ivy.core.domain.api.action.read.IvyWalletDataFromPartialAct
 import com.ivy.core.domain.api.action.read.PartialIvyWalletDataAct
 import com.ivy.core.domain.api.data.ActionError
 import com.ivy.sync.action.RemoteBackupSource
-import com.ivy.sync.calculation.merge
-import com.ivy.sync.calculation.updatedRemoteBackup
+import com.ivy.sync.calculation.applyDiff
+import com.ivy.sync.calculation.calculateDiff
 import javax.inject.Inject
 
 class SyncAct @Inject constructor(
@@ -18,17 +18,30 @@ class SyncAct @Inject constructor(
     private val ivyWalletDataFromPartialAct: IvyWalletDataFromPartialAct,
     private val writeIvyWalletDataAct: WriteIvyWalletDataAct,
 ) : Action<Unit, Either<ActionError, Unit>>() {
+    /**
+     * Eventual consistency:
+     * If any of the steps fail, nothing gets corrupted.
+     * On the next sync (if successful) remote and local should converge.
+     */
     override suspend fun action(input: Unit): Either<ActionError, Unit> = either {
-        val remote = remoteBackupSource.fetchBackup().bind()
-        val merged = merge(
-            remote = remote,
-            localPartial = partialIvyWalletDataAct(Unit).bind()
+        // 1. Fetch the entire Backup JSON from Drive (action)
+        val completeRemoteBackup = remoteBackupSource.fetchBackup().bind()
+        // 2. Retrieve only id, removed, lastUpdated from Local DB (action)
+        val partialLocalDb = partialIvyWalletDataAct(Unit).bind()
+        // 3. Calculate diffs (calculation)
+        val diff = calculateDiff(
+            remote = completeRemoteBackup,
+            localPartial = partialLocalDb,
         )
-        val updatedRemote = updatedRemoteBackup(
-            remote = remote,
-            newerLocal = ivyWalletDataFromPartialAct(merged.remoteToUpdate).bind()
-        )
-        remoteBackupSource.uploadBackup(updatedRemote).bind() // update remote
-        writeIvyWalletDataAct(merged.localToUpdate).bind() // update locally
+
+        // 4. Retrieve complete local diff: SELECT *; not only their ids (action)
+        val completeLocalDiff = ivyWalletDataFromPartialAct(diff.remotePartial).bind()
+        // 5. Update the remote backup with the local items (calculation)
+        val updatedRemoteBackup = completeRemoteBackup.applyDiff(completeLocalDiff)
+        // 6. Upload the updated remote backup (action)
+        remoteBackupSource.uploadBackup(updatedRemoteBackup).bind()
+
+        // 7. Update the Local DB with the remote diff (action)
+        writeIvyWalletDataAct(diff.local).bind()
     }
 }

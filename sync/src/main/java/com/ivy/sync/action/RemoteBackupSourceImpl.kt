@@ -9,10 +9,10 @@ class RemoteBackupSourceImpl @Inject constructor(
 
 ) : RemoteBackupSource {
     override suspend fun fetchBackup(): Either<ActionError, IvyWalletData> {
-        TODO("Not yet implemented")
+        TODO("Fetch Backup from Google Drive")
     }
 
     override suspend fun uploadBackup(updated: IvyWalletData): Either<ActionError, Unit> {
-        TODO("Not yet implemented")
+        TODO("Update Backup to Google Drive")
     }
 }
