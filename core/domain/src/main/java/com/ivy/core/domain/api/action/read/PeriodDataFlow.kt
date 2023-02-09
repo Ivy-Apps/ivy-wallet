@@ -1,16 +1,17 @@
-package com.ivy.core.domain.api.action
+package com.ivy.core.domain.api.action.read
 
-import com.ivy.core.data.TimeRange
 import com.ivy.core.data.Transaction
 import com.ivy.core.data.calculation.ExchangeRates
 import com.ivy.core.data.calculation.RawStats
+import com.ivy.core.data.common.TimeRange
 import com.ivy.core.domain.action.FlowAction
 import com.ivy.core.domain.api.data.period.Collapsable
 import com.ivy.core.domain.calculation.history.*
 import com.ivy.core.domain.calculation.history.data.*
 import com.ivy.core.domain.pure.util.flattenLatest
-import com.ivy.core.persistence.api.recurring.DueTransactionRead
+import com.ivy.core.persistence.api.recurring.RecurringRuleQuery
 import com.ivy.core.persistence.api.recurring.RecurringRuleRead
+import com.ivy.core.persistence.api.transaction.TransactionQuery
 import com.ivy.core.persistence.api.transaction.TransactionRead
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -36,7 +37,6 @@ interface MockedCollapsedFlow {
 class PeriodDataFlow @Inject constructor(
     private val selectedPeriodFlow: MockedSelectedPeriodFlow,
     private val recurringRuleRead: RecurringRuleRead,
-    private val dueTransactionRead: DueTransactionRead,
     private val transactionRead: TransactionRead,
     private val ratesFlow: MockedRatesFlow,
     private val collapsedFlow: MockedCollapsedFlow,
@@ -83,8 +83,8 @@ class PeriodDataFlow @Inject constructor(
         period: TimeRange
     ): Flow<SortedMap<RawDueDivider, Sorted<Transaction>>> =
         combine(
-            recurringRuleRead.many(RecurringRuleRead.Query.ForPeriod(period)),
-            dueTransactionRead.many(DueTransactionRead.Query.ForPeriod(period))
+            recurringRuleRead.many(RecurringRuleQuery.ForPeriod(period)),
+            transactionRead.many(TransactionQuery.ForPeriod(period, actual = false))
         ) { rules, exceptions ->
             groupedDueTransactions(rules, exceptions, period)
         }
@@ -94,7 +94,7 @@ class PeriodDataFlow @Inject constructor(
         period: TimeRange
     ): Flow<Pair<SortedMap<RawDateDivider, Sorted<Transaction>>, RawStats>> =
         transactionRead.many(
-            TransactionRead.Query.ForPeriod(period)
+            TransactionQuery.ForPeriod(period, actual = true)
         ).map { trns ->
             groupHistoryTransactions(trns) to historyRawStats(trns)
         }

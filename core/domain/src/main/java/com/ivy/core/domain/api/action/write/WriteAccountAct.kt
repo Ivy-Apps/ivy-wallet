@@ -1,4 +1,4 @@
-package com.ivy.core.domain.api.action
+package com.ivy.core.domain.api.action.write
 
 
 class WriteAccountAct {

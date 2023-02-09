@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 import java.util.*
 
 data class SavingGoal(
-    val id: UUID,
+    override val id: UUID,
     val name: String,
     val description: String?,
     val url: String?,
@@ -19,20 +19,26 @@ data class SavingGoal(
     override val orderNum: Double,
     override val archived: Boolean,
     override val lastUpdated: LocalDateTime,
+    override val removed: Boolean,
 ) : Reorderable, Archiveable, Syncable
 
 @JvmInline
 value class SavingGoalId(val id: UUID)
 
 data class SavingGoalRecord(
-    val id: UUID,
+    override val id: UUID,
     val savingGoalId: SavingGoalId,
     val accountId: AccountId,
     val type: SavingGoalRecordType,
     val amount: Value,
     val title: String?,
     val description: String?,
-)
+    override val lastUpdated: LocalDateTime,
+    override val removed: Boolean,
+) : Syncable
+
+@JvmInline
+value class SavingGoalRecordId(val id: UUID)
 
 enum class SavingGoalRecordType {
     Deposit, Withdraw

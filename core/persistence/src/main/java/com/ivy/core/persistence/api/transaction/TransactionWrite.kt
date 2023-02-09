@@ -1,7 +1,7 @@
 package com.ivy.core.persistence.api.transaction
 
+import com.ivy.core.data.Transaction
 import com.ivy.core.data.TransactionId
-import com.ivy.core.persistence.api.WriteSyncable
-import com.ivy.data.transaction.Transaction
+import com.ivy.core.persistence.api.Write
 
-interface TransactionWrite : WriteSyncable<Transaction, TransactionId>
+interface TransactionWrite : Write<Transaction, TransactionId>

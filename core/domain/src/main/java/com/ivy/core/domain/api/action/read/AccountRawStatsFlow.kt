@@ -1,4 +1,4 @@
-package com.ivy.core.domain.api.action
+package com.ivy.core.domain.api.action.read
 
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.data.AccountId

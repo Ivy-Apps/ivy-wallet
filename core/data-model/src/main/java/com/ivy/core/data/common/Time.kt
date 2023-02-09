@@ -1,7 +1,6 @@
-package com.ivy.core.data
+package com.ivy.core.data.common
 
 import java.time.LocalDateTime
-
 
 enum class WeekDay(val value: Int) {
     Monday(1),

@@ -1,8 +1,7 @@
 package com.ivy.core.data.sync
 
 import com.ivy.core.data.*
-import java.time.LocalDateTime
-import java.util.*
+
 
 data class IvyWalletData(
     val accounts: SyncData<Account>,
@@ -13,14 +12,22 @@ data class IvyWalletData(
     val attachments: SyncData<Attachment>,
     val budgets: SyncData<Budget>,
     val savingGoals: SyncData<SavingGoal>,
+    val savingGoalRecords: SyncData<SavingGoalRecord>,
 )
 
-data class SyncData<T : Syncable>(
+data class PartialIvyWalletData(
+    val accounts: SyncData<Syncable>,
+    val transactions: SyncData<Syncable>,
+    val categories: SyncData<Syncable>,
+    val tags: SyncData<Syncable>,
+    val recurringRules: SyncData<Syncable>,
+    val attachments: SyncData<Syncable>,
+    val budgets: SyncData<Syncable>,
+    val savingGoals: SyncData<Syncable>,
+    val savingGoalRecords: SyncData<Syncable>,
+)
+
+data class SyncData<out T : Syncable>(
     val items: List<T>,
-    val deleted: Set<DeletionRecord>
+    val deleted: Set<Syncable>
 )
-
-data class DeletionRecord(
-    val id: UUID,
-    override val lastUpdated: LocalDateTime,
-) : Syncable

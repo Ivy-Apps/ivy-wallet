@@ -2,6 +2,6 @@ package com.ivy.core.persistence.api.budget
 
 import com.ivy.core.data.Budget
 import com.ivy.core.data.BudgetId
-import com.ivy.core.persistence.api.WriteSyncable
+import com.ivy.core.persistence.api.Write
 
-interface BudgetWrite : WriteSyncable<Budget, BudgetId>
+interface BudgetWrite : Write<Budget, BudgetId>
