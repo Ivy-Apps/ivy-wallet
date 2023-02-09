@@ -1,4 +1,3 @@
-import com.ivy.buildsrc.AppCompat
 import com.ivy.buildsrc.Hilt
 import com.ivy.buildsrc.Testing
 
@@ -16,7 +15,7 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:data-model"))
     implementation(project(":core:persistence"))
-    AppCompat(false)
+    implementation(project(":common:main"))
     Testing()
 
 }

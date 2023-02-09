@@ -1,16 +1,12 @@
-package com.example.exchangeRates
+package com.ivy.exchangeRates
 
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -23,21 +19,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.exchangeRates.component.RateItem
-import com.example.exchangeRates.data.RateUi
-import com.example.exchangeRates.modal.AddRateModal
 import com.ivy.core.ui.amount.AmountModal
 import com.ivy.data.Value
 import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.color.White
-import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.ColumnRoot
 import com.ivy.design.l1_buildingBlocks.DividerW
-import com.ivy.design.l1_buildingBlocks.InputField
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
+import com.ivy.design.l2_components.input.InputFieldType
+import com.ivy.design.l2_components.input.IvyInputField
 import com.ivy.design.l2_components.modal.rememberIvyModal
+import com.ivy.design.l3_ivyComponents.Feeling
+import com.ivy.design.l3_ivyComponents.Visibility
+import com.ivy.design.l3_ivyComponents.button.ButtonSize
+import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
+import com.ivy.exchangeRates.component.RateItem
+import com.ivy.exchangeRates.data.RateUi
+import com.ivy.exchangeRates.modal.AddRateModal
 
 
 @Composable
@@ -69,15 +68,15 @@ private fun BoxWithConstraintsScope.UI(
 
     ColumnRoot {
         SpacerVer(height = 16.dp)
-        InputField(
+
+        IvyInputField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
+            iconLeft=R.drawable.ic_search,
+            type = InputFieldType.SingleLine,
             initialValue = "",
-            iconLeft = R.drawable.ic_search,
             placeholder = "Search Currency",
-            singleLine = true,
-            maxLines = 1,
             onValueChange = {
                 onEvent(RatesEvent.Search(it))
             }
@@ -85,7 +84,10 @@ private fun BoxWithConstraintsScope.UI(
         SpacerVer(height = 4.dp)
         LazyColumn {
             ratesSection(text = "Manual")
-            items(items = state.manual) { rate ->
+            items(
+                items = state.manual,
+                key = { "${it.from}-${it.to}" }
+            ) { rate ->
                 SpacerVer(height = 4.dp)
                 RateItem(
                     rate = rate,
@@ -94,12 +96,15 @@ private fun BoxWithConstraintsScope.UI(
                 )
             }
             ratesSection(text = "Automatic")
-            items(items = state.automatic) { rate ->
+            items(
+                items = state.automatic,
+                key = { "${it.from}-${it.to}" }
+            ) { rate ->
                 SpacerVer(height = 4.dp)
                 RateItem(
                     rate = rate,
                     onDelete = null,
-                    onClick = { onRateClick(rate) }
+                    onClick = { onRateClick(rate) },
                 )
             }
             item(key = "last_item_spacer") {
@@ -109,35 +114,34 @@ private fun BoxWithConstraintsScope.UI(
     }
 
 
-    Button(
+    IvyButton(
         modifier = Modifier
-            .systemBarsPadding()
             .align(Alignment.BottomCenter)
-            .padding(bottom = 24.dp),
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = UI.colors.primary
-        ),
-        shape = RoundedCornerShape(26.dp),
-        onClick = {
-            addRateModal.show()
-        }
+            .padding(bottom = 28.dp),
+        size = ButtonSize.Small,
+        feeling = Feeling.Positive,
+        visibility = Visibility.High,
+        text = "Add rate"
     ) {
-        Text(
-            modifier = Modifier.padding(vertical = 16.dp),
-            text = "Add rate",
-            style = UI.typo.b1.style(
-                color = White
-            )
-        )
+        addRateModal.show()
     }
+
     AddRateModal(
         modal = addRateModal,
         baseCurrency = state.baseCurrency,
         dismiss = {
             addRateModal.hide()
         },
-        onAdd = { event ->
-            onEvent(event)
+        onAdd = { toCurrency, exchangeRate ->
+            onEvent(
+                RatesEvent.AddRate(
+                    RateUi(
+                        from = state.baseCurrency,
+                        to = toCurrency,
+                        rate = exchangeRate
+                    )
+                )
+            )
         }
     )
 
@@ -155,7 +159,7 @@ private fun BoxWithConstraintsScope.UI(
 private fun LazyListScope.ratesSection(
     text: String
 ) {
-    item {
+    item{
         SpacerVer(height = 24.dp)
         Row(verticalAlignment = Alignment.CenterVertically) {
             DividerW()

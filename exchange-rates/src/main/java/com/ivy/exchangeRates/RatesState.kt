@@ -1,8 +1,10 @@
-package com.example.exchangeRates
+package com.ivy.exchangeRates
 
-import com.example.exchangeRates.data.RateUi
+import androidx.compose.runtime.Immutable
+import com.ivy.exchangeRates.data.RateUi
 
 //Represents the state of exchange rates screen
+@Immutable
 data class RatesState(
     val baseCurrency: String,
     val manual: List<RateUi>,

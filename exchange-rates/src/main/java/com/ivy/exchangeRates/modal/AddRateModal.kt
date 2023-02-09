@@ -1,4 +1,4 @@
-package com.example.exchangeRates.modal
+package com.ivy.exchangeRates.modal
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
@@ -14,8 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.exchangeRates.RatesEvent
-import com.example.exchangeRates.data.RateUi
 import com.ivy.core.ui.amount.AmountModal
 import com.ivy.data.Value
 import com.ivy.design.l0_system.UI
@@ -35,7 +33,7 @@ fun BoxWithConstraintsScope.AddRateModal(
     modal: IvyModal,
     baseCurrency: String,
     dismiss: () -> Unit,
-    onAdd: (RatesEvent.AddRate) -> Unit,
+    onAdd: (toCurrency: String, exchangeRate: Double) -> Unit,
 ) {
     var toCurrency by remember { mutableStateOf("") }
     val amountModal = rememberIvyModal()
@@ -48,15 +46,7 @@ fun BoxWithConstraintsScope.AddRateModal(
                 val to = toCurrency
                 val finalRate = rate
                 if (to.isNotBlank() && finalRate != null) {
-                    onAdd(
-                        RatesEvent.AddRate(
-                            RateUi(
-                                from = baseCurrency,
-                                to = to,
-                                rate = finalRate,
-                            )
-                        )
-                    )
+                    onAdd(to, finalRate)
                     dismiss()
                 }
             }
@@ -111,7 +101,7 @@ private fun Preview() {
             modal = modal,
             baseCurrency = "USD",
             dismiss = {},
-            onAdd = {},
+            onAdd = { to, rate -> },
         )
     }
 }

@@ -1,6 +1,6 @@
-package com.example.exchangeRates
+package com.ivy.exchangeRates
 
-import com.example.exchangeRates.data.RateUi
+import com.ivy.exchangeRates.data.RateUi
 import com.ivy.core.domain.action.SharedFlowAction
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
 import com.ivy.core.persistence.algorithm.calc.Rate

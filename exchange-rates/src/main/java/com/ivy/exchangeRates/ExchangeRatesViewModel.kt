@@ -1,22 +1,22 @@
-package com.example.exchangeRates
+package com.ivy.exchangeRates
 
 import com.ivy.core.domain.SimpleFlowViewModel
-import com.ivy.core.persistence.dao.exchange.ExchangeRateOverrideDao
 import com.ivy.core.persistence.entity.exchange.ExchangeRateOverrideEntity
 import com.ivy.data.SyncState
+import com.ivy.exchangeRates.action.RemoveOverriddenRateAct
+import com.ivy.exchangeRates.action.WriteOverriddenRateAct
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.withContext
 import java.time.Instant
 import javax.inject.Inject
 
 
 @HiltViewModel
 class ExchangeRatesViewModel @Inject constructor(
-    private val exchangeRatesOverrideDao: ExchangeRateOverrideDao,
+    private val removeOverriddenRateAct: RemoveOverriddenRateAct,
+    private val writeOverriddenRateAct: WriteOverriddenRateAct,
     private val ratesFlow: RatesStateFlow
 ) : SimpleFlowViewModel<RatesState, RatesEvent>() {
 
@@ -68,44 +68,39 @@ class ExchangeRatesViewModel @Inject constructor(
     }
 
     private suspend fun handleRemoveOverride(event: RatesEvent.RemoveOverride) {
-        withContext(Dispatchers.IO) {
-            exchangeRatesOverrideDao.deleteByBaseCurrencyAndCurrency(event.rate.from, event.rate.to)
-        }
+        removeOverriddenRateAct(
+            RemoveOverriddenRateAct.Input(
+                baseCurrency = event.rate.from,
+                currency = event.rate.to
+            )
+        )
     }
 
     private suspend fun handleUpdateRate(event: RatesEvent.UpdateRate) {
-        withContext(Dispatchers.IO) {
-            if (event.newRate > 0.0) {
-                exchangeRatesOverrideDao.save(
-                    listOf(
-                        ExchangeRateOverrideEntity(
-                            baseCurrency = event.rate.from,
-                            currency = event.rate.to,
-                            rate = event.newRate,
-                            sync = SyncState.Synced,
-                            lastUpdated = Instant.MIN
-                        )
-                    )
+        if (event.newRate > 0.0) {
+            writeOverriddenRateAct(
+                ExchangeRateOverrideEntity(
+                    baseCurrency = event.rate.from,
+                    currency = event.rate.to,
+                    rate = event.newRate,
+                    sync = SyncState.Synced,
+                    lastUpdated = Instant.MIN
                 )
-            }
+            )
         }
     }
 
     private suspend fun handleAddRate(event: RatesEvent.AddRate) {
-        withContext(Dispatchers.IO) {
-            if (event.rate.rate > 0.0) {
-                exchangeRatesOverrideDao.save(
-                    listOf(
-                        ExchangeRateOverrideEntity(
-                            baseCurrency = event.rate.from,
-                            currency = event.rate.to,
-                            rate = event.rate.rate,
-                            sync = SyncState.Synced,
-                            lastUpdated = Instant.MIN
-                        )
-                    )
+        if (event.rate.rate > 0.0) {
+            writeOverriddenRateAct(
+                ExchangeRateOverrideEntity(
+                    baseCurrency = event.rate.from,
+                    currency = event.rate.to,
+                    rate = event.rate.rate,
+                    sync = SyncState.Synced,
+                    lastUpdated = Instant.MIN
                 )
-            }
+            )
         }
     }
 

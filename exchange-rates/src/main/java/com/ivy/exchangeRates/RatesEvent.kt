@@ -1,6 +1,6 @@
-package com.example.exchangeRates
+package com.ivy.exchangeRates
 
-import com.example.exchangeRates.data.RateUi
+import com.ivy.exchangeRates.data.RateUi
 
 sealed interface RatesEvent{
     data class Search(val query: String) : RatesEvent

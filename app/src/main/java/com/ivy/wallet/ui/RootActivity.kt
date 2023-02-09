@@ -27,7 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.example.exchangeRates.ExchangeRatesScreen
+import com.ivy.exchangeRates.ExchangeRatesScreen
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.ivy.accounts.AccountsScreen
 import com.ivy.api.screen.backup.ImportBackupScreen
