@@ -17,6 +17,7 @@ sealed interface SettingsEvent {
 
     object AddFrame : SettingsEvent
     object NukeAccCache : SettingsEvent
+    object ExchangeRates : SettingsEvent
 
     data class BackupData(val backupLocation: Uri) : SettingsEvent
 }
