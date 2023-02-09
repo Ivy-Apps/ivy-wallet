@@ -53,7 +53,7 @@ object CorePersistenceModuleDI {
 
     @Provides
     @Singleton
-    fun ProvideRatesDao(db:IvyWalletCoreDb) : RatesDao =
+    fun provideRatesDao(db:IvyWalletCoreDb) : RatesDao =
         db.ratesDao()
 
     @Provides
