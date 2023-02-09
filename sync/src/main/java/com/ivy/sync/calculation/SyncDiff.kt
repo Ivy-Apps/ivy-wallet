@@ -23,7 +23,7 @@ import java.util.*
  * @return a complete [IvyWalletData] diff to apply to the Local DB and
  * an partial [IvyWalletData] ([Syncable] only) diff to apply to the Remote Backup
  */
-fun calculateDiff(
+internal fun calculateDiff(
     remote: IvyWalletData,
     localPartial: PartialIvyWalletData
 ): RemoteLocalDiff {
@@ -63,7 +63,8 @@ fun calculateDiff(
     )
 }
 
-inline fun <reified T : Syncable> itemDiff(
+// exposed for testing purposes
+internal inline fun <reified T : Syncable> itemDiff(
     remote: SyncData<T>,
     local: SyncData<Syncable>
 ): RemoteLocalItemDiff<T> {
@@ -88,7 +89,7 @@ inline fun <reified T : Syncable> itemDiff(
     )
 }
 
-fun Map<UUID, Syncable>.takeOnlyMissingOrNewer(
+private fun Map<UUID, Syncable>.takeOnlyMissingOrNewer(
     right: Map<UUID, Syncable>,
     collision: CollisionResolution,
 ): List<Syncable> {
@@ -111,21 +112,21 @@ fun Map<UUID, Syncable>.takeOnlyMissingOrNewer(
     }
 }
 
-enum class CollisionResolution {
+internal enum class CollisionResolution {
     TakeLeft, TakeRight
 }
 
-fun <T : Syncable> combineItemsAndDeleted(data: SyncData<T>): Map<UUID, Syncable> =
+private fun <T : Syncable> combineItemsAndDeleted(data: SyncData<T>): Map<UUID, Syncable> =
     data.items.associateBy(Syncable::id) +
             data.deleted.associateBy(Syncable::id)
 
 
-data class RemoteLocalDiff(
+internal data class RemoteLocalDiff(
     val local: IvyWalletData,
     val remotePartial: PartialIvyWalletData
 )
 
-data class RemoteLocalItemDiff<T : Syncable>(
+internal data class RemoteLocalItemDiff<T : Syncable>(
     val local: SyncData<T>,
     val remotePartial: SyncData<Syncable>,
 )
