@@ -4,20 +4,20 @@ import arrow.core.NonEmptyList
 import com.ivy.core.data.sync.Syncable
 import com.ivy.core.data.sync.UniqueId
 
-sealed interface Modify<T : Syncable, TID : UniqueId> {
-    data class Save<T : Syncable>(
+sealed interface Modify<out T : Syncable, out TID : UniqueId> {
+    data class Save<out T : Syncable>(
         val item: T,
     ) : Modify<T, Nothing>
 
-    data class SaveMany<T : Syncable>(
+    data class SaveMany<out T : Syncable>(
         val items: NonEmptyList<T>
     ) : Modify<T, Nothing>
 
-    data class Delete<TID : UniqueId>(
+    data class Delete<out TID : UniqueId>(
         val id: TID,
     ) : Modify<Nothing, TID>
 
-    data class DeleteMany<TID : UniqueId>(
-        val ids: Set<TID>
+    data class DeleteMany<out TID : UniqueId>(
+        val ids: NonEmptyList<TID>
     ) : Modify<Nothing, TID>
 }

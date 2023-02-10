@@ -14,37 +14,31 @@ fun accountRawStatsWithCache(
     entriesAfterCache: List<LedgerEntry>
 ): RawStats = cache.rawStats + accountRawStats(cache.accountId, entriesAfterCache)
 
-fun cachesToInvalidate(
-    old: Transaction?,
-    new: Transaction,
-    caches: List<AccountCache>
+fun invalidCaches(
+    caches: List<AccountCache>,
+    changedTransactions: Set<Transaction>
 ): Set<AccountCache> {
-    if (
-        (old == null || old.time is TransactionTime.Due) &&
-        new.time is TransactionTime.Due
-    ) return emptySet() // due transactions don't affect the cache
-
-    return caches.filter {
-        becomesInvalid(it, old, new)
+    // TODO: Check if this can be optimized
+    return caches.filter { cache ->
+        becomesInvalid(cache, changedTransactions)
     }.toSet()
 }
 
 private fun becomesInvalid(
     cache: AccountCache,
-    old: Transaction?,
-    new: Transaction,
+    transactions: Set<Transaction>
 ): Boolean {
     val cacheAccount = cache.accountId
-    if (cacheAccount !in affectedAccounts(old) && cacheAccount !in affectedAccounts(new))
-        return false // no affected => it's still valid
-
     val cacheTime = cache.rawStats.newestTransaction
-    return (old?.time == null || cacheTime < old.time.time) && cacheTime < new.time.time
+    return transactions.any { trn ->
+        cacheAccount in affectedAccounts(trn) &&
+                (trn.time is TransactionTime.Actual) && cacheTime >= trn.time.time
+    }
 }
 
-private fun affectedAccounts(transaction: Transaction?): Set<AccountId> = when (transaction) {
-    is Transaction.Expense -> setOf(transaction.account)
-    is Transaction.Income -> setOf(transaction.account)
-    is Transaction.Transfer -> setOf(transaction.from.account, transaction.to.account)
-    null -> emptySet()
-}
+private fun affectedAccounts(transaction: Transaction): Set<AccountId> =
+    when (transaction) {
+        is Transaction.Expense -> setOf(transaction.account)
+        is Transaction.Income -> setOf(transaction.account)
+        is Transaction.Transfer -> setOf(transaction.from.account, transaction.to.account)
+    }
