@@ -9,6 +9,7 @@ import com.ivy.navigation.destinations.main.Home
 import com.ivy.navigation.destinations.main.MoreMenu
 import com.ivy.navigation.destinations.onboarding.OnboardingGraph
 import com.ivy.navigation.destinations.other.AddFrame
+import com.ivy.navigation.destinations.other.ExchangeRate
 import com.ivy.navigation.destinations.settings.Settings
 import com.ivy.navigation.destinations.transaction.*
 
@@ -37,6 +38,8 @@ object Destination {
     val settings = Settings
 
     val addFrame = AddFrame
+
+    val exchangeRates = ExchangeRate
 
     val debug = DebugGraph
 }

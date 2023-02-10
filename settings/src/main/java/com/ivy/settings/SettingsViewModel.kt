@@ -76,7 +76,7 @@ class SettingsViewModel @Inject constructor(
         importOldDataState,
         currentLanguageState
     ) { baseCurrency, startDayOfMonth, hideBalance,
-        appLocked, driveMounted, importOldData ,currentLanguage->
+        appLocked, driveMounted, importOldData, currentLanguage ->
         SettingsState(
             baseCurrency = baseCurrency,
             startDayOfMonth = startDayOfMonth,
@@ -85,7 +85,7 @@ class SettingsViewModel @Inject constructor(
             driveMounted = driveMounted,
             importOldData = importOldData,
             supportedLanguages = initialUi.supportedLanguages,
-            currentLanguage=currentLanguage
+            currentLanguage = currentLanguage
         )
     }
 
@@ -101,11 +101,15 @@ class SettingsViewModel @Inject constructor(
             }
 
 //            changing locale to the selected language {will fallback to default strings.xml file if language is not supported}
-            is SettingsEvent.LanguageChange ->{
+            is SettingsEvent.LanguageChange -> {
                 AppCompatDelegate.setApplicationLocales(
                     LocaleListCompat.forLanguageTags(event.languageCode)
                 )
-                currentLanguageState.value=event.languageCode
+                currentLanguageState.value = event.languageCode
+            }
+
+            is SettingsEvent.ExchangeRates -> {
+                handleExchangeRatesEvent()
             }
 
             is SettingsEvent.HideBalance -> {
@@ -115,18 +119,24 @@ class SettingsViewModel @Inject constructor(
             is SettingsEvent.AppLocked -> {
                 writeAppLockedAct(event.appLocked)
             }
+
             SettingsEvent.ImportOldData -> handleImportOldData()
             is SettingsEvent.MountDrive -> handleMountDrive()
             SettingsEvent.AddFrame -> handleAddFrame()
             SettingsEvent.NukeAccCache -> {
                 nukeAccountCacheAct(Unit)
             }
+
             is SettingsEvent.BackupData -> handleBackupData(event)
         }
     }
 
     private suspend fun handleImportOldData() {
         navigator.navigate(Destination.importBackup.destination(Unit))
+    }
+
+    private fun handleExchangeRatesEvent() {
+        navigator.navigate(Destination.exchangeRates.destination(Unit))
     }
 
     private suspend fun handleMountDrive() {
@@ -168,6 +178,7 @@ class SettingsViewModel @Inject constructor(
                     result.value.reason?.printStackTrace()
                     toaster.show("Error: ${result.value.reason}")
                 }
+
                 is Right -> {
                     if (result.value.uploadedToDrive) {
                         toaster.show("Success! Data uploaded to your Google Drive.")

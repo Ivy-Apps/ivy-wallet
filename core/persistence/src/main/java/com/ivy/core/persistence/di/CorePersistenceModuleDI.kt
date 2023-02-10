@@ -2,6 +2,7 @@ package com.ivy.core.persistence.di
 
 import android.content.Context
 import com.ivy.core.persistence.IvyWalletCoreDb
+import com.ivy.core.persistence.algorithm.calc.RatesDao
 import com.ivy.core.persistence.dao.AttachmentDao
 import com.ivy.core.persistence.dao.account.AccountDao
 import com.ivy.core.persistence.dao.account.AccountFolderDao
@@ -49,6 +50,11 @@ object CorePersistenceModuleDI {
     @Singleton
     fun provideExchangeRateOverrideDao(db: IvyWalletCoreDb): ExchangeRateOverrideDao =
         db.exchangeRateOverrideDao()
+
+    @Provides
+    @Singleton
+    fun provideRatesDao(db:IvyWalletCoreDb) : RatesDao =
+        db.ratesDao()
 
     @Provides
     @Singleton

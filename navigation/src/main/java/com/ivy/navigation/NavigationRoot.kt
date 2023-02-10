@@ -12,6 +12,7 @@ import com.ivy.navigation.destinations.main.Categories
 import com.ivy.navigation.destinations.main.Home
 import com.ivy.navigation.destinations.main.MoreMenu
 import com.ivy.navigation.destinations.other.AddFrame
+import com.ivy.navigation.destinations.other.ExchangeRate
 import com.ivy.navigation.destinations.settings.Settings
 import com.ivy.navigation.graph.*
 import kotlinx.coroutines.flow.collectLatest
@@ -28,6 +29,7 @@ fun NavigationRoot(
     transactionScreens: TransactionScreens,
     addFrame: @Composable () -> Unit,
     importBackup: @Composable () -> Unit,
+    exchangeRates: @Composable () -> Unit,
     debugScreens: DebugScreens
 ) {
     val navController = rememberNavController()
@@ -69,6 +71,9 @@ fun NavigationRoot(
         }
         composable(ImportBackup.route) {
             importBackup()
+        }
+        composable(ExchangeRate.route) {
+            exchangeRates()
         }
     }
 }

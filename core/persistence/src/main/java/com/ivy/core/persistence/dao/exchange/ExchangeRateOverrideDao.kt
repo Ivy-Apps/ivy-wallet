@@ -22,4 +22,10 @@ interface ExchangeRateOverrideDao {
     @Query("SELECT * FROM exchange_rates_override WHERE baseCurrency = :baseCurrency")
     fun findAllByBaseCurrency(baseCurrency: String): Flow<List<ExchangeRateOverrideEntity>>
     // endregion
+    @Query("DELETE FROM exchange_rates_override WHERE baseCurrency = :baseCurrency AND currency = :currency")
+    suspend fun deleteByBaseCurrencyAndCurrency(
+        baseCurrency: String,
+        currency: String
+    )
+
 }
