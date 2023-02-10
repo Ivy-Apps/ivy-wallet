@@ -2,10 +2,7 @@ package com.ivy.core.domain.api.action.read
 
 import arrow.core.Either
 import com.ivy.core.data.*
-import com.ivy.core.data.sync.IvyWalletData
-import com.ivy.core.data.sync.PartialIvyWalletData
-import com.ivy.core.data.sync.SyncData
-import com.ivy.core.data.sync.Syncable
+import com.ivy.core.data.sync.*
 import com.ivy.core.domain.action.Action
 import com.ivy.core.domain.api.data.ActionError
 import com.ivy.core.persistence.api.ReadSyncable
@@ -51,12 +48,12 @@ class IvyWalletDataFromPartialAct @Inject constructor(
             )
         }.mapLeft(ActionError::IO)
 
-    private suspend fun <T : Syncable, TID> fromPartial(
+    private suspend fun <T : Syncable, TID : UniqueId> fromPartial(
         partial: SyncData<Syncable>,
         read: ReadSyncable<T, TID, *>,
         mapId: (UUID) -> TID,
     ): SyncData<T> = SyncData(
-        items = read.byIds(partial.items.map { mapId(it.id) }),
+        items = read.byIds(partial.items.map { mapId(it.id.uuid) }),
         deleted = partial.deleted,
     )
 }

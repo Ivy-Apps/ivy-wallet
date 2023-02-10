@@ -1,11 +1,7 @@
 package com.ivy.sync.calculation
 
-import com.ivy.core.data.sync.IvyWalletData
-import com.ivy.core.data.sync.PartialIvyWalletData
-import com.ivy.core.data.sync.SyncData
-import com.ivy.core.data.sync.Syncable
+import com.ivy.core.data.sync.*
 import com.ivy.core.domain.calculation.syncDataFrom
-import java.util.*
 
 /**
  * Calculates the diff that must be applied to sync [remote] and [localPartial].
@@ -89,8 +85,8 @@ internal inline fun <reified T : Syncable> itemDiff(
     )
 }
 
-private fun Map<UUID, Syncable>.takeOnlyMissingOrNewer(
-    right: Map<UUID, Syncable>,
+private fun Map<UniqueId, Syncable>.takeOnlyMissingOrNewer(
+    right: Map<UniqueId, Syncable>,
     collision: CollisionResolution,
 ): List<Syncable> {
     return values.filter { leftItem ->
@@ -116,7 +112,7 @@ internal enum class CollisionResolution {
     TakeLeft, TakeRight
 }
 
-private fun <T : Syncable> combineItemsAndDeleted(data: SyncData<T>): Map<UUID, Syncable> =
+private fun <T : Syncable> combineItemsAndDeleted(data: SyncData<T>): Map<UniqueId, Syncable> =
     data.items.associateBy(Syncable::id) +
             data.deleted.associateBy(Syncable::id)
 

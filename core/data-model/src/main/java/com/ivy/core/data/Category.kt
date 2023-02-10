@@ -5,11 +5,12 @@ import com.ivy.core.data.common.ItemIconId
 import com.ivy.core.data.common.IvyColor
 import com.ivy.core.data.common.Reorderable
 import com.ivy.core.data.sync.Syncable
+import com.ivy.core.data.sync.UniqueId
 import java.time.LocalDateTime
 import java.util.*
 
 data class Category(
-    override val id: UUID,
+    override val id: CategoryId,
     val name: String,
     val description: String?,
     val iconId: ItemIconId,
@@ -23,7 +24,7 @@ data class Category(
 ) : Reorderable, Archiveable, Syncable
 
 @JvmInline
-value class CategoryId(val id: UUID)
+value class CategoryId(override val uuid: UUID) : UniqueId
 
 enum class CategoryType {
     Income, Expense, Both

@@ -23,7 +23,7 @@ private fun generateDueTransactions(
     dueTransactions: List<Transaction>,
     period: TimeRange,
 ): List<Transaction> {
-    val dueByRule = dueTransactions.groupBy { it.recurring?.id }
+    val dueByRule = dueTransactions.groupBy { it.recurring }
     return rules.flatMap {
         generateRecurring(
             rule = it,

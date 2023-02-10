@@ -22,6 +22,6 @@ sealed interface ModifyTransaction {
     ) : ModifyTransaction
 
     data class DeleteMany(
-        val ids: List<TransactionId>
+        val ids: Set<TransactionId>
     ) : ModifyTransaction
 }

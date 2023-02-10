@@ -3,12 +3,13 @@ package com.ivy.core.data
 import androidx.annotation.FloatRange
 import com.ivy.core.data.common.*
 import com.ivy.core.data.sync.Syncable
+import com.ivy.core.data.sync.UniqueId
 import java.time.LocalDateTime
 import java.util.*
 
 // TODO: Support attachments to Accounts? Some users wanted to attach loan documents
 sealed interface Account : Reorderable, Archiveable, Syncable {
-    override val id: UUID
+    override val id: AccountId
     val asset: AssetCode
     val name: String
     val description: String?
@@ -20,7 +21,7 @@ sealed interface Account : Reorderable, Archiveable, Syncable {
 
 sealed interface Asset : Account {
     data class Cash(
-        override val id: UUID,
+        override val id: AccountId,
         override val asset: AssetCode,
         override val name: String,
         override val description: String?,
@@ -35,7 +36,7 @@ sealed interface Asset : Account {
     ) : Asset
 
     data class Bank(
-        override val id: UUID,
+        override val id: AccountId,
         override val asset: AssetCode,
         override val name: String,
         override val description: String?,
@@ -53,7 +54,7 @@ sealed interface Asset : Account {
      * You gave a Loan to someone and they owe you money.
      */
     data class Loan(
-        override val id: UUID,
+        override val id: AccountId,
         override val asset: AssetCode,
         override val name: String,
         override val description: String?,
@@ -78,7 +79,7 @@ sealed interface Asset : Account {
      * Illiquid asset like Stocks, Crypto, Gold.
      */
     data class Investment(
-        override val id: UUID,
+        override val id: AccountId,
         override val asset: AssetCode,
         override val name: String,
         override val description: String?,
@@ -96,7 +97,7 @@ sealed interface Asset : Account {
      * Money put in Savings account. We don't know if they are liquid
      */
     data class Savings(
-        override val id: UUID,
+        override val id: AccountId,
         override val asset: AssetCode,
         override val name: String,
         override val description: String?,
@@ -111,7 +112,7 @@ sealed interface Asset : Account {
     ) : Asset
 
     data class Other(
-        override val id: UUID,
+        override val id: AccountId,
         override val asset: AssetCode,
         override val name: String,
         override val description: String?,
@@ -128,7 +129,7 @@ sealed interface Asset : Account {
 
 sealed interface Liability : Account {
     data class CreditCard(
-        override val id: UUID,
+        override val id: AccountId,
         override val asset: AssetCode,
         override val name: String,
         override val description: String?,
@@ -150,7 +151,7 @@ sealed interface Liability : Account {
      * Money that you owe to a bank, friend or other entity.
      */
     data class Loan(
-        override val id: UUID,
+        override val id: AccountId,
         override val asset: AssetCode,
         override val name: String,
         override val description: String?,
@@ -172,7 +173,7 @@ sealed interface Liability : Account {
     ) : Liability
 
     data class Other(
-        override val id: UUID,
+        override val id: AccountId,
         override val asset: AssetCode,
         override val name: String,
         override val description: String?,
@@ -189,13 +190,13 @@ sealed interface Liability : Account {
 
 
 @JvmInline
-value class AccountId(val id: UUID)
+value class AccountId(override val uuid: UUID) : UniqueId
 
 @JvmInline
-value class AccountFolderId(val id: UUID)
+value class AccountFolderId(override val uuid: UUID) : UniqueId
 
 data class AccountFolder(
-    override val id: UUID,
+    override val id: UniqueId,
     val asset: AssetCode,
     val name: String,
     val description: String?,

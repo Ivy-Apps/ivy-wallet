@@ -5,11 +5,12 @@ import com.ivy.core.data.common.ItemIconId
 import com.ivy.core.data.common.Reorderable
 import com.ivy.core.data.common.Value
 import com.ivy.core.data.sync.Syncable
+import com.ivy.core.data.sync.UniqueId
 import java.time.LocalDateTime
 import java.util.*
 
 data class SavingGoal(
-    override val id: UUID,
+    override val id: SavingGoalId,
     val name: String,
     val description: String?,
     val url: String?,
@@ -23,10 +24,10 @@ data class SavingGoal(
 ) : Reorderable, Archiveable, Syncable
 
 @JvmInline
-value class SavingGoalId(val id: UUID)
+value class SavingGoalId(override val uuid: UUID) : UniqueId
 
 data class SavingGoalRecord(
-    override val id: UUID,
+    override val id: SavingGoalRecordId,
     val savingGoalId: SavingGoalId,
     val accountId: AccountId,
     val type: SavingGoalRecordType,
@@ -38,7 +39,7 @@ data class SavingGoalRecord(
 ) : Syncable
 
 @JvmInline
-value class SavingGoalRecordId(val id: UUID)
+value class SavingGoalRecordId(override val uuid: UUID) : UniqueId
 
 enum class SavingGoalRecordType {
     Deposit, Withdraw

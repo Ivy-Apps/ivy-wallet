@@ -4,11 +4,12 @@ import com.ivy.core.data.common.Archiveable
 import com.ivy.core.data.common.IvyColor
 import com.ivy.core.data.common.Reorderable
 import com.ivy.core.data.sync.Syncable
+import com.ivy.core.data.sync.UniqueId
 import java.time.LocalDateTime
 import java.util.*
 
 data class Tag(
-    override val id: UUID,
+    override val id: TagId,
     val name: String,
     val description: String?,
     val color: IvyColor,
@@ -19,4 +20,4 @@ data class Tag(
 ) : Reorderable, Archiveable, Syncable
 
 @JvmInline
-value class TagId(val id: UUID)
+value class TagId(override val uuid: UUID) : UniqueId

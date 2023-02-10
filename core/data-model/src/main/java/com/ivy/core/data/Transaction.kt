@@ -2,11 +2,12 @@ package com.ivy.core.data
 
 import com.ivy.core.data.common.Value
 import com.ivy.core.data.sync.Syncable
+import com.ivy.core.data.sync.UniqueId
 import java.time.LocalDateTime
 import java.util.*
 
 sealed interface Transaction : Syncable {
-    override val id: UUID
+    override val id: TransactionId
     val fee: Value?
     val time: TransactionTime
     val category: CategoryId?
@@ -19,7 +20,7 @@ sealed interface Transaction : Syncable {
     val recurring: RecurringRuleId?
 
     data class Income(
-        override val id: UUID,
+        override val id: TransactionId,
         val account: AccountId,
         val amount: Value,
         override val fee: Value?,
@@ -37,7 +38,7 @@ sealed interface Transaction : Syncable {
     ) : Transaction
 
     data class Expense(
-        override val id: UUID,
+        override val id: TransactionId,
         val account: AccountId,
         val amount: Value,
         override val fee: Value?,
@@ -55,7 +56,7 @@ sealed interface Transaction : Syncable {
     ) : Transaction
 
     data class Transfer(
-        override val id: UUID,
+        override val id: TransactionId,
         val from: AccountValue,
         val to: AccountValue,
         override val fee: Value?,
@@ -81,7 +82,7 @@ sealed interface TransactionTime {
 }
 
 @JvmInline
-value class TransactionId(val id: UUID)
+value class TransactionId(override val uuid: UUID) : UniqueId
 
 data class AccountValue(
     val account: AccountId,

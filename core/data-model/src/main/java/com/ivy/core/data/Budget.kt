@@ -3,11 +3,12 @@ package com.ivy.core.data
 import arrow.core.NonEmptyList
 import com.ivy.core.data.common.*
 import com.ivy.core.data.sync.Syncable
+import com.ivy.core.data.sync.UniqueId
 import java.time.LocalDateTime
 import java.util.*
 
 data class Budget(
-    override val id: UUID,
+    override val id: BudgetId,
     val name: String,
     val description: String?,
     val iconId: ItemIconId,
@@ -33,4 +34,4 @@ sealed interface BudgetAccounts {
 }
 
 @JvmInline
-value class BudgetId(val id: UUID)
+value class BudgetId(override val uuid: UUID) : UniqueId

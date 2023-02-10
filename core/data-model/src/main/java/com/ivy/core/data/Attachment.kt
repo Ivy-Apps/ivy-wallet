@@ -1,12 +1,13 @@
 package com.ivy.core.data
 
 import com.ivy.core.data.sync.Syncable
+import com.ivy.core.data.sync.UniqueId
 import java.net.URL
 import java.time.LocalDateTime
 import java.util.*
 
 data class Attachment(
-    override val id: UUID,
+    override val id: AttachmentId,
     val url: URL,
     val name: String,
     val type: AttachmentType,
@@ -27,4 +28,4 @@ enum class AttachmentType(val code: Int) {
 }
 
 @JvmInline
-value class AttachmentId(val id: UUID)
+value class AttachmentId(override val uuid: UUID) : UniqueId

@@ -2,6 +2,7 @@ package com.ivy.sync.calculation
 
 import com.ivy.core.data.sync.SyncData
 import com.ivy.core.data.sync.Syncable
+import com.ivy.core.data.sync.UniqueId
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.*
@@ -32,7 +33,9 @@ fun Arb.Companion.syncable(
     val removed = arbRemoved.bind()
 
     object : Syncable {
-        override val id = id
+        override val id = object : UniqueId {
+            override val uuid = id
+        }
         override val lastUpdated = lastUpdated
         override val removed = removed
     }
