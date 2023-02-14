@@ -74,6 +74,10 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class RootActivity : AppCompatActivity(), RootScreen {
+    companion object {
+        const val SHORTCUT_ACTION = "ivy.wallet.intent.action.add_transaction"
+    }
+
     @Inject
     lateinit var navigator: Navigator
 
@@ -111,6 +115,11 @@ class RootActivity : AppCompatActivity(), RootScreen {
                         .show()
                 }
             }
+        }
+
+        // Check if the intent was triggered by a shortcut action, and notify the view model of the shortcut click event
+        if (intent.action == SHORTCUT_ACTION) {
+            viewModel.onEvent(RootEvent.ShortcutClick(intent))
         }
 
         // Make the app drawing area fullscreen (draw behind status and nav bars)
