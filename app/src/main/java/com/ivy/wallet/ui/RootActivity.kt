@@ -117,10 +117,6 @@ class RootActivity : AppCompatActivity(), RootScreen {
             }
         }
 
-        // Check if the intent was triggered by a shortcut action, and notify the view model of the shortcut click event
-        if (intent.action == SHORTCUT_ACTION) {
-            viewModel.onEvent(RootEvent.ShortcutClick(intent))
-        }
 
         // Make the app drawing area fullscreen (draw behind status and nav bars)
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -179,6 +175,10 @@ class RootActivity : AppCompatActivity(), RootScreen {
                 test = { TestScreen() }
             )
         )
+        // Check if the intent was triggered by a shortcut action, and notify the view model of the shortcut click event
+        if (intent.action == SHORTCUT_ACTION) {
+            viewModel.onEvent(RootEvent.ShortcutClick(intent))
+        }
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -203,11 +203,6 @@ class RootActivity : AppCompatActivity(), RootScreen {
         super.onPause()
 //        if (viewModel.isAppLockEnabled())
 //            viewModel.startUserInactiveTimeCounter()
-    }
-    //resetting the replay cache of shared flow to avoid replaying unwanted navigation actions
-    override fun onDestroy() {
-        navigator.resetReplayCache()
-        super.onDestroy()
     }
 
     private fun authenticateWithOSBiometricsModal(

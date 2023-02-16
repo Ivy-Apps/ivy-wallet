@@ -2,7 +2,6 @@ package com.ivy.navigation
 
 import androidx.compose.runtime.Stable
 import androidx.navigation.NavOptionsBuilder
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import javax.inject.Inject
@@ -12,7 +11,7 @@ import javax.inject.Singleton
 @Singleton
 class Navigator @Inject constructor() {
     private val _actions = MutableSharedFlow<Action>(
-        replay = 1,
+        replay = 0,
         extraBufferCapacity = 10
     )
     internal val actions: Flow<Action> = _actions
@@ -25,11 +24,6 @@ class Navigator @Inject constructor() {
 
     fun back() {
         _actions.tryEmit(Action.Back)
-    }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    fun resetReplayCache(){
-        _actions.resetReplayCache()
     }
 
     internal sealed class Action {
