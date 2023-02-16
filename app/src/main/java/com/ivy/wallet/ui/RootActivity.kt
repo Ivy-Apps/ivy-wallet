@@ -204,6 +204,11 @@ class RootActivity : AppCompatActivity(), RootScreen {
 //        if (viewModel.isAppLockEnabled())
 //            viewModel.startUserInactiveTimeCounter()
     }
+    //resetting the replay cache of shared flow to avoid replaying unwanted navigation actions
+    override fun onDestroy() {
+        navigator.resetReplayCache()
+        super.onDestroy()
+    }
 
     private fun authenticateWithOSBiometricsModal(
         biometricPromptCallback: BiometricPrompt.AuthenticationCallback
