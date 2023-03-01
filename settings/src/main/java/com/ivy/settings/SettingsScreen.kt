@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -86,7 +87,7 @@ private fun BoxScope.UI(
             }
 
             H1(
-                text = "Settings",
+                text = stringResource(R.string.settings),
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
             SpacerVer(height = 12.dp)
@@ -101,19 +102,28 @@ private fun BoxScope.UI(
             IvyButton(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 size = ButtonSize.Big, visibility = Visibility.Focused,
-                feeling = Feeling.Positive, text = "Start day of month ${state.startDayOfMonth}",
+                feeling = Feeling.Positive, text = String.format(
+                    stringResource(R.string.start_day_of_month),
+                    state.startDayOfMonth
+                ),
                 icon = null
             ) {
                 startDayOfMonthModal.show()
             }
             SpacerVer(height = 12.dp)
-            SwitchRow(enabled = state.hideBalance, text = "Hide balance", onValueChange = {
-                onEvent(SettingsEvent.HideBalance(hideBalance = it))
-            })
+            SwitchRow(
+                enabled = state.hideBalance,
+                text = stringResource(R.string.hide_balance),
+                onValueChange = {
+                    onEvent(SettingsEvent.HideBalance(hideBalance = it))
+                })
             SpacerVer(height = 12.dp)
-            SwitchRow(enabled = state.appLocked, text = "Lock app", onValueChange = {
-                onEvent(SettingsEvent.AppLocked(appLocked = it))
-            })
+            SwitchRow(
+                enabled = state.appLocked,
+                text = stringResource(R.string.lock_app),
+                onValueChange = {
+                    onEvent(SettingsEvent.AppLocked(appLocked = it))
+                })
             SpacerVer(height = 12.dp)
 
             val rootScreen = rootScreen()
@@ -127,10 +137,16 @@ private fun BoxScope.UI(
                     is BackupImportState.Success -> Feeling.Custom(Green)
                 },
                 text = when (state.importOldData) {
-                    BackupImportState.Idle -> "Import old data"
-                    BackupImportState.Importing -> "Importing..."
-                    is BackupImportState.Error -> "Error: ${state.importOldData.message}"
-                    is BackupImportState.Success -> "Success!!! ${state.importOldData.message}"
+                    BackupImportState.Idle -> stringResource(R.string.import_old_data)
+                    BackupImportState.Importing -> stringResource(R.string.import_old_data_in_progress)
+                    is BackupImportState.Error -> String.format(
+                        stringResource(R.string.import_data_error),
+                        state.importOldData.message
+                    )
+                    is BackupImportState.Success -> String.format(
+                        stringResource(R.string.import_data_successfully),
+                        state.importOldData.message
+                    )
                 },
                 icon = null
             ) {
@@ -140,7 +156,7 @@ private fun BoxScope.UI(
             IvyButton(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 size = ButtonSize.Big, visibility = Visibility.Medium,
-                feeling = Feeling.Positive, text = "Languages",
+                feeling = Feeling.Positive, text = stringResource(R.string.languages),
                 icon = null
             ) {
                 languagePickerModal.show()
@@ -149,7 +165,7 @@ private fun BoxScope.UI(
             IvyButton(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 size = ButtonSize.Big, visibility = Visibility.Medium,
-                feeling = Feeling.Positive, text = "Exchange rates",
+                feeling = Feeling.Positive, text = stringResource(R.string.exchange_rates),
                 icon = null
             ) {
                 onEvent(SettingsEvent.ExchangeRates)
@@ -159,7 +175,7 @@ private fun BoxScope.UI(
             SpacerVer(height = 24.dp)
             B2(
                 modifier = Modifier.padding(horizontal = 16.dp),
-                text = "DANGER ZONE!!! Mounting the Google Drive may corrupt your data! Do at your own risk!",
+                text = stringResource(R.string.data_risk_warning),
                 color = UI.colors.red
             )
             SpacerVer(height = 12.dp)
@@ -169,7 +185,7 @@ private fun BoxScope.UI(
                 visibility = Visibility.Medium,
                 feeling = Feeling.Negative,
                 text = if (state.driveMounted)
-                    "Mounted, create dummy file" else "Mount drive",
+                    stringResource(R.string.drive_mounted) else stringResource(R.string.mount_drive),
                 icon = null
             ) {
                 onEvent(SettingsEvent.MountDrive)
@@ -182,7 +198,7 @@ private fun BoxScope.UI(
                 size = ButtonSize.Big,
                 visibility = Visibility.Medium,
                 feeling = Feeling.Positive,
-                text = "Add Ivy frame",
+                text = stringResource(R.string.add_ivy_frame),
                 icon = null
             ) {
                 onEvent(SettingsEvent.AddFrame)
@@ -196,7 +212,7 @@ private fun BoxScope.UI(
                 size = ButtonSize.Big,
                 visibility = Visibility.Medium,
                 feeling = Feeling.Positive,
-                text = "Backup data",
+                text = stringResource(R.string.backup_data),
                 icon = null
             ) {
                 rootScreen.createFile(
@@ -213,7 +229,7 @@ private fun BoxScope.UI(
                 size = ButtonSize.Big,
                 visibility = Visibility.Medium,
                 feeling = Feeling.Negative,
-                text = "Nuke account's cache",
+                text = stringResource(R.string.nuke_accounts_cache),
                 icon = null
             ) {
                 onEvent(SettingsEvent.NukeAccCache)
@@ -255,7 +271,7 @@ private fun BoxScope.StartDayOfMonthModal(
         actions = {
         }
     ) {
-        Title(text = "Set start day of month")
+        Title(text = stringResource(R.string.set_day_of_month))
         SpacerVer(height = 24.dp)
         LazyColumn {
             items(items = (1..31).toList()) { number ->
@@ -289,7 +305,7 @@ private fun BoxScope.LanguagePickerModal(
         actions = {
         }
     ) {
-        Title(text = "Choose Your Language")
+        Title(text = stringResource(R.string.choose_language))
         SpacerVer(height = 24.dp)
         LazyColumn {
             items(supportedLanguages) { language ->
