@@ -11,7 +11,7 @@ import javax.inject.Singleton
 @Singleton
 class Navigator @Inject constructor() {
     private val _actions = MutableSharedFlow<Action>(
-        replay = 1,
+        replay = 0,
         extraBufferCapacity = 10
     )
     internal val actions: Flow<Action> = _actions
