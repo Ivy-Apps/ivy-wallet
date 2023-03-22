@@ -6,6 +6,8 @@
 - **[Grokking Simplicity: Taming complex software with functional thinking](https://www.manning.com/books/grokking-simplicity)** by [Eric Normand](https://www.google.com/search?q=eric+normand&oq=Eric+Normand)
 
 ## Android & Kotlin _(everyday work)_
+- **[Functional Programming Ideas for the Curious Kotliner](https://leanpub.com/fp-ideas-kotlin)** by [Alejandro Serrano Mena
+](https://leanpub.com/u/alejandroserrano)
 - **[Kotlin Coroutines Deep](https://www.amazon.com/Kotlin-Coroutines-Deep-Marcin-Moskala/dp/8396395837)** by [Marcin Moska](https://www.google.com/search?q=marcin+moska%C5%82a&oq=Marcin+Moska%C5%82a)
 - **[Jetpack Compose Internals](https://jorgecastillo.dev/book/)** by [Jorge Castillo](https://jorgecastillo.dev/)
 - **[Unit Testing Principles, Practices, and Patterns](https://www.amazon.com/gp/aw/d/B09782L692/ref=tmm_kin_swatch_0?ie=UTF8&qid=&sr=)** by [Vladimir Khorikov](https://www.google.com/search?q=vladimir+khorikov)
