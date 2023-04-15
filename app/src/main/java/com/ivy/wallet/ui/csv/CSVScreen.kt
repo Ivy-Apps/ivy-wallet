@@ -57,7 +57,9 @@ private fun UI(
             spacer8()
             csvTable(state.csv)
         }
-
+        if (state.columns != null && state.important != null) {
+            important(state.columns, importantFields = state.important, onEvent = onEvent)
+        }
     }
 }
 
@@ -96,7 +98,7 @@ fun Spacer8(horizontal: Boolean = false) {
 private fun LazyListScope.csvTable(
     csv: List<CSVRow>
 ) {
-    itemsIndexed(items = csv) { index, row ->
+    itemsIndexed(items = csv.take(10)) { index, row ->
         CSVRow(row = row, header = index == 0, even = index % 2 == 0)
     }
 }

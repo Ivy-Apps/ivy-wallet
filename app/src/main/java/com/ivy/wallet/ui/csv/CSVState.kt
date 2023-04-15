@@ -1,13 +1,13 @@
 package com.ivy.wallet.ui.csv
 
 data class CSVState(
-    val columns: CSVRow,
+    val columns: CSVRow?,
     val csv: List<CSVRow>?,
     val important: ImportantFields?,
     val transfer: TransferFields?,
     val optional: OptionalFields?,
 
-    val successPercent: Double,
+    val successPercent: Double?,
     val failedRows: List<CSVRow>?,
 )
 

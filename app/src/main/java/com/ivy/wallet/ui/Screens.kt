@@ -12,6 +12,8 @@ object Onboarding : Screen
 
 object ServerStop : Screen
 
+object CSVScreen : Screen
+
 data class EditTransaction(
     val initialTransactionId: UUID?,
     val type: TransactionType,

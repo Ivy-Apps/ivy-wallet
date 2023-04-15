@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,7 +25,9 @@ import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
+import com.ivy.wallet.ui.CSVScreen
 import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.onboarding.components.OnboardingToolbar
 import com.ivy.wallet.ui.theme.components.GradientCutBottom
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -53,6 +56,22 @@ fun BoxWithConstraintsScope.ImportFrom(
                 onSkip = onSkip
             )
             //onboarding toolbar include paddingBottom 16.dp
+        }
+
+        item {
+            Spacer(Modifier.height(8.dp))
+            val nav = navigation()
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(64.dp)
+                    .padding(horizontal = 16.dp),
+                onClick = {
+                    nav.navigateTo(CSVScreen)
+                }
+            ) {
+                Text(text = "Manual CSV import")
+            }
         }
 
         item {

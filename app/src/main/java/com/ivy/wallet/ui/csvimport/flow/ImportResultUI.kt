@@ -1,6 +1,7 @@
 package com.ivy.wallet.ui.csvimport.flow
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -14,6 +15,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
+import com.ivy.wallet.ui.CSVScreen
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.BackButton
@@ -139,7 +141,10 @@ fun ImportResultUI(
 
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
-            text = stringResource(R.string.rows_from_csv_not_recognized, result.rowsFound - result.transactionsImported),
+            text = stringResource(
+                R.string.rows_from_csv_not_recognized,
+                result.rowsFound - result.transactionsImported
+            ),
             style = UI.typo.nB2.style(
                 fontWeight = FontWeight.Bold,
                 color = Gray
@@ -147,6 +152,27 @@ fun ImportResultUI(
         )
 
         //TODO: Implement "See failed imports"
+
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            text = "If this didn't work, Try manual CSV import.",
+            color = UI.colors.pureInverse,
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(52.dp)
+                .padding(horizontal = 16.dp),
+            onClick = {
+                nav.navigateTo(CSVScreen)
+            }
+        ) {
+            Text(text = "Manual CSV import")
+        }
 
         Spacer(Modifier.weight(1f))
 

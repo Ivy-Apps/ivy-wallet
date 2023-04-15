@@ -54,6 +54,7 @@ import com.ivy.wallet.ui.balance.BalanceScreen
 import com.ivy.wallet.ui.budget.BudgetScreen
 import com.ivy.wallet.ui.category.CategoriesScreen
 import com.ivy.wallet.ui.charts.ChartsScreen
+import com.ivy.wallet.ui.csv.CSVScreen
 import com.ivy.wallet.ui.csvimport.ImportCSVScreen
 import com.ivy.wallet.ui.donate.DonateScreen
 import com.ivy.wallet.ui.edit.EditTransactionScreen
@@ -218,6 +219,7 @@ class RootActivity : AppCompatActivity() {
             is ImagesScreen -> ImagesScreen(screen = screen)
             is ExperimentalScreen -> ExperimentalScreen(screen = screen)
             is DonateScreen -> DonateScreen(screen = screen)
+            is CSVScreen -> CSVScreen()
             null -> {
             }
         }
