@@ -1,12 +1,12 @@
 package com.ivy.wallet.ui.csv
 
+import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.wallet.domain.deprecated.logic.csv.CSVNormalizer
 import com.ivy.wallet.domain.deprecated.logic.csv.IvyFileReader
 import com.opencsv.CSVReaderBuilder
 import com.opencsv.validators.LineValidator
@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.StringReader
+import java.nio.charset.Charset
 import javax.inject.Inject
 
 @HiltViewModel
@@ -59,13 +60,26 @@ class CSVViewModel @Inject constructor(
     }
 
     private suspend fun handleFilePicked(event: CSVEvent.FilePicked) = withContext(Dispatchers.IO) {
-        val fileContent = fileReader.read(event.uri, Charsets.UTF_8) ?: return@withContext
-        csv = parseCSV(fileContent).takeIf { it.isNotEmpty() }
+        csv = processFile(event.uri)
+    }
+
+    private suspend fun processFile(
+        uri: Uri,
+        charset: Charset = Charsets.UTF_8
+    ): List<CSVRow>? {
+        return try {
+            val fileContent = fileReader.read(uri, charset) ?: return null
+            parseCSV(fileContent).takeIf { it.isNotEmpty() }
+        } catch (e: Exception) {
+            if (charset != Charsets.UTF_16) {
+                return processFile(uri, Charsets.UTF_16)
+            }
+            null
+        }
     }
 
     private suspend fun parseCSV(csv: String): List<CSVRow> {
         val csvReader = CSVReaderBuilder(StringReader(csv))
-            .withSkipLines(1)
             .withLineValidator(object : LineValidator {
                 override fun isValid(line: String?): Boolean {
                     return true

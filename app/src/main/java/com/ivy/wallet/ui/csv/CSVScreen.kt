@@ -7,13 +7,13 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -69,6 +69,9 @@ private fun ImportButton(
 ) {
     val ivyContext = ivyWalletCtx()
     Button(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(48.dp),
         onClick = {
             ivyContext.openFile {
                 onFilePicked(it)
@@ -98,9 +101,19 @@ fun Spacer8(horizontal: Boolean = false) {
 private fun LazyListScope.csvTable(
     csv: List<CSVRow>
 ) {
-    itemsIndexed(items = csv.take(10)) { index, row ->
-        CSVRow(row = row, header = index == 0, even = index % 2 == 0)
+    item {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState())
+        ) {
+            val visibleRows = remember(csv) { csv.take(10) }
+            visibleRows.forEachIndexed { index, row ->
+                CSVRow(row = row, header = index == 0, even = index % 2 == 0)
+            }
+        }
     }
+
 }
 
 @Composable
@@ -112,7 +125,6 @@ private fun CSVRow(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .horizontalScroll(rememberScrollState())
     ) {
         row.values.forEach { value ->
             CSVCell(text = value, header = header, even = even)
@@ -128,15 +140,15 @@ private fun CSVCell(
 ) {
     Text(
         modifier = Modifier
-            .width(120.dp)
+            .width(140.dp)
             .border(1.dp, UI.colors.pureInverse)
             .thenIf(even) {
                 this.background(UI.colors.medium)
             }
             .padding(all = 4.dp),
-        text = text,
+        text = text.ifEmpty { " " },
         style = UI.typo.nB1,
-        fontWeight = if (header) FontWeight.ExtraBold else FontWeight.Normal,
+        fontWeight = if (header) FontWeight.Bold else FontWeight.Normal,
         overflow = TextOverflow.Ellipsis,
         maxLines = 1,
     )
