@@ -1,34 +1,33 @@
 package com.ivy.wallet.ui.csv
 
-import com.ivy.wallet.domain.data.core.Transaction
-
 data class CSVState(
     val columns: CSVRow,
     val csv: List<CSVRow>?,
     val important: ImportantFields?,
     val transfer: TransferFields?,
     val optional: OptionalFields?,
-    val transactions: List<Transaction>?
+
+    val successPercent: Double,
+    val failedRows: List<CSVRow>?,
 )
 
 data class ImportantFields(
-    val amount: ColumnMapping<AmountMetadata>,
+    val amount: ColumnMapping<Int>,
     val type: ColumnMapping<TrnTypeMetadata>,
-    val date: ColumnMapping<String>,
+    val date: ColumnMapping<DateMetadata>,
     val account: ColumnMapping<Unit>,
     val accountCurrency: ColumnMapping<Unit>,
 )
-
-sealed interface AmountMetadata {
-    data class Multiple(val multiplier: Int) : AmountMetadata
-    data class Divider(val divider: Int) : AmountMetadata
-}
 
 data class TrnTypeMetadata(
     val income: String,
     val expense: String,
     val transfer: String?,
 )
+
+enum class DateMetadata {
+    MonthFirst, DateFirst
+}
 
 data class TransferFields(
     val toAccount: ColumnMapping<Unit>,

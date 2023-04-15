@@ -5,4 +5,12 @@ import android.net.Uri
 sealed interface CSVEvent {
     data class FilePicked(val uri: Uri) : CSVEvent
 
+    data class MapAmount(val index: Int, val name: String) : CSVEvent
+    data class AmountMultiplier(val multiplier: Int) : CSVEvent
+    data class MapType(val index: Int, val name: String) : CSVEvent
+    data class TypeMetaChange(val meta: TrnTypeMetadata) : CSVEvent
+    data class MapDate(val index: Int, val name: String) : CSVEvent
+    data class DataMetaChange(val meta: DateMetadata) : CSVEvent
+    data class MapAccount(val index: Int, val name: String) : CSVEvent
+    data class MapAccountCurrency(val index: Int, val name: String) : CSVEvent
 }

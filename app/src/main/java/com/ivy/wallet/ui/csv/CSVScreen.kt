@@ -12,6 +12,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -83,9 +84,14 @@ fun LazyListScope.spacer8() {
 }
 
 @Composable
-fun Spacer8() {
-    Spacer(modifier = Modifier.height(8.dp))
+fun Spacer8(horizontal: Boolean = false) {
+    if (horizontal) {
+        Spacer(modifier = Modifier.width(8.dp))
+    } else {
+        Spacer(modifier = Modifier.height(8.dp))
+    }
 }
+
 
 private fun LazyListScope.csvTable(
     csv: List<CSVRow>
@@ -165,17 +171,11 @@ private fun <M> LazyListScope.mappingRow(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 columns.values.forEachIndexed { index, column ->
-                    Button(
-                        colors = if (column == mapping.name) {
-                            ButtonDefaults.buttonColors()
-                        } else {
-                            ButtonDefaults.outlinedButtonColors()
-                        },
-                        onClick = {
-                            onMapTo(index, column)
-                        }
+                    EnabledButton(
+                        text = column,
+                        enabled = column == mapping.name
                     ) {
-                        Text(text = column)
+                        onMapTo(index, column)
                     }
                     Spacer(Modifier.width(8.dp))
                 }
@@ -191,7 +191,6 @@ private fun <M> LazyListScope.mappingRow(
                 CSVRow(row = CSVRow(mapping.sampleValues), header = false, even = true)
             }
         }
-        Spacer8()
     }
 }
 
@@ -203,6 +202,7 @@ fun LazyListScope.sectionDivider(text: String) {
     }
 }
 
+// region Important
 fun LazyListScope.important(
     columns: CSVRow,
     importantFields: ImportantFields,
@@ -212,11 +212,173 @@ fun LazyListScope.important(
     mappingRow(
         columns = columns,
         mapping = importantFields.amount,
-        onMapTo = { index, name ->
-
-        },
+        onMapTo = { index, name -> onEvent(CSVEvent.MapAmount(index, name)) },
+        metadataContent = { multiplier ->
+            AmountMetadata(multiplier = multiplier, onEvent = onEvent)
+        }
+    )
+    mappingRow(
+        columns = columns,
+        mapping = importantFields.type,
+        onMapTo = { index, name -> onEvent(CSVEvent.MapType(index, name)) },
         metadataContent = {
+            TypeMetadata(metadata = it, onEvent = onEvent)
+        }
+    )
+    mappingRow(
+        columns = columns,
+        mapping = importantFields.date,
+        onMapTo = { index, name -> onEvent(CSVEvent.MapDate(index, name)) },
+        metadataContent = {
+            DateMetadataUI(metadata = it, onEvent = onEvent)
+        }
+    )
+    mappingRow(
+        columns = columns,
+        mapping = importantFields.account,
+        onMapTo = { index, name -> onEvent(CSVEvent.MapAccount(index, name)) },
+    )
+    mappingRow(
+        columns = columns,
+        mapping = importantFields.accountCurrency,
+        onMapTo = { index, name -> onEvent(CSVEvent.MapAccountCurrency(index, name)) },
+    )
+}
 
+@Composable
+private fun AmountMetadata(
+    multiplier: Int,
+    onEvent: (CSVEvent) -> Unit,
+) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Button(onClick = {
+            onEvent(
+                CSVEvent.AmountMultiplier(
+                    when {
+                        multiplier < 0 -> multiplier * 10
+                        multiplier == 1 -> -10
+                        else -> multiplier / 10
+                    }
+                )
+            )
+        }) {
+            Text(text = "/10")
+        }
+        Spacer8(horizontal = true)
+        Text(
+            text = when {
+                multiplier < 0 -> "/$multiplier"
+                multiplier > 1 -> "*$multiplier"
+                else -> "None"
+            }
+        )
+        Spacer8(horizontal = true)
+        Button(onClick = {
+            onEvent(
+                CSVEvent.AmountMultiplier(
+                    when {
+                        multiplier == -1 -> 10
+                        multiplier > 0 -> multiplier * 10
+                        else -> multiplier / 10
+                    }
+                )
+            )
+        }) {
+            Text(text = "*10")
+        }
+    }
+}
+
+// region Type Metadata
+@Composable
+private fun TypeMetadata(
+    metadata: TrnTypeMetadata,
+    onEvent: (CSVEvent) -> Unit
+) {
+    val onTypeMetaEvent = { newMeta: TrnTypeMetadata ->
+        onEvent(CSVEvent.TypeMetaChange(newMeta))
+    }
+
+    LabelEqualsField(
+        label = "Income",
+        value = metadata.income,
+        onValueChange = {
+            onTypeMetaEvent(metadata.copy(income = it))
+        }
+    )
+    Spacer8()
+    LabelEqualsField(
+        label = "Expense",
+        value = metadata.expense,
+        onValueChange = {
+            onTypeMetaEvent(metadata.copy(expense = it))
+        }
+    )
+    Spacer8()
+    Text(text = "(optional)", style = UI.typo.c)
+    LabelEqualsField(
+        label = "Transfer",
+        value = metadata.transfer ?: "",
+        onValueChange = {
+            onTypeMetaEvent(metadata.copy(transfer = it))
         }
     )
 }
+
+@Composable
+fun LabelEqualsField(
+    label: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Text(text = label, color = UI.colors.primary)
+        Spacer8(horizontal = true)
+        TextField(value = value, onValueChange = onValueChange)
+    }
+}
+// endregion
+
+@Composable
+private fun DateMetadataUI(
+    metadata: DateMetadata,
+    onEvent: (CSVEvent) -> Unit,
+) {
+    Text(text = "Which is first in the format?")
+    Row {
+        EnabledButton(
+            enabled = metadata == DateMetadata.DateFirst,
+            text = "Date/Day (1,2,3...31)",
+            onClick = {
+                onEvent(CSVEvent.DataMetaChange(DateMetadata.DateFirst))
+            }
+        )
+        Spacer8(horizontal = true)
+        EnabledButton(
+            enabled = metadata == DateMetadata.MonthFirst,
+            text = "Month (1,2..12 / Jan, Feb..Dec)",
+            onClick = {
+                onEvent(CSVEvent.DataMetaChange(DateMetadata.MonthFirst))
+            }
+        )
+    }
+}
+
+@Composable
+private fun EnabledButton(
+    text: String,
+    enabled: Boolean,
+    onClick: () -> Unit,
+) {
+    Button(
+        colors = if (enabled) {
+            ButtonDefaults.buttonColors()
+        } else {
+            ButtonDefaults.outlinedButtonColors()
+        },
+        onClick = onClick
+    ) {
+        Text(text = text)
+    }
+}
+// endregion
