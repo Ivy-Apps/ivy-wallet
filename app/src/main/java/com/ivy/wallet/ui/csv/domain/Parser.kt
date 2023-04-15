@@ -1,2 +1,165 @@
 package com.ivy.wallet.ui.csv.domain
 
+import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.wallet.ui.csv.DateMetadata
+import com.ivy.wallet.ui.csv.TrnTypeMetadata
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
+import kotlin.math.abs
+
+fun parseAmount(
+    value: String,
+    metadata: Int // a broken multiplier
+): Double? = tryParse {
+    val multiplier = when (metadata) {
+        -10_000 -> 0.0001
+        -1_000 -> 0.001
+        -100 -> 0.01
+        -10 -> 0.1
+        10 -> 10.0
+        100 -> 100.0
+        1_000 -> 1_000.0
+        1_0000 -> 10_000.0
+        else -> 1.0
+    }
+    abs(value.toDouble() * multiplier)
+}
+
+fun parseTransactionType(
+    value: String,
+    metadata: TrnTypeMetadata
+): TransactionType? {
+    fun String.tryMeta(metaContains: String): Boolean {
+        return metaContains.isNotBlank() &&
+                this.contains(metaContains.trim(), ignoreCase = true)
+    }
+
+    return tryParse {
+        with(value) {
+            when {
+                tryMeta(metadata.expense) -> TransactionType.EXPENSE
+                tryMeta(metadata.income) -> TransactionType.INCOME
+                tryMeta(metadata.transfer ?: "") -> TransactionType.TRANSFER
+                value.contains("income", ignoreCase = true) -> TransactionType.INCOME
+                value.contains("expense", ignoreCase = true) -> TransactionType.EXPENSE
+                value.contains("transfer", ignoreCase = true) -> TransactionType.TRANSFER
+                else -> null
+            }
+        }
+    }
+}
+
+// region Parse Date
+var lastSuccessfulFormat: String? = null
+
+fun parseDate(
+    value: String,
+    metadata: DateMetadata
+): LocalDateTime? = tryParse {
+    val possibleFormats = possibleDateFormats(metadata)
+    if (lastSuccessfulFormat != null) {
+        try {
+            return@tryParse LocalDateTime.parse(
+                value,
+                DateTimeFormatter.ofPattern(lastSuccessfulFormat)
+            )
+        } catch (e: DateTimeParseException) {
+            // Ignore and continue trying other formats
+            lastSuccessfulFormat = null
+        }
+    }
+    for (format in possibleFormats) {
+        try {
+            return@tryParse LocalDateTime.parse(value, DateTimeFormatter.ofPattern(format))
+        } catch (e: DateTimeParseException) {
+            // Ignore and continue trying other formats
+        }
+    }
+    null
+}
+
+private fun possibleDateFormats(metadata: DateMetadata): List<String> {
+    return when (metadata) {
+        DateMetadata.DateFirst -> listOf(
+            "dd/MM/yyyy HH:mm:ss",
+            "dd-MM-yyyy HH:mm:ss",
+            "dd/MM/yyyy H:mm",
+            "dd-MM-yyyy H:mm",
+            "dd/MM/yyyy HH:mm",
+            "dd-MM-yyyy HH:mm",
+            "dd/MM/yyyy",
+            "dd-MM-yyyy",
+            "d MMM yyyy HH:mm:ss",
+            "d MMM yyyy H:mm",
+            "d MMM yyyy HH:mm",
+            "d MMM yyyy",
+            "dd MMM yyyy",
+            "yyyy/dd/MM HH:mm:ss",
+            "yyyy-dd-MM HH:mm:ss",
+            "yyyy/dd/MM H:mm",
+            "yyyy-dd-MM H:mm",
+            "yyyy/dd/MM HH:mm",
+            "yyyy-dd-MM HH:mm",
+            "yyyy/dd/MM",
+            "yyyy-dd-MM",
+            "yyyy d MMM HH:mm:ss",
+            "yyyy d MMM H:mm",
+            "yyyy d MMM HH:mm",
+            "yyyy d MMM",
+            "yyyy dd MMM"
+        )
+        DateMetadata.MonthFirst -> listOf(
+            "MM/dd/yyyy HH:mm:ss",
+            "MM-dd-yyyy HH:mm:ss",
+            "MM/dd/yyyy H:mm",
+            "MM-dd-yyyy H:mm",
+            "MM/dd/yyyy HH:mm",
+            "MM-dd-yyyy HH:mm",
+            "MM/dd/yyyy",
+            "MM-dd-yyyy",
+            "MMM d yyyy HH:mm:ss",
+            "MMM d yyyy H:mm",
+            "MMM d yyyy HH:mm",
+            "MMM d yyyy",
+            "MMM dd yyyy",
+            "yyyy/MM/dd HH:mm:ss",
+            "yyyy-MM-dd HH:mm:ss",
+            "yyyy/MM/dd H:mm",
+            "yyyy-MM-dd H:mm",
+            "yyyy/MM/dd HH:mm",
+            "yyyy-MM-dd HH:mm",
+            "yyyy/MM/dd",
+            "yyyy-MM-dd",
+            "yyyy MMM d HH:mm:ss",
+            "yyyy MMM d H:mm",
+            "yyyy MMM d HH:mm",
+            "yyyy MMM d",
+            "yyyy MMM dd"
+        )
+    }
+}
+// endregion
+
+fun parseAccount(
+    value: String,
+    metadata: Unit,
+): String? = notBlankTrimmedString(value)
+
+fun parseAccountCurrency(
+    value: String,
+    metadata: Unit,
+): String? = notBlankTrimmedString(value)
+
+
+
+// region Util
+private fun notBlankTrimmedString(value: String): String? =
+    value.trim().takeIf { it.isNotBlank() }
+
+private fun <T> tryParse(block: () -> T): T? = try {
+    block()
+} catch (e: Exception) {
+    null
+}
+// endregion

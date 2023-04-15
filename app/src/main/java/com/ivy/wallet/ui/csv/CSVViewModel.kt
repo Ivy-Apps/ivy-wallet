@@ -1,15 +1,11 @@
 package com.ivy.wallet.ui.csv
 
 import android.net.Uri
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.domain.deprecated.logic.csv.IvyFileReader
-import com.ivy.wallet.ui.csv.domain.mappingFailure
-import com.ivy.wallet.ui.csv.domain.parseImportantStatus
+import com.ivy.wallet.ui.csv.domain.*
 import com.opencsv.CSVReaderBuilder
 import com.opencsv.validators.LineValidator
 import com.opencsv.validators.RowValidator
@@ -29,8 +25,6 @@ class CSVViewModel @Inject constructor(
 
     private var columns by mutableStateOf<CSVRow?>(null)
     private var csv by mutableStateOf<List<CSVRow>?>(null)
-    private var transfer by mutableStateOf<TransferFields?>(null)
-    private var optional by mutableStateOf<OptionalFields?>(null)
     private var successPercent by mutableStateOf<Double?>(null)
     private var failedRows by mutableStateOf<List<CSVRow>?>(null)
 
@@ -106,8 +100,8 @@ class CSVViewModel @Inject constructor(
             columns = columns,
             csv = csv,
             important = important(csv),
-            transfer = transfer,
-            optional = optional,
+            transfer = null,
+            optional = null,
             successPercent = successPercent,
             failedRows = failedRows,
         )
@@ -115,30 +109,32 @@ class CSVViewModel @Inject constructor(
 
     @Composable
     private fun important(csv: List<CSVRow>?): ImportantFields? {
-        val failure = mappingFailure()
-        val importantFields = ImportantFields(
-            amount = amount,
-            amountStatus = failure,
-            type = type,
-            typeStatus = failure,
-            date = date,
-            dateStatus = failure,
-            account = account,
-            accountStatus = failure,
-            accountCurrency = accountCurrency,
-            accountCurrencyStatus = failure,
-        )
-
-        return if (csv != null) {
-            val status = parseImportantStatus(csv, importantFields)
-            importantFields.copy(
-                amountStatus = status.amountStatus,
-                typeStatus = status.typeStatus,
-                dateStatus = status.dateStatus,
-                accountStatus = status.accountStatus,
-                accountCurrencyStatus = status.accountCurrencyStatus,
-            )
-        } else null
+        return produceState<ImportantFields?>(
+            initialValue = null,
+            csv, amount, type, date, account, accountCurrency,
+        ) {
+            val result = withContext(Dispatchers.Default) {
+                if (csv != null) {
+                    val sampleRows = csv.drop(1).take(10) // drop the header
+                    ImportantFields(
+                        amount = amount,
+                        amountStatus = sampleRows.parseStatus(amount, ::parseAmount),
+                        type = type,
+                        typeStatus = sampleRows.parseStatus(type, ::parseTransactionType),
+                        date = date,
+                        dateStatus = sampleRows.parseStatus(date, ::parseDate),
+                        account = account,
+                        accountStatus = sampleRows.parseStatus(account, ::parseAccount),
+                        accountCurrency = accountCurrency,
+                        accountCurrencyStatus = sampleRows.parseStatus(
+                            accountCurrency,
+                            ::parseAccountCurrency
+                        ),
+                    )
+                } else null
+            }
+            value = result
+        }.value
     }
 
 
