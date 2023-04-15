@@ -118,13 +118,16 @@ class CSVImporterV2 @Inject constructor(
         val toAccount = if (type == TransactionType.TRANSFER) {
             mapAccount(
                 baseCurrency = baseCurrency,
-                accountNameString = parseAccount(
+                accountNameString = parseToAccount(
                     value = row.extractValue(transferFields.toAccount),
                     metadata = transferFields.toAccount.metadata
                 ),
-                currencyRawString = parseAccountCurrency(
+                currencyRawString = parseToAccountCurrency(
                     value = row.extractValue(transferFields.toAccountCurrency),
                     metadata = transferFields.toAccountCurrency.metadata
+                ) ?: parseAccountCurrency(
+                    value = row.extractValue(importantFields.accountCurrency),
+                    metadata = importantFields.accountCurrency.metadata,
                 ),
                 color = null,
                 icon = null,
@@ -161,12 +164,7 @@ class CSVImporterV2 @Inject constructor(
         val dateTime = parseDate(
             row.extractValue(importantFields.date),
             importantFields.date.metadata
-        )
-        val dueDate = null
-        if (dateTime == null) {
-            //Cannot save transactions without any date
-            return null
-        }
+        ) ?: return null
 
         val account = mapAccount(
             baseCurrency = baseCurrency,
@@ -209,7 +207,7 @@ class CSVImporterV2 @Inject constructor(
             toAccountId = toAccount?.id,
             toAmount = toAmount?.toBigDecimal() ?: amount.toBigDecimal(),
             dateTime = dateTime,
-            dueDate = dueDate,
+            dueDate = null,
             categoryId = category?.id,
             title = title,
             description = description
