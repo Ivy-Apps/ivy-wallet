@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.domain.deprecated.logic.csv.IvyFileReader
 import com.ivy.wallet.ui.csv.domain.*
+import com.ivy.wallet.utils.uiThread
 import com.opencsv.CSVReaderBuilder
 import com.opencsv.validators.LineValidator
 import com.opencsv.validators.RowValidator
@@ -17,11 +18,12 @@ import kotlinx.coroutines.withContext
 import java.io.StringReader
 import java.nio.charset.Charset
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 @HiltViewModel
 class CSVViewModel @Inject constructor(
     private val fileReader: IvyFileReader,
-    private val csvImporterV2: CSVImporterV2,
+    private val csvImporter: CSVImporterV2,
 ) : ViewModel() {
 
     private var columns by mutableStateOf<CSVRow?>(null)
@@ -179,16 +181,19 @@ class CSVViewModel @Inject constructor(
     )
     // endregion
 
+    private var uiState by mutableStateOf<UIState>(UIState.Idle)
+
 
     @Composable
     fun uiState(): CSVState {
         val sampleCSV = remember(csv) {
             // drop the header
-            csv?.drop(1)?.shuffled()?.take(SAMPLE_SIZE)
+            csv?.drop(1)?.take(SAMPLE_SIZE)
         }
 
         val important = importantFields(sampleCSV)
         return CSVState(
+            uiState = uiState,
             columns = columns,
             csv = csv,
             important = important,
@@ -239,7 +244,7 @@ class CSVViewModel @Inject constructor(
     private fun transferFields(sampleCSV: List<CSVRow>?): TransferFields? {
         return produceState<TransferFields?>(
             initialValue = null,
-            sampleCSV, toAccount, toAccountCurrency,
+            sampleCSV, toAccount, toAccountCurrency, toAmount,
         ) {
             val result = withContext(Dispatchers.Default) {
                 if (sampleCSV != null) {
@@ -373,6 +378,9 @@ class CSVViewModel @Inject constructor(
                     metadata = event.multiplier
                 )
             }
+            CSVEvent.ResetState -> {
+                uiState = UIState.Idle
+            }
         }
     }
 
@@ -382,7 +390,7 @@ class CSVViewModel @Inject constructor(
         columns = csv?.firstOrNull()
     }
 
-    private suspend fun processFile(
+    private fun processFile(
         uri: Uri,
         charset: Charset = Charsets.UTF_8
     ): List<CSVRow>? {
@@ -397,7 +405,7 @@ class CSVViewModel @Inject constructor(
         }
     }
 
-    private suspend fun parseCSV(csv: String): List<CSVRow> {
+    private fun parseCSV(csv: String): List<CSVRow> {
         val csvReader = CSVReaderBuilder(StringReader(csv))
             .withLineValidator(object : LineValidator {
                 override fun isValid(line: String?): Boolean {
@@ -425,8 +433,52 @@ class CSVViewModel @Inject constructor(
     }
     // endregion
 
-    suspend private fun handleContinue() {
+    private suspend fun handleContinue() {
+        val csv = this.csv ?: return
+        val emptyStatus = MappingStatus(emptyList(), false)
 
+        withContext(Dispatchers.IO) {
+
+            val result = csvImporter.import(
+                csv = csv,
+                importantFields = ImportantFields(
+                    amount = amount,
+                    date = date,
+                    type = type,
+                    account = account,
+                    accountCurrency = account,
+                    amountStatus = emptyStatus,
+                    dateStatus = emptyStatus,
+                    accountStatus = emptyStatus,
+                    typeStatus = emptyStatus,
+                    accountCurrencyStatus = emptyStatus,
+                ),
+                transferFields = TransferFields(
+                    toAccount = toAccount,
+                    toAccountCurrency = toAccountCurrency,
+                    toAmount = toAmount,
+                    toAmountStatus = emptyStatus,
+                    toAccountStatus = emptyStatus,
+                    toAccountCurrencyStatus = emptyStatus,
+                ),
+                optionalFields = OptionalFields(
+                    category = category,
+                    title = title,
+                    description = description,
+                    categoryStatus = emptyStatus,
+                    titleStatus = emptyStatus,
+                    descriptionStatus = emptyStatus,
+                ),
+                onProgress = { progressPercent ->
+                    uiThread {
+                        uiState = UIState.Processing(
+                            (progressPercent * 100).roundToInt()
+                        )
+                    }
+                }
+            )
+            uiState = UIState.Result(result)
+        }
     }
 
 

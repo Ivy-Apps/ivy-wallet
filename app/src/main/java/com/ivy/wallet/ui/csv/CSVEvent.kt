@@ -24,5 +24,6 @@ sealed interface CSVEvent {
     data class MapDescription(val index: Int, val name: String) : CSVEvent
 
     object Continue : CSVEvent
+    object ResetState : CSVEvent
 
 }

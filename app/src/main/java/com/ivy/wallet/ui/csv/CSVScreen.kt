@@ -24,17 +24,36 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.colorAs
+import com.ivy.frp.view.navigation.navigation
+import com.ivy.wallet.ui.csvimport.flow.ImportProcessing
+import com.ivy.wallet.ui.csvimport.flow.ImportResultUI
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.utils.thenIf
+import kotlin.math.abs
 
 @Composable
 fun CSVScreen() {
     val viewModel: CSVViewModel = viewModel()
-    UI(state = viewModel.uiState(), onEvent = viewModel::onEvent)
+    val state = viewModel.uiState()
+    val nav = navigation()
+    when (val ui = state.uiState) {
+        UIState.Idle -> ImportUI(state = state, onEvent = viewModel::onEvent)
+        is UIState.Processing -> ImportProcessing(progressPercent = ui.percent)
+        is UIState.Result -> ImportResultUI(
+            result = ui.importResult,
+            isManualCsvImport = true,
+            onTryAgain = {
+                viewModel.onEvent(CSVEvent.ResetState)
+            },
+            onFinish = {
+                nav.back()
+            }
+        )
+    }
 }
 
 @Composable
-private fun UI(
+private fun ImportUI(
     state: CSVState,
     onEvent: (CSVEvent) -> Unit,
 ) {
@@ -301,6 +320,7 @@ private fun AmountMetadata(
     multiplier: Int,
     onMetaChange: (Int) -> Unit,
 ) {
+    Text(text = "Multiplier", style = UI.typo.nB2)
     Row(verticalAlignment = Alignment.CenterVertically) {
         Button(onClick = {
             onMetaChange(
@@ -316,8 +336,8 @@ private fun AmountMetadata(
         Spacer8(horizontal = true)
         Text(
             text = when {
-                multiplier < 0 -> "/$multiplier"
-                multiplier > 1 -> "*$multiplier"
+                multiplier < 0 -> "/${abs(multiplier)}"
+                multiplier > 1 -> "*${abs(multiplier)}"
                 else -> "None"
             },
             style = UI.typo.nB2,
@@ -458,9 +478,12 @@ fun LazyListScope.transferFields(
         status = transferFields.toAmountStatus,
         onMapTo = { index, name -> onEvent(CSVEvent.MapToAmount(index, name)) },
         metadataContent = { multiplier ->
-            AmountMetadata(multiplier = multiplier, onMetaChange = {
-                onEvent(CSVEvent.ToAmountMetaChange(it))
-            })
+            AmountMetadata(
+                multiplier = multiplier,
+                onMetaChange = {
+                    onEvent(CSVEvent.ToAmountMetaChange(it))
+                }
+            )
         }
     )
 }

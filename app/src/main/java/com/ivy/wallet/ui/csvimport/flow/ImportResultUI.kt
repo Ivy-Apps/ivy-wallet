@@ -26,7 +26,9 @@ import com.ivy.wallet.utils.format
 @Composable
 fun ImportResultUI(
     result: ImportResult,
+    isManualCsvImport: Boolean = false,
 
+    onTryAgain: (() -> Unit)? = null,
     onFinish: () -> Unit
 ) {
     Column(
@@ -153,25 +155,27 @@ fun ImportResultUI(
 
         //TODO: Implement "See failed imports"
 
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            text = "If this didn't work, Try manual CSV import.",
-            color = UI.colors.pureInverse,
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Button(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(52.dp)
-                .padding(horizontal = 16.dp),
-            onClick = {
-                nav.navigateTo(CSVScreen)
+        if (!isManualCsvImport) {
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                text = "If this didn't work, Try manual CSV import.",
+                color = UI.colors.pureInverse,
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp)
+                    .padding(horizontal = 16.dp),
+                onClick = {
+                    nav.navigateTo(CSVScreen)
+                }
+            ) {
+                Text(text = "Manual CSV import")
             }
-        ) {
-            Text(text = "Manual CSV import")
         }
 
         Spacer(Modifier.weight(1f))
@@ -187,6 +191,20 @@ fun ImportResultUI(
             enabled = true
         ) {
             onFinish()
+        }
+
+        if (onTryAgain != null) {
+            Spacer(Modifier.height(12.dp))
+
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp),
+                onClick = onTryAgain,
+                enabled = true
+            ) {
+                Text(text = "Try again")
+            }
         }
 
         Spacer(Modifier.height(16.dp))

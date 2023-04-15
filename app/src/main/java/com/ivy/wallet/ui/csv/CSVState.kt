@@ -1,6 +1,9 @@
 package com.ivy.wallet.ui.csv
 
+import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
+
 data class CSVState(
+    val uiState: UIState,
     val columns: CSVRow?,
     val csv: List<CSVRow>?,
     val important: ImportantFields?,
@@ -8,6 +11,12 @@ data class CSVState(
     val optional: OptionalFields?,
     val continueEnabled: Boolean,
 )
+
+sealed interface UIState {
+    object Idle : UIState
+    data class Processing(val percent: Int) : UIState
+    data class Result(val importResult: ImportResult) : UIState
+}
 
 data class ImportantFields(
     val amount: ColumnMapping<Int>,
