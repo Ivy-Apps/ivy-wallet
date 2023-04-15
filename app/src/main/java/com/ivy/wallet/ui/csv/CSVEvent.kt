@@ -13,4 +13,14 @@ sealed interface CSVEvent {
     data class DataMetaChange(val meta: DateMetadata) : CSVEvent
     data class MapAccount(val index: Int, val name: String) : CSVEvent
     data class MapAccountCurrency(val index: Int, val name: String) : CSVEvent
+
+    data class MapToAccount(val index: Int, val name: String) : CSVEvent
+    data class MapToAccountCurrency(val index: Int, val name: String) : CSVEvent
+
+    data class MapCategory(val index: Int, val name: String) : CSVEvent
+    data class MapTitle(val index: Int, val name: String) : CSVEvent
+    data class MapDescription(val index: Int, val name: String) : CSVEvent
+
+    object Continue : CSVEvent
+
 }

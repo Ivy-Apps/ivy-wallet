@@ -6,9 +6,7 @@ data class CSVState(
     val important: ImportantFields?,
     val transfer: TransferFields?,
     val optional: OptionalFields?,
-
-    val successPercent: Double?,
-    val failedRows: List<CSVRow>?,
+    val continueEnabled: Boolean,
 )
 
 data class ImportantFields(
@@ -36,13 +34,18 @@ enum class DateMetadata {
 
 data class TransferFields(
     val toAccount: ColumnMapping<Unit>,
+    val toAccountStatus: MappingStatus,
     val toAccountCurrency: ColumnMapping<Unit>,
+    val toAccountCurrencyStatus: MappingStatus,
 )
 
 data class OptionalFields(
     val category: ColumnMapping<Unit>,
+    val categoryStatus: MappingStatus,
     val title: ColumnMapping<Unit>,
+    val titleStatus: MappingStatus,
     val description: ColumnMapping<Unit>,
+    val descriptionStatus: MappingStatus,
 )
 
 data class ColumnMapping<M>(

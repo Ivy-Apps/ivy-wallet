@@ -25,9 +25,8 @@ class CSVViewModel @Inject constructor(
 
     private var columns by mutableStateOf<CSVRow?>(null)
     private var csv by mutableStateOf<List<CSVRow>?>(null)
-    private var successPercent by mutableStateOf<Double?>(null)
-    private var failedRows by mutableStateOf<List<CSVRow>?>(null)
 
+    // region Important fields
     private var amount by mutableStateOf(
         ColumnMapping(
             ivyColumn = "Amount",
@@ -42,7 +41,10 @@ class CSVViewModel @Inject constructor(
         ColumnMapping(
             ivyColumn = "Transaction Type",
             helpInfo = """
+                Select the column that determines the transaction type.
                 The type of the transaction. Can be Income, Expense or a Transfer.
+                If the type is determined by the transaction's amount -> simply select the
+                amount column and we'll do our best to match it automatically.
             """.trimIndent(),
             name = "",
             index = -1,
@@ -89,47 +91,174 @@ class CSVViewModel @Inject constructor(
             """.trimIndent(),
             name = "",
             index = -1,
-            required = true,
+            required = false,
             metadata = Unit,
         )
     )
+    // endregion
+
+    // region Transfer fields
+    private var toAccount by mutableStateOf(
+        ColumnMapping(
+            ivyColumn = "To Account",
+            helpInfo = """
+                The account receiving the transfer.
+                If you skip it, transfers won't be imported.
+            """.trimIndent(),
+            name = "",
+            index = -1,
+            required = false,
+            metadata = Unit,
+        )
+    )
+    private var toAccountCurrency by mutableStateOf(
+        ColumnMapping(
+            ivyColumn = "To Account Currency",
+            helpInfo = """
+                The currency of the account that receives the transfer.
+                Skip it if there's no such.
+            """.trimIndent(),
+            name = "",
+            index = -1,
+            required = false,
+            metadata = Unit,
+        )
+    )
+    // endregion
+
+    // region Optional fields
+    private var category by mutableStateOf(
+        ColumnMapping(
+            ivyColumn = "Category",
+            helpInfo = """
+                The category of the transaction.
+            """.trimIndent(),
+            name = "",
+            index = -1,
+            required = false,
+            metadata = Unit,
+        )
+    )
+    private var title by mutableStateOf(
+        ColumnMapping(
+            ivyColumn = "Title",
+            helpInfo = """
+                The title of the transaction.
+            """.trimIndent(),
+            name = "",
+            index = -1,
+            required = false,
+            metadata = Unit,
+        )
+    )
+    private var description by mutableStateOf(
+        ColumnMapping(
+            ivyColumn = "Description",
+            helpInfo = """
+                The description of the transaction.
+            """.trimIndent(),
+            name = "",
+            index = -1,
+            required = false,
+            metadata = Unit,
+        )
+    )
+    // endregion
+
 
     @Composable
     fun uiState(): CSVState {
+        val sampleCSV = remember(csv) {
+            // drop the header
+            csv?.drop(1)?.take(10)
+        }
+
+        val important = importantFields(sampleCSV)
         return CSVState(
             columns = columns,
             csv = csv,
-            important = important(csv),
-            transfer = null,
-            optional = null,
-            successPercent = successPercent,
-            failedRows = failedRows,
+            important = important,
+            transfer = transferFields(sampleCSV),
+            optional = optionalFields(sampleCSV),
+            continueEnabled = continueEnabled(important = important)
         )
     }
 
     @Composable
-    private fun important(csv: List<CSVRow>?): ImportantFields? {
+    private fun continueEnabled(important: ImportantFields?): Boolean {
+        return important != null && important.accountStatus.success &&
+                important.amountStatus.success &&
+                important.typeStatus.success &&
+                important.dateStatus.success
+    }
+
+    @Composable
+    private fun importantFields(sampleCSV: List<CSVRow>?): ImportantFields? {
         return produceState<ImportantFields?>(
             initialValue = null,
-            csv, amount, type, date, account, accountCurrency,
+            sampleCSV, amount, type, date, account, accountCurrency,
         ) {
             val result = withContext(Dispatchers.Default) {
-                if (csv != null) {
-                    val sampleRows = csv.drop(1).take(10) // drop the header
+                if (sampleCSV != null) {
                     ImportantFields(
                         amount = amount,
-                        amountStatus = sampleRows.parseStatus(amount, ::parseAmount),
+                        amountStatus = sampleCSV.parseStatus(amount, ::parseAmount),
                         type = type,
-                        typeStatus = sampleRows.parseStatus(type, ::parseTransactionType),
+                        typeStatus = sampleCSV.parseStatus(type, ::parseTransactionType),
                         date = date,
-                        dateStatus = sampleRows.parseStatus(date, ::parseDate),
+                        dateStatus = sampleCSV.parseStatus(date, ::parseDate),
                         account = account,
-                        accountStatus = sampleRows.parseStatus(account, ::parseAccount),
+                        accountStatus = sampleCSV.parseStatus(account, ::parseAccount),
                         accountCurrency = accountCurrency,
-                        accountCurrencyStatus = sampleRows.parseStatus(
+                        accountCurrencyStatus = sampleCSV.parseStatus(
                             accountCurrency,
                             ::parseAccountCurrency
                         ),
+                    )
+                } else null
+            }
+            value = result
+        }.value
+    }
+
+    @Composable
+    private fun transferFields(sampleCSV: List<CSVRow>?): TransferFields? {
+        return produceState<TransferFields?>(
+            initialValue = null,
+            sampleCSV, toAccount, toAccountCurrency,
+        ) {
+            val result = withContext(Dispatchers.Default) {
+                if (sampleCSV != null) {
+                    TransferFields(
+                        toAccount = toAccount,
+                        toAccountStatus = sampleCSV.parseStatus(toAccount, ::parseToAccount),
+                        toAccountCurrency = toAccountCurrency,
+                        toAccountCurrencyStatus = sampleCSV.parseStatus(
+                            toAccountCurrency,
+                            ::parseToAccountCurrency
+                        ),
+                    )
+                } else null
+            }
+            value = result
+        }.value
+    }
+
+    @Composable
+    private fun optionalFields(sampleCSV: List<CSVRow>?): OptionalFields? {
+        return produceState<OptionalFields?>(
+            initialValue = null,
+            sampleCSV, toAccount, toAccountCurrency,
+        ) {
+            val result = withContext(Dispatchers.Default) {
+                if (sampleCSV != null) {
+                    OptionalFields(
+                        category = category,
+                        categoryStatus = sampleCSV.parseStatus(category, ::parseCategory),
+                        title = title,
+                        titleStatus = sampleCSV.parseStatus(title, ::parseTitle),
+                        description = description,
+                        descriptionStatus = sampleCSV.parseStatus(description, ::parseDescription),
                     )
                 } else null
             }
@@ -186,9 +315,41 @@ class CSVViewModel @Inject constructor(
                     metadata = event.meta
                 )
             }
+            is CSVEvent.MapCategory -> {
+                category = category.copy(
+                    index = event.index,
+                    name = event.name
+                )
+            }
+            is CSVEvent.MapDescription -> {
+                description = description.copy(
+                    index = event.index,
+                    name = event.name
+                )
+            }
+            is CSVEvent.MapTitle -> {
+                title = title.copy(
+                    index = event.index,
+                    name = event.name
+                )
+            }
+            is CSVEvent.MapToAccount -> {
+                toAccount = toAccount.copy(
+                    index = event.index,
+                    name = event.name
+                )
+            }
+            is CSVEvent.MapToAccountCurrency -> {
+                toAccountCurrency = toAccountCurrency.copy(
+                    index = event.index,
+                    name = event.name
+                )
+            }
+            CSVEvent.Continue -> handleContinue()
         }
     }
 
+    // region Import CSV
     private suspend fun handleFilePicked(event: CSVEvent.FilePicked) = withContext(Dispatchers.IO) {
         csv = processFile(event.uri)
         columns = csv?.firstOrNull()
@@ -235,6 +396,12 @@ class CSVViewModel @Inject constructor(
         return csvReader.readAll()
             .map { CSVRow(it.toList()) }
     }
+    // endregion
+
+    suspend private fun handleContinue() {
+
+    }
+
 
 
     // region Boiler-plate

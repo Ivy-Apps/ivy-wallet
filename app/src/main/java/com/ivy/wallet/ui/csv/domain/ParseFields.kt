@@ -44,6 +44,8 @@ fun parseTransactionType(
                 value.contains("income", ignoreCase = true) -> TransactionType.INCOME
                 value.contains("expense", ignoreCase = true) -> TransactionType.EXPENSE
                 value.contains("transfer", ignoreCase = true) -> TransactionType.TRANSFER
+                value.toDoubleOrNull()?.let { it > 0 } == true -> TransactionType.INCOME
+                value.toDoubleOrNull()?.let { it < 0 } == true -> TransactionType.EXPENSE
                 else -> null
             }
         }
@@ -151,6 +153,30 @@ fun parseAccountCurrency(
     metadata: Unit,
 ): String? = notBlankTrimmedString(value)
 
+fun parseToAccount(
+    value: String,
+    metadata: Unit
+): String? = notBlankTrimmedString(value)
+
+fun parseToAccountCurrency(
+    value: String,
+    metadata: Unit
+): String? = notBlankTrimmedString(value)
+
+fun parseCategory(
+    value: String,
+    metadata: Unit
+): String? = notBlankTrimmedString(value)
+
+fun parseTitle(
+    value: String,
+    metadata: Unit
+): String? = notBlankTrimmedString(value)
+
+fun parseDescription(
+    value: String,
+    metadata: Unit
+): String? = notBlankTrimmedString(value)
 
 
 // region Util

@@ -59,7 +59,13 @@ private fun UI(
             csvTable(state.csv)
         }
         if (state.columns != null && state.important != null) {
-            important(state.columns, importantFields = state.important, onEvent = onEvent)
+            importantFields(state.columns, importantFields = state.important, onEvent = onEvent)
+        }
+        if (state.columns != null && state.transfer != null) {
+            transferFields(state.columns, state.transfer, onEvent = onEvent)
+        }
+        if (state.columns != null && state.optional != null) {
+            optionalFields(state.columns, state.optional, onEvent = onEvent)
         }
     }
 }
@@ -225,14 +231,22 @@ private fun <M> LazyListScope.mappingRow(
 
 fun LazyListScope.sectionDivider(text: String) {
     item {
-        Spacer8()
-        Text(text = text, style = UI.typo.h2)
+        Spacer(modifier = Modifier.height(24.dp))
+        Text(text = text, style = UI.typo.b1)
+        Text(
+            text = """
+                Match the CSV column with the appropriate Ivy type.
+                If the parsing is successful the border will turn green.
+            """.trimIndent(),
+            style = UI.typo.nB2,
+            color = UI.colors.pureInverse
+        )
         Spacer8()
     }
 }
 
 // region Important
-fun LazyListScope.important(
+fun LazyListScope.importantFields(
     columns: CSVRow,
     importantFields: ImportantFields,
     onEvent: (CSVEvent) -> Unit
@@ -420,3 +434,52 @@ private fun EnabledButton(
     }
 }
 // endregion
+
+fun LazyListScope.transferFields(
+    columns: CSVRow,
+    transferFields: TransferFields,
+    onEvent: (CSVEvent) -> Unit
+) {
+    sectionDivider("Transfer fields")
+    mappingRow(
+        columns = columns,
+        mapping = transferFields.toAccount,
+        status = transferFields.toAccountStatus,
+        onMapTo = { index, name -> onEvent(CSVEvent.MapToAccount(index, name)) },
+    )
+    mappingRow(
+        columns = columns,
+        mapping = transferFields.toAccountCurrency,
+        status = transferFields.toAccountCurrencyStatus,
+        onMapTo = { index, name -> onEvent(CSVEvent.MapToAccountCurrency(index, name)) },
+    )
+}
+
+fun LazyListScope.optionalFields(
+    columns: CSVRow,
+    optionalFields: OptionalFields,
+    onEvent: (CSVEvent) -> Unit
+) {
+    sectionDivider("Optional fields")
+    mappingRow(
+        columns = columns,
+        mapping = optionalFields.category,
+        status = optionalFields.categoryStatus,
+        onMapTo = { index, name -> onEvent(CSVEvent.MapCategory(index, name)) },
+    )
+    mappingRow(
+        columns = columns,
+        mapping = optionalFields.title,
+        status = optionalFields.titleStatus,
+        onMapTo = { index, name -> onEvent(CSVEvent.MapTitle(index, name)) },
+    )
+    mappingRow(
+        columns = columns,
+        mapping = optionalFields.description,
+        status = optionalFields.descriptionStatus,
+        onMapTo = { index, name -> onEvent(CSVEvent.MapDescription(index, name)) },
+    )
+}
+
+
+
