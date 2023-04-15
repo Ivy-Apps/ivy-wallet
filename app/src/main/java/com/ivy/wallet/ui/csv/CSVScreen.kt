@@ -304,13 +304,16 @@ private fun AmountMetadata(
                 multiplier < 0 -> "/$multiplier"
                 multiplier > 1 -> "*$multiplier"
                 else -> "None"
-            }
+            },
+            style = UI.typo.nB2,
+            color = UI.colors.primary,
         )
         Spacer8(horizontal = true)
         Button(onClick = {
             onEvent(
                 CSVEvent.AmountMultiplier(
                     when {
+                        multiplier == -10 -> 1
                         multiplier == -1 -> 10
                         multiplier > 0 -> multiplier * 10
                         else -> multiplier / 10

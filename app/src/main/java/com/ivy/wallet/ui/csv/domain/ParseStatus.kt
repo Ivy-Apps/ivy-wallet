@@ -34,7 +34,16 @@ private fun parseAmountStatus(
 ): MappingStatus = tryStatus {
     val values = rows.values(mapping)
         .mapNotNull {
-            it.toDoubleOrNull()?.plus(mapping.metadata)?.let(::abs)
+            val multiplier = when (mapping.metadata) {
+                -1000 -> 0.001
+                -100 -> 0.01
+                -10 -> 0.1
+                10 -> 10.0
+                100 -> 100.0
+                1000 -> 1000.0
+                else -> 1.0
+            }
+            it.toDoubleOrNull()?.times(multiplier)?.let(::abs)
         }
 
     MappingStatus(
