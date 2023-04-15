@@ -21,6 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CSVViewModel @Inject constructor(
     private val fileReader: IvyFileReader,
+    private val csvImporterV2: CSVImporterV2,
 ) : ViewModel() {
 
     private var columns by mutableStateOf<CSVRow?>(null)
@@ -122,6 +123,19 @@ class CSVViewModel @Inject constructor(
             index = -1,
             required = false,
             metadata = Unit,
+        )
+    )
+    private var toAmount by mutableStateOf(
+        ColumnMapping(
+            ivyColumn = "To Amount",
+            helpInfo = """
+                The amount that the "To Account" will receive".
+                Skip it if there's no such.
+            """.trimIndent(),
+            name = "",
+            index = -1,
+            required = false,
+            metadata = 1,
         )
     )
     // endregion
@@ -237,6 +251,8 @@ class CSVViewModel @Inject constructor(
                             toAccountCurrency,
                             ::parseToAccountCurrency
                         ),
+                        toAmount = toAmount,
+                        toAmountStatus = sampleCSV.parseStatus(toAmount, ::parseAmount)
                     )
                 } else null
             }
@@ -346,6 +362,17 @@ class CSVViewModel @Inject constructor(
                 )
             }
             CSVEvent.Continue -> handleContinue()
+            is CSVEvent.MapToAmount -> {
+                toAmount = toAmount.copy(
+                    index = event.index,
+                    name = event.name
+                )
+            }
+            is CSVEvent.ToAmountMetaChange -> {
+                toAmount = toAmount.copy(
+                    metadata = event.multiplier
+                )
+            }
         }
     }
 

@@ -1,6 +1,8 @@
 package com.ivy.wallet.ui.csv.domain
 
 import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.wallet.ui.csv.CSVRow
+import com.ivy.wallet.ui.csv.ColumnMapping
 import com.ivy.wallet.ui.csv.DateMetadata
 import com.ivy.wallet.ui.csv.TrnTypeMetadata
 import java.time.LocalDateTime
@@ -178,6 +180,15 @@ fun parseDescription(
     metadata: Unit
 ): String? = notBlankTrimmedString(value)
 
+fun <M> CSVRow.extractValue(
+    mapping: ColumnMapping<M>
+): String {
+    return try {
+        values[mapping.index]
+    } catch (e: Exception) {
+        ""
+    }
+}
 
 // region Util
 private fun notBlankTrimmedString(value: String): String? =

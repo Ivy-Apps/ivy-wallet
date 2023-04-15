@@ -16,6 +16,8 @@ sealed interface CSVEvent {
 
     data class MapToAccount(val index: Int, val name: String) : CSVEvent
     data class MapToAccountCurrency(val index: Int, val name: String) : CSVEvent
+    data class MapToAmount(val index: Int, val name: String) : CSVEvent
+    data class ToAmountMetaChange(val multiplier: Int) : CSVEvent
 
     data class MapCategory(val index: Int, val name: String) : CSVEvent
     data class MapTitle(val index: Int, val name: String) : CSVEvent

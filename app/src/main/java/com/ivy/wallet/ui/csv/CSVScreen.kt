@@ -259,7 +259,9 @@ fun LazyListScope.importantFields(
         status = importantFields.amountStatus,
         onMapTo = { index, name -> onEvent(CSVEvent.MapAmount(index, name)) },
         metadataContent = { multiplier ->
-            AmountMetadata(multiplier = multiplier, onEvent = onEvent)
+            AmountMetadata(multiplier = multiplier, onMetaChange = {
+                onEvent(CSVEvent.AmountMultiplier(it))
+            })
         }
     )
     mappingRow(
@@ -297,18 +299,16 @@ fun LazyListScope.importantFields(
 @Composable
 private fun AmountMetadata(
     multiplier: Int,
-    onEvent: (CSVEvent) -> Unit,
+    onMetaChange: (Int) -> Unit,
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Button(onClick = {
-            onEvent(
-                CSVEvent.AmountMultiplier(
-                    when {
-                        multiplier < 0 -> multiplier * 10
-                        multiplier == 1 -> -10
-                        else -> multiplier / 10
-                    }
-                )
+            onMetaChange(
+                when {
+                    multiplier < 0 -> multiplier * 10
+                    multiplier == 1 -> -10
+                    else -> multiplier / 10
+                }
             )
         }) {
             Text(text = "/10")
@@ -325,15 +325,13 @@ private fun AmountMetadata(
         )
         Spacer8(horizontal = true)
         Button(onClick = {
-            onEvent(
-                CSVEvent.AmountMultiplier(
-                    when {
-                        multiplier == -10 -> 1
-                        multiplier == -1 -> 10
-                        multiplier > 0 -> multiplier * 10
-                        else -> multiplier / 10
-                    }
-                )
+            onMetaChange(
+                when {
+                    multiplier == -10 -> 1
+                    multiplier == -1 -> 10
+                    multiplier > 0 -> multiplier * 10
+                    else -> multiplier / 10
+                }
             )
         }) {
             Text(text = "*10")
@@ -453,6 +451,17 @@ fun LazyListScope.transferFields(
         mapping = transferFields.toAccountCurrency,
         status = transferFields.toAccountCurrencyStatus,
         onMapTo = { index, name -> onEvent(CSVEvent.MapToAccountCurrency(index, name)) },
+    )
+    mappingRow(
+        columns = columns,
+        mapping = transferFields.toAmount,
+        status = transferFields.toAmountStatus,
+        onMapTo = { index, name -> onEvent(CSVEvent.MapToAmount(index, name)) },
+        metadataContent = { multiplier ->
+            AmountMetadata(multiplier = multiplier, onMetaChange = {
+                onEvent(CSVEvent.ToAmountMetaChange(it))
+            })
+        }
     )
 }
 

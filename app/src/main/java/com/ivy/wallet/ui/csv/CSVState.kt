@@ -37,6 +37,8 @@ data class TransferFields(
     val toAccountStatus: MappingStatus,
     val toAccountCurrency: ColumnMapping<Unit>,
     val toAccountCurrencyStatus: MappingStatus,
+    val toAmount: ColumnMapping<Int>,
+    val toAmountStatus: MappingStatus,
 )
 
 data class OptionalFields(
