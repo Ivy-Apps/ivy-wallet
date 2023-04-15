@@ -13,10 +13,15 @@ data class CSVState(
 
 data class ImportantFields(
     val amount: ColumnMapping<Int>,
+    val amountStatus: MappingStatus,
     val type: ColumnMapping<TrnTypeMetadata>,
+    val typeStatus: MappingStatus,
     val date: ColumnMapping<DateMetadata>,
+    val dateStatus: MappingStatus,
     val account: ColumnMapping<Unit>,
+    val accountStatus: MappingStatus,
     val accountCurrency: ColumnMapping<Unit>,
+    val accountCurrencyStatus: MappingStatus,
 )
 
 data class TrnTypeMetadata(
@@ -45,9 +50,12 @@ data class ColumnMapping<M>(
     val helpInfo: String,
     val name: String,
     val index: Int,
-    val sampleValues: List<String>,
     val metadata: M,
     val required: Boolean,
+)
+
+data class MappingStatus(
+    val sampleValues: List<String>,
     val success: Boolean,
 )
 

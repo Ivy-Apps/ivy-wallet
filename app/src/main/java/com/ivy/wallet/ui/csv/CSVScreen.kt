@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
@@ -121,9 +122,10 @@ private fun CSVRow(
     row: CSVRow,
     header: Boolean,
     even: Boolean,
+    modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
     ) {
         row.values.forEach { value ->
@@ -158,6 +160,7 @@ private fun CSVCell(
 private fun <M> LazyListScope.mappingRow(
     columns: CSVRow,
     mapping: ColumnMapping<M>,
+    status: MappingStatus,
     onMapTo: (Int, String) -> Unit,
     metadataContent: (@Composable (M) -> Unit)? = null,
 ) {
@@ -169,19 +172,27 @@ private fun <M> LazyListScope.mappingRow(
                 .border(
                     width = 2.dp,
                     color = when {
-                        mapping.required && !mapping.success -> UI.colors.red
-                        mapping.success -> UI.colors.green
+                        mapping.required && !status.success -> UI.colors.red
+                        status.success -> UI.colors.green
                         else -> UI.colors.medium
-                    }
+                    },
+                    shape = RoundedCornerShape(4.dp),
                 )
-                .padding(vertical = 8.dp, horizontal = 4.dp)
+                .padding(vertical = 8.dp, horizontal = 8.dp)
         ) {
             Text(
                 text = mapping.ivyColumn,
                 style = UI.typo.b1.colorAs(UI.colors.primary),
             )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(text = mapping.helpInfo, style = UI.typo.c)
             Spacer8()
+            Text(text = "Choose a column:", style = UI.typo.b2)
+            Spacer(modifier = Modifier.height(4.dp))
             Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState()),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 columns.values.forEachIndexed { index, column ->
@@ -200,9 +211,13 @@ private fun <M> LazyListScope.mappingRow(
                 metadataContent(mapping.metadata)
             }
 
-            if (mapping.sampleValues.isNotEmpty()) {
+            if (status.sampleValues.isNotEmpty()) {
                 Spacer8()
-                CSVRow(row = CSVRow(mapping.sampleValues), header = false, even = true)
+                CSVRow(
+                    modifier = Modifier.horizontalScroll(rememberScrollState()),
+                    row = CSVRow(status.sampleValues),
+                    header = false, even = true
+                )
             }
         }
     }
@@ -226,6 +241,7 @@ fun LazyListScope.important(
     mappingRow(
         columns = columns,
         mapping = importantFields.amount,
+        status = importantFields.amountStatus,
         onMapTo = { index, name -> onEvent(CSVEvent.MapAmount(index, name)) },
         metadataContent = { multiplier ->
             AmountMetadata(multiplier = multiplier, onEvent = onEvent)
@@ -234,6 +250,7 @@ fun LazyListScope.important(
     mappingRow(
         columns = columns,
         mapping = importantFields.type,
+        status = importantFields.typeStatus,
         onMapTo = { index, name -> onEvent(CSVEvent.MapType(index, name)) },
         metadataContent = {
             TypeMetadata(metadata = it, onEvent = onEvent)
@@ -242,6 +259,7 @@ fun LazyListScope.important(
     mappingRow(
         columns = columns,
         mapping = importantFields.date,
+        status = importantFields.dateStatus,
         onMapTo = { index, name -> onEvent(CSVEvent.MapDate(index, name)) },
         metadataContent = {
             DateMetadataUI(metadata = it, onEvent = onEvent)
@@ -250,11 +268,13 @@ fun LazyListScope.important(
     mappingRow(
         columns = columns,
         mapping = importantFields.account,
+        status = importantFields.accountStatus,
         onMapTo = { index, name -> onEvent(CSVEvent.MapAccount(index, name)) },
     )
     mappingRow(
         columns = columns,
         mapping = importantFields.accountCurrency,
+        status = importantFields.accountCurrencyStatus,
         onMapTo = { index, name -> onEvent(CSVEvent.MapAccountCurrency(index, name)) },
     )
 }
@@ -313,7 +333,7 @@ private fun TypeMetadata(
         onEvent(CSVEvent.TypeMetaChange(newMeta))
     }
 
-    LabelEqualsField(
+    LabelContainsField(
         label = "Income",
         value = metadata.income,
         onValueChange = {
@@ -321,7 +341,7 @@ private fun TypeMetadata(
         }
     )
     Spacer8()
-    LabelEqualsField(
+    LabelContainsField(
         label = "Expense",
         value = metadata.expense,
         onValueChange = {
@@ -330,7 +350,7 @@ private fun TypeMetadata(
     )
     Spacer8()
     Text(text = "(optional)", style = UI.typo.c)
-    LabelEqualsField(
+    LabelContainsField(
         label = "Transfer",
         value = metadata.transfer ?: "",
         onValueChange = {
@@ -340,15 +360,16 @@ private fun TypeMetadata(
 }
 
 @Composable
-fun LabelEqualsField(
+fun LabelContainsField(
     label: String,
     value: String,
     onValueChange: (String) -> Unit,
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Text(text = label, color = UI.colors.primary)
+        Text(text = label, color = UI.colors.primary, style = UI.typo.nB1)
+        Text(text = " contains ", style = UI.typo.c)
         Spacer8(horizontal = true)
-        TextField(value = value, onValueChange = onValueChange)
+        TextField(value = value, onValueChange = onValueChange, singleLine = true)
     }
 }
 // endregion

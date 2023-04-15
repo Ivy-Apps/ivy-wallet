@@ -8,6 +8,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.domain.deprecated.logic.csv.IvyFileReader
+import com.ivy.wallet.ui.csv.domain.mappingFailure
+import com.ivy.wallet.ui.csv.domain.parseImportantStatus
 import com.opencsv.CSVReaderBuilder
 import com.opencsv.validators.LineValidator
 import com.opencsv.validators.RowValidator
@@ -27,40 +29,173 @@ class CSVViewModel @Inject constructor(
 
     private var columns by mutableStateOf<CSVRow?>(null)
     private var csv by mutableStateOf<List<CSVRow>?>(null)
-    private var important by mutableStateOf<ImportantFields?>(null)
     private var transfer by mutableStateOf<TransferFields?>(null)
     private var optional by mutableStateOf<OptionalFields?>(null)
     private var successPercent by mutableStateOf<Double?>(null)
     private var failedRows by mutableStateOf<List<CSVRow>?>(null)
 
-    @Composable
-    fun uiState(): CSVState = CSVState(
-        columns = columns,
-        csv = csv,
-        important = important,
-        transfer = transfer,
-        optional = optional,
-        successPercent = successPercent,
-        failedRows = failedRows,
+    private var amount by mutableStateOf(
+        ColumnMapping(
+            ivyColumn = "Amount",
+            helpInfo = "The amount of the transactions, a positive number. Negative numbers will be made positive.",
+            name = "",
+            index = -1,
+            metadata = 1,
+            required = true,
+        )
     )
+    private var type by mutableStateOf(
+        ColumnMapping(
+            ivyColumn = "Transaction Type",
+            helpInfo = """
+                The type of the transaction. Can be Income, Expense or a Transfer.
+            """.trimIndent(),
+            name = "",
+            index = -1,
+            required = true,
+            metadata = TrnTypeMetadata(
+                income = "",
+                expense = "",
+                transfer = null,
+            )
+        )
+    )
+    private var date by mutableStateOf(
+        ColumnMapping(
+            ivyColumn = "Date",
+            helpInfo = """
+                The date of the transaction. To help us parse it just tell us
+                whether the Date or the Month comes first.
+            """.trimIndent(),
+            name = "",
+            index = -1,
+            required = true,
+            metadata = DateMetadata.DateFirst
+        )
+    )
+    private var account by mutableStateOf(
+        ColumnMapping(
+            ivyColumn = "Account",
+            helpInfo = """
+                The account of the transaction.
+            """.trimIndent(),
+            name = "",
+            index = -1,
+            required = true,
+            metadata = Unit,
+        )
+    )
+    private var accountCurrency by mutableStateOf(
+        ColumnMapping(
+            ivyColumn = "Account Currency",
+            helpInfo = """
+                The currency of the account that made the transaction.
+                In Ivy Wallet, transactions don't have a currency but inherit
+                the ones from their account.
+            """.trimIndent(),
+            name = "",
+            index = -1,
+            required = true,
+            metadata = Unit,
+        )
+    )
+
+    @Composable
+    fun uiState(): CSVState {
+        return CSVState(
+            columns = columns,
+            csv = csv,
+            important = important(csv),
+            transfer = transfer,
+            optional = optional,
+            successPercent = successPercent,
+            failedRows = failedRows,
+        )
+    }
+
+    @Composable
+    private fun important(csv: List<CSVRow>?): ImportantFields? {
+        val failure = mappingFailure()
+        val importantFields = ImportantFields(
+            amount = amount,
+            amountStatus = failure,
+            type = type,
+            typeStatus = failure,
+            date = date,
+            dateStatus = failure,
+            account = account,
+            accountStatus = failure,
+            accountCurrency = accountCurrency,
+            accountCurrencyStatus = failure,
+        )
+
+        return if (csv != null) {
+            val status = parseImportantStatus(csv, importantFields)
+            importantFields.copy(
+                amountStatus = status.amountStatus,
+                typeStatus = status.typeStatus,
+                dateStatus = status.dateStatus,
+                accountStatus = status.accountStatus,
+                accountCurrencyStatus = status.accountCurrencyStatus,
+            )
+        } else null
+    }
 
 
     private suspend fun handleEvent(event: CSVEvent) {
         when (event) {
             is CSVEvent.FilePicked -> handleFilePicked(event)
-            is CSVEvent.AmountMultiplier -> TODO()
-            is CSVEvent.DataMetaChange -> TODO()
-            is CSVEvent.MapAccount -> TODO()
-            is CSVEvent.MapAccountCurrency -> TODO()
-            is CSVEvent.MapAmount -> TODO()
-            is CSVEvent.MapDate -> TODO()
-            is CSVEvent.MapType -> TODO()
-            is CSVEvent.TypeMetaChange -> TODO()
+            is CSVEvent.AmountMultiplier -> {
+                amount = amount.copy(
+                    metadata = event.multiplier,
+                )
+            }
+            is CSVEvent.DataMetaChange -> {
+                date = date.copy(
+                    metadata = event.meta
+                )
+            }
+            is CSVEvent.MapAccount -> {
+                account = account.copy(
+                    index = event.index,
+                    name = event.name
+                )
+            }
+            is CSVEvent.MapAccountCurrency -> {
+                accountCurrency = accountCurrency.copy(
+                    index = event.index,
+                    name = event.name
+                )
+            }
+            is CSVEvent.MapAmount -> {
+                amount = amount.copy(
+                    index = event.index,
+                    name = event.name
+                )
+            }
+            is CSVEvent.MapDate -> {
+                date = date.copy(
+                    index = event.index,
+                    name = event.name
+                )
+            }
+            is CSVEvent.MapType -> {
+                type = type.copy(
+                    index = event.index,
+                    name = event.name
+                )
+            }
+            is CSVEvent.TypeMetaChange -> {
+                type = type.copy(
+                    metadata = event.meta
+                )
+            }
         }
     }
 
     private suspend fun handleFilePicked(event: CSVEvent.FilePicked) = withContext(Dispatchers.IO) {
         csv = processFile(event.uri)
+        columns = csv?.firstOrNull()
     }
 
     private suspend fun processFile(
