@@ -4,6 +4,7 @@ import com.ivy.wallet.ui.csv.CSVRow
 import com.ivy.wallet.ui.csv.ColumnMapping
 import com.ivy.wallet.ui.csv.MappingStatus
 
+const val SAMPLE_SIZE = 20
 
 fun <T, M> List<CSVRow>.parseStatus(
     mapping: ColumnMapping<M>,
@@ -15,7 +16,7 @@ fun <T, M> List<CSVRow>.parseStatus(
 
     MappingStatus(
         sampleValues = parsed.map { it.toString() },
-        success = parsed.size == this.size
+        success = parsed.size >= SAMPLE_SIZE / 2
     )
 }
 

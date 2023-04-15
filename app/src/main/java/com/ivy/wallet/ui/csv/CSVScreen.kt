@@ -67,6 +67,7 @@ private fun UI(
         if (state.columns != null && state.optional != null) {
             optionalFields(state.columns, state.optional, onEvent = onEvent)
         }
+        continueButton(state.continueEnabled, onEvent)
     }
 }
 
@@ -191,9 +192,9 @@ private fun <M> LazyListScope.mappingRow(
                 style = UI.typo.b1.colorAs(UI.colors.primary),
             )
             Spacer(modifier = Modifier.height(4.dp))
-            Text(text = mapping.helpInfo, style = UI.typo.c)
+            Text(text = mapping.helpInfo, style = UI.typo.c.colorAs(UI.colors.gray))
             Spacer8()
-            Text(text = "Choose a column:", style = UI.typo.b2)
+            Text(text = "Choose a matching CSV column:", style = UI.typo.b2)
             Spacer(modifier = Modifier.height(4.dp))
             Row(
                 modifier = Modifier
@@ -239,7 +240,7 @@ fun LazyListScope.sectionDivider(text: String) {
                 If the parsing is successful the border will turn green.
             """.trimIndent(),
             style = UI.typo.nB2,
-            color = UI.colors.pureInverse
+            color = UI.colors.gray
         )
         Spacer8()
     }
@@ -481,5 +482,25 @@ fun LazyListScope.optionalFields(
     )
 }
 
-
-
+private fun LazyListScope.continueButton(
+    enabled: Boolean,
+    onEvent: (CSVEvent) -> Unit
+) {
+    item {
+        Spacer8()
+        Spacer8()
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp),
+            enabled = enabled,
+            onClick = {
+                onEvent(CSVEvent.Continue)
+            }
+        ) {
+            Text(text = "Continue")
+        }
+        Spacer8()
+        Spacer8()
+    }
+}

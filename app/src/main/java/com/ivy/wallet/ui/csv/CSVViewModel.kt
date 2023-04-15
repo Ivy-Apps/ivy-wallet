@@ -170,7 +170,7 @@ class CSVViewModel @Inject constructor(
     fun uiState(): CSVState {
         val sampleCSV = remember(csv) {
             // drop the header
-            csv?.drop(1)?.take(10)
+            csv?.drop(1)?.shuffled()?.take(SAMPLE_SIZE)
         }
 
         val important = importantFields(sampleCSV)
@@ -248,7 +248,7 @@ class CSVViewModel @Inject constructor(
     private fun optionalFields(sampleCSV: List<CSVRow>?): OptionalFields? {
         return produceState<OptionalFields?>(
             initialValue = null,
-            sampleCSV, toAccount, toAccountCurrency,
+            sampleCSV, category, title, description,
         ) {
             val result = withContext(Dispatchers.Default) {
                 if (sampleCSV != null) {
@@ -401,7 +401,6 @@ class CSVViewModel @Inject constructor(
     suspend private fun handleContinue() {
 
     }
-
 
 
     // region Boiler-plate
