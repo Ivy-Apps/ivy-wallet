@@ -16,7 +16,7 @@ fun <T, M> List<CSVRow>.parseStatus(
 
     MappingStatus(
         sampleValues = parsed.map { it.toString() },
-        success = parsed.size >= SAMPLE_SIZE / 2
+        success = parsed.isNotEmpty()
     )
 }
 

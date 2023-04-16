@@ -385,28 +385,45 @@ class CSVViewModel @Inject constructor(
     }
 
     // region Import CSV
-    private suspend fun handleFilePicked(event: CSVEvent.FilePicked) = withContext(Dispatchers.IO) {
-        csv = processFile(event.uri)
+    private suspend fun handleFilePicked(event: CSVEvent.FilePicked): Unit =
+        withContext(Dispatchers.IO) {
+            importCSV(uri = event.uri, normalizeCSV = false)
+            if(columns?.values?.size?.let { it < 3 } == true) {
+                importCSV(uri = event.uri, normalizeCSV = true)
+            }
+        }
+
+    private fun importCSV(uri: Uri, normalizeCSV: Boolean): Unit = try {
+        csv = processFile(uri, normalizeCSV = normalizeCSV)
         columns = csv?.firstOrNull()
+    } catch (e: Exception) {
+        e.printStackTrace()
     }
 
     private fun processFile(
         uri: Uri,
+        normalizeCSV: Boolean = false,
         charset: Charset = Charsets.UTF_8
     ): List<CSVRow>? {
         return try {
             val fileContent = fileReader.read(uri, charset) ?: return null
-            parseCSV(fileContent).takeIf { it.isNotEmpty() }
+            parseCSV(fileContent, normalizeCSV).takeIf { it.isNotEmpty() }
         } catch (e: Exception) {
             if (charset != Charsets.UTF_16) {
-                return processFile(uri, Charsets.UTF_16)
+                return processFile(uri, normalizeCSV, charset = Charsets.UTF_16)
             }
             null
         }
     }
 
-    private fun parseCSV(csv: String): List<CSVRow> {
-        val csvReader = CSVReaderBuilder(StringReader(csv))
+    private fun parseCSV(csv: String, normalizeCSV: Boolean): List<CSVRow> {
+        val finalCSV = if (normalizeCSV) {
+            csv.replace(",", " ")
+                .replace(";", ",")
+        } else {
+            csv
+        }
+        val csvReader = CSVReaderBuilder(StringReader(finalCSV))
             .withLineValidator(object : LineValidator {
                 override fun isValid(line: String?): Boolean {
                     return true
