@@ -463,7 +463,7 @@ class CSVViewModel @Inject constructor(
                     date = date,
                     type = type,
                     account = account,
-                    accountCurrency = account,
+                    accountCurrency = accountCurrency,
                     amountStatus = emptyStatus,
                     dateStatus = emptyStatus,
                     accountStatus = emptyStatus,
