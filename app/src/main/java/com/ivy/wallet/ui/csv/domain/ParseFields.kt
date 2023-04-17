@@ -38,6 +38,7 @@ private fun parsePositiveDouble(string: String): Double? {
         .replace("-", "")
         .replace(" ", ".")
         .filter { it.isDigit() || it == '.' }
+
     val numberFormat = NumberFormat.getInstance(Locale.getDefault())
     if (numberFormat is DecimalFormat) {
         try {
@@ -87,11 +88,15 @@ fun parseDate(
     value: String,
     metadata: DateMetadata
 ): LocalDateTime? = tryParse {
+    val cleanedValue = value.filter {
+        it.isLetterOrDigit() || it == '-' || it == '/' || it == ':' || it == ' '
+    }
+
     val possibleFormats = possibleDateFormats(metadata)
     if (lastSuccessfulFormat != null) {
         try {
             return@tryParse LocalDateTime.parse(
-                value,
+                cleanedValue,
                 DateTimeFormatter.ofPattern(lastSuccessfulFormat)
             )
         } catch (e: DateTimeParseException) {
@@ -101,7 +106,7 @@ fun parseDate(
     }
     for (format in possibleFormats) {
         try {
-            return@tryParse LocalDateTime.parse(value, DateTimeFormatter.ofPattern(format))
+            return@tryParse LocalDateTime.parse(cleanedValue, DateTimeFormatter.ofPattern(format))
         } catch (e: DateTimeParseException) {
             // Ignore and continue trying other formats
         }
