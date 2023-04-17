@@ -42,9 +42,7 @@ fun CSVScreen() {
         is UIState.Result -> ImportResultUI(
             result = ui.importResult,
             isManualCsvImport = true,
-            onTryAgain = {
-                viewModel.onEvent(CSVEvent.ResetState)
-            },
+            onTryAgain = null,
             onFinish = {
                 nav.back()
             }
@@ -71,6 +69,17 @@ private fun ImportUI(
                 onFilePicked = {
                     onEvent(CSVEvent.FilePicked(it))
                 }
+            )
+            Spacer8()
+            Text(
+                text = """
+                !!!⚠️WARNING: Importing may duplicate transactions!!!
+                Duplicate transactions can NOT be easily deleted and you'll need to remove manually each one of them! 
+                Reason: We can't parse transaction ids because Ivy Wallet works only with UUID and other apps don't.
+                If you're starting fresh, no worries - kindly ignore this message.
+                """.trimIndent(),
+                style = UI.typo.c.colorAs(UI.colors.red),
+                fontWeight = FontWeight.Bold,
             )
         }
         if (state.csv != null) {
