@@ -37,14 +37,19 @@ private fun parsePositiveDouble(string: String): Double? {
     val cleanedString = string
         .replace("-", "")
         .replace(" ", ".")
+        .filter { it.isDigit() || it == '.' }
     val numberFormat = NumberFormat.getInstance(Locale.getDefault())
-    return if (numberFormat is DecimalFormat) {
-        numberFormat.applyPattern("#,###.##")
-        val parsedNumber = numberFormat.parse(cleanedString)
-        parsedNumber?.toDouble()
-    } else {
-        string.toDoubleOrNull()
+    if (numberFormat is DecimalFormat) {
+        try {
+            numberFormat.applyPattern("#,###.##")
+            val parsedNumber = numberFormat.parse(cleanedString)?.toDouble()
+            if (parsedNumber != null) return parsedNumber
+        } catch (e: Exception) {
+            // ignored
+        }
     }
+
+    return cleanedString.toDoubleOrNull() ?: string.toDoubleOrNull()
 }
 
 // endregion
