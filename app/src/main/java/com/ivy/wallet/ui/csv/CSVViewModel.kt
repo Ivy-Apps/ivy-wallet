@@ -513,6 +513,7 @@ class CSVViewModel @Inject constructor(
             event.onboardingViewModel.importFinished(
                 success = importSuccess
             )
+            nav.back()
         }
 
         nav.back()

@@ -13,11 +13,12 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -41,7 +42,11 @@ fun CSVScreen(
     val onboardingViewModel: OnboardingViewModel = viewModel()
 
     when (val ui = state.uiState) {
-        UIState.Idle -> ImportUI(state = state, onEvent = viewModel::onEvent)
+        UIState.Idle -> ImportUI(
+            state = state,
+            launchedFromOnboarding = screen.launchedFromOnboarding,
+            onEvent = viewModel::onEvent
+        )
         is UIState.Processing -> ImportProcessing(progressPercent = ui.percent)
         is UIState.Result -> ImportResultUI(
             result = ui.importResult,
@@ -63,6 +68,7 @@ fun CSVScreen(
 @Composable
 private fun ImportUI(
     state: CSVState,
+    launchedFromOnboarding: Boolean,
     onEvent: (CSVEvent) -> Unit,
 ) {
     LazyColumn(
@@ -80,17 +86,26 @@ private fun ImportUI(
                     onEvent(CSVEvent.FilePicked(it))
                 }
             )
-            Spacer8()
-            Text(
-                text = """
+            if (!launchedFromOnboarding) {
+                Spacer8()
+                Text(
+                    text = """
                 !!!⚠️WARNING: Importing may duplicate transactions!!!
                 Duplicate transactions can NOT be easily deleted and you'll need to remove manually each one of them! 
                 Reason: We can't parse transaction ids because Ivy Wallet works only with UUID and other apps don't.
                 If you're starting fresh, no worries - kindly ignore this message.
                 """.trimIndent(),
-                style = UI.typo.c.colorAs(UI.colors.red),
-                fontWeight = FontWeight.Bold,
-            )
+                    style = UI.typo.c.colorAs(UI.colors.red),
+                    fontWeight = FontWeight.Bold,
+                )
+            } else {
+                Spacer8()
+                Text(
+                    text = "Import a CSV file to continue.",
+                    style = UI.typo.b2,
+                    fontWeight = FontWeight.SemiBold,
+                )
+            }
         }
         if (state.csv != null) {
             spacer8()
@@ -424,7 +439,18 @@ fun LabelContainsField(
         Text(text = label, color = UI.colors.primary, style = UI.typo.nB1)
         Text(text = " contains ", style = UI.typo.c)
         Spacer8(horizontal = true)
-        TextField(value = value, onValueChange = onValueChange, singleLine = true)
+        var textField by remember {
+            // move the cursor at the end of the text
+            mutableStateOf(TextFieldValue(value, TextRange(value.length)))
+        }
+        TextField(
+            value = textField,
+            onValueChange = {
+                textField = it
+                onValueChange(it.text)
+            },
+            singleLine = true
+        )
     }
 }
 // endregion
