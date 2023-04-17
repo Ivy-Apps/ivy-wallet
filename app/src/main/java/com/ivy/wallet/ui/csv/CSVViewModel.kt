@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.domain.deprecated.logic.csv.IvyFileReader
 import com.ivy.wallet.ui.csv.domain.*
 import com.ivy.wallet.utils.uiThread
@@ -24,6 +25,7 @@ import kotlin.math.roundToInt
 class CSVViewModel @Inject constructor(
     private val fileReader: IvyFileReader,
     private val csvImporter: CSVImporterV2,
+    private val nav: Navigation,
 ) : ViewModel() {
 
     private var columns by mutableStateOf<CSVRow?>(null)
@@ -381,6 +383,9 @@ class CSVViewModel @Inject constructor(
             CSVEvent.ResetState -> {
                 uiState = UIState.Idle
             }
+            is CSVEvent.FinishImport -> {
+                handleFinishImport(event)
+            }
         }
     }
 
@@ -499,6 +504,25 @@ class CSVViewModel @Inject constructor(
             )
             uiState = UIState.Result(result)
         }
+    }
+
+    private fun handleFinishImport(event: CSVEvent.FinishImport) {
+        if (event.launchedFromOnboarding) {
+            val importSuccess = (uiState as? UIState.Result)?.importResult
+                ?.transactionsImported?.let { it > 0 } ?: false
+            event.onboardingViewModel.importFinished(
+                success = importSuccess
+            )
+        }
+
+        nav.back()
+        resetState()
+    }
+
+    private fun resetState() {
+        uiState = UIState.Idle
+        csv = null
+        columns = null
     }
 
 

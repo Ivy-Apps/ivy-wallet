@@ -12,7 +12,9 @@ object Onboarding : Screen
 
 object ServerStop : Screen
 
-object CSVScreen : Screen
+data class CSVScreen(
+    val launchedFromOnboarding: Boolean
+) : Screen
 
 data class EditTransaction(
     val initialTransactionId: UUID?,

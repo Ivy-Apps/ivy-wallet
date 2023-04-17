@@ -27,7 +27,6 @@ import com.ivy.wallet.R
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
 import com.ivy.wallet.ui.CSVScreen
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.onboarding.components.OnboardingToolbar
 import com.ivy.wallet.ui.theme.components.GradientCutBottom
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -36,6 +35,7 @@ import com.ivy.wallet.ui.theme.components.IvyIcon
 @Composable
 fun BoxWithConstraintsScope.ImportFrom(
     hasSkip: Boolean,
+    launchedFromOnboarding: Boolean,
 
     onSkip: () -> Unit = {},
     onImportFrom: (ImportType) -> Unit = {},
@@ -67,7 +67,7 @@ fun BoxWithConstraintsScope.ImportFrom(
                     .height(64.dp)
                     .padding(horizontal = 16.dp),
                 onClick = {
-                    nav.navigateTo(CSVScreen)
+                    nav.navigateTo(CSVScreen(launchedFromOnboarding))
                 }
             ) {
                 Text(text = "Manual CSV import")
@@ -151,6 +151,7 @@ private fun Preview() {
     IvyWalletPreview {
         ImportFrom(
             hasSkip = true,
+            launchedFromOnboarding = false,
         )
     }
 }

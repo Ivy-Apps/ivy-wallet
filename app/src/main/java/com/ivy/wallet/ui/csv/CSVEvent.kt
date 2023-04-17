@@ -1,6 +1,7 @@
 package com.ivy.wallet.ui.csv
 
 import android.net.Uri
+import com.ivy.wallet.ui.onboarding.viewmodel.OnboardingViewModel
 
 sealed interface CSVEvent {
     data class FilePicked(val uri: Uri) : CSVEvent
@@ -26,4 +27,8 @@ sealed interface CSVEvent {
     object Continue : CSVEvent
     object ResetState : CSVEvent
 
+    data class FinishImport(
+        val launchedFromOnboarding: Boolean,
+        val onboardingViewModel: OnboardingViewModel
+    ) : CSVEvent
 }

@@ -219,7 +219,7 @@ class RootActivity : AppCompatActivity() {
             is ImagesScreen -> ImagesScreen(screen = screen)
             is ExperimentalScreen -> ExperimentalScreen(screen = screen)
             is DonateScreen -> DonateScreen(screen = screen)
-            is CSVScreen -> CSVScreen()
+            is CSVScreen -> CSVScreen(screen = screen)
             null -> {
             }
         }

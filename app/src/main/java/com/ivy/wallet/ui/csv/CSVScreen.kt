@@ -24,27 +24,37 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.colorAs
-import com.ivy.frp.view.navigation.navigation
+import com.ivy.wallet.ui.CSVScreen
 import com.ivy.wallet.ui.csvimport.flow.ImportProcessing
 import com.ivy.wallet.ui.csvimport.flow.ImportResultUI
 import com.ivy.wallet.ui.ivyWalletCtx
+import com.ivy.wallet.ui.onboarding.viewmodel.OnboardingViewModel
 import com.ivy.wallet.utils.thenIf
 import kotlin.math.abs
 
 @Composable
-fun CSVScreen() {
+fun CSVScreen(
+    screen: CSVScreen
+) {
     val viewModel: CSVViewModel = viewModel()
     val state = viewModel.uiState()
-    val nav = navigation()
+    val onboardingViewModel: OnboardingViewModel = viewModel()
+
     when (val ui = state.uiState) {
         UIState.Idle -> ImportUI(state = state, onEvent = viewModel::onEvent)
         is UIState.Processing -> ImportProcessing(progressPercent = ui.percent)
         is UIState.Result -> ImportResultUI(
             result = ui.importResult,
             isManualCsvImport = true,
+            launchedFromOnboarding = screen.launchedFromOnboarding,
             onTryAgain = null,
             onFinish = {
-                nav.back()
+                viewModel.onEvent(
+                    CSVEvent.FinishImport(
+                        launchedFromOnboarding = screen.launchedFromOnboarding,
+                        onboardingViewModel = onboardingViewModel,
+                    )
+                )
             }
         )
     }

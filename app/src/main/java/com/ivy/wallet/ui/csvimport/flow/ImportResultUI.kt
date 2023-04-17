@@ -26,6 +26,7 @@ import com.ivy.wallet.utils.format
 @Composable
 fun ImportResultUI(
     result: ImportResult,
+    launchedFromOnboarding: Boolean,
     isManualCsvImport: Boolean = false,
 
     onTryAgain: (() -> Unit)? = null,
@@ -161,7 +162,7 @@ fun ImportResultUI(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                text = "If this didn't work, Try manual CSV import.",
+                text = "If this didn't work, try manual CSV import.",
                 color = UI.colors.pureInverse,
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -171,7 +172,7 @@ fun ImportResultUI(
                     .height(52.dp)
                     .padding(horizontal = 16.dp),
                 onClick = {
-                    nav.navigateTo(CSVScreen)
+                    nav.navigateTo(CSVScreen(launchedFromOnboarding = launchedFromOnboarding))
                 }
             ) {
                 Text(text = "Manual CSV import")
@@ -223,7 +224,8 @@ private fun Preview() {
                 accountsImported = 4,
                 categoriesImported = 13,
                 failedRows = emptyList()
-            )
+            ),
+            launchedFromOnboarding = false,
         ) {
 
         }
