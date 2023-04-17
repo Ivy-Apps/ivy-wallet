@@ -65,16 +65,17 @@ fun parseTransactionType(
     }
 
     return tryParse {
-        with(value) {
+        val cleaned = value.filter { it.isLetterOrDigit() || it == '+' || it == '-' }
+        with(cleaned) {
             when {
                 tryMeta(metadata.expense) -> TransactionType.EXPENSE
                 tryMeta(metadata.income) -> TransactionType.INCOME
                 tryMeta(metadata.transfer ?: "") -> TransactionType.TRANSFER
-                value.contains("income", ignoreCase = true) -> TransactionType.INCOME
-                value.contains("expense", ignoreCase = true) -> TransactionType.EXPENSE
-                value.contains("transfer", ignoreCase = true) -> TransactionType.TRANSFER
-                value.toDoubleOrNull()?.let { it > 0 } == true -> TransactionType.INCOME
-                value.toDoubleOrNull()?.let { it < 0 } == true -> TransactionType.EXPENSE
+                cleaned.contains("income", ignoreCase = true) -> TransactionType.INCOME
+                cleaned.contains("expense", ignoreCase = true) -> TransactionType.EXPENSE
+                cleaned.contains("transfer", ignoreCase = true) -> TransactionType.TRANSFER
+                cleaned.toDoubleOrNull()?.let { it > 0 } == true -> TransactionType.INCOME
+                cleaned.toDoubleOrNull()?.let { it < 0 } == true -> TransactionType.EXPENSE
                 else -> null
             }
         }
