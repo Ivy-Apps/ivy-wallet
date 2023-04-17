@@ -388,8 +388,11 @@ class CSVViewModel @Inject constructor(
     private suspend fun handleFilePicked(event: CSVEvent.FilePicked): Unit =
         withContext(Dispatchers.IO) {
             importCSV(uri = event.uri, normalizeCSV = false)
-            if(columns?.values?.size?.let { it < 3 } == true) {
+            if (columns?.values?.size?.let { it < 3 } == true) {
                 importCSV(uri = event.uri, normalizeCSV = true)
+            }
+            csv = csv?.map { row ->
+                row.copy(values = row.values.map { it.trim() })
             }
         }
 

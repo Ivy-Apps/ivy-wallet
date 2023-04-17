@@ -5,11 +5,15 @@ import com.ivy.wallet.ui.csv.CSVRow
 import com.ivy.wallet.ui.csv.ColumnMapping
 import com.ivy.wallet.ui.csv.DateMetadata
 import com.ivy.wallet.ui.csv.TrnTypeMetadata
+import java.text.DecimalFormat
+import java.text.NumberFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
+import java.util.*
 import kotlin.math.abs
 
+// region Parse amount
 fun parseAmount(
     value: String,
     metadata: Int // a broken multiplier
@@ -25,8 +29,25 @@ fun parseAmount(
         1_0000 -> 10_000.0
         else -> 1.0
     }
-    abs(value.toDouble() * multiplier)
+    val double = parsePositiveDouble(value) ?: return@tryParse null
+    abs(double * multiplier)
 }
+
+private fun parsePositiveDouble(string: String): Double? {
+    val cleanedString = string
+        .replace("-", "")
+        .replace(" ", ".")
+    val numberFormat = NumberFormat.getInstance(Locale.getDefault())
+    return if (numberFormat is DecimalFormat) {
+        numberFormat.applyPattern("#,###.##")
+        val parsedNumber = numberFormat.parse(cleanedString)
+        parsedNumber?.toDouble()
+    } else {
+        string.toDoubleOrNull()
+    }
+}
+
+// endregion
 
 fun parseTransactionType(
     value: String,
