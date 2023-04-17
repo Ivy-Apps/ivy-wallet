@@ -39,12 +39,14 @@ private fun parsePositiveDouble(string: String): Double? {
         .replace(" ", ".")
         .filter { it.isDigit() || it == '.' }
 
-    val numberFormat = NumberFormat.getInstance(Locale.getDefault())
+    val numberFormat = NumberFormat.getInstance(Locale.US)
     if (numberFormat is DecimalFormat) {
         try {
             numberFormat.applyPattern("#,###.##")
             val parsedNumber = numberFormat.parse(cleanedString)?.toDouble()
-            if (parsedNumber != null) return parsedNumber
+            if (parsedNumber != null) {
+                return parsedNumber
+            }
         } catch (e: Exception) {
             // ignored
         }
@@ -52,7 +54,6 @@ private fun parsePositiveDouble(string: String): Double? {
 
     return cleanedString.toDoubleOrNull() ?: string.toDoubleOrNull()
 }
-
 // endregion
 
 fun parseTransactionType(
