@@ -35,11 +35,10 @@ class NotificationService(
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
                 ?: return
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Register the channel with the system
-            val channel = (notification as IvyNotification).ivyChannel.create(context)
-            notificationManager.createNotificationChannel(channel)
-        }
+        // Register the channel with the system
+        val channel = (notification as IvyNotification).ivyChannel.create(context)
+
+        notificationManager.createNotificationChannel(channel)
         notificationManager.notify(notificationId, notification.build())
     }
 
