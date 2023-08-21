@@ -36,7 +36,7 @@ object Project {
 
 object GlobalVersions {
     const val compose = "1.5.1"
-    const val composeFoundation = "1.6.0-alpha03"
+    const val composeFoundation = "1.5.0"
     const val kotlinVersion = "1.9.0"
 }
 

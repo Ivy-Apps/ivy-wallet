@@ -27,7 +27,7 @@ dependencies {
     implementation("com.google.dagger:hilt-android-gradle-plugin:2.38.1")
 
     //URL: https://developers.google.com/android/guides/google-services-plugin
-    implementation("com.google.gms:google-services:4.3.10")
+    implementation("com.google.gms:google-services:4.3.15")
 
-    implementation("com.google.firebase:firebase-crashlytics-gradle:2.8.1")
+    implementation("com.google.firebase:firebase-crashlytics-gradle:2.9.8")
 }
