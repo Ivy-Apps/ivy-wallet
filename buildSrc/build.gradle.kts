@@ -24,7 +24,7 @@ dependencies {
     //Must match kotlinVersion from dependencies.kt
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0")
 
-    implementation("com.google.dagger:hilt-android-gradle-plugin:2.38.1")
+    implementation("com.google.dagger:hilt-android-gradle-plugin:2.47")
 
     //URL: https://developers.google.com/android/guides/google-services-plugin
     implementation("com.google.gms:google-services:4.3.15")

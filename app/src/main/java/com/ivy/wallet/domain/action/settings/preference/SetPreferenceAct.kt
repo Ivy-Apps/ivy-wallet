@@ -9,10 +9,13 @@ import javax.inject.Inject
 class SetPreferenceAct<P : Preference<V>, V> @Inject constructor(
     private val dataStore: IvyDataStore
 ) : FPAction<P, Unit>() {
-    override suspend fun P.compose(): suspend () -> Unit =
-        when (val newValue = value) {
-            newValue != null -> (key to newValue) asParamTo dataStore::insert
-            else -> key asParamTo dataStore::remove
+    override suspend fun P.compose(): suspend () -> Unit {
+        val newValue = value
+        return if (newValue != null) {
+            (key to newValue) asParamTo dataStore::insert
+        } else {
+            key asParamTo dataStore::remove
         }
+    }
 
 }

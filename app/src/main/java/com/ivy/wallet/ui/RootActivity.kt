@@ -59,7 +59,6 @@ import com.ivy.wallet.ui.csvimport.ImportCSVScreen
 import com.ivy.wallet.ui.donate.DonateScreen
 import com.ivy.wallet.ui.edit.EditTransactionScreen
 import com.ivy.wallet.ui.exchangerates.ExchangeRatesScreen
-import com.ivy.wallet.ui.experiment.images.ImagesScreen
 import com.ivy.wallet.ui.loan.LoansScreen
 import com.ivy.wallet.ui.loandetails.LoanDetailsScreen
 import com.ivy.wallet.ui.main.MainScreen
@@ -216,7 +215,6 @@ class RootActivity : AppCompatActivity() {
             is LoanDetails -> LoanDetailsScreen(screen = screen)
             is Search -> SearchScreen(screen = screen)
             is IvyWebView -> WebViewScreen(screen = screen)
-            is ImagesScreen -> ImagesScreen(screen = screen)
             is ExperimentalScreen -> ExperimentalScreen(screen = screen)
             is DonateScreen -> DonateScreen(screen = screen)
             is CSVScreen -> CSVScreen(screen = screen)
