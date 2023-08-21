@@ -22,8 +22,8 @@ import org.gradle.kotlin.dsl.project
 
 object Project {
     //Version
-    const val versionName = "4.3.15"
-    const val versionCode = 129
+    const val versionName = "4.3.16"
+    const val versionCode = 130
 
     //Compile SDK & Build Tools
     const val compileSdkVersion = 34
@@ -170,7 +170,7 @@ fun DependencyHandler.Google() {
     implementation("com.google.android.gms:play-services-auth:19.2.0")
 
     //URL: https://developer.android.com/google/play/billing/getting-ready
-    implementation("com.android.billingclient:billing-ktx:4.0.0")
+    implementation("com.android.billingclient:billing-ktx:6.0.1")
 
     //In-App Reviews SDK
     implementation("com.google.android.play:core:1.10.0")
