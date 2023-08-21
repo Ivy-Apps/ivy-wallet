@@ -70,18 +70,22 @@ import com.ivy.wallet.ui.reports.ReportScreen
 import com.ivy.wallet.ui.search.SearchScreen
 import com.ivy.wallet.ui.serverstop.ServerStopScreen
 import com.ivy.wallet.ui.settings.SettingsScreen
-import com.ivy.wallet.ui.settings.experimental.ExperimentalScreen
 import com.ivy.wallet.ui.statistic.level1.PieChartStatisticScreen
 import com.ivy.wallet.ui.statistic.level2.ItemStatisticScreen
 import com.ivy.wallet.ui.test.TestScreen
 import com.ivy.wallet.ui.webView.WebViewScreen
 import com.ivy.wallet.ui.widget.AddTransactionWidget
-import com.ivy.wallet.utils.*
+import com.ivy.wallet.utils.activityForResultLauncher
+import com.ivy.wallet.utils.convertLocalToUTC
+import com.ivy.wallet.utils.sendToCrashlytics
+import com.ivy.wallet.utils.simpleActivityForResultLauncher
+import com.ivy.wallet.utils.timeNowLocal
+import com.ivy.wallet.utils.toEpochMilli
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.time.LocalDate
 import java.time.LocalTime
-import java.util.*
+import java.util.Random
 import javax.inject.Inject
 
 
@@ -164,6 +168,7 @@ class RootActivity : AppCompatActivity() {
             null -> {
                 //display nothing
             }
+
             true -> {
                 AppLockedScreen(
                     onShowOSBiometricsModal = {
@@ -176,6 +181,7 @@ class RootActivity : AppCompatActivity() {
                     }
                 )
             }
+
             false -> {
                 NavigationRoot(navigation = navigation) { screen ->
                     Screens(screen)
@@ -205,6 +211,7 @@ class RootActivity : AppCompatActivity() {
                 screen = screen,
                 activity = this@RootActivity
             )
+
             is Test -> TestScreen(screen = screen)
             is Charts -> ChartsScreen(screen = screen)
             is AnalyticsReport -> AnalyticsReport(screen = screen)
@@ -215,7 +222,6 @@ class RootActivity : AppCompatActivity() {
             is LoanDetails -> LoanDetailsScreen(screen = screen)
             is Search -> SearchScreen(screen = screen)
             is IvyWebView -> WebViewScreen(screen = screen)
-            is ExperimentalScreen -> ExperimentalScreen(screen = screen)
             is DonateScreen -> DonateScreen(screen = screen)
             is CSVScreen -> CSVScreen(screen = screen)
             null -> {

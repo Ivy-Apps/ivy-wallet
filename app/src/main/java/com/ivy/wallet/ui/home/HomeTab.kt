@@ -16,12 +16,14 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.frp.asParamTo2
 import com.ivy.frp.forward
 import com.ivy.frp.then2
 import com.ivy.frp.view.FRP
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.IvyCurrency
@@ -51,11 +53,14 @@ private const val SWIPE_HORIZONTAL_THRESHOLD = 200
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.HomeTab(screen: Main) {
-    FRP<HomeState, HomeEvent, HomeViewModel>(
-        initialEvent = HomeEvent.Start
-    ) { state, onEvent ->
-        UI(state = state, onEvent = onEvent)
+    val viewModel: HomeViewModel = viewModel()
+    val state by viewModel.state().collectAsState()
+
+    onScreenStart {
+        viewModel.onEvent(HomeEvent.Start)
     }
+
+    UI(state, viewModel::onEvent)
 }
 
 @ExperimentalAnimationApi
