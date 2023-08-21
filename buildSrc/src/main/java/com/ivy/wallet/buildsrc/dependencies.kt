@@ -22,16 +22,16 @@ import org.gradle.kotlin.dsl.project
 
 object Project {
     //Version
-    const val versionName = "4.3.13"
-    const val versionCode = 127
+    const val versionName = "4.3.14"
+    const val versionCode = 128
 
     //Compile SDK & Build Tools
-    const val compileSdkVersion = 31
+    const val compileSdkVersion = 34
 
     //App
     const val applicationId = "com.ivy.wallet"
     const val minSdk = 28
-    const val targetSdk = 31
+    const val targetSdk = 34
 }
 
 object GlobalVersions {
