@@ -2,8 +2,6 @@ package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.ivy.design.l0_system.GradientPurple
-import com.ivy.design.l0_system.SunsetNight
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionType
@@ -13,7 +11,6 @@ import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.*
-import com.ivy.wallet.ui.donate.DonateScreen
 import com.ivy.wallet.ui.home.CustomerJourneyCard
 import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.theme.*
@@ -51,7 +48,6 @@ class CustomerJourneyLogic(
 
     companion object {
         val ACTIVE_CARDS = listOf(
-//            ivyCloudNuke(),
             adjustBalanceCard(),
             addPlannedPaymentCard(),
             didYouKnow_pinAddTransactionWidgetCard(),
@@ -63,26 +59,6 @@ class CustomerJourneyLogic(
             rateUsCard_2(),
             joinTelegram2(),
             ivyWalletIsOpenSource(),
-            donateIvyWallet(),
-            donate2(),
-        )
-
-        fun ivyCloudNuke() = CustomerJourneyCardData(
-            id = "ivy_cloud_nuke",
-            condition = { trnCount, _, ivyContext ->
-                trnCount > 3 && !ivyContext.dataBackupCompleted
-            },
-            title = "WARNING!!!",
-            description = "IMPORTANT: Ivy Cloud (Google) sync will be stopped on Jan 1st, 2023! " +
-                    "To prevent data loss backup your data. " +
-                    "If you don't export your data now you risk losing your transactions.",
-            cta = "Backup data",
-            ctaIcon = R.drawable.ic_vue_security_shield,
-            background = Gradient.solid(Red),
-            hasDismiss = false,
-            onAction = { nav, _, _ ->
-                nav.navigateTo(ServerStop)
-            }
         )
 
         fun adjustBalanceCard() = CustomerJourneyCardData(
@@ -266,40 +242,6 @@ class CustomerJourneyLogic(
                 ivyActivity.openUrlInBrowser(Constants.URL_IVY_TELEGRAM_INVITE)
             }
         )
-
-        fun donateIvyWallet() = CustomerJourneyCardData(
-            id = "donate_ivy_wallet",
-            condition = { trnCount, _, _ ->
-                trnCount >= 30
-            },
-            title = "Support Ivy Wallet",
-            description = "It seems like you enjoy free and open-source software. We too! " +
-                    "That's why we opened a donations channel to sustain and improve our small project.",
-            cta = "Donate",
-            ctaIcon = R.drawable.ic_donate_crown,
-            background = Gradient.from(SunsetNight),
-            hasDismiss = true,
-            onAction = { nav, _, _ ->
-                nav.navigateTo(DonateScreen)
-            }
-        )
-
-        fun donate2() = CustomerJourneyCardData(
-            id = "donate_2",
-            condition = { trnCount, _, _ ->
-                trnCount >= 56
-            },
-            title = "Support Ivy Wallet",
-            description = "It seems like you enjoy free and open-source software. We too! " +
-                    "That's why we opened a second donations channel with rewards, to support our small project.",
-            cta = "Donate",
-            ctaIcon = R.drawable.ic_donate_crown,
-            background = Gradient.from(GradientPurple),
-            hasDismiss = true,
-            onAction = { nav, _, _ ->
-                nav.navigateTo(DonateScreen)
-            }
-        )
     }
 }
 
@@ -430,30 +372,6 @@ private fun PreviewIvyWallet_isOpenSource() {
     IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.ivyWalletIsOpenSource(),
-            onCTA = { },
-            onDismiss = {}
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewDonateCard() {
-    IvyWalletComponentPreview {
-        CustomerJourneyCard(
-            cardData = CustomerJourneyLogic.donateIvyWallet(),
-            onCTA = { },
-            onDismiss = {}
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewDonate2() {
-    IvyWalletComponentPreview {
-        CustomerJourneyCard(
-            cardData = CustomerJourneyLogic.donate2(),
             onCTA = { },
             onDismiss = {}
         )
