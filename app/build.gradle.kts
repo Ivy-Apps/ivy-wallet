@@ -12,6 +12,7 @@ plugins {
 }
 
 android {
+    namespace = "com.ivy.wallet"
     compileSdk = Project.compileSdkVersion
 
     defaultConfig {

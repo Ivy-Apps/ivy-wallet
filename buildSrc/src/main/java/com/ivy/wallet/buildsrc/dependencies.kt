@@ -35,8 +35,9 @@ object Project {
 }
 
 object GlobalVersions {
-    const val compose = "1.1.1"
-    const val kotlinVersion = "1.6.20"
+    const val compose = "1.5.1"
+    const val composeFoundation = "1.6.0-alpha03"
+    const val kotlinVersion = "1.9.0"
 }
 
 /**
@@ -111,14 +112,15 @@ fun DependencyHandler.Kotlin(version: String) {
 }
 
 fun DependencyHandler.Compose(version: String) {
+    val foundation = GlobalVersions.composeFoundation
     //URL: https://developer.android.com/jetpack/androidx/releases/compose
-    implementation("androidx.compose.ui:ui:$version")
-    implementation("androidx.compose.foundation:foundation:$version")
-    implementation("androidx.compose.animation:animation:$version")
-    implementation("androidx.compose.material:material:$version")
-    implementation("androidx.compose.material:material-icons-extended:$version")
-    implementation("androidx.compose.runtime:runtime-livedata:$version")
-    implementation("androidx.compose.ui:ui-tooling:$version")
+    implementation("androidx.compose.ui:ui:$foundation")
+    implementation("androidx.compose.foundation:foundation:$foundation")
+    implementation("androidx.compose.animation:animation:$foundation")
+    implementation("androidx.compose.material:material:$foundation")
+    implementation("androidx.compose.material:material-icons-extended:$foundation")
+    implementation("androidx.compose.runtime:runtime-livedata:$foundation")
+    implementation("androidx.compose.ui:ui-tooling:$foundation")
 
     //URL: https://developer.android.com/jetpack/androidx/releases/activity
     implementation("androidx.activity:activity-compose:1.4.0")

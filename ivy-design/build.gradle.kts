@@ -9,6 +9,7 @@ plugins {
 }
 
 android {
+    namespace = "com.ivy.design"
     compileSdk = Project.compileSdkVersion
 
     defaultConfig {

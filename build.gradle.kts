@@ -2,7 +2,6 @@ import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    id("android-reporting")
     // Run with:
     // ./gradlew dependencyUpdates // Simple report in the console
     // ./gradlew dependencyUpdates -DoutputFormatter=html,json,xml // Report in console & generate files accordingly
