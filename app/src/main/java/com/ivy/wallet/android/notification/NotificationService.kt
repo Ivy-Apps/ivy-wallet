@@ -32,14 +32,18 @@ class NotificationService(
         notification: NotificationCompat.Builder,
         notificationId: Int
     ) {
-        val notificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
-                ?: return
-        // Register the channel with the system
-        val channel = (notification as IvyNotification).ivyChannel.create(context)
+        try {
+            val notificationManager =
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
+                    ?: return
+            // Register the channel with the system
+            val channel = (notification as IvyNotification).ivyChannel.create(context)
 
-        notificationManager.createNotificationChannel(channel)
-        notificationManager.notify(notificationId, notification.build())
+            notificationManager.createNotificationChannel(channel)
+            notificationManager.notify(notificationId, notification.build())
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     fun dismissNotification(notificationId: Int) {
