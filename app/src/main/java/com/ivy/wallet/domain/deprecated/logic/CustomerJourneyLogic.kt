@@ -51,7 +51,6 @@ class CustomerJourneyLogic(
             adjustBalanceCard(),
             addPlannedPaymentCard(),
             didYouKnow_pinAddTransactionWidgetCard(),
-            addBudgetCard(),
             didYouKnow_expensesPieChart(),
             rateUsCard(),
             shareIvyWalletCard(),
@@ -111,22 +110,6 @@ class CustomerJourneyLogic(
             hasDismiss = true,
             onAction = { _, _, ivyActivity ->
                 ivyActivity.pinWidget(AddTransactionWidgetCompact::class.java)
-            }
-        )
-
-        fun addBudgetCard() = CustomerJourneyCardData(
-            id = "add_budget",
-            condition = { trnCount, _, _ ->
-                trnCount >= 5
-            },
-            title = stringRes(R.string.set_a_budget),
-            description = stringRes(R.string.set_a_budget_description),
-            cta = stringRes(R.string.add_budget),
-            ctaIcon = R.drawable.ic_budget_xs,
-            background = Gradient.solid(Green2),
-            hasDismiss = true,
-            onAction = { navigation, _, _ ->
-                navigation.navigateTo(BudgetScreen)
             }
         )
 
@@ -276,18 +259,6 @@ private fun PreviewDidYouKnow_PinAddTransactionWidgetCard() {
     IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.didYouKnow_pinAddTransactionWidgetCard(),
-            onCTA = { },
-            onDismiss = {}
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewAddBudgetCard() {
-    IvyWalletComponentPreview {
-        CustomerJourneyCard(
-            cardData = CustomerJourneyLogic.addBudgetCard(),
             onCTA = { },
             onDismiss = {}
         )
