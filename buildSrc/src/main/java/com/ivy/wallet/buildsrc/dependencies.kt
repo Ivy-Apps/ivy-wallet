@@ -301,7 +301,7 @@ fun DependencyHandler.ThirdParty() {
     implementation("com.jakewharton.timber:timber:4.7.1")
 
     //URL: https://github.com/greenrobot/EventBus/releases
-    implementation("org.greenrobot:eventbus:3.2.0")
+    implementation("org.greenrobot:eventbus:3.3.1")
 
     //URL: https://github.com/notKamui/Keval - evaluate math expressions (calculator)
     implementation("com.notkamui.libs:keval:0.8.0")
