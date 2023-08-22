@@ -304,7 +304,7 @@ fun DependencyHandler.ThirdParty() {
     implementation("org.greenrobot:eventbus:3.3.1")
 
     //URL: https://github.com/notKamui/Keval - evaluate math expressions (calculator)
-    implementation("com.notkamui.libs:keval:0.8.0")
+    implementation("com.notkamui.libs:keval:0.9.0")
 
     implementation("com.opencsv:opencsv:5.5")
     implementation("org.apache.commons:commons-lang3:3.12.0")
