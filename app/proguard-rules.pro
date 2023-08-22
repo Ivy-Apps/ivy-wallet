@@ -20,6 +20,13 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+-keep class * { *; }
+-dontwarn java.beans.**
+-dontwarn javax.script.**
+-dontwarn javax.servlet.**
+-dontwarn org.apache.**
+-dontwarn coil.**
+
 #Fix Crashig "Donate" scree (Jetpack Compose internal crash)
 -keep class com.ivy.wallet.ui.donate.** { *; }
 -keep class com.ivy.frp.** { *; }
