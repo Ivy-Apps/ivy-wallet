@@ -20,7 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class * { *; }
+-keep class com.ivy.** { *; }
 -dontwarn java.beans.**
 -dontwarn javax.script.**
 -dontwarn javax.servlet.**
