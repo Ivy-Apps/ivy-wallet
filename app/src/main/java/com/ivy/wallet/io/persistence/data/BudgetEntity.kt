@@ -2,22 +2,31 @@ package com.ivy.wallet.io.persistence.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 import com.ivy.wallet.domain.data.core.Budget
 import java.util.*
 
 @Entity(tableName = "budgets")
 data class BudgetEntity(
+    @SerializedName("name")
     val name: String,
+    @SerializedName("amount")
     val amount: Double,
 
+    @SerializedName("categoryIdsSerialized")
     val categoryIdsSerialized: String?,
+    @SerializedName("accountIdsSerialized")
     val accountIdsSerialized: String?,
 
+    @SerializedName("isSynced")
     val isSynced: Boolean = false,
+    @SerializedName("isDeleted")
     val isDeleted: Boolean = false,
 
+    @SerializedName("orderId")
     val orderId: Double,
     @PrimaryKey
+    @SerializedName("id")
     val id: UUID = UUID.randomUUID()
 ) {
     fun toDomain(): Budget = Budget(
