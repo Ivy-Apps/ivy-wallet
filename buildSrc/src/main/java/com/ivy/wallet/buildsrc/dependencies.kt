@@ -234,7 +234,7 @@ fun DependencyHandler.Networking(
     implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
 
     //URL: https://github.com/google/gson
-    implementation("com.google.code.gson:gson:2.8.7")
+    implementation("com.google.code.gson:gson:2.10.1")
 
 
     //URL: https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor
@@ -246,8 +246,9 @@ fun DependencyHandler.Networking(
  * https://developer.android.com/jetpack/androidx/releases/lifecycle
  */
 fun DependencyHandler.Lifecycle(
-        version: String = "2.3.1"
+        version: String = "2.6.1"
 ) {
+    // https://developer.android.com/jetpack/androidx/releases/lifecycle
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$version")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$version")
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$version")
@@ -257,10 +258,10 @@ fun DependencyHandler.Lifecycle(
 
 fun DependencyHandler.AndroidX() {
     //https://developer.android.com/jetpack/androidx/releases/appcompat
-    implementation("androidx.appcompat:appcompat:1.4.1")
+    implementation("androidx.appcompat:appcompat:1.6.1")
 
     //URL: https://developer.android.com/jetpack/androidx/releases/core
-    implementation("androidx.core:core-ktx:1.7.0")
+    implementation("androidx.core:core-ktx:1.10.1")
 
     //URL: https://developer.android.com/jetpack/androidx/releases/work
     val workVersion = "2.7.1"
@@ -276,7 +277,7 @@ fun DependencyHandler.AndroidX() {
 }
 
 fun DependencyHandler.Coroutines(
-        version: String = "1.6.0"
+        version: String = "1.7.3"
 ) {
     //URL: https://github.com/Kotlin/kotlinx.coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$version")
