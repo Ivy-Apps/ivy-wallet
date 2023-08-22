@@ -51,27 +51,51 @@ android {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
-            isDebuggable = false
-            isDefault = false
-
-            signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
 
+            isDebuggable = false
+            isDefault = false
+
+            signingConfig = signingConfigs.getByName("release")
+
             resValue("string", "app_name", "Ivy Wallet")
         }
 
         debug {
-            isDebuggable = true
             isMinifyEnabled = false
+            isShrinkResources = false
+
+
+            isDebuggable = true
             isDefault = true
 
             signingConfig = signingConfigs.getByName("debug")
 
             applicationIdSuffix = ".debug"
             resValue("string", "app_name", "Ivy Wallet Debug")
+        }
+
+        create("demo") {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+
+            matchingFallbacks.add("release")
+            matchingFallbacks.add("debug")
+
+            isDebuggable = true
+            isDefault = false
+
+            signingConfig = signingConfigs.getByName("debug")
+
+            applicationIdSuffix = ".debug"
+            resValue("string", "app_name", "Ivy Wallet Demo")
         }
     }
 
