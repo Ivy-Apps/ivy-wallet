@@ -1,5 +1,6 @@
 package com.ivy.wallet.io.persistence.data
 
+import androidx.annotation.Keep
 import androidx.compose.ui.graphics.toArgb
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -8,6 +9,7 @@ import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.ui.theme.Green
 import java.util.*
 
+@Keep
 @Entity(tableName = "accounts")
 data class AccountEntity(
     @SerializedName("name")

@@ -1,11 +1,13 @@
 package com.ivy.wallet.io.persistence.data
 
+import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import com.ivy.wallet.domain.data.core.Budget
 import java.util.*
 
+@Keep
 @Entity(tableName = "budgets")
 data class BudgetEntity(
     @SerializedName("name")

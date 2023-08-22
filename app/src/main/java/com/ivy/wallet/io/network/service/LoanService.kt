@@ -1,8 +1,10 @@
 package com.ivy.wallet.io.network.service
 
+import androidx.annotation.Keep
 import com.ivy.wallet.io.network.request.loan.*
 import retrofit2.http.*
 
+@Keep
 interface LoanService {
     @POST("/wallet/loans/update")
     suspend fun update(@Body request: UpdateLoanRequest)

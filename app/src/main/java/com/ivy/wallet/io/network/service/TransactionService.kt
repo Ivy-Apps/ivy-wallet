@@ -1,10 +1,12 @@
 package com.ivy.wallet.io.network.service
 
+import androidx.annotation.Keep
 import com.ivy.wallet.io.network.request.transaction.DeleteTransactionRequest
 import com.ivy.wallet.io.network.request.transaction.TransactionsResponse
 import com.ivy.wallet.io.network.request.transaction.UpdateTransactionRequest
 import retrofit2.http.*
 
+@Keep
 interface TransactionService {
     @POST("/wallet/transactions/update")
     suspend fun update(@Body request: UpdateTransactionRequest)

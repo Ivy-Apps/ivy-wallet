@@ -1,9 +1,11 @@
 package com.ivy.wallet.io.network.service
 
+import androidx.annotation.Keep
 import com.ivy.wallet.io.network.request.auth.*
 import retrofit2.http.Body
 import retrofit2.http.POST
 
+@Keep
 interface AuthService {
     @POST("/auth/check-email")
     suspend fun checkEmail(@Body request: CheckEmailRequest): CheckEmailResponse

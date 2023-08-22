@@ -1,10 +1,12 @@
 package com.ivy.wallet.io.network.service
 
+import androidx.annotation.Keep
 import com.ivy.wallet.io.network.request.category.DeleteWalletCategoryRequest
 import com.ivy.wallet.io.network.request.category.UpdateWalletCategoryRequest
 import com.ivy.wallet.io.network.request.category.WalletCategoriesResponse
 import retrofit2.http.*
 
+@Keep
 interface CategoryService {
     @POST("/wallet/categories/update")
     suspend fun update(@Body request: UpdateWalletCategoryRequest)

@@ -1,11 +1,13 @@
 package com.ivy.wallet.io.network.service
 
+import androidx.annotation.Keep
 import com.ivy.wallet.io.network.request.github.OpenIssueRequest
 import com.ivy.wallet.io.network.request.github.OpenIssueResponse
 import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.POST
 
+@Keep
 interface GithubService {
     companion object {
         const val BASE_URL = "https://api.github.com"

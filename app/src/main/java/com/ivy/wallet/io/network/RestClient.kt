@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
+import androidx.annotation.Keep
 import com.google.gson.Gson
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.io.network.error.ErrorCode
@@ -26,6 +27,7 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
+@Keep
 class RestClient private constructor(
     private val appContext: Context,
     private val retrofit: Retrofit

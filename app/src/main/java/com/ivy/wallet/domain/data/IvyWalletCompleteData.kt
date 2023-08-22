@@ -1,8 +1,10 @@
 package com.ivy.wallet.domain.data
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import com.ivy.wallet.io.persistence.data.*
 
+@Keep
 data class IvyWalletCompleteData(
     @SerializedName("accounts")
     val accounts: List<AccountEntity> = emptyList(),

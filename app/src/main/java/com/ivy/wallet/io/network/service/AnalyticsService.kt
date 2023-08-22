@@ -1,5 +1,6 @@
 package com.ivy.wallet.io.network.service
 
+import androidx.annotation.Keep
 import com.ivy.wallet.io.network.request.analytics.AnalyticsReportResponse
 import com.ivy.wallet.io.network.request.analytics.LogEventRequest
 import retrofit2.http.Body
@@ -7,6 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 
+@Keep
 interface AnalyticsService {
     @POST("/wallet/analytics/log-event")
     suspend fun logEvent(@Body request: LogEventRequest)
