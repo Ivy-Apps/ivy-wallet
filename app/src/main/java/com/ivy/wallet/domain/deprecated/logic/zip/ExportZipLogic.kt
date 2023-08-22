@@ -14,6 +14,7 @@ import com.ivy.wallet.utils.readFile
 import com.ivy.wallet.utils.scopedIOThread
 import com.ivy.wallet.utils.toEpochMilli
 import kotlinx.coroutines.async
+import timber.log.Timber
 import java.io.File
 import java.lang.reflect.Type
 import java.time.Instant
@@ -171,6 +172,7 @@ class ExportZipLogic(
                 )
 
             } catch (e: Exception) {
+                Timber.e("Import error: $e")
                 ImportResult(
                     rowsFound = 0,
                     transactionsImported = 0,
