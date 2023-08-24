@@ -75,6 +75,8 @@ import com.ivy.wallet.ui.statistic.level2.ItemStatisticScreen
 import com.ivy.wallet.ui.test.TestScreen
 import com.ivy.wallet.ui.webView.WebViewScreen
 import com.ivy.wallet.ui.widget.AddTransactionWidget
+import com.ivy.wallet.ui.widget.AddTransactionWidgetCompact
+import com.ivy.wallet.ui.widget.WalletBalanceWidgetReceiver
 import com.ivy.wallet.utils.activityForResultLauncher
 import com.ivy.wallet.utils.convertLocalToUTC
 import com.ivy.wallet.utils.sendToCrashlytics
@@ -140,6 +142,9 @@ class RootActivity : AppCompatActivity() {
         setupTimePicker()
 
         AddTransactionWidget.updateBroadcast(this)
+        AddTransactionWidgetCompact.updateBroadcast(this)
+        WalletBalanceWidgetReceiver.updateBroadcast(this)
+
 
         setContent {
             val viewModel: RootViewModel = viewModel()

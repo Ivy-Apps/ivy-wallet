@@ -15,7 +15,11 @@ import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.domain.deprecated.logic.*
+import com.ivy.wallet.domain.deprecated.logic.AccountCreator
+import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
+import com.ivy.wallet.domain.deprecated.logic.PaywallLogic
+import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
+import com.ivy.wallet.domain.deprecated.logic.SmartTitleSuggestionsLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LoanTransactionsLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
@@ -23,14 +27,22 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.deprecated.sync.uploader.TransactionUploader
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
 import com.ivy.wallet.io.persistence.SharedPrefs
-import com.ivy.wallet.io.persistence.dao.*
+import com.ivy.wallet.io.persistence.dao.AccountDao
+import com.ivy.wallet.io.persistence.dao.CategoryDao
+import com.ivy.wallet.io.persistence.dao.LoanDao
+import com.ivy.wallet.io.persistence.dao.SettingsDao
+import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.refreshWidget
 import com.ivy.wallet.ui.EditTransaction
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.Main
 import com.ivy.wallet.ui.loan.data.EditTransactionDisplayLoan
-import com.ivy.wallet.ui.widget.WalletBalanceReceiver
-import com.ivy.wallet.utils.*
+import com.ivy.wallet.ui.widget.WalletBalanceWidgetReceiver
+import com.ivy.wallet.utils.computationThread
+import com.ivy.wallet.utils.ioThread
+import com.ivy.wallet.utils.readOnly
+import com.ivy.wallet.utils.timeNowUTC
+import com.ivy.wallet.utils.uiThread
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -38,7 +50,7 @@ import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import java.math.BigDecimal
 import java.time.LocalDateTime
-import java.util.*
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -538,7 +550,7 @@ class EditTransactionViewModel @Inject constructor(
                 }
 
                 transactionDao.save(loadedTransaction().toEntity())
-                refreshWidget(WalletBalanceReceiver::class.java)
+                refreshWidget(WalletBalanceWidgetReceiver::class.java)
             }
 
             if (closeScreen) {

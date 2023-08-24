@@ -2,13 +2,14 @@ package com.ivy.wallet.ui.widget
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
-import androidx.compose.runtime.Composable
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.glance.GlanceId
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
+import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.currentState
 import androidx.glance.state.PreferencesGlanceStateDefinition
@@ -26,24 +27,31 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class WalletBalanceWidget: GlanceAppWidget() {
+class WalletBalanceWidget : GlanceAppWidget() {
 
-    @Composable
-    override fun Content() {
-        val prefs = currentState<Preferences>()
-        val appLocked = prefs[booleanPreferencesKey("appLocked")] ?: false
-        val balance = prefs[stringPreferencesKey("balance")] ?: "0.00"
-        val currency = prefs[stringPreferencesKey("currency")] ?: "USD"
-        val income = prefs[stringPreferencesKey("income")] ?: "0.00"
-        val expense = prefs[stringPreferencesKey("expense")] ?: "0.00"
+    override suspend fun provideGlance(context: Context, id: GlanceId) {
+        provideContent {
+            val prefs = currentState<Preferences>()
+            val appLocked = prefs[booleanPreferencesKey("appLocked")] ?: false
+            val balance = prefs[stringPreferencesKey("balance")] ?: "0.00"
+            val currency = prefs[stringPreferencesKey("currency")] ?: "USD"
+            val income = prefs[stringPreferencesKey("income")] ?: "0.00"
+            val expense = prefs[stringPreferencesKey("expense")] ?: "0.00"
 
-        WalletBalanceWidgetContent(appLocked, balance, currency, income, expense)
+            WalletBalanceWidgetContent(appLocked, balance, currency, income, expense)
+        }
     }
 
 }
 
 @AndroidEntryPoint
-class WalletBalanceReceiver : GlanceAppWidgetReceiver() {
+class WalletBalanceWidgetReceiver : GlanceAppWidgetReceiver() {
+    companion object {
+        fun updateBroadcast(context: Context) {
+            WidgetBase.updateBroadcast(context, WalletBalanceWidgetReceiver::class.java)
+        }
+    }
+
 
     override val glanceAppWidget: GlanceAppWidget = WalletBalanceWidget()
     private val coroutineScope = MainScope()
@@ -92,15 +100,18 @@ class WalletBalanceReceiver : GlanceAppWidgetReceiver() {
             )
 
             val glanceId =
-                GlanceAppWidgetManager(context).getGlanceIds(WalletBalanceWidget::class.java).firstOrNull()
+                GlanceAppWidgetManager(context).getGlanceIds(WalletBalanceWidget::class.java)
+                    .firstOrNull()
             glanceId?.let {
                 updateAppWidgetState(context, PreferencesGlanceStateDefinition, it) { pref ->
                     pref.toMutablePreferences().apply {
                         this[booleanPreferencesKey("appLocked")] = appLocked
                         this[stringPreferencesKey("balance")] = shortenAmount(balance.toDouble())
                         this[stringPreferencesKey("currency")] = currency
-                        this[stringPreferencesKey("income")] = shortenAmount(incomeExpense.income.toDouble())
-                        this[stringPreferencesKey("expense")] = shortenAmount(incomeExpense.expense.toDouble())
+                        this[stringPreferencesKey("income")] =
+                            shortenAmount(incomeExpense.income.toDouble())
+                        this[stringPreferencesKey("expense")] =
+                            shortenAmount(incomeExpense.expense.toDouble())
                     }
                 }
                 glanceAppWidget.update(context, it)

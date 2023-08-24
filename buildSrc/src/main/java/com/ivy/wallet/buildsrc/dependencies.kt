@@ -129,7 +129,10 @@ fun DependencyHandler.Compose(version: String) {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha05")
 
     // Jetpack Glance (Compose Widgets)
-    implementation("androidx.glance:glance-appwidget:1.0.0-alpha03")
+    // https://developer.android.com/jetpack/androidx/releases/glance
+    val glanceVersion = "1.0.0-rc01"
+    implementation("androidx.glance:glance-appwidget:$glanceVersion")
+    implementation("androidx.glance:glance-material3:$glanceVersion")
 
     Accompanist(version = "0.15.0")
 

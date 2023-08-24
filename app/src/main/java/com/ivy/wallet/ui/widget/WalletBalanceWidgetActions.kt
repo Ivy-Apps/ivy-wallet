@@ -1,7 +1,9 @@
 package com.ivy.wallet.ui.widget
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.glance.GlanceId
 import androidx.glance.action.ActionParameters
 import androidx.glance.appwidget.action.ActionCallback
@@ -9,7 +11,12 @@ import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.ui.RootActivity
 
 class WalletBalanceButtonsAction : ActionCallback {
-    override suspend fun onRun(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
+    @SuppressLint("LogNotTimber")
+    override suspend fun onAction(
+        context: Context,
+        glanceId: GlanceId,
+        parameters: ActionParameters
+    ) {
         when (parameters[walletBtnActParam]) {
             AddTransactionWidgetClick.ACTION_ADD_INCOME -> {
                 context.startActivity(
@@ -21,6 +28,7 @@ class WalletBalanceButtonsAction : ActionCallback {
                     }
                 )
             }
+
             AddTransactionWidgetClick.ACTION_ADD_EXPENSE -> {
                 context.startActivity(
                     RootActivity.addTransactionStart(
@@ -31,7 +39,9 @@ class WalletBalanceButtonsAction : ActionCallback {
                     }
                 )
             }
+
             AddTransactionWidgetClick.ACTION_ADD_TRANSFER -> {
+                Log.i("widget", "Clicked add transfer.")
                 context.startActivity(
                     RootActivity.addTransactionStart(
                         context = context,
@@ -41,13 +51,18 @@ class WalletBalanceButtonsAction : ActionCallback {
                     }
                 )
             }
+
             else -> return
         }
     }
 }
 
-class WalletBalanceWidgetClickAction: ActionCallback {
-    override suspend fun onRun(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
+class WalletBalanceWidgetClickAction : ActionCallback {
+    override suspend fun onAction(
+        context: Context,
+        glanceId: GlanceId,
+        parameters: ActionParameters
+    ) {
         context.startActivity(
             RootActivity.getIntent(
                 context = context

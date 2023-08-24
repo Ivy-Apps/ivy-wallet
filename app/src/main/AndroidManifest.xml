@@ -86,7 +86,7 @@
         </receiver>
 
         <receiver
-            android:name=".ui.widget.WalletBalanceReceiver"
+            android:name=".ui.widget.WalletBalanceWidgetReceiver"
             android:enabled="@bool/glance_appwidget_available"
             android:label="@string/wallet_balance"
             android:exported="true">

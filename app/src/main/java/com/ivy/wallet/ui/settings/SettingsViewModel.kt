@@ -31,8 +31,14 @@ import com.ivy.wallet.refreshWidget
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.Main
 import com.ivy.wallet.ui.RootActivity
-import com.ivy.wallet.ui.widget.WalletBalanceReceiver
-import com.ivy.wallet.utils.*
+import com.ivy.wallet.ui.widget.WalletBalanceWidgetReceiver
+import com.ivy.wallet.utils.OpResult
+import com.ivy.wallet.utils.asLiveData
+import com.ivy.wallet.utils.formatNicelyWithTime
+import com.ivy.wallet.utils.ioThread
+import com.ivy.wallet.utils.sendToCrashlytics
+import com.ivy.wallet.utils.timeNowUTC
+import com.ivy.wallet.utils.uiThread
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -322,7 +328,7 @@ class SettingsViewModel @Inject constructor(
 
             sharedPrefs.putBoolean(SharedPrefs.APP_LOCK_ENABLED, lockApp)
             _lockApp.value = lockApp
-            refreshWidget(WalletBalanceReceiver::class.java)
+            refreshWidget(WalletBalanceWidgetReceiver::class.java)
 
             TestIdlingResource.decrement()
         }
