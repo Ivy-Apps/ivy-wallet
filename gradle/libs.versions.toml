@@ -2,6 +2,8 @@
 kotlin = "1.9.0"
 ktor = "2.3.3"
 kotlinx-serialization = "1.6.0"
+arrow = "1.2.0"
+kotest = "5.6.2"
 
 [libraries]
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
@@ -10,6 +12,12 @@ ktor-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation",
 ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
+arrowkt-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
+kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
+kotest-property-arrow = { module = "io.kotest.extensions:kotest-property-arrow", version.ref = "arrow" }
+kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
 
 [bundles]
 ktor = [
@@ -19,6 +27,13 @@ ktor = [
     "ktor-serialization",
     "ktor-client-core",
     "ktor-client-serialization"
+]
+kotest = [
+    "kotest-junit5",
+    "kotest-assertions",
+    "kotest-property",
+    "kotest-property-arrow",
+    "kotest-datatest"
 ]
 
 [plugins]

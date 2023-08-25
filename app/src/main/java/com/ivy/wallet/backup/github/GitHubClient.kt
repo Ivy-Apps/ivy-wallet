@@ -26,7 +26,7 @@ class GitHubClient @Inject constructor(
         content: String,
     ): Either<String, Unit> {
         // https://github.com/Ivy-Apps/ivy-wallet
-        val url = "https://api.github.com/repos/$owner/$repo/contents/$path"
+        val url = "" //"https://api.github.com/repos/$owner/$repo/contents/$path"
         val encodedContent = content.toByteArray(Charsets.UTF_8).encodeBase64()
 
         val requestBody = GitHubFileContent(
@@ -37,7 +37,7 @@ class GitHubClient @Inject constructor(
 
         httpClient.get().put(url) {
             headers {
-                append("Authorization", "token $token")
+//                append("Authorization", "token $token")
             }
             setBody(requestBody)
         }

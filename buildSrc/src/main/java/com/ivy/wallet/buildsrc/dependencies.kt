@@ -52,11 +52,11 @@ fun DependencyHandler.appModuleDependencies(
 
     Kotlin(version = kotlinVersion)
     Coroutines(version = "1.5.0")
-    FunctionalProgramming(
-            arrowVersion = "1.0.1",
-            kotestVersion = "5.1.0",
-            kotlinVersion = kotlinVersion
-    )
+//    FunctionalProgramming(
+//            arrowVersion = "1.0.1",
+//            kotestVersion = "5.1.0",
+//            kotlinVersion = kotlinVersion
+//    )
 
     Compose(version = GlobalVersions.compose)
 
@@ -64,8 +64,8 @@ fun DependencyHandler.appModuleDependencies(
     Firebase()
 
     Hilt(
-            hiltVersion = "2.47",
-            versionX = "1.0.0"
+        hiltVersion = "2.47",
+        versionX = "1.0.0"
     )
     RoomDB()
 

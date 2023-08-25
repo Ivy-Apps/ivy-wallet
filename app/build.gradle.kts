@@ -143,4 +143,7 @@ dependencies {
     appModuleDependencies()
 
     implementation(libs.bundles.ktor)
+    implementation(libs.arrowkt.core)
+
+    testImplementation(libs.bundles.kotest)
 }
