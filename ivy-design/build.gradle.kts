@@ -60,4 +60,5 @@ dependencies {
     ivyDesignModuleDependencies()
 
     implementation(libs.bundles.arrow)
+    implementation(libs.bundles.kotlin)
 }

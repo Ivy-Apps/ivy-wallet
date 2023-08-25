@@ -141,9 +141,11 @@ android {
 
 dependencies {
     appModuleDependencies()
+    implementation(project(":ivy-design"))
 
     implementation(libs.bundles.ktor)
     implementation(libs.bundles.arrow)
 
     testImplementation(libs.bundles.kotest)
+    testImplementation(libs.bundles.kotlin.test)
 }

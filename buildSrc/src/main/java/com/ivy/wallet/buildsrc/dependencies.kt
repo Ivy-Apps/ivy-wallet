@@ -17,7 +17,6 @@
 package com.ivy.wallet.buildsrc
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
-import org.gradle.kotlin.dsl.project
 
 
 object Project {
@@ -46,12 +45,11 @@ object GlobalVersions {
 fun DependencyHandler.appModuleDependencies(
         kotlinVersion: String = GlobalVersions.kotlinVersion
 ) {
-    implementation(project(":ivy-design"))
+//    implementation(project(":ivy-design"))
 
-    implementation("com.github.ILIYANGERMANOV:ivy-frp:0.9.5")
+//    implementation("com.github.ILIYANGERMANOV:ivy-frp:0.9.5")
 
-    Kotlin(version = kotlinVersion)
-    Coroutines(version = "1.5.0")
+//    Coroutines(version = "1.5.0")
 //    FunctionalProgramming(
 //            arrowVersion = "1.0.1",
 //            kotestVersion = "5.1.0",
@@ -82,8 +80,7 @@ fun DependencyHandler.appModuleDependencies(
 fun DependencyHandler.ivyDesignModuleDependencies(
         kotlinVersion: String = GlobalVersions.kotlinVersion
 ) {
-    Kotlin(version = kotlinVersion)
-    Coroutines(version = "1.5.0")
+//    Coroutines(version = "1.5.0")
 //    FunctionalProgramming(
 //            arrowVersion = "1.0.1",
 //            kotestVersion = "5.1.0",
@@ -101,15 +98,6 @@ fun DependencyHandler.DataStore() {
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 }
 
-/**
- * Kotlin STD lib
- * https://kotlinlang.org/docs/releases.html#release-details
- */
-fun DependencyHandler.Kotlin(version: String) {
-    //URL: https://kotlinlang.org/docs/releases.html#release-details
-    //WARNING: Version is also updated from buildSrc
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:$version")
-}
 
 fun DependencyHandler.Compose(version: String) {
     val foundation = GlobalVersions.composeFoundation
@@ -279,19 +267,6 @@ fun DependencyHandler.AndroidX() {
     implementation("androidx.webkit:webkit:1.4.0")
 }
 
-fun DependencyHandler.Coroutines(
-        version: String = "1.7.3"
-) {
-    //URL: https://github.com/Kotlin/kotlinx.coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$version")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$version")
-
-    //URL: https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-play-services
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$version")
-
-    //URL: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-test/
-    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$version")
-}
 
 fun DependencyHandler.ThirdParty() {
     //URL: https://github.com/airbnb/lottie-android
