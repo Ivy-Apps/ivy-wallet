@@ -20,6 +20,9 @@ kotest-property-arrow = { module = "io.kotest.extensions:kotest-property-arrow",
 kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
 
 [bundles]
+arrow = [
+    "arrowkt-core"
+]
 ktor = [
     "kotlinx-serialization-json",
     "ktor-client-okhttp",

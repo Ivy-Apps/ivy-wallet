@@ -84,11 +84,11 @@ fun DependencyHandler.ivyDesignModuleDependencies(
 ) {
     Kotlin(version = kotlinVersion)
     Coroutines(version = "1.5.0")
-    FunctionalProgramming(
-            arrowVersion = "1.0.1",
-            kotestVersion = "5.1.0",
-            kotlinVersion = kotlinVersion
-    )
+//    FunctionalProgramming(
+//            arrowVersion = "1.0.1",
+//            kotestVersion = "5.1.0",
+//            kotlinVersion = kotlinVersion
+//    )
 
     Compose(version = GlobalVersions.compose)
 
@@ -311,51 +311,4 @@ fun DependencyHandler.ThirdParty() {
 
     implementation("com.opencsv:opencsv:5.5")
     implementation("org.apache.commons:commons-lang3:3.12.0")
-}
-
-fun DependencyHandler.FunctionalProgramming(
-        arrowVersion: String = "1.0.1",
-        kotestVersion: String = "5.1.0",
-        kotlinVersion: String
-) {
-    Arrow(version = arrowVersion)
-
-    Kotest(
-            version = kotestVersion,
-            arrowVersion = arrowVersion,
-            kotlinVersion = kotlinVersion
-    )
-}
-
-/**
- * Functional Programming with Kotlin
- */
-fun DependencyHandler.Arrow(
-        version: String
-) {
-    implementation(platform("io.arrow-kt:arrow-stack:$version"))
-    implementation("io.arrow-kt:arrow-core")
-    implementation("io.arrow-kt:arrow-fx-coroutines")
-    implementation("io.arrow-kt:arrow-fx-stm")
-}
-
-/**
- * Kotlin Property-based testing
- */
-fun DependencyHandler.Kotest(
-        version: String,
-        arrowVersion: String,
-        kotlinVersion: String
-) {
-    //junit5 is required!
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
-    testImplementation("io.kotest:kotest-runner-junit5:$version")
-    testImplementation("io.kotest:kotest-assertions-core:$version")
-    testImplementation("io.kotest:kotest-property:$version")
-
-    //otherwise Kotest doesn't work...
-    testImplementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
-
-
-    testImplementation("io.kotest.extensions:kotest-property-arrow:$arrowVersion")
 }

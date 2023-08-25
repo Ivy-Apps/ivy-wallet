@@ -58,4 +58,6 @@ android {
 
 dependencies {
     ivyDesignModuleDependencies()
+
+    implementation(libs.bundles.arrow)
 }
