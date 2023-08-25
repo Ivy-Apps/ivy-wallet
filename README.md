@@ -73,7 +73,7 @@ Ivy Wallet's biggest advantage is its UI/UX, simplicity, and customization which
 - [Fastlane](https://fastlane.tools/) (upload to Google PlayStore)
 - [Github Actions](https://github.com/Ivy-Apps/ivy-wallet/actions) (CI/CD)
 
-### Contributors Wall:
+## Contributors Wall:
 <a href="https://github.com/ILIYANGERMANOV/ivy-wallet/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=ILIYANGERMANOV/ivy-wallet" />
 </a>
