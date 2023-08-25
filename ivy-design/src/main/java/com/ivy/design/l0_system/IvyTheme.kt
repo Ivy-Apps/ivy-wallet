@@ -61,9 +61,9 @@ fun IvyTheme(
         if (!view.isInEditMode) {
             SideEffect {
                 val window = (view.context as Activity).window
-                window.statusBarColor = colorScheme.primary.toArgb()
+                window.statusBarColor = colors.pure.toArgb()
                 WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars =
-                    !colors.isLight
+                    colors.isLight
             }
         }
 
