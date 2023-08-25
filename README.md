@@ -39,6 +39,11 @@ Ivy Wallet's biggest advantage is its UI/UX, simplicity, and customization which
 
 > Join our **[private Telegram Community](https://t.me/+ETavgioAvWg4NThk)**.
 
+## Project Requirements
+- Java 17+
+- The latest **Android Studio Hedgehog** or above (for easy install
+  use [JetBrains Toolbox](https://www.jetbrains.com/toolbox-app/))
+
 ## Tech Stack
 
 ### Core
@@ -67,13 +72,6 @@ Ivy Wallet's biggest advantage is its UI/UX, simplicity, and customization which
 - [Gradle KTS](https://docs.gradle.org/current/userguide/kotlin_dsl.html)
 - [Fastlane](https://fastlane.tools/) (upload to Google PlayStore)
 - [Github Actions](https://github.com/Ivy-Apps/ivy-wallet/actions) (CI/CD)
-
-
-## Project Requirements
-- Java 11+
-- The latest **Android Studio Hedgehog** or above (for easy install
-  use [JetBrains Toolbox](https://www.jetbrains.com/toolbox-app/))
-
 
 ### Contributors Wall:
 <a href="https://github.com/ILIYANGERMANOV/ivy-wallet/graphs/contributors">
