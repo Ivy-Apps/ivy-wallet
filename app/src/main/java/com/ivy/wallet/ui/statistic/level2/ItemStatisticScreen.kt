@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -35,7 +36,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.accompanist.insets.statusBarsHeight
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -288,11 +288,11 @@ private fun BoxWithConstraintsScope.UI(
         val listState = rememberLazyListState()
         val density = LocalDensity.current
 
-        Spacer(Modifier.statusBarsHeight())
 
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
+                .systemBarsPadding()
                 .padding(top = 16.dp)
                 .clip(UI.shapes.r1Top)
                 .background(UI.colors.pure)

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -29,7 +30,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.accompanist.insets.navigationBarsPadding
 import com.ivy.design.l0_system.Black
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.White
@@ -281,9 +281,7 @@ private fun BoxWithConstraintsScope.DonateButton(
         modifier = Modifier
             .align(Alignment.BottomCenter)
             .fillMaxWidth()
-            .navigationBarsPadding(
-                bottom = true, start = false, end = false
-            )
+            .navigationBarsPadding()
             .padding(horizontal = 20.dp)
             .padding(bottom = 16.dp)
             .testTag("btn_donate"),

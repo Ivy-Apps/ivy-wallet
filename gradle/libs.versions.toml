@@ -10,6 +10,8 @@ compose-compiler = "1.5.2"
 compose-material3 = "1.1.1"
 compose-activity = "1.7.2"
 compose-viewmodel = "2.6.1"
+coil = "2.4.0"
+glance = "1.0.0-rc01"
 
 [libraries]
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
@@ -36,10 +38,15 @@ compose-foundation = { module = "androidx.compose.foundation:foundation", versio
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 compose-material3-windowsize = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "compose-material3" }
 compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
+compose-runtime-livedate-temp = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "compose" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-activity = { module = "androidx.activity:activity-compose", version.ref = "compose-activity" }
 compose-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "compose-viewmodel" }
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+compose-coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+glance = { module = "androidx.glance:glance", version.ref = "glance" }
+glance-appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "glance" }
+glance-material3 = { module = "androidx.glance:glance-material3", version.ref = "glance" }
 
 [bundles]
 kotlin = [
@@ -78,7 +85,14 @@ compose = [
     "compose-ui",
     "compose-activity",
     "compose-viewmodel",
-    "compose-tooling"
+    "compose-tooling",
+    "compose-runtime-livedate-temp",
+    "compose-coil"
+]
+glance = [
+    "glance",
+    "glance-appwidget",
+    "glance-material3"
 ]
 
 [plugins]

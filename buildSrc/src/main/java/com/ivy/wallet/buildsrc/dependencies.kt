@@ -56,7 +56,7 @@ fun DependencyHandler.appModuleDependencies(
 //            kotlinVersion = kotlinVersion
 //    )
 
-    Compose(version = GlobalVersions.compose)
+//    Compose(version = GlobalVersions.compose)
 
     Google()
     Firebase()
@@ -87,7 +87,7 @@ fun DependencyHandler.ivyDesignModuleDependencies(
 //            kotlinVersion = kotlinVersion
 //    )
 
-    Compose(version = GlobalVersions.compose)
+//    Compose(version = GlobalVersions.compose)
 
     AndroidX()
     Lifecycle(version = "2.3.1")

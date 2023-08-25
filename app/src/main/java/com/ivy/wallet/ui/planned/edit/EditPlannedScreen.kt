@@ -1,11 +1,21 @@
 package com.ivy.wallet.ui.planned.edit
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.BoxWithConstraintsScope
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.testTag
@@ -14,8 +24,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.IntervalType
 import com.ivy.wallet.domain.data.TransactionType
@@ -25,13 +33,22 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.EditPlanned
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.edit.core.*
+import com.ivy.wallet.ui.edit.core.Category
+import com.ivy.wallet.ui.edit.core.Description
+import com.ivy.wallet.ui.edit.core.EditBottomSheet
+import com.ivy.wallet.ui.edit.core.Title
+import com.ivy.wallet.ui.edit.core.Toolbar
 import com.ivy.wallet.ui.theme.components.ChangeTransactionTypeModal
 import com.ivy.wallet.ui.theme.modal.DeleteModal
 import com.ivy.wallet.ui.theme.modal.ModalSet
 import com.ivy.wallet.ui.theme.modal.RecurringRuleModal
 import com.ivy.wallet.ui.theme.modal.RecurringRuleModalData
-import com.ivy.wallet.ui.theme.modal.edit.*
+import com.ivy.wallet.ui.theme.modal.edit.AccountModal
+import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
+import com.ivy.wallet.ui.theme.modal.edit.CategoryModal
+import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
+import com.ivy.wallet.ui.theme.modal.edit.ChooseCategoryModal
+import com.ivy.wallet.ui.theme.modal.edit.DescriptionModal
 import com.ivy.wallet.utils.onScreenStart
 import java.time.LocalDateTime
 

@@ -148,6 +148,7 @@ dependencies {
     implementation(libs.bundles.ktor)
     implementation(libs.bundles.arrow)
     implementation(libs.bundles.compose)
+    implementation(libs.bundles.glance)
 
     testImplementation(libs.bundles.kotest)
     testImplementation(libs.bundles.kotlin.test)

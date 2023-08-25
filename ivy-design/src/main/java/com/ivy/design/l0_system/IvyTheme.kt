@@ -1,5 +1,6 @@
 package com.ivy.design.l0_system
 
+import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
@@ -10,7 +11,11 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowCompat
 import com.ivy.design.api.IvyDesign
 
 val LocalIvyColors = compositionLocalOf<IvyColors> { error("No IvyColors") }
@@ -50,8 +55,20 @@ fun IvyTheme(
         LocalIvyTypography provides typography,
         LocalIvyShapes provides shapes
     ) {
+        val colorScheme = adaptColors(colors)
+
+        val view = LocalView.current
+        if (!view.isInEditMode) {
+            SideEffect {
+                val window = (view.context as Activity).window
+                window.statusBarColor = colorScheme.primary.toArgb()
+                WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars =
+                    !colors.isLight
+            }
+        }
+
         MaterialTheme(
-            colorScheme = adaptColors(colors),
+            colorScheme = colorScheme,
             typography = adaptTypography(typography),
             shapes = adaptShapes(shapes),
             content = content

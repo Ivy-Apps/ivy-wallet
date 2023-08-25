@@ -1,7 +1,13 @@
 package com.ivy.wallet.ui.csvimport.flow
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -9,7 +15,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -17,7 +22,11 @@ import com.ivy.wallet.R
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import com.ivy.wallet.ui.CSVScreen
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.GradientIvy
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.Green
+import com.ivy.wallet.ui.theme.Red
+import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.BackButton
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
 import com.ivy.wallet.ui.theme.components.OnboardingButton
