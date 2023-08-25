@@ -48,15 +48,15 @@ repository.
 - Keep it simple.
 - **"Don't walk away from complexity, run!"**
 
-## 4. Submit a PR to `develop` branch
+## 4. Submit a PR to `prod` branch
 
 So far you should have pushed your work to your feature branch and have tested that it works on an actual Android
-device. Then final step is to open a pull request to the `develop` branch of the
+device. The final step is to open a pull request to the `prod` branch of the
 official [Ivy Wallet repo.](https://github.com/Ivy-Apps/ivy-wallet/pulls)
 
 **[How To Submit a PR Guide by GitHub](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)**
 
 ### IMPORTANT:
 
-- Make sure that on the base repository's base the `develop` branch is chosen as "base".
-- Pull requests to `main` will be rejected.
+- Make sure that on the base repository's base the `prod` branch is chosen as "base".
+- Pull requests to other branches will be rejected.
