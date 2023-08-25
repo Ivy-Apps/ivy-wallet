@@ -1,6 +1,9 @@
 name: APK
 
-on: push
+on:
+  push:
+    branches:
+      - prod
 
 jobs:
   assemble_demo_apk:
@@ -37,11 +40,11 @@ jobs:
       - name: Upload APK in Telegram Group
         run: |
           COMMIT_LINK="https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}"
-          CAPTION="Ivy Wallet Demo APK built from commit: $COMMIT_LINK"
+          COMMIT_MESSAGE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${GITHUB_REPOSITORY}/commits/${GITHUB_SHA}" | jq -r .commit.message)
+          CAPTION="Ivy Wallet Demo APK built from \"$COMMIT_MESSAGE\" commit: $COMMIT_LINK"
           
           curl -F "chat_id=-1001647280565" \
                -F "document=@app/build/outputs/apk/demo/app-demo.apk" \
                -F "reply_to_message_id=16118" \
                -F "caption=$CAPTION" \
                https://api.telegram.org/bot${{ secrets.BOTFATHER_TELEGRAM_BOT_TOKEN }}/sendDocument
-
