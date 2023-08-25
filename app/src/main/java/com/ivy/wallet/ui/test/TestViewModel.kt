@@ -64,8 +64,8 @@ class TestViewModel @Inject constructor(
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val response = gitHubClient.commit(
-                    path = "test.txt",
-                    content = "Test АБВГ - кирилица"
+                    path = "test2.txt",
+                    content = "Test 2 - упдейт 1"
                 )
                 Timber.i("Commit response: $response")
             }
