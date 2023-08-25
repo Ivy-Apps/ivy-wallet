@@ -1,0 +1,35 @@
+name: APK
+
+on: push
+
+jobs:
+  assemble_demo_apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GIT
+        uses: actions/checkout@v3
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '18'
+
+      - name: Enable Gradle Wrapper caching (optmization)
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Build Demo APK
+        run: ./gradlew assembleDemo
+
+      - name: Upload the APK to Github Actions
+        uses: actions/upload-artifact@v3
+        with:
+          name: Ivy-Wallet-Demo.apk
+          path: app/build/outputs/apk/demo/app-demo.apk
