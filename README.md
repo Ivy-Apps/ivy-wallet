@@ -5,154 +5,75 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![PRs welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Ivy-Apps/ivy-wallet/blob/main/CONTRIBUTING.md)
 [![Telegram Group](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/+ETavgioAvWg4NThk)
+[![GitHub Repo stars](https://img.shields.io/github/stars/Ivy-Apps/ivy-wallet?style=social)](https://github.com/Ivy-Apps/ivy-wallet/stargazers)
 
 # [Ivy Wallet: money manager](https://play.google.com/store/apps/details?id=com.ivy.wallet)
 
-## Ideology :earth_africa:
+|          |             |                |       |
+| :---:    |    :----:   |          :---: | :---: |
+| ![1](https://user-images.githubusercontent.com/5564499/189540998-4d6cdcd3-ab4d-40f7-85d4-c82fe8a017d1.png) | ![2](https://user-images.githubusercontent.com/5564499/189541011-1ebbd8b6-50fe-432a-91e2-59206efe99ce.png) | ![3](https://user-images.githubusercontent.com/5564499/189541023-35e7f163-d639-4466-9a91-c56890d5a28e.png) | ![4](https://user-images.githubusercontent.com/5564499/189541027-d352314c-fd5c-43eb-82ad-4aba14c7b0fa.png)
+| ![5](https://user-images.githubusercontent.com/5564499/189541030-1a0d7948-33af-420b-b126-936d0211c93f.png) | ![6](https://user-images.githubusercontent.com/5564499/189541035-621c4511-5ec7-4d3f-b08e-925d8da95472.png) |![7](https://user-images.githubusercontent.com/5564499/189541127-7adf5bfa-0652-461c-80f1-076b7179eb6c.png) | ![8](https://user-images.githubusercontent.com/5564499/189541040-7cab633e-be4c-40b2-a2c6-890a15edf805.png)
 
-We believe that people _(not corporations or business entities)_ can create innovative, open-source,
-and free software that can make the world a better place.
+Ivy Wallet is a **free money manager android app** written using 100% Jetpack Compose and Kotlin. It's designed to help you track your personal finance with ease.
 
-**We want Ivy to be:**
+Imagine Ivy Wallet as a manual expense tracker that will replace the good old spreadsheet for managing your personal finance.
 
-- A place where you can excel and have fun while contributing to something meaningful.
-- A community where you can express yourself freely and build the future that you want to live in.
-- An open-source project that'll inspire a movement where people can build the software they want
-  and eventually become a DAO where hundreds of developers can work on their own terms.
+Track your expenses, fast and on-the-go! ⚡ Discover powerful insights about your spending.
 
-**We believe in:**
+**Do you know? Ask yourself.**
 
-- Freedom.
-- Creativity & Innovation.
-- Challenging the status quo.
-- Decentralization.
-- Having the right to do what you believe in, not what you're told to.
+1) How much money do I have right now in all accounts combined?
 
-## Community
+2) How much did I spend this month and where?
 
-Be the change! Join our [Telegram community](https://t.me/+ETavgioAvWg4NThk), comment on GitHub, and
-tell us how we can create a better environment for developers & creators to work together.
+3) How much money can I spend and still reach my financial goals?
 
-### [Ivy Telegram Community](https://t.me/+ETavgioAvWg4NThk)
+A money manager app can help you answer these questions.
 
-### [Ivy Telegram News](https://t.me/ivywallet)
+Ivy Wallet's biggest advantage is its UI/UX, simplicity, and customization which was recognized in the ["Top/Best Android App in 2021/2022 charts"](https://youtube.com/playlist?list=PLguJN0waG1-eSzKMuFMIULrR3MlqJ3cAE) 10+ times by the YouTube tech community.
 
-## Ivy Developer Guidelines
+<a href='https://play.google.com/store/apps/details?id=com.ivy.wallet&utm_source=github&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="323" height="125"/></a>
 
-A short and helpful guide on Android Architecture, Functional Reactive Programming (FRP) and Ivy best practices - **[Ivy Developer Guidelines](docs/Developer-Guidelines.md)**.
+> To support our free, open-source project please ⭐ star our repo - that means a lot for us! Thank you! [![GitHub Repo stars](https://img.shields.io/github/stars/Ivy-Apps/ivy-wallet?style=social)](https://github.com/Ivy-Apps/ivy-wallet/stargazers)
+ 🙏
 
-> Tip: Read it -> make proposals -> make the project better! :rocket:
+> Join our **[private Telegram Community](https://t.me/+ETavgioAvWg4NThk)**.
 
-## The Ivy Wallet App
+## Tech Stack
 
-Personal finance and spending tracker app which helps you manage your money.
-<div align="center">
-<img src="https://play-lh.googleusercontent.com/fxNeMm4BRWJ4ZozX5m8CSBbjZhcx0rKJM2cbiTgjKw4zxt8Pf_2BZBWp5L19R0XFdg=w720-h310-rw" alt="ivy-wallet-screenshot-1" width="155" height="310">
-<img src="https://play-lh.googleusercontent.com/gtQQvucrc1dU7KRWj8iZW9n24aw_qY8M0W2J_rFLeYf9WVCyIL-hAWAz3mkcjTnNmw=w720-h310-rw" alt="ivy-wallet-screenshot-2" width="155" height="310">
-<img src="https://play-lh.googleusercontent.com/dFuAvUVBF8wCB-yAcDQQDbrAJNXF_l-gy__yhB5MK9l7e7-NtTgvMh1U7UEC5PC06u7M=w720-h310-rw" alt="ivy-wallet-screenshot-3" width="155" height="310">
-<img src="https://play-lh.googleusercontent.com/EmHhqdjylPK9K5Wh39vPFzUewNXOMNSNdVKhQze1G36mfm-ZEEqcbpzVU0bqX9MA5A=w720-h310-rw" alt="ivy-wallet-screenshot-4" width="155" height="310">
-<img src="https://play-lh.googleusercontent.com/BCvcfsvWvomB3K24ZKxRgQ2Wvj8HlP-q1gXHwD8ShXlUPFzWGNVn5bMHos2tO3z-0w=w720-h310-rw" alt="ivy-wallet-screenshot-5" width="155" height="310">
-<img src="https://play-lh.googleusercontent.com/bItT3JQsWq1iBcN7EpW4ceSgVuVzQUuIQX4zd2ZME7eXrHXEM1_vgUkeQaL56LTSqao=w720-h310-rw" alt="ivy-wallet-screenshot-6" width="155" height="310">
-<img src="https://play-lh.googleusercontent.com/FqosJyCWk4IlalUubEuwXNIeyCABavgZ4C523rfwnM7VgO0ABDT7hWvlhQIDbxO41iI=w720-h310-rw" alt="ivy-wallet-screenshot-7" width="155" height="310">
-<img src="https://play-lh.googleusercontent.com/BwrC-_rmIkmy0od5ebHh_8IvLoTV7-Ci3-M5cPQ62Q9ZeSI3CBWR8OHtajXAEOTFN24=w720-h310-rw" alt="ivy-wallet-screenshot-8" width="155" height="310">
-</div>
-
-Ivy Wallet is a free budget manager and spending tracker app that’ll help you manage your personal finances with ease.
-
-Imagine Ivy Wallet as a digital financial notebook (manual expense tracker) in which you’ll track your income, expenses, and budget.
-
-The advantage that our money manager gives you is that you can track expenses on the go with an intuitive and simple user interface (UI).
-
-Once your transactions make their way into Ivy Wallet, the spending tracker app will give you insight into your monthly spending and help you plan your budgets.
-
-When you enter more income and expenses in the money manager app you'll have an answer to three essential questions:
-
-1) Exactly how much money do I have right now in all accounts combined? (money manager)
-
-2) How much did I spend this month and where? (expense tracker)
-
-3) How much money can I spend and still reach my financial goals? (budget manager)
-
-$Track. $Budget. $Save
-
-[<img src="https://lh3.googleusercontent.com/qF9r3ZjtgG-qyHdmjecArtKiulz1gmwL_xl9R3_fzk6igSeoN0wYbJSKEX5d_fxJRwYZJpHbqcLB3i9atl-9dOfUl9an7U43TfZ9PtQ=s0">](https://play.google.com/store/apps/details?id=com.ivy.wallet)
-
-## Design
-- **[Design System](https://www.figma.com/file/kSwIa07jcHEHZXo6rzx7dn/Design-System)**
-- **[Icon Pack](https://www.figma.com/file/wKAAh6pN7fZmyehHRXxewD/Icon_pack)**
-- **[Android App](https://www.figma.com/file/dz45jBNcLJYi0ehMLq7zMO/Android_APP)**
-
-_..Migration from Adobe XD to public Figma project IN PROGRESS!_
-
-
-## [Documentation](https://github.com/ILIYANGERMANOV/ivy-wallet/wiki)
-To understand more about Ivy Wallet and its data model please visit [Ivy Wallet Wiki](https://github.com/ILIYANGERMANOV/ivy-wallet/wiki).
-
-## Technologies
 ### Core
-- Kotlin
-- Jetpack Compose (UI & navigation)
-- MVVM architecture with LiveData
-- Hilt (DI)
-- Kotlin Coroutines
-- Functional Programming with Arrow
-### Networking
-- Retrofit (REST API)
-- OkHttp 3 (REST client)
-- Gson (JSON serialization)
+
+- 100% [Kotlin](https://kotlinlang.org/)
+- 100% [Jetpack Compose](https://developer.android.com/jetpack/compose)
+- [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)
+- [Kotlin Flow](https://kotlinlang.org/docs/flow.html)
+- [Hilt](https://dagger.dev/hilt/) (DI)
+- [Jetpack Compose Navigation](https://developer.android.com/jetpack/compose/navigation)
+- [ArrowKt](https://arrow-kt.io/) (Functional Programming)
+
 ### Local Persistence
-- Shared Prefences
-- Room DB (SQLite ORM)
+- [DataStore](https://developer.android.com/topic/libraries/architecture/datastore) (key-value storage, Shared Preferences replacement)
+- [Room DB](https://developer.android.com/training/data-storage/room) (SQLite ORM)
+
+### Networking
+- [Ktor Client](https://ktor.io/docs/getting-started-ktor-client.html) (REST client)
+- [Gson](https://github.com/google/gson) (JSON serialization)
+
 ### Other
-- EventBus (cross component communication)
-- Timber (Logging)
-- Firebase Crashlytics (crashes, logging)
+- [Timber](https://github.com/JakeWharton/timber) (Logging)
+- [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics) (crashes, logging)
+
 ### CI/CD
-- Gradle KTS
-- Fastlane (upload to Google PlayStore)
-- Github Actions (CI/CD server)
+- [Gradle KTS](https://docs.gradle.org/current/userguide/kotlin_dsl.html)
+- [Fastlane](https://fastlane.tools/) (upload to Google PlayStore)
+- [Github Actions](https://github.com/Ivy-Apps/ivy-wallet/actions) (CI/CD)
+
 
 ## Project Requirements
-- Java 11
-- Android Studio Arctic Fox (for easy download - [JetBrains Toolbox](https://www.jetbrains.com/toolbox-app/))
+- Java 11+
+- The latest **Android Studio Hedgehog** or above (for easy install
+  use [JetBrains Toolbox](https://www.jetbrains.com/toolbox-app/))
 
-## How to build?
-1. Clone the repository
-2. Open with Android Studio
-3. Everything should sync and build automatically
-- _If any build problems occurr, please open a new issue including the logs._
-
-## Contributors [(see graph)](https://github.com/ILIYANGERMANOV/ivy-wallet/graphs/contributors)
-### Why to contribute?
-- It's a win-win!
-- You'll appear as an Ivy Wallet contributor in our public repo
-- You can **include it in your CV/LinkedIn** and show recruiters that you contribute to our app _(counts as +1 released app in the [Google PlayStore](https://play.google.com/store/apps/details?id=com.ivy.wallet))_
-- You'll make Ivy Wallet better
-- You can develop the features that you want yourself, the way you want them
-- You'll play around and learn cutting-edge technologies
-- It's the easiest way to learn [Jetpack Compose](https://developer.android.com/jetpack/compose) in
-  a production environment
-- You can see Android Development Best Practices in 2022 (and also help us improve our code)
-- When we merge your first PR
-  I ([Iliyan Germanov](https://www.linkedin.com/in/iliyan-germanov-3963b5b9/)) will endorse you on
-  LinkedIn for Android Development and Kotlin
-- Personal recommendation on your LinkedIn profile after 10 successfully merged PRs - make sure that
-  you notify us because we don't count your PRs :)
-
-### How to contribute?
-
-Follow our
-compact **[Contributors Guide](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md)**
-to begin.
-
-TL;DR:
-- Submit pull requests for bug fixes / code improvements to the `develop` branch
-- Implement and submit PRs for opened issues
-- Report (or fix) bugs/glitches 
-- Create new issues to give us ideas and feedback
-- [Download Ivy Wallet](https://play.google.com/store/apps/details?id=com.ivy.wallet) and leave us a review
-
-I hope a lot more profile pictures are going to show up here, soon!
 
 ### Contributors Wall:
 <a href="https://github.com/ILIYANGERMANOV/ivy-wallet/graphs/contributors">
