@@ -9,6 +9,8 @@ plugins {
     id("com.google.firebase.crashlytics")
     id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
+
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 android {
@@ -139,4 +141,6 @@ android {
 
 dependencies {
     appModuleDependencies()
+
+    implementation(libs.bundles.ktor)
 }
