@@ -28,8 +28,16 @@ jobs:
       - name: Build Demo APK
         run: ./gradlew assembleDemo
 
-      - name: Upload the APK to Github Actions
+      - name: Upload APK to Github Actions
         uses: actions/upload-artifact@v3
         with:
           name: Ivy-Wallet-Demo.apk
           path: app/build/outputs/apk/demo/app-demo.apk
+
+      - name: Upload APK in Telegram Group
+        run: |
+          curl -F "chat_id=-1001647280565" \
+               -F "document=@app/build/outputs/apk/demo/app-demo.apk" \
+               -F "reply_to_message_id=16118" \
+               https://api.telegram.org/bot${{ secrets.BOTFATHER_TELEGRAM_BOT_TOKEN }}/sendDocument
+
