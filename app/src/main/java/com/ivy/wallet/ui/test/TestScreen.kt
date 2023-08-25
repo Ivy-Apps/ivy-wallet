@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.design.l2_components.Button
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.wallet.domain.data.core.User
 import com.ivy.wallet.ui.AnalyticsReport
@@ -41,7 +42,8 @@ fun BoxWithConstraintsScope.TestScreen(screen: Test) {
         user = user,
 
         onSyncCategories = viewModel::syncCategories,
-        onTestWorker = viewModel::testWorker
+        onTestWorker = viewModel::testWorker,
+        onCommit = viewModel::testCommit,
     )
 }
 
@@ -50,7 +52,8 @@ private fun BoxWithConstraintsScope.UI(
     user: User?,
 
     onSyncCategories: () -> Unit,
-    onTestWorker: () -> Unit
+    onTestWorker: () -> Unit,
+    onCommit: () -> Unit = {},
 ) {
     var chooseIconModalVisible by remember {
         mutableStateOf(false)
@@ -70,6 +73,10 @@ private fun BoxWithConstraintsScope.UI(
             IvyButton(text = "Analytics") {
                 nav.navigateTo(AnalyticsReport)
             }
+        }
+
+        Button(text = "Commit test") {
+            onCommit()
         }
     }
 

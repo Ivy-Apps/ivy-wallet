@@ -25,6 +25,7 @@ ktor-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation",
 ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
+ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 arrowkt-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
 kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
@@ -67,7 +68,8 @@ ktor = [
     "ktor-content-negotiation",
     "ktor-serialization",
     "ktor-client-core",
-    "ktor-client-serialization"
+    "ktor-client-serialization",
+    "ktor-logging"
 ]
 kotest = [
     "kotest-junit5",

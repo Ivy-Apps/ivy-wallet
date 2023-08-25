@@ -7,7 +7,13 @@ class GitHubCredentialsManager @Inject constructor(
 
 ) {
     suspend fun getCredentials(): Either<String, GitHubCredentials> {
-        return Either.Left("Credentials missing")
+        return Either.Right(
+            GitHubCredentials(
+                owner = "ILIYANGERMANOV",
+                repo = "ivy-wallet-backup-test",
+                accessToken = "",
+            )
+        )
     }
 }
 
