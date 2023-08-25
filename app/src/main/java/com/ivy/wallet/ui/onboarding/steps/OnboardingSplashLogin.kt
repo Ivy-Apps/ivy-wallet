@@ -7,10 +7,23 @@ import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.BoxWithConstraintsScope
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -42,7 +55,15 @@ import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.components.IvyIcon
-import com.ivy.wallet.utils.*
+import com.ivy.wallet.utils.OpResult
+import com.ivy.wallet.utils.clickableNoIndication
+import com.ivy.wallet.utils.drawColoredShadow
+import com.ivy.wallet.utils.lerp
+import com.ivy.wallet.utils.openUrl
+import com.ivy.wallet.utils.springBounceSlow
+import com.ivy.wallet.utils.thenIf
+import com.ivy.wallet.utils.toDensityDp
+import com.ivy.wallet.utils.toDensityPx
 import kotlin.math.roundToInt
 
 @Composable

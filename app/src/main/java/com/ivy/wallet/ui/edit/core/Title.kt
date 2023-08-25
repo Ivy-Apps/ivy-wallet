@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -32,7 +32,7 @@ import com.ivy.wallet.ui.theme.components.IvyTitleTextField
 import com.ivy.wallet.utils.keyboardVisibleState
 import com.ivy.wallet.utils.selectEndTextFieldValue
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.UUID
 
 const val SUGGESTIONS_LIMIT = 10
 

@@ -5,6 +5,11 @@ ktor = "2.3.3"
 kotlinx-serialization = "1.6.0"
 arrow = "1.2.0"
 kotest = "5.6.2"
+compose = "1.5.0"
+compose-compiler = "1.5.2"
+compose-material3 = "1.1.1"
+compose-activity = "1.7.2"
+compose-viewmodel = "2.6.1"
 
 [libraries]
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
@@ -25,6 +30,16 @@ kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest"
 kotest-property-arrow = { module = "io.kotest.extensions:kotest-property-arrow", version.ref = "arrow" }
 kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
 ivy-frp-temp = { module = "com.github.ILIYANGERMANOV:ivy-frp", version = "0.9.5" }
+compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
+#compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler" }
+compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
+compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
+compose-material3-windowsize = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "compose-material3" }
+compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose-activity = { module = "androidx.activity:activity-compose", version.ref = "compose-activity" }
+compose-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "compose-viewmodel" }
+compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 
 [bundles]
 kotlin = [
@@ -53,6 +68,17 @@ kotest = [
     "kotest-property",
     "kotest-property-arrow",
     "kotest-datatest"
+]
+compose = [
+    "compose-animation",
+    "compose-foundation",
+    "compose-material3",
+    "compose-material3-windowsize",
+    "compose-runtime",
+    "compose-ui",
+    "compose-activity",
+    "compose-viewmodel",
+    "compose-tooling"
 ]
 
 [plugins]

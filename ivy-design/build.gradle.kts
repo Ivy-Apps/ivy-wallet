@@ -45,7 +45,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = com.ivy.wallet.buildsrc.GlobalVersions.compose
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 
     packagingOptions {
@@ -61,4 +61,5 @@ dependencies {
 
     implementation(libs.bundles.arrow)
     implementation(libs.bundles.kotlin)
+    implementation(libs.bundles.compose)
 }

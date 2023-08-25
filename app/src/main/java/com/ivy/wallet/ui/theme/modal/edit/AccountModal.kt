@@ -2,9 +2,18 @@ package com.ivy.wallet.ui.theme.modal.edit
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.BoxWithConstraintsScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,9 +37,18 @@ import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.components.IvyCheckboxWithText
 import com.ivy.wallet.ui.theme.components.IvyColorPicker
-import com.ivy.wallet.ui.theme.modal.*
-import com.ivy.wallet.utils.*
-import java.util.*
+import com.ivy.wallet.ui.theme.modal.ChooseIconModal
+import com.ivy.wallet.ui.theme.modal.CurrencyModal
+import com.ivy.wallet.ui.theme.modal.IvyModal
+import com.ivy.wallet.ui.theme.modal.ModalAddSave
+import com.ivy.wallet.ui.theme.modal.ModalAmountSection
+import com.ivy.wallet.ui.theme.modal.ModalTitle
+import com.ivy.wallet.utils.isNotNullOrBlank
+import com.ivy.wallet.utils.onScreenStart
+import com.ivy.wallet.utils.selectEndTextFieldValue
+import com.ivy.wallet.utils.toLowerCaseLocal
+import com.ivy.wallet.utils.toUpperCaseLocal
+import java.util.UUID
 
 data class AccountModalData(
     val account: Account?,

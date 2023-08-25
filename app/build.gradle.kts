@@ -116,7 +116,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = com.ivy.wallet.buildsrc.GlobalVersions.compose
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 
     lint {
@@ -143,8 +143,11 @@ dependencies {
     appModuleDependencies()
     implementation(project(":ivy-design"))
 
+    implementation(libs.ivy.frp.temp)
+    implementation(libs.bundles.kotlin)
     implementation(libs.bundles.ktor)
     implementation(libs.bundles.arrow)
+    implementation(libs.bundles.compose)
 
     testImplementation(libs.bundles.kotest)
     testImplementation(libs.bundles.kotlin.test)

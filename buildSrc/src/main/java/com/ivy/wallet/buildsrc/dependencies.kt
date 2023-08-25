@@ -100,21 +100,6 @@ fun DependencyHandler.DataStore() {
 
 
 fun DependencyHandler.Compose(version: String) {
-    val foundation = GlobalVersions.composeFoundation
-    //URL: https://developer.android.com/jetpack/androidx/releases/compose
-    implementation("androidx.compose.ui:ui:$foundation")
-    implementation("androidx.compose.foundation:foundation:$foundation")
-    implementation("androidx.compose.animation:animation:$foundation")
-    implementation("androidx.compose.material:material:$foundation")
-    implementation("androidx.compose.material:material-icons-extended:$foundation")
-    implementation("androidx.compose.runtime:runtime-livedata:$foundation")
-    implementation("androidx.compose.ui:ui-tooling:$foundation")
-
-    //URL: https://developer.android.com/jetpack/androidx/releases/activity
-    implementation("androidx.activity:activity-compose:1.4.0")
-
-    //URL: https://developer.android.com/jetpack/androidx/releases/lifecycle
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha05")
 
     // Jetpack Glance (Compose Widgets)
     // https://developer.android.com/jetpack/androidx/releases/glance

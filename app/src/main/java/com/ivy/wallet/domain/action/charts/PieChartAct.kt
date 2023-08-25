@@ -24,7 +24,7 @@ import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.statistic.level1.CategoryAmount
 import com.ivy.wallet.ui.theme.RedLight
 import java.math.BigDecimal
-import java.util.*
+import java.util.UUID
 import javax.inject.Inject
 
 class PieChartAct @Inject constructor(
@@ -201,6 +201,7 @@ class PieChartAct @Inject constructor(
                         else
                             BigDecimal.ZERO
             }
+
             TransactionType.EXPENSE -> {
                 incExpQuad.expense +
                         if (treatTransferAsIncExp)
@@ -208,6 +209,7 @@ class PieChartAct @Inject constructor(
                         else
                             BigDecimal.ZERO
             }
+
             else -> BigDecimal.ZERO
         }
     }

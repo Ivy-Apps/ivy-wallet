@@ -6,7 +6,7 @@ import com.ivy.wallet.io.network.data.TransactionDTO
 import com.ivy.wallet.io.persistence.data.TransactionEntity
 import java.math.BigDecimal
 import java.time.LocalDateTime
-import java.util.*
+import java.util.UUID
 
 data class Transaction(
     //TODO: Remove default values & introduce Transaction#dummy() method

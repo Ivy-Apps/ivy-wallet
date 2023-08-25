@@ -3,10 +3,25 @@ package com.ivy.wallet.ui.theme.modal
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.BoxWithConstraintsScope
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,12 +46,20 @@ import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IntervalPickerRow
 import com.ivy.wallet.ui.theme.components.IvyCircleButton
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
-import com.ivy.wallet.utils.*
+import com.ivy.wallet.utils.addKeyboardListener
+import com.ivy.wallet.utils.clickableNoIndication
+import com.ivy.wallet.utils.closeDay
+import com.ivy.wallet.utils.formatDateWeekDayLong
+import com.ivy.wallet.utils.formatNicely
+import com.ivy.wallet.utils.hideKeyboard
+import com.ivy.wallet.utils.onScreenStart
+import com.ivy.wallet.utils.thenIf
+import com.ivy.wallet.utils.timeNowUTC
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.util.*
+import java.util.UUID
 
 data class RecurringRuleModalData(
     val initialStartDate: LocalDateTime?,

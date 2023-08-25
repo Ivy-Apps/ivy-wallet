@@ -1,10 +1,12 @@
 package com.ivy.design.l0_system
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.Colors
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Shapes
-import androidx.compose.material.Typography
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
+import androidx.compose.material3.Typography
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
@@ -49,7 +51,7 @@ fun IvyTheme(
         LocalIvyShapes provides shapes
     ) {
         MaterialTheme(
-            colors = adaptColors(colors),
+            colorScheme = adaptColors(colors),
             typography = adaptTypography(typography),
             shapes = adaptShapes(shapes),
             content = content
@@ -57,12 +59,12 @@ fun IvyTheme(
     }
 }
 
-fun adaptColors(colors: IvyColors): Colors {
-    return Colors(
+fun adaptColors(colors: IvyColors): ColorScheme {
+    val colorScheme = if (colors.isLight)
+        lightColorScheme() else darkColorScheme()
+    return colorScheme.copy(
         primary = colors.primary,
-        primaryVariant = colors.primary1,
         secondary = colors.primary,
-        secondaryVariant = colors.primary1,
         background = colors.pure,
         surface = colors.pure,
         onSurface = colors.pureInverse,
@@ -71,17 +73,16 @@ fun adaptColors(colors: IvyColors): Colors {
         onSecondary = White,
         onBackground = colors.pureInverse,
         onError = White,
-        isLight = colors.isLight
     )
 }
 
 fun adaptTypography(typography: IvyTypography): Typography {
     return Typography(
-        h1 = typography.h1,
-        h2 = typography.h2,
-        body1 = typography.b1,
-        body2 = typography.b2,
-        caption = typography.c
+        headlineLarge = typography.h1,
+        headlineMedium = typography.h2,
+        bodyLarge = typography.b1,
+        bodyMedium = typography.b2,
+        bodySmall = typography.c
     )
 }
 
