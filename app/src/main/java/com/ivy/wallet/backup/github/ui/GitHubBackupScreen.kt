@@ -93,6 +93,7 @@ private fun Content(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             OutlinedTextField(
+                modifier = Modifier.weight(1f),
                 value = repoUrl,
                 onValueChange = { repoUrl = it },
                 label = { Text("GitHub repo url") },
@@ -107,6 +108,7 @@ private fun Content(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             OutlinedTextField(
+                modifier = Modifier.weight(1f),
                 value = accessToken,
                 onValueChange = { accessToken = it },
                 label = { Text("GitHub PAT") }
