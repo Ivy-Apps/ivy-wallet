@@ -69,7 +69,20 @@ class GitHubCredentialsManager @Inject constructor(
     }
 
     private fun parseGitHubUrl(url: String): Either<String, ParsedUrl> = either {
-        TODO()
+        // This regex handles optional 'https', optional 'www', and captures the owner and repo.
+        val regex = """https?://(?:www\.)?github\.com/([^/]+)/([^/]+)""".toRegex()
+        val matchResult = regex.find(url)
+
+        val owner = matchResult?.groups?.get(1)?.value
+        ensureNotNull(owner) {
+            "Couldn't parse 'owner' from \"$url.\""
+        }
+        val repo = matchResult.groups?.get(2)?.value
+        ensureNotNull(repo) {
+            "Couldn't parse 'repo' from \"$url.\""
+        }
+
+        ParsedUrl(owner, repo)
     }
 
     private data class ParsedUrl(
