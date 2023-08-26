@@ -81,15 +81,16 @@ fun adaptColors(colors: IvyColors): ColorScheme {
         lightColorScheme() else darkColorScheme()
     return colorScheme.copy(
         primary = colors.primary,
+        onPrimary = White,
         secondary = colors.primary,
+        onSecondary = White,
         background = colors.pure,
+        onBackground = colors.pureInverse,
         surface = colors.pure,
         onSurface = colors.pureInverse,
         error = colors.red,
-        onPrimary = White,
-        onSecondary = White,
-        onBackground = colors.pureInverse,
         onError = White,
+        scrim = colors.gray,
     )
 }
 

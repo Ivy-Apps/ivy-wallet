@@ -26,8 +26,7 @@ class GitHubCredentialsManager @Inject constructor(
 
     suspend fun getCredentials(): Either<String, GitHubCredentials> = withContext(Dispatchers.IO) {
         either {
-            val token = encryptedSharedPrefs.get()
-                .getString(EncryptedPrefsKeys.BACKUP_GITHUB_PAT, null)
+            val token = getGitHubPAT()
             ensureNotNull(token) {
                 "GitHub PAT (Personal Access Token) isn't configured."
             }
@@ -53,14 +52,14 @@ class GitHubCredentialsManager @Inject constructor(
     }
 
     suspend fun saveCredentials(
-        gitHubUrl: String,
+        owner: String,
+        repo: String,
         gitHubPAT: String,
     ): Either<String, Unit> = withContext(Dispatchers.IO) {
         either {
-            val parsedUrl = parseGitHubUrl(gitHubUrl).bind()
             appContext.dataStore.edit {
-                it[DatastoreKeys.GITHUB_OWNER] = parsedUrl.owner
-                it[DatastoreKeys.GITHUB_REPO] = parsedUrl.repo
+                it[DatastoreKeys.GITHUB_OWNER] = owner
+                it[DatastoreKeys.GITHUB_REPO] = repo
             }
             encryptedSharedPrefs.get().edit()
                 .putString(EncryptedPrefsKeys.BACKUP_GITHUB_PAT, gitHubPAT)
@@ -68,21 +67,18 @@ class GitHubCredentialsManager @Inject constructor(
         }
     }
 
-    private fun parseGitHubUrl(url: String): Either<String, ParsedUrl> = either {
-        // This regex handles optional 'https', optional 'www', and captures the owner and repo.
-        val regex = """https?://(?:www\.)?github\.com/([^/]+)/([^/]+)""".toRegex()
-        val matchResult = regex.find(url)
-
-        val owner = matchResult?.groups?.get(1)?.value
-        ensureNotNull(owner) {
-            "Couldn't parse 'owner' from \"$url.\""
+    suspend fun removeSaved(): Unit = withContext(Dispatchers.IO) {
+        encryptedSharedPrefs.get().edit().remove(EncryptedPrefsKeys.BACKUP_GITHUB_PAT).apply()
+        appContext.dataStore.edit {
+            it.remove(DatastoreKeys.GITHUB_OWNER)
+            it.remove(DatastoreKeys.GITHUB_REPO)
         }
-        val repo = matchResult.groups?.get(2)?.value
-        ensureNotNull(repo) {
-            "Couldn't parse 'repo' from \"$url.\""
-        }
+    }
 
-        ParsedUrl(owner, repo)
+
+    private fun getGitHubPAT(): String? {
+        return encryptedSharedPrefs.get()
+            .getString(EncryptedPrefsKeys.BACKUP_GITHUB_PAT, null)
     }
 
     private data class ParsedUrl(

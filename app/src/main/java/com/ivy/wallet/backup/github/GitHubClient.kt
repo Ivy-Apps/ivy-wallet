@@ -22,7 +22,6 @@ import javax.inject.Inject
 
 
 class GitHubClient @Inject constructor(
-    private val credentialsManager: GitHubCredentialsManager,
     private val httpClient: Lazy<HttpClient>,
 ) {
     @Keep
@@ -43,11 +42,10 @@ class GitHubClient @Inject constructor(
     data class GitHubFileResponse(val sha: String)
 
     suspend fun commit(
+        credentials: GitHubCredentials,
         path: String,
         content: String,
     ): Either<String, Unit> = either {
-        val credentials = credentialsManager.getCredentials().bind()
-
         val url = repoUrl(credentials, path)
         val sha = getExistingFileSha(credentials, url)
 

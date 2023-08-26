@@ -13,10 +13,7 @@ import com.ivy.wallet.io.persistence.dao.UserDao
 import com.ivy.wallet.utils.asLiveData
 import com.ivy.wallet.utils.ioThread
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -58,17 +55,5 @@ class TestViewModel @Inject constructor(
 
     fun testWorker() {
         transactionReminderLogic.testNow()
-    }
-
-    fun testCommit() {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val response = gitHubClient.commit(
-                    path = "test2.txt",
-                    content = "Test 2 - упдейт 1"
-                )
-                Timber.i("Commit response: $response")
-            }
-        }
     }
 }
