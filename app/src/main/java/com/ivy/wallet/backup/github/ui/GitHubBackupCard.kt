@@ -115,6 +115,7 @@ private fun GitHubBackupStatus(
 
     when (val stat = status) {
         is GitHubBackupStatus.Error -> {
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 modifier = Modifier,
                 text = stat.error,
@@ -125,6 +126,7 @@ private fun GitHubBackupStatus(
         }
 
         GitHubBackupStatus.Loading -> {
+            Spacer(modifier = Modifier.height(8.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -144,6 +146,7 @@ private fun GitHubBackupStatus(
         }
 
         GitHubBackupStatus.Success -> {
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 modifier = Modifier,
                 text = "Hurray! Backup successful!",
@@ -167,6 +170,7 @@ private fun LastBackup(
         Text(
             modifier = Modifier,
             text = "Last backup at $lastBackupTime",
+            color = UI.colors.gray,
             style = MaterialTheme.typography.labelMedium,
             textAlign = TextAlign.Start,
         )
@@ -195,13 +199,14 @@ private fun BackupDisabled(
         shape = RoundedCornerShape(12.dp),
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp)
     ) {
+        Spacer(modifier = Modifier.width(4.dp))
         Image(
             painter = painterResource(id = R.drawable.github_logo),
             contentDescription = null,
             contentScale = ContentScale.Fit,
             colorFilter = ColorFilter.tint(LocalContentColor.current)
         )
-        Spacer(modifier = Modifier.width(12.dp))
+        Spacer(modifier = Modifier.width(16.dp))
         Text("Enable GitHub auto backups")
         Spacer(modifier = Modifier.weight(1f))
     }

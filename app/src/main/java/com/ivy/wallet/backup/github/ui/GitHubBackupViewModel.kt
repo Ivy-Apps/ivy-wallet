@@ -3,6 +3,7 @@ package com.ivy.wallet.backup.github.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.frp.view.navigation.Navigation
+import com.ivy.wallet.backup.github.GitHubAutoBackupManager
 import com.ivy.wallet.backup.github.GitHubBackup
 import com.ivy.wallet.datetime.format
 import com.ivy.wallet.datetime.toLocal
@@ -19,6 +20,7 @@ import javax.inject.Inject
 class GitHubBackupViewModel @Inject constructor(
     private val gitHubBackup: GitHubBackup,
     private val navigation: Navigation,
+    private val gitHubAutoBackupManager: GitHubAutoBackupManager,
 ) : ViewModel() {
 
     val enabled = gitHubBackup.enabled
@@ -52,6 +54,7 @@ class GitHubBackupViewModel @Inject constructor(
                 gitHubUrl = gitHubUrl.trim(),
                 gitHubPAT = gitHubPAT.trim(),
             ).onRight {
+                gitHubAutoBackupManager.scheduleAutoBackups()
                 navigation.back()
             }
         }
