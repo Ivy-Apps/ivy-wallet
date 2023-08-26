@@ -149,6 +149,8 @@ dependencies {
     implementation(libs.bundles.arrow)
     implementation(libs.bundles.compose)
     implementation(libs.bundles.glance)
+    implementation(libs.datastore)
+    implementation(libs.androidx.security)
 
     testImplementation(libs.bundles.kotest)
     testImplementation(libs.bundles.kotlin.test)

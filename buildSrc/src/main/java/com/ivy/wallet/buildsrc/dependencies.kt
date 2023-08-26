@@ -72,8 +72,6 @@ fun DependencyHandler.appModuleDependencies(
     Lifecycle(version = "2.3.1")
     AndroidX()
 
-    DataStore()
-
     ThirdParty()
 }
 
@@ -96,49 +94,6 @@ fun DependencyHandler.ivyDesignModuleDependencies(
 
 fun DependencyHandler.DataStore() {
     implementation("androidx.datastore:datastore-preferences:1.0.0")
-}
-
-
-fun DependencyHandler.Compose(version: String) {
-
-    // Jetpack Glance (Compose Widgets)
-    // https://developer.android.com/jetpack/androidx/releases/glance
-    val glanceVersion = "1.0.0-rc01"
-    implementation("androidx.glance:glance-appwidget:$glanceVersion")
-    implementation("androidx.glance:glance-material3:$glanceVersion")
-
-    Accompanist(version = "0.15.0")
-
-    Coil()
-
-    ComposeTesting(version = version)
-}
-
-/**
- *  Compose Window Insets + extras
- *  https://github.com/google/accompanist
- */
-fun DependencyHandler.Accompanist(version: String) {
-    implementation("com.google.accompanist:accompanist-coil:$version")
-    implementation("com.google.accompanist:accompanist-insets:$version")
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.24.4-alpha")
-}
-
-fun DependencyHandler.Coil() {
-    implementation("io.coil-kt:coil-compose:2.0.0")
-}
-
-/**
- * Required for running Compose UI tests
- * https://developer.android.com/jetpack/compose/testing#setup
- */
-fun DependencyHandler.ComposeTesting(version: String) {
-    //THIS IS NOT RIGHT: Implementation for IdlingResource access on both Debug & Release
-    //Without having this dependency "lintRelease" fails
-    implementation("androidx.compose.ui:ui-test-junit4:${GlobalVersions.composeFoundation}")
-
-    // Needed for createComposeRule, but not createAndroidComposeRule:
-    androidTestImplementation("androidx.compose.ui:ui-test-manifest:${GlobalVersions.composeFoundation}")
 }
 
 fun DependencyHandler.Google() {

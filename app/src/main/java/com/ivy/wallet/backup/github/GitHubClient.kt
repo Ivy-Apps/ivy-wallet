@@ -1,5 +1,6 @@
 package com.ivy.wallet.backup.github
 
+import androidx.annotation.Keep
 import arrow.core.Either
 import arrow.core.raise.catch
 import arrow.core.raise.either
@@ -24,6 +25,7 @@ class GitHubClient @Inject constructor(
     private val credentialsManager: GitHubCredentialsManager,
     private val httpClient: Lazy<HttpClient>,
 ) {
+    @Keep
     @Serializable
     data class GitHubFileContent(
         val content: String,
@@ -32,9 +34,11 @@ class GitHubClient @Inject constructor(
         val sha: String?,
     )
 
+    @Keep
     @Serializable
     data class Committer(val name: String, val email: String)
 
+    @Keep
     @Serializable
     data class GitHubFileResponse(val sha: String)
 

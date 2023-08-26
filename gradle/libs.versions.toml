@@ -12,6 +12,8 @@ compose-activity = "1.7.2"
 compose-viewmodel = "2.6.1"
 coil = "2.4.0"
 glance = "1.0.0-rc01"
+datastore = "1.0.0"
+androidx-security = "1.0.0"
 
 [libraries]
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
@@ -48,6 +50,8 @@ compose-coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 glance = { module = "androidx.glance:glance", version.ref = "glance" }
 glance-appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "glance" }
 glance-material3 = { module = "androidx.glance:glance-material3", version.ref = "glance" }
+datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+androidx-security = { module = "androidx.security:security-crypto", version.ref = "androidx-security" }
 
 [bundles]
 kotlin = [

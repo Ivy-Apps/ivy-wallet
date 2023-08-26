@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@Deprecated("legacy")
 @Singleton
 class IvyDataStore @Inject constructor(
     @ApplicationContext private val appContext: Context
