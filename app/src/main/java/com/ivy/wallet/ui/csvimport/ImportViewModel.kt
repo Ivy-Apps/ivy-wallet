@@ -13,7 +13,7 @@ import com.ivy.wallet.domain.deprecated.logic.csv.CSVNormalizer
 import com.ivy.wallet.domain.deprecated.logic.csv.IvyFileReader
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
-import com.ivy.wallet.domain.deprecated.logic.zip.ExportZipLogic
+import com.ivy.wallet.domain.deprecated.logic.zip.ExportBackupLogic
 import com.ivy.wallet.ui.Import
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.viewmodel.OnboardingViewModel
@@ -35,7 +35,7 @@ class ImportViewModel @Inject constructor(
     private val csvNormalizer: CSVNormalizer,
     private val csvMapper: CSVMapper,
     private val csvImporter: CSVImporter,
-    private val exportZipLogic: ExportZipLogic
+    private val exportBackupLogic: ExportBackupLogic
 ) : ViewModel() {
     private val _importStep = MutableLiveData<ImportStep>()
     val importStep = _importStep.asLiveData()
@@ -83,7 +83,7 @@ class ImportViewModel @Inject constructor(
                 _importResult.value = if (hasCSVExtension(context, fileUri))
                     restoreCSVFile(fileUri = fileUri, importType = importType)
                 else {
-                    exportZipLogic.import(
+                    exportBackupLogic.import(
                         context = context,
                         zipFileUri = fileUri,
                         onProgress = { progressPercent ->

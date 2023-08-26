@@ -9,6 +9,8 @@ plugins {
     id("com.google.firebase.crashlytics")
     id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
+
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 android {
@@ -114,7 +116,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = com.ivy.wallet.buildsrc.GlobalVersions.compose
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 
     lint {
@@ -139,4 +141,17 @@ android {
 
 dependencies {
     appModuleDependencies()
+    implementation(project(":ivy-design"))
+
+    implementation(libs.ivy.frp.temp)
+    implementation(libs.bundles.kotlin)
+    implementation(libs.bundles.ktor)
+    implementation(libs.bundles.arrow)
+    implementation(libs.bundles.compose)
+    implementation(libs.bundles.glance)
+    implementation(libs.datastore)
+    implementation(libs.androidx.security)
+
+    testImplementation(libs.bundles.kotest)
+    testImplementation(libs.bundles.kotlin.test)
 }

@@ -17,7 +17,6 @@
 package com.ivy.wallet.buildsrc
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
-import org.gradle.kotlin.dsl.project
 
 
 object Project {
@@ -46,26 +45,25 @@ object GlobalVersions {
 fun DependencyHandler.appModuleDependencies(
         kotlinVersion: String = GlobalVersions.kotlinVersion
 ) {
-    implementation(project(":ivy-design"))
+//    implementation(project(":ivy-design"))
 
-    implementation("com.github.ILIYANGERMANOV:ivy-frp:0.9.5")
+//    implementation("com.github.ILIYANGERMANOV:ivy-frp:0.9.5")
 
-    Kotlin(version = kotlinVersion)
-    Coroutines(version = "1.5.0")
-    FunctionalProgramming(
-            arrowVersion = "1.0.1",
-            kotestVersion = "5.1.0",
-            kotlinVersion = kotlinVersion
-    )
+//    Coroutines(version = "1.5.0")
+//    FunctionalProgramming(
+//            arrowVersion = "1.0.1",
+//            kotestVersion = "5.1.0",
+//            kotlinVersion = kotlinVersion
+//    )
 
-    Compose(version = GlobalVersions.compose)
+//    Compose(version = GlobalVersions.compose)
 
     Google()
     Firebase()
 
     Hilt(
-            hiltVersion = "2.47",
-            versionX = "1.0.0"
+        hiltVersion = "2.47",
+        versionX = "1.0.0"
     )
     RoomDB()
 
@@ -74,23 +72,20 @@ fun DependencyHandler.appModuleDependencies(
     Lifecycle(version = "2.3.1")
     AndroidX()
 
-    DataStore()
-
     ThirdParty()
 }
 
 fun DependencyHandler.ivyDesignModuleDependencies(
         kotlinVersion: String = GlobalVersions.kotlinVersion
 ) {
-    Kotlin(version = kotlinVersion)
-    Coroutines(version = "1.5.0")
-    FunctionalProgramming(
-            arrowVersion = "1.0.1",
-            kotestVersion = "5.1.0",
-            kotlinVersion = kotlinVersion
-    )
+//    Coroutines(version = "1.5.0")
+//    FunctionalProgramming(
+//            arrowVersion = "1.0.1",
+//            kotestVersion = "5.1.0",
+//            kotlinVersion = kotlinVersion
+//    )
 
-    Compose(version = GlobalVersions.compose)
+//    Compose(version = GlobalVersions.compose)
 
     AndroidX()
     Lifecycle(version = "2.3.1")
@@ -99,73 +94,6 @@ fun DependencyHandler.ivyDesignModuleDependencies(
 
 fun DependencyHandler.DataStore() {
     implementation("androidx.datastore:datastore-preferences:1.0.0")
-}
-
-/**
- * Kotlin STD lib
- * https://kotlinlang.org/docs/releases.html#release-details
- */
-fun DependencyHandler.Kotlin(version: String) {
-    //URL: https://kotlinlang.org/docs/releases.html#release-details
-    //WARNING: Version is also updated from buildSrc
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:$version")
-}
-
-fun DependencyHandler.Compose(version: String) {
-    val foundation = GlobalVersions.composeFoundation
-    //URL: https://developer.android.com/jetpack/androidx/releases/compose
-    implementation("androidx.compose.ui:ui:$foundation")
-    implementation("androidx.compose.foundation:foundation:$foundation")
-    implementation("androidx.compose.animation:animation:$foundation")
-    implementation("androidx.compose.material:material:$foundation")
-    implementation("androidx.compose.material:material-icons-extended:$foundation")
-    implementation("androidx.compose.runtime:runtime-livedata:$foundation")
-    implementation("androidx.compose.ui:ui-tooling:$foundation")
-
-    //URL: https://developer.android.com/jetpack/androidx/releases/activity
-    implementation("androidx.activity:activity-compose:1.4.0")
-
-    //URL: https://developer.android.com/jetpack/androidx/releases/lifecycle
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha05")
-
-    // Jetpack Glance (Compose Widgets)
-    // https://developer.android.com/jetpack/androidx/releases/glance
-    val glanceVersion = "1.0.0-rc01"
-    implementation("androidx.glance:glance-appwidget:$glanceVersion")
-    implementation("androidx.glance:glance-material3:$glanceVersion")
-
-    Accompanist(version = "0.15.0")
-
-    Coil()
-
-    ComposeTesting(version = version)
-}
-
-/**
- *  Compose Window Insets + extras
- *  https://github.com/google/accompanist
- */
-fun DependencyHandler.Accompanist(version: String) {
-    implementation("com.google.accompanist:accompanist-coil:$version")
-    implementation("com.google.accompanist:accompanist-insets:$version")
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.24.4-alpha")
-}
-
-fun DependencyHandler.Coil() {
-    implementation("io.coil-kt:coil-compose:2.0.0")
-}
-
-/**
- * Required for running Compose UI tests
- * https://developer.android.com/jetpack/compose/testing#setup
- */
-fun DependencyHandler.ComposeTesting(version: String) {
-    //THIS IS NOT RIGHT: Implementation for IdlingResource access on both Debug & Release
-    //Without having this dependency "lintRelease" fails
-    implementation("androidx.compose.ui:ui-test-junit4:${GlobalVersions.composeFoundation}")
-
-    // Needed for createComposeRule, but not createAndroidComposeRule:
-    androidTestImplementation("androidx.compose.ui:ui-test-manifest:${GlobalVersions.composeFoundation}")
 }
 
 fun DependencyHandler.Google() {
@@ -279,19 +207,6 @@ fun DependencyHandler.AndroidX() {
     implementation("androidx.webkit:webkit:1.4.0")
 }
 
-fun DependencyHandler.Coroutines(
-        version: String = "1.7.3"
-) {
-    //URL: https://github.com/Kotlin/kotlinx.coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$version")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$version")
-
-    //URL: https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-play-services
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$version")
-
-    //URL: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-test/
-    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$version")
-}
 
 fun DependencyHandler.ThirdParty() {
     //URL: https://github.com/airbnb/lottie-android
@@ -311,51 +226,4 @@ fun DependencyHandler.ThirdParty() {
 
     implementation("com.opencsv:opencsv:5.5")
     implementation("org.apache.commons:commons-lang3:3.12.0")
-}
-
-fun DependencyHandler.FunctionalProgramming(
-        arrowVersion: String = "1.0.1",
-        kotestVersion: String = "5.1.0",
-        kotlinVersion: String
-) {
-    Arrow(version = arrowVersion)
-
-    Kotest(
-            version = kotestVersion,
-            arrowVersion = arrowVersion,
-            kotlinVersion = kotlinVersion
-    )
-}
-
-/**
- * Functional Programming with Kotlin
- */
-fun DependencyHandler.Arrow(
-        version: String
-) {
-    implementation(platform("io.arrow-kt:arrow-stack:$version"))
-    implementation("io.arrow-kt:arrow-core")
-    implementation("io.arrow-kt:arrow-fx-coroutines")
-    implementation("io.arrow-kt:arrow-fx-stm")
-}
-
-/**
- * Kotlin Property-based testing
- */
-fun DependencyHandler.Kotest(
-        version: String,
-        arrowVersion: String,
-        kotlinVersion: String
-) {
-    //junit5 is required!
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
-    testImplementation("io.kotest:kotest-runner-junit5:$version")
-    testImplementation("io.kotest:kotest-assertions-core:$version")
-    testImplementation("io.kotest:kotest-property:$version")
-
-    //otherwise Kotest doesn't work...
-    testImplementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
-
-
-    testImplementation("io.kotest.extensions:kotest-property-arrow:$arrowVersion")
 }

@@ -2,11 +2,27 @@ package com.ivy.wallet.ui.statistic.level2
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraintsScope
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,7 +36,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.accompanist.insets.statusBarsHeight
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -35,13 +50,32 @@ import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.stringRes
-import com.ivy.wallet.ui.*
+import com.ivy.wallet.ui.EditTransaction
+import com.ivy.wallet.ui.ItemStatistic
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.PieChartStatistic
 import com.ivy.wallet.ui.component.transaction.transactions
 import com.ivy.wallet.ui.data.AppBaseData
 import com.ivy.wallet.ui.data.DueSection
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
-import com.ivy.wallet.ui.theme.*
-import com.ivy.wallet.ui.theme.components.*
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.Green
+import com.ivy.wallet.ui.theme.GreenDark
+import com.ivy.wallet.ui.theme.MediumBlack
+import com.ivy.wallet.ui.theme.MediumWhite
+import com.ivy.wallet.ui.theme.Transparent
+import com.ivy.wallet.ui.theme.components.BalanceRow
+import com.ivy.wallet.ui.theme.components.BalanceRowMedium
+import com.ivy.wallet.ui.theme.components.CircleButton
+import com.ivy.wallet.ui.theme.components.DeleteButton
+import com.ivy.wallet.ui.theme.components.ItemIconMDefaultIcon
+import com.ivy.wallet.ui.theme.components.IvyButton
+import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
+import com.ivy.wallet.ui.theme.dynamicContrast
+import com.ivy.wallet.ui.theme.findContrastTextColor
+import com.ivy.wallet.ui.theme.isDarkColor
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModal
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import com.ivy.wallet.ui.theme.modal.DeleteModal
@@ -49,10 +83,18 @@ import com.ivy.wallet.ui.theme.modal.edit.AccountModal
 import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
+import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.wallet.PeriodSelector
-import com.ivy.wallet.utils.*
+import com.ivy.wallet.utils.balancePrefix
+import com.ivy.wallet.utils.clickableNoIndication
+import com.ivy.wallet.utils.drawColoredShadow
+import com.ivy.wallet.utils.format
+import com.ivy.wallet.utils.horizontalSwipeListener
+import com.ivy.wallet.utils.onScreenStart
+import com.ivy.wallet.utils.setStatusBarDarkTextCompat
+import com.ivy.wallet.utils.thenIf
 import java.math.BigDecimal
-import java.util.*
+import java.util.UUID
 
 
 @Composable
@@ -246,11 +288,11 @@ private fun BoxWithConstraintsScope.UI(
         val listState = rememberLazyListState()
         val density = LocalDensity.current
 
-        Spacer(Modifier.statusBarsHeight())
 
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
+                .systemBarsPadding()
                 .padding(top = 16.dp)
                 .clip(UI.shapes.r1Top)
                 .background(UI.colors.pure)
@@ -802,6 +844,7 @@ private fun Item(
                     account != null -> {
                         showAccountModal()
                     }
+
                     category != null -> {
                         showCategoryModal()
                     }

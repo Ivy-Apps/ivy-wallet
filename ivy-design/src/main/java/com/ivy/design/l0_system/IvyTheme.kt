@@ -1,14 +1,21 @@
 package com.ivy.design.l0_system
 
+import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.Colors
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Shapes
-import androidx.compose.material.Typography
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
+import androidx.compose.material3.Typography
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowCompat
 import com.ivy.design.api.IvyDesign
 
 val LocalIvyColors = compositionLocalOf<IvyColors> { error("No IvyColors") }
@@ -48,8 +55,20 @@ fun IvyTheme(
         LocalIvyTypography provides typography,
         LocalIvyShapes provides shapes
     ) {
+        val colorScheme = adaptColors(colors)
+
+        val view = LocalView.current
+        if (!view.isInEditMode) {
+            SideEffect {
+                val window = (view.context as Activity).window
+                window.statusBarColor = colors.pure.toArgb()
+                WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars =
+                    colors.isLight
+            }
+        }
+
         MaterialTheme(
-            colors = adaptColors(colors),
+            colorScheme = colorScheme,
             typography = adaptTypography(typography),
             shapes = adaptShapes(shapes),
             content = content
@@ -57,31 +76,31 @@ fun IvyTheme(
     }
 }
 
-fun adaptColors(colors: IvyColors): Colors {
-    return Colors(
+fun adaptColors(colors: IvyColors): ColorScheme {
+    val colorScheme = if (colors.isLight)
+        lightColorScheme() else darkColorScheme()
+    return colorScheme.copy(
         primary = colors.primary,
-        primaryVariant = colors.primary1,
+        onPrimary = White,
         secondary = colors.primary,
-        secondaryVariant = colors.primary1,
+        onSecondary = White,
         background = colors.pure,
+        onBackground = colors.pureInverse,
         surface = colors.pure,
         onSurface = colors.pureInverse,
         error = colors.red,
-        onPrimary = White,
-        onSecondary = White,
-        onBackground = colors.pureInverse,
         onError = White,
-        isLight = colors.isLight
+        scrim = colors.gray,
     )
 }
 
 fun adaptTypography(typography: IvyTypography): Typography {
     return Typography(
-        h1 = typography.h1,
-        h2 = typography.h2,
-        body1 = typography.b1,
-        body2 = typography.b2,
-        caption = typography.c
+        headlineLarge = typography.h1,
+        headlineMedium = typography.h2,
+        bodyLarge = typography.b1,
+        bodyMedium = typography.b2,
+        bodySmall = typography.c
     )
 }
 

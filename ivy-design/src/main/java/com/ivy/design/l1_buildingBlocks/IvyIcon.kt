@@ -4,7 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Icon
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,8 +51,10 @@ fun IvyIconScaled(
                 when (iconScale) {
                     IconScale.L ->
                         this.size(64.dp)
+
                     IconScale.M ->
                         this.size(48.dp)
+
                     IconScale.S ->
                         this.size(32.dp)
                 }

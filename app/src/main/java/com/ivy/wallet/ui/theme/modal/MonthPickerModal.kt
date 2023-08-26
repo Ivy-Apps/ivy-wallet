@@ -7,8 +7,12 @@ import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalView
@@ -26,9 +30,13 @@ import com.ivy.wallet.ui.theme.components.WrapContentRow
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.modal.model.Month
 import com.ivy.wallet.ui.theme.modal.model.Month.Companion.monthsList
-import com.ivy.wallet.utils.*
+import com.ivy.wallet.utils.dateNowUTC
+import com.ivy.wallet.utils.drawColoredShadow
+import com.ivy.wallet.utils.hideKeyboard
+import com.ivy.wallet.utils.onScreenStart
+import com.ivy.wallet.utils.thenIf
 import java.time.LocalDate
-import java.util.*
+import java.util.UUID
 
 @Composable
 fun BoxWithConstraintsScope.MonthPickerModal(

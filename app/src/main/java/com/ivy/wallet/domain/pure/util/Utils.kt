@@ -2,6 +2,7 @@ package com.ivy.wallet.domain.pure.util
 
 import arrow.core.NonEmptyList
 import arrow.core.Option
+import arrow.core.toNonEmptyListOrNull
 import java.math.BigDecimal
 
 fun <T> NonEmptyList<T>.mapIndexedNel(
@@ -15,11 +16,11 @@ fun <T> NonEmptyList<T>.mapIndexedNel(
 suspend fun <T> NonEmptyList<T>.mapIndexedNelSuspend(
     f: suspend (Int, T) -> T
 ): NonEmptyList<T> {
-    return NonEmptyList.fromListUnsafe(
-        this.mapIndexed { index, value ->
-            f(index, value)
-        }
-    )
+    val result = mutableListOf<T>()
+    for ((index, elem) in this.withIndex()) {
+        result.add(f(index, elem))
+    }
+    return requireNotNull(result.toNonEmptyListOrNull())
 }
 
 fun nonEmptyListOfZeros(n: Int): NonEmptyList<BigDecimal> {

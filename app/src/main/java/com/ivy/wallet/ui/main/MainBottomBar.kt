@@ -6,9 +6,24 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraintsScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -24,18 +39,31 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.google.accompanist.insets.navigationBarsPadding
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.ui.ivyWalletCtx
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.GradientGreen
+import com.ivy.wallet.ui.theme.GradientIvy
+import com.ivy.wallet.ui.theme.Green
+import com.ivy.wallet.ui.theme.Ivy
+import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IvyCircleButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
+import com.ivy.wallet.ui.theme.gradientExpenses
 import com.ivy.wallet.ui.theme.modal.AddModalBackHandling
-import com.ivy.wallet.utils.*
-import java.util.*
+import com.ivy.wallet.ui.theme.pureBlur
+import com.ivy.wallet.utils.clickableNoIndication
+import com.ivy.wallet.utils.densityScope
+import com.ivy.wallet.utils.lerp
+import com.ivy.wallet.utils.navigationBarInset
+import com.ivy.wallet.utils.springBounceFast
+import com.ivy.wallet.utils.thenIf
+import com.ivy.wallet.utils.toDensityDp
+import com.ivy.wallet.utils.toDensityPx
+import java.util.UUID
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -187,12 +215,14 @@ fun BoxWithConstraintsScope.BottomBar(
                                     dragOffset = Offset.Zero //prevent double open of the screen
                                     onAddExpense()
                                 }
+
                                 dragOffset.x < -horizontalThreshold &&
                                         dragOffset.y < -verticalThreshold -> {
                                     //swipe up left
                                     dragOffset = Offset.Zero //prevent double open of the screen
                                     onAddIncome()
                                 }
+
                                 dragOffset.x > horizontalThreshold &&
                                         dragOffset.y < -verticalThreshold -> {
                                     //swipe up right

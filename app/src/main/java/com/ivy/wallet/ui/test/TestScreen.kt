@@ -41,7 +41,7 @@ fun BoxWithConstraintsScope.TestScreen(screen: Test) {
         user = user,
 
         onSyncCategories = viewModel::syncCategories,
-        onTestWorker = viewModel::testWorker
+        onTestWorker = viewModel::testWorker,
     )
 }
 
@@ -50,7 +50,7 @@ private fun BoxWithConstraintsScope.UI(
     user: User?,
 
     onSyncCategories: () -> Unit,
-    onTestWorker: () -> Unit
+    onTestWorker: () -> Unit,
 ) {
     var chooseIconModalVisible by remember {
         mutableStateOf(false)

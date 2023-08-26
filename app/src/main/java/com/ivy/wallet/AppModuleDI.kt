@@ -14,7 +14,6 @@ import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LTLoanRecordMapper
 import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LoanTransactionsCore
 import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LoanTransactionsLogic
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
-import com.ivy.wallet.domain.deprecated.logic.zip.ExportZipLogic
 import com.ivy.wallet.domain.deprecated.sync.IvySync
 import com.ivy.wallet.domain.deprecated.sync.item.*
 import com.ivy.wallet.domain.deprecated.sync.uploader.*
@@ -712,31 +711,6 @@ object AppModuleDI {
         return LoanTransactionsLogic(
             Loan = LTLoanMapper(ltCore = loanTransactionsCore),
             LoanRecord = LTLoanRecordMapper(ltCore = loanTransactionsCore)
-        )
-    }
-
-    @Provides
-    fun providesExportZipLogic(
-        accountDao: AccountDao,
-        budgetDao: BudgetDao,
-        categoryDao: CategoryDao,
-        loanRecordDao: LoanRecordDao,
-        loanDao: LoanDao,
-        plannedPaymentRuleDao: PlannedPaymentRuleDao,
-        settingsDao: SettingsDao,
-        transactionDao: TransactionDao,
-        sharedPrefs: SharedPrefs
-    ): ExportZipLogic {
-        return ExportZipLogic(
-            accountDao,
-            budgetDao,
-            categoryDao,
-            loanRecordDao,
-            loanDao,
-            plannedPaymentRuleDao,
-            settingsDao,
-            transactionDao,
-            sharedPrefs
         )
     }
 

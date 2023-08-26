@@ -1,0 +1,105 @@
+[versions]
+kotlin = "1.9.0"
+kotlin-coroutines = "1.7.3"
+ktor = "2.3.3"
+kotlinx-serialization = "1.6.0"
+arrow = "1.2.0"
+kotest = "5.6.2"
+compose = "1.5.0"
+compose-compiler = "1.5.2"
+compose-material3 = "1.1.1"
+compose-activity = "1.7.2"
+compose-viewmodel = "2.6.1"
+coil = "2.4.0"
+glance = "1.0.0-rc01"
+datastore = "1.0.0"
+androidx-security = "1.0.0"
+
+[libraries]
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
+kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlin-coroutines" }
+kotlin-coroutines-googleplay-temp = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlin-coroutines" }
+kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
+ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+arrowkt-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
+kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
+kotest-property-arrow = { module = "io.kotest.extensions:kotest-property-arrow", version.ref = "arrow" }
+kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
+ivy-frp-temp = { module = "com.github.ILIYANGERMANOV:ivy-frp", version = "0.9.5" }
+compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
+#compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler" }
+compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
+compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
+compose-material3-windowsize = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "compose-material3" }
+compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
+compose-runtime-livedate-temp = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "compose" }
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose-activity = { module = "androidx.activity:activity-compose", version.ref = "compose-activity" }
+compose-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "compose-viewmodel" }
+compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+compose-coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+glance = { module = "androidx.glance:glance", version.ref = "glance" }
+glance-appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "glance" }
+glance-material3 = { module = "androidx.glance:glance-material3", version.ref = "glance" }
+datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+androidx-security = { module = "androidx.security:security-crypto", version.ref = "androidx-security" }
+
+[bundles]
+kotlin = [
+    "kotlin-stdlib",
+    "kotlin-coroutines-core",
+    "kotlin-coroutines-android",
+    "kotlin-coroutines-googleplay-temp"
+]
+kotlin-test = [
+    "kotlin-coroutines-test"
+]
+arrow = [
+    "arrowkt-core"
+]
+ktor = [
+    "kotlinx-serialization-json",
+    "ktor-client-okhttp",
+    "ktor-content-negotiation",
+    "ktor-serialization",
+    "ktor-client-core",
+    "ktor-client-serialization",
+    "ktor-logging"
+]
+kotest = [
+    "kotest-junit5",
+    "kotest-assertions",
+    "kotest-property",
+    "kotest-property-arrow",
+    "kotest-datatest"
+]
+compose = [
+    "compose-animation",
+    "compose-foundation",
+    "compose-material3",
+    "compose-material3-windowsize",
+    "compose-runtime",
+    "compose-ui",
+    "compose-activity",
+    "compose-viewmodel",
+    "compose-tooling",
+    "compose-runtime-livedate-temp",
+    "compose-coil"
+]
+glance = [
+    "glance",
+    "glance-appwidget",
+    "glance-material3"
+]
+
+[plugins]
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

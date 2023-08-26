@@ -1,10 +1,14 @@
 package com.ivy.wallet.ui.component.transaction
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,7 +28,12 @@ import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.EditTransaction
 import com.ivy.wallet.ui.data.AppBaseData
 import com.ivy.wallet.ui.data.DueSection
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.Black
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.Orange
+import com.ivy.wallet.ui.theme.Red
+import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
 

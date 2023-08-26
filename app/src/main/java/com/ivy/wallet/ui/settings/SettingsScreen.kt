@@ -5,12 +5,29 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.BoxWithConstraintsScope
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,8 +45,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
-import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.l0_system.SunsetNight
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -40,19 +55,48 @@ import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
 import com.ivy.wallet.Constants.URL_IVY_CONTRIBUTORS
 import com.ivy.wallet.R
+import com.ivy.wallet.backup.github.ui.GitHubBackupCard
 import com.ivy.wallet.domain.data.AuthProviderType
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.core.User
-import com.ivy.wallet.ui.*
+import com.ivy.wallet.ui.Import
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.Paywall
+import com.ivy.wallet.ui.RootActivity
+import com.ivy.wallet.ui.Settings
+import com.ivy.wallet.ui.Test
 import com.ivy.wallet.ui.donate.DonateScreen
 import com.ivy.wallet.ui.exchangerates.ExchangeRatesScreen
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.ivyWalletCtx
+import com.ivy.wallet.ui.rootActivity
+import com.ivy.wallet.ui.theme.Blue
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.GradientGreen
+import com.ivy.wallet.ui.theme.GradientIvy
+import com.ivy.wallet.ui.theme.GradientOrange
+import com.ivy.wallet.ui.theme.GradientRed
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.Green
+import com.ivy.wallet.ui.theme.Orange
+import com.ivy.wallet.ui.theme.Red
+import com.ivy.wallet.ui.theme.Red3
+import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvySwitch
 import com.ivy.wallet.ui.theme.components.IvyToolbar
-import com.ivy.wallet.ui.theme.modal.*
-import com.ivy.wallet.utils.*
-import java.util.*
+import com.ivy.wallet.ui.theme.findContrastTextColor
+import com.ivy.wallet.ui.theme.modal.ChooseStartDateOfMonthModal
+import com.ivy.wallet.ui.theme.modal.CurrencyModal
+import com.ivy.wallet.ui.theme.modal.DeleteModal
+import com.ivy.wallet.ui.theme.modal.NameModal
+import com.ivy.wallet.ui.theme.modal.ProgressModal
+import com.ivy.wallet.ui.theme.modal.RequestFeatureModal
+import com.ivy.wallet.utils.OpResult
+import com.ivy.wallet.utils.clickableNoIndication
+import com.ivy.wallet.utils.drawColoredShadow
+import com.ivy.wallet.utils.onScreenStart
+import com.ivy.wallet.utils.thenIf
+import java.util.UUID
 
 @ExperimentalFoundationApi
 @Composable
@@ -267,6 +311,14 @@ private fun BoxWithConstraintsScope.UI(
                     )
                 )
             }
+
+            Spacer(Modifier.height(12.dp))
+
+            GitHubBackupCard(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth()
+            )
         }
 
         item {
@@ -874,6 +926,7 @@ private fun AccountCardUser(
                 Spacer(Modifier.width(24.dp))
             }
         }
+
         is OpResult.Success -> {
             if (opSync.data) {
                 //synced
@@ -913,6 +966,7 @@ private fun AccountCardUser(
                 }
             }
         }
+
         is OpResult.Failure -> {
             IvyButton(
                 modifier = Modifier.padding(horizontal = 24.dp),

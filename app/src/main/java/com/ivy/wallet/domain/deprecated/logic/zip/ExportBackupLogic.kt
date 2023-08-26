@@ -21,9 +21,10 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.util.*
+import javax.inject.Inject
 
 
-class ExportZipLogic(
+class ExportBackupLogic @Inject constructor(
     private val accountDao: AccountDao,
     private val budgetDao: BudgetDao,
     private val categoryDao: CategoryDao,
@@ -38,7 +39,7 @@ class ExportZipLogic(
         context: Context,
         zipFileUri: Uri
     ) {
-        val jsonString = generateJsonString()
+        val jsonString = generateJsonBackup()
         val file = createJsonDataFile(context, jsonString)
         zip(context = context, zipFileUri, listOf(file))
         clearCacheDir(context)
@@ -55,7 +56,7 @@ class ExportZipLogic(
         return file
     }
 
-    private suspend fun generateJsonString(): String {
+    suspend fun generateJsonBackup(): String {
         return scopedIOThread {
             val accounts = it.async { accountDao.findAll() }
             val budgets = it.async { budgetDao.findAll() }

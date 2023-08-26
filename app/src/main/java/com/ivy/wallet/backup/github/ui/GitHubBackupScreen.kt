@@ -1,0 +1,147 @@
+package com.ivy.wallet.backup.github.ui
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.frp.view.navigation.Screen
+import com.ivy.frp.view.navigation.navigation
+
+private const val GITHUB_REPO_INFO_URL =
+    "https://docs.github.com/en/get-started/quickstart/create-a-repo"
+
+private const val GITHUB_PAT_INFO_URL =
+    "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token"
+
+object GitHubBackupScreen : Screen
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun GitHubBackupScreen() {
+    val nav = navigation()
+
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = "GitHub Backups",
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = {
+                        nav.back()
+                    }) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
+                },
+            )
+        },
+        content = { innerPadding ->
+            Content(
+                modifier = Modifier.padding(innerPadding)
+            )
+        }
+    )
+}
+
+@Composable
+private fun Content(
+    modifier: Modifier = Modifier,
+) {
+    val viewModel = viewModel<GitHubBackupViewModel>()
+
+    Column(
+        modifier = modifier.padding(horizontal = 16.dp),
+    ) {
+        Spacer(modifier = Modifier.height(24.dp))
+
+        var repoUrl by rememberSaveable { mutableStateOf("") }
+        var accessToken by rememberSaveable { mutableStateOf("") }
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            OutlinedTextField(
+                value = repoUrl,
+                onValueChange = { repoUrl = it },
+                label = { Text("GitHub repo url") },
+            )
+            Spacer(modifier = Modifier.width(12.dp))
+            InfoButton(infoUrl = GITHUB_REPO_INFO_URL)
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            OutlinedTextField(
+                value = accessToken,
+                onValueChange = { accessToken = it },
+                label = { Text("GitHub PAT") }
+            )
+            Spacer(modifier = Modifier.width(12.dp))
+            InfoButton(infoUrl = GITHUB_PAT_INFO_URL)
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+        ElevatedButton(
+            onClick = {
+                viewModel.enableBackups(repoUrl, accessToken)
+            },
+            enabled = repoUrl.isNotBlank() && accessToken.isNotBlank()
+        ) {
+            Text(text = "Connect")
+        }
+    }
+}
+
+@Composable
+private fun InfoButton(
+    infoUrl: String,
+    modifier: Modifier = Modifier,
+) {
+    val uriHandler = LocalUriHandler.current
+    FilledIconButton(
+        modifier = modifier,
+        onClick = {
+            uriHandler.openUri(infoUrl)
+        }
+    ) {
+        Icon(
+            imageVector = Icons.Outlined.Info,
+            contentDescription = "Info"
+        )
+    }
+}

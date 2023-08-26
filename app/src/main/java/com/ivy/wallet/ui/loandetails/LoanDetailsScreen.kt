@@ -2,14 +2,29 @@ package com.ivy.wallet.ui.loandetails
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraintsScope
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Divider
-import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,7 +37,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.accompanist.insets.statusBarsHeight
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -42,11 +56,36 @@ import com.ivy.wallet.ui.LoanDetails
 import com.ivy.wallet.ui.component.transaction.TypeAmountCurrency
 import com.ivy.wallet.ui.loan.data.DisplayLoanRecord
 import com.ivy.wallet.ui.statistic.level2.ItemStatisticToolbar
-import com.ivy.wallet.ui.theme.*
-import com.ivy.wallet.ui.theme.components.*
-import com.ivy.wallet.ui.theme.modal.*
-import com.ivy.wallet.utils.*
-import java.util.*
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.MediumBlack
+import com.ivy.wallet.ui.theme.MediumWhite
+import com.ivy.wallet.ui.theme.Red
+import com.ivy.wallet.ui.theme.components.BalanceRow
+import com.ivy.wallet.ui.theme.components.ItemIconMDefaultIcon
+import com.ivy.wallet.ui.theme.components.IvyButton
+import com.ivy.wallet.ui.theme.components.IvyIcon
+import com.ivy.wallet.ui.theme.components.ProgressBar
+import com.ivy.wallet.ui.theme.components.getCustomIconIdS
+import com.ivy.wallet.ui.theme.dynamicContrast
+import com.ivy.wallet.ui.theme.findContrastTextColor
+import com.ivy.wallet.ui.theme.isDarkColor
+import com.ivy.wallet.ui.theme.modal.DeleteModal
+import com.ivy.wallet.ui.theme.modal.LoanModal
+import com.ivy.wallet.ui.theme.modal.LoanModalData
+import com.ivy.wallet.ui.theme.modal.LoanRecordModal
+import com.ivy.wallet.ui.theme.modal.LoanRecordModalData
+import com.ivy.wallet.ui.theme.modal.ProgressModal
+import com.ivy.wallet.ui.theme.toComposeColor
+import com.ivy.wallet.utils.clickableNoIndication
+import com.ivy.wallet.utils.drawColoredShadow
+import com.ivy.wallet.utils.format
+import com.ivy.wallet.utils.formatNicelyWithTime
+import com.ivy.wallet.utils.isNotNullOrBlank
+import com.ivy.wallet.utils.onScreenStart
+import com.ivy.wallet.utils.setStatusBarDarkTextCompat
+import com.ivy.wallet.utils.timeNowUTC
+import java.util.UUID
 
 @Composable
 fun BoxWithConstraintsScope.LoanDetailsScreen(screen: LoanDetails) {
@@ -120,11 +159,11 @@ private fun BoxWithConstraintsScope.UI(
     ) {
         val listState = rememberLazyListState()
 
-        Spacer(Modifier.statusBarsHeight())
 
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
+                .statusBarsPadding()
                 .padding(top = 16.dp)
                 .clip(UI.shapes.r1Top)
                 .background(UI.colors.pure),
@@ -485,7 +524,11 @@ private fun LoanInfoCard(
             Text(
                 modifier = Modifier
                     .testTag("left_to_pay"),
-                text = stringResource(R.string.left_to_pay, leftToPay.format(baseCurrency), baseCurrency),
+                text = stringResource(
+                    R.string.left_to_pay,
+                    leftToPay.format(baseCurrency),
+                    baseCurrency
+                ),
                 style = UI.typo.nB2.style(
                     color = Gray,
                     fontWeight = FontWeight.ExtraBold
@@ -509,9 +552,9 @@ private fun LoanInfoCard(
             Divider(
                 modifier = Modifier
                     .padding(horizontal = 24.dp, vertical = 16.dp)
-                    .height(1.dp)
-                    .fillMaxWidth()
-                    .background(contrastColor)
+                    .fillMaxWidth(),
+                thickness = 1.dp,
+                color = contrastColor
             )
 
             Text(
@@ -546,7 +589,11 @@ private fun LoanInfoCard(
                 Text(
                     modifier = Modifier
                         .testTag("interest_paid"),
-                    text = stringResource(R.string.interest_paid, loanAmountPaid.format(baseCurrency), baseCurrency),
+                    text = stringResource(
+                        R.string.interest_paid,
+                        loanAmountPaid.format(baseCurrency),
+                        baseCurrency
+                    ),
                     style = UI.typo.nB2.style(
                         color = Gray,
                         fontWeight = FontWeight.ExtraBold

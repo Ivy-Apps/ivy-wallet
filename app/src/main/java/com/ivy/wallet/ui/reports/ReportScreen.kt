@@ -2,10 +2,19 @@ package com.ivy.wallet.ui.reports
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraintsScope
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -20,7 +29,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -39,8 +47,23 @@ import com.ivy.wallet.ui.data.AppBaseData
 import com.ivy.wallet.ui.data.DueSection
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.statistic.level2.IncomeExpensesCards
-import com.ivy.wallet.ui.theme.*
-import com.ivy.wallet.ui.theme.components.*
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.Green
+import com.ivy.wallet.ui.theme.GreenDark
+import com.ivy.wallet.ui.theme.GreenLight
+import com.ivy.wallet.ui.theme.IvyDark
+import com.ivy.wallet.ui.theme.Orange
+import com.ivy.wallet.ui.theme.Purple1Dark
+import com.ivy.wallet.ui.theme.Red3Light
+import com.ivy.wallet.ui.theme.components.BackButtonType
+import com.ivy.wallet.ui.theme.components.BalanceRow
+import com.ivy.wallet.ui.theme.components.CircleButtonFilled
+import com.ivy.wallet.ui.theme.components.IvyButton
+import com.ivy.wallet.ui.theme.components.IvyCheckboxWithText
+import com.ivy.wallet.ui.theme.components.IvyIcon
+import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
+import com.ivy.wallet.ui.theme.components.IvyToolbar
+import com.ivy.wallet.ui.theme.pureBlur
 import com.ivy.wallet.utils.clickableNoIndication
 import com.ivy.wallet.utils.onScreenStart
 

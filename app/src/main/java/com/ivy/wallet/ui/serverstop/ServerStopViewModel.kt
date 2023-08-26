@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
-import com.ivy.wallet.domain.deprecated.logic.zip.ExportZipLogic
+import com.ivy.wallet.domain.deprecated.logic.zip.ExportBackupLogic
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.RootActivity
@@ -23,7 +23,7 @@ import javax.inject.Inject
 class ServerStopViewModel @Inject constructor(
     private val ivyContext: IvyWalletCtx,
     private val sharedPrefs: SharedPrefs,
-    private val exportZipLogic: ExportZipLogic,
+    private val exportBackupLogic: ExportBackupLogic,
     private val navigation: Navigation,
 ) : ViewModel() {
     private val exportInProgress = MutableStateFlow(false)
@@ -48,7 +48,7 @@ class ServerStopViewModel @Inject constructor(
                 TestIdlingResource.increment()
 
                 exportInProgress.value = true
-                exportZipLogic.exportToFile(context = context, zipFileUri = fileUri)
+                exportBackupLogic.exportToFile(context = context, zipFileUri = fileUri)
                 exportInProgress.value = false
 
                 sharedPrefs.putBoolean(SharedPrefs.DATA_BACKUP_COMPLETED, true)
