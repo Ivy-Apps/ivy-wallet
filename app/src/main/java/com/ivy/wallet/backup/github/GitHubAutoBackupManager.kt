@@ -1,6 +1,7 @@
 package com.ivy.wallet.backup.github
 
 import android.content.Context
+import androidx.hilt.work.HiltWorker
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -8,6 +9,8 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
@@ -21,7 +24,7 @@ class GitHubAutoBackupManager @Inject constructor(
     private val uniqueWorkName = "GITHUB_AUTO_BACKUP_WORK"
 
     fun scheduleAutoBackups() {
-        val initialDelay = calculateInitialDelay()
+        val initialDelay = calculateInitialDelayMillis()
 
         val dailyWorkRequest = PeriodicWorkRequestBuilder<GitHubBackupWorker>(
             24, TimeUnit.HOURS
@@ -41,7 +44,7 @@ class GitHubAutoBackupManager @Inject constructor(
             )
     }
 
-    private fun calculateInitialDelay(): Long {
+    private fun calculateInitialDelayMillis(): Long {
         val lunchTime = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, 12)
             set(Calendar.MINUTE, 0)
@@ -65,11 +68,21 @@ class GitHubAutoBackupManager @Inject constructor(
     }
 }
 
-class GitHubBackupWorker(appContext: Context, workerParams: WorkerParameters) :
-    CoroutineWorker(appContext, workerParams) {
+@HiltWorker
+class GitHubBackupWorker @AssistedInject constructor(
+    @Assisted appContext: Context,
+    @Assisted params: WorkerParameters,
+    private val gitHubBackup: GitHubBackup,
+) : CoroutineWorker(appContext, params) {
 
     override suspend fun doWork(): Result {
-        // Your task here...
-        return Result.success()
+        return gitHubBackup.backupData().fold(
+            ifLeft = {
+                Result.failure()
+            },
+            ifRight = {
+                Result.success()
+            },
+        )
     }
 }

@@ -8,13 +8,13 @@ import com.ivy.wallet.backup.github.GitHubBackup
 import com.ivy.wallet.backup.github.GitHubCredentials
 import com.ivy.wallet.backup.github.GitHubCredentialsManager
 import com.ivy.wallet.datetime.toLocal
-import com.ivy.wallet.utils.formatNicelyWithTime
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,8 +28,7 @@ class GitHubBackupViewModel @Inject constructor(
     val enabled = gitHubBackup.enabled
 
     val lastBackupTime: Flow<String?> = gitHubBackup.lastBackupTime.map { instant ->
-        instant?.toLocal()?.toLocalDateTime()
-            ?.formatNicelyWithTime()
+        instant?.toLocal()?.format(DateTimeFormatter.ofPattern("dd MMM, HH:mm"))
     }
 
     val backupStatus = MutableStateFlow<GitHubBackupStatus?>(null)
@@ -59,6 +58,7 @@ class GitHubBackupViewModel @Inject constructor(
             ).onRight {
                 gitHubAutoBackupManager.scheduleAutoBackups()
                 navigation.back()
+                backupData()
             }
         }
     }
@@ -66,6 +66,7 @@ class GitHubBackupViewModel @Inject constructor(
     fun disableBackups() {
         viewModelScope.launch {
             gitHubBackup.disable()
+            gitHubAutoBackupManager.cancelAutoBackups()
         }
     }
 

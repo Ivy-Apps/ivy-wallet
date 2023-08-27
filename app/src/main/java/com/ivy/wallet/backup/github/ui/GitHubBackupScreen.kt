@@ -134,6 +134,8 @@ private fun Content(
         ) {
             Text(text = "Connect")
         }
+        Spacer(modifier = Modifier.height(48.dp))
+        GitHubBackupStatus(viewModel = viewModel)
     }
 }
 

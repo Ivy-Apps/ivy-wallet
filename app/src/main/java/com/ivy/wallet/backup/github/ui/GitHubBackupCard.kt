@@ -13,7 +13,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -35,7 +34,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.design.l0_system.UI
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.wallet.R
-import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.White
 
 @Composable
@@ -126,61 +124,6 @@ private fun BackupEnabled(
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun GitHubBackupStatus(
-    viewModel: GitHubBackupViewModel,
-) {
-    val status by viewModel.backupStatus.collectAsState()
-    if (status == null) return
-
-
-    when (val stat = status) {
-        is GitHubBackupStatus.Error -> {
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                modifier = Modifier,
-                text = stat.error,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.error,
-                textAlign = TextAlign.Start,
-            )
-        }
-
-        GitHubBackupStatus.Loading -> {
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                CircularProgressIndicator(
-                    modifier = Modifier,
-                    color = Orange,
-                )
-                Spacer(modifier = Modifier.width(12.dp))
-                Text(
-                    modifier = Modifier,
-                    text = "Backing up...",
-                    color = Orange,
-                    style = MaterialTheme.typography.bodyMedium,
-                    textAlign = TextAlign.Start,
-                )
-            }
-        }
-
-        GitHubBackupStatus.Success -> {
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                modifier = Modifier,
-                text = "Hurray! Backup successful!",
-                style = MaterialTheme.typography.bodyMedium,
-                color = UI.colors.green,
-                textAlign = TextAlign.Start,
-            )
-        }
-
-        null -> {}
     }
 }
 
