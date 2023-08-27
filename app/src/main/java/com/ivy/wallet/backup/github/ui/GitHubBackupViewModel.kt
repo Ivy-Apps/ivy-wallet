@@ -57,8 +57,6 @@ class GitHubBackupViewModel @Inject constructor(
                 gitHubPAT = gitHubPAT.trim(),
             ).onRight {
                 gitHubAutoBackupManager.scheduleAutoBackups()
-                navigation.back()
-                backupData()
             }
         }
     }
@@ -90,5 +88,9 @@ class GitHubBackupViewModel @Inject constructor(
 
     private fun GitHubCredentials.toRepoUrl(): String {
         return "https://github.com/${owner}/${repo}"
+    }
+
+    fun importFromGitHub() {
+
     }
 }

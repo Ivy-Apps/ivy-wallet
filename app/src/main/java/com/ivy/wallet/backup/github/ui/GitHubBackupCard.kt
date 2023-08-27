@@ -21,6 +21,9 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -114,13 +117,23 @@ private fun BackupEnabled(
                     Text("Backup now")
                 }
                 Spacer(modifier = Modifier.weight(1f))
+                var confirmDisable by remember {
+                    mutableStateOf(false)
+                }
                 TextButton(
-                    onClick = viewModel::disableBackups,
+                    onClick = {
+                        confirmDisable = if (confirmDisable) {
+                            viewModel.disableBackups()
+                            false
+                        } else {
+                            true
+                        }
+                    },
                     colors = ButtonDefaults.textButtonColors(
                         contentColor = MaterialTheme.colorScheme.error,
                     )
                 ) {
-                    Text("Disable")
+                    Text(if (confirmDisable) "Confirm disable?" else "Disable")
                 }
             }
         }
