@@ -3,9 +3,12 @@ package com.ivy.wallet.backup.github.ui
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Info
@@ -15,10 +18,13 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -82,12 +88,21 @@ private fun Content(
     val viewModel = viewModel<GitHubBackupViewModel>()
 
     Column(
-        modifier = modifier.padding(horizontal = 16.dp),
+        modifier = modifier
+            .padding(horizontal = 16.dp)
+            .verticalScroll(rememberScrollState()),
     ) {
         Spacer(modifier = Modifier.height(24.dp))
 
         var repoUrl by rememberSaveable { mutableStateOf("") }
-        var accessToken by rememberSaveable { mutableStateOf("") }
+        var gitHubPAT by rememberSaveable { mutableStateOf("") }
+
+        LaunchedEffect(Unit) {
+            viewModel.getCredentials()?.let {
+                repoUrl = it.repoUrl
+                gitHubPAT = it.gitHubPAT
+            }
+        }
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -109,8 +124,8 @@ private fun Content(
         ) {
             OutlinedTextField(
                 modifier = Modifier.weight(1f),
-                value = accessToken,
-                onValueChange = { accessToken = it },
+                value = gitHubPAT,
+                onValueChange = { gitHubPAT = it },
                 label = { Text("GitHub PAT") }
             )
             Spacer(modifier = Modifier.width(12.dp))
@@ -118,14 +133,45 @@ private fun Content(
         }
 
         Spacer(modifier = Modifier.height(24.dp))
+        val enabled by viewModel.enabled.collectAsState(initial = false)
         ElevatedButton(
+            modifier = Modifier.fillMaxWidth(),
             onClick = {
-                viewModel.enableBackups(repoUrl, accessToken)
+                viewModel.enableBackups(repoUrl, gitHubPAT)
             },
-            enabled = repoUrl.isNotBlank() && accessToken.isNotBlank()
+            enabled = repoUrl.isNotBlank() && gitHubPAT.isNotBlank()
         ) {
-            Text(text = "Connect")
+            Text(text = if (!enabled) "Connect" else "Update connection")
         }
+        if (enabled) {
+            Spacer(modifier = Modifier.height(12.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                OutlinedButton(
+                    modifier = Modifier.weight(1f),
+                    onClick = viewModel::backupData
+                ) {
+                    Text("Backup now")
+                }
+                Spacer(modifier = Modifier.width(16.dp))
+                OutlinedButton(
+                    modifier = Modifier.weight(1f),
+                    onClick = viewModel::importFromGitHub
+                ) {
+                    Text("Import from GitHub")
+                }
+            }
+        }
+        Spacer(modifier = Modifier.height(24.dp))
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp),
+        ) {
+            GitHubBackupStatus(viewModel = viewModel)
+        }
+
+        // Scroll fix
+        Spacer(modifier = Modifier.height(320.dp))
     }
 }
 

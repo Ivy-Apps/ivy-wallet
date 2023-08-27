@@ -46,7 +46,7 @@ class GitHubCredentialsManager @Inject constructor(
             GitHubCredentials(
                 owner = owner,
                 repo = repo,
-                accessToken = token,
+                gitHubPAT = token,
             )
         }
     }

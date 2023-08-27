@@ -13,15 +13,17 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -35,7 +37,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.design.l0_system.UI
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.wallet.R
-import com.ivy.wallet.ui.theme.Orange
+import com.ivy.wallet.ui.theme.White
 
 @Composable
 fun GitHubBackupCard(
@@ -56,107 +58,85 @@ fun GitHubBackupCard(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun BackupEnabled(
     viewModel: GitHubBackupViewModel,
     modifier: Modifier = Modifier,
 ) {
+    val nav = navigation()
     Card(
         modifier = modifier,
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = UI.colors.medium,
             contentColor = UI.colors.mediumInverse,
-        )
+        ),
+        onClick = {
+            nav.navigateTo(GitHubBackupScreen)
+        }
     ) {
         Column(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
         ) {
-            Text(
-                modifier = Modifier,
-                text = "GitHub auto-backups",
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Start,
-            )
-            GitHubBackupStatus(viewModel)
-            LastBackup(viewModel)
-            Spacer(modifier = Modifier.height(8.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                ElevatedButton(
-                    onClick = viewModel::backupData
-                ) {
-                    Text(text = "Backup now")
-                }
+                Spacer(modifier = Modifier.width(4.dp))
+                GitHubIcon()
                 Spacer(modifier = Modifier.width(16.dp))
-                OutlinedButton(
-                    onClick = viewModel::disableBackups,
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        containerColor = MaterialTheme.colorScheme.error,
-                        contentColor = MaterialTheme.colorScheme.onError,
-                    )
-                ) {
-                    Text("Disable")
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun GitHubBackupStatus(
-    viewModel: GitHubBackupViewModel,
-) {
-    val status by viewModel.backupStatus.collectAsState()
-    if (status == null) return
-
-
-    when (val stat = status) {
-        is GitHubBackupStatus.Error -> {
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                modifier = Modifier,
-                text = stat.error,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.error,
-                textAlign = TextAlign.Start,
-            )
-        }
-
-        GitHubBackupStatus.Loading -> {
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                CircularProgressIndicator(
-                    modifier = Modifier,
-                    color = Orange,
-                )
-                Spacer(modifier = Modifier.width(12.dp))
                 Text(
                     modifier = Modifier,
-                    text = "Backing up...",
-                    color = Orange,
+                    text = "GitHub auto-backups",
                     style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Start,
                 )
             }
-        }
-
-        GitHubBackupStatus.Success -> {
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             Text(
                 modifier = Modifier,
-                text = "Hurray! Backup successful!",
-                style = MaterialTheme.typography.bodyMedium,
-                color = UI.colors.green,
+                text = "Ivy Wallet will perform an automatic backup of your data every day at 12:00 PM.",
+                style = MaterialTheme.typography.labelMedium,
                 textAlign = TextAlign.Start,
+                fontWeight = FontWeight.Normal,
             )
+            LastBackup(viewModel)
+            GitHubBackupStatus(viewModel)
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Button(
+                    onClick = viewModel::backupData,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = UI.colors.green,
+                        contentColor = White,
+                    )
+                ) {
+                    Text("Backup now")
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                var confirmDisable by remember {
+                    mutableStateOf(false)
+                }
+                TextButton(
+                    onClick = {
+                        confirmDisable = if (confirmDisable) {
+                            viewModel.disableBackups()
+                            false
+                        } else {
+                            true
+                        }
+                    },
+                    colors = ButtonDefaults.textButtonColors(
+                        contentColor = MaterialTheme.colorScheme.error,
+                    )
+                ) {
+                    Text(if (confirmDisable) "Confirm disable?" else "Disable")
+                }
+            }
         }
-
-        null -> {}
     }
 }
 
@@ -167,21 +147,24 @@ private fun LastBackup(
     val lastBackupTime by viewModel.lastBackupTime.collectAsState(initial = null)
     if (lastBackupTime != null) {
         Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            modifier = Modifier,
-            text = "Last backup at $lastBackupTime",
-            color = UI.colors.gray,
-            style = MaterialTheme.typography.labelMedium,
-            textAlign = TextAlign.Start,
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        val uriHandler = LocalUriHandler.current
-        OutlinedButton(
-            onClick = {
-                viewModel.viewBackup(uriHandler::openUri)
-            }
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text("View backup")
+            Text(
+                text = "Last Backup: $lastBackupTime",
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Start,
+            )
+            Spacer(modifier = Modifier.width(12.dp))
+            val uriHandler = LocalUriHandler.current
+            TextButton(
+                onClick = {
+                    viewModel.viewBackup(uriHandler::openUri)
+                }
+            ) {
+                Text("View")
+            }
         }
     }
 }
@@ -196,18 +179,26 @@ private fun BackupDisabled(
         onClick = {
             nav.navigateTo(GitHubBackupScreen)
         },
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(16.dp),
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp)
     ) {
         Spacer(modifier = Modifier.width(4.dp))
-        Image(
-            painter = painterResource(id = R.drawable.github_logo),
-            contentDescription = null,
-            contentScale = ContentScale.Fit,
-            colorFilter = ColorFilter.tint(LocalContentColor.current)
-        )
+        GitHubIcon()
         Spacer(modifier = Modifier.width(16.dp))
-        Text("Enable GitHub auto backups")
+        Text("Enable GitHub auto-backups")
         Spacer(modifier = Modifier.weight(1f))
     }
+}
+
+@Composable
+private fun GitHubIcon(
+    modifier: Modifier = Modifier,
+) {
+    Image(
+        modifier = modifier,
+        painter = painterResource(id = R.drawable.github_logo),
+        contentDescription = null,
+        contentScale = ContentScale.Fit,
+        colorFilter = ColorFilter.tint(LocalContentColor.current)
+    )
 }

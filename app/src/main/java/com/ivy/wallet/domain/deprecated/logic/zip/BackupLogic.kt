@@ -13,6 +13,7 @@ import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.readFile
 import com.ivy.wallet.utils.scopedIOThread
 import com.ivy.wallet.utils.toEpochMilli
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.async
 import timber.log.Timber
 import java.io.File
@@ -24,7 +25,7 @@ import java.util.*
 import javax.inject.Inject
 
 
-class ExportBackupLogic @Inject constructor(
+class BackupLogic @Inject constructor(
     private val accountDao: AccountDao,
     private val budgetDao: BudgetDao,
     private val categoryDao: CategoryDao,
@@ -34,18 +35,19 @@ class ExportBackupLogic @Inject constructor(
     private val settingsDao: SettingsDao,
     private val transactionDao: TransactionDao,
     private val sharedPrefs: SharedPrefs,
+    @ApplicationContext
+    private val context: Context,
 ) {
     suspend fun exportToFile(
-        context: Context,
         zipFileUri: Uri
     ) {
         val jsonString = generateJsonBackup()
-        val file = createJsonDataFile(context, jsonString)
+        val file = createJsonDataFile(jsonString)
         zip(context = context, zipFileUri, listOf(file))
-        clearCacheDir(context)
+        clearCacheDir()
     }
 
-    private fun createJsonDataFile(context: Context, jsonString: String): File {
+    private fun createJsonDataFile(jsonString: String): File {
         val fileNamePrefix = "data"
         val fileNameSuffix = ".json"
         val outputDir = context.cacheDir
@@ -115,63 +117,39 @@ class ExportBackupLogic @Inject constructor(
     }
 
     suspend fun import(
-        context: Context,
-        zipFileUri: Uri,
+        backupFileUri: Uri,
         onProgress: suspend (progressPercent: Double) -> Unit
     ): ImportResult {
         return ioThread {
             return@ioThread try {
-                val folderName = "backup" + System.currentTimeMillis()
-                val cacheFolderPath = File(context.cacheDir, folderName)
+                val jsonString = try {
+                    val folderName = "backup" + System.currentTimeMillis()
+                    val cacheFolderPath = File(context.cacheDir, folderName)
 
-                unzip(context, zipFileUri, cacheFolderPath)
+                    unzip(context, backupFileUri, cacheFolderPath)
 
-                val filesArray = cacheFolderPath.listFiles()
+                    val filesArray = cacheFolderPath.listFiles()
 
-                onProgress(0.05)
+                    onProgress(0.05)
 
-                if (filesArray == null || filesArray.isEmpty())
-                    ImportResult(
-                        rowsFound = 0,
-                        transactionsImported = 0,
-                        accountsImported = 0,
-                        categoriesImported = 0,
-                        failedRows = emptyList()
-                    )
+                    if (filesArray == null || filesArray.isEmpty())
+                        error("Couldn't unzip")
 
-                val filesList = filesArray!!.toList().filter {
-                    hasJsonExtension(it)
-                }
+                    val filesList = filesArray.toList().filter {
+                        hasJsonExtension(it)
+                    }
 
-                onProgress(0.1)
+                    onProgress(0.1)
 
-                if (filesList.size != 1)
-                    ImportResult(
-                        rowsFound = 0,
-                        transactionsImported = 0,
-                        accountsImported = 0,
-                        categoriesImported = 0,
-                        failedRows = emptyList()
-                    )
+                    if (filesList.size != 1)
+                        error("Didn't unzip exactly one file.")
 
-                val jsonString = readFile(context, filesList[0].toUri(), Charsets.UTF_16)
-                val modifiedJsonString = accommodateExistingAccountsAndCategories(jsonString)
-                val ivyWalletCompleteData = getIvyWalletCompleteData(modifiedJsonString)
+                    readFile(context, filesList[0].toUri(), Charsets.UTF_16)
+                } catch (e: Exception) {
+                    readFile(context, backupFileUri, Charsets.UTF_16)
+                } ?: ""
 
-                onProgress(0.4)
-                insertDataToDb(completeData = ivyWalletCompleteData, onProgress = onProgress)
-                onProgress(1.0)
-
-                clearCacheDir(context)
-
-                ImportResult(
-                    rowsFound = ivyWalletCompleteData.transactions.size,
-                    transactionsImported = ivyWalletCompleteData.transactions.size,
-                    accountsImported = ivyWalletCompleteData.accounts.size,
-                    categoriesImported = ivyWalletCompleteData.categories.size,
-                    failedRows = emptyList()
-                )
-
+                importJson(jsonString, onProgress, clearCacheDir = true)
             } catch (e: Exception) {
                 Timber.e("Import error: $e")
                 ImportResult(
@@ -183,6 +161,31 @@ class ExportBackupLogic @Inject constructor(
                 )
             }
         }
+    }
+
+    suspend fun importJson(
+        jsonString: String,
+        onProgress: suspend (Double) -> Unit = {},
+        clearCacheDir: Boolean = false,
+    ): ImportResult {
+        val modifiedJsonString = accommodateExistingAccountsAndCategories(jsonString)
+        val ivyWalletCompleteData = getIvyWalletCompleteData(modifiedJsonString)
+
+        onProgress(0.4)
+        insertDataToDb(completeData = ivyWalletCompleteData, onProgress = onProgress)
+        onProgress(1.0)
+
+        if (clearCacheDir) {
+            clearCacheDir()
+        }
+
+        return ImportResult(
+            rowsFound = ivyWalletCompleteData.transactions.size,
+            transactionsImported = ivyWalletCompleteData.transactions.size,
+            accountsImported = ivyWalletCompleteData.accounts.size,
+            categoriesImported = ivyWalletCompleteData.categories.size,
+            failedRows = emptyList()
+        )
     }
 
     private suspend fun accommodateExistingAccountsAndCategories(jsonString: String?): String? {
@@ -269,7 +272,8 @@ class ExportBackupLogic @Inject constructor(
 
             sharedPrefs.putBoolean(
                 SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE,
-                (completeData.sharedPrefs[SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE] ?: "false").toBoolean()
+                (completeData.sharedPrefs[SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE]
+                    ?: "false").toBoolean()
             )
 
             plannedPayments.await()
@@ -337,7 +341,7 @@ class ExportBackupLogic @Inject constructor(
         return (name.substring(lastIndexOf).equals(".json", true))
     }
 
-    private fun clearCacheDir(context: Context) {
+    private fun clearCacheDir() {
         context.cacheDir.deleteRecursively()
     }
 }
