@@ -74,9 +74,3 @@ class GitHubBackupViewModel @Inject constructor(
         }
     }
 }
-
-sealed interface GitHubBackupStatus {
-    object Loading : GitHubBackupStatus
-    data class Error(val error: String) : GitHubBackupStatus
-    data object Success : GitHubBackupStatus
-}

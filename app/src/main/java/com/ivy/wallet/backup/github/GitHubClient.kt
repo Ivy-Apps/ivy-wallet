@@ -45,6 +45,7 @@ class GitHubClient @Inject constructor(
         credentials: GitHubCredentials,
         path: String,
         content: String,
+        isAutomatic: Boolean = false,
     ): Either<String, Unit> = either {
         val url = repoUrl(credentials, path)
         val sha = getExistingFileSha(credentials, url)
@@ -53,8 +54,15 @@ class GitHubClient @Inject constructor(
 
         val requestBody = GitHubFileContent(
             content = encodedContent,
-            message = "Committing from Ktor",
-            committer = Committer(name = "Ivy Wallet", email = "ivywalelt@ivy-bot.com"),
+            message = if (isAutomatic) {
+                "Automatic Ivy Wallet data backup"
+            } else {
+                "Manual Ivy Wallet data backup"
+            },
+            committer = Committer(
+                name = "Ivy Wallet",
+                email = "automation@ivywallet.com"
+            ),
             sha = sha,
         )
 
@@ -67,7 +75,11 @@ class GitHubClient @Inject constructor(
             setBody(requestBody)
         }
         ensure(response.status.isSuccess()) {
-            "Unsuccessful response: ${response.status}"
+            when (response.status.value) {
+                404 -> "Invalid GitHub repo url."
+                403 -> "Invalid GitHub PAT (Personal Access Token). Check your PAT permissions and expiration day."
+                else -> "Unsuccessful response: '${response.status}' $response."
+            }
         }
         return Either.Right(Unit)
     }
