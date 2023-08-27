@@ -14,6 +14,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -56,21 +57,26 @@ fun GitHubBackupCard(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun BackupEnabled(
     viewModel: GitHubBackupViewModel,
     modifier: Modifier = Modifier,
 ) {
+    val nav = navigation()
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = UI.colors.medium,
             contentColor = UI.colors.mediumInverse,
-        )
+        ),
+        onClick = {
+            nav.navigateTo(GitHubBackupScreen)
+        }
     ) {
         Column(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -191,7 +197,7 @@ private fun LastBackup(
             Text(
                 text = "Last Backup: $lastBackupTime",
                 fontWeight = FontWeight.Bold,
-                style = MaterialTheme.typography.labelMedium,
+                style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Start,
             )
             Spacer(modifier = Modifier.width(12.dp))

@@ -100,7 +100,7 @@ class GitHubClient @Inject constructor(
     }
 
     private fun HeadersBuilder.githubToken(credentials: GitHubCredentials) {
-        append("Authorization", "token ${credentials.accessToken}")
+        append("Authorization", "token ${credentials.gitHubPAT}")
     }
 
     private fun HeadersBuilder.acceptsUtf16() {

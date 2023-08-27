@@ -6,3 +6,8 @@ sealed interface GitHubBackupStatus {
     data class Error(val error: String) : GitHubBackupStatus
     data object Success : GitHubBackupStatus
 }
+
+data class GitHubBackupInput(
+    val repoUrl: String,
+    val gitHubPAT: String,
+)

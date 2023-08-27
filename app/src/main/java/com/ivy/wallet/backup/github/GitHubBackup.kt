@@ -71,12 +71,6 @@ class GitHubBackup @Inject constructor(
         enabledInternalState.value = false
     }
 
-    suspend fun repoUrl(): String? {
-        return credentialsManager.getCredentials()
-            .map { "https://github.com/${it.owner}/${it.repo}" }
-            .getOrNull()
-    }
-
     suspend fun backupData(): Either<Error, Unit> = withContext(Dispatchers.IO) {
         either {
             val credentials = credentialsManager.getCredentials()

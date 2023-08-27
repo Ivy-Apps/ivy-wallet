@@ -5,15 +5,16 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.backup.github.GitHubAutoBackupManager
 import com.ivy.wallet.backup.github.GitHubBackup
-import com.ivy.wallet.datetime.format
+import com.ivy.wallet.backup.github.GitHubCredentials
+import com.ivy.wallet.backup.github.GitHubCredentialsManager
 import com.ivy.wallet.datetime.toLocal
+import com.ivy.wallet.utils.formatNicelyWithTime
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.time.format.FormatStyle
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,12 +22,14 @@ class GitHubBackupViewModel @Inject constructor(
     private val gitHubBackup: GitHubBackup,
     private val navigation: Navigation,
     private val gitHubAutoBackupManager: GitHubAutoBackupManager,
+    private val gitHubCredentialsManager: GitHubCredentialsManager,
 ) : ViewModel() {
 
     val enabled = gitHubBackup.enabled
 
     val lastBackupTime: Flow<String?> = gitHubBackup.lastBackupTime.map { instant ->
-        instant?.toLocal()?.format(FormatStyle.MEDIUM)
+        instant?.toLocal()?.toLocalDateTime()
+            ?.formatNicelyWithTime()
     }
 
     val backupStatus = MutableStateFlow<GitHubBackupStatus?>(null)
@@ -68,9 +71,23 @@ class GitHubBackupViewModel @Inject constructor(
 
     fun viewBackup(onOpenUrl: (String) -> Unit) {
         viewModelScope.launch {
-            gitHubBackup.repoUrl()?.let {
-                onOpenUrl(it)
+            gitHubCredentialsManager.getCredentials().onRight {
+                onOpenUrl(it.toRepoUrl())
             }
         }
+    }
+
+    suspend fun getCredentials(): GitHubBackupInput? {
+        return gitHubCredentialsManager.getCredentials().getOrNull()
+            ?.let {
+                GitHubBackupInput(
+                    repoUrl = it.toRepoUrl(),
+                    gitHubPAT = it.gitHubPAT
+                )
+            }
+    }
+
+    private fun GitHubCredentials.toRepoUrl(): String {
+        return "https://github.com/${owner}/${repo}"
     }
 }

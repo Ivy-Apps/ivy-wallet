@@ -19,6 +19,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -87,7 +88,14 @@ private fun Content(
         Spacer(modifier = Modifier.height(24.dp))
 
         var repoUrl by rememberSaveable { mutableStateOf("") }
-        var accessToken by rememberSaveable { mutableStateOf("") }
+        var gitHubPAT by rememberSaveable { mutableStateOf("") }
+
+        LaunchedEffect(Unit) {
+            viewModel.getCredentials()?.let {
+                repoUrl = it.repoUrl
+                gitHubPAT = it.gitHubPAT
+            }
+        }
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -109,8 +117,8 @@ private fun Content(
         ) {
             OutlinedTextField(
                 modifier = Modifier.weight(1f),
-                value = accessToken,
-                onValueChange = { accessToken = it },
+                value = gitHubPAT,
+                onValueChange = { gitHubPAT = it },
                 label = { Text("GitHub PAT") }
             )
             Spacer(modifier = Modifier.width(12.dp))
@@ -120,9 +128,9 @@ private fun Content(
         Spacer(modifier = Modifier.height(24.dp))
         ElevatedButton(
             onClick = {
-                viewModel.enableBackups(repoUrl, accessToken)
+                viewModel.enableBackups(repoUrl, gitHubPAT)
             },
-            enabled = repoUrl.isNotBlank() && accessToken.isNotBlank()
+            enabled = repoUrl.isNotBlank() && gitHubPAT.isNotBlank()
         ) {
             Text(text = "Connect")
         }
