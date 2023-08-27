@@ -76,7 +76,9 @@ class GitHubBackupWorker @AssistedInject constructor(
 ) : CoroutineWorker(appContext, params) {
 
     override suspend fun doWork(): Result {
-        return gitHubBackup.backupData().fold(
+        return gitHubBackup.backupData(
+            isAutomatic = true
+        ).fold(
             ifLeft = {
                 Result.failure()
             },

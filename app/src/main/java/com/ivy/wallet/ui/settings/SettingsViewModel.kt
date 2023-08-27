@@ -16,7 +16,7 @@ import com.ivy.wallet.domain.data.core.User
 import com.ivy.wallet.domain.deprecated.logic.LogoutLogic
 import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
-import com.ivy.wallet.domain.deprecated.logic.zip.ExportBackupLogic
+import com.ivy.wallet.domain.deprecated.logic.zip.BackupLogic
 import com.ivy.wallet.domain.deprecated.sync.IvySync
 import com.ivy.wallet.io.network.FCMClient
 import com.ivy.wallet.io.network.IvyAnalytics
@@ -61,7 +61,7 @@ class SettingsViewModel @Inject constructor(
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val logoutLogic: LogoutLogic,
     private val sharedPrefs: SharedPrefs,
-    private val exportBackupLogic: ExportBackupLogic,
+    private val backupLogic: BackupLogic,
     private val startDayOfMonthAct: StartDayOfMonthAct,
     private val updateStartDayOfMonthAct: UpdateStartDayOfMonthAct,
     private val fetchAllTrnsFromServerAct: FetchAllTrnsFromServerAct,
@@ -223,7 +223,7 @@ class SettingsViewModel @Inject constructor(
                 TestIdlingResource.increment()
 
                 _progressState.value = true
-                exportBackupLogic.exportToFile(zipFileUri = fileUri)
+                backupLogic.exportToFile(zipFileUri = fileUri)
                 _progressState.value = false
 
                 sharedPrefs.putBoolean(SharedPrefs.DATA_BACKUP_COMPLETED, true)

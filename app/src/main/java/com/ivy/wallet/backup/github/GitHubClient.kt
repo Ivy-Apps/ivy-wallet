@@ -5,6 +5,7 @@ import arrow.core.Either
 import arrow.core.raise.catch
 import arrow.core.raise.either
 import arrow.core.raise.ensure
+import arrow.core.raise.ensureNotNull
 import dagger.Lazy
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -17,7 +18,9 @@ import io.ktor.http.HeadersBuilder
 import io.ktor.http.contentType
 import io.ktor.http.isSuccess
 import io.ktor.util.encodeBase64
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -39,7 +42,11 @@ class GitHubClient @Inject constructor(
 
     @Keep
     @Serializable
-    data class GitHubFileResponse(val sha: String)
+    data class GitHubFileResponse(
+        val sha: String,
+        @SerialName("download_url")
+        val downloadUrl: String,
+    )
 
     suspend fun commit(
         credentials: GitHubCredentials,
@@ -47,8 +54,8 @@ class GitHubClient @Inject constructor(
         content: String,
         isAutomatic: Boolean = false,
     ): Either<String, Unit> = either {
-        val url = repoUrl(credentials, path)
-        val sha = getExistingFileSha(credentials, url)
+        val repoUrl = repoUrl(credentials, path)
+        val sha = getExistingFile(credentials, repoUrl)?.sha
 
         val encodedContent = content.toByteArray(Charsets.UTF_16).encodeBase64()
 
@@ -66,7 +73,7 @@ class GitHubClient @Inject constructor(
             sha = sha,
         )
 
-        val response = httpClient.get().put(url) {
+        val response = httpClient.get().put(repoUrl) {
             headers {
                 githubToken(credentials)
                 contentType(ContentType.Application.Json)
@@ -84,16 +91,54 @@ class GitHubClient @Inject constructor(
         return Either.Right(Unit)
     }
 
-    private suspend fun getExistingFileSha(
+    suspend fun readFileContent(
+        credentials: GitHubCredentials,
+        path: String,
+    ): Either<String, String> = either {
+        val repoUrl = repoUrl(credentials, path)
+        val file = getExistingFile(credentials, repoUrl)
+        ensureNotNull(file) {
+            "Failed to fetch GitHub file '$repoUrl'."
+        }
+        val fileContent = downloadFileContent(credentials, file.downloadUrl).bind()
+        ensure(fileContent.isNotBlank()) {
+            "GitHub file content is blank!"
+        }
+        fileContent
+    }
+
+    private suspend fun downloadFileContent(
+        credentials: GitHubCredentials,
+        downloadUrl: String
+    ): Either<String, String> = catch({
+        val client = httpClient.get()
+        val response = client.get(downloadUrl) {
+            headers {
+                githubToken(credentials)
+            }
+        }
+        if (!response.status.isSuccess()) {
+            error("Failed to download file with ${response.status} $response")
+        }
+        val byteArray = response.body<ByteArray>()
+
+        val content = byteArray.toString(Charsets.UTF_16)
+        Either.Right(content)
+    }) {
+        Timber.e("GitHub file download: $it")
+        Either.Left("Failed to GitHub backup file because $it.")
+    }
+
+    private suspend fun getExistingFile(
         credentials: GitHubCredentials,
         url: String
-    ): String? = catch({
+    ): GitHubFileResponse? = catch({
         // Fetch the current file to get its SHA
         httpClient.get().get(url) {
             headers {
                 githubToken(credentials)
             }
-        }.body<GitHubFileResponse>().sha
+        }.body<GitHubFileResponse>()
 
     }) {
         null

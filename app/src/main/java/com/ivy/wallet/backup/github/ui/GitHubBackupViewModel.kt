@@ -1,14 +1,18 @@
 package com.ivy.wallet.backup.github.ui
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.backup.github.GitHubAutoBackupManager
 import com.ivy.wallet.backup.github.GitHubBackup
 import com.ivy.wallet.backup.github.GitHubCredentials
 import com.ivy.wallet.backup.github.GitHubCredentialsManager
 import com.ivy.wallet.datetime.toLocal
+import com.ivy.wallet.domain.deprecated.logic.zip.BackupLogic
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,12 +21,15 @@ import kotlinx.coroutines.launch
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
+@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 class GitHubBackupViewModel @Inject constructor(
     private val gitHubBackup: GitHubBackup,
-    private val navigation: Navigation,
     private val gitHubAutoBackupManager: GitHubAutoBackupManager,
     private val gitHubCredentialsManager: GitHubCredentialsManager,
+    @ApplicationContext
+    private val context: Context,
+    private val backupLogic: BackupLogic,
 ) : ViewModel() {
 
     val enabled = gitHubBackup.enabled
@@ -90,7 +97,41 @@ class GitHubBackupViewModel @Inject constructor(
         return "https://github.com/${owner}/${repo}"
     }
 
-    fun importFromGitHub() {
+    private var backupImportInProgress = false
 
+    fun importFromGitHub() {
+        viewModelScope.launch {
+            showToast("Importing backup... Be patient!")
+            if (backupImportInProgress) return@launch
+
+            backupImportInProgress = true
+            gitHubBackup.readBackupJson()
+                .onRight { json ->
+                    val result = backupLogic.importJson(json)
+                    val toast = if (result.transactionsImported > 0) {
+                        "Success! Imported ${result.transactionsImported} transactions."
+                    } else {
+                        "Import failed :/"
+                    }
+                    showToast(toast)
+                    backupImportInProgress = false
+                }
+                .onLeft {
+                    showToast(it)
+                    backupImportInProgress = false
+                }
+        }
     }
+
+    private fun showToast(
+        text: String,
+        duration: Int = Toast.LENGTH_LONG,
+    ) {
+        Toast.makeText(
+            context,
+            text,
+            duration
+        ).show()
+    }
+
 }

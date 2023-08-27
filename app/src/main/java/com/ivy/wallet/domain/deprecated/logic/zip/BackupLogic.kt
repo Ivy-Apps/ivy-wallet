@@ -25,7 +25,7 @@ import java.util.*
 import javax.inject.Inject
 
 
-class ExportBackupLogic @Inject constructor(
+class BackupLogic @Inject constructor(
     private val accountDao: AccountDao,
     private val budgetDao: BudgetDao,
     private val categoryDao: CategoryDao,
@@ -165,8 +165,8 @@ class ExportBackupLogic @Inject constructor(
 
     suspend fun importJson(
         jsonString: String,
-        onProgress: suspend (Double) -> Unit,
-        clearCacheDir: Boolean,
+        onProgress: suspend (Double) -> Unit = {},
+        clearCacheDir: Boolean = false,
     ): ImportResult {
         val modifiedJsonString = accommodateExistingAccountsAndCategories(jsonString)
         val ivyWalletCompleteData = getIvyWalletCompleteData(modifiedJsonString)
