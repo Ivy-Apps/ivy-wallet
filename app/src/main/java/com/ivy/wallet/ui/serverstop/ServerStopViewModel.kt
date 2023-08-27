@@ -48,7 +48,7 @@ class ServerStopViewModel @Inject constructor(
                 TestIdlingResource.increment()
 
                 exportInProgress.value = true
-                exportBackupLogic.exportToFile(context = context, zipFileUri = fileUri)
+                exportBackupLogic.exportToFile(zipFileUri = fileUri)
                 exportInProgress.value = false
 
                 sharedPrefs.putBoolean(SharedPrefs.DATA_BACKUP_COMPLETED, true)

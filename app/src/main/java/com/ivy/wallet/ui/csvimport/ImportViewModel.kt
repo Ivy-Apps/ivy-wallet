@@ -84,14 +84,13 @@ class ImportViewModel @Inject constructor(
                     restoreCSVFile(fileUri = fileUri, importType = importType)
                 else {
                     exportBackupLogic.import(
-                        context = context,
-                        zipFileUri = fileUri,
-                        onProgress = { progressPercent ->
-                            uiThread {
-                                _importProgressPercent.value =
-                                    (progressPercent * 100).roundToInt()
-                            }
-                        })
+                        backupFileUri = fileUri
+                    ) { progressPercent ->
+                        uiThread {
+                            _importProgressPercent.value =
+                                (progressPercent * 100).roundToInt()
+                        }
+                    }
                 }
 
                 _importStep.value = ImportStep.RESULT

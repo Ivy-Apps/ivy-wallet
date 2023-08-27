@@ -223,7 +223,7 @@ class SettingsViewModel @Inject constructor(
                 TestIdlingResource.increment()
 
                 _progressState.value = true
-                exportBackupLogic.exportToFile(context = context, zipFileUri = fileUri)
+                exportBackupLogic.exportToFile(zipFileUri = fileUri)
                 _progressState.value = false
 
                 sharedPrefs.putBoolean(SharedPrefs.DATA_BACKUP_COMPLETED, true)
