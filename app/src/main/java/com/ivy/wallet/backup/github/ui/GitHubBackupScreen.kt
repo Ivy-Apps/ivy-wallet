@@ -49,8 +49,7 @@ private const val GITHUB_PAT_INFO_URL =
     "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token"
 
 private const val VIDEO_TUTORIAL_URL =
-    // TODO: Replace with the real video URL
-    "https://www.youtube.com/shorts/dLRebQ9hnsQ"
+    "https://www.youtube.com/watch?v=wcgORjVFy4I"
 
 object GitHubBackupScreen : Screen
 
