@@ -1,6 +1,7 @@
 package com.ivy.wallet.backup.github.ui
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,10 +19,12 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -32,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -43,6 +47,10 @@ private const val GITHUB_REPO_INFO_URL =
 
 private const val GITHUB_PAT_INFO_URL =
     "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token"
+
+private const val VIDEO_TUTORIAL_URL =
+    // TODO: Replace with the real video URL
+    "https://www.youtube.com/shorts/dLRebQ9hnsQ"
 
 object GitHubBackupScreen : Screen
 
@@ -92,8 +100,6 @@ private fun Content(
             .padding(horizontal = 16.dp)
             .verticalScroll(rememberScrollState()),
     ) {
-        Spacer(modifier = Modifier.height(24.dp))
-
         var repoUrl by rememberSaveable { mutableStateOf("") }
         var gitHubPAT by rememberSaveable { mutableStateOf("") }
 
@@ -103,6 +109,12 @@ private fun Content(
                 gitHubPAT = it.gitHubPAT
             }
         }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        HeaderInfo()
+
+        Spacer(modifier = Modifier.height(12.dp))
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -132,7 +144,18 @@ private fun Content(
             InfoButton(infoUrl = GITHUB_PAT_INFO_URL)
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(8.dp))
+        val uriHandler = LocalUriHandler.current
+        TextButton(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            onClick = {
+                uriHandler.openUri(VIDEO_TUTORIAL_URL)
+            }
+        ) {
+            Text(text = "Need help? Watch our video tutorial")
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
         val enabled by viewModel.enabled.collectAsState(initial = false)
         ElevatedButton(
             modifier = Modifier.fillMaxWidth(),
@@ -141,7 +164,7 @@ private fun Content(
             },
             enabled = repoUrl.isNotBlank() && gitHubPAT.isNotBlank()
         ) {
-            Text(text = if (!enabled) "Connect" else "Update connection")
+            Text(text = if (!enabled) "Enable backups" else "Update connection")
         }
         if (enabled) {
             Spacer(modifier = Modifier.height(12.dp))
@@ -192,4 +215,14 @@ private fun InfoButton(
             contentDescription = "Info"
         )
     }
+}
+
+@Composable
+private fun ColumnScope.HeaderInfo() {
+    Text(
+        modifier = Modifier,
+        text = "Ivy Wallet will try to perform an automatic backup of your data every day at 12:00 PM.",
+        style = MaterialTheme.typography.bodyMedium,
+        textAlign = TextAlign.Start,
+    )
 }

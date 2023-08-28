@@ -11,3 +11,8 @@ data class GitHubBackupInput(
     val repoUrl: String,
     val gitHubPAT: String,
 )
+
+data class LastBackupInfo(
+    val time: String,
+    val indicateDanger: Boolean
+)

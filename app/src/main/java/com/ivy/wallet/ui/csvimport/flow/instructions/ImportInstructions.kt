@@ -257,6 +257,7 @@ fun InstructionButton(
 fun UploadFileStep(
     stepNumber: Int,
     text: String = stringResource(R.string.upload_csv_file),
+    btnTitle: String = text,
     onUploadClick: () -> Unit
 ) {
     StepTitle(
@@ -270,7 +271,7 @@ fun UploadFileStep(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
-        text = text,
+        text = btnTitle,
         textColor = White,
         backgroundGradient = GradientIvy,
         hasNext = false,
