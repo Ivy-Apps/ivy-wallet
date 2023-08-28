@@ -144,7 +144,18 @@ private fun Content(
             InfoButton(infoUrl = GITHUB_PAT_INFO_URL)
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(8.dp))
+        val uriHandler = LocalUriHandler.current
+        TextButton(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            onClick = {
+                uriHandler.openUri(VIDEO_TUTORIAL_URL)
+            }
+        ) {
+            Text(text = "Need help? Watch our video tutorial")
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
         val enabled by viewModel.enabled.collectAsState(initial = false)
         ElevatedButton(
             modifier = Modifier.fillMaxWidth(),
@@ -153,7 +164,7 @@ private fun Content(
             },
             enabled = repoUrl.isNotBlank() && gitHubPAT.isNotBlank()
         ) {
-            Text(text = if (!enabled) "Connect" else "Update connection")
+            Text(text = if (!enabled) "Enable backups" else "Update connection")
         }
         if (enabled) {
             Spacer(modifier = Modifier.height(12.dp))
@@ -214,14 +225,4 @@ private fun ColumnScope.HeaderInfo() {
         style = MaterialTheme.typography.bodyMedium,
         textAlign = TextAlign.Start,
     )
-    Spacer(modifier = Modifier.height(8.dp))
-    val uriHandler = LocalUriHandler.current
-    TextButton(
-        modifier = Modifier.align(Alignment.CenterHorizontally),
-        onClick = {
-            uriHandler.openUri(VIDEO_TUTORIAL_URL)
-        }
-    ) {
-        Text(text = "Need help? Watch our video tutorial")
-    }
 }

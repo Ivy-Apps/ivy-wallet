@@ -4,16 +4,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
+import com.ivy.wallet.backup.github.ui.GitHubBackupScreen
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.stringRes
-import com.ivy.wallet.ui.*
+import com.ivy.wallet.ui.EditPlanned
+import com.ivy.wallet.ui.IvyWalletComponentPreview
+import com.ivy.wallet.ui.IvyWalletCtx
+import com.ivy.wallet.ui.PieChartStatistic
 import com.ivy.wallet.ui.home.CustomerJourneyCard
 import com.ivy.wallet.ui.main.MainTab
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.Blue
+import com.ivy.wallet.ui.theme.Blue3
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.Green
+import com.ivy.wallet.ui.theme.GreenLight
+import com.ivy.wallet.ui.theme.Ivy
+import com.ivy.wallet.ui.theme.Orange
+import com.ivy.wallet.ui.theme.Red
+import com.ivy.wallet.ui.theme.Red3
 import com.ivy.wallet.ui.widget.AddTransactionWidgetCompact
 
 @Deprecated("Use FP style, look into `domain.fp` package")
@@ -58,6 +70,7 @@ class CustomerJourneyLogic(
             rateUsCard_2(),
             joinTelegram2(),
             ivyWalletIsOpenSource(),
+            githubBackups(),
         )
 
         fun adjustBalanceCard() = CustomerJourneyCardData(
@@ -148,7 +161,7 @@ class CustomerJourneyLogic(
         fun shareIvyWalletCard() = CustomerJourneyCardData(
             id = "share_ivy_wallet",
             condition = { trnCount, _, _ ->
-                trnCount >= 14
+                trnCount >= 11
             },
             title = stringRes(R.string.share_ivy_wallet),
             description = stringRes(R.string.help_us_grow),
@@ -177,10 +190,27 @@ class CustomerJourneyLogic(
             }
         )
 
+        fun githubBackups() = CustomerJourneyCardData(
+            id = "github_backups",
+            condition = { trnCount, _, _ ->
+                trnCount >= 18
+            },
+            title = "GitHub auto-backups",
+            description = "Keep you data safe! Ivy Wallet can perform an automatic backup" +
+                    " of your data every day at 12:00 PM in a private GitHub repo of your choice.",
+            cta = "Enable",
+            ctaIcon = R.drawable.github_logo,
+            background = Gradient.solid(Blue3),
+            hasDismiss = true,
+            onAction = { nav, _, _ ->
+                nav.navigateTo(GitHubBackupScreen)
+            }
+        )
+
         fun ivyWalletIsOpenSource() = CustomerJourneyCardData(
             id = "open_source",
             condition = { trnCount, _, _ ->
-                trnCount >= 18
+                trnCount >= 20
             },
             title = stringRes(R.string.ivy_wallet_is_opensource),
             description = stringRes(R.string.ivy_wallet_is_opensource_description),
@@ -343,6 +373,18 @@ private fun PreviewIvyWallet_isOpenSource() {
     IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.ivyWalletIsOpenSource(),
+            onCTA = { },
+            onDismiss = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewIvyWallet_gitHubBackups() {
+    IvyWalletComponentPreview {
+        CustomerJourneyCard(
+            cardData = CustomerJourneyLogic.githubBackups(),
             onCTA = { },
             onDismiss = {}
         )
