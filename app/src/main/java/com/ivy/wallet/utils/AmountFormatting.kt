@@ -3,6 +3,7 @@ package com.ivy.wallet.utils
 import com.ivy.wallet.domain.data.IvyCurrency
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.log10
 import kotlin.math.truncate
@@ -88,7 +89,7 @@ fun Double.formatCrypto(): String {
         numberStringWithZeros.substring(0, lastTrailingZeroIndex) else numberStringWithZeros
 }
 
-private fun Double.formatFIAT(): String = DecimalFormat("#,##0.00").format(this)
+private fun Double.formatFIAT(): String = DecimalFormat("#,##0.00", DecimalFormatSymbols(Locale.getDefault())).format(this)
 
 fun shortenAmount(amount: Double): String {
     return when {
