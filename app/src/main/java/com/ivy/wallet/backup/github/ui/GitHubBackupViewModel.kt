@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.time.Instant
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
@@ -32,10 +33,21 @@ class GitHubBackupViewModel @Inject constructor(
     private val backupLogic: BackupLogic,
 ) : ViewModel() {
 
+
     val enabled = gitHubBackup.enabled
 
-    val lastBackupTime: Flow<String?> = gitHubBackup.lastBackupTime.map { instant ->
-        instant?.toLocal()?.format(DateTimeFormatter.ofPattern("dd MMM, HH:mm"))
+    val lastBackupInfo: Flow<LastBackupInfo?> = gitHubBackup.lastBackupTime.map { instant ->
+        if (instant != null) {
+            val time = instant.toLocal().format(DateTimeFormatter.ofPattern("dd MMM, HH:mm"))
+            time?.let {
+                LastBackupInfo(
+                    time = time,
+                    // More than 24h hours have passed
+                    indicateDanger = Instant.now().epochSecond - instant.epochSecond > H24_IN_SECONDS,
+                )
+            }
+        } else null
+
     }
 
     val backupStatus = MutableStateFlow<GitHubBackupStatus?>(null)
@@ -134,4 +146,8 @@ class GitHubBackupViewModel @Inject constructor(
         ).show()
     }
 
+
+    companion object {
+        private const val H24_IN_SECONDS = 86400
+    }
 }

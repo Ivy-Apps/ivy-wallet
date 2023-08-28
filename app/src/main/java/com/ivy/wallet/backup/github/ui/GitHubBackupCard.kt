@@ -96,7 +96,7 @@ private fun BackupEnabled(
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 modifier = Modifier,
-                text = "Ivy Wallet will perform an automatic backup of your data every day at 12:00 PM.",
+                text = "Ivy Wallet will try to perform an automatic backup of your data every day at 12:00 PM.",
                 style = MaterialTheme.typography.labelMedium,
                 textAlign = TextAlign.Start,
                 fontWeight = FontWeight.Normal,
@@ -144,17 +144,20 @@ private fun BackupEnabled(
 private fun LastBackup(
     viewModel: GitHubBackupViewModel,
 ) {
-    val lastBackupTime by viewModel.lastBackupTime.collectAsState(initial = null)
-    if (lastBackupTime != null) {
-        Spacer(modifier = Modifier.height(8.dp))
+    val lastBackupTime by viewModel.lastBackupInfo.collectAsState(initial = null)
+    val backup = lastBackupTime
+    Spacer(modifier = Modifier.height(12.dp))
+    if (backup != null) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "Last Backup: $lastBackupTime",
+                text = if (backup.indicateDanger) "⚠\uFE0F " else "" + "Last Backup: ${backup.time}",
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Start,
+                color = if (backup.indicateDanger)
+                    MaterialTheme.colorScheme.error else LocalContentColor.current
             )
             Spacer(modifier = Modifier.width(12.dp))
             val uriHandler = LocalUriHandler.current
@@ -166,6 +169,14 @@ private fun LastBackup(
                 Text("View")
             }
         }
+    } else {
+        Text(
+            text = "⚠\uFE0F No backup detected!",
+            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.bodyMedium,
+            textAlign = TextAlign.Start,
+        )
+        Spacer(modifier = Modifier.height(4.dp))
     }
 }
 
