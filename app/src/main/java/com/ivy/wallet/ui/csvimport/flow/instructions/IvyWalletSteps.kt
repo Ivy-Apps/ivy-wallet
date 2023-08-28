@@ -16,7 +16,10 @@ fun IvyWalletSteps(
 
     StepTitle(
         number = 1,
-        title = stringResource(R.string.export_data)
+        title = stringResource(R.string.export_data),
+        description = """
+            Settings > "Backup Data" (do NOT use "Export to CSV"!)
+        """.trimIndent()
     )
 
     Spacer(Modifier.height(12.dp))
@@ -30,7 +33,8 @@ fun IvyWalletSteps(
 
     UploadFileStep(
         stepNumber = 2,
-        text = stringResource(R.string.upload_csv_zip_file),
+        text = "Upload Backup (ZIP/CSV/JSON) file",
+        btnTitle = "Upload Backup file",
         onUploadClick = onUploadClick
     )
 }
