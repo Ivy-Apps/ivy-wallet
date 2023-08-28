@@ -89,7 +89,7 @@ fun Double.formatCrypto(): String {
         numberStringWithZeros.substring(0, lastTrailingZeroIndex) else numberStringWithZeros
 }
 
-private fun Double.formatFIAT(): String = DecimalFormat("#,##0.00", DecimalFormatSymbols(Locale.getDefault())).format(this)
+private fun Double.formatFIAT(): String = DecimalFormat("#,##0.00", DecimalFormatSymbols(Locale.US)).format(this)
 
 fun shortenAmount(amount: Double): String {
     return when {
