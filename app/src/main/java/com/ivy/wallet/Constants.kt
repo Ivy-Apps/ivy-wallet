@@ -28,7 +28,7 @@ object Constants {
     const val CATEGORY_UNSPECIFIED_NAME = "Unspecified"
 
     const val URL_IVY_CONTRIBUTORS =
-        "https://github.com/Ivy-Apps/ivy-wallet/tree/develop#contributors-see-graph"
+        "https://github.com/Ivy-Apps/ivy-wallet#contributors-wall"
 
     const val URL_GITHUB_SPONSORS =
         "https://github.com/sponsors/Ivy-Apps"
