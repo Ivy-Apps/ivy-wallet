@@ -2,10 +2,12 @@ package com.ivy.wallet.backup.github
 
 import android.content.Context
 import androidx.hilt.work.HiltWorker
+import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
@@ -20,7 +22,6 @@ class GitHubAutoBackupManager @Inject constructor(
     @ApplicationContext
     private val context: Context
 ) {
-
     private val uniqueWorkName = "GITHUB_AUTO_BACKUP_WORK"
 
     fun scheduleAutoBackups() {
@@ -33,6 +34,11 @@ class GitHubAutoBackupManager @Inject constructor(
                 Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
                     .build()
+            )
+            .setBackoffCriteria(
+                BackoffPolicy.EXPONENTIAL,
+                PeriodicWorkRequest.MIN_BACKOFF_MILLIS,
+                TimeUnit.MILLISECONDS
             )
             .build()
 
@@ -74,13 +80,20 @@ class GitHubBackupWorker @AssistedInject constructor(
     @Assisted params: WorkerParameters,
     private val gitHubBackup: GitHubBackup,
 ) : CoroutineWorker(appContext, params) {
+    companion object {
+        const val MAX_RETRIES = 7
+    }
 
     override suspend fun doWork(): Result {
         return gitHubBackup.backupData(
             isAutomatic = true
         ).fold(
             ifLeft = {
-                Result.failure()
+                if (runAttemptCount <= MAX_RETRIES) {
+                    Result.retry()
+                } else {
+                    Result.failure()
+                }
             },
             ifRight = {
                 Result.success()
