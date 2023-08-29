@@ -21,8 +21,8 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 
 object Project {
     //Version
-    const val versionName = "4.3.21"
-    const val versionCode = 135
+    const val versionName = "4.4.0"
+    const val versionCode = 140
 
     //Compile SDK & Build Tools
     const val compileSdkVersion = 34
