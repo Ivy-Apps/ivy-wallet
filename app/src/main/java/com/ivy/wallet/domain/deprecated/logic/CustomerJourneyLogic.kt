@@ -198,7 +198,7 @@ class CustomerJourneyLogic(
             },
             title = "GitHub auto-backups",
             description = "Keep you data safe! Ivy Wallet can perform an automatic backup" +
-                    " of your data every day at 12:00 PM in a private GitHub repo of your choice.",
+                    " of your data every day around 12 PM in a private GitHub repo of your choice.",
             cta = "Enable",
             ctaIcon = R.drawable.github_logo,
             background = Gradient.solid(Blue3),
