@@ -132,7 +132,8 @@ class CustomerJourneyLogic(
                 trnCount >= 7
             },
             title = stringRes(R.string.did_you_know),
-            description = stringRes(R.string.expenses_piechart_description),
+            description = "You can see a PieChart for your expenses!" +
+                    " Click the Expense card on the top of the dashboard.",
             cta = stringRes(R.string.expenses_piechart),
             ctaIcon = R.drawable.ic_custom_bills_s,
             background = Gradient.solid(Red),
