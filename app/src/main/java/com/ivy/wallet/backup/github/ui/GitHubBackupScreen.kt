@@ -220,7 +220,7 @@ private fun InfoButton(
 private fun ColumnScope.HeaderInfo() {
     Text(
         modifier = Modifier,
-        text = "Ivy Wallet will try to perform an automatic backup of your data every day around 12 PM.",
+        text = "Ivy Wallet will try to perform an automatic daily backup of your data.",
         style = MaterialTheme.typography.bodyMedium,
         textAlign = TextAlign.Start,
     )

@@ -96,7 +96,7 @@ private fun BackupEnabled(
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 modifier = Modifier,
-                text = "Ivy Wallet will try to perform an automatic backup of your data every day around 12 PM.",
+                text = "Ivy Wallet will try to perform an automatic daily backup of your data.",
                 style = MaterialTheme.typography.labelMedium,
                 textAlign = TextAlign.Start,
                 fontWeight = FontWeight.Normal,
