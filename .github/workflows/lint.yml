@@ -21,36 +21,18 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout GIT
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0 #Fetch all history for all branches and tags
+        uses: actions/checkout@v3
 
       - name: Setup Java SDK
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
           java-version: '18'
-
-      - name: Setup Ruby (for Fastlane)
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '2.7'
-
-      - name: Install Fastlane
-        run: bundle install
-      #----------------------------------------------------
-
-      #Security
-      - name: Validate Gradle Wrapper checksum
-        uses: gradle/wrapper-validation-action@v1
-
-      - name: Make Gradle Wrapper (gradlew) executable
-        run: chmod +x gradlew
       #----------------------------------------------------
 
       #Optimization
       - name: Enable Gradle Wrapper caching (optmization)
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches
@@ -61,11 +43,11 @@ jobs:
       #---------------------------------------------------
 
       #Lint
-      - name: Verify that the code is release-able ("lintRelease")
-        run: bundle exec fastlane lint_release
+      - name: Lint (release)
+        run: ./gradlew lintRelease
 
       - name: Upload Lint Release report to GitHub
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: lint-release-report.html
           path: app/build/reports/lint-results-release.html
