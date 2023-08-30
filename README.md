@@ -9,7 +9,7 @@
 [![GitHub Repo stars](https://img.shields.io/github/stars/Ivy-Apps/ivy-wallet?style=social)](https://github.com/Ivy-Apps/ivy-wallet/stargazers)
 [![Github Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/Ivy-Apps)
 
-## ⚠️ This branch is discontinued. For the production code refer to [default](https://github.com/Ivy-Apps/ivy-wallet) branch ⚠️
+## ⚠️ This branch is discontinued. For the production code refer to the [default](https://github.com/Ivy-Apps/ivy-wallet) branch ⚠️
 
 This branch contains the "Great" Ivy Wallet re-write from 2022-23.
 The re-write project was discontinued => this branch is no longer needed.
