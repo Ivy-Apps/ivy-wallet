@@ -3,7 +3,7 @@ name: APK
 on:
   push:
     branches:
-      - prod
+      - main
 
 jobs:
   assemble_demo_apk:
