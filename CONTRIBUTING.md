@@ -58,7 +58,6 @@ Then final step is to open a pull request to the `main` branch of the
 official [Ivy Wallet repo.](https://github.com/Ivy-Apps/ivy-wallet/pulls)
 
 *
-
 *[How To Submit a PR Guide by GitHub](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)
 **
 
