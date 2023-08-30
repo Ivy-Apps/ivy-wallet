@@ -53,7 +53,6 @@ Ivy Wallet's biggest advantage is its UI/UX, simplicity, and customization which
 - [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)
 - [Kotlin Flow](https://kotlinlang.org/docs/flow.html)
 - [Hilt](https://dagger.dev/hilt/) (DI)
-- [Jetpack Compose Navigation](https://developer.android.com/jetpack/compose/navigation)
 - [ArrowKt](https://arrow-kt.io/) (Functional Programming)
 
 ### Local Persistence
@@ -62,13 +61,9 @@ Ivy Wallet's biggest advantage is its UI/UX, simplicity, and customization which
 
 ### Networking
 - [Ktor Client](https://ktor.io/docs/getting-started-ktor-client.html) (REST client)
-- [Gson](https://github.com/google/gson) (JSON serialization)
+- [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization) (JSON serialization)
 
-### Other
-- [Timber](https://github.com/JakeWharton/timber) (Logging)
-- [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics) (crashes, logging)
-
-### CI/CD
+### CI/CD & Build
 - [Gradle KTS](https://docs.gradle.org/current/userguide/kotlin_dsl.html)
 - [Fastlane](https://fastlane.tools/) (upload to Google PlayStore)
 - [Github Actions](https://github.com/Ivy-Apps/ivy-wallet/actions) (CI/CD)
