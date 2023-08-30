@@ -1,16 +1,10 @@
 # Contributing to Ivy Wallet
 
-## [Ivy Developer Guidelines](docs/Developer-Guidelines.md)
-
-A short and helpful guide on Android Architecture, Functional Reactive Programming (FRP) and Ivy best practices - [Ivy Developer Guidelines](docs/Developer-Guidelines.md).
-
-> Tip: Read it -> make proposals -> make the project better! :rocket:
-
 ## 1. Fork the repo
 
 **[How To Fork Guide by GitHub](https://docs.github.com/en/get-started/quickstart/fork-a-repo)**
 
-`gh repo fork https://github.com/ILIYANGERMANOV/ivy-wallet`
+`gh repo fork https://github.com/Ivy-Apps/ivy-wallet`
 
 ## 2. Pick an issue
 
@@ -18,23 +12,25 @@ What do you want to work on? How do you want to contribute?
 
 ### Workflow:
 
-1. Browse **[Ivy Wallet Issues](https://github.com/ILIYANGERMANOV/ivy-wallet/issues)**.
+1. Browse **[Ivy Wallet Issues](https://github.com/Ivy-Apps/ivy-wallet/issues)**.
 2. Choose a ticket that you understand and intrigues you.
 3. Comment `"I'm on it"` on the ticket to let other contributors know that you're working on it.
 
 ### Tips:
 
 - Issues with the
-  label [good first issue](https://github.com/ILIYANGERMANOV/ivy-wallet/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
+  label [good first issue](https://github.com/Ivy-Apps/ivy-wallet/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
   are easier.
-- You can also help us clean up the [issue section](https://github.com/ILIYANGERMANOV/ivy-wallet/issues) by identifying duplicate issues.
+- You can also help us clean up the [issue section](https://github.com/Ivy-Apps/ivy-wallet/issues)
+  by identifying duplicate issues.
 - You can always make code improvements w/o having an opened issue.
 - You create an issue yourself!
 - Ask questions or suggest ideas in the comments section of any issue,
 
 ## 3. Create a feature branch in your fork
 
-Once you've decided on what you want to contribute it's time to create a feature branch in your forked ivy-wallet
+Once you've decided on what you want to contribute it's time to create a feature branch in your
+forked ivy-wallet
 repository.
 
 ### Console:
@@ -46,23 +42,27 @@ repository.
 - Make commits.
 - Refactor your code.
 - Verify that your implementation works.
+- Test that you haven't broken existing features.
 
 ### Tips:
 
 - Make sure that you didn't break anything with your changes.
-- Use Ivy Wallet's code style.
 - Keep it simple.
 - **"Don't walk away from complexity, run!"**
 
-## 4. Submit a PR to `develop` branch
+## 4. Submit a PR to `main` branch
 
-So far you should have pushed your work to your feature branch and have tested that it works on an actual Android
-device. Then final step is to open a pull request to the `develop` branch of the
-official [Ivy Wallet repo.](https://github.com/ILIYANGERMANOV/ivy-wallet/pulls)
+So far you should have pushed your work to your feature branch and have tested
+that it works on an actual Android device.
+Then final step is to open a pull request to the `main` branch of the
+official [Ivy Wallet repo.](https://github.com/Ivy-Apps/ivy-wallet/pulls)
 
-**[How To Submit a PR Guide by GitHub](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)**
+*
+
+*[How To Submit a PR Guide by GitHub](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)
+**
 
 ### IMPORTANT:
 
-- Make sure that on the base repository's base the `develop` branch is chosen as "base".
-- Pull requests to `main` will be rejected.
+- Make sure that on the base repository's base the `main` branch is chosen as "base".
+- Pull requests to other branches will be rejected.
