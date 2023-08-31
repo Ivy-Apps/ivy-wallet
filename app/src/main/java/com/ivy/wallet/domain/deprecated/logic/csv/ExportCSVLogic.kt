@@ -13,6 +13,7 @@ import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.utils.format
 import com.ivy.wallet.utils.formatLocal
 import com.ivy.wallet.utils.ioThread
+import com.ivy.wallet.utils.localDecimalSeparator
 import com.ivy.wallet.utils.writeToFile
 import org.apache.commons.text.StringEscapeUtils
 import java.util.*
@@ -220,9 +221,24 @@ class ExportCSVLogic(
     }
 
     private fun Double.formatAmountCSV(currency: String): String {
-        return this.format(currency)
-            .replace(",", "")
-            .escapeCSVString()
+
+        val ivyAmountFormat = this.format(currency)
+
+        // string result example: 1078.38
+        return when(localDecimalSeparator()) {
+            "." -> {
+                // source string example: 1,078.38
+                ivyAmountFormat
+                    .replace(",", "")
+            }
+            "," -> {
+                // source string example: 1.078,39
+                ivyAmountFormat
+                    .replace(".", "")
+                    .replace(",", ".")
+            }
+            else -> ivyAmountFormat
+        }.escapeCSVString()
     }
 
     private fun String.escapeCSVString(): String {
