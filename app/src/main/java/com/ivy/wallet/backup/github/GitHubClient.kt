@@ -52,7 +52,7 @@ class GitHubClient @Inject constructor(
         credentials: GitHubCredentials,
         path: String,
         content: String,
-        isAutomatic: Boolean = false,
+        commitMsg: String,
     ): Either<String, Unit> = either {
         val repoUrl = repoUrl(credentials, path)
         val sha = getExistingFile(credentials, repoUrl)?.sha
@@ -61,11 +61,7 @@ class GitHubClient @Inject constructor(
 
         val requestBody = GitHubFileContent(
             content = encodedContent,
-            message = if (isAutomatic) {
-                "Automatic Ivy Wallet data backup"
-            } else {
-                "Manual Ivy Wallet data backup"
-            },
+            message = commitMsg,
             committer = Committer(
                 name = "Ivy Wallet",
                 email = "automation@ivywallet.com"
@@ -73,13 +69,17 @@ class GitHubClient @Inject constructor(
             sha = sha,
         )
 
-        val response = httpClient.get().put(repoUrl) {
-            headers {
-                githubToken(credentials)
-                contentType(ContentType.Application.Json)
-                acceptsUtf16()
+        val response = try {
+            httpClient.get().put(repoUrl) {
+                headers {
+                    githubToken(credentials)
+                    contentType(ContentType.Application.Json)
+                    acceptsUtf16()
+                }
+                setBody(requestBody)
             }
-            setBody(requestBody)
+        } catch (e: Exception) {
+            return Either.Left("HttpException: ${e.message}")
         }
         ensure(response.status.isSuccess()) {
             when (response.status.value) {
@@ -88,7 +88,6 @@ class GitHubClient @Inject constructor(
                 else -> "Unsuccessful response: '${response.status}' $response."
             }
         }
-        return Either.Right(Unit)
     }
 
     suspend fun readFileContent(

@@ -76,7 +76,7 @@ class GitHubBackup @Inject constructor(
     }
 
     suspend fun backupData(
-        isAutomatic: Boolean = false,
+        commitMsg: String = "Manual Ivy Wallet data backup",
     ): Either<Error, Unit> = withContext(Dispatchers.IO) {
         either {
             val credentials = credentialsManager.getCredentials()
@@ -87,7 +87,7 @@ class GitHubBackup @Inject constructor(
                 credentials = credentials,
                 path = BACKUP_FILE_PATH,
                 content = json,
-                isAutomatic = isAutomatic,
+                commitMsg = commitMsg,
             ).mapLeft(Error::Commit).bind()
 
             appContext.dataStore.edit {

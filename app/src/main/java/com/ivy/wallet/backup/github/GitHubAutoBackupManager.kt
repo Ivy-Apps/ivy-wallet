@@ -86,7 +86,7 @@ class GitHubBackupWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         return gitHubBackup.backupData(
-            isAutomatic = true
+            commitMsg = "Automatic Ivy Wallet data backup"
         ).fold(
             ifLeft = {
                 if (runAttemptCount <= MAX_RETRIES) {

@@ -34,5 +34,6 @@ object EncryptedSharedPrefsModule {
 }
 
 object EncryptedPrefsKeys {
+    @Deprecated("Use DataStoreKeys.GITHUB_PAT instead")
     const val BACKUP_GITHUB_PAT = "github_backup_pat"
 }

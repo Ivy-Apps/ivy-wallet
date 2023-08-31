@@ -18,6 +18,7 @@ import com.ivy.wallet.io.network.IvyAnalytics
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.SettingsDao
+import com.ivy.wallet.migrations.MigrationsManager
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.readOnly
@@ -43,7 +44,8 @@ class RootViewModel @Inject constructor(
     private val ivySession: IvySession,
     private val ivyBilling: IvyBilling,
     private val paywallLogic: PaywallLogic,
-    private val transactionReminderLogic: TransactionReminderLogic
+    private val transactionReminderLogic: TransactionReminderLogic,
+    private val migrationsManager: MigrationsManager,
 ) : ViewModel() {
 
     companion object {
@@ -92,6 +94,10 @@ class RootViewModel @Inject constructor(
 
             TestIdlingResource.decrement()
         }
+
+        viewModelScope.launch {
+            migrationsManager.executeMigrations()
+        }
     }
 
     private fun navigateOnboardedUser(intent: Intent) {
@@ -103,9 +109,9 @@ class RootViewModel @Inject constructor(
 
     private fun handleSpecialStart(intent: Intent): Boolean {
         val addTrnType: TransactionType? = try {
-            intent.getSerializableExtra(EXTRA_ADD_TRANSACTION_TYPE) as? TransactionType ?:
-            TransactionType.valueOf(intent.getStringExtra(EXTRA_ADD_TRANSACTION_TYPE) ?: "")
-        } catch (e: IllegalArgumentException){
+            intent.getSerializableExtra(EXTRA_ADD_TRANSACTION_TYPE) as? TransactionType
+                ?: TransactionType.valueOf(intent.getStringExtra(EXTRA_ADD_TRANSACTION_TYPE) ?: "")
+        } catch (e: IllegalArgumentException) {
             null
         }
 
