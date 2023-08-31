@@ -6,7 +6,7 @@ kotlinx-serialization = "1.6.0"
 arrow = "1.2.0"
 kotest = "5.6.2"
 compose = "1.5.0"
-compose-compiler = "1.5.2"
+compose-compiler = "1.5.2" # It's used - don't delete it!
 compose-material3 = "1.1.1"
 compose-activity = "1.7.2"
 compose-viewmodel = "2.6.1"
@@ -14,6 +14,9 @@ coil = "2.4.0"
 glance = "1.0.0-rc01"
 datastore = "1.0.0"
 androidx-security = "1.0.0"
+androidx-activity = "1.8.0-alpha07"
+appcompat-activity = "1.7.0-alpha03"
+androidx-biometrics = "1.2.0-alpha05"
 
 [libraries]
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
@@ -52,6 +55,9 @@ glance-appwidget = { module = "androidx.glance:glance-appwidget", version.ref = 
 glance-material3 = { module = "androidx.glance:glance-material3", version.ref = "glance" }
 datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 androidx-security = { module = "androidx.security:security-crypto", version.ref = "androidx-security" }
+androidx-biometrics = { module = "androidx.biometric:biometric", version.ref = "androidx-biometrics" }
+androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity" }
+appcompat-activity = { module = "androidx.appcompat:appcompat", version.ref = "appcompat-activity" }
 
 [bundles]
 kotlin = [
@@ -93,7 +99,11 @@ compose = [
     "compose-viewmodel",
     "compose-tooling",
     "compose-runtime-livedate-temp",
-    "compose-coil"
+    "compose-coil",
+]
+activity = [
+    "androidx-activity",
+    "appcompat-activity"
 ]
 glance = [
     "glance",

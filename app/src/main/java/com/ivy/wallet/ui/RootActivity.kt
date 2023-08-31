@@ -15,6 +15,7 @@ import android.text.format.DateFormat
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -132,6 +133,7 @@ class RootActivity : AppCompatActivity() {
         ExperimentalFoundationApi::class
     )
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
         setupActivityForResultLaunchers()

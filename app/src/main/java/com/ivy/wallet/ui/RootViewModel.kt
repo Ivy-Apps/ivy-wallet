@@ -1,7 +1,7 @@
 package com.ivy.wallet.ui
 
+import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -23,10 +23,13 @@ import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.readOnly
 import com.ivy.wallet.utils.sendToCrashlytics
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.lang.IllegalArgumentException
 import java.util.concurrent.atomic.AtomicLong
 import javax.inject.Inject
 
@@ -141,7 +144,7 @@ class RootViewModel @Inject constructor(
         }
     }
 
-    fun initBilling(activity: AppCompatActivity) {
+    fun initBilling(activity: Activity) {
         ivyBilling.init(
             activity = activity,
             onReady = {

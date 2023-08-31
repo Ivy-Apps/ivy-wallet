@@ -2,12 +2,12 @@ package com.ivy.wallet.utils
 
 import android.content.Context
 import android.content.Intent
+import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 
-fun AppCompatActivity.simpleActivityForResultLauncher(
+fun ComponentActivity.simpleActivityForResultLauncher(
     intent: Intent,
     onActivityResult: (resultCode: Int, data: Intent?) -> Unit
 ): ActivityResultLauncher<Unit> {
@@ -27,7 +27,7 @@ fun Fragment.simpleActivityForResultLauncher(
     )
 }
 
-fun <I> AppCompatActivity.activityForResultLauncher(
+fun <I> ComponentActivity.activityForResultLauncher(
     createIntent: (context: Context, input: I) -> Intent,
     onActivityResult: (resultCode: Int, data: Intent?) -> Unit
 ): ActivityResultLauncher<I> {
