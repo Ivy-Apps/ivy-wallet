@@ -23,7 +23,6 @@ import com.ivy.wallet.io.network.IvyAnalytics
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.network.RestClient
 import com.ivy.wallet.io.network.request.auth.GoogleSignInRequest
-import com.ivy.wallet.io.network.request.github.OpenIssueRequest
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.UserDao
@@ -365,37 +364,6 @@ class SettingsViewModel @Inject constructor(
                 treatTransfersAsIncomeExpense
             )
             _treatTransfersAsIncomeExpense.value = treatTransfersAsIncomeExpense
-
-            TestIdlingResource.decrement()
-        }
-    }
-
-    fun requestFeature(
-        rootActivity: RootActivity,
-        title: String,
-        body: String
-    ) {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
-
-            try {
-                val response = restClient.githubService.openIssue(
-                    request = OpenIssueRequest(
-                        title = title,
-                        body = body,
-                    )
-                )
-
-                //Returned: https://api.github.com/repos/octocat/Hello-World/issues/1347
-                //Should open: https://github.com/octocat/Hello-World/issues/1347
-                val issueUrl = response.url
-                    .replace("api.github.com", "github.com")
-                    .replace("/repos", "")
-
-                rootActivity.openUrlInBrowser(issueUrl)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
 
             TestIdlingResource.decrement()
         }

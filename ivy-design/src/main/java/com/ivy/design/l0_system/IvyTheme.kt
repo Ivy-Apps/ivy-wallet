@@ -13,6 +13,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
@@ -61,7 +62,7 @@ fun IvyTheme(
         if (!view.isInEditMode) {
             SideEffect {
                 val window = (view.context as Activity).window
-                window.statusBarColor = colors.pure.toArgb()
+                window.statusBarColor = Color.Transparent.toArgb()
                 WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars =
                     colors.isLight
             }

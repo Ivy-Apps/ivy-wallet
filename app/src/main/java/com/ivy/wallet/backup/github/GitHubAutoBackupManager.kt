@@ -28,7 +28,7 @@ class GitHubAutoBackupManager @Inject constructor(
         val initialDelay = calculateInitialDelayMillis()
 
         val dailyWorkRequest = PeriodicWorkRequestBuilder<GitHubBackupWorker>(
-            24, TimeUnit.HOURS
+            12, TimeUnit.HOURS
         ).setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
             .setConstraints(
                 Constraints.Builder()
@@ -86,7 +86,7 @@ class GitHubBackupWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         return gitHubBackup.backupData(
-            isAutomatic = true
+            commitMsg = "Automatic Ivy Wallet data backup"
         ).fold(
             ifLeft = {
                 if (runAttemptCount <= MAX_RETRIES) {

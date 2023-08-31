@@ -1,7 +1,18 @@
 package com.ivy.wallet.android.billing
 
-import androidx.appcompat.app.AppCompatActivity
-import com.android.billingclient.api.*
+import android.app.Activity
+import com.android.billingclient.api.AcknowledgePurchaseParams
+import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.BillingClientStateListener
+import com.android.billingclient.api.BillingFlowParams
+import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.Purchase
+import com.android.billingclient.api.PurchasesUpdatedListener
+import com.android.billingclient.api.SkuDetails
+import com.android.billingclient.api.SkuDetailsParams
+import com.android.billingclient.api.acknowledgePurchase
+import com.android.billingclient.api.queryPurchasesAsync
+import com.android.billingclient.api.querySkuDetails
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.sendToCrashlytics
 import timber.log.Timber
@@ -44,7 +55,7 @@ class IvyBilling(
     private lateinit var billingClient: BillingClient
 
     fun init(
-        activity: AppCompatActivity,
+        activity: Activity,
         onReady: () -> Unit,
         onPurchases: (List<Purchase>) -> Unit,
         onError: (code: Int, msg: String) -> Unit,
@@ -166,7 +177,7 @@ class IvyBilling(
     }
 
     fun buy(
-        activity: AppCompatActivity,
+        activity: Activity,
         skuToBuy: SkuDetails,
         oldSubscriptionPurchaseToken: String?
     ) {
