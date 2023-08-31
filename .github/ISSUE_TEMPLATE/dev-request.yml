@@ -1,5 +1,5 @@
 name: Dev Request
-description: Make the Ivy Wallet repo or codebase better.
+description: Make the Ivy Wallet dev experience better.
 labels: ["dev"]
 body:
   - type: checkboxes
