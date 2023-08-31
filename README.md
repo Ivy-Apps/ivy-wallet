@@ -84,3 +84,23 @@ check them in **[docs/resources 📚](docs/resources/)**.
 <br>
 
 _Note: It may take up to 24h for the [contrib.rocks](https://contrib.rocks/preview?repo=ILIYANGERMANOV%2Fivy-wallet) plugin to update because it's refreshed once a day._ 
+
+## Creative Contributors:
+
+<!-- <div align="center">
+  <a href="URL_TO_CONTRIBUTION">
+    <img src="URL_TO_PERSONS_PHOTO" width="100px;" alt="PERSON'S PHOTO"/><br>
+    <strong>USERNAME</strong><br>
+    <small>MESSAGE_FOR_THEIR_CONTRIBUTION</small>
+  </a>
+</div> -->
+
+<div align="center">
+    <img src="https://media.licdn.com/dms/image/D4D03AQGiFQMobe7CmA/profile-displayphoto-shrink_400_400/0/1690718245199?e=1698883200&v=beta&t=rMTp7gOVZKqWx3Dcj6vKGkjwKgKi5NShXEXMRtne8KU" width="100px;" alt="Stefan Ilijev - desinger"/><br>
+    <strong>Stefan Ilijev</strong><br>
+    <small>Ivy Wallet's co-founder and designer. Created the <a href="https://www.figma.com/file/kSwIa07jcHEHZXo6rzx7dn/Design-System?node-id=0%3A1&mode=dev">Ivy Wallet design.</a></small>
+</div>
+
+
+
+
