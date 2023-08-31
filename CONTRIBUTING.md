@@ -25,7 +25,7 @@ What do you want to work on? How do you want to contribute?
   by identifying duplicate issues.
 - You can always make code improvements w/o having an opened issue.
 - You create an issue yourself!
-- Ask questions or suggest ideas in the comments section of any issue,
+- Ask questions or suggest ideas in the comments section of any issue.
 
 ## 3. Create a feature branch in your fork
 
@@ -57,9 +57,7 @@ that it works on an actual Android device.
 Then final step is to open a pull request to the `main` branch of the
 official [Ivy Wallet repo.](https://github.com/Ivy-Apps/ivy-wallet/pulls)
 
-*
-*[How To Submit a PR Guide by GitHub](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)
-**
+**[How To Submit a PR Guide by GitHub](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)**
 
 ### IMPORTANT:
 

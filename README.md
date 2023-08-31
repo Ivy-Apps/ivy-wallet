@@ -34,15 +34,23 @@ Ivy Wallet's biggest advantage is its UI/UX, simplicity, and customization which
 
 <a href='https://play.google.com/store/apps/details?id=com.ivy.wallet&utm_source=github&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="323" height="125"/></a>
 
-> To support our free, open-source project please ⭐ star our repo - that means a lot for us! Thank you! [![GitHub Repo stars](https://img.shields.io/github/stars/Ivy-Apps/ivy-wallet?style=social)](https://github.com/Ivy-Apps/ivy-wallet/stargazers)
- 🙏
+> To support our free, open-source project please ⭐ star our repo - that means a lot for us! Thank
+> you! [![GitHub Repo stars](https://img.shields.io/github/stars/Ivy-Apps/ivy-wallet?style=social)](https://github.com/Ivy-Apps/ivy-wallet/stargazers)
+> 🙏
 
 > Join our **[private Telegram Community](https://t.me/+ETavgioAvWg4NThk)**.
 
 ## Project Requirements
+
 - Java 17+
 - The latest **Android Studio Hedgehog** or above (for easy install
   use [JetBrains Toolbox](https://www.jetbrains.com/toolbox-app/))
+
+## Learning Materials
+
+We're also linking great learning materials (books, articles, videos)
+that helped us level-up in our software engineering journey,
+check them in **[docs/resources 📚](docs/resources/)**.
 
 ## Tech Stack
 
@@ -53,7 +61,6 @@ Ivy Wallet's biggest advantage is its UI/UX, simplicity, and customization which
 - [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)
 - [Kotlin Flow](https://kotlinlang.org/docs/flow.html)
 - [Hilt](https://dagger.dev/hilt/) (DI)
-- [Jetpack Compose Navigation](https://developer.android.com/jetpack/compose/navigation)
 - [ArrowKt](https://arrow-kt.io/) (Functional Programming)
 
 ### Local Persistence
@@ -62,13 +69,9 @@ Ivy Wallet's biggest advantage is its UI/UX, simplicity, and customization which
 
 ### Networking
 - [Ktor Client](https://ktor.io/docs/getting-started-ktor-client.html) (REST client)
-- [Gson](https://github.com/google/gson) (JSON serialization)
+- [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization) (JSON serialization)
 
-### Other
-- [Timber](https://github.com/JakeWharton/timber) (Logging)
-- [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics) (crashes, logging)
-
-### CI/CD
+### CI/CD & Build
 - [Gradle KTS](https://docs.gradle.org/current/userguide/kotlin_dsl.html)
 - [Fastlane](https://fastlane.tools/) (upload to Google PlayStore)
 - [Github Actions](https://github.com/Ivy-Apps/ivy-wallet/actions) (CI/CD)
