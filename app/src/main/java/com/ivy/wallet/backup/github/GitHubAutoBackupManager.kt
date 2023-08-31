@@ -28,7 +28,7 @@ class GitHubAutoBackupManager @Inject constructor(
         val initialDelay = calculateInitialDelayMillis()
 
         val dailyWorkRequest = PeriodicWorkRequestBuilder<GitHubBackupWorker>(
-            24, TimeUnit.HOURS
+            12, TimeUnit.HOURS
         ).setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
             .setConstraints(
                 Constraints.Builder()

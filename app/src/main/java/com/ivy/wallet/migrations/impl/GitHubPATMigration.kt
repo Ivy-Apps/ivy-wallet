@@ -23,14 +23,14 @@ class GitHubPATMigration @Inject constructor(
         get() = "github_pat_v1"
 
     override suspend fun migrate() {
-        val gitHubPAT = encryptedSharedPreferences.getString(
+        val oldGitHubPAT = encryptedSharedPreferences.getString(
             EncryptedPrefsKeys.BACKUP_GITHUB_PAT,
             null
         )
 
-        if (gitHubPAT != null) {
+        if (oldGitHubPAT != null) {
             context.dataStore.edit {
-                it[DatastoreKeys.GITHUB_PAT] = gitHubPAT
+                it[DatastoreKeys.GITHUB_PAT] = oldGitHubPAT
             }
             gitHubBackup.backupData(
                 commitMsg = "[MIGRATION] Ivy Wallet data backup"
