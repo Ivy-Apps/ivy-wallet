@@ -152,7 +152,12 @@ private fun LastBackup(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = if (backup.indicateDanger) "⚠\uFE0F " else "" + "Last Backup: ${backup.time}",
+                text = buildString {
+                    if (backup.indicateDanger) {
+                        append("⚠\uFE0F  ")
+                    }
+                    append("Last Backup: ${backup.time}")
+                },
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Start,
@@ -171,7 +176,7 @@ private fun LastBackup(
         }
     } else {
         Text(
-            text = "⚠\uFE0F No backup detected!",
+            text = "⚠\uFE0F  No backup detected!",
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Start,
