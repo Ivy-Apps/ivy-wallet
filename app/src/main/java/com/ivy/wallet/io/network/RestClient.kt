@@ -11,7 +11,6 @@ import com.ivy.wallet.io.network.error.ErrorCode
 import com.ivy.wallet.io.network.error.NetworkError
 import com.ivy.wallet.io.network.error.RestError
 import com.ivy.wallet.io.network.service.*
-import okhttp3.Credentials
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -102,27 +101,6 @@ class RestClient private constructor(
                 response
             })
 
-            //Github Rest API interceptor (not the best solution)
-            httpClientBuilder.addInterceptor(Interceptor { chain ->
-                val request = chain.request()
-                val finalRequest =
-                    if (request.url.toUrl().toString().startsWith(GithubService.BASE_URL)) {
-                        val credentials = Credentials.basic(
-                            GithubService.GITHUB_SERVICE_ACC_USERNAME,
-                            GithubService.GITHUB_SERVICE_ACC_ACCESS_TOKEN_PART_1 +
-                                    GithubService.GITHUB_SERVICE_ACC_ACCESS_TOKEN_PART_2
-                        )
-
-                        request.newBuilder()
-                            .header("Authorization", credentials)
-                            .build()
-                    } else {
-                        request
-                    }
-
-                chain.proceed(request = finalRequest)
-            })
-
             trustAllSSLCertificates(httpClientBuilder)
 
             return Retrofit.Builder()
@@ -207,6 +185,5 @@ class RestClient private constructor(
     }
     val analyticsService: AnalyticsService by lazy { retrofit.create(AnalyticsService::class.java) }
     val exchangeRatesService: ExchangeRatesService by lazy { retrofit.create(ExchangeRatesService::class.java) }
-    val githubService: GithubService by lazy { retrofit.create(GithubService::class.java) }
     val nukeService: NukeService by lazy { retrofit.create(NukeService::class.java) }
 }

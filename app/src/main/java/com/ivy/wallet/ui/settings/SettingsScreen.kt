@@ -90,7 +90,6 @@ import com.ivy.wallet.ui.theme.modal.CurrencyModal
 import com.ivy.wallet.ui.theme.modal.DeleteModal
 import com.ivy.wallet.ui.theme.modal.NameModal
 import com.ivy.wallet.ui.theme.modal.ProgressModal
-import com.ivy.wallet.ui.theme.modal.RequestFeatureModal
 import com.ivy.wallet.utils.OpResult
 import com.ivy.wallet.utils.clickableNoIndication
 import com.ivy.wallet.utils.drawColoredShadow
@@ -120,7 +119,6 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
         viewModel.start()
     }
 
-    val ivyActivity = LocalContext.current as RootActivity
     val context = LocalContext.current
     UI(
         user = user,
@@ -134,8 +132,6 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
 
         nameLocalAccount = nameLocalAccount,
         startDateOfMonth = startDateOfMonth,
-        opFetchTrns = opFetchTrns,
-
 
         onSetCurrency = viewModel::setCurrency,
         onSetName = viewModel::setName,
@@ -154,16 +150,8 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
         onSetHideCurrentBalance = viewModel::setHideCurrentBalance,
         onSetStartDateOfMonth = viewModel::setStartDateOfMonth,
         onSetTreatTransfersAsIncExp = viewModel::setTransfersAsIncomeExpense,
-        onRequestFeature = { title, body ->
-            viewModel.requestFeature(
-                rootActivity = ivyActivity,
-                title = title,
-                body = body
-            )
-        },
         onDeleteAllUserData = viewModel::deleteAllUserData,
         onDeleteCloudUserData = viewModel::deleteCloudUserData,
-        onFetchMissingTransactions = viewModel::fetchMissingTransactions
     )
 }
 
@@ -183,8 +171,6 @@ private fun BoxWithConstraintsScope.UI(
     nameLocalAccount: String?,
     startDateOfMonth: Int = 1,
 
-    opFetchTrns: OpResult<Unit>? = null,
-
     onSetCurrency: (String) -> Unit,
     onSetName: (String) -> Unit = {},
 
@@ -199,16 +185,13 @@ private fun BoxWithConstraintsScope.UI(
     onSetTreatTransfersAsIncExp: (Boolean) -> Unit = {},
     onSetHideCurrentBalance: (Boolean) -> Unit = {},
     onSetStartDateOfMonth: (Int) -> Unit = {},
-    onRequestFeature: (String, String) -> Unit = { _, _ -> },
     onDeleteAllUserData: () -> Unit = {},
     onDeleteCloudUserData: () -> Unit = {},
-    onFetchMissingTransactions: () -> Unit = {},
 
     ) {
     var currencyModalVisible by remember { mutableStateOf(false) }
     var nameModalVisible by remember { mutableStateOf(false) }
     var chooseStartDateOfMonthVisible by remember { mutableStateOf(false) }
-    var requestFeatureModalVisible by remember { mutableStateOf(false) }
     var deleteCloudDataModalVisible by remember { mutableStateOf(false) }
     var deleteAllDataModalVisible by remember { mutableStateOf(false) }
     var deleteAllDataModalFinalVisible by remember { mutableStateOf(false) }
@@ -449,8 +432,9 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(12.dp))
 
+            val rootActivity = rootActivity()
             RequestFeature {
-                requestFeatureModalVisible = true
+                rootActivity.openUrlInBrowser(Constants.URL_IVY_TELEGRAM_INVITE)
             }
 
             Spacer(Modifier.height(12.dp))
@@ -524,14 +508,6 @@ private fun BoxWithConstraintsScope.UI(
     ) {
         onSetStartDateOfMonth(it)
     }
-
-    RequestFeatureModal(
-        visible = requestFeatureModalVisible,
-        dismiss = {
-            requestFeatureModalVisible = false
-        },
-        onSubmit = onRequestFeature
-    )
 
     DeleteModal(
         title = stringResource(R.string.delete_all_user_data_question),
