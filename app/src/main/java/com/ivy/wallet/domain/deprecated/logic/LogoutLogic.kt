@@ -22,8 +22,8 @@ class LogoutLogic(
             sharedPrefs.removeAll()
         }
 
-        navigation.navigateTo(Onboarding)
         navigation.resetBackStack()
+        navigation.navigateTo(Onboarding)
     }
 
     suspend fun cloudLogout() {
