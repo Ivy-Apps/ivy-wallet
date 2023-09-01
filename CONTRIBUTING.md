@@ -22,7 +22,7 @@ What do you want to work on? How do you want to contribute?
 - Issues with a green `"approved"` label are ready for development.
 - If the issue that you like doesn't have `"approved"` label, just **tag @ILIYANGERMANOV**.
 - If someone else has already commented **"I'm on it"**, do **not** start working on it! Instead tag the person and ask if you can take it.
-- If want you want to do isn't on the board, just **create it** and **tag @ILIYANGERMANOV**.
+- If what you want to do isn't in issues, just **create it** and **tag @ILIYANGERMANOV**.
 
 ## 3. Create a feature branch in your fork
 
@@ -48,7 +48,7 @@ Once you've decided on what you want to work, it's time to create a feature bran
 ## 4. Submit a PR to `main` branch
 
 So far, you should have pushed your work to your feature branch and have tested
-that it works on an actual Android device.
+that it works on a real Android device.
 Then final step is to open a pull request to the `main` branch of the
 official [Ivy Wallet repo.](https://github.com/Ivy-Apps/ivy-wallet/pulls)
 
@@ -58,4 +58,4 @@ official [Ivy Wallet repo.](https://github.com/Ivy-Apps/ivy-wallet/pulls)
 
 - Make sure that on the base repository's base the `main` branch is chosen as "base".
 - Pull requests to other branches will be rejected.
-- Ivy Wallet doesn't have QA so you the QA! Please test your implementation carefully.
+- Ivy Wallet doesn't have QA so **you are the QA!** Please test your implementation carefully.
