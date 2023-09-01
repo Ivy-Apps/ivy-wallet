@@ -1,0 +1,42 @@
+name: Unit tests
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events
+  push:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  lint:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout GIT
+        uses: actions/checkout@v3
+
+      - name: Setup Java SDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '18'
+      #----------------------------------------------------
+
+      #Optimization
+      - name: Enable Gradle Wrapper caching (optmization)
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      #---------------------------------------------------
+
+      #Test
+      - name: Run unit tests
+        run: ./gradlew testDebug
+      #------------------------------------------------------------------
