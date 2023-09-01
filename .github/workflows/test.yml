@@ -1,4 +1,4 @@
-name: Lint
+name: Unit tests
 
 # Controls when the workflow will run
 on:
@@ -36,13 +36,7 @@ jobs:
             ${{ runner.os }}-gradle-
       #---------------------------------------------------
 
-      #Lint
-      - name: Lint (release)
-        run: ./gradlew lintRelease
-
-      - name: Upload Lint Release report to GitHub
-        uses: actions/upload-artifact@v3
-        with:
-          name: lint-release-report.html
-          path: app/build/reports/lint-results-release.html
+      #Test
+      - name: Run unit tests
+        run: ./gradlew testDebug
       #------------------------------------------------------------------

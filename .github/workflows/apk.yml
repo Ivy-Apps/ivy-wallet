@@ -1,9 +1,8 @@
 name: APK
 
 on:
+  # Triggers the workflow on push or pull request events
   push:
-    branches:
-      - main
 
 jobs:
   assemble_demo_apk:
@@ -38,6 +37,7 @@ jobs:
           path: app/build/outputs/apk/demo/app-demo.apk
 
       - name: Upload APK in Telegram Group
+        if: github.ref == 'refs/heads/main'
         run: |
           COMMIT_LINK="https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}"
           COMMIT_MESSAGE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${GITHUB_REPOSITORY}/commits/${GITHUB_SHA}" | jq -r .commit.message)
