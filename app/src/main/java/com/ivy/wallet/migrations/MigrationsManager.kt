@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import com.ivy.wallet.data.dataStore
 import com.ivy.wallet.migrations.impl.GitHubPATMigration
+import com.ivy.wallet.migrations.impl.GitHubWorkerMigration
 import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -17,16 +18,18 @@ import javax.inject.Inject
 class MigrationsManager @Inject constructor(
     @ApplicationContext
     private val context: Context,
-    private val gitHubPATMigration: Lazy<GitHubPATMigration>
+    private val gitHubPATMigration: Lazy<GitHubPATMigration>,
+    private val gitHubWorkerMigration: Lazy<GitHubWorkerMigration>,
 ) {
     private val migrations by lazy {
         listOf(
-            gitHubPATMigration.get()
+            gitHubPATMigration.get(),
+            gitHubWorkerMigration.get(),
         )
     }
 
     suspend fun executeMigrations() {
-        delay(2_000L) // to not the make app slower
+        delay(2_000L) // to not the make the app start slower
 
         val data = context.dataStore.data.firstOrNull()
 

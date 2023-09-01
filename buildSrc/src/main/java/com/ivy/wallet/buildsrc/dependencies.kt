@@ -21,8 +21,8 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 
 object Project {
     //Version
-    const val versionName = "4.4.1"
-    const val versionCode = 141
+    const val versionName = "4.4.2"
+    const val versionCode = 142
 
     //Compile SDK & Build Tools
     const val compileSdkVersion = 34
@@ -43,7 +43,7 @@ object GlobalVersions {
  * @param kotlinVersion must also be updated in buildSrc gradle
  */
 fun DependencyHandler.appModuleDependencies(
-        kotlinVersion: String = GlobalVersions.kotlinVersion
+    kotlinVersion: String = GlobalVersions.kotlinVersion
 ) {
 //    implementation(project(":ivy-design"))
 
@@ -76,7 +76,7 @@ fun DependencyHandler.appModuleDependencies(
 }
 
 fun DependencyHandler.ivyDesignModuleDependencies(
-        kotlinVersion: String = GlobalVersions.kotlinVersion
+    kotlinVersion: String = GlobalVersions.kotlinVersion
 ) {
 //    Coroutines(version = "1.5.0")
 //    FunctionalProgramming(
@@ -119,8 +119,8 @@ fun DependencyHandler.Firebase() {
  * https://developer.android.com/training/dependency-injection/hilt-android
  */
 fun DependencyHandler.Hilt(
-        hiltVersion: String,
-        versionX: String
+    hiltVersion: String,
+    versionX: String
 ) {
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
@@ -136,7 +136,7 @@ fun DependencyHandler.Hilt(
 }
 
 fun DependencyHandler.HiltTesting(
-        version: String
+    version: String
 ) {
     androidTestImplementation("com.google.dagger:hilt-android-testing:$version")
     kaptAndroidTest("com.google.dagger:hilt-android-compiler:$version")
@@ -147,7 +147,7 @@ fun DependencyHandler.HiltTesting(
  * https://developer.android.com/jetpack/androidx/releases/room
  */
 fun DependencyHandler.RoomDB(
-        version: String = "2.6.0-alpha03"
+    version: String = "2.6.0-alpha03"
 ) {
     implementation("androidx.room:room-runtime:$version")
     kapt("androidx.room:room-compiler:$version")
@@ -158,7 +158,7 @@ fun DependencyHandler.RoomDB(
  * REST
  */
 fun DependencyHandler.Networking(
-        retrofitVersion: String = "2.9.0"
+    retrofitVersion: String = "2.9.0"
 ) {
     //URL: https://github.com/square/retrofit
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
@@ -177,7 +177,7 @@ fun DependencyHandler.Networking(
  * https://developer.android.com/jetpack/androidx/releases/lifecycle
  */
 fun DependencyHandler.Lifecycle(
-        version: String = "2.6.1"
+    version: String = "2.6.1"
 ) {
     // https://developer.android.com/jetpack/androidx/releases/lifecycle
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$version")

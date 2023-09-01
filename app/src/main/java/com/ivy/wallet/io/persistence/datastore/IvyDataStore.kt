@@ -16,14 +16,17 @@ import javax.inject.Singleton
 class IvyDataStore @Inject constructor(
     @ApplicationContext private val appContext: Context
 ) {
+    @Deprecated("legacy")
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "ivy_wallet")
 
+    @Deprecated("legacy")
     suspend fun <T> insert(pair: Preferences.Pair<T>) {
         appContext.dataStore.edit {
             it.putAll(pair)
         }
     }
 
+    @Deprecated("legacy")
     suspend fun <T> insert(
         key: Preferences.Key<T>,
         value: T
@@ -33,12 +36,14 @@ class IvyDataStore @Inject constructor(
         }
     }
 
+    @Deprecated("legacy")
     suspend fun <T> remove(key: Preferences.Key<T>) {
         appContext.dataStore.edit {
             it.remove(key = key)
         }
     }
 
+    @Deprecated("legacy")
     suspend fun <T> get(key: Preferences.Key<T>): T? = appContext.dataStore.data.map {
         it[key]
     }.firstOrNull()
