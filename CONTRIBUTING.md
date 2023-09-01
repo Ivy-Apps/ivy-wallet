@@ -2,8 +2,7 @@
 
 ## 1. Fork the repo
 
-You can do that by cliking this badge: 👉 [![Fork Ivy Wallet](https://img.shields.io/github/forks/Ivy-Apps/ivy-wallet?logo=github
-)](https://github.com/Ivy-Apps/ivy-wallet/fork) 👈
+You can do that by cliking this badge: 👉 [![Fork Ivy Wallet](https://img.shields.io/github/forks/Ivy-Apps/ivy-wallet?logo=github&style=social)](https://github.com/Ivy-Apps/ivy-wallet/fork) 👈
 
 **[How To Fork Guide by GitHub](https://docs.github.com/en/get-started/quickstart/fork-a-repo)**
 
