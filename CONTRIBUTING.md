@@ -59,3 +59,7 @@ official [Ivy Wallet repo.](https://github.com/Ivy-Apps/ivy-wallet/pulls)
 - Make sure that on the base repository's base the `main` branch is chosen as "base".
 - Pull requests to other branches will be rejected.
 - Ivy Wallet doesn't have QA so **you are the QA!** Please test your implementation carefully.
+
+### Questions?
+
+Ask them in **[the Ivy Wallet Telegram community](https://t.me/+ETavgioAvWg4NThk)**.
