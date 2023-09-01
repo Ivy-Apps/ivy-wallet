@@ -75,7 +75,7 @@ Ivy Wallet is a great place to code and learn. That's why we're also linking gre
 
 ## Contribute
 
-**Want to contribute?** See **[CONTRIBUTING.md](/CONTRIBUTING.md)**.
+**Want to contribute?** See **[CONTRIBUTING.md](/CONTRIBUTING.md)**. [![Fork Ivy Wallet](https://img.shields.io/github/forks/Ivy-Apps/ivy-wallet?logo=github&style=social)](https://github.com/Ivy-Apps/ivy-wallet/fork)
 
 ### Contributors Wall:
 
