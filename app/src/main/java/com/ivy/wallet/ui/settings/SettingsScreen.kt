@@ -212,7 +212,9 @@ private fun BoxWithConstraintsScope.UI(
 
                 Text(
                     modifier = Modifier.clickableNoIndication {
-                        nav.navigateTo(Test)
+                        if (BuildConfig.DEBUG) {
+                            nav.navigateTo(Test)
+                        }
                     },
                     text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
                     style = UI.typo.nC.style(
