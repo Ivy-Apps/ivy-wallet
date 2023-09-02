@@ -4,6 +4,8 @@ name: Lint
 on:
   # Triggers the workflow on push or pull request events
   push:
+    branches:
+      - main
 
   pull_request:
 
@@ -43,6 +45,7 @@ jobs:
         run: ./gradlew detekt
 
       - name: Upload Detekt Release report to GitHub
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: detekt-report.html
@@ -54,6 +57,7 @@ jobs:
         run: ./gradlew lintRelease
 
       - name: Upload Lint Release report to GitHub
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: lint-release-report.html

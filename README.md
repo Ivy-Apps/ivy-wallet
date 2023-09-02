@@ -45,6 +45,20 @@ Ivy Wallet's biggest advantage is its UI/UX, simplicity, and customization that 
 - The latest **Android Studio Hedgehog** or above (for easy install
   use [JetBrains Toolbox](https://www.jetbrains.com/toolbox-app/))
 
+### Initialize the project
+
+**1. Fork and clone the repo**
+
+**2. Make the initialization script executable:**
+```
+chmod +x scripts/init.sh
+```
+
+**3. Run the initialization script:**
+```
+./scripts/init.sh
+```
+
 ## Learning Materials
 
 Ivy Wallet is a great place to code and learn. That's why we're also linking great learning materials (books, articles, videos), check them in **[docs/resources 📚](docs/resources/)**.

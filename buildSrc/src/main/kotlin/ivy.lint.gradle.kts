@@ -6,10 +6,16 @@ plugins {
 }
 
 configure<DetektExtension> {
-    source.setFrom(projectDir)
+    val filesToCheck: String? = System.getProperty("detekt.filesToCheck")
+    if (!filesToCheck.isNullOrEmpty()) {
+        source.setFrom(filesToCheck.split(","))
+    } else {
+        source.setFrom(projectDir)
+    }
     config.setFrom("$rootDir/config/detekt/config.yml")
     baseline = file("$rootDir/config/detekt/baseline.yml")
 }
+
 
 tasks.register<Detekt>("detektFormat") {
     autoCorrect = true

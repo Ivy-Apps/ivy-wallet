@@ -6,6 +6,8 @@ You can do that by cliking this badge: 👉 [![Fork Ivy Wallet](https://img.shie
 
 **[How To Fork Guide by GitHub](https://docs.github.com/en/get-started/quickstart/fork-a-repo)**
 
+After you've cloned your Ivy Wallet fork make sure to initialize the project using **[the initialization instructions in the README](./README.md#initialize-the-project)**.
+
 ## 2. Pick an issue
 
 What do you want to work on? How do you want to contribute?

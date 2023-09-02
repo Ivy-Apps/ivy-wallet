@@ -4355,6 +4355,7 @@
     <ID>NoConsecutiveBlankLines:WrapContentRow.kt$ </ID>
     <ID>NoConsecutiveBlankLines:build.gradle.kts$ </ID>
     <ID>NoConsecutiveBlankLines:dependencies.kt$ </ID>
+    <ID>NoConsecutiveBlankLines:ivy.lint.gradle.kts$ </ID>
     <ID>NoEmptyClassBody:AccountsUpdatedEvent.kt$AccountsUpdatedEvent${ }</ID>
     <ID>NoEmptyFirstLineInMethodBlock:AccountCharts.kt$ </ID>
     <ID>NoEmptyFirstLineInMethodBlock:AccountModal.kt$ </ID>
@@ -4625,7 +4626,7 @@
     <ID>PackageName:MoreMenu.kt$package com.ivy.design.l4_patterns</ID>
     <ID>PackageName:Onboarding.kt$package com.ivy.design.l5_concept</ID>
     <ID>PackageName:PieChart.kt$package com.ivy.design.l3_ivyComponents.chart</ID>
-    <ID>PackageName:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._cbc4edcb0c3d88134f29766b2a7d4f41</ID>
+    <ID>PackageName:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._fe0b42ce1102c239397a785329863d5f</ID>
     <ID>PackageName:ProgressBar.kt$package com.ivy.design.l3_ivyComponents.percentage</ID>
     <ID>PackageName:ReorderModal.kt$package com.ivy.design.l4_patterns</ID>
     <ID>PackageName:ScreenTitle.kt$package com.ivy.design.l3_ivyComponents</ID>
@@ -4692,7 +4693,7 @@
     <ID>PackageNaming:MoreMenu.kt$package com.ivy.design.l4_patterns</ID>
     <ID>PackageNaming:Onboarding.kt$package com.ivy.design.l5_concept</ID>
     <ID>PackageNaming:PieChart.kt$package com.ivy.design.l3_ivyComponents.chart</ID>
-    <ID>PackageNaming:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._cbc4edcb0c3d88134f29766b2a7d4f41</ID>
+    <ID>PackageNaming:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._fe0b42ce1102c239397a785329863d5f</ID>
     <ID>PackageNaming:ProgressBar.kt$package com.ivy.design.l3_ivyComponents.percentage</ID>
     <ID>PackageNaming:ReorderModal.kt$package com.ivy.design.l4_patterns</ID>
     <ID>PackageNaming:ScreenTitle.kt$package com.ivy.design.l3_ivyComponents</ID>
@@ -5224,8 +5225,6 @@
     <ID>UnusedParameter:SettingsScreen.kt$onLogin: () -&gt; Unit</ID>
     <ID>UnusedParameter:SettingsScreen.kt$screen: Settings</ID>
     <ID>UnusedParameter:Shapes.kt$modifier: Modifier = Modifier</ID>
-    <ID>UnusedParameter:TestScreen.kt$onSyncCategories: () -&gt; Unit</ID>
-    <ID>UnusedParameter:TestScreen.kt$onTestWorker: () -&gt; Unit</ID>
     <ID>UnusedParameter:TestScreen.kt$screen: Test</ID>
     <ID>UnusedParameter:Title.kt$initialTransactionId: UUID?</ID>
     <ID>UnusedParameter:WalletCharts.kt$baseCurrencyCode: String</ID>
@@ -5430,7 +5429,6 @@
     <ID>UnusedPrivateProperty:SearchScreen.kt$val ivyContext = ivyWalletCtx()</ID>
     <ID>UnusedPrivateProperty:SearchScreen.kt$val nav = navigation()</ID>
     <ID>UnusedPrivateProperty:SettingsViewModel.kt$SettingsViewModel$private val exchangeRatesLogic: ExchangeRatesLogic</ID>
-    <ID>UnusedPrivateProperty:TestViewModel.kt$TestViewModel$private val gitHubClient: GitHubClient</ID>
     <ID>UnusedPrivateProperty:TransactionReminderLogic.kt$TransactionReminderLogic.Companion$private const val UNIQUE_WORK_NAME_V1 = "transaction_reminder_work"</ID>
     <ID>UnusedPrivateProperty:TransactionViewModel.kt$TransactionViewModel$private val saveTrnLocallyAct: SaveTrnLocallyAct</ID>
     <ID>UnusedPrivateProperty:UploadTrnToServerAct.kt$UploadTrnToServerAct$private val dao: TransactionDao</ID>
