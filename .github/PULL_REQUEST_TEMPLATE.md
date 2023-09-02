@@ -4,7 +4,6 @@ Please check if your pull request fulfills the following requirements:
 - [ ] I've read the **[Contribution Guidelines](https://github.com/Ivy-Apps/ivy-wallet/blob/main/CONTRIBUTING.md)**.
 - [ ] The code builds and is tested on a real Android device.
 - [ ] I confirm that I've run the code locally and everything works as expected.
-- [ ] Request a review from **@ILIYANGERMANOV**.
 
 _Put an `x` in the boxes that apply._
 - [x] Demo: Checking checkbox using `[x]`
