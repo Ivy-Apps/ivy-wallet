@@ -18,7 +18,6 @@ import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.zip.BackupLogic
 import com.ivy.wallet.domain.deprecated.sync.IvySync
-import com.ivy.wallet.io.network.FCMClient
 import com.ivy.wallet.io.network.IvyAnalytics
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.network.RestClient
@@ -55,7 +54,6 @@ class SettingsViewModel @Inject constructor(
     private val ivySync: IvySync,
     private val exportCSVLogic: ExportCSVLogic,
     private val restClient: RestClient,
-    private val fcmClient: FCMClient,
     private val ivyAnalytics: IvyAnalytics,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val logoutLogic: LogoutLogic,
@@ -285,7 +283,7 @@ class SettingsViewModel @Inject constructor(
                         val authResponse = restClient.authService.googleSignIn(
                             GoogleSignInRequest(
                                 googleIdToken = idToken,
-                                fcmToken = fcmClient.fcmToken()
+                                fcmToken = ""
                             )
                         )
 

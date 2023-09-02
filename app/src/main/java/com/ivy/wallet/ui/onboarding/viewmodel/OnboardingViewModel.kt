@@ -13,13 +13,16 @@ import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Settings
-import com.ivy.wallet.domain.deprecated.logic.*
+import com.ivy.wallet.domain.deprecated.logic.AccountCreator
+import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
+import com.ivy.wallet.domain.deprecated.logic.LogoutLogic
+import com.ivy.wallet.domain.deprecated.logic.PreloadDataLogic
+import com.ivy.wallet.domain.deprecated.logic.WalletAccountLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
 import com.ivy.wallet.domain.deprecated.sync.IvySync
-import com.ivy.wallet.io.network.FCMClient
 import com.ivy.wallet.io.network.IvyAnalytics
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.network.RestClient
@@ -48,7 +51,6 @@ class OnboardingViewModel @Inject constructor(
     private val accountDao: AccountDao,
     private val settingsDao: SettingsDao,
     private val restClient: RestClient,
-    private val fcmClient: FCMClient,
     private val session: IvySession,
     private val accountLogic: WalletAccountLogic,
     private val categoryCreator: CategoryCreator,
@@ -188,10 +190,11 @@ class OnboardingViewModel @Inject constructor(
     private suspend fun loginWithGoogleOnServer(idToken: String) {
         TestIdlingResource.increment()
 
+        // TODO: Delete this legacy code
         val authResponse = restClient.authService.googleSignIn(
             GoogleSignInRequest(
                 googleIdToken = idToken,
-                fcmToken = fcmClient.fcmToken()
+                fcmToken = ""
             )
         )
 

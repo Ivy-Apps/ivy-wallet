@@ -58,8 +58,6 @@ fun DependencyHandler.appModuleDependencies(
 
 //    Compose(version = GlobalVersions.compose)
 
-    Google()
-    Firebase()
 
     Hilt(
         hiltVersion = "2.47",
@@ -92,27 +90,6 @@ fun DependencyHandler.ivyDesignModuleDependencies(
 }
 //---------------------------------------------------------------------------------
 
-fun DependencyHandler.DataStore() {
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
-}
-
-fun DependencyHandler.Google() {
-    //URL: https://mvnrepository.com/artifact/com.google.android.gms/play-services-auth
-    implementation("com.google.android.gms:play-services-auth:19.2.0")
-
-    //URL: https://developer.android.com/google/play/billing/getting-ready
-    implementation("com.android.billingclient:billing-ktx:6.0.1")
-
-    //In-App Reviews SDK
-    implementation("com.google.android.play:core:1.10.0")
-    implementation("com.google.android.play:core-ktx:1.8.1")
-}
-
-fun DependencyHandler.Firebase() {
-    implementation("com.google.firebase:firebase-crashlytics:17.3.0")
-    implementation("com.google.firebase:firebase-analytics:18.0.0")
-    implementation("com.google.firebase:firebase-messaging:21.0.0")
-}
 
 /**
  * Hilt DI

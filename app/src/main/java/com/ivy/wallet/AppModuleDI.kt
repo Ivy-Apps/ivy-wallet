@@ -86,13 +86,6 @@ object AppModuleDI {
     }
 
     @Provides
-    fun provideFCMClient(
-        sharedPrefs: SharedPrefs
-    ): FCMClient {
-        return FCMClient(sharedPrefs)
-    }
-
-    @Provides
     @Singleton
     fun provideIvyRoomDatabase(
         @ApplicationContext appContext: Context,
