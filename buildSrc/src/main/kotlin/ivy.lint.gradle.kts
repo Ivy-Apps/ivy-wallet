@@ -21,6 +21,8 @@ tasks.withType<Detekt> {
 
     reports {
         html.required.set(true)
+        sarif.required.set(false)
+        md.required.set(false)
         xml.required.set(false)
         txt.required.set(false)
     }
