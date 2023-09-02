@@ -23,6 +23,11 @@ google-play-core = "1.10.0"
 google-play-core-ktx = "1.8.1"
 firebase-crashlytics = "17.3.0"
 
+# Linters
+detekt = "1.23.1" # https://detekt.dev/docs/gettingstarted/gradle/
+detekt-ruleset-compiler = "0.0.2" # https://github.com/BraisGabin/detekt-compiler-rules/releases
+detekt-ruleset-compose = "0.2.1" # https://github.com/mrmans0n/compose-rules/releases
+
 [libraries]
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
@@ -68,6 +73,12 @@ google-billing = { module = "com.android.billingclient:billing-ktx", version.ref
 google-play-core = { module = "com.google.android.play:core", version.ref = "google-play-core" }
 google-play-core-ktx = { module = "com.google.android.play:core-ktx", version.ref = "google-play-core-ktx" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version.ref = "firebase-crashlytics" }
+
+# Linters
+detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
+detekt-ruleset-compiler = { module = "com.braisgabin.detekt:kotlin-compiler-wrapper", version.ref = "detekt-ruleset-compiler" }
+detekt-ruleset-ktlint = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
+detekt-ruleset-compose = { module = "io.nlopez.compose.rules:detekt", version.ref = "detekt-ruleset-compose" }
 
 [bundles]
 kotlin = [

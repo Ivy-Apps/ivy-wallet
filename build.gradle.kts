@@ -6,6 +6,11 @@ plugins {
     // ./gradlew dependencyUpdates // Simple report in the console
     // ./gradlew dependencyUpdates -DoutputFormatter=html,json,xml // Report in console & generate files accordingly
     id("com.github.ben-manes.versions") version "0.39.0"
+
+    // Run with:
+    // ./gradlew detekt // Simple report in the console
+    // ./gradlew detektFormat // To check with enabled auto-correction
+    id("ivy.lint")
 }
 
 tasks {

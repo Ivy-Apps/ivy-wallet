@@ -38,6 +38,17 @@ jobs:
             ${{ runner.os }}-gradle-
       #---------------------------------------------------
 
+      #Detekt
+      - name: Detekt
+        run: ./gradlew detekt
+
+      - name: Upload Detekt Release report to GitHub
+        uses: actions/upload-artifact@v3
+        with:
+          name: detekt-report.html
+          path: build/reports/detekt/detekt.html
+      #------------------------------------------------------------------
+
       #Lint
       - name: Lint (release)
         run: ./gradlew lintRelease
