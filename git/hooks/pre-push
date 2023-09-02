@@ -1,0 +1,8 @@
+#!/bin/sh
+
+./gradlew detektFormat
+
+if [ $? -ne 0 ]; then
+  echo "Detekt found issues. Aborting push."
+  exit 1
+fi
