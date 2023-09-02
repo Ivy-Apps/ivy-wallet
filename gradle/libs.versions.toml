@@ -142,4 +142,5 @@ firebase = [
 ]
 
 [plugins]
+gradleWrapperUpgrade = "org.gradle.wrapper-upgrade:0.11.1"
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
