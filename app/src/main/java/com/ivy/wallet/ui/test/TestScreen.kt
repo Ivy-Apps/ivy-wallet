@@ -39,18 +39,12 @@ fun BoxWithConstraintsScope.TestScreen(screen: Test) {
 
     UI(
         user = user,
-
-        onSyncCategories = viewModel::syncCategories,
-        onTestWorker = viewModel::testWorker,
     )
 }
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
     user: User?,
-
-    onSyncCategories: () -> Unit,
-    onTestWorker: () -> Unit,
 ) {
     var chooseIconModalVisible by remember {
         mutableStateOf(false)
@@ -88,9 +82,6 @@ private fun Preview() {
     IvyWalletPreview {
         UI(
             user = null,
-
-            onSyncCategories = {},
-            onTestWorker = {}
         )
     }
 }
