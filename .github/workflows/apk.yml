@@ -3,6 +3,8 @@ name: APK
 on:
   # Triggers the workflow on push or pull request events
   push:
+    branches:
+      - main
 
   pull_request:
 
