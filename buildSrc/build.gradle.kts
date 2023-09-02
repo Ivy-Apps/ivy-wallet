@@ -26,4 +26,10 @@ dependencies {
     implementation("com.google.gms:google-services:4.3.15")
 
     implementation("com.google.firebase:firebase-crashlytics-gradle:2.9.8")
+
+    implementation(libs.detekt.gradle)
+
+    // Make version catalog available in precompiled scripts
+    // https://github.com/gradle/gradle/issues/15383#issuecomment-1567461389
+    implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 }
