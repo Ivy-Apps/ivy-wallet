@@ -21,4 +21,7 @@ echo "pre-push hook has been set up."
 chmod +x $GIT_HOOKS_DIR/pre-push
 echo "pre-push hook is now executable."
 
+chmod +x /script/detektFormat.sh
+echo "scripts in '/scripts' are now executable."
+
 echo "Repository setup complete!"
