@@ -7,17 +7,8 @@ body:
     attributes:
       label: Please confirm the following
       options:
-        - label: I checked [the current issues](https://github.com/Ivy-Apps/ivy-wallet/issues) for duplicate problems
+        - label: I checked [the current issues](https://github.com/Ivy-Apps/ivy-wallet/issues) for duplicate issues.
           required: true
-  - type: dropdown
-    id: project-building
-    attributes:
-      label: Is the project building?
-      options:
-        - "Yes"
-        - "No"
-    validations:
-      required: false
   - type: textarea
     id: description
     attributes:
@@ -39,11 +30,11 @@ body:
         - e
         - f
     validations:
-      required: false
+      required: true
   - type: textarea
     id: other
     attributes:
-      label: Other
+      label: Description
       description: Share your thoughts in free format.
     validations:
       required: false
