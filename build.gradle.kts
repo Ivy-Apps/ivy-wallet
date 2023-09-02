@@ -11,6 +11,8 @@ plugins {
     // ./gradlew detekt // Simple report in the console
     // ./gradlew detektFormat // To check with enabled auto-correction
     id("ivy.lint")
+
+    alias(libs.plugins.gradleWrapperUpgrade)
 }
 
 tasks {
@@ -40,4 +42,13 @@ fun isNonStable(version: String): Boolean {
     val regex = "^[0-9,.v-]+(-r)?$".toRegex()
     val isStable = stableKeyword || regex.matches(version)
     return isStable.not()
+}
+
+wrapperUpgrade {
+    gradle {
+        create("ivyWallet") {
+            repo.set("Ivy-Apps/ivy-wallet")
+            baseBranch.set("main")
+        }
+    }
 }
