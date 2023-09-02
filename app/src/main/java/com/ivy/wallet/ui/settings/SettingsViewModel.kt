@@ -103,7 +103,9 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
                 TestIdlingResource.increment()
 
-            val settings = ioThread { settingsDao.findFirst() }
+            val settings = ioThread {
+                settingsDao.findFirst()
+            }
 
 
             _nameLocalAccount.value = settings.name
