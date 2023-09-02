@@ -12,7 +12,7 @@ class GitHubWorkerMigration @Inject constructor(
     private val gitHubAutoBackupManager: GitHubAutoBackupManager,
 ) : Migration {
     override val key: String
-        get() = "github_auto_backup_worker_v1"
+        get() = "github_auto_backup_worker_v2"
 
     override suspend fun migrate() {
         if (gitHubBackup.enabled.firstOrNull() == true) {

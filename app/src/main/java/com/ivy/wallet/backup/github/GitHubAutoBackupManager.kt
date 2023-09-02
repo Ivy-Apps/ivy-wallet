@@ -7,14 +7,12 @@ import androidx.work.Constraints
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
-import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
-import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -25,11 +23,9 @@ class GitHubAutoBackupManager @Inject constructor(
     private val uniqueWorkName = "GITHUB_AUTO_BACKUP_WORK"
 
     fun scheduleAutoBackups() {
-        val initialDelay = calculateInitialDelayMillis()
-
         val dailyWorkRequest = PeriodicWorkRequestBuilder<GitHubBackupWorker>(
-            12, TimeUnit.HOURS
-        ).setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
+            6, TimeUnit.HOURS
+        ).setInitialDelay(30, TimeUnit.MINUTES)
             .setConstraints(
                 Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -37,8 +33,8 @@ class GitHubAutoBackupManager @Inject constructor(
             )
             .setBackoffCriteria(
                 BackoffPolicy.EXPONENTIAL,
-                PeriodicWorkRequest.MIN_BACKOFF_MILLIS,
-                TimeUnit.MILLISECONDS
+                60,
+                TimeUnit.SECONDS
             )
             .build()
 
@@ -48,25 +44,6 @@ class GitHubAutoBackupManager @Inject constructor(
                 ExistingPeriodicWorkPolicy.REPLACE,
                 dailyWorkRequest
             )
-    }
-
-    private fun calculateInitialDelayMillis(): Long {
-        val lunchTime = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 12)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-        }
-
-        val currentTime = Calendar.getInstance()
-
-        return if (currentTime.after(lunchTime)) {
-            // If current time is after 12 pm, schedule for next day
-            lunchTime.add(Calendar.DAY_OF_YEAR, 1)
-            lunchTime.timeInMillis - currentTime.timeInMillis
-        } else {
-            // If it's before 12 pm, set delay to reach 12 pm
-            lunchTime.timeInMillis - currentTime.timeInMillis
-        }
     }
 
     fun cancelAutoBackups() {
@@ -81,7 +58,7 @@ class GitHubBackupWorker @AssistedInject constructor(
     private val gitHubBackup: GitHubBackup,
 ) : CoroutineWorker(appContext, params) {
     companion object {
-        const val MAX_RETRIES = 7
+        const val MAX_RETRIES = 15
     }
 
     override suspend fun doWork(): Result {
