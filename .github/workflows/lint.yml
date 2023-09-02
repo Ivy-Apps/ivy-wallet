@@ -45,7 +45,7 @@ jobs:
       - name: Upload Detekt Release report to GitHub
         uses: actions/upload-artifact@v3
         with:
-          name: lint-release-report.html
+          name: detekt-report.html
           path: build/reports/detekt.html
       #------------------------------------------------------------------
 
