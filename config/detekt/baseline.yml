@@ -645,8 +645,6 @@
     <ID>CommentSpacing:build.gradle.kts$//URL: https://developers.google.com/android/guides/google-services-plugin</ID>
     <ID>CommentSpacing:build.gradle.kts$//https://mvnrepository.com/artifact/com.android.tools.build/gradle?repo=google</ID>
     <ID>CommentSpacing:dependencies.kt$//---------------------------------------------------------------------------------</ID>
-    <ID>CommentSpacing:dependencies.kt$//In-App Reviews SDK</ID>
-    <ID>CommentSpacing:dependencies.kt$//URL: https://developer.android.com/google/play/billing/getting-ready</ID>
     <ID>CommentSpacing:dependencies.kt$//URL: https://developer.android.com/jetpack/androidx/releases/core</ID>
     <ID>CommentSpacing:dependencies.kt$//URL: https://developer.android.com/jetpack/androidx/releases/recyclerview</ID>
     <ID>CommentSpacing:dependencies.kt$//URL: https://developer.android.com/jetpack/androidx/releases/work</ID>
@@ -660,7 +658,6 @@
     <ID>CommentSpacing:dependencies.kt$//URL: https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor</ID>
     <ID>CommentSpacing:dependencies.kt$//URL: https://github.com/square/retrofit</ID>
     <ID>CommentSpacing:dependencies.kt$//URL: https://mvnrepository.com/artifact/androidx.hilt/hilt-lifecycle-viewmodel?repo=google</ID>
-    <ID>CommentSpacing:dependencies.kt$//URL: https://mvnrepository.com/artifact/com.google.android.gms/play-services-auth</ID>
     <ID>CommentSpacing:dependencies.kt$//https://developer.android.com/jetpack/androidx/releases/appcompat</ID>
     <ID>CommentSpacing:dependencies.kt$Project$//App</ID>
     <ID>CommentSpacing:dependencies.kt$Project$//Compile SDK &amp; Build Tools</ID>
@@ -857,7 +854,6 @@
     <ID>FinalNewline:AllTrnsAct.kt$com.ivy.wallet.domain.action.transaction.AllTrnsAct.kt</ID>
     <ID>FinalNewline:AmountCurrency.kt$com.ivy.wallet.ui.theme.wallet.AmountCurrency.kt</ID>
     <ID>FinalNewline:AmountFormatting.kt$com.ivy.wallet.utils.AmountFormatting.kt</ID>
-    <ID>FinalNewline:AmountModal.kt$com.ivy.wallet.ui.theme.modal.edit.AmountModal.kt</ID>
     <ID>FinalNewline:AnalyticsEvent.kt$com.ivy.wallet.domain.data.analytics.AnalyticsEvent.kt</ID>
     <ID>FinalNewline:AnalyticsReportResponse.kt$com.ivy.wallet.io.network.request.analytics.AnalyticsReportResponse.kt</ID>
     <ID>FinalNewline:AnalyticsReportViewModel.kt$com.ivy.wallet.ui.analytics.AnalyticsReportViewModel.kt</ID>
@@ -1012,7 +1008,6 @@
     <ID>FinalNewline:ExpImagesService.kt$com.ivy.wallet.io.network.service.ExpImagesService.kt</ID>
     <ID>FinalNewline:ExportCSVLogic.kt$com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic.kt</ID>
     <ID>FinalNewline:FAB.kt$com.ivy.design.l3_ivyComponents.button.FAB.kt</ID>
-    <ID>FinalNewline:FCMClient.kt$com.ivy.wallet.io.network.FCMClient.kt</ID>
     <ID>FinalNewline:FetchAllTrnsFromServerAct.kt$com.ivy.wallet.domain.action.transaction.FetchAllTrnsFromServerAct.kt</ID>
     <ID>FinalNewline:FetchImagesAct.kt$com.ivy.wallet.domain.action.viewmodel.experiment.FetchImagesAct.kt</ID>
     <ID>FinalNewline:FileUtil.kt$com.ivy.wallet.utils.FileUtil.kt</ID>
@@ -1384,6 +1379,7 @@
     <ID>ForbiddenComment:ItemStatisticViewModel.kt$ItemStatisticViewModel$//TODO: Rework Upcoming to FP</ID>
     <ID>ForbiddenComment:IvyLineChart.kt$//TODO: Fix</ID>
     <ID>ForbiddenComment:IvyLineChart.kt$//marginFromX //TODO: FIX</ID>
+    <ID>ForbiddenComment:OnboardingViewModel.kt$OnboardingViewModel$// TODO: Delete this legacy code</ID>
     <ID>ForbiddenComment:RestClient.kt$RestClient.Companion$//TODO: SECURITY - Considering trusting only Ivy's cert</ID>
     <ID>ForbiddenComment:Transaction.kt$Transaction$//TODO: Remove default values &amp; introduce Transaction#dummy() method</ID>
     <ID>ForbiddenComment:TransactionCard.kt$//TODO: Optimize this</ID>
@@ -2126,9 +2122,6 @@
     <ID>FunctionNaming:WrapContentRow.kt$@Composable fun &lt;T&gt; WrapContentRow( modifier: Modifier = Modifier, items: List&lt;T&gt;, verticalMarginBetweenRows: Dp = 8.dp, horizontalMarginBetweenItems: Dp = 8.dp, ItemContent: @Composable (item: T) -&gt; Unit )</ID>
     <ID>FunctionNaming:WrapContentRow.kt$@Preview @Composable private fun PreviewWrapContentRow()</ID>
     <ID>FunctionNaming:dependencies.kt$fun DependencyHandler.AndroidX()</ID>
-    <ID>FunctionNaming:dependencies.kt$fun DependencyHandler.DataStore()</ID>
-    <ID>FunctionNaming:dependencies.kt$fun DependencyHandler.Firebase()</ID>
-    <ID>FunctionNaming:dependencies.kt$fun DependencyHandler.Google()</ID>
     <ID>FunctionNaming:dependencies.kt$fun DependencyHandler.Hilt( hiltVersion: String, versionX: String )</ID>
     <ID>FunctionNaming:dependencies.kt$fun DependencyHandler.HiltTesting( version: String )</ID>
     <ID>FunctionNaming:dependencies.kt$fun DependencyHandler.Lifecycle( version: String = "2.6.1" )</ID>
@@ -2485,7 +2478,7 @@
     <ID>LongParameterList:OnboardingRouter.kt$OnboardingRouter$( private val _opGoogleSignIn: MutableLiveData&lt;OpResult&lt;Unit&gt;?&gt;, private val _state: MutableLiveData&lt;OnboardingState&gt;, private val _accounts: MutableLiveData&lt;List&lt;AccountBalance&gt;&gt;, private val _accountSuggestions: MutableLiveData&lt;List&lt;CreateAccountData&gt;&gt;, private val _categories: MutableLiveData&lt;List&lt;Category&gt;&gt;, private val _categorySuggestions: MutableLiveData&lt;List&lt;CreateCategoryData&gt;&gt;, private val ivyContext: IvyWalletCtx, private val nav: Navigation, private val ivyAnalytics: IvyAnalytics, private val exchangeRatesLogic: ExchangeRatesLogic, private val accountDao: AccountDao, private val sharedPrefs: SharedPrefs, private val transactionReminderLogic: TransactionReminderLogic, private val ivySync: IvySync, private val preloadDataLogic: PreloadDataLogic, private val categoryDao: CategoryDao, private val logoutLogic: LogoutLogic, private val syncExchangeRatesAct: SyncExchangeRatesAct, )</ID>
     <ID>LongParameterList:OnboardingScreen.kt$( onboardingState: OnboardingState, currency: IvyCurrency, opGoogleSignIn: OpResult&lt;Unit&gt;?, accountSuggestions: List&lt;CreateAccountData&gt;, accounts: List&lt;AccountBalance&gt;, categorySuggestions: List&lt;CreateCategoryData&gt;, categories: List&lt;Category&gt;, onLoginWithGoogle: () -&gt; Unit = {}, onSkip: () -&gt; Unit = {}, onStartImport: () -&gt; Unit = {}, onStartFresh: () -&gt; Unit = {}, onSetCurrency: (IvyCurrency) -&gt; Unit = {}, onCreateAccount: (CreateAccountData) -&gt; Unit = { }, onEditAccount: (Account, Double) -&gt; Unit = { _, _ -&gt; }, onAddAccountsDone: () -&gt; Unit = {}, onAddAccountsSkip: () -&gt; Unit = {}, onCreateCategory: (CreateCategoryData) -&gt; Unit = {}, onEditCategory: (Category) -&gt; Unit = {}, onAddCategoryDone: () -&gt; Unit = {}, onAddCategorySkip: () -&gt; Unit = {}, )</ID>
     <ID>LongParameterList:OnboardingSplashLogin.kt$( @DrawableRes icon: Int, text: String, textColor: Color, backgroundGradient: Gradient, hasShadow: Boolean, onClick: () -&gt; Unit )</ID>
-    <ID>LongParameterList:OnboardingViewModel.kt$OnboardingViewModel$( private val ivyContext: IvyWalletCtx, private val nav: Navigation, private val accountDao: AccountDao, private val settingsDao: SettingsDao, private val restClient: RestClient, private val fcmClient: FCMClient, private val session: IvySession, private val accountLogic: WalletAccountLogic, private val categoryCreator: CategoryCreator, private val categoryDao: CategoryDao, private val accountCreator: AccountCreator, private val accountsAct: AccountsAct, private val categoriesAct: CategoriesAct, private val syncExchangeRatesAct: SyncExchangeRatesAct, //Only OnboardingRouter stuff sharedPrefs: SharedPrefs, ivySync: IvySync, ivyAnalytics: IvyAnalytics, transactionReminderLogic: TransactionReminderLogic, preloadDataLogic: PreloadDataLogic, exchangeRatesLogic: ExchangeRatesLogic, logoutLogic: LogoutLogic, )</ID>
+    <ID>LongParameterList:OnboardingViewModel.kt$OnboardingViewModel$( private val ivyContext: IvyWalletCtx, private val nav: Navigation, private val accountDao: AccountDao, private val settingsDao: SettingsDao, private val restClient: RestClient, private val session: IvySession, private val accountLogic: WalletAccountLogic, private val categoryCreator: CategoryCreator, private val categoryDao: CategoryDao, private val accountCreator: AccountCreator, private val accountsAct: AccountsAct, private val categoriesAct: CategoriesAct, private val syncExchangeRatesAct: SyncExchangeRatesAct, //Only OnboardingRouter stuff sharedPrefs: SharedPrefs, ivySync: IvySync, ivyAnalytics: IvyAnalytics, transactionReminderLogic: TransactionReminderLogic, preloadDataLogic: PreloadDataLogic, exchangeRatesLogic: ExchangeRatesLogic, logoutLogic: LogoutLogic, )</ID>
     <ID>LongParameterList:PaywallLogic.kt$PaywallLogic$( private val ivyBilling: IvyBilling, private val ivyContext: IvyWalletCtx, private val navigation: Navigation, private val accountDao: AccountDao, private val categoryDao: CategoryDao, private val budgetDao: BudgetDao, private val loanDao: LoanDao )</ID>
     <ID>LongParameterList:PaywallScreen.kt$( plans: List&lt;Plan&gt;, purchasedSkus: List&lt;String&gt;, paywallReason: PaywallReason?, accounts: List&lt;Account&gt;, categories: List&lt;Category&gt;, budgets: List&lt;Budget&gt;, loans: List&lt;Loan&gt;, onPlanSelected: (Plan?) -&gt; Unit = {}, onBuy: (Plan) -&gt; Unit, )</ID>
     <ID>LongParameterList:PaywallViewModel.kt$PaywallViewModel$( private val ivyBilling: IvyBilling, private val paywallLogic: PaywallLogic, private val ivyAnalytics: IvyAnalytics, private val categoriesAct: CategoriesAct, private val accountsAct: AccountsAct, private val budgetsAct: BudgetsAct, private val loansAct: LoansAct )</ID>
@@ -2506,7 +2499,7 @@
     <ID>LongParameterList:SettingsScreen.kt$( @DrawableRes icon: Int, text: String, hasShadow: Boolean = false, backgroundGradient: Gradient = Gradient.solid(UI.colors.medium), textColor: Color = White, iconPadding: Dp = 0.dp, onClick: () -&gt; Unit )</ID>
     <ID>LongParameterList:SettingsScreen.kt$( user: User?, currencyCode: String, opSync: OpResult&lt;Boolean&gt;?, lockApp: Boolean, showNotifications: Boolean = true, hideCurrentBalance: Boolean = false, progressState: Boolean = false, treatTransfersAsIncomeExpense: Boolean = false, nameLocalAccount: String?, startDateOfMonth: Int = 1, onSetCurrency: (String) -&gt; Unit, onSetName: (String) -&gt; Unit = {}, onSync: () -&gt; Unit, onLogout: () -&gt; Unit, onLogin: () -&gt; Unit, onBackupData: () -&gt; Unit = {}, onExportToCSV: () -&gt; Unit = {}, onSetLockApp: (Boolean) -&gt; Unit = {}, onSetShowNotifications: (Boolean) -&gt; Unit = {}, onSetTreatTransfersAsIncExp: (Boolean) -&gt; Unit = {}, onSetHideCurrentBalance: (Boolean) -&gt; Unit = {}, onSetStartDateOfMonth: (Int) -&gt; Unit = {}, onDeleteAllUserData: () -&gt; Unit = {}, onDeleteCloudUserData: () -&gt; Unit = {}, )</ID>
     <ID>LongParameterList:SettingsScreen.kt$( user: User?, opSync: OpResult&lt;Boolean&gt;?, nameLocalAccount: String?, onSync: () -&gt; Unit, onLogout: () -&gt; Unit, onLogin: () -&gt; Unit, onCardClick: () -&gt; Unit )</ID>
-    <ID>LongParameterList:SettingsViewModel.kt$SettingsViewModel$( private val settingsDao: SettingsDao, private val ivySession: IvySession, private val userDao: UserDao, private val ivyContext: IvyWalletCtx, private val ivySync: IvySync, private val exportCSVLogic: ExportCSVLogic, private val restClient: RestClient, private val fcmClient: FCMClient, private val ivyAnalytics: IvyAnalytics, private val exchangeRatesLogic: ExchangeRatesLogic, private val logoutLogic: LogoutLogic, private val sharedPrefs: SharedPrefs, private val backupLogic: BackupLogic, private val startDayOfMonthAct: StartDayOfMonthAct, private val updateStartDayOfMonthAct: UpdateStartDayOfMonthAct, private val fetchAllTrnsFromServerAct: FetchAllTrnsFromServerAct, private val nav: Navigation, private val syncExchangeRatesAct: SyncExchangeRatesAct, )</ID>
+    <ID>LongParameterList:SettingsViewModel.kt$SettingsViewModel$( private val settingsDao: SettingsDao, private val ivySession: IvySession, private val userDao: UserDao, private val ivyContext: IvyWalletCtx, private val ivySync: IvySync, private val exportCSVLogic: ExportCSVLogic, private val restClient: RestClient, private val ivyAnalytics: IvyAnalytics, private val exchangeRatesLogic: ExchangeRatesLogic, private val logoutLogic: LogoutLogic, private val sharedPrefs: SharedPrefs, private val backupLogic: BackupLogic, private val startDayOfMonthAct: StartDayOfMonthAct, private val updateStartDayOfMonthAct: UpdateStartDayOfMonthAct, private val fetchAllTrnsFromServerAct: FetchAllTrnsFromServerAct, private val nav: Navigation, private val syncExchangeRatesAct: SyncExchangeRatesAct, )</ID>
     <ID>LongParameterList:Switch.kt$( modifier: Modifier = Modifier, enabled: Boolean, enabledColor: Color = UI.colors.green, disabledColor: Color = UI.colors.gray, animationColor: AnimationSpec&lt;Color&gt; = springBounce(), animationMove: AnimationSpec&lt;Float&gt; = springBounce(), onEnabledChange: (checked: Boolean) -&gt; Unit )</ID>
     <ID>LongParameterList:Title.kt$( type: TransactionType, titleFocus: FocusRequester, initialTransactionId: UUID?, titleTextFieldValue: TextFieldValue, setTitleTextFieldValue: (TextFieldValue) -&gt; Unit, suggestions: Set&lt;String&gt;, scrollState: ScrollState? = null, onTitleChanged: (String?) -&gt; Unit, onNext: () -&gt; Unit, )</ID>
     <ID>LongParameterList:TransactionSectionDivider.kt$( expanded: Boolean, title: String, titleColor: Color, baseCurrency: String, income: Double, expenses: Double, showIncomeExpenseRow: Boolean = true, setExpanded: (Boolean) -&gt; Unit )</ID>
@@ -3513,7 +3506,6 @@
     <ID>NewLineAtEndOfFile:AllTrnsAct.kt$com.ivy.wallet.domain.action.transaction.AllTrnsAct.kt</ID>
     <ID>NewLineAtEndOfFile:AmountCurrency.kt$com.ivy.wallet.ui.theme.wallet.AmountCurrency.kt</ID>
     <ID>NewLineAtEndOfFile:AmountFormatting.kt$com.ivy.wallet.utils.AmountFormatting.kt</ID>
-    <ID>NewLineAtEndOfFile:AmountModal.kt$com.ivy.wallet.ui.theme.modal.edit.AmountModal.kt</ID>
     <ID>NewLineAtEndOfFile:AnalyticsEvent.kt$com.ivy.wallet.domain.data.analytics.AnalyticsEvent.kt</ID>
     <ID>NewLineAtEndOfFile:AnalyticsReportResponse.kt$com.ivy.wallet.io.network.request.analytics.AnalyticsReportResponse.kt</ID>
     <ID>NewLineAtEndOfFile:AnalyticsReportViewModel.kt$com.ivy.wallet.ui.analytics.AnalyticsReportViewModel.kt</ID>
@@ -3668,7 +3660,6 @@
     <ID>NewLineAtEndOfFile:ExpImagesService.kt$com.ivy.wallet.io.network.service.ExpImagesService.kt</ID>
     <ID>NewLineAtEndOfFile:ExportCSVLogic.kt$com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic.kt</ID>
     <ID>NewLineAtEndOfFile:FAB.kt$com.ivy.design.l3_ivyComponents.button.FAB.kt</ID>
-    <ID>NewLineAtEndOfFile:FCMClient.kt$com.ivy.wallet.io.network.FCMClient.kt</ID>
     <ID>NewLineAtEndOfFile:FetchAllTrnsFromServerAct.kt$com.ivy.wallet.domain.action.transaction.FetchAllTrnsFromServerAct.kt</ID>
     <ID>NewLineAtEndOfFile:FetchImagesAct.kt$com.ivy.wallet.domain.action.viewmodel.experiment.FetchImagesAct.kt</ID>
     <ID>NewLineAtEndOfFile:FileUtil.kt$com.ivy.wallet.utils.FileUtil.kt</ID>
@@ -4558,7 +4549,6 @@
     <ID>NoWildcardImports:OnboardingReportTab.kt$import androidx.compose.foundation.layout.*</ID>
     <ID>NoWildcardImports:OnboardingReportTab.kt$import com.ivy.wallet.ui.theme.*</ID>
     <ID>NoWildcardImports:OnboardingScreen.kt$import com.ivy.wallet.ui.onboarding.steps.*</ID>
-    <ID>NoWildcardImports:OnboardingViewModel.kt$import com.ivy.wallet.domain.deprecated.logic.*</ID>
     <ID>NoWildcardImports:PieChart.kt$import androidx.compose.foundation.layout.*</ID>
     <ID>NoWildcardImports:PieChart.kt$import com.ivy.wallet.ui.theme.*</ID>
     <ID>NoWildcardImports:PlannedPaymentRuleService.kt$import retrofit2.http.*</ID>
@@ -4635,7 +4625,7 @@
     <ID>PackageName:MoreMenu.kt$package com.ivy.design.l4_patterns</ID>
     <ID>PackageName:Onboarding.kt$package com.ivy.design.l5_concept</ID>
     <ID>PackageName:PieChart.kt$package com.ivy.design.l3_ivyComponents.chart</ID>
-    <ID>PackageName:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._e59dc1bbc19b3c2535c69fa18089eaec</ID>
+    <ID>PackageName:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._cbc4edcb0c3d88134f29766b2a7d4f41</ID>
     <ID>PackageName:ProgressBar.kt$package com.ivy.design.l3_ivyComponents.percentage</ID>
     <ID>PackageName:ReorderModal.kt$package com.ivy.design.l4_patterns</ID>
     <ID>PackageName:ScreenTitle.kt$package com.ivy.design.l3_ivyComponents</ID>
@@ -4702,7 +4692,7 @@
     <ID>PackageNaming:MoreMenu.kt$package com.ivy.design.l4_patterns</ID>
     <ID>PackageNaming:Onboarding.kt$package com.ivy.design.l5_concept</ID>
     <ID>PackageNaming:PieChart.kt$package com.ivy.design.l3_ivyComponents.chart</ID>
-    <ID>PackageNaming:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._e59dc1bbc19b3c2535c69fa18089eaec</ID>
+    <ID>PackageNaming:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._cbc4edcb0c3d88134f29766b2a7d4f41</ID>
     <ID>PackageNaming:ProgressBar.kt$package com.ivy.design.l3_ivyComponents.percentage</ID>
     <ID>PackageNaming:ReorderModal.kt$package com.ivy.design.l4_patterns</ID>
     <ID>PackageNaming:ScreenTitle.kt$package com.ivy.design.l3_ivyComponents</ID>
@@ -4735,7 +4725,6 @@
     <ID>PrintStackTrace:CategoryUploader.kt$CategoryUploader$e</ID>
     <ID>PrintStackTrace:EditTransactionViewModel.kt$EditTransactionViewModel$e</ID>
     <ID>PrintStackTrace:ExportCSVLogic.kt$ExportCSVLogic$e</ID>
-    <ID>PrintStackTrace:FCMClient.kt$FCMClient$e</ID>
     <ID>PrintStackTrace:FileUtil.kt$e</ID>
     <ID>PrintStackTrace:IvyBilling.kt$IvyBilling$e</ID>
     <ID>PrintStackTrace:IvyCurrency.kt$IvyCurrency.Companion$e</ID>
@@ -4854,7 +4843,6 @@
     <ID>TooGenericExceptionCaught:EditPlannedViewModel.kt$EditPlannedViewModel$e: Exception</ID>
     <ID>TooGenericExceptionCaught:EditTransactionViewModel.kt$EditTransactionViewModel$e: Exception</ID>
     <ID>TooGenericExceptionCaught:ExportCSVLogic.kt$ExportCSVLogic$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:FCMClient.kt$FCMClient$e: Exception</ID>
     <ID>TooGenericExceptionCaught:GitHubClient.kt$GitHubClient$e: Exception</ID>
     <ID>TooGenericExceptionCaught:GsonTypeAdapters.kt$ErrorCodeTypeAdapter$e: Exception</ID>
     <ID>TooGenericExceptionCaught:GsonTypeAdapters.kt$LocalDateTimeTypeAdapter$e: Exception</ID>
@@ -4931,7 +4919,6 @@
     <ID>TooManyFunctions:UtilExt.kt$com.ivy.wallet.utils.UtilExt.kt</ID>
     <ID>TooManyFunctions:WalletAccountLogic.kt$WalletAccountLogic</ID>
     <ID>TooManyFunctions:WalletCategoryLogic.kt$WalletCategoryLogic</ID>
-    <ID>TooManyFunctions:dependencies.kt$com.ivy.wallet.buildsrc.dependencies.kt</ID>
     <ID>TopLevelPropertyNaming:Accessors32ikgp1isdd8mwexzgbe6rirl.kt$/** * Retrieves the [ext][org.gradle.api.plugins.ExtraPropertiesExtension] extension. */ internal val io.gitlab.arturbosch.detekt.extensions.DetektExtension.`ext`: org.gradle.api.plugins.ExtraPropertiesExtension get() = (this as org.gradle.api.plugins.ExtensionAware).extensions.getByName("ext") as org.gradle.api.plugins.ExtraPropertiesExtension</ID>
     <ID>TopLevelPropertyNaming:Accessors46nwrg1rs44ofdqpi7vyy3pfc.kt$/** * Retrieves the [ext][org.gradle.api.plugins.ExtraPropertiesExtension] extension. */ internal val org.gradle.api.artifacts.dsl.RepositoryHandler.`ext`: org.gradle.api.plugins.ExtraPropertiesExtension get() = (this as org.gradle.api.plugins.ExtensionAware).extensions.getByName("ext") as org.gradle.api.plugins.ExtraPropertiesExtension</ID>
     <ID>TopLevelPropertyNaming:Accessors4ymijgaek646mzru18sdmblu7.kt$/** * Retrieves the [detekt][io.gitlab.arturbosch.detekt.extensions.DetektExtension] extension. */ internal val org.gradle.api.Project.`detekt`: io.gitlab.arturbosch.detekt.extensions.DetektExtension get() = (this as org.gradle.api.plugins.ExtensionAware).extensions.getByName("detekt") as io.gitlab.arturbosch.detekt.extensions.DetektExtension</ID>
@@ -5580,7 +5567,6 @@
     <ID>WildcardImport:OnboardingReportTab.kt$import androidx.compose.foundation.layout.*</ID>
     <ID>WildcardImport:OnboardingReportTab.kt$import com.ivy.wallet.ui.theme.*</ID>
     <ID>WildcardImport:OnboardingScreen.kt$import com.ivy.wallet.ui.onboarding.steps.*</ID>
-    <ID>WildcardImport:OnboardingViewModel.kt$import com.ivy.wallet.domain.deprecated.logic.*</ID>
     <ID>WildcardImport:PieChart.kt$import androidx.compose.foundation.layout.*</ID>
     <ID>WildcardImport:PieChart.kt$import com.ivy.wallet.ui.theme.*</ID>
     <ID>WildcardImport:PlannedPaymentRuleService.kt$import retrofit2.http.*</ID>
