@@ -8,6 +8,7 @@ plugins {
 configure<DetektExtension> {
     source.setFrom(projectDir)
     config.setFrom("$rootDir/config/detekt/config.yml")
+    baseline = file("$rootDir/config/detekt/baseline.yml")
 }
 
 tasks.register<Detekt>("detektFormat") {
