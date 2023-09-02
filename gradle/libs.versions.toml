@@ -17,6 +17,11 @@ androidx-security = "1.0.0"
 androidx-activity = "1.8.0-alpha07"
 appcompat-activity = "1.7.0-alpha03"
 androidx-biometrics = "1.2.0-alpha05"
+google-playservices-auth = "20.7.0"
+google-billing = "6.0.1"
+google-play-core = "1.10.0"
+google-play-core-ktx = "1.8.1"
+firebase-crashlytics = "17.3.0"
 
 [libraries]
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
@@ -58,6 +63,11 @@ androidx-security = { module = "androidx.security:security-crypto", version.ref 
 androidx-biometrics = { module = "androidx.biometric:biometric", version.ref = "androidx-biometrics" }
 androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity" }
 appcompat-activity = { module = "androidx.appcompat:appcompat", version.ref = "appcompat-activity" }
+google-playservices-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "google-playservices-auth" }
+google-billing = { module = "com.android.billingclient:billing-ktx", version.ref = "google-billing" }
+google-play-core = { module = "com.google.android.play:core", version.ref = "google-play-core" }
+google-play-core-ktx = { module = "com.google.android.play:core-ktx", version.ref = "google-play-core-ktx" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version.ref = "firebase-crashlytics" }
 
 [bundles]
 kotlin = [
@@ -109,6 +119,15 @@ glance = [
     "glance",
     "glance-appwidget",
     "glance-material3"
+]
+google = [
+    "google-playservices-auth",
+    "google-billing",
+    "google-play-core",
+    "google-play-core-ktx"
+]
+firebase = [
+    "firebase-crashlytics"
 ]
 
 [plugins]
