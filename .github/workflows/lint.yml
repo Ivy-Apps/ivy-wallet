@@ -46,7 +46,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: detekt-report.html
-          path: build/reports/detekt.html
+          path: build/reports/detekt/detekt.html
       #------------------------------------------------------------------
 
       #Lint
