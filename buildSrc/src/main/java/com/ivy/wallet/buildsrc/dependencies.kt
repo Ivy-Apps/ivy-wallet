@@ -56,24 +56,14 @@ fun DependencyHandler.appModuleDependencies() {
 //        versionX = "1.0.0"
 //    )
 
-    Lifecycle(version = "2.3.1")
-    AndroidX()
+//    Lifecycle(version = "2.3.1")
+//    AndroidX()
 
-    ThirdParty()
 }
 
 fun DependencyHandler.ivyDesignModuleDependencies() {
-//    Coroutines(version = "1.5.0")
-//    FunctionalProgramming(
-//            arrowVersion = "1.0.1",
-//            kotestVersion = "5.1.0",
-//            kotlinVersion = kotlinVersion
-//    )
-
-//    Compose(version = GlobalVersions.compose)
-
-    AndroidX()
-    Lifecycle(version = "2.3.1")
+//    AndroidX()
+//    Lifecycle(version = "2.3.1")
 }
 //---------------------------------------------------------------------------------
 
@@ -111,25 +101,4 @@ fun DependencyHandler.AndroidX() {
     implementation("androidx.recyclerview:recyclerview:1.2.1")
 
     implementation("androidx.webkit:webkit:1.4.0")
-}
-
-
-fun DependencyHandler.ThirdParty() {
-    //URL: https://github.com/airbnb/lottie-android
-    implementation("com.airbnb.android:lottie:3.7.0")
-
-    //URL: https://github.com/jeziellago/compose-markdown
-    implementation("com.github.jeziellago:compose-markdown:0.2.6")
-
-    //URL: https://github.com/JakeWharton/timber/releases
-    implementation("com.jakewharton.timber:timber:4.7.1")
-
-    //URL: https://github.com/greenrobot/EventBus/releases
-    implementation("org.greenrobot:eventbus:3.3.1")
-
-    //URL: https://github.com/notKamui/Keval - evaluate math expressions (calculator)
-    implementation("com.notkamui.libs:keval:0.9.0")
-
-    implementation("com.opencsv:opencsv:5.5")
-    implementation("org.apache.commons:commons-lang3:3.12.0")
 }

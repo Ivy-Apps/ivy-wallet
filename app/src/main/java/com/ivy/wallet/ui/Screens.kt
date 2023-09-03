@@ -4,7 +4,7 @@ import com.ivy.frp.view.navigation.Screen
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.ui.paywall.PaywallReason
-import java.util.*
+import java.util.UUID
 
 object Main : Screen
 
@@ -90,7 +90,5 @@ data class LoanDetails(
 ) : Screen
 
 object Test : Screen
-
-data class IvyWebView(val url: String) : Screen
 
 object Charts : Screen

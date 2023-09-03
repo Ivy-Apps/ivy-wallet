@@ -164,7 +164,15 @@ dependencies {
     implementation(libs.bundles.room)
     kapt(libs.room.compiler)
 
+    implementation(libs.timber)
+    implementation(libs.eventbus)
+    implementation(libs.keval)
+    implementation(libs.bundles.opencsv)
+    implementation(libs.androidx.work)
+    implementation(libs.androidx.recyclerview)
+
     testImplementation(libs.bundles.kotest)
     testImplementation(libs.bundles.kotlin.test)
     testImplementation(libs.hilt.testing)
+    testImplementation(libs.androidx.work.testing)
 }

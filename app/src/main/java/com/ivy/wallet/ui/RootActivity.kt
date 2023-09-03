@@ -74,7 +74,6 @@ import com.ivy.wallet.ui.settings.SettingsScreen
 import com.ivy.wallet.ui.statistic.level1.PieChartStatisticScreen
 import com.ivy.wallet.ui.statistic.level2.ItemStatisticScreen
 import com.ivy.wallet.ui.test.TestScreen
-import com.ivy.wallet.ui.webView.WebViewScreen
 import com.ivy.wallet.ui.widget.AddTransactionWidget
 import com.ivy.wallet.ui.widget.AddTransactionWidgetCompact
 import com.ivy.wallet.ui.widget.WalletBalanceWidgetReceiver
@@ -227,7 +226,6 @@ class RootActivity : AppCompatActivity() {
             is Loans -> LoansScreen(screen = screen)
             is LoanDetails -> LoanDetailsScreen(screen = screen)
             is Search -> SearchScreen(screen = screen)
-            is IvyWebView -> WebViewScreen(screen = screen)
             is DonateScreen -> DonateScreen(screen = screen)
             is CSVScreen -> CSVScreen(screen = screen)
             is GitHubBackupScreen -> GitHubBackupScreen()

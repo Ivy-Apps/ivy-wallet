@@ -27,6 +27,7 @@ firebase-crashlytics = "17.3.0"
 firebase-crashlytics-gradle = "2.9.8"
 hilt = "2.47"
 room = "2.6.0-alpha03"
+androidx-work = "2.8.1"
 
 # Linters
 detekt = "1.23.1" # https://detekt.dev/docs/gettingstarted/gradle/
@@ -90,6 +91,14 @@ room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 gson = { module = "com.google.code.gson:gson", version = "2.10.1" } # will be removed in favor of KotlinX serialization
+timber = { module = "com.jakewharton.timber:timber", version = "4.7.1" }
+eventbus = { module = "org.greenrobot:eventbus", version = "3.3.1" } # will be removed
+keval = { module = "com.notkamui.libs:keval", version = "0.9.0" }
+opencsv-csv = { module = "com.opencsv:opencsv", version = "5.5" }
+opencsv-apache-commons = { module = "org.apache.commons:commons-lang3", version = "3.12.0" }
+androidx-work = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
+androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "androidx-work" }
+androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version = "1.2.1" }
 
 # Linters
 detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
@@ -165,6 +174,10 @@ hilt = [
 room = [
     "room-runtime",
     "room-ktx"
+]
+opencsv = [
+    "opencsv-csv",
+    "opencsv-apache-commons"
 ]
 
 [plugins]
