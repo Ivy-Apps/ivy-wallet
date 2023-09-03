@@ -78,10 +78,10 @@ hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref 
 google-services = { module = "com.google.gms:google-services", version = "4.3.15" }
 google-playservices-auth = { module = "com.google.android.gms:play-services-auth", version = "20.7.0" }
 google-billing = { module = "com.android.billingclient:billing-ktx", version = "6.0.1" }
-google-play-core = { module = "com.google.android.play:core", version = "1.10.0" }
+google-play-core = { module = "com.google.android.play:core", version = "1.10.3" }
 google-play-core-ktx = { module = "com.google.android.play:core-ktx", version = "1.8.1" }
-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version = "17.3.0" }
-firebase-crashlytics-gradle-plugin = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.8" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version = "18.4.1" }
+firebase-crashlytics-gradle-plugin = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.9" }
 
 # AndroidX
 androidx-security = { module = "androidx.security:security-crypto", version = "1.0.0" }
