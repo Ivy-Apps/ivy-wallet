@@ -81,7 +81,7 @@ google-billing = { module = "com.android.billingclient:billing-ktx", version = "
 google-play-core = { module = "com.google.android.play:core", version = "1.10.0" }
 google-play-core-ktx = { module = "com.google.android.play:core-ktx", version = "1.8.1" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version = "17.3.0" }
-firebase-crashlytics-gradle-plugin = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.8" }
+firebase-crashlytics-gradle-plugin = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.9" }
 
 # AndroidX
 androidx-security = { module = "androidx.security:security-crypto", version = "1.0.0" }
