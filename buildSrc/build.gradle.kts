@@ -17,7 +17,7 @@ dependencies {
     //https://mvnrepository.com/artifact/com.android.tools.build/gradle?repo=google
     implementation(libs.agp)
 
-    //Must match kotlinVersion from dependencies.kt
+    //Must match kotlinVersion from Project.kt
     implementation(libs.kotlin.gradle)
 
     implementation(libs.hilt.gradle)

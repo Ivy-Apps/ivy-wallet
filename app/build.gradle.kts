@@ -1,5 +1,4 @@
 import com.ivy.wallet.buildsrc.Project
-import com.ivy.wallet.buildsrc.appModuleDependencies
 
 plugins {
     id("com.android.application")
@@ -140,7 +139,6 @@ android {
 }
 
 dependencies {
-    appModuleDependencies()
     implementation(project(":ivy-design"))
 
     implementation(libs.ivy.frp.temp)
