@@ -4,7 +4,6 @@
 version: 2
 
 updates:
-  # Default behavior for all other dependencies (not part of any group):
   - package-ecosystem: "gradle"
     directory: "/"
     schedule:
