@@ -117,6 +117,12 @@ _Note: It may take up to 24h for the [contrib.rocks](https://contrib.rocks/previ
     <small>Ivy Wallet's co-founder and designer. Created the <a href="https://www.figma.com/file/kSwIa07jcHEHZXo6rzx7dn/Design-System?node-id=0%3A1&mode=dev">Ivy Wallet design.</a></small>
 </div>
 
+<div align="center">
+    <img src="https://cdn.aditya.tk/img/aditya.jpg" width="100px;" alt="Aditya [ADX]"/><br>
+    <strong><a href="https://aditya.tk" >Aditya</a> </strong><br>
+    <small>Created Ivy Wallets's<a href="https://youtu.be/sDmZxXlXsCM"> Github Backup Tutorial.</a> </small>
+</div>
+
 
 
 
