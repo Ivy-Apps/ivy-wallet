@@ -14,36 +14,33 @@ updates:
     groups:
       kotlin-compose:
         patterns:
-          - "org.jetbrains.kotlin:*"
-          - "org.jetbrains.kotlinx:*"
-          - "org.jetbrains.kotlin.plugin.serialization"
-          - "androidx.compose:*"
-          - "androidx.glance:*"
+          - "androidx.compose.*"
+          - "androidx.glance*"
+          - "org.jetbrains.kotlin*"
           - "io.coil-kt:coil-compose"
           - "com.android.tools.build:gradle"
           - "androidx.activity:activity-compose"
           - "androidx.lifecycle:lifecycle-viewmodel-compose"
       ktor:
         patterns:
-          - "io.ktor:*"
+          - "io.ktor*"
       google-firebase:
         patterns:
-          - "com.google.*"
-          - "com.android.billingclient:*"
+          - "com.google*"
+          - "com.android.billingclient*"
       kotest:
         patterns:
-          - "io.kotest.*"
-          - "io.kotest:*"
+          - "io.kotest*"
       androidx:
         patterns:
           - "androidx.*"
       hilt:
         patterns:
-          - "com.google.dagger:*"
-          - "androidx.hilt:hilt-work"
+          - "com.google.dagger*"
+          - "androidx.hilt*"
       room:
         patterns:
-          - "androidx.room:*"
+          - "androidx.room*"
 
   - package-ecosystem: "github-actions"
     directory: "/"
