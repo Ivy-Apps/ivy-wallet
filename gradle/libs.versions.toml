@@ -98,7 +98,7 @@ timber = { module = "com.jakewharton.timber:timber", version = "4.7.1" }
 eventbus = { module = "org.greenrobot:eventbus", version = "3.3.1" } # will be removed
 keval = { module = "com.notkamui.libs:keval", version = "0.9.0" }
 opencsv-csv = { module = "com.opencsv:opencsv", version = "5.5" }
-opencsv-apache-commons = { module = "org.apache.commons:commons-lang3", version = "3.12.0" }
+opencsv-apache-commons = { module = "org.apache.commons:commons-lang3", version = "3.13.0" }
 ivy-frp-temp = { module = "com.github.ILIYANGERMANOV:ivy-frp", version = "0.9.5" }
 
 # Linters
