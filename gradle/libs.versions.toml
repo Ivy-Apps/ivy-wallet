@@ -26,6 +26,7 @@ google-services = "4.3.15"
 firebase-crashlytics = "17.3.0"
 firebase-crashlytics-gradle = "2.9.8"
 hilt = "2.47"
+room = "2.6.0-alpha03"
 
 # Linters
 detekt = "1.23.1" # https://detekt.dev/docs/gettingstarted/gradle/
@@ -85,6 +86,9 @@ hilt-work = { module = "androidx.hilt:hilt-work", version = "1.0.0" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt-gradle = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
 hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 
 # Linters
 detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
@@ -155,6 +159,10 @@ firebase = [
 hilt = [
     "hilt",
     "hilt-gradle"
+]
+room = [
+    "room-runtime",
+    "room-ktx"
 ]
 
 [plugins]

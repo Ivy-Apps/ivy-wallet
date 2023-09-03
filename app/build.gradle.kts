@@ -159,6 +159,10 @@ dependencies {
     implementation(libs.bundles.hilt)
     kapt(libs.hilt.compiler)
 
+    implementation(libs.bundles.room)
+    kapt(libs.room.compiler)
+
     testImplementation(libs.bundles.kotest)
     testImplementation(libs.bundles.kotlin.test)
+    testImplementation(libs.hilt.testing)
 }

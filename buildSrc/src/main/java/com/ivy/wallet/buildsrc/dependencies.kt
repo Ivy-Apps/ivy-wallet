@@ -55,7 +55,6 @@ fun DependencyHandler.appModuleDependencies() {
 //        hiltVersion = "2.47",
 //        versionX = "1.0.0"
 //    )
-    RoomDB()
 
     Networking(retrofitVersion = "2.9.0")
 
@@ -79,40 +78,6 @@ fun DependencyHandler.ivyDesignModuleDependencies() {
     Lifecycle(version = "2.3.1")
 }
 //---------------------------------------------------------------------------------
-
-
-/**
- * Hilt DI
- * https://developer.android.com/training/dependency-injection/hilt-android
- */
-fun DependencyHandler.Hilt(
-    hiltVersion: String,
-    versionX: String
-) {
-
-//    kapt("androidx.hilt:hilt-compiler:$versionX")
-
-    //URL: https://developer.android.com/training/dependency-injection/hilt-jetpack#workmanager
-
-    HiltTesting(version = hiltVersion)
-}
-
-fun DependencyHandler.HiltTesting(
-    version: String
-) {
-    implementation("androidx.test:runner:1.4.0")
-}
-
-/**
- * https://developer.android.com/jetpack/androidx/releases/room
- */
-fun DependencyHandler.RoomDB(
-    version: String = "2.6.0-alpha03"
-) {
-    implementation("androidx.room:room-runtime:$version")
-    kapt("androidx.room:room-compiler:$version")
-    implementation("androidx.room:room-ktx:$version")
-}
 
 /**
  * REST
