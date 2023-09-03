@@ -1,5 +1,5 @@
 [versions]
-kotlin = "1.9.0"
+kotlin = "1.9.10"
 kotlin-coroutines = "1.7.3"
 ktor = "2.3.3"
 arrow = "1.2.0"
