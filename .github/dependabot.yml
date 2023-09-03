@@ -10,6 +10,7 @@ updates:
       interval: "weekly"
     registries:
       - maven-google
+    open-pull-requests-limit: 10
     groups:
       kotlin-compose:
         patterns:
@@ -48,6 +49,7 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    open-pull-requests-limit: 10
 
 # This is only a workaround as long as
 # https://github.com/dependabot/dependabot-core/pull/7260
