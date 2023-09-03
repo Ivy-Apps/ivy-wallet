@@ -1,6 +1,6 @@
 plugins {
     `kotlin-dsl`
-    id("org.gradle.test-retry") version "1.2.0"
+    id("org.gradle.test-retry") version "1.5.4"
 }
 
 tasks.withType<Test>().configureEach {
