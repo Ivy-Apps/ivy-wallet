@@ -3,16 +3,14 @@ package com.ivy.wallet.domain.deprecated.logic
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.wallet.domain.data.core.Loan
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanData
-import com.ivy.wallet.domain.deprecated.sync.uploader.LoanUploader
 import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.wallet.io.persistence.dao.LoanDao
 import com.ivy.wallet.utils.ioThread
-import java.util.*
+import java.util.UUID
 
 class LoanCreator(
     private val paywallLogic: PaywallLogic,
     private val dao: LoanDao,
-    private val uploader: LoanUploader
 ) {
     suspend fun create(
         data: CreateLoanData,
@@ -45,10 +43,6 @@ class LoanCreator(
                 }
 
                 onRefreshUI(newItem)
-
-                ioThread {
-                    uploader.sync(newItem)
-                }
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -75,10 +69,6 @@ class LoanCreator(
             }
 
             onRefreshUI(updatedItem)
-
-            ioThread {
-                uploader.sync(updatedItem)
-            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -94,10 +84,6 @@ class LoanCreator(
             }
 
             onRefreshUI()
-
-            ioThread {
-                uploader.delete(item.id)
-            }
         } catch (e: Exception) {
             e.printStackTrace()
         }

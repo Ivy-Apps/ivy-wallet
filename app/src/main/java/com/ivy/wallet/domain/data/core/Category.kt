@@ -1,10 +1,9 @@
 package com.ivy.wallet.domain.data.core
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.wallet.io.network.data.CategoryDTO
 import com.ivy.wallet.io.persistence.data.CategoryEntity
 import com.ivy.wallet.ui.theme.Ivy
-import java.util.*
+import java.util.UUID
 
 data class Category(
     val name: String,
@@ -24,14 +23,6 @@ data class Category(
         orderNum = orderNum,
         isSynced = isSynced,
         isDeleted = isDeleted,
-        id = id
-    )
-
-    fun toDTO(): CategoryDTO = CategoryDTO(
-        name = name,
-        color = color,
-        icon = icon,
-        orderNum = orderNum,
         id = id
     )
 }

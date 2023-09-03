@@ -56,8 +56,6 @@ fun DependencyHandler.appModuleDependencies() {
 //        versionX = "1.0.0"
 //    )
 
-    Networking(retrofitVersion = "2.9.0")
-
     Lifecycle(version = "2.3.1")
     AndroidX()
 
@@ -79,23 +77,6 @@ fun DependencyHandler.ivyDesignModuleDependencies() {
 }
 //---------------------------------------------------------------------------------
 
-/**
- * REST
- */
-fun DependencyHandler.Networking(
-    retrofitVersion: String = "2.9.0"
-) {
-    //URL: https://github.com/square/retrofit
-    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
-    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
-
-    //URL: https://github.com/google/gson
-    implementation("com.google.code.gson:gson:2.10.1")
-
-
-    //URL: https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor
-    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
-}
 
 /**
  * Jetpack Compose Lifecycle

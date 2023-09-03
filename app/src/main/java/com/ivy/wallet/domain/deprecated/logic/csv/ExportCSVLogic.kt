@@ -16,9 +16,10 @@ import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.localDecimalSeparator
 import com.ivy.wallet.utils.writeToFile
 import org.apache.commons.text.StringEscapeUtils
-import java.util.*
+import java.util.UUID
+import javax.inject.Inject
 
-class ExportCSVLogic(
+class ExportCSVLogic @Inject constructor(
     private val settingsDao: SettingsDao,
     private val transactionDao: TransactionDao,
     private val categoryDao: CategoryDao,

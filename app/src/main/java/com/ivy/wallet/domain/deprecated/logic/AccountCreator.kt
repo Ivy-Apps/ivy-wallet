@@ -3,8 +3,6 @@ package com.ivy.wallet.domain.deprecated.logic
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
-import com.ivy.wallet.domain.deprecated.sync.item.TransactionSync
-import com.ivy.wallet.domain.deprecated.sync.uploader.AccountUploader
 import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.utils.ioThread
@@ -12,8 +10,6 @@ import com.ivy.wallet.utils.ioThread
 class AccountCreator(
     private val paywallLogic: PaywallLogic,
     private val accountDao: AccountDao,
-    private val accountUploader: AccountUploader,
-    private val transactionSync: TransactionSync,
     private val accountLogic: WalletAccountLogic
 ) {
 
@@ -48,11 +44,6 @@ class AccountCreator(
             }
 
             onRefreshUI()
-
-            ioThread {
-                accountUploader.sync(newAccount)
-                transactionSync.sync()
-            }
         }
     }
 
@@ -75,10 +66,5 @@ class AccountCreator(
         }
 
         onRefreshUI()
-
-        ioThread {
-            accountUploader.sync(updatedAccount)
-            transactionSync.sync()
-        }
     }
 }

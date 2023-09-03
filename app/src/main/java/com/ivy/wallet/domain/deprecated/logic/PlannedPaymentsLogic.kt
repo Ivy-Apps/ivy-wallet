@@ -7,8 +7,6 @@ import com.ivy.wallet.domain.data.core.PlannedPaymentRule
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.sumByDoublePlannedInBaseCurrency
-import com.ivy.wallet.domain.deprecated.sync.uploader.PlannedPaymentRuleUploader
-import com.ivy.wallet.domain.deprecated.sync.uploader.TransactionUploader
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
@@ -16,16 +14,15 @@ import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.timeNowUTC
+import javax.inject.Inject
 
 @Deprecated("Migrate to FP Style")
-class PlannedPaymentsLogic(
+class PlannedPaymentsLogic @Inject constructor(
     private val plannedPaymentRuleDao: PlannedPaymentRuleDao,
     private val transactionDao: TransactionDao,
-    private val transactionUploader: TransactionUploader,
     private val settingsDao: SettingsDao,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val accountDao: AccountDao,
-    private val plannedPaymentRuleUploader: PlannedPaymentRuleUploader
 ) {
     companion object {
         private const val AVG_DAYS_IN_MONTH = 30.436875
@@ -180,17 +177,6 @@ class PlannedPaymentsLogic(
         }
 
         onUpdateUI(paidTransaction)
-
-        ioThread {
-            if (syncTransaction && !skipTransaction) {
-                transactionUploader.sync(paidTransaction)
-            }
-
-            if (plannedPaymentRule != null && plannedPaymentRule.oneTime) {
-                //delete paid oneTime planned payment rules
-                plannedPaymentRuleUploader.delete(plannedPaymentRule.id)
-            }
-        }
     }
 
     suspend fun payOrGet(
@@ -238,20 +224,5 @@ class PlannedPaymentsLogic(
         }
 
         onUpdateUI(paidTransactions)
-
-        ioThread {
-            paidTransactions.forEach{ paidTransaction ->
-                if (syncTransaction && !skipTransaction) {
-                    transactionUploader.sync(paidTransaction)
-                }
-            }
-
-            plannedPaymentRules.forEach{ plannedPaymentRule ->
-                if (plannedPaymentRule != null && plannedPaymentRule.oneTime) {
-                    //delete paid oneTime planned payment rules
-                    plannedPaymentRuleUploader.delete(plannedPaymentRule.id)
-                }
-            }
-        }
     }
 }

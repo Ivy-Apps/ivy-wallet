@@ -1,9 +1,8 @@
 package com.ivy.wallet.domain.data.core
 
 import com.ivy.wallet.domain.data.AuthProviderType
-import com.ivy.wallet.io.network.data.UserDTO
 import com.ivy.wallet.io.persistence.data.UserEntity
-import java.util.*
+import java.util.UUID
 
 data class User(
     val email: String,
@@ -17,17 +16,6 @@ data class User(
     var id: UUID
 ) {
     fun toEntity(): UserEntity = UserEntity(
-        email = email,
-        authProviderType = authProviderType,
-        firstName = firstName,
-        lastName = lastName,
-        profilePicture = profilePicture,
-        color = color,
-        testUser = testUser,
-        id = id
-    )
-
-    fun toDTO(): UserDTO = UserDTO(
         email = email,
         authProviderType = authProviderType,
         firstName = firstName,

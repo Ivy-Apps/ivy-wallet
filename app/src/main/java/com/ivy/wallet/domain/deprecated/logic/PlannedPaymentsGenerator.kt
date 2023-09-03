@@ -4,9 +4,10 @@ import com.ivy.wallet.domain.data.core.PlannedPaymentRule
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import java.time.LocalDateTime
+import javax.inject.Inject
 
 @Deprecated("Migrate to FP Style")
-class PlannedPaymentsGenerator(
+class PlannedPaymentsGenerator @Inject constructor(
     private val transactionDao: TransactionDao
 ) {
     companion object {

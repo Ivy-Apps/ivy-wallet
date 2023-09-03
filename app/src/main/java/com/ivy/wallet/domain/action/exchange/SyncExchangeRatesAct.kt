@@ -1,21 +1,24 @@
 package com.ivy.wallet.domain.action.exchange
 
+import androidx.annotation.Keep
 import com.ivy.frp.action.Action
-import com.ivy.wallet.io.network.RestClient
 import com.ivy.wallet.io.persistence.dao.ExchangeRateDao
 import com.ivy.wallet.io.persistence.data.ExchangeRateEntity
+import dagger.Lazy
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.get
+import kotlinx.serialization.Serializable
 import timber.log.Timber
 import javax.inject.Inject
 
 class SyncExchangeRatesAct @Inject constructor(
     private val exchangeRateDao: ExchangeRateDao,
-    restClient: RestClient
+    private val ktorClient: Lazy<HttpClient>,
 ) : Action<SyncExchangeRatesAct.Input, Unit>() {
     data class Input(
         val baseCurrency: String,
     )
-
-    private val service = restClient.exchangeRatesService
 
     companion object {
         private val URLS = listOf(
@@ -85,10 +88,17 @@ class SyncExchangeRatesAct @Inject constructor(
 
     private suspend fun fetchEurRates(url: String): Map<String, Double> {
         return try {
-            service.getExchangeRates(url).eur
+            val client = ktorClient.get()
+            client.get(url).body<Response>().eur
         } catch (e: Exception) {
             e.printStackTrace()
             emptyMap()
         }
     }
+
+    @Keep
+    @Serializable
+    data class Response(
+        val eur: Map<String, Double>
+    )
 }

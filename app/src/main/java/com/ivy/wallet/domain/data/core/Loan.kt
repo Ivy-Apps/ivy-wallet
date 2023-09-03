@@ -2,10 +2,9 @@ package com.ivy.wallet.domain.data.core
 
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.LoanType
-import com.ivy.wallet.io.network.data.LoanDTO
 import com.ivy.wallet.io.persistence.data.LoanEntity
 import com.ivy.wallet.stringRes
-import java.util.*
+import java.util.UUID
 
 data class Loan(
     val name: String,
@@ -31,17 +30,6 @@ data class Loan(
         accountId = accountId,
         isSynced = isSynced,
         isDeleted = isDeleted,
-        id = id
-    )
-
-    fun toDTO(): LoanDTO = LoanDTO(
-        name = name,
-        amount = amount,
-        type = type,
-        color = color,
-        icon = icon,
-        orderNum = orderNum,
-        accountId = accountId,
         id = id
     )
 

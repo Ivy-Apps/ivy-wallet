@@ -7,10 +7,13 @@ import androidx.work.WorkManager
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.utils.timeNowLocal
 import com.ivy.wallet.utils.toEpochSeconds
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 @Deprecated("Use FP style, look into `domain.fp` package")
-class TransactionReminderLogic(
+class TransactionReminderLogic @Inject constructor(
+    @ApplicationContext
     private val appContext: Context,
     private val sharedPrefs: SharedPrefs,
 ) {

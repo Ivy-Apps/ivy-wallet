@@ -3,7 +3,6 @@ package com.ivy.wallet.domain.deprecated.logic
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
-import com.ivy.wallet.domain.deprecated.sync.uploader.CategoryUploader
 import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.utils.ioThread
@@ -11,7 +10,6 @@ import com.ivy.wallet.utils.ioThread
 class CategoryCreator(
     private val paywallLogic: PaywallLogic,
     private val categoryDao: CategoryDao,
-    private val categoryUploader: CategoryUploader
 ) {
     suspend fun createCategory(
         data: CreateCategoryData,
@@ -38,10 +36,6 @@ class CategoryCreator(
                 }
 
                 onRefreshUI(newCategory)
-
-                ioThread {
-                    categoryUploader.sync(newCategory)
-                }
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -65,10 +59,6 @@ class CategoryCreator(
             }
 
             onRefreshUI(updatedCategory)
-
-            ioThread {
-                categoryUploader.sync(updatedCategory)
-            }
         } catch (e: Exception) {
             e.printStackTrace()
         }

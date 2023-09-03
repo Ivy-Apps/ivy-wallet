@@ -3,15 +3,14 @@ package com.ivy.wallet.domain.deprecated.logic.currency
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.PlannedPaymentRule
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.io.network.RestClient
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.ExchangeRateDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
-import java.util.*
+import java.util.UUID
+import javax.inject.Inject
 
 @Deprecated("Use FP style, look into `domain.fp` package")
-class ExchangeRatesLogic(
-    restClient: RestClient,
+class ExchangeRatesLogic @Inject constructor(
     private val exchangeRateDao: ExchangeRateDao
 ) {
     suspend fun amountBaseCurrency(

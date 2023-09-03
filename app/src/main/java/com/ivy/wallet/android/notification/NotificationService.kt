@@ -2,12 +2,14 @@ package com.ivy.wallet.android.notification
 
 import android.app.NotificationManager
 import android.content.Context
-import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.ivy.wallet.R
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-class NotificationService(
+class NotificationService @Inject constructor(
+    @ApplicationContext
     private val context: Context
 ) {
 

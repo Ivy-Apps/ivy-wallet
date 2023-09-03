@@ -16,8 +16,9 @@ import com.android.billingclient.api.querySkuDetails
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.sendToCrashlytics
 import timber.log.Timber
+import javax.inject.Inject
 
-class IvyBilling(
+class IvyBilling @Inject constructor(
 
 ) {
     companion object {

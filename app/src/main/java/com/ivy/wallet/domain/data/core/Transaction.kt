@@ -2,7 +2,6 @@ package com.ivy.wallet.domain.data.core
 
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.io.network.data.TransactionDTO
 import com.ivy.wallet.io.persistence.data.TransactionEntity
 import java.math.BigDecimal
 import java.time.LocalDateTime
@@ -55,23 +54,5 @@ data class Transaction(
         id = id,
         isSynced = isSynced,
         isDeleted = isDeleted
-    )
-
-    fun toDTO(): TransactionDTO = TransactionDTO(
-        accountId = accountId,
-        type = type,
-        amount = amount.toDouble(),
-        toAccountId = toAccountId,
-        toAmount = toAmount.toDouble(),
-        title = title,
-        description = description,
-        dateTime = dateTime,
-        categoryId = categoryId,
-        dueDate = dueDate,
-        recurringRuleId = recurringRuleId,
-        attachmentUrl = attachmentUrl,
-        loanId = loanId,
-        loanRecordId = loanRecordId,
-        id = id
     )
 }
