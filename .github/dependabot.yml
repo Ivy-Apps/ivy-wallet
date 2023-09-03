@@ -4,6 +4,15 @@
 version: 2
 
 updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    group:
+      name: "GitHub Actions updates"
+      dependencies:
+        - dependency-type: "all"
+
   - package-ecosystem: "gradle"
     directory: "/"
     schedule:
@@ -44,14 +53,6 @@ updates:
         patterns:
           - "androidx.room:*"
 
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    group:
-      name: "GitHub Actions updates"
-      dependencies:
-        - dependency-type: "all"
 
 # This is only a workaround as long as
 # https://github.com/dependabot/dependabot-core/pull/7260
