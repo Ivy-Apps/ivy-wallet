@@ -1,5 +1,4 @@
 import com.ivy.wallet.buildsrc.Project
-import com.ivy.wallet.buildsrc.ivyDesignModuleDependencies
 
 plugins {
     id("com.android.library")
@@ -57,8 +56,6 @@ android {
 }
 
 dependencies {
-    ivyDesignModuleDependencies()
-
     implementation(libs.bundles.arrow)
     implementation(libs.bundles.kotlin)
     implementation(libs.bundles.compose)

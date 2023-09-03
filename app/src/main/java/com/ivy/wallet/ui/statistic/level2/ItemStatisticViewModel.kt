@@ -22,46 +22,47 @@ import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.domain.deprecated.logic.*
-import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
-import com.ivy.wallet.domain.deprecated.sync.uploader.AccountUploader
-import com.ivy.wallet.domain.deprecated.sync.uploader.CategoryUploader
-import com.ivy.wallet.domain.pure.data.WalletDAOs
+import com.ivy.wallet.domain.deprecated.logic.AccountCreator
+import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
+import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
+import com.ivy.wallet.domain.deprecated.logic.WalletAccountLogic
+import com.ivy.wallet.domain.deprecated.logic.WalletCategoryLogic
 import com.ivy.wallet.domain.pure.exchange.ExchangeData
 import com.ivy.wallet.io.persistence.SharedPrefs
-import com.ivy.wallet.io.persistence.dao.*
+import com.ivy.wallet.io.persistence.dao.AccountDao
+import com.ivy.wallet.io.persistence.dao.CategoryDao
+import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
+import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
 import com.ivy.wallet.ui.theme.RedLight
-import com.ivy.wallet.utils.*
+import com.ivy.wallet.utils.computationThread
+import com.ivy.wallet.utils.dateNowUTC
+import com.ivy.wallet.utils.ioThread
+import com.ivy.wallet.utils.isNotNullOrBlank
+import com.ivy.wallet.utils.readOnly
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class ItemStatisticViewModel @Inject constructor(
-    private val walletDAOs: WalletDAOs,
     private val accountDao: AccountDao,
-    private val exchangeRateDao: ExchangeRateDao,
     private val transactionDao: TransactionDao,
     private val categoryDao: CategoryDao,
-    private val settingsDao: SettingsDao,
     private val ivyContext: IvyWalletCtx,
     private val nav: Navigation,
-    private val categoryUploader: CategoryUploader,
-    private val accountUploader: AccountUploader,
     private val accountLogic: WalletAccountLogic,
     private val categoryLogic: WalletCategoryLogic,
     private val plannedPaymentRuleDao: PlannedPaymentRuleDao,
     private val categoryCreator: CategoryCreator,
     private val accountCreator: AccountCreator,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
-    private val exchangeRatesLogic: ExchangeRatesLogic,
     private val sharedPrefs: SharedPrefs,
     private val categoriesAct: CategoriesAct,
     private val accountsAct: AccountsAct,
@@ -171,6 +172,7 @@ class ItemStatisticViewModel @Inject constructor(
                 screen.accountId != null -> {
                     initForAccount(screen.accountId)
                 }
+
                 screen.categoryId != null && screen.transactions.isEmpty() -> {
                     initForCategory(screen.categoryId, screen.accountIdFilterList)
                 }
@@ -183,6 +185,7 @@ class ItemStatisticViewModel @Inject constructor(
                         screen.transactions
                     )
                 }
+
                 screen.unspecifiedCategory == true && screen.transactions.isNotEmpty() -> {
                     initForAccountTransfersCategory(
                         screen.categoryId,
@@ -190,9 +193,11 @@ class ItemStatisticViewModel @Inject constructor(
                         screen.transactions
                     )
                 }
+
                 screen.unspecifiedCategory == true -> {
                     initForUnspecifiedCategory()
                 }
+
                 else -> error("no id provided")
             }
         }
@@ -465,7 +470,8 @@ class ItemStatisticViewModel @Inject constructor(
         transactions: List<Transaction>
     ) {
         _initWithTransactions.value = true
-        _category.value = Category(stringRes(R.string.account_transfers), RedLight.toArgb(), "transfer")
+        _category.value =
+            Category(stringRes(R.string.account_transfers), RedLight.toArgb(), "transfer")
         val accountFilterIdSet = accountFilterList.toHashSet()
         val trans = transactions.filter {
             it.categoryId == null && (accountFilterIdSet.contains(it.accountId) || accountFilterIdSet.contains(
@@ -548,6 +554,7 @@ class ItemStatisticViewModel @Inject constructor(
                 screen.accountId != null -> {
                     deleteAccount(screen.accountId)
                 }
+
                 screen.categoryId != null -> {
                     deleteCategory(screen.categoryId)
                 }
@@ -564,9 +571,6 @@ class ItemStatisticViewModel @Inject constructor(
             accountDao.flagDeleted(accountId)
 
             nav.back()
-
-            //the server deletes transactions + planned payments for the account
-            accountUploader.delete(accountId)
         }
     }
 
@@ -575,8 +579,6 @@ class ItemStatisticViewModel @Inject constructor(
             categoryDao.flagDeleted(categoryId)
 
             nav.back()
-
-            categoryUploader.delete(categoryId)
         }
     }
 
@@ -623,7 +625,7 @@ class ItemStatisticViewModel @Inject constructor(
         }
     }
 
-    fun skipTransaction(screen: ItemStatistic, transaction: Transaction){
+    fun skipTransaction(screen: ItemStatistic, transaction: Transaction) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -641,8 +643,8 @@ class ItemStatisticViewModel @Inject constructor(
         }
     }
 
-    fun skipTransactions(screen: ItemStatistic, transactions: List<Transaction>){
-        viewModelScope.launch{
+    fun skipTransactions(screen: ItemStatistic, transactions: List<Transaction>) {
+        viewModelScope.launch {
             TestIdlingResource.increment()
 
             plannedPaymentsLogic.payOrGet(

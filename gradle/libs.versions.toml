@@ -2,26 +2,15 @@
 kotlin = "1.9.0"
 kotlin-coroutines = "1.7.3"
 ktor = "2.3.3"
-kotlinx-serialization = "1.6.0"
 arrow = "1.2.0"
 kotest = "5.6.2"
 compose = "1.5.0"
 compose-compiler = "1.5.2" # It's used - don't delete it!
 compose-material3 = "1.1.1"
-compose-activity = "1.7.2"
-compose-viewmodel = "2.6.1"
-coil = "2.4.0"
 glance = "1.0.0-rc01"
-datastore = "1.0.0"
-androidx-security = "1.0.0"
-androidx-activity = "1.8.0-alpha07"
-appcompat-activity = "1.7.0-alpha03"
-androidx-biometrics = "1.2.0-alpha05"
-google-playservices-auth = "20.7.0"
-google-billing = "6.0.1"
-google-play-core = "1.10.0"
-google-play-core-ktx = "1.8.1"
-firebase-crashlytics = "17.3.0"
+hilt = "2.47"
+room = "2.6.0-alpha03"
+androidx-work = "2.8.1"
 
 # Linters
 detekt = "1.23.1" # https://detekt.dev/docs/gettingstarted/gradle/
@@ -29,53 +18,91 @@ detekt-ruleset-compiler = "0.0.2" # https://github.com/BraisGabin/detekt-compile
 detekt-ruleset-compose = "0.2.1" # https://github.com/mrmans0n/compose-rules/releases
 
 [libraries]
+android-gradle-plugin = { module = "com.android.tools.build:gradle", version = "8.2.0-beta01" }
+
+# Kotlin
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlin-coroutines" }
 kotlin-coroutines-googleplay-temp = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlin-coroutines" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.6.0" }
+
+# Ktor
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
 ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+
+# Arrow + Kotest
 arrowkt-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
 kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
 kotest-property-arrow = { module = "io.kotest.extensions:kotest-property-arrow", version.ref = "arrow" }
 kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
-ivy-frp-temp = { module = "com.github.ILIYANGERMANOV:ivy-frp", version = "0.9.5" }
+
+# Compose
 compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
-#compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 compose-material3-windowsize = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "compose-material3" }
 compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
 compose-runtime-livedate-temp = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "compose" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
-compose-activity = { module = "androidx.activity:activity-compose", version.ref = "compose-activity" }
-compose-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "compose-viewmodel" }
+compose-activity = { module = "androidx.activity:activity-compose", version = "1.7.2" }
+compose-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version = "2.6.1" }
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
-compose-coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+compose-coil = { module = "io.coil-kt:coil-compose", version = "2.4.0" }
 glance = { module = "androidx.glance:glance", version.ref = "glance" }
 glance-appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "glance" }
 glance-material3 = { module = "androidx.glance:glance-material3", version.ref = "glance" }
-datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
-androidx-security = { module = "androidx.security:security-crypto", version.ref = "androidx-security" }
-androidx-biometrics = { module = "androidx.biometric:biometric", version.ref = "androidx-biometrics" }
-androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity" }
-appcompat-activity = { module = "androidx.appcompat:appcompat", version.ref = "appcompat-activity" }
-google-playservices-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "google-playservices-auth" }
-google-billing = { module = "com.android.billingclient:billing-ktx", version.ref = "google-billing" }
-google-play-core = { module = "com.google.android.play:core", version.ref = "google-play-core" }
-google-play-core-ktx = { module = "com.google.android.play:core-ktx", version.ref = "google-play-core-ktx" }
-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version.ref = "firebase-crashlytics" }
+
+# Local persistence
+datastore = { module = "androidx.datastore:datastore-preferences", version = "1.0.0" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+
+# Hilt
+hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-work = { module = "androidx.hilt:hilt-work", version = "1.0.0" }
+hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+hilt-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
+hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
+
+# Google
+google-services = { module = "com.google.gms:google-services", version = "4.3.15" }
+google-playservices-auth = { module = "com.google.android.gms:play-services-auth", version = "20.7.0" }
+google-billing = { module = "com.android.billingclient:billing-ktx", version = "6.0.1" }
+google-play-core = { module = "com.google.android.play:core", version = "1.10.0" }
+google-play-core-ktx = { module = "com.google.android.play:core-ktx", version = "1.8.1" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version = "17.3.0" }
+firebase-crashlytics-gradle-plugin = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.8" }
+
+# AndroidX
+androidx-security = { module = "androidx.security:security-crypto", version = "1.0.0" }
+androidx-biometrics = { module = "androidx.biometric:biometric", version = "1.2.0-alpha05" }
+androidx-activity = { module = "androidx.activity:activity-ktx", version = "1.8.0-alpha07" }
+appcompat-activity = { module = "androidx.appcompat:appcompat", version = "1.7.0-alpha03" }
+androidx-work = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
+androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "androidx-work" }
+androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version = "1.2.1" }
+
+# Legacy
+gson = { module = "com.google.code.gson:gson", version = "2.10.1" } # will be removed in favor of KotlinX serialization
+timber = { module = "com.jakewharton.timber:timber", version = "4.7.1" }
+eventbus = { module = "org.greenrobot:eventbus", version = "3.3.1" } # will be removed
+keval = { module = "com.notkamui.libs:keval", version = "0.9.0" }
+opencsv-csv = { module = "com.opencsv:opencsv", version = "5.5" }
+opencsv-apache-commons = { module = "org.apache.commons:commons-lang3", version = "3.12.0" }
+ivy-frp-temp = { module = "com.github.ILIYANGERMANOV:ivy-frp", version = "0.9.5" }
 
 # Linters
-detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
+detekt-gradle-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 detekt-ruleset-compiler = { module = "com.braisgabin.detekt:kotlin-compiler-wrapper", version.ref = "detekt-ruleset-compiler" }
 detekt-ruleset-ktlint = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 detekt-ruleset-compose = { module = "io.nlopez.compose.rules:detekt", version.ref = "detekt-ruleset-compose" }
@@ -139,6 +166,18 @@ google = [
 ]
 firebase = [
     "firebase-crashlytics"
+]
+hilt = [
+    "hilt",
+    "hilt-work"
+]
+room = [
+    "room-runtime",
+    "room-ktx"
+]
+opencsv = [
+    "opencsv-csv",
+    "opencsv-apache-commons"
 ]
 
 [plugins]

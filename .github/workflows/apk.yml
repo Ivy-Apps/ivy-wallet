@@ -41,7 +41,9 @@ jobs:
           path: app/build/outputs/apk/demo/app-demo.apk
 
       - name: Upload APK in Telegram Group
-        if: github.ref == 'refs/heads/main'
+        if: |
+          github.ref == 'refs/heads/main' &&
+          github.event.head_commit.author.name != 'dependabot[bot]'
         run: |
           COMMIT_LINK="https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}"
           COMMIT_MESSAGE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${GITHUB_REPOSITORY}/commits/${GITHUB_SHA}" | jq -r .commit.message)

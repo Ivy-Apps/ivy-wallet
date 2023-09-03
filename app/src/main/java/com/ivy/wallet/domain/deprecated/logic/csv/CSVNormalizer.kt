@@ -1,8 +1,9 @@
 package com.ivy.wallet.domain.deprecated.logic.csv
 
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
+import javax.inject.Inject
 
-class CSVNormalizer {
+class CSVNormalizer @Inject constructor() {
 
     fun normalize(rawCSV: String, importType: ImportType): String {
         return when (importType) {

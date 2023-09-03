@@ -1,5 +1,4 @@
 import com.ivy.wallet.buildsrc.Project
-import com.ivy.wallet.buildsrc.appModuleDependencies
 
 plugins {
     id("com.android.application")
@@ -140,7 +139,6 @@ android {
 }
 
 dependencies {
-    appModuleDependencies()
     implementation(project(":ivy-design"))
 
     implementation(libs.ivy.frp.temp)
@@ -156,6 +154,23 @@ dependencies {
     implementation(libs.androidx.security)
     implementation(libs.androidx.biometrics)
 
+    implementation(libs.gson)
+
+    implementation(libs.bundles.hilt)
+    kapt(libs.hilt.compiler)
+
+    implementation(libs.bundles.room)
+    kapt(libs.room.compiler)
+
+    implementation(libs.timber)
+    implementation(libs.eventbus)
+    implementation(libs.keval)
+    implementation(libs.bundles.opencsv)
+    implementation(libs.androidx.work)
+    implementation(libs.androidx.recyclerview)
+
     testImplementation(libs.bundles.kotest)
     testImplementation(libs.bundles.kotlin.test)
+    testImplementation(libs.hilt.testing)
+    testImplementation(libs.androidx.work.testing)
 }

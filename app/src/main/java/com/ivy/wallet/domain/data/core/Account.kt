@@ -1,10 +1,9 @@
 package com.ivy.wallet.domain.data.core
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.wallet.io.network.data.AccountDTO
 import com.ivy.wallet.io.persistence.data.AccountEntity
 import com.ivy.wallet.ui.theme.Green
-import java.util.*
+import java.util.UUID
 
 data class Account(
     val name: String,
@@ -28,16 +27,6 @@ data class Account(
         includeInBalance = includeInBalance,
         isSynced = isSynced,
         isDeleted = isDeleted,
-        id = id
-    )
-
-    fun toDTO(): AccountDTO = AccountDTO(
-        name = name,
-        currency = currency,
-        color = color,
-        icon = icon,
-        orderNum = orderNum,
-        includeInBalance = includeInBalance,
         id = id
     )
 }

@@ -15,19 +15,19 @@ repositories {
 
 dependencies {
     //https://mvnrepository.com/artifact/com.android.tools.build/gradle?repo=google
-    implementation("com.android.tools.build:gradle:8.2.0-beta01")
+    implementation(libs.android.gradle.plugin)
 
-    //Must match kotlinVersion from dependencies.kt
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0")
+    //Must match kotlinVersion from Project.kt
+    implementation(libs.kotlin.gradle.plugin)
 
-    implementation("com.google.dagger:hilt-android-gradle-plugin:2.47")
+    implementation(libs.hilt.gradle.plugin)
 
     //URL: https://developers.google.com/android/guides/google-services-plugin
-    implementation("com.google.gms:google-services:4.3.15")
+    implementation(libs.google.services)
 
-    implementation("com.google.firebase:firebase-crashlytics-gradle:2.9.8")
+    implementation(libs.firebase.crashlytics.gradle.plugin)
 
-    implementation(libs.detekt.gradle)
+    implementation(libs.detekt.gradle.plugin)
 
     // Make version catalog available in precompiled scripts
     // https://github.com/gradle/gradle/issues/15383#issuecomment-1567461389

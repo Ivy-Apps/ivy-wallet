@@ -13,9 +13,10 @@ import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.Paywall
 import com.ivy.wallet.ui.paywall.PaywallReason
 import com.ivy.wallet.utils.ioThread
+import javax.inject.Inject
 
 @Deprecated("Migrate to FP Style & Actions")
-class PaywallLogic(
+class PaywallLogic @Inject constructor(
     private val ivyBilling: IvyBilling,
     private val ivyContext: IvyWalletCtx,
     private val navigation: Navigation,

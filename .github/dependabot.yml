@@ -4,17 +4,52 @@
 version: 2
 
 updates:
-    - package-ecosystem: "gradle"
-      directory: "/"
-      schedule:
-        interval: "weekly"
-      registries:
-        - maven-google
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    registries:
+      - maven-google
+    open-pull-requests-limit: 10
+    groups:
+      kotlin-compose:
+        patterns:
+          - "org.jetbrains.kotlin:*"
+          - "org.jetbrains.kotlinx:*"
+          - "org.jetbrains.kotlin.plugin.serialization"
+          - "androidx.compose:*"
+          - "androidx.glance:*"
+          - "io.coil-kt:coil-compose"
+          - "com.android.tools.build:gradle"
+          - "androidx.activity:activity-compose"
+          - "androidx.lifecycle:lifecycle-viewmodel-compose"
+      ktor:
+        patterns:
+          - "io.ktor:*"
+      google-firebase:
+        patterns:
+          - "com.google.*"
+          - "com.android.billingclient:*"
+      kotest:
+        patterns:
+          - "io.kotest.*"
+          - "io.kotest:*"
+      androidx:
+        patterns:
+          - "androidx.*"
+      hilt:
+        patterns:
+          - "com.google.dagger:*"
+          - "androidx.hilt:hilt-work"
+      room:
+        patterns:
+          - "androidx.room:*"
 
-    - package-ecosystem: "github-actions"
-      directory: "/"
-      schedule:
-        interval: "weekly"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
 
 # This is only a workaround as long as
 # https://github.com/dependabot/dependabot-core/pull/7260

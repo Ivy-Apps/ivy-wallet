@@ -2,16 +2,14 @@ package com.ivy.wallet.domain.deprecated.logic
 
 import com.ivy.wallet.domain.data.core.LoanRecord
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
-import com.ivy.wallet.domain.deprecated.sync.uploader.LoanRecordUploader
 import com.ivy.wallet.io.persistence.dao.LoanRecordDao
 import com.ivy.wallet.utils.ioThread
-import java.util.*
+import java.util.UUID
 
 @Deprecated("Use FP style, look into `domain.fp` package")
 class LoanRecordCreator(
     private val paywallLogic: PaywallLogic,
     private val dao: LoanRecordDao,
-    private val uploader: LoanRecordUploader
 ) {
     suspend fun create(
         loanId: UUID,
@@ -41,10 +39,6 @@ class LoanRecordCreator(
                 }
 
                 onRefreshUI(newItem!!)
-
-                ioThread {
-                    uploader.sync(newItem!!)
-                }
             }
             return newItem?.id
         } catch (e: Exception) {
@@ -70,10 +64,6 @@ class LoanRecordCreator(
             }
 
             onRefreshUI(updatedItem)
-
-            ioThread {
-                uploader.sync(updatedItem)
-            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -89,10 +79,6 @@ class LoanRecordCreator(
             }
 
             onRefreshUI()
-
-            ioThread {
-                uploader.delete(item.id)
-            }
         } catch (e: Exception) {
             e.printStackTrace()
         }

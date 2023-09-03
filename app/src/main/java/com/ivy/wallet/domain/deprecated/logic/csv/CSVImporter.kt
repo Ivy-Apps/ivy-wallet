@@ -28,10 +28,11 @@ import java.io.StringReader
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.UUID
+import javax.inject.Inject
 import kotlin.math.absoluteValue
 
-class CSVImporter(
+class CSVImporter @Inject constructor(
     private val settingsDao: SettingsDao,
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,

@@ -1,4 +1,4 @@
-package com.ivy.wallet.backup.ktor
+package com.ivy.wallet.ktor
 
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation

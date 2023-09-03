@@ -1,4 +1,4 @@
-name: Lint
+name: Detekt
 
 # Controls when the workflow will run
 on:
@@ -11,7 +11,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  lint:
+  detekt:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -40,14 +40,14 @@ jobs:
             ${{ runner.os }}-gradle-
       #---------------------------------------------------
 
-      #Lint
-      - name: Lint (release)
-        run: ./gradlew lintRelease
+      #Detekt
+      - name: Detekt
+        run: ./gradlew detekt
 
-      - name: Upload Lint Release report to GitHub
+      - name: Upload Detekt Release report to GitHub
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          name: lint-release-report.html
-          path: app/build/reports/lint-results-release.html
+          name: detekt-report.html
+          path: build/reports/detekt/detekt.html
       #------------------------------------------------------------------

@@ -15,7 +15,6 @@ import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
-import com.ivy.wallet.domain.deprecated.sync.item.CategorySync
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.ui.IvyWalletCtx
@@ -24,15 +23,18 @@ import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.scopedIOThread
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.absoluteValue
 
 @HiltViewModel
 class CategoriesViewModel @Inject constructor(
     private val categoryDao: CategoryDao,
-    private val categorySync: CategorySync,
     private val categoryCreator: CategoryCreator,
     private val categoriesAct: CategoriesAct,
     private val ivyContext: IvyWalletCtx,
@@ -151,10 +153,6 @@ class CategoriesViewModel @Inject constructor(
 
         updateState {
             it.copy(categories = sortedList, sortOrder = sortOrder)
-        }
-
-        ioThread {
-            categorySync.sync()
         }
 
         TestIdlingResource.decrement()

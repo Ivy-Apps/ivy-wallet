@@ -1,4 +1,4 @@
-package com.ivy.wallet.backup.ktor
+package com.ivy.wallet.ktor
 
 import dagger.Module
 import dagger.Provides

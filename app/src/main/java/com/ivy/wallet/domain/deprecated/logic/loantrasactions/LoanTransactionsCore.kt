@@ -4,10 +4,18 @@ import androidx.compose.ui.graphics.toArgb
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.LoanType
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.core.*
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.data.core.Loan
+import com.ivy.wallet.domain.data.core.LoanRecord
+import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
-import com.ivy.wallet.domain.deprecated.sync.uploader.TransactionUploader
-import com.ivy.wallet.io.persistence.dao.*
+import com.ivy.wallet.io.persistence.dao.AccountDao
+import com.ivy.wallet.io.persistence.dao.CategoryDao
+import com.ivy.wallet.io.persistence.dao.LoanDao
+import com.ivy.wallet.io.persistence.dao.LoanRecordDao
+import com.ivy.wallet.io.persistence.dao.SettingsDao
+import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.theme.components.IVY_COLOR_PICKER_COLORS_FREE
@@ -18,11 +26,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
-import java.util.*
+import java.util.Locale
+import java.util.UUID
+import javax.inject.Inject
 
-class LoanTransactionsCore(
+class LoanTransactionsCore @Inject constructor(
     private val categoryDao: CategoryDao,
-    private val transactionUploader: TransactionUploader,
     private val transactionDao: TransactionDao,
     private val ivyContext: IvyWalletCtx,
     private val loanRecordDao: LoanRecordDao,
@@ -172,10 +181,6 @@ class LoanTransactionsCore(
         ioThread {
             transaction?.let {
                 transactionDao.flagDeleted(it.id)
-            }
-
-            transaction?.let {
-                transactionUploader.delete(it.id)
             }
         }
     }

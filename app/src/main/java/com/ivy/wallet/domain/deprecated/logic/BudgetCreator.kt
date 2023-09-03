@@ -2,7 +2,6 @@ package com.ivy.wallet.domain.deprecated.logic
 
 import com.ivy.wallet.domain.data.core.Budget
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
-import com.ivy.wallet.domain.deprecated.sync.uploader.BudgetUploader
 import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.wallet.io.persistence.dao.BudgetDao
 import com.ivy.wallet.utils.ioThread
@@ -10,7 +9,6 @@ import com.ivy.wallet.utils.ioThread
 class BudgetCreator(
     private val paywallLogic: PaywallLogic,
     private val budgetDao: BudgetDao,
-    private val budgetUploader: BudgetUploader
 ) {
     suspend fun createBudget(
         data: CreateBudgetData,
@@ -39,10 +37,6 @@ class BudgetCreator(
                 }
 
                 onRefreshUI(newBudget)
-
-                ioThread {
-                    budgetUploader.sync(newBudget)
-                }
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -67,10 +61,6 @@ class BudgetCreator(
             }
 
             onRefreshUI(updatedBudget)
-
-            ioThread {
-                budgetUploader.sync(updatedBudget)
-            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -86,10 +76,6 @@ class BudgetCreator(
             }
 
             onRefreshUI()
-
-            ioThread {
-                budgetUploader.delete(budget.id)
-            }
         } catch (e: Exception) {
             e.printStackTrace()
         }

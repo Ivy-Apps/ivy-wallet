@@ -10,24 +10,15 @@ import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.action.global.UpdateStartDayOfMonthAct
-import com.ivy.wallet.domain.action.transaction.FetchAllTrnsFromServerAct
-import com.ivy.wallet.domain.data.analytics.AnalyticsEvent
 import com.ivy.wallet.domain.data.core.User
 import com.ivy.wallet.domain.deprecated.logic.LogoutLogic
 import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
-import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.zip.BackupLogic
-import com.ivy.wallet.domain.deprecated.sync.IvySync
-import com.ivy.wallet.io.network.IvyAnalytics
-import com.ivy.wallet.io.network.IvySession
-import com.ivy.wallet.io.network.RestClient
-import com.ivy.wallet.io.network.request.auth.GoogleSignInRequest
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.UserDao
 import com.ivy.wallet.refreshWidget
 import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.Main
 import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.ui.widget.WalletBalanceWidgetReceiver
 import com.ivy.wallet.utils.OpResult
@@ -48,20 +39,14 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
-    private val ivySession: IvySession,
     private val userDao: UserDao,
     private val ivyContext: IvyWalletCtx,
-    private val ivySync: IvySync,
     private val exportCSVLogic: ExportCSVLogic,
-    private val restClient: RestClient,
-    private val ivyAnalytics: IvyAnalytics,
-    private val exchangeRatesLogic: ExchangeRatesLogic,
     private val logoutLogic: LogoutLogic,
     private val sharedPrefs: SharedPrefs,
     private val backupLogic: BackupLogic,
     private val startDayOfMonthAct: StartDayOfMonthAct,
     private val updateStartDayOfMonthAct: UpdateStartDayOfMonthAct,
-    private val fetchAllTrnsFromServerAct: FetchAllTrnsFromServerAct,
     private val nav: Navigation,
     private val syncExchangeRatesAct: SyncExchangeRatesAct,
 ) : ViewModel() {
@@ -111,10 +96,7 @@ class SettingsViewModel @Inject constructor(
 
             _startDateOfMonth.value = startDayOfMonthAct(Unit)!!
 
-            _user.value = ioThread {
-                val userId = ivySession.getUserIdSafe()
-                if (userId != null) userDao.findById(userId)?.toDomain() else null
-            }
+            _user.value = null
             _currencyCode.value = settings.currency
 
             _lockApp.value = sharedPrefs.getBoolean(SharedPrefs.APP_LOCK_ENABLED, false)
@@ -126,8 +108,6 @@ class SettingsViewModel @Inject constructor(
             _treatTransfersAsIncomeExpense.value =
                 sharedPrefs.getBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, false)
 
-            _opSync.value = OpResult.success(ioThread { ivySync.isSynced() })
-
             TestIdlingResource.decrement()
         }
     }
@@ -137,12 +117,6 @@ class SettingsViewModel @Inject constructor(
             TestIdlingResource.increment()
 
             _opSync.value = OpResult.loading()
-
-            ioThread {
-                ivySync.sync()
-            }
-
-            _opSync.value = OpResult.success(ioThread { ivySync.isSynced() })
 
             TestIdlingResource.decrement()
         }
@@ -282,30 +256,6 @@ class SettingsViewModel @Inject constructor(
                     TestIdlingResource.increment()
 
                     try {
-                        val authResponse = restClient.authService.googleSignIn(
-                            GoogleSignInRequest(
-                                googleIdToken = idToken,
-                                fcmToken = ""
-                            )
-                        )
-
-                        ioThread {
-                            ivySession.initiate(authResponse)
-
-                            settingsDao.save(
-                                settingsDao.findFirst().copy(
-                                    name = authResponse.user.firstName
-                                )
-                            )
-                        }
-
-                        start()
-
-                        ioThread {
-                            ivyAnalytics.logEvent(AnalyticsEvent.LOGIN_FROM_SETTINGS)
-                        }
-
-                        sync()
                     } catch (e: Exception) {
                         e.sendToCrashlytics("Settings - GOOGLE_SIGN_IN ERROR: generic exception when logging with GOOGLE")
                         e.printStackTrace()
@@ -371,46 +321,13 @@ class SettingsViewModel @Inject constructor(
 
     fun deleteAllUserData() {
         viewModelScope.launch {
-            try {
-                restClient.nukeService.deleteAllUserData()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
             logout()
         }
     }
 
     fun deleteCloudUserData() {
         viewModelScope.launch {
-            try {
-                restClient.nukeService.deleteAllUserData()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
             cloudLogout()
-        }
-    }
-
-    fun fetchMissingTransactions() {
-        if (opFetchTrns.value is OpResult.Loading) {
-            //wait for sync to finish
-            return
-        }
-
-        if (opFetchTrns.value is OpResult.Success) {
-            //go to home screen
-            ivyContext.setMoreMenuExpanded(expanded = false)
-            nav.navigateTo(Main)
-            return
-        }
-
-        viewModelScope.launch {
-            _opFetchtrns.value = OpResult.loading()
-
-            when (val res = fetchAllTrnsFromServerAct(Unit)) {
-                is Res.Ok -> _opFetchtrns.value = OpResult.success(Unit)
-                is Res.Err -> _opFetchtrns.value = OpResult.failure(res.error)
-            }
         }
     }
 }

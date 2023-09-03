@@ -6,8 +6,9 @@ import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
 import com.ivy.wallet.domain.deprecated.logic.csv.model.JoinResult
 import com.ivy.wallet.domain.deprecated.logic.csv.model.RowMapping
 import com.ivy.wallet.utils.toLowerCaseLocal
+import javax.inject.Inject
 
-class CSVMapper {
+class CSVMapper @Inject constructor() {
 
     @ExperimentalStdlibApi
     fun mapping(type: ImportType, headerRow: String?) = when (type) {
