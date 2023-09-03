@@ -123,6 +123,10 @@ _Note: It may take up to 24h for the [contrib.rocks](https://contrib.rocks/previ
     <small>Created Ivy Wallets's<a href="https://youtu.be/sDmZxXlXsCM"> Github Backup Tutorial.</a> </small>
 </div>
 
-
+<div align="center">
+    <img src="https://avatars.githubusercontent.com/u/130169485?v=4" width="100px;" alt="Shymom [SSI]"/><br>
+    <strong><a href="https://github.com/SHYMOM" >Shymom</a> </strong><br>
+    <small>Created Ivy Wallets's Second <a href="https://youtu.be/wcgORjVFy4I?si=3mn3JMomqtiWBTsf"> Github Backup Tutorial.</a> </small>
+</div>
 
 
