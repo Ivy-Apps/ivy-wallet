@@ -4,17 +4,94 @@
 version: 2
 
 updates:
-    - package-ecosystem: "gradle"
-      directory: "/"
-      schedule:
-        interval: "weekly"
-      registries:
-        - maven-google
+  # Default behavior for all other dependencies (not part of any group):
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    registries:
+      - maven-google
 
-    - package-ecosystem: "github-actions"
-      directory: "/"
-      schedule:
-        interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    registries:
+      - maven-google
+    group:
+      name: "Kotlin and Compose"
+      dependencies:
+        - dependency-name: "org.jetbrains.kotlin:*"
+          dependency-type: "production"
+        - dependency-name: "androidx.compose:*"
+          dependency-type: "production"
+        - dependency-name: "androidx.glance:*"
+          dependency-type: "production"
+        - dependency-name: "io.coil-kt:coil-compose"
+          dependency-type: "production"
+        - dependency-name: "com.android.tools.build:gradle"
+          dependency-type: "production"
+
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    registries:
+      - maven-google
+    group:
+      name: "Ktor"
+      dependencies:
+        - dependency-name: "io.ktor:*"
+          dependency-type: "production"
+
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    registries:
+      - maven-google
+    group:
+      name: "Google & Firebase"
+      dependencies:
+        - dependency-name: "com.google.*"
+          dependency-type: "production"
+        - dependency-name: "com.android.billingclient:*"
+          dependency-type: "production"
+
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    registries:
+      - maven-google
+    group:
+      name: "Kotest"
+      dependencies:
+        - dependency-name: "io.kotest.*"
+          dependency-type: "production"
+        - dependency-name: "io.kotest:*"
+          dependency-type: "production"
+
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    registries:
+      - maven-google
+    group:
+      name: "AndroidX"
+      dependencies:
+        - dependency-name: "androidx.*"
+          dependency-type: "production"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    group:
+      name: "GitHub Actions updates"
+      dependencies:
+        - dependency-type: "all"
 
 # This is only a workaround as long as
 # https://github.com/dependabot/dependabot-core/pull/7260

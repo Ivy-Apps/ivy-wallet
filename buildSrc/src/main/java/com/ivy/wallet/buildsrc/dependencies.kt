@@ -33,18 +33,10 @@ object Project {
     const val targetSdk = 34
 }
 
-object GlobalVersions {
-    const val compose = "1.5.1"
-    const val composeFoundation = "1.5.0"
-    const val kotlinVersion = "1.9.0"
-}
-
 /**
  * @param kotlinVersion must also be updated in buildSrc gradle
  */
-fun DependencyHandler.appModuleDependencies(
-    kotlinVersion: String = GlobalVersions.kotlinVersion
-) {
+fun DependencyHandler.appModuleDependencies() {
 //    implementation(project(":ivy-design"))
 
 //    implementation("com.github.ILIYANGERMANOV:ivy-frp:0.9.5")
@@ -73,9 +65,7 @@ fun DependencyHandler.appModuleDependencies(
     ThirdParty()
 }
 
-fun DependencyHandler.ivyDesignModuleDependencies(
-    kotlinVersion: String = GlobalVersions.kotlinVersion
-) {
+fun DependencyHandler.ivyDesignModuleDependencies() {
 //    Coroutines(version = "1.5.0")
 //    FunctionalProgramming(
 //            arrowVersion = "1.0.1",

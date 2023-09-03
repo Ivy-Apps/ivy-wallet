@@ -1,4 +1,5 @@
 [versions]
+agp = "8.2.0-beta01"
 kotlin = "1.9.0"
 kotlin-coroutines = "1.7.3"
 ktor = "2.3.3"
@@ -21,7 +22,9 @@ google-playservices-auth = "20.7.0"
 google-billing = "6.0.1"
 google-play-core = "1.10.0"
 google-play-core-ktx = "1.8.1"
+google-services = "4.3.15"
 firebase-crashlytics = "17.3.0"
+firebase-crashlytics-gradle = "2.9.8"
 
 # Linters
 detekt = "1.23.1" # https://detekt.dev/docs/gettingstarted/gradle/
@@ -29,6 +32,8 @@ detekt-ruleset-compiler = "0.0.2" # https://github.com/BraisGabin/detekt-compile
 detekt-ruleset-compose = "0.2.1" # https://github.com/mrmans0n/compose-rules/releases
 
 [libraries]
+agp = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlin-coroutines" }
@@ -49,7 +54,6 @@ kotest-property-arrow = { module = "io.kotest.extensions:kotest-property-arrow",
 kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
 ivy-frp-temp = { module = "com.github.ILIYANGERMANOV:ivy-frp", version = "0.9.5" }
 compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
-#compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 compose-material3-windowsize = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "compose-material3" }
@@ -68,11 +72,13 @@ androidx-security = { module = "androidx.security:security-crypto", version.ref 
 androidx-biometrics = { module = "androidx.biometric:biometric", version.ref = "androidx-biometrics" }
 androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activity" }
 appcompat-activity = { module = "androidx.appcompat:appcompat", version.ref = "appcompat-activity" }
+google-services = { module = "com.google.gms:google-services", version.ref = "google-services" }
 google-playservices-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "google-playservices-auth" }
 google-billing = { module = "com.android.billingclient:billing-ktx", version.ref = "google-billing" }
 google-play-core = { module = "com.google.android.play:core", version.ref = "google-play-core" }
 google-play-core-ktx = { module = "com.google.android.play:core-ktx", version.ref = "google-play-core-ktx" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version.ref = "firebase-crashlytics" }
+firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebase-crashlytics-gradle" }
 
 # Linters
 detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
