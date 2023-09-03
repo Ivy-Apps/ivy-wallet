@@ -7,7 +7,6 @@ import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
-import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
 import com.ivy.wallet.io.persistence.SharedPrefs
@@ -26,8 +25,6 @@ class MainViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
     private val ivyContext: IvyWalletCtx,
     private val nav: Navigation,
-    private val ivySync: IvySync,
-    private val exchangeRatesLogic: ExchangeRatesLogic,
     private val syncExchangeRatesAct: SyncExchangeRatesAct,
     private val accountCreator: AccountCreator,
     private val sharedPrefs: SharedPrefs,
@@ -57,13 +54,6 @@ class MainViewModel @Inject constructor(
                 sharedPrefs.getBoolean(SharedPrefs.DATA_BACKUP_COMPLETED, false)
 
             ioThread {
-//                try {
-//                    bankIntegrationsLogic.sync() //sync bank integrations
-//                } catch (e: Exception) {
-//                    e.printStackTrace()
-//                }
-                ivySync.sync() //sync app data
-
                 //Sync exchange rates
                 syncExchangeRatesAct(
                     SyncExchangeRatesAct.Input(baseCurrency = baseCurrency)

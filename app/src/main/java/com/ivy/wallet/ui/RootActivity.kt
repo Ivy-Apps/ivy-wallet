@@ -50,7 +50,6 @@ import com.ivy.wallet.R
 import com.ivy.wallet.backup.github.ui.GitHubBackupScreen
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyLogic
-import com.ivy.wallet.ui.analytics.AnalyticsReport
 import com.ivy.wallet.ui.applocked.AppLockedScreen
 import com.ivy.wallet.ui.balance.BalanceScreen
 import com.ivy.wallet.ui.budget.BudgetScreen
@@ -222,7 +221,6 @@ class RootActivity : AppCompatActivity() {
 
             is Test -> TestScreen(screen = screen)
             is Charts -> ChartsScreen(screen = screen)
-            is AnalyticsReport -> AnalyticsReport(screen = screen)
             is Import -> ImportCSVScreen(screen = screen)
             is Report -> ReportScreen(screen = screen)
             is BudgetScreen -> BudgetScreen(screen = screen)

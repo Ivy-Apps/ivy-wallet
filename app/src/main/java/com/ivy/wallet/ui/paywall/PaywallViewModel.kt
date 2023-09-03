@@ -11,13 +11,11 @@ import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.budget.BudgetsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.loan.LoansAct
-import com.ivy.wallet.domain.data.analytics.AnalyticsEvent
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Budget
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Loan
 import com.ivy.wallet.domain.deprecated.logic.PaywallLogic
-import com.ivy.wallet.io.network.IvyAnalytics
 import com.ivy.wallet.ui.Paywall
 import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.utils.asLiveData
@@ -31,7 +29,6 @@ import javax.inject.Inject
 class PaywallViewModel @Inject constructor(
     private val ivyBilling: IvyBilling,
     private val paywallLogic: PaywallLogic,
-    private val ivyAnalytics: IvyAnalytics,
     private val categoriesAct: CategoriesAct,
     private val accountsAct: AccountsAct,
     private val budgetsAct: BudgetsAct,
@@ -93,18 +90,6 @@ class PaywallViewModel @Inject constructor(
             _accounts.value = accountsAct(Unit)!!
             _budgets.value = budgetsAct(Unit)!!
             _loans.value = loansAct(Unit)!!
-
-            ivyAnalytics.logEvent(
-                when (screen.paywallReason) {
-                    PaywallReason.CATEGORIES -> AnalyticsEvent.PAYWALL_CATEGORIES
-                    PaywallReason.ACCOUNTS -> AnalyticsEvent.PAYWALL_ACCOUNTS
-                    PaywallReason.EXPORT_CSV -> AnalyticsEvent.PAYWALL_EXPORT_CSV
-                    PaywallReason.PREMIUM_COLOR -> AnalyticsEvent.PAYWALL_PREMIUM_COLOR
-                    PaywallReason.BUDGETS -> AnalyticsEvent.PAYWALL_BUDGETS
-                    PaywallReason.LOANS -> AnalyticsEvent.PAYWALL_LOANS
-                    null -> AnalyticsEvent.PAYWALL_NO_REASON
-                }
-            )
         }
     }
 
@@ -117,28 +102,12 @@ class PaywallViewModel @Inject constructor(
             onActivePurchase = {
                 _purchasedSkus.value = purchasedSkus.value.orEmpty().plus(it.skus)
                 activePurchases.add(it)
-
-                viewModelScope.launch {
-                    ivyAnalytics.logEvent(AnalyticsEvent.PAYWALL_ACTIVE_PREMIUM)
-                }
             }
         )
     }
 
     fun onPlanSelected(plan: Plan?) {
-        if (plan != null) {
-            viewModelScope.launch {
-                val chooseSpecificPlanEvent = when (plan.type) {
-                    PlanType.MONTHLY -> AnalyticsEvent.PAYWALL_CHOOSE_PLAN_MONTHLY
-                    PlanType.SIX_MONTH -> AnalyticsEvent.PAYWALL_CHOOSE_PLAN_6MONTH
-                    PlanType.YEARLY -> AnalyticsEvent.PAYWALL_CHOOSE_PLAN_YEARLY
-                    PlanType.LIFETIME -> AnalyticsEvent.PAYWALL_CHOOSE_PLAN_LIFETIME
-                }
 
-                ivyAnalytics.logEvent(chooseSpecificPlanEvent)
-                ivyAnalytics.logEvent(AnalyticsEvent.PAYWALL_CHOOSE_PLAN)
-            }
-        }
     }
 
     fun buy(activity: RootActivity, plan: Plan) {
@@ -149,17 +118,5 @@ class PaywallViewModel @Inject constructor(
                 .firstOrNull { !it.originalJson.contains("lifetime") }
                 ?.purchaseToken
         )
-
-        viewModelScope.launch {
-            val buySpecificPlanEvent = when (plan.type) {
-                PlanType.MONTHLY -> AnalyticsEvent.PAYWALL_START_BUY_MONTHLY
-                PlanType.SIX_MONTH -> AnalyticsEvent.PAYWALL_START_BUY_6MONTH
-                PlanType.YEARLY -> AnalyticsEvent.PAYWALL_START_BUY_YEARLY
-                PlanType.LIFETIME -> AnalyticsEvent.PAYWALL_START_BUY_LIFETIME
-            }
-
-            ivyAnalytics.logEvent(buySpecificPlanEvent)
-            ivyAnalytics.logEvent(AnalyticsEvent.PAYWALL_START_BUY)
-        }
     }
 }

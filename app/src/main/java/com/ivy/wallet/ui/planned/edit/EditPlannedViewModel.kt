@@ -17,12 +17,13 @@ import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsGenerator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
-import com.ivy.wallet.domain.deprecated.sync.item.TransactionSync
-import com.ivy.wallet.domain.deprecated.sync.uploader.PlannedPaymentRuleUploader
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
-import com.ivy.wallet.io.persistence.dao.*
+import com.ivy.wallet.io.persistence.dao.AccountDao
+import com.ivy.wallet.io.persistence.dao.CategoryDao
+import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
+import com.ivy.wallet.io.persistence.dao.SettingsDao
+import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.ui.EditPlanned
-import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.utils.asLiveData
 import com.ivy.wallet.utils.ioThread
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,11 +38,8 @@ class EditPlannedViewModel @Inject constructor(
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
     private val settingsDao: SettingsDao,
-    private val ivyContext: IvyWalletCtx,
     private val nav: Navigation,
-    private val transactionSync: TransactionSync,
     private val plannedPaymentRuleDao: PlannedPaymentRuleDao,
-    private val plannedPaymentRuleUploader: PlannedPaymentRuleUploader,
     private val plannedPaymentsGenerator: PlannedPaymentsGenerator,
     private val categoryCreator: CategoryCreator,
     private val accountCreator: AccountCreator,
@@ -272,11 +270,6 @@ class EditPlannedViewModel @Inject constructor(
 
                 if (closeScreen) {
                     nav.back()
-
-                    ioThread {
-                        plannedPaymentRuleUploader.sync(loadedRule())
-                        transactionSync.sync()
-                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -319,11 +312,6 @@ class EditPlannedViewModel @Inject constructor(
                     )
                 }
                 nav.back()
-
-                loadedRule?.let {
-                    plannedPaymentRuleUploader.delete(it.id)
-                    transactionSync.sync()
-                }
             }
         }
     }

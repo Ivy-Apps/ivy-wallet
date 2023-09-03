@@ -24,17 +24,13 @@ import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LoanTransactionsLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
-import com.ivy.wallet.domain.deprecated.sync.uploader.TransactionUploader
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
 import com.ivy.wallet.io.persistence.SharedPrefs
-import com.ivy.wallet.io.persistence.dao.AccountDao
-import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.LoanDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.refreshWidget
 import com.ivy.wallet.ui.EditTransaction
-import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.Main
 import com.ivy.wallet.ui.loan.data.EditTransactionDisplayLoan
 import com.ivy.wallet.ui.widget.WalletBalanceWidgetReceiver
@@ -57,12 +53,8 @@ import javax.inject.Inject
 class EditTransactionViewModel @Inject constructor(
     private val loanDao: LoanDao,
     private val transactionDao: TransactionDao,
-    private val accountDao: AccountDao,
-    private val categoryDao: CategoryDao,
     private val settingsDao: SettingsDao,
-    private val ivyContext: IvyWalletCtx,
     private val nav: Navigation,
-    private val transactionUploader: TransactionUploader,
     private val sharedPrefs: SharedPrefs,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val categoryCreator: CategoryCreator,
@@ -429,10 +421,6 @@ class EditTransactionViewModel @Inject constructor(
                     transactionDao.flagDeleted(it.id)
                 }
                 closeScreen()
-
-                loadedTransaction?.let {
-                    transactionUploader.delete(it.id)
-                }
             }
 
             TestIdlingResource.decrement()
@@ -527,6 +515,7 @@ class EditTransactionViewModel @Inject constructor(
                                 dueDate.value == null -> {
                             timeNowUTC()
                         }
+
                         else -> loadedTransaction().dateTime
                     },
                     categoryId = category.value?.id,
@@ -555,10 +544,6 @@ class EditTransactionViewModel @Inject constructor(
 
             if (closeScreen) {
                 closeScreen()
-
-                ioThread {
-                    transactionUploader.sync(loadedTransaction())
-                }
             }
         } catch (e: Exception) {
             e.printStackTrace()

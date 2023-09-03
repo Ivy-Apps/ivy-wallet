@@ -22,10 +22,6 @@ import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
-import com.ivy.wallet.io.network.IvyAnalytics
-import com.ivy.wallet.io.network.IvySession
-import com.ivy.wallet.io.network.RestClient
-import com.ivy.wallet.io.network.request.auth.GoogleSignInRequest
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
@@ -49,8 +45,6 @@ class OnboardingViewModel @Inject constructor(
     private val nav: Navigation,
     private val accountDao: AccountDao,
     private val settingsDao: SettingsDao,
-    private val restClient: RestClient,
-    private val session: IvySession,
     private val accountLogic: WalletAccountLogic,
     private val categoryCreator: CategoryCreator,
     private val categoryDao: CategoryDao,
@@ -62,8 +56,6 @@ class OnboardingViewModel @Inject constructor(
 
     //Only OnboardingRouter stuff
     sharedPrefs: SharedPrefs,
-    ivySync: IvySync,
-    ivyAnalytics: IvyAnalytics,
     transactionReminderLogic: TransactionReminderLogic,
     preloadDataLogic: PreloadDataLogic,
     exchangeRatesLogic: ExchangeRatesLogic,
@@ -99,14 +91,10 @@ class OnboardingViewModel @Inject constructor(
         _categories = _categories,
         _categorySuggestions = _categorySuggestions,
 
-        ivyContext = ivyContext,
         nav = nav,
-        ivyAnalytics = ivyAnalytics,
-        exchangeRatesLogic = exchangeRatesLogic,
         accountDao = accountDao,
         sharedPrefs = sharedPrefs,
         categoryDao = categoryDao,
-        ivySync = ivySync,
         preloadDataLogic = preloadDataLogic,
         transactionReminderLogic = transactionReminderLogic,
         logoutLogic = logoutLogic,
@@ -188,26 +176,6 @@ class OnboardingViewModel @Inject constructor(
 
     private suspend fun loginWithGoogleOnServer(idToken: String) {
         TestIdlingResource.increment()
-
-        // TODO: Delete this legacy code
-        val authResponse = restClient.authService.googleSignIn(
-            GoogleSignInRequest(
-                googleIdToken = idToken,
-                fcmToken = ""
-            )
-        )
-
-        ioThread {
-            session.initiate(authResponse)
-
-            settingsDao.save(
-                settingsDao.findFirst().copy(
-                    name = authResponse.user.firstName
-                )
-            )
-        }
-
-        _opGoogleSignIn.value = OpResult.success(Unit)
 
         TestIdlingResource.decrement()
     }

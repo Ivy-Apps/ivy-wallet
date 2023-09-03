@@ -10,7 +10,6 @@ import com.ivy.wallet.domain.action.viewmodel.account.AccountDataAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
-import com.ivy.wallet.domain.deprecated.sync.item.AccountSync
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
 import com.ivy.wallet.domain.pure.data.WalletDAOs
 import com.ivy.wallet.io.persistence.SharedPrefs
@@ -35,7 +34,6 @@ class AccountsViewModel @Inject constructor(
     private val walletDAOs: WalletDAOs,
     private val accountDao: AccountDao,
     private val settingsDao: SettingsDao,
-    private val accountSync: AccountSync,
     private val accountCreator: AccountCreator,
     private val ivyContext: IvyWalletCtx,
     private val sharedPrefs: SharedPrefs,
@@ -125,10 +123,6 @@ class AccountsViewModel @Inject constructor(
             }
         }
         startInternally()
-
-        ioThread {
-            accountSync.sync()
-        }
 
         TestIdlingResource.decrement()
     }

@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.loan.LoansAct
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Loan
@@ -13,10 +12,8 @@ import com.ivy.wallet.domain.deprecated.logic.LoanCreator
 import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LoanTransactionsLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanData
-import com.ivy.wallet.domain.deprecated.sync.item.LoanSync
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
 import com.ivy.wallet.io.persistence.SharedPrefs
-import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.LoanDao
 import com.ivy.wallet.io.persistence.dao.LoanRecordDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
@@ -32,7 +29,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
-import java.util.*
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -40,15 +37,12 @@ class LoanViewModel @Inject constructor(
     private val loanDao: LoanDao,
     private val loanRecordDao: LoanRecordDao,
     private val settingsDao: SettingsDao,
-    private val loanSync: LoanSync,
     private val loanCreator: LoanCreator,
     private val sharedPrefs: SharedPrefs,
-    private val accountDao: AccountDao,
     private val accountCreator: AccountCreator,
     private val loanTransactionsLogic: LoanTransactionsLogic,
     private val loansAct: LoansAct,
     private val accountsAct: AccountsAct,
-    private val categoriesAct: CategoriesAct
 ) : ViewModel() {
 
     private val _baseCurrencyCode = MutableStateFlow(getDefaultFIATCurrency().currencyCode)
@@ -157,10 +151,6 @@ class LoanViewModel @Inject constructor(
             }
             start()
 
-            ioThread {
-                loanSync.sync()
-            }
-
             TestIdlingResource.decrement()
         }
     }
@@ -221,6 +211,7 @@ class LoanViewModel @Inject constructor(
                 is LoanScreenEvent.OnLoanCreate -> {
                     createLoan(event.createLoanData)
                 }
+
                 is LoanScreenEvent.OnAddLoan -> {
                     _state.value = _state.value.copy(
                         loanModalData = LoanModalData(
@@ -230,22 +221,26 @@ class LoanViewModel @Inject constructor(
                         )
                     )
                 }
+
                 is LoanScreenEvent.OnLoanModalDismiss -> {
                     _state.value = _state.value.copy(
                         loanModalData = null
                     )
                 }
+
                 is LoanScreenEvent.OnReOrderModalShow -> {
                     _state.value = _state.value.copy(
                         reorderModalVisible = event.show
                     )
                 }
+
                 is LoanScreenEvent.OnReordered -> {
                     reorder(event.reorderedList)
                     _state.value = _state.value.copy(
                         loans = event.reorderedList
                     )
                 }
+
                 is LoanScreenEvent.OnCreateAccount -> {
                     createAccount(event.accountData)
                 }

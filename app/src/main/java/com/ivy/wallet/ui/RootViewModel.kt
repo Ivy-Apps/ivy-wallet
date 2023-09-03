@@ -14,8 +14,6 @@ import com.ivy.wallet.android.billing.IvyBilling
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.PaywallLogic
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
-import com.ivy.wallet.io.network.IvyAnalytics
-import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.migrations.MigrationsManager
@@ -38,10 +36,8 @@ import javax.inject.Inject
 class RootViewModel @Inject constructor(
     private val ivyContext: IvyWalletCtx,
     private val nav: Navigation,
-    private val ivyAnalytics: IvyAnalytics,
     private val settingsDao: SettingsDao,
     private val sharedPrefs: SharedPrefs,
-    private val ivySession: IvySession,
     private val ivyBilling: IvyBilling,
     private val paywallLogic: PaywallLogic,
     private val transactionReminderLogic: TransactionReminderLogic,
@@ -77,9 +73,6 @@ class RootViewModel @Inject constructor(
             TestIdlingResource.increment()
 
             ioThread {
-                ivySession.loadFromCache()
-                ivyAnalytics.loadSession()
-
                 appLockEnabled = sharedPrefs.getBoolean(SharedPrefs.APP_LOCK_ENABLED, false)
                 //initial app locked state
                 _appLocked.value = appLockEnabled

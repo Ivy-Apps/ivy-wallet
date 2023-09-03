@@ -17,14 +17,10 @@ import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.BudgetCreator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
-import com.ivy.wallet.domain.deprecated.sync.item.BudgetSync
 import com.ivy.wallet.domain.pure.exchange.ExchangeData
 import com.ivy.wallet.domain.pure.transaction.trnCurrency
 import com.ivy.wallet.io.persistence.SharedPrefs
-import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.BudgetDao
-import com.ivy.wallet.io.persistence.dao.CategoryDao
-import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.budget.model.DisplayBudget
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
@@ -41,12 +37,8 @@ import javax.inject.Inject
 @HiltViewModel
 class BudgetViewModel @Inject constructor(
     private val sharedPrefs: SharedPrefs,
-    private val settingsDao: SettingsDao,
     private val budgetDao: BudgetDao,
-    private val categoryDao: CategoryDao,
-    private val accountDao: AccountDao,
     private val budgetCreator: BudgetCreator,
-    private val budgetSync: BudgetSync,
     private val ivyContext: IvyWalletCtx,
     private val accountsAct: AccountsAct,
     private val categoriesAct: CategoriesAct,
@@ -215,10 +207,6 @@ class BudgetViewModel @Inject constructor(
                 }
             }
             start()
-
-            ioThread {
-                budgetSync.sync()
-            }
 
             TestIdlingResource.decrement()
         }
