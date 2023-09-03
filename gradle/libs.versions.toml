@@ -9,7 +9,7 @@ compose-compiler = "1.5.2" # It's used - don't delete it!
 compose-material3 = "1.1.1"
 glance = "1.0.0-rc01"
 hilt = "2.48"
-room = "2.6.0-alpha03"
+room = "2.6.0-beta01"
 androidx-work = "2.8.1"
 
 # Linters
