@@ -18,9 +18,9 @@ dependencies {
     implementation(libs.agp)
 
     //Must match kotlinVersion from dependencies.kt
-    implementation(libs.kotlin.gradle.plugin)
+    implementation(libs.kotlin.gradle)
 
-    implementation("com.google.dagger:hilt-android-gradle-plugin:2.47")
+    implementation(libs.hilt.gradle)
 
     //URL: https://developers.google.com/android/guides/google-services-plugin
     implementation(libs.google.services)

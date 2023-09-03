@@ -51,10 +51,10 @@ fun DependencyHandler.appModuleDependencies() {
 //    Compose(version = GlobalVersions.compose)
 
 
-    Hilt(
-        hiltVersion = "2.47",
-        versionX = "1.0.0"
-    )
+//    Hilt(
+//        hiltVersion = "2.47",
+//        versionX = "1.0.0"
+//    )
     RoomDB()
 
     Networking(retrofitVersion = "2.9.0")
@@ -89,15 +89,10 @@ fun DependencyHandler.Hilt(
     hiltVersion: String,
     versionX: String
 ) {
-    implementation("com.google.dagger:hilt-android:$hiltVersion")
-    kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
 
-    //URL: https://mvnrepository.com/artifact/androidx.hilt/hilt-lifecycle-viewmodel?repo=google
-//    implementation("androidx.hilt:hilt-lifecycle-viewmodel:$versionX")
-    kapt("androidx.hilt:hilt-compiler:$versionX")
+//    kapt("androidx.hilt:hilt-compiler:$versionX")
 
     //URL: https://developer.android.com/training/dependency-injection/hilt-jetpack#workmanager
-    implementation("androidx.hilt:hilt-work:$versionX")
 
     HiltTesting(version = hiltVersion)
 }
@@ -105,8 +100,6 @@ fun DependencyHandler.Hilt(
 fun DependencyHandler.HiltTesting(
     version: String
 ) {
-    androidTestImplementation("com.google.dagger:hilt-android-testing:$version")
-    kaptAndroidTest("com.google.dagger:hilt-android-compiler:$version")
     implementation("androidx.test:runner:1.4.0")
 }
 

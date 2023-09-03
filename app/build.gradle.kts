@@ -156,6 +156,9 @@ dependencies {
     implementation(libs.androidx.security)
     implementation(libs.androidx.biometrics)
 
+    implementation(libs.bundles.hilt)
+    kapt(libs.hilt.compiler)
+
     testImplementation(libs.bundles.kotest)
     testImplementation(libs.bundles.kotlin.test)
 }

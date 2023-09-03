@@ -25,6 +25,7 @@ google-play-core-ktx = "1.8.1"
 google-services = "4.3.15"
 firebase-crashlytics = "17.3.0"
 firebase-crashlytics-gradle = "2.9.8"
+hilt = "2.47"
 
 # Linters
 detekt = "1.23.1" # https://detekt.dev/docs/gettingstarted/gradle/
@@ -33,7 +34,7 @@ detekt-ruleset-compose = "0.2.1" # https://github.com/mrmans0n/compose-rules/rel
 
 [libraries]
 agp = { module = "com.android.tools.build:gradle", version.ref = "agp" }
-kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlin-coroutines" }
@@ -79,6 +80,11 @@ google-play-core = { module = "com.google.android.play:core", version.ref = "goo
 google-play-core-ktx = { module = "com.google.android.play:core-ktx", version.ref = "google-play-core-ktx" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version.ref = "firebase-crashlytics" }
 firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebase-crashlytics-gradle" }
+hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-work = { module = "androidx.hilt:hilt-work", version = "1.0.0" }
+hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+hilt-gradle = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
+hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
 
 # Linters
 detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
@@ -145,6 +151,10 @@ google = [
 ]
 firebase = [
     "firebase-crashlytics"
+]
+hilt = [
+    "hilt",
+    "hilt-gradle"
 ]
 
 [plugins]
