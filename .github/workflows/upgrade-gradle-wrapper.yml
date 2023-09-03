@@ -20,5 +20,11 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global url."https://unused-username:${WRAPPER_UPGRADE_GIT_TOKEN}@github.com/".insteadOf "https://github.com/"
 
+      - name: Setup Java SDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '18'
+
       - name: Upgrade Gradle Wrapper
         run: ./gradlew upgradeGradleWrapperIvyWallet
