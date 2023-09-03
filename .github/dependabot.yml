@@ -14,7 +14,7 @@ updates:
     groups:
       kotlin-compose:
         patterns:
-          - "androidx.compose.*"
+          - "androidx.compose*"
           - "androidx.glance*"
           - "org.jetbrains.kotlin*"
           - "io.coil-kt:coil-compose"
