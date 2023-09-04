@@ -122,7 +122,6 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-
     fun setName(newName: String) {
         viewModelScope.launch {
             TestIdlingResource.increment()
@@ -213,7 +212,6 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-
     fun setStartDateOfMonth(startDate: Int) {
         viewModelScope.launch {
             TestIdlingResource.increment()
@@ -257,7 +255,9 @@ class SettingsViewModel @Inject constructor(
 
                     try {
                     } catch (e: Exception) {
-                        e.sendToCrashlytics("Settings - GOOGLE_SIGN_IN ERROR: generic exception when logging with GOOGLE")
+                        e.sendToCrashlytics(
+                            "Settings - GOOGLE_SIGN_IN ERROR: generic exception when logging with GOOGLE"
+                        )
                         e.printStackTrace()
                         Timber.e("Settings - Login with Google failed on Ivy server - ${e.message}")
                     }

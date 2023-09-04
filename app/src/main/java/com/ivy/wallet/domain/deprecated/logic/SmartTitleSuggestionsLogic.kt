@@ -26,28 +26,28 @@ class SmartTitleSuggestionsLogic(
         val suggestions = mutableSetOf<String>()
 
         if (title != null && title.isNotEmpty()) {
-            //suggest by title
-            val suggestionsByTitle = transactionDao.findAllByTitleMatchingPattern("${title}%")
+            // suggest by title
+            val suggestionsByTitle = transactionDao.findAllByTitleMatchingPattern("$title%")
                 .map { it.toDomain() }
                 .extractUniqueTitles()
                 .sortedByMostUsedFirst {
-                    transactionDao.countByTitleMatchingPattern("${it}%")
+                    transactionDao.countByTitleMatchingPattern("$it%")
                 }
 
             suggestions.addAll(suggestionsByTitle)
         }
 
         if (categoryId != null) {
-            //suggest by category
-            //all titles used for the specific category
-            //ordered by N times used
+            // suggest by category
+            // all titles used for the specific category
+            // ordered by N times used
 
             val suggestionsByCategory = transactionDao
                 .findAllByCategory(
                     categoryId = categoryId
                 )
                 .map { it.toDomain() }
-                //exclude already suggested suggestions so they're ordered by priority at the end
+                // exclude already suggested suggestions so they're ordered by priority at the end
                 .extractUniqueTitles(excludeSuggestions = suggestions)
                 .sortedByMostUsedFirst {
                     transactionDao.countByTitleMatchingPatternAndCategoryId(
@@ -59,18 +59,17 @@ class SmartTitleSuggestionsLogic(
             suggestions.addAll(suggestionsByCategory)
         }
 
-
         if (suggestions.size < SUGGESTIONS_LIMIT && accountId != null) {
-            //last resort, suggest by account
-            //all titles used for the specific account
-            //ordered by N times used
+            // last resort, suggest by account
+            // all titles used for the specific account
+            // ordered by N times used
 
             val suggestionsByAccount = transactionDao
                 .findAllByAccount(
                     accountId = accountId
                 )
                 .map { it.toDomain() }
-                //exclude already suggested suggestions so they're ordered by priority at the end
+                // exclude already suggested suggestions so they're ordered by priority at the end
                 .extractUniqueTitles(excludeSuggestions = suggestions)
                 .sortedByMostUsedFirst {
                     transactionDao.countByTitleMatchingPatternAndAccountId(

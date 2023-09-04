@@ -17,7 +17,7 @@ class SharedPrefs(appContext: Context) {
 
         const val FCM_TOKEN = "fcm_token"
 
-        //Sync
+        // Sync
         const val LAST_SYNC_DATE_CATEGORIES = "last_sync_date_categories"
         const val LAST_SYNC_DATE_BUDGETS = "last_sync_date_budgets"
         const val LAST_SYNC_DATE_LOANS = "last_sync_date_loans"
@@ -26,37 +26,36 @@ class SharedPrefs(appContext: Context) {
         const val LAST_SYNC_DATE_TRANSACTIONS = "last_sync_date_transactions"
         const val LAST_SYNC_DATE_PLANNED_PAYMENTS = "last_sync_date_planned_payments"
 
-        //-----------------------------------------------------------------------------
+        // -----------------------------------------------------------------------------
 
-        //Analytics
+        // Analytics
         const val ANALYTICS_SESSION_ID = "analytics_session_id"
-        //------------------------------------------------------------------------------------------
+        // ------------------------------------------------------------------------------------------
 
-        //-------------------------------------- UX ------------------------------------------------
+        // -------------------------------------- UX ------------------------------------------------
         const val LAST_SELECTED_ACCOUNT_ID = "last_selected_account_id"
-        //-------------------------------------- UX ------------------------------------------------
+        // -------------------------------------- UX ------------------------------------------------
 
         const val SESSION_USER_ID = "session_user_id"
         const val SESSION_AUTH_TOKEN = "session_auth_token"
 
-
-        //-------------------------------- Bank Integrations temp ----------------------------------
+        // -------------------------------- Bank Integrations temp ----------------------------------
         const val ENABLE_BANK_SYNC = "enable_bank_sync"
-        //-------------------------------- Bank Integrations temp ----------------------------------
+        // -------------------------------- Bank Integrations temp ----------------------------------
 
-        //----------------------------- App Settings -----------------------------------------------
+        // ----------------------------- App Settings -----------------------------------------------
         const val APP_LOCK_ENABLED = "lock_app"
         const val START_DATE_OF_MONTH = "start_date_of_month"
         const val SHOW_NOTIFICATIONS = "show_notifications"
         const val HIDE_CURRENT_BALANCE = "hide_current_balance"
         const val TRANSFERS_AS_INCOME_EXPENSE = "transfers_as_inc_exp"
-        //----------------------------- App Settings -----------------------------------------------
+        // ----------------------------- App Settings -----------------------------------------------
 
-        //-------------------------------- Customer Journey ----------------------------------------
+        // -------------------------------- Customer Journey ----------------------------------------
         const val _CARD_DISMISSED = "_cj_dismissed"
-        //-------------------------------- Customer Journey ----------------------------------------
+        // -------------------------------- Customer Journey ----------------------------------------
 
-        //----------------------------- Others -----------------------------------------------
+        // ----------------------------- Others -----------------------------------------------
         const val CATEGORY_SORT_ORDER = "categorySortOrder"
         const val DATA_BACKUP_COMPLETED = "data_backup_completed"
     }

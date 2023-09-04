@@ -161,8 +161,11 @@ private fun LastBackup(
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Start,
-                color = if (backup.indicateDanger)
-                    MaterialTheme.colorScheme.error else LocalContentColor.current
+                color = if (backup.indicateDanger) {
+                    MaterialTheme.colorScheme.error
+                } else {
+                    LocalContentColor.current
+                }
             )
             Spacer(modifier = Modifier.width(12.dp))
             val uriHandler = LocalUriHandler.current

@@ -43,7 +43,7 @@ object WalletValueFunctions {
                     transaction = this.copy(
                         amount = this.toAmount,
                         accountId = this.toAccountId ?: this.accountId
-                    ), //Do not remove copy()
+                    ), // Do not remove copy()
                     accounts = arg.accounts,
                     baseCurrency = arg.baseCurrency,
                     exchange = arg.exchange

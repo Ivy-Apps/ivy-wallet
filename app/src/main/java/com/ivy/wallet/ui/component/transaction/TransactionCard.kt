@@ -66,7 +66,6 @@ import com.ivy.wallet.utils.isNotNullOrBlank
 import com.ivy.wallet.utils.timeNowUTC
 import java.time.LocalDateTime
 
-
 @Composable
 fun TransactionCard(
     baseData: AppBaseData,
@@ -93,7 +92,7 @@ fun TransactionCard(
             .background(UI.colors.medium, UI.shapes.r4)
             .testTag("transaction_card")
     ) {
-        //TODO: Optimize this
+        // TODO: Optimize this
         val transactionCurrency =
             baseData.accounts.find { it.id == transaction.accountId }?.currency
                 ?: baseData.baseCurrency
@@ -120,8 +119,11 @@ fun TransactionCard(
                     transaction.dueDate.formatNicely()
                 ).uppercase(),
                 style = UI.typo.nC.style(
-                    color = if (transaction.dueDate.isAfter(timeNowUTC()))
-                        Orange else UI.colors.gray,
+                    color = if (transaction.dueDate.isAfter(timeNowUTC())) {
+                        Orange
+                    } else {
+                        UI.colors.gray
+                    },
                     fontWeight = FontWeight.Bold
                 )
             )
@@ -142,7 +144,6 @@ fun TransactionCard(
                     color = UI.colors.pureInverse
                 )
             )
-
         }
 
         if (transaction.description.isNotNullOrBlank()) {
@@ -189,7 +190,7 @@ fun TransactionCard(
         }
 
         if (transaction.dueDate != null && transaction.dateTime == null) {
-            //Pay/Get button
+            // Pay/Get button
             Spacer(Modifier.height(16.dp))
 
             val isExpense = transaction.type == TransactionType.EXPENSE
@@ -226,7 +227,6 @@ fun TransactionCard(
                     onPayOrGet(transaction)
                 }
             }
-
         }
 
         Spacer(Modifier.height(20.dp))
@@ -409,7 +409,6 @@ fun TypeAmountCurrency(
     currency: String,
     amount: Double
 ) {
-
     Row(
         modifier = Modifier.testTag("type_amount_currency"),
         verticalAlignment = Alignment.CenterVertically
@@ -428,7 +427,7 @@ fun TypeAmountCurrency(
             TransactionType.EXPENSE -> {
                 when {
                     dueDate != null && dueDate.isAfter(timeNowUTC()) -> {
-                        //Upcoming Expense
+                        // Upcoming Expense
                         AmountTypeStyle(
                             icon = R.drawable.ic_expense,
                             gradient = GradientOrangeRevert,
@@ -437,7 +436,7 @@ fun TypeAmountCurrency(
                         )
                     }
                     dueDate != null && dueDate.isBefore(dateNowUTC().atStartOfDay()) -> {
-                        //Overdue Expense
+                        // Overdue Expense
                         AmountTypeStyle(
                             icon = R.drawable.ic_overdue,
                             gradient = GradientRed,
@@ -446,7 +445,7 @@ fun TypeAmountCurrency(
                         )
                     }
                     else -> {
-                        //Normal Expense
+                        // Normal Expense
                         AmountTypeStyle(
                             icon = R.drawable.ic_expense,
                             gradient = Gradient.black(),
@@ -457,7 +456,7 @@ fun TypeAmountCurrency(
                 }
             }
             TransactionType.TRANSFER -> {
-                //Transfer
+                // Transfer
                 AmountTypeStyle(
                     icon = R.drawable.ic_transfer,
                     gradient = GradientIvy,
@@ -519,7 +518,6 @@ private fun PreviewUpcomingExpense() {
                     ),
                     onPayOrGet = {},
                 ) {
-
                 }
             }
         }
@@ -552,7 +550,6 @@ private fun PreviewOverdueExpense() {
                     ),
                     onPayOrGet = {},
                 ) {
-
                 }
             }
         }
@@ -619,7 +616,6 @@ private fun PreviewIncome() {
                     ),
                     onPayOrGet = {},
                 ) {
-
                 }
             }
         }
@@ -651,13 +647,11 @@ private fun PreviewTransfer() {
                     ),
                     onPayOrGet = {},
                 ) {
-
                 }
             }
         }
     }
 }
-
 
 @Preview
 @Composable
@@ -690,7 +684,6 @@ private fun PreviewTransfer_differentCurrency() {
                     ),
                     onPayOrGet = {},
                 ) {
-
                 }
             }
         }

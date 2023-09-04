@@ -222,14 +222,14 @@ private fun LongNoticeText(
     Spacer(Modifier.height(8.dp))
 
     val longText = if (plan?.type == PlanType.LIFETIME) {
-        //Lifetime plan
+        // Lifetime plan
         "This limited lifetime offer gives you unlimited access to our app.\n\n" +
-                "You'll be billed ${plan.price} once" +
-                " and you'll receive unlimited lifetime access to Ivy Wallet Premium." +
-                " By subscribing you agree to our Terms & Conditions and Privacy Policy." +
-                "\n\n*lifetime refers to the product's lifetime but not your lifetime"
+            "You'll be billed ${plan.price} once" +
+            " and you'll receive unlimited lifetime access to Ivy Wallet Premium." +
+            " By subscribing you agree to our Terms & Conditions and Privacy Policy." +
+            "\n\n*lifetime refers to the product's lifetime but not your lifetime"
     } else {
-        //Subscription
+        // Subscription
         val part1 = "This subscription gives you unlimited access to our app.\n\n"
         val part2 = "You'll be billed ${plan?.price} for a ${
             when (plan?.type) {
@@ -249,7 +249,6 @@ private fun LongNoticeText(
 
         part1 + part2
     }
-
 
     Text(
         modifier = Modifier
@@ -353,8 +352,11 @@ private fun ColumnScope.PlanCard(
     ) {
         Spacer(Modifier.width(24.dp))
 
-        val textColor = if (purchased || selectedPlan == plan)
-            White else UI.colors.pureInverse
+        val textColor = if (purchased || selectedPlan == plan) {
+            White
+        } else {
+            UI.colors.pureInverse
+        }
 
         Column {
             Text(
@@ -381,7 +383,6 @@ private fun ColumnScope.PlanCard(
                 )
             }
         }
-
 
         Spacer(Modifier.width(16.dp))
 
@@ -413,12 +414,14 @@ private fun ColumnScope.PlanCard(
                 val savePercentage = if (monthlyPrice != null && yearlyPrice != null) {
                     (1 - (yearlyPrice.amount / (monthlyPrice.amount * 12)))
                         .times(100).roundToInt()
-                } else null
+                } else {
+                    null
+                }
 
                 if (savePercentage != null) {
                     Text(
                         modifier = Modifier.fillMaxWidth(),
-                        text = "Save ${savePercentage}%",
+                        text = "Save $savePercentage%",
                         style = UI.typo.nC.style(
                             fontWeight = FontWeight.ExtraBold,
                             color = if (selectedPlan == plan) White else Green,
@@ -450,7 +453,6 @@ private fun BoxWithConstraintsScope.BottomBar(
     setBottomBarHeight: (Int) -> Unit,
     onClose: () -> Unit,
 ) {
-
     ActionsRow(
         modifier = Modifier
             .align(Alignment.BottomCenter)

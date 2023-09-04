@@ -166,7 +166,6 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
                     val xSplash = ivyContext.screenWidth / 2f - placeable.width / 2
                     val xLogin = 24.dp.toPx()
 
-
                     layout(placeable.width, placeable.height) {
                         placeable.placeRelative(
                             x = lerp(xSplash, xLogin, percentTransition).roundToInt(),
@@ -195,7 +194,6 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
                 fontWeight = FontWeight.ExtraBold
             )
         )
-
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -354,8 +352,8 @@ private fun LocalAccountExplanation() {
     Text(
         modifier = Modifier.padding(start = 32.dp, end = 32.dp),
         text = "Your data will be saved only locally on your phone. " +
-                "You risk losing your data if you uninstall the app or change your device. " +
-                "To prevent data loss, we recommend exporting backup from settings regularly.",
+            "You risk losing your data if you uninstall the app or change your device. " +
+            "To prevent data loss, we recommend exporting backup from settings regularly.",
         style = UI.typo.c.style(
             color = Gray,
             fontWeight = FontWeight.Medium

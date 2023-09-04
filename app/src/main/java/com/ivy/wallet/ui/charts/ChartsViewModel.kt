@@ -49,7 +49,6 @@ class ChartsViewModel @Inject constructor(
     val incomeExpenseChart = _incomeExpenseChart
     // ----------------------------------- Wallet --------------------------------------------------
 
-
     // --------------------------- Category --------------------------------------------------------
     private val _categories = MutableStateFlow(emptyList<Category>())
     val categories = _categories.asStateFlow()
@@ -68,9 +67,8 @@ class ChartsViewModel @Inject constructor(
     // --------------------------- Category --------------------------------------------------------
 
     // --------------------------- Accounts --------------------------------------------------------
-    //TODO: Implement
+    // TODO: Implement
     // --------------------------- Accounts --------------------------------------------------------
-
 
     fun start() {
         viewModelScope.launch {
@@ -86,14 +84,16 @@ class ChartsViewModel @Inject constructor(
     }
 
     private suspend fun generateBalanceChart(period: ChartPeriod) =
-        (baseCurrencyAct then { baseCurrency ->
-            balanceChartAct(
-                BalanceChartAct.Input(
-                    baseCurrency = baseCurrency,
-                    period = period
+        (
+            baseCurrencyAct then { baseCurrency ->
+                balanceChartAct(
+                    BalanceChartAct.Input(
+                        baseCurrency = baseCurrency,
+                        period = period
+                    )
                 )
-            )
-        })(Unit)
+            }
+            )(Unit)
 
     private suspend fun generateIncomeExpenseChart(period: ChartPeriod) = ioThread {
         incomeExpenseChart(
@@ -102,7 +102,6 @@ class ChartsViewModel @Inject constructor(
             period = period
         )
     }
-
 
     fun loadValuesForCategory(
         category: Category
@@ -155,7 +154,7 @@ class ChartsViewModel @Inject constructor(
         _categoryExpenseCount.value = categoryExpenseCount.loadCategoryValue(
             period = period,
             category = category,
-            calculateValue =  { range ->
+            calculateValue = { range ->
                 walletCategoryLogic.historyByCategory(
                     category = category,
                     range = range
@@ -196,7 +195,6 @@ class ChartsViewModel @Inject constructor(
         )
     }
 
-
     private suspend fun StateFlow<List<CategoryValues>>.loadCategoryValue(
         period: ChartPeriod,
         category: Category,
@@ -233,10 +231,9 @@ class ChartsViewModel @Inject constructor(
         _period.value = period
         start()
 
-        //Re-load categories
+        // Re-load categories
         val loadedCategories = categoryExpenseValues.value.map { it.category }
         loadedCategories.forEach { removeCategory(it) }
         loadedCategories.forEach { loadValuesForCategory(it) }
     }
 }
-

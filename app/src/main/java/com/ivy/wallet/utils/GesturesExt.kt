@@ -32,12 +32,12 @@ fun Modifier.verticalSwipeListener(
                 gestureConsumed = false
             },
             onVerticalDrag = { _, dragAmount ->
-                //dragAmount: positive when scrolling down; negative when scrolling up
+                // dragAmount: positive when scrolling down; negative when scrolling up
                 swipeOffset += dragAmount
 
                 when {
                     swipeOffset > sensitivity -> {
-                        //offset > 0 when swipe down
+                        // offset > 0 when swipe down
                         if (!gestureConsumed) {
                             onSwipeDown()
                             gestureConsumed = true
@@ -45,14 +45,13 @@ fun Modifier.verticalSwipeListener(
                     }
 
                     swipeOffset < -sensitivity -> {
-                        //offset < 0 when swipe up
+                        // offset < 0 when swipe up
                         if (!gestureConsumed) {
                             onSwipeUp()
                             gestureConsumed = true
                         }
                     }
                 }
-
             }
         )
     }
@@ -80,12 +79,12 @@ fun Modifier.horizontalSwipeListener(
                 gestureConsumed = false
             },
             onHorizontalDrag = { _, dragAmount ->
-                //dragAmount: positive when scrolling down; negative when scrolling up
+                // dragAmount: positive when scrolling down; negative when scrolling up
                 swipeOffset += dragAmount
 
                 when {
                     swipeOffset > sensitivity -> {
-                        //offset > 0 when swipe right
+                        // offset > 0 when swipe right
                         if (!gestureConsumed) {
                             onSwipeRight()
                             gestureConsumed = true
@@ -93,14 +92,13 @@ fun Modifier.horizontalSwipeListener(
                     }
 
                     swipeOffset < -sensitivity -> {
-                        //offset < 0 when swipe left
+                        // offset < 0 when swipe left
                         if (!gestureConsumed) {
                             onSwipeLeft()
                             gestureConsumed = true
                         }
                     }
                 }
-
             }
         )
     }

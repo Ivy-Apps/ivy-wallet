@@ -33,7 +33,7 @@ object Constants {
     const val URL_GITHUB_SPONSORS =
         "https://github.com/sponsors/Ivy-Apps"
 
-    const val USER_INACTIVITY_TIME_LIMIT = 60  //Time in seconds
+    const val USER_INACTIVITY_TIME_LIMIT = 60 // Time in seconds
 
     const val SWIPE_DOWN_THRESHOLD_OPEN_MORE_MENU = 200
 

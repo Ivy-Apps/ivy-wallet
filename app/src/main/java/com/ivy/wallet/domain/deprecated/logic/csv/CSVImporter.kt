@@ -58,9 +58,8 @@ class CSVImporter @Inject constructor(
                 }
 
                 override fun validate(line: String?) {
-                    //do nothing
+                    // do nothing
                 }
-
             })
             .withRowValidator(object : RowValidator {
                 override fun isValid(row: Array<out String>?): Boolean {
@@ -68,7 +67,7 @@ class CSVImporter @Inject constructor(
                 }
 
                 override fun validate(row: Array<out String>?) {
-                    //do nothing
+                    // do nothing
                 }
             })
             .build()
@@ -94,8 +93,11 @@ class CSVImporter @Inject constructor(
         // Example: Financisto separates in and out transfers
         val joinResult = rowMapping.joinTransactions(
             rows.mapIndexedNotNull { index, row ->
-                val progressPercent = if (rowsCount > 0)
-                    index / rowsCount.toDouble() else 0.0
+                val progressPercent = if (rowsCount > 0) {
+                    index / rowsCount.toDouble()
+                } else {
+                    0.0
+                }
                 onProgress(progressPercent / 2)
 
                 val transaction = mapToTransaction(
@@ -107,7 +109,7 @@ class CSVImporter @Inject constructor(
                 if (transaction == null) {
                     failedRows.add(
                         CSVRow(
-                            index = index + 2, //+ 1 because we skip Header and +1 because they don't start from zero
+                            index = index + 2, // + 1 because we skip Header and +1 because they don't start from zero
                             content = row
                         )
                     )
@@ -119,8 +121,11 @@ class CSVImporter @Inject constructor(
         val transactions = joinResult.transactions
 
         for ((index, transaction) in transactions.withIndex()) {
-            val progressPercent = if (rowsCount > 0)
-                index / transactions.size.toDouble() else 0.0
+            val progressPercent = if (rowsCount > 0) {
+                index / transactions.size.toDouble()
+            } else {
+                0.0
+            }
             onProgress(0.5 + progressPercent / 2)
             transactionDao.save(transaction.toEntity())
         }
@@ -153,7 +158,9 @@ class CSVImporter @Inject constructor(
                 icon = row.extract(rowMapping.toAccountIcon),
                 orderNum = row.extract(rowMapping.toAccountOrderNum)?.toDoubleOrNull()
             )
-        } else null
+        } else {
+            null
+        }
 
         val csvAmount = if (type != TransactionType.TRANSFER) {
             mapAmount(row.extract(rowMapping.amount))
@@ -163,14 +170,15 @@ class CSVImporter @Inject constructor(
         val amount = csvAmount.absoluteValue
 
         if (amount <= 0) {
-            //Cannot save transactions with zero amount
+            // Cannot save transactions with zero amount
             return null
         }
 
         val toAmount = if (type == TransactionType.TRANSFER) {
             mapAmount(row.extract(rowMapping.toAmount))
-        } else null
-
+        } else {
+            null
+        }
 
         val dateTime = mapDate(
             rowMapping = rowMapping,
@@ -186,7 +194,7 @@ class CSVImporter @Inject constructor(
             dateString = row.extract(rowMapping.dueDate)
         )
         if (dateTime == null && dueDate == null) {
-            //Cannot save transactions without any date
+            // Cannot save transactions without any date
             return null
         }
 
@@ -208,7 +216,6 @@ class CSVImporter @Inject constructor(
         val title = row.extract(rowMapping.title)
         val description = row.extract(rowMapping.description)
         val id = mapId(row.extract(rowMapping.id))
-
 
         return rowMapping.transformTransaction(
             Transaction(
@@ -233,8 +240,8 @@ class CSVImporter @Inject constructor(
         row: List<String>,
         rowMapping: RowMapping
     ): TransactionType? {
-        //Return Expense for intentionally set Type mapping to null
-        //Example: Fortune City
+        // Return Expense for intentionally set Type mapping to null
+        // Example: Fortune City
         if (rowMapping.type == null) return TransactionType.EXPENSE
 
         val type = row.extract(rowMapping.type) ?: return null
@@ -294,7 +301,7 @@ class CSVImporter @Inject constructor(
             "MM/dd/yyyy HH:mm:ss",
             "dd/MM/yyyy h:mm a",
 
-            //Fortune City Date variations with 24-h
+            // Fortune City Date variations with 24-h
             "d/M/yyyy HH:mm",
             "d/MM/yyyy HH:mm",
             "dd/M/yyyy HH:mm",
@@ -304,7 +311,7 @@ class CSVImporter @Inject constructor(
             "MM/d/yyyy HH:mm",
             "MM/dd/yyyy HH:mm",
 
-            //Fortune City Date variations with 12-h (am/pm)
+            // Fortune City Date variations with 12-h (am/pm)
             "d/M/yyyy h:mm a",
             "d/MM/yyyy h:mm a",
             "dd/M/yyyy h:mm a",
@@ -314,7 +321,7 @@ class CSVImporter @Inject constructor(
             "MM/d/yyyy h:mm a",
             "MM/dd/yyyy h:mm a",
 
-            //Fortune City Date with "-" variations with 24-h
+            // Fortune City Date with "-" variations with 24-h
             "d-M-yyyy HH:mm",
             "d-MM-yyyy HH:mm",
             "dd-M-yyyy HH:mm",
@@ -324,7 +331,7 @@ class CSVImporter @Inject constructor(
             "MM-d-yyyy HH:mm",
             "MM-dd-yyyy HH:mm",
 
-            //Fortune City Date with "-" variations with 12-h (am/pm)
+            // Fortune City Date with "-" variations with 12-h (am/pm)
             "d-M-yyyy h:mm a",
             "d-MM-yyyy h:mm a",
             "dd-M-yyyy h:mm a",
@@ -334,7 +341,7 @@ class CSVImporter @Inject constructor(
             "MM-d-yyyy h:mm a",
             "MM-dd-yyyy h:mm a",
 
-            //More Fortune City Date formats
+            // More Fortune City Date formats
             "dd-MM-yy H:mm",
             "dd-MM-yy HH:mm",
             "MM-dd-yy H:mm",
@@ -382,7 +389,7 @@ class CSVImporter @Inject constructor(
         }
 
         Timber.e("Import: Cannot parse $dateString")
-        //As a fallback set all transactions 1 year before now
+        // As a fallback set all transactions 1 year before now
         return timeNowUTC()
             .minusYears(1)
     }
@@ -422,7 +429,7 @@ class CSVImporter @Inject constructor(
             return existingAccount
         }
 
-        //create new account
+        // create new account
         val colorArgb = color ?: when {
             accountNameString.toLowerCaseLocal().contains("cash") -> {
                 Green
@@ -465,7 +472,6 @@ class CSVImporter @Inject constructor(
         } catch (e: Exception) {
             baseCurrency
         }
-
     }
 
     private suspend fun mapCategory(
@@ -483,7 +489,7 @@ class CSVImporter @Inject constructor(
             return existingCategory
         }
 
-        //create new category
+        // create new category
         val colorArgb = color ?: IVY_COLOR_PICKER_COLORS_FREE.getOrElse(newCategoryColorIndex++) {
             newCategoryColorIndex = 0
             IVY_COLOR_PICKER_COLORS_FREE.first()

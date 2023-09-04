@@ -80,7 +80,6 @@ fun HistoryDateDivider(
 
         Spacer(Modifier.weight(1f))
 
-
         val cashflow = income - expenses
         Text(
             text = "${cashflow.format(baseCurrency)} $baseCurrency",

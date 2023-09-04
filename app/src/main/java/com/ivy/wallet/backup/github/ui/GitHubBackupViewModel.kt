@@ -33,7 +33,6 @@ class GitHubBackupViewModel @Inject constructor(
     private val backupLogic: BackupLogic,
 ) : ViewModel() {
 
-
     val enabled = gitHubBackup.enabled
 
     val lastBackupInfo: Flow<LastBackupInfo?> = gitHubBackup.lastBackupTime.map { instant ->
@@ -46,8 +45,9 @@ class GitHubBackupViewModel @Inject constructor(
                     indicateDanger = Instant.now().epochSecond - instant.epochSecond > H24_IN_SECONDS,
                 )
             }
-        } else null
-
+        } else {
+            null
+        }
     }
 
     val backupStatus = MutableStateFlow<GitHubBackupStatus?>(null)
@@ -106,7 +106,7 @@ class GitHubBackupViewModel @Inject constructor(
     }
 
     private fun GitHubCredentials.toRepoUrl(): String {
-        return "https://github.com/${owner}/${repo}"
+        return "https://github.com/$owner/$repo"
     }
 
     private var backupImportInProgress = false
@@ -145,7 +145,6 @@ class GitHubBackupViewModel @Inject constructor(
             duration
         ).show()
     }
-
 
     companion object {
         private const val H24_IN_SECONDS = 86400

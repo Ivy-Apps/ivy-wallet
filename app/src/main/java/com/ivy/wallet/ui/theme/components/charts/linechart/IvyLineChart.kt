@@ -32,7 +32,6 @@ import java.text.DecimalFormat
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-
 data class Value(
     val x: Double,
     val y: Double
@@ -80,7 +79,6 @@ private fun yValues(
     )
 }
 
-
 private fun DrawScope.drawTappedPoint(
     functions: List<Function>,
     tapEvent: TapEvent?,
@@ -110,9 +108,9 @@ private fun DrawScope.drawTappedPoint(
                     min = minY,
                     value = tappedValue.y,
                     chartHeight = chartHeight,
-                    offsetTop = 0f, //TODO: Fix
-                    offsetBottom = 0f //TODO: Fix
-                ) - 4.dp.toPx() //marginFromX //TODO: FIX
+                    offsetTop = 0f, // TODO: Fix
+                    offsetBottom = 0f // TODO: Fix
+                ) - 4.dp.toPx() // marginFromX //TODO: FIX
             )
         )
     }
@@ -133,7 +131,6 @@ private fun DrawScope.drawFunctions(
     // Add some kind of a "Padding" for the initial point where the line starts.
     val lineWidth = 3.dp.toPx()
     val marginFromX = 4.dp.toPx()
-
 
     return functions.flatMapIndexed { index, function ->
         drawFunction(
@@ -236,7 +233,6 @@ private fun DrawScope.drawFunction(
     return points
 }
 
-
 private fun calculateXCoordinate(
     values: List<Value>,
     valueIndex: Int,
@@ -248,7 +244,6 @@ private fun calculateXCoordinate(
     return lineDistance * valueIndex + lineDistance
 }
 
-
 private fun calculateYCoordinate(
     max: Double,
     min: Double,
@@ -257,9 +252,9 @@ private fun calculateYCoordinate(
     offsetTop: Float,
     offsetBottom: Float
 ): Float {
-    //Lerp: (start + x * (end - start)) = value
-    //x * (end - start) = value - start
-    //x = (value - start) / (end - start)
+    // Lerp: (start + x * (end - start)) = value
+    // x * (end - start) = value - start
+    // x = (value - start) / (end - start)
     val yPercent = (value - min) / (max - min)
 
     return lerp(
@@ -272,7 +267,6 @@ private fun calculateYCoordinate(
 private fun Offset.distance(point2: Offset): Float {
     return sqrt((point2.x - x).pow(2) + (point2.y - y).pow(2))
 }
-
 
 @Composable
 fun IvyLineChart(
@@ -365,12 +359,9 @@ private fun IvyChart(
         val totalRecords = functions.first().values.size
         val xDistance = chartWidth / (totalRecords + offsetCellsLeft + offsetCellsRight)
 
-
         val cellSize = xDistance
         val offsetTop = cellSize * 3
         val offsetBottom = cellSize
-
-
 
         drawTitle(
             title = title,
@@ -530,7 +521,7 @@ fun DrawScope.drawText(
 private fun DrawScope.grid(
     chartWidth: Float,
     chartHeight: Float,
-    cellSize: Float //24.dp
+    cellSize: Float // 24.dp
 ) {
     verticalLineXS(
         chartWidth = chartWidth,
@@ -576,7 +567,7 @@ private fun verticalLineXS(
     return if (cellSize >= chartWidth || (last != null && last >= chartWidth)) {
         accumulator
     } else {
-        //recurse
+        // recurse
         val next = (last ?: 0f) + cellSize
 
         verticalLineXS(
@@ -596,7 +587,7 @@ private tailrec fun horizontalLineYS(
     return if (cellSize >= chartHeight || (last != null && last <= 0)) {
         accumulator
     } else {
-        //recurse
+        // recurse
         val next = (last ?: chartHeight) - cellSize
 
         horizontalLineYS(
@@ -606,7 +597,6 @@ private tailrec fun horizontalLineYS(
         )
     }
 }
-
 
 @Preview
 @Composable

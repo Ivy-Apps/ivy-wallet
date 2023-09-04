@@ -15,7 +15,7 @@ class PlannedPaymentsGenerator @Inject constructor(
     }
 
     suspend fun generate(rule: PlannedPaymentRule) {
-        //delete all not happened transactions
+        // delete all not happened transactions
         transactionDao.flagDeletedByRecurringRuleIdAndNoDateTime(
             recurringRuleId = rule.id
         )
@@ -51,10 +51,10 @@ class PlannedPaymentsGenerator @Inject constructor(
             }
 
             if (trnsToSkip > 0) {
-                //skip first N happened transactions
+                // skip first N happened transactions
                 trnsToSkip--
             } else {
-                //generate transaction
+                // generate transaction
                 generateTransaction(
                     rule = rule,
                     dueDate = date
@@ -88,5 +88,4 @@ class PlannedPaymentsGenerator @Inject constructor(
             ).toEntity()
         )
     }
-
 }

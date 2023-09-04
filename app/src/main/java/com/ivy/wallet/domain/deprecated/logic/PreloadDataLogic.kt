@@ -20,7 +20,7 @@ class PreloadDataLogic(
     var categoryOrderNum = 0.0
 
     fun shouldPreloadData(accounts: List<AccountBalance>): Boolean {
-        //Preload data only if the user has less than 2 accounts
+        // Preload data only if the user has less than 2 accounts
         return accounts.size < 2
     }
 
@@ -251,7 +251,4 @@ class PreloadDataLogic(
                 ),
             )
         )
-
-
 }
-

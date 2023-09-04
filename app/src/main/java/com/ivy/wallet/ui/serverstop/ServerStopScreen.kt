@@ -73,15 +73,15 @@ private fun Content(
     SpacerVer(height = 16.dp)
     Text(
         text = "We're shutting down the Ivy Cloud servers on Jan 1st, 2023. " +
-                "The cloud sync using Google account will no longer work!",
+            "The cloud sync using Google account will no longer work!",
         style = UI.typo.b1.style(color = UI.colors.red)
     )
     SpacerVer(height = 12.dp)
     Text(
         modifier = Modifier.fillMaxWidth(),
         text = "The reason for that is because we're a FOSS (Free & Open Source Software) and " +
-                "it isn't profitable for us to pay our servers monthly bills. More importantly, " +
-                "we don't have a dedicated person to maintain them which is bad.",
+            "it isn't profitable for us to pay our servers monthly bills. More importantly, " +
+            "we don't have a dedicated person to maintain them which is bad.",
         style = UI.typo.b2.style(
             color = UI.colors.pureInverse,
             fontWeight = FontWeight.Normal,
@@ -91,7 +91,7 @@ private fun Content(
     Text(
         modifier = Modifier.fillMaxWidth(),
         text = "To keep your data safe in case of device change or app uninstall/clear data, " +
-                "you need to make manually export a backup file of Ivy Wallet.",
+            "you need to make manually export a backup file of Ivy Wallet.",
         style = UI.typo.b2.style(
             color = UI.colors.pureInverse,
             fontWeight = FontWeight.Bold,
@@ -101,9 +101,9 @@ private fun Content(
     Text(
         modifier = Modifier.fillMaxWidth(),
         text = "To export a backup file:\n" +
-                "1) Click the arrow at top-right on the \"Home\" screen.\n" +
-                "2) Go to \"Settings\"\n" +
-                "3) Click \"Backup Data\"",
+            "1) Click the arrow at top-right on the \"Home\" screen.\n" +
+            "2) Go to \"Settings\"\n" +
+            "3) Click \"Backup Data\"",
         style = UI.typo.b2.style(
             color = UI.colors.primary,
             fontWeight = FontWeight.Bold,
@@ -113,9 +113,9 @@ private fun Content(
     Text(
         modifier = Modifier.fillMaxWidth(),
         text = "To restore your data on Ivy Wallet fresh install, " +
-                "you'll simply need to import the backup file that you've exported. " +
-                "We recommend making regular exports and keeping the backup file on Google Drive, " +
-                "OneDrive, DropBox or other safe cloud storage. Thank you for your understanding!",
+            "you'll simply need to import the backup file that you've exported. " +
+            "We recommend making regular exports and keeping the backup file on Google Drive, " +
+            "OneDrive, DropBox or other safe cloud storage. Thank you for your understanding!",
         style = UI.typo.b2.style(
             color = UI.colors.pureInverse,
             fontWeight = FontWeight.Normal,
@@ -140,7 +140,6 @@ private fun ColumnScope.Loading() {
     )
     SpacerWeight(weight = 1f)
 }
-
 
 // region Preview
 @Preview

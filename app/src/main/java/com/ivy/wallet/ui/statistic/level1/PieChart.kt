@@ -34,7 +34,6 @@ import timber.log.Timber
 import kotlin.math.acos
 import kotlin.math.sqrt
 
-
 const val PIE_CHART_RADIUS_DP = 128
 const val RADIUS_DP = 112f
 
@@ -90,7 +89,6 @@ fun PieChart(
             tint = Gray
         )
     }
-
 }
 
 private class PieChartView(context: Context) : View(context) {
@@ -99,7 +97,8 @@ private class PieChartView(context: Context) : View(context) {
     private var totalAmount = 0.0
 
     val rectangle = RectF(
-        0f, 0f,
+        0f,
+        0f,
         convertDpToPixel(context, 2 * RADIUS_DP),
         convertDpToPixel(context, 2 * RADIUS_DP)
     )
@@ -181,12 +180,11 @@ private class PieChartView(context: Context) : View(context) {
                 sweepAngle.toFloat(),
                 true,
                 paint
-            ) //draw
+            ) // draw
 
             startAngle += sweepAngle
         }
     }
-
 
     private var startClickTime = 0L
 
@@ -241,8 +239,9 @@ private class PieChartView(context: Context) : View(context) {
         val d2 = sqrt((x2 * x2 + y2 * y2).toDouble())
         angle = if (touchX >= centerX) {
             Math.toDegrees(acos((-centerY * y2) / (d1 * d2)))
-        } else
+        } else {
             360 - Math.toDegrees(acos((-centerY * y2) / (d1 * d2)))
+        }
         return angle - 90.0
     }
 

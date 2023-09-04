@@ -102,7 +102,6 @@ private fun Preview_IconLeft_Wrap() {
             mode = Mode.WRAP_CONTENT,
             iconLeft = R.drawable.ic_android_black_24dp
         ) {
-
         }
     }
 }
@@ -116,7 +115,6 @@ private fun Preview_IconRight_Wrap() {
             mode = Mode.WRAP_CONTENT,
             iconRight = R.drawable.ic_android_black_24dp
         ) {
-
         }
     }
 }
@@ -133,7 +131,6 @@ private fun Preview_IconLeft_FillMax() {
             mode = Mode.FILL_MAX_WIDTH,
             iconLeft = R.drawable.ic_android_black_24dp
         ) {
-
         }
     }
 }
@@ -150,7 +147,6 @@ private fun Preview_IconRight_FillMax() {
             mode = Mode.FILL_MAX_WIDTH,
             iconRight = R.drawable.ic_android_black_24dp
         ) {
-
         }
     }
 }

@@ -36,8 +36,9 @@ class TransactionReminderLogic @Inject constructor(
     }
 
     fun scheduleReminder() {
-        if (!fetchShowNotifications())
+        if (!fetchShowNotifications()) {
             return
+        }
 
         val timeNowLocal = timeNowLocal()
         val today8PM = timeNowLocal()
@@ -45,10 +46,10 @@ class TransactionReminderLogic @Inject constructor(
             .withMinute(0)
 
         val initialDelaySeconds = if (today8PM.isAfter(timeNowLocal)) {
-            //8 PM is in the future, we can start reminder today
+            // 8 PM is in the future, we can start reminder today
             today8PM.toEpochSeconds() - timeNowLocal.toEpochSeconds()
         } else {
-            //8 PM has passed, we'll start reminding from tomorrow
+            // 8 PM has passed, we'll start reminding from tomorrow
             today8PM.plusDays(1).toEpochSeconds() - timeNowLocal.toEpochSeconds()
         }
 

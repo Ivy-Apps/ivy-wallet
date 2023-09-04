@@ -34,13 +34,12 @@ fun navigationBarInsets(): Insets {
     return windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
 }
 
-
 @Composable
 fun keyboardNavigationWindowInsets(): Insets {
     val windowInsets = windowInsets()
     return windowInsets.getInsets(
         WindowInsetsCompat.Type.ime()
-                or WindowInsetsCompat.Type.systemBars()
+            or WindowInsetsCompat.Type.systemBars()
     )
 }
 

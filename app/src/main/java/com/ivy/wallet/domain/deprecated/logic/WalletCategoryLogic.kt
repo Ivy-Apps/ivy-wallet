@@ -48,7 +48,7 @@ class WalletCategoryLogic(
                 when (it.type) {
                     TransactionType.INCOME -> amount
                     TransactionType.EXPENSE -> -amount
-                    TransactionType.TRANSFER -> 0.0 //TODO: Transfer zero operation
+                    TransactionType.TRANSFER -> 0.0 // TODO: Transfer zero operation
                 }
             }
     }
@@ -112,7 +112,6 @@ class WalletCategoryLogic(
             )
     }
 
-
     suspend fun calculateCategoryExpenses(
         expenseTransactions: List<Transaction>,
         accountFilterSet: Set<UUID> = emptySet()
@@ -160,7 +159,6 @@ class WalletCategoryLogic(
             )
     }
 
-
     suspend fun historyByCategoryAccountWithDateDividers(
         category: Category,
         range: FromToTimeRange,
@@ -184,7 +182,6 @@ class WalletCategoryLogic(
         accountFilterSet: Set<UUID> = emptySet(),
         transactions: List<Transaction> = emptyList()
     ): List<Transaction> {
-
         val trans = transactions.ifEmpty {
             transactionDao
                 .findAllByCategoryAndBetween(
@@ -211,7 +208,6 @@ class WalletCategoryLogic(
                 accountDao = accountDao
             )
     }
-
 
     suspend fun calculateUpcomingIncomeByCategory(category: Category, range: FromToTimeRange): Double {
         return upcomingByCategory(category = category, range = range)
@@ -312,7 +308,6 @@ class WalletCategoryLogic(
             )
     }
 
-
     suspend fun overdueByCategory(category: Category, range: FromToTimeRange): List<Transaction> {
         return transactionDao.findAllDueToBetweenByCategory(
             categoryId = category.id,
@@ -331,5 +326,4 @@ class WalletCategoryLogic(
             .map { it.toDomain() }
             .filterOverdue()
     }
-
 }

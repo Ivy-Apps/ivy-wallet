@@ -62,7 +62,7 @@ fun parseTransactionType(
 ): TransactionType? {
     fun String.tryMeta(metaContains: String): Boolean {
         return metaContains.isNotBlank() &&
-                this.contains(metaContains.trim(), ignoreCase = true)
+            this.contains(metaContains.trim(), ignoreCase = true)
     }
 
     return tryParse {

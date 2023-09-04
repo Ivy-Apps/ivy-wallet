@@ -69,14 +69,16 @@ fun IvyButton(
             }
             .clip(UI.shapes.rFull)
             .background(
-                brush = if (enabled)
-                    backgroundGradient.asHorizontalBrush() else SolidColor(UI.colors.gray),
+                brush = if (enabled) {
+                    backgroundGradient.asHorizontalBrush()
+                } else {
+                    SolidColor(UI.colors.gray)
+                },
                 shape = UI.shapes.rFull
             )
             .clickable(onClick = onClick, enabled = enabled),
         verticalAlignment = Alignment.CenterVertically
     ) {
-
         when {
             iconStart != null -> {
                 IconStart(
@@ -189,7 +191,6 @@ private fun PreviewIvyButtonWrapContentWithIconStart() {
             text = "Add new",
             wrapContentMode = true
         ) {
-
         }
     }
 }
@@ -206,7 +207,6 @@ private fun PreviewIvyButtonFillMaxWidthWithIconStart() {
             text = "Add new",
             wrapContentMode = false
         ) {
-
         }
     }
 }
@@ -224,7 +224,6 @@ private fun PreviewIvyButtonWrapContentWithIconEnd() {
             text = "Category 1",
             wrapContentMode = true
         ) {
-
         }
     }
 }
@@ -242,7 +241,6 @@ private fun PreviewIvyButtonFillMaxWidthWithIconEnd() {
             text = "Category 1",
             wrapContentMode = false
         ) {
-
         }
     }
 }

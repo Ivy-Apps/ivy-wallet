@@ -28,7 +28,6 @@ import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.utils.drawColoredShadow
 import com.ivy.wallet.utils.thenIf
 
-
 @Composable
 fun OnboardingButton(
     modifier: Modifier = Modifier,
@@ -53,8 +52,11 @@ fun OnboardingButton(
             }
             .clip(UI.shapes.rFull)
             .background(
-                brush = if (enabled)
-                    backgroundGradient.asHorizontalBrush() else SolidColor(UI.colors.gray),
+                brush = if (enabled) {
+                    backgroundGradient.asHorizontalBrush()
+                } else {
+                    SolidColor(UI.colors.gray)
+                },
                 shape = UI.shapes.rFull
             )
             .clickable(onClick = onClick, enabled = enabled),

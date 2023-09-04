@@ -70,7 +70,7 @@ fun BoxWithConstraintsScope.ImportInstructions(
                 onBack = { nav.onBackPressed() },
                 onSkip = onSkip
             )
-            //onboarding toolbar include paddingBottom 16.dp
+            // onboarding toolbar include paddingBottom 16.dp
         }
 
         item {
@@ -125,7 +125,7 @@ fun BoxWithConstraintsScope.ImportInstructions(
         }
 
         item {
-            //last spacer
+            // last spacer
             Spacer(Modifier.height(96.dp))
         }
     }
@@ -326,7 +326,6 @@ fun StepTitle(
             )
         )
     }
-
 }
 
 @Composable
@@ -374,8 +373,6 @@ private fun Preview() {
             importType = ImportType.MONEY_MANAGER,
             onSkip = {}
         ) {
-
         }
     }
 }
-

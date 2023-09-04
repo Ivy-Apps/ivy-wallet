@@ -86,10 +86,8 @@ fun BoxWithConstraintsScope.BudgetModal(
         mutableStateOf(modal?.budget?.parseAccountIds() ?: emptyList())
     }
 
-
     var amountModalVisible by remember(modal) { mutableStateOf(false) }
     var deleteModalVisible by remember(modal) { mutableStateOf(false) }
-
 
     IvyModal(
         id = modal?.id,
@@ -130,7 +128,9 @@ fun BoxWithConstraintsScope.BudgetModal(
             verticalAlignment = Alignment.CenterVertically
         ) {
             ModalTitle(
-                text = if (modal?.budget != null) stringResource(R.string.edit_budget) else stringResource(R.string.create_budget)
+                text = if (modal?.budget != null) stringResource(
+                    R.string.edit_budget
+                ) else stringResource(R.string.create_budget)
             )
 
             if (initialBudget != null) {
@@ -143,7 +143,6 @@ fun BoxWithConstraintsScope.BudgetModal(
                 Spacer(Modifier.width(24.dp))
             }
         }
-
 
         Spacer(Modifier.height(24.dp))
 
@@ -281,10 +280,10 @@ private fun CategoriesRow(
                 }
             ) { selected ->
                 if (selected) {
-                    //remove category
+                    // remove category
                     onSetBudgetCategoryIds(budgetCategoryIds.filter { it != category.id })
                 } else {
-                    //add category
+                    // add category
                     onSetBudgetCategoryIds(budgetCategoryIds.plus(category.id))
                 }
             }
@@ -317,7 +316,6 @@ private fun Preview_create() {
             onEdit = {},
             onDelete = {}
         ) {
-
         }
     }
 }
@@ -349,7 +347,6 @@ private fun Preview_edit() {
             onEdit = {},
             onDelete = {}
         ) {
-
         }
     }
 }

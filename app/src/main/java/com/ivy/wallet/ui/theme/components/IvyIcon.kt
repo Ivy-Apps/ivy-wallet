@@ -8,7 +8,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import com.ivy.design.l0_system.UI
 
-
 @Composable
 fun IvyIcon(
     modifier: Modifier = Modifier,

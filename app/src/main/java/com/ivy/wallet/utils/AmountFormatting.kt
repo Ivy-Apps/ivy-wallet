@@ -45,7 +45,7 @@ fun localGroupingSeparator(): String {
     return DecimalFormatSymbols.getInstance().groupingSeparator.toString()
 }
 
-//Display Formatting
+// Display Formatting
 fun Double.format(digits: Int) = "%.${digits}f".format(this)
 
 fun Double.format(currencyCode: String): String {
@@ -84,8 +84,11 @@ fun Double.formatCrypto(): String {
         }
     }
 
-    return if (lastTrailingZeroIndex != null)
-        numberStringWithZeros.substring(0, lastTrailingZeroIndex) else numberStringWithZeros
+    return if (lastTrailingZeroIndex != null) {
+        numberStringWithZeros.substring(0, lastTrailingZeroIndex)
+    } else {
+        numberStringWithZeros
+    }
 }
 
 private fun Double.formatFIAT(): String = DecimalFormat("#,##0.00").format(this)
@@ -114,7 +117,7 @@ private fun formatShortenedNumber(
 }
 
 fun hasSignificantDecimalPart(number: Double): Boolean {
-    //TODO: Review, might cause trouble when integrating crypto
+    // TODO: Review, might cause trouble when integrating crypto
     val intPart = number.toInt()
     return abs(number - intPart) >= 0.009
 }
@@ -132,8 +135,11 @@ fun decimalPartFormatted(currency: String, value: Double): String {
         val decimalPartFormatted = value.formatCrypto()
             .split(localDecimalSeparator())
             .getOrNull(1) ?: "null"
-        if (decimalPartFormatted.isNotBlank())
-            "${localDecimalSeparator()}$decimalPartFormatted" else ""
+        if (decimalPartFormatted.isNotBlank()) {
+            "${localDecimalSeparator()}$decimalPartFormatted"
+        } else {
+            ""
+        }
     } else {
         "${localDecimalSeparator()}${decimalPartFormattedFIAT(value)}"
     }
@@ -158,7 +164,7 @@ fun formatInputAmount(
     currency: String,
     amount: String,
     newSymbol: String,
-    decimalCountMax:Int = 2,
+    decimalCountMax: Int = 2,
 ): String? {
     val newlyEnteredNumberString = amount + newSymbol
 
@@ -169,13 +175,15 @@ fun formatInputAmount(
 
     val amountDouble = newlyEnteredNumberString.amountToDoubleOrNull()
 
-    val decimalCountOkay = IvyCurrency.fromCode(currency)?.isCrypto == true
-            || decimalCount <= decimalCountMax
+    val decimalCountOkay = IvyCurrency.fromCode(currency)?.isCrypto == true ||
+        decimalCount <= decimalCountMax
     if (amountDouble != null && decimalCountOkay) {
         val intPart = truncate(amountDouble).toInt()
         val decimalPartFormatted = if (decimalPartString != null) {
-            "${localDecimalSeparator()}${decimalPartString}"
-        } else ""
+            "${localDecimalSeparator()}$decimalPartString"
+        } else {
+            ""
+        }
 
         return formatInt(intPart) + decimalPartFormatted
     }

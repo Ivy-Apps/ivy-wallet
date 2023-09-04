@@ -185,7 +185,6 @@ private fun TextLink(
             }
             .clickable {
                 (context as RootActivity).openUrlInBrowser(url)
-
             },
         text = text,
         style = UI.typo.b2.style(
@@ -232,7 +231,7 @@ private fun SwipeToAgree(
         if (agreed) {
             Text(
                 modifier = Modifier
-                    .padding(start = 32.dp) //24+8=32.dp
+                    .padding(start = 32.dp) // 24+8=32.dp
                     .width(164.dp),
                 text = agreedText,
                 style = UI.typo.c.style(
@@ -276,7 +275,9 @@ private fun SwipeToAgree(
                     ) { _, dragAmount ->
                         val dragAmountScaled = dragAmount * 10
                         val newOffsetX = offsetX + dragAmountScaled
-                        Timber.i("dragAmount=$dragAmount, offsetX=$offsetX, newOffsetX=$newOffsetX, maxOffset=$maxOffsetX")
+                        Timber.i(
+                            "dragAmount=$dragAmount, offsetX=$offsetX, newOffsetX=$newOffsetX, maxOffset=$maxOffsetX"
+                        )
                         offsetX = newOffsetX.coerceIn(
                             minimumValue = 0f,
                             maximumValue = maxOffsetX
@@ -296,7 +297,6 @@ private fun Preview() {
     IvyWalletPreview {
         OnboardingPrivacyTC(
             onAccepted = {
-
             }
         )
     }

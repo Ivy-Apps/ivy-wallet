@@ -26,7 +26,6 @@ import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.utils.hideKeyboard
 import com.ivy.wallet.utils.isNotNullOrBlank
 
-
 @Composable
 fun IvyNumberTextField(
     modifier: Modifier = Modifier,
@@ -97,7 +96,6 @@ private fun Preview() {
             value = TextFieldValue(),
             hint = "0"
         ) {
-
         }
     }
 }

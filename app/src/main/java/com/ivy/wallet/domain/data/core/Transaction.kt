@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 data class Transaction(
-    //TODO: Remove default values & introduce Transaction#dummy() method
+    // TODO: Remove default values & introduce Transaction#dummy() method
     val accountId: UUID,
     val type: TransactionType,
     val amount: BigDecimal,
@@ -24,15 +24,14 @@ data class Transaction(
 
     val attachmentUrl: String? = null,
 
-    //This refers to the loan id that is linked with a transaction
+    // This refers to the loan id that is linked with a transaction
     val loanId: UUID? = null,
 
-    //This refers to the loan record id that is linked with a transaction
+    // This refers to the loan record id that is linked with a transaction
     val loanRecordId: UUID? = null,
 
     val isSynced: Boolean = false,
     val isDeleted: Boolean = false,
-
 
     val id: UUID = UUID.randomUUID()
 ) : TransactionHistoryItem {

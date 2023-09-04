@@ -11,5 +11,5 @@ data class CreateLoanData(
     val color: Color,
     val icon: String?,
     val account: Account? = null,
-    val createLoanTransaction :Boolean = false,
+    val createLoanTransaction: Boolean = false,
 )

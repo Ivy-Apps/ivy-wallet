@@ -74,11 +74,11 @@ class ExportCSVLogic @Inject constructor(
                 }
 
             "Date, Title, Category, Account, Amount, Currency, Type, " +
-                    "Transfer Amount, Transfer Currency, To Account, Receive Amount, Receive Currency, " +
-                    "Description, Due Date, ID, Account Color, " +
-                    "Account orderNum, Category Color, Category orderNum, " +
-                    "To Account Color, To Account orderNum, Account Icon, Category Icon, To Account Icon\n" +
-                    csvRows
+                "Transfer Amount, Transfer Currency, To Account, Receive Amount, Receive Currency, " +
+                "Description, Due Date, ID, Account Color, " +
+                "Account orderNum, Category Color, Category orderNum, " +
+                "To Account Color, To Account orderNum, Account Icon, Category Icon, To Account Icon\n" +
+                csvRows
         }
     }
 
@@ -89,17 +89,17 @@ class ExportCSVLogic @Inject constructor(
     ): String {
         val csv = StringBuilder()
 
-        //Date
+        // Date
         csv.appendValue(dateTime) {
             append(it.formatLocal(CSV_DATETIME_FORMAT))
         }
 
-        //Title
+        // Title
         csv.appendValue(title) {
             append(it.escapeCSVString())
         }
 
-        //Category
+        // Category
         csv.appendValue(categoryId) {
             append(categoryMap[it]?.name?.escapeCSVString() ?: it)
         }
@@ -107,12 +107,12 @@ class ExportCSVLogic @Inject constructor(
         val account = accountMap[accountId]
         val currency = account?.currency ?: baseCurrency
 
-        //Account
+        // Account
         csv.appendValue(accountId) {
             append(account?.name?.escapeCSVString() ?: it)
         }
 
-        //Amount
+        // Amount
         csv.appendValue(amount) {
             val amountFormatted = when (type) {
                 TransactionType.INCOME -> it
@@ -122,68 +122,68 @@ class ExportCSVLogic @Inject constructor(
             append(amountFormatted)
         }
 
-        //Currency
+        // Currency
         csv.appendValue(currency) {
             append(it)
         }
 
-        //Type
+        // Type
         csv.appendValue(type) {
             append(it.name)
         }
 
-        //Transfer Amount
+        // Transfer Amount
         csv.appendValue(if (type == TransactionType.TRANSFER) amount else null) {
             append(it.toDouble().formatAmountCSV(currency))
         }
 
-        //Transfer Currency
+        // Transfer Currency
         csv.appendValue(if (type == TransactionType.TRANSFER) currency else null) {
             append(it)
         }
 
-        //To Account
+        // To Account
         csv.appendValue(toAccountId) {
             append(accountMap[it]?.name?.escapeCSVString() ?: it)
         }
 
         val receiveCurrency = toAccountId?.let { accountMap[it]?.currency ?: baseCurrency }
-        //Receive Amount
+        // Receive Amount
         csv.appendValue(toAmount) {
             append(it.toDouble().formatAmountCSV(receiveCurrency ?: baseCurrency))
         }
 
-        //Receive Currency
+        // Receive Currency
         csv.appendValue(receiveCurrency) {
             append(it)
         }
 
-        //Description
+        // Description
         csv.appendValue(description) {
             append(it.escapeCSVString())
         }
 
-        //Due Date
+        // Due Date
         csv.appendValue(dueDate) {
             append(it.formatLocal(CSV_DATETIME_FORMAT))
         }
 
-        //ID
+        // ID
         csv.appendValue(id) {
             append(it)
         }
 
-        //Account Color
+        // Account Color
         csv.appendValue(accountMap[accountId]?.color) {
             append(it)
         }
 
-        //Account orderNum
+        // Account orderNum
         csv.appendValue(accountMap[accountId]?.orderNum) {
             append(it)
         }
 
-        //Category Color
+        // Category Color
         csv.appendValue(categoryId?.let { categoryMap[it]?.color }) {
             append(it)
         }
@@ -193,27 +193,27 @@ class ExportCSVLogic @Inject constructor(
             append(it)
         }
 
-        //To Account Color
+        // To Account Color
         csv.appendValue(toAccountId?.let { accountMap[it]?.color }) {
             append(it)
         }
 
-        //To Account orderNum
+        // To Account orderNum
         csv.appendValue(toAccountId?.let { accountMap[it]?.orderNum }) {
             append(it)
         }
 
-        //Account Icon
+        // Account Icon
         csv.appendValue(accountMap[accountId]?.icon) {
             append(it)
         }
 
-        //Category Icon
+        // Category Icon
         csv.appendValue(categoryId?.let { categoryMap[it]?.icon }) {
             append(it)
         }
 
-        //To Account Icon
+        // To Account Icon
         csv.appendValue(toAccountId?.let { accountMap[it]?.icon }) {
             append(it)
         }
@@ -222,11 +222,10 @@ class ExportCSVLogic @Inject constructor(
     }
 
     private fun Double.formatAmountCSV(currency: String): String {
-
         val ivyAmountFormat = this.format(currency)
 
         // string result example: 1078.38
-        return when(localDecimalSeparator()) {
+        return when (localDecimalSeparator()) {
             "." -> {
                 // source string example: 1,078.38
                 ivyAmountFormat

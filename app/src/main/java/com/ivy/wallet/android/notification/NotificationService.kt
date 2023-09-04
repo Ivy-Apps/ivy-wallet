@@ -29,7 +29,6 @@ class NotificationService @Inject constructor(
         return ivyNotification
     }
 
-
     fun showNotification(
         notification: NotificationCompat.Builder,
         notificationId: Int

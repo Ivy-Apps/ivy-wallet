@@ -123,7 +123,8 @@ fun BoxWithConstraintsScope.FilterOverlay(
                 .layout { measurable, constraints ->
                     val placeable = measurable.measure(constraints)
                     layout(
-                        placeable.width, placeable.height
+                        placeable.width,
+                        placeable.height
                     ) {
                         placeable.place(
                             x = 0,
@@ -169,7 +170,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
                             localFilter = null
                             onSetFilter(null)
                         }
-                        .padding(all = 4.dp), //expand click area
+                        .padding(all = 4.dp), // expand click area
                     text = stringResource(R.string.clean_filter),
                     style = UI.typo.b2.style(
                         fontWeight = FontWeight.Bold,
@@ -179,7 +180,6 @@ fun BoxWithConstraintsScope.FilterOverlay(
 
                 Spacer(Modifier.width(24.dp))
             }
-
 
             Spacer(Modifier.height(24.dp))
 
@@ -346,7 +346,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
         localFilter = nonNullFilter(localFilter).copy(
             includeKeywords = nonNullFilter(localFilter)
                 .includeKeywords.plus(keyword)
-                .toSet().toList() //filter duplicated
+                .toSet().toList() // filter duplicated
         )
     }
 
@@ -358,7 +358,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
         localFilter = nonNullFilter(localFilter).copy(
             excludeKeywords = nonNullFilter(localFilter)
                 .excludeKeywords.plus(keyword)
-                .toSet().toList() //filter duplicated
+                .toSet().toList() // filter duplicated
         )
     }
 }
@@ -428,21 +428,20 @@ private fun TypeFilterCheckbox(
         checked = filter != null && filter.trnTypes.contains(trnType),
     ) { checked ->
         if (checked) {
-            //remove trn type
+            // remove trn type
             onSetFilter(
                 nonFilter(filter).copy(
                     trnTypes = nonFilter(filter).trnTypes.plus(trnType)
                 )
             )
         } else {
-            //add trn type
+            // add trn type
             onSetFilter(
                 nonFilter(filter).copy(
                     trnTypes = nonFilter(filter).trnTypes.filter { it != trnType }
                 )
             )
         }
-
     }
 }
 
@@ -517,14 +516,14 @@ private fun AccountsFilter(
                 }
             ) { selected ->
                 if (selected) {
-                    //remove account
+                    // remove account
                     onSetFilter(
                         nonNullFilter(filter).copy(
                             accounts = nonNullFilter(filter).accounts.filter { it != account }
                         )
                     )
                 } else {
-                    //add account
+                    // add account
                     onSetFilter(
                         nonNullFilter(filter).copy(
                             accounts = nonNullFilter(filter).accounts
@@ -588,14 +587,14 @@ private fun CategoriesFilter(
                 }
             ) { selected ->
                 if (selected) {
-                    //remove category
+                    // remove category
                     onSetFilter(
                         myNonNullFilter.copy(
                             categories = myNonNullFilter.categories.filter { it != category }
                         )
                     )
                 } else {
-                    //add category
+                    // add category
                     onSetFilter(
                         myNonNullFilter.copy(
                             categories = myNonNullFilter.categories
@@ -640,7 +639,7 @@ private fun ListFilterTitle(
                         onSelectAll()
                     }
                 }
-                .padding(all = 4.dp), //expand click area
+                .padding(all = 4.dp), // expand click area
             text = if (itemsSelected > 0) stringResource(R.string.clear_all) else stringResource(R.string.select_all),
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold,
@@ -805,7 +804,7 @@ private fun KeywordsFilter(
                     keyword = item,
                     borderColor = UI.colors.pureInverse
                 ) {
-                    //Remove keyword
+                    // Remove keyword
                     onSetFilter(
                         nonNullFilter(filter).copy(
                             includeKeywords = nonNullFilter(filter)
@@ -845,7 +844,7 @@ private fun KeywordsFilter(
                     keyword = item,
                     borderColor = UI.colors.pureInverse
                 ) {
-                    //Remove keyword
+                    // Remove keyword
                     onSetFilter(
                         nonNullFilter(filter).copy(
                             excludeKeywords = nonNullFilter(filter)
@@ -861,7 +860,6 @@ private fun KeywordsFilter(
             }
         }
     }
-
 }
 
 @Composable
@@ -896,7 +894,6 @@ private fun AddKeywordButton(
 }
 
 private class AddKeywordButton
-
 
 @Composable
 private fun FilterDivider() {
@@ -951,7 +948,8 @@ private fun Preview() {
 
             filter = ReportFilter.emptyFilter("BGN").copy(
                 accounts = listOf(
-                    acc1, acc2
+                    acc1,
+                    acc2
                 ),
                 categories = listOf(
                     cat1

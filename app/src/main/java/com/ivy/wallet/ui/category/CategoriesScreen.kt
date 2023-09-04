@@ -160,7 +160,7 @@ private fun BoxWithConstraintsScope.UI(
         }
 
         item {
-            Spacer(Modifier.height(150.dp))  //scroll hack
+            Spacer(Modifier.height(150.dp)) // scroll hack
         }
     }
     CategoriesBottomBar(
@@ -298,7 +298,7 @@ fun AddedSpent(
             Spacer(modifier = Modifier.width(dividerSpacer))
         }
 
-        //Divider
+        // Divider
         Spacer(
             modifier = Modifier
                 .width(2.dp)
@@ -358,9 +358,7 @@ private fun LabelAmount(
                 currency = currency
             )
         }
-
     }
-
 }
 
 @Composable
@@ -546,7 +544,6 @@ private fun SelectTypeButton(
     }
 }
 
-
 @Preview
 @Composable
 private fun Preview() {
@@ -601,7 +598,7 @@ private fun Preview() {
                     monthlyIncome = 400.0
                 ),
 
-                )
+            )
         )
         UI(state = state)
     }

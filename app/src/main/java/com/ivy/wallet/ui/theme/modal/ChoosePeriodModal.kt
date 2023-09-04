@@ -237,10 +237,10 @@ data class MonthYear(
         currentYear: Int
     ): String {
         return if (year != currentYear) {
-            //not current year
+            // not current year
             "${month.name}, $year"
         } else {
-            //current year
+            // current year
             month.name
         }
     }
@@ -351,14 +351,20 @@ private fun IntervalFromToDate(
             .border(2.dp, UI.colors.medium, UI.shapes.rFull)
             .clickable {
                 ivyContext.datePicker(
-                    minDate = if (border == IntervalBorder.TO)
+                    minDate = if (border == IntervalBorder.TO) {
                         otherEndDateTime
                             ?.toLocalDate()
-                            ?.plusDays(1) else null,
-                    maxDate = if (border == IntervalBorder.FROM)
+                            ?.plusDays(1)
+                    } else {
+                        null
+                    },
+                    maxDate = if (border == IntervalBorder.FROM) {
                         otherEndDateTime
                             ?.toLocalDate()
-                            ?.minusDays(1) else null,
+                            ?.minusDays(1)
+                    } else {
+                        null
+                    },
                     initialDate = dateTime?.toLocalDate()
                 ) {
                     onSelected(it.atStartOfDay())
@@ -479,7 +485,7 @@ private fun AllTime(
     onSelected: (FromToTimeRange?) -> Unit,
 ) {
     val active = timeRange != null && timeRange.from == null &&
-            timeRange.to != null && timeRange.to.isAfter(timeNowUTC())
+        timeRange.to != null && timeRange.to.isAfter(timeNowUTC())
 
     Text(
         modifier = Modifier
@@ -523,7 +529,6 @@ private fun Preview_MonthSelected() {
             ),
             dismiss = {}
         ) {
-
         }
     }
 }
@@ -543,7 +548,6 @@ private fun Preview_FromTo() {
             ),
             dismiss = {}
         ) {
-
         }
     }
 }
@@ -563,7 +567,6 @@ private fun Preview_LastN() {
             ),
             dismiss = {}
         ) {
-
         }
     }
 }

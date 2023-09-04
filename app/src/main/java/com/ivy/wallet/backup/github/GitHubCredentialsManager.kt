@@ -67,4 +67,3 @@ class GitHubCredentialsManager @Inject constructor(
         }
     }
 }
-

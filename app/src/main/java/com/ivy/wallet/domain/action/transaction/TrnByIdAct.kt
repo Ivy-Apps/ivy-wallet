@@ -11,7 +11,7 @@ class TrnByIdAct @Inject constructor(
     private val transactionDao: TransactionDao
 ) : FPAction<UUID, Transaction?>() {
     override suspend fun UUID.compose(): suspend () -> Transaction? = suspend {
-        this //transactionId
+        this // transactionId
     } then transactionDao::findById then {
         it?.toDomain()
     }

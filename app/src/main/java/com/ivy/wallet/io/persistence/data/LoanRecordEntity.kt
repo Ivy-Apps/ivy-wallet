@@ -23,7 +23,7 @@ data class LoanRecordEntity(
     val interest: Boolean = false,
     @SerializedName("accountId")
     val accountId: UUID? = null,
-    //This is used store the converted amount for currencies which are different from the loan account currency
+    // This is used store the converted amount for currencies which are different from the loan account currency
     @SerializedName("convertedAmount")
     val convertedAmount: Double? = null,
 

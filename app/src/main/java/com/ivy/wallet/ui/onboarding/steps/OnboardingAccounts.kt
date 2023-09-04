@@ -238,7 +238,7 @@ fun PremiumInfo(
                 color = if (freeItemsLeft > 2) Green else Orange
             )
         )
-    } else if(!ivyWalletCtx().isPremium) {
+    } else if (!ivyWalletCtx().isPremium) {
         Spacer(Modifier.height(24.dp))
 
         BuyPremiumRow(
@@ -314,7 +314,6 @@ private fun AccountCard(
     val account = accountBalance.account
     val accountColor = account.color.toComposeColor()
     val dynamicContrast = accountColor.dynamicContrast()
-
 
     Row(
         modifier = Modifier

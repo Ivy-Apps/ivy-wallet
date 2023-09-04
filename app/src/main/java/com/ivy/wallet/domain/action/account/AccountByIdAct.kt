@@ -11,7 +11,7 @@ class AccountByIdAct @Inject constructor(
     private val accountDao: AccountDao
 ) : FPAction<UUID, Account?>() {
     override suspend fun UUID.compose(): suspend () -> Account? = suspend {
-        this //accountId
+        this // accountId
     } then accountDao::findById then {
         it?.toDomain()
     }

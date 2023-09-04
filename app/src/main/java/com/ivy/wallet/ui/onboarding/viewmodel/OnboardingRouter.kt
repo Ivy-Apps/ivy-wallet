@@ -52,11 +52,11 @@ class OnboardingRouter(
         nav.onBackPressed[screen] = {
             when (_state.value) {
                 OnboardingState.SPLASH -> {
-                    //do nothing, consume back
+                    // do nothing, consume back
                     true
                 }
                 OnboardingState.LOGIN -> {
-                    //let the user exit the app
+                    // let the user exit the app
                     false
                 }
                 OnboardingState.CHOOSE_PATH -> {
@@ -65,7 +65,7 @@ class OnboardingRouter(
                 }
                 OnboardingState.CURRENCY -> {
                     if (isLoginCache) {
-                        //user with Ivy account
+                        // user with Ivy account
                         viewModelScope.launch {
                             logoutLogic.logout()
                             isLoginCache = false
@@ -73,7 +73,7 @@ class OnboardingRouter(
                             _state.value = OnboardingState.LOGIN
                         }
                     } else {
-                        //fresh user
+                        // fresh user
                         _state.value = OnboardingState.CHOOSE_PATH
                     }
                     true
@@ -87,14 +87,14 @@ class OnboardingRouter(
                     true
                 }
                 null -> {
-                    //do nothing, consume back
+                    // do nothing, consume back
                     true
                 }
             }
         }
     }
 
-    //------------------------------------- Step 0 - Splash ----------------------------------------
+    // ------------------------------------- Step 0 - Splash ----------------------------------------
     suspend fun splashNext() {
         if (_state.value == OnboardingState.SPLASH) {
             delay(1000)
@@ -102,17 +102,15 @@ class OnboardingRouter(
             _state.value = OnboardingState.LOGIN
         }
     }
-    //------------------------------------- Step 0 -------------------------------------------------
+    // ------------------------------------- Step 0 -------------------------------------------------
 
-
-    //------------------------------------- Step 1 - Login -----------------------------------------
+    // ------------------------------------- Step 1 - Login -----------------------------------------
     suspend fun googleLoginNext() {
-
         if (isLogin()) {
-            //Route logged user
+            // Route logged user
             _state.value = OnboardingState.CURRENCY
         } else {
-            //Route new user
+            // Route new user
             _state.value = OnboardingState.CHOOSE_PATH
         }
     }
@@ -125,10 +123,9 @@ class OnboardingRouter(
     suspend fun offlineAccountNext() {
         _state.value = OnboardingState.CHOOSE_PATH
     }
-    //------------------------------------- Step 1 -------------------------------------------------
+    // ------------------------------------- Step 1 -------------------------------------------------
 
-
-    //------------------------------------- Step 2 - Choose path -----------------------------------
+    // ------------------------------------- Step 2 - Choose path -----------------------------------
     fun startImport() {
         nav.navigateTo(
             Import(
@@ -150,10 +147,9 @@ class OnboardingRouter(
     fun startFresh() {
         _state.value = OnboardingState.CURRENCY
     }
-    //------------------------------------- Step 2 -------------------------------------------------
+    // ------------------------------------- Step 2 -------------------------------------------------
 
-
-    //------------------------------------- Step 3 - Currency --------------------------------------
+    // ------------------------------------- Step 3 - Currency --------------------------------------
     suspend fun setBaseCurrencyNext(
         baseCurrency: IvyCurrency,
         accountsWithBalance: suspend () -> List<AccountBalance>,
@@ -167,10 +163,9 @@ class OnboardingRouter(
             completeOnboarding(baseCurrency = baseCurrency)
         }
     }
-    //------------------------------------- Step 3 -------------------------------------------------
+    // ------------------------------------- Step 3 -------------------------------------------------
 
-
-    //------------------------------------- Step 4 - Accounts --------------------------------------
+    // ------------------------------------- Step 4 - Accounts --------------------------------------
     suspend fun accountsNext() {
         routeToCategories()
     }
@@ -182,10 +177,9 @@ class OnboardingRouter(
             preloadDataLogic.preloadAccounts()
         }
     }
-    //------------------------------------- Step 4 -------------------------------------------------
+    // ------------------------------------- Step 4 -------------------------------------------------
 
-
-    //------------------------------------- Step 5 - Categories ------------------------------------
+    // ------------------------------------- Step 5 - Categories ------------------------------------
     suspend fun categoriesNext(baseCurrency: IvyCurrency?) {
         completeOnboarding(baseCurrency = baseCurrency)
     }
@@ -196,11 +190,10 @@ class OnboardingRouter(
         ioThread {
             preloadDataLogic.preloadCategories()
         }
-
     }
-    //------------------------------------- Step 5 -------------------------------------------------
+    // ------------------------------------- Step 5 -------------------------------------------------
 
-    //-------------------------------------- Routes ------------------------------------------------
+    // -------------------------------------- Routes ------------------------------------------------
     private suspend fun routeToAccounts(
         baseCurrency: IvyCurrency,
         accountsWithBalance: suspend () -> List<AccountBalance>,
@@ -220,7 +213,6 @@ class OnboardingRouter(
         _state.value = OnboardingState.CATEGORIES
     }
 
-
     private suspend fun completeOnboarding(
         baseCurrency: IvyCurrency?
     ) {
@@ -228,7 +220,7 @@ class OnboardingRouter(
 
         navigateOutOfOnboarding()
 
-        //the rest below is not UI stuff so I don't care
+        // the rest below is not UI stuff so I don't care
         ioThread {
             transactionReminderLogic.scheduleReminder()
 
@@ -251,5 +243,5 @@ class OnboardingRouter(
         nav.resetBackStack()
         nav.navigateTo(Main)
     }
-    //-------------------------------------- Routes ------------------------------------------------
+    // -------------------------------------- Routes ------------------------------------------------
 }

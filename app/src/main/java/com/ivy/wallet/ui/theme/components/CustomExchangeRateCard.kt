@@ -26,7 +26,6 @@ import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.utils.format
 
-
 @Composable
 fun CustomExchangeRateCard(
     modifier: Modifier = Modifier,
@@ -101,7 +100,8 @@ fun CustomExchangeRateCard(
                 .padding(end = 16.dp)
                 .clickable {
                     onRefresh()
-                })
+                }
+        )
     }
 }
 

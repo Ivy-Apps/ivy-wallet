@@ -20,7 +20,6 @@ import com.ivy.design.utils.thenWhen
 import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.utils.toLowerCaseLocal
 
-
 @Composable
 fun ItemIconL(
     modifier: Modifier = Modifier,
@@ -143,20 +142,20 @@ private fun ItemIcon(
             modifier = modifier
                 .thenWhen {
                     if (!iconInfo.newFormat) {
-                        //do nothing for the old format of icons
+                        // do nothing for the old format of icons
                         return@thenWhen this
                     }
 
                     when (iconInfo.style) {
                         IconStyle.L ->
-                            //64.dp - 48.dp = 16.dp / 4 = 4.dp
+                            // 64.dp - 48.dp = 16.dp / 4 = 4.dp
                             this.padding(all = 4.dp)
                         IconStyle.M ->
-                            //48.dp - 32.dp = 16.dp / 4 = 4.dp
+                            // 48.dp - 32.dp = 16.dp / 4 = 4.dp
                             this.padding(all = 4.dp)
                         IconStyle.S ->
-                            //32.dp - 24.dp = 8.dp / 4 = 2.dp
-                            //2.dp is too small padding
+                            // 32.dp - 24.dp = 8.dp / 4 = 2.dp
+                            // 2.dp is too small padding
                             this.padding(all = 4.dp)
                         IconStyle.UNKNOWN -> this
                     }
@@ -164,8 +163,11 @@ private fun ItemIcon(
             painter = painterResource(id = iconInfo.iconId),
             colorFilter = ColorFilter.tint(tint),
             alignment = Alignment.Center,
-            contentScale = iconContentScale ?: if (iconInfo.newFormat)
-                ContentScale.Fit else ContentScale.None,
+            contentScale = iconContentScale ?: if (iconInfo.newFormat) {
+                ContentScale.Fit
+            } else {
+                ContentScale.None
+            },
             contentDescription = iconName ?: "item icon"
         )
     } else {
@@ -235,7 +237,7 @@ fun getCustomIconId(
                 .toLowerCaseLocal()
 
             val itemId = context.resources.getIdentifier(
-                "ic_custom_${iconNameNormalized}_${size}",
+                "ic_custom_${iconNameNormalized}_$size",
                 "drawable",
                 context.packageName
             ).takeIf { it != 0 }

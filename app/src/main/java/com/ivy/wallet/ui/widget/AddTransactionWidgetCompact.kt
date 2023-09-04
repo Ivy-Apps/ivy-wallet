@@ -20,7 +20,7 @@ class AddTransactionWidgetCompact : AppWidgetProvider() {
         updateBroadcast(context)
     }
 
-    //--------------------------- </BROADCASTS> ----------------------------------------------------
+    // --------------------------- </BROADCASTS> ----------------------------------------------------
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,

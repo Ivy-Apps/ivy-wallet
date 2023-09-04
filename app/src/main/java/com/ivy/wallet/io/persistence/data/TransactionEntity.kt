@@ -39,11 +39,11 @@ data class TransactionEntity(
     @SerializedName("attachmentUrl")
     val attachmentUrl: String? = null,
 
-    //This refers to the loan id that is linked with a transaction
+    // This refers to the loan id that is linked with a transaction
     @SerializedName("loanId")
     val loanId: UUID? = null,
 
-    //This refers to the loan record id that is linked with a transaction
+    // This refers to the loan record id that is linked with a transaction
     @SerializedName("loanRecordId")
     val loanRecordId: UUID? = null,
 
@@ -77,7 +77,7 @@ data class TransactionEntity(
     fun isIdenticalWith(transaction: TransactionEntity?): Boolean {
         if (transaction == null) return false
 
-        //Set isSynced && isDeleted to false so they aren't accounted in the equals check
+        // Set isSynced && isDeleted to false so they aren't accounted in the equals check
         return this.copy(
             isSynced = false,
             isDeleted = false

@@ -1,6 +1,5 @@
 package com.ivy.wallet.ui.onboarding.components
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -135,7 +134,6 @@ private fun AddNewButton(
 
 private class AddNew
 
-
 @Preview
 @Composable
 private fun Preview() {
@@ -148,7 +146,6 @@ private fun Preview() {
             ),
             onAddSuggestion = { }
         ) {
-
         }
     }
 }

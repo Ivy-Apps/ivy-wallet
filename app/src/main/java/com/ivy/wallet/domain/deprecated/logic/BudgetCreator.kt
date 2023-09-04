@@ -43,7 +43,6 @@ class BudgetCreator(
         }
     }
 
-
     suspend fun editBudget(
         updatedBudget: Budget,
         onRefreshUI: suspend (Budget) -> Unit

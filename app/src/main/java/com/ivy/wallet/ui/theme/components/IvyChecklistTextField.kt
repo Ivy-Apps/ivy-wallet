@@ -32,7 +32,6 @@ import com.ivy.wallet.utils.clickableNoIndication
 import com.ivy.wallet.utils.hideKeyboard
 import com.ivy.wallet.utils.isNotNullOrBlank
 
-
 @Composable
 fun IvyChecklistTextField(
     modifier: Modifier = Modifier,
@@ -118,7 +117,6 @@ fun IvyChecklistTextField(
     }
 }
 
-
 @Preview
 @Composable
 private fun PreviewIvyTextField() {
@@ -130,7 +128,8 @@ private fun PreviewIvyTextField() {
                 .padding(horizontal = 24.dp),
             value = TextFieldValue(),
             hint = "Hint",
-            onValueChanged = {})
+            onValueChanged = {}
+        )
     }
 }
 
@@ -142,8 +141,11 @@ private fun PreviewIvyTextField_longText() {
             modifier = Modifier
                 .background(UI.colors.red)
                 .padding(horizontal = 24.dp),
-            value = TextFieldValue("Cur habitio favere? Sunt navises promissio grandis, primus accolaes. Yes, there is chaos, it contacts with light."),
+            value = TextFieldValue(
+                "Cur habitio favere? Sunt navises promissio grandis, primus accolaes. Yes, there is chaos, it contacts with light."
+            ),
             hint = "Hint",
-            onValueChanged = {})
+            onValueChanged = {}
+        )
     }
 }

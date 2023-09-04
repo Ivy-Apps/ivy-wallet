@@ -1,6 +1,5 @@
 package com.ivy.wallet.ui.csvimport.flow
 
-
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -63,7 +62,7 @@ fun BoxWithConstraintsScope.ImportFrom(
                 onBack = { nav.onBackPressed() },
                 onSkip = onSkip
             )
-            //onboarding toolbar include paddingBottom 16.dp
+            // onboarding toolbar include paddingBottom 16.dp
         }
 
         item {
@@ -104,7 +103,7 @@ fun BoxWithConstraintsScope.ImportFrom(
         }
 
         item {
-            //last spacer
+            // last spacer
             Spacer(Modifier.height(96.dp))
         }
     }

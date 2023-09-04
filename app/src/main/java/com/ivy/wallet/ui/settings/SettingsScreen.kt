@@ -174,7 +174,6 @@ private fun BoxWithConstraintsScope.UI(
     onSetCurrency: (String) -> Unit,
     onSetName: (String) -> Unit = {},
 
-
     onSync: () -> Unit,
     onLogout: () -> Unit,
     onLogin: () -> Unit,
@@ -188,7 +187,7 @@ private fun BoxWithConstraintsScope.UI(
     onDeleteAllUserData: () -> Unit = {},
     onDeleteCloudUserData: () -> Unit = {},
 
-    ) {
+) {
     var currencyModalVisible by remember { mutableStateOf(false) }
     var nameModalVisible by remember { mutableStateOf(false) }
     var chooseStartDateOfMonthVisible by remember { mutableStateOf(false) }
@@ -225,7 +224,7 @@ private fun BoxWithConstraintsScope.UI(
 
                 Spacer(Modifier.width(32.dp))
             }
-            //onboarding toolbar include paddingBottom 16.dp
+            // onboarding toolbar include paddingBottom 16.dp
         }
 
         item {
@@ -482,7 +481,7 @@ private fun BoxWithConstraintsScope.UI(
         }
 
         item {
-            Spacer(modifier = Modifier.height(120.dp)) //last item spacer
+            Spacer(modifier = Modifier.height(120.dp)) // last item spacer
         }
     }
 
@@ -514,7 +513,8 @@ private fun BoxWithConstraintsScope.UI(
     DeleteModal(
         title = stringResource(R.string.delete_all_user_data_question),
         description = stringResource(
-            R.string.delete_all_user_data_warning, user?.email ?: stringResource(
+            R.string.delete_all_user_data_warning,
+            user?.email ?: stringResource(
                 R.string.your_account
             )
         ),
@@ -528,7 +528,8 @@ private fun BoxWithConstraintsScope.UI(
 
     DeleteModal(
         title = stringResource(
-            R.string.confirm_all_userd_data_deletion, user?.email ?: stringResource(
+            R.string.confirm_all_userd_data_deletion,
+            user?.email ?: stringResource(
                 R.string.all_of_your_data
             )
         ),
@@ -543,7 +544,8 @@ private fun BoxWithConstraintsScope.UI(
     DeleteModal(
         title = stringResource(R.string.delete_all_cloud_data_question),
         description = stringResource(
-            R.string.delete_all_user_cloud_data_warning, user?.email ?: stringResource(
+            R.string.delete_all_user_cloud_data_warning,
+            user?.email ?: stringResource(
                 R.string.your_account
             )
         ),
@@ -603,7 +605,6 @@ private fun StartDateOfMonth(
         Spacer(Modifier.width(32.dp))
     }
 }
-
 
 @Composable
 private fun IvyTelegram() {
@@ -723,7 +724,7 @@ private fun AppSwitch(
             }
         }
 
-        //Spacer(Modifier.weight(1f))
+        // Spacer(Modifier.weight(1f))
 
         IvySwitch(enabled = lockApp) {
             onSetLockApp(it)
@@ -806,7 +807,6 @@ private fun AccountCard(
                 name = nameLocalAccount,
             )
         }
-
     }
 }
 
@@ -907,7 +907,7 @@ private fun AccountCardUser(
 
         is OpResult.Success -> {
             if (opSync.data) {
-                //synced
+                // synced
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -933,7 +933,7 @@ private fun AccountCardUser(
                     Spacer(Modifier.width(24.dp))
                 }
             } else {
-                //not synced
+                // not synced
                 IvyButton(
                     modifier = Modifier.padding(horizontal = 24.dp),
                     iconStart = R.drawable.ic_sync,

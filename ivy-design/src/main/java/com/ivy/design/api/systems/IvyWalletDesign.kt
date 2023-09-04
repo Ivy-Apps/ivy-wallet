@@ -18,7 +18,6 @@ abstract class IvyWalletDesign : IvyDesign {
         const val RALEWAY_BASELINE_SHIFT = 0.2f
     }
 
-
     override fun typography(): IvyTypography {
         val openSans = FontFamily(
             Font(R.font.opensans_regular, FontWeight.Normal),
@@ -156,7 +155,7 @@ abstract class IvyWalletDesign : IvyDesign {
 
                 override val isLight = false
             }
-            Theme.AUTO -> if(isDarkModeEnabled) colors(Theme.DARK,true) else colors(Theme.LIGHT,false)
+            Theme.AUTO -> if (isDarkModeEnabled) colors(Theme.DARK, true) else colors(Theme.LIGHT, false)
         }
     }
 

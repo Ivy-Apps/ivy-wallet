@@ -264,7 +264,7 @@ private fun ScreenContent() {
         }
 
         item {
-            SpacerVer(height = 120.dp) //scroll hack
+            SpacerVer(height = 120.dp) // scroll hack
         }
     }
 }

@@ -11,8 +11,6 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.wallet.ui.IvyWalletComponentPreview
 
-
-
 @Composable
 fun IvyDividerLine(
     modifier: Modifier = Modifier

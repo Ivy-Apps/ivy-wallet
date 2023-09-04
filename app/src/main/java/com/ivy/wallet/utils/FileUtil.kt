@@ -17,7 +17,7 @@ fun saveFile(
 ) {
     val dirPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
         ?: return
-    val newFile = File("${dirPath}/$fileName")
+    val newFile = File("$dirPath/$fileName")
     newFile.createNewFile()
     newFile.writeText(content)
 }

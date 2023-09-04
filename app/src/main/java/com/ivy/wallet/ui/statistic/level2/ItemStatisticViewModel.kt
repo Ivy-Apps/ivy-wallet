@@ -102,7 +102,7 @@ class ItemStatisticViewModel @Inject constructor(
     private val _expenses = MutableStateFlow(0.0)
     val expenses = _expenses.readOnly()
 
-    //Upcoming
+    // Upcoming
     private val _upcoming = MutableStateFlow<List<Transaction>>(emptyList())
     val upcoming = _upcoming.readOnly()
 
@@ -115,7 +115,7 @@ class ItemStatisticViewModel @Inject constructor(
     private val _upcomingExpanded = MutableStateFlow(false)
     val upcomingExpanded = _upcomingExpanded.readOnly()
 
-    //Overdue
+    // Overdue
     private val _overdue = MutableStateFlow<List<Transaction>>(emptyList())
     val overdue = _overdue.readOnly()
 
@@ -128,7 +128,7 @@ class ItemStatisticViewModel @Inject constructor(
     private val _overdueExpanded = MutableStateFlow(true)
     val overdueExpanded = _overdueExpanded.readOnly()
 
-    //History
+    // History
     private val _history = MutableStateFlow<List<TransactionHistoryItem>>(emptyList())
     val history = _history.readOnly()
 
@@ -176,9 +176,9 @@ class ItemStatisticViewModel @Inject constructor(
                 screen.categoryId != null && screen.transactions.isEmpty() -> {
                     initForCategory(screen.categoryId, screen.accountIdFilterList)
                 }
-                //unspecifiedCategory==false is explicitly checked to accommodate for a temp AccountTransfers Category during Reports Screen
-                screen.categoryId != null && screen.transactions.isNotEmpty()
-                        && screen.unspecifiedCategory == false -> {
+                // unspecifiedCategory==false is explicitly checked to accommodate for a temp AccountTransfers Category during Reports Screen
+                screen.categoryId != null && screen.transactions.isNotEmpty() &&
+                    screen.unspecifiedCategory == false -> {
                     initForCategoryWithTransactions(
                         screen.categoryId,
                         screen.accountIdFilterList,
@@ -247,21 +247,23 @@ class ItemStatisticViewModel @Inject constructor(
         _income.value = incomeExpensePair.income.toDouble()
         _expenses.value = incomeExpensePair.expense.toDouble()
 
-        _history.value = (accTrnsAct then {
-            trnsWithDateDivsAct(
-                TrnsWithDateDivsAct.Input(
-                    baseCurrency = baseCurrency.value,
-                    transactions = it
+        _history.value = (
+            accTrnsAct then {
+                trnsWithDateDivsAct(
+                    TrnsWithDateDivsAct.Input(
+                        baseCurrency = baseCurrency.value,
+                        transactions = it
+                    )
                 )
-            )
-        })(
+            }
+            )(
             AccTrnsAct.Input(
                 accountId = account.id,
                 range = range.toCloseTimeRange()
             )
         )
 
-        //Upcoming
+        // Upcoming
         _upcomingIncome.value = ioThread {
             accountLogic.calculateUpcomingIncome(account, range)
         }
@@ -272,7 +274,7 @@ class ItemStatisticViewModel @Inject constructor(
 
         _upcoming.value = ioThread { accountLogic.upcoming(account, range) }
 
-        //Overdue
+        // Overdue
         _overdueIncome.value = ioThread {
             accountLogic.calculateOverdueIncome(account, range)
         }
@@ -312,8 +314,8 @@ class ItemStatisticViewModel @Inject constructor(
             )
         }
 
-        //Upcoming
-        //TODO: Rework Upcoming to FP
+        // Upcoming
+        // TODO: Rework Upcoming to FP
         _upcomingIncome.value = ioThread {
             categoryLogic.calculateUpcomingIncomeByCategory(category, range)
         }
@@ -324,8 +326,8 @@ class ItemStatisticViewModel @Inject constructor(
 
         _upcoming.value = ioThread { categoryLogic.upcomingByCategory(category, range) }
 
-        //Overdue
-        //TODO: Rework Overdue to FP
+        // Overdue
+        // TODO: Rework Overdue to FP
         _overdueIncome.value = ioThread {
             categoryLogic.calculateOverdueIncomeByCategory(category, range)
         }
@@ -396,8 +398,8 @@ class ItemStatisticViewModel @Inject constructor(
                 )
             }
 
-            //Upcoming
-            //TODO: Rework Upcoming to FP
+            // Upcoming
+            // TODO: Rework Upcoming to FP
             _upcomingIncome.value = ioThread {
                 categoryLogic.calculateUpcomingIncomeByCategory(category, range)
             }
@@ -408,8 +410,8 @@ class ItemStatisticViewModel @Inject constructor(
 
             _upcoming.value = ioThread { categoryLogic.upcomingByCategory(category, range) }
 
-            //Overdue
-            //TODO: Rework Overdue to FP
+            // Overdue
+            // TODO: Rework Overdue to FP
             _overdueIncome.value = ioThread {
                 categoryLogic.calculateOverdueIncomeByCategory(category, range)
             }
@@ -441,7 +443,7 @@ class ItemStatisticViewModel @Inject constructor(
             categoryLogic.historyUnspecified(range)
         }
 
-        //Upcoming
+        // Upcoming
         _upcomingIncome.value = ioThread {
             categoryLogic.calculateUpcomingIncomeUnspecified(range)
         }
@@ -452,7 +454,7 @@ class ItemStatisticViewModel @Inject constructor(
 
         _upcoming.value = ioThread { categoryLogic.upcomingUnspecified(range) }
 
-        //Overdue
+        // Overdue
         _overdueIncome.value = ioThread {
             categoryLogic.calculateOverdueIncomeUnspecified(range)
         }
@@ -474,9 +476,11 @@ class ItemStatisticViewModel @Inject constructor(
             Category(stringRes(R.string.account_transfers), RedLight.toArgb(), "transfer")
         val accountFilterIdSet = accountFilterList.toHashSet()
         val trans = transactions.filter {
-            it.categoryId == null && (accountFilterIdSet.contains(it.accountId) || accountFilterIdSet.contains(
-                it.toAccountId
-            )) && it.type == TransactionType.TRANSFER
+            it.categoryId == null && (
+                accountFilterIdSet.contains(it.accountId) || accountFilterIdSet.contains(
+                    it.toAccountId
+                )
+                ) && it.type == TransactionType.TRANSFER
         }
 
         val historyIncomeExpense = calcTrnsIncomeExpenseAct(

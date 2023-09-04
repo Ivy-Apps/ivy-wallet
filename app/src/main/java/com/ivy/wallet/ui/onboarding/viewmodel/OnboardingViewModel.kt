@@ -54,7 +54,7 @@ class OnboardingViewModel @Inject constructor(
     private val categoriesAct: CategoriesAct,
     private val syncExchangeRatesAct: SyncExchangeRatesAct,
 
-    //Only OnboardingRouter stuff
+    // Only OnboardingRouter stuff
     sharedPrefs: SharedPrefs,
     transactionReminderLogic: TransactionReminderLogic,
     preloadDataLogic: PreloadDataLogic,
@@ -143,7 +143,7 @@ class OnboardingViewModel @Inject constructor(
         }
     }
 
-    //Step 1 ---------------------------------------------------------------------------------------
+    // Step 1 ---------------------------------------------------------------------------------------
     fun loginWithGoogle() {
         ivyContext.googleSignIn { idToken ->
             if (idToken != null) {
@@ -156,7 +156,7 @@ class OnboardingViewModel @Inject constructor(
 
                         router.googleLoginNext()
 
-                        _opGoogleSignIn.value = null //reset login with Google operation state
+                        _opGoogleSignIn.value = null // reset login with Google operation state
                     } catch (e: Exception) {
                         e.sendToCrashlytics("GOOGLE_SIGN_IN ERROR: generic exception when logging with GOOGLE")
                         e.printStackTrace()
@@ -187,10 +187,9 @@ class OnboardingViewModel @Inject constructor(
             TestIdlingResource.decrement()
         }
     }
-    //Step 1 ---------------------------------------------------------------------------------------
+    // Step 1 ---------------------------------------------------------------------------------------
 
-
-    //Step 2 ---------------------------------------------------------------------------------------
+    // Step 2 ---------------------------------------------------------------------------------------
     fun startImport() {
         router.startImport()
     }
@@ -206,8 +205,7 @@ class OnboardingViewModel @Inject constructor(
     fun startFresh() {
         router.startFresh()
     }
-    //Step 2 ---------------------------------------------------------------------------------------
-
+    // Step 2 ---------------------------------------------------------------------------------------
 
     fun setBaseCurrency(baseCurrency: IvyCurrency) {
         viewModelScope.launch {
@@ -239,7 +237,7 @@ class OnboardingViewModel @Inject constructor(
         _currency.value = baseCurrency
     }
 
-    //--------------------- Accounts ---------------------------------------------------------------
+    // --------------------- Accounts ---------------------------------------------------------------
     fun editAccount(account: Account, newBalance: Double) {
         viewModelScope.launch {
             TestIdlingResource.increment()
@@ -251,7 +249,6 @@ class OnboardingViewModel @Inject constructor(
             TestIdlingResource.decrement()
         }
     }
-
 
     fun createAccount(data: CreateAccountData) {
         viewModelScope.launch {
@@ -294,9 +291,9 @@ class OnboardingViewModel @Inject constructor(
             TestIdlingResource.decrement()
         }
     }
-    //--------------------- Accounts ---------------------------------------------------------------
+    // --------------------- Accounts ---------------------------------------------------------------
 
-    //---------------------------- Categories ------------------------------------------------------
+    // ---------------------------- Categories ------------------------------------------------------
     fun editCategory(updatedCategory: Category) {
         viewModelScope.launch {
             TestIdlingResource.increment()
@@ -340,5 +337,5 @@ class OnboardingViewModel @Inject constructor(
             TestIdlingResource.decrement()
         }
     }
-    //---------------------------- Categories ------------------------------------------------------
+    // ---------------------------- Categories ------------------------------------------------------
 }

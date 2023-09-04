@@ -66,7 +66,6 @@ private fun Preview_Solid() {
             ),
             textStyle = UI.typo.b1.colorAs(White)
         ) {
-
         }
     }
 }
@@ -88,7 +87,6 @@ private fun Preview_Outlined() {
             ),
             textStyle = UI.typo.b1.colorAs(UI.colors.pureInverse)
         ) {
-
         }
     }
 }
@@ -103,8 +101,6 @@ private fun Preview_FillMaxWidth() {
                 .padding(horizontal = 16.dp),
             text = "Add task"
         ) {
-
         }
     }
 }
-

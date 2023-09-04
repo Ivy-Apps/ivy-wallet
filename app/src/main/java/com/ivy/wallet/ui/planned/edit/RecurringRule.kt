@@ -72,7 +72,7 @@ fun hasRecurringRule(
     oneTime: Boolean,
 ): Boolean {
     return startDate != null &&
-            ((intervalN != null && intervalType != null) || oneTime)
+        ((intervalN != null && intervalType != null) || oneTime)
 }
 
 @Composable

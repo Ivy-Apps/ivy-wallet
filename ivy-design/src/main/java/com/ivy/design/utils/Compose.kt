@@ -22,10 +22,12 @@ fun Modifier.thenIf(
     condition: Boolean,
     otherModifier: @Composable Modifier.() -> Modifier
 ): Modifier = composed {
-    //Cannot use Modifier#then() because it stacks the previous modifiers multiple times
+    // Cannot use Modifier#then() because it stacks the previous modifiers multiple times
     if (condition) {
         this.otherModifier()
-    } else this
+    } else {
+        this
+    }
 }
 
 fun Modifier.thenWhen(
@@ -35,7 +37,7 @@ fun Modifier.thenWhen(
 }
 
 fun Modifier.consumeClicks() = clickableNoIndication {
-    //consume click
+    // consume click
 }
 
 fun Modifier.clickableNoIndication(

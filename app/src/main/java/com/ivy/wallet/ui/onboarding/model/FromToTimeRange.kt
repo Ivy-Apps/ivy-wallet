@@ -17,13 +17,13 @@ data class FromToTimeRange(
 
     fun upcomingFrom(): LocalDateTime {
         val startOfDayNowUTC =
-            startOfDayNowUTC().minusDays(1) //-1 day to ensure that everything is included
+            startOfDayNowUTC().minusDays(1) // -1 day to ensure that everything is included
         return if (includes(startOfDayNowUTC)) startOfDayNowUTC else from()
     }
 
     fun overdueTo(): LocalDateTime {
         val startOfDayNowUTC =
-            startOfDayNowUTC().plusDays(1) //+1 day to ensure that everything is included
+            startOfDayNowUTC().plusDays(1) // +1 day to ensure that everything is included
         return if (includes(startOfDayNowUTC)) startOfDayNowUTC else to()
     }
 
@@ -52,7 +52,7 @@ fun Iterable<Transaction>.filterUpcoming(): List<Transaction> {
     val todayStartOfDayUTC = dateNowUTC().atStartOfDay()
 
     return filter {
-        //make sure that it's in the future
+        // make sure that it's in the future
         it.dueDate != null && it.dueDate.isAfter(todayStartOfDayUTC)
     }
 }
@@ -61,7 +61,7 @@ fun Iterable<Transaction>.filterOverdue(): List<Transaction> {
     val todayStartOfDayUTC = dateNowUTC().atStartOfDay()
 
     return filter {
-        //make sure that it's in the past
+        // make sure that it's in the past
         it.dueDate != null && it.dueDate.isBefore(todayStartOfDayUTC)
     }
 }

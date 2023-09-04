@@ -77,7 +77,6 @@ data class BudgetEntity(
         }
     }
 
-
     fun validate(): Boolean {
         return name.isNotEmpty() && amount > 0.0
     }

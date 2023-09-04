@@ -75,9 +75,9 @@ private fun WarningCardInfo() {
     val text = buildAnnotatedString {
         append(
             "To ensure Ivy Wallet can automatically backup your data you must do the below:" +
-                    "\n" +
-                    "\n" +
-                    "1. Disable "
+                "\n" +
+                "\n" +
+                "1. Disable "
         )
 
         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -86,7 +86,7 @@ private fun WarningCardInfo() {
 
         append(
             " for this app in the app's settings.\n" +
-                    "2. In some mobile models like Xiaomi and Vivo the "
+                "2. In some mobile models like Xiaomi and Vivo the "
         )
 
         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {

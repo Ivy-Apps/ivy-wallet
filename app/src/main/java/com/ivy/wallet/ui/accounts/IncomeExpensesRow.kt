@@ -58,7 +58,7 @@ fun IncomeExpensesRow(
             Spacer(modifier = Modifier.width(dividerSpacer))
         }
 
-        //Divider
+        // Divider
         Spacer(
             modifier = Modifier
                 .width(2.dp)
@@ -118,6 +118,5 @@ private fun LabelAmountColumn(
                 currency = currency
             )
         }
-
     }
 }

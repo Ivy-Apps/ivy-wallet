@@ -34,7 +34,12 @@ data class Loan(
     )
 
     fun humanReadableType(): String {
-        return if (type == LoanType.BORROW) stringRes(R.string.borrowed_uppercase) else stringRes(
-            R.string.lent_uppercase)
+        return if (type == LoanType.BORROW) {
+            stringRes(R.string.borrowed_uppercase)
+        } else {
+            stringRes(
+                R.string.lent_uppercase
+            )
+        }
     }
 }

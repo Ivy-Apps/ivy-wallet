@@ -34,5 +34,4 @@ class WidgetBase {
             return appWidgetManager.getAppWidgetIds(ivyWidgetComponent)
         }
     }
-
 }

@@ -151,14 +151,12 @@ private fun BoxWithConstraintsScope.UI(
     }
     var waitModalVisible by remember(loan) { mutableStateOf(false) }
 
-
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(itemColor)
     ) {
         val listState = rememberLazyListState()
-
 
         LazyColumn(
             modifier = Modifier
@@ -212,12 +210,12 @@ private fun BoxWithConstraintsScope.UI(
             }
 
             item {
-                //Rounded corners top effect
+                // Rounded corners top effect
                 Spacer(
                     Modifier
                         .height(32.dp)
                         .fillMaxWidth()
-                        .background(itemColor) //itemColor is displayed below the clip
+                        .background(itemColor) // itemColor is displayed below the clip
                         .background(UI.colors.pure, UI.shapes.r1Top)
                 )
             }
@@ -246,7 +244,7 @@ private fun BoxWithConstraintsScope.UI(
             }
 
             item {
-                //scroll hack
+                // scroll hack
                 Spacer(Modifier.height(96.dp))
             }
         }
@@ -255,7 +253,7 @@ private fun BoxWithConstraintsScope.UI(
     LoanModal(
         modal = loanModalData,
         onCreateLoan = {
-            //do nothing
+            // do nothing
         },
         onEditLoan = onEditLoan,
         dismiss = {
@@ -347,7 +345,6 @@ private fun Header(
             balance = loan.amount,
         )
 
-
         Spacer(Modifier.height(20.dp))
 
         LoanInfoCard(
@@ -419,8 +416,11 @@ private fun LoanInfoCard(
 
     onAddRecord: () -> Unit
 ) {
-    val backgroundColor = if (isDarkColor(loan.color))
-        MediumBlack.copy(alpha = 0.9f) else MediumWhite.copy(alpha = 0.9f)
+    val backgroundColor = if (isDarkColor(loan.color)) {
+        MediumBlack.copy(alpha = 0.9f)
+    } else {
+        MediumWhite.copy(alpha = 0.9f)
+    }
 
     val contrastColor = findContrastTextColor(backgroundColor)
     val percentPaid = amountPaid / loan.amount
@@ -450,7 +450,7 @@ private fun LoanInfoCard(
                     fontWeight = FontWeight.ExtraBold
                 )
             )
-            if (selectedLoanAccount != null)
+            if (selectedLoanAccount != null) {
                 IvyButton(
                     modifier = Modifier.padding(end = 16.dp, top = 12.dp),
                     backgroundGradient = Gradient.solid(loan.color.toComposeColor()),
@@ -475,11 +475,13 @@ private fun LoanInfoCard(
                         )
                     )
                 }
+            }
         }
 
-        //Support UI for Old Versions where
-        if (selectedLoanAccount == null)
+        // Support UI for Old Versions where
+        if (selectedLoanAccount == null) {
             Spacer(Modifier.height(12.dp))
+        }
 
         Text(
             modifier = Modifier
@@ -548,7 +550,6 @@ private fun LoanInfoCard(
         )
 
         if (loanAmountPaid != 0.0) {
-
             Divider(
                 modifier = Modifier
                     .padding(horizontal = 24.dp, vertical = 16.dp)
@@ -680,7 +681,6 @@ private fun LoanRecordItem(
             .background(UI.colors.medium, UI.shapes.r4)
             .testTag("loan_record_item")
     ) {
-
         if (account != null || loanRecord.interest) {
             Row(Modifier.padding(16.dp)) {
                 if (account != null) {
@@ -710,7 +710,7 @@ private fun LoanRecordItem(
                 }
 
                 if (loanRecord.interest) {
-                    //Spacer(modifier = Modifier.width(8.dp))
+                    // Spacer(modifier = Modifier.width(8.dp))
 
                     val textIconColor = if (isDarkColor(loan.color)) MediumWhite else MediumBlack
 
@@ -731,7 +731,7 @@ private fun LoanRecordItem(
                         padding = 8.dp,
                         iconEdgePadding = 10.dp
                     ) {
-                        //do Nothing
+                        // do Nothing
                     }
                 }
             }
@@ -761,8 +761,9 @@ private fun LoanRecordItem(
             )
         }
 
-        if (loanRecord.note.isNullOrEmpty())
+        if (loanRecord.note.isNullOrEmpty()) {
             Spacer(Modifier.height(16.dp))
+        }
 
         TypeAmountCurrency(
             transactionType = if (loan.type == LoanType.LEND) TransactionType.INCOME else TransactionType.EXPENSE,

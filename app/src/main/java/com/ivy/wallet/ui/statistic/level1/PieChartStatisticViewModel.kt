@@ -162,10 +162,11 @@ class PieChartStatisticViewModel @Inject constructor(
     }
 
     private suspend fun configureMonthModal(timePeriod: TimePeriod?) {
-        val choosePeriodModalData = if (timePeriod != null)
+        val choosePeriodModalData = if (timePeriod != null) {
             ChoosePeriodModalData(period = timePeriod)
-        else
+        } else {
             null
+        }
 
         updateState {
             it.copy(choosePeriodModal = choosePeriodModalData)
@@ -173,10 +174,11 @@ class PieChartStatisticViewModel @Inject constructor(
     }
 
     private suspend fun onCategoryClicked(clickedCategory: Category?) {
-        val selectedCategory = if (clickedCategory == stateVal().selectedCategory?.category)
+        val selectedCategory = if (clickedCategory == stateVal().selectedCategory?.category) {
             null
-        else
+        } else {
             SelectedCategory(category = clickedCategory)
+        }
 
         val existingCategoryAmounts = stateVal().categoryAmounts
         val newCategoryAmounts = if (selectedCategory != null) {

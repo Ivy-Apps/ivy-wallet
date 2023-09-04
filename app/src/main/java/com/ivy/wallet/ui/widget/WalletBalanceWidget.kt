@@ -41,7 +41,6 @@ class WalletBalanceWidget : GlanceAppWidget() {
             WalletBalanceWidgetContent(appLocked, balance, currency, income, expense)
         }
     }
-
 }
 
 @AndroidEntryPoint
@@ -51,7 +50,6 @@ class WalletBalanceWidgetReceiver : GlanceAppWidgetReceiver() {
             WidgetBase.updateBroadcast(context, WalletBalanceWidgetReceiver::class.java)
         }
     }
-
 
     override val glanceAppWidget: GlanceAppWidget = WalletBalanceWidget()
     private val coroutineScope = MainScope()

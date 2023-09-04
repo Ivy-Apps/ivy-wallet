@@ -57,7 +57,6 @@ fun LazyListScope.categoryCharts(
                 Spacer(Modifier.width(24.dp))
             }
 
-
             items(items = categories) { category ->
                 ListItem(
                     icon = category.icon,
@@ -68,10 +67,10 @@ fun LazyListScope.categoryCharts(
                     }
                 ) { selected ->
                     if (selected) {
-                        //remove category
+                        // remove category
                         onRemoveCategory(category)
                     } else {
-                        //add category
+                        // add category
                         onLoadCategory(category)
                     }
                 }
@@ -126,7 +125,7 @@ fun LazyListScope.categoryCharts(
     }
 
     item {
-        Spacer(Modifier.height(196.dp)) //scroll hack
+        Spacer(Modifier.height(196.dp)) // scroll hack
     }
 }
 
@@ -195,6 +194,5 @@ private fun CategoriesChart(
 //            ),
 //            formatValueAsCount = countChart
 //        )
-
     }
 }

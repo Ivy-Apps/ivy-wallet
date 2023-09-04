@@ -7,7 +7,6 @@ import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.wallet.io.persistence.data.*
 import com.ivy.wallet.io.persistence.migration.*
 
-
 @Database(
     entities = [
         AccountEntity::class, TransactionEntity::class, CategoryEntity::class,
@@ -54,7 +53,8 @@ abstract class IvyRoomDatabase : RoomDatabase() {
             return Room
                 .databaseBuilder(
                     applicationContext,
-                    IvyRoomDatabase::class.java, DB_NAME
+                    IvyRoomDatabase::class.java,
+                    DB_NAME
                 )
                 .addMigrations(
                     Migration105to106_TrnRecurringRules(),

@@ -60,7 +60,7 @@ sealed class TrnEvent {
         val exchangeRate: BigDecimal
     ) : TrnEvent()
 
-    //----------------------------
+    // ----------------------------
 
     object Save : TrnEvent()
 

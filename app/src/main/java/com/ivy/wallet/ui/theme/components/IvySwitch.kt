@@ -19,7 +19,6 @@ import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.utils.springBounce
 
-
 @Composable
 fun IvySwitch(
     modifier: Modifier = Modifier,
@@ -53,7 +52,7 @@ fun IvySwitch(
             Spacer(Modifier.weight(weightStart))
         }
 
-        //Circle
+        // Circle
         Spacer(
             modifier = Modifier
                 .size(16.dp)

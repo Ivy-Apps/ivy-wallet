@@ -32,7 +32,6 @@ import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.utils.hideKeyboard
 import com.ivy.wallet.utils.isNotNullOrBlank
 
-
 @Composable
 fun IvyNameTextField(
     modifier: Modifier = Modifier,
@@ -100,7 +99,6 @@ fun IvyNameTextField(
     }
 }
 
-
 @Preview
 @Composable
 private fun PreviewIvyNameTextField() {
@@ -116,6 +114,5 @@ private fun PreviewIvyNameTextField() {
                 onValueChanged = {}
             )
         }
-
     }
 }

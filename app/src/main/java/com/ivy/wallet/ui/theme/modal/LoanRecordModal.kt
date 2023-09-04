@@ -126,13 +126,13 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             ModalAddSave(
                 item = initialRecord,
                 enabled = amount > 0 && selectedAcc != null
-                //enabled = amount > 0 && ((createLoanRecordTrans && selectedAcc != null) || !createLoanRecordTrans)
+                // enabled = amount > 0 && ((createLoanRecordTrans && selectedAcc != null) || !createLoanRecordTrans)
             ) {
                 accountChangeConformationModal =
-                    initialRecord != null && modal.selectedAccount != null
-                            && modal.baseCurrency != currencyCode && currencyCode != modal.loanAccountCurrencyCode
+                    initialRecord != null && modal.selectedAccount != null &&
+                    modal.baseCurrency != currencyCode && currencyCode != modal.loanAccountCurrencyCode
 
-                if (!accountChangeConformationModal)
+                if (!accountChangeConformationModal) {
                     save(
                         loanRecord = initialRecord,
                         noteTextFieldValue = noteTextFieldValue,
@@ -147,6 +147,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
                         onEdit = onEdit,
                         dismiss = dismiss,
                     )
+                }
             }
         }
     ) {
@@ -162,8 +163,13 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             verticalAlignment = Alignment.CenterVertically
         ) {
             ModalTitle(
-                text = if (initialRecord != null) stringResource(R.string.edit_record) else stringResource(
-                                    R.string.new_record)
+                text = if (initialRecord != null) {
+                    stringResource(R.string.edit_record)
+                } else {
+                    stringResource(
+                        R.string.new_record
+                    )
+                }
             )
 
             if (initialRecord != null) {
@@ -218,11 +224,10 @@ fun BoxWithConstraintsScope.LoanRecordModal(
 
                 reCalculateVisible =
                     initialRecord?.convertedAmount != null && selectedAcc != null && currencyCode == modal.baseCurrency
-                //Unchecks the Recalculate Option if Recalculate Checkbox is not visible
+                // Unchecks the Recalculate Option if Recalculate Checkbox is not visible
                 reCalculate = !reCalculateVisible
 
                 selectedAcc = it
-
             },
             onAddNewAccount = {
                 accountModalData = AccountModalData(
@@ -447,17 +452,17 @@ private fun AccountsRow(
             val selectedIndex = accounts.indexOf(selectedAccount)
             if (selectedIndex != -1) {
                 launch {
-                    if (TestingContext.inTest) return@launch //breaks UI tests
+                    if (TestingContext.inTest) return@launch // breaks UI tests
 
                     lazyState.scrollToItem(
-                        index = selectedIndex, //+1 because Spacer width 24.dp
+                        index = selectedIndex, // +1 because Spacer width 24.dp
                     )
                 }
             }
         }
     }
 
-    if (TestingContext.inTest) return //fix broken tests
+    if (TestingContext.inTest) return // fix broken tests
 
     LazyRow(
         modifier = modifier.fillMaxWidth(),
@@ -574,7 +579,6 @@ private fun AddAccount(
     Spacer(Modifier.width(8.dp))
 }
 
-
 @Preview
 @Composable
 private fun Preview() {
@@ -588,7 +592,6 @@ private fun Preview() {
             onEdit = {},
             onDelete = {}
         ) {
-
         }
     }
 }

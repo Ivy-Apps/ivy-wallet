@@ -23,7 +23,6 @@ val LocalIvyColors = compositionLocalOf<IvyColors> { error("No IvyColors") }
 val LocalIvyTypography = compositionLocalOf<IvyTypography> { error("No IvyTypography") }
 val LocalIvyShapes = compositionLocalOf<IvyShapes> { error("No IvyShapes") }
 
-
 object UI {
     val colors: IvyColors
         @Composable
@@ -78,8 +77,11 @@ fun IvyTheme(
 }
 
 fun adaptColors(colors: IvyColors): ColorScheme {
-    val colorScheme = if (colors.isLight)
-        lightColorScheme() else darkColorScheme()
+    val colorScheme = if (colors.isLight) {
+        lightColorScheme()
+    } else {
+        darkColorScheme()
+    }
     return colorScheme.copy(
         primary = colors.primary,
         onPrimary = White,

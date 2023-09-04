@@ -42,7 +42,7 @@ class CSVMapper @Inject constructor() {
         description = 8,
         dueDate = 9,
 
-        id = null //Don't map because it fcks up the sync with Insufficient Permission error
+        id = null // Don't map because it fcks up the sync with Insufficient Permission error
     )
 
     private fun ivyMappingV2() = RowMapping(
@@ -54,15 +54,15 @@ class CSVMapper @Inject constructor() {
         accountCurrency = 5,
         type = 6,
         transferAmount = 7,
-        //Transfer Currency - 8
+        // Transfer Currency - 8
         toAccount = 9,
         toAmount = 10,
         toAccountCurrency = 11,
-        //skip "Receive Currency"
+        // skip "Receive Currency"
         description = 12,
         dueDate = 13,
 
-        id = null, //14 - Don't map because it fcks up the sync with Insufficient Permission error
+        id = null, // 14 - Don't map because it fcks up the sync with Insufficient Permission error
 
         accountColor = 15,
         accountOrderNum = 16,
@@ -75,7 +75,7 @@ class CSVMapper @Inject constructor() {
         toAccountIcon = 23
     )
 
-    //Praseto - https://play.google.com/store/apps/details?id=com.realbyteapps.moneymanagerfree&hl=en&gl=US
+    // Praseto - https://play.google.com/store/apps/details?id=com.realbyteapps.moneymanagerfree&hl=en&gl=US
     private fun moneyManager() = RowMapping(
         type = 6,
         amount = 8,
@@ -95,7 +95,7 @@ class CSVMapper @Inject constructor() {
         id = null
     )
 
-    //Wallet By BudgetBakers - https://play.google.com/store/apps/details?id=com.droid4you.application.wallet&hl=en&gl=US
+    // Wallet By BudgetBakers - https://play.google.com/store/apps/details?id=com.droid4you.application.wallet&hl=en&gl=US
     private fun walletByBudgetBakers() = RowMapping(
         type = 5,
         amount = 3,
@@ -132,13 +132,13 @@ class CSVMapper @Inject constructor() {
         category = 2,
         amount = 3,
         accountCurrency = 4,
-        //converted amount = 5
-        //currency = 6
+        // converted amount = 5
+        // currency = 6
         title = 7,
-        defaultTypeToExpense = true, //Monefy doesn't have transaction type, it uses amount +/- sign,
+        defaultTypeToExpense = true, // Monefy doesn't have transaction type, it uses amount +/- sign,
 
         transformTransaction = { transaction, _, csvAmount ->
-            //Monefy doesn't have transaction type, it uses amount +/- sign
+            // Monefy doesn't have transaction type, it uses amount +/- sign
             transaction.copy(
                 type = if (csvAmount > 0) TransactionType.INCOME else TransactionType.EXPENSE
             )
@@ -165,7 +165,6 @@ class CSVMapper @Inject constructor() {
         account = 6
     )
 
-
     private fun fortuneCity() = RowMapping(
         account = 0,
         category = 1,
@@ -176,8 +175,11 @@ class CSVMapper @Inject constructor() {
 
         transformTransaction = { transaction, category, _ ->
             transaction.copy(
-                type = if (category?.name?.toLowerCaseLocal() == "income")
-                    TransactionType.INCOME else TransactionType.EXPENSE
+                type = if (category?.name?.toLowerCaseLocal() == "income") {
+                    TransactionType.INCOME
+                } else {
+                    TransactionType.EXPENSE
+                }
             )
         }
     )
@@ -185,12 +187,12 @@ class CSVMapper @Inject constructor() {
     private fun blueCoins() = RowMapping(
         type = 0,
         date = 1,
-        //set time = 2
+        // set time = 2
         title = 3,
         amount = 4,
         accountCurrency = 5,
-        //exchangeRate = 6
-        //category group = 7
+        // exchangeRate = 6
+        // category group = 7
         category = 8,
         account = 9,
         description = 10

@@ -164,7 +164,6 @@ private fun Preview_Income_Expenses() {
             income = 8043.23,
             expenses = 923.87
         ) {
-
         }
     }
 }
@@ -181,7 +180,6 @@ private fun Preview_Expenses() {
             income = 0.0,
             expenses = 923.87
         ) {
-
         }
     }
 }
@@ -198,7 +196,6 @@ private fun Preview_Income() {
             income = 8043.23,
             expenses = 0.0
         ) {
-
         }
     }
 }

@@ -36,7 +36,7 @@ fun OnboardingToolbar(
                     .clickable {
                         onSkip()
                     }
-                    .padding(all = 16.dp), //enlarge click area
+                    .padding(all = 16.dp), // enlarge click area
                 text = stringResource(R.string.skip),
                 style = UI.typo.b2.style(
                     color = Gray,
@@ -54,9 +54,9 @@ fun OnboardingToolbar(
 private fun Preview() {
     IvyWalletComponentPreview {
         OnboardingToolbar(
-            hasSkip = true, onBack = {}
+            hasSkip = true,
+            onBack = {}
         ) {
-
         }
     }
 }

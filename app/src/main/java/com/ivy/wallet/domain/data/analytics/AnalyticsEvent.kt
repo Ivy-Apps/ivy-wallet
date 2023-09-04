@@ -37,13 +37,11 @@ data class AnalyticsEvent(
         const val PAYWALL_CHOOSE_PLAN_YEARLY = "paywall_choose_plan_yearly"
         const val PAYWALL_CHOOSE_PLAN_LIFETIME = "paywall_choose_plan_lifetime"
 
-
         const val PAYWALL_START_BUY = "paywall_start_buy"
         const val PAYWALL_START_BUY_MONTHLY = "paywall_start_buy_monthly"
         const val PAYWALL_START_BUY_6MONTH = "paywall_start_buy_6month"
         const val PAYWALL_START_BUY_YEARLY = "paywall_start_buy_6_yearly"
         const val PAYWALL_START_BUY_LIFETIME = "paywall_start_buy_lifetime"
-
 
         const val PAYWALL_ACTIVE_PREMIUM = "paywall_active_premium"
     }

@@ -121,7 +121,7 @@ class BudgetViewModel @Inject constructor(
         baseCurrencyCode: String,
         accounts: List<Account>
     ): Double {
-        //TODO: Re-work this by creating an FPAction for it
+        // TODO: Re-work this by creating an FPAction for it
         val accountsFilter = budget.parseAccountIds()
         val categoryFilter = budget.parseCategoryIds()
 
@@ -131,12 +131,12 @@ class BudgetViewModel @Inject constructor(
             .sumOfSuspend {
                 when (it.type) {
                     TransactionType.INCOME -> {
-                        //decrement spent amount if it's not global budget
-                        0.0 //ignore income
+                        // decrement spent amount if it's not global budget
+                        0.0 // ignore income
 //                        if (categoryFilter.isEmpty()) 0.0 else -amountBaseCurrency
                     }
                     TransactionType.EXPENSE -> {
-                        //increment spent amount
+                        // increment spent amount
                         exchangeAct(
                             ExchangeAct.Input(
                                 data = ExchangeData(
@@ -148,7 +148,7 @@ class BudgetViewModel @Inject constructor(
                         ).orNull()?.toDouble() ?: 0.0
                     }
                     TransactionType.TRANSFER -> {
-                        //ignore transfers for simplicity
+                        // ignore transfers for simplicity
                         0.0
                     }
                 }
@@ -190,7 +190,6 @@ class BudgetViewModel @Inject constructor(
             TestIdlingResource.decrement()
         }
     }
-
 
     fun reorder(newOrder: List<DisplayBudget>) {
         viewModelScope.launch {

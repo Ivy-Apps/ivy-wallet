@@ -86,7 +86,7 @@ fun ColumnScope.Title(
         onTitleChanged(suggestion)
 
         coroutineScope.launch {
-            //scroll to top for better UX
+            // scroll to top for better UX
             scrollState?.animateScrollTo(0)
         }
     }
@@ -147,7 +147,6 @@ private fun PreviewTitleWithSuggestions() {
                 ),
                 onTitleChanged = {}
             ) {
-
             }
         }
     }

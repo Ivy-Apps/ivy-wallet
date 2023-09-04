@@ -96,7 +96,7 @@ class HomeViewModel @Inject constructor(
             )
         } then ::reload
 
-    //-----------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------
     private suspend fun reload(
         period: TimePeriod = ivyContext.selectedPeriod
     ): HomeState = suspend {
@@ -112,13 +112,13 @@ class HomeViewModel @Inject constructor(
             )
         }
 
-        //This method is used to restore the theme when user imports locally backed up data
+        // This method is used to restore the theme when user imports locally backed up data
         ivyContext.switchTheme(theme = settings.theme)
 
         Pair(settings, period.toRange(ivyContext.startDayOfMonth).toCloseTimeRange())
     } then ::loadAppBaseData then ::loadIncomeExpenseBalance then
-            ::loadBuffer then ::loadTrnHistory then
-            ::loadDueTrns thenInvokeAfter ::loadCustomerJourney
+        ::loadBuffer then ::loadTrnHistory then
+        ::loadDueTrns thenInvokeAfter ::loadCustomerJourney
 
     private suspend fun loadAppBaseData(
         input: Pair<Settings, ClosedTimeRange>
@@ -248,7 +248,7 @@ class HomeViewModel @Inject constructor(
             )
         }
     }
-    //-----------------------------------------------------------------
+    // -----------------------------------------------------------------
 
     private suspend fun setUpcomingExpanded(expanded: Boolean) = suspend {
         updateState { it.copy(upcoming = it.upcoming.copy(expanded = expanded)) }
@@ -261,10 +261,10 @@ class HomeViewModel @Inject constructor(
     private suspend fun onBalanceClick() = suspend {
         val hasTransactions = hasTrnsAct(Unit)
         if (hasTransactions) {
-            //has transactions show him "Balance" screen
+            // has transactions show him "Balance" screen
             nav.navigateTo(BalanceScreen)
         } else {
-            //doesn't have transactions lead him to adjust balance
+            // doesn't have transactions lead him to adjust balance
             ivyContext.selectMainTab(MainTab.ACCOUNTS)
             nav.navigateTo(Main)
         }
@@ -275,7 +275,7 @@ class HomeViewModel @Inject constructor(
     private suspend fun onHiddenBalanceClick() = suspend {
         updateState { it.copy(hideCurrentBalance = false) }
 
-        //Showing Balance fow 5s
+        // Showing Balance fow 5s
         delay(5000)
 
         updateState { it.copy(hideCurrentBalance = true) }
@@ -307,7 +307,7 @@ class HomeViewModel @Inject constructor(
             baseCurrency = newCurrency
         )
     } then updateSettingsAct then {
-        //update exchange rates from POV of the new base currency
+        // update exchange rates from POV of the new base currency
         syncExchangeRatesAct(SyncExchangeRatesAct.Input(baseCurrency = newCurrency))
     } then {
         reload()
@@ -321,7 +321,7 @@ class HomeViewModel @Inject constructor(
             reload()
         }
 
-        //TODO: Refactor
+        // TODO: Refactor
         stateVal()
     }
 
@@ -333,19 +333,19 @@ class HomeViewModel @Inject constructor(
             reload()
         }
 
-        //TODO: Refactor
+        // TODO: Refactor
         stateVal()
     }
 
     private suspend fun skipAllPlanned(transactions: List<Transaction>) = suspend {
-        //transactions.forEach {
+        // transactions.forEach {
         //    plannedPaymentsLogic.payOrGet(
         //        transaction = it,
         //        skipTransaction = true
         //    ){
         //        reload()
         //    }
-        //}
+        // }
         plannedPaymentsLogic.payOrGet(
             transactions = transactions,
             skipTransaction = true
@@ -368,7 +368,9 @@ class HomeViewModel @Inject constructor(
     } then {
         if (it != null) {
             reload(it)
-        } else stateVal()
+        } else {
+            stateVal()
+        }
     }
 
     private suspend fun previousMonth() = suspend {
@@ -378,7 +380,9 @@ class HomeViewModel @Inject constructor(
     } then {
         if (it != null) {
             reload(it)
-        } else stateVal()
+        } else {
+            stateVal()
+        }
     }
 
     private suspend fun setPeriod(period: TimePeriod) = suspend {

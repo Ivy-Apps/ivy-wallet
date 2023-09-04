@@ -52,7 +52,13 @@ fun BoxWithConstraintsScope.PieChartStatisticBottomBar(
         val isIncome = type == TransactionType.INCOME
         IvyButton(
             iconStart = R.drawable.ic_plus,
-            text = if (isIncome) stringResource(id = R.string.add_income) else stringResource(id = R.string.add_expense),
+            text = if (isIncome) {
+                stringResource(
+                    id = R.string.add_income
+                )
+            } else {
+                stringResource(id = R.string.add_expense)
+            },
             backgroundGradient = if (isIncome) GradientGreen else Gradient.solid(UI.colors.pureInverse),
             textStyle = UI.typo.b2.style(
                 color = if (isIncome) White else UI.colors.pure,

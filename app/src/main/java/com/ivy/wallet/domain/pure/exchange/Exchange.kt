@@ -17,7 +17,6 @@ data class ExchangeData(
     val toCurrency: String = baseCurrency,
 )
 
-
 @Pure
 suspend fun exchange(
     data: ExchangeData,
@@ -39,23 +38,23 @@ suspend fun exchange(
 
     when (val baseCurrency = data.baseCurrency.validateCurrency().bind()) {
         fromCurrency -> {
-            //exchange from base currency to other currency
-            //we need the rate from baseCurrency to toCurrency
+            // exchange from base currency to other currency
+            // we need the rate from baseCurrency to toCurrency
             val rateFromTo = validExchangeRate(
-                baseCurrency = fromCurrency, //fromCurrency = baseCurrency
+                baseCurrency = fromCurrency, // fromCurrency = baseCurrency
                 toCurrency = toCurrency,
                 retrieveExchangeRate = getExchangeRate
             ).bind()
 
-            //toAmount = fromAmount * rateFromTo
+            // toAmount = fromAmount * rateFromTo
             amount * rateFromTo
         }
         toCurrency -> {
-            //exchange from other currency to base currency
-            //we'll get the rate to
+            // exchange from other currency to base currency
+            // we'll get the rate to
 
             val rateToFrom = validExchangeRate(
-                baseCurrency = toCurrency, //toCurrency = baseCurrency
+                baseCurrency = toCurrency, // toCurrency = baseCurrency
                 toCurrency = fromCurrency,
                 retrieveExchangeRate = getExchangeRate
             ).bind()
@@ -72,8 +71,8 @@ suspend fun exchange(
             amount / rateToFrom
         }
         else -> {
-            //exchange from other currency to other currency
-            //that's the only possible case left because we already checked "fromCurrency == toCurrency"
+            // exchange from other currency to other currency
+            // that's the only possible case left because we already checked "fromCurrency == toCurrency"
 
             val rateBaseFrom = validExchangeRate(
                 baseCurrency = baseCurrency,
@@ -87,7 +86,7 @@ suspend fun exchange(
                 retrieveExchangeRate = getExchangeRate
             ).bind()
 
-            //Convert: toBaseCurrency -> toToCurrency
+            // Convert: toBaseCurrency -> toToCurrency
             val amountBaseCurrency = amount / rateBaseFrom
             amountBaseCurrency * rateBaseTo
         }
@@ -106,13 +105,14 @@ suspend fun validExchangeRate(
     retrieveExchangeRate: suspend (baseCurrency: String, toCurrency: String) -> ExchangeRate?,
 ): Option<BigDecimal> = option {
     retrieveExchangeRate(
-        baseCurrency, toCurrency
+        baseCurrency,
+        toCurrency
     ).toOption().bind()
         .validateRate().bind()
 }
 
 @Pure
 fun ExchangeRate.validateRate(): Option<BigDecimal> {
-    //exchange rate which <= 0 is invalid!
+    // exchange rate which <= 0 is invalid!
     return if (rate > 0) return Some(rate.toBigDecimal()) else None
 }

@@ -65,11 +65,11 @@ class TransactionViewModel @Inject constructor(
             title = null,
             description = null,
 
-            //TODO: Handle transfers properly
+            // TODO: Handle transfers properly
             toAccount = null,
             toAmount = null,
             exchangeRate = null,
-            //TODO: Handle transfers properly
+            // TODO: Handle transfers properly
 
             titleSuggestions = emptyList(),
 
@@ -106,7 +106,7 @@ class TransactionViewModel @Inject constructor(
         }
 
         if (type == TransactionType.TRANSFER && toAccount == null) {
-            //TRANSFER w/o toAccount
+            // TRANSFER w/o toAccount
             return@with Res.Err("Transfers must have \"To\" account.")
         }
 
@@ -120,7 +120,7 @@ class TransactionViewModel @Inject constructor(
                 title = title,
                 description = description,
                 toAccountId = toAccount?.id,
-                toAmount = toAmount ?: amount, //TODO: Handle properly transfers exchange rate
+                toAmount = toAmount ?: amount, // TODO: Handle properly transfers exchange rate
                 dateTime = (date as? TrnDate.ActualDate)?.dateTime,
                 dueDate = (date as? TrnDate.DueDate)?.dueDate?.atTime(12, 0),
 

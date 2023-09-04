@@ -16,7 +16,6 @@ import com.ivy.design.l0_system.UI
 import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.*
 
-
 @Composable
 fun ProgressBar(
     modifier: Modifier = Modifier,

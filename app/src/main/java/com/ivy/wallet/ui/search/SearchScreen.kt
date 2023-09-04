@@ -110,7 +110,7 @@ private fun UI(
         )
 
         LaunchedEffect(transactions) {
-            //scroll to top when transactions are changed
+            // scroll to top when transactions are changed
             listState.animateScrollToItem(index = 0, scrollOffset = 0)
         }
 
@@ -154,7 +154,7 @@ private fun UI(
                 )
 
                 Spacer(Modifier.height(keyboardShownInsetDp))
-                //add keyboard height margin at bototm so the list can scroll to bottom
+                // add keyboard height margin at bototm so the list can scroll to bottom
             }
         }
     }
@@ -207,7 +207,7 @@ fun SearchInput(
                 .clickable {
                     onSetSearchQueryTextField(selectEndTextFieldValue(""))
                 }
-                .padding(all = 12.dp), //enlarge click area
+                .padding(all = 12.dp), // enlarge click area
             icon = R.drawable.ic_outline_clear_24
         )
 

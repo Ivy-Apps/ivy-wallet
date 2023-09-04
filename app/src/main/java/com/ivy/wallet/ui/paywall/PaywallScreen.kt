@@ -160,7 +160,7 @@ private fun BoxWithConstraintsScope.UI(
         }
 
         item {
-            //16.dp padding from IvyToolbar already => 24.dp - 16.dp = 8.dp
+            // 16.dp padding from IvyToolbar already => 24.dp - 16.dp = 8.dp
             Spacer(Modifier.height(8.dp))
 
             Text(
@@ -215,7 +215,7 @@ private fun BoxWithConstraintsScope.UI(
         }
 
         item {
-            Spacer(Modifier.height(64.dp)) //last item spacer
+            Spacer(Modifier.height(64.dp)) // last item spacer
             if (plansSheetHeight > 0) {
                 Spacer(Modifier.height(plansSheetHeight.toDensityDp()))
             }
@@ -250,7 +250,7 @@ private fun UsageText(
         val usedPercent = usedCount / freeCount.toFloat()
 
         Text(
-            text = "You have ${usedCount}/$freeCount free $itemName.",
+            text = "You have $usedCount/$freeCount free $itemName.",
             style = UI.typo.nC.style(
                 fontWeight = FontWeight.ExtraBold,
                 color = when {
@@ -313,7 +313,6 @@ data class Benefit(
     val text: String,
     val tag: String? = null,
 )
-
 
 @ExperimentalFoundationApi
 @Preview

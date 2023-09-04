@@ -108,7 +108,6 @@ private fun MonthPicker(
     }
 }
 
-
 @Composable
 private fun MonthButton(
     month: Month,
@@ -138,8 +137,11 @@ private fun MonthButton(
             .padding(horizontal = 40.dp, vertical = 12.dp),
         text = month.name,
         style = UI.typo.b2.style(
-            color = if (selected)
-                findContrastTextColor(monthColor) else UI.colors.pureInverse,
+            color = if (selected) {
+                findContrastTextColor(monthColor)
+            } else {
+                UI.colors.pureInverse
+            },
             fontWeight = FontWeight.SemiBold
         )
     )
@@ -154,7 +156,6 @@ private fun Preview() {
             visible = true,
             dismiss = {}
         ) {
-
         }
     }
 }

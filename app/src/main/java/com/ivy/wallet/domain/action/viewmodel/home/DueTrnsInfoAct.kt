@@ -3,7 +3,6 @@ package com.ivy.wallet.domain.action.viewmodel.home
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.lambda
 import com.ivy.frp.then
-
 import com.ivy.wallet.domain.action.account.AccountByIdAct
 import com.ivy.wallet.domain.action.exchange.ExchangeAct
 import com.ivy.wallet.domain.action.exchange.actInput
@@ -35,7 +34,7 @@ class DueTrnsInfoAct @Inject constructor(
                 this.dueFilter(it, dateNow)
             }
         } then { dueTrns ->
-            //We have due transactions in different currencies
+            // We have due transactions in different currencies
             val exchangeArg = ExchangeTrnArgument(
                 baseCurrency = baseCurrency,
                 exchange = ::actInput then exchangeAct,

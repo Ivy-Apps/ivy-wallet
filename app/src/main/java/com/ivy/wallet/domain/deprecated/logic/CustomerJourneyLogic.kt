@@ -133,7 +133,7 @@ class CustomerJourneyLogic(
             },
             title = stringRes(R.string.did_you_know),
             description = "You can see a PieChart for your expenses!" +
-                    " Click the Expense card on the top of the dashboard.",
+                " Click the Expense card on the top of the dashboard.",
             cta = stringRes(R.string.expenses_piechart),
             ctaIcon = R.drawable.ic_custom_bills_s,
             background = Gradient.solid(Red),
@@ -198,7 +198,7 @@ class CustomerJourneyLogic(
             },
             title = "GitHub auto-backups",
             description = "Keep you data safe! Ivy Wallet can perform an automatic daily backup" +
-                    " of your data in a private GitHub repo of your choice.",
+                " of your data in a private GitHub repo of your choice.",
             cta = "Enable",
             ctaIcon = R.drawable.github_logo,
             background = Gradient.solid(Blue3),
@@ -246,7 +246,7 @@ class CustomerJourneyLogic(
                 trnCount >= 28
             },
             description = "It looks like that you're enjoying Ivy Wallet! " +
-                    "If you haven't yet, feel free join our invite-only Ivy Telegram Community and make our app better :)",
+                "If you haven't yet, feel free join our invite-only Ivy Telegram Community and make our app better :)",
             title = "Ivy Community",
             cta = "Join now",
             ctaIcon = R.drawable.ic_telegram_24dp,
@@ -258,7 +258,6 @@ class CustomerJourneyLogic(
         )
     }
 }
-
 
 @Preview
 @Composable
@@ -391,7 +390,3 @@ private fun PreviewIvyWallet_gitHubBackups() {
         )
     }
 }
-
-
-
-

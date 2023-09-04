@@ -152,7 +152,6 @@ private fun BoxWithConstraintsScope.UI(
     }
 }
 
-
 @Composable
 private fun ColumnScope.CurrentBalance(
     currency: String,
@@ -270,7 +269,7 @@ private fun Preview() {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
-            ), //preview
+            ), // preview
             baseCurrencyCode = "BGN",
             currentBalance = 9326.55,
             balanceAfterPlannedPayments = 8426.0,

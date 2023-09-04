@@ -96,7 +96,6 @@ import com.ivy.wallet.utils.thenIf
 import java.math.BigDecimal
 import java.util.UUID
 
-
 @Composable
 fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatistic) {
     val viewModel: ItemStatisticViewModel = viewModel()
@@ -179,7 +178,6 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatistic) {
         setOverdueExpanded = viewModel::setOverdueExpanded,
         overdueIncome = overdueIncome,
         overdueExpenses = overdueExpenses,
-
 
         onSetPeriod = {
             viewModel.setPeriod(
@@ -266,13 +264,11 @@ private fun BoxWithConstraintsScope.UI(
     var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
     var choosePeriodModal: ChoosePeriodModalData? by remember { mutableStateOf(null) }
 
-
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(itemColor)
-            .thenIf(!initWithTransactions)
-            {
+            .thenIf(!initWithTransactions) {
                 horizontalSwipeListener(
                     sensitivity = 150,
                     onSwipeLeft = {
@@ -287,7 +283,6 @@ private fun BoxWithConstraintsScope.UI(
     ) {
         val listState = rememberLazyListState()
         val density = LocalDensity.current
-
 
         LazyColumn(
             modifier = Modifier
@@ -367,13 +362,13 @@ private fun BoxWithConstraintsScope.UI(
             }
 
             item {
-                //Rounded corners top effect
+                // Rounded corners top effect
                 Box {
                     Spacer(
                         Modifier
                             .height(32.dp)
                             .fillMaxWidth()
-                            .background(itemColor) //itemColor is displayed below the clip
+                            .background(itemColor) // itemColor is displayed below the clip
                             .background(UI.colors.pure, UI.shapes.r1Top)
                     )
 
@@ -383,10 +378,11 @@ private fun BoxWithConstraintsScope.UI(
                         onPreviousMonth = { if (!initWithTransactions) onPreviousMonth() },
                         onNextMonth = { if (!initWithTransactions) onNextMonth() },
                         onShowChoosePeriodModal = {
-                            if (!initWithTransactions)
+                            if (!initWithTransactions) {
                                 choosePeriodModal = ChoosePeriodModalData(
                                     period = period
                                 )
+                            }
                         }
                     )
                 }
@@ -394,7 +390,9 @@ private fun BoxWithConstraintsScope.UI(
 
             transactions(
                 baseData = AppBaseData(
-                    baseCurrency, accounts, categories
+                    baseCurrency,
+                    accounts,
+                    categories
                 ),
                 upcoming = DueSection(
                     trns = upcoming,
@@ -543,10 +541,14 @@ private fun Header(
             textColor = contrastColor,
             currency = currency,
             balance = balance,
-            balanceAmountPrefix = if (category != null) balancePrefix(
-                income = income,
-                expenses = expenses
-            ) else null
+            balanceAmountPrefix = if (category != null) {
+                balancePrefix(
+                    income = income,
+                    expenses = expenses
+                )
+            } else {
+                null
+            }
         )
 
         if (currency != baseCurrency && balanceBaseCurrency != null) {
@@ -559,10 +561,14 @@ private fun Header(
                 textColor = itemColor.dynamicContrast(),
                 currency = baseCurrency,
                 balance = balanceBaseCurrency,
-                balanceAmountPrefix = if (category != null) balancePrefix(
-                    income = income,
-                    expenses = expenses
-                ) else null
+                balanceAmountPrefix = if (category != null) {
+                    balancePrefix(
+                        income = income,
+                        expenses = expenses
+                    )
+                } else {
+                    null
+                }
             )
         }
 
@@ -736,8 +742,11 @@ private fun RowScope.HeaderCard(
     onHeaderCardClicked: () -> Unit = {},
     onAddClick: () -> Unit
 ) {
-    val backgroundColor = if (isDarkColor(itemColor))
-        MediumBlack.copy(alpha = 0.9f) else MediumWhite.copy(alpha = 0.9f)
+    val backgroundColor = if (isDarkColor(itemColor)) {
+        MediumBlack.copy(alpha = 0.9f)
+    } else {
+        MediumWhite.copy(alpha = 0.9f)
+    }
 
     val contrastColor = findContrastTextColor(backgroundColor)
 
@@ -902,7 +911,7 @@ private fun Item(
                 )
             }
             else -> {
-                //Unspecified
+                // Unspecified
                 ItemIconMDefaultIcon(
                     iconName = null,
                     defaultIcon = R.drawable.ic_custom_category_m,
@@ -930,7 +939,7 @@ private fun Preview_empty() {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
-            ), //preview
+            ), // preview
             baseCurrency = "BGN",
             currency = "BGN",
 
@@ -962,7 +971,7 @@ private fun Preview_crypto() {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
-            ), //preview
+            ), // preview
             baseCurrency = "BGN",
             currency = "ADA",
 
@@ -999,7 +1008,7 @@ private fun Preview_empty_upcoming() {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
-            ), //preview
+            ), // preview
             baseCurrency = "BGN",
             currency = "BGN",
 
@@ -1021,7 +1030,7 @@ private fun Preview_empty_upcoming() {
             onEditAccount = { _, _ -> },
             onEditCategory = {},
             upcoming = listOf(
-                Transaction(UUID(1L,2L),TransactionType.EXPENSE, BigDecimal.valueOf(10L))
+                Transaction(UUID(1L, 2L), TransactionType.EXPENSE, BigDecimal.valueOf(10L))
             )
         )
     }

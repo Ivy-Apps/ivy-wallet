@@ -90,7 +90,6 @@ import java.time.LocalTime
 import java.util.Random
 import javax.inject.Inject
 
-
 @AndroidEntryPoint
 class RootActivity : AppCompatActivity() {
 
@@ -122,9 +121,7 @@ class RootActivity : AppCompatActivity() {
     private lateinit var openFileLauncher: ActivityResultLauncher<Unit>
     private lateinit var onFileOpened: (fileUri: Uri) -> Unit
 
-
     private val viewModel: RootViewModel by viewModels()
-
 
     @OptIn(
         ExperimentalAnimationApi::class,
@@ -145,7 +142,6 @@ class RootActivity : AppCompatActivity() {
         AddTransactionWidget.updateBroadcast(this)
         AddTransactionWidgetCompact.updateBroadcast(this)
         WalletBalanceWidgetReceiver.updateBroadcast(this)
-
 
         setContent {
             val viewModel: RootViewModel = viewModel()
@@ -172,7 +168,7 @@ class RootActivity : AppCompatActivity() {
 
         when (appLocked) {
             null -> {
-                //display nothing
+                // display nothing
             }
 
             true -> {
@@ -236,9 +232,9 @@ class RootActivity : AppCompatActivity() {
 
     private fun setupDatePicker() {
         ivyContext.onShowDatePicker = { minDate,
-                                        maxDate,
-                                        initialDate,
-                                        onDatePicked ->
+                maxDate,
+                initialDate,
+                onDatePicked ->
             val picker = DatePickerDialog(this)
 
             if (minDate != null) {
@@ -258,7 +254,7 @@ class RootActivity : AppCompatActivity() {
             if (initialDate != null) {
                 picker.updateDate(
                     initialDate.year,
-                    //month-1 because LocalDate start from 1 and date picker starts from 0
+                    // month-1 because LocalDate start from 1 and date picker starts from 0
                     initialDate.monthValue - 1,
                     initialDate.dayOfMonth
                 )
@@ -388,14 +384,16 @@ class RootActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (viewModel.isAppLockEnabled())
+        if (viewModel.isAppLockEnabled()) {
             viewModel.checkUserInactiveTimeStatus()
+        }
     }
 
     override fun onPause() {
         super.onPause()
-        if (viewModel.isAppLockEnabled())
+        if (viewModel.isAppLockEnabled()) {
             viewModel.startUserInactiveTimeCounter()
+        }
     }
 
     private fun authenticateWithOSBiometricsModal(
@@ -403,7 +401,8 @@ class RootActivity : AppCompatActivity() {
     ) {
         val executor = ContextCompat.getMainExecutor(this)
         val biometricPrompt = BiometricPrompt(
-            this, executor,
+            this,
+            executor,
             biometricPromptCallback
         )
 
@@ -416,7 +415,7 @@ class RootActivity : AppCompatActivity() {
             )
             .setAllowedAuthenticators(
                 BiometricManager.Authenticators.BIOMETRIC_WEAK or
-                        BiometricManager.Authenticators.DEVICE_CREDENTIAL
+                    BiometricManager.Authenticators.DEVICE_CREDENTIAL
             )
             .setConfirmationRequired(false)
             .build()
@@ -434,8 +433,7 @@ class RootActivity : AppCompatActivity() {
         }
     }
 
-
-    //Helpers for Compose UI
+    // Helpers for Compose UI
     fun contactSupport() {
         val caseNumber: Int = Random().nextInt(100) + 100
 
@@ -444,15 +442,15 @@ class RootActivity : AppCompatActivity() {
 
             putExtra(Intent.EXTRA_EMAIL, arrayOf(SUPPORT_EMAIL))
             putExtra(
-                Intent.EXTRA_SUBJECT, "Ivy Wallet Support Request #" + caseNumber +
-                        "0" + BuildConfig.VERSION_CODE
+                Intent.EXTRA_SUBJECT,
+                "Ivy Wallet Support Request #" + caseNumber +
+                    "0" + BuildConfig.VERSION_CODE
             )
             putExtra(Intent.EXTRA_TEXT, "")
         }
 
         try {
             startActivity(emailIntent)
-
         } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(this, "Email: $SUPPORT_EMAIL", Toast.LENGTH_LONG).show()
@@ -506,7 +504,8 @@ class RootActivity : AppCompatActivity() {
                 action = Intent.ACTION_SEND
                 putExtra(Intent.EXTRA_STREAM, fileUri)
                 type = "text/csv"
-            }, null
+            },
+            null
         )
         startActivity(intent)
     }
@@ -517,7 +516,8 @@ class RootActivity : AppCompatActivity() {
                 action = Intent.ACTION_SEND
                 putExtra(Intent.EXTRA_STREAM, fileUri)
                 type = "application/zip"
-            }, null
+            },
+            null
         )
         startActivity(intent)
     }

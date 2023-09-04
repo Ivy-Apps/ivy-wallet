@@ -57,7 +57,6 @@ import com.ivy.wallet.utils.thenIf
 import com.ivy.wallet.utils.verticalSwipeListener
 import kotlin.math.absoluteValue
 
-
 @ExperimentalAnimationApi
 @Composable
 internal fun HomeHeader(
@@ -140,24 +139,31 @@ private fun HeaderStickyRow(
                 modifier = Modifier
                     .alpha(percentExpanded)
                     .testTag("home_greeting_text"),
-                text = if (name.isNotNullOrBlank()) stringResource(R.string.hi_name, name) else stringResource(R.string.hi),
+                text = if (name.isNotNullOrBlank()) {
+                    stringResource(
+                        R.string.hi_name,
+                        name
+                    )
+                } else {
+                    stringResource(R.string.hi)
+                },
                 style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = UI.colors.pureInverse
                 )
             )
 
-            //Balance mini row
+            // Balance mini row
             if (percentExpanded < 1f) {
                 BalanceRowMini(
                     modifier = Modifier
                         .alpha(alpha = 1f - percentExpanded)
                         .clickableNoIndication {
-                            if (hideCurrentBalance)
+                            if (hideCurrentBalance) {
                                 onHiddenBalanceClick()
-                            else
+                            } else {
                                 onBalanceClick()
-
+                            }
                         },
                     currency = currency,
                     balance = balance,
@@ -187,7 +193,7 @@ private fun HeaderStickyRow(
 
         Spacer(Modifier.width(12.dp))
 
-        Spacer(Modifier.width(40.dp)) //settings menu button spacer
+        Spacer(Modifier.width(40.dp)) // settings menu button spacer
 
         Spacer(Modifier.width(24.dp))
     }
@@ -223,10 +229,11 @@ fun CashFlowInfo(
             modifier = Modifier
                 .padding(horizontal = 20.dp)
                 .clickableNoIndication {
-                    if (hideCurrentBalance)
+                    if (hideCurrentBalance) {
                         onHiddenBalanceClick()
-                    else
+                    } else {
                         onBalanceClick()
+                    }
                 }
                 .testTag("home_balance"),
             currency = currency,
@@ -245,7 +252,6 @@ fun CashFlowInfo(
             monthlyExpenses = monthlyExpenses
         )
 
-
         val cashflow = monthlyIncome - monthlyExpenses
         if (cashflow != 0.0) {
             Spacer(Modifier.height(12.dp))
@@ -254,7 +260,12 @@ fun CashFlowInfo(
                 modifier = Modifier.padding(
                     start = 24.dp
                 ),
-                text = stringResource(R.string.cashflow, (if (cashflow > 0) "+" else ""), cashflow.format(currency), currency),
+                text = stringResource(
+                    R.string.cashflow,
+                    (if (cashflow > 0) "+" else ""),
+                    cashflow.format(currency),
+                    currency
+                ),
                 style = UI.typo.nB2.style(
                     color = if (cashflow < 0) Gray else Green
                 )

@@ -25,7 +25,6 @@ data class Plan(
         } catch (e: Exception) {
             return null
         }
-
     }
 
     fun freePeriod(): String = when (skuDetails.freeTrialPeriod) {

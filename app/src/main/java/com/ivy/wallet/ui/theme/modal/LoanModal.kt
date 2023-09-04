@@ -125,7 +125,6 @@ fun BoxWithConstraintsScope.LoanModal(
 
     var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
 
-
     IvyModal(
         id = modal?.id,
         visible = modal != null,
@@ -134,12 +133,14 @@ fun BoxWithConstraintsScope.LoanModal(
         PrimaryAction = {
             ModalAddSave(
                 item = modal?.loan,
-                //enabled = nameTextFieldValue.text.isNotNullOrBlank() && amount > 0 && ((createLoanTrans && selectedAcc != null) || !createLoanTrans)
+                // enabled = nameTextFieldValue.text.isNotNullOrBlank() && amount > 0 && ((createLoanTrans && selectedAcc != null) || !createLoanTrans)
                 enabled = nameTextFieldValue.text.isNotNullOrBlank() && amount > 0 && selectedAcc != null
             ) {
                 accountChangeModal =
-                    loan != null && modal.selectedAccount != null && currencyCode != (modal.selectedAccount.currency
-                        ?: modal.baseCurrency)
+                    loan != null && modal.selectedAccount != null && currencyCode != (
+                        modal.selectedAccount.currency
+                            ?: modal.baseCurrency
+                        )
 
                 if (!accountChangeModal) {
                     save(
@@ -344,10 +345,10 @@ private fun AccountsRow(
             val selectedIndex = accounts.indexOf(selectedAccount)
             if (selectedIndex != -1) {
                 launch {
-                    if (TestingContext.inTest) return@launch //breaks UI tests
+                    if (TestingContext.inTest) return@launch // breaks UI tests
 
                     lazyState.scrollToItem(
-                        index = selectedIndex, //+1 because Spacer width 24.dp
+                        index = selectedIndex, // +1 because Spacer width 24.dp
                     )
                 }
             }
@@ -584,7 +585,6 @@ private fun save(
     dismiss()
 }
 
-
 @Preview
 @Composable
 private fun Preview() {
@@ -597,7 +597,6 @@ private fun Preview() {
             onCreateLoan = { },
             onEditLoan = { _, _ -> }
         ) {
-
         }
     }
 }

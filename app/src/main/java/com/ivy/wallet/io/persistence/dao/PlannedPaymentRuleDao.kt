@@ -24,7 +24,9 @@ interface PlannedPaymentRuleDao {
         deleted: Boolean = false
     ): List<PlannedPaymentRuleEntity>
 
-    @Query("SELECT * FROM planned_payment_rules WHERE isDeleted = 0 AND oneTime = :oneTime ORDER BY amount DESC, startDate ASC")
+    @Query(
+        "SELECT * FROM planned_payment_rules WHERE isDeleted = 0 AND oneTime = :oneTime ORDER BY amount DESC, startDate ASC"
+    )
     suspend fun findAllByOneTime(oneTime: Boolean): List<PlannedPaymentRuleEntity>
 
     @Query("SELECT * FROM planned_payment_rules WHERE id = :id AND isDeleted = 0")

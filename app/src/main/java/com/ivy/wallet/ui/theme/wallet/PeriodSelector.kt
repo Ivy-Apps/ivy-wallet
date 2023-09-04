@@ -1,6 +1,5 @@
 package com.ivy.wallet.ui.theme.wallet
 
-
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -116,11 +115,10 @@ private fun Preview() {
         PeriodSelector(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
-            ), //preview
+            ), // preview
             onPreviousMonth = { },
             onNextMonth = { }
         ) {
-
         }
     }
 }

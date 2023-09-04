@@ -55,7 +55,6 @@ fun RateItem(
     }
 }
 
-
 // region Preview
 @Preview
 @Composable

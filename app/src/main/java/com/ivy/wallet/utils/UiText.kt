@@ -20,7 +20,7 @@ sealed class UiText {
         }
     }
 
-    fun asString(context:Context): String {
+    fun asString(context: Context): String {
         return when (this) {
             is DynamicString -> value
             is StringResource -> context.getString(resId, *args)

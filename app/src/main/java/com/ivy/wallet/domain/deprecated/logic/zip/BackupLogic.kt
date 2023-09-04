@@ -24,7 +24,6 @@ import java.time.ZoneOffset
 import java.util.*
 import javax.inject.Inject
 
-
 class BackupLogic @Inject constructor(
     private val accountDao: AccountDao,
     private val budgetDao: BudgetDao,
@@ -72,7 +71,8 @@ class BackupLogic @Inject constructor(
             val sharedPrefs = it.async { getSharedPrefsData() }
 
             val gson = GsonBuilder().registerTypeAdapter(
-                LocalDateTime::class.java, object : JsonSerializer<LocalDateTime?> {
+                LocalDateTime::class.java,
+                object : JsonSerializer<LocalDateTime?> {
                     @Throws(JsonParseException::class)
                     override fun serialize(
                         src: LocalDateTime?,
@@ -81,7 +81,8 @@ class BackupLogic @Inject constructor(
                     ): JsonElement {
                         return JsonPrimitive(src!!.toEpochMilli().toString())
                     }
-                }).create()
+                }
+            ).create()
 
             val completeData = IvyWalletCompleteData(
                 accounts = accounts.await(),
@@ -132,8 +133,9 @@ class BackupLogic @Inject constructor(
 
                     onProgress(0.05)
 
-                    if (filesArray == null || filesArray.isEmpty())
+                    if (filesArray == null || filesArray.isEmpty()) {
                         error("Couldn't unzip")
+                    }
 
                     val filesList = filesArray.toList().filter {
                         hasJsonExtension(it)
@@ -141,8 +143,9 @@ class BackupLogic @Inject constructor(
 
                     onProgress(0.1)
 
-                    if (filesList.size != 1)
+                    if (filesList.size != 1) {
                         error("Didn't unzip exactly one file.")
+                    }
 
                     readFile(context, filesList[0].toUri(), Charsets.UTF_16)
                 } catch (e: Exception) {
@@ -205,7 +208,8 @@ class BackupLogic @Inject constructor(
             object : TypeToken<IvyWalletCompleteData>() {}.type
 
         val gson: Gson = GsonBuilder().registerTypeAdapter(
-            LocalDateTime::class.java, object : JsonDeserializer<LocalDateTime?> {
+            LocalDateTime::class.java,
+            object : JsonDeserializer<LocalDateTime?> {
                 @Throws(JsonParseException::class)
                 override fun deserialize(
                     json: JsonElement,
@@ -216,7 +220,8 @@ class BackupLogic @Inject constructor(
                         Instant.ofEpochMilli(json.asJsonPrimitive.asLong)
                     return LocalDateTime.ofInstant(instant, ZoneOffset.UTC)
                 }
-            }).create()
+            }
+        ).create()
 
         return gson.fromJson(data, typeOfObjectsList)
     }
@@ -272,8 +277,10 @@ class BackupLogic @Inject constructor(
 
             sharedPrefs.putBoolean(
                 SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE,
-                (completeData.sharedPrefs[SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE]
-                    ?: "false").toBoolean()
+                (
+                    completeData.sharedPrefs[SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE]
+                        ?: "false"
+                    ).toBoolean()
             )
 
             plannedPayments.await()
@@ -298,8 +305,9 @@ class BackupLogic @Inject constructor(
             val backupAccountsList = completeData.accounts
             val backupCategoryList = completeData.categories
 
-            if (existingAccountsList.isEmpty() && existingCategoryList.isEmpty())
+            if (existingAccountsList.isEmpty() && existingCategoryList.isEmpty()) {
                 return@scopedIOThread emptyList()
+            }
 
             val sumAccountList = existingAccountsList + backupAccountsList
             val sumCategoriesList = existingCategoryList + backupCategoryList
@@ -309,10 +317,11 @@ class BackupLogic @Inject constructor(
                     val accountsZero = it.value[0]
                     val accountsFirst = it.value[1]
 
-                    if (backupAccountsList.contains(accountsZero))
+                    if (backupAccountsList.contains(accountsZero)) {
                         Pair(accountsZero.id, accountsFirst.id)
-                    else
+                    } else {
                         Pair(accountsFirst.id, accountsZero.id)
+                    }
                 }
             }
 
@@ -321,10 +330,11 @@ class BackupLogic @Inject constructor(
                     val categoryZero = it.value[0]
                     val categoryFirst = it.value[1]
 
-                    if (completeData.categories.contains(categoryZero))
+                    if (completeData.categories.contains(categoryZero)) {
                         Pair(categoryZero.id, categoryFirst.id)
-                    else
+                    } else {
                         Pair(categoryFirst.id, categoryZero.id)
+                    }
                 }
             }
 
@@ -335,8 +345,9 @@ class BackupLogic @Inject constructor(
     private fun hasJsonExtension(file: File): Boolean {
         val name = file.name
         val lastIndexOf = name.lastIndexOf(".")
-        if (lastIndexOf == -1)
+        if (lastIndexOf == -1) {
             return false
+        }
 
         return (name.substring(lastIndexOf).equals(".json", true))
     }

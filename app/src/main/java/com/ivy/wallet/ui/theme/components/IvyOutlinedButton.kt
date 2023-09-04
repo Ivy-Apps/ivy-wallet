@@ -26,7 +26,6 @@ import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.utils.thenIf
 
-
 @Composable
 fun IvyOutlinedButton(
     modifier: Modifier = Modifier,
@@ -146,7 +145,6 @@ private fun Preview_FillMaxWidth() {
             textColor = Green,
             iconTint = Green
         ) {
-
         }
     }
 }

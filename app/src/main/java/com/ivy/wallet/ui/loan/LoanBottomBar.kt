@@ -38,7 +38,6 @@ private fun PreviewBottomBar() {
                 .fillMaxSize()
                 .background(Blue)
         ) {
-
         }
 
         LoanBottomBar(

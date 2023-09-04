@@ -32,4 +32,3 @@ class AccTrnsAct @Inject constructor(
         val range: ClosedTimeRange
     )
 }
-

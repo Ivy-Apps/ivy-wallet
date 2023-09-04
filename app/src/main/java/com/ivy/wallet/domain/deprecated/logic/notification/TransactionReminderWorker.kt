@@ -22,7 +22,8 @@ import kotlinx.coroutines.withContext
 
 @HiltWorker
 class TransactionReminderWorker @AssistedInject constructor(
-    @Assisted appContext: Context, @Assisted params: WorkerParameters,
+    @Assisted appContext: Context,
+    @Assisted params: WorkerParameters,
     private val transactionDao: TransactionDao,
     private val notificationService: NotificationService,
     private val sharedPrefs: SharedPrefs,
@@ -33,7 +34,6 @@ class TransactionReminderWorker @AssistedInject constructor(
     }
 
     override suspend fun doWork() = withContext(Dispatchers.IO) {
-
         val transactionsToday = transactionDao.findAllBetween(
             startDate = dateNowUTC().atStartOfDay(),
             endDate = dateNowUTC().atEndOfDay()
@@ -41,9 +41,9 @@ class TransactionReminderWorker @AssistedInject constructor(
 
         val showNotifications = fetchShowNotifications()
 
-        //Double check is needed because the user can switch off notifications in settings after it has been scheduled to show notifications for the next day
+        // Double check is needed because the user can switch off notifications in settings after it has been scheduled to show notifications for the next day
         if (transactionsToday.size < MINIMUM_TRANSACTIONS_PER_DAY && showNotifications) {
-            //Have less than 1 two transactions today, remind them
+            // Have less than 1 two transactions today, remind them
 
             val notification = notificationService
                 .defaultIvyNotification(
@@ -58,7 +58,7 @@ class TransactionReminderWorker @AssistedInject constructor(
                         1,
                         RootActivity.getIntent(applicationContext),
                         PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_UPDATE_CURRENT
-                                or PendingIntent.FLAG_IMMUTABLE
+                            or PendingIntent.FLAG_IMMUTABLE
                     )
                 )
 

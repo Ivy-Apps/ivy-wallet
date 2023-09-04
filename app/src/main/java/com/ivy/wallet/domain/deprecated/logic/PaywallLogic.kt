@@ -70,7 +70,6 @@ class PaywallLogic @Inject constructor(
 
             null
         }
-
     }
 
     suspend fun protectAddWithPaywall(
@@ -122,7 +121,7 @@ class PaywallLogic @Inject constructor(
     ): PaywallReason? {
         return ioThread {
             if (addAccount) {
-                val accountsCount = accountDao.findAll().size + 1 //+1 for the account being added
+                val accountsCount = accountDao.findAll().size + 1 // +1 for the account being added
                 if (accountsCount > Constants.FREE_ACCOUNTS) {
                     return@ioThread PaywallReason.ACCOUNTS
                 }
@@ -130,7 +129,7 @@ class PaywallLogic @Inject constructor(
 
             if (addCategory) {
                 val categoriesCount =
-                    categoryDao.findAll().size + 1 //+1 for the category being added
+                    categoryDao.findAll().size + 1 // +1 for the category being added
                 if (categoriesCount > Constants.FREE_CATEGORIES) {
                     return@ioThread PaywallReason.CATEGORIES
                 }
@@ -138,7 +137,7 @@ class PaywallLogic @Inject constructor(
 
             if (addBudget) {
                 val budgetsCount =
-                    budgetDao.findAll().size + 1 //+1 for the item being added
+                    budgetDao.findAll().size + 1 // +1 for the item being added
                 if (budgetsCount > Constants.FREE_BUDGETS) {
                     return@ioThread PaywallReason.BUDGETS
                 }
@@ -146,7 +145,7 @@ class PaywallLogic @Inject constructor(
 
             if (addLoan) {
                 val loansCount =
-                    loanDao.findAll().size + 1 //+1 for the item being added
+                    loanDao.findAll().size + 1 // +1 for the item being added
                 if (loansCount > Constants.FREE_LOANS) {
                     return@ioThread PaywallReason.LOANS
                 }
@@ -155,7 +154,6 @@ class PaywallLogic @Inject constructor(
             null
         }
     }
-
 
     suspend fun processPurchases(
         purchases: List<Purchase>,

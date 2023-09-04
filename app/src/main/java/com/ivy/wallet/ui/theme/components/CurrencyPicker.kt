@@ -121,8 +121,11 @@ fun CurrencyPicker(
         CurrencyList(
             searchQueryLowercase = searchTextFieldValue.text.toLowerCase(Locale.getDefault()),
             selectedCurrency = selectedCurrency,
-            lastItemSpacer = if (includeKeyboardShownInsetSpacer)
-                keyboardShownInsetDp + lastItemSpacer else lastItemSpacer,
+            lastItemSpacer = if (includeKeyboardShownInsetSpacer) {
+                keyboardShownInsetDp + lastItemSpacer
+            } else {
+                lastItemSpacer
+            },
         ) {
             preselected = false
             selectedCurrency = it
@@ -149,7 +152,6 @@ private fun SearchInput(
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
-
         Spacer(Modifier.width(16.dp))
 
         IvyIcon(
@@ -163,7 +165,7 @@ private fun SearchInput(
             contentAlignment = Alignment.CenterStart
         ) {
             if (searchTextFieldValue.text.isEmpty()) {
-                //Hint
+                // Hint
                 Text(
                     text = stringResource(R.string.search_currency),
                     style = UI.typo.c.style(
@@ -272,8 +274,8 @@ private fun CurrencyList(
     val currencies = IvyCurrency.getAvailable()
         .filter {
             searchQueryLowercase.isBlank() ||
-                    it.code.toLowerCaseLocal().startsWith(searchQueryLowercase) ||
-                    it.name.toLowerCaseLocal().startsWith(searchQueryLowercase)
+                it.code.toLowerCaseLocal().startsWith(searchQueryLowercase) ||
+                it.name.toLowerCaseLocal().startsWith(searchQueryLowercase)
         }
         .sortedBy { it.code }
         .sortedBy { it.isCrypto }
@@ -301,7 +303,6 @@ private fun CurrencyList(
             firstVisibleItemScrollOffset = 0
         )
     }
-
 
     LazyColumn(
         state = listState
@@ -410,7 +411,6 @@ private fun Preview() {
             initialSelectedCurrency = null,
             includeKeyboardShownInsetSpacer = true
         ) {
-
         }
     }
 }

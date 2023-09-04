@@ -83,7 +83,7 @@ fun BoxWithConstraintsScope.AddRateModal(
                     amountModalVisible = true
                 }
                 .padding(horizontal = 16.dp, vertical = 12.dp),
-            text = "${baseCurrency}-${toCurrency} = ${rate ?: "???"}",
+            text = "$baseCurrency-$toCurrency = ${rate ?: "???"}",
             style = UI.typo.nH2.style(
                 color = Orange,
                 textAlign = TextAlign.Center,
@@ -104,7 +104,6 @@ fun BoxWithConstraintsScope.AddRateModal(
         }
     )
 }
-
 
 @Preview
 @Composable

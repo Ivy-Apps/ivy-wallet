@@ -58,7 +58,7 @@ fun Switch(
             SpacerWeight(weight = weightStart)
         }
 
-        //Circle
+        // Circle
         Spacer(
             modifier = Modifier
                 .size(16.dp)

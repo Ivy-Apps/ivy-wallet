@@ -1,6 +1,5 @@
 package com.ivy.wallet.ui.charts
 
-
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
@@ -254,7 +253,6 @@ private fun ChartsType(
                 onSetChartType(it)
             }
         }
-
     }
 }
 

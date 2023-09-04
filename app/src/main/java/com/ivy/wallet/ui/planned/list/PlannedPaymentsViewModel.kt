@@ -39,7 +39,7 @@ class PlannedPaymentsViewModel @Inject constructor(
     private val _accounts = MutableLiveData<List<Account>>()
     val accounts = _accounts.asLiveData()
 
-    //One Time
+    // One Time
     private val _oneTime = MutableLiveData<List<PlannedPaymentRule>>()
     val oneTime = _oneTime.asLiveData()
 
@@ -49,7 +49,7 @@ class PlannedPaymentsViewModel @Inject constructor(
     private val _oneTimeExpenses = MutableLiveData<Double>()
     val oneTimeExpenses = _oneTimeExpenses.asLiveData()
 
-    //Recurring
+    // Recurring
     private val _recurring = MutableLiveData<List<PlannedPaymentRule>>()
     val recurring = _recurring.asLiveData()
 

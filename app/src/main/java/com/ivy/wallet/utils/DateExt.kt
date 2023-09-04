@@ -1,6 +1,5 @@
 package com.ivy.wallet.utils
 
-
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.ivy.frp.Total
@@ -10,7 +9,6 @@ import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.concurrent.TimeUnit
-
 
 fun timeNowLocal() = LocalDateTime.now()
 
@@ -121,7 +119,6 @@ fun LocalDate.formatDateOnly(): String = this.formatLocal("MMM. dd", ZoneOffset.
 fun LocalDate.formatDateOnlyWithYear(): String =
     this.formatLocal("dd MMM, yyyy", ZoneOffset.systemDefault())
 
-
 fun LocalDate.formatDateWeekDay(): String =
     this.formatLocal("EEE, dd MMM", ZoneOffset.systemDefault())
 
@@ -134,11 +131,14 @@ fun LocalDate.formatNicely(
     zone: ZoneId = ZoneOffset.systemDefault()
 ): String {
     val closeDay = closeDay()
-    return if (closeDay != null)
-        "$closeDay, ${this.formatLocal(patternNoWeekDay, zone)}" else this.formatLocal(
-        pattern,
-        zone
-    )
+    return if (closeDay != null) {
+        "$closeDay, ${this.formatLocal(patternNoWeekDay, zone)}"
+    } else {
+        this.formatLocal(
+            pattern,
+            zone
+        )
+    }
 }
 
 fun LocalDate.closeDay(): String? {
@@ -168,7 +168,7 @@ fun LocalDateTime.formatLocal(
         DateTimeFormatter
             .ofPattern(pattern)
             .withLocale(Locale.getDefault())
-            .withZone(zone) //this is if you want to display the Zone in the pattern
+            .withZone(zone) // this is if you want to display the Zone in the pattern
     )
 }
 
@@ -219,7 +219,6 @@ fun getTrueDate(date: LocalDate, time: LocalTime, convert: Boolean = true): Loca
         .convertLocalToUTC()
 }
 
-
 fun LocalDate.formatLocal(
     pattern: String = "dd MMM yyyy",
     zone: ZoneId = ZoneOffset.systemDefault()
@@ -228,7 +227,7 @@ fun LocalDate.formatLocal(
         DateTimeFormatter
             .ofPattern(pattern)
             .withLocale(Locale.getDefault())
-            .withZone(zone) //this is if you want to display the Zone in the pattern
+            .withZone(zone) // this is if you want to display the Zone in the pattern
     )
 }
 

@@ -51,7 +51,6 @@ class LoanCreator(
         return loanId
     }
 
-
     suspend fun edit(
         updatedItem: Loan,
         onRefreshUI: suspend (Loan) -> Unit

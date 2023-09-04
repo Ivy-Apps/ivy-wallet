@@ -58,29 +58,40 @@ fun Pager(
 
     Layout(
         content = {
-            //pageOffset <0 when moving forward
+            // pageOffset <0 when moving forward
             val currentPageOffset = state.currentPageOffset
             val movingForward = currentPageOffset < 0
             val currentPage = state.currentPage
 
-            val minPage = if (!movingForward)
-                (state.currentPage - 1).coerceAtLeast(state.minPage) else currentPage
-            val maxPage = if (movingForward)
-                (state.currentPage + 1).coerceAtMost(state.maxPage) else currentPage
+            val minPage = if (!movingForward) {
+                (state.currentPage - 1).coerceAtLeast(state.minPage)
+            } else {
+                currentPage
+            }
+            val maxPage = if (movingForward) {
+                (state.currentPage + 1).coerceAtMost(state.maxPage)
+            } else {
+                currentPage
+            }
 
             for (page in minPage..maxPage) {
                 val pageData = PageData(page)
                 val scope = PagerScope(state, page)
 
-                val alpha = if (page == currentPage)
-                    1f - abs(currentPageOffset) else abs(currentPageOffset)
+                val alpha = if (page == currentPage) {
+                    1f - abs(currentPageOffset)
+                } else {
+                    abs(currentPageOffset)
+                }
                 key(pageData) {
                     Box(
                         contentAlignment = Alignment.Center,
                         modifier = pageData
-                            .width(densityScope {
-                                screenWidth.toDp()
-                            })
+                            .width(
+                                densityScope {
+                                    screenWidth.toDp()
+                                }
+                            )
                             .fillMaxHeight()
                             .alpha(alpha)
                     ) {
@@ -98,7 +109,9 @@ fun Pager(
                 // Velocity is in pixels per second, but we deal in percentage offsets, so we
                 // need to scale the velocity to match
                 val finalVelocity = velocity / pageSize
-                Timber.d("onDragStopped(): velocity = $velocity, finalVelocity = $finalVelocity, currentPageOffset = ${state.currentPageOffset}")
+                Timber.d(
+                    "onDragStopped(): velocity = $velocity, finalVelocity = $finalVelocity, currentPageOffset = ${state.currentPageOffset}"
+                )
 
                 if (abs(state.currentPageOffset) > 0.1f) {
                     val finalOffset = if (state.currentPageOffset > 0) 1f else -1f
@@ -124,7 +137,7 @@ fun Pager(
         layout(constraints.maxWidth, constraints.maxHeight) {
             val currentPage = state.currentPage
             val swipeLeft = state.currentPageOffset < 0
-            val offset = abs(state.currentPageOffset) //0f to 1f
+            val offset = abs(state.currentPageOffset) // 0f to 1f
             val childConstraints = constraints.copy(minWidth = 0, minHeight = 0)
 
             measurables
@@ -140,11 +153,11 @@ fun Pager(
                     }
 
                     val x = if (page == currentPage) {
-                        //page disappears
+                        // page disappears
                         val distance = (screenWidth * offset).roundToInt()
                         xCenterOffset + if (swipeLeft) -distance else distance
                     } else {
-                        //page appears
+                        // page appears
                         val distance = (screenWidth * (1f - offset)).roundToInt()
                         xCenterOffset + if (swipeLeft) distance else -distance
                     }
@@ -235,7 +248,7 @@ class PagerState(
 //    }
 
     override fun toString(): String = "PagerState{minPage=$minPage, maxPage=$maxPage, " +
-            "currentPage=$currentPage, currentPageOffset=$currentPageOffset}"
+        "currentPage=$currentPage, currentPageOffset=$currentPageOffset}"
 }
 
 @Immutable

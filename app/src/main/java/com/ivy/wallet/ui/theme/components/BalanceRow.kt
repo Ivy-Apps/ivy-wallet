@@ -168,7 +168,6 @@ fun BalanceRow(
             )
         }
 
-
         if (!currencyUpfront) {
             Spacer(Modifier.width(spacerCurrency))
 

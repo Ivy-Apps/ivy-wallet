@@ -143,7 +143,6 @@ private fun PreviewDescriptionModal_emptyText() {
             description = "",
             onDescriptionChanged = {}
         ) {
-
         }
     }
 }

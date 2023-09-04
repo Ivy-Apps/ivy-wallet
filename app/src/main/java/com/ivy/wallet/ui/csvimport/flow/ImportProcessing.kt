@@ -1,6 +1,5 @@
 package com.ivy.wallet.ui.csvimport.flow
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -48,7 +47,7 @@ fun ImportProcessing(
         Spacer(Modifier.height(8.dp))
 
         Text(
-            text = "${progressPercent}%",
+            text = "$progressPercent%",
             style = UI.typo.b2.style(
                 color = Gray,
                 fontWeight = FontWeight.Bold

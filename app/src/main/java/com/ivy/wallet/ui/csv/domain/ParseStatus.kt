@@ -20,7 +20,6 @@ fun <T, M> List<CSVRow>.parseStatus(
     )
 }
 
-
 private fun tryStatus(block: () -> MappingStatus): MappingStatus = try {
     block()
 } catch (e: Exception) {

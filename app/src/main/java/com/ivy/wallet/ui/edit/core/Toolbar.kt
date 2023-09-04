@@ -58,12 +58,11 @@ fun Toolbar(
                 Spacer(Modifier.width(12.dp))
             }
             else -> {
-                //show nothing
+                // show nothing
             }
         }
 
         if (initialTransactionId != null) {
-
             DeleteButton(
                 hasShadow = false
             ) {

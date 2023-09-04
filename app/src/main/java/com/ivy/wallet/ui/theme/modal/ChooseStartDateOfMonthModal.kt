@@ -197,16 +197,17 @@ private fun NumberView(
     selected: Boolean,
     onClick: (Int) -> Unit
 ) {
-    Box(modifier = Modifier
-        .size(48.dp)
-        .clip(CircleShape)
-        .border(2.dp, if (selected) Ivy else UI.colors.medium, CircleShape)
-        .thenIf(selected) {
-            background(Ivy, CircleShape)
-        }
-        .clickable {
-            onClick(number)
-        },
+    Box(
+        modifier = Modifier
+            .size(48.dp)
+            .clip(CircleShape)
+            .border(2.dp, if (selected) Ivy else UI.colors.medium, CircleShape)
+            .thenIf(selected) {
+                background(Ivy, CircleShape)
+            }
+            .clickable {
+                onClick(number)
+            },
         contentAlignment = Alignment.Center
     ) {
         Text(
@@ -229,7 +230,6 @@ private fun Preview() {
             selectedStartDateOfMonth = 1,
             dismiss = {}
         ) {
-
         }
     }
 }

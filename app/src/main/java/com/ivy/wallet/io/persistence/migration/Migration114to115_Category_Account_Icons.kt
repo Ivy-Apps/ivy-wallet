@@ -8,5 +8,4 @@ class Migration114to115_Category_Account_Icons : Migration(114, 115) {
         database.execSQL("ALTER TABLE accounts ADD COLUMN icon TEXT")
         database.execSQL("ALTER TABLE categories ADD COLUMN icon TEXT")
     }
-
 }
