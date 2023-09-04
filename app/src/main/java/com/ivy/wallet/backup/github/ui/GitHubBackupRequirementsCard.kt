@@ -31,8 +31,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.Orange
 import com.ivy.wallet.R
+import com.ivy.wallet.ui.theme.Red3Dark
 
 @Composable
 fun GitHubBackupRequirementsCard(
@@ -42,8 +43,8 @@ fun GitHubBackupRequirementsCard(
         modifier = modifier,
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = UI.colors.orange,
-            contentColor = UI.colors.red1Inverse,
+            containerColor = Orange,
+            contentColor = Red3Dark,
         )
     ) {
         Column(
@@ -100,9 +101,11 @@ fun GitHubBackupRequirementsCard(
             Spacer(modifier = Modifier.height(16.dp))
 
             val context = LocalContext.current
-            Button(onClick = {
-                openAppSettings(context)
-            }) {
+            Button(
+                onClick = {
+                    openAppSettings(context)
+                }
+            ) {
                 Text(text = "App's Settings")
             }
         }
