@@ -1,6 +1,6 @@
 name: Dev Request
 description: Make the Ivy Wallet dev experience better.
-labels: [ "dev" ]
+labels: ["dev"]
 body:
   - type: checkboxes
     id: terms
