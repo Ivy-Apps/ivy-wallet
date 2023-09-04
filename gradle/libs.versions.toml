@@ -1,5 +1,5 @@
 [versions]
-kotlin = "1.9.0"
+kotlin = "1.9.10"
 kotlin-coroutines = "1.7.3"
 ktor = "2.3.4"
 arrow = "1.2.0"
@@ -18,7 +18,7 @@ detekt-ruleset-compiler = "0.0.4" # https://github.com/BraisGabin/detekt-compile
 detekt-ruleset-compose = "0.2.1" # https://github.com/mrmans0n/compose-rules/releases
 
 [libraries]
-android-gradle-plugin = { module = "com.android.tools.build:gradle", version = "8.2.0-beta01" }
+android-gradle-plugin = { module = "com.android.tools.build:gradle", version = "8.3.0-alpha01" }
 
 # Kotlin
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
