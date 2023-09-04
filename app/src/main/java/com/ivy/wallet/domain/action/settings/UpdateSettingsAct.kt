@@ -9,7 +9,8 @@ class UpdateSettingsAct @Inject constructor(
     private val settingsDao: SettingsDao
 ) : FPAction<Settings, Settings>() {
     override suspend fun Settings.compose(): suspend () -> Settings = suspend {
-        settingsDao.save(this.toEntity())
+
+    settingsDao.save(this.toEntity())
         this
     }
 }
