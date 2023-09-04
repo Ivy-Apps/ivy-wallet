@@ -65,50 +65,54 @@ fun GitHubBackupRequirementsCard(
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
-
-            val text = buildAnnotatedString {
-                append(
-                    "To ensure Ivy Wallet can automatically backup your data you must do the below:" +
-                            "\n" +
-                            "\n" +
-                            "1. Disable "
-                )
-
-                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append("\"BATTERY OPTIMIZATION\"")
-                }
-
-                append(
-                    " for this app in the app's settings.\n" +
-                            "2. In some mobile models like Xiaomi and Vivo the "
-                )
-
-                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append("\"AUTOSTART\"")
-                }
-
-                append(" settings must be activated.")
-            }
-
-            Text(
-                modifier = Modifier,
-                text = text,
-                style = MaterialTheme.typography.labelMedium,
-                textAlign = TextAlign.Start,
-                fontWeight = FontWeight.Normal,
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            val context = LocalContext.current
-            Button(
-                onClick = {
-                    openAppSettings(context)
-                }
-            ) {
-                Text(text = "App's Settings")
-            }
+            WarningCardInfo()
         }
+    }
+}
+
+@Composable
+fun WarningCardInfo() {
+    val text = buildAnnotatedString {
+        append(
+            "To ensure Ivy Wallet can automatically backup your data you must do the below:" +
+                    "\n" +
+                    "\n" +
+                    "1. Disable "
+        )
+
+        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+            append("\"BATTERY OPTIMIZATION\"")
+        }
+
+        append(
+            " for this app in the app's settings.\n" +
+                    "2. In some mobile models like Xiaomi and Vivo the "
+        )
+
+        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+            append("\"AUTOSTART\"")
+        }
+
+        append(" settings must be activated.")
+    }
+
+    Text(
+        modifier = Modifier,
+        text = text,
+        style = MaterialTheme.typography.labelMedium,
+        textAlign = TextAlign.Start,
+        fontWeight = FontWeight.Normal,
+    )
+
+    Spacer(modifier = Modifier.height(16.dp))
+
+    val context = LocalContext.current
+    Button(
+        onClick = {
+            openAppSettings(context)
+        }
+    ) {
+        Text(text = "App's Settings")
     }
 }
 
