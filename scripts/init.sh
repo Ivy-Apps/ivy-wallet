@@ -14,14 +14,14 @@ if [ ! -d "$GIT_HOOKS_DIR" ]; then
 fi
 
 # Set up symbolic link for pre-push hook
-ln -s -f $BASE_DIR/$HOOKS_DIR/pre-push $GIT_HOOKS_DIR/pre-push
+ln -s -f $BASE_DIR/$HOOKS_DIR/pre-push $GIT_HOOKS_DIR/pre-push || exit -1
 echo "pre-push hook has been set up."
 
 # Ensure the pre-push hook is executable
-chmod +x $GIT_HOOKS_DIR/pre-push
+chmod +x $GIT_HOOKS_DIR/pre-push || exit -1
 echo "pre-push hook is now executable."
 
-chmod +x /script/detektFormat.sh
+chmod +x $BASE_DIR/scripts/detektFormat.sh || exit -1
 echo "scripts in '/scripts' are now executable."
 
 echo "Repository setup complete!"
