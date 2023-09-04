@@ -13,7 +13,6 @@ class TrnByIdAct @Inject constructor(
     override suspend fun UUID.compose(): suspend () -> Transaction? = suspend {
         this // transactionId
     } then transactionDao::findById then {
-
-    it?.toDomain()
+        it?.toDomain()
     }
 }
