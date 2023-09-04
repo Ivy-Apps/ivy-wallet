@@ -71,7 +71,7 @@ fun GitHubBackupRequirementsCard(
 }
 
 @Composable
-fun WarningCardInfo() {
+private fun WarningCardInfo() {
     val text = buildAnnotatedString {
         append(
             "To ensure Ivy Wallet can automatically backup your data you must do the below:" +
@@ -116,7 +116,7 @@ fun WarningCardInfo() {
     }
 }
 
-fun openAppSettings(context: Context) {
+private fun openAppSettings(context: Context) {
     val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
     val uri: Uri = Uri.fromParts("package", context.packageName, null)
     intent.data = uri
