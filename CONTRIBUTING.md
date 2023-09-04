@@ -39,20 +39,20 @@ git checkout -b fix-issue-YOUR_ISSUE_NUMBER
 _Replace "YOUR_ISSUE_NUMBER" with the id/number of your issue._
 
 
-### Work
+### Time to work
 
 - Make commits.
 - Refactor your code.
 - Verify that your implementation works.
 - Build often and test that you haven't broken existing features.
 
-**Tips:**
+**💡 Tips:**
 
 - Make sure that you don't break anything with your changes.
 - Keep it simple.
 - **"Don't walk away from complexity, run!"**
 
-**Ask yourself:**
+**❓ Ask yourself:**
 
 - "Is that the simplest solution?"
 - "Can I do it with less code and changes?
