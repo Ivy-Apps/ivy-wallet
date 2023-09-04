@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -59,6 +60,7 @@ fun GitHubBackupScreen() {
     val nav = navigation()
 
     Scaffold(
+        modifier = Modifier.systemBarsPadding(),
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
@@ -190,10 +192,11 @@ private fun Content(
             modifier = Modifier.padding(horizontal = 16.dp),
         ) {
             GitHubBackupStatus(viewModel = viewModel)
-            Spacer(modifier = Modifier.height(12.dp))
         }
 
-        GitHubBackupRequirementsCard()
+        if (enabled) {
+            GitHubBackupRequirementsCard()
+        }
 
         // Scroll fix
         Spacer(modifier = Modifier.height(320.dp))

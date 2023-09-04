@@ -40,9 +40,9 @@
 
         <activity
             android:name=".ui.RootActivity"
-            android:screenOrientation="portrait"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" >
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -88,8 +88,8 @@
         <receiver
             android:name=".ui.widget.WalletBalanceWidgetReceiver"
             android:enabled="@bool/glance_appwidget_available"
-            android:label="@string/wallet_balance"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/wallet_balance">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

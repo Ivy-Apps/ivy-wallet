@@ -1,5 +1,9 @@
 package com.ivy.wallet.backup.github.ui
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.LocalContentColor
@@ -18,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -61,7 +67,8 @@ fun GitHubBackupRequirementsCard(
 
             val text = buildAnnotatedString {
                 append(
-                    "To ensure app can auto backup your data you must do the below:\n" +
+                    "To ensure Ivy Wallet can automatically backup your data you must do the below:" +
+                            "\n" +
                             "\n" +
                             "1. Disable "
                 )
@@ -71,7 +78,7 @@ fun GitHubBackupRequirementsCard(
                 }
 
                 append(
-                    " for this app in the settings.\n" +
+                    " for this app in the app's settings.\n" +
                             "2. In some mobile models like Xiaomi and Vivo the "
                 )
 
@@ -89,8 +96,24 @@ fun GitHubBackupRequirementsCard(
                 textAlign = TextAlign.Start,
                 fontWeight = FontWeight.Normal,
             )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            val context = LocalContext.current
+            Button(onClick = {
+                openAppSettings(context)
+            }) {
+                Text(text = "App's Settings")
+            }
         }
     }
+}
+
+fun openAppSettings(context: Context) {
+    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+    val uri: Uri = Uri.fromParts("package", context.packageName, null)
+    intent.data = uri
+    context.startActivity(intent)
 }
 
 @Composable
