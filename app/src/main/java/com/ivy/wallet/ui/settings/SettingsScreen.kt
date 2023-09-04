@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -46,6 +47,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.ivy.design.l0_system.SunsetNight
+import com.ivy.design.l0_system.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IconScale
@@ -81,6 +83,7 @@ import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.Red3
 import com.ivy.wallet.ui.theme.White
+import com.ivy.wallet.ui.theme.components.CircleButtonFilled
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvySwitch
 import com.ivy.wallet.ui.theme.components.IvyToolbar
@@ -104,6 +107,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
 
     val user by viewModel.user.observeAsState()
     val opSync by viewModel.opSync.observeAsState()
+    val theme by viewModel.currentTheme.observeAsState(Theme.AUTO)
     val currencyCode by viewModel.currencyCode.observeAsState("")
     val lockApp by viewModel.lockApp.observeAsState(false)
     val showNotifications by viewModel.showNotifications.collectAsState()
@@ -124,6 +128,8 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
         user = user,
         currencyCode = currencyCode,
         opSync = opSync,
+        theme = theme,
+        onSwitchTheme = viewModel::switchTheme,
         lockApp = lockApp,
         showNotifications = showNotifications,
         hideCurrentBalance = hideCurrentBalance,
@@ -161,6 +167,9 @@ private fun BoxWithConstraintsScope.UI(
     user: User?,
     currencyCode: String,
     opSync: OpResult<Boolean>?,
+
+    theme: Theme,
+    onSwitchTheme: () -> Unit,
 
     lockApp: Boolean,
     showNotifications: Boolean = true,
@@ -309,6 +318,33 @@ private fun BoxWithConstraintsScope.UI(
             SettingsSectionDivider(text = stringResource(R.string.app_settings))
 
             Spacer(Modifier.height(16.dp))
+
+            AppThemeButton(
+                icon = when (theme) {
+                    Theme.LIGHT -> R.drawable.home_more_menu_light_mode
+                    Theme.DARK -> R.drawable.home_more_menu_dark_mode
+                    Theme.AUTO -> R.drawable.home_more_menu_auto_mode
+                },
+                label = when (theme) {
+                    Theme.LIGHT -> stringResource(R.string.light_mode)
+                    Theme.DARK -> stringResource(R.string.dark_mode)
+                    Theme.AUTO -> stringResource(R.string.auto_mode)
+                },
+                backgroundColor = when (theme) {
+                    Theme.LIGHT -> UI.colors.pure
+                    Theme.DARK -> UI.colors.pureInverse
+                    Theme.AUTO -> UI.colors.pure
+                },
+                tint = when (theme) {
+                    Theme.LIGHT -> UI.colors.pureInverse
+                    Theme.DARK -> UI.colors.pure
+                    Theme.AUTO -> UI.colors.pureInverse
+                }
+            ) {
+                onSwitchTheme()
+            }
+
+            Spacer(Modifier.height(12.dp))
 
             val nav = navigation()
             SettingsDefaultButton(
@@ -673,6 +709,46 @@ private fun ProjectContributors() {
         iconPadding = 6.dp
     ) {
         uriHandler.openUri(URL_IVY_CONTRIBUTORS)
+    }
+}
+
+@Composable
+private fun AppThemeButton(
+    @DrawableRes icon: Int,
+    label: String,
+
+    backgroundColor: Color = UI.colors.pure,
+    tint: Color = UI.colors.pureInverse,
+    expandPadding: Dp = 14.dp,
+
+    onClick: () -> Unit
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        CircleButtonFilled(
+            icon = icon,
+            backgroundColor = backgroundColor,
+            tint = tint,
+            clickAreaPadding = expandPadding,
+            onClick = onClick
+        )
+
+        Spacer(Modifier.height(8.dp))
+
+        Text(
+            modifier = Modifier
+                .defaultMinSize(minWidth = 92.dp)
+                .clickableNoIndication {
+                    onClick()
+                },
+            text = label,
+            style = UI.typo.c.style(
+                color = UI.colors.pureInverse,
+                fontWeight = FontWeight.ExtraBold,
+                textAlign = TextAlign.Center
+            )
+        )
     }
 }
 
@@ -1312,6 +1388,8 @@ private fun Preview_synced() {
             ),
             nameLocalAccount = null,
             opSync = OpResult.success(true),
+            theme = Theme.AUTO,
+            onSwitchTheme = {},
             lockApp = false,
             currencyCode = "BGN",
             onSetCurrency = {},
@@ -1337,6 +1415,8 @@ private fun Preview_notSynced() {
                 id = UUID.randomUUID(),
                 profilePicture = null
             ),
+            theme = Theme.AUTO,
+            onSwitchTheme = {},
             lockApp = false,
             nameLocalAccount = null,
             opSync = OpResult.success(false),
@@ -1364,6 +1444,8 @@ private fun Preview_loading() {
                 id = UUID.randomUUID(),
                 profilePicture = null
             ),
+            theme = Theme.AUTO,
+            onSwitchTheme = {},
             lockApp = false,
             nameLocalAccount = null,
             opSync = OpResult.loading(),
@@ -1386,6 +1468,8 @@ private fun Preview_localAccount() {
             nameLocalAccount = "Iliyan",
             opSync = null,
             currencyCode = "BGN",
+            theme = Theme.AUTO,
+            onSwitchTheme = {},
             lockApp = false,
             onSetCurrency = {},
             onLogout = {},
