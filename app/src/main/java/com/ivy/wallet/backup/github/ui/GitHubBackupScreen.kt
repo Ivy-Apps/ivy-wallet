@@ -190,7 +190,10 @@ private fun Content(
             modifier = Modifier.padding(horizontal = 16.dp),
         ) {
             GitHubBackupStatus(viewModel = viewModel)
+            Spacer(modifier = Modifier.height(12.dp))
         }
+
+        GitHubBackupRequirementsCard()
 
         // Scroll fix
         Spacer(modifier = Modifier.height(320.dp))
