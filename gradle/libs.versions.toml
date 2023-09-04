@@ -14,8 +14,6 @@ androidx-work = "2.8.1"
 
 # Linters
 detekt = "1.23.1" # https://detekt.dev/docs/gettingstarted/gradle/
-detekt-ruleset-compiler = "0.0.4" # https://github.com/BraisGabin/detekt-compiler-rules/releases
-detekt-ruleset-compose = "0.2.1" # https://github.com/mrmans0n/compose-rules/releases
 
 [libraries]
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version = "8.2.0-beta01" }
@@ -103,9 +101,9 @@ ivy-frp-temp = { module = "com.github.ILIYANGERMANOV:ivy-frp", version = "0.9.5"
 
 # Linters
 detekt-gradle-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
-detekt-ruleset-compiler = { module = "com.braisgabin.detekt:kotlin-compiler-wrapper", version.ref = "detekt-ruleset-compiler" }
+detekt-ruleset-compiler = { module = "com.braisgabin.detekt:kotlin-compiler-wrapper", version = "0.0.4" }
 detekt-ruleset-ktlint = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
-detekt-ruleset-compose = { module = "io.nlopez.compose.rules:detekt", version.ref = "detekt-ruleset-compose" }
+detekt-ruleset-compose = { module = "io.nlopez.compose.rules:detekt", version = "0.2.1" }
 
 [bundles]
 kotlin = [
@@ -181,5 +179,5 @@ opencsv = [
 ]
 
 [plugins]
-gradleWrapperUpgrade = "org.gradle.wrapper-upgrade:0.11.2"
+gradleWrapperUpgrade = { id = "org.gradle.wrapper-upgrade", version = "0.11.2" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
