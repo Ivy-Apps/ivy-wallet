@@ -10,41 +10,53 @@ After you've cloned your Ivy Wallet fork make sure to initialize the project usi
 
 ## 2. Pick an issue
 
-What do you want to work on? How do you want to contribute?
+What do you want to work on? [Choose an issue](https://github.com/Ivy-Apps/ivy-wallet/issues) that you'd like to contribute to.
 
 ### Workflow:
 
 1. Browse **[Ivy Wallet Issues](https://github.com/Ivy-Apps/ivy-wallet/issues)**.
-2. Choose a ticket that you understand and intrigues you.
-3. Comment `"I'm on it"` on the ticket to let other contributors know that you're working on it.
+2. Choose an issue that you understand and like.
+3. Comment `"I'm on it"` on the issue to let other contributors know that you're working on it.
 
 ### Rules:
 
-- Issues with a green `"approved"` label are ready for development.
-- If the issue that you like doesn't have `"approved"` label, just **tag @ILIYANGERMANOV**.
-- If someone else has already commented **"I'm on it"**, do **not** start working on it! Instead tag the person and ask if you can take it.
-- If what you want to do isn't in issues, just **create it** and **tag @ILIYANGERMANOV**.
+- Only issues with a green `"approved"` label are ready for development.
+- If the issue that you like doesn't have the `"approved"` label, just **tag @ILIYANGERMANOV** and ask for an approval.
+- If someone else has already commented **"I'm on it"**, do **NOT** start working on it! Instead tag the person and ask them if you can take it.
+- If what you want isn't in issues, just [create a new issue](https://github.com/Ivy-Apps/ivy-wallet/issues/new/choose) and **tag @ILIYANGERMANOV** for approval.
 
 ## 3. Create a feature branch in your fork
 
 Once you've decided on what you want to work, it's time to create a feature branch in your forked ivy-wallet repository.
 
-### Console:
+### Create a new branch
 
-`cd ivy-wallet-fork`
+Open a terminal in your cloned forked ivy-wallet repo and run: 
+```
+git checkout -b fix-issue-YOUR_ISSUE_NUMBER
+```
 
-`git checkout -b fix-issue-N`
+_Replace "YOUR_ISSUE_NUMBER" with the id/number of your issue._
+
+
+### Work
 
 - Make commits.
 - Refactor your code.
 - Verify that your implementation works.
-- Test that you haven't broken existing features.
+- Build often and test that you haven't broken existing features.
 
-### Tips:
+**Tips:**
 
-- Make sure that you didn't break anything with your changes.
+- Make sure that you don't break anything with your changes.
 - Keep it simple.
 - **"Don't walk away from complexity, run!"**
+
+**Ask yourself:**
+
+- "Is that the simplest solution?"
+- "Can I do it with less code and changes?
+- "Does it work in all cases?
 
 ## 4. Submit a PR to `main` branch
 
