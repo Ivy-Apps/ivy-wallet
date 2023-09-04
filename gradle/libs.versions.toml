@@ -181,5 +181,5 @@ opencsv = [
 ]
 
 [plugins]
-gradleWrapperUpgrade = "org.gradle.wrapper-upgrade:0.11.1"
+gradleWrapperUpgrade = "org.gradle.wrapper-upgrade:0.11.2"
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
