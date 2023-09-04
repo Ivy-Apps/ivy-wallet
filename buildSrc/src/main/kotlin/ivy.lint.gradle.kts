@@ -6,16 +6,10 @@ plugins {
 }
 
 configure<DetektExtension> {
-    val filesToCheck: String? = System.getProperty("detekt.filesToCheck")
-    if (!filesToCheck.isNullOrEmpty()) {
-        source.setFrom(filesToCheck.split(","))
-    } else {
-        source.setFrom(projectDir)
-    }
+    source.setFrom(projectDir)
     config.setFrom("$rootDir/config/detekt/config.yml")
     baseline = file("$rootDir/config/detekt/baseline.yml")
 }
-
 
 tasks.register<Detekt>("detektFormat") {
     autoCorrect = true
@@ -24,6 +18,9 @@ tasks.register<Detekt>("detektFormat") {
 tasks.withType<Detekt> {
     // Disable task caching
     outputs.upToDateWhen { false }
+
+    val filesToCheck: String? = System.getProperty("detekt.filesToCheck")
+    setSource(filesToCheck?.split(",") ?: projectDir)
 
     reports {
         html.required.set(true)
