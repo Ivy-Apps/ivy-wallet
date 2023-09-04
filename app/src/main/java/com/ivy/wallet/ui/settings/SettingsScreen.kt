@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -83,7 +82,6 @@ import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.Red3
 import com.ivy.wallet.ui.theme.White
-import com.ivy.wallet.ui.theme.components.CircleButtonFilled
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvySwitch
 import com.ivy.wallet.ui.theme.components.IvyToolbar
@@ -196,7 +194,7 @@ private fun BoxWithConstraintsScope.UI(
     onDeleteAllUserData: () -> Unit = {},
     onDeleteCloudUserData: () -> Unit = {},
 
-) {
+    ) {
     var currencyModalVisible by remember { mutableStateOf(false) }
     var nameModalVisible by remember { mutableStateOf(false) }
     var chooseStartDateOfMonthVisible by remember { mutableStateOf(false) }
@@ -329,16 +327,6 @@ private fun BoxWithConstraintsScope.UI(
                     Theme.LIGHT -> stringResource(R.string.light_mode)
                     Theme.DARK -> stringResource(R.string.dark_mode)
                     Theme.AUTO -> stringResource(R.string.auto_mode)
-                },
-                backgroundColor = when (theme) {
-                    Theme.LIGHT -> UI.colors.pure
-                    Theme.DARK -> UI.colors.pureInverse
-                    Theme.AUTO -> UI.colors.pure
-                },
-                tint = when (theme) {
-                    Theme.LIGHT -> UI.colors.pureInverse
-                    Theme.DARK -> UI.colors.pure
-                    Theme.AUTO -> UI.colors.pureInverse
                 }
             ) {
                 onSwitchTheme()
@@ -716,40 +704,17 @@ private fun ProjectContributors() {
 private fun AppThemeButton(
     @DrawableRes icon: Int,
     label: String,
-
-    backgroundColor: Color = UI.colors.pure,
-    tint: Color = UI.colors.pureInverse,
-    expandPadding: Dp = 14.dp,
-
     onClick: () -> Unit
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        CircleButtonFilled(
-            icon = icon,
-            backgroundColor = backgroundColor,
-            tint = tint,
-            clickAreaPadding = expandPadding,
-            onClick = onClick
-        )
-
-        Spacer(Modifier.height(8.dp))
-
-        Text(
-            modifier = Modifier
-                .defaultMinSize(minWidth = 92.dp)
-                .clickableNoIndication {
-                    onClick()
-                },
-            text = label,
-            style = UI.typo.c.style(
-                color = UI.colors.pureInverse,
-                fontWeight = FontWeight.ExtraBold,
-                textAlign = TextAlign.Center
-            )
-        )
-    }
+    SettingsPrimaryButton(
+        icon = icon,
+        text = label,
+        backgroundGradient = Gradient.solid(UI.colors.medium),
+        textColor = UI.colors.pureInverse,
+        iconPadding = 6.dp,
+        description = "Tap to switch theme",
+        onClick = onClick
+    )
 }
 
 @Composable
@@ -1157,6 +1122,7 @@ private fun SettingsPrimaryButton(
     backgroundGradient: Gradient = Gradient.solid(UI.colors.medium),
     textColor: Color = White,
     iconPadding: Dp = 0.dp,
+    description: String = "",
     onClick: () -> Unit
 ) {
     SettingsButtonRow(
@@ -1175,14 +1141,29 @@ private fun SettingsPrimaryButton(
 
         Spacer(Modifier.width(8.dp))
 
-        Text(
-            modifier = Modifier.padding(vertical = 20.dp),
-            text = text,
-            style = UI.typo.b2.style(
-                color = textColor,
-                fontWeight = FontWeight.Bold
+        Column(
+            Modifier
+                .weight(1f)
+                .padding(top = 20.dp, bottom = 20.dp, end = 8.dp)
+        ) {
+            Text(
+                text = text,
+                style = UI.typo.b2.style(
+                    color = UI.colors.pureInverse,
+                    fontWeight = FontWeight.Bold
+                )
             )
-        )
+            if (description.isNotEmpty()) {
+                Text(
+                    modifier = Modifier.padding(end = 8.dp),
+                    text = description,
+                    style = UI.typo.nB2.style(
+                        color = Gray,
+                        fontWeight = FontWeight.Normal
+                    ).copy(fontSize = 14.sp)
+                )
+            }
+        }
     }
 }
 
