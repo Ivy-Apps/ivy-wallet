@@ -143,10 +143,11 @@ fun BoxWithConstraintsScope.EditBottomSheet(
     val percentCollapsed = 1f - percentExpanded
 
     val showConvertedAmountText by remember(convertedAmount) {
-        if (type == TransactionType.TRANSFER && convertedAmount != null && convertedAmountCurrencyCode != null)
+        if (type == TransactionType.TRANSFER && convertedAmount != null && convertedAmountCurrencyCode != null) {
             mutableStateOf("${convertedAmount.format(2)} $convertedAmountCurrencyCode")
-        else
+        } else {
             mutableStateOf(null)
+        }
     }
 
     Column(
@@ -179,7 +180,7 @@ fun BoxWithConstraintsScope.EditBottomSheet(
             )
             .consumeClicks()
     ) {
-        //Accounts label
+        // Accounts label
         val label = when (type) {
             TransactionType.INCOME -> stringResource(R.string.add_money_to)
             TransactionType.EXPENSE -> stringResource(R.string.pay_with)
@@ -234,7 +235,7 @@ fun BoxWithConstraintsScope.EditBottomSheet(
             Spacer(Modifier.height(lastSpacer.dp))
         }
 //
-        //system stuff + keyboard padding
+        // system stuff + keyboard padding
         Spacer(Modifier.height(densityScope { bottomBarHeight.toDp() }))
         Spacer(Modifier.height(keyboardShownInsetDp))
     }
@@ -522,10 +523,10 @@ private fun AccountsRow(
             val selectedIndex = accounts.indexOf(selectedAccount)
             if (selectedIndex != -1) {
                 launch {
-                    if (TestingContext.inTest) return@launch //breaks UI tests
+                    if (TestingContext.inTest) return@launch // breaks UI tests
 
                     lazyState.scrollToItem(
-                        index = selectedIndex, //+1 because Spacer width 24.dp
+                        index = selectedIndex, // +1 because Spacer width 24.dp
                     )
                 }
             }
@@ -679,7 +680,7 @@ private fun Amount(
             )
         }
 
-        Column() {
+        Column {
             BalanceRow(
                 modifier = Modifier
                     .clickableNoIndication {
@@ -692,7 +693,6 @@ private fun Amount(
                 decimalPaddingTop = currencyPaddingTop.dp,
                 spacerDecimal = spacerInteger.dp,
                 spacerCurrency = 8.dp,
-
 
                 integerFontSize = integerFontSize.sp,
                 decimalFontSize = 18.sp,
@@ -789,8 +789,7 @@ private fun Preview() {
                 initialTransactionId = null,
                 type = TransactionType.INCOME,
                 ActionButton = {
-                    ModalSet() {
-
+                    ModalSet {
                     }
                 },
                 accounts = listOf(
@@ -829,7 +828,6 @@ private fun Preview_Transfer() {
                 initialTransactionId = UUID.randomUUID(),
                 ActionButton = {
                     ModalSave {
-
                     }
                 },
                 type = TransactionType.TRANSFER,

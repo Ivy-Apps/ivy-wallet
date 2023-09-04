@@ -101,7 +101,7 @@ fun LazyListScope.walletCharts(
 //    }
 
     item {
-        Spacer(Modifier.height(196.dp)) //scroll hack
+        Spacer(Modifier.height(196.dp)) // scroll hack
     }
 }
 

@@ -107,7 +107,6 @@ class PaywallViewModel @Inject constructor(
     }
 
     fun onPlanSelected(plan: Plan?) {
-
     }
 
     fun buy(activity: RootActivity, plan: Plan) {

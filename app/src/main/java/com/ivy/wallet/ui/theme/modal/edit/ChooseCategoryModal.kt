@@ -225,14 +225,16 @@ private fun CategoryButton(
                 ),
             text = category.name,
             style = UI.typo.b2.style(
-                color = if (selected)
-                    findContrastTextColor(categoryColor) else UI.colors.pureInverse,
+                color = if (selected) {
+                    findContrastTextColor(categoryColor)
+                } else {
+                    UI.colors.pureInverse
+                },
                 fontWeight = FontWeight.SemiBold
             )
         )
 
         if (selected) {
-
             val deselectBtnBackground = findContrastTextColor(categoryColor)
             IvyCircleButton(
                 modifier = Modifier
@@ -289,7 +291,6 @@ private fun PreviewChooseCategoryModal() {
             showCategoryModal = { },
             onCategoryChanged = { }
         ) {
-
         }
     }
 }

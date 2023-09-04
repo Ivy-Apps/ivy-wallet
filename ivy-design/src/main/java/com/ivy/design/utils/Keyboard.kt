@@ -45,16 +45,22 @@ fun keyboardHeightStateAnimated(
 
     return animateDpAsState(
         animationSpec = animationSpec,
-        targetValue = if (keyboardVisible)
-            keyboardOnlyWindowInsets().bottom.toDensityDp() else 0.dp
+        targetValue = if (keyboardVisible) {
+            keyboardOnlyWindowInsets().bottom.toDensityDp()
+        } else {
+            0.dp
+        }
     )
 }
 
 @Composable
 fun keyboardHeightState(): State<Dp> {
     val keyboardVisible by keyboardVisibleState()
-    val keyboardHeight = if (keyboardVisible)
-        keyboardOnlyWindowInsets().bottom.toDensityDp() else 0.dp
+    val keyboardHeight = if (keyboardVisible) {
+        keyboardOnlyWindowInsets().bottom.toDensityDp()
+    } else {
+        0.dp
+    }
     return remember(keyboardHeight) {
         mutableStateOf(keyboardHeight)
     }
@@ -79,16 +85,16 @@ fun keyboardVisibleState(): State<Boolean> {
 
 fun View.addKeyboardListener(keyboardCallback: (visible: Boolean) -> Unit) {
     doOnLayout {
-        //get init state of keyboard
+        // get init state of keyboard
         var keyboardVisible = isKeyboardOpen(this)
 
-        //callback as soon as the layout is set with whether the keyboard is open or not
+        // callback as soon as the layout is set with whether the keyboard is open or not
         keyboardCallback(keyboardVisible)
 
-        //whenever the layout resizes/changes, callback with the state of the keyboard.
+        // whenever the layout resizes/changes, callback with the state of the keyboard.
         viewTreeObserver.addOnGlobalLayoutListener {
             val keyboardUpdateCheck = isKeyboardOpen(this)
-            //since the observer is hit quite often, only callback when there is a change.
+            // since the observer is hit quite often, only callback when there is a change.
             if (keyboardUpdateCheck != keyboardVisible) {
                 keyboardCallback(keyboardUpdateCheck)
                 keyboardVisible = keyboardUpdateCheck
@@ -96,7 +102,6 @@ fun View.addKeyboardListener(keyboardCallback: (visible: Boolean) -> Unit) {
         }
     }
 }
-
 
 fun isKeyboardOpen(rootView: View): Boolean {
     return try {

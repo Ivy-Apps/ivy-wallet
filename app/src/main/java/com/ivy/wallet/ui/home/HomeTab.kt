@@ -161,7 +161,6 @@ private fun BoxWithConstraintsScope.UI(
 
             hideCurrentBalance = state.hideCurrentBalance,
 
-
             period = state.period,
             listState = listState,
 
@@ -274,9 +273,7 @@ fun HomeLazyColumn(
     stats: IncomeExpensePair,
     history: List<TransactionHistoryItem>,
 
-
     customerJourneyCards: List<CustomerJourneyCardData>,
-
 
     setUpcomingExpanded: (Boolean) -> Unit,
     setOverdueExpanded: (Boolean) -> Unit,
@@ -301,7 +298,7 @@ fun HomeLazyColumn(
                 source: NestedScrollSource
             ): Offset {
                 if (listState.firstVisibleItemIndex == 0) {
-                    //To prevent unnecessary updates
+                    // To prevent unnecessary updates
                     if (listState.firstVisibleItemScrollOffset >= 150 && !hideBalanceRowState.value) {
                         hideBalanceRowState.value = true
                     } else if (listState.firstVisibleItemScrollOffset < 150 && hideBalanceRowState.value) {

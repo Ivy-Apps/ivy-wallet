@@ -1,6 +1,5 @@
 package com.ivy.wallet.ui.edit
 
-
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
@@ -83,13 +82,13 @@ private fun PreviewPrimaryAttributeColumn() {
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp),
                 text = "This mode is not recommended for production use,\n" +
-                        "as no stability/compatibility guarantees are given on\n" +
-                        "compiler or generated code. Use it at your own risk!\n" +
-                        "\n" +
-                        "\n" +
-                        "Deprecated Gradle features were used in this build, making it incompatible with Gradle 8.0.\n" +
-                        "Use '--warning-mode all' to show the individual deprecation warnings.\n" +
-                        "See https://docs.gradle.org/7.0-rc-1/userguide/command_line_interface.html#sec:command_line_warnings",
+                    "as no stability/compatibility guarantees are given on\n" +
+                    "compiler or generated code. Use it at your own risk!\n" +
+                    "\n" +
+                    "\n" +
+                    "Deprecated Gradle features were used in this build, making it incompatible with Gradle 8.0.\n" +
+                    "Use '--warning-mode all' to show the individual deprecation warnings.\n" +
+                    "See https://docs.gradle.org/7.0-rc-1/userguide/command_line_interface.html#sec:command_line_warnings",
                 style = UI.typo.b2.style(
                     color = UI.colors.pureInverse,
                     fontWeight = FontWeight.Medium

@@ -72,13 +72,12 @@ fun navigationBarInsets(): Insets {
     return windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
 }
 
-
 @Composable
 fun keyboardNavigationWindowInsets(): Insets {
     val windowInsets = windowInsets()
     return windowInsets.getInsets(
         WindowInsetsCompat.Type.ime()
-                or WindowInsetsCompat.Type.systemBars()
+            or WindowInsetsCompat.Type.systemBars()
     )
 }
 
@@ -89,7 +88,6 @@ fun keyboardOnlyWindowInsets(): Insets {
         WindowInsetsCompat.Type.ime()
     )
 }
-
 
 @Composable
 fun <T> densityScope(densityScope: @Composable Density.() -> T): T {
@@ -116,11 +114,12 @@ fun <R, T : R> LiveData<T>.observeAsNeverEqualState(initial: R): State<R> {
     return state
 }
 
-fun Modifier.thenIf(condition: Boolean, thanModifier: @Composable Modifier.() -> Modifier)
-        : Modifier = composed {
+fun Modifier.thenIf(condition: Boolean, thanModifier: @Composable Modifier.() -> Modifier): Modifier = composed {
     if (condition) {
         this.thanModifier()
-    } else this
+    } else {
+        this
+    }
 }
 
 @SuppressLint("ComposableNaming")
@@ -136,7 +135,7 @@ fun onScreenStart(
 }
 
 fun Modifier.consumeClicks() = clickableNoIndication {
-    //consume click
+    // consume click
 }
 
 fun Modifier.clickableNoIndication(

@@ -27,15 +27,15 @@ data class TimePeriod(
             val dateNowUTC = dateNowUTC()
             val dayToday = dateNowUTC.dayOfMonth
 
-            //Examples month = Nov. startDate = 7; Period = from Nov (7) till Dec (6)
+            // Examples month = Nov. startDate = 7; Period = from Nov (7) till Dec (6)
             // => new period starts if today => startDayOfMonth
             val newPeriodStarted = dayToday >= startDayOfMonth
 
             val periodDate = if (newPeriodStarted) {
-                //new monthly period has already started then observe it => current month
+                // new monthly period has already started then observe it => current month
                 dateNowUTC
             } else {
-                //new monthly period hasn't yet started then observe the ongoing one => previous month
+                // new monthly period hasn't yet started then observe the ongoing one => previous month
                 dateNowUTC.minusMonths(1)
             }
 
@@ -100,10 +100,10 @@ data class TimePeriod(
             .convertLocalToUTC()
 
         val to = date
-            //startDayOfMonth != 1 just shift N day the month forward so to should +1 month
+            // startDayOfMonth != 1 just shift N day the month forward so to should +1 month
             .plusMonths(1)
             .withDayOfMonthSafe(startDateOfMonth)
-            //e.g. Correct: 14.10-13.11 (Incorrect: 14.10-14.11)
+            // e.g. Correct: 14.10-13.11 (Incorrect: 14.10-14.11)
             .minusDays(1)
             .atEndOfDay()
             .convertLocalToUTC()
@@ -160,12 +160,11 @@ data class TimePeriod(
     private fun displayMonthStartingOn1st(month: Month): String {
         val year = year
         return if (year != null && dateNowUTC().year != year) {
-            //not this year
+            // not this year
             "${month.name}, $year"
         } else {
-            //this year
+            // this year
             month.name
         }
     }
-
 }

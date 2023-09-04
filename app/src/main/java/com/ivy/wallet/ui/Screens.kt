@@ -20,7 +20,7 @@ data class EditTransaction(
     val initialTransactionId: UUID?,
     val type: TransactionType,
 
-    //extras
+    // extras
     val accountId: UUID? = null,
     val categoryId: UUID? = null
 ) : Screen
@@ -52,8 +52,8 @@ data class EditPlanned(
     val description: String? = null,
 ) : Screen {
     fun mandatoryFilled(): Boolean {
-        return amount != null && amount > 0.0
-                && accountId != null
+        return amount != null && amount > 0.0 &&
+            accountId != null
     }
 }
 

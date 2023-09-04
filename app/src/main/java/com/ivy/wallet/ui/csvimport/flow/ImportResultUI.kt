@@ -58,7 +58,7 @@ fun ImportResultUI(
         Spacer(Modifier.height(24.dp))
 
         val importSuccess = result.transactionsImported > 0 &&
-                result.transactionsImported > result.rowsFound / 2
+            result.transactionsImported > result.rowsFound / 2
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = if (importSuccess) stringResource(R.string.success) else stringResource(R.string.failure),
@@ -81,8 +81,11 @@ fun ImportResultUI(
 
         Spacer(Modifier.height(8.dp))
 
-        val successPercent = if (result.rowsFound > 0)
-            (result.transactionsImported / result.rowsFound.toDouble()) * 100 else 0.0
+        val successPercent = if (result.rowsFound > 0) {
+            (result.transactionsImported / result.rowsFound.toDouble()) * 100
+        } else {
+            0.0
+        }
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = "${successPercent.format(2)}%",
@@ -122,7 +125,6 @@ fun ImportResultUI(
             )
         )
 
-
         Spacer(Modifier.height(32.dp))
 
         IvyDividerLine(
@@ -130,7 +132,6 @@ fun ImportResultUI(
         )
 
         Spacer(Modifier.height(32.dp))
-
 
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
@@ -163,7 +164,7 @@ fun ImportResultUI(
             )
         )
 
-        //TODO: Implement "See failed imports"
+        // TODO: Implement "See failed imports"
 
         if (!isManualCsvImport) {
             Spacer(modifier = Modifier.height(16.dp))
@@ -221,7 +222,6 @@ fun ImportResultUI(
     }
 }
 
-
 @Preview
 @Composable
 private fun Preview() {
@@ -236,7 +236,6 @@ private fun Preview() {
             ),
             launchedFromOnboarding = false,
         ) {
-
         }
     }
 }

@@ -160,9 +160,15 @@ private fun BoxWithConstraintsScope.UI(
                 modifier = Modifier
                     .padding(start = 32.dp)
                     .testTag("piechart_title"),
-                text = if (state.transactionType == TransactionType.EXPENSE) stringResource(R.string.expenses) else stringResource(
-                    R.string.income
-                ),
+                text = if (state.transactionType == TransactionType.EXPENSE) {
+                    stringResource(
+                        R.string.expenses
+                    )
+                } else {
+                    stringResource(
+                        R.string.income
+                    )
+                },
                 style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -222,7 +228,7 @@ private fun BoxWithConstraintsScope.UI(
         }
 
         item {
-            Spacer(Modifier.height(160.dp)) //scroll hack
+            Spacer(Modifier.height(160.dp)) // scroll hack
         }
     }
 
@@ -246,7 +252,6 @@ private fun Header(
     amount: Double,
     showCloseButtonOnly: Boolean = false,
 
-
     onShowMonthModal: () -> Unit,
     onSelectNextMonth: () -> Unit,
     onSelectPreviousMonth: () -> Unit,
@@ -268,7 +273,7 @@ private fun Header(
             onClose()
         }
 
-        //Balance mini row
+        // Balance mini row
         if (percentExpanded < 1f) {
             Spacer(Modifier.width(12.dp))
 
@@ -302,8 +307,11 @@ private fun Header(
             if (percentExpanded > 0f) {
                 Spacer(Modifier.width(12.dp))
 
-                val backgroundGradient = if (transactionType == TransactionType.EXPENSE)
-                    gradientExpenses() else GradientGreen
+                val backgroundGradient = if (transactionType == TransactionType.EXPENSE) {
+                    gradientExpenses()
+                } else {
+                    GradientGreen
+                }
                 CircleButtonFilledGradient(
                     modifier = Modifier
                         .thenIf(percentExpanded == 1f) {
@@ -314,8 +322,11 @@ private fun Header(
                     iconPadding = 4.dp,
                     icon = R.drawable.ic_plus,
                     backgroundGradient = backgroundGradient,
-                    tint = if (transactionType == TransactionType.EXPENSE)
-                        UI.colors.pure else White
+                    tint = if (transactionType == TransactionType.EXPENSE) {
+                        UI.colors.pure
+                    } else {
+                        White
+                    }
                 ) {
                     onAdd(transactionType)
                 }
@@ -323,7 +334,6 @@ private fun Header(
 
             Spacer(Modifier.width(20.dp))
         }
-
     }
 }
 
@@ -340,14 +350,14 @@ private fun CategoryAmountCard(
     val category = categoryAmount.category
     val amount = categoryAmount.amount
 
-    val categoryColor = category?.color?.toComposeColor() ?: Gray //Unspecified category = Gray
+    val categoryColor = category?.color?.toComposeColor() ?: Gray // Unspecified category = Gray
     val selectedState = when {
         selectedCategory == null -> {
-            //no selectedCategory
+            // no selectedCategory
             false
         }
         categoryAmount.category == selectedCategory.category -> {
-            //selectedCategory && we're selected
+            // selectedCategory && we're selected
             true
         }
         else -> false
@@ -389,8 +399,6 @@ private fun CategoryAmountCard(
                 )
             }
         )
-
-
 
         Spacer(Modifier.width(16.dp))
 
@@ -443,9 +451,11 @@ private fun PercentText(
     contrastColor: Color
 ) {
     Text(
-        text = if (totalAmount != 0.0)
+        text = if (totalAmount != 0.0) {
             stringResource(R.string.percent, ((amount / totalAmount) * 100).format(2))
-        else stringResource(R.string.percent, "0"),
+        } else {
+            stringResource(R.string.percent, "0")
+        },
         style = UI.typo.nB2.style(
             color = if (selectedState) contrastColor else UI.colors.pureInverse,
             fontWeight = FontWeight.Normal
@@ -462,7 +472,7 @@ private fun Preview_Expense() {
             transactionType = TransactionType.EXPENSE,
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
-            ), //preview
+            ), // preview
             baseCurrency = "BGN",
             totalAmount = 1828.0,
             categoryAmounts = listOf(
@@ -516,7 +526,7 @@ private fun Preview_Income() {
             transactionType = TransactionType.INCOME,
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
-            ), //preview
+            ), // preview
             baseCurrency = "BGN",
             totalAmount = 1828.0,
             categoryAmounts = listOf(
@@ -560,4 +570,3 @@ private fun Preview_Income() {
         UI(state = state)
     }
 }
-

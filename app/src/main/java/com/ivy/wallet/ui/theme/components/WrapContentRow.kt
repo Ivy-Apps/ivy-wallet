@@ -21,7 +21,6 @@ import com.ivy.design.l0_system.UI
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.ui.IvyWalletPreview
 
-
 @Composable
 fun <T> WrapContentRow(
     modifier: Modifier = Modifier,
@@ -53,7 +52,7 @@ fun <T> WrapContentRow(
 
         for (placeable in placeables) {
             if (x + placeable.width > constraints.maxWidth) {
-                //item is overflowing -> move it to a new row
+                // item is overflowing -> move it to a new row
                 x = 0
                 height += itemHeight + verticalMarginBetweenRows.roundToPx()
                 x += placeable.width + horizontalMarginBetweenItems.roundToPx()
@@ -65,15 +64,14 @@ fun <T> WrapContentRow(
 
         height += itemHeight
 
-
         layout(constraints.maxWidth, height) {
-            //Reset x
+            // Reset x
             x = 0
             var y = 0
 
             placeables.forEach { placeable ->
                 if (x + placeable.width > constraints.maxWidth) {
-                    //item is overflowing -> move it to a new row
+                    // item is overflowing -> move it to a new row
                     x = 0
                     y += itemHeight + verticalMarginBetweenRows.roundToPx()
                 }

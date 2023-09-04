@@ -48,10 +48,10 @@ android {
     }
 
     packagingOptions {
-        //Exclude this files so Jetpack Compose UI tests can build
+        // Exclude this files so Jetpack Compose UI tests can build
         resources.excludes.add("META-INF/AL2.0")
         resources.excludes.add("META-INF/LGPL2.1")
-        //-------------------------------------------------------
+        // -------------------------------------------------------
     }
 }
 

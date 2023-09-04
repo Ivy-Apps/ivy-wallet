@@ -15,7 +15,6 @@ import com.ivy.design.api.systems.IvyWalletDesign
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.l0_system.UI
 
-
 @Composable
 fun IvyComponentPreview(
     design: IvyDesign = defaultDesign(),

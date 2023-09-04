@@ -35,7 +35,6 @@ data class Month(
         dateNowUTC()
             .withMonth(monthValue)
 
-
     fun incrementMonthPeriod(
         ivyContext: IvyWalletCtx,
         increment: Long,

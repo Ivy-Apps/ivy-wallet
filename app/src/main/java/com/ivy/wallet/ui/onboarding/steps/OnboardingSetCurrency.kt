@@ -112,7 +112,6 @@ fun BoxWithConstraintsScope.OnboardingSetCurrency(
     ) {
         onSetCurrency(currency)
     }
-
 }
 
 @Preview
@@ -122,7 +121,6 @@ private fun Preview() {
         OnboardingSetCurrency(
             preselectedCurrency = IvyCurrency.getDefault()
         ) {
-
         }
     }
 }

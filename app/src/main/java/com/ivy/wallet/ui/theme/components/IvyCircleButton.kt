@@ -22,7 +22,6 @@ import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.utils.drawColoredShadow
 import com.ivy.wallet.utils.thenIf
 
-
 @Composable
 fun IvyCircleButton(
     modifier: Modifier = Modifier,
@@ -49,8 +48,11 @@ fun IvyCircleButton(
             .clip(UI.shapes.rFull)
             .background(
                 brush = if (enabled) {
-                    if (horizontalGradient)
-                        backgroundGradient.asHorizontalBrush() else backgroundGradient.asVerticalBrush()
+                    if (horizontalGradient) {
+                        backgroundGradient.asHorizontalBrush()
+                    } else {
+                        backgroundGradient.asVerticalBrush()
+                    }
                 } else {
                     SolidColor(UI.colors.gray)
                 },
@@ -73,7 +75,6 @@ private fun PreviewIvyCircleButton_Enabled() {
             backgroundGradient = GradientRed,
             tint = White
         ) {
-
         }
     }
 }
@@ -88,7 +89,6 @@ private fun PreviewIvyCircleButton_Disabled() {
             enabled = false,
             tint = White
         ) {
-
         }
     }
 }

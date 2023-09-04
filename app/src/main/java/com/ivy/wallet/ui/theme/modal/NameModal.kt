@@ -79,7 +79,6 @@ private fun Preview() {
             name = "Iliyan",
             dismiss = {}
         ) {
-
         }
     }
 }

@@ -57,7 +57,6 @@ import com.ivy.wallet.utils.thenIf
 import java.util.UUID
 import kotlin.math.roundToInt
 
-
 private const val DURATION_BACKGROUND_BLUR_ANIM = 400
 const val DURATION_MODAL_ANIM = 200
 
@@ -160,7 +159,7 @@ fun BoxScope.IvyModal(
 
             Content()
 
-            //Bottom padding
+            // Bottom padding
             if (includeActionsRowPadding) {
                 Spacer(Modifier.height(densityScope { actionsRowHeight.toDp() }))
             }
@@ -314,7 +313,6 @@ private fun PreviewIvyModal_minimal() {
             visible = true,
             PrimaryAction = {
                 ModalSave {
-
                 }
             },
             dismiss = {}

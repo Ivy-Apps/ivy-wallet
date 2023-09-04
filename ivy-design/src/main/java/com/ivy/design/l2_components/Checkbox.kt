@@ -85,7 +85,6 @@ private fun PreviewIvyCheckboxWithText() {
             text = "Default category",
             checked = false,
         ) {
-
         }
     }
 }

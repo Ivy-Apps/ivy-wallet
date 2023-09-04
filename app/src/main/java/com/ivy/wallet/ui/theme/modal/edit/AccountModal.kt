@@ -87,7 +87,6 @@ fun BoxWithConstraintsScope.AccountModal(
         mutableStateOf(account?.includeInBalance ?: true)
     }
 
-
     var amountModalVisible by remember { mutableStateOf(false) }
     var currencyModalVisible by remember { mutableStateOf(false) }
     var chooseIconModalVisible by remember(modal) {
@@ -131,7 +130,13 @@ fun BoxWithConstraintsScope.AccountModal(
         Spacer(Modifier.height(32.dp))
 
         ModalTitle(
-            text = if (modal?.account != null) stringResource(R.string.edit_account) else stringResource(R.string.new_account),
+            text = if (modal?.account != null) {
+                stringResource(
+                    R.string.edit_account
+                )
+            } else {
+                stringResource(R.string.new_account)
+            },
         )
 
         Spacer(Modifier.height(24.dp))
@@ -318,7 +323,7 @@ private fun AccountCurrency(
 
         val currencyName = IvyCurrency.fromCode(currencyCode)?.name ?: ""
         Text(
-            text = "-${currencyName}".toLowerCaseLocal(),
+            text = "-$currencyName".toLowerCaseLocal(),
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.SemiBold,
                 color = Gray
@@ -340,8 +345,8 @@ private fun Preview() {
                 balance = 0.0
             ),
             onCreateAccount = { },
-            onEditAccount = { _, _ -> }) {
-
+            onEditAccount = { _, _ -> }
+        ) {
         }
     }
 }

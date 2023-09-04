@@ -215,7 +215,6 @@ private fun Preview() {
             initialType = TransactionType.INCOME,
             dismiss = {}
         ) {
-
         }
     }
 }

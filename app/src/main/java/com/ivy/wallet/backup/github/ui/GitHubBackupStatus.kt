@@ -24,7 +24,6 @@ fun GitHubBackupStatus(
     val status by viewModel.backupStatus.collectAsState()
     if (status == null) return
 
-
     when (val stat = status) {
         is GitHubBackupStatus.Error -> {
             Spacer(modifier = Modifier.height(8.dp))

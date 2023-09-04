@@ -119,7 +119,7 @@ private tailrec fun LazyListScope.iconsR(
     onIconSelected: (String) -> Unit
 ) {
     if (icons.isNotEmpty()) {
-        //recurse
+        // recurse
 
         when (val currentItem = icons.first()) {
             is IconPickerSection -> {
@@ -134,7 +134,7 @@ private tailrec fun LazyListScope.iconsR(
                     Section(title = currentItem.title)
                 }
 
-                //RECURSE
+                // RECURSE
                 iconsR(
                     icons = icons.drop(1),
                     rowAcc = emptyList(),
@@ -147,10 +147,10 @@ private tailrec fun LazyListScope.iconsR(
                 )
             }
             is String -> {
-                //icon
+                // icon
 
                 if (rowAcc.size == iconsPerRow) {
-                    //recurse and reset acc
+                    // recurse and reset acc
 
                     addIconsRowIfNotEmpty(
                         rowAcc = rowAcc,
@@ -159,7 +159,7 @@ private tailrec fun LazyListScope.iconsR(
                         onIconSelected = onIconSelected
                     )
 
-                    //RECURSE
+                    // RECURSE
                     iconsR(
                         icons = icons.drop(1),
                         rowAcc = emptyList(),
@@ -171,9 +171,9 @@ private tailrec fun LazyListScope.iconsR(
 
                     )
                 } else {
-                    //recurse by filling acc
+                    // recurse by filling acc
 
-                    //RECURSE
+                    // RECURSE
                     iconsR(
                         icons = icons.drop(1),
                         rowAcc = rowAcc + currentItem,
@@ -188,7 +188,7 @@ private tailrec fun LazyListScope.iconsR(
             }
         }
     } else {
-        //end recursion
+        // end recursion
         addIconsRowIfNotEmpty(
             rowAcc = rowAcc,
             selectedIcon = selectedIcon,
@@ -313,7 +313,6 @@ private fun ChooseIconModal() {
             color = Ivy,
             dismiss = {}
         ) {
-
         }
     }
 }

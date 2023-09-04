@@ -23,7 +23,6 @@ import kotlinx.serialization.Serializable
 import timber.log.Timber
 import javax.inject.Inject
 
-
 class GitHubClient @Inject constructor(
     private val httpClient: Lazy<HttpClient>,
 ) {
@@ -138,7 +137,6 @@ class GitHubClient @Inject constructor(
                 githubToken(credentials)
             }
         }.body<GitHubFileResponse>()
-
     }) {
         null
     }

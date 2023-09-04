@@ -33,7 +33,9 @@ object CategoryValueFunctions {
                 TransactionType.EXPENSE -> amount.toBaseCurrencyOrZero(arg, accountId).negate()
                 TransactionType.TRANSFER -> BigDecimal.ZERO
             }
-        } else BigDecimal.ZERO
+        } else {
+            BigDecimal.ZERO
+        }
     }
 
     suspend fun income(
@@ -45,7 +47,9 @@ object CategoryValueFunctions {
                 TransactionType.INCOME -> amount.toBaseCurrencyOrZero(arg, accountId)
                 else -> BigDecimal.ZERO
             }
-        } else BigDecimal.ZERO
+        } else {
+            BigDecimal.ZERO
+        }
     }
 
     suspend fun expense(
@@ -57,7 +61,9 @@ object CategoryValueFunctions {
                 TransactionType.EXPENSE -> amount.toBaseCurrencyOrZero(arg, accountId)
                 else -> BigDecimal.ZERO
             }
-        } else BigDecimal.ZERO
+        } else {
+            BigDecimal.ZERO
+        }
     }
 
     suspend fun incomeCount(
@@ -69,7 +75,9 @@ object CategoryValueFunctions {
                 TransactionType.INCOME -> BigDecimal.ONE
                 else -> BigDecimal.ZERO
             }
-        } else BigDecimal.ZERO
+        } else {
+            BigDecimal.ZERO
+        }
     }
 
     suspend fun expenseCount(
@@ -81,7 +89,9 @@ object CategoryValueFunctions {
                 TransactionType.EXPENSE -> BigDecimal.ONE
                 else -> BigDecimal.ZERO
             }
-        } else BigDecimal.ZERO
+        } else {
+            BigDecimal.ZERO
+        }
     }
 
     private suspend fun BigDecimal.toBaseCurrencyOrZero(

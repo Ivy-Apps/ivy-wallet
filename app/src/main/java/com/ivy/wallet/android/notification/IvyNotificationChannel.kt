@@ -22,7 +22,6 @@ enum class IvyNotificationChannel(
         bypassDnd = false
     );
 
-
     @SuppressLint("WrongConstant")
     fun create(context: Context): NotificationChannel {
         // Create the NotificationChannel, but only on API 26+ because

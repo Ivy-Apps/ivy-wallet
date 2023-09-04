@@ -20,7 +20,7 @@ import java.time.LocalTime
 import java.util.*
 
 class IvyWalletCtx : IvyContext() {
-    //------------------------------------------ State ---------------------------------------------
+    // ------------------------------------------ State ---------------------------------------------
     var startDayOfMonth = 1
         private set
 
@@ -28,10 +28,10 @@ class IvyWalletCtx : IvyContext() {
         startDayOfMonth = day
     }
 
-    //---------------------- Optimization  ----------------------------
+    // ---------------------- Optimization  ----------------------------
     val categoryMap: MutableMap<UUID, Category> = mutableMapOf()
     val accountMap: MutableMap<UUID, Account> = mutableMapOf()
-    //---------------------- Optimization  ----------------------------
+    // ---------------------- Optimization  ----------------------------
 
     var dataBackupCompleted = false
 
@@ -42,7 +42,7 @@ class IvyWalletCtx : IvyContext() {
     }
 
     var selectedPeriod: TimePeriod = TimePeriod.currentMonth(
-        startDayOfMonth = startDayOfMonth //this is default value
+        startDayOfMonth = startDayOfMonth // this is default value
     )
     private var selectedPeriodInitialized = false
     fun initSelectedPeriodInMemory(
@@ -63,7 +63,6 @@ class IvyWalletCtx : IvyContext() {
         selectedPeriod = period
     }
 
-
     var transactionsListState: LazyListState? = null
 
     var mainTab by mutableStateOf(MainTab.HOME)
@@ -79,9 +78,9 @@ class IvyWalletCtx : IvyContext() {
     fun setMoreMenuExpanded(expanded: Boolean) {
         moreMenuExpanded = expanded
     }
-    //------------------------------------------ State ---------------------------------------------
+    // ------------------------------------------ State ---------------------------------------------
 
-    //------------------------------------------- Navigation ----------------------------------------
+    // ------------------------------------------- Navigation ----------------------------------------
     fun protectWithPaywall(
         paywallReason: PaywallReason,
         navigation: Navigation,
@@ -97,9 +96,9 @@ class IvyWalletCtx : IvyContext() {
             )
         }
     }
-    //------------------------------------------- Navigation ----------------------------------------
+    // ------------------------------------------- Navigation ----------------------------------------
 
-    //Activity help -------------------------------------------------------------------------------
+    // Activity help -------------------------------------------------------------------------------
     lateinit var onShowDatePicker: (
         minDate: LocalDate?,
         maxDate: LocalDate?,
@@ -120,11 +119,10 @@ class IvyWalletCtx : IvyContext() {
     fun timePicker(onTimePicked: (LocalTime) -> Unit) {
         onShowTimePicker(onTimePicked)
     }
-    //Activity help -------------------------------------------------------------------------------
-
+    // Activity help -------------------------------------------------------------------------------
 
     // Billing -------------------------------------------------------------------------------------
-    var isPremium = true //if (BuildConfig.DEBUG) Constants.PREMIUM_INITIAL_VALUE_DEBUG else false
+    var isPremium = true // if (BuildConfig.DEBUG) Constants.PREMIUM_INITIAL_VALUE_DEBUG else false
     // Billing -------------------------------------------------------------------------------------
 
     lateinit var googleSignIn: (idTokenResult: (String?) -> Unit) -> Unit
@@ -133,7 +131,7 @@ class IvyWalletCtx : IvyContext() {
 
     lateinit var openFile: (onOpened: (Uri) -> Unit) -> Unit
 
-    //Testing --------------------------------------------------------------------------------------
+    // Testing --------------------------------------------------------------------------------------
     fun reset() {
         mainTab = MainTab.HOME
         startDayOfMonth = 1

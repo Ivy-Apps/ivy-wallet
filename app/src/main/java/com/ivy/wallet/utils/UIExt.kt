@@ -32,7 +32,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnLayout
 import kotlin.math.roundToInt
 
-
 @Composable
 fun keyboardVisibleState(): State<Boolean> {
     val rootView = LocalView.current
@@ -52,16 +51,16 @@ fun keyboardVisibleState(): State<Boolean> {
 
 fun View.addKeyboardListener(keyboardCallback: (visible: Boolean) -> Unit) {
     doOnLayout {
-        //get init state of keyboard
+        // get init state of keyboard
         var keyboardVisible = isKeyboardOpen(this)
 
-        //callback as soon as the layout is set with whether the keyboard is open or not
+        // callback as soon as the layout is set with whether the keyboard is open or not
         keyboardCallback(keyboardVisible)
 
-        //whenever the layout resizes/changes, callback with the state of the keyboard.
+        // whenever the layout resizes/changes, callback with the state of the keyboard.
         viewTreeObserver.addOnGlobalLayoutListener {
             val keyboardUpdateCheck = isKeyboardOpen(this)
-            //since the observer is hit quite often, only callback when there is a change.
+            // since the observer is hit quite often, only callback when there is a change.
             if (keyboardUpdateCheck != keyboardVisible) {
                 keyboardCallback(keyboardUpdateCheck)
                 keyboardVisible = keyboardUpdateCheck
@@ -69,7 +68,6 @@ fun View.addKeyboardListener(keyboardCallback: (visible: Boolean) -> Unit) {
         }
     }
 }
-
 
 fun isKeyboardOpen(rootView: View): Boolean {
     return try {
@@ -133,9 +131,8 @@ fun setSystemBarTheme(pActivity: Activity, pIsDark: Boolean) {
         if (pIsDark) lFlags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv() else lFlags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 }
 
-
 fun lerp(start: Int, end: Int, @FloatRange(from = 0.0, to = 1.0) fraction: Float): Int {
-    return ((start + fraction * (end - start)).roundToInt());
+    return ((start + fraction * (end - start)).roundToInt())
 }
 
 fun lerp(start: Float, end: Float, @FloatRange(from = 0.0, to = 1.0) fraction: Float): Float {
@@ -152,7 +149,6 @@ fun colorLerp(start: Color, end: Color, fraction: Float): Color {
 
 fun hideKeyboard(view: View) {
     try {
-
         val imm: InputMethodManager =
             view.context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)

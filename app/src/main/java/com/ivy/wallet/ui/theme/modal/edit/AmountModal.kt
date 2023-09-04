@@ -68,12 +68,13 @@ fun BoxWithConstraintsScope.AmountModal(
 ) {
     var amount by remember(id) {
         mutableStateOf(
-            if (currency.isNotEmpty())
+            if (currency.isNotEmpty()) {
                 initialAmount?.takeIf { it != 0.0 }?.format(currency)
                     ?: ""
-            else
+            } else {
                 initialAmount?.takeIf { it != 0.0 }?.format(decimalCountMax)
                     ?: ""
+            }
         )
     }
 
@@ -91,7 +92,8 @@ fun BoxWithConstraintsScope.AmountModal(
                     size = 52.dp,
                     onClick = {
                         calculatorModalVisible = true
-                    })
+                    }
+                )
                     .testTag("btn_calculator")
                     .padding(all = 4.dp),
                 icon = R.drawable.ic_custom_calculator_m,
@@ -195,7 +197,7 @@ fun AmountInput(
     decimalCountMax: Int = 2,
     setAmount: (String) -> Unit,
 
-    ) {
+) {
     var firstInput by remember { mutableStateOf(true) }
 
     AmountKeyboard(
@@ -221,13 +223,15 @@ fun AmountInput(
                 setAmount("0${localDecimalSeparator()}")
                 firstInput = false
             } else {
-                val newlyEnteredString = if (amount.isEmpty())
-                    "0${localDecimalSeparator()}" else "$amount${localDecimalSeparator()}"
+                val newlyEnteredString = if (amount.isEmpty()) {
+                    "0${localDecimalSeparator()}"
+                } else {
+                    "$amount${localDecimalSeparator()}"
+                }
                 if (newlyEnteredString.amountToDoubleOrNull() != null) {
                     setAmount(newlyEnteredString)
                 }
             }
-
         },
         onBackspace = {
             if (firstInput) {
@@ -254,8 +258,10 @@ private fun formatNumber(number: String): String? {
     if (newDecimalCount <= 2 && amountDouble != null) {
         val intPart = truncate(amountDouble).toInt()
         val decimalFormatted = if (decimalPartString != null) {
-            "${localDecimalSeparator()}${decimalPartString}"
-        } else ""
+            "${localDecimalSeparator()}$decimalPartString"
+        } else {
+            ""
+        }
 
         return formatInt(intPart) + decimalFormatted
     }
@@ -403,8 +409,11 @@ fun AmountKeyboard(
     ) {
         KeypadCircleButton(
             text = localDecimalSeparator(),
-            testTag = if (forCalculator)
-                "calc_key_decimal_separator" else "key_decimal_separator"
+            testTag = if (forCalculator) {
+                "calc_key_decimal_separator"
+            } else {
+                "key_decimal_separator"
+            }
         ) {
             onDecimalPoint()
         }
@@ -443,8 +452,11 @@ fun CircleNumberButton(
 ) {
     KeypadCircleButton(
         text = value,
-        testTag = if (forCalculator)
-            "calc_key_${value}" else "key_${value}",
+        testTag = if (forCalculator) {
+            "calc_key_$value"
+        } else {
+            "key_$value"
+        },
         onClick = {
             onNumberPressed(value)
         }
@@ -507,7 +519,6 @@ private fun Preview() {
                 initialAmount = null,
                 dismiss = { }
             ) {
-
             }
         }
     }

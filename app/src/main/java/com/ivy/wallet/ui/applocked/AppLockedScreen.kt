@@ -1,6 +1,5 @@
 package com.ivy.wallet.ui.applocked
 
-
 import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -104,7 +103,7 @@ fun BoxWithConstraintsScope.AppLockedScreen(
         }
         Spacer(Modifier.height(24.dp))
 
-        //To automatically launch the biometric screen on load of this composable
+        // To automatically launch the biometric screen on load of this composable
         LaunchedEffect(true) {
             osAuthentication(
                 context = context,

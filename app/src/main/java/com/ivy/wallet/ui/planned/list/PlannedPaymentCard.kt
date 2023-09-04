@@ -235,7 +235,7 @@ private fun RuleTextRow(
             val intervalTypeFormatted = intervalType?.forDisplay(intervalN ?: 0)?.uppercaseLocal()
             Text(
                 modifier = Modifier.padding(bottom = 1.dp),
-                text = stringResource(R.string.repeats_every, intervalN ?: 0 , intervalTypeFormatted ?: ""),
+                text = stringResource(R.string.repeats_every, intervalN ?: 0, intervalTypeFormatted ?: ""),
                 style = UI.typo.nC.style(
                     color = Orange,
                     fontWeight = FontWeight.ExtraBold
@@ -244,7 +244,6 @@ private fun RuleTextRow(
         }
 
         Spacer(Modifier.width(24.dp))
-
     }
 }
 
@@ -275,7 +274,6 @@ private fun Preview_oneTime() {
                         type = TransactionType.EXPENSE
                     )
                 ) {
-
                 }
             }
         }
@@ -309,7 +307,6 @@ private fun Preview_recurring() {
                         type = TransactionType.EXPENSE
                     )
                 ) {
-
                 }
             }
         }
@@ -343,7 +340,6 @@ private fun Preview_recurringError() {
                         type = TransactionType.EXPENSE
                     )
                 ) {
-
                 }
             }
         }

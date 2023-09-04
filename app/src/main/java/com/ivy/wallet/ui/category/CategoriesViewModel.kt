@@ -72,7 +72,7 @@ class CategoriesViewModel @Inject constructor(
         ioThread {
             val range = TimePeriod.currentMonth(
                 startDayOfMonth = ivyContext.startDayOfMonth
-            ).toRange(ivyContext.startDayOfMonth) //this must be monthly
+            ).toRange(ivyContext.startDayOfMonth) // this must be monthly
 
             allAccounts = accountsAct(Unit)
             baseCurrency = baseCurrencyAct(Unit)
@@ -81,7 +81,7 @@ class CategoriesViewModel @Inject constructor(
                 TrnsWithRangeAndAccFiltersAct.Input(
                     range = range,
                     accountIdFilterSet = suspend { allAccounts } thenMap { it.id }
-                            thenInvokeAfter { it.toHashSet() }
+                        thenInvokeAfter { it.toHashSet() }
                 )
             )
 

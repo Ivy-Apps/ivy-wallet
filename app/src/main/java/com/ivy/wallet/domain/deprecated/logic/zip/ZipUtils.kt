@@ -37,16 +37,19 @@ private fun zip(
             zip(outStream, file.listFiles()?.toList() ?: emptyList(), includeParentFolder = true)
         } else {
             val fileLoc: String =
-                if (file.parent.isNullOrEmpty() || !includeParentFolder) file.name else (file.parent!!).substring(
-                    file.parent!!.lastIndexOf("/")
-                ) + "/" + file.name
+                if (file.parent.isNullOrEmpty() || !includeParentFolder) {
+                    file.name
+                } else {
+                    (file.parent!!).substring(
+                        file.parent!!.lastIndexOf("/")
+                    ) + "/" + file.name
+                }
 
             outStream.putNextEntry(ZipEntry(fileLoc))
             BufferedInputStream(FileInputStream(file)).use { inStream ->
                 inStream.copyTo(outStream)
             }
         }
-
     }
 }
 
@@ -67,14 +70,18 @@ fun unzip(context: Context, zipFile: Uri, location: File) {
 }
 
 private fun unzip(inStream: ZipInputStream, location: File) {
-    if (location.exists() && !location.isDirectory)
+    if (location.exists() && !location.isDirectory) {
         throw IllegalStateException("Location file must be directory or not exist")
+    }
 
     if (!location.isDirectory) location.mkdirs()
 
     val locationPath = location.absolutePath.let {
-        if (!it.endsWith(File.separator)) "$it${File.separator}"
-        else it
+        if (!it.endsWith(File.separator)) {
+            "$it${File.separator}"
+        } else {
+            it
+        }
     }
 
     var zipEntry: ZipEntry?

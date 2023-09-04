@@ -74,7 +74,7 @@ class PieChartAct @Inject constructor(
                 type = type,
                 baseCurrency = baseCurrency,
                 allCategories = suspend {
-                    categoriesAct(Unit).plus(null) //for unspecified
+                    categoriesAct(Unit).plus(null) // for unspecified
                 },
                 transactions = suspend { transactions },
                 accountsUsed = suspend { accountsUsed },
@@ -94,7 +94,6 @@ class PieChartAct @Inject constructor(
 
         Pair(incomeExpenseTransfer, categoryAmounts())
     } then {
-
         val totalAmount = calculateTotalAmount(
             type = type,
             treatTransferAsIncExp = treatTransferAsIncExp,
@@ -115,13 +114,13 @@ class PieChartAct @Inject constructor(
         @SideEffect
         allAccounts: suspend () -> List<Account>
     ): Pair<List<Account>, Set<UUID>> {
-
-        val accountsUsed = if (accountIdFilterList.isEmpty())
+        val accountsUsed = if (accountIdFilterList.isEmpty()) {
             allAccounts then ::filterExcluded
-        else
+        } else {
             allAccounts thenFilter {
                 accountIdFilterList.contains(it.id)
             }
+        }
 
         val accountsUsedIDSet = accountsUsed thenMap { it.id } then { it.toHashSet() }
 
@@ -148,12 +147,13 @@ class PieChartAct @Inject constructor(
 
         val catAmtList = allCategories thenMap { category ->
             val categoryTransactions = asyncIo {
-                if (addAssociatedTransToCategoryAmt)
+                if (addAssociatedTransToCategoryAmt) {
                     trans.filter {
                         it.type == type && it.categoryId == category?.id
                     }
-                else
+                } else {
                     emptyList()
+                }
             }
 
             val catIncomeExpense = categoryIncomeWithAccountFiltersAct(
@@ -196,18 +196,20 @@ class PieChartAct @Inject constructor(
         return when (type) {
             TransactionType.INCOME -> {
                 incExpQuad.income +
-                        if (treatTransferAsIncExp)
-                            incExpQuad.transferIncome
-                        else
-                            BigDecimal.ZERO
+                    if (treatTransferAsIncExp) {
+                        incExpQuad.transferIncome
+                    } else {
+                        BigDecimal.ZERO
+                    }
             }
 
             TransactionType.EXPENSE -> {
                 incExpQuad.expense +
-                        if (treatTransferAsIncExp)
-                            incExpQuad.transferExpense
-                        else
-                            BigDecimal.ZERO
+                    if (treatTransferAsIncExp) {
+                        incExpQuad.transferExpense
+                    } else {
+                        BigDecimal.ZERO
+                    }
             }
 
             else -> BigDecimal.ZERO
@@ -230,26 +232,26 @@ class PieChartAct @Inject constructor(
         @SideEffect
         categoryAmounts: suspend () -> List<CategoryAmount>
     ): List<CategoryAmount> {
-
         val incExpQuad = incomeExpenseTransfer()
 
         val catAmtList =
-            if (!showAccountTransfersCategory || incExpQuad.transferIncome == BigDecimal.ZERO && incExpQuad.transferExpense == BigDecimal.ZERO)
+            if (!showAccountTransfersCategory || incExpQuad.transferIncome == BigDecimal.ZERO && incExpQuad.transferExpense == BigDecimal.ZERO) {
                 categoryAmounts then { it.sortedByDescending { ca -> ca.amount } }
-            else {
-
-                val amt = if (type == TransactionType.INCOME)
+            } else {
+                val amt = if (type == TransactionType.INCOME) {
                     incExpQuad.transferIncome.toDouble()
-                else
+                } else {
                     incExpQuad.transferExpense.toDouble()
+                }
 
                 val categoryTrans = transactions().filter {
                     it.type == TransactionType.TRANSFER && it.categoryId == null
                 }.filter {
-                    if (type == TransactionType.EXPENSE)
+                    if (type == TransactionType.EXPENSE) {
                         accountIdFilterSet.contains(it.accountId)
-                    else
+                    } else {
                         accountIdFilterSet.contains(it.toAccountId)
+                    }
                 }
 
                 categoryAmounts then {

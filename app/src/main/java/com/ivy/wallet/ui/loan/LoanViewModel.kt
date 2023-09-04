@@ -172,7 +172,6 @@ class LoanViewModel @Inject constructor(
     private fun defaultAccountId(
         accounts: List<Account>,
     ): Account? {
-
         val lastSelectedId =
             sharedPrefs.getString(SharedPrefs.LAST_SELECTED_ACCOUNT_ID, null)?.let {
                 UUID.fromString(it)

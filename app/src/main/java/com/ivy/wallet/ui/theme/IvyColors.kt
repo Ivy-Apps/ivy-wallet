@@ -15,11 +15,10 @@ import androidx.core.graphics.ColorUtils
 import com.ivy.design.l0_system.UI
 import com.ivy.wallet.utils.densityScope
 
-
 val White = Color(0xFFFAFAFA)
 val Black = Color(0xFF111114)
 
-//Primary
+// Primary
 val Ivy = Color(0xFF6B4DFF)
 val Purple1 = Color(0xFFC34CFF)
 val Purple2 = Color(0xFFFF4CFF)
@@ -43,8 +42,7 @@ val Red = Color(0xFFFF4060)
 val Red2 = Color(0xFFE62E2E)
 val Red3 = Color(0xFFFF4CA6)
 
-
-//Light
+// Light
 val IvyLight = Color(0xFFD5CCFF)
 val Purple1Light = Color(0xFFEECCFF)
 val Purple2Light = Color(0xFFFFBFFF)
@@ -68,8 +66,7 @@ val RedLight = Color(0xFFFFCCD5)
 val Red2Light = Color(0xFFFFB3B3)
 val Red3Light = Color(0xFFFFCCE6)
 
-
-//Dark
+// Dark
 val IvyDark = Color(0xFF352680)
 val Purple1Dark = Color(0xFF622680)
 val Purple2Dark = Color(0xFF802680)
@@ -92,13 +89,11 @@ val Orange3Dark = Color(0xFF806226)
 val RedDark = Color(0xFF801919)
 val Red2Dark = Color(0xFF802030)
 val Red3Dark = Color(0xFF802653)
-//--------------------------------------------------------------------------------------------------
-
+// --------------------------------------------------------------------------------------------------
 
 val MediumBlack = Color(0xFF2B2C2D)
 val Gray = Color(0xFF939199)
 val MediumWhite = Color(0xFFEFEEF0)
-
 
 val Transparent = Color(0x00000000)
 
@@ -108,7 +103,6 @@ val GradientOrange = Gradient(Orange, OrangeLight)
 val GradientOrangeDark = Gradient(OrangeDark, Color(0xFFF2CD9E))
 val GradientOrangeRevert = Gradient(Color(0xFFF2CD9E), Orange)
 val GradientIvy = Gradient(Ivy, Color(0xFFAA99FF))
-
 
 fun Color.asBrush(): Brush {
     return Brush.horizontalGradient(colors = listOf(this, this))
@@ -216,7 +210,7 @@ fun Color.dynamicContrast(): Color {
 
     return when {
         pickedColor.s >= 0.5f && pickedColor.v >= 0.4f -> {
-            //Primary
+            // Primary
             if (isDarkColor(this)) {
                 lighten()
             } else {
@@ -224,11 +218,11 @@ fun Color.dynamicContrast(): Color {
             }
         }
         pickedColor.s <= 0.5f && pickedColor.v >= 0.8f -> {
-            //Light
+            // Light
             darken()
         }
         pickedColor.s >= 0.1f && pickedColor.v <= 0.6f -> {
-            //Dark
+            // Dark
             lighten()
         }
         else -> {

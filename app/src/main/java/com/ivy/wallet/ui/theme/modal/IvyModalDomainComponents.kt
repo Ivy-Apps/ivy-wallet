@@ -63,7 +63,6 @@ fun ModalAmountSection(
             spacerDecimal = 4.dp,
             spacerCurrency = 8.dp,
 
-
             integerFontSize = 40.sp,
             decimalFontSize = 18.sp,
             currencyFontSize = 30.sp,

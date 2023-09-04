@@ -9,7 +9,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 
-
 @Composable
 fun TransactionsDividerLine(
     modifier: Modifier = Modifier,

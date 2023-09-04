@@ -49,7 +49,6 @@ private fun Preview() {
         IconButton(
             icon = R.drawable.ic_baseline_add_24
         ) {
-
         }
     }
 }

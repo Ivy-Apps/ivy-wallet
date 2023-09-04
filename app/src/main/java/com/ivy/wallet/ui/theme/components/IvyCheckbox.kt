@@ -24,7 +24,6 @@ import com.ivy.wallet.R
 import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.utils.clickableNoIndication
 
-
 @Composable
 fun IvyCheckbox(
     modifier: Modifier = Modifier,
@@ -87,7 +86,6 @@ private fun PreviewIvyCheckboxWithText() {
             text = "Default category",
             checked = false,
         ) {
-
         }
     }
 }

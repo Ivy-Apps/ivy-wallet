@@ -18,9 +18,7 @@ import com.ivy.wallet.utils.sendToCrashlytics
 import timber.log.Timber
 import javax.inject.Inject
 
-class IvyBilling @Inject constructor(
-
-) {
+class IvyBilling @Inject constructor() {
     companion object {
         private const val MONTHLY_V1 = "monthly_v1"
         private const val SIX_MONTH_V1 = "six_month_v1"
@@ -69,7 +67,6 @@ class IvyBilling @Inject constructor(
             } else {
                 onError(billingResult.responseCode, billingResult.debugMessage)
             }
-
         }
 
         billingClient = BillingClient.newBuilder(activity)
@@ -214,7 +211,9 @@ class IvyBilling @Inject constructor(
                             .build()
                     )
                 }
-                Timber.i("Acknowledge purchase result, code=${acknowledgeResult.responseCode}: ${acknowledgeResult.debugMessage}")
+                Timber.i(
+                    "Acknowledge purchase result, code=${acknowledgeResult.responseCode}: ${acknowledgeResult.debugMessage}"
+                )
             }
         }
     }

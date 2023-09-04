@@ -25,7 +25,6 @@ class IvyAndroidApp : Application(), Configuration.Provider {
         lateinit var appContext: Context
     }
 
-
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
@@ -49,7 +48,7 @@ fun stringRes(
     @StringRes id: Int,
     vararg args: String
 ): String {
-    //I don't want strings.xml to handle something different than String at this point
+    // I don't want strings.xml to handle something different than String at this point
     return IvyAndroidApp.appContext.getString(id, *args)
 }
 

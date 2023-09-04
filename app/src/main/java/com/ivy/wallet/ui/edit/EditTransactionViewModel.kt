@@ -116,7 +116,7 @@ class EditTransactionViewModel @Inject constructor(
         MutableStateFlow(EditTransactionDisplayLoan())
     val displayLoanHelper = _displayLoanHelper.asStateFlow()
 
-    //This is used to when the transaction is associated with a loan/loan record,
+    // This is used to when the transaction is associated with a loan/loan record,
     // used to indicate the background updating of loan/loanRecord data
     private val _backgroundProcessingStarted = MutableStateFlow(false)
     val backgroundProcessingStarted = _backgroundProcessingStarted.asStateFlow()
@@ -127,7 +127,7 @@ class EditTransactionViewModel @Inject constructor(
     private var loadedTransaction: Transaction? = null
     private var editMode = false
 
-    //Used for optimising in updating all loan/loanRecords
+    // Used for optimising in updating all loan/loanRecords
     private var accountsChanged = false
 
     var title: String? = null
@@ -172,26 +172,30 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     private suspend fun getDisplayLoanHelper(trans: Transaction): EditTransactionDisplayLoan {
-        if (trans.loanId == null)
+        if (trans.loanId == null) {
             return EditTransactionDisplayLoan()
+        }
 
         val loan =
             ioThread { loanDao.findById(trans.loanId) } ?: return EditTransactionDisplayLoan()
         val isLoanRecord = trans.loanRecordId != null
 
-        val loanWarningDescription = if (isLoanRecord)
+        val loanWarningDescription = if (isLoanRecord) {
             "Note: This transaction is associated with a Loan Record of Loan : ${loan.name}\n" +
-                    "You are trying to change the account associated with the loan record to an account of different currency" +
-                    "\n The Loan Record will be re-calculated based on today's currency exchanges rates"
-        else {
+                "You are trying to change the account associated with the loan record to an account of different currency" +
+                "\n The Loan Record will be re-calculated based on today's currency exchanges rates"
+        } else {
             "Note: You are trying to change the account associated with the loan: ${loan.name} with an account " +
-                    "of different currency, " +
-                    "\nAll the loan records will be re-calculated based on today's currency exchanges rates "
+                "of different currency, " +
+                "\nAll the loan records will be re-calculated based on today's currency exchanges rates "
         }
 
         val loanCaption =
-            if (isLoanRecord) "* This transaction is associated with a Loan Record of Loan : ${loan.name}"
-            else "* This transaction is associated with Loan : ${loan.name}"
+            if (isLoanRecord) {
+                "* This transaction is associated with a Loan Record of Loan : ${loan.name}"
+            } else {
+                "* This transaction is associated with Loan : ${loan.name}"
+            }
 
         return EditTransactionDisplayLoan(
             isLoan = true,
@@ -212,7 +216,7 @@ class EditTransactionViewModel @Inject constructor(
         val lastSelectedId = sharedPrefs.getString(SharedPrefs.LAST_SELECTED_ACCOUNT_ID, null)
             ?.let { UUID.fromString(it) }
         if (lastSelectedId != null && ioThread { accounts.find { it.id == lastSelectedId } } != null) {
-            //use last selected account
+            // use last selected account
             return lastSelectedId
         }
 
@@ -239,9 +243,9 @@ class EditTransactionViewModel @Inject constructor(
 
         updateCurrency(account = selectedAccount)
 
-        _customExchangeRateState.value = if (transaction.toAccountId == null)
+        _customExchangeRateState.value = if (transaction.toAccountId == null) {
             CustomExchangeRateState()
-        else {
+        } else {
             val exchangeRate = transaction.toAmount / transaction.amount
             val toAccountCurrency =
                 _accounts.value.find { acc -> acc.id == transaction.toAccountId }?.currency
@@ -339,7 +343,7 @@ class EditTransactionViewModel @Inject constructor(
 
             accountsChanged = true
 
-            //update last selected account
+            // update last selected account
             sharedPrefs.putString(SharedPrefs.LAST_SELECTED_ACCOUNT_ID, newAccount.id.toString())
 
             saveIfEditMode()
@@ -389,7 +393,6 @@ class EditTransactionViewModel @Inject constructor(
         saveIfEditMode()
     }
 
-
     fun onPayPlannedPayment() {
         viewModelScope.launch {
             TestIdlingResource.increment()
@@ -410,7 +413,6 @@ class EditTransactionViewModel @Inject constructor(
             TestIdlingResource.decrement()
         }
     }
-
 
     fun delete() {
         viewModelScope.launch {
@@ -434,7 +436,7 @@ class EditTransactionViewModel @Inject constructor(
             categoryCreator.createCategory(data) {
                 _categories.value = categoriesAct(Unit)
 
-                //Select the newly created category
+                // Select the newly created category
                 onCategoryChanged(it)
             }
 
@@ -512,7 +514,7 @@ class EditTransactionViewModel @Inject constructor(
                     dueDate = dueDate.value,
                     dateTime = when {
                         loadedTransaction().dateTime == null &&
-                                dueDate.value == null -> {
+                            dueDate.value == null -> {
                             timeNowUTC()
                         }
 
@@ -534,7 +536,7 @@ class EditTransactionViewModel @Inject constructor(
                         accountsChanged = accountsChanged
                     )
 
-                    //Reset Counter
+                    // Reset Counter
                     accountsChanged = false
                 }
 
@@ -622,18 +624,18 @@ class EditTransactionViewModel @Inject constructor(
             }
 
             val exRate = exchangeRate
-                ?: if (customExchangeRateState.value.showCard && toAccCurrencyCode == customExchangeRateState.value.toCurrencyCode
-                    && fromAccCurrencyCode == customExchangeRateState.value.fromCurrencyCode && !resetRate
-                )
+                ?: if (customExchangeRateState.value.showCard && toAccCurrencyCode == customExchangeRateState.value.toCurrencyCode &&
+                    fromAccCurrencyCode == customExchangeRateState.value.fromCurrencyCode && !resetRate
+                ) {
                     customExchangeRateState.value.exchangeRate
-                else
+                } else {
                     exchangeRatesLogic.convertAmount(
                         baseCurrency = baseUserCurrency,
                         amount = 1.0,
                         fromCurrency = fromAccCurrencyCode,
                         toCurrency = toAccCurrencyCode
                     )
-
+                }
 
             val amount = amt ?: _amount.value ?: 0.0
 

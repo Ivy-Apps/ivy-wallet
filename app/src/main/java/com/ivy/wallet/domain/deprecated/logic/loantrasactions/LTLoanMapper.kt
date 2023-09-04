@@ -62,12 +62,12 @@ class LTLoanMapper(
     ) {
         val accounts = ltCore.fetchAccounts().map { it.toDomain() }
         computationThread {
-
             if (oldLoanAccountId == newLoanAccountId || oldLoanAccountId.fetchAssociatedCurrencyCode(
                     accounts
                 ) == newLoanAccountId.fetchAssociatedCurrencyCode(accounts)
-            )
+            ) {
                 return@computationThread
+            }
 
             val newLoanRecords = calculateLoanRecords(
                 loanId = loanId,

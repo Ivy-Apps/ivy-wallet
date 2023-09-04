@@ -27,7 +27,6 @@ import com.ivy.wallet.utils.hideKeyboard
 import com.ivy.wallet.utils.isNotNullOrBlank
 import com.ivy.wallet.utils.selectEndTextFieldValue
 
-
 @Composable
 fun IvyBasicTextField(
     modifier: Modifier = Modifier,

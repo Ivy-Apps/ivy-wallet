@@ -58,7 +58,7 @@ class ImportViewModel @Inject constructor(
                     true
                 }
                 ImportStep.LOADING -> {
-                    //do nothing, disable back
+                    // do nothing, disable back
                     true
                 }
                 ImportStep.RESULT -> {
@@ -80,9 +80,9 @@ class ImportViewModel @Inject constructor(
 
                 _importStep.value = ImportStep.LOADING
 
-                _importResult.value = if (hasCSVExtension(context, fileUri))
+                _importResult.value = if (hasCSVExtension(context, fileUri)) {
                     restoreCSVFile(fileUri = fileUri, importType = importType)
-                else {
+                } else {
                     backupLogic.import(
                         backupFileUri = fileUri
                     ) { progressPercent ->

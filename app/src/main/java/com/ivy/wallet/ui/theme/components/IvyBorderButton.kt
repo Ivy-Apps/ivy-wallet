@@ -27,7 +27,6 @@ import com.ivy.wallet.R
 import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.Gradient
 
-
 @Composable
 fun IvyBorderButton(
     modifier: Modifier = Modifier,
@@ -51,14 +50,16 @@ fun IvyBorderButton(
             .clip(UI.shapes.rFull)
             .border(
                 width = 2.dp,
-                brush = if (enabled)
-                    backgroundGradient.asHorizontalBrush() else SolidColor(UI.colors.gray),
+                brush = if (enabled) {
+                    backgroundGradient.asHorizontalBrush()
+                } else {
+                    SolidColor(UI.colors.gray)
+                },
                 shape = UI.shapes.rFull
             )
             .clickable(onClick = onClick, enabled = enabled),
         verticalAlignment = Alignment.CenterVertically
     ) {
-
         when {
             iconStart != null -> {
                 IconStart(
@@ -155,7 +156,6 @@ private fun PreviewIvyBorderButton() {
             text = "New label",
             iconStart = R.drawable.ic_label_hashtag
         ) {
-
         }
     }
 }

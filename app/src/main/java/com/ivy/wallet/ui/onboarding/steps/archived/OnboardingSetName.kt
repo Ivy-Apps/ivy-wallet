@@ -100,7 +100,6 @@ fun OnboardingSetName(
 
         Spacer(Modifier.weight(1f))
 
-
         var nameTextField by remember { mutableStateOf(TextFieldValue("")) }
 
         val nameFocus = FocusRequester()
@@ -161,7 +160,6 @@ fun OnboardingSetName(
 private fun Preview() {
     IvyWalletPreview {
         OnboardingSetName {
-
         }
     }
 }

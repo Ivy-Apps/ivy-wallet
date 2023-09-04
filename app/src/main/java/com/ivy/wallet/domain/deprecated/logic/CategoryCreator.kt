@@ -42,7 +42,6 @@ class CategoryCreator(
         }
     }
 
-
     suspend fun editCategory(
         updatedCategory: Category,
         onRefreshUI: suspend (Category) -> Unit
@@ -62,6 +61,5 @@ class CategoryCreator(
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
 }

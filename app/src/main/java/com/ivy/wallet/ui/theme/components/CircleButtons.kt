@@ -20,7 +20,6 @@ import com.ivy.wallet.R
 import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.Gradient
 
-
 @Composable
 fun CloseButton(
     modifier: Modifier = Modifier,
@@ -50,7 +49,7 @@ fun CircleButton(
             .clickable(onClick = onClick)
             .background(backgroundColor, CircleShape)
             .border(2.dp, borderColor, CircleShape)
-            .padding(6.dp), //enlarge click area
+            .padding(6.dp), // enlarge click area
         painter = painterResource(id = icon),
         contentDescription = contentDescription,
         tint = tint ?: Color.Unspecified
@@ -72,7 +71,7 @@ fun CircleButtonFilled(
             .clip(CircleShape)
             .clickable(onClick = onClick)
             .background(backgroundColor, CircleShape)
-            .padding(clickAreaPadding), //enlarge click area
+            .padding(clickAreaPadding), // enlarge click area
         painter = painterResource(id = icon),
         contentDescription = contentDescription,
         tint = tint ?: Color.Unspecified
@@ -94,7 +93,7 @@ fun CircleButtonFilledGradient(
             .clip(CircleShape)
             .clickable(onClick = onClick)
             .background(backgroundGradient.asHorizontalBrush(), CircleShape)
-            .padding(iconPadding), //enlarge click area
+            .padding(iconPadding), // enlarge click area
 
         painter = painterResource(id = icon),
         contentDescription = contentDescription,
@@ -120,7 +119,6 @@ fun BackButton(
 private fun PreviewCloseButton() {
     IvyWalletComponentPreview {
         CloseButton {
-
         }
     }
 }
@@ -130,7 +128,6 @@ private fun PreviewCloseButton() {
 private fun PreviewBackButton() {
     IvyWalletComponentPreview {
         BackButton {
-
         }
     }
 }

@@ -155,7 +155,6 @@ class EditPlannedViewModel @Inject constructor(
 
     private suspend fun baseCurrency(): String = ioThread { settingsDao.findFirst().currency }
 
-
     fun onRuleChanged(
         startDate: LocalDateTime,
         oneTime: Boolean,
@@ -297,9 +296,9 @@ class EditPlannedViewModel @Inject constructor(
 
     private fun validateRecurring(): Boolean {
         return startDate.value != null &&
-                intervalN.value != null &&
-                intervalN.value!! > 0 &&
-                intervalType.value != null
+            intervalN.value != null &&
+            intervalN.value!! > 0 &&
+            intervalType.value != null
     }
 
     fun delete() {

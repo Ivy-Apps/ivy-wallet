@@ -43,7 +43,6 @@ import kotlin.math.absoluteValue
 fun PlannedPaymentsLazyColumn(
     Header: @Composable () -> Unit,
 
-
     currency: String,
     categories: List<Category>,
     accounts: List<Account>,
@@ -52,7 +51,6 @@ fun PlannedPaymentsLazyColumn(
     oneTime: List<PlannedPaymentRule>,
     oneTimeIncome: Double,
     oneTimeExpenses: Double,
-
 
     recurring: List<PlannedPaymentRule>,
     recurringIncome: Double,
@@ -111,7 +109,6 @@ private fun LazyListScope.plannedPaymentItems(
     oneTimeExpanded: Boolean,
     setOneTimeExpanded: (Boolean) -> Unit,
 
-
     recurring: List<PlannedPaymentRule>,
     recurringIncome: Double,
     recurringExpenses: Double,
@@ -119,7 +116,6 @@ private fun LazyListScope.plannedPaymentItems(
     setRecurringExpanded: (Boolean) -> Unit
 ) {
     if (oneTime.isNotEmpty()) {
-
         item {
             SectionDivider(
                 expanded = oneTimeExpanded,
@@ -151,7 +147,6 @@ private fun LazyListScope.plannedPaymentItems(
     }
 
     if (recurring.isNotEmpty()) {
-
         item {
             SectionDivider(
                 expanded = recurringExpanded,
@@ -189,7 +184,7 @@ private fun LazyListScope.plannedPaymentItems(
     }
 
     item {
-        //last spacer - scroll hack
+        // last spacer - scroll hack
         Spacer(Modifier.height(150.dp))
     }
 }
@@ -206,8 +201,6 @@ private fun onPlannedPaymentClick(
         )
     )
 }
-
-
 
 @Composable
 private fun LazyItemScope.NoPlannedPaymentsEmptyState() {

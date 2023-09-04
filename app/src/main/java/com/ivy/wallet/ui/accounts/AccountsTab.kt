@@ -98,7 +98,6 @@ private fun BoxWithConstraintsScope.UI(
                 }
             ),
     ) {
-
         item {
             Spacer(Modifier.height(32.dp))
 
@@ -165,7 +164,7 @@ private fun BoxWithConstraintsScope.UI(
         }
 
         item {
-            Spacer(Modifier.height(150.dp))     //scroll hack
+            Spacer(Modifier.height(150.dp)) // scroll hack
         }
     }
 
@@ -383,7 +382,9 @@ private fun PreviewAccountsTab() {
             ),
             totalBalanceWithExcluded = 25.54,
             totalBalanceWithExcludedText = UiText.StringResource(
-                R.string.total, "BGN", "25.54"
+                R.string.total,
+                "BGN",
+                "25.54"
             )
         )
 

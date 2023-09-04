@@ -170,7 +170,6 @@ private fun Preview_budget_0() {
                 currency = "BGN"
             )
         }
-
     }
 }
 
@@ -191,7 +190,6 @@ private fun Preview_expenses_0() {
                 currency = "BGN"
             )
         }
-
     }
 }
 
@@ -212,7 +210,6 @@ private fun Preview_spent_very_low() {
                 currency = "BGN"
             )
         }
-
     }
 }
 
@@ -233,7 +230,6 @@ private fun Preview_buffer_25() {
                 currency = "BGN"
             )
         }
-
     }
 }
 
@@ -254,7 +250,6 @@ private fun Preview_buffer_50() {
                 currency = "BGN"
             )
         }
-
     }
 }
 
@@ -275,7 +270,6 @@ private fun Preview_buffer_75() {
                 currency = "BGN"
             )
         }
-
     }
 }
 
@@ -296,7 +290,6 @@ private fun Preview_buffer_90() {
                 currency = "BGN"
             )
         }
-
     }
 }
 
@@ -317,7 +310,6 @@ private fun Preview_buffer_100() {
                 currency = "BGN"
             )
         }
-
     }
 }
 
@@ -338,7 +330,6 @@ private fun Preview_buffer_125() {
                 currency = "BGN"
             )
         }
-
     }
 }
 
@@ -359,6 +350,5 @@ private fun Preview_expenses_negative() {
                 currency = "BGN"
             )
         }
-
     }
 }

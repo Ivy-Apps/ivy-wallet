@@ -18,10 +18,11 @@ class CategoryIncomeWithAccountFiltersAct @Inject constructor(
         transactions.filter {
             it.categoryId == category?.id
         }.filter {
-            if (accountFilterSet.isEmpty())
+            if (accountFilterSet.isEmpty()) {
                 true
-            else
+            } else {
                 accountFilterSet.contains(it.accountId)
+            }
         }
     } then {
         CalcTrnsIncomeExpenseAct.Input(

@@ -67,7 +67,6 @@ fun BoxWithConstraintsScope.CategoryModal(
         mutableStateOf(initialCategory?.icon)
     }
 
-
     var chooseIconModalVisible by remember(modal) {
         mutableStateOf(false)
     }
@@ -106,10 +105,13 @@ fun BoxWithConstraintsScope.CategoryModal(
         Spacer(Modifier.height(32.dp))
 
         ModalTitle(
-            text = if (modal?.category != null) stringResource(R.string.edit_category)
-            else stringResource(
-                R.string.create_category
-            )
+            text = if (modal?.category != null) {
+                stringResource(R.string.edit_category)
+            } else {
+                stringResource(
+                    R.string.create_category
+                )
+            }
         )
 
         Spacer(Modifier.height(24.dp))
@@ -148,7 +150,6 @@ fun BoxWithConstraintsScope.CategoryModal(
         icon = it
     }
 }
-
 
 @Composable
 fun IconNameRow(
@@ -224,7 +225,6 @@ private fun PreviewCategoryModal() {
             onCreateCategory = { },
             onEditCategory = { }
         ) {
-
         }
     }
 }

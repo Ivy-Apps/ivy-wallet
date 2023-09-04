@@ -59,7 +59,6 @@ class ExchangeRatesViewModel @Inject constructor(
         rate = entity.rate
     )
 
-
     // region Event Handling
     fun onEvent(event: RatesEvent) {
         viewModelScope.launch {

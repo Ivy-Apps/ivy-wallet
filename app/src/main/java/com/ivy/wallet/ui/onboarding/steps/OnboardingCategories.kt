@@ -205,7 +205,6 @@ fun BoxWithConstraintsScope.OnboardingCategories(
     )
 }
 
-
 @Composable
 private fun Categories(
     categories: List<Category>,

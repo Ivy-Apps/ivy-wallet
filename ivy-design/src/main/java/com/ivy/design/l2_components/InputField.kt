@@ -25,7 +25,6 @@ import com.ivy.design.l0_system.*
 import com.ivy.design.utils.*
 import kotlin.math.roundToInt
 
-
 /**
  * Limitations:
  * - font cannot be set
@@ -104,17 +103,17 @@ fun InputField(
                     )
                 }
                 else -> {
-                    //do nothing, no need to set input type
+                    // do nothing, no need to set input type
                 }
             }
 
-            //Log focus.triggerRecomposition so recomposition can be triggered
+            // Log focus.triggerRecomposition so recomposition can be triggered
             Log.d("ivyInputField", "Triggering recomposition: ${focus?.triggerRecomposition}")
             if (focus?.consumeFocus() == true) {
                 it.requestFocus()
                 it.selectTextEnd()
                 postDelayed(100) {
-                    //ensure that the EditText is initialized
+                    // ensure that the EditText is initialized
                     it.showKeyboard()
                 }
             }
@@ -143,12 +142,11 @@ private fun EditText.dynamicStyle(
         else -> EditText.TEXT_ALIGNMENT_VIEW_START
     }
 
-
-    //hint text size cannot be set to EditText
+    // hint text size cannot be set to EditText
     setHintTextColor(hintStyle.color.toArgb())
-    //hint text alignment cannot be set to EditText
+    // hint text alignment cannot be set to EditText
 
-    //restore original selection
+    // restore original selection
     setSelection(originalSelection)
 }
 
@@ -163,7 +161,7 @@ fun EditText.setupInputType(
         }
         IvyInputType.LONG_TEXT -> {
             InputType.TYPE_CLASS_TEXT or
-                    InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
+                InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
         }
         IvyInputType.NAMES -> {
             InputType.TYPE_TEXT_VARIATION_PERSON_NAME or InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
@@ -192,7 +190,7 @@ fun EditText.setupInputType(
     }
 
     if (inputType != IvyInputType.LONG_TEXT) {
-        //Make sure we don't break the default new line action
+        // Make sure we don't break the default new line action
         imeOptions = when (imeAction) {
             IvyImeAction.DONE -> EditorInfo.IME_ACTION_DONE
             IvyImeAction.NEXT -> EditorInfo.IME_ACTION_NEXT
@@ -213,7 +211,7 @@ fun EditText.setupInputType(
             imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
         }
         else -> {
-            //do nothing
+            // do nothing
         }
     }
 }
@@ -265,7 +263,7 @@ fun EditText.setCursorColor(color: Color) {
             widthDp = 2.5f,
             color = color
         )
-        //TODO: Fix bug where cursor color isn't updated after theme switch
+        // TODO: Fix bug where cursor color isn't updated after theme switch
     }
 }
 
@@ -289,7 +287,6 @@ private fun Preview() {
         InputField(
             initialText = "Test"
         ) {
-
         }
     }
 }

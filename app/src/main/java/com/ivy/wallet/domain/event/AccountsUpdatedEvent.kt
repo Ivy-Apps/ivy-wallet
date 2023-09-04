@@ -1,4 +1,3 @@
 package com.ivy.wallet.domain.event
 
-class AccountsUpdatedEvent {
-}
+class AccountsUpdatedEvent

@@ -204,7 +204,6 @@ private fun SearchField(
     )
 }
 
-
 @Preview
 @Composable
 private fun Preview() {

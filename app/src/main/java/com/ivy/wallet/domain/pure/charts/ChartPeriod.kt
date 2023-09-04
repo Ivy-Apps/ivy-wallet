@@ -37,7 +37,7 @@ enum class ChartPeriod {
         endOfMonth: LocalDateTime = endOfMonth(dateNowUTC())
     ): List<ClosedTimeRange> {
         return if (accumulator.size < n) {
-            //recurse
+            // recurse
             lastNMonths(
                 n = n,
                 accumulator = accumulator.plus(
@@ -47,13 +47,13 @@ enum class ChartPeriod {
                     )
                 ),
                 endOfMonth = endOfMonth(
-                    endOfMonth.withDayOfMonth(10) //not sure if this line is needed
+                    endOfMonth.withDayOfMonth(10) // not sure if this line is needed
                         .minusMonths(1)
                         .toLocalDate()
                 )
             )
         } else {
-            //end recursion
+            // end recursion
             accumulator.reversed()
         }
     }
@@ -64,7 +64,7 @@ enum class ChartPeriod {
         endOfDay: LocalDateTime = endOfDayNowUTC()
     ): List<ClosedTimeRange> {
         return if (accumulator.size < n) {
-            //recurse
+            // recurse
             lastNWeeks(
                 n = n,
                 accumulator = accumulator.plus(
@@ -76,7 +76,7 @@ enum class ChartPeriod {
                 endOfDay = endOfDay.minusDays(8)
             )
         } else {
-            //end recursion
+            // end recursion
             accumulator.reversed()
         }
     }
@@ -87,7 +87,7 @@ enum class ChartPeriod {
         endOfDay: LocalDateTime = endOfDayNowUTC()
     ): List<ClosedTimeRange> {
         return if (accumulator.size < n) {
-            //recurse
+            // recurse
             lastNDays(
                 n = n,
                 accumulator = accumulator.plus(
@@ -99,7 +99,7 @@ enum class ChartPeriod {
                 endOfDay = endOfDay.minusDays(1)
             )
         } else {
-            //end recursion
+            // end recursion
             accumulator.reversed()
         }
     }

@@ -151,7 +151,7 @@ private fun BoxWithConstraintsScope.UI(
             Spacer(Modifier.weight(1f))
         }
 
-        Spacer(Modifier.height(150.dp))  //scroll hack
+        Spacer(Modifier.height(150.dp)) // scroll hack
     }
 
     val nav = navigation()
@@ -248,7 +248,9 @@ private fun Toolbar(
                         categoryBudgetsTotal.format(baseCurrency),
                         baseCurrency
                     )
-                } else ""
+                } else {
+                    ""
+                }
 
                 val appBudgetMaxText = if (appBudgetMax > 0) {
                     stringResource(
@@ -256,26 +258,29 @@ private fun Toolbar(
                         appBudgetMax.format(baseCurrency),
                         baseCurrency
                     )
-                } else ""
+                } else {
+                    ""
+                }
 
                 val hasBothBudgetTypes =
                     categoryBudgetText.isNotBlank() && appBudgetMaxText.isNotBlank()
                 Text(
                     modifier = Modifier.testTag("budgets_info_text"),
-                    text = if (hasBothBudgetTypes)
+                    text = if (hasBothBudgetTypes) {
                         stringResource(
                             R.string.budget_info_both,
                             categoryBudgetText,
                             appBudgetMaxText
                         )
-                    else stringResource(R.string.budget_info, categoryBudgetText, appBudgetMaxText),
+                    } else {
+                        stringResource(R.string.budget_info, categoryBudgetText, appBudgetMaxText)
+                    },
                     style = UI.typo.nC.style(
                         color = Gray,
                         fontWeight = FontWeight.ExtraBold
                     )
                 )
             }
-
         }
 
         ReorderButton {
@@ -323,7 +328,6 @@ private fun BudgetItem(
                 )
             )
         }
-
 
         AmountCurrencyB1(
             amount = displayBudget.budget.amount,
@@ -390,7 +394,6 @@ private fun NoBudgetsEmptyState(
     }
 }
 
-
 @Preview
 @Composable
 private fun Preview_Empty() {
@@ -398,7 +401,7 @@ private fun Preview_Empty() {
         UI(
             timeRange = TimePeriod.currentMonth(
                 startDayOfMonth = 1
-            ).toRange(1), //preview
+            ).toRange(1), // preview
             baseCurrency = "BGN",
             categories = emptyList(),
             accounts = emptyList(),
@@ -418,7 +421,7 @@ private fun Preview_Budgets() {
         UI(
             timeRange = TimePeriod.currentMonth(
                 startDayOfMonth = 1
-            ).toRange(1), //preview
+            ).toRange(1), // preview
             baseCurrency = "BGN",
             categories = emptyList(),
             accounts = emptyList(),

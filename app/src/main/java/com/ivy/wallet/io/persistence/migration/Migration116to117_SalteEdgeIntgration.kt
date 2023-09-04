@@ -10,5 +10,4 @@ class Migration116to117_SalteEdgeIntgration : Migration(116, 117) {
         database.execSQL("ALTER TABLE transactions ADD COLUMN seTransactionId TEXT")
         database.execSQL("ALTER TABLE transactions ADD COLUMN seAutoCategoryId TEXT")
     }
-
 }

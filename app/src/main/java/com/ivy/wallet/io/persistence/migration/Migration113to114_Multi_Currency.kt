@@ -8,5 +8,4 @@ class Migration113to114_Multi_Currency : Migration(113, 114) {
         database.execSQL("ALTER TABLE accounts ADD COLUMN currency TEXT")
         database.execSQL("ALTER TABLE transactions ADD COLUMN toAmount REAL")
     }
-
 }

@@ -229,7 +229,7 @@ private fun BoxWithConstraintsScope.UI(
     val titleFocus = FocusRequester()
     val scrollState = rememberScrollState()
 
-    //This is to scroll the column to the customExchangeCard composable when it is shown
+    // This is to scroll the column to the customExchangeCard composable when it is shown
     var customExchangeRatePosition by remember { mutableStateOf(0F) }
     LaunchedEffect(key1 = customExchangeRateState.showCard) {
         val scrollInt =
@@ -247,7 +247,7 @@ private fun BoxWithConstraintsScope.UI(
         Spacer(Modifier.height(16.dp))
 
         Toolbar(
-            //Setting the transaction type to TransactionType.TRANSFER for transactions associated
+            // Setting the transaction type to TransactionType.TRANSFER for transactions associated
             // with loan record to hide the ChangeTransactionType Button
             type = if (loanData.isLoanRecord) TransactionType.TRANSFER else transactionType,
             initialTransactionId = screen.initialTransactionId,
@@ -352,7 +352,7 @@ private fun BoxWithConstraintsScope.UI(
                 toCurrencyCode = customExchangeRateState.toCurrencyCode ?: baseCurrency,
                 exchangeRate = customExchangeRateState.exchangeRate,
                 onRefresh = {
-                    //Set exchangeRate to null to reset
+                    // Set exchangeRate to null to reset
                     onExchangeRateChanged(null)
                 },
                 modifier = Modifier.onGloballyPositioned { coordinates ->
@@ -387,7 +387,7 @@ private fun BoxWithConstraintsScope.UI(
             )
         }
 
-        Spacer(Modifier.height(600.dp)) //scroll hack
+        Spacer(Modifier.height(600.dp)) // scroll hack
     }
 
     onScreenStart {
@@ -409,33 +409,37 @@ private fun BoxWithConstraintsScope.UI(
 
         ActionButton = {
             if (screen.initialTransactionId != null) {
-                //Edit mode
+                // Edit mode
                 if (dueDate != null) {
-                    //due date stuff
+                    // due date stuff
                     if (hasChanges) {
-                        //has changes
+                        // has changes
                         ModalSave {
                             onSave(false)
                             onSetHasChanges(false)
                         }
                     } else {
-                        //no changes, pay
+                        // no changes, pay
                         ModalCheck(
-                            label = if (transactionType == TransactionType.EXPENSE) stringResource(
-                                R.string.pay
-                            ) else stringResource(R.string.get)
+                            label = if (transactionType == TransactionType.EXPENSE) {
+                                stringResource(
+                                    R.string.pay
+                                )
+                            } else {
+                                stringResource(R.string.get)
+                            }
                         ) {
                             onPayPlannedPayment()
                         }
                     }
                 } else {
-                    //normal transaction
+                    // normal transaction
                     ModalSave {
                         onSave(true)
                     }
                 }
             } else {
-                //create new mode
+                // create new mode
                 ModalAdd {
                     onSave(true)
                 }
@@ -459,8 +463,9 @@ private fun BoxWithConstraintsScope.UI(
             if (loanData.isLoan && account?.currency != it.currency) {
                 selectedAcc = it
                 accountChangeModal = true
-            } else
+            } else {
                 onAccountChanged(it)
+            }
         },
         onToAccountChanged = onToAccountChanged,
         onAddNewAccount = {
@@ -472,7 +477,7 @@ private fun BoxWithConstraintsScope.UI(
         }
     )
 
-    //Modals
+    // Modals
     ChooseCategoryModal(
         visible = chooseCategoryModalVisible,
         initialCategory = category,
@@ -572,7 +577,6 @@ private fun BoxWithConstraintsScope.UI(
             onExchangeRateChanged(it)
         }
     )
-
 }
 
 private fun shouldFocusCategory(

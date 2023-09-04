@@ -185,7 +185,6 @@ class CSVViewModel @Inject constructor(
 
     private var uiState by mutableStateOf<UIState>(UIState.Idle)
 
-
     @Composable
     fun uiState(): CSVState {
         val sampleCSV = remember(csv) {
@@ -208,16 +207,21 @@ class CSVViewModel @Inject constructor(
     @Composable
     private fun continueEnabled(important: ImportantFields?): Boolean {
         return important != null && important.accountStatus.success &&
-                important.amountStatus.success &&
-                important.typeStatus.success &&
-                important.dateStatus.success
+            important.amountStatus.success &&
+            important.typeStatus.success &&
+            important.dateStatus.success
     }
 
     @Composable
     private fun importantFields(sampleCSV: List<CSVRow>?): ImportantFields? {
         return produceState<ImportantFields?>(
             initialValue = null,
-            sampleCSV, amount, type, date, account, accountCurrency,
+            sampleCSV,
+            amount,
+            type,
+            date,
+            account,
+            accountCurrency,
         ) {
             val result = withContext(Dispatchers.Default) {
                 if (sampleCSV != null) {
@@ -236,7 +240,9 @@ class CSVViewModel @Inject constructor(
                             ::parseAccountCurrency
                         ),
                     )
-                } else null
+                } else {
+                    null
+                }
             }
             value = result
         }.value
@@ -246,7 +252,10 @@ class CSVViewModel @Inject constructor(
     private fun transferFields(sampleCSV: List<CSVRow>?): TransferFields? {
         return produceState<TransferFields?>(
             initialValue = null,
-            sampleCSV, toAccount, toAccountCurrency, toAmount,
+            sampleCSV,
+            toAccount,
+            toAccountCurrency,
+            toAmount,
         ) {
             val result = withContext(Dispatchers.Default) {
                 if (sampleCSV != null) {
@@ -261,7 +270,9 @@ class CSVViewModel @Inject constructor(
                         toAmount = toAmount,
                         toAmountStatus = sampleCSV.parseStatus(toAmount, ::parseAmount)
                     )
-                } else null
+                } else {
+                    null
+                }
             }
             value = result
         }.value
@@ -271,7 +282,10 @@ class CSVViewModel @Inject constructor(
     private fun optionalFields(sampleCSV: List<CSVRow>?): OptionalFields? {
         return produceState<OptionalFields?>(
             initialValue = null,
-            sampleCSV, category, title, description,
+            sampleCSV,
+            category,
+            title,
+            description,
         ) {
             val result = withContext(Dispatchers.Default) {
                 if (sampleCSV != null) {
@@ -283,12 +297,13 @@ class CSVViewModel @Inject constructor(
                         description = description,
                         descriptionStatus = sampleCSV.parseStatus(description, ::parseDescription),
                     )
-                } else null
+                } else {
+                    null
+                }
             }
             value = result
         }.value
     }
-
 
     private suspend fun handleEvent(event: CSVEvent) {
         when (event) {
@@ -438,9 +453,8 @@ class CSVViewModel @Inject constructor(
                 }
 
                 override fun validate(line: String?) {
-                    //do nothing
+                    // do nothing
                 }
-
             })
             .withRowValidator(object : RowValidator {
                 override fun isValid(row: Array<out String>?): Boolean {
@@ -448,7 +462,7 @@ class CSVViewModel @Inject constructor(
                 }
 
                 override fun validate(row: Array<out String>?) {
-                    //do nothing
+                    // do nothing
                 }
             })
             .build()
@@ -463,7 +477,6 @@ class CSVViewModel @Inject constructor(
         val emptyStatus = MappingStatus(emptyList(), false)
 
         withContext(Dispatchers.IO) {
-
             val result = csvImporter.import(
                 csv = csv,
                 importantFields = ImportantFields(
@@ -525,7 +538,6 @@ class CSVViewModel @Inject constructor(
         csv = null
         columns = null
     }
-
 
     // region Boiler-plate
     private val events = MutableSharedFlow<CSVEvent>(replay = 0)

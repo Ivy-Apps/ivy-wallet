@@ -14,9 +14,9 @@ data class LoanTransactionsLogic(
         accountsChanged: Boolean = true
     ) {
         computationThread {
-
-            if (transaction == null)
+            if (transaction == null) {
                 return@computationThread
+            }
 
             if (transaction.loanId != null && transaction.loanRecordId == null) {
                 Loan.updateAssociatedLoan(

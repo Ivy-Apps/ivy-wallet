@@ -114,7 +114,7 @@ private fun LazyListScope.upcomingSection(
     onSkipTransaction: (Transaction) -> Unit,
     setExpanded: (Boolean) -> Unit
 ) {
-    if (upcoming == null) return //guard
+    if (upcoming == null) return // guard
 
     if (upcoming.trns.isNotEmpty()) {
         item(
@@ -178,10 +178,14 @@ private fun LazyListScope.overdueSection(
                     modifier = Modifier.padding(horizontal = 24.dp),
                     text = stringRes(R.string.skip_all),
                     wrapContentMode = false,
-                    backgroundGradient = if (isLightTheme) Gradient(White, White) else Gradient(
-                        Black,
-                        Black
-                    ),
+                    backgroundGradient = if (isLightTheme) {
+                        Gradient(White, White)
+                    } else {
+                        Gradient(
+                            Black,
+                            Black
+                        )
+                    },
                     textStyle = UI.typo.b2.style(
                         color = if (isLightTheme) Black else White,
                         fontWeight = FontWeight.Bold
@@ -348,7 +352,7 @@ private fun LazyListScope.scrollHackSpacer(
         if (lastItemSpacer != null) {
             Spacer(Modifier.height(lastItemSpacer))
         } else {
-            //last spacer - scroll hack
+            // last spacer - scroll hack
             val trnCount = history.size.plus(
                 if (upcoming != null && upcoming.expanded) upcoming.trns.size else 0
             ).plus(

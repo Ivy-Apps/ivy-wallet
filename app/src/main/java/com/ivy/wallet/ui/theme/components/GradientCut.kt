@@ -17,7 +17,6 @@ import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Transparent
 import com.ivy.wallet.utils.thenIf
 
-
 @Composable
 fun BoxWithConstraintsScope.GradientCutBottom(
     height: Dp = 96.dp,

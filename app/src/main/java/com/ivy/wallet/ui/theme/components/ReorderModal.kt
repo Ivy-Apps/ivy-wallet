@@ -99,7 +99,7 @@ fun <T : Reorderable> BoxScope.ReorderModal(
     ItemContent: @Composable RowScope.(Int, Any) -> Unit
 ) {
     var items by remember(id, initialItems) { mutableStateOf(initialItems) }
-    var reOrderedList :List<Any>? by remember {
+    var reOrderedList: List<Any>? by remember {
         mutableStateOf(null)
     }
     var orderNumUpdates by remember {
@@ -253,7 +253,7 @@ private class Adapter<T : Reorderable>(
                                 .testTag("reorder_drag_handle"),
                             icon = R.drawable.ic_drag_handle,
                             tint = UI.colors.gray,
-                            contentDescription = "reorder_${position}"
+                            contentDescription = "reorder_$position"
                         )
 
                         Spacer(Modifier.width(4.dp))
@@ -266,7 +266,6 @@ private class Adapter<T : Reorderable>(
     }
 }
 
-
 @Suppress("UNCHECKED_CAST")
 private fun <T : Reorderable> itemTouchHelper(
     colorMedium: Color,
@@ -277,7 +276,6 @@ private fun <T : Reorderable> itemTouchHelper(
     val simpleItemTouchCallback = object : ItemTouchHelper.SimpleCallback(UP or DOWN, 0) {
         var movedItem: T? = null
         var finalTo: Int? = null
-
 
         override fun onMove(
             recyclerView: RecyclerView,
@@ -359,7 +357,6 @@ fun ReorderButton(
     )
 }
 
-
 @Suppress("UNCHECKED_CAST")
 private fun <T : Reorderable> calculateOrderNum(
     itemsInNewOrder: List<*>,
@@ -376,11 +373,11 @@ private fun <T : Reorderable> calculateOrderNum(
             )
         }
         itemBefore != null && itemAfter == null -> {
-            //It's last in it's priority
+            // It's last in it's priority
             itemBefore.getItemOrderNum() + 1
         }
         itemBefore == null && itemAfter != null -> {
-            //It's first in it's priority
+            // It's first in it's priority
             itemAfter.getItemOrderNum() - 1
         }
         else -> 0.0

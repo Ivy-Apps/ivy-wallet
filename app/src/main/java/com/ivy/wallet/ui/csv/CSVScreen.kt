@@ -107,7 +107,7 @@ private fun ImportUI(
                 Duplicate transactions can NOT be easily deleted and you'll need to remove manually each one of them! 
                 Reason: We can't parse transaction ids because Ivy Wallet works only with UUID and other apps don't.
                 If you're starting fresh, no worries - kindly ignore this message.
-                """.trimIndent(),
+                    """.trimIndent(),
                     style = UI.typo.c.colorAs(UI.colors.red),
                     fontWeight = FontWeight.Bold,
                 )
@@ -171,7 +171,6 @@ fun Spacer8(horizontal: Boolean = false) {
     }
 }
 
-
 private fun LazyListScope.csvTable(
     csv: List<CSVRow>
 ) {
@@ -187,7 +186,6 @@ private fun LazyListScope.csvTable(
             }
         }
     }
-
 }
 
 @Composable
@@ -228,7 +226,6 @@ private fun CSVCell(
         maxLines = 1,
     )
 }
-
 
 private fun <M> LazyListScope.mappingRow(
     columns: CSVRow,
@@ -289,7 +286,8 @@ private fun <M> LazyListScope.mappingRow(
                 CSVRow(
                     modifier = Modifier.horizontalScroll(rememberScrollState()),
                     row = CSVRow(status.sampleValues),
-                    header = false, even = true
+                    header = false,
+                    even = true
                 )
             }
         }

@@ -44,7 +44,6 @@ object AppModuleDI {
         return SharedPrefs(appContext)
     }
 
-
     @Provides
     @Singleton
     fun provideIvyRoomDatabase(
@@ -82,7 +81,6 @@ object AppModuleDI {
     @Provides
     fun provideTrnRecurringRuleDao(db: IvyRoomDatabase): PlannedPaymentRuleDao =
         db.plannedPaymentRuleDao()
-
 
     @Provides
     fun provideWalletAccountLogic(
@@ -234,7 +232,6 @@ object AppModuleDI {
             exchangeRateDao = exchangeRateDao
         )
     }
-
 
     @Provides
     fun loanTransactionsLogic(loanTransactionsCore: LoanTransactionsCore): LoanTransactionsLogic {

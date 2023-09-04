@@ -57,10 +57,13 @@ fun IntervalPickerRow(
         IvyNumberTextField(
             modifier = Modifier
                 .background(
-                    brush = if (validInput)
-                        GradientIvy.asHorizontalBrush() else Gradient
-                        .solid(UI.colors.medium)
-                        .asHorizontalBrush(),
+                    brush = if (validInput) {
+                        GradientIvy.asHorizontalBrush()
+                    } else {
+                        Gradient
+                            .solid(UI.colors.medium)
+                            .asHorizontalBrush()
+                    },
                     shape = UI.shapes.rFull
                 )
                 .padding(vertical = 12.dp),
@@ -97,7 +100,6 @@ private fun RowScope.IntervalTypeSelector(
 
     onSetIntervalType: (IntervalType) -> Unit
 ) {
-
     Row(
         modifier = Modifier
             .weight(1f)

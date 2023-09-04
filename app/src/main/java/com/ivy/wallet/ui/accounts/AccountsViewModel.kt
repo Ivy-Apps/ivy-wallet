@@ -68,7 +68,7 @@ class AccountsViewModel @Inject constructor(
 
         val period = TimePeriod.currentMonth(
             startDayOfMonth = ivyContext.startDayOfMonth
-        ) //this must be monthly
+        ) // this must be monthly
         val range = period.toRange(ivyContext.startDayOfMonth)
 
         val baseCurrencyCode = baseCurrencyAct(Unit)
@@ -99,7 +99,9 @@ class AccountsViewModel @Inject constructor(
                 accountsData = accountsDataList,
                 totalBalanceWithExcluded = totalBalanceWithExcluded,
                 totalBalanceWithExcludedText = UiText.StringResource(
-                    R.string.total, baseCurrencyCode, totalBalanceWithExcluded.format(
+                    R.string.total,
+                    baseCurrencyCode,
+                    totalBalanceWithExcluded.format(
                         baseCurrencyCode
                     )
                 )

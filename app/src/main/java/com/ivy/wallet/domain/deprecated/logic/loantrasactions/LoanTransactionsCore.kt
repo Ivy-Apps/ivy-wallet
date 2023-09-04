@@ -52,14 +52,18 @@ class LoanTransactionsCore @Inject constructor(
         loanId: UUID? = null,
         loanRecordId: UUID? = null
     ) {
-        if (loanId == null && loanRecordId == null)
+        if (loanId == null && loanRecordId == null) {
             return
+        }
 
         ioThread {
             val transactions: List<Transaction?> =
-                if (loanId != null) transactionDao.findAllByLoanId(loanId = loanId)
-                    .map { it.toDomain() } else
+                if (loanId != null) {
+                    transactionDao.findAllByLoanId(loanId = loanId)
+                        .map { it.toDomain() }
+                } else {
                     listOf(transactionDao.findLoanRecordTransaction(loanRecordId!!)).map { it?.toDomain() }
+                }
 
             transactions.forEach { trans ->
                 deleteTransaction(trans)
@@ -81,7 +85,6 @@ class LoanTransactionsCore @Inject constructor(
     suspend fun baseCurrency(): String =
         ioThread { baseCurrencyCode ?: settingsDao.findFirst().currency }
 
-
     suspend fun updateAssociatedTransaction(
         createTransaction: Boolean,
         loanRecordId: UUID? = null,
@@ -95,8 +98,9 @@ class LoanTransactionsCore @Inject constructor(
         isLoanRecord: Boolean = false,
         transaction: Transaction? = null,
     ) {
-        if (isLoanRecord && loanRecordId == null)
+        if (isLoanRecord && loanRecordId == null) {
             return
+        }
 
         if (createTransaction && transaction != null) {
             createMainTransaction(
@@ -141,13 +145,13 @@ class LoanTransactionsCore @Inject constructor(
         isLoanRecord: Boolean = false,
         transaction: Transaction? = null
     ) {
-        if (selectedAccountId == null)
+        if (selectedAccountId == null) {
             return
+        }
 
-        val transType = if (isLoanRecord)
+        val transType = if (isLoanRecord) {
             if (loanType == LoanType.BORROW) TransactionType.EXPENSE else TransactionType.INCOME
-        else
-            if (loanType == LoanType.BORROW) TransactionType.INCOME else TransactionType.EXPENSE
+        } else if (loanType == LoanType.BORROW) TransactionType.INCOME else TransactionType.EXPENSE
 
         val transCategoryId: UUID? = getCategoryId(existingCategoryId = categoryId)
 
@@ -186,8 +190,9 @@ class LoanTransactionsCore @Inject constructor(
     }
 
     private suspend fun getCategoryId(existingCategoryId: UUID? = null): UUID? {
-        if (existingCategoryId != null)
+        if (existingCategoryId != null) {
             return existingCategoryId
+        }
 
         val categoryList = ioThread {
             categoryDao.findAll().map { it.toDomain() }
@@ -204,14 +209,17 @@ class LoanTransactionsCore @Inject constructor(
                 color = IVY_COLOR_PICKER_COLORS_FREE[4].toArgb(),
                 icon = "loan"
             )
-        } else null
+        } else {
+            null
+        }
 
-        if (addCategoryToDb)
+        if (addCategoryToDb) {
             ioThread {
                 loanCategory?.let {
                     categoryDao.save(it.toEntity())
                 }
             }
+        }
 
         return loanCategory?.id
     }
@@ -227,7 +235,6 @@ class LoanTransactionsCore @Inject constructor(
         reCalculateLoanAmount: Boolean = false,
     ): Double? {
         return computationThread {
-
             val newLoanRecordCurrency =
                 newLoanRecordAccountID.fetchAssociatedCurrencyCode(accountsList = accounts)
 
@@ -243,8 +250,8 @@ class LoanTransactionsCore @Inject constructor(
                     null
                 }
 
-                reCalculateLoanAmount || loanRecordCurrenciesChanged
-                        || oldLonRecordConvertedAmount == null -> {
+                reCalculateLoanAmount || loanRecordCurrenciesChanged ||
+                    oldLonRecordConvertedAmount == null -> {
                     ioThread {
                         exchangeRatesLogic.convertAmount(
                             baseCurrency = baseCurrency(),

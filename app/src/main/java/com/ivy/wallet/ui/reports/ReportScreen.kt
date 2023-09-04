@@ -103,7 +103,7 @@ private fun BoxWithConstraintsScope.UI(
                 .zIndex(1000f)
                 .background(pureBlur())
                 .clickableNoIndication {
-                    //consume clicks
+                    // consume clicks
                 },
             contentAlignment = Alignment.Center
         ) {
@@ -172,7 +172,7 @@ private fun BoxWithConstraintsScope.UI(
                 hasAddButtons = false,
                 itemColor = UI.colors.pure,
                 incomeHeaderCardClicked = {
-                    if (state.transactions.isNotEmpty())
+                    if (state.transactions.isNotEmpty()) {
                         nav.navigateTo(
                             PieChartStatistic(
                                 type = TransactionType.INCOME,
@@ -181,9 +181,10 @@ private fun BoxWithConstraintsScope.UI(
                                 treatTransfersAsIncomeExpense = state.treatTransfersAsIncExp
                             )
                         )
+                    }
                 },
                 expenseHeaderCardClicked = {
-                    if (state.transactions.isNotEmpty())
+                    if (state.transactions.isNotEmpty()) {
                         nav.navigateTo(
                             PieChartStatistic(
                                 type = TransactionType.EXPENSE,
@@ -192,6 +193,7 @@ private fun BoxWithConstraintsScope.UI(
                                 treatTransfersAsIncomeExpense = state.treatTransfersAsIncExp
                             )
                         )
+                    }
                 }
             )
 
@@ -208,8 +210,9 @@ private fun BoxWithConstraintsScope.UI(
                         )
                     )
                 }
-            } else
+            } else {
                 Spacer(Modifier.height(32.dp))
+            }
 
             TransactionsDividerLine(
                 paddingHorizontal = 0.dp
@@ -358,7 +361,7 @@ private fun Toolbar(
     ) {
         Spacer(Modifier.weight(1f))
 
-        //Export CSV
+        // Export CSV
         IvyOutlinedButton(
             text = stringResource(R.string.export),
             iconTint = Green,
@@ -372,7 +375,7 @@ private fun Toolbar(
 
         Spacer(Modifier.width(16.dp))
 
-        //Filter
+        // Filter
         CircleButtonFilled(
             icon = R.drawable.ic_filter_xs
         ) {

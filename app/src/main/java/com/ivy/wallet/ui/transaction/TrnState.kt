@@ -20,11 +20,11 @@ sealed class TrnState {
         val title: String?,
         val description: String?,
 
-        //Transfers
+        // Transfers
         val toAccount: Account?,
         val toAmount: BigDecimal?,
         val exchangeRate: TrnExchangeRate?,
-        //--------------------------
+        // --------------------------
 
         val titleSuggestions: List<String>,
 

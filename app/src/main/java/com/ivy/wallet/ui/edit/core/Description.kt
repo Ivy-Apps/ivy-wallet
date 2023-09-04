@@ -79,7 +79,6 @@ private fun PreviewDescription_Empty() {
             description = null,
             onAddDescription = {}
         ) {
-
         }
     }
 }
@@ -92,7 +91,6 @@ private fun PreviewDescription_withText() {
             description = "This is my sample description.",
             onAddDescription = {}
         ) {
-
         }
     }
 }

@@ -124,9 +124,8 @@ private fun BoxWithConstraintsScope.UI(
             Spacer(Modifier.weight(1f))
         }
 
-        Spacer(Modifier.height(150.dp))  //scroll hack
+        Spacer(Modifier.height(150.dp)) // scroll hack
     }
-
 
     LoanBottomBar(
         onAdd = {
@@ -285,7 +284,6 @@ private fun LoanHeader(
                     color = loan.color.toComposeColor().dynamicContrast()
                 )
             )
-
         }
 
         Spacer(Modifier.height(4.dp))
@@ -315,7 +313,6 @@ private fun LoanHeader(
 private fun ColumnScope.LoanInfo(
     displayLoan: DisplayLoan
 ) {
-
     Text(
         modifier = Modifier
             .fillMaxWidth()

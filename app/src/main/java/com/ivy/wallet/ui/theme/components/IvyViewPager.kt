@@ -75,7 +75,7 @@ fun IvyPager(
                         val offset = state.offset.value
                         when {
                             offset > SWIPE_THRESHOLD -> {
-                                //next page
+                                // next page
                                 Animatable(offset).animateTo(1f) {
                                     state.setOffset(value)
                                     if (value == 1f) {
@@ -84,7 +84,7 @@ fun IvyPager(
                                 }
                             }
                             offset < -SWIPE_THRESHOLD -> {
-                                //previous page
+                                // previous page
                                 Animatable(offset).animateTo(-1f) {
                                     state.setOffset(value)
                                     if (value == -1f) {
@@ -99,11 +99,10 @@ fun IvyPager(
                             }
                         }
                     }
-
                 }
             ),
         content = {
-            //Pages to pre-load
+            // Pages to pre-load
             val firstVisibleIndex = (state.currentPage - 1).coerceAtLeast(state.minPage)
             val lastVisibleIndex = (state.currentPage + 1).coerceAtMost(state.maxPage)
 
@@ -113,9 +112,11 @@ fun IvyPager(
                     Box(
                         contentAlignment = Alignment.Center,
                         modifier = pageData
-                            .width(densityScope {
-                                screenWidth.toDp()
-                            })
+                            .width(
+                                densityScope {
+                                    screenWidth.toDp()
+                                }
+                            )
                             .fillMaxHeight()
                     ) {
                         pageContent(index)
@@ -124,7 +125,7 @@ fun IvyPager(
             }
         },
         measurePolicy = { measurables, constraints ->
-            val offset = state.offset.value //(-1f to 1f)
+            val offset = state.offset.value // (-1f to 1f)
             Timber.i("measurePolicy(): offset = $offset")
 
             layout(screenWidth, constraints.minHeight) {
@@ -137,21 +138,21 @@ fun IvyPager(
                     .forEach { (placeable, page) ->
                         when (page) {
                             state.currentPage -> {
-                                //current page
+                                // current page
                                 placeable.place(
                                     (screenWidth * -offset).roundToInt(),
                                     0
                                 )
                             }
                             state.currentPage - 1 -> {
-                                //previous page (offset = -1f)
+                                // previous page (offset = -1f)
                                 placeable.place(
                                     (-screenWidth - (screenWidth * offset)).roundToInt(),
                                     0
                                 )
                             }
                             state.currentPage + 1 -> {
-                                //next page (offset = 1f)
+                                // next page (offset = 1f)
                                 val x = (screenWidth - (screenWidth * offset)).roundToInt()
                                 Timber.i("nextPage: x = $x, (offset = $offset, sw = $screenWidth)")
                                 placeable.place(
@@ -197,7 +198,6 @@ class IvyPagerState(
             }
         }
         _offset.value = offset.coerceIn(-1f, 1f)
-
     }
 
     private var _maxPage by mutableStateOf(maxPage)

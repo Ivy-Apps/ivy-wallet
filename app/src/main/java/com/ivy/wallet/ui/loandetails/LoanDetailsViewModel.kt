@@ -131,7 +131,7 @@ class LoanDetailsViewModel @Inject constructor(
             }
 
             computationThread {
-                //Using a local variable to calculate the amount and then reassigning to
+                // Using a local variable to calculate the amount and then reassigning to
                 // the State variable to reduce the amount of compose re-draws
                 var amtPaid = 0.0
                 var loanInterestAmtPaid = 0.0
@@ -139,8 +139,9 @@ class LoanDetailsViewModel @Inject constructor(
                     val convertedAmount = it.loanRecord.convertedAmount ?: it.loanRecord.amount
                     if (!it.loanRecord.interest) {
                         amtPaid += convertedAmount
-                    } else
+                    } else {
                         loanInterestAmtPaid += convertedAmount
+                    }
                 }
 
                 _amountPaid.value = amtPaid
@@ -196,7 +197,7 @@ class LoanDetailsViewModel @Inject constructor(
             loanTransactionsLogic.Loan.deleteAssociatedLoanTransactions(loan.id)
 
             loanCreator.delete(loan) {
-                //close screen
+                // close screen
                 nav.back()
             }
 

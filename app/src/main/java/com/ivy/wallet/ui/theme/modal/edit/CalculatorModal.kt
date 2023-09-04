@@ -190,7 +190,7 @@ private fun formatExpression(expression: String, currency: String): String {
     expression
         .split("(", ")", "/", "*", "-", "+")
         .ifEmpty {
-            //handle only number expression formatting
+            // handle only number expression formatting
             listOf(expression)
         }
         .forEach { part ->

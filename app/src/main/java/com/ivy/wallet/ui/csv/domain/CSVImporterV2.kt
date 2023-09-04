@@ -61,10 +61,12 @@ class CSVImporterV2 @Inject constructor(
 
         val failedRows = mutableListOf<CSVRow>()
 
-
         val transactions = rows.mapIndexedNotNull { index, row ->
-            val progressPercent = if (rowsCount > 0)
-                index / rowsCount.toDouble() else 0.0
+            val progressPercent = if (rowsCount > 0) {
+                index / rowsCount.toDouble()
+            } else {
+                0.0
+            }
             onProgress(progressPercent / 2)
 
             val transaction = mapToTransaction(
@@ -78,7 +80,7 @@ class CSVImporterV2 @Inject constructor(
             if (transaction == null) {
                 failedRows.add(
                     CSVRow(
-                        index = index + 2, //+ 1 because we skip Header and +1 because they don't start from zero
+                        index = index + 2, // + 1 because we skip Header and +1 because they don't start from zero
                         content = row.values
                     )
                 )
@@ -86,10 +88,12 @@ class CSVImporterV2 @Inject constructor(
             transaction
         }
 
-
         for ((index, transaction) in transactions.withIndex()) {
-            val progressPercent = if (rowsCount > 0)
-                index / transactions.size.toDouble() else 0.0
+            val progressPercent = if (rowsCount > 0) {
+                index / transactions.size.toDouble()
+            } else {
+                0.0
+            }
             onProgress(0.5 + progressPercent / 2)
             transactionDao.save(transaction.toEntity())
         }
@@ -133,7 +137,9 @@ class CSVImporterV2 @Inject constructor(
                 icon = null,
                 orderNum = null,
             )
-        } else null
+        } else {
+            null
+        }
 
         val csvAmount = if (type != TransactionType.TRANSFER) {
             parseAmount(
@@ -149,7 +155,7 @@ class CSVImporterV2 @Inject constructor(
         val amount = csvAmount.absoluteValue
 
         if (amount <= 0) {
-            //Cannot save transactions with zero amount
+            // Cannot save transactions with zero amount
             return null
         }
 
@@ -158,8 +164,9 @@ class CSVImporterV2 @Inject constructor(
                 value = row.extractValue(transferFields.toAmount),
                 metadata = transferFields.toAmount.metadata
             )
-        } else null
-
+        } else {
+            null
+        }
 
         val dateTime = parseDate(
             row.extractValue(importantFields.date),
@@ -214,7 +221,6 @@ class CSVImporterV2 @Inject constructor(
         )
     }
 
-
     private suspend fun mapAccount(
         baseCurrency: String,
         accountNameString: String?,
@@ -232,7 +238,7 @@ class CSVImporterV2 @Inject constructor(
             return existingAccount
         }
 
-        //create new account
+        // create new account
         val colorArgb = color ?: when {
             accountNameString.toLowerCaseLocal().contains("cash") -> {
                 Green
@@ -275,7 +281,6 @@ class CSVImporterV2 @Inject constructor(
         } catch (e: Exception) {
             baseCurrency
         }
-
     }
 
     private suspend fun mapCategory(
@@ -293,7 +298,7 @@ class CSVImporterV2 @Inject constructor(
             return existingCategory
         }
 
-        //create new category
+        // create new category
         val colorArgb = color ?: IVY_COLOR_PICKER_COLORS_FREE.getOrElse(newCategoryColorIndex++) {
             newCategoryColorIndex = 0
             IVY_COLOR_PICKER_COLORS_FREE.first()

@@ -37,7 +37,6 @@ fun IvyUI(
                         maxHeight.roundToPx()
                     }
 
-
                     Content()
                 }
             }

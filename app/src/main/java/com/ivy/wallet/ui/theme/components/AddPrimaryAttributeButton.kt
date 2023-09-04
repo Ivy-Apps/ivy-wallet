@@ -21,7 +21,6 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.ui.IvyWalletComponentPreview
 
-
 @Composable
 fun AddPrimaryAttributeButton(
     @DrawableRes icon: Int,
@@ -62,7 +61,6 @@ private fun PreviewAddPrimaryAttributeButton() {
             icon = R.drawable.ic_description,
             text = "Add description"
         ) {
-
         }
     }
 }

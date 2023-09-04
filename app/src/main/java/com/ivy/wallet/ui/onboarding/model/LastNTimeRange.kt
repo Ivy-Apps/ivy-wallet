@@ -14,5 +14,5 @@ data class LastNTimeRange(
     )
 
     fun forDisplay(): String =
-       "$periodN ${periodType.forDisplay(periodN)}"
+        "$periodN ${periodType.forDisplay(periodN)}"
 }

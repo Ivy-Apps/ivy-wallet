@@ -112,8 +112,13 @@ fun BufferBattery(
 
         Column {
             Text(
-                text = if (bufferExceeded) stringResource(R.string.buffer_exceeded_by) else stringResource(
-                                    R.string.left_to_spend),
+                text = if (bufferExceeded) {
+                    stringResource(R.string.buffer_exceeded_by)
+                } else {
+                    stringResource(
+                        R.string.left_to_spend
+                    )
+                },
                 style = UI.typo.c.style(
                     color = textColor,
                     fontWeight = FontWeight.ExtraBold
@@ -148,7 +153,6 @@ private fun Preview_buffer_0() {
                 currency = "BGN"
             )
         }
-
     }
 }
 
@@ -169,7 +173,6 @@ private fun Preview_buffer_balance_0() {
                 currency = "BGN"
             )
         }
-
     }
 }
 
@@ -190,7 +193,6 @@ private fun Preview_buffer_very_low() {
                 currency = "BGN"
             )
         }
-
     }
 }
 
@@ -211,7 +213,6 @@ private fun Preview_buffer_25() {
                 currency = "BGN"
             )
         }
-
     }
 }
 
@@ -232,7 +233,6 @@ private fun Preview_buffer_50() {
                 currency = "BGN"
             )
         }
-
     }
 }
 
@@ -253,7 +253,6 @@ private fun Preview_buffer_75() {
                 currency = "BGN"
             )
         }
-
     }
 }
 
@@ -274,7 +273,6 @@ private fun Preview_buffer_90() {
                 currency = "BGN"
             )
         }
-
     }
 }
 
@@ -295,7 +293,6 @@ private fun Preview_buffer_100() {
                 currency = "BGN"
             )
         }
-
     }
 }
 
@@ -316,6 +313,5 @@ private fun Preview_buffer_125() {
                 currency = "BGN"
             )
         }
-
     }
 }

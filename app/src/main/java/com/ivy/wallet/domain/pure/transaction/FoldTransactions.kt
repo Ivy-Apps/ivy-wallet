@@ -30,9 +30,9 @@ internal tailrec fun <A> sumTransactionsInternal(
     valueFunctions: NonEmptyList<ValueFunction<A>>,
     sum: NonEmptyList<BigDecimal> = nonEmptyListOfZeros(n = valueFunctions.size)
 ): NonEmptyList<BigDecimal> {
-    return if (transactions.isEmpty())
+    return if (transactions.isEmpty()) {
         sum
-    else
+    } else {
         sumTransactionsInternal(
             valueFunctionArgument = valueFunctionArgument,
             transactions = transactions.drop(1),
@@ -42,6 +42,7 @@ internal tailrec fun <A> sumTransactionsInternal(
                 sumValue + valueFunction(transactions.first(), valueFunctionArgument)
             }
         )
+    }
 }
 
 @Pure
@@ -62,9 +63,9 @@ internal tailrec suspend fun <A> sumTransactionsSuspendInternal(
     valueFunctions: NonEmptyList<SuspendValueFunction<A>>,
     sum: NonEmptyList<BigDecimal> = nonEmptyListOfZeros(n = valueFunctions.size)
 ): NonEmptyList<BigDecimal> {
-    return if (transactions.isEmpty())
+    return if (transactions.isEmpty()) {
         sum
-    else
+    } else {
         sumTransactionsSuspendInternal(
             valueFunctionArgument = valueFunctionArgument,
             transactions = transactions.drop(1),
@@ -74,6 +75,7 @@ internal tailrec suspend fun <A> sumTransactionsSuspendInternal(
                 sumValue + valueFunction(transactions.first(), valueFunctionArgument)
             }
         )
+    }
 }
 
 suspend fun <A> sumTrns(

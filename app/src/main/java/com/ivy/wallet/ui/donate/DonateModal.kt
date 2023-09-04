@@ -76,9 +76,9 @@ fun BoxWithConstraintsScope.DonateModal(
                 .fillMaxWidth()
                 .padding(horizontal = 32.dp),
             text = "*GitHub Sponsors is our preferred way of donation because:\n" +
-                    "1) You have custom donation options.\n2) If you choose a 'tier', you'll receive a small digital reward from us " +
-                    "as a token of gratitude!\n3) You can be publicly recognized as an Ivy Wallet sponsor.\n\n" +
-                    "Note: You'll need to choose your donation amount in the GitHub's website again.",
+                "1) You have custom donation options.\n2) If you choose a 'tier', you'll receive a small digital reward from us " +
+                "as a token of gratitude!\n3) You can be publicly recognized as an Ivy Wallet sponsor.\n\n" +
+                "Note: You'll need to choose your donation amount in the GitHub's website again.",
             color = UI.colors.primary,
             style = UI.typo.c,
             textAlign = TextAlign.Center,
@@ -86,7 +86,6 @@ fun BoxWithConstraintsScope.DonateModal(
         SpacerVer(height = 8.dp)
     }
 }
-
 
 @Preview
 @Composable

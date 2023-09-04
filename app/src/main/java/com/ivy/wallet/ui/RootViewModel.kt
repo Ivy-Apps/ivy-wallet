@@ -53,7 +53,6 @@ class RootViewModel @Inject constructor(
     private val _appLocked = MutableStateFlow<Boolean?>(null)
     val appLocked = _appLocked.readOnly()
 
-
     fun start(systemDarkMode: Boolean, intent: Intent) {
         viewModelScope.launch {
             TestIdlingResource.increment()
@@ -74,7 +73,7 @@ class RootViewModel @Inject constructor(
 
             ioThread {
                 appLockEnabled = sharedPrefs.getBoolean(SharedPrefs.APP_LOCK_ENABLED, false)
-                //initial app locked state
+                // initial app locked state
                 _appLocked.value = appLockEnabled
 
                 if (isOnboardingCompleted()) {
@@ -82,7 +81,6 @@ class RootViewModel @Inject constructor(
                 } else {
                     nav.navigateTo(Onboarding)
                 }
-
             }
 
             TestIdlingResource.decrement()
@@ -107,7 +105,6 @@ class RootViewModel @Inject constructor(
         } catch (e: IllegalArgumentException) {
             null
         }
-
 
         if (addTrnType != null) {
             nav.navigateTo(
@@ -138,7 +135,6 @@ class RootViewModel @Inject constructor(
             }
 
             override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-
             }
         }
     }
@@ -156,7 +152,6 @@ class RootViewModel @Inject constructor(
                 viewModelScope.launch {
                     paywallLogic.processPurchases(purchases)
                 }
-
             },
             onError = { code, msg ->
                 sendToCrashlytics("IvyActivity Billing error: code=$code: $msg")
@@ -169,14 +164,13 @@ class RootViewModel @Inject constructor(
         return sharedPrefs.getBoolean(SharedPrefs.ONBOARDING_COMPLETED, false)
     }
 
-
-    //App Lock & UserInactivity --------------------------------------------------------------------
+    // App Lock & UserInactivity --------------------------------------------------------------------
     fun isAppLockEnabled(): Boolean {
         return appLockEnabled
     }
 
     fun isAppLocked(): Boolean {
-        //by default we assume that the app is locked
+        // by default we assume that the app is locked
         return appLocked.value ?: true
     }
 

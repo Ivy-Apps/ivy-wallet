@@ -31,7 +31,7 @@ class WalletAccountLogic(
         adjustTransactionTitle: String = "Adjust balance",
 
         isFiat: Boolean? = null,
-        trnIsSyncedFlag: Boolean = false, //TODO: Remove this once Bank Integration trn sync is properly implemented
+        trnIsSyncedFlag: Boolean = false, // TODO: Remove this once Bank Integration trn sync is properly implemented
     ) {
         val ab = actualBalance ?: calculateAccountBalance(account)
         val diff = ab - newBalance
@@ -39,7 +39,7 @@ class WalletAccountLogic(
         val finalDiff = if (isFiat == true && abs(diff) < 0.009) 0.0 else diff
         when {
             finalDiff < 0 -> {
-                //add income
+                // add income
                 transactionDao.save(
                     Transaction(
                         type = TransactionType.INCOME,
@@ -53,7 +53,7 @@ class WalletAccountLogic(
                 )
             }
             finalDiff > 0 -> {
-                //add expense
+                // add expense
                 transactionDao.save(
                     Transaction(
                         type = TransactionType.EXPENSE,
@@ -93,7 +93,7 @@ class WalletAccountLogic(
             )
             .sumOf { it.amount.toDouble() }
             .plus(
-                //transfers in
+                // transfers in
                 transactionDao.findAllTransfersToAccount(account.id)
                     .map { it.toDomain() }
                     .filterHappenedTransactions(
@@ -114,7 +114,7 @@ class WalletAccountLogic(
             )
             .sumOf { it.amount.toDouble() }
             .plus(
-                //transfer out
+                // transfer out
                 transactionDao.findAllByTypeAndAccount(
                     type = TransactionType.TRANSFER,
                     accountId = account.id
@@ -132,7 +132,7 @@ class WalletAccountLogic(
     ): List<Transaction> {
         return this.filter {
             it.dateTime != null &&
-                    (before == null || it.dateTime.isBefore(before))
+                (before == null || it.dateTime.isBefore(before))
         }
     }
 
@@ -187,7 +187,6 @@ class WalletAccountLogic(
             .map { it.toDomain() }
             .filterUpcoming()
     }
-
 
     suspend fun overdue(account: Account, range: FromToTimeRange): List<Transaction> {
         return transactionDao.findAllDueToBetweenByAccount(

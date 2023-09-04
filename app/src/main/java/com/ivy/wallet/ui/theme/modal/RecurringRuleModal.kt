@@ -122,7 +122,7 @@ fun BoxWithConstraintsScope.RecurringRuleModal(
 
         Spacer(Modifier.height(16.dp))
 
-        //One-time & Multiple Times
+        // One-time & Multiple Times
         TimesSelector(oneTime = oneTime) {
             oneTime = it
         }
@@ -391,13 +391,11 @@ private fun IvyWalletCtx.pickDate(
     }
 }
 
-
 @Preview
 @Composable
 private fun Preview_oneTime() {
     IvyWalletPreview {
         BoxWithConstraints(Modifier.padding(bottom = 48.dp)) {
-
             RecurringRuleModal(
                 modal = RecurringRuleModalData(
                     initialStartDate = null,
@@ -428,6 +426,5 @@ private fun Preview_multipleTimes() {
                 onRuleChanged = { _, _, _, _ -> }
             )
         }
-
     }
 }

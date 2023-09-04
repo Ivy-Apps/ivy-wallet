@@ -55,7 +55,7 @@ fun <T> MutableList<T>.swap(fromIndex: Int, toIndex: Int) {
 }
 
 fun numberBetween(min: Double, max: Double): Double {
-    return Random().nextDouble() * (max - min) + min;
+    return Random().nextDouble() * (max - min) + min
 }
 
 fun <T> MutableList<T>?.orEmpty(): MutableList<T> {
@@ -66,8 +66,8 @@ fun String.nullifyEmpty() = this.ifBlank { null }
 
 fun getDefaultFIATCurrency(): Currency =
     Currency.getInstance(Locale.getDefault()) ?: Currency.getInstance("USD")
-    ?: Currency.getInstance("usd") ?: Currency.getAvailableCurrencies().firstOrNull()
-    ?: Currency.getInstance("EUR")
+        ?: Currency.getInstance("usd") ?: Currency.getAvailableCurrencies().firstOrNull()
+        ?: Currency.getInstance("EUR")
 
 fun String.toUpperCaseLocal() = this.uppercase(Locale.getDefault())
 
@@ -76,9 +76,13 @@ fun String.toLowerCaseLocal() = this.lowercase(Locale.getDefault())
 fun String.uppercaseLocal(): String = this.uppercase(Locale.getDefault())
 
 fun String.capitalizeLocal(): String = this.replaceFirstChar {
-    if (it.isLowerCase()) it.titlecase(
-        Locale.getDefault()
-    ) else it.toString()
+    if (it.isLowerCase()) {
+        it.titlecase(
+            Locale.getDefault()
+        )
+    } else {
+        it.toString()
+    }
 }
 
 fun String.capitalizeWords(): String {

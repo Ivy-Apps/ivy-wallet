@@ -139,7 +139,6 @@ private fun Preview() {
         OnboardingType(
             onStartImport = {}
         ) {
-
         }
     }
 }

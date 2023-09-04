@@ -47,7 +47,6 @@ class LoanRecordCreator(
         return null
     }
 
-
     suspend fun edit(
         updatedItem: LoanRecord,
         onRefreshUI: suspend (LoanRecord) -> Unit

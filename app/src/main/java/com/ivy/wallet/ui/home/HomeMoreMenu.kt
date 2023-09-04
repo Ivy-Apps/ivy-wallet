@@ -1,6 +1,5 @@
 package com.ivy.wallet.ui.home
 
-
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Canvas
@@ -89,7 +88,6 @@ import kotlin.math.roundToInt
 
 private const val SWIPE_UP_THRESHOLD_CLOSE_MORE_MENU = 300
 
-
 @Composable
 fun BoxWithConstraintsScope.MoreMenu(
     expanded: Boolean,
@@ -127,14 +125,14 @@ fun BoxWithConstraintsScope.MoreMenu(
         fraction = percentExpanded
     )
 
-    //Background
+    // Background
     val colorMedium = UI.colors.medium
     if (percentExpanded > 0.01f) {
         Canvas(
             modifier = Modifier
                 .fillMaxSize()
                 .clickableNoIndication {
-                    //do nothing
+                    // do nothing
                 }
                 .zIndex(500f)
         ) {
@@ -354,7 +352,6 @@ private fun ColumnScope.OpenSource() {
                 )
             )
         }
-
     }
 }
 
@@ -485,7 +482,7 @@ private fun QuickAccess(
 
     Spacer(Modifier.height(16.dp))
 
-    //Second Row
+    // Second Row
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Start,
@@ -594,7 +591,6 @@ private fun Preview_Expanded() {
             onSwitchTheme = { },
             onBufferClick = { }
         ) {
-
         }
     }
 }
@@ -639,7 +635,6 @@ private fun Preview() {
             onSwitchTheme = { },
             onBufferClick = { }
         ) {
-
         }
     }
 }

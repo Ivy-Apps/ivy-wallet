@@ -35,7 +35,6 @@ import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.utils.hideKeyboard
 import com.ivy.wallet.utils.isNotNullOrBlank
 
-
 @Composable
 fun ColumnScope.IvyTitleTextField(
     modifier: Modifier = Modifier,
@@ -104,7 +103,6 @@ fun ColumnScope.IvyTitleTextField(
     )
 }
 
-
 @Preview
 @Composable
 private fun PreviewIvyTitleTextField() {
@@ -120,6 +118,5 @@ private fun PreviewIvyTitleTextField() {
                 onValueChanged = {}
             )
         }
-
     }
 }

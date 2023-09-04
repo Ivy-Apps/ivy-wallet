@@ -39,8 +39,10 @@ tailrec suspend fun generateBalanceChart(
     @SideEffect
     calcWalletBalance: suspend (ClosedTimeRange) -> BigDecimal
 ): List<SingleChartPoint> {
-    return if (orderedPeriod.isEmpty()) accumulator else {
-        //recurse
+    return if (orderedPeriod.isEmpty()) {
+        accumulator
+    } else {
+        // recurse
         val toDateTime = orderedPeriod.first().to
         val previousChartPoint = accumulator.lastOrNull()
 
@@ -61,7 +63,6 @@ tailrec suspend fun generateBalanceChart(
         )
     }
 }
-
 
 suspend fun incomeExpenseChart(
     walletDAOs: WalletDAOs,
@@ -91,8 +92,10 @@ tailrec suspend fun generateIncomeExpenseChart(
     calculateWalletIncomeExpense: suspend (range: ClosedTimeRange) -> IncomeExpensePair,
     accumulator: List<IncomeExpenseChartPoint> = emptyList()
 ): List<IncomeExpenseChartPoint> {
-    return if (orderedPeriod.isEmpty()) accumulator else {
-        //recurse
+    return if (orderedPeriod.isEmpty()) {
+        accumulator
+    } else {
+        // recurse
         val range = orderedPeriod.first()
 
         val chartPoint = ChartPoint(
@@ -107,7 +110,6 @@ tailrec suspend fun generateIncomeExpenseChart(
         )
     }
 }
-
 
 suspend fun incomeExpenseCountChart(
     walletDAOs: WalletDAOs,
@@ -137,8 +139,10 @@ tailrec suspend fun generateIncomeExpenseCountChart(
     calculateWalletIncomeExpenseCount: suspend (range: ClosedTimeRange) -> Pair<BigDecimal, BigDecimal>,
     accumulator: List<PairChartPoint> = emptyList()
 ): List<PairChartPoint> {
-    return if (orderedPeriod.isEmpty()) accumulator else {
-        //recurse
+    return if (orderedPeriod.isEmpty()) {
+        accumulator
+    } else {
+        // recurse
         val range = orderedPeriod.first()
 
         val chartPoint = ChartPoint(

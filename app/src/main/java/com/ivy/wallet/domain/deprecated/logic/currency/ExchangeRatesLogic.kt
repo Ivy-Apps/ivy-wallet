@@ -16,7 +16,7 @@ class ExchangeRatesLogic @Inject constructor(
     suspend fun amountBaseCurrency(
         plannedPayment: PlannedPaymentRule,
         baseCurrency: String,
-        accounts: List<Account> //helper
+        accounts: List<Account> // helper
     ): Double {
         return amountBaseCurrency(
             amount = plannedPayment.amount,
@@ -29,7 +29,7 @@ class ExchangeRatesLogic @Inject constructor(
     suspend fun amountBaseCurrency(
         transaction: Transaction,
         baseCurrency: String,
-        accounts: List<Account> //helper
+        accounts: List<Account> // helper
     ): Double {
         return amountBaseCurrency(
             amount = transaction.amount.toDouble(),
@@ -42,7 +42,7 @@ class ExchangeRatesLogic @Inject constructor(
     suspend fun toAmountBaseCurrency(
         transaction: Transaction,
         baseCurrency: String,
-        accounts: List<Account> //helper
+        accounts: List<Account> // helper
     ): Double {
         val amount = transaction.toAmount ?: transaction.amount
         val toCurrency = accounts.find { it.id == transaction.toAccountId }?.currency
@@ -59,10 +59,10 @@ class ExchangeRatesLogic @Inject constructor(
         amount: Double,
         accountId: UUID,
         baseCurrency: String,
-        accounts: List<Account> //helper
+        accounts: List<Account> // helper
     ): Double {
         val trnCurrency = accounts.find { it.id == accountId }?.currency
-            ?: return amount //no conversion
+            ?: return amount // no conversion
 
         return amountBaseCurrency(
             amount = amount,
@@ -77,10 +77,10 @@ class ExchangeRatesLogic @Inject constructor(
         baseCurrency: String
     ): Double {
         return if (amountCurrency != baseCurrency) {
-            //convert to base currency
+            // convert to base currency
             amount / exchangeRate(baseCurrency = baseCurrency, currency = amountCurrency)
         } else {
-            //no conversion needed, return amount
+            // no conversion needed, return amount
             amount
         }
     }

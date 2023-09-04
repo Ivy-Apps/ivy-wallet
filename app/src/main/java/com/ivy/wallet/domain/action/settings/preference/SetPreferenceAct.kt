@@ -17,5 +17,4 @@ class SetPreferenceAct<P : Preference<V>, V> @Inject constructor(
             key asParamTo dataStore::remove
         }
     }
-
 }

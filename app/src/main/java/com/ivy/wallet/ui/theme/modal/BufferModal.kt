@@ -14,7 +14,6 @@ import com.ivy.wallet.ui.theme.components.BufferBattery
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import java.util.*
 
-
 data class BufferModalData(
     val balance: Double,
     val buffer: Double,

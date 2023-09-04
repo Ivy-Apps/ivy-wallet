@@ -111,7 +111,6 @@ fun BoxWithConstraintsScope.BottomBar(
         animationSpec = springBounceFast()
     )
 
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -120,7 +119,7 @@ fun BoxWithConstraintsScope.BottomBar(
             .alpha(1f - buttonsShownPercent)
             .navigationBarsPadding()
             .clickableNoIndication {
-                //consume click
+                // consume click
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -152,7 +151,7 @@ fun BoxWithConstraintsScope.BottomBar(
                 .offset(y = expandedBackgroundOffset)
                 .background(UI.colors.pure.copy(alpha = 0.95f))
                 .clickableNoIndication {
-                    //consume click, do nothing
+                    // consume click, do nothing
                 }
                 .zIndex(100f)
         )
@@ -161,7 +160,7 @@ fun BoxWithConstraintsScope.BottomBar(
     // ------------------------------------ BUTTONS--------------------------------------------------
     val fabStartX = ivyContext.screenWidth / 2 - FAB_BUTTON_SIZE.toDensityPx() / 2
     val fabStartY = ivyContext.screenHeight - navigationBarInset() -
-            30.dp.toDensityPx() - FAB_BUTTON_SIZE.toDensityPx()
+        30.dp.toDensityPx() - FAB_BUTTON_SIZE.toDensityPx()
 
     TransactionButtons(
         buttonsShownPercent = buttonsShownPercent,
@@ -178,7 +177,7 @@ fun BoxWithConstraintsScope.BottomBar(
     var dragOffset by remember {
         mutableStateOf(Offset.Zero)
     }
-    //+ & x button
+    // + & x button
     IvyCircleButton(
         modifier = Modifier
             .layout { measurable, constraints ->
@@ -210,23 +209,23 @@ fun BoxWithConstraintsScope.BottomBar(
 
                             when {
                                 abs(dragOffset.x) < horizontalThreshold &&
-                                        dragOffset.y < -verticalThreshold -> {
-                                    //swipe up
-                                    dragOffset = Offset.Zero //prevent double open of the screen
+                                    dragOffset.y < -verticalThreshold -> {
+                                    // swipe up
+                                    dragOffset = Offset.Zero // prevent double open of the screen
                                     onAddExpense()
                                 }
 
                                 dragOffset.x < -horizontalThreshold &&
-                                        dragOffset.y < -verticalThreshold -> {
-                                    //swipe up left
-                                    dragOffset = Offset.Zero //prevent double open of the screen
+                                    dragOffset.y < -verticalThreshold -> {
+                                    // swipe up left
+                                    dragOffset = Offset.Zero // prevent double open of the screen
                                     onAddIncome()
                                 }
 
                                 dragOffset.x > horizontalThreshold &&
-                                        dragOffset.y < -verticalThreshold -> {
-                                    //swipe up right
-                                    dragOffset = Offset.Zero //prevent double open of the screen
+                                    dragOffset.y < -verticalThreshold -> {
+                                    // swipe up right
+                                    dragOffset = Offset.Zero // prevent double open of the screen
                                     onAddTransfer()
                                 }
                             }
@@ -277,8 +276,8 @@ private fun TransactionButtons(
     val ivyContext = ivyWalletCtx()
 
     val bH = 48.dp
-    val bV = 20.dp //24.dp
-    val bCenterV = 74.dp //80.dp
+    val bV = 20.dp // 24.dp
+    val bCenterV = 74.dp // 80.dp
 
     if (buttonsShownPercent > 0.01f) {
         val buttonLeftX = bH.toDensityPx()
@@ -321,8 +320,7 @@ private fun TransactionButtons(
         )
         // Add INCOME ------------------------------------------------------------------------------
 
-
-        //Add EXPENSE ------------------------------------------------------------------------------
+        // Add EXPENSE ------------------------------------------------------------------------------
         AddExpenseButton(
             buttonsShownPercent = buttonsShownPercent,
             fabStartX = fabStartX,
@@ -331,10 +329,9 @@ private fun TransactionButtons(
             clickAreaWidth = clickAreaWidth,
             onAddExpense = onAddExpense
         )
-        //Add EXPENSE ------------------------------------------------------------------------------
+        // Add EXPENSE ------------------------------------------------------------------------------
 
-
-        //Add TRANSFER ----------------------------------------------------------------------------
+        // Add TRANSFER ----------------------------------------------------------------------------
         AddTransferButton(
             buttonsShownPercent = buttonsShownPercent,
             fabStartX = fabStartX,
@@ -410,7 +407,7 @@ private fun AddIncomeButton(
         )
     )
 
-    //Click area
+    // Click area
     Spacer(
         modifier = Modifier
             .size(
@@ -496,7 +493,7 @@ private fun AddExpenseButton(
         )
     )
 
-    //Click area
+    // Click area
     Spacer(
         modifier = Modifier
             .size(
@@ -582,7 +579,7 @@ private fun AddTransferButton(
         )
     )
 
-    //Click area
+    // Click area
     Spacer(
         modifier = Modifier
             .size(
@@ -641,5 +638,4 @@ private fun RowScope.Tab(
             )
         }
     }
-
 }

@@ -197,7 +197,7 @@ private fun BoxWithConstraintsScope.UI(
             setTitleTextFieldValue = {
                 titleTextFieldValue = it
             },
-            suggestions = emptySet(), //DO NOT display title suggestions for "Planned Payments"
+            suggestions = emptySet(), // DO NOT display title suggestions for "Planned Payments"
 
             onTitleChanged = onTitleChanged,
             onNext = {
@@ -253,14 +253,14 @@ private fun BoxWithConstraintsScope.UI(
             onEditDescription = { descriptionModalVisible = true }
         )
 
-        Spacer(Modifier.height(600.dp))//scroll hack
+        Spacer(Modifier.height(600.dp)) // scroll hack
     }
 
     onScreenStart {
         if (screen.plannedPaymentRuleId == null) {
-            //Create mode
+            // Create mode
             if (screen.mandatoryFilled()) {
-                //Flow Convert (Amount, Account, Category)
+                // Flow Convert (Amount, Account, Category)
                 recurringRuleModal = RecurringRuleModalData(
                     initialStartDate = startDate,
                     initialIntervalN = intervalN,
@@ -268,7 +268,7 @@ private fun BoxWithConstraintsScope.UI(
                     initialOneTime = oneTime
                 )
             } else {
-                //Flow Empty
+                // Flow Empty
                 changeTransactionTypeModalVisible = true
             }
         }
@@ -326,7 +326,7 @@ private fun BoxWithConstraintsScope.UI(
         }
     )
 
-    //Modals
+    // Modals
     ChooseCategoryModal(
         visible = chooseCategoryModalVisible,
         initialCategory = category,

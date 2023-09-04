@@ -39,7 +39,7 @@ class MainViewModel @Inject constructor(
                 ivyContext.selectMainTab(MainTab.HOME)
                 true
             } else {
-                //Exiting (the backstack will close the app)
+                // Exiting (the backstack will close the app)
                 false
             }
         }
@@ -54,7 +54,7 @@ class MainViewModel @Inject constructor(
                 sharedPrefs.getBoolean(SharedPrefs.DATA_BACKUP_COMPLETED, false)
 
             ioThread {
-                //Sync exchange rates
+                // Sync exchange rates
                 syncExchangeRatesAct(
                     SyncExchangeRatesAct.Input(baseCurrency = baseCurrency)
                 )
@@ -79,5 +79,4 @@ class MainViewModel @Inject constructor(
             TestIdlingResource.decrement()
         }
     }
-
 }

@@ -12,10 +12,12 @@ import timber.log.Timber
 fun newKtorClient(): HttpClient {
     return HttpClient {
         install(ContentNegotiation) {
-            json(json = Json {
-                ignoreUnknownKeys = true
-                isLenient = true
-            })
+            json(
+                json = Json {
+                    ignoreUnknownKeys = true
+                    isLenient = true
+                }
+            )
         }
 
         install(Logging) {

@@ -31,7 +31,6 @@ fun MoneyManagerPraseSteps(
 
     Spacer(Modifier.height(24.dp))
 
-
     StepTitle(
         number = 2,
         title = stringResource(R.string.convert_xls_to_csv),
@@ -50,9 +49,7 @@ fun MoneyManagerPraseSteps(
         ivyActivity.openUrlInBrowser("https://www.zamzar.com/converters/document/xls-to-csv/")
     }
 
-
     Spacer(Modifier.height(24.dp))
-
 
     UploadFileStep(
         stepNumber = 3,

@@ -24,7 +24,6 @@ class LogoutLogic(
     }
 
     suspend fun cloudLogout() {
-
-        navigation.navigateTo(Main);
+        navigation.navigateTo(Main)
     }
 }
