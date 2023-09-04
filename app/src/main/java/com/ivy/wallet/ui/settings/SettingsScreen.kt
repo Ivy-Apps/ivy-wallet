@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.ivy.design.l0_system.SunsetNight
+import com.ivy.design.l0_system.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IconScale
@@ -104,6 +105,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
 
     val user by viewModel.user.observeAsState()
     val opSync by viewModel.opSync.observeAsState()
+    val theme by viewModel.currentTheme.observeAsState(Theme.AUTO)
     val currencyCode by viewModel.currencyCode.observeAsState("")
     val lockApp by viewModel.lockApp.observeAsState(false)
     val showNotifications by viewModel.showNotifications.collectAsState()
@@ -124,6 +126,8 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
         user = user,
         currencyCode = currencyCode,
         opSync = opSync,
+        theme = theme,
+        onSwitchTheme = viewModel::switchTheme,
         lockApp = lockApp,
         showNotifications = showNotifications,
         hideCurrentBalance = hideCurrentBalance,
@@ -162,6 +166,9 @@ private fun BoxWithConstraintsScope.UI(
     currencyCode: String,
     opSync: OpResult<Boolean>?,
 
+    theme: Theme,
+    onSwitchTheme: () -> Unit,
+
     lockApp: Boolean,
     showNotifications: Boolean = true,
     hideCurrentBalance: Boolean = false,
@@ -187,7 +194,7 @@ private fun BoxWithConstraintsScope.UI(
     onDeleteAllUserData: () -> Unit = {},
     onDeleteCloudUserData: () -> Unit = {},
 
-) {
+    ) {
     var currencyModalVisible by remember { mutableStateOf(false) }
     var nameModalVisible by remember { mutableStateOf(false) }
     var chooseStartDateOfMonthVisible by remember { mutableStateOf(false) }
@@ -309,6 +316,23 @@ private fun BoxWithConstraintsScope.UI(
             SettingsSectionDivider(text = stringResource(R.string.app_settings))
 
             Spacer(Modifier.height(16.dp))
+
+            AppThemeButton(
+                icon = when (theme) {
+                    Theme.LIGHT -> R.drawable.home_more_menu_light_mode
+                    Theme.DARK -> R.drawable.home_more_menu_dark_mode
+                    Theme.AUTO -> R.drawable.home_more_menu_auto_mode
+                },
+                label = when (theme) {
+                    Theme.LIGHT -> stringResource(R.string.light_mode)
+                    Theme.DARK -> stringResource(R.string.dark_mode)
+                    Theme.AUTO -> stringResource(R.string.auto_mode)
+                }
+            ) {
+                onSwitchTheme()
+            }
+
+            Spacer(Modifier.height(12.dp))
 
             val nav = navigation()
             SettingsDefaultButton(
@@ -674,6 +698,23 @@ private fun ProjectContributors() {
     ) {
         uriHandler.openUri(URL_IVY_CONTRIBUTORS)
     }
+}
+
+@Composable
+private fun AppThemeButton(
+    @DrawableRes icon: Int,
+    label: String,
+    onClick: () -> Unit
+) {
+    SettingsPrimaryButton(
+        icon = icon,
+        text = label,
+        backgroundGradient = Gradient.solid(UI.colors.medium),
+        textColor = UI.colors.pureInverse,
+        iconPadding = 6.dp,
+        description = "Tap to switch theme",
+        onClick = onClick
+    )
 }
 
 @Composable
@@ -1081,6 +1122,7 @@ private fun SettingsPrimaryButton(
     backgroundGradient: Gradient = Gradient.solid(UI.colors.medium),
     textColor: Color = White,
     iconPadding: Dp = 0.dp,
+    description: String = "",
     onClick: () -> Unit
 ) {
     SettingsButtonRow(
@@ -1099,14 +1141,29 @@ private fun SettingsPrimaryButton(
 
         Spacer(Modifier.width(8.dp))
 
-        Text(
-            modifier = Modifier.padding(vertical = 20.dp),
-            text = text,
-            style = UI.typo.b2.style(
-                color = textColor,
-                fontWeight = FontWeight.Bold
+        Column(
+            Modifier
+                .weight(1f)
+                .padding(top = 20.dp, bottom = 20.dp, end = 8.dp)
+        ) {
+            Text(
+                text = text,
+                style = UI.typo.b2.style(
+                    color = UI.colors.pureInverse,
+                    fontWeight = FontWeight.Bold
+                )
             )
-        )
+            if (description.isNotEmpty()) {
+                Text(
+                    modifier = Modifier.padding(end = 8.dp),
+                    text = description,
+                    style = UI.typo.nB2.style(
+                        color = Gray,
+                        fontWeight = FontWeight.Normal
+                    ).copy(fontSize = 14.sp)
+                )
+            }
+        }
     }
 }
 
@@ -1312,6 +1369,8 @@ private fun Preview_synced() {
             ),
             nameLocalAccount = null,
             opSync = OpResult.success(true),
+            theme = Theme.AUTO,
+            onSwitchTheme = {},
             lockApp = false,
             currencyCode = "BGN",
             onSetCurrency = {},
@@ -1337,6 +1396,8 @@ private fun Preview_notSynced() {
                 id = UUID.randomUUID(),
                 profilePicture = null
             ),
+            theme = Theme.AUTO,
+            onSwitchTheme = {},
             lockApp = false,
             nameLocalAccount = null,
             opSync = OpResult.success(false),
@@ -1364,6 +1425,8 @@ private fun Preview_loading() {
                 id = UUID.randomUUID(),
                 profilePicture = null
             ),
+            theme = Theme.AUTO,
+            onSwitchTheme = {},
             lockApp = false,
             nameLocalAccount = null,
             opSync = OpResult.loading(),
@@ -1386,6 +1449,8 @@ private fun Preview_localAccount() {
             nameLocalAccount = "Iliyan",
             opSync = null,
             currencyCode = "BGN",
+            theme = Theme.AUTO,
+            onSwitchTheme = {},
             lockApp = false,
             onSetCurrency = {},
             onLogout = {},

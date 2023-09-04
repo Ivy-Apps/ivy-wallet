@@ -4,12 +4,15 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.design.l0_system.Theme
 import com.ivy.frp.monad.Res
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.action.global.UpdateStartDayOfMonthAct
+import com.ivy.wallet.domain.action.settings.SettingsAct
+import com.ivy.wallet.domain.action.settings.UpdateSettingsAct
 import com.ivy.wallet.domain.data.core.User
 import com.ivy.wallet.domain.deprecated.logic.LogoutLogic
 import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
@@ -49,6 +52,8 @@ class SettingsViewModel @Inject constructor(
     private val updateStartDayOfMonthAct: UpdateStartDayOfMonthAct,
     private val nav: Navigation,
     private val syncExchangeRatesAct: SyncExchangeRatesAct,
+    private val settingsAct: SettingsAct,
+    private val updateSettingsAct: UpdateSettingsAct,
 ) : ViewModel() {
 
     private val _user = MutableLiveData<User?>()
@@ -62,6 +67,9 @@ class SettingsViewModel @Inject constructor(
 
     private val _currencyCode = MutableLiveData<String>()
     val currencyCode = _currencyCode.asLiveData()
+
+    private val _currentTheme = MutableLiveData<Theme>()
+    val currentTheme = _currentTheme.asLiveData()
 
     private val _lockApp = MutableLiveData<Boolean>()
     val lockApp = _lockApp.asLiveData()
@@ -98,6 +106,8 @@ class SettingsViewModel @Inject constructor(
 
             _user.value = null
             _currencyCode.value = settings.currency
+
+            _currentTheme.value = settingsAct(Unit).theme
 
             _lockApp.value = sharedPrefs.getBoolean(SharedPrefs.APP_LOCK_ENABLED, false)
             _hideCurrentBalance.value =
@@ -268,6 +278,24 @@ class SettingsViewModel @Inject constructor(
                 sendToCrashlytics("Settings - GOOGLE_SIGN_IN ERROR: idToken is null!!")
                 Timber.e("Settings - Login with Google failed while getting idToken")
             }
+        }
+    }
+
+    fun switchTheme() {
+        viewModelScope.launch {
+            val currentSettings = settingsAct(Unit)
+            val newTheme = when (currentSettings.theme) {
+                Theme.LIGHT -> Theme.DARK
+                Theme.DARK -> Theme.AUTO
+                Theme.AUTO -> Theme.LIGHT
+            }
+            updateSettingsAct(
+                currentSettings.copy(
+                    theme = newTheme
+                )
+            )
+            ivyContext.switchTheme(newTheme)
+            _currentTheme.value = newTheme
         }
     }
 
