@@ -52,7 +52,7 @@ jobs:
           path: build/reports/detekt/detekt.html
       #------------------------------------------------------------------
 
-      - name: Comment Detekt Results with Danger
+      - name: Comment Detekt results on the PR with Danger
         if: github.event_name == 'pull_request'
         uses: danger/danger-js@10.6.4
         with:
