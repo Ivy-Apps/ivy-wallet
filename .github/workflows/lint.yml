@@ -19,7 +19,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout GIT
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Java SDK
         uses: actions/setup-java@v3

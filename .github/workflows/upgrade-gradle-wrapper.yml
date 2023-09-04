@@ -12,7 +12,7 @@ jobs:
       WRAPPER_UPGRADE_GIT_TOKEN: ${{ secrets.GRADLE_WRAPPER_UPDATE_TOKEN }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup git
         run: |
