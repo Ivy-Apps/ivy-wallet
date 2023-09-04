@@ -18,13 +18,13 @@ body:
         - a
         - b
         - c
-      value: "- "
     validations:
       required: true
   - type: textarea
     id: because
     attributes:
       label: Because...
+      description: Why do we need this?
       placeholder: |
         - d
         - e
@@ -39,9 +39,13 @@ body:
     validations:
       required: false
   - type: textarea
-    id: logs
+    id: requirements
     attributes:
-      label: Logs
-      description: Share any logs or information that might help us resolve your issue faster.
+      label: Success Criteria
+      description: Describe the requirements of the task.
+      placeholder: |
+        - Requirement 1
+        - Requirement 2
+        - Requirement 3
     validations:
       required: false

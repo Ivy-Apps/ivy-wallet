@@ -9,49 +9,32 @@ updates:
     schedule:
       interval: "weekly"
     registries:
-      - maven-google
+      - google
+      - jitpack
+      - maven-central
     open-pull-requests-limit: 10
     groups:
-      kotlin-compose:
+      ivy-wallet:
         patterns:
-          - "androidx.compose*"
-          - "androidx.glance*"
-          - "org.jetbrains.kotlin*"
-          - "io.coil-kt:coil-compose"
-          - "com.android.tools.build:gradle"
-          - "androidx.activity:activity-compose"
-          - "androidx.lifecycle:lifecycle-viewmodel-compose"
-      ktor:
-        patterns:
-          - "io.ktor*"
-      google-firebase:
-        patterns:
-          - "com.google*"
-          - "com.android.billingclient*"
-      kotest:
-        patterns:
-          - "io.kotest*"
-      androidx:
-        patterns:
-          - "androidx.*"
-      hilt:
-        patterns:
-          - "com.google.dagger*"
-          - "androidx.hilt*"
-      room:
-        patterns:
-          - "androidx.room*"
+          - "*"
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10
+    groups:
+      github-actions:
+        patterns:
+          - "*"
 
-# This is only a workaround as long as
-# https://github.com/dependabot/dependabot-core/pull/7260
-# is not merged
 registries:
-  maven-google:
+  google:
     type: maven-repository
-    url: "https://dl.google.com/dl/android/maven2/"
+    url: "https://maven.google.com/"
+  jitpack:
+    type: maven-repository
+    url: "https://jitpack.io/"
+  maven-central:
+    type: maven-repository
+    url: "https://repo.maven.apache.org/maven2"
