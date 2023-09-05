@@ -56,7 +56,6 @@ import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
 import com.ivy.wallet.Constants.URL_IVY_CONTRIBUTORS
 import com.ivy.wallet.R
-import com.ivy.wallet.backup.github.ui.GitHubBackupCard
 import com.ivy.wallet.domain.data.AuthProviderType
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.core.User
@@ -302,14 +301,6 @@ private fun BoxWithConstraintsScope.UI(
                     )
                 )
             }
-
-            Spacer(Modifier.height(12.dp))
-
-            GitHubBackupCard(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .fillMaxWidth()
-            )
         }
 
         item {

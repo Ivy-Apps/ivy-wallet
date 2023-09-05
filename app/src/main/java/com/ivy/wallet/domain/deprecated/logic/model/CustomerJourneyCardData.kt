@@ -12,7 +12,7 @@ data class CustomerJourneyCardData(
 
     val title: String,
     val description: String,
-    val cta: String,
+    val cta: String?,
     @DrawableRes val ctaIcon: Int,
 
     val hasDismiss: Boolean = true,
