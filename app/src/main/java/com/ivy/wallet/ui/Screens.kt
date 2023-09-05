@@ -1,10 +1,12 @@
 package com.ivy.wallet.ui
 
+import com.google.firebase.crashlytics.internal.model.ImmutableList
 import com.ivy.frp.view.navigation.Screen
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.ui.paywall.PaywallReason
-import java.util.UUID
+import com.ivy.wallet.utils.emptyImmutableList
+import java.util.*
 
 object Main : Screen
 
@@ -20,7 +22,7 @@ data class EditTransaction(
     val initialTransactionId: UUID?,
     val type: TransactionType,
 
-    // extras
+    //extras
     val accountId: UUID? = null,
     val categoryId: UUID? = null
 ) : Screen
@@ -30,15 +32,15 @@ data class ItemStatistic(
     val categoryId: UUID? = null,
     val unspecifiedCategory: Boolean? = false,
     val transactionType: TransactionType? = null,
-    val accountIdFilterList: List<UUID> = emptyList(),
-    val transactions: List<Transaction> = emptyList()
+    val accountIdFilterList: ImmutableList<UUID> = emptyImmutableList(),
+    val transactions: ImmutableList<Transaction> = emptyImmutableList()
 ) : Screen
 
 data class PieChartStatistic(
     val type: TransactionType,
     val filterExcluded: Boolean = true,
-    val accountList: List<UUID> = emptyList(),
-    val transactions: List<Transaction> = emptyList(),
+    val accountList: ImmutableList<UUID> = emptyImmutableList(),
+    val transactions: ImmutableList<Transaction> = emptyImmutableList(),
     val treatTransfersAsIncomeExpense: Boolean = false
 ) : Screen
 
@@ -52,8 +54,8 @@ data class EditPlanned(
     val description: String? = null,
 ) : Screen {
     fun mandatoryFilled(): Boolean {
-        return amount != null && amount > 0.0 &&
-            accountId != null
+        return amount != null && amount > 0.0
+                && accountId != null
     }
 }
 
@@ -90,5 +92,7 @@ data class LoanDetails(
 ) : Screen
 
 object Test : Screen
+
+data class IvyWebView(val url: String) : Screen
 
 object Charts : Screen

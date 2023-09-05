@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.planned.list
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.crashlytics.internal.model.ImmutableList
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
@@ -16,6 +17,7 @@ import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.PlannedPayments
 import com.ivy.wallet.utils.asLiveData
 import com.ivy.wallet.utils.ioThread
+import com.ivy.wallet.utils.toActualImmutableList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -33,14 +35,14 @@ class PlannedPaymentsViewModel @Inject constructor(
     private val _currency = MutableLiveData<String>()
     val currency = _currency.asLiveData()
 
-    private val _categories = MutableLiveData<List<Category>>()
+    private val _categories = MutableLiveData<ImmutableList<Category>>()
     val categories = _categories.asLiveData()
 
-    private val _accounts = MutableLiveData<List<Account>>()
+    private val _accounts = MutableLiveData<ImmutableList<Account>>()
     val accounts = _accounts.asLiveData()
 
-    // One Time
-    private val _oneTime = MutableLiveData<List<PlannedPaymentRule>>()
+    //One Time
+    private val _oneTime = MutableLiveData<ImmutableList<PlannedPaymentRule>>()
     val oneTime = _oneTime.asLiveData()
 
     private val _oneTimeIncome = MutableLiveData<Double>()
@@ -49,8 +51,8 @@ class PlannedPaymentsViewModel @Inject constructor(
     private val _oneTimeExpenses = MutableLiveData<Double>()
     val oneTimeExpenses = _oneTimeExpenses.asLiveData()
 
-    // Recurring
-    private val _recurring = MutableLiveData<List<PlannedPaymentRule>>()
+    //Recurring
+    private val _recurring = MutableLiveData<ImmutableList<PlannedPaymentRule>>()
     val recurring = _recurring.asLiveData()
 
     private val _recurringIncome = MutableLiveData<Double>()
@@ -70,11 +72,11 @@ class PlannedPaymentsViewModel @Inject constructor(
             _categories.value = categoriesAct(Unit)!!
             _accounts.value = accountsAct(Unit)!!
 
-            _oneTime.value = ioThread { plannedPaymentsLogic.oneTime() }!!
+            _oneTime.value = ioThread { plannedPaymentsLogic.oneTime().toActualImmutableList() }!!
             _oneTimeIncome.value = ioThread { plannedPaymentsLogic.oneTimeIncome() }!!
             _oneTimeExpenses.value = ioThread { plannedPaymentsLogic.oneTimeExpenses() }!!
 
-            _recurring.value = ioThread { plannedPaymentsLogic.recurring() }!!
+            _recurring.value = ioThread { plannedPaymentsLogic.recurring().toActualImmutableList() }!!
             _recurringIncome.value = ioThread { plannedPaymentsLogic.recurringIncome() }!!
             _recurringExpenses.value = ioThread { plannedPaymentsLogic.recurringExpenses() }!!
 

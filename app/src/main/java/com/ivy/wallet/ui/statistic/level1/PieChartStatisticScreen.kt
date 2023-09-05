@@ -39,6 +39,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.firebase.crashlytics.internal.model.ImmutableList
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -475,7 +476,7 @@ private fun Preview_Expense() {
             ), // preview
             baseCurrency = "BGN",
             totalAmount = 1828.0,
-            categoryAmounts = listOf(
+            categoryAmounts = ImmutableList.from(
                 CategoryAmount(
                     category = Category("Bills", Green.toArgb(), icon = "bills"),
                     amount = 791.0
@@ -529,7 +530,7 @@ private fun Preview_Income() {
             ), // preview
             baseCurrency = "BGN",
             totalAmount = 1828.0,
-            categoryAmounts = listOf(
+            categoryAmounts = ImmutableList.from(
                 CategoryAmount(
                     category = Category("Bills", Green.toArgb(), icon = "bills"),
                     amount = 791.0

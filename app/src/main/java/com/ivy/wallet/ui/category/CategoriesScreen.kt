@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.firebase.crashlytics.internal.model.ImmutableList
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -550,7 +551,7 @@ private fun Preview() {
     IvyWalletPreview {
         val state = CategoriesScreenState(
             baseCurrency = "BGN",
-            categories = listOf(
+            categories = ImmutableList.from(
                 CategoryData(
                     category = Category(
                         "Groceries",

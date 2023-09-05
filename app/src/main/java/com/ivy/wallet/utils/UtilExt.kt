@@ -3,6 +3,7 @@ package com.ivy.wallet.utils
 import android.app.KeyguardManager
 import android.content.Context
 import android.icu.util.Currency
+import com.google.firebase.crashlytics.internal.model.ImmutableList
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.log10
@@ -55,7 +56,7 @@ fun <T> MutableList<T>.swap(fromIndex: Int, toIndex: Int) {
 }
 
 fun numberBetween(min: Double, max: Double): Double {
-    return Random().nextDouble() * (max - min) + min
+    return Random().nextDouble() * (max - min) + min;
 }
 
 fun <T> MutableList<T>?.orEmpty(): MutableList<T> {
@@ -66,8 +67,8 @@ fun String.nullifyEmpty() = this.ifBlank { null }
 
 fun getDefaultFIATCurrency(): Currency =
     Currency.getInstance(Locale.getDefault()) ?: Currency.getInstance("USD")
-        ?: Currency.getInstance("usd") ?: Currency.getAvailableCurrencies().firstOrNull()
-        ?: Currency.getInstance("EUR")
+    ?: Currency.getInstance("usd") ?: Currency.getAvailableCurrencies().firstOrNull()
+    ?: Currency.getInstance("EUR")
 
 fun String.toUpperCaseLocal() = this.uppercase(Locale.getDefault())
 
@@ -76,13 +77,9 @@ fun String.toLowerCaseLocal() = this.lowercase(Locale.getDefault())
 fun String.uppercaseLocal(): String = this.uppercase(Locale.getDefault())
 
 fun String.capitalizeLocal(): String = this.replaceFirstChar {
-    if (it.isLowerCase()) {
-        it.titlecase(
-            Locale.getDefault()
-        )
-    } else {
-        it.toString()
-    }
+    if (it.isLowerCase()) it.titlecase(
+        Locale.getDefault()
+    ) else it.toString()
 }
 
 fun String.capitalizeWords(): String {
@@ -93,3 +90,19 @@ fun hasLockScreen(context: Context): Boolean {
     val keyguardManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
     return keyguardManager.isDeviceSecure
 }
+
+fun <T> List<T>.toActualImmutableList() = ImmutableList.from(this)
+fun <T> emptyImmutableList(): ImmutableList<T> = ImmutableList.from()
+inline fun <T> Iterable<T>.filterImmutableList(predicate: (T) -> Boolean): ImmutableList<T> {
+    return filterTo(ArrayList<T>(), predicate).toActualImmutableList()
+}
+
+suspend inline infix fun <B> (suspend () -> List<B>).thenFilterImmutableList(
+    crossinline predicate: suspend (B) -> Boolean
+): suspend () -> ImmutableList<B> =
+    {
+        val list = this()
+        list.filter {
+            predicate(it)
+        }.toActualImmutableList()
+    }

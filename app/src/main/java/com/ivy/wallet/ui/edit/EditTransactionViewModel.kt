@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.crashlytics.internal.model.ImmutableList
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.domain.action.account.AccountByIdAct
@@ -35,6 +36,7 @@ import com.ivy.wallet.ui.Main
 import com.ivy.wallet.ui.loan.data.EditTransactionDisplayLoan
 import com.ivy.wallet.ui.widget.WalletBalanceWidgetReceiver
 import com.ivy.wallet.utils.computationThread
+import com.ivy.wallet.utils.emptyImmutableList
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.readOnly
 import com.ivy.wallet.utils.timeNowUTC
@@ -91,10 +93,10 @@ class EditTransactionViewModel @Inject constructor(
     private val _dueDate = MutableStateFlow<LocalDateTime?>(null)
     val dueDate = _dueDate.readOnly()
 
-    private val _accounts = MutableStateFlow<List<Account>>(emptyList())
+    private val _accounts = MutableStateFlow<ImmutableList<Account>>(emptyImmutableList())
     val accounts = _accounts.readOnly()
 
-    private val _categories = MutableStateFlow<List<Category>>(emptyList())
+    private val _categories = MutableStateFlow<ImmutableList<Category>>(emptyImmutableList())
     val categories = _categories.readOnly()
 
     private val _account = MutableStateFlow<Account?>(null)

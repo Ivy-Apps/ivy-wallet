@@ -1,9 +1,11 @@
 package com.ivy.wallet.ui.reports
 
+import com.google.firebase.crashlytics.internal.model.ImmutableList
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.wallet.utils.emptyImmutableList
 import java.util.*
 
 data class ReportScreenState(
@@ -24,8 +26,8 @@ data class ReportScreenState(
     val overdueExpanded: Boolean = false,
     val filter: ReportFilter? = null,
     val loading: Boolean = false,
-    val accountIdFilters: List<UUID> = emptyList(),
-    val transactions: List<Transaction> = emptyList(),
+    val accountIdFilters: ImmutableList<UUID> = emptyImmutableList(),
+    val transactions: ImmutableList<Transaction> = emptyImmutableList(),
     val filterOverlayVisible: Boolean = false,
     val showTransfersAsIncExpCheckbox: Boolean = false,
     val treatTransfersAsIncExp: Boolean = false

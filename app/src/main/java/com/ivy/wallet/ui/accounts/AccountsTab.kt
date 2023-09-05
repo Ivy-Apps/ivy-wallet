@@ -32,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.firebase.crashlytics.internal.model.ImmutableList
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -340,7 +341,7 @@ private fun PreviewAccountsTab() {
     IvyWalletPreview {
         val state = AccountState(
             baseCurrency = "BGN",
-            accountsData = listOf(
+            accountsData = ImmutableList.from(
                 AccountData(
                     account = Account("Phyre", color = Green.toArgb()),
                     balance = 2125.0,

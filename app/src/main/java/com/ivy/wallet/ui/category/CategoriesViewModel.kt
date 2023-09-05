@@ -1,6 +1,7 @@
 package com.ivy.wallet.ui.category
 
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.crashlytics.internal.model.ImmutableList
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.thenInvokeAfter
@@ -20,8 +21,10 @@ import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
+import com.ivy.wallet.utils.emptyImmutableList
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.scopedIOThread
+import com.ivy.wallet.utils.toActualImmutableList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -53,9 +56,9 @@ class CategoriesViewModel @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    private var allAccounts = emptyList<Account>()
+    private var allAccounts = emptyImmutableList<Account>()
     private var baseCurrency = ""
-    private var transactions = emptyList<Transaction>()
+    private var transactions = emptyImmutableList<Transaction>()
 
     fun start() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -118,7 +121,7 @@ class CategoriesViewModel @Inject constructor(
                 )
             }
 
-            val sortedList = sortList(categories, stateVal().sortOrder)
+            val sortedList = sortList(categories, stateVal().sortOrder).toActualImmutableList()
 
             updateState {
                 it.copy(baseCurrency = baseCurrency, categories = sortedList)
@@ -132,7 +135,7 @@ class CategoriesViewModel @Inject constructor(
     ) {
         TestIdlingResource.increment()
 
-        val sortedList = sortList(newOrder, sortOrder)
+        val sortedList = sortList(newOrder, sortOrder).toActualImmutableList()
 
         if (sortOrder == SortOrder.DEFAULT) {
             ioThread {
@@ -166,12 +169,15 @@ class CategoriesViewModel @Inject constructor(
             SortOrder.DEFAULT -> categoryData.sortedBy {
                 it.category.orderNum
             }
+
             SortOrder.BALANCE_AMOUNT -> categoryData.sortedByDescending {
                 it.monthlyBalance.absoluteValue
             }
+
             SortOrder.ALPHABETICAL -> categoryData.sortedBy {
                 it.category.name
             }
+
             SortOrder.EXPENSES -> categoryData.sortedByDescending {
                 it.monthlyExpenses
             }
@@ -198,11 +204,13 @@ class CategoriesViewModel @Inject constructor(
                         reorderModalVisible = event.visible
                     )
                 }
+
                 is CategoriesScreenEvent.OnSortOrderModalVisible -> updateState {
                     it.copy(
                         sortModalVisible = event.visible
                     )
                 }
+
                 is CategoriesScreenEvent.OnCategoryModalVisible -> updateState {
                     it.copy(
                         categoryModalData = event.categoryModalData
@@ -215,11 +223,12 @@ class CategoriesViewModel @Inject constructor(
 
 data class CategoriesScreenState(
     val baseCurrency: String = "",
-    val categories: List<CategoryData> = emptyList(),
+    val categories: ImmutableList<CategoryData> = emptyImmutableList(),
     val reorderModalVisible: Boolean = false,
     val categoryModalData: CategoryModalData? = null,
     val sortModalVisible: Boolean = false,
-    val sortOrderItems: List<SortOrder> = SortOrder.values().toList(),
+    val sortOrderItems: ImmutableList<SortOrder> = SortOrder.values().toList()
+        .toActualImmutableList(),
     val sortOrder: SortOrder = SortOrder.DEFAULT
 )
 

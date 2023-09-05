@@ -1,6 +1,7 @@
 package com.ivy.wallet.ui.statistic.level1
 
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.crashlytics.internal.model.ImmutableList
 import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.wallet.domain.action.charts.PieChartAct
 import com.ivy.wallet.domain.data.TransactionType
@@ -13,8 +14,10 @@ import com.ivy.wallet.ui.PieChartStatistic
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import com.ivy.wallet.utils.dateNowUTC
+import com.ivy.wallet.utils.emptyImmutableList
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.readOnly
+import com.ivy.wallet.utils.toActualImmutableList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -59,9 +62,9 @@ class PieChartStatisticViewModel @Inject constructor(
     private suspend fun startInternally(
         period: TimePeriod,
         type: TransactionType,
-        accountIdFilterList: List<UUID>,
+        accountIdFilterList: ImmutableList<UUID>,
         filterExclude: Boolean,
-        transactions: List<Transaction>,
+        transactions: ImmutableList<Transaction>,
         treatTransfersAsIncomeExpense: Boolean
     ) {
         initialise(period, type, accountIdFilterList, filterExclude, transactions)
@@ -72,9 +75,9 @@ class PieChartStatisticViewModel @Inject constructor(
     private suspend fun initialise(
         period: TimePeriod,
         type: TransactionType,
-        accountIdFilterList: List<UUID>,
+        accountIdFilterImmutableList: ImmutableList<UUID>,
         filterExclude: Boolean,
-        transactions: List<Transaction>
+        transactions: ImmutableList<Transaction>
     ) {
         val settings = ioThread { settingsDao.findFirst() }
         val baseCurrency = settings.currency
@@ -83,7 +86,7 @@ class PieChartStatisticViewModel @Inject constructor(
             it.copy(
                 period = period,
                 transactionType = type,
-                accountIdFilterList = accountIdFilterList,
+                accountIdFilterList = accountIdFilterImmutableList,
                 filterExcluded = filterExclude,
                 transactions = transactions,
                 showCloseButtonOnly = transactions.isNotEmpty(),
@@ -96,7 +99,7 @@ class PieChartStatisticViewModel @Inject constructor(
         period: TimePeriod
     ) {
         val type = stateVal().transactionType
-        val accountIdFilterList = stateVal().accountIdFilterList
+        val accountIdFilterImmutableList = stateVal().accountIdFilterList
         val transactions = stateVal().transactions
         val baseCurrency = stateVal().baseCurrency
         val range = period.toRange(ivyContext.startDayOfMonth)
@@ -105,7 +108,7 @@ class PieChartStatisticViewModel @Inject constructor(
             sharedPrefs.getBoolean(
                 SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE,
                 false
-            ) && accountIdFilterList.isNotEmpty() && treatTransfersAsIncomeExpense.value
+            ) && accountIdFilterImmutableList.isNotEmpty() && treatTransfersAsIncomeExpense.value
 
         val pieChartActOutput = ioThread {
             pieChartAct(
@@ -113,10 +116,10 @@ class PieChartStatisticViewModel @Inject constructor(
                     baseCurrency = baseCurrency,
                     range = range,
                     type = type,
-                    accountIdFilterList = accountIdFilterList,
+                    accountIdFilterList = accountIdFilterImmutableList,
                     treatTransferAsIncExp = treatTransferAsIncExp,
                     existingTransactions = transactions,
-                    showAccountTransfersCategory = accountIdFilterList.isNotEmpty()
+                    showAccountTransfersCategory = accountIdFilterImmutableList.isNotEmpty()
                 )
             )
         }
@@ -196,7 +199,7 @@ class PieChartStatisticViewModel @Inject constructor(
         updateState {
             it.copy(
                 selectedCategory = selectedCategory,
-                categoryAmounts = newCategoryAmounts
+                categoryAmounts = newCategoryAmounts.toActualImmutableList()
             )
         }
     }
@@ -219,12 +222,12 @@ data class PieChartStatisticState(
     val period: TimePeriod = TimePeriod(),
     val baseCurrency: String = "",
     val totalAmount: Double = 0.0,
-    val categoryAmounts: List<CategoryAmount> = emptyList(),
+    val categoryAmounts: ImmutableList<CategoryAmount> = emptyImmutableList(),
     val selectedCategory: SelectedCategory? = null,
-    val accountIdFilterList: List<UUID> = emptyList(),
+    val accountIdFilterList: ImmutableList<UUID> = emptyImmutableList(),
     val showCloseButtonOnly: Boolean = false,
     val filterExcluded: Boolean = false,
-    val transactions: List<Transaction> = emptyList(),
+    val transactions: ImmutableList<Transaction> = emptyImmutableList(),
     val choosePeriodModal: ChoosePeriodModalData? = null
 )
 

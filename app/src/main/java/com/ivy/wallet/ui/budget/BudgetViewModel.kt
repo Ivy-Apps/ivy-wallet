@@ -2,6 +2,7 @@ package com.ivy.wallet.ui.budget
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.crashlytics.internal.model.ImmutableList
 import com.ivy.frp.sumOfSuspend
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.wallet.domain.action.account.AccountsAct
@@ -25,10 +26,12 @@ import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.budget.model.DisplayBudget
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
+import com.ivy.wallet.utils.emptyImmutableList
 import com.ivy.wallet.utils.getDefaultFIATCurrency
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.isNotNullOrBlank
 import com.ivy.wallet.utils.readOnly
+import com.ivy.wallet.utils.toActualImmutableList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -54,13 +57,13 @@ class BudgetViewModel @Inject constructor(
     private val _baseCurrencyCode = MutableStateFlow(getDefaultFIATCurrency().currencyCode)
     val baseCurrencyCode = _baseCurrencyCode.readOnly()
 
-    private val _budgets = MutableStateFlow<List<DisplayBudget>>(emptyList())
+    private val _budgets = MutableStateFlow<ImmutableList<DisplayBudget>>(emptyImmutableList())
     val budgets = _budgets.readOnly()
 
-    private val _categories = MutableStateFlow<List<Category>>(emptyList())
+    private val _categories = MutableStateFlow<ImmutableList<Category>>(emptyImmutableList())
     val categories = _categories.readOnly()
 
-    private val _accounts = MutableStateFlow<List<Account>>(emptyList())
+    private val _accounts = MutableStateFlow<ImmutableList<Account>>(emptyImmutableList())
     val accounts = _accounts.readOnly()
 
     private val _categoryBudgetsTotal = MutableStateFlow(0.0)
@@ -108,7 +111,7 @@ class BudgetViewModel @Inject constructor(
                             baseCurrencyCode = baseCurrency
                         )
                     )
-                }
+                }.toActualImmutableList()
             }!!
 
             TestIdlingResource.decrement()
@@ -135,6 +138,7 @@ class BudgetViewModel @Inject constructor(
                         0.0 // ignore income
 //                        if (categoryFilter.isEmpty()) 0.0 else -amountBaseCurrency
                     }
+
                     TransactionType.EXPENSE -> {
                         // increment spent amount
                         exchangeAct(
@@ -147,6 +151,7 @@ class BudgetViewModel @Inject constructor(
                             )
                         ).orNull()?.toDouble() ?: 0.0
                     }
+
                     TransactionType.TRANSFER -> {
                         // ignore transfers for simplicity
                         0.0

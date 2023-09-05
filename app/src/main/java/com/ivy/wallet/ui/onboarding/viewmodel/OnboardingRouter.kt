@@ -1,6 +1,7 @@
 package com.ivy.wallet.ui.onboarding.viewmodel
 
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.crashlytics.internal.model.ImmutableList
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.data.IvyCurrency
@@ -20,6 +21,7 @@ import com.ivy.wallet.ui.onboarding.OnboardingState
 import com.ivy.wallet.ui.onboarding.model.AccountBalance
 import com.ivy.wallet.utils.OpResult
 import com.ivy.wallet.utils.ioThread
+import com.ivy.wallet.utils.toActualImmutableList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -27,10 +29,10 @@ import kotlinx.coroutines.launch
 class OnboardingRouter(
     private val _opGoogleSignIn: MutableLiveData<OpResult<Unit>?>,
     private val _state: MutableLiveData<OnboardingState>,
-    private val _accounts: MutableLiveData<List<AccountBalance>>,
-    private val _accountSuggestions: MutableLiveData<List<CreateAccountData>>,
-    private val _categories: MutableLiveData<List<Category>>,
-    private val _categorySuggestions: MutableLiveData<List<CreateCategoryData>>,
+    private val _accounts: MutableLiveData<ImmutableList<AccountBalance>>,
+    private val _accountSuggestions: MutableLiveData<ImmutableList<CreateAccountData>>,
+    private val _categories: MutableLiveData<ImmutableList<Category>>,
+    private val _categorySuggestions: MutableLiveData<ImmutableList<CreateCategoryData>>,
 
     private val nav: Navigation,
     private val accountDao: AccountDao,
@@ -55,14 +57,17 @@ class OnboardingRouter(
                     // do nothing, consume back
                     true
                 }
+
                 OnboardingState.LOGIN -> {
                     // let the user exit the app
                     false
                 }
+
                 OnboardingState.CHOOSE_PATH -> {
                     _state.value = OnboardingState.LOGIN
                     true
                 }
+
                 OnboardingState.CURRENCY -> {
                     if (isLoginCache) {
                         // user with Ivy account
@@ -78,14 +83,17 @@ class OnboardingRouter(
                     }
                     true
                 }
+
                 OnboardingState.ACCOUNTS -> {
                     _state.value = OnboardingState.CURRENCY
                     true
                 }
+
                 OnboardingState.CATEGORIES -> {
                     _state.value = OnboardingState.ACCOUNTS
                     true
                 }
+
                 null -> {
                     // do nothing, consume back
                     true
@@ -152,7 +160,7 @@ class OnboardingRouter(
     // ------------------------------------- Step 3 - Currency --------------------------------------
     suspend fun setBaseCurrencyNext(
         baseCurrency: IvyCurrency,
-        accountsWithBalance: suspend () -> List<AccountBalance>,
+        accountsWithBalance: suspend () -> ImmutableList<AccountBalance>,
     ) {
         routeToAccounts(
             baseCurrency = baseCurrency,
@@ -196,7 +204,7 @@ class OnboardingRouter(
     // -------------------------------------- Routes ------------------------------------------------
     private suspend fun routeToAccounts(
         baseCurrency: IvyCurrency,
-        accountsWithBalance: suspend () -> List<AccountBalance>,
+        accountsWithBalance: suspend () -> ImmutableList<AccountBalance>,
     ) {
         val accounts = accountsWithBalance()
         _accounts.value = accounts
@@ -207,7 +215,8 @@ class OnboardingRouter(
     }
 
     private suspend fun routeToCategories() {
-        _categories.value = ioThread { categoryDao.findAll().map { it.toDomain() } }!!
+        _categories.value =
+            ioThread { categoryDao.findAll().map { it.toDomain() }.toActualImmutableList() }!!
         _categorySuggestions.value = preloadDataLogic.categorySuggestions()
 
         _state.value = OnboardingState.CATEGORIES

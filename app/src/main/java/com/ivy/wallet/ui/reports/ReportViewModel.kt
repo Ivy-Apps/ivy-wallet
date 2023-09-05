@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.crashlytics.internal.model.ImmutableList
 import com.ivy.frp.filterSuspend
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.viewmodel.FRPViewModel
@@ -71,10 +72,10 @@ class ReportViewModel @Inject constructor(
     private val _period = MutableLiveData<TimePeriod>()
     val period = _period.asLiveData()
 
-    private val _categories = MutableStateFlow<List<Category>>(emptyList())
+    private val _categories = MutableStateFlow<ImmutableList<Category>>(emptyImmutableList())
     val categories = _categories.readOnly()
 
-    private val _allAccounts = MutableStateFlow<List<Account>>(emptyList())
+    private val _allAccounts = MutableStateFlow<ImmutableList<Account>>(emptyImmutableList())
 
     private val _baseCurrency = MutableStateFlow("")
     val baseCurrency = _baseCurrency.readOnly()
@@ -89,7 +90,8 @@ class ReportViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _baseCurrency.value = baseCurrencyAct(Unit)
             _allAccounts.value = accountsAct(Unit)
-            _categories.value = listOf(unSpecifiedCategory) + categoriesAct(Unit)
+            _categories.value =
+                (ImmutableList.from(unSpecifiedCategory) + categoriesAct(Unit)).toActualImmutableList()
 
             updateState {
                 it.copy(
@@ -153,7 +155,8 @@ class ReportViewModel @Inject constructor(
 
             val balance = calculateBalance(historyIncomeExpense.value).toDouble()
 
-            val accountFilterIdList = scope.async { filter.accounts.map { it.id } }
+            val accountFilterIdList =
+                scope.async { filter.accounts.map { it.id }.toActualImmutableList() }
 
             val timeNowUTC = timeNowUTC()
 
@@ -214,7 +217,7 @@ class ReportViewModel @Inject constructor(
         baseCurrency: String,
         accounts: List<Account>,
         filter: ReportFilter,
-    ): List<Transaction> {
+    ): ImmutableList<Transaction> {
         val filterAccountIds = filter.accounts.map { it.id }
         val filterCategoryIds =
             filter.categories.map { if (it.id == unSpecifiedCategory.id) null else it.id }
@@ -311,14 +314,14 @@ class ReportViewModel @Inject constructor(
 
                 true
             }
-            .toList()
+            .toActualImmutableList()
     }
 
     private fun String.containsLowercase(anotherString: String): Boolean {
         return this.toLowerCaseLocal().contains(anotherString.toLowerCaseLocal())
     }
 
-    private fun calculateBalance(incomeExpenseTransferPair: IncomeExpenseTransferPair) : BigDecimal{
+    private fun calculateBalance(incomeExpenseTransferPair: IncomeExpenseTransferPair): BigDecimal {
         return incomeExpenseTransferPair.income + incomeExpenseTransferPair.transferIncome - incomeExpenseTransferPair.expense - incomeExpenseTransferPair.transferExpense
     }
 

@@ -36,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.firebase.crashlytics.internal.model.ImmutableList
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -589,7 +590,7 @@ private fun Header(
                     nav.navigateTo(
                         PieChartStatistic(
                             type = TransactionType.INCOME,
-                            accountList = listOf(account.id),
+                            accountList = ImmutableList.from(account.id),
                             filterExcluded = false,
                             treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense
                         )
@@ -601,7 +602,7 @@ private fun Header(
                     nav.navigateTo(
                         PieChartStatistic(
                             type = TransactionType.EXPENSE,
-                            accountList = listOf(account.id),
+                            accountList = ImmutableList.from(account.id),
                             filterExcluded = false,
                             treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense
                         )

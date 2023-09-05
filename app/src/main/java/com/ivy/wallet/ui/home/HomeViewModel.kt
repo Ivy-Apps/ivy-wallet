@@ -36,6 +36,7 @@ import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
 import com.ivy.wallet.utils.dateNowUTC
 import com.ivy.wallet.utils.ioThread
+import com.ivy.wallet.utils.toActualImmutableList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -244,7 +245,9 @@ class HomeViewModel @Inject constructor(
     ): HomeState {
         return updateState {
             it.copy(
-                customerJourneyCards = ioThread { customerJourneyLogic.loadCards() }
+                customerJourneyCards = ioThread {
+                    customerJourneyLogic.loadCards().toActualImmutableList()
+                }
             )
         }
     }

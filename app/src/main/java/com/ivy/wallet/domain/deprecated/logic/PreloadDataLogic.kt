@@ -1,6 +1,7 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
+import com.google.firebase.crashlytics.internal.model.ImmutableList
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
@@ -10,7 +11,32 @@ import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.onboarding.model.AccountBalance
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.Blue
+import com.ivy.wallet.ui.theme.Blue2
+import com.ivy.wallet.ui.theme.Blue2Light
+import com.ivy.wallet.ui.theme.Blue3
+import com.ivy.wallet.ui.theme.BlueDark
+import com.ivy.wallet.ui.theme.BlueLight
+import com.ivy.wallet.ui.theme.Green
+import com.ivy.wallet.ui.theme.Green2
+import com.ivy.wallet.ui.theme.Green2Light
+import com.ivy.wallet.ui.theme.GreenLight
+import com.ivy.wallet.ui.theme.Ivy
+import com.ivy.wallet.ui.theme.IvyDark
+import com.ivy.wallet.ui.theme.IvyLight
+import com.ivy.wallet.ui.theme.Orange
+import com.ivy.wallet.ui.theme.Orange2
+import com.ivy.wallet.ui.theme.Orange3
+import com.ivy.wallet.ui.theme.Orange3Light
+import com.ivy.wallet.ui.theme.Purple1
+import com.ivy.wallet.ui.theme.Purple2
+import com.ivy.wallet.ui.theme.Red
+import com.ivy.wallet.ui.theme.Red3
+import com.ivy.wallet.ui.theme.Red3Light
+import com.ivy.wallet.ui.theme.RedLight
+import com.ivy.wallet.ui.theme.Yellow
+import com.ivy.wallet.ui.theme.YellowLight
+import com.ivy.wallet.utils.toActualImmutableList
 
 @Deprecated("Migrate to FP Style")
 class PreloadDataLogic(
@@ -20,7 +46,7 @@ class PreloadDataLogic(
     var categoryOrderNum = 0.0
 
     fun shouldPreloadData(accounts: List<AccountBalance>): Boolean {
-        // Preload data only if the user has less than 2 accounts
+        //Preload data only if the user has less than 2 accounts
         return accounts.size < 2
     }
 
@@ -47,29 +73,30 @@ class PreloadDataLogic(
         accountsDao.save(bank.toEntity())
     }
 
-    fun accountSuggestions(baseCurrency: String): List<CreateAccountData> = listOf(
-        CreateAccountData(
-            name = stringRes(R.string.cash),
-            currency = baseCurrency,
-            color = Green,
-            icon = "cash",
-            balance = 0.0
-        ),
-        CreateAccountData(
-            name = stringRes(R.string.bank),
-            currency = baseCurrency,
-            color = IvyDark,
-            icon = "bank",
-            balance = 0.0
-        ),
-        CreateAccountData(
-            name = stringRes(R.string.revoult),
-            currency = baseCurrency,
-            color = Blue,
-            icon = "revolut",
-            balance = 0.0
-        ),
-    )
+    fun accountSuggestions(baseCurrency: String): ImmutableList<CreateAccountData> =
+        ImmutableList.from(
+            CreateAccountData(
+                name = stringRes(R.string.cash),
+                currency = baseCurrency,
+                color = Green,
+                icon = "cash",
+                balance = 0.0
+            ),
+            CreateAccountData(
+                name = stringRes(R.string.bank),
+                currency = baseCurrency,
+                color = IvyDark,
+                icon = "bank",
+                balance = 0.0
+            ),
+            CreateAccountData(
+                name = stringRes(R.string.revoult),
+                currency = baseCurrency,
+                color = Blue,
+                icon = "revolut",
+                balance = 0.0
+            ),
+        )
 
     suspend fun preloadCategories() {
         categoryOrderNum = 0.0
@@ -81,7 +108,7 @@ class PreloadDataLogic(
         }
     }
 
-    private fun preloadCategoriesCreateData() = listOf(
+    private fun preloadCategoriesCreateData() = ImmutableList.from(
         CreateCategoryData(
             name = stringRes(R.string.food_drinks),
             color = Green,
@@ -157,7 +184,7 @@ class PreloadDataLogic(
         categoryDao.save(category.toEntity())
     }
 
-    fun categorySuggestions(): List<CreateCategoryData> = preloadCategoriesCreateData()
+    fun categorySuggestions(): ImmutableList<CreateCategoryData> = preloadCategoriesCreateData()
         .plus(
             listOf(
                 CreateCategoryData(
@@ -165,7 +192,6 @@ class PreloadDataLogic(
                     color = Blue3,
                     icon = "vehicle"
                 ),
-
                 CreateCategoryData(
                     name = stringRes(R.string.work),
                     color = Blue2Light,
@@ -250,5 +276,7 @@ class PreloadDataLogic(
                     icon = "sports"
                 ),
             )
-        )
+        ).toActualImmutableList()
+
+
 }

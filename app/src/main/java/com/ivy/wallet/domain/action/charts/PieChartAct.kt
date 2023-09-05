@@ -1,6 +1,7 @@
 package com.ivy.wallet.domain.action.charts
 
 import androidx.compose.ui.graphics.toArgb
+import com.google.firebase.crashlytics.internal.model.ImmutableList
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
 import com.ivy.frp.action.FPAction
@@ -23,6 +24,9 @@ import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.statistic.level1.CategoryAmount
 import com.ivy.wallet.ui.theme.RedLight
+import com.ivy.wallet.utils.emptyImmutableList
+import com.ivy.wallet.utils.filterImmutableList
+import com.ivy.wallet.utils.toActualImmutableList
 import java.math.BigDecimal
 import java.util.UUID
 import javax.inject.Inject
@@ -74,7 +78,7 @@ class PieChartAct @Inject constructor(
                 type = type,
                 baseCurrency = baseCurrency,
                 allCategories = suspend {
-                    categoriesAct(Unit).plus(null) // for unspecified
+                    categoriesAct(Unit).plus(null) //for unspecified
                 },
                 transactions = suspend { transactions },
                 accountsUsed = suspend { accountsUsed },
@@ -94,6 +98,7 @@ class PieChartAct @Inject constructor(
 
         Pair(incomeExpenseTransfer, categoryAmounts())
     } then {
+
         val totalAmount = calculateTotalAmount(
             type = type,
             treatTransferAsIncExp = treatTransferAsIncExp,
@@ -104,7 +109,7 @@ class PieChartAct @Inject constructor(
 
         Pair(totalAmount, catAmountList)
     } then {
-        Output(it.first.toDouble(), it.second)
+        Output(it.first.toDouble(), it.second.toActualImmutableList())
     }
 
     @Pure
@@ -114,13 +119,13 @@ class PieChartAct @Inject constructor(
         @SideEffect
         allAccounts: suspend () -> List<Account>
     ): Pair<List<Account>, Set<UUID>> {
-        val accountsUsed = if (accountIdFilterList.isEmpty()) {
+
+        val accountsUsed = if (accountIdFilterList.isEmpty())
             allAccounts then ::filterExcluded
-        } else {
+        else
             allAccounts thenFilter {
                 accountIdFilterList.contains(it.id)
             }
-        }
 
         val accountsUsedIDSet = accountsUsed thenMap { it.id } then { it.toHashSet() }
 
@@ -147,13 +152,12 @@ class PieChartAct @Inject constructor(
 
         val catAmtList = allCategories thenMap { category ->
             val categoryTransactions = asyncIo {
-                if (addAssociatedTransToCategoryAmt) {
-                    trans.filter {
+                if (addAssociatedTransToCategoryAmt)
+                    trans.filterImmutableList {
                         it.type == type && it.categoryId == category?.id
                     }
-                } else {
-                    emptyList()
-                }
+                else
+                    emptyImmutableList()
             }
 
             val catIncomeExpense = categoryIncomeWithAccountFiltersAct(
@@ -196,20 +200,18 @@ class PieChartAct @Inject constructor(
         return when (type) {
             TransactionType.INCOME -> {
                 incExpQuad.income +
-                    if (treatTransferAsIncExp) {
-                        incExpQuad.transferIncome
-                    } else {
-                        BigDecimal.ZERO
-                    }
+                        if (treatTransferAsIncExp)
+                            incExpQuad.transferIncome
+                        else
+                            BigDecimal.ZERO
             }
 
             TransactionType.EXPENSE -> {
                 incExpQuad.expense +
-                    if (treatTransferAsIncExp) {
-                        incExpQuad.transferExpense
-                    } else {
-                        BigDecimal.ZERO
-                    }
+                        if (treatTransferAsIncExp)
+                            incExpQuad.transferExpense
+                        else
+                            BigDecimal.ZERO
             }
 
             else -> BigDecimal.ZERO
@@ -232,26 +234,26 @@ class PieChartAct @Inject constructor(
         @SideEffect
         categoryAmounts: suspend () -> List<CategoryAmount>
     ): List<CategoryAmount> {
+
         val incExpQuad = incomeExpenseTransfer()
 
         val catAmtList =
-            if (!showAccountTransfersCategory || incExpQuad.transferIncome == BigDecimal.ZERO && incExpQuad.transferExpense == BigDecimal.ZERO) {
+            if (!showAccountTransfersCategory || incExpQuad.transferIncome == BigDecimal.ZERO && incExpQuad.transferExpense == BigDecimal.ZERO)
                 categoryAmounts then { it.sortedByDescending { ca -> ca.amount } }
-            } else {
-                val amt = if (type == TransactionType.INCOME) {
+            else {
+
+                val amt = if (type == TransactionType.INCOME)
                     incExpQuad.transferIncome.toDouble()
-                } else {
+                else
                     incExpQuad.transferExpense.toDouble()
-                }
 
                 val categoryTrans = transactions().filter {
                     it.type == TransactionType.TRANSFER && it.categoryId == null
-                }.filter {
-                    if (type == TransactionType.EXPENSE) {
+                }.filterImmutableList {
+                    if (type == TransactionType.EXPENSE)
                         accountIdFilterSet.contains(it.accountId)
-                    } else {
+                    else
                         accountIdFilterSet.contains(it.toAccountId)
-                    }
                 }
 
                 categoryAmounts then {
@@ -281,5 +283,5 @@ class PieChartAct @Inject constructor(
         val existingTransactions: List<Transaction> = emptyList()
     )
 
-    data class Output(val totalAmount: Double, val categoryAmounts: List<CategoryAmount>)
+    data class Output(val totalAmount: Double, val categoryAmounts: ImmutableList<CategoryAmount>)
 }

@@ -2,6 +2,7 @@ package com.ivy.wallet.ui.charts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.crashlytics.internal.model.ImmutableList
 import com.ivy.frp.then
 import com.ivy.wallet.domain.action.charts.BalanceChartAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
@@ -16,8 +17,11 @@ import com.ivy.wallet.domain.pure.data.WalletDAOs
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
+import com.ivy.wallet.utils.emptyImmutableList
+import com.ivy.wallet.utils.filterImmutableList
 import com.ivy.wallet.utils.getDefaultFIATCurrency
 import com.ivy.wallet.utils.ioThread
+import com.ivy.wallet.utils.toActualImmutableList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -42,33 +46,36 @@ class ChartsViewModel @Inject constructor(
     val baseCurrencyCode = _baseCurrencyCode.asStateFlow()
 
     // ----------------------------------- Wallet --------------------------------------------------
-    private val _balanceChart = MutableStateFlow(emptyList<SingleChartPoint>())
+    private val _balanceChart = MutableStateFlow(emptyImmutableList<SingleChartPoint>())
     val balanceChart = _balanceChart.asStateFlow()
 
-    private val _incomeExpenseChart = MutableStateFlow(emptyList<IncomeExpenseChartPoint>())
+    private val _incomeExpenseChart =
+        MutableStateFlow(emptyImmutableList<IncomeExpenseChartPoint>())
     val incomeExpenseChart = _incomeExpenseChart
     // ----------------------------------- Wallet --------------------------------------------------
 
+
     // --------------------------- Category --------------------------------------------------------
-    private val _categories = MutableStateFlow(emptyList<Category>())
+    private val _categories = MutableStateFlow(emptyImmutableList<Category>())
     val categories = _categories.asStateFlow()
 
-    private val _categoryExpenseValues = MutableStateFlow(emptyList<CategoryValues>())
+    private val _categoryExpenseValues = MutableStateFlow(emptyImmutableList<CategoryValues>())
     val categoryExpenseValues = _categoryExpenseValues.asStateFlow()
 
-    private val _categoryExpenseCount = MutableStateFlow(emptyList<CategoryValues>())
+    private val _categoryExpenseCount = MutableStateFlow(emptyImmutableList<CategoryValues>())
     val categoryExpenseCount = _categoryExpenseCount.asStateFlow()
 
-    private val _categoryIncomeValues = MutableStateFlow(emptyList<CategoryValues>())
+    private val _categoryIncomeValues = MutableStateFlow(emptyImmutableList<CategoryValues>())
     val categoryIncomeValues = _categoryIncomeValues.asStateFlow()
 
-    private val _categoryIncomeCount = MutableStateFlow(emptyList<CategoryValues>())
+    private val _categoryIncomeCount = MutableStateFlow(emptyImmutableList<CategoryValues>())
     val categoryIncomeCount = _categoryIncomeCount.asStateFlow()
     // --------------------------- Category --------------------------------------------------------
 
     // --------------------------- Accounts --------------------------------------------------------
-    // TODO: Implement
+    //TODO: Implement
     // --------------------------- Accounts --------------------------------------------------------
+
 
     fun start() {
         viewModelScope.launch {
@@ -84,16 +91,14 @@ class ChartsViewModel @Inject constructor(
     }
 
     private suspend fun generateBalanceChart(period: ChartPeriod) =
-        (
-            baseCurrencyAct then { baseCurrency ->
-                balanceChartAct(
-                    BalanceChartAct.Input(
-                        baseCurrency = baseCurrency,
-                        period = period
-                    )
+        (baseCurrencyAct then { baseCurrency ->
+            balanceChartAct(
+                BalanceChartAct.Input(
+                    baseCurrency = baseCurrency,
+                    period = period
                 )
-            }
-            )(Unit)
+            )
+        } then { it.toActualImmutableList() })(Unit)
 
     private suspend fun generateIncomeExpenseChart(period: ChartPeriod) = ioThread {
         incomeExpenseChart(
@@ -101,7 +106,8 @@ class ChartsViewModel @Inject constructor(
             baseCurrencyCode = baseCurrencyCode.value,
             period = period
         )
-    }
+    }.toActualImmutableList()
+
 
     fun loadValuesForCategory(
         category: Category
@@ -195,11 +201,12 @@ class ChartsViewModel @Inject constructor(
         )
     }
 
+
     private suspend fun StateFlow<List<CategoryValues>>.loadCategoryValue(
         period: ChartPeriod,
         category: Category,
         calculateValue: suspend (range: FromToTimeRange) -> Double
-    ): List<CategoryValues> {
+    ): ImmutableList<CategoryValues> {
         TODO()
 //        val values = ioThread {
 //            period.toRangesList().map { range ->
@@ -221,19 +228,20 @@ class ChartsViewModel @Inject constructor(
 
     fun removeCategory(category: Category) {
         _categoryExpenseValues.value =
-            categoryExpenseValues.value.filter { it.category != category }
-        _categoryExpenseCount.value = categoryExpenseCount.value.filter { it.category != category }
-        _categoryIncomeValues.value = categoryIncomeValues.value.filter { it.category != category }
-        _categoryIncomeCount.value = categoryIncomeCount.value.filter { it.category != category }
+            categoryExpenseValues.value.filterImmutableList { it.category != category }
+        _categoryExpenseCount.value = categoryExpenseCount.value.filterImmutableList { it.category != category }
+        _categoryIncomeValues.value = categoryIncomeValues.value.filterImmutableList { it.category != category }
+        _categoryIncomeCount.value = categoryIncomeCount.value.filterImmutableList { it.category != category }
     }
 
     fun changePeriod(period: ChartPeriod) {
         _period.value = period
         start()
 
-        // Re-load categories
+        //Re-load categories
         val loadedCategories = categoryExpenseValues.value.map { it.category }
         loadedCategories.forEach { removeCategory(it) }
         loadedCategories.forEach { loadValuesForCategory(it) }
     }
 }
+

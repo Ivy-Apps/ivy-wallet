@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.planned.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.crashlytics.internal.model.ImmutableList
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.domain.action.account.AccountsAct
@@ -71,10 +72,10 @@ class EditPlannedViewModel @Inject constructor(
     private val _description = MutableLiveData<String?>()
     val description = _description.asLiveData()
 
-    private val _accounts = MutableLiveData<List<Account>>()
+    private val _accounts = MutableLiveData<ImmutableList<Account>>()
     val accounts = _accounts.asLiveData()
 
-    private val _categories = MutableLiveData<List<Category>>()
+    private val _categories = MutableLiveData<ImmutableList<Category>>()
     val categories = _categories.asLiveData()
 
     private val _account = MutableLiveData<Account>()

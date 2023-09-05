@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.billingclient.api.Purchase
+import com.google.firebase.crashlytics.internal.model.ImmutableList
 import com.ivy.wallet.android.billing.IvyBilling
 import com.ivy.wallet.android.billing.Plan
 import com.ivy.wallet.android.billing.PlanType
@@ -11,15 +12,20 @@ import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.budget.BudgetsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.loan.LoansAct
+import com.ivy.wallet.domain.data.analytics.AnalyticsEvent
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Budget
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Loan
 import com.ivy.wallet.domain.deprecated.logic.PaywallLogic
+import com.ivy.wallet.io.network.IvyAnalytics
 import com.ivy.wallet.ui.Paywall
 import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.utils.asLiveData
+import com.ivy.wallet.utils.emptyImmutableList
+import com.ivy.wallet.utils.filterImmutableList
 import com.ivy.wallet.utils.sendToCrashlytics
+import com.ivy.wallet.utils.toActualImmutableList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -29,28 +35,29 @@ import javax.inject.Inject
 class PaywallViewModel @Inject constructor(
     private val ivyBilling: IvyBilling,
     private val paywallLogic: PaywallLogic,
+    private val ivyAnalytics: IvyAnalytics,
     private val categoriesAct: CategoriesAct,
     private val accountsAct: AccountsAct,
     private val budgetsAct: BudgetsAct,
     private val loansAct: LoansAct
 ) : ViewModel() {
 
-    private val _plans = MutableLiveData<List<Plan>>()
+    private val _plans = MutableLiveData<ImmutableList<Plan>>()
     val plans = _plans.asLiveData()
 
-    private val _accounts = MutableLiveData<List<Account>>()
+    private val _accounts = MutableLiveData<ImmutableList<Account>>()
     val accounts = _accounts.asLiveData()
 
-    private val _categories = MutableLiveData<List<Category>>()
+    private val _categories = MutableLiveData<ImmutableList<Category>>()
     val categories = _categories.asLiveData()
 
-    private val _budgets = MutableLiveData<List<Budget>>()
+    private val _budgets = MutableLiveData<ImmutableList<Budget>>()
     val budgets = _budgets.asLiveData()
 
-    private val _loans = MutableLiveData<List<Loan>>()
+    private val _loans = MutableLiveData<ImmutableList<Loan>>()
     val loans = _loans.asLiveData()
 
-    private val _purchasedSkus = MutableLiveData<List<String>>(emptyList())
+    private val _purchasedSkus = MutableLiveData<ImmutableList<String>>(emptyImmutableList())
     val purchasedSkus = _purchasedSkus.asLiveData()
 
     private val _paywallReason = MutableLiveData<PaywallReason?>()
@@ -70,7 +77,7 @@ class PaywallViewModel @Inject constructor(
                 viewModelScope.launch {
                     _plans.value = ivyBilling
                         .fetchPlans()
-                        .filter { it.type != PlanType.SIX_MONTH }
+                        .filterImmutableList { it.type != PlanType.SIX_MONTH }
                     processPurchases(ivyBilling.queryPurchases())
                 }
             },
@@ -88,25 +95,55 @@ class PaywallViewModel @Inject constructor(
         viewModelScope.launch {
             _categories.value = categoriesAct(Unit)!!
             _accounts.value = accountsAct(Unit)!!
-            _budgets.value = budgetsAct(Unit)!!
-            _loans.value = loansAct(Unit)!!
+            _budgets.value = budgetsAct(Unit).toActualImmutableList()!!
+            _loans.value = loansAct(Unit).toActualImmutableList()!!
+
+            ivyAnalytics.logEvent(
+                when (screen.paywallReason) {
+                    PaywallReason.CATEGORIES -> AnalyticsEvent.PAYWALL_CATEGORIES
+                    PaywallReason.ACCOUNTS -> AnalyticsEvent.PAYWALL_ACCOUNTS
+                    PaywallReason.EXPORT_CSV -> AnalyticsEvent.PAYWALL_EXPORT_CSV
+                    PaywallReason.PREMIUM_COLOR -> AnalyticsEvent.PAYWALL_PREMIUM_COLOR
+                    PaywallReason.BUDGETS -> AnalyticsEvent.PAYWALL_BUDGETS
+                    PaywallReason.LOANS -> AnalyticsEvent.PAYWALL_LOANS
+                    null -> AnalyticsEvent.PAYWALL_NO_REASON
+                }
+            )
         }
     }
 
-    private suspend fun processPurchases(purchases: List<Purchase>) {
-        _purchasedSkus.value = emptyList()
+    private suspend fun processPurchases(purchases: ImmutableList<Purchase>) {
+        _purchasedSkus.value = emptyImmutableList()
         activePurchases.clear()
 
         paywallLogic.processPurchases(
             purchases = purchases,
             onActivePurchase = {
-                _purchasedSkus.value = purchasedSkus.value.orEmpty().plus(it.skus)
+                _purchasedSkus.value =
+                    purchasedSkus.value.orEmpty().plus(it.skus).toActualImmutableList()
                 activePurchases.add(it)
+
+                viewModelScope.launch {
+                    ivyAnalytics.logEvent(AnalyticsEvent.PAYWALL_ACTIVE_PREMIUM)
+                }
             }
         )
     }
 
     fun onPlanSelected(plan: Plan?) {
+        if (plan != null) {
+            viewModelScope.launch {
+                val chooseSpecificPlanEvent = when (plan.type) {
+                    PlanType.MONTHLY -> AnalyticsEvent.PAYWALL_CHOOSE_PLAN_MONTHLY
+                    PlanType.SIX_MONTH -> AnalyticsEvent.PAYWALL_CHOOSE_PLAN_6MONTH
+                    PlanType.YEARLY -> AnalyticsEvent.PAYWALL_CHOOSE_PLAN_YEARLY
+                    PlanType.LIFETIME -> AnalyticsEvent.PAYWALL_CHOOSE_PLAN_LIFETIME
+                }
+
+                ivyAnalytics.logEvent(chooseSpecificPlanEvent)
+                ivyAnalytics.logEvent(AnalyticsEvent.PAYWALL_CHOOSE_PLAN)
+            }
+        }
     }
 
     fun buy(activity: RootActivity, plan: Plan) {
@@ -117,5 +154,17 @@ class PaywallViewModel @Inject constructor(
                 .firstOrNull { !it.originalJson.contains("lifetime") }
                 ?.purchaseToken
         )
+
+        viewModelScope.launch {
+            val buySpecificPlanEvent = when (plan.type) {
+                PlanType.MONTHLY -> AnalyticsEvent.PAYWALL_START_BUY_MONTHLY
+                PlanType.SIX_MONTH -> AnalyticsEvent.PAYWALL_START_BUY_6MONTH
+                PlanType.YEARLY -> AnalyticsEvent.PAYWALL_START_BUY_YEARLY
+                PlanType.LIFETIME -> AnalyticsEvent.PAYWALL_START_BUY_LIFETIME
+            }
+
+            ivyAnalytics.logEvent(buySpecificPlanEvent)
+            ivyAnalytics.logEvent(AnalyticsEvent.PAYWALL_START_BUY)
+        }
     }
 }

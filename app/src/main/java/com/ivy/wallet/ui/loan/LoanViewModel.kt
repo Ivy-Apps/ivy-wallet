@@ -2,6 +2,7 @@ package com.ivy.wallet.ui.loan
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.crashlytics.internal.model.ImmutableList
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.loan.LoansAct
@@ -19,9 +20,11 @@ import com.ivy.wallet.io.persistence.dao.LoanRecordDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.loan.data.DisplayLoan
 import com.ivy.wallet.ui.theme.modal.LoanModalData
+import com.ivy.wallet.utils.emptyImmutableList
 import com.ivy.wallet.utils.format
 import com.ivy.wallet.utils.getDefaultFIATCurrency
 import com.ivy.wallet.utils.ioThread
+import com.ivy.wallet.utils.toActualImmutableList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -48,10 +51,10 @@ class LoanViewModel @Inject constructor(
     private val _baseCurrencyCode = MutableStateFlow(getDefaultFIATCurrency().currencyCode)
     val baseCurrencyCode = _baseCurrencyCode.asStateFlow()
 
-    private val _loans = MutableStateFlow(emptyList<DisplayLoan>())
+    private val _loans = MutableStateFlow(emptyImmutableList<DisplayLoan>())
     val loans = _loans.asStateFlow()
 
-    private val _accounts = MutableStateFlow<List<Account>>(emptyList())
+    private val _accounts = MutableStateFlow<ImmutableList<Account>>(emptyImmutableList())
     val accounts = _accounts.asStateFlow()
 
     private val _selectedAccount = MutableStateFlow<Account?>(null)
@@ -97,7 +100,7 @@ class LoanViewModel @Inject constructor(
                             }%)",
                             percentPaid = percentPaid
                         )
-                    }
+                    }.toActualImmutableList()
             }
             _state.value = LoanScreenState(
                 baseCurrency = defaultCurrencyCode,

@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ivy.wallet.io.persistence.data.CategoryEntity
-import java.util.*
+import java.util.UUID
 
 @Dao
 interface CategoryDao {

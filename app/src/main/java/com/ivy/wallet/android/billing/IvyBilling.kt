@@ -13,8 +13,11 @@ import com.android.billingclient.api.SkuDetailsParams
 import com.android.billingclient.api.acknowledgePurchase
 import com.android.billingclient.api.queryPurchasesAsync
 import com.android.billingclient.api.querySkuDetails
+import com.google.firebase.crashlytics.internal.model.ImmutableList
+import com.ivy.wallet.utils.emptyImmutableList
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.sendToCrashlytics
+import com.ivy.wallet.utils.toActualImmutableList
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -56,12 +59,12 @@ class IvyBilling @Inject constructor() {
     fun init(
         activity: Activity,
         onReady: () -> Unit,
-        onPurchases: (List<Purchase>) -> Unit,
+        onPurchases: (ImmutableList<Purchase>) -> Unit,
         onError: (code: Int, msg: String) -> Unit,
     ) {
         val purchasesUpdatedListener = PurchasesUpdatedListener { billingResult, purchases ->
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
-                onPurchases(purchases)
+                onPurchases(purchases.toActualImmutableList())
             } else if (billingResult.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
                 onError(billingResult.responseCode, billingResult.debugMessage)
             } else {
@@ -92,15 +95,16 @@ class IvyBilling @Inject constructor() {
         })
     }
 
-    suspend fun queryPurchases(): List<Purchase> {
+    suspend fun queryPurchases(): ImmutableList<Purchase> {
         return ioThread {
             try {
                 queryBoughtSubscriptions()
                     .plus(queryBoughtOneTimeOffers())
+                    .toActualImmutableList()
             } catch (e: Exception) {
                 e.printStackTrace()
                 e.sendToCrashlytics("IvyBilling CRITICAL: failed to fetch subscription purchases")
-                emptyList()
+                emptyImmutableList()
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.home
 
+import com.google.firebase.crashlytics.internal.model.ImmutableList
 import com.ivy.design.l0_system.Theme
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.deprecated.logic.model.CustomerJourneyCardData
@@ -9,6 +10,7 @@ import com.ivy.wallet.ui.data.AppBaseData
 import com.ivy.wallet.ui.data.BufferInfo
 import com.ivy.wallet.ui.data.DueSection
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
+import com.ivy.wallet.utils.emptyImmutableList
 import java.math.BigDecimal
 
 data class HomeState(
@@ -18,7 +20,7 @@ data class HomeState(
     val period: TimePeriod,
     val baseData: AppBaseData,
 
-    val history: List<TransactionHistoryItem>,
+    val history: ImmutableList<TransactionHistoryItem>,
     val stats: IncomeExpensePair,
 
     val balance: BigDecimal,
@@ -28,7 +30,7 @@ data class HomeState(
     val upcoming: DueSection,
     val overdue: DueSection,
 
-    val customerJourneyCards: List<CustomerJourneyCardData>,
+    val customerJourneyCards: ImmutableList<CustomerJourneyCardData>,
     val hideCurrentBalance: Boolean
 ) {
     companion object {
@@ -45,8 +47,8 @@ data class HomeState(
                 amount = BigDecimal.ZERO,
                 bufferDiff = BigDecimal.ZERO,
             ),
-            customerJourneyCards = emptyList(),
-            history = emptyList(),
+            customerJourneyCards = emptyImmutableList(),
+            history = emptyImmutableList(),
             stats = IncomeExpensePair.zero(),
             upcoming = DueSection(
                 trns = emptyList(),
