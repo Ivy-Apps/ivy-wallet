@@ -4,8 +4,7 @@ import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import com.ivy.wallet.data.dataStore
-import com.ivy.wallet.migrations.impl.GitHubPATMigration
-import com.ivy.wallet.migrations.impl.GitHubWorkerMigration
+import com.ivy.wallet.migrations.impl.DisableGitHubAutoBackupMigration
 import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -18,13 +17,11 @@ import javax.inject.Inject
 class MigrationsManager @Inject constructor(
     @ApplicationContext
     private val context: Context,
-    private val gitHubPATMigration: Lazy<GitHubPATMigration>,
-    private val gitHubWorkerMigration: Lazy<GitHubWorkerMigration>,
+    private val disableGitHubAutoBackupMigration: Lazy<DisableGitHubAutoBackupMigration>,
 ) {
     private val migrations by lazy {
         listOf(
-            gitHubPATMigration.get(),
-            gitHubWorkerMigration.get(),
+            disableGitHubAutoBackupMigration.get(),
         )
     }
 

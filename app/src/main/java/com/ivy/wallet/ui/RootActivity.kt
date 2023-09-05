@@ -47,7 +47,6 @@ import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
 import com.ivy.wallet.Constants.SUPPORT_EMAIL
 import com.ivy.wallet.R
-import com.ivy.wallet.backup.github.ui.GitHubBackupScreen
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyLogic
 import com.ivy.wallet.ui.applocked.AppLockedScreen
@@ -224,7 +223,6 @@ class RootActivity : AppCompatActivity() {
             is Search -> SearchScreen(screen = screen)
             is DonateScreen -> DonateScreen(screen = screen)
             is CSVScreen -> CSVScreen(screen = screen)
-            is GitHubBackupScreen -> GitHubBackupScreen()
             null -> {
             }
         }

@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
-import com.ivy.wallet.backup.github.ui.GitHubBackupScreen
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.io.persistence.SharedPrefs
@@ -70,7 +69,7 @@ class CustomerJourneyLogic(
             rateUsCard_2(),
             joinTelegram2(),
             ivyWalletIsOpenSource(),
-            githubBackups(),
+            githubBackupsDisabled(),
         )
 
         fun adjustBalanceCard() = CustomerJourneyCardData(
@@ -133,7 +132,7 @@ class CustomerJourneyLogic(
             },
             title = stringRes(R.string.did_you_know),
             description = "You can see a PieChart for your expenses!" +
-                " Click the Expense card on the top of the dashboard.",
+                    " Click the Expense card on the top of the dashboard.",
             cta = stringRes(R.string.expenses_piechart),
             ctaIcon = R.drawable.ic_custom_bills_s,
             background = Gradient.solid(Red),
@@ -191,21 +190,23 @@ class CustomerJourneyLogic(
             }
         )
 
-        fun githubBackups() = CustomerJourneyCardData(
-            id = "github_backups",
+        fun githubBackupsDisabled() = CustomerJourneyCardData(
+            id = "github_backups_disabled",
             condition = { trnCount, _, _ ->
                 trnCount >= 18
             },
-            title = "GitHub auto-backups",
-            description = "Keep you data safe! Ivy Wallet can perform an automatic daily backup" +
-                " of your data in a private GitHub repo of your choice.",
-            cta = "Enable",
+            title = "Shutting down GitHub auto-backups",
+            description = "Unfortunately, the GitHub auto-backups feature" +
+                    " might violate GitHub's Terms Of Use." +
+                    " That's why as a safety measure we're shutting it down for good." +
+                    " Apologies for the inconvenience and thank you for your understanding!" +
+                    "\n\nP.S. If you've backed up data in GitHub you can manually download " +
+                    "the JSON file from your repo and import it in Ivy Wallet.",
+            cta = null,
             ctaIcon = R.drawable.github_logo,
-            background = Gradient.solid(Blue3),
+            background = Gradient.solid(Red),
             hasDismiss = true,
-            onAction = { nav, _, _ ->
-                nav.navigateTo(GitHubBackupScreen)
-            }
+            onAction = { _, _, _ -> }
         )
 
         fun ivyWalletIsOpenSource() = CustomerJourneyCardData(
@@ -246,7 +247,7 @@ class CustomerJourneyLogic(
                 trnCount >= 28
             },
             description = "It looks like that you're enjoying Ivy Wallet! " +
-                "If you haven't yet, feel free join our invite-only Ivy Telegram Community and make our app better :)",
+                    "If you haven't yet, feel free join our invite-only Ivy Telegram Community and make our app better :)",
             title = "Ivy Community",
             cta = "Join now",
             ctaIcon = R.drawable.ic_telegram_24dp,
@@ -381,10 +382,10 @@ private fun PreviewIvyWallet_isOpenSource() {
 
 @Preview
 @Composable
-private fun PreviewIvyWallet_gitHubBackups() {
+private fun PreviewIvyWallet_gitHubBackupsDisabled() {
     IvyWalletComponentPreview {
         CustomerJourneyCard(
-            cardData = CustomerJourneyLogic.githubBackups(),
+            cardData = CustomerJourneyLogic.githubBackupsDisabled(),
             onCTA = { },
             onDismiss = {}
         )

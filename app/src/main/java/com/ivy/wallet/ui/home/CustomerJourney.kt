@@ -127,26 +127,28 @@ fun CustomerJourneyCard(
 
         Spacer(Modifier.height(32.dp))
 
-        IvyButton(
-            modifier = Modifier
-                .align(Alignment.End)
-                .padding(end = 20.dp)
-                .testTag("cta_prompt_${cardData.id}"),
-            text = cardData.cta,
-            shadowAlpha = 0f,
-            iconStart = cardData.ctaIcon,
-            iconTint = cardData.background.startColor,
-            textStyle = UI.typo.b2.style(
-                color = cardData.background.startColor,
-                fontWeight = FontWeight.Bold
-            ),
-            padding = 8.dp,
-            backgroundGradient = Gradient.solid(findContrastTextColor(cardData.background.startColor))
-        ) {
-            onCTA()
-        }
+        if (cardData.cta != null) {
+            IvyButton(
+                modifier = Modifier
+                    .align(Alignment.End)
+                    .padding(end = 20.dp)
+                    .testTag("cta_prompt_${cardData.id}"),
+                text = cardData.cta,
+                shadowAlpha = 0f,
+                iconStart = cardData.ctaIcon,
+                iconTint = cardData.background.startColor,
+                textStyle = UI.typo.b2.style(
+                    color = cardData.background.startColor,
+                    fontWeight = FontWeight.Bold
+                ),
+                padding = 8.dp,
+                backgroundGradient = Gradient.solid(findContrastTextColor(cardData.background.startColor))
+            ) {
+                onCTA()
+            }
 
-        Spacer(Modifier.height(20.dp))
+            Spacer(Modifier.height(20.dp))
+        }
     }
 }
 
