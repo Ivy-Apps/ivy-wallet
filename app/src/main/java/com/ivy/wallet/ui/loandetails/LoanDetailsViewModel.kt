@@ -25,6 +25,9 @@ import com.ivy.wallet.ui.loan.data.DisplayLoanRecord
 import com.ivy.wallet.utils.computationThread
 import com.ivy.wallet.utils.ioThread
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -55,13 +58,14 @@ class LoanDetailsViewModel @Inject constructor(
     private val _loan = MutableStateFlow<Loan?>(null)
     val loan = _loan.asStateFlow()
 
-    private val _displayLoanRecords = MutableStateFlow(emptyList<DisplayLoanRecord>())
+    private val _displayLoanRecords =
+        MutableStateFlow<ImmutableList<DisplayLoanRecord>>(persistentListOf())
     val displayLoanRecords = _displayLoanRecords.asStateFlow()
 
     private val _amountPaid = MutableStateFlow(0.0)
     val amountPaid = _amountPaid.asStateFlow()
 
-    private val _accounts = MutableStateFlow<List<Account>>(emptyList())
+    private val _accounts = MutableStateFlow<ImmutableList<Account>>(persistentListOf())
     val accounts = _accounts.asStateFlow()
 
     private val _loanInterestAmountPaid = MutableStateFlow(0.0)
@@ -127,7 +131,7 @@ class LoanDetailsViewModel @Inject constructor(
                             loanCurrencyCode = selectedLoanAccount.value?.currency
                                 ?: defaultCurrencyCode
                         )
-                    }
+                    }.toImmutableList()
             }
 
             computationThread {

@@ -20,6 +20,8 @@ import com.ivy.wallet.ui.onboarding.OnboardingState
 import com.ivy.wallet.ui.onboarding.model.AccountBalance
 import com.ivy.wallet.utils.OpResult
 import com.ivy.wallet.utils.ioThread
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -27,10 +29,10 @@ import kotlinx.coroutines.launch
 class OnboardingRouter(
     private val _opGoogleSignIn: MutableLiveData<OpResult<Unit>?>,
     private val _state: MutableLiveData<OnboardingState>,
-    private val _accounts: MutableLiveData<List<AccountBalance>>,
-    private val _accountSuggestions: MutableLiveData<List<CreateAccountData>>,
-    private val _categories: MutableLiveData<List<Category>>,
-    private val _categorySuggestions: MutableLiveData<List<CreateCategoryData>>,
+    private val _accounts: MutableLiveData<ImmutableList<AccountBalance>>,
+    private val _accountSuggestions: MutableLiveData<ImmutableList<CreateAccountData>>,
+    private val _categories: MutableLiveData<ImmutableList<Category>>,
+    private val _categorySuggestions: MutableLiveData<ImmutableList<CreateCategoryData>>,
 
     private val nav: Navigation,
     private val accountDao: AccountDao,
@@ -152,7 +154,7 @@ class OnboardingRouter(
     // ------------------------------------- Step 3 - Currency --------------------------------------
     suspend fun setBaseCurrencyNext(
         baseCurrency: IvyCurrency,
-        accountsWithBalance: suspend () -> List<AccountBalance>,
+        accountsWithBalance: suspend () -> ImmutableList<AccountBalance>,
     ) {
         routeToAccounts(
             baseCurrency = baseCurrency,
@@ -196,7 +198,7 @@ class OnboardingRouter(
     // -------------------------------------- Routes ------------------------------------------------
     private suspend fun routeToAccounts(
         baseCurrency: IvyCurrency,
-        accountsWithBalance: suspend () -> List<AccountBalance>,
+        accountsWithBalance: suspend () -> ImmutableList<AccountBalance>,
     ) {
         val accounts = accountsWithBalance()
         _accounts.value = accounts
@@ -207,7 +209,7 @@ class OnboardingRouter(
     }
 
     private suspend fun routeToCategories() {
-        _categories.value = ioThread { categoryDao.findAll().map { it.toDomain() } }!!
+        _categories.value = ioThread { categoryDao.findAll().map { it.toDomain() }.toImmutableList() }!!
         _categorySuggestions.value = preloadDataLogic.categorySuggestions()
 
         _state.value = OnboardingState.CATEGORIES

@@ -11,6 +11,9 @@ import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.onboarding.model.AccountBalance
 import com.ivy.wallet.ui.theme.*
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 
 @Deprecated("Migrate to FP Style")
 class PreloadDataLogic(
@@ -47,7 +50,7 @@ class PreloadDataLogic(
         accountsDao.save(bank.toEntity())
     }
 
-    fun accountSuggestions(baseCurrency: String): List<CreateAccountData> = listOf(
+    fun accountSuggestions(baseCurrency: String): ImmutableList<CreateAccountData> = persistentListOf(
         CreateAccountData(
             name = stringRes(R.string.cash),
             currency = baseCurrency,
@@ -157,7 +160,7 @@ class PreloadDataLogic(
         categoryDao.save(category.toEntity())
     }
 
-    fun categorySuggestions(): List<CreateCategoryData> = preloadCategoriesCreateData()
+    fun categorySuggestions(): ImmutableList<CreateCategoryData> = preloadCategoriesCreateData()
         .plus(
             listOf(
                 CreateCategoryData(
@@ -250,5 +253,5 @@ class PreloadDataLogic(
                     icon = "sports"
                 ),
             )
-        )
+        ).toImmutableList()
 }

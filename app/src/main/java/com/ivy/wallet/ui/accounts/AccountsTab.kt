@@ -59,6 +59,7 @@ import com.ivy.wallet.utils.UiText
 import com.ivy.wallet.utils.clickableNoIndication
 import com.ivy.wallet.utils.horizontalSwipeListener
 import com.ivy.wallet.utils.onScreenStart
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun BoxWithConstraintsScope.AccountsTab(screen: Main) {
@@ -340,7 +341,7 @@ private fun PreviewAccountsTab() {
     IvyWalletPreview {
         val state = AccountState(
             baseCurrency = "BGN",
-            accountsData = listOf(
+            accountsData = persistentListOf(
                 AccountData(
                     account = Account("Phyre", color = Green.toArgb()),
                     balance = 2125.0,

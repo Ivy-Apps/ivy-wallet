@@ -40,6 +40,8 @@ import com.ivy.wallet.utils.readOnly
 import com.ivy.wallet.utils.timeNowUTC
 import com.ivy.wallet.utils.uiThread
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -91,10 +93,10 @@ class EditTransactionViewModel @Inject constructor(
     private val _dueDate = MutableStateFlow<LocalDateTime?>(null)
     val dueDate = _dueDate.readOnly()
 
-    private val _accounts = MutableStateFlow<List<Account>>(emptyList())
+    private val _accounts = MutableStateFlow<ImmutableList<Account>>(persistentListOf())
     val accounts = _accounts.readOnly()
 
-    private val _categories = MutableStateFlow<List<Category>>(emptyList())
+    private val _categories = MutableStateFlow<ImmutableList<Category>>(persistentListOf())
     val categories = _categories.readOnly()
 
     private val _account = MutableStateFlow<Account?>(null)

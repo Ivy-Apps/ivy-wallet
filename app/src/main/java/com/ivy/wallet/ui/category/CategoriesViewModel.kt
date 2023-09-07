@@ -23,6 +23,9 @@ import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.scopedIOThread
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -81,7 +84,7 @@ class CategoriesViewModel @Inject constructor(
                 TrnsWithRangeAndAccFiltersAct.Input(
                     range = range,
                     accountIdFilterSet = suspend { allAccounts } thenMap { it.id }
-                        thenInvokeAfter { it.toHashSet() }
+                            thenInvokeAfter { it.toHashSet() }
                 )
             )
 
@@ -118,7 +121,7 @@ class CategoriesViewModel @Inject constructor(
                 )
             }
 
-            val sortedList = sortList(categories, stateVal().sortOrder)
+            val sortedList = sortList(categories, stateVal().sortOrder).toImmutableList()
 
             updateState {
                 it.copy(baseCurrency = baseCurrency, categories = sortedList)
@@ -132,7 +135,7 @@ class CategoriesViewModel @Inject constructor(
     ) {
         TestIdlingResource.increment()
 
-        val sortedList = sortList(newOrder, sortOrder)
+        val sortedList = sortList(newOrder, sortOrder).toImmutableList()
 
         if (sortOrder == SortOrder.DEFAULT) {
             ioThread {
@@ -166,12 +169,15 @@ class CategoriesViewModel @Inject constructor(
             SortOrder.DEFAULT -> categoryData.sortedBy {
                 it.category.orderNum
             }
+
             SortOrder.BALANCE_AMOUNT -> categoryData.sortedByDescending {
                 it.monthlyBalance.absoluteValue
             }
+
             SortOrder.ALPHABETICAL -> categoryData.sortedBy {
                 it.category.name
             }
+
             SortOrder.EXPENSES -> categoryData.sortedByDescending {
                 it.monthlyExpenses
             }
@@ -198,11 +204,13 @@ class CategoriesViewModel @Inject constructor(
                         reorderModalVisible = event.visible
                     )
                 }
+
                 is CategoriesScreenEvent.OnSortOrderModalVisible -> updateState {
                     it.copy(
                         sortModalVisible = event.visible
                     )
                 }
+
                 is CategoriesScreenEvent.OnCategoryModalVisible -> updateState {
                     it.copy(
                         categoryModalData = event.categoryModalData
@@ -215,11 +223,11 @@ class CategoriesViewModel @Inject constructor(
 
 data class CategoriesScreenState(
     val baseCurrency: String = "",
-    val categories: List<CategoryData> = emptyList(),
+    val categories: ImmutableList<CategoryData> = persistentListOf(),
     val reorderModalVisible: Boolean = false,
     val categoryModalData: CategoryModalData? = null,
     val sortModalVisible: Boolean = false,
-    val sortOrderItems: List<SortOrder> = SortOrder.values().toList(),
+    val sortOrderItems: ImmutableList<SortOrder> = SortOrder.values().toList().toImmutableList(),
     val sortOrder: SortOrder = SortOrder.DEFAULT
 )
 

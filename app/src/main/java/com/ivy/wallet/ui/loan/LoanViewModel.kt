@@ -23,6 +23,9 @@ import com.ivy.wallet.utils.format
 import com.ivy.wallet.utils.getDefaultFIATCurrency
 import com.ivy.wallet.utils.ioThread
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -48,10 +51,10 @@ class LoanViewModel @Inject constructor(
     private val _baseCurrencyCode = MutableStateFlow(getDefaultFIATCurrency().currencyCode)
     val baseCurrencyCode = _baseCurrencyCode.asStateFlow()
 
-    private val _loans = MutableStateFlow(emptyList<DisplayLoan>())
+    private val _loans = MutableStateFlow<ImmutableList<DisplayLoan>>(persistentListOf())
     val loans = _loans.asStateFlow()
 
-    private val _accounts = MutableStateFlow<List<Account>>(emptyList())
+    private val _accounts = MutableStateFlow<ImmutableList<Account>>(persistentListOf())
     val accounts = _accounts.asStateFlow()
 
     private val _selectedAccount = MutableStateFlow<Account?>(null)
@@ -97,7 +100,7 @@ class LoanViewModel @Inject constructor(
                             }%)",
                             percentPaid = percentPaid
                         )
-                    }
+                    }.toImmutableList()
             }
             _state.value = LoanScreenState(
                 baseCurrency = defaultCurrencyCode,

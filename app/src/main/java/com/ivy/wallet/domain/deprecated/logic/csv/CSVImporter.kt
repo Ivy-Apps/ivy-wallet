@@ -23,6 +23,7 @@ import com.ivy.wallet.utils.toLowerCaseLocal
 import com.opencsv.CSVReaderBuilder
 import com.opencsv.validators.LineValidator
 import com.opencsv.validators.RowValidator
+import kotlinx.collections.immutable.persistentListOf
 import timber.log.Timber
 import java.io.StringReader
 import java.time.LocalDate
@@ -87,7 +88,7 @@ class CSVImporter @Inject constructor(
 
         val baseCurrency = settingsDao.findFirst().currency
 
-        val failedRows = mutableListOf<CSVRow>()
+        val failedRows = persistentListOf<CSVRow>()
 
         // Some importers require postprocessing transactions
         // Example: Financisto separates in and out transfers

@@ -168,6 +168,8 @@ dependencies {
     implementation(libs.androidx.work)
     implementation(libs.androidx.recyclerview)
 
+    implementation(libs.kotlinx.collections)
+
     testImplementation(libs.bundles.kotest)
     testImplementation(libs.bundles.kotlin.test)
     testImplementation(libs.hilt.testing)

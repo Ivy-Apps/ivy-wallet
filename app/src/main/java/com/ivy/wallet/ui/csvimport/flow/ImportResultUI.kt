@@ -31,6 +31,7 @@ import com.ivy.wallet.ui.theme.components.BackButton
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
 import com.ivy.wallet.ui.theme.components.OnboardingButton
 import com.ivy.wallet.utils.format
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun ImportResultUI(
@@ -232,7 +233,7 @@ private fun Preview() {
                 transactionsImported = 320,
                 accountsImported = 4,
                 categoriesImported = 13,
-                failedRows = emptyList()
+                failedRows = persistentListOf()
             ),
             launchedFromOnboarding = false,
         ) {
