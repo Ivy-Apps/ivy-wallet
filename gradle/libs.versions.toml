@@ -27,7 +27,7 @@ kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines
 kotlin-coroutines-googleplay-temp = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlin-coroutines" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.6.0" }
-kotlinx-collections = {module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-collections"}
+kotlinx-collections-immutable = {module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-collections"}
 
 # Ktor
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
@@ -113,7 +113,7 @@ kotlin = [
     "kotlin-coroutines-core",
     "kotlin-coroutines-android",
     "kotlin-coroutines-googleplay-temp",
-    "kotlinx-collections"
+    "kotlinx-collections-immutable"
 ]
 kotlin-test = [
     "kotlin-coroutines-test"
