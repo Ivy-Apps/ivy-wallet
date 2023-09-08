@@ -45,6 +45,9 @@ import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.isNotNullOrBlank
 import com.ivy.wallet.utils.readOnly
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -78,10 +81,10 @@ class ItemStatisticViewModel @Inject constructor(
     private val _period = MutableStateFlow(ivyContext.selectedPeriod)
     val period = _period.readOnly()
 
-    private val _categories = MutableStateFlow<List<Category>>(emptyList())
+    private val _categories = MutableStateFlow<ImmutableList<Category>>(persistentListOf())
     val categories = _categories.readOnly()
 
-    private val _accounts = MutableStateFlow<List<Account>>(emptyList())
+    private val _accounts = MutableStateFlow<ImmutableList<Account>>(persistentListOf())
     val accounts = _accounts.readOnly()
 
     private val _baseCurrency = MutableStateFlow("")
@@ -116,7 +119,7 @@ class ItemStatisticViewModel @Inject constructor(
     val upcomingExpanded = _upcomingExpanded.readOnly()
 
     // Overdue
-    private val _overdue = MutableStateFlow<List<Transaction>>(emptyList())
+    private val _overdue = MutableStateFlow<ImmutableList<Transaction>>(persistentListOf())
     val overdue = _overdue.readOnly()
 
     private val _overdueIncome = MutableStateFlow(0.0)
@@ -283,7 +286,7 @@ class ItemStatisticViewModel @Inject constructor(
             accountLogic.calculateOverdueExpenses(account, range)
         }
 
-        _overdue.value = ioThread { accountLogic.overdue(account, range) }
+        _overdue.value = ioThread { accountLogic.overdue(account, range).toImmutableList() }
     }
 
     private suspend fun initForCategory(categoryId: UUID, accountFilterList: List<UUID>) {
@@ -336,7 +339,7 @@ class ItemStatisticViewModel @Inject constructor(
             categoryLogic.calculateOverdueExpensesByCategory(category, range)
         }
 
-        _overdue.value = ioThread { categoryLogic.overdueByCategory(category, range) }
+        _overdue.value = ioThread { categoryLogic.overdueByCategory(category, range).toImmutableList() }
     }
 
     private suspend fun initForCategoryWithTransactions(
@@ -420,7 +423,7 @@ class ItemStatisticViewModel @Inject constructor(
                 categoryLogic.calculateOverdueExpensesByCategory(category, range)
             }
 
-            _overdue.value = ioThread { categoryLogic.overdueByCategory(category, range) }
+            _overdue.value = ioThread { categoryLogic.overdueByCategory(category, range).toImmutableList() }
         }
     }
 
@@ -463,7 +466,7 @@ class ItemStatisticViewModel @Inject constructor(
             categoryLogic.calculateOverdueExpensesUnspecified(range)
         }
 
-        _overdue.value = ioThread { categoryLogic.overdueUnspecified(range) }
+        _overdue.value = ioThread { categoryLogic.overdueUnspecified(range).toImmutableList() }
     }
 
     private suspend fun initForAccountTransfersCategory(

@@ -1,11 +1,12 @@
 package com.ivy.wallet.ui.csv
 
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
+import kotlinx.collections.immutable.ImmutableList
 
 data class CSVState(
     val uiState: UIState,
     val columns: CSVRow?,
-    val csv: List<CSVRow>?,
+    val csv: ImmutableList<CSVRow>?,
     val important: ImportantFields?,
     val transfer: TransferFields?,
     val optional: OptionalFields?,

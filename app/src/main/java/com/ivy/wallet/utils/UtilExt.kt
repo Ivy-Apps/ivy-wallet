@@ -3,6 +3,8 @@ package com.ivy.wallet.utils
 import android.app.KeyguardManager
 import android.content.Context
 import android.icu.util.Currency
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.log10
@@ -66,8 +68,8 @@ fun String.nullifyEmpty() = this.ifBlank { null }
 
 fun getDefaultFIATCurrency(): Currency =
     Currency.getInstance(Locale.getDefault()) ?: Currency.getInstance("USD")
-        ?: Currency.getInstance("usd") ?: Currency.getAvailableCurrencies().firstOrNull()
-        ?: Currency.getInstance("EUR")
+    ?: Currency.getInstance("usd") ?: Currency.getAvailableCurrencies().firstOrNull()
+    ?: Currency.getInstance("EUR")
 
 fun String.toUpperCaseLocal() = this.uppercase(Locale.getDefault())
 
@@ -92,4 +94,8 @@ fun String.capitalizeWords(): String {
 fun hasLockScreen(context: Context): Boolean {
     val keyguardManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
     return keyguardManager.isDeviceSecure
+}
+
+inline fun <T> Iterable<T>.filterImmutableList(predicate: (T) -> Boolean): ImmutableList<T> {
+    return filterTo(ArrayList<T>(), predicate).toImmutableList()
 }

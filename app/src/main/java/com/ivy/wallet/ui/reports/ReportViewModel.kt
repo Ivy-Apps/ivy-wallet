@@ -35,6 +35,9 @@ import com.ivy.wallet.ui.paywall.PaywallReason
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -71,10 +74,10 @@ class ReportViewModel @Inject constructor(
     private val _period = MutableLiveData<TimePeriod>()
     val period = _period.asLiveData()
 
-    private val _categories = MutableStateFlow<List<Category>>(emptyList())
+    private val _categories = MutableStateFlow<ImmutableList<Category>>(persistentListOf())
     val categories = _categories.readOnly()
 
-    private val _allAccounts = MutableStateFlow<List<Account>>(emptyList())
+    private val _allAccounts = MutableStateFlow<ImmutableList<Account>>(persistentListOf())
 
     private val _baseCurrency = MutableStateFlow("")
     val baseCurrency = _baseCurrency.readOnly()
@@ -89,7 +92,7 @@ class ReportViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _baseCurrency.value = baseCurrencyAct(Unit)
             _allAccounts.value = accountsAct(Unit)
-            _categories.value = listOf(unSpecifiedCategory) + categoriesAct(Unit)
+            _categories.value = (listOf(unSpecifiedCategory) + categoriesAct(Unit)).toImmutableList()
 
             updateState {
                 it.copy(
@@ -163,6 +166,7 @@ class ReportViewModel @Inject constructor(
                     it.dueDate != null && it.dueDate.isAfter(timeNowUTC)
                 }
                 .sortedBy { it.dueDate }
+                .toImmutableList()
 
             val upcomingIncomeExpense = calcTrnsIncomeExpenseAct(
                 CalcTrnsIncomeExpenseAct.Input(
@@ -176,7 +180,7 @@ class ReportViewModel @Inject constructor(
                 it.dueDate != null && it.dueDate.isBefore(timeNowUTC)
             }.sortedByDescending {
                 it.dueDate
-            }
+            }.toImmutableList()
             val overdueIncomeExpense = calcTrnsIncomeExpenseAct(
                 CalcTrnsIncomeExpenseAct.Input(
                     transactions = overdue,
@@ -193,14 +197,14 @@ class ReportViewModel @Inject constructor(
                     upcomingExpenses = upcomingIncomeExpense.expense.toDouble(),
                     overdueIncome = overdueIncomeExpense.income.toDouble(),
                     overdueExpenses = overdueIncomeExpense.expense.toDouble(),
-                    history = historyWithDateDividers.await(),
+                    history = historyWithDateDividers.await().toImmutableList(),
                     upcomingTransactions = upcomingTransactions,
                     overdueTransactions = overdue,
                     categories = categories.value,
                     accounts = _allAccounts.value,
                     filter = filter,
                     loading = false,
-                    accountIdFilters = accountFilterIdList.await(),
+                    accountIdFilters = accountFilterIdList.await().toImmutableList(),
                     transactions = transactions,
                     balance = balance,
                     filterOverlayVisible = false,
@@ -214,7 +218,7 @@ class ReportViewModel @Inject constructor(
         baseCurrency: String,
         accounts: List<Account>,
         filter: ReportFilter,
-    ): List<Transaction> {
+    ): ImmutableList<Transaction> {
         val filterAccountIds = filter.accounts.map { it.id }
         val filterCategoryIds =
             filter.categories.map { if (it.id == unSpecifiedCategory.id) null else it.id }
@@ -311,7 +315,7 @@ class ReportViewModel @Inject constructor(
 
                 true
             }
-            .toList()
+            .toImmutableList()
     }
 
     private fun String.containsLowercase(anotherString: String): Boolean {

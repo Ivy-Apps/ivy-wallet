@@ -4,6 +4,8 @@ import com.ivy.frp.view.navigation.Screen
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.ui.paywall.PaywallReason
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
 object Main : Screen
@@ -30,15 +32,15 @@ data class ItemStatistic(
     val categoryId: UUID? = null,
     val unspecifiedCategory: Boolean? = false,
     val transactionType: TransactionType? = null,
-    val accountIdFilterList: List<UUID> = emptyList(),
-    val transactions: List<Transaction> = emptyList()
+    val accountIdFilterList: List<UUID> = persistentListOf(),
+    val transactions: List<Transaction> = persistentListOf()
 ) : Screen
 
 data class PieChartStatistic(
     val type: TransactionType,
     val filterExcluded: Boolean = true,
-    val accountList: List<UUID> = emptyList(),
-    val transactions: List<Transaction> = emptyList(),
+    val accountList: ImmutableList<UUID> = persistentListOf(),
+    val transactions: ImmutableList<Transaction> = persistentListOf(),
     val treatTransfersAsIncomeExpense: Boolean = false
 ) : Screen
 

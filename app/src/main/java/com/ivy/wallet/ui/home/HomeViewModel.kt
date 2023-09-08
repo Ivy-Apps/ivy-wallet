@@ -37,6 +37,7 @@ import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
 import com.ivy.wallet.utils.dateNowUTC
 import com.ivy.wallet.utils.ioThread
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.math.BigDecimal
@@ -117,8 +118,8 @@ class HomeViewModel @Inject constructor(
 
         Pair(settings, period.toRange(ivyContext.startDayOfMonth).toCloseTimeRange())
     } then ::loadAppBaseData then ::loadIncomeExpenseBalance then
-        ::loadBuffer then ::loadTrnHistory then
-        ::loadDueTrns thenInvokeAfter ::loadCustomerJourney
+            ::loadBuffer then ::loadTrnHistory then
+            ::loadDueTrns thenInvokeAfter ::loadCustomerJourney
 
     private suspend fun loadAppBaseData(
         input: Pair<Settings, ClosedTimeRange>
@@ -244,7 +245,9 @@ class HomeViewModel @Inject constructor(
     ): HomeState {
         return updateState {
             it.copy(
-                customerJourneyCards = ioThread { customerJourneyLogic.loadCards() }
+                customerJourneyCards = ioThread {
+                    customerJourneyLogic.loadCards().toImmutableList()
+                }
             )
         }
     }

@@ -11,12 +11,13 @@ glance = "1.0.0-rc01"
 hilt = "2.48"
 room = "2.6.0-beta01"
 androidx-work = "2.8.1"
+kotlinx-collections = "0.3.5"
 
 # Linters
 detekt = "1.23.1" # https://detekt.dev/docs/gettingstarted/gradle/
 
 [libraries]
-android-gradle-plugin = { module = "com.android.tools.build:gradle", version = "8.2.0-beta01" }
+android-gradle-plugin = { module = "com.android.tools.build:gradle" ,version = "8.2.0-beta01" }
 
 # Kotlin
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -26,6 +27,7 @@ kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines
 kotlin-coroutines-googleplay-temp = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlin-coroutines" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.6.0" }
+kotlinx-collections-immutable = {module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-collections"}
 
 # Ktor
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
@@ -110,7 +112,8 @@ kotlin = [
     "kotlin-stdlib",
     "kotlin-coroutines-core",
     "kotlin-coroutines-android",
-    "kotlin-coroutines-googleplay-temp"
+    "kotlin-coroutines-googleplay-temp",
+    "kotlinx-collections-immutable"
 ]
 kotlin-test = [
     "kotlin-coroutines-test"

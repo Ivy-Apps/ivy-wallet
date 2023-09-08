@@ -38,6 +38,7 @@ import com.ivy.wallet.ui.exchangerates.modal.AddRateModal
 import com.ivy.wallet.ui.search.SearchInput
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import com.ivy.wallet.utils.selectEndTextFieldValue
+import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
 object ExchangeRatesScreen : Screen
@@ -211,11 +212,11 @@ private fun Preview() {
         UI(
             state = RatesState(
                 baseCurrency = "BGN",
-                manual = listOf(
+                manual = persistentListOf(
                     RateUi("BGN", "USD", 1.85),
                     RateUi("BGN", "EUR", 1.96),
                 ),
-                automatic = listOf(
+                automatic = persistentListOf(
                     RateUi("XXX", "YYY", 1.23),
                     RateUi("XXX", "YYY", 1.23),
                     RateUi("XXX", "YYY", 1.23),

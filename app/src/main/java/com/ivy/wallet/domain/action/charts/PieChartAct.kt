@@ -23,6 +23,8 @@ import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.statistic.level1.CategoryAmount
 import com.ivy.wallet.ui.theme.RedLight
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import java.math.BigDecimal
 import java.util.UUID
 import javax.inject.Inject
@@ -104,7 +106,7 @@ class PieChartAct @Inject constructor(
 
         Pair(totalAmount, catAmountList)
     } then {
-        Output(it.first.toDouble(), it.second)
+        Output(it.first.toDouble(), it.second.toImmutableList())
     }
 
     @Pure
@@ -281,5 +283,5 @@ class PieChartAct @Inject constructor(
         val existingTransactions: List<Transaction> = emptyList()
     )
 
-    data class Output(val totalAmount: Double, val categoryAmounts: List<CategoryAmount>)
+    data class Output(val totalAmount: Double, val categoryAmounts: ImmutableList<CategoryAmount>)
 }

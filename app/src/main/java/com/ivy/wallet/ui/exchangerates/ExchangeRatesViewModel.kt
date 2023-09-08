@@ -8,6 +8,8 @@ import com.ivy.wallet.io.persistence.dao.ExchangeRateDao
 import com.ivy.wallet.io.persistence.data.ExchangeRateEntity
 import com.ivy.wallet.ui.exchangerates.data.RateUi
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -40,16 +42,16 @@ class ExchangeRatesViewModel @Inject constructor(
     }.map { rates ->
         RatesState(
             baseCurrency = baseCurrencyAct(Unit),
-            manual = rates.filter { it.manualOverride }.map(::toUi),
-            automatic = rates.filter { !it.manualOverride }.map(::toUi)
+            manual = rates.filter { it.manualOverride }.map(::toUi).toImmutableList(),
+            automatic = rates.filter { !it.manualOverride }.map(::toUi).toImmutableList()
         )
     }.stateIn(
         viewModelScope,
         SharingStarted.Eagerly,
         RatesState(
             baseCurrency = "",
-            manual = emptyList(),
-            automatic = emptyList()
+            manual = persistentListOf(),
+            automatic = persistentListOf()
         )
     )
 

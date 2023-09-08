@@ -35,6 +35,8 @@ import com.ivy.wallet.utils.asLiveData
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.sendToCrashlytics
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -71,16 +73,16 @@ class OnboardingViewModel @Inject constructor(
     private val _opGoogleSignIn = MutableLiveData<OpResult<Unit>?>()
     val opGoogleSignIn = _opGoogleSignIn.asLiveData()
 
-    private val _accounts = MutableLiveData<List<AccountBalance>>()
+    private val _accounts = MutableLiveData<ImmutableList<AccountBalance>>()
     val accounts = _accounts.asLiveData()
 
-    private val _accountSuggestions = MutableLiveData<List<CreateAccountData>>()
+    private val _accountSuggestions = MutableLiveData<ImmutableList<CreateAccountData>>()
     val accountSuggestions = _accountSuggestions.asLiveData()
 
-    private val _categories = MutableLiveData<List<Category>>()
+    private val _categories = MutableLiveData<ImmutableList<Category>>()
     val categories = _categories.asLiveData()
 
-    private val _categorySuggestions = MutableLiveData<List<CreateCategoryData>>()
+    private val _categorySuggestions = MutableLiveData<ImmutableList<CreateCategoryData>>()
     val categorySuggestions = _categorySuggestions.asLiveData()
 
     private val router = OnboardingRouter(
@@ -262,14 +264,14 @@ class OnboardingViewModel @Inject constructor(
         }
     }
 
-    private suspend fun accountsWithBalance(): List<AccountBalance> = ioThread {
+    private suspend fun accountsWithBalance(): ImmutableList<AccountBalance> = ioThread {
         accountsAct(Unit)
             .map {
                 AccountBalance(
                     account = it,
                     balance = ioThread { accountLogic.calculateAccountBalance(it) }
                 )
-            }
+            }.toImmutableList()
     }
 
     fun onAddAccountsDone() {

@@ -93,6 +93,7 @@ import com.ivy.wallet.utils.horizontalSwipeListener
 import com.ivy.wallet.utils.onScreenStart
 import com.ivy.wallet.utils.setStatusBarDarkTextCompat
 import com.ivy.wallet.utils.thenIf
+import kotlinx.collections.immutable.persistentListOf
 import java.math.BigDecimal
 import java.util.UUID
 
@@ -589,7 +590,7 @@ private fun Header(
                     nav.navigateTo(
                         PieChartStatistic(
                             type = TransactionType.INCOME,
-                            accountList = listOf(account.id),
+                            accountList = persistentListOf(account.id),
                             filterExcluded = false,
                             treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense
                         )
@@ -601,7 +602,7 @@ private fun Header(
                     nav.navigateTo(
                         PieChartStatistic(
                             type = TransactionType.EXPENSE,
-                            accountList = listOf(account.id),
+                            accountList = persistentListOf(account.id),
                             filterExcluded = false,
                             treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense
                         )

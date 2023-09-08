@@ -12,6 +12,8 @@ import com.opencsv.CSVReaderBuilder
 import com.opencsv.validators.LineValidator
 import com.opencsv.validators.RowValidator
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
@@ -29,7 +31,7 @@ class CSVViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var columns by mutableStateOf<CSVRow?>(null)
-    private var csv by mutableStateOf<List<CSVRow>?>(null)
+    private var csv by mutableStateOf<ImmutableList<CSVRow>?>(null)
 
     // region Important fields
     private var amount by mutableStateOf(
@@ -207,9 +209,9 @@ class CSVViewModel @Inject constructor(
     @Composable
     private fun continueEnabled(important: ImportantFields?): Boolean {
         return important != null && important.accountStatus.success &&
-            important.amountStatus.success &&
-            important.typeStatus.success &&
-            important.dateStatus.success
+                important.amountStatus.success &&
+                important.typeStatus.success &&
+                important.dateStatus.success
     }
 
     @Composable
@@ -313,76 +315,89 @@ class CSVViewModel @Inject constructor(
                     metadata = event.multiplier,
                 )
             }
+
             is CSVEvent.DataMetaChange -> {
                 date = date.copy(
                     metadata = event.meta
                 )
             }
+
             is CSVEvent.MapAccount -> {
                 account = account.copy(
                     index = event.index,
                     name = event.name
                 )
             }
+
             is CSVEvent.MapAccountCurrency -> {
                 accountCurrency = accountCurrency.copy(
                     index = event.index,
                     name = event.name
                 )
             }
+
             is CSVEvent.MapAmount -> {
                 amount = amount.copy(
                     index = event.index,
                     name = event.name
                 )
             }
+
             is CSVEvent.MapDate -> {
                 date = date.copy(
                     index = event.index,
                     name = event.name
                 )
             }
+
             is CSVEvent.MapType -> {
                 type = type.copy(
                     index = event.index,
                     name = event.name
                 )
             }
+
             is CSVEvent.TypeMetaChange -> {
                 type = type.copy(
                     metadata = event.meta
                 )
             }
+
             is CSVEvent.MapCategory -> {
                 category = category.copy(
                     index = event.index,
                     name = event.name
                 )
             }
+
             is CSVEvent.MapDescription -> {
                 description = description.copy(
                     index = event.index,
                     name = event.name
                 )
             }
+
             is CSVEvent.MapTitle -> {
                 title = title.copy(
                     index = event.index,
                     name = event.name
                 )
             }
+
             is CSVEvent.MapToAccount -> {
                 toAccount = toAccount.copy(
                     index = event.index,
                     name = event.name
                 )
             }
+
             is CSVEvent.MapToAccountCurrency -> {
                 toAccountCurrency = toAccountCurrency.copy(
                     index = event.index,
                     name = event.name
                 )
             }
+
             CSVEvent.Continue -> handleContinue()
             is CSVEvent.MapToAmount -> {
                 toAmount = toAmount.copy(
@@ -390,14 +405,17 @@ class CSVViewModel @Inject constructor(
                     name = event.name
                 )
             }
+
             is CSVEvent.ToAmountMetaChange -> {
                 toAmount = toAmount.copy(
                     metadata = event.multiplier
                 )
             }
+
             CSVEvent.ResetState -> {
                 uiState = UIState.Idle
             }
+
             is CSVEvent.FinishImport -> {
                 handleFinishImport(event)
             }
@@ -413,11 +431,11 @@ class CSVViewModel @Inject constructor(
             }
             csv = csv?.map { row ->
                 row.copy(values = row.values.map { it.trim() })
-            }
+            }?.toImmutableList()
         }
 
     private fun importCSV(uri: Uri, normalizeCSV: Boolean): Unit = try {
-        csv = processFile(uri, normalizeCSV = normalizeCSV)
+        csv = processFile(uri, normalizeCSV = normalizeCSV)?.toImmutableList()
         columns = csv?.firstOrNull()
     } catch (e: Exception) {
         e.printStackTrace()
