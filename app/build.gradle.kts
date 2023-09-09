@@ -1,5 +1,3 @@
-import com.ivy.wallet.buildsrc.Project
-
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -14,16 +12,14 @@ plugins {
 
 android {
     namespace = "com.ivy.wallet"
-    compileSdk = Project.compileSdkVersion
+    compileSdk = libs.versions.compile.sdk.get().toInt()
 
     defaultConfig {
-        applicationId = Project.applicationId
-        minSdk = Project.minSdk
-        targetSdk = Project.targetSdk
-        versionCode = Project.versionCode
-        versionName = Project.versionName
-
-        testInstrumentationRunner = "com.ivy.wallet.HiltTestRunner"
+        applicationId = "com.ivy.wallet"
+        minSdk = libs.versions.min.sdk.get().toInt()
+        targetSdk = libs.versions.compile.sdk.get().toInt()
+        versionName = libs.versions.version.name.get()
+        versionCode = libs.versions.version.code.get().toInt()
 
         kapt {
             arguments {
@@ -100,12 +96,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 
     buildFeatures {

@@ -14,6 +14,13 @@ room = "2.6.0-beta01"
 androidx-work = "2.8.1"
 kotlinx-collections = "0.3.5"
 
+# Android
+min-sdk = "28"
+compile-sdk = "34"
+version-name = "4.4.5"
+version-code = "145"
+
+
 # Linters
 detekt = "1.23.1" # https://detekt.dev/docs/gettingstarted/gradle/
 
