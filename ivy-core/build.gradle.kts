@@ -3,5 +3,5 @@ plugins {
 }
 
 android {
-    namespace = "com.ivy.ivy-core"
+    namespace = "com.ivy.core"
 }

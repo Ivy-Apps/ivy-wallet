@@ -25,7 +25,7 @@ android {
     }
 
     // Android
-    compileSdk = libs.version("compile-sdk").toInt()
+    compileSdk = catalog.version("compile-sdk").toInt()
 
     // Compose
     buildFeatures {
@@ -33,7 +33,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.version("compose-compiler")
+        kotlinCompilerExtensionVersion = catalog.version("compose-compiler")
     }
 
     // Kotest
@@ -46,19 +46,18 @@ android {
 }
 
 dependencies {
-    implementation(libs.bundle("arrow"))
-    implementation(libs.bundle("kotlin"))
-    implementation(libs.bundle("compose"))
-    implementation(libs.library("timber"))
+    implementation(libs.bundles.arrow)
+    implementation(libs.bundles.kotlin)
+    implementation(libs.bundles.compose)
+    implementation(libs.timber)
 
-    implementation(libs.bundle("hilt"))
+    implementation(libs.bundles.hilt)
     // TODO: Migrate to KSP when supported
-    kapt(libs.library("hilt-compiler"))
+    kapt(catalog.library("hilt-compiler"))
 
-
-    testImplementation(libs.bundle("kotest"))
-    testImplementation(libs.bundle("kotlin-test"))
-    testImplementation(libs.library("hilt-testing"))
+    testImplementation(libs.bundles.kotest)
+    testImplementation(catalog.bundle("kotlin-test"))
+    testImplementation(catalog.library("hilt-testing"))
 }
 
 // TODO: Remove after migrating to KSP
@@ -66,17 +65,3 @@ kapt {
     correctErrorTypes = true
     useBuildCache = true
 }
-
-// Version Catalog workarounds:
-internal val Project.libs: VersionCatalog
-    get() =
-        project.extensions.getByType<VersionCatalogsExtension>().named("libs")
-
-fun VersionCatalog.version(alias: String): String =
-    this.findVersion(alias).get().requiredVersion
-
-fun VersionCatalog.bundle(alias: String): Any =
-    this.findBundle(alias).get()
-
-fun VersionCatalog.library(alias: String): Any =
-    this.findLibrary(alias).get()

@@ -44,14 +44,26 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
+# Assign the first argument as a module name
 MODULE_NAME=$1
+
+CLEANED_MODULE_NAME=""
+# Check if MODULE_NAME contains "-"
+if [[ $MODULE_NAME == *-* ]]; then
+    # Extract the substring after the last "-"
+    CLEANED_MODULE_NAME=${MODULE_NAME#*-}
+else
+    # If no "-", use the whole MODULE_NAME
+    CLEANED_MODULE_NAME=$MODULE_NAME
+fi
+
 
 # ---------------------
 # 3. PATH CONFIGURATION
 # ---------------------
 
 # Define the source and destination paths
-TEMPLATE_PATH="./templates/_module"
+TEMPLATE_PATH="./templates/__module"
 DEST_PATH="./$MODULE_NAME"
 
 # --------------------------
@@ -75,27 +87,32 @@ cp -R "$TEMPLATE_PATH" "$DEST_PATH"
 # 6. RENAMING FILES AND FOLDER CONTENTS
 # -------------------------------------
 
-# Rename folders and files starting with "_"
-find "$DEST_PATH" -depth -name '*_*' | while IFS= read -r f ; do
-    mv "$f" "${f//_module/$MODULE_NAME}"  # String replace "_module" with the module name
+# Rename folders and files starting with "__"
+find "$DEST_PATH" -depth -name '*__package*' | while IFS= read -r f ; do
+    mv "$f" "${f//__package/$CLEANED_MODULE_NAME}"  # String replace "__package" with the cleaned module name
+done
+
+# Rename folders and files starting with "__"
+find "$DEST_PATH" -depth -name '*__module*' | while IFS= read -r f ; do
+    mv "$f" "${f//__module/$MODULE_NAME}"  # String replace "__module" with the module name
 done
 
 # ---------------------------------
 # 7. UPDATING PLACEHOLDERS IN FILES
 # ---------------------------------
 
-# Replace the placeholder "_module" with the module name in all files
+# Replace the placeholder "__module" with the module name in all files
 if [[ "$OS" == "macos" ]]; then
-    find "$DEST_PATH" -type f -exec sh -c 'sed -i "" "s/_module/'"$MODULE_NAME"'/g" "$0"' {} \;
+    find "$DEST_PATH" -type f -exec sh -c 'sed -i "" "s/__module/'"$CLEANED_MODULE_NAME"'/g" "$0"' {} \;
 else
-    find "$DEST_PATH" -type f -exec sh -c 'sed -i "s/_module/'"$MODULE_NAME"'/g" "$0"' {} \;
+    find "$DEST_PATH" -type f -exec sh -c 'sed -i "s/__module/'"$CLEANED_MODULE_NAME"'/g" "$0"' {} \;
 fi
 
 # Specifically update namespace in build files
 if [[ "$OS" == "macos" ]]; then
-    find "$DEST_PATH" -type f -name 'build.gradle.kts' -exec sh -c 'sed -i "" "s/com.ivy._module/com.ivy.'"$MODULE_NAME"'/g" "$0"' {} \;
+    find "$DEST_PATH" -type f -name 'build.gradle.kts' -exec sh -c 'sed -i "" "s/com.ivy.__module/com.ivy.'"$CLEANED_MODULE_NAME"'/g" "$0"' {} \;
 else
-    find "$DEST_PATH" -type f -name 'build.gradle.kts' -exec sh -c 'sed -i "s/com.ivy._module/com.ivy.'"$MODULE_NAME"'/g" "$0"' {} \;
+    find "$DEST_PATH" -type f -name 'build.gradle.kts' -exec sh -c 'sed -i "s/com.ivy.__module/com.ivy.'"$CLEANED_MODULE_NAME"'/g" "$0"' {} \;
 fi
 
 echo "Module ':$MODULE_NAME' created successfully."

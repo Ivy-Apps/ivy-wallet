@@ -3,5 +3,5 @@ plugins {
 }
 
 android {
-    namespace = "com.ivy._module"
+    namespace = "com.ivy.__module"
 }

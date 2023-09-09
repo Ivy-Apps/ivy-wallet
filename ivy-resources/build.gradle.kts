@@ -3,5 +3,5 @@ plugins {
 }
 
 android {
-    namespace = "com.ivy.ivy-resources"
+    namespace = "com.ivy.resources"
 }
