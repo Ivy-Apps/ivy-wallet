@@ -19,7 +19,7 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
-import com.ivy.wallet.R
+import com.ivy.resources.R
 import com.ivy.wallet.stringRes
 
 @Composable

@@ -124,6 +124,7 @@ android {
 dependencies {
     implementation(projects.ivyDesign)
     implementation(projects.ivyCore)
+    implementation(projects.ivyResources)
     implementation(projects.widgets)
 
     implementation(libs.ivy.frp.temp)

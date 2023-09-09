@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.data.core
 
-import com.ivy.wallet.R
+import com.ivy.resources.R
 import com.ivy.wallet.domain.data.LoanType
 import com.ivy.wallet.io.persistence.data.LoanEntity
 import com.ivy.wallet.stringRes

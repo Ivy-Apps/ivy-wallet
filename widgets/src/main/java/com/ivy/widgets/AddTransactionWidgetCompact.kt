@@ -5,7 +5,7 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
-import com.ivy.wallet.R
+import com.ivy.resources.R
 
 class AddTransactionWidgetCompact : AppWidgetProvider() {
 

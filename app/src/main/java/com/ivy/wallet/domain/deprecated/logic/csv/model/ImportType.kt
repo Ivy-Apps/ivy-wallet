@@ -3,7 +3,7 @@ package com.ivy.wallet.domain.deprecated.logic.csv.model
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.ivy.wallet.R
+import com.ivy.resources.R
 import com.ivy.wallet.ui.csvimport.flow.instructions.*
 import com.ivy.wallet.ui.theme.*
 

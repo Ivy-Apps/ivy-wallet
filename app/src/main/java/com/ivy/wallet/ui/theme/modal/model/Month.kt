@@ -1,6 +1,6 @@
 package com.ivy.wallet.ui.theme.modal.model
 
-import com.ivy.wallet.R
+import com.ivy.resources.R
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
