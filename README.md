@@ -42,8 +42,7 @@ Ivy Wallet's biggest advantage is its UI/UX, simplicity, and customization that 
 ## Project Requirements
 
 - Java 17+
-- The latest **Android Studio Hedgehog** or above (for easy install
-  use [JetBrains Toolbox](https://www.jetbrains.com/toolbox-app/))
+- The **latest stable** Android Studio (for easy install use [JetBrains Toolbox](https://www.jetbrains.com/toolbox-app/))
 
 ### Initialize the project
 
