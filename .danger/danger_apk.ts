@@ -5,19 +5,18 @@ const repoFullName = danger.github.pr.base.repo.full_name;
 const artifactURL = `https://github.com/${repoFullName}/actions/runs/${runID}`;
 
 message(`
-# Detekt check finished 🕵️‍♂️
+## Detekt check finished 🕵️‍♂️
 
 Our code quality check completed. ✅
 
-If it fails, open the "Detekt" workflow run on your PR, scroll down and download the attached \`detekt-report.html\`.
-Please, inspect it and try to fix the errors. 🔎
+If it fails, open the "Detekt" workflow run on your PR, scroll down and download the attached \`detekt-report.html\`. Please, inspect it and try to fix the errors. 🔎
 
 _**Pstt,** don't worry - sometimes Detekt gives false-positives. 
 Your reviewer will guide towards the best next steps. 👍_`
 );
 
 message(`
-**Great news! Your PR builds ✅**
+## Great news! Your PR builds ✅**
 
 We've managed to generate a R8-optimized 
 _(minify, obfuscate, and shrink resources)_ APK with your changes. 👌
@@ -30,7 +29,7 @@ or the link above because it may introduce runtime crashes in production._`
 );
 
 markdown(`
-**Congratulations! 🎉 You're almost there...**
+## Congratulations! 🎉 You're almost there...**
 
 Your PR is a fact and it'll be reviewed as soon as possible. The last step is to receive an approving review and merge it. ✅
 
