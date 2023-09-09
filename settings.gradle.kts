@@ -11,4 +11,3 @@ rootProject.name = "Ivy Wallet"
 include(":app")
 include(":ivy-design")
 include(":ivy-core")
-include(":ivy-core")

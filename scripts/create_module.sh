@@ -85,10 +85,18 @@ done
 # ---------------------------------
 
 # Replace the placeholder "_module" with the module name in all files
-find "$DEST_PATH" -type f -exec sed_inplace "s/_module/$MODULE_NAME/g" {} +
+if [[ "$OS" == "macos" ]]; then
+    find "$DEST_PATH" -type f -exec sh -c 'sed -i "" "s/_module/'"$MODULE_NAME"'/g" "$0"' {} \;
+else
+    find "$DEST_PATH" -type f -exec sh -c 'sed -i "s/_module/'"$MODULE_NAME"'/g" "$0"' {} \;
+fi
 
 # Specifically update namespace in build files
-find "$DEST_PATH" -type f -name 'build.gradle.kts' -exec sed_inplace "s/com.ivy._module/com.ivy.$MODULE_NAME/g" {} +
+if [[ "$OS" == "macos" ]]; then
+    find "$DEST_PATH" -type f -name 'build.gradle.kts' -exec sh -c 'sed -i "" "s/com.ivy._module/com.ivy.'"$MODULE_NAME"'/g" "$0"' {} \;
+else
+    find "$DEST_PATH" -type f -name 'build.gradle.kts' -exec sh -c 'sed -i "s/com.ivy._module/com.ivy.'"$MODULE_NAME"'/g" "$0"' {} \;
+fi
 
 echo "Module ':$MODULE_NAME' created successfully."
 
