@@ -1,0 +1,20 @@
+name: "Danger (PR)"
+
+on:
+  pull_request:
+
+jobs:
+  danger_pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout GIT
+        uses: actions/checkout@v4
+
+      - name: Comment on the PR
+        if: github.event_name == 'pull_request'
+        uses: danger/danger-js@10.6.4
+        with:
+          args: "--dangerfile .danger/danger_pr.ts"
+        env:
+          DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}

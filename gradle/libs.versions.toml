@@ -16,7 +16,7 @@ androidx-work = "2.8.1"
 detekt = "1.23.1" # https://detekt.dev/docs/gettingstarted/gradle/
 
 [libraries]
-android-gradle-plugin = { module = "com.android.tools.build:gradle", version = "8.2.0-beta01" }
+android-gradle-plugin = { module = "com.android.tools.build:gradle", version = "8.2.0-beta03" }
 
 # Kotlin
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }

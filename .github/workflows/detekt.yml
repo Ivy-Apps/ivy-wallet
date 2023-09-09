@@ -56,7 +56,7 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: danger/danger-js@10.6.4
         with:
-          dangerfile: ./dangerfile_detekt.ts
+          args: "--dangerfile .danger/danger_detekt.ts"
         env:
           GITHUB_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
 
