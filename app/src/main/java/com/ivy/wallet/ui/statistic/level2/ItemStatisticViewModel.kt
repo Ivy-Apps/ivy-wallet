@@ -1,5 +1,8 @@
 package com.ivy.wallet.ui.statistic.level2
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -44,6 +47,7 @@ import com.ivy.wallet.utils.dateNowUTC
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.isNotNullOrBlank
 import com.ivy.wallet.utils.readOnly
+import com.ivy.wallet.utils.selectEndTextFieldValue
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -146,6 +150,11 @@ class ItemStatisticViewModel @Inject constructor(
 
     private val _treatTransfersAsIncomeExpense = MutableStateFlow(false)
     val treatTransfersAsIncomeExpense = _treatTransfersAsIncomeExpense.readOnly()
+
+    var accountNameConfirmation by mutableStateOf(selectEndTextFieldValue(""))
+        private set
+    var enableDeletionButton by mutableStateOf(false)
+        private set
 
     fun start(
         screen: ItemStatistic,
@@ -667,6 +676,13 @@ class ItemStatisticViewModel @Inject constructor(
             }
 
             TestIdlingResource.decrement()
+        }
+    }
+
+    fun updateAccountDeletionState(newName: String) {
+        accountNameConfirmation = selectEndTextFieldValue(newName)
+        account.value?.name?.let { accountName ->
+            enableDeletionButton = newName == accountName
         }
     }
 }
