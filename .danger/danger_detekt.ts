@@ -4,7 +4,7 @@ const runID = process.env.GITHUB_RUN_ID;
 const repoFullName = danger.github.pr.base.repo.full_name;
 const actionRunUrl = `https://github.com/${repoFullName}/actions/runs/${runID}`;
 
-markdown(`
+message(`
 # Detekt check finished 🕵️‍♂️
 
 Our code quality check completed. ✅
