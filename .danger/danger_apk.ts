@@ -5,6 +5,19 @@ const repoFullName = danger.github.pr.base.repo.full_name;
 const artifactURL = `https://github.com/${repoFullName}/actions/runs/${runID}`;
 
 message(`
+# Detekt check finished 🕵️‍♂️
+
+Our code quality check completed. ✅
+
+If it fails, open the "Detekt" workflow run on your PR, scroll down and download the attached \`detekt-report.html\`.
+Please, inspect it and try to fix the errors. 🔎
+
+_**Pstt,** don't worry - sometimes Detekt gives false-positives. 
+Your reviewer will guide towards the best next steps. 👍_`
+);
+
+
+message(`
 **Great news! Your PR builds ✅**
 
 We've managed to generate a R8-optimized 
