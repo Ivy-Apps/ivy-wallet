@@ -273,7 +273,7 @@ private fun CategoriesRow(
         items(items = categories) { category ->
             ListItem(
                 icon = category.icon,
-                defaultIcon = com.ivy.wallet.R.drawable.ic_custom_category_s,
+                defaultIcon = R.drawable.ic_custom_category_s,
                 text = category.name,
                 selectedColor = category.color.toComposeColor().takeIf {
                     budgetCategoryIds.contains(category.id)

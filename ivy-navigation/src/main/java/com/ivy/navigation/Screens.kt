@@ -1,9 +1,9 @@
-package com.ivy.wallet.ui
+package com.ivy.navigation
 
+import com.ivy.core.data.model.PaywallReason
 import com.ivy.frp.view.navigation.Screen
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.ui.paywall.PaywallReason
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID

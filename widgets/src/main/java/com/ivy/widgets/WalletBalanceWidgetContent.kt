@@ -9,18 +9,28 @@ import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.LocalContext
 import androidx.glance.action.actionParametersOf
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.background
-import androidx.glance.layout.*
+import androidx.glance.layout.Alignment
+import androidx.glance.layout.Box
+import androidx.glance.layout.Column
+import androidx.glance.layout.Row
+import androidx.glance.layout.RowScope
+import androidx.glance.layout.Spacer
+import androidx.glance.layout.fillMaxSize
+import androidx.glance.layout.fillMaxWidth
+import androidx.glance.layout.padding
+import androidx.glance.layout.size
+import androidx.glance.layout.width
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.ivy.resources.R
-import com.ivy.wallet.stringRes
 
 @Composable
 fun WalletBalanceWidgetContent(
@@ -135,6 +145,7 @@ fun IncomeExpenseSection(
             .padding(start = 14.dp, end = 14.dp, top = 12.dp, bottom = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        val resources = LocalContext.current.resources
         Row(
             GlanceModifier
                 .padding(10.dp)
@@ -142,7 +153,7 @@ fun IncomeExpenseSection(
                 .background(ImageProvider(R.drawable.income_shape_widget_backgroud)),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Image(ImageProvider(R.drawable.ic_income_white), stringRes(R.string.income))
+            Image(ImageProvider(R.drawable.ic_income_white), resources.getString((R.string.income)))
             Spacer(GlanceModifier.width(8.dp))
             Text(
                 text = income,
@@ -169,7 +180,10 @@ fun IncomeExpenseSection(
                 .background(ImageProvider(R.drawable.expense_shape_widget_backgroun)),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Image(ImageProvider(R.drawable.ic_expense), stringRes(R.string.expense))
+            Image(
+                ImageProvider(R.drawable.ic_expense),
+                resources.getString(R.string.expense)
+            )
             Spacer(GlanceModifier.width(8.dp))
             Text(
                 text = expense,

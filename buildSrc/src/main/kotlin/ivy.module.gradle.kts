@@ -49,6 +49,7 @@ android {
 }
 
 dependencies {
+    implementation(catalog.library("ivy-frp-temp"))
     implementation(libs.bundles.arrow)
     implementation(libs.bundles.kotlin)
     implementation(libs.bundles.compose)

@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.onboarding.model
+package com.ivy.core.data.model
 
 import com.ivy.wallet.ui.theme.modal.model.Month
 import com.ivy.wallet.utils.*
