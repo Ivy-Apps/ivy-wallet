@@ -22,6 +22,7 @@ import com.ivy.wallet.utils.getFileName
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.uiThread
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -116,7 +117,7 @@ class ImportViewModel @Inject constructor(
                     transactionsImported = 0,
                     accountsImported = 0,
                     categoriesImported = 0,
-                    failedRows = emptyList()
+                    failedRows = persistentListOf()
                 )
             }
 
@@ -154,7 +155,7 @@ class ImportViewModel @Inject constructor(
                     transactionsImported = 0,
                     accountsImported = 0,
                     categoriesImported = 0,
-                    failedRows = emptyList()
+                    failedRows = persistentListOf()
                 )
             }
         }

@@ -66,6 +66,8 @@ import com.ivy.wallet.ui.theme.components.IvyToolbar
 import com.ivy.wallet.ui.theme.pureBlur
 import com.ivy.wallet.utils.clickableNoIndication
 import com.ivy.wallet.utils.onScreenStart
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.persistentSetOf
 
 @ExperimentalFoundationApi
 @Composable
@@ -403,21 +405,22 @@ private fun Preview() {
             upcomingExpenses = 0.0,
             overdueIncome = 2335.12,
             overdueExpenses = 0.0,
-            history = emptyList(),
-            upcomingTransactions = emptyList(),
-            overdueTransactions = emptyList(),
+            history =
+            persistentListOf(),
+            upcomingTransactions = persistentListOf(),
+            overdueTransactions = persistentListOf(),
 
             upcomingExpanded = true,
             overdueExpanded = true,
             filter = ReportFilter.emptyFilter("BGN"),
             loading = false,
-            accounts = listOf(
+            accounts = persistentListOf(
                 acc1,
                 acc2,
                 Account("phyre", color = GreenLight.toArgb(), icon = "cash"),
                 Account("Revolut", color = IvyDark.toArgb()),
             ),
-            categories = listOf(
+            categories = persistentListOf(
                 cat1,
                 Category("Pet", color = Red3Light.toArgb(), icon = "pet"),
                 Category("Home", color = Green.toArgb(), icon = null),
@@ -446,9 +449,9 @@ private fun Preview_NO_FILTER() {
             overdueIncome = 0.0,
             overdueExpenses = 0.0,
 
-            history = emptyList(),
-            upcomingTransactions = emptyList(),
-            overdueTransactions = emptyList(),
+            history = persistentListOf(),
+            upcomingTransactions = persistentListOf(),
+            overdueTransactions = persistentListOf(),
 
             upcomingExpanded = true,
             overdueExpanded = true,
@@ -456,13 +459,13 @@ private fun Preview_NO_FILTER() {
             filter = null,
             loading = false,
 
-            accounts = listOf(
+            accounts = persistentListOf(
                 acc1,
                 acc2,
                 Account("phyre", color = GreenLight.toArgb(), icon = "cash"),
                 Account("Revolut", color = IvyDark.toArgb()),
             ),
-            categories = listOf(
+            categories = persistentListOf(
                 cat1,
                 Category("Pet", color = Red3Light.toArgb(), icon = "pet"),
                 Category("Home", color = Green.toArgb(), icon = null),

@@ -73,6 +73,7 @@ import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 import com.ivy.wallet.utils.balancePrefix
 import com.ivy.wallet.utils.onScreenStart
+import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
 @Composable
@@ -550,7 +551,7 @@ private fun Preview() {
     IvyWalletPreview {
         val state = CategoriesScreenState(
             baseCurrency = "BGN",
-            categories = listOf(
+            categories = persistentListOf(
                 CategoryData(
                     category = Category(
                         "Groceries",

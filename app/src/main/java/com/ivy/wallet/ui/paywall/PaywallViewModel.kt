@@ -19,8 +19,12 @@ import com.ivy.wallet.domain.deprecated.logic.PaywallLogic
 import com.ivy.wallet.ui.Paywall
 import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.utils.asLiveData
+import com.ivy.wallet.utils.filterImmutableList
 import com.ivy.wallet.utils.sendToCrashlytics
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -35,22 +39,22 @@ class PaywallViewModel @Inject constructor(
     private val loansAct: LoansAct
 ) : ViewModel() {
 
-    private val _plans = MutableLiveData<List<Plan>>()
+    private val _plans = MutableLiveData<ImmutableList<Plan>>()
     val plans = _plans.asLiveData()
 
-    private val _accounts = MutableLiveData<List<Account>>()
+    private val _accounts = MutableLiveData<ImmutableList<Account>>()
     val accounts = _accounts.asLiveData()
 
-    private val _categories = MutableLiveData<List<Category>>()
+    private val _categories = MutableLiveData<ImmutableList<Category>>()
     val categories = _categories.asLiveData()
 
-    private val _budgets = MutableLiveData<List<Budget>>()
+    private val _budgets = MutableLiveData<ImmutableList<Budget>>()
     val budgets = _budgets.asLiveData()
 
-    private val _loans = MutableLiveData<List<Loan>>()
+    private val _loans = MutableLiveData<ImmutableList<Loan>>()
     val loans = _loans.asLiveData()
 
-    private val _purchasedSkus = MutableLiveData<List<String>>(emptyList())
+    private val _purchasedSkus = MutableLiveData<ImmutableList<String>>(persistentListOf())
     val purchasedSkus = _purchasedSkus.asLiveData()
 
     private val _paywallReason = MutableLiveData<PaywallReason?>()
@@ -70,7 +74,7 @@ class PaywallViewModel @Inject constructor(
                 viewModelScope.launch {
                     _plans.value = ivyBilling
                         .fetchPlans()
-                        .filter { it.type != PlanType.SIX_MONTH }
+                        .filterImmutableList { it.type != PlanType.SIX_MONTH }
                     processPurchases(ivyBilling.queryPurchases())
                 }
             },
@@ -94,13 +98,13 @@ class PaywallViewModel @Inject constructor(
     }
 
     private suspend fun processPurchases(purchases: List<Purchase>) {
-        _purchasedSkus.value = emptyList()
+        _purchasedSkus.value = persistentListOf()
         activePurchases.clear()
 
         paywallLogic.processPurchases(
             purchases = purchases,
             onActivePurchase = {
-                _purchasedSkus.value = purchasedSkus.value.orEmpty().plus(it.skus)
+                _purchasedSkus.value = purchasedSkus.value.orEmpty().plus(it.skus).toImmutableList()
                 activePurchases.add(it)
             }
         )

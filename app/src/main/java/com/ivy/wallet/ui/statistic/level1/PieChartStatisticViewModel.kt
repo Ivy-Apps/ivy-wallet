@@ -16,6 +16,9 @@ import com.ivy.wallet.utils.dateNowUTC
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.readOnly
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -59,9 +62,9 @@ class PieChartStatisticViewModel @Inject constructor(
     private suspend fun startInternally(
         period: TimePeriod,
         type: TransactionType,
-        accountIdFilterList: List<UUID>,
+        accountIdFilterList: ImmutableList<UUID>,
         filterExclude: Boolean,
-        transactions: List<Transaction>,
+        transactions: ImmutableList<Transaction>,
         treatTransfersAsIncomeExpense: Boolean
     ) {
         initialise(period, type, accountIdFilterList, filterExclude, transactions)
@@ -72,9 +75,9 @@ class PieChartStatisticViewModel @Inject constructor(
     private suspend fun initialise(
         period: TimePeriod,
         type: TransactionType,
-        accountIdFilterList: List<UUID>,
+        accountIdFilterList: ImmutableList<UUID>,
         filterExclude: Boolean,
-        transactions: List<Transaction>
+        transactions: ImmutableList<Transaction>
     ) {
         val settings = ioThread { settingsDao.findFirst() }
         val baseCurrency = settings.currency
@@ -191,7 +194,7 @@ class PieChartStatisticViewModel @Inject constructor(
             existingCategoryAmounts.sortedByDescending {
                 it.amount
             }
-        }
+        }.toImmutableList()
 
         updateState {
             it.copy(
@@ -219,12 +222,12 @@ data class PieChartStatisticState(
     val period: TimePeriod = TimePeriod(),
     val baseCurrency: String = "",
     val totalAmount: Double = 0.0,
-    val categoryAmounts: List<CategoryAmount> = emptyList(),
+    val categoryAmounts: ImmutableList<CategoryAmount> = persistentListOf(),
     val selectedCategory: SelectedCategory? = null,
-    val accountIdFilterList: List<UUID> = emptyList(),
+    val accountIdFilterList: ImmutableList<UUID> = persistentListOf(),
     val showCloseButtonOnly: Boolean = false,
     val filterExcluded: Boolean = false,
-    val transactions: List<Transaction> = emptyList(),
+    val transactions: ImmutableList<Transaction> = persistentListOf(),
     val choosePeriodModal: ChoosePeriodModalData? = null
 )
 

@@ -14,6 +14,9 @@ import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.utils.getDefaultFIATCurrency
 import com.ivy.wallet.utils.ioThread
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -31,13 +34,13 @@ class SearchViewModel @Inject constructor(
     private val _baseCurrencyCode = MutableStateFlow(getDefaultFIATCurrency().currencyCode)
     val baseCurrencyCode = _baseCurrencyCode.asStateFlow()
 
-    private val _transactions = MutableStateFlow(emptyList<TransactionHistoryItem>())
+    private val _transactions = MutableStateFlow<ImmutableList<TransactionHistoryItem>>(persistentListOf())
     val transactions = _transactions.asStateFlow()
 
-    private val _accounts = MutableStateFlow(emptyList<Account>())
+    private val _accounts = MutableStateFlow<ImmutableList<Account>>(persistentListOf())
     val accounts = _accounts.asStateFlow()
 
-    private val _categories = MutableStateFlow(emptyList<Category>())
+    private val _categories = MutableStateFlow<ImmutableList<Category>>(persistentListOf())
     val categories = _categories.asStateFlow()
 
     fun search(query: String) {
@@ -63,7 +66,7 @@ class SearchViewModel @Inject constructor(
                         baseCurrency = baseCurrencyCode.value,
                         transactions = trns
                     )
-                )
+                ).toImmutableList()
             }
 
             TestIdlingResource.decrement()

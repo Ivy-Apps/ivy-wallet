@@ -14,6 +14,7 @@ import com.ivy.wallet.utils.readFile
 import com.ivy.wallet.utils.scopedIOThread
 import com.ivy.wallet.utils.toEpochMilli
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.async
 import timber.log.Timber
 import java.io.File
@@ -160,7 +161,7 @@ class BackupLogic @Inject constructor(
                     transactionsImported = 0,
                     accountsImported = 0,
                     categoriesImported = 0,
-                    failedRows = emptyList()
+                    failedRows = persistentListOf()
                 )
             }
         }
@@ -187,7 +188,7 @@ class BackupLogic @Inject constructor(
             transactionsImported = ivyWalletCompleteData.transactions.size,
             accountsImported = ivyWalletCompleteData.accounts.size,
             categoriesImported = ivyWalletCompleteData.categories.size,
-            failedRows = emptyList()
+            failedRows = persistentListOf()
         )
     }
 

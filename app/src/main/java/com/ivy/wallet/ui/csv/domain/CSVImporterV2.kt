@@ -20,6 +20,7 @@ import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.IvyDark
 import com.ivy.wallet.ui.theme.components.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.wallet.utils.toLowerCaseLocal
+import kotlinx.collections.immutable.toImmutableList
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.absoluteValue
@@ -103,7 +104,7 @@ class CSVImporterV2 @Inject constructor(
             transactionsImported = transactions.size,
             accountsImported = accounts.size - initialAccountsCount,
             categoriesImported = categories.size - initialCategoriesCount,
-            failedRows = failedRows
+            failedRows = failedRows.toImmutableList()
         )
     }
 
@@ -243,9 +244,11 @@ class CSVImporterV2 @Inject constructor(
             accountNameString.toLowerCaseLocal().contains("cash") -> {
                 Green
             }
+
             accountNameString.toLowerCaseLocal().contains("revolut") -> {
                 IvyDark
             }
+
             else -> IVY_COLOR_PICKER_COLORS_FREE.getOrElse(newAccountColorIndex++) {
                 newAccountColorIndex = 0
                 IVY_COLOR_PICKER_COLORS_FREE.first()

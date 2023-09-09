@@ -80,6 +80,7 @@ import com.ivy.wallet.utils.lerp
 import com.ivy.wallet.utils.onScreenStart
 import com.ivy.wallet.utils.springBounce
 import com.ivy.wallet.utils.thenIf
+import kotlinx.collections.immutable.persistentListOf
 
 @ExperimentalFoundationApi
 @Composable
@@ -475,7 +476,7 @@ private fun Preview_Expense() {
             ), // preview
             baseCurrency = "BGN",
             totalAmount = 1828.0,
-            categoryAmounts = listOf(
+            categoryAmounts = persistentListOf(
                 CategoryAmount(
                     category = Category("Bills", Green.toArgb(), icon = "bills"),
                     amount = 791.0
@@ -529,7 +530,7 @@ private fun Preview_Income() {
             ), // preview
             baseCurrency = "BGN",
             totalAmount = 1828.0,
-            categoryAmounts = listOf(
+            categoryAmounts = persistentListOf(
                 CategoryAmount(
                     category = Category("Bills", Green.toArgb(), icon = "bills"),
                     amount = 791.0

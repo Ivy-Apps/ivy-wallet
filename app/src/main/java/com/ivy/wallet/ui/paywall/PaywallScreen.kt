@@ -56,13 +56,15 @@ import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.IvyToolbar
 import com.ivy.wallet.utils.onScreenStart
 import com.ivy.wallet.utils.toDensityDp
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 private const val BENEFIT_TAG_ACCOUNTS = "accs"
 private const val BENEFIT_TAG_CATEGORIES = "cats"
 private const val BENEFIT_TAG_BUDGETS = "budgs"
 private const val BENEFIT_TAG_LOANS = "loans"
 
-private val BENEFITS = listOf(
+private val BENEFITS: ImmutableList<Benefit> = persistentListOf(
     Benefit(
         text = "Unlimited accounts",
         tag = BENEFIT_TAG_ACCOUNTS
@@ -185,6 +187,7 @@ private fun BoxWithConstraintsScope.UI(
                             itemName = "accounts"
                         )
                     }
+
                     BENEFIT_TAG_CATEGORIES -> {
                         UsageText(
                             usedCount = categories.size,
@@ -192,6 +195,7 @@ private fun BoxWithConstraintsScope.UI(
                             itemName = "categories"
                         )
                     }
+
                     BENEFIT_TAG_BUDGETS -> {
                         UsageText(
                             usedCount = budgets.size,
@@ -199,6 +203,7 @@ private fun BoxWithConstraintsScope.UI(
                             itemName = "budgets"
                         )
                     }
+
                     BENEFIT_TAG_LOANS -> {
                         UsageText(
                             usedCount = loans.size,
@@ -206,6 +211,7 @@ private fun BoxWithConstraintsScope.UI(
                             itemName = "loans"
                         )
                     }
+
                     else -> {
                     }
                 }

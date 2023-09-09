@@ -30,6 +30,9 @@ import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.isNotNullOrBlank
 import com.ivy.wallet.utils.readOnly
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -54,13 +57,13 @@ class BudgetViewModel @Inject constructor(
     private val _baseCurrencyCode = MutableStateFlow(getDefaultFIATCurrency().currencyCode)
     val baseCurrencyCode = _baseCurrencyCode.readOnly()
 
-    private val _budgets = MutableStateFlow<List<DisplayBudget>>(emptyList())
+    private val _budgets = MutableStateFlow<ImmutableList<DisplayBudget>>(persistentListOf())
     val budgets = _budgets.readOnly()
 
-    private val _categories = MutableStateFlow<List<Category>>(emptyList())
+    private val _categories = MutableStateFlow<ImmutableList<Category>>(persistentListOf())
     val categories = _categories.readOnly()
 
-    private val _accounts = MutableStateFlow<List<Account>>(emptyList())
+    private val _accounts = MutableStateFlow<ImmutableList<Account>>(persistentListOf())
     val accounts = _accounts.readOnly()
 
     private val _categoryBudgetsTotal = MutableStateFlow(0.0)
@@ -108,7 +111,7 @@ class BudgetViewModel @Inject constructor(
                             baseCurrencyCode = baseCurrency
                         )
                     )
-                }
+                }.toImmutableList()
             }!!
 
             TestIdlingResource.decrement()
