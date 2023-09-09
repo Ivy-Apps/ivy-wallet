@@ -5,7 +5,8 @@ ktor = "2.3.4"
 arrow = "1.2.1"
 kotest = "5.7.2"
 compose = "1.5.1"
-compose-compiler = "1.5.2" # It's used - don't delete it!
+# https://developer.android.com/jetpack/androidx/releases/compose-kotlin
+compose-compiler = "1.5.3" # It's used! Use compatible with Kotlin one
 compose-material3 = "1.1.1"
 glance = "1.0.0"
 hilt = "2.48"
