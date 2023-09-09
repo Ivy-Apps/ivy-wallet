@@ -5,7 +5,7 @@ const repoFullName = danger.github.pr.base.repo.full_name;
 const actionRunUrl = `https://github.com/${repoFullName}/actions/runs/${runID}`;
 
 message(`
-# Detekt check finished 🕵️‍♂️
+## Detekt check finished 🕵️‍♂️
 
 Our code quality check completed. ✅
 
@@ -16,7 +16,7 @@ Your reviewer will guide towards the best next steps. 👍_`
 );
 
 markdown(`
-**Congratulations! 🎉 You're almost there...**
+## Congratulations! 🎉 You're almost there...
 
 Your PR is a fact and it'll be reviewed as soon as possible. The last step is to receive an approving review and merge it. ✅
 

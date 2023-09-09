@@ -1,7 +1,7 @@
 import { markdown } from "danger"
 
 markdown(`
-**Congratulations! 🎉 You're almost there...**
+## Congratulations! 🎉 You're almost there...
 
 Your PR is a fact and it'll be reviewed as soon as possible. The last step is to receive an approving review and merge it. ✅
 
