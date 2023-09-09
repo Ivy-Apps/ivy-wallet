@@ -11,8 +11,7 @@ Our code quality check completed. ✅
 
 If it fails, open the "Detekt" workflow run on your PR, scroll down and download the attached \`detekt-report.html\`. Please, inspect it and try to fix the errors. 🔎
 
-_**Pstt,** don't worry - sometimes Detekt gives false-positives. 
-Your reviewer will guide towards the best next steps. 👍_`
+_**Pstt,** don't worry - sometimes Detekt gives false-positives. Your reviewer will guide towards the best next steps. 👍_`
 );
 
 message(`
@@ -24,8 +23,7 @@ _(minify, obfuscate, and shrink resources)_ APK with your changes. 👌
 It's way faster than the \`debug\` build type but sometimes it may crash. 
 So please, **test** and enjoy your lightning-fast **[Ivy-Wallet-Demo.apk](${artifactURL})**. ⚡
 
-_**Note:** It's important to download and test this APK artifact from the **["APK" workflow](${artifactURL})** 
-or the link above because it may introduce runtime crashes in production._`
+_**Note:** It's important to download and test this APK artifact from the **["APK" workflow](${artifactURL})** or the link above because it may introduce runtime crashes in production._`
 );
 
 markdown(`
