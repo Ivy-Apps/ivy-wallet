@@ -53,7 +53,7 @@ jobs:
       #------------------------------------------------------------------
 
       - name: Comment Detekt results on the PR with Danger
-        if: github.event_name == 'pull_request'
+        if: always()
         uses: danger/danger-js@10.6.4
         with:
           args: "--dangerfile .danger/danger_detekt.ts"
