@@ -4,7 +4,7 @@ import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import java.util.*
+import java.util.UUID
 import javax.inject.Inject
 
 class TrnByIdAct @Inject constructor(

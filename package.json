@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "yarn": "^1.22.19"
+  },
+  "devDependencies": {
+    "danger": "^11.2.8"
+  }
+}

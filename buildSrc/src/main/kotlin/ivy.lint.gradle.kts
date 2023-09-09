@@ -19,8 +19,15 @@ tasks.withType<Detekt> {
     // Disable task caching
     outputs.upToDateWhen { false }
 
-    val filesToCheck: String? = System.getProperty("detekt.filesToCheck")
-    setSource(filesToCheck?.split(",") ?: projectDir)
+    val filesToCheck: List<String>? = System.getProperty("detekt.filesToCheck")
+        ?.split(",")
+        ?.filter { it.isNotBlank() }
+    if (filesToCheck != null) {
+        println("Formatting: $filesToCheck")
+    } else {
+        println("Formatting all files...")
+    }
+    setSource(filesToCheck ?: projectDir)
 
     reports {
         html.required.set(true)

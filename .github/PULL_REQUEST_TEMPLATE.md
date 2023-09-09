@@ -6,6 +6,16 @@ Please check if your pull request fulfills the following requirements:
 - [ ] I confirm that I've run the code locally and everything works as expected.
 
 ## What's changed?
+<!--
+Tip: you can attach screenshots using a markdown table.
+
+Screenshot 1 | Screenshot 2
+---|---
+copy-paste screenshot 1 | copy-paste 2
+
+Describe things in a short and straightforward manner.
+-->
+
 Describe with a few bullets **what's new:**
 - a
 - b

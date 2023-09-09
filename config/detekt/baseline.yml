@@ -166,10 +166,10 @@
     <ID>CompositionLocalAllowlist:IvyUI.kt$LocalIvyContext</ID>
     <ID>ConstructorParameterNaming:LoanTransactionsLogic.kt$LoanTransactionsLogic$val Loan: LTLoanMapper</ID>
     <ID>ConstructorParameterNaming:LoanTransactionsLogic.kt$LoanTransactionsLogic$val LoanRecord: LTLoanRecordMapper</ID>
-    <ID>ConstructorParameterNaming:OnboardingRouter.kt$OnboardingRouter$private val _accountSuggestions: MutableLiveData&lt;List&lt;CreateAccountData&gt;&gt;</ID>
-    <ID>ConstructorParameterNaming:OnboardingRouter.kt$OnboardingRouter$private val _accounts: MutableLiveData&lt;List&lt;AccountBalance&gt;&gt;</ID>
-    <ID>ConstructorParameterNaming:OnboardingRouter.kt$OnboardingRouter$private val _categories: MutableLiveData&lt;List&lt;Category&gt;&gt;</ID>
-    <ID>ConstructorParameterNaming:OnboardingRouter.kt$OnboardingRouter$private val _categorySuggestions: MutableLiveData&lt;List&lt;CreateCategoryData&gt;&gt;</ID>
+    <ID>ConstructorParameterNaming:OnboardingRouter.kt$OnboardingRouter$private val _accountSuggestions: MutableLiveData&lt;ImmutableList&lt;CreateAccountData&gt;&gt;</ID>
+    <ID>ConstructorParameterNaming:OnboardingRouter.kt$OnboardingRouter$private val _accounts: MutableLiveData&lt;ImmutableList&lt;AccountBalance&gt;&gt;</ID>
+    <ID>ConstructorParameterNaming:OnboardingRouter.kt$OnboardingRouter$private val _categories: MutableLiveData&lt;ImmutableList&lt;Category&gt;&gt;</ID>
+    <ID>ConstructorParameterNaming:OnboardingRouter.kt$OnboardingRouter$private val _categorySuggestions: MutableLiveData&lt;ImmutableList&lt;CreateCategoryData&gt;&gt;</ID>
     <ID>ConstructorParameterNaming:OnboardingRouter.kt$OnboardingRouter$private val _opGoogleSignIn: MutableLiveData&lt;OpResult&lt;Unit&gt;?&gt;</ID>
     <ID>ConstructorParameterNaming:OnboardingRouter.kt$OnboardingRouter$private val _state: MutableLiveData&lt;OnboardingState&gt;</ID>
     <ID>ConstructorParameterNaming:ReorderModal.kt$Adapter$private val ItemContent: @Composable RowScope.(Int, Any) -&gt; Unit</ID>
@@ -187,7 +187,7 @@
     <ID>CyclomaticComplexMethod:MainBottomBar.kt$@Composable fun BoxWithConstraintsScope.BottomBar( tab: MainTab, selectTab: (MainTab) -&gt; Unit, onAddIncome: () -&gt; Unit, onAddExpense: () -&gt; Unit, onAddTransfer: () -&gt; Unit, onAddPlannedPayment: () -&gt; Unit, showAddAccountModal: () -&gt; Unit, )</ID>
     <ID>CyclomaticComplexMethod:ParseFields.kt$fun parseTransactionType( value: String, metadata: TrnTypeMetadata ): TransactionType?</ID>
     <ID>CyclomaticComplexMethod:PlansSheet.kt$@Composable private fun ColumnScope.PlanCard( plan: Plan, purchased: Boolean, selectedPlan: Plan?, monthlyPlan: Plan?, onClick: () -&gt; Unit )</ID>
-    <ID>CyclomaticComplexMethod:ReportViewModel.kt$ReportViewModel$private suspend fun filterTransactions( baseCurrency: String, accounts: List&lt;Account&gt;, filter: ReportFilter, ): List&lt;Transaction&gt;</ID>
+    <ID>CyclomaticComplexMethod:ReportViewModel.kt$ReportViewModel$private suspend fun filterTransactions( baseCurrency: String, accounts: List&lt;Account&gt;, filter: ReportFilter, ): ImmutableList&lt;Transaction&gt;</ID>
     <ID>CyclomaticComplexMethod:RootActivity.kt$RootActivity$@ExperimentalFoundationApi @ExperimentalAnimationApi @Composable private fun BoxWithConstraintsScope.Screens(screen: Screen?)</ID>
     <ID>CyclomaticComplexMethod:TransactionCard.kt$@Composable fun TransactionCard( baseData: AppBaseData, transaction: Transaction, onPayOrGet: (Transaction) -&gt; Unit, onSkipTransaction: (Transaction) -&gt; Unit = {}, onClick: (Transaction) -&gt; Unit, )</ID>
     <ID>CyclomaticComplexMethod:TransactionViewModel.kt$TransactionViewModel$override suspend fun handleEvent(event: TrnEvent): suspend () -&gt; TrnState</ID>
@@ -201,6 +201,8 @@
     <ID>EmptyTryBlock:SettingsViewModel.kt$SettingsViewModel${ }</ID>
     <ID>ExplicitItLambdaParameter:TimeValue.kt${ index, it -&gt; Value( x = index.toDouble(), y = it.value ) }</ID>
     <ID>ExplicitItLambdaParameter:TimeValue.kt${ index, it -&gt; Value( x = index.toDouble(), y = it.value.toDouble() ) }</ID>
+    <ID>FinalNewline:DisableGitHubAutoBackupMigration.kt$com.ivy.wallet.migrations.impl.DisableGitHubAutoBackupMigration.kt</ID>
+    <ID>FinalNewline:UtilExt.kt$com.ivy.wallet.utils.UtilExt.kt</ID>
     <ID>FinalNewline:ivy.lint.gradle.kts$.ivy.lint.gradle.kts</ID>
     <ID>ForbiddenComment:AmountFormatting.kt$// TODO: Review, might cause trouble when integrating crypto</ID>
     <ID>ForbiddenComment:BudgetViewModel.kt$BudgetViewModel$// TODO: Re-work this by creating an FPAction for it</ID>
@@ -231,8 +233,8 @@
     <ID>FunctionNaming:DetektConfigurationAccessors.kt$internal fun &lt;T : ModuleDependency&gt; DependencyHandler.`detekt`( dependency: T, dependencyConfiguration: T.() -&gt; Unit ): T</ID>
     <ID>FunctionNaming:DetektConfigurationAccessors.kt$internal fun ArtifactHandler.`detekt`( artifactNotation: Any, configureAction: ConfigurablePublishArtifact.() -&gt; Unit ): PublishArtifact</ID>
     <ID>FunctionNaming:DetektConfigurationAccessors.kt$internal fun ArtifactHandler.`detekt`(artifactNotation: Any): PublishArtifact</ID>
-    <ID>FunctionNaming:DetektConfigurationAccessors.kt$internal fun DependencyConstraintHandler.`detekt`(constraintNotation: Any): DependencyConstraint?</ID>
-    <ID>FunctionNaming:DetektConfigurationAccessors.kt$internal fun DependencyConstraintHandler.`detekt`(constraintNotation: Any, block: DependencyConstraint.() -&gt; Unit): DependencyConstraint?</ID>
+    <ID>FunctionNaming:DetektConfigurationAccessors.kt$internal fun DependencyConstraintHandler.`detekt`(constraintNotation: Any): DependencyConstraint</ID>
+    <ID>FunctionNaming:DetektConfigurationAccessors.kt$internal fun DependencyConstraintHandler.`detekt`(constraintNotation: Any, block: DependencyConstraint.() -&gt; Unit): DependencyConstraint</ID>
     <ID>FunctionNaming:DetektConfigurationAccessors.kt$internal fun DependencyHandler.`detekt`( dependencyNotation: Provider&lt;*&gt;, dependencyConfiguration: Action&lt;ExternalModuleDependency&gt; ): Unit</ID>
     <ID>FunctionNaming:DetektConfigurationAccessors.kt$internal fun DependencyHandler.`detekt`( dependencyNotation: ProviderConvertible&lt;*&gt;, dependencyConfiguration: Action&lt;ExternalModuleDependency&gt; ): Unit</ID>
     <ID>FunctionNaming:DetektConfigurationAccessors.kt$internal fun DependencyHandler.`detekt`( dependencyNotation: String, dependencyConfiguration: Action&lt;ExternalModuleDependency&gt; ): ExternalModuleDependency</ID>
@@ -241,8 +243,8 @@
     <ID>FunctionNaming:DetektPluginsConfigurationAccessors.kt$internal fun &lt;T : ModuleDependency&gt; DependencyHandler.`detektPlugins`( dependency: T, dependencyConfiguration: T.() -&gt; Unit ): T</ID>
     <ID>FunctionNaming:DetektPluginsConfigurationAccessors.kt$internal fun ArtifactHandler.`detektPlugins`( artifactNotation: Any, configureAction: ConfigurablePublishArtifact.() -&gt; Unit ): PublishArtifact</ID>
     <ID>FunctionNaming:DetektPluginsConfigurationAccessors.kt$internal fun ArtifactHandler.`detektPlugins`(artifactNotation: Any): PublishArtifact</ID>
-    <ID>FunctionNaming:DetektPluginsConfigurationAccessors.kt$internal fun DependencyConstraintHandler.`detektPlugins`(constraintNotation: Any): DependencyConstraint?</ID>
-    <ID>FunctionNaming:DetektPluginsConfigurationAccessors.kt$internal fun DependencyConstraintHandler.`detektPlugins`(constraintNotation: Any, block: DependencyConstraint.() -&gt; Unit): DependencyConstraint?</ID>
+    <ID>FunctionNaming:DetektPluginsConfigurationAccessors.kt$internal fun DependencyConstraintHandler.`detektPlugins`(constraintNotation: Any): DependencyConstraint</ID>
+    <ID>FunctionNaming:DetektPluginsConfigurationAccessors.kt$internal fun DependencyConstraintHandler.`detektPlugins`(constraintNotation: Any, block: DependencyConstraint.() -&gt; Unit): DependencyConstraint</ID>
     <ID>FunctionNaming:DetektPluginsConfigurationAccessors.kt$internal fun DependencyHandler.`detektPlugins`( dependencyNotation: Provider&lt;*&gt;, dependencyConfiguration: Action&lt;ExternalModuleDependency&gt; ): Unit</ID>
     <ID>FunctionNaming:DetektPluginsConfigurationAccessors.kt$internal fun DependencyHandler.`detektPlugins`( dependencyNotation: ProviderConvertible&lt;*&gt;, dependencyConfiguration: Action&lt;ExternalModuleDependency&gt; ): Unit</ID>
     <ID>FunctionNaming:DetektPluginsConfigurationAccessors.kt$internal fun DependencyHandler.`detektPlugins`( dependencyNotation: String, dependencyConfiguration: Action&lt;ExternalModuleDependency&gt; ): ExternalModuleDependency</ID>
@@ -297,8 +299,14 @@
     <ID>ImportOrdering:Accessorseessl0al0otcsbyqqruvoncpd.kt$import org.gradle.api.Action import org.gradle.api.Incubating import org.gradle.api.NamedDomainObjectProvider import org.gradle.api.Project import org.gradle.api.Task import org.gradle.api.artifacts.Configuration import org.gradle.api.artifacts.ConfigurablePublishArtifact import org.gradle.api.artifacts.ConfigurationContainer import org.gradle.api.artifacts.Dependency import org.gradle.api.artifacts.DependencyConstraint import org.gradle.api.artifacts.ExternalModuleDependency import org.gradle.api.artifacts.ModuleDependency import org.gradle.api.artifacts.PublishArtifact import org.gradle.api.artifacts.dsl.ArtifactHandler import org.gradle.api.artifacts.dsl.DependencyConstraintHandler import org.gradle.api.artifacts.dsl.DependencyHandler import org.gradle.api.provider.Provider import org.gradle.api.provider.ProviderConvertible import org.gradle.api.tasks.TaskContainer import org.gradle.api.tasks.TaskProvider import org.gradle.kotlin.dsl.* import org.gradle.kotlin.dsl.accessors.runtime.*</ID>
     <ID>ImportOrdering:DetektConfigurationAccessors.kt$import org.gradle.api.Action import org.gradle.api.Incubating import org.gradle.api.NamedDomainObjectProvider import org.gradle.api.Project import org.gradle.api.Task import org.gradle.api.artifacts.Configuration import org.gradle.api.artifacts.ConfigurablePublishArtifact import org.gradle.api.artifacts.ConfigurationContainer import org.gradle.api.artifacts.Dependency import org.gradle.api.artifacts.DependencyConstraint import org.gradle.api.artifacts.ExternalModuleDependency import org.gradle.api.artifacts.ModuleDependency import org.gradle.api.artifacts.PublishArtifact import org.gradle.api.artifacts.dsl.ArtifactHandler import org.gradle.api.artifacts.dsl.DependencyConstraintHandler import org.gradle.api.artifacts.dsl.DependencyHandler import org.gradle.api.provider.Provider import org.gradle.api.provider.ProviderConvertible import org.gradle.api.tasks.TaskContainer import org.gradle.api.tasks.TaskProvider import org.gradle.kotlin.dsl.* import org.gradle.kotlin.dsl.accessors.runtime.*</ID>
     <ID>ImportOrdering:DetektPluginsConfigurationAccessors.kt$import org.gradle.api.Action import org.gradle.api.Incubating import org.gradle.api.NamedDomainObjectProvider import org.gradle.api.Project import org.gradle.api.Task import org.gradle.api.artifacts.Configuration import org.gradle.api.artifacts.ConfigurablePublishArtifact import org.gradle.api.artifacts.ConfigurationContainer import org.gradle.api.artifacts.Dependency import org.gradle.api.artifacts.DependencyConstraint import org.gradle.api.artifacts.ExternalModuleDependency import org.gradle.api.artifacts.ModuleDependency import org.gradle.api.artifacts.PublishArtifact import org.gradle.api.artifacts.dsl.ArtifactHandler import org.gradle.api.artifacts.dsl.DependencyConstraintHandler import org.gradle.api.artifacts.dsl.DependencyHandler import org.gradle.api.provider.Provider import org.gradle.api.provider.ProviderConvertible import org.gradle.api.tasks.TaskContainer import org.gradle.api.tasks.TaskProvider import org.gradle.kotlin.dsl.* import org.gradle.kotlin.dsl.accessors.runtime.*</ID>
+    <ID>Indentation:CSVViewModel.kt$CSVViewModel$ </ID>
+    <ID>Indentation:CategoriesViewModel.kt$CategoriesViewModel$ </ID>
+    <ID>Indentation:CustomerJourneyLogic.kt$CustomerJourneyLogic.Companion$ </ID>
+    <ID>Indentation:HomeViewModel.kt$HomeViewModel$ </ID>
     <ID>Indentation:PlannedPaymentsLogic.kt$PlannedPaymentsLogic$ </ID>
     <ID>Indentation:ReportViewModel.kt$ReportViewModel$ </ID>
+    <ID>Indentation:SettingsScreen.kt$ </ID>
+    <ID>Indentation:UtilExt.kt$ </ID>
     <ID>LongMethod:AccountModal.kt$@Composable fun BoxWithConstraintsScope.AccountModal( modal: AccountModalData?, onCreateAccount: (CreateAccountData) -&gt; Unit, onEditAccount: (Account, balance: Double) -&gt; Unit, dismiss: () -&gt; Unit, )</ID>
     <ID>LongMethod:AccountsTab.kt$@Composable private fun AccountHeader( accountData: AccountData, currency: String, baseCurrency: String, contrastColor: Color, onBalanceClick: () -&gt; Unit )</ID>
     <ID>LongMethod:AccountsTab.kt$@Composable private fun BoxWithConstraintsScope.UI( state: AccountState = AccountState(), onEventHandler: (AccountsEvent) -&gt; Unit = {} )</ID>
@@ -343,8 +351,6 @@
     <ID>LongMethod:ExportCSVLogic.kt$ExportCSVLogic$private fun Transaction.toCSV( baseCurrency: String, accountMap: Map&lt;UUID, Account&gt;, categoryMap: Map&lt;UUID, Category&gt; ): String</ID>
     <ID>LongMethod:FilterOverlay.kt$@Composable fun BoxWithConstraintsScope.FilterOverlay( visible: Boolean, baseCurrency: String, accounts: List&lt;Account&gt;, categories: List&lt;Category&gt;, filter: ReportFilter?, onClose: () -&gt; Unit, onSetFilter: (ReportFilter?) -&gt; Unit )</ID>
     <ID>LongMethod:FilterOverlay.kt$@Composable private fun KeywordsFilter( filter: ReportFilter?, nonNullFilter: (ReportFilter?) -&gt; ReportFilter, onSetFilter: (ReportFilter) -&gt; Unit, onShowIncludeKeywordModal: () -&gt; Unit, onShowExcludeKeywordModal: () -&gt; Unit, )</ID>
-    <ID>LongMethod:GitHubBackupCard.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable private fun BackupEnabled( viewModel: GitHubBackupViewModel, modifier: Modifier = Modifier, )</ID>
-    <ID>LongMethod:GitHubBackupScreen.kt$@Composable private fun Content( modifier: Modifier = Modifier, )</ID>
     <ID>LongMethod:HomeHeader.kt$@Composable private fun HeaderStickyRow( percentExpanded: Float, name: String, period: TimePeriod, currency: String, balance: Double, hideCurrentBalance: Boolean = false, onShowMonthModal: () -&gt; Unit, onBalanceClick: () -&gt; Unit, onHiddenBalanceClick: () -&gt; Unit = {}, onSelectNextMonth: () -&gt; Unit, onSelectPreviousMonth: () -&gt; Unit, )</ID>
     <ID>LongMethod:HomeMoreMenu.kt$@Composable fun BoxWithConstraintsScope.MoreMenu( expanded: Boolean, balance: Double, buffer: Double, currency: String, theme: Theme, setExpanded: (Boolean) -&gt; Unit, onSwitchTheme: () -&gt; Unit, onBufferClick: () -&gt; Unit, onCurrencyClick: () -&gt; Unit )</ID>
     <ID>LongMethod:HomeMoreMenu.kt$@Composable private fun QuickAccess( theme: Theme, onSwitchTheme: () -&gt; Unit )</ID>
@@ -399,16 +405,16 @@
     <ID>LongMethod:PlannedPaymentsLazyColumn.kt$private fun LazyListScope.plannedPaymentItems( nav: Navigation, currency: String, categories: List&lt;Category&gt;, accounts: List&lt;Account&gt;, listState: LazyListState, oneTime: List&lt;PlannedPaymentRule&gt;, oneTimeIncome: Double, oneTimeExpenses: Double, oneTimeExpanded: Boolean, setOneTimeExpanded: (Boolean) -&gt; Unit, recurring: List&lt;PlannedPaymentRule&gt;, recurringIncome: Double, recurringExpenses: Double, recurringExpanded: Boolean, setRecurringExpanded: (Boolean) -&gt; Unit )</ID>
     <ID>LongMethod:PlansSheet.kt$@Composable fun BoxWithConstraintsScope.PlansSheet( plans: List&lt;Plan&gt;, purchasedSkus: List&lt;String&gt;, onPlansSheetHeightChanged: (Int) -&gt; Unit = {}, onPlanSelected: (Plan?) -&gt; Unit, onBuy: (Plan) -&gt; Unit )</ID>
     <ID>LongMethod:PlansSheet.kt$@Composable private fun ColumnScope.PlanCard( plan: Plan, purchased: Boolean, selectedPlan: Plan?, monthlyPlan: Plan?, onClick: () -&gt; Unit )</ID>
-    <ID>LongMethod:PreloadDataLogic.kt$PreloadDataLogic$fun categorySuggestions(): List&lt;CreateCategoryData&gt;</ID>
+    <ID>LongMethod:PreloadDataLogic.kt$PreloadDataLogic$fun categorySuggestions(): ImmutableList&lt;CreateCategoryData&gt;</ID>
     <ID>LongMethod:RecurringRuleModal.kt$@Composable fun BoxWithConstraintsScope.RecurringRuleModal( modal: RecurringRuleModalData?, dismiss: () -&gt; Unit, onRuleChanged: (LocalDateTime, oneTime: Boolean, Int?, IntervalType?) -&gt; Unit, )</ID>
     <ID>LongMethod:ReorderModal.kt$@Composable fun &lt;T : Reorderable&gt; BoxScope.ReorderModal( visible: Boolean, id: UUID = UUID.randomUUID(), TitleContent: @Composable ColumnScope.() -&gt; Unit = { Text( modifier = Modifier.padding(start = 32.dp), text = stringResource(R.string.reorder), style = UI.typo.b1.style( UI.colors.pureInverse, FontWeight.ExtraBold ) ) }, initialItems: List&lt;Any&gt;, dismiss: () -&gt; Unit, onUpdateItemOrderNum: ( itemsInNewOrder: List&lt;Any&gt;, item: T, newOrderNum: Double ) -&gt; Unit = { _, _, _ -&gt; }, onReordered: ((List&lt;Any&gt;) -&gt; Unit)? = null, ItemContent: @Composable RowScope.(Int, Any) -&gt; Unit )</ID>
     <ID>LongMethod:ReportScreen.kt$@ExperimentalFoundationApi @Composable private fun BoxWithConstraintsScope.UI( state: ReportScreenState = ReportScreenState(), onEventHandler: (ReportScreenEvent) -&gt; Unit = {} )</ID>
-    <ID>LongMethod:ReportViewModel.kt$ReportViewModel$private suspend fun filterTransactions( baseCurrency: String, accounts: List&lt;Account&gt;, filter: ReportFilter, ): List&lt;Transaction&gt;</ID>
+    <ID>LongMethod:ReportViewModel.kt$ReportViewModel$private suspend fun filterTransactions( baseCurrency: String, accounts: List&lt;Account&gt;, filter: ReportFilter, ): ImmutableList&lt;Transaction&gt;</ID>
     <ID>LongMethod:ReportViewModel.kt$ReportViewModel$private suspend fun setFilter(filter: ReportFilter?)</ID>
     <ID>LongMethod:SearchScreen.kt$@Composable private fun UI( transactions: List&lt;TransactionHistoryItem&gt;, baseCurrency: String, categories: List&lt;Category&gt;, accounts: List&lt;Account&gt;, onSearch: (String) -&gt; Unit = {} )</ID>
     <ID>LongMethod:ServerStopScreen.kt$@Composable private fun Content( onBackup: () -&gt; Unit )</ID>
     <ID>LongMethod:SettingsScreen.kt$@Composable private fun AccountCardUser( localName: String?, user: User, opSync: OpResult&lt;Boolean&gt;?, onSync: () -&gt; Unit, )</ID>
-    <ID>LongMethod:SettingsScreen.kt$@ExperimentalFoundationApi @Composable private fun BoxWithConstraintsScope.UI( user: User?, currencyCode: String, opSync: OpResult&lt;Boolean&gt;?, lockApp: Boolean, showNotifications: Boolean = true, hideCurrentBalance: Boolean = false, progressState: Boolean = false, treatTransfersAsIncomeExpense: Boolean = false, nameLocalAccount: String?, startDateOfMonth: Int = 1, onSetCurrency: (String) -&gt; Unit, onSetName: (String) -&gt; Unit = {}, onSync: () -&gt; Unit, onLogout: () -&gt; Unit, onLogin: () -&gt; Unit, onBackupData: () -&gt; Unit = {}, onExportToCSV: () -&gt; Unit = {}, onSetLockApp: (Boolean) -&gt; Unit = {}, onSetShowNotifications: (Boolean) -&gt; Unit = {}, onSetTreatTransfersAsIncExp: (Boolean) -&gt; Unit = {}, onSetHideCurrentBalance: (Boolean) -&gt; Unit = {}, onSetStartDateOfMonth: (Int) -&gt; Unit = {}, onDeleteAllUserData: () -&gt; Unit = {}, onDeleteCloudUserData: () -&gt; Unit = {}, )</ID>
+    <ID>LongMethod:SettingsScreen.kt$@ExperimentalFoundationApi @Composable private fun BoxWithConstraintsScope.UI( user: User?, currencyCode: String, opSync: OpResult&lt;Boolean&gt;?, theme: Theme, onSwitchTheme: () -&gt; Unit, lockApp: Boolean, showNotifications: Boolean = true, hideCurrentBalance: Boolean = false, progressState: Boolean = false, treatTransfersAsIncomeExpense: Boolean = false, nameLocalAccount: String?, startDateOfMonth: Int = 1, onSetCurrency: (String) -&gt; Unit, onSetName: (String) -&gt; Unit = {}, onSync: () -&gt; Unit, onLogout: () -&gt; Unit, onLogin: () -&gt; Unit, onBackupData: () -&gt; Unit = {}, onExportToCSV: () -&gt; Unit = {}, onSetLockApp: (Boolean) -&gt; Unit = {}, onSetShowNotifications: (Boolean) -&gt; Unit = {}, onSetTreatTransfersAsIncExp: (Boolean) -&gt; Unit = {}, onSetHideCurrentBalance: (Boolean) -&gt; Unit = {}, onSetStartDateOfMonth: (Int) -&gt; Unit = {}, onDeleteAllUserData: () -&gt; Unit = {}, onDeleteCloudUserData: () -&gt; Unit = {}, )</ID>
     <ID>LongMethod:TransactionCard.kt$@Composable fun TransactionCard( baseData: AppBaseData, transaction: Transaction, onPayOrGet: (Transaction) -&gt; Unit, onSkipTransaction: (Transaction) -&gt; Unit = {}, onClick: (Transaction) -&gt; Unit, )</ID>
     <ID>LongMethod:TransactionCard.kt$@Composable fun TypeAmountCurrency( transactionType: TransactionType, dueDate: LocalDateTime?, currency: String, amount: Double )</ID>
     <ID>LongMethod:ViewPager.kt$@Composable fun Pager( state: PagerState, modifier: Modifier = Modifier, pageContent: @Composable PagerScope.() -&gt; Unit )</ID>
@@ -468,7 +474,7 @@
     <ID>LongParameterList:MainBottomBar.kt$( buttonsShownPercent: Float, fabStartX: Float, fabStartY: Float, buttonRightX: Float, sideButtonsY: Float, clickAreaWidth: Int, onAddTransfer: () -&gt; Unit )</ID>
     <ID>LongParameterList:MainBottomBar.kt$( buttonsShownPercent: Float, fabStartX: Float, fabStartY: Float, onAddIncome: () -&gt; Unit, onAddExpense: () -&gt; Unit, onAddTransfer: () -&gt; Unit, onAddPlannedPayment: () -&gt; Unit, )</ID>
     <ID>LongParameterList:MainBottomBar.kt$( tab: MainTab, selectTab: (MainTab) -&gt; Unit, onAddIncome: () -&gt; Unit, onAddExpense: () -&gt; Unit, onAddTransfer: () -&gt; Unit, onAddPlannedPayment: () -&gt; Unit, showAddAccountModal: () -&gt; Unit, )</ID>
-    <ID>LongParameterList:OnboardingRouter.kt$OnboardingRouter$( private val _opGoogleSignIn: MutableLiveData&lt;OpResult&lt;Unit&gt;?&gt;, private val _state: MutableLiveData&lt;OnboardingState&gt;, private val _accounts: MutableLiveData&lt;List&lt;AccountBalance&gt;&gt;, private val _accountSuggestions: MutableLiveData&lt;List&lt;CreateAccountData&gt;&gt;, private val _categories: MutableLiveData&lt;List&lt;Category&gt;&gt;, private val _categorySuggestions: MutableLiveData&lt;List&lt;CreateCategoryData&gt;&gt;, private val nav: Navigation, private val accountDao: AccountDao, private val sharedPrefs: SharedPrefs, private val transactionReminderLogic: TransactionReminderLogic, private val preloadDataLogic: PreloadDataLogic, private val categoryDao: CategoryDao, private val logoutLogic: LogoutLogic, private val syncExchangeRatesAct: SyncExchangeRatesAct, )</ID>
+    <ID>LongParameterList:OnboardingRouter.kt$OnboardingRouter$( private val _opGoogleSignIn: MutableLiveData&lt;OpResult&lt;Unit&gt;?&gt;, private val _state: MutableLiveData&lt;OnboardingState&gt;, private val _accounts: MutableLiveData&lt;ImmutableList&lt;AccountBalance&gt;&gt;, private val _accountSuggestions: MutableLiveData&lt;ImmutableList&lt;CreateAccountData&gt;&gt;, private val _categories: MutableLiveData&lt;ImmutableList&lt;Category&gt;&gt;, private val _categorySuggestions: MutableLiveData&lt;ImmutableList&lt;CreateCategoryData&gt;&gt;, private val nav: Navigation, private val accountDao: AccountDao, private val sharedPrefs: SharedPrefs, private val transactionReminderLogic: TransactionReminderLogic, private val preloadDataLogic: PreloadDataLogic, private val categoryDao: CategoryDao, private val logoutLogic: LogoutLogic, private val syncExchangeRatesAct: SyncExchangeRatesAct, )</ID>
     <ID>LongParameterList:OnboardingScreen.kt$( onboardingState: OnboardingState, currency: IvyCurrency, opGoogleSignIn: OpResult&lt;Unit&gt;?, accountSuggestions: List&lt;CreateAccountData&gt;, accounts: List&lt;AccountBalance&gt;, categorySuggestions: List&lt;CreateCategoryData&gt;, categories: List&lt;Category&gt;, onLoginWithGoogle: () -&gt; Unit = {}, onSkip: () -&gt; Unit = {}, onStartImport: () -&gt; Unit = {}, onStartFresh: () -&gt; Unit = {}, onSetCurrency: (IvyCurrency) -&gt; Unit = {}, onCreateAccount: (CreateAccountData) -&gt; Unit = { }, onEditAccount: (Account, Double) -&gt; Unit = { _, _ -&gt; }, onAddAccountsDone: () -&gt; Unit = {}, onAddAccountsSkip: () -&gt; Unit = {}, onCreateCategory: (CreateCategoryData) -&gt; Unit = {}, onEditCategory: (Category) -&gt; Unit = {}, onAddCategoryDone: () -&gt; Unit = {}, onAddCategorySkip: () -&gt; Unit = {}, )</ID>
     <ID>LongParameterList:OnboardingSplashLogin.kt$( @DrawableRes icon: Int, text: String, textColor: Color, backgroundGradient: Gradient, hasShadow: Boolean, onClick: () -&gt; Unit )</ID>
     <ID>LongParameterList:OnboardingViewModel.kt$OnboardingViewModel$( private val ivyContext: IvyWalletCtx, private val nav: Navigation, private val accountDao: AccountDao, private val settingsDao: SettingsDao, private val accountLogic: WalletAccountLogic, private val categoryCreator: CategoryCreator, private val categoryDao: CategoryDao, private val accountCreator: AccountCreator, private val accountsAct: AccountsAct, private val categoriesAct: CategoriesAct, private val syncExchangeRatesAct: SyncExchangeRatesAct, // Only OnboardingRouter stuff sharedPrefs: SharedPrefs, transactionReminderLogic: TransactionReminderLogic, preloadDataLogic: PreloadDataLogic, exchangeRatesLogic: ExchangeRatesLogic, logoutLogic: LogoutLogic, )</ID>
@@ -476,16 +482,16 @@
     <ID>LongParameterList:PaywallScreen.kt$( plans: List&lt;Plan&gt;, purchasedSkus: List&lt;String&gt;, paywallReason: PaywallReason?, accounts: List&lt;Account&gt;, categories: List&lt;Category&gt;, budgets: List&lt;Budget&gt;, loans: List&lt;Loan&gt;, onPlanSelected: (Plan?) -&gt; Unit = {}, onBuy: (Plan) -&gt; Unit, )</ID>
     <ID>LongParameterList:PieChartAct.kt$PieChartAct$( showAccountTransfersCategory: Boolean, type: TransactionType, accountTransfersCategory: Category, accountIdFilterSet: Set&lt;UUID&gt;, @SideEffect transactions: suspend () -&gt; List&lt;Transaction&gt;, @SideEffect incomeExpenseTransfer: suspend () -&gt; IncomeExpenseTransferPair, @SideEffect categoryAmounts: suspend () -&gt; List&lt;CategoryAmount&gt; )</ID>
     <ID>LongParameterList:PieChartStatisticScreen.kt$( transactionType: TransactionType, period: TimePeriod, percentExpanded: Float, currency: String, amount: Double, showCloseButtonOnly: Boolean = false, onShowMonthModal: () -&gt; Unit, onSelectNextMonth: () -&gt; Unit, onSelectPreviousMonth: () -&gt; Unit, onClose: () -&gt; Unit, onAdd: (TransactionType) -&gt; Unit, )</ID>
-    <ID>LongParameterList:PieChartStatisticViewModel.kt$PieChartStatisticViewModel$( period: TimePeriod, type: TransactionType, accountIdFilterList: List&lt;UUID&gt;, filterExclude: Boolean, transactions: List&lt;Transaction&gt;, treatTransfersAsIncomeExpense: Boolean )</ID>
+    <ID>LongParameterList:PieChartStatisticViewModel.kt$PieChartStatisticViewModel$( period: TimePeriod, type: TransactionType, accountIdFilterList: ImmutableList&lt;UUID&gt;, filterExclude: Boolean, transactions: ImmutableList&lt;Transaction&gt;, treatTransfersAsIncomeExpense: Boolean )</ID>
     <ID>LongParameterList:PlannedPaymentsLazyColumn.kt$( Header: @Composable () -&gt; Unit, currency: String, categories: List&lt;Category&gt;, accounts: List&lt;Account&gt;, listState: LazyListState = rememberLazyListState(), oneTime: List&lt;PlannedPaymentRule&gt;, oneTimeIncome: Double, oneTimeExpenses: Double, recurring: List&lt;PlannedPaymentRule&gt;, recurringIncome: Double, recurringExpenses: Double, )</ID>
     <ID>LongParameterList:PlannedPaymentsLazyColumn.kt$( nav: Navigation, currency: String, categories: List&lt;Category&gt;, accounts: List&lt;Account&gt;, listState: LazyListState, oneTime: List&lt;PlannedPaymentRule&gt;, oneTimeIncome: Double, oneTimeExpenses: Double, oneTimeExpanded: Boolean, setOneTimeExpanded: (Boolean) -&gt; Unit, recurring: List&lt;PlannedPaymentRule&gt;, recurringIncome: Double, recurringExpenses: Double, recurringExpanded: Boolean, setRecurringExpanded: (Boolean) -&gt; Unit )</ID>
     <ID>LongParameterList:PlannedPaymentsScreen.kt$( currency: String, categories: List&lt;Category&gt;, accounts: List&lt;Account&gt;, oneTime: List&lt;PlannedPaymentRule&gt;, oneTimeIncome: Double, oneTimeExpenses: Double, recurring: List&lt;PlannedPaymentRule&gt;, recurringIncome: Double, recurringExpenses: Double )</ID>
     <ID>LongParameterList:RecurringRuleModal.kt$( startDate: LocalDateTime, intervalN: Int, intervalType: IntervalType, modalScrollState: ScrollState, onSetStartDate: (LocalDateTime) -&gt; Unit, onSetIntervalN: (Int) -&gt; Unit, onSetIntervalType: (IntervalType) -&gt; Unit )</ID>
     <ID>LongParameterList:ReportViewModel.kt$ReportViewModel$( private val plannedPaymentsLogic: PlannedPaymentsLogic, private val settingsDao: SettingsDao, private val transactionDao: TransactionDao, private val ivyContext: IvyWalletCtx, private val nav: Navigation, private val exportCSVLogic: ExportCSVLogic, private val exchangeAct: ExchangeAct, private val accountsAct: AccountsAct, private val categoriesAct: CategoriesAct, private val trnsWithDateDivsAct: TrnsWithDateDivsAct, private val calcTrnsIncomeExpenseAct: CalcTrnsIncomeExpenseAct, private val baseCurrencyAct: BaseCurrencyAct )</ID>
     <ID>LongParameterList:RootViewModel.kt$RootViewModel$( private val ivyContext: IvyWalletCtx, private val nav: Navigation, private val settingsDao: SettingsDao, private val sharedPrefs: SharedPrefs, private val ivyBilling: IvyBilling, private val paywallLogic: PaywallLogic, private val transactionReminderLogic: TransactionReminderLogic, private val migrationsManager: MigrationsManager, )</ID>
-    <ID>LongParameterList:SettingsScreen.kt$( user: User?, currencyCode: String, opSync: OpResult&lt;Boolean&gt;?, lockApp: Boolean, showNotifications: Boolean = true, hideCurrentBalance: Boolean = false, progressState: Boolean = false, treatTransfersAsIncomeExpense: Boolean = false, nameLocalAccount: String?, startDateOfMonth: Int = 1, onSetCurrency: (String) -&gt; Unit, onSetName: (String) -&gt; Unit = {}, onSync: () -&gt; Unit, onLogout: () -&gt; Unit, onLogin: () -&gt; Unit, onBackupData: () -&gt; Unit = {}, onExportToCSV: () -&gt; Unit = {}, onSetLockApp: (Boolean) -&gt; Unit = {}, onSetShowNotifications: (Boolean) -&gt; Unit = {}, onSetTreatTransfersAsIncExp: (Boolean) -&gt; Unit = {}, onSetHideCurrentBalance: (Boolean) -&gt; Unit = {}, onSetStartDateOfMonth: (Int) -&gt; Unit = {}, onDeleteAllUserData: () -&gt; Unit = {}, onDeleteCloudUserData: () -&gt; Unit = {}, )</ID>
+    <ID>LongParameterList:SettingsScreen.kt$( user: User?, currencyCode: String, opSync: OpResult&lt;Boolean&gt;?, theme: Theme, onSwitchTheme: () -&gt; Unit, lockApp: Boolean, showNotifications: Boolean = true, hideCurrentBalance: Boolean = false, progressState: Boolean = false, treatTransfersAsIncomeExpense: Boolean = false, nameLocalAccount: String?, startDateOfMonth: Int = 1, onSetCurrency: (String) -&gt; Unit, onSetName: (String) -&gt; Unit = {}, onSync: () -&gt; Unit, onLogout: () -&gt; Unit, onLogin: () -&gt; Unit, onBackupData: () -&gt; Unit = {}, onExportToCSV: () -&gt; Unit = {}, onSetLockApp: (Boolean) -&gt; Unit = {}, onSetShowNotifications: (Boolean) -&gt; Unit = {}, onSetTreatTransfersAsIncExp: (Boolean) -&gt; Unit = {}, onSetHideCurrentBalance: (Boolean) -&gt; Unit = {}, onSetStartDateOfMonth: (Int) -&gt; Unit = {}, onDeleteAllUserData: () -&gt; Unit = {}, onDeleteCloudUserData: () -&gt; Unit = {}, )</ID>
     <ID>LongParameterList:SettingsScreen.kt$( user: User?, opSync: OpResult&lt;Boolean&gt;?, nameLocalAccount: String?, onSync: () -&gt; Unit, onLogout: () -&gt; Unit, onLogin: () -&gt; Unit, onCardClick: () -&gt; Unit )</ID>
-    <ID>LongParameterList:SettingsViewModel.kt$SettingsViewModel$( private val settingsDao: SettingsDao, private val userDao: UserDao, private val ivyContext: IvyWalletCtx, private val exportCSVLogic: ExportCSVLogic, private val logoutLogic: LogoutLogic, private val sharedPrefs: SharedPrefs, private val backupLogic: BackupLogic, private val startDayOfMonthAct: StartDayOfMonthAct, private val updateStartDayOfMonthAct: UpdateStartDayOfMonthAct, private val nav: Navigation, private val syncExchangeRatesAct: SyncExchangeRatesAct, )</ID>
+    <ID>LongParameterList:SettingsViewModel.kt$SettingsViewModel$( private val settingsDao: SettingsDao, private val userDao: UserDao, private val ivyContext: IvyWalletCtx, private val exportCSVLogic: ExportCSVLogic, private val logoutLogic: LogoutLogic, private val sharedPrefs: SharedPrefs, private val backupLogic: BackupLogic, private val startDayOfMonthAct: StartDayOfMonthAct, private val updateStartDayOfMonthAct: UpdateStartDayOfMonthAct, private val nav: Navigation, private val syncExchangeRatesAct: SyncExchangeRatesAct, private val settingsAct: SettingsAct, private val updateSettingsAct: UpdateSettingsAct, )</ID>
     <ID>LongParameterList:Title.kt$( type: TransactionType, titleFocus: FocusRequester, initialTransactionId: UUID?, titleTextFieldValue: TextFieldValue, setTitleTextFieldValue: (TextFieldValue) -&gt; Unit, suggestions: Set&lt;String&gt;, scrollState: ScrollState? = null, onTitleChanged: (String?) -&gt; Unit, onNext: () -&gt; Unit, )</ID>
     <ID>LongParameterList:TransactionSectionDivider.kt$( expanded: Boolean, title: String, titleColor: Color, baseCurrency: String, income: Double, expenses: Double, showIncomeExpenseRow: Boolean = true, setExpanded: (Boolean) -&gt; Unit )</ID>
     <ID>LongParameterList:Transactions.kt$( baseData: AppBaseData, overdue: DueSection?, onPayOrGet: (Transaction) -&gt; Unit, onSkipTransaction: (Transaction) -&gt; Unit, onSkipAllTransactions: (List&lt;Transaction&gt;) -&gt; Unit, setExpanded: (Boolean) -&gt; Unit )</ID>
@@ -555,12 +561,6 @@
     <ID>MagicNumber:FilterOverlay.kt$100f</ID>
     <ID>MagicNumber:FilterOverlay.kt$200f</ID>
     <ID>MagicNumber:FromToTimeRange.kt$FromToTimeRange$30</ID>
-    <ID>MagicNumber:GitHubAutoBackupManager.kt$GitHubAutoBackupManager$30</ID>
-    <ID>MagicNumber:GitHubAutoBackupManager.kt$GitHubAutoBackupManager$6</ID>
-    <ID>MagicNumber:GitHubAutoBackupManager.kt$GitHubAutoBackupManager$60</ID>
-    <ID>MagicNumber:GitHubBackupViewModel.kt$GitHubBackupViewModel$2_000L</ID>
-    <ID>MagicNumber:GitHubClient.kt$GitHubClient$403</ID>
-    <ID>MagicNumber:GitHubClient.kt$GitHubClient$404</ID>
     <ID>MagicNumber:HomeHeader.kt$0.5f</ID>
     <ID>MagicNumber:HomeMoreMenu.kt$0.01f</ID>
     <ID>MagicNumber:HomeMoreMenu.kt$1.5f</ID>
@@ -726,6 +726,7 @@
     <ID>MaxLineLength:Accessorsbtc8iwv8u9b0f38ikfmodj8ns.kt$(this as org.gradle.api.plugins.ExtensionAware).extensions.getByName("reporting") as org.gradle.api.reporting.ReportingExtension</ID>
     <ID>MaxLineLength:Accessorseessl0al0otcsbyqqruvoncpd.kt$(this as org.gradle.api.plugins.ExtensionAware).extensions.getByName("ext") as org.gradle.api.plugins.ExtraPropertiesExtension</ID>
     <ID>MaxLineLength:Accessorseessl0al0otcsbyqqruvoncpd.kt$fun</ID>
+    <ID>MaxLineLength:CustomerJourneyLogic.kt$CustomerJourneyLogic.Companion$"If you haven't yet, feel free join our invite-only Ivy Telegram Community and make our app better :)"</ID>
     <ID>MaxLineLength:CustomerJourneyLogic.kt$CustomerJourneyLogic.Companion$description = "It looks like that you're enjoying Ivy Wallet! Feel free join our invite-only Ivy Telegram Community and make our app better :)"</ID>
     <ID>MaxLineLength:DetektConfigurationAccessors.kt$fun</ID>
     <ID>MaxLineLength:DetektPluginsConfigurationAccessors.kt$fun</ID>
@@ -735,7 +736,6 @@
     <ID>MaxLineLength:EditTransactionViewModel.kt$EditTransactionViewModel$"You are trying to change the account associated with the loan record to an account of different currency"</ID>
     <ID>MaxLineLength:EditTransactionViewModel.kt$EditTransactionViewModel$?:</ID>
     <ID>MaxLineLength:FortuneCitySteps.kt$articleUrl = "https://fourdesire.helpshift.com/hc/en/5-fortune-city/faq/242-can-i-export-my-fortune-city-records/"</ID>
-    <ID>MaxLineLength:GitHubBackupScreen.kt$"https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token"</ID>
     <ID>MaxLineLength:ItemStatisticViewModel.kt$ItemStatisticViewModel$// unspecifiedCategory==false is explicitly checked to accommodate for a temp AccountTransfers Category during Reports Screen</ID>
     <ID>MaxLineLength:IvyBilling.kt$IvyBilling$"Acknowledge purchase result, code=${acknowledgeResult.responseCode}: ${acknowledgeResult.debugMessage}"</ID>
     <ID>MaxLineLength:IvyChecklistTextField.kt$"Cur habitio favere? Sunt navises promissio grandis, primus accolaes. Yes, there is chaos, it contacts with light."</ID>
@@ -841,7 +841,6 @@
     <ID>MaximumLineLength:DonateScreen.kt$ </ID>
     <ID>MaximumLineLength:EditTransactionViewModel.kt$EditTransactionViewModel$ </ID>
     <ID>MaximumLineLength:FortuneCitySteps.kt$ </ID>
-    <ID>MaximumLineLength:GitHubBackupScreen.kt$ </ID>
     <ID>MaximumLineLength:IvyBilling.kt$IvyBilling$ </ID>
     <ID>MaximumLineLength:IvyChecklistTextField.kt$ </ID>
     <ID>MaximumLineLength:IvyDescriptionTextField.kt$ </ID>
@@ -953,8 +952,6 @@
     <ID>ModifierMissing:FilterOverlay.kt$FilterOverlay</ID>
     <ID>ModifierMissing:FilterOverlay.kt$ListItem</ID>
     <ID>ModifierMissing:FinancistoSteps.kt$FinancistoSteps</ID>
-    <ID>ModifierMissing:GitHubBackupScreen.kt$GitHubBackupScreen</ID>
-    <ID>ModifierMissing:GitHubBackupStatus.kt$GitHubBackupStatus</ID>
     <ID>ModifierMissing:GradientCut.kt$GradientCutBottom</ID>
     <ID>ModifierMissing:HistoryDateDivider.kt$HistoryDateDivider</ID>
     <ID>ModifierMissing:HomeHeader.kt$CashFlowInfo</ID>
@@ -1078,7 +1075,6 @@
     <ID>MultipleEmitters:FilterOverlay.kt$PeriodFilter</ID>
     <ID>MultipleEmitters:FilterOverlay.kt$TypeFilter</ID>
     <ID>MultipleEmitters:FinancistoSteps.kt$FinancistoSteps</ID>
-    <ID>MultipleEmitters:GitHubBackupRequirementsCard.kt$WarningCardInfo</ID>
     <ID>MultipleEmitters:HistoryDateDivider.kt$HistoryDateDivider</ID>
     <ID>MultipleEmitters:HomeHeader.kt$HomeHeader</ID>
     <ID>MultipleEmitters:HomeMoreMenu.kt$QuickAccess</ID>
@@ -1114,6 +1110,8 @@
     <ID>MultipleEmitters:WalletCharts.kt$BalanceChart</ID>
     <ID>MutableParams:HomeTab.kt$hideBalanceRowState</ID>
     <ID>NestedBlockDepth:AccValueFunctions.kt$AccountValueFunctions$fun balance( transaction: Transaction, accountId: UUID ): BigDecimal</ID>
+    <ID>NewLineAtEndOfFile:DisableGitHubAutoBackupMigration.kt$com.ivy.wallet.migrations.impl.DisableGitHubAutoBackupMigration.kt</ID>
+    <ID>NewLineAtEndOfFile:UtilExt.kt$com.ivy.wallet.utils.UtilExt.kt</ID>
     <ID>NewLineAtEndOfFile:ivy.lint.gradle.kts$.ivy.lint.gradle.kts</ID>
     <ID>NoConsecutiveBlankLines:Accessors32ikgp1isdd8mwexzgbe6rirl.kt$ </ID>
     <ID>NoConsecutiveBlankLines:Accessors46nwrg1rs44ofdqpi7vyy3pfc.kt$ </ID>
@@ -1149,6 +1147,7 @@
     <ID>NoUnusedImports:Accessorseessl0al0otcsbyqqruvoncpd.kt$gradle.kotlin.dsl.accessors._6b1cdd1e881959619ea23cf7941079a9.Accessorseessl0al0otcsbyqqruvoncpd.kt</ID>
     <ID>NoUnusedImports:DetektConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._6b1cdd1e881959619ea23cf7941079a9.DetektConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:DetektPluginsConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._6b1cdd1e881959619ea23cf7941079a9.DetektPluginsConfigurationAccessors.kt</ID>
+    <ID>NoUnusedImports:ReportScreen.kt$com.ivy.wallet.ui.reports.ReportScreen.kt</ID>
     <ID>NoWildcardImports:Accessors32ikgp1isdd8mwexzgbe6rirl.kt$import org.gradle.kotlin.dsl.*</ID>
     <ID>NoWildcardImports:Accessors32ikgp1isdd8mwexzgbe6rirl.kt$import org.gradle.kotlin.dsl.accessors.runtime.*</ID>
     <ID>NoWildcardImports:Accessors46nwrg1rs44ofdqpi7vyy3pfc.kt$import org.gradle.kotlin.dsl.*</ID>
@@ -1290,7 +1289,7 @@
     <ID>PackageName:MoreMenu.kt$package com.ivy.design.l4_patterns</ID>
     <ID>PackageName:Onboarding.kt$package com.ivy.design.l5_concept</ID>
     <ID>PackageName:PieChart.kt$package com.ivy.design.l3_ivyComponents.chart</ID>
-    <ID>PackageName:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._1a80f9c1af920cc798666355ba8bb8e1</ID>
+    <ID>PackageName:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._173816da98cad43c0b205554674cf537</ID>
     <ID>PackageName:ProgressBar.kt$package com.ivy.design.l3_ivyComponents.percentage</ID>
     <ID>PackageName:ReorderModal.kt$package com.ivy.design.l4_patterns</ID>
     <ID>PackageName:ScreenTitle.kt$package com.ivy.design.l3_ivyComponents</ID>
@@ -1357,7 +1356,7 @@
     <ID>PackageNaming:MoreMenu.kt$package com.ivy.design.l4_patterns</ID>
     <ID>PackageNaming:Onboarding.kt$package com.ivy.design.l5_concept</ID>
     <ID>PackageNaming:PieChart.kt$package com.ivy.design.l3_ivyComponents.chart</ID>
-    <ID>PackageNaming:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._1a80f9c1af920cc798666355ba8bb8e1</ID>
+    <ID>PackageNaming:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._173816da98cad43c0b205554674cf537</ID>
     <ID>PackageNaming:ProgressBar.kt$package com.ivy.design.l3_ivyComponents.percentage</ID>
     <ID>PackageNaming:ReorderModal.kt$package com.ivy.design.l4_patterns</ID>
     <ID>PackageNaming:ScreenTitle.kt$package com.ivy.design.l3_ivyComponents</ID>
@@ -1447,7 +1446,6 @@
     <ID>TooGenericExceptionCaught:EditPlannedViewModel.kt$EditPlannedViewModel$e: Exception</ID>
     <ID>TooGenericExceptionCaught:EditTransactionViewModel.kt$EditTransactionViewModel$e: Exception</ID>
     <ID>TooGenericExceptionCaught:ExportCSVLogic.kt$ExportCSVLogic$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:GitHubClient.kt$GitHubClient$e: Exception</ID>
     <ID>TooGenericExceptionCaught:ImportViewModel.kt$ImportViewModel$e: Exception</ID>
     <ID>TooGenericExceptionCaught:IntervalPickerRow.kt$e: Exception</ID>
     <ID>TooGenericExceptionCaught:ItemIcon.kt$e: Exception</ID>
@@ -1525,9 +1523,6 @@
     <ID>TopLevelPropertyNaming:Accessorseessl0al0otcsbyqqruvoncpd.kt$/** * Retrieves the [ext][org.gradle.api.plugins.ExtraPropertiesExtension] extension. */ internal val org.gradle.api.reporting.ReportingExtension.`ext`: org.gradle.api.plugins.ExtraPropertiesExtension get() = (this as org.gradle.api.plugins.ExtensionAware).extensions.getByName("ext") as org.gradle.api.plugins.ExtraPropertiesExtension</ID>
     <ID>TopLevelPropertyNaming:AmountFormatting.kt$const val N_100K = 100000</ID>
     <ID>TopLevelPropertyNaming:ChooseIconModal.kt$private const val ICON_PICKER_ICONS_PER_ROW = 5</ID>
-    <ID>TopLevelPropertyNaming:GitHubBackupScreen.kt$private const val GITHUB_PAT_INFO_URL = "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token"</ID>
-    <ID>TopLevelPropertyNaming:GitHubBackupScreen.kt$private const val GITHUB_REPO_INFO_URL = "https://docs.github.com/en/get-started/quickstart/create-a-repo"</ID>
-    <ID>TopLevelPropertyNaming:GitHubBackupScreen.kt$private const val VIDEO_TUTORIAL_URL = "https://www.youtube.com/watch?v=sDmZxXlXsCM"</ID>
     <ID>TopLevelPropertyNaming:HomeMoreMenu.kt$private const val SWIPE_UP_THRESHOLD_CLOSE_MORE_MENU = 300</ID>
     <ID>TopLevelPropertyNaming:HomeTab.kt$private const val SWIPE_HORIZONTAL_THRESHOLD = 200</ID>
     <ID>TopLevelPropertyNaming:IvyModal.kt$const val DURATION_MODAL_ANIM = 200</ID>
@@ -1882,8 +1877,6 @@
     <ID>UseCheckOrError:SharedPrefs.kt$SharedPrefs$throw IllegalStateException("SharePrefs key '$key' cannot be null")</ID>
     <ID>UseCheckOrError:ZipUtils.kt$throw IllegalStateException("Location file must be directory or not exist")</ID>
     <ID>UtilityClassWithPublicConstructor:WidgetBase.kt$WidgetBase</ID>
-    <ID>ViewModelForwarding:GitHubBackupCard.kt$GitHubBackupStatus(viewModel)</ID>
-    <ID>ViewModelForwarding:GitHubBackupCard.kt$LastBackup(viewModel)</ID>
     <ID>ViewModelInjection:AccountsTab.kt$viewModel</ID>
     <ID>ViewModelInjection:BalanceScreen.kt$viewModel</ID>
     <ID>ViewModelInjection:BudgetScreen.kt$viewModel</ID>
@@ -1895,8 +1888,6 @@
     <ID>ViewModelInjection:EditPlannedScreen.kt$viewModel</ID>
     <ID>ViewModelInjection:EditTransactionScreen.kt$viewModel</ID>
     <ID>ViewModelInjection:ExchangeRatesScreen.kt$viewModel</ID>
-    <ID>ViewModelInjection:GitHubBackupCard.kt$viewModel</ID>
-    <ID>ViewModelInjection:GitHubBackupScreen.kt$viewModel</ID>
     <ID>ViewModelInjection:HomeTab.kt$viewModel</ID>
     <ID>ViewModelInjection:ImportScreen.kt$onboardingViewModel</ID>
     <ID>ViewModelInjection:ImportScreen.kt$viewModel</ID>

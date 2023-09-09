@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="Kotlin2JvmCompilerArguments">
+    <option name="jvmTarget" value="1.8" />
+  </component>
+  <component name="KotlinCompilerSettings">
+    <option name="scriptTemplates" value="/usr/local/lib/danger/danger-kotlin.jar" />
+  </component>
   <component name="KotlinJpsPluginSettings">
     <option name="version" value="1.9.0" />
   </component>

@@ -51,3 +51,12 @@ jobs:
           name: detekt-report.html
           path: build/reports/detekt/detekt.html
       #------------------------------------------------------------------
+
+      - name: Comment Detekt results on the PR with Danger
+        if: always()
+        uses: danger/danger-js@10.6.4
+        with:
+          args: "--dangerfile .danger/danger_detekt.ts"
+        env:
+          GITHUB_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
+
