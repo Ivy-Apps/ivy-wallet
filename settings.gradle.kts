@@ -4,6 +4,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven(url = "https://jitpack.io")
+        gradlePluginPortal()
     }
 }
 rootProject.name = "Ivy Wallet"

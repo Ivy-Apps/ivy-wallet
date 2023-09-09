@@ -4,12 +4,12 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-kapt")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
     id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
+    id("org.jetbrains.kotlin.plugin.serialization")
 
-    alias(libs.plugins.kotlinx.serialization)
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
