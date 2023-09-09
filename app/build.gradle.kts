@@ -122,7 +122,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":ivy-design"))
+    implementation(projects.ivyDesign)
 
     implementation(libs.ivy.frp.temp)
     implementation(libs.bundles.kotlin)

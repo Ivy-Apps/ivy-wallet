@@ -106,6 +106,13 @@ echo "Module ':$MODULE_NAME' created successfully."
 
 # Append the new module to settings.gradle.kts
 echo "include(\":$MODULE_NAME\")" >> settings.gradle.kts
-
 echo "Module ':$MODULE_NAME' added to 'settings.gradle.kts'."
+
+# -------------------------------------
+# 9. ADD THE MODULE TO GIT
+# -------------------------------------
+
+git add "$MODULE_NAME"
+echo "Module added to git."
+
 echo "Congrats! Module ':$MODULE_NAME' created successfully! Now sync the project."

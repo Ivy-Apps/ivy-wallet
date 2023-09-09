@@ -1,3 +1,5 @@
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -7,7 +9,10 @@ dependencyResolutionManagement {
         gradlePluginPortal()
     }
 }
-rootProject.name = "Ivy Wallet"
+
+rootProject.name = "IvyWallet"
 include(":app")
 include(":ivy-design")
 include(":ivy-core")
+include(":ivy-navigation")
+include(":ivy-resources")
