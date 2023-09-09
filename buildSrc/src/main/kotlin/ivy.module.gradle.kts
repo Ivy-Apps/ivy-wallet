@@ -26,6 +26,9 @@ android {
 
     // Android
     compileSdk = catalog.version("compile-sdk").toInt()
+    defaultConfig {
+        minSdk = catalog.version("min-sdk").toInt()
+    }
 
     // Compose
     buildFeatures {
