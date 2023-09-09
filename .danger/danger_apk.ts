@@ -16,7 +16,6 @@ _**Pstt,** don't worry - sometimes Detekt gives false-positives.
 Your reviewer will guide towards the best next steps. 👍_`
 );
 
-
 message(`
 **Great news! Your PR builds ✅**
 
