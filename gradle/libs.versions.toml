@@ -1,13 +1,14 @@
 [versions]
-kotlin = "1.9.0"
+kotlin = "1.9.10"
 kotlin-coroutines = "1.7.3"
 ktor = "2.3.4"
-arrow = "1.2.0"
-kotest = "5.6.2"
-compose = "1.5.0"
-compose-compiler = "1.5.2" # It's used - don't delete it!
+arrow = "1.2.1"
+kotest = "5.7.2"
+compose = "1.5.1"
+# https://developer.android.com/jetpack/androidx/releases/compose-kotlin
+compose-compiler = "1.5.3" # It's used! Use compatible with Kotlin one
 compose-material3 = "1.1.1"
-glance = "1.0.0-rc01"
+glance = "1.0.0"
 hilt = "2.48"
 room = "2.6.0-beta01"
 androidx-work = "2.8.1"
@@ -55,7 +56,7 @@ compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "
 compose-runtime-livedate-temp = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "compose" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-activity = { module = "androidx.activity:activity-compose", version = "1.7.2" }
-compose-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version = "2.6.1" }
+compose-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version = "2.6.2" }
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-coil = { module = "io.coil-kt:coil-compose", version = "2.4.0" }
 glance = { module = "androidx.glance:glance", version.ref = "glance" }
@@ -87,7 +88,7 @@ firebase-crashlytics-gradle-plugin = { module = "com.google.firebase:firebase-cr
 # AndroidX
 androidx-security = { module = "androidx.security:security-crypto", version = "1.0.0" }
 androidx-biometrics = { module = "androidx.biometric:biometric", version = "1.2.0-alpha05" }
-androidx-activity = { module = "androidx.activity:activity-ktx", version = "1.8.0-alpha07" }
+androidx-activity = { module = "androidx.activity:activity-ktx", version = "1.8.0-beta01" }
 appcompat-activity = { module = "androidx.appcompat:appcompat", version = "1.7.0-alpha03" }
 androidx-work = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "androidx-work" }
