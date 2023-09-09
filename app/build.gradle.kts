@@ -113,18 +113,6 @@ android {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 
-    lint {
-//        isCheckReleaseBuilds = true
-//        isAbortOnError = false
-    }
-
-    packagingOptions {
-        // Exclude this files so Jetpack Compose UI tests can build
-        resources.excludes.add("META-INF/AL2.0")
-        resources.excludes.add("META-INF/LGPL2.1")
-        // -------------------------------------------------------
-    }
-
     testOptions {
         unitTests.all {
             // Required by Kotest
