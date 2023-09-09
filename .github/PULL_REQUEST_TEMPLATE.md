@@ -7,14 +7,15 @@ Please check if your pull request fulfills the following requirements:
 
 ## What's changed?
 <!--
-    Tip: you can attach screenshots using a markdown table.
+Tip: you can attach screenshots using a markdown table.
 
-    Screenshot 1 | Screenshot 2
-    ---|---
-    copy-paste screenshot 1 | copy-paste 2
+Screenshot 1 | Screenshot 2
+---|---
+copy-paste screenshot 1 | copy-paste 2
 
-    Describe things in a short and straightforward manner.
+Describe things in a short and straightforward manner.
 -->
+
 Describe with a few bullets **what's new:**
 - a
 - b
