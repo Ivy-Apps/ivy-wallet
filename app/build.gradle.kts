@@ -20,12 +20,6 @@ android {
         targetSdk = libs.versions.compile.sdk.get().toInt()
         versionName = libs.versions.version.name.get()
         versionCode = libs.versions.version.code.get().toInt()
-
-        kapt {
-            arguments {
-                arg("room.schemaLocation", "$projectDir/schemas")
-            }
-        }
     }
 
     signingConfigs {
