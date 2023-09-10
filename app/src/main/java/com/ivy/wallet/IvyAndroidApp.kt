@@ -2,7 +2,6 @@ package com.ivy.wallet
 
 import android.app.Application
 import android.appwidget.AppWidgetManager
-import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Intent
 import androidx.hilt.work.HiltWorkerFactory
@@ -37,7 +36,7 @@ class IvyAndroidApp : Application(), Configuration.Provider {
     }
 }
 
-fun refreshWidget(widgetReceiver: Class<out AppWidgetProvider>) {
+fun refreshWidget(widgetReceiver: Class<*>) {
     val updateIntent = Intent(appContext, widgetReceiver)
     updateIntent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
 

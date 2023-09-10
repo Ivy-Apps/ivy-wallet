@@ -27,22 +27,12 @@ android {
     // TODO: Remove after migrating to KSP
     kapt {
         correctErrorTypes = true
-        useBuildCache = true
     }
 
     // Android
     compileSdk = catalog.version("compile-sdk").toInt()
     defaultConfig {
         minSdk = catalog.version("min-sdk").toInt()
-    }
-
-    // Compose
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = catalog.version("compose-compiler")
     }
 
     // Kotest
@@ -58,7 +48,6 @@ dependencies {
     implementation(catalog.library("ivy-frp-temp"))
     implementation(libs.bundles.arrow)
     implementation(libs.bundles.kotlin)
-    implementation(libs.bundles.compose)
     implementation(libs.timber)
 
     implementation(libs.bundles.hilt)
@@ -73,5 +62,4 @@ dependencies {
 // TODO: Remove after migrating to KSP
 kapt {
     correctErrorTypes = true
-    useBuildCache = true
 }

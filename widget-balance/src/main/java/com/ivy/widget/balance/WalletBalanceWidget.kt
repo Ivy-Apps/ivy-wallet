@@ -1,7 +1,8 @@
-package com.ivy.widgets
+package com.ivy.widget.balance
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
+import androidx.annotation.Keep
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -19,15 +20,20 @@ import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.settings.SettingsAct
 import com.ivy.wallet.domain.action.wallet.CalcIncomeExpenseAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
+import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.shortenAmount
+import com.ivy.widget.AppStarter
+import com.ivy.widgets.WidgetBase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class WalletBalanceWidget : GlanceAppWidget() {
+class WalletBalanceWidget(
+    private val getAppStarter: () -> AppStarter,
+) : GlanceAppWidget() {
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {
@@ -38,11 +44,30 @@ class WalletBalanceWidget : GlanceAppWidget() {
             val income = prefs[stringPreferencesKey("income")] ?: "0.00"
             val expense = prefs[stringPreferencesKey("expense")] ?: "0.00"
 
-            WalletBalanceWidgetContent(appLocked, balance, currency, income, expense)
+            WalletBalanceWidgetContent(
+                appLocked = appLocked,
+                balance = balance,
+                currency = currency,
+                income = income,
+                expense = expense,
+                onIncomeClick = {
+                    getAppStarter().addTransactionStart(TransactionType.INCOME)
+                },
+                onExpenseClick = {
+                    getAppStarter().addTransactionStart(TransactionType.EXPENSE)
+                },
+                onTransferClick = {
+                    getAppStarter().addTransactionStart(TransactionType.TRANSFER)
+                },
+                onWidgetClick = {
+                    getAppStarter().defaultStart()
+                },
+            )
         }
     }
 }
 
+@Keep
 @AndroidEntryPoint
 class WalletBalanceWidgetReceiver : GlanceAppWidgetReceiver() {
     companion object {
@@ -51,8 +76,13 @@ class WalletBalanceWidgetReceiver : GlanceAppWidgetReceiver() {
         }
     }
 
-    override val glanceAppWidget: GlanceAppWidget = WalletBalanceWidget()
+    override val glanceAppWidget: GlanceAppWidget = WalletBalanceWidget(
+        getAppStarter = { appStarter }
+    )
     private val coroutineScope = MainScope()
+
+    @Inject
+    lateinit var appStarter: AppStarter
 
     @Inject
     lateinit var walletBalanceAct: CalcWalletBalanceAct

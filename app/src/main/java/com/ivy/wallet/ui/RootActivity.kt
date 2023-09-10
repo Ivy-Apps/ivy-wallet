@@ -102,9 +102,9 @@ import com.ivy.wallet.utils.sendToCrashlytics
 import com.ivy.wallet.utils.simpleActivityForResultLauncher
 import com.ivy.wallet.utils.timeNowLocal
 import com.ivy.wallet.utils.toEpochMilli
-import com.ivy.widgets.AddTransactionWidget
-import com.ivy.widgets.AddTransactionWidgetCompact
-import com.ivy.widgets.WalletBalanceWidgetReceiver
+import com.ivy.widget.balance.WalletBalanceWidgetReceiver
+import com.ivy.widget.transaction.AddTransactionWidget
+import com.ivy.widget.transaction.AddTransactionWidgetCompact
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.time.LocalDate
@@ -253,9 +253,9 @@ class RootActivity : AppCompatActivity() {
 
     private fun setupDatePicker() {
         ivyContext.onShowDatePicker = { minDate,
-                maxDate,
-                initialDate,
-                onDatePicked ->
+                                        maxDate,
+                                        initialDate,
+                                        onDatePicked ->
             val picker = DatePickerDialog(this)
 
             if (minDate != null) {
@@ -436,7 +436,7 @@ class RootActivity : AppCompatActivity() {
             )
             .setAllowedAuthenticators(
                 BiometricManager.Authenticators.BIOMETRIC_WEAK or
-                    BiometricManager.Authenticators.DEVICE_CREDENTIAL
+                        BiometricManager.Authenticators.DEVICE_CREDENTIAL
             )
             .setConfirmationRequired(false)
             .build()
@@ -465,7 +465,7 @@ class RootActivity : AppCompatActivity() {
             putExtra(
                 Intent.EXTRA_SUBJECT,
                 "Ivy Wallet Support Request #" + caseNumber +
-                    "0" + BuildConfig.VERSION_CODE
+                        "0" + BuildConfig.VERSION_CODE
             )
             putExtra(Intent.EXTRA_TEXT, "")
         }

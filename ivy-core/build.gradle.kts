@@ -1,5 +1,5 @@
 plugins {
-    id("ivy.module")
+    id("ivy.feature")
     id("ivy.room")
 }
 

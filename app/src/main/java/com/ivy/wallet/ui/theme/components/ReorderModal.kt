@@ -372,14 +372,17 @@ private fun <T : Reorderable> calculateOrderNum(
                 itemAfter.getItemOrderNum()
             )
         }
+
         itemBefore != null && itemAfter == null -> {
             // It's last in it's priority
             itemBefore.getItemOrderNum() + 1
         }
+
         itemBefore == null && itemAfter != null -> {
             // It's first in it's priority
             itemAfter.getItemOrderNum() - 1
         }
+
         else -> 0.0
     }
 }

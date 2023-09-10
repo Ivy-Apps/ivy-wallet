@@ -18,7 +18,6 @@ android {
     // TODO: Remove after migrating to KSP
     kapt {
         correctErrorTypes = true
-        useBuildCache = true
     }
 
     defaultConfig {
@@ -123,17 +122,19 @@ android {
 }
 
 dependencies {
-    implementation(projects.ivyDesign)
     implementation(projects.ivyCore)
+    implementation(projects.ivyDesign)
     implementation(projects.ivyResources)
     implementation(projects.ivyNavigation)
+    implementation(projects.ivyWidgetBase)
+    implementation(projects.widgetBalance)
+    implementation(projects.widgetAddTransaction)
 
     implementation(libs.ivy.frp.temp)
     implementation(libs.bundles.kotlin)
     implementation(libs.bundles.ktor)
     implementation(libs.bundles.arrow)
     implementation(libs.bundles.compose)
-    implementation(libs.bundles.glance)
     implementation(libs.bundles.activity)
     implementation(libs.bundles.google)
     implementation(libs.bundles.firebase)
@@ -147,7 +148,7 @@ dependencies {
     kapt(libs.hilt.compiler)
 
     implementation(libs.bundles.room)
-    kapt(libs.room.compiler)
+    ksp(libs.room.compiler)
 
     implementation(libs.timber)
     implementation(libs.eventbus)
@@ -165,5 +166,4 @@ dependencies {
 // TODO: Remove after migrating to KSP
 kapt {
     correctErrorTypes = true
-    useBuildCache = true
 }
