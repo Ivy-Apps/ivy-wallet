@@ -1,6 +1,8 @@
 package com.ivy.wallet.ui.category
 
 import androidx.lifecycle.viewModelScope
+import com.ivy.core.IvyWalletCtx
+import com.ivy.core.data.model.TimePeriod
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.thenInvokeAfter
@@ -17,8 +19,6 @@ import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.CategoryDao
-import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.scopedIOThread

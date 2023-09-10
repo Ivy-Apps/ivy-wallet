@@ -18,9 +18,9 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
-import com.ivy.wallet.R
+import com.ivy.navigation.CSVScreen
+import com.ivy.resources.R
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
-import com.ivy.wallet.ui.CSVScreen
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Gray
@@ -59,7 +59,7 @@ fun ImportResultUI(
         Spacer(Modifier.height(24.dp))
 
         val importSuccess = result.transactionsImported > 0 &&
-            result.transactionsImported > result.rowsFound / 2
+                result.transactionsImported > result.rowsFound / 2
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = if (importSuccess) stringResource(R.string.success) else stringResource(R.string.failure),

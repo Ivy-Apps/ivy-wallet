@@ -3,9 +3,12 @@ package com.ivy.wallet.ui.onboarding.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.core.IvyWalletCtx
+import com.ivy.core.data.model.AccountBalance
 import com.ivy.design.l0_system.Theme
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
+import com.ivy.navigation.Onboarding
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.exchange.SyncExchangeRatesAct
@@ -26,10 +29,7 @@ import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
-import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.Onboarding
 import com.ivy.wallet.ui.onboarding.OnboardingState
-import com.ivy.wallet.ui.onboarding.model.AccountBalance
 import com.ivy.wallet.utils.OpResult
 import com.ivy.wallet.utils.asLiveData
 import com.ivy.wallet.utils.ioThread

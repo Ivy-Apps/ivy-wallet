@@ -1,35 +1,32 @@
-import com.ivy.wallet.buildsrc.Project
-
 plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-kapt")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
     id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
+    id("org.jetbrains.kotlin.plugin.serialization")
+    id("com.google.devtools.ksp")
 
-    alias(libs.plugins.kotlinx.serialization)
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
     namespace = "com.ivy.wallet"
-    compileSdk = Project.compileSdkVersion
+    compileSdk = libs.versions.compile.sdk.get().toInt()
+
+    // TODO: Remove after migrating to KSP
+    kapt {
+        correctErrorTypes = true
+        useBuildCache = true
+    }
 
     defaultConfig {
-        applicationId = Project.applicationId
-        minSdk = Project.minSdk
-        targetSdk = Project.targetSdk
-        versionCode = Project.versionCode
-        versionName = Project.versionName
-
-        testInstrumentationRunner = "com.ivy.wallet.HiltTestRunner"
-
-        kapt {
-            arguments {
-                arg("room.schemaLocation", "$projectDir/schemas")
-            }
-        }
+        applicationId = "com.ivy.wallet"
+        minSdk = libs.versions.min.sdk.get().toInt()
+        targetSdk = libs.versions.compile.sdk.get().toInt()
+        versionName = libs.versions.version.name.get()
+        versionCode = libs.versions.version.code.get().toInt()
     }
 
     signingConfigs {
@@ -100,12 +97,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 
     buildFeatures {
@@ -117,18 +114,6 @@ android {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 
-    lint {
-//        isCheckReleaseBuilds = true
-//        isAbortOnError = false
-    }
-
-    packagingOptions {
-        // Exclude this files so Jetpack Compose UI tests can build
-        resources.excludes.add("META-INF/AL2.0")
-        resources.excludes.add("META-INF/LGPL2.1")
-        // -------------------------------------------------------
-    }
-
     testOptions {
         unitTests.all {
             // Required by Kotest
@@ -138,7 +123,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":ivy-design"))
+    implementation(projects.ivyDesign)
+    implementation(projects.ivyCore)
+    implementation(projects.ivyResources)
+    implementation(projects.ivyNavigation)
 
     implementation(libs.ivy.frp.temp)
     implementation(libs.bundles.kotlin)
@@ -172,4 +160,10 @@ dependencies {
     testImplementation(libs.bundles.kotlin.test)
     testImplementation(libs.hilt.testing)
     testImplementation(libs.androidx.work.testing)
+}
+
+// TODO: Remove after migrating to KSP
+kapt {
+    correctErrorTypes = true
+    useBuildCache = true
 }

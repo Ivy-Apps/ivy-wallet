@@ -30,15 +30,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.core.data.model.FromToTimeRange
+import com.ivy.core.data.model.LastNTimeRange
+import com.ivy.core.data.model.Month
+import com.ivy.core.data.model.Month.Companion.fromMonthValue
+import com.ivy.core.data.model.Month.Companion.monthsList
+import com.ivy.core.data.model.TimePeriod
+import com.ivy.core.ivyWalletCtx
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.wallet.R
+import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IntervalType
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.ivyWalletCtx
-import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
-import com.ivy.wallet.ui.onboarding.model.LastNTimeRange
-import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Gray
@@ -47,9 +50,6 @@ import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.CircleButtonFilled
 import com.ivy.wallet.ui.theme.components.IntervalPickerRow
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
-import com.ivy.wallet.ui.theme.modal.model.Month
-import com.ivy.wallet.ui.theme.modal.model.Month.Companion.fromMonthValue
-import com.ivy.wallet.ui.theme.modal.model.Month.Companion.monthsList
 import com.ivy.wallet.utils.addKeyboardListener
 import com.ivy.wallet.utils.dateNowUTC
 import com.ivy.wallet.utils.formatDateOnlyWithYear
@@ -379,7 +379,9 @@ private fun IntervalFromToDate(
                 .padding(
                     vertical = 16.dp,
                 ),
-            text = if (border == IntervalBorder.FROM) stringResource(R.string.from) else stringResource(R.string.to),
+            text = if (border == IntervalBorder.FROM) stringResource(R.string.from) else stringResource(
+                R.string.to
+            ),
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.ExtraBold,
                 color = if (dateTime != null) Green else UI.colors.pureInverse
@@ -393,7 +395,8 @@ private fun IntervalFromToDate(
         }
 
         Text(
-            text = dateTime?.toLocalDate()?.formatDateOnlyWithYear() ?: stringResource(R.string.add_date),
+            text = dateTime?.toLocalDate()?.formatDateOnlyWithYear()
+                ?: stringResource(R.string.add_date),
             style = UI.typo.nB2.style(
                 fontWeight = FontWeight.Bold,
                 color = if (dateTime != null) UI.colors.pureInverse else Gray
@@ -485,7 +488,7 @@ private fun AllTime(
     onSelected: (FromToTimeRange?) -> Unit,
 ) {
     val active = timeRange != null && timeRange.from == null &&
-        timeRange.to != null && timeRange.to.isAfter(timeNowUTC())
+            timeRange.to != null && timeRange.to!!.isAfter(timeNowUTC())
 
     Text(
         modifier = Modifier

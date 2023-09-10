@@ -4,11 +4,15 @@ import android.content.Context
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.ivy.core.IvyWalletCtx
+import com.ivy.core.data.model.PaywallReason
+import com.ivy.core.data.model.TimePeriod
+import com.ivy.core.stringRes
 import com.ivy.frp.filterSuspend
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.frp.viewmodel.readOnly
-import com.ivy.wallet.R
+import com.ivy.resources.R
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.exchange.ExchangeAct
@@ -27,13 +31,14 @@ import com.ivy.wallet.domain.pure.transaction.trnCurrency
 import com.ivy.wallet.domain.pure.util.orZero
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.wallet.stringRes
-import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.RootActivity
-import com.ivy.wallet.ui.onboarding.model.TimePeriod
-import com.ivy.wallet.ui.paywall.PaywallReason
 import com.ivy.wallet.ui.theme.Gray
-import com.ivy.wallet.utils.*
+import com.ivy.wallet.utils.asLiveData
+import com.ivy.wallet.utils.formatNicelyWithTime
+import com.ivy.wallet.utils.scopedIOThread
+import com.ivy.wallet.utils.timeNowUTC
+import com.ivy.wallet.utils.toLowerCaseLocal
+import com.ivy.wallet.utils.uiThread
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -92,7 +97,8 @@ class ReportViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _baseCurrency.value = baseCurrencyAct(Unit)
             _allAccounts.value = accountsAct(Unit)
-            _categories.value = (listOf(unSpecifiedCategory) + categoriesAct(Unit)).toImmutableList()
+            _categories.value =
+                (listOf(unSpecifiedCategory) + categoriesAct(Unit)).toImmutableList()
 
             updateState {
                 it.copy(
@@ -163,7 +169,7 @@ class ReportViewModel @Inject constructor(
             //Upcoming
             val upcomingTransactions = transactions
                 .filter {
-                    it.dueDate != null && it.dueDate.isAfter(timeNowUTC)
+                    it.dueDate != null && it.dueDate!!.isAfter(timeNowUTC)
                 }
                 .sortedBy { it.dueDate }
                 .toImmutableList()
@@ -177,7 +183,7 @@ class ReportViewModel @Inject constructor(
             )
             //Overdue
             val overdue = transactions.filter {
-                it.dueDate != null && it.dueDate.isBefore(timeNowUTC)
+                it.dueDate != null && it.dueDate!!.isBefore(timeNowUTC)
             }.sortedByDescending {
                 it.dueDate
             }.toImmutableList()
@@ -236,8 +242,8 @@ class ReportViewModel @Inject constructor(
 
                 filterRange ?: return@filter false
 
-                (it.dateTime != null && filterRange.includes(it.dateTime)) ||
-                        (it.dueDate != null && filterRange.includes(it.dueDate))
+                (it.dateTime != null && filterRange.includes(it.dateTime!!)) ||
+                        (it.dueDate != null && filterRange.includes(it.dueDate!!))
             }
             .filter { trn ->
                 //Filter by Accounts
@@ -273,17 +279,17 @@ class ReportViewModel @Inject constructor(
                 val includeKeywords = filter.includeKeywords
                 if (includeKeywords.isEmpty()) return@filter true
 
-                if (it.title != null && it.title.isNotEmpty()) {
+                if (it.title != null && it.title!!.isNotEmpty()) {
                     includeKeywords.forEach { keyword ->
-                        if (it.title.containsLowercase(keyword)) {
+                        if (it.title!!.containsLowercase(keyword)) {
                             return@filter true
                         }
                     }
                 }
 
-                if (it.description != null && it.description.isNotEmpty()) {
+                if (it.description != null && it.description!!.isNotEmpty()) {
                     includeKeywords.forEach { keyword ->
-                        if (it.description.containsLowercase(keyword)) {
+                        if (it.description!!.containsLowercase(keyword)) {
                             return@filter true
                         }
                     }
@@ -297,17 +303,17 @@ class ReportViewModel @Inject constructor(
                 val excludedKeywords = filter.excludeKeywords
                 if (excludedKeywords.isEmpty()) return@filter true
 
-                if (it.title != null && it.title.isNotEmpty()) {
+                if (it.title != null && it.title!!.isNotEmpty()) {
                     excludedKeywords.forEach { keyword ->
-                        if (it.title.containsLowercase(keyword)) {
+                        if (it.title!!.containsLowercase(keyword)) {
                             return@filter false
                         }
                     }
                 }
 
-                if (it.description != null && it.description.isNotEmpty()) {
+                if (it.description != null && it.description!!.isNotEmpty()) {
                     excludedKeywords.forEach { keyword ->
-                        if (it.description.containsLowercase(keyword)) {
+                        if (it.description!!.containsLowercase(keyword)) {
                             return@filter false
                         }
                     }
@@ -322,7 +328,7 @@ class ReportViewModel @Inject constructor(
         return this.toLowerCaseLocal().contains(anotherString.toLowerCaseLocal())
     }
 
-    private fun calculateBalance(incomeExpenseTransferPair: IncomeExpenseTransferPair) : BigDecimal{
+    private fun calculateBalance(incomeExpenseTransferPair: IncomeExpenseTransferPair): BigDecimal {
         return incomeExpenseTransferPair.income + incomeExpenseTransferPair.transferIncome - incomeExpenseTransferPair.expense - incomeExpenseTransferPair.transferExpense
     }
 

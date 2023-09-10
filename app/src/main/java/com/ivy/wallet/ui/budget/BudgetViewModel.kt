@@ -2,6 +2,9 @@ package com.ivy.wallet.ui.budget
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.core.IvyWalletCtx
+import com.ivy.core.data.model.TimePeriod
+import com.ivy.core.data.model.toCloseTimeRange
 import com.ivy.frp.sumOfSuspend
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.wallet.domain.action.account.AccountsAct
@@ -21,10 +24,7 @@ import com.ivy.wallet.domain.pure.exchange.ExchangeData
 import com.ivy.wallet.domain.pure.transaction.trnCurrency
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.BudgetDao
-import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.budget.model.DisplayBudget
-import com.ivy.wallet.ui.onboarding.model.TimePeriod
-import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
 import com.ivy.wallet.utils.getDefaultFIATCurrency
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.isNotNullOrBlank
@@ -138,6 +138,7 @@ class BudgetViewModel @Inject constructor(
                         0.0 // ignore income
 //                        if (categoryFilter.isEmpty()) 0.0 else -amountBaseCurrency
                     }
+
                     TransactionType.EXPENSE -> {
                         // increment spent amount
                         exchangeAct(
@@ -150,6 +151,7 @@ class BudgetViewModel @Inject constructor(
                             )
                         ).orNull()?.toDouble() ?: 0.0
                     }
+
                     TransactionType.TRANSFER -> {
                         // ignore transfers for simplicity
                         0.0

@@ -20,15 +20,27 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
-import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.width
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.ParentDataModifier
 import androidx.compose.ui.unit.Density
-import com.ivy.wallet.ui.ivyWalletCtx
+import com.ivy.core.ivyWalletCtx
 import com.ivy.wallet.utils.densityScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -62,6 +74,7 @@ fun IvyPager(
                             dragDistance = 0f
                             state.selectPage(state.currentPage + 1)
                         }
+
                         offset <= -1f -> {
                             dragDistance = 0f
                             state.selectPage(state.currentPage - 1)
@@ -83,6 +96,7 @@ fun IvyPager(
                                     }
                                 }
                             }
+
                             offset < -SWIPE_THRESHOLD -> {
                                 // previous page
                                 Animatable(offset).animateTo(-1f) {
@@ -92,6 +106,7 @@ fun IvyPager(
                                     }
                                 }
                             }
+
                             else -> {
                                 Animatable(offset).animateTo(0f) {
                                     state.setOffset(value)
@@ -144,6 +159,7 @@ fun IvyPager(
                                     0
                                 )
                             }
+
                             state.currentPage - 1 -> {
                                 // previous page (offset = -1f)
                                 placeable.place(
@@ -151,6 +167,7 @@ fun IvyPager(
                                     0
                                 )
                             }
+
                             state.currentPage + 1 -> {
                                 // next page (offset = 1f)
                                 val x = (screenWidth - (screenWidth * offset)).roundToInt()
@@ -192,6 +209,7 @@ class IvyPagerState(
                 _offset.value = 0f
                 return
             }
+
             currentPage == maxPage && offset > 0 -> {
                 _offset.value = 0f
                 return

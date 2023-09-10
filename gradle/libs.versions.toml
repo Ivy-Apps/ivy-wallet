@@ -14,12 +14,18 @@ room = "2.6.0-beta01"
 androidx-work = "2.8.1"
 kotlinx-collections = "0.3.5"
 
+# Android
+min-sdk = "28"
+compile-sdk = "34"
+version-name = "4.4.5"
+version-code = "145"
+
+
 # Linters
 detekt = "1.23.1" # https://detekt.dev/docs/gettingstarted/gradle/
 
 [libraries]
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version = "8.1.1" }
-
 
 # Kotlin
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -28,8 +34,11 @@ kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-co
 kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlin-coroutines" }
 kotlin-coroutines-googleplay-temp = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlin-coroutines" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
+kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-collections" }
+
+# KotlinX Serialization
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.6.0" }
-kotlinx-collections-immutable = {module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-collections"}
+kotlinx-serialization-plugin = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 
 # Ktor
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
@@ -77,7 +86,7 @@ hilt-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", 
 hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
 
 # Google
-google-services = { module = "com.google.gms:google-services", version = "4.3.15" }
+google-services-plugin = { module = "com.google.gms:google-services", version = "4.3.15" }
 google-playservices-auth = { module = "com.google.android.gms:play-services-auth", version = "20.7.0" }
 google-billing = { module = "com.android.billingclient:billing-ktx", version = "6.0.1" }
 google-play-core = { module = "com.google.android.play:core", version = "1.10.3" }
@@ -108,6 +117,9 @@ detekt-gradle-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plu
 detekt-ruleset-compiler = { module = "com.braisgabin.detekt:kotlin-compiler-wrapper", version = "0.0.4" }
 detekt-ruleset-ktlint = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 detekt-ruleset-compose = { module = "io.nlopez.compose.rules:detekt", version = "0.2.1" }
+
+# KSP
+ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version = "1.9.10-1.0.13" }
 
 [bundles]
 kotlin = [
@@ -185,4 +197,3 @@ opencsv = [
 
 [plugins]
 gradleWrapperUpgrade = { id = "org.gradle.wrapper-upgrade", version = "0.11.2" }
-kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

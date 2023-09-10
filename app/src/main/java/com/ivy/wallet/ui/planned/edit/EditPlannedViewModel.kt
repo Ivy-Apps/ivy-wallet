@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
+import com.ivy.navigation.EditPlanned
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.data.IntervalType
@@ -23,7 +24,6 @@ import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.wallet.ui.EditPlanned
 import com.ivy.wallet.utils.asLiveData
 import com.ivy.wallet.utils.ioThread
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -142,7 +142,7 @@ class EditPlannedViewModel @Inject constructor(
         val selectedAccount = ioThread { accountDao.findById(rule.accountId)!!.toDomain() }
         _account.value = selectedAccount
         _category.value = rule.categoryId?.let {
-            ioThread { categoryDao.findById(rule.categoryId)?.toDomain() }
+            ioThread { categoryDao.findById(rule.categoryId!!)?.toDomain() }
         }
         _amount.value = rule.amount
 
@@ -296,9 +296,9 @@ class EditPlannedViewModel @Inject constructor(
 
     private fun validateRecurring(): Boolean {
         return startDate.value != null &&
-            intervalN.value != null &&
-            intervalN.value!! > 0 &&
-            intervalType.value != null
+                intervalN.value != null &&
+                intervalN.value!! > 0 &&
+                intervalType.value != null
     }
 
     fun delete() {

@@ -18,10 +18,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.navigation.AnalyticsReport
+import com.ivy.navigation.Test
 import com.ivy.wallet.domain.data.core.User
-import com.ivy.wallet.ui.AnalyticsReport
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.Test
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.modal.ChooseIconModal

@@ -20,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.wallet.R
+import com.ivy.resources.R
 import com.ivy.wallet.domain.pure.charts.ChartPeriod
 import com.ivy.wallet.domain.pure.charts.SingleChartPoint
 import com.ivy.wallet.ui.charts.toValues2

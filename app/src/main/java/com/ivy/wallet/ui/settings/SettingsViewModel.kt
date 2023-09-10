@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.core.IvyWalletCtx
 import com.ivy.design.l0_system.Theme
 import com.ivy.frp.monad.Res
 import com.ivy.frp.test.TestIdlingResource
@@ -21,9 +22,7 @@ import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.UserDao
 import com.ivy.wallet.refreshWidget
-import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.RootActivity
-import com.ivy.wallet.ui.widget.WalletBalanceWidgetReceiver
 import com.ivy.wallet.utils.OpResult
 import com.ivy.wallet.utils.asLiveData
 import com.ivy.wallet.utils.formatNicelyWithTime
@@ -31,6 +30,7 @@ import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.sendToCrashlytics
 import com.ivy.wallet.utils.timeNowUTC
 import com.ivy.wallet.utils.uiThread
+import com.ivy.widgets.WalletBalanceWidgetReceiver
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

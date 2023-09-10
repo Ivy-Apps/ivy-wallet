@@ -11,6 +11,7 @@ val White = Color(0xFFFAFAFA)
 val Black = Color(0xFF111114)
 
 // Primary
+val Ivy = Color(0xFF6B4DFF)
 val Purple = Color(0xFF6B4DFF)
 val Purple1 = Color(0xFFC34CFF)
 val Purple2 = Color(0xFFFF4CFF)

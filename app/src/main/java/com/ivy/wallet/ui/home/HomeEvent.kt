@@ -1,8 +1,8 @@
 package com.ivy.wallet.ui.home
 
+import com.ivy.core.data.model.TimePeriod
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.domain.deprecated.logic.model.CustomerJourneyCardData
-import com.ivy.wallet.ui.onboarding.model.TimePeriod
+import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyCardData
 
 sealed class HomeEvent {
     object Start : HomeEvent()

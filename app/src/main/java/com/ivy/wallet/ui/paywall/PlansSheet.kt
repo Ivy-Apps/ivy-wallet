@@ -40,7 +40,7 @@ import androidx.compose.ui.zIndex
 import com.android.billingclient.api.SkuDetails
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.wallet.R
+import com.ivy.resources.R
 import com.ivy.wallet.android.billing.Plan
 import com.ivy.wallet.android.billing.PlanType
 import com.ivy.wallet.ui.IvyWalletPreview

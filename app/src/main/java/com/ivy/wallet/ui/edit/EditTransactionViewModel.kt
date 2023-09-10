@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
+import com.ivy.navigation.EditTransaction
+import com.ivy.navigation.Main
 import com.ivy.wallet.domain.action.account.AccountByIdAct
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
@@ -30,15 +32,13 @@ import com.ivy.wallet.io.persistence.dao.LoanDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.refreshWidget
-import com.ivy.wallet.ui.EditTransaction
-import com.ivy.wallet.ui.Main
 import com.ivy.wallet.ui.loan.data.EditTransactionDisplayLoan
-import com.ivy.wallet.ui.widget.WalletBalanceWidgetReceiver
 import com.ivy.wallet.utils.computationThread
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.readOnly
 import com.ivy.wallet.utils.timeNowUTC
 import com.ivy.wallet.utils.uiThread
+import com.ivy.widgets.WalletBalanceWidgetReceiver
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -179,17 +179,17 @@ class EditTransactionViewModel @Inject constructor(
         }
 
         val loan =
-            ioThread { loanDao.findById(trans.loanId) } ?: return EditTransactionDisplayLoan()
+            ioThread { loanDao.findById(trans.loanId!!) } ?: return EditTransactionDisplayLoan()
         val isLoanRecord = trans.loanRecordId != null
 
         val loanWarningDescription = if (isLoanRecord) {
             "Note: This transaction is associated with a Loan Record of Loan : ${loan.name}\n" +
-                "You are trying to change the account associated with the loan record to an account of different currency" +
-                "\n The Loan Record will be re-calculated based on today's currency exchanges rates"
+                    "You are trying to change the account associated with the loan record to an account of different currency" +
+                    "\n The Loan Record will be re-calculated based on today's currency exchanges rates"
         } else {
             "Note: You are trying to change the account associated with the loan: ${loan.name} with an account " +
-                "of different currency, " +
-                "\nAll the loan records will be re-calculated based on today's currency exchanges rates "
+                    "of different currency, " +
+                    "\nAll the loan records will be re-calculated based on today's currency exchanges rates "
         }
 
         val loanCaption =
@@ -212,7 +212,7 @@ class EditTransactionViewModel @Inject constructor(
         accounts: List<Account>,
     ): UUID {
         if (screen.accountId != null) {
-            return screen.accountId
+            return screen.accountId!!
         }
 
         val lastSelectedId = sharedPrefs.getString(SharedPrefs.LAST_SELECTED_ACCOUNT_ID, null)
@@ -516,7 +516,7 @@ class EditTransactionViewModel @Inject constructor(
                     dueDate = dueDate.value,
                     dateTime = when {
                         loadedTransaction().dateTime == null &&
-                            dueDate.value == null -> {
+                                dueDate.value == null -> {
                             timeNowUTC()
                         }
 

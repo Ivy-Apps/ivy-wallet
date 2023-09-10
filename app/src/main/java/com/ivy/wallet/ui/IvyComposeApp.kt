@@ -11,29 +11,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
-import com.ivy.design.IvyContext
-import com.ivy.design.api.IvyDesign
+import com.ivy.core.IvyWalletCtx
+import com.ivy.core.appContext
+import com.ivy.core.appDesign
 import com.ivy.design.api.ivyContext
-import com.ivy.design.api.systems.IvyWalletDesign
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.utils.IvyPreview
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.NavigationRoot
-import com.ivy.wallet.IvyAndroidApp
-
-@Composable
-fun ivyWalletCtx(): IvyWalletCtx = ivyContext() as IvyWalletCtx
 
 @Composable
 fun rootView(): View = LocalView.current
 
 @Composable
 fun rootActivity(): RootActivity = LocalContext.current as RootActivity
-
-fun appDesign(context: IvyWalletCtx): IvyDesign = object : IvyWalletDesign() {
-    override fun context(): IvyContext = context
-}
 
 @Composable
 fun IvyWalletComponentPreview(
@@ -59,7 +51,7 @@ fun IvyWalletPreview(
     theme: Theme = Theme.LIGHT,
     Content: @Composable BoxWithConstraintsScope.() -> Unit
 ) {
-    IvyAndroidApp.appContext = rootView().context
+    appContext = rootView().context
     IvyPreview(
         theme = theme,
         design = appDesign(IvyWalletCtx()),

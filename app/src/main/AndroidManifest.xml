@@ -64,7 +64,7 @@
             tools:node="remove" />
 
         <receiver
-            android:name=".ui.widget.AddTransactionWidget"
+            android:name="com.ivy.widgets.AddTransactionWidget"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -75,7 +75,7 @@
         </receiver>
 
         <receiver
-            android:name=".ui.widget.AddTransactionWidgetCompact"
+            android:name="com.ivy.widgets.AddTransactionWidgetCompact"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -86,7 +86,7 @@
         </receiver>
 
         <receiver
-            android:name=".ui.widget.WalletBalanceWidgetReceiver"
+            android:name="com.ivy.widgets.WalletBalanceWidgetReceiver"
             android:enabled="@bool/glance_appwidget_available"
             android:exported="true"
             android:label="@string/wallet_balance">

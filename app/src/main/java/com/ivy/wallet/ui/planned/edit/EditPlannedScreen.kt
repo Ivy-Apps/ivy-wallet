@@ -24,14 +24,14 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.wallet.R
+import com.ivy.navigation.EditPlanned
+import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IntervalType
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
-import com.ivy.wallet.ui.EditPlanned
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.edit.core.Category
 import com.ivy.wallet.ui.edit.core.Description
@@ -210,6 +210,7 @@ private fun BoxWithConstraintsScope.UI(
                             initialOneTime = oneTime
                         )
                     }
+
                     else -> {
                         onSave()
                     }
@@ -302,6 +303,7 @@ private fun BoxWithConstraintsScope.UI(
                 shouldFocusCategory(category, type) -> {
                     chooseCategoryModalVisible = true
                 }
+
                 shouldFocusRecurring(startDate, intervalN, intervalType, oneTime) -> {
                     recurringRuleModal = RecurringRuleModalData(
                         initialStartDate = startDate,
@@ -310,6 +312,7 @@ private fun BoxWithConstraintsScope.UI(
                         initialOneTime = oneTime
                     )
                 }
+
                 shouldFocusTitle(titleTextFieldValue, type) -> {
                     titleFocus.requestFocus()
                 }
@@ -407,6 +410,7 @@ private fun BoxWithConstraintsScope.UI(
                 shouldFocusCategory(category, type) -> {
                     chooseCategoryModalVisible = true
                 }
+
                 shouldFocusTitle(titleTextFieldValue, type) -> {
                     titleFocus.requestFocus()
                 }

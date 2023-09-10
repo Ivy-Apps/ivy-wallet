@@ -39,18 +39,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.core.data.model.TimePeriod
+import com.ivy.core.ivyWalletCtx
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
-import com.ivy.wallet.R
+import com.ivy.navigation.EditTransaction
+import com.ivy.navigation.ItemStatistic
+import com.ivy.navigation.PieChartStatistic
+import com.ivy.resources.R
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.ui.EditTransaction
-import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.PieChartStatistic
-import com.ivy.wallet.ui.ivyWalletCtx
-import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
@@ -357,10 +357,12 @@ private fun CategoryAmountCard(
             // no selectedCategory
             false
         }
+
         categoryAmount.category == selectedCategory.category -> {
             // selectedCategory && we're selected
             true
         }
+
         else -> false
     }
     val backgroundColor = if (selectedState) categoryColor else UI.colors.medium

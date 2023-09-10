@@ -33,7 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.wallet.R
+import com.ivy.resources.R
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Budget
 import com.ivy.wallet.domain.data.core.Category
@@ -273,7 +273,7 @@ private fun CategoriesRow(
         items(items = categories) { category ->
             ListItem(
                 icon = category.icon,
-                defaultIcon = com.ivy.wallet.R.drawable.ic_custom_category_s,
+                defaultIcon = R.drawable.ic_custom_category_s,
                 text = category.name,
                 selectedColor = category.color.toComposeColor().takeIf {
                     budgetCategoryIds.contains(category.id)

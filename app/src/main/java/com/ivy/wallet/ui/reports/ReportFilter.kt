@@ -1,10 +1,10 @@
 package com.ivy.wallet.ui.reports
 
+import com.ivy.core.data.model.TimePeriod
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.ui.onboarding.model.TimePeriod
-import java.util.*
+import java.util.UUID
 
 data class ReportFilter(
     val id: UUID = UUID.randomUUID(),

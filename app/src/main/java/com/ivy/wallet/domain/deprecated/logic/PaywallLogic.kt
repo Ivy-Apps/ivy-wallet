@@ -1,7 +1,10 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import com.android.billingclient.api.Purchase
+import com.ivy.core.IvyWalletCtx
+import com.ivy.core.data.model.PaywallReason
 import com.ivy.frp.view.navigation.Navigation
+import com.ivy.navigation.Paywall
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
 import com.ivy.wallet.android.billing.IvyBilling
@@ -9,9 +12,6 @@ import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.BudgetDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.LoanDao
-import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.Paywall
-import com.ivy.wallet.ui.paywall.PaywallReason
 import com.ivy.wallet.utils.ioThread
 import javax.inject.Inject
 

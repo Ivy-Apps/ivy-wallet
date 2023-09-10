@@ -18,7 +18,7 @@ import com.ivy.wallet.ui.csv.OptionalFields
 import com.ivy.wallet.ui.csv.TransferFields
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.IvyDark
-import com.ivy.wallet.ui.theme.components.IVY_COLOR_PICKER_COLORS_FREE
+import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.wallet.utils.toLowerCaseLocal
 import kotlinx.collections.immutable.toImmutableList
 import java.util.*

@@ -1,34 +1,30 @@
 package com.ivy.wallet.domain.deprecated.logic
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import com.ivy.core.IvyWalletCtx
+import com.ivy.core.data.model.MainTab
+import com.ivy.core.stringRes
+import com.ivy.design.l0_system.Blue
+import com.ivy.design.l0_system.Blue3
+import com.ivy.design.l0_system.Gradient
+import com.ivy.design.l0_system.Green
+import com.ivy.design.l0_system.GreenLight
+import com.ivy.design.l0_system.Ivy
+import com.ivy.design.l0_system.Orange
+import com.ivy.design.l0_system.Red
+import com.ivy.design.l0_system.Red3
+import com.ivy.navigation.EditPlanned
+import com.ivy.navigation.PieChartStatistic
+import com.ivy.resources.R
 import com.ivy.wallet.Constants
-import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.deprecated.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.wallet.stringRes
-import com.ivy.wallet.ui.EditPlanned
-import com.ivy.wallet.ui.IvyWalletComponentPreview
-import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.PieChartStatistic
-import com.ivy.wallet.ui.home.CustomerJourneyCard
-import com.ivy.wallet.ui.main.MainTab
-import com.ivy.wallet.ui.theme.Blue
-import com.ivy.wallet.ui.theme.Blue3
-import com.ivy.wallet.ui.theme.Gradient
-import com.ivy.wallet.ui.theme.Green
-import com.ivy.wallet.ui.theme.GreenLight
-import com.ivy.wallet.ui.theme.Ivy
-import com.ivy.wallet.ui.theme.Orange
-import com.ivy.wallet.ui.theme.Red
-import com.ivy.wallet.ui.theme.Red3
-import com.ivy.wallet.ui.widget.AddTransactionWidgetCompact
+import com.ivy.widgets.AddTransactionWidgetCompact
+import javax.inject.Inject
 
 @Deprecated("Use FP style, look into `domain.fp` package")
-class CustomerJourneyLogic(
+class CustomerJourneyLogic @Inject constructor(
     private val transactionDao: TransactionDao,
     private val plannedPaymentRuleDao: PlannedPaymentRuleDao,
     private val sharedPrefs: SharedPrefs,
@@ -256,138 +252,6 @@ class CustomerJourneyLogic(
             onAction = { _, _, ivyActivity ->
                 ivyActivity.openUrlInBrowser(Constants.URL_IVY_TELEGRAM_INVITE)
             }
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewAdjustBalanceCard() {
-    IvyWalletComponentPreview {
-        CustomerJourneyCard(
-            cardData = CustomerJourneyLogic.adjustBalanceCard(),
-            onCTA = { },
-            onDismiss = {}
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewAddPlannedPaymentCard() {
-    IvyWalletComponentPreview {
-        CustomerJourneyCard(
-            cardData = CustomerJourneyLogic.addPlannedPaymentCard(),
-            onCTA = { },
-            onDismiss = {}
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewDidYouKnow_PinAddTransactionWidgetCard() {
-    IvyWalletComponentPreview {
-        CustomerJourneyCard(
-            cardData = CustomerJourneyLogic.didYouKnow_pinAddTransactionWidgetCard(),
-            onCTA = { },
-            onDismiss = {}
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewDidYouKnow_ExpensesPieChart() {
-    IvyWalletComponentPreview {
-        CustomerJourneyCard(
-            cardData = CustomerJourneyLogic.didYouKnow_expensesPieChart(),
-            onCTA = { },
-            onDismiss = {}
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewRateUsCard() {
-    IvyWalletComponentPreview {
-        CustomerJourneyCard(
-            cardData = CustomerJourneyLogic.rateUsCard(),
-            onCTA = { },
-            onDismiss = {}
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewShareIvyWallet() {
-    IvyWalletComponentPreview {
-        CustomerJourneyCard(
-            cardData = CustomerJourneyLogic.shareIvyWalletCard(),
-            onCTA = { },
-            onDismiss = {}
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewJoinTelegram() {
-    IvyWalletComponentPreview {
-        CustomerJourneyCard(
-            cardData = CustomerJourneyLogic.joinIvyTelegramCard(),
-            onCTA = { },
-            onDismiss = {}
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewRateUs_2() {
-    IvyWalletComponentPreview {
-        CustomerJourneyCard(
-            cardData = CustomerJourneyLogic.rateUsCard_2(),
-            onCTA = { },
-            onDismiss = {}
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewIvyTelegram_2() {
-    IvyWalletComponentPreview {
-        CustomerJourneyCard(
-            cardData = CustomerJourneyLogic.joinTelegram2(),
-            onCTA = { },
-            onDismiss = {}
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewIvyWallet_isOpenSource() {
-    IvyWalletComponentPreview {
-        CustomerJourneyCard(
-            cardData = CustomerJourneyLogic.ivyWalletIsOpenSource(),
-            onCTA = { },
-            onDismiss = {}
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewIvyWallet_gitHubBackupsDisabled() {
-    IvyWalletComponentPreview {
-        CustomerJourneyCard(
-            cardData = CustomerJourneyLogic.githubBackupsDisabled(),
-            onCTA = { },
-            onDismiss = {}
         )
     }
 }

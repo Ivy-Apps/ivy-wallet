@@ -1,16 +1,16 @@
 package com.ivy.wallet.ui.statistic.level1
 
 import androidx.lifecycle.viewModelScope
+import com.ivy.core.IvyWalletCtx
+import com.ivy.core.data.model.TimePeriod
 import com.ivy.frp.viewmodel.FRPViewModel
+import com.ivy.navigation.PieChartStatistic
 import com.ivy.wallet.domain.action.charts.PieChartAct
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.SettingsDao
-import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.PieChartStatistic
-import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import com.ivy.wallet.utils.dateNowUTC
 import com.ivy.wallet.utils.ioThread
@@ -22,7 +22,7 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel

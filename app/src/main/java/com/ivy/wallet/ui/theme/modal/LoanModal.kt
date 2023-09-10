@@ -37,13 +37,14 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.test.TestingContext
-import com.ivy.wallet.R
+import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.LoanType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Loan
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanData
+import com.ivy.wallet.ui.IvyColorPicker
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Gray
@@ -51,7 +52,6 @@ import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.components.IvyCheckboxWithText
-import com.ivy.wallet.ui.theme.components.IvyColorPicker
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.modal.edit.AccountModal
@@ -138,9 +138,9 @@ fun BoxWithConstraintsScope.LoanModal(
             ) {
                 accountChangeModal =
                     loan != null && modal.selectedAccount != null && currencyCode != (
-                        modal.selectedAccount.currency
-                            ?: modal.baseCurrency
-                        )
+                            modal.selectedAccount.currency
+                                ?: modal.baseCurrency
+                            )
 
                 if (!accountChangeModal) {
                     save(

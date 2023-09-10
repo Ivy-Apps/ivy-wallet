@@ -5,8 +5,10 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.core.IvyWalletCtx
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
+import com.ivy.navigation.Import
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVImporter
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVMapper
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVNormalizer
@@ -14,8 +16,6 @@ import com.ivy.wallet.domain.deprecated.logic.csv.IvyFileReader
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
 import com.ivy.wallet.domain.deprecated.logic.zip.BackupLogic
-import com.ivy.wallet.ui.Import
-import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.viewmodel.OnboardingViewModel
 import com.ivy.wallet.utils.asLiveData
 import com.ivy.wallet.utils.getFileName
@@ -58,14 +58,17 @@ class ImportViewModel @Inject constructor(
                     _importStep.value = ImportStep.IMPORT_FROM
                     true
                 }
+
                 ImportStep.LOADING -> {
                     // do nothing, disable back
                     true
                 }
+
                 ImportStep.RESULT -> {
                     _importStep.value = ImportStep.IMPORT_FROM
                     true
                 }
+
                 null -> false
             }
         }

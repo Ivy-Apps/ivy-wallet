@@ -1,7 +1,11 @@
 package com.ivy.wallet.ui.onboarding.viewmodel
 
 import androidx.lifecycle.MutableLiveData
+import com.ivy.core.data.model.AccountBalance
 import com.ivy.frp.view.navigation.Navigation
+import com.ivy.navigation.Import
+import com.ivy.navigation.Main
+import com.ivy.navigation.Onboarding
 import com.ivy.wallet.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.core.Category
@@ -13,11 +17,7 @@ import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLo
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
-import com.ivy.wallet.ui.Import
-import com.ivy.wallet.ui.Main
-import com.ivy.wallet.ui.Onboarding
 import com.ivy.wallet.ui.onboarding.OnboardingState
-import com.ivy.wallet.ui.onboarding.model.AccountBalance
 import com.ivy.wallet.utils.OpResult
 import com.ivy.wallet.utils.ioThread
 import kotlinx.collections.immutable.ImmutableList

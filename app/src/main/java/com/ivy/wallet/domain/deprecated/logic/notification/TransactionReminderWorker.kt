@@ -6,12 +6,12 @@ import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.ivy.wallet.R
+import com.ivy.core.stringRes
+import com.ivy.resources.R
 import com.ivy.wallet.android.notification.IvyNotificationChannel
 import com.ivy.wallet.android.notification.NotificationService
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.utils.atEndOfDay
 import com.ivy.wallet.utils.dateNowUTC
@@ -58,7 +58,7 @@ class TransactionReminderWorker @AssistedInject constructor(
                         1,
                         RootActivity.getIntent(applicationContext),
                         PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_UPDATE_CURRENT
-                            or PendingIntent.FLAG_IMMUTABLE
+                                or PendingIntent.FLAG_IMMUTABLE
                     )
                 )
 

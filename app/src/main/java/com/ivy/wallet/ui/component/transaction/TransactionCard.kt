@@ -31,12 +31,12 @@ import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IvyText
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.frp.view.navigation.navigation
-import com.ivy.wallet.R
+import com.ivy.navigation.ItemStatistic
+import com.ivy.resources.R
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.data.AppBaseData
 import com.ivy.wallet.ui.theme.Gradient
@@ -116,10 +116,10 @@ fun TransactionCard(
                 modifier = Modifier.padding(horizontal = 24.dp),
                 text = stringResource(
                     R.string.due_on,
-                    transaction.dueDate.formatNicely()
+                    transaction.dueDate!!.formatNicely()
                 ).uppercase(),
                 style = UI.typo.nC.style(
-                    color = if (transaction.dueDate.isAfter(timeNowUTC())) {
+                    color = if (transaction.dueDate!!.isAfter(timeNowUTC())) {
                         Orange
                     } else {
                         UI.colors.gray

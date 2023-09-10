@@ -30,12 +30,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
-import com.ivy.wallet.R
+import com.ivy.navigation.Charts
+import com.ivy.resources.R
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.pure.charts.ChartPeriod
 import com.ivy.wallet.domain.pure.charts.IncomeExpenseChartPoint
 import com.ivy.wallet.domain.pure.charts.SingleChartPoint
-import com.ivy.wallet.ui.Charts
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.charts.charts.accountCharts
 import com.ivy.wallet.ui.charts.charts.walletCharts
@@ -145,6 +145,7 @@ private fun UI(
                 baseCurrencyCode = baseCurrencyCode,
                 balanceChart = balanceChart,
             )
+
             ChartType.CATEGORY -> {
                 TODO()
 
@@ -162,6 +163,7 @@ private fun UI(
 //                    onRemoveCategory = onRemoveCategory
 //                )
             }
+
             ChartType.ACCOUNT -> accountCharts(
                 period = period
             )
