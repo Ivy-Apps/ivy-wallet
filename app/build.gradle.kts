@@ -122,8 +122,8 @@ android {
 }
 
 dependencies {
-    implementation(projects.ivyDesign)
     implementation(projects.ivyCore)
+    implementation(projects.ivyDesign)
     implementation(projects.ivyResources)
     implementation(projects.ivyNavigation)
     implementation(projects.ivyWidgetBase)
@@ -148,7 +148,7 @@ dependencies {
     kapt(libs.hilt.compiler)
 
     implementation(libs.bundles.room)
-    kapt(libs.room.compiler)
+    ksp(libs.room.compiler)
 
     implementation(libs.timber)
     implementation(libs.eventbus)
