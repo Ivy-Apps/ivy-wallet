@@ -1,6 +1,9 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.core.data.model.AccountBalance
+import com.ivy.core.stringRes
+import com.ivy.design.l0_system.*
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
@@ -8,15 +11,13 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
-import com.ivy.wallet.stringRes
-import com.ivy.wallet.ui.onboarding.model.AccountBalance
-import com.ivy.wallet.ui.theme.*
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import javax.inject.Inject
 
 @Deprecated("Migrate to FP Style")
-class PreloadDataLogic(
+class PreloadDataLogic @Inject constructor(
     private val accountsDao: AccountDao,
     private val categoryDao: CategoryDao
 ) {

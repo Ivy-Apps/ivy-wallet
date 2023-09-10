@@ -6,8 +6,9 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.utils.ioThread
+import javax.inject.Inject
 
-class AccountCreator(
+class AccountCreator @Inject constructor(
     private val paywallLogic: PaywallLogic,
     private val accountDao: AccountDao,
     private val accountLogic: WalletAccountLogic

@@ -21,9 +21,10 @@ import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.widgets.AddTransactionWidgetCompact
+import javax.inject.Inject
 
 @Deprecated("Use FP style, look into `domain.fp` package")
-class CustomerJourneyLogic(
+class CustomerJourneyLogic @Inject constructor(
     private val transactionDao: TransactionDao,
     private val plannedPaymentRuleDao: PlannedPaymentRuleDao,
     private val sharedPrefs: SharedPrefs,

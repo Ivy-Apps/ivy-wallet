@@ -2,8 +2,9 @@ package com.ivy.wallet.domain.deprecated.logic.loantrasactions
 
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.utils.computationThread
+import javax.inject.Inject
 
-data class LoanTransactionsLogic(
+data class LoanTransactionsLogic @Inject constructor(
     val Loan: LTLoanMapper,
     val LoanRecord: LTLoanRecordMapper
 ) {

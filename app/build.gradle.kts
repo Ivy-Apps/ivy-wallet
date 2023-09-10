@@ -5,6 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
     id("org.jetbrains.kotlin.plugin.serialization")
+    id("com.google.devtools.ksp")
 
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
@@ -13,6 +14,12 @@ plugins {
 android {
     namespace = "com.ivy.wallet"
     compileSdk = libs.versions.compile.sdk.get().toInt()
+
+    // TODO: Remove after migrating to KSP
+    kapt {
+        correctErrorTypes = true
+        useBuildCache = true
+    }
 
     defaultConfig {
         applicationId = "com.ivy.wallet"

@@ -5,9 +5,10 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
 import com.ivy.wallet.io.persistence.dao.LoanRecordDao
 import com.ivy.wallet.utils.ioThread
 import java.util.UUID
+import javax.inject.Inject
 
 @Deprecated("Use FP style, look into `domain.fp` package")
-class LoanRecordCreator(
+class LoanRecordCreator @Inject constructor(
     private val paywallLogic: PaywallLogic,
     private val dao: LoanRecordDao,
 ) {

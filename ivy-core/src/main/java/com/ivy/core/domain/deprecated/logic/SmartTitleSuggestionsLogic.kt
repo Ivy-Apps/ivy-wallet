@@ -2,13 +2,15 @@ package com.ivy.wallet.domain.deprecated.logic
 
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.wallet.ui.edit.core.SUGGESTIONS_LIMIT
 import com.ivy.wallet.utils.capitalizeWords
 import com.ivy.wallet.utils.isNotNullOrBlank
 import java.util.*
+import javax.inject.Inject
+
+const val SUGGESTIONS_LIMIT = 10
 
 @Deprecated("Use FP style, look into `domain.fp` package")
-class SmartTitleSuggestionsLogic(
+class SmartTitleSuggestionsLogic @Inject constructor(
     private val transactionDao: TransactionDao
 ) {
 

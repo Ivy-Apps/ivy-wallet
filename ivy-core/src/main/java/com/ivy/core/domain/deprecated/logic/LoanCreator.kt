@@ -7,8 +7,9 @@ import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.wallet.io.persistence.dao.LoanDao
 import com.ivy.wallet.utils.ioThread
 import java.util.UUID
+import javax.inject.Inject
 
-class LoanCreator(
+class LoanCreator @Inject constructor(
     private val paywallLogic: PaywallLogic,
     private val dao: LoanDao,
 ) {

@@ -6,8 +6,9 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.utils.ioThread
+import javax.inject.Inject
 
-class CategoryCreator(
+class CategoryCreator @Inject constructor(
     private val paywallLogic: PaywallLogic,
     private val categoryDao: CategoryDao,
 ) {

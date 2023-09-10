@@ -24,6 +24,12 @@ android {
         jvmTarget = "11"
     }
 
+    // TODO: Remove after migrating to KSP
+    kapt {
+        correctErrorTypes = true
+        useBuildCache = true
+    }
+
     // Android
     compileSdk = catalog.version("compile-sdk").toInt()
     defaultConfig {
@@ -62,10 +68,4 @@ dependencies {
     testImplementation(libs.bundles.kotest)
     testImplementation(catalog.bundle("kotlin-test"))
     testImplementation(catalog.library("hilt-testing"))
-}
-
-// TODO: Remove after migrating to KSP
-kapt {
-    correctErrorTypes = true
-    useBuildCache = true
 }

@@ -1,5 +1,8 @@
 package com.ivy.wallet.domain.deprecated.logic
 
+import com.ivy.core.data.model.FromToTimeRange
+import com.ivy.core.data.model.filterOverdue
+import com.ivy.core.data.model.filterUpcoming
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Category
@@ -10,13 +13,11 @@ import com.ivy.wallet.domain.pure.transaction.withDateDividers
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
-import com.ivy.wallet.ui.onboarding.model.filterOverdue
-import com.ivy.wallet.ui.onboarding.model.filterUpcoming
 import java.util.*
+import javax.inject.Inject
 
 @Deprecated("Migrate to FP Style")
-class WalletCategoryLogic(
+class WalletCategoryLogic @Inject constructor(
     private val accountDao: AccountDao,
     private val settingsDao: SettingsDao,
     private val exchangeRatesLogic: ExchangeRatesLogic,
@@ -209,7 +210,10 @@ class WalletCategoryLogic(
             )
     }
 
-    suspend fun calculateUpcomingIncomeByCategory(category: Category, range: FromToTimeRange): Double {
+    suspend fun calculateUpcomingIncomeByCategory(
+        category: Category,
+        range: FromToTimeRange
+    ): Double {
         return upcomingByCategory(category = category, range = range)
             .filter { it.type == TransactionType.INCOME }
             .sumInBaseCurrency(
@@ -219,7 +223,10 @@ class WalletCategoryLogic(
             )
     }
 
-    suspend fun calculateUpcomingExpensesByCategory(category: Category, range: FromToTimeRange): Double {
+    suspend fun calculateUpcomingExpensesByCategory(
+        category: Category,
+        range: FromToTimeRange
+    ): Double {
         return upcomingByCategory(category = category, range = range)
             .filter { it.type == TransactionType.EXPENSE }
             .sumInBaseCurrency(
@@ -268,7 +275,10 @@ class WalletCategoryLogic(
             .filterUpcoming()
     }
 
-    suspend fun calculateOverdueIncomeByCategory(category: Category, range: FromToTimeRange): Double {
+    suspend fun calculateOverdueIncomeByCategory(
+        category: Category,
+        range: FromToTimeRange
+    ): Double {
         return overdueByCategory(category, range = range)
             .filter { it.type == TransactionType.INCOME }
             .sumInBaseCurrency(
@@ -278,7 +288,10 @@ class WalletCategoryLogic(
             )
     }
 
-    suspend fun calculateOverdueExpensesByCategory(category: Category, range: FromToTimeRange): Double {
+    suspend fun calculateOverdueExpensesByCategory(
+        category: Category,
+        range: FromToTimeRange
+    ): Double {
         return overdueByCategory(category, range = range)
             .filter { it.type == TransactionType.EXPENSE }
             .sumInBaseCurrency(

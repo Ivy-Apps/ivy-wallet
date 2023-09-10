@@ -1,5 +1,8 @@
 package com.ivy.wallet.domain.deprecated.logic
 
+import com.ivy.core.data.model.FromToTimeRange
+import com.ivy.core.data.model.filterOverdue
+import com.ivy.core.data.model.filterUpcoming
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Transaction
@@ -7,16 +10,14 @@ import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
-import com.ivy.wallet.ui.onboarding.model.filterOverdue
-import com.ivy.wallet.ui.onboarding.model.filterUpcoming
 import com.ivy.wallet.utils.timeNowUTC
 import java.time.LocalDateTime
+import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.math.absoluteValue
 
 @Deprecated("Migrate to FP Style")
-class WalletAccountLogic(
+class WalletAccountLogic @Inject constructor(
     private val transactionDao: TransactionDao,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val accountDao: AccountDao,
@@ -52,6 +53,7 @@ class WalletAccountLogic(
                     ).toEntity()
                 )
             }
+
             finalDiff > 0 -> {
                 // add expense
                 transactionDao.save(
@@ -132,7 +134,7 @@ class WalletAccountLogic(
     ): List<Transaction> {
         return this.filter {
             it.dateTime != null &&
-                (before == null || it.dateTime.isBefore(before))
+                    (before == null || it.dateTime.isBefore(before))
         }
     }
 

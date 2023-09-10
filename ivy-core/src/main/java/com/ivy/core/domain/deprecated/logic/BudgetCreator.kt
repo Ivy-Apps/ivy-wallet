@@ -5,8 +5,9 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
 import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.wallet.io.persistence.dao.BudgetDao
 import com.ivy.wallet.utils.ioThread
+import javax.inject.Inject
 
-class BudgetCreator(
+class BudgetCreator @Inject constructor(
     private val paywallLogic: PaywallLogic,
     private val budgetDao: BudgetDao,
 ) {
