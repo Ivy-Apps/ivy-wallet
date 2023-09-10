@@ -15,6 +15,7 @@ import com.ivy.wallet.domain.action.global.UpdateStartDayOfMonthAct
 import com.ivy.wallet.domain.action.settings.SettingsAct
 import com.ivy.wallet.domain.action.settings.UpdateSettingsAct
 import com.ivy.wallet.domain.data.core.User
+import com.ivy.wallet.domain.deprecated.logic.LogoutLogic
 import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
 import com.ivy.wallet.domain.deprecated.logic.zip.BackupLogic
 import com.ivy.wallet.io.persistence.SharedPrefs
@@ -22,7 +23,6 @@ import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.UserDao
 import com.ivy.wallet.refreshWidget
 import com.ivy.wallet.ui.RootActivity
-import com.ivy.wallet.ui.widget.WalletBalanceWidgetReceiver
 import com.ivy.wallet.utils.OpResult
 import com.ivy.wallet.utils.asLiveData
 import com.ivy.wallet.utils.formatNicelyWithTime
@@ -30,6 +30,7 @@ import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.sendToCrashlytics
 import com.ivy.wallet.utils.timeNowUTC
 import com.ivy.wallet.utils.uiThread
+import com.ivy.widgets.WalletBalanceWidgetReceiver
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
