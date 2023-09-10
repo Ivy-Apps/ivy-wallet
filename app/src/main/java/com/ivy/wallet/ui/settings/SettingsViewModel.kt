@@ -30,7 +30,7 @@ import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.sendToCrashlytics
 import com.ivy.wallet.utils.timeNowUTC
 import com.ivy.wallet.utils.uiThread
-import com.ivy.widgets.WalletBalanceWidgetReceiver
+import com.ivy.widget.balance.WalletBalanceWidgetReceiver
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

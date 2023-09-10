@@ -14,6 +14,5 @@ android {
 }
 
 dependencies {
-    implementation(libs.bundles.glance)
-    implementation(libs.bundles.activity)
+    implementation(libs.bundles.compose)
 }

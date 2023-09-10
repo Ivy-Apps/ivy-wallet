@@ -131,8 +131,8 @@ complexity:
     threshold: 60
   LongParameterList:
     active: true
-    functionThreshold: 6
-    constructorThreshold: 7
+    functionThreshold: 12
+    constructorThreshold: 20
     ignoreDefaultParameters: true
     ignoreDataClasses: true
   MethodOverloading:
@@ -657,7 +657,7 @@ style:
   NestedClassesVisibility:
     active: true
   NewLineAtEndOfFile:
-    active: true
+    active: false
   NoTabs:
     active: false
   NullableBooleanCheck:
@@ -849,7 +849,7 @@ formatting:
   Filename:
     active: true
   FinalNewline:
-    active: true
+    active: false
     autoCorrect: true
     insertFinalNewLine: true
   FunKeywordSpacing:
@@ -887,7 +887,7 @@ formatting:
     autoCorrect: true
     layout: '*,java.**,javax.**,kotlin.**,^'
   Indentation:
-    active: true
+    active: false
     autoCorrect: true
     indentSize: 4
   KdocWrapping:

@@ -1,13 +1,19 @@
-package com.ivy.widgets
+package com.ivy.widget.transaction
 
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
-import com.ivy.wallet.R
+import com.ivy.widgets.WidgetBase
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class AddTransactionWidget : AppWidgetProvider() {
+
+    @Inject
+    lateinit var widgetClick: AddTransactionWidgetClick
 
     companion object {
         fun updateBroadcast(context: Context) {
@@ -53,7 +59,6 @@ class AddTransactionWidget : AppWidgetProvider() {
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
-        val widgetClick = AddTransactionWidgetClick()
-        widgetClick.handleClick(context, intent)
+        widgetClick.handleClick(intent)
     }
 }

@@ -20,7 +20,7 @@ import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.widgets.AddTransactionWidgetCompact
+import com.ivy.widget.transaction.AddTransactionWidgetCompact
 import javax.inject.Inject
 
 @Deprecated("Use FP style, look into `domain.fp` package")
