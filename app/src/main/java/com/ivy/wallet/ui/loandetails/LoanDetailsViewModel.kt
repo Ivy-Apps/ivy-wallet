@@ -19,7 +19,7 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
 import com.ivy.wallet.domain.deprecated.logic.model.EditLoanRecordData
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
 import com.ivy.wallet.io.persistence.dao.*
-import com.ivy.wallet.ui.IvyWalletCtx
+import com.ivy.core.IvyWalletCtx
 import com.ivy.wallet.ui.LoanDetails
 import com.ivy.wallet.ui.loan.data.DisplayLoanRecord
 import com.ivy.wallet.utils.computationThread

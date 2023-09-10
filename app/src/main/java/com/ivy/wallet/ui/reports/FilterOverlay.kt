@@ -44,7 +44,8 @@ import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.ivyWalletCtx
+import com.ivy.core.IvyWalletCtx
+import com.ivy.core.ivyWalletCtx
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.GreenDark

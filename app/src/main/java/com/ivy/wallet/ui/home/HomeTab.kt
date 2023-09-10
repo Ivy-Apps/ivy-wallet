@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.core.data.model.MainTab
 import com.ivy.core.data.model.TimePeriod
+import com.ivy.core.ivyWalletCtx
 import com.ivy.core.stringRes
 import com.ivy.frp.asParamTo2
 import com.ivy.frp.forward
@@ -50,7 +51,6 @@ import com.ivy.wallet.ui.component.transaction.transactions
 import com.ivy.wallet.ui.data.AppBaseData
 import com.ivy.wallet.ui.data.BufferInfo
 import com.ivy.wallet.ui.data.DueSection
-import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.modal.BufferModal
 import com.ivy.wallet.ui.theme.modal.BufferModalData
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModal

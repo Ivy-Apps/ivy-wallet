@@ -36,7 +36,8 @@ import com.ivy.resources.R
 import com.ivy.wallet.Constants
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.ui.component.transaction.TransactionsDividerLine
-import com.ivy.wallet.ui.ivyWalletCtx
+import com.ivy.core.IvyWalletCtx
+import com.ivy.core.ivyWalletCtx
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Gray

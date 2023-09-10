@@ -32,16 +32,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.core.data.model.AccountData
+import com.ivy.core.data.model.MainTab
+import com.ivy.core.ivyWalletCtx
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.navigation.ItemStatistic
+import com.ivy.navigation.Main
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.Main
-import com.ivy.wallet.ui.ivyWalletCtx
-import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.GreenDark
@@ -326,7 +327,7 @@ private fun AccountHeader(
                     .testTag("baseCurrencyEquivalent"),
                 textColor = account.color.toComposeColor().dynamicContrast(),
                 currency = baseCurrency,
-                balance = accountData.balanceBaseCurrency,
+                balance = accountData.balanceBaseCurrency!!,
                 currencyUpfront = false
             )
         }

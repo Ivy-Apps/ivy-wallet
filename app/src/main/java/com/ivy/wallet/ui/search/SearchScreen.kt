@@ -33,18 +33,16 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.core.stringRes
 import com.ivy.design.l0_system.UI
-import com.ivy.frp.view.navigation.navigation
+import com.ivy.navigation.Search
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.Search
 import com.ivy.wallet.ui.component.transaction.transactions
 import com.ivy.wallet.ui.data.AppBaseData
-import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.IvyBasicTextField
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -115,9 +113,6 @@ private fun UI(
         }
 
         Spacer(Modifier.height(16.dp))
-
-        val ivyContext = ivyWalletCtx()
-        val nav = navigation()
 
         LazyColumn(
             modifier = Modifier.fillMaxSize(),

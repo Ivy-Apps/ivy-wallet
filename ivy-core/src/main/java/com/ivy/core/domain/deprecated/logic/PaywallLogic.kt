@@ -9,7 +9,7 @@ import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.BudgetDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.LoanDao
-import com.ivy.wallet.ui.IvyWalletCtx
+import com.ivy.core.IvyWalletCtx
 import com.ivy.wallet.ui.Paywall
 import com.ivy.wallet.ui.paywall.PaywallReason
 import com.ivy.wallet.utils.ioThread

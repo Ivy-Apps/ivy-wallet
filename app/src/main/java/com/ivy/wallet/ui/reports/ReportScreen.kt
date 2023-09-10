@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -29,23 +28,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.core.stringRes
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.navigation.PieChartStatistic
+import com.ivy.navigation.Report
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
-import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.PieChartStatistic
-import com.ivy.wallet.ui.Report
 import com.ivy.wallet.ui.component.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.component.transaction.transactions
 import com.ivy.wallet.ui.data.AppBaseData
 import com.ivy.wallet.ui.data.DueSection
-import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.statistic.level2.IncomeExpensesCards
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
@@ -67,7 +65,6 @@ import com.ivy.wallet.ui.theme.pureBlur
 import com.ivy.wallet.utils.clickableNoIndication
 import com.ivy.wallet.utils.onScreenStart
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.persistentSetOf
 
 @ExperimentalFoundationApi
 @Composable
@@ -93,9 +90,7 @@ private fun BoxWithConstraintsScope.UI(
     state: ReportScreenState = ReportScreenState(),
     onEventHandler: (ReportScreenEvent) -> Unit = {}
 ) {
-    val ivyContext = ivyWalletCtx()
     val nav = navigation()
-    val listState = rememberLazyListState()
     val context = LocalContext.current
 
     if (state.loading) {

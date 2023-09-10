@@ -2,11 +2,11 @@ package com.ivy.wallet.ui.balance
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.core.IvyWalletCtx
+import com.ivy.core.data.model.TimePeriod
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
-import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.utils.dateNowUTC
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.readOnly

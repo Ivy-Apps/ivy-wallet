@@ -29,11 +29,11 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.navigation.EditPlanned
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.PlannedPaymentRule
-import com.ivy.wallet.ui.EditPlanned
 import com.ivy.wallet.ui.component.transaction.SectionDivider
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.IvyIcon

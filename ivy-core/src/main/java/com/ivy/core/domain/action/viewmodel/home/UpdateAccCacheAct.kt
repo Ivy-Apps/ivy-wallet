@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.action.viewmodel.home
 
 import com.ivy.frp.action.FPAction
 import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.ui.IvyWalletCtx
+import com.ivy.core.IvyWalletCtx
 import javax.inject.Inject
 
 class UpdateAccCacheAct @Inject constructor(

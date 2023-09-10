@@ -43,13 +43,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.core.IvyWalletCtx
+import com.ivy.core.ivyWalletCtx
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.wallet.Constants
 import com.ivy.resources.R
-import com.ivy.wallet.ui.IvyWalletCtx
+import com.ivy.wallet.Constants
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.onboarding.OnboardingState
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Gray
@@ -117,6 +117,7 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
             OnboardingState.SPLASH -> {
                 (ivyContext.screenHeight / 2f - logoHeight.toDensityPx() / 2f).toDensityDp()
             }
+
             else -> 56.dp
         }
     }
@@ -352,8 +353,8 @@ private fun LocalAccountExplanation() {
     Text(
         modifier = Modifier.padding(start = 32.dp, end = 32.dp),
         text = "Your data will be saved only locally on your phone. " +
-            "You risk losing your data if you uninstall the app or change your device. " +
-            "To prevent data loss, we recommend exporting backup from settings regularly.",
+                "You risk losing your data if you uninstall the app or change your device. " +
+                "To prevent data loss, we recommend exporting backup from settings regularly.",
         style = UI.typo.c.style(
             color = Gray,
             fontWeight = FontWeight.Medium

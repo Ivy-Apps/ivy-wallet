@@ -25,7 +25,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.resources.R
 import com.ivy.wallet.ui.IvyWalletComponentPreview
-import com.ivy.wallet.ui.ivyWalletCtx
+import com.ivy.core.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.components.IvyIcon
 

@@ -28,7 +28,7 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.ParentDataModifier
 import androidx.compose.ui.unit.Density
-import com.ivy.wallet.ui.ivyWalletCtx
+import com.ivy.core.IvyWalletCtx
 import com.ivy.wallet.utils.densityScope
 import kotlinx.coroutines.launch
 import timber.log.Timber

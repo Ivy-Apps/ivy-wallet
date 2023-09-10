@@ -36,9 +36,9 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IntervalType
-import com.ivy.wallet.ui.IvyWalletCtx
+import com.ivy.core.IvyWalletCtx
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.ivyWalletCtx
+import com.ivy.core.IvyWalletCtx
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Gray

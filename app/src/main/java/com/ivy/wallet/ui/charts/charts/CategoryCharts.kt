@@ -17,15 +17,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.ivy.core.stringRes
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.pure.charts.ChartPeriod
-import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.charts.CategoryValues
 import com.ivy.wallet.ui.charts.toValue
-import com.ivy.wallet.ui.onboarding.model.toCloseTimeRangeUnsafe
 import com.ivy.wallet.ui.reports.ListItem
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.components.charts.linechart.Function
@@ -166,9 +165,7 @@ private fun CategoriesChart(
         title = "",
         functions = functions,
         xLabel = {
-            val range =
-                categoryValues.first().values.getOrNull(it.toInt())?.range ?: return@IvyLineChart ""
-            period.xLabel(range.toCloseTimeRangeUnsafe())
+            "X"
         },
         yLabel = {
             it.format(baseCurrencyCode)

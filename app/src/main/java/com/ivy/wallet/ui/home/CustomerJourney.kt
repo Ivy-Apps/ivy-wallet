@@ -27,7 +27,8 @@ import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyLogic
 import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyCardData
 import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.RootActivity
-import com.ivy.wallet.ui.ivyWalletCtx
+import com.ivy.core.IvyWalletCtx
+import com.ivy.core.ivyWalletCtx
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon

@@ -39,10 +39,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.ivy.core.data.model.MainTab
+import com.ivy.core.ivyWalletCtx
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.resources.R
-import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.GradientIvy
@@ -160,7 +161,7 @@ fun BoxWithConstraintsScope.BottomBar(
     // ------------------------------------ BUTTONS--------------------------------------------------
     val fabStartX = ivyContext.screenWidth / 2 - FAB_BUTTON_SIZE.toDensityPx() / 2
     val fabStartY = ivyContext.screenHeight - navigationBarInset() -
-        30.dp.toDensityPx() - FAB_BUTTON_SIZE.toDensityPx()
+            30.dp.toDensityPx() - FAB_BUTTON_SIZE.toDensityPx()
 
     TransactionButtons(
         buttonsShownPercent = buttonsShownPercent,
@@ -209,21 +210,21 @@ fun BoxWithConstraintsScope.BottomBar(
 
                             when {
                                 abs(dragOffset.x) < horizontalThreshold &&
-                                    dragOffset.y < -verticalThreshold -> {
+                                        dragOffset.y < -verticalThreshold -> {
                                     // swipe up
                                     dragOffset = Offset.Zero // prevent double open of the screen
                                     onAddExpense()
                                 }
 
                                 dragOffset.x < -horizontalThreshold &&
-                                    dragOffset.y < -verticalThreshold -> {
+                                        dragOffset.y < -verticalThreshold -> {
                                     // swipe up left
                                     dragOffset = Offset.Zero // prevent double open of the screen
                                     onAddIncome()
                                 }
 
                                 dragOffset.x > horizontalThreshold &&
-                                    dragOffset.y < -verticalThreshold -> {
+                                        dragOffset.y < -verticalThreshold -> {
                                     // swipe up right
                                     dragOffset = Offset.Zero // prevent double open of the screen
                                     onAddTransfer()
@@ -240,6 +241,7 @@ fun BoxWithConstraintsScope.BottomBar(
             MainTab.HOME -> {
                 if (!expanded) GradientIvy else Gradient.solid(UI.colors.gray)
             }
+
             MainTab.ACCOUNTS -> {
                 GradientGreen
             }
@@ -254,6 +256,7 @@ fun BoxWithConstraintsScope.BottomBar(
             MainTab.HOME -> {
                 expanded = !expanded
             }
+
             MainTab.ACCOUNTS -> {
                 showAddAccountModal()
             }

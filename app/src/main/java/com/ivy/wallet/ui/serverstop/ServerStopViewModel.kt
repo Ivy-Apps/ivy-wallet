@@ -7,7 +7,7 @@ import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.domain.deprecated.logic.zip.BackupLogic
 import com.ivy.wallet.io.persistence.SharedPrefs
-import com.ivy.wallet.ui.IvyWalletCtx
+import com.ivy.core.IvyWalletCtx
 import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.utils.uiThread
 import dagger.hilt.android.lifecycle.HiltViewModel

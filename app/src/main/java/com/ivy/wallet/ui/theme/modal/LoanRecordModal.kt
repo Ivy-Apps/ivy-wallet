@@ -39,7 +39,7 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
 import com.ivy.wallet.domain.deprecated.logic.model.EditLoanRecordData
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.ivyWalletCtx
+import com.ivy.core.IvyWalletCtx
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.components.IvyCheckboxWithText
 import com.ivy.wallet.ui.theme.components.IvyIcon

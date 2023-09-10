@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.accounts
 
+import com.ivy.core.data.model.AccountData
 import com.ivy.wallet.domain.data.core.Account
 
 sealed class AccountsEvent {

@@ -3,7 +3,7 @@ package com.ivy.wallet.domain.action.global
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.wallet.io.persistence.SharedPrefs
-import com.ivy.wallet.ui.IvyWalletCtx
+import com.ivy.core.IvyWalletCtx
 import javax.inject.Inject
 
 class StartDayOfMonthAct @Inject constructor(

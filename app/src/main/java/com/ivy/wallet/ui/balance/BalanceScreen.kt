@@ -30,14 +30,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.core.data.model.TimePeriod
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.navigation.BalanceScreen
 import com.ivy.resources.R
-import com.ivy.wallet.ui.BalanceScreen
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.main.FAB_BUTTON_SIZE
-import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Orange

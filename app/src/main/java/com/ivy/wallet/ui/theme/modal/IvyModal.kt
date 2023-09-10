@@ -37,11 +37,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.ivy.core.ivyWalletCtx
 import com.ivy.design.l0_system.UI
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.components.ActionsRow
 import com.ivy.wallet.ui.theme.components.CloseButton
 import com.ivy.wallet.ui.theme.gradientCutBackgroundTop

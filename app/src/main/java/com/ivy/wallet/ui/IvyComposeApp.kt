@@ -22,9 +22,6 @@ import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.NavigationRoot
 
 @Composable
-fun ivyWalletCtx(): IvyWalletCtx = ivyContext() as IvyWalletCtx
-
-@Composable
 fun rootView(): View = LocalView.current
 
 @Composable

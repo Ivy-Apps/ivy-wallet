@@ -35,12 +35,12 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.core.ivyWalletCtx
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.colorAs
-import com.ivy.wallet.ui.CSVScreen
+import com.ivy.navigation.CSVScreen
 import com.ivy.wallet.ui.csvimport.flow.ImportProcessing
 import com.ivy.wallet.ui.csvimport.flow.ImportResultUI
-import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.onboarding.viewmodel.OnboardingViewModel
 import com.ivy.wallet.utils.thenIf
 import kotlin.math.abs

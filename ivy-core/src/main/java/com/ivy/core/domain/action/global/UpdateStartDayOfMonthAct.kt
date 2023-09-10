@@ -4,7 +4,7 @@ import com.ivy.frp.action.FPAction
 import com.ivy.frp.monad.Res
 import com.ivy.frp.monad.thenIfSuccess
 import com.ivy.wallet.io.persistence.SharedPrefs
-import com.ivy.wallet.ui.IvyWalletCtx
+import com.ivy.core.IvyWalletCtx
 import javax.inject.Inject
 
 class UpdateStartDayOfMonthAct @Inject constructor(

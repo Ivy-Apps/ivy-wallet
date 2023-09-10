@@ -1,8 +1,8 @@
 package com.ivy.wallet.ui.charts
 
+import com.ivy.core.data.model.FromToTimeRange
 import com.ivy.wallet.domain.pure.charts.ChartPeriod
 import com.ivy.wallet.domain.pure.charts.SingleChartPoint
-import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.theme.components.charts.linechart.Value
 
 data class TimeValue(

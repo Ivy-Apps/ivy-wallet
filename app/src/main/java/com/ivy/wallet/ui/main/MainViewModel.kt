@@ -11,7 +11,7 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.SettingsDao
-import com.ivy.wallet.ui.IvyWalletCtx
+import com.ivy.core.IvyWalletCtx
 import com.ivy.wallet.ui.Main
 import com.ivy.wallet.utils.asLiveData
 import com.ivy.wallet.utils.ioThread

@@ -40,6 +40,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.navigation.ItemStatistic
+import com.ivy.navigation.LoanDetails
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.LoanType
@@ -50,9 +52,7 @@ import com.ivy.wallet.domain.data.core.LoanRecord
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
 import com.ivy.wallet.domain.deprecated.logic.model.EditLoanRecordData
-import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.LoanDetails
 import com.ivy.wallet.ui.component.transaction.TypeAmountCurrency
 import com.ivy.wallet.ui.loan.data.DisplayLoanRecord
 import com.ivy.wallet.ui.statistic.level2.ItemStatisticToolbar
@@ -775,7 +775,7 @@ private fun LoanRecordItem(
         if (loanRecord.convertedAmount != null) {
             Text(
                 modifier = Modifier.padding(start = 68.dp),
-                text = loanRecord.convertedAmount.format(baseCurrency) + " $loanBaseCurrency",
+                text = loanRecord.convertedAmount!!.format(baseCurrency) + " $loanBaseCurrency",
                 style = UI.typo.nB2.style(
                     color = Gray,
                     fontWeight = FontWeight.Normal

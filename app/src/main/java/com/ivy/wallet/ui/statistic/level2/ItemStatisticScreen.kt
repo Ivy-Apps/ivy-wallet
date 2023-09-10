@@ -36,12 +36,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.core.data.model.TimePeriod
+import com.ivy.core.ivyWalletCtx
+import com.ivy.core.stringRes
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
-import com.ivy.wallet.Constants
+import com.ivy.navigation.EditTransaction
+import com.ivy.navigation.ItemStatistic
+import com.ivy.navigation.PieChartStatistic
 import com.ivy.resources.R
+import com.ivy.wallet.Constants
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.TransactionType
@@ -49,16 +55,10 @@ import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
-import com.ivy.wallet.stringRes
-import com.ivy.wallet.ui.EditTransaction
-import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.PieChartStatistic
 import com.ivy.wallet.ui.component.transaction.transactions
 import com.ivy.wallet.ui.data.AppBaseData
 import com.ivy.wallet.ui.data.DueSection
-import com.ivy.wallet.ui.ivyWalletCtx
-import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
@@ -322,6 +322,7 @@ private fun BoxWithConstraintsScope.UI(
                                     autoFocusKeyboard = false
                                 )
                             }
+
                             category != null -> {
                                 categoryModalData = CategoryModalData(
                                     category = category,
@@ -894,6 +895,7 @@ private fun Item(
                     )
                 }
             }
+
             category != null -> {
                 ItemIconMDefaultIcon(
                     iconName = category.icon,
@@ -911,6 +913,7 @@ private fun Item(
                     )
                 )
             }
+
             else -> {
                 // Unspecified
                 ItemIconMDefaultIcon(

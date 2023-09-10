@@ -43,11 +43,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.navigation.Categories
+import com.ivy.navigation.ItemStatistic
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.SortOrder
 import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.ui.Categories
-import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
@@ -599,7 +599,7 @@ private fun Preview() {
                     monthlyIncome = 400.0
                 ),
 
-            )
+                )
         )
         UI(state = state)
     }

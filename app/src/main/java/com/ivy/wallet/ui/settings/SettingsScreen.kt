@@ -59,15 +59,12 @@ import com.ivy.resources.R
 import com.ivy.wallet.domain.data.AuthProviderType
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.core.User
-import com.ivy.wallet.ui.Import
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.Paywall
 import com.ivy.wallet.ui.RootActivity
-import com.ivy.wallet.ui.Settings
-import com.ivy.wallet.ui.Test
 import com.ivy.wallet.ui.donate.DonateScreen
 import com.ivy.wallet.ui.exchangerates.ExchangeRatesScreen
-import com.ivy.wallet.ui.ivyWalletCtx
+import com.ivy.core.IvyWalletCtx
+import com.ivy.navigation.Settings
 import com.ivy.wallet.ui.rootActivity
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gradient
