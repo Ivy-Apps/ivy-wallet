@@ -5,14 +5,7 @@ import com.ivy.core.IvyWalletCtx
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.domain.deprecated.logic.*
 import com.ivy.wallet.domain.deprecated.logic.csv.*
-import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
-import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LTLoanMapper
-import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LTLoanRecordMapper
-import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LoanTransactionsCore
-import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LoanTransactionsLogic
-import com.ivy.wallet.domain.pure.data.WalletDAOs
 import com.ivy.wallet.io.persistence.IvyRoomDatabase
-import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.widget.AppStarter
 import dagger.Binds
@@ -25,10 +18,14 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class AppModuleDI {
+abstract class AppModuleBindingsDI {
     @Binds
     abstract fun appStarter(appStarter: IvyAppStarter): AppStarter
+}
 
+@Module
+@InstallIn(SingletonComponent::class)
+object AppModuleDI {
     @Provides
     @Singleton
     fun provideIvyContext(): IvyWalletCtx {
