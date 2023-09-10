@@ -18,7 +18,6 @@ android {
     // TODO: Remove after migrating to KSP
     kapt {
         correctErrorTypes = true
-        useBuildCache = true
     }
 
     defaultConfig {
@@ -167,5 +166,4 @@ dependencies {
 // TODO: Remove after migrating to KSP
 kapt {
     correctErrorTypes = true
-    useBuildCache = true
 }

@@ -27,7 +27,6 @@ android {
     // TODO: Remove after migrating to KSP
     kapt {
         correctErrorTypes = true
-        useBuildCache = true
     }
 
     // Android
@@ -63,5 +62,4 @@ dependencies {
 // TODO: Remove after migrating to KSP
 kapt {
     correctErrorTypes = true
-    useBuildCache = true
 }
