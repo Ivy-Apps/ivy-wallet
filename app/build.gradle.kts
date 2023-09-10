@@ -127,6 +127,7 @@ dependencies {
     implementation(projects.ivyCore)
     implementation(projects.ivyResources)
     implementation(projects.ivyNavigation)
+    implementation(projects.ivyWidgetBase)
     implementation(projects.widgetBalance)
     implementation(projects.widgetAddTransaction)
 

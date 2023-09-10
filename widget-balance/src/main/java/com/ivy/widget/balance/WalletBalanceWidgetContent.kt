@@ -31,7 +31,6 @@ import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.ivy.resources.R
-import com.ivy.widget.AddTransactionWidgetClick
 
 @Composable
 fun WalletBalanceWidgetContent(
@@ -39,12 +38,16 @@ fun WalletBalanceWidgetContent(
     balance: String,
     currency: String,
     income: String,
-    expense: String
+    expense: String,
+    onIncomeClick: () -> Unit,
+    onExpenseClick: () -> Unit,
+    onTransferClick: () -> Unit,
+    onWidgetClick: () -> Unit,
 ) {
     Box(
         GlanceModifier
             .background(ImageProvider(R.drawable.shape_widget_background))
-            .clickable(actionRunCallback<WalletBalanceWidgetClickAction>())
+            .clickable(onWidgetClick)
     ) {
         Column(
             modifier = GlanceModifier.fillMaxSize(),
@@ -62,7 +65,7 @@ fun WalletBalanceWidgetContent(
             } else {
                 BalanceSection(balance, currency)
                 IncomeExpenseSection(income, expense, currency)
-                ButtonsSection()
+                ButtonsSection(onIncomeClick, onExpenseClick, onTransferClick)
             }
         }
     }
@@ -72,22 +75,12 @@ fun WalletBalanceWidgetContent(
 fun RowScope.WidgetClickableItem(
     @DrawableRes image: Int,
     @StringRes text: Int,
+    onClick: () -> Unit,
 ) {
     Column(
         GlanceModifier
             .defaultWeight()
-            .clickable(
-                actionRunCallback<WalletBalanceButtonsAction>(
-                    parameters = actionParametersOf(
-                        walletBtnActParam to when (text) {
-                            R.string.income -> AddTransactionWidgetClick.ACTION_ADD_INCOME
-                            R.string.expense -> AddTransactionWidgetClick.ACTION_ADD_EXPENSE
-                            R.string.transfer -> AddTransactionWidgetClick.ACTION_ADD_TRANSFER
-                            else -> return
-                        }
-                    )
-                )
-            ),
+            .clickable(onClick),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
@@ -207,7 +200,11 @@ fun IncomeExpenseSection(
 }
 
 @Composable
-fun ButtonsSection() {
+fun ButtonsSection(
+    onIncomeClick: () -> Unit,
+    onExpenseClick: () -> Unit,
+    onTransferClick: () -> Unit,
+) {
     val buttons = listOf(
         R.drawable.ic_widget_income to R.string.income,
         R.drawable.ic_widget_expense to R.string.expense,
@@ -218,7 +215,17 @@ fun ButtonsSection() {
         verticalAlignment = Alignment.CenterVertically
     ) {
         buttons.forEach { (image, text) ->
-            WidgetClickableItem(image = image, text = text)
+            WidgetClickableItem(
+                image = image,
+                text = text,
+                onClick = {
+                    when (text) {
+                        R.string.income -> onIncomeClick()
+                        R.string.expense -> onExpenseClick()
+                        R.string.transfer -> onTransferClick()
+                    }
+                }
+            )
         }
     }
 }

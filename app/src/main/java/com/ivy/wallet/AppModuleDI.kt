@@ -14,6 +14,8 @@ import com.ivy.wallet.domain.pure.data.WalletDAOs
 import com.ivy.wallet.io.persistence.IvyRoomDatabase
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.*
+import com.ivy.widget.AppStarter
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,7 +25,10 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModuleDI {
+abstract class AppModuleDI {
+    @Binds
+    abstract fun appStarter(appStarter: IvyAppStarter): AppStarter
+
     @Provides
     @Singleton
     fun provideIvyContext(): IvyWalletCtx {
