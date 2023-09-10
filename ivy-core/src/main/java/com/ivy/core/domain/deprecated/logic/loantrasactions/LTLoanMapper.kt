@@ -12,8 +12,9 @@ import com.ivy.wallet.utils.scopedIOThread
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import java.util.*
+import javax.inject.Inject
 
-class LTLoanMapper(
+class LTLoanMapper @Inject constructor(
     private val ltCore: LoanTransactionsCore
 ) {
 

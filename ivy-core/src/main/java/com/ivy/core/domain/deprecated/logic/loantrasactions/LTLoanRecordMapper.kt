@@ -6,8 +6,9 @@ import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
 import com.ivy.wallet.utils.computationThread
 import java.util.*
+import javax.inject.Inject
 
-class LTLoanRecordMapper(
+class LTLoanRecordMapper @Inject constructor(
     private val ltCore: LoanTransactionsCore
 ) {
     suspend fun editAssociatedLoanRecordTransaction(

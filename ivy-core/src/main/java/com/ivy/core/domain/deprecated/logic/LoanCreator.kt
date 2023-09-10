@@ -10,7 +10,6 @@ import java.util.UUID
 import javax.inject.Inject
 
 class LoanCreator @Inject constructor(
-    private val paywallLogic: PaywallLogic,
     private val dao: LoanDao,
 ) {
     suspend fun create(
@@ -24,27 +23,23 @@ class LoanCreator @Inject constructor(
         var loanId: UUID? = null
 
         try {
-            paywallLogic.protectAddWithPaywall(
-                addLoan = true
-            ) {
-                val newItem = ioThread {
-                    val item = Loan(
-                        name = name.trim(),
-                        amount = data.amount,
-                        type = data.type,
-                        color = data.color.toArgb(),
-                        icon = data.icon,
-                        orderNum = dao.findMaxOrderNum().nextOrderNum(),
-                        isSynced = false,
-                        accountId = data.account?.id
-                    )
-                    loanId = item.id
-                    dao.save(item.toEntity())
-                    item
-                }
-
-                onRefreshUI(newItem)
+            val newItem = ioThread {
+                val item = Loan(
+                    name = name.trim(),
+                    amount = data.amount,
+                    type = data.type,
+                    color = data.color.toArgb(),
+                    icon = data.icon,
+                    orderNum = dao.findMaxOrderNum().nextOrderNum(),
+                    isSynced = false,
+                    accountId = data.account?.id
+                )
+                loanId = item.id
+                dao.save(item.toEntity())
+                item
             }
+
+            onRefreshUI(newItem)
         } catch (e: Exception) {
             e.printStackTrace()
         }

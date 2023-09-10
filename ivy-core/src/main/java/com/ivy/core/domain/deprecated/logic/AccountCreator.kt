@@ -9,7 +9,6 @@ import com.ivy.wallet.utils.ioThread
 import javax.inject.Inject
 
 class AccountCreator @Inject constructor(
-    private val paywallLogic: PaywallLogic,
     private val accountDao: AccountDao,
     private val accountLogic: WalletAccountLogic
 ) {
@@ -21,31 +20,28 @@ class AccountCreator @Inject constructor(
         val name = data.name
         if (name.isBlank()) return
 
-        paywallLogic.protectAddWithPaywall(
-            addAccount = true
-        ) {
-            val newAccount = ioThread {
-                val account = Account(
-                    name = name,
-                    currency = data.currency,
-                    color = data.color.toArgb(),
-                    icon = data.icon,
-                    includeInBalance = data.includeBalance,
-                    orderNum = accountDao.findMaxOrderNum().nextOrderNum(),
-                    isSynced = false
-                )
-                accountDao.save(account.toEntity())
 
-                accountLogic.adjustBalance(
-                    account = account,
-                    actualBalance = 0.0,
-                    newBalance = data.balance
-                )
-                account
-            }
+        val newAccount = ioThread {
+            val account = Account(
+                name = name,
+                currency = data.currency,
+                color = data.color.toArgb(),
+                icon = data.icon,
+                includeInBalance = data.includeBalance,
+                orderNum = accountDao.findMaxOrderNum().nextOrderNum(),
+                isSynced = false
+            )
+            accountDao.save(account.toEntity())
 
-            onRefreshUI()
+            accountLogic.adjustBalance(
+                account = account,
+                actualBalance = 0.0,
+                newBalance = data.balance
+            )
+            account
         }
+
+        onRefreshUI()
     }
 
     suspend fun editAccount(

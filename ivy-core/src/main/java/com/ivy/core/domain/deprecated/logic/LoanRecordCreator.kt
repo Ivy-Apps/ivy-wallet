@@ -9,7 +9,6 @@ import javax.inject.Inject
 
 @Deprecated("Use FP style, look into `domain.fp` package")
 class LoanRecordCreator @Inject constructor(
-    private val paywallLogic: PaywallLogic,
     private val dao: LoanRecordDao,
 ) {
     suspend fun create(
@@ -22,25 +21,23 @@ class LoanRecordCreator @Inject constructor(
 
         try {
             var newItem: LoanRecord? = null
-            paywallLogic.protectQuotaExceededWithPaywall {
-                newItem = ioThread {
-                    val item = LoanRecord(
-                        loanId = loanId,
-                        note = note?.trim(),
-                        amount = data.amount,
-                        dateTime = data.dateTime,
-                        isSynced = false,
-                        interest = data.interest,
-                        accountId = data.account?.id,
-                        convertedAmount = data.convertedAmount
-                    )
+            newItem = ioThread {
+                val item = LoanRecord(
+                    loanId = loanId,
+                    note = note?.trim(),
+                    amount = data.amount,
+                    dateTime = data.dateTime,
+                    isSynced = false,
+                    interest = data.interest,
+                    accountId = data.account?.id,
+                    convertedAmount = data.convertedAmount
+                )
 
-                    dao.save(item.toEntity())
-                    item
-                }
-
-                onRefreshUI(newItem!!)
+                dao.save(item.toEntity())
+                item
             }
+
+            onRefreshUI(newItem!!)
             return newItem?.id
         } catch (e: Exception) {
             e.printStackTrace()

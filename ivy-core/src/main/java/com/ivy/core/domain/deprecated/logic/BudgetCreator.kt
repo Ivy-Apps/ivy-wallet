@@ -8,7 +8,6 @@ import com.ivy.wallet.utils.ioThread
 import javax.inject.Inject
 
 class BudgetCreator @Inject constructor(
-    private val paywallLogic: PaywallLogic,
     private val budgetDao: BudgetDao,
 ) {
     suspend fun createBudget(
@@ -20,25 +19,21 @@ class BudgetCreator @Inject constructor(
         if (data.amount <= 0) return
 
         try {
-            paywallLogic.protectAddWithPaywall(
-                addBudget = true,
-            ) {
-                val newBudget = ioThread {
-                    val budget = Budget(
-                        name = name.trim(),
-                        amount = data.amount,
-                        categoryIdsSerialized = data.categoryIdsSerialized,
-                        accountIdsSerialized = data.accountIdsSerialized,
-                        orderId = budgetDao.findMaxOrderNum().nextOrderNum(),
-                        isSynced = false
-                    )
+            val newBudget = ioThread {
+                val budget = Budget(
+                    name = name.trim(),
+                    amount = data.amount,
+                    categoryIdsSerialized = data.categoryIdsSerialized,
+                    accountIdsSerialized = data.accountIdsSerialized,
+                    orderId = budgetDao.findMaxOrderNum().nextOrderNum(),
+                    isSynced = false
+                )
 
-                    budgetDao.save(budget.toEntity())
-                    budget
-                }
-
-                onRefreshUI(newBudget)
+                budgetDao.save(budget.toEntity())
+                budget
             }
+
+            onRefreshUI(newBudget)
         } catch (e: Exception) {
             e.printStackTrace()
         }

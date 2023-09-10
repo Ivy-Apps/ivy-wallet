@@ -161,3 +161,9 @@ dependencies {
     testImplementation(libs.hilt.testing)
     testImplementation(libs.androidx.work.testing)
 }
+
+// TODO: Remove after migrating to KSP
+kapt {
+    correctErrorTypes = true
+    useBuildCache = true
+}

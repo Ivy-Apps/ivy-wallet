@@ -52,10 +52,11 @@ import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IconScale
 import com.ivy.design.l1_buildingBlocks.IvyIconScaled
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.navigation.Settings
+import com.ivy.resources.R
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
 import com.ivy.wallet.Constants.URL_IVY_CONTRIBUTORS
-import com.ivy.resources.R
 import com.ivy.wallet.domain.data.AuthProviderType
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.core.User
@@ -63,8 +64,6 @@ import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.ui.donate.DonateScreen
 import com.ivy.wallet.ui.exchangerates.ExchangeRatesScreen
-import com.ivy.core.IvyWalletCtx
-import com.ivy.navigation.Settings
 import com.ivy.wallet.ui.rootActivity
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gradient

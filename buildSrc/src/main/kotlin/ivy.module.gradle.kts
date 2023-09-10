@@ -69,3 +69,9 @@ dependencies {
     testImplementation(catalog.bundle("kotlin-test"))
     testImplementation(catalog.library("hilt-testing"))
 }
+
+// TODO: Remove after migrating to KSP
+kapt {
+    correctErrorTypes = true
+    useBuildCache = true
+}

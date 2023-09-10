@@ -9,7 +9,6 @@ import com.ivy.wallet.utils.ioThread
 import javax.inject.Inject
 
 class CategoryCreator @Inject constructor(
-    private val paywallLogic: PaywallLogic,
     private val categoryDao: CategoryDao,
 ) {
     suspend fun createCategory(
@@ -20,24 +19,20 @@ class CategoryCreator @Inject constructor(
         if (name.isBlank()) return
 
         try {
-            paywallLogic.protectAddWithPaywall(
-                addCategory = true,
-            ) {
-                val newCategory = ioThread {
-                    val newCategory = Category(
-                        name = name.trim(),
-                        color = data.color.toArgb(),
-                        icon = data.icon,
-                        orderNum = categoryDao.findMaxOrderNum().nextOrderNum(),
-                        isSynced = false
-                    )
+            val newCategory = ioThread {
+                val newCategory = Category(
+                    name = name.trim(),
+                    color = data.color.toArgb(),
+                    icon = data.icon,
+                    orderNum = categoryDao.findMaxOrderNum().nextOrderNum(),
+                    isSynced = false
+                )
 
-                    categoryDao.save(newCategory.toEntity())
-                    newCategory
-                }
-
-                onRefreshUI(newCategory)
+                categoryDao.save(newCategory.toEntity())
+                newCategory
             }
+
+            onRefreshUI(newCategory)
         } catch (e: Exception) {
             e.printStackTrace()
         }

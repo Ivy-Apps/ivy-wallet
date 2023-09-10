@@ -1,6 +1,7 @@
 package com.ivy.wallet.domain.deprecated.logic.loantrasactions
 
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.core.IvyWalletCtx
 import com.ivy.core.stringRes
 import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.resources.R
@@ -250,7 +251,7 @@ class LoanTransactionsCore @Inject constructor(
                 }
 
                 reCalculateLoanAmount || loanRecordCurrenciesChanged ||
-                    oldLonRecordConvertedAmount == null -> {
+                        oldLonRecordConvertedAmount == null -> {
                     ioThread {
                         exchangeRatesLogic.convertAmount(
                             baseCurrency = baseCurrency(),

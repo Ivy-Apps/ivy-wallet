@@ -12,7 +12,6 @@ import com.ivy.wallet.Constants
 import com.ivy.resources.R
 import com.ivy.wallet.android.billing.IvyBilling
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.deprecated.logic.PaywallLogic
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.SettingsDao

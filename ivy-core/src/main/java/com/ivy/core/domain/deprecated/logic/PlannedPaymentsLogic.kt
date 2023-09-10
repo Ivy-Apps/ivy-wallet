@@ -1,5 +1,6 @@
 package com.ivy.wallet.domain.deprecated.logic
 
+import com.ivy.core.data.model.FromToTimeRange
 import com.ivy.wallet.domain.data.IntervalType
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
@@ -11,7 +12,6 @@ import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.timeNowUTC
 import javax.inject.Inject
@@ -128,17 +128,21 @@ class PlannedPaymentsLogic @Inject constructor(
 
                 (amountBaseCurrency / monthDiff) / intervalN
             }
+
             IntervalType.WEEK -> {
                 val monthDiff = 7 / AVG_DAYS_IN_MONTH //0.22%
 
                 (amountBaseCurrency / monthDiff) / intervalN
             }
+
             IntervalType.MONTH -> {
                 amountBaseCurrency / intervalN
             }
+
             IntervalType.YEAR -> {
                 amountBaseCurrency / (12 * intervalN)
             }
+
             null -> amountBaseCurrency
         }
     }
@@ -184,8 +188,9 @@ class PlannedPaymentsLogic @Inject constructor(
         syncTransaction: Boolean = true,
         skipTransaction: Boolean = false,
         onUpdateUI: suspend (paidTransactions: List<Transaction>) -> Unit
-    ){
-        val paidTransactions = transactions.filter { (it.dueDate == null || it.dateTime != null).not() }
+    ) {
+        val paidTransactions =
+            transactions.filter { (it.dueDate == null || it.dateTime != null).not() }
 
         if (paidTransactions.count() == 0) return
 
@@ -207,12 +212,12 @@ class PlannedPaymentsLogic @Inject constructor(
 
         ioThread {
             if (skipTransaction)
-                paidTransactions.forEach {
-                    paidTransaction -> transactionDao.flagDeleted(paidTransaction.id)
+                paidTransactions.forEach { paidTransaction ->
+                    transactionDao.flagDeleted(paidTransaction.id)
                 }
             else
-                paidTransactions.forEach {
-                        paidTransaction -> transactionDao.save(paidTransaction.toEntity())
+                paidTransactions.forEach { paidTransaction ->
+                    transactionDao.save(paidTransaction.toEntity())
                 }
 
             plannedPaymentRules.forEach { plannedPaymentRule ->
