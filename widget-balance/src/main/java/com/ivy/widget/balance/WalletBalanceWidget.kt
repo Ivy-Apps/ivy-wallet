@@ -2,6 +2,7 @@ package com.ivy.widget.balance
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
+import androidx.annotation.Keep
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -66,6 +67,7 @@ class WalletBalanceWidget(
     }
 }
 
+@Keep
 @AndroidEntryPoint
 class WalletBalanceWidgetReceiver : GlanceAppWidgetReceiver() {
     companion object {

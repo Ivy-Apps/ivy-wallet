@@ -89,7 +89,8 @@
             android:name="com.ivy.widget.balance.WalletBalanceWidgetReceiver"
             android:enabled="@bool/glance_appwidget_available"
             android:exported="true"
-            android:label="@string/wallet_balance">
+            android:label="@string/wallet_balance"
+            tools:ignore="instantiatable">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
