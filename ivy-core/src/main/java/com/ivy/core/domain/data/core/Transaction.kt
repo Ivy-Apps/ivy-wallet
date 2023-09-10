@@ -1,5 +1,6 @@
 package com.ivy.wallet.domain.data.core
 
+import androidx.compose.runtime.Immutable
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.io.persistence.data.TransactionEntity
@@ -7,6 +8,7 @@ import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.util.UUID
 
+@Immutable
 data class Transaction(
     // TODO: Remove default values & introduce Transaction#dummy() method
     val accountId: UUID,

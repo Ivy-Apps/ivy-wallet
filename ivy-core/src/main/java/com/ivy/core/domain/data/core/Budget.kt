@@ -1,10 +1,12 @@
 package com.ivy.wallet.domain.data.core
 
+import androidx.compose.runtime.Immutable
 import com.ivy.core.stringRes
 import com.ivy.resources.R
 import com.ivy.wallet.io.persistence.data.BudgetEntity
 import java.util.UUID
 
+@Immutable
 data class Budget(
     val name: String,
     val amount: Double,

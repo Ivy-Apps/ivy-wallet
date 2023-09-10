@@ -1,9 +1,11 @@
 package com.ivy.wallet.domain.data.core
 
+import androidx.compose.runtime.Immutable
 import com.ivy.wallet.io.persistence.data.LoanRecordEntity
 import java.time.LocalDateTime
 import java.util.UUID
 
+@Immutable
 data class LoanRecord(
     val loanId: UUID,
     val amount: Double,

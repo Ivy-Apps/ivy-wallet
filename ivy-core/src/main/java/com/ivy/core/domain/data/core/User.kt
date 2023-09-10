@@ -1,9 +1,11 @@
 package com.ivy.wallet.domain.data.core
 
+import androidx.compose.runtime.Immutable
 import com.ivy.wallet.domain.data.AuthProviderType
 import com.ivy.wallet.io.persistence.data.UserEntity
 import java.util.UUID
 
+@Immutable
 data class User(
     val email: String,
     val authProviderType: AuthProviderType,

@@ -1,6 +1,9 @@
 package com.ivy.wallet.domain.action.charts
 
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.core.data.model.FromToTimeRange
+import com.ivy.core.stringRes
+import com.ivy.design.l0_system.RedLight
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
 import com.ivy.frp.action.FPAction
@@ -19,10 +22,7 @@ import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.pure.account.filterExcluded
 import com.ivy.wallet.domain.pure.data.IncomeExpenseTransferPair
-import com.ivy.wallet.stringRes
-import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.statistic.level1.CategoryAmount
-import com.ivy.wallet.ui.theme.RedLight
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import java.math.BigDecimal
@@ -38,7 +38,11 @@ class PieChartAct @Inject constructor(
 ) : FPAction<PieChartAct.Input, PieChartAct.Output>() {
 
     private val accountTransfersCategory =
-        Category(stringRes(R.string.account_transfers), RedLight.toArgb(), "transfer")
+        Category(
+            stringRes(R.string.account_transfers),
+            RedLight.toArgb(),
+            "transfer"
+        )
 
     override suspend fun Input.compose(): suspend () -> Output = suspend {
         getUsableAccounts(
@@ -198,20 +202,20 @@ class PieChartAct @Inject constructor(
         return when (type) {
             TransactionType.INCOME -> {
                 incExpQuad.income +
-                    if (treatTransferAsIncExp) {
-                        incExpQuad.transferIncome
-                    } else {
-                        BigDecimal.ZERO
-                    }
+                        if (treatTransferAsIncExp) {
+                            incExpQuad.transferIncome
+                        } else {
+                            BigDecimal.ZERO
+                        }
             }
 
             TransactionType.EXPENSE -> {
                 incExpQuad.expense +
-                    if (treatTransferAsIncExp) {
-                        incExpQuad.transferExpense
-                    } else {
-                        BigDecimal.ZERO
-                    }
+                        if (treatTransferAsIncExp) {
+                            incExpQuad.transferExpense
+                        } else {
+                            BigDecimal.ZERO
+                        }
             }
 
             else -> BigDecimal.ZERO

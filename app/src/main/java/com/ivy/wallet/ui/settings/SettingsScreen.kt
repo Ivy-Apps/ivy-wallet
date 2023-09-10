@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.ivy.core.ivyWalletCtx
 import com.ivy.design.l0_system.SunsetNight
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.l0_system.UI
@@ -52,7 +53,10 @@ import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IconScale
 import com.ivy.design.l1_buildingBlocks.IvyIconScaled
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.navigation.Import
+import com.ivy.navigation.Paywall
 import com.ivy.navigation.Settings
+import com.ivy.navigation.Test
 import com.ivy.resources.R
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants

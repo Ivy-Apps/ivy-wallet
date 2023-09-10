@@ -1,10 +1,12 @@
 package com.ivy.wallet.domain.data.core
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.design.l0_system.Green
 import com.ivy.wallet.io.persistence.data.AccountEntity
 import java.util.UUID
 
+@Immutable
 data class Account(
     val name: String,
     val currency: String? = null,

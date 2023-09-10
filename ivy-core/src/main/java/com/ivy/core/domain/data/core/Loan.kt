@@ -1,11 +1,13 @@
 package com.ivy.wallet.domain.data.core
 
+import androidx.compose.runtime.Immutable
 import com.ivy.core.stringRes
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.LoanType
 import com.ivy.wallet.io.persistence.data.LoanEntity
 import java.util.UUID
 
+@Immutable
 data class Loan(
     val name: String,
     val amount: Double,

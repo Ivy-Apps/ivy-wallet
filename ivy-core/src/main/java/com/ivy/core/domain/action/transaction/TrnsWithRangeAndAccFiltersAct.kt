@@ -1,11 +1,11 @@
 package com.ivy.wallet.domain.action.transaction
 
+import com.ivy.core.data.model.FromToTimeRange
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenFilter
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
-import java.util.*
+import java.util.UUID
 import javax.inject.Inject
 
 class TrnsWithRangeAndAccFiltersAct @Inject constructor(

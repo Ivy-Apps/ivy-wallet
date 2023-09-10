@@ -1,10 +1,12 @@
 package com.ivy.wallet.domain.data.core
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.design.l0_system.Ivy
 import com.ivy.wallet.io.persistence.data.CategoryEntity
 import java.util.UUID
 
+@Immutable
 data class Category(
     val name: String,
     val color: Int = Ivy.toArgb(),
