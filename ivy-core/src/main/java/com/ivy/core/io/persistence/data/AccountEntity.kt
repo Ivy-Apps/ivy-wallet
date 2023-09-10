@@ -5,8 +5,8 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import com.ivy.design.l0_system.Green
 import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.ui.theme.Green
 import java.util.*
 
 @Keep

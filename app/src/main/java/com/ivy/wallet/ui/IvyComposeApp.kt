@@ -11,9 +11,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
+import com.ivy.core.IvyWalletCtx
 import com.ivy.core.appContext
+import com.ivy.core.appDesign
 import com.ivy.design.api.ivyContext
-import com.ivy.design.appDesign
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.utils.IvyPreview

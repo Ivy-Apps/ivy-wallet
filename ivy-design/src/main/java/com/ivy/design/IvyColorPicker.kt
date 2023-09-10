@@ -1,44 +1,56 @@
 package com.ivy.design
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.Blue
+import com.ivy.design.l0_system.Blue2
+import com.ivy.design.l0_system.Blue2Dark
+import com.ivy.design.l0_system.Blue2Light
+import com.ivy.design.l0_system.Blue3
+import com.ivy.design.l0_system.Blue3Dark
+import com.ivy.design.l0_system.Blue3Light
+import com.ivy.design.l0_system.BlueDark
+import com.ivy.design.l0_system.BlueLight
+import com.ivy.design.l0_system.Green
+import com.ivy.design.l0_system.Green2
+import com.ivy.design.l0_system.Green2Dark
+import com.ivy.design.l0_system.Green2Light
+import com.ivy.design.l0_system.Green3
+import com.ivy.design.l0_system.Green3Dark
+import com.ivy.design.l0_system.Green3Light
+import com.ivy.design.l0_system.Green4
+import com.ivy.design.l0_system.Green4Dark
+import com.ivy.design.l0_system.Green4Light
+import com.ivy.design.l0_system.GreenDark
+import com.ivy.design.l0_system.GreenLight
 import com.ivy.design.l0_system.Ivy
-import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.style
-import com.ivy.design.utils.densityScope
-import com.ivy.frp.test.TestingContext
-import com.ivy.frp.view.navigation.navigation
-import com.ivy.frp.view.navigation.onScreenStart
-import com.ivy.design.l0_system.*
-import kotlinx.coroutines.launch
-import com.ivy.design.l1_buildingBlocks.IvyIcon
-import com.ivy.design.utils.thenIf
-import com.ivy.resources.R
+import com.ivy.design.l0_system.IvyDark
+import com.ivy.design.l0_system.IvyLight
+import com.ivy.design.l0_system.Orange
+import com.ivy.design.l0_system.Orange2
+import com.ivy.design.l0_system.Orange2Dark
+import com.ivy.design.l0_system.Orange2Light
+import com.ivy.design.l0_system.Orange3
+import com.ivy.design.l0_system.Orange3Dark
+import com.ivy.design.l0_system.Orange3Light
+import com.ivy.design.l0_system.OrangeDark
+import com.ivy.design.l0_system.OrangeLight
+import com.ivy.design.l0_system.Purple1
+import com.ivy.design.l0_system.Purple1Dark
+import com.ivy.design.l0_system.Purple1Light
+import com.ivy.design.l0_system.Purple2
+import com.ivy.design.l0_system.Purple2Dark
+import com.ivy.design.l0_system.Purple2Light
+import com.ivy.design.l0_system.Red
+import com.ivy.design.l0_system.Red2
+import com.ivy.design.l0_system.Red2Dark
+import com.ivy.design.l0_system.Red2Light
+import com.ivy.design.l0_system.Red3
+import com.ivy.design.l0_system.Red3Dark
+import com.ivy.design.l0_system.Red3Light
+import com.ivy.design.l0_system.RedDark
+import com.ivy.design.l0_system.RedLight
+import com.ivy.design.l0_system.Yellow
+import com.ivy.design.l0_system.YellowDark
+import com.ivy.design.l0_system.YellowLight
 
 val IVY_COLOR_PICKER_COLORS_FREE = listOf(
     // Primary
@@ -58,126 +70,3 @@ val IVY_COLOR_PICKER_COLORS_PREMIUM = listOf(
     GreenDark, Green2Dark, Green3Dark, Green4Dark, YellowDark,
     OrangeDark, Orange2Dark, Orange3Dark, RedDark, Red2Dark, Red3Dark,
 )
-
-private data class IvyColor(
-    val color: Color,
-    val premium: Boolean
-)
-
-@Composable
-fun ColumnScope.IvyColorPicker(
-    selectedColor: Color,
-    onColorSelected: (Color) -> Unit
-) {
-    Text(
-        modifier = Modifier.padding(horizontal = 32.dp),
-        text = stringResource(R.string.choose_color),
-        style = UI.typo.b2.style(
-            color = UI.colors.pureInverse,
-            fontWeight = FontWeight.ExtraBold
-        )
-    )
-
-    Spacer(Modifier.height(16.dp))
-
-    val freeIvyColors = IVY_COLOR_PICKER_COLORS_FREE
-        .map {
-            IvyColor(
-                color = it,
-                premium = false
-            )
-        }
-
-    val premiumIvyColors = IVY_COLOR_PICKER_COLORS_PREMIUM
-        .map {
-            IvyColor(
-                color = it,
-                premium = true
-            )
-        }
-
-    val ivyColors = freeIvyColors + premiumIvyColors
-
-    val listState = rememberLazyListState()
-    val coroutineScope = rememberCoroutineScope()
-
-    densityScope {
-        onScreenStart {
-            if (TestingContext.inTest) return@onScreenStart // listState.scrollToItem breaks the tests
-            // java.lang.IllegalStateException: pending composition has not been applied
-
-            val selectedColorIndex = ivyColors.indexOfFirst { it.color == selectedColor }
-            if (selectedColorIndex != -1) {
-                coroutineScope.launch {
-                    listState.scrollToItem(
-                        index = selectedColorIndex,
-                        scrollOffset = 0
-                    )
-                }
-            }
-        }
-    }
-
-    val ivyContext = ivyWalletCtx()
-    val navigation = navigation()
-
-    LazyRow(
-        modifier = Modifier
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        state = listState
-    ) {
-        items(
-            count = ivyColors.size
-        ) { index ->
-            ColorItem(
-                index = index,
-                ivyColor = ivyColors[index],
-                selectedColor = selectedColor,
-                onSelected = {
-                    onColorSelected(it.color)
-                }
-            )
-        }
-    }
-}
-
-@Composable
-private fun ColorItem(
-    index: Int,
-    ivyColor: IvyColor,
-    selectedColor: Color,
-    onSelected: (IvyColor) -> Unit
-) {
-    val color = ivyColor.color
-    val selected = color == selectedColor
-
-    if (index == 0) {
-        Spacer(Modifier.width(24.dp))
-    }
-
-    val ivyContext = ivyWalletCtx()
-    Box(
-        modifier = Modifier
-            .clip(CircleShape)
-            .size(48.dp)
-            .background(color, CircleShape)
-            .thenIf(selected) {
-                border(width = 4.dp, color = color.dynamicContrast(), CircleShape)
-            }
-            .clickable(onClick = {
-                onSelected(ivyColor)
-            })
-            .testTag("color_item_${ivyColor.color.value}"),
-        contentAlignment = Alignment.Center
-    ) {
-        if (ivyColor.premium && !ivyContext.isPremium) {
-            IvyIcon(
-                icon = R.drawable.ic_custom_safe_s,
-                tint = color.dynamicContrast()
-            )
-        }
-    }
-
-    Spacer(Modifier.width(if (selected) 16.dp else 24.dp))
-}

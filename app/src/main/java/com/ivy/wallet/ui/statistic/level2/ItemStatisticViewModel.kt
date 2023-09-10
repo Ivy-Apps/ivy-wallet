@@ -38,8 +38,6 @@ import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.wallet.stringRes
-import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
 import com.ivy.wallet.ui.theme.RedLight
 import com.ivy.wallet.utils.computationThread
 import com.ivy.wallet.utils.dateNowUTC

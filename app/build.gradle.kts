@@ -126,7 +126,6 @@ dependencies {
     implementation(projects.ivyCore)
     implementation(projects.ivyResources)
     implementation(projects.ivyNavigation)
-    implementation(projects.widgets)
 
     implementation(libs.ivy.frp.temp)
     implementation(libs.bundles.kotlin)

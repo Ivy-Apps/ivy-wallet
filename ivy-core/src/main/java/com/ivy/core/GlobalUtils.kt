@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.annotation.StringRes
 
 lateinit var appContext: Context
+var activityContext: Context? = null // TODO: Get rid of that!
 
 fun stringRes(
     @StringRes id: Int,

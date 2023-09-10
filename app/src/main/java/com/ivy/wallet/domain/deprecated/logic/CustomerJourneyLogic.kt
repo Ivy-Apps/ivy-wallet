@@ -1,8 +1,8 @@
 package com.ivy.wallet.domain.deprecated.logic
 
+import com.ivy.core.IvyWalletCtx
 import com.ivy.core.data.model.MainTab
 import com.ivy.core.stringRes
-import com.ivy.core.ui.IvyWalletCtx
 import com.ivy.design.l0_system.Blue
 import com.ivy.design.l0_system.Blue3
 import com.ivy.design.l0_system.Gradient

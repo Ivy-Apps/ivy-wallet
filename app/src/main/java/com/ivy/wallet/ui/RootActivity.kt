@@ -39,7 +39,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewManagerFactory
-import com.ivy.core.ui.IvyWalletCtx
+import com.ivy.core.IvyWalletCtx
+import com.ivy.core.appDesign
 import com.ivy.design.api.IvyUI
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.NavigationRoot

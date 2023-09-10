@@ -13,8 +13,8 @@ import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.currentState
 import androidx.glance.state.PreferencesGlanceStateDefinition
+import com.ivy.core.IvyWalletCtx
 import com.ivy.core.data.model.toCloseTimeRange
-import com.ivy.core.ui.IvyWalletCtx
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.settings.SettingsAct
 import com.ivy.wallet.domain.action.wallet.CalcIncomeExpenseAct

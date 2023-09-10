@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.pure.data
 
-import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
+import com.ivy.core.data.model.FromToTimeRange
 import com.ivy.wallet.utils.beginningOfIvyTime
 import com.ivy.wallet.utils.timeNowUTC
 import java.time.LocalDateTime

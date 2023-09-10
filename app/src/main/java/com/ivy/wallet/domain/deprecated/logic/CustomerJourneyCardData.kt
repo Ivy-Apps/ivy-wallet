@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.annotation.DrawableRes
-import com.ivy.core.ui.IvyWalletCtx
+import com.ivy.core.IvyWalletCtx
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.ui.RootActivity
 
