@@ -1,4 +1,4 @@
-package com.ivy.widgets
+package com.ivy.widget.transaction
 
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -6,12 +6,13 @@ import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import com.ivy.wallet.R
+import com.ivy.widgets.WidgetBase
 
-class AddTransactionWidgetCompact : AppWidgetProvider() {
+class AddTransactionWidget : AppWidgetProvider() {
 
     companion object {
         fun updateBroadcast(context: Context) {
-            WidgetBase.updateBroadcast(context, AddTransactionWidgetCompact::class.java)
+            WidgetBase.updateBroadcast(context, AddTransactionWidget::class.java)
         }
     }
 
@@ -36,14 +37,17 @@ class AddTransactionWidgetCompact : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int
     ) {
-        val rv = RemoteViews(context.packageName, R.layout.widget_add_transaction_compact)
+        val rv = RemoteViews(context.packageName, R.layout.widget_add_transaction)
         val clickSetup = AddTransactionWidgetClick.Setup(context, rv, appWidgetId)
 
         clickSetup.clickListener(R.id.ivIncome, AddTransactionWidgetClick.ACTION_ADD_INCOME)
+        clickSetup.clickListener(R.id.tvIncome, AddTransactionWidgetClick.ACTION_ADD_INCOME)
 
         clickSetup.clickListener(R.id.ivExpense, AddTransactionWidgetClick.ACTION_ADD_EXPENSE)
+        clickSetup.clickListener(R.id.tvExpense, AddTransactionWidgetClick.ACTION_ADD_EXPENSE)
 
         clickSetup.clickListener(R.id.ivTransfer, AddTransactionWidgetClick.ACTION_ADD_TRANSFER)
+        clickSetup.clickListener(R.id.tvTransfer, AddTransactionWidgetClick.ACTION_ADD_TRANSFER)
 
         appWidgetManager.updateAppWidget(appWidgetId, rv)
     }

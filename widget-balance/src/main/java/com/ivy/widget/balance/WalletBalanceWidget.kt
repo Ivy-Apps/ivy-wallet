@@ -1,4 +1,4 @@
-package com.ivy.widgets
+package com.ivy.widget.balance
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
@@ -22,6 +22,7 @@ import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.shortenAmount
+import com.ivy.widgets.WidgetBase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch

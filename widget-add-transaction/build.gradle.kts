@@ -3,10 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.ivy.widget"
+    namespace = "com.ivy.widget.transaction"
 }
 
 dependencies {
     implementation(projects.ivyCore)
     implementation(projects.ivyResources)
+    implementation(projects.ivyWidgetBase)
 }

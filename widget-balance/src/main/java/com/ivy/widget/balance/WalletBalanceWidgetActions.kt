@@ -1,4 +1,4 @@
-package com.ivy.widgets
+package com.ivy.widget.balance
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,6 +9,7 @@ import androidx.glance.action.ActionParameters
 import androidx.glance.appwidget.action.ActionCallback
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.ui.RootActivity
+import com.ivy.widget.AddTransactionWidgetClick
 
 class WalletBalanceButtonsAction : ActionCallback {
     @SuppressLint("LogNotTimber")

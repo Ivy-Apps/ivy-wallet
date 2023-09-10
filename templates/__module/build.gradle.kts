@@ -9,4 +9,5 @@ android {
 dependencies {
     implementation(projects.ivyCore)
     implementation(projects.ivyResources)
+    implementation(projects.ivyDesign)
 }

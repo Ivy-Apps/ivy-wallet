@@ -1,4 +1,4 @@
-package com.ivy.widgets
+package com.ivy.widget.balance
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -31,6 +31,7 @@ import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.ivy.resources.R
+import com.ivy.widget.AddTransactionWidgetClick
 
 @Composable
 fun WalletBalanceWidgetContent(

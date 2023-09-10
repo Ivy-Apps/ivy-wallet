@@ -1,4 +1,4 @@
-package com.ivy.widgets
+package com.ivy.widget
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
