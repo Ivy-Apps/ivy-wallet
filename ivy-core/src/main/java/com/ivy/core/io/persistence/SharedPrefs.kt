@@ -4,12 +4,17 @@ import android.content.Context
 import com.google.gson.Gson
 import com.ivy.wallet.utils.epochSecondToDateTime
 import com.ivy.wallet.utils.toEpochSeconds
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.time.LocalDateTime
+import javax.inject.Inject
 
 /**
  * Created by iliyan on 13.03.18.
  */
-class SharedPrefs(appContext: Context) {
+class SharedPrefs @Inject constructor(
+    @ApplicationContext
+    appContext: Context
+) {
     companion object {
         private const val PREFS_FILENAME = "ivy_wallet_prefs"
 

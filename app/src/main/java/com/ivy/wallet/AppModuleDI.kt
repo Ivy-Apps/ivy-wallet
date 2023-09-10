@@ -38,14 +38,6 @@ object AppModuleDI {
 
     @Provides
     @Singleton
-    fun provideSharedPrefs(
-        @ApplicationContext appContext: Context,
-    ): SharedPrefs {
-        return SharedPrefs(appContext)
-    }
-
-    @Provides
-    @Singleton
     fun provideIvyRoomDatabase(
         @ApplicationContext appContext: Context,
     ): IvyRoomDatabase {
