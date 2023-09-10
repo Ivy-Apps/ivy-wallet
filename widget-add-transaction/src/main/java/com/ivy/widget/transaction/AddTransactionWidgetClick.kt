@@ -20,7 +20,7 @@ class AddTransactionWidgetClick @Inject constructor(
     }
 
     // ============================= <HANDLE> =======================================================
-    fun handleClick(context: Context, intent: Intent) {
+    fun handleClick(intent: Intent) {
         when (intent.action) {
             ACTION_ADD_INCOME -> {
                 appStarter.addTransactionStart(TransactionType.INCOME)

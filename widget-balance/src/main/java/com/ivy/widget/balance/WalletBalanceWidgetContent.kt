@@ -1,7 +1,6 @@
 package com.ivy.widget.balance
 
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -10,9 +9,7 @@ import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
-import androidx.glance.action.actionParametersOf
 import androidx.glance.action.clickable
-import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.background
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
@@ -74,7 +71,6 @@ fun WalletBalanceWidgetContent(
 @Composable
 fun RowScope.WidgetClickableItem(
     @DrawableRes image: Int,
-    @StringRes text: Int,
     onClick: () -> Unit,
 ) {
     Column(
@@ -88,15 +84,6 @@ fun RowScope.WidgetClickableItem(
             provider = ImageProvider(image),
             contentDescription = null
         )
-//        Spacer(GlanceModifier.height(8.dp))
-//        Text(
-//            text = stringRes(text),
-//                    style = TextStyle(
-//                fontSize = 12.sp,
-//                fontWeight = FontWeight.Bold,
-//                color = ColorProvider(Color.White)
-//            )
-//        )
     }
 }
 
@@ -217,7 +204,6 @@ fun ButtonsSection(
         buttons.forEach { (image, text) ->
             WidgetClickableItem(
                 image = image,
-                text = text,
                 onClick = {
                     when (text) {
                         R.string.income -> onIncomeClick()

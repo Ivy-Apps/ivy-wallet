@@ -59,6 +59,6 @@ class AddTransactionWidget : AppWidgetProvider() {
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
-        widgetClick.handleClick(context, intent)
+        widgetClick.handleClick(intent)
     }
 }
