@@ -1,8 +1,8 @@
 package com.ivy.wallet.domain.data.core
 
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.design.l0_system.Ivy
 import com.ivy.wallet.io.persistence.data.CategoryEntity
-import com.ivy.wallet.ui.theme.Ivy
 import java.util.UUID
 
 data class Category(

@@ -1,10 +1,9 @@
-package com.ivy.wallet.domain.deprecated.logic.model
+package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.annotation.DrawableRes
+import com.ivy.core.ui.IvyWalletCtx
 import com.ivy.frp.view.navigation.Navigation
-import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.RootActivity
-import com.ivy.wallet.ui.theme.Gradient
 
 data class CustomerJourneyCardData(
     val id: String,
@@ -17,6 +16,6 @@ data class CustomerJourneyCardData(
 
     val hasDismiss: Boolean = true,
 
-    val background: Gradient,
+    val background: com.ivy.design.l0_system.Gradient,
     val onAction: (Navigation, IvyWalletCtx, RootActivity) -> Unit
 )

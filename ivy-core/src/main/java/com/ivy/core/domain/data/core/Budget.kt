@@ -1,8 +1,8 @@
 package com.ivy.wallet.domain.data.core
 
+import com.ivy.core.stringRes
 import com.ivy.resources.R
 import com.ivy.wallet.io.persistence.data.BudgetEntity
-import com.ivy.wallet.stringRes
 import java.util.UUID
 
 data class Budget(

@@ -1,4 +1,4 @@
-package com.ivy.core.ui
+package com.ivy.core
 
 import android.net.Uri
 import androidx.compose.foundation.lazy.LazyListState
@@ -84,7 +84,6 @@ class IvyWalletCtx : IvyContext() {
         navigation: Navigation,
         action: () -> Unit
     ) {
-        // TODO: Remove that
         action()
     }
     // ------------------------------------------- Navigation ----------------------------------------

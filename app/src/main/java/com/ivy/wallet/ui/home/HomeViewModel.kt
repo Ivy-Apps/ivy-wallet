@@ -23,7 +23,7 @@ import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyLogic
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
-import com.ivy.wallet.domain.deprecated.logic.model.CustomerJourneyCardData
+import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyCardData
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import com.ivy.wallet.ui.BalanceScreen
 import com.ivy.wallet.ui.IvyWalletCtx

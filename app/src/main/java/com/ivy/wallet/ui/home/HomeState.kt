@@ -2,7 +2,7 @@ package com.ivy.wallet.ui.home
 
 import com.ivy.design.l0_system.Theme
 import com.ivy.wallet.domain.data.TransactionHistoryItem
-import com.ivy.wallet.domain.deprecated.logic.model.CustomerJourneyCardData
+import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyCardData
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.data.AppBaseData

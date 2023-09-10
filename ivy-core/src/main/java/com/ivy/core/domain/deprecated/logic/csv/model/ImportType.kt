@@ -1,11 +1,17 @@
 package com.ivy.wallet.domain.deprecated.logic.csv.model
 
 import androidx.annotation.DrawableRes
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.ivy.design.l0_system.Blue
+import com.ivy.design.l0_system.Green
+import com.ivy.design.l0_system.Green2Light
+import com.ivy.design.l0_system.Ivy
+import com.ivy.design.l0_system.Red
+import com.ivy.design.l0_system.Red3
+import com.ivy.design.l0_system.RedLight
+import com.ivy.design.l0_system.White
+import com.ivy.design.l0_system.Yellow
 import com.ivy.resources.R
-import com.ivy.wallet.ui.csvimport.flow.instructions.*
-import com.ivy.wallet.ui.theme.*
 
 enum class ImportType {
     IVY,
@@ -75,49 +81,5 @@ enum class ImportType {
     fun appName(): String = when (this) {
         IVY -> "Ivy Wallet"
         else -> listName()
-    }
-
-    @Composable
-    fun ImportSteps(
-        onUploadClick: () -> Unit
-    ) {
-        when (this) {
-            IVY -> {
-                IvyWalletSteps(
-                    onUploadClick = onUploadClick
-                )
-            }
-            MONEY_MANAGER -> {
-                MoneyManagerPraseSteps(
-                    onUploadClick = onUploadClick
-                )
-            }
-            WALLET_BY_BUDGET_BAKERS -> {
-                WalletByBudgetBakersSteps(
-                    onUploadClick = onUploadClick
-                )
-            }
-            SPENDEE -> SpendeeSteps(
-                onUploadClick = onUploadClick
-            )
-            MONEFY -> MonefySteps(
-                onUploadClick = onUploadClick
-            )
-            ONE_MONEY -> OneMoneySteps(
-                onUploadClick = onUploadClick
-            )
-            BLUE_COINS -> DefaultImportSteps(
-                onUploadClick = onUploadClick
-            )
-            KTW_MONEY_MANAGER -> KTWMoneyManagerSteps(
-                onUploadClick = onUploadClick
-            )
-            FORTUNE_CITY -> FortuneCitySteps(
-                onUploadClick = onUploadClick
-            )
-            FINANCISTO -> FinancistoSteps(
-                onUploadClick = onUploadClick
-            )
-        }
     }
 }

@@ -2,12 +2,17 @@ package com.ivy.wallet.utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import com.ivy.core.stringRes
 import com.ivy.frp.Total
 import com.ivy.resources.R
-import com.ivy.wallet.stringRes
-import java.time.*
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.ZoneId
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 fun timeNowLocal() = LocalDateTime.now()
@@ -55,12 +60,15 @@ fun LocalDateTime.formatNicely(
         today -> {
             stringRes(R.string.today_date, this.formatLocal(patternNoWeekDay, zone))
         }
+
         today.minusDays(1) -> {
             stringRes(R.string.yesterday_date, this.formatLocal(patternNoWeekDay, zone))
         }
+
         today.plusDays(1) -> {
             stringRes(R.string.tomorrow_date, this.formatLocal(patternNoWeekDay, zone))
         }
+
         else -> {
             if (isThisYear) {
                 this.formatLocal("EEE, dd MMM", zone)
@@ -92,12 +100,15 @@ fun LocalDateTime.formatNicelyWithTime(
         today -> {
             stringRes(R.string.today_date, this.formatLocal(patternNoWeekDay, zone))
         }
+
         today.minusDays(1) -> {
             stringRes(R.string.yesterday_date, this.formatLocal(patternNoWeekDay, zone))
         }
+
         today.plusDays(1) -> {
             stringRes(R.string.tomorrow, this.formatLocal(patternNoWeekDay, zone))
         }
+
         else -> {
             if (isThisYear) {
                 this.formatLocal("EEE, dd MMM HH:mm", zone)
@@ -147,12 +158,15 @@ fun LocalDate.closeDay(): String? {
         today -> {
             stringRes(R.string.today)
         }
+
         today.minusDays(1) -> {
             stringRes(R.string.yesterday)
         }
+
         today.plusDays(1) -> {
             stringRes(R.string.tomorrow)
         }
+
         else -> {
             null
         }

@@ -1,8 +1,8 @@
 package com.ivy.wallet.domain.data
 
 import androidx.annotation.Keep
+import com.ivy.core.stringRes
 import com.ivy.resources.R
-import com.ivy.wallet.stringRes
 import java.time.LocalDateTime
 
 @Keep

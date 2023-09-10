@@ -1,9 +1,9 @@
-package com.ivy.wallet.ui.theme.modal.model
+package com.ivy.core.data.model
 
+import com.ivy.core.IvyWalletCtx
+import com.ivy.core.data.model.TimePeriod
+import com.ivy.core.stringRes
 import com.ivy.resources.R
-import com.ivy.wallet.stringRes
-import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.utils.dateNowUTC
 import java.time.LocalDate
 

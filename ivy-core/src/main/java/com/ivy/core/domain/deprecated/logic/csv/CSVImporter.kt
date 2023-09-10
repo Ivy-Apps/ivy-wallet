@@ -1,6 +1,9 @@
 package com.ivy.wallet.domain.deprecated.logic.csv
 
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
+import com.ivy.design.l0_system.Green
+import com.ivy.design.l0_system.IvyDark
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
@@ -14,9 +17,6 @@ import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.wallet.ui.theme.Green
-import com.ivy.wallet.ui.theme.IvyDark
-import com.ivy.wallet.ui.theme.components.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.wallet.utils.convertLocalToUTC
 import com.ivy.wallet.utils.timeNowUTC
 import com.ivy.wallet.utils.toLowerCaseLocal

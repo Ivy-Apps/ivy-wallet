@@ -1,6 +1,7 @@
 package com.ivy.wallet.domain.action.viewmodel.account
 
 import arrow.core.toOption
+import com.ivy.core.data.model.AccountData
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.then
@@ -10,7 +11,6 @@ import com.ivy.wallet.domain.action.exchange.ExchangeAct
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import com.ivy.wallet.domain.pure.exchange.ExchangeData
-import com.ivy.wallet.ui.accounts.AccountData
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import javax.inject.Inject

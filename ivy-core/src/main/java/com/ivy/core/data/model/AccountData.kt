@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.accounts
+package com.ivy.core.data.model
 
 import com.ivy.wallet.domain.data.Reorderable
 import com.ivy.wallet.domain.data.core.Account

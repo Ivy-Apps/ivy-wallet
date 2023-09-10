@@ -1,8 +1,8 @@
 package com.ivy.wallet.domain.data.core
 
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.design.l0_system.Green
 import com.ivy.wallet.io.persistence.data.AccountEntity
-import com.ivy.wallet.ui.theme.Green
 import java.util.UUID
 
 data class Account(

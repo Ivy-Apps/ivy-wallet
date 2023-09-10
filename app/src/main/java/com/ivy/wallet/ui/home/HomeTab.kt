@@ -38,7 +38,7 @@ import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.domain.deprecated.logic.model.CustomerJourneyCardData
+import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyCardData
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletPreview

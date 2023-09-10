@@ -1,9 +1,9 @@
 package com.ivy.wallet.domain.data.core
 
+import com.ivy.core.stringRes
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.LoanType
 import com.ivy.wallet.io.persistence.data.LoanEntity
-import com.ivy.wallet.stringRes
 import java.util.UUID
 
 data class Loan(
@@ -37,9 +37,7 @@ data class Loan(
         return if (type == LoanType.BORROW) {
             stringRes(R.string.borrowed_uppercase)
         } else {
-            stringRes(
-                R.string.lent_uppercase
-            )
+            stringRes(R.string.lent_uppercase)
         }
     }
 }

@@ -4,9 +4,14 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.toOption
+import com.ivy.core.IvyWalletCtx
+import com.ivy.core.data.model.TimePeriod
+import com.ivy.core.data.model.toCloseTimeRange
+import com.ivy.core.stringRes
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.then
 import com.ivy.frp.view.navigation.Navigation
+import com.ivy.navigation.ItemStatistic
 import com.ivy.resources.R
 import com.ivy.wallet.domain.action.account.AccTrnsAct
 import com.ivy.wallet.domain.action.account.AccountsAct
@@ -34,9 +39,6 @@ import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.stringRes
-import com.ivy.wallet.ui.ItemStatistic
-import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
 import com.ivy.wallet.ui.theme.RedLight
 import com.ivy.wallet.utils.computationThread
@@ -78,7 +80,7 @@ class ItemStatisticViewModel @Inject constructor(
     private val exchangeAct: ExchangeAct
 ) : ViewModel() {
 
-    private val _period = MutableStateFlow(ivyContext.selectedPeriod)
+    private val _period = MutableStateFlow(ivyContext.selectedPeriod!!)
     val period = _period.readOnly()
 
     private val _categories = MutableStateFlow<ImmutableList<Category>>(persistentListOf())
@@ -159,7 +161,7 @@ class ItemStatisticViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            _period.value = period ?: ivyContext.selectedPeriod
+            _period.value = period ?: ivyContext.selectedPeriod!!
 
             val baseCurrency = baseCurrencyAct(Unit)
             _baseCurrency.value = baseCurrency
@@ -173,17 +175,17 @@ class ItemStatisticViewModel @Inject constructor(
 
             when {
                 screen.accountId != null -> {
-                    initForAccount(screen.accountId)
+                    initForAccount(screen.accountId!!)
                 }
 
                 screen.categoryId != null && screen.transactions.isEmpty() -> {
-                    initForCategory(screen.categoryId, screen.accountIdFilterList)
+                    initForCategory(screen.categoryId!!, screen.accountIdFilterList)
                 }
                 // unspecifiedCategory==false is explicitly checked to accommodate for a temp AccountTransfers Category during Reports Screen
                 screen.categoryId != null && screen.transactions.isNotEmpty() &&
-                    screen.unspecifiedCategory == false -> {
+                        screen.unspecifiedCategory == false -> {
                     initForCategoryWithTransactions(
-                        screen.categoryId,
+                        screen.categoryId!!,
                         screen.accountIdFilterList,
                         screen.transactions
                     )
@@ -251,15 +253,15 @@ class ItemStatisticViewModel @Inject constructor(
         _expenses.value = incomeExpensePair.expense.toDouble()
 
         _history.value = (
-            accTrnsAct then {
-                trnsWithDateDivsAct(
-                    TrnsWithDateDivsAct.Input(
-                        baseCurrency = baseCurrency.value,
-                        transactions = it
+                accTrnsAct then {
+                    trnsWithDateDivsAct(
+                        TrnsWithDateDivsAct.Input(
+                            baseCurrency = baseCurrency.value,
+                            transactions = it
+                        )
                     )
-                )
-            }
-            )(
+                }
+                )(
             AccTrnsAct.Input(
                 accountId = account.id,
                 range = range.toCloseTimeRange()
@@ -339,7 +341,8 @@ class ItemStatisticViewModel @Inject constructor(
             categoryLogic.calculateOverdueExpensesByCategory(category, range)
         }
 
-        _overdue.value = ioThread { categoryLogic.overdueByCategory(category, range).toImmutableList() }
+        _overdue.value =
+            ioThread { categoryLogic.overdueByCategory(category, range).toImmutableList() }
     }
 
     private suspend fun initForCategoryWithTransactions(
@@ -423,7 +426,8 @@ class ItemStatisticViewModel @Inject constructor(
                 categoryLogic.calculateOverdueExpensesByCategory(category, range)
             }
 
-            _overdue.value = ioThread { categoryLogic.overdueByCategory(category, range).toImmutableList() }
+            _overdue.value =
+                ioThread { categoryLogic.overdueByCategory(category, range).toImmutableList() }
         }
     }
 
@@ -480,10 +484,10 @@ class ItemStatisticViewModel @Inject constructor(
         val accountFilterIdSet = accountFilterList.toHashSet()
         val trans = transactions.filter {
             it.categoryId == null && (
-                accountFilterIdSet.contains(it.accountId) || accountFilterIdSet.contains(
-                    it.toAccountId
-                )
-                ) && it.type == TransactionType.TRANSFER
+                    accountFilterIdSet.contains(it.accountId) || accountFilterIdSet.contains(
+                        it.toAccountId
+                    )
+                    ) && it.type == TransactionType.TRANSFER
         }
 
         val historyIncomeExpense = calcTrnsIncomeExpenseAct(
@@ -559,11 +563,11 @@ class ItemStatisticViewModel @Inject constructor(
 
             when {
                 screen.accountId != null -> {
-                    deleteAccount(screen.accountId)
+                    deleteAccount(screen.accountId!!)
                 }
 
                 screen.categoryId != null -> {
-                    deleteCategory(screen.categoryId)
+                    deleteCategory(screen.categoryId!!)
                 }
             }
 

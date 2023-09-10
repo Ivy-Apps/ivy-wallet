@@ -1,6 +1,8 @@
 package com.ivy.wallet.domain.deprecated.logic.loantrasactions
 
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.core.stringRes
+import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.LoanType
 import com.ivy.wallet.domain.data.TransactionType
@@ -16,9 +18,6 @@ import com.ivy.wallet.io.persistence.dao.LoanDao
 import com.ivy.wallet.io.persistence.dao.LoanRecordDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.wallet.stringRes
-import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.theme.components.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.wallet.utils.computationThread
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.timeNowUTC

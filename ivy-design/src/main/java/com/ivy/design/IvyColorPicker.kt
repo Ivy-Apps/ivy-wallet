@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.theme.components
+package com.ivy.design
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -27,70 +27,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.Ivy
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.utils.densityScope
 import com.ivy.frp.test.TestingContext
 import com.ivy.frp.view.navigation.navigation
-import com.ivy.resources.R
-import com.ivy.wallet.ui.IvyWalletComponentPreview
-import com.ivy.wallet.ui.ivyWalletCtx
-import com.ivy.wallet.ui.paywall.PaywallReason
-import com.ivy.wallet.ui.theme.Blue
-import com.ivy.wallet.ui.theme.Blue2
-import com.ivy.wallet.ui.theme.Blue2Dark
-import com.ivy.wallet.ui.theme.Blue2Light
-import com.ivy.wallet.ui.theme.Blue3
-import com.ivy.wallet.ui.theme.Blue3Dark
-import com.ivy.wallet.ui.theme.Blue3Light
-import com.ivy.wallet.ui.theme.BlueDark
-import com.ivy.wallet.ui.theme.BlueLight
-import com.ivy.wallet.ui.theme.Green
-import com.ivy.wallet.ui.theme.Green2
-import com.ivy.wallet.ui.theme.Green2Dark
-import com.ivy.wallet.ui.theme.Green2Light
-import com.ivy.wallet.ui.theme.Green3
-import com.ivy.wallet.ui.theme.Green3Dark
-import com.ivy.wallet.ui.theme.Green3Light
-import com.ivy.wallet.ui.theme.Green4
-import com.ivy.wallet.ui.theme.Green4Dark
-import com.ivy.wallet.ui.theme.Green4Light
-import com.ivy.wallet.ui.theme.GreenDark
-import com.ivy.wallet.ui.theme.GreenLight
-import com.ivy.wallet.ui.theme.Ivy
-import com.ivy.wallet.ui.theme.IvyDark
-import com.ivy.wallet.ui.theme.IvyLight
-import com.ivy.wallet.ui.theme.Orange
-import com.ivy.wallet.ui.theme.Orange2
-import com.ivy.wallet.ui.theme.Orange2Dark
-import com.ivy.wallet.ui.theme.Orange2Light
-import com.ivy.wallet.ui.theme.Orange3
-import com.ivy.wallet.ui.theme.Orange3Dark
-import com.ivy.wallet.ui.theme.Orange3Light
-import com.ivy.wallet.ui.theme.OrangeDark
-import com.ivy.wallet.ui.theme.OrangeLight
-import com.ivy.wallet.ui.theme.Purple1
-import com.ivy.wallet.ui.theme.Purple1Dark
-import com.ivy.wallet.ui.theme.Purple1Light
-import com.ivy.wallet.ui.theme.Purple2
-import com.ivy.wallet.ui.theme.Purple2Dark
-import com.ivy.wallet.ui.theme.Purple2Light
-import com.ivy.wallet.ui.theme.Red
-import com.ivy.wallet.ui.theme.Red2
-import com.ivy.wallet.ui.theme.Red2Dark
-import com.ivy.wallet.ui.theme.Red2Light
-import com.ivy.wallet.ui.theme.Red3
-import com.ivy.wallet.ui.theme.Red3Dark
-import com.ivy.wallet.ui.theme.Red3Light
-import com.ivy.wallet.ui.theme.RedDark
-import com.ivy.wallet.ui.theme.RedLight
-import com.ivy.wallet.ui.theme.Yellow
-import com.ivy.wallet.ui.theme.YellowDark
-import com.ivy.wallet.ui.theme.YellowLight
-import com.ivy.wallet.ui.theme.dynamicContrast
-import com.ivy.wallet.utils.densityScope
-import com.ivy.wallet.utils.onScreenStart
-import com.ivy.wallet.utils.thenIf
+import com.ivy.frp.view.navigation.onScreenStart
+import com.ivy.design.l0_system.*
 import kotlinx.coroutines.launch
+import com.ivy.design.l1_buildingBlocks.IvyIcon
+import com.ivy.design.utils.thenIf
+import com.ivy.resources.R
 
 val IVY_COLOR_PICKER_COLORS_FREE = listOf(
     // Primary
@@ -187,16 +135,7 @@ fun ColumnScope.IvyColorPicker(
                 ivyColor = ivyColors[index],
                 selectedColor = selectedColor,
                 onSelected = {
-                    if (it.premium) {
-                        ivyContext.protectWithPaywall(
-                            paywallReason = PaywallReason.PREMIUM_COLOR,
-                            navigation = navigation
-                        ) {
-                            onColorSelected(it.color)
-                        }
-                    } else {
-                        onColorSelected(it.color)
-                    }
+                    onColorSelected(it.color)
                 }
             )
         }
@@ -241,15 +180,4 @@ private fun ColorItem(
     }
 
     Spacer(Modifier.width(if (selected) 16.dp else 24.dp))
-}
-
-@Preview
-@Composable
-private fun PreviewIvyColorPicker() {
-    IvyWalletComponentPreview {
-        Column {
-            IvyColorPicker(selectedColor = UI.colors.primary) {
-            }
-        }
-    }
 }
