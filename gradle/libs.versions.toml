@@ -116,7 +116,7 @@ ivy-frp-temp = { module = "com.github.ILIYANGERMANOV:ivy-frp", version = "0.9.5"
 detekt-gradle-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 detekt-ruleset-compiler = { module = "com.braisgabin.detekt:kotlin-compiler-wrapper", version = "0.0.4" }
 detekt-ruleset-ktlint = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
-detekt-ruleset-compose = { module = "io.nlopez.compose.rules:detekt", version = "0.2.1" }
+detekt-ruleset-compose = { module = "io.nlopez.compose.rules:detekt", version = "0.2.2" }
 
 # KSP
 ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version = "1.9.10-1.0.13" }
