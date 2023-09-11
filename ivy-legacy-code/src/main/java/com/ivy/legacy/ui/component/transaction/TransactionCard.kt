@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.component.transaction
+package com.ivy.legacy.ui.component.transaction
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
@@ -26,19 +26,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.core.IvyWalletPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IvyText
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.legacy.data.AppBaseData
 import com.ivy.navigation.ItemStatistic
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.core.IvyWalletPreview
-import com.ivy.wallet.ui.data.AppBaseData
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.GradientIvy
@@ -424,6 +424,7 @@ fun TypeAmountCurrency(
                     textColor = Green
                 )
             }
+
             TransactionType.EXPENSE -> {
                 when {
                     dueDate != null && dueDate.isAfter(timeNowUTC()) -> {
@@ -435,6 +436,7 @@ fun TypeAmountCurrency(
                             textColor = Orange
                         )
                     }
+
                     dueDate != null && dueDate.isBefore(dateNowUTC().atStartOfDay()) -> {
                         // Overdue Expense
                         AmountTypeStyle(
@@ -444,6 +446,7 @@ fun TypeAmountCurrency(
                             textColor = Red
                         )
                     }
+
                     else -> {
                         // Normal Expense
                         AmountTypeStyle(
@@ -455,6 +458,7 @@ fun TypeAmountCurrency(
                     }
                 }
             }
+
             TransactionType.TRANSFER -> {
                 // Transfer
                 AmountTypeStyle(

@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.loan
+package com.ivy.loans.loan
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,7 +17,7 @@ import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.LoanDao
 import com.ivy.wallet.io.persistence.dao.LoanRecordDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
-import com.ivy.wallet.ui.loan.data.DisplayLoan
+import com.ivy.loans.loan.data.DisplayLoan
 import com.ivy.wallet.ui.theme.modal.LoanModalData
 import com.ivy.wallet.utils.format
 import com.ivy.wallet.utils.getDefaultFIATCurrency

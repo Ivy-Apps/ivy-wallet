@@ -32,7 +32,7 @@ import com.ivy.wallet.io.persistence.dao.LoanDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.refreshWidget
-import com.ivy.wallet.ui.loan.data.EditTransactionDisplayLoan
+import com.ivy.loans.loan.data.EditTransactionDisplayLoan
 import com.ivy.wallet.utils.computationThread
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.readOnly

@@ -34,7 +34,7 @@ import com.ivy.frp.view.navigation.navigation
 import com.ivy.navigation.PieChartStatistic
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.ui.component.transaction.TransactionsDividerLine
+import com.ivy.legacy.ui.component.transaction.TransactionsDividerLine
 import com.ivy.core.ivyWalletCtx
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen

@@ -35,7 +35,7 @@ import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.PlannedPaymentRule
 import com.ivy.core.IvyWalletPreview
-import com.ivy.wallet.ui.component.transaction.TypeAmountCurrency
+import com.ivy.legacy.ui.component.transaction.TypeAmountCurrency
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.components.IvyButton

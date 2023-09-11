@@ -40,10 +40,10 @@ import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.core.IvyWalletPreview
-import com.ivy.wallet.ui.component.transaction.TransactionsDividerLine
-import com.ivy.wallet.ui.component.transaction.transactions
-import com.ivy.wallet.ui.data.AppBaseData
-import com.ivy.wallet.ui.data.DueSection
+import com.ivy.legacy.ui.component.transaction.TransactionsDividerLine
+import com.ivy.legacy.ui.component.transaction.transactions
+import com.ivy.legacy.data.AppBaseData
+import com.ivy.legacy.data.DueSection
 import com.ivy.wallet.ui.statistic.level2.IncomeExpensesCards
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green

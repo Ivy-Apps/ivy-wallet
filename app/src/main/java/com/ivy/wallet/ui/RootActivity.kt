@@ -44,15 +44,17 @@ import com.ivy.core.Constants.SUPPORT_EMAIL
 import com.ivy.core.IvyWalletCtx
 import com.ivy.core.appDesign
 import com.ivy.design.api.IvyUI
+import com.ivy.donate.DonateScreen
 import com.ivy.exchangerates.ExchangeRatesScreen
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.NavigationRoot
 import com.ivy.frp.view.navigation.Screen
+import com.ivy.loans.loan.LoansScreen
+import com.ivy.loans.loandetails.LoanDetailsScreen
 import com.ivy.navigation.BalanceScreen
 import com.ivy.navigation.BudgetScreen
 import com.ivy.navigation.CSVScreen
 import com.ivy.navigation.Categories
-import com.ivy.navigation.Charts
 import com.ivy.navigation.EditPlanned
 import com.ivy.navigation.EditTransaction
 import com.ivy.navigation.ExchangeRatesScreen
@@ -62,7 +64,6 @@ import com.ivy.navigation.LoanDetails
 import com.ivy.navigation.Loans
 import com.ivy.navigation.Main
 import com.ivy.navigation.Onboarding
-import com.ivy.navigation.Paywall
 import com.ivy.navigation.PieChartStatistic
 import com.ivy.navigation.PlannedPayments
 import com.ivy.navigation.Report
@@ -78,16 +79,11 @@ import com.ivy.wallet.ui.applocked.AppLockedScreen
 import com.ivy.wallet.ui.balance.BalanceScreen
 import com.ivy.wallet.ui.budget.BudgetScreen
 import com.ivy.wallet.ui.category.CategoriesScreen
-import com.ivy.wallet.ui.charts.ChartsScreen
 import com.ivy.wallet.ui.csv.CSVScreen
 import com.ivy.wallet.ui.csvimport.ImportCSVScreen
-import com.ivy.donate.DonateScreen
 import com.ivy.wallet.ui.edit.EditTransactionScreen
-import com.ivy.wallet.ui.loan.LoansScreen
-import com.ivy.wallet.ui.loandetails.LoanDetailsScreen
 import com.ivy.wallet.ui.main.MainScreen
 import com.ivy.wallet.ui.onboarding.OnboardingScreen
-import com.ivy.wallet.ui.paywall.PaywallScreen
 import com.ivy.wallet.ui.planned.edit.EditPlannedScreen
 import com.ivy.wallet.ui.planned.list.PlannedPaymentsScreen
 import com.ivy.wallet.ui.reports.ReportScreen
@@ -229,13 +225,7 @@ class RootActivity : AppCompatActivity() {
             is PlannedPayments -> PlannedPaymentsScreen(screen = screen)
             is EditPlanned -> EditPlannedScreen(screen = screen)
             is BalanceScreen -> BalanceScreen(screen = screen)
-            is Paywall -> PaywallScreen(
-                screen = screen,
-                activity = this@RootActivity
-            )
-
             is Test -> TestScreen(screen = screen)
-            is Charts -> ChartsScreen(screen = screen)
             is Import -> ImportCSVScreen(screen = screen)
             is Report -> ReportScreen(screen = screen)
             is BudgetScreen -> BudgetScreen(screen = screen)

@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.loandetails
+package com.ivy.loans.loandetails
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -37,9 +37,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.core.IvyWalletPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.legacy.ui.component.ItemStatisticToolbar
+import com.ivy.legacy.ui.component.transaction.TypeAmountCurrency
 import com.ivy.navigation.ItemStatistic
 import com.ivy.navigation.LoanDetails
 import com.ivy.resources.R
@@ -52,10 +55,7 @@ import com.ivy.wallet.domain.data.core.LoanRecord
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
 import com.ivy.wallet.domain.deprecated.logic.model.EditLoanRecordData
-import com.ivy.core.IvyWalletPreview
-import com.ivy.wallet.ui.component.transaction.TypeAmountCurrency
-import com.ivy.wallet.ui.loan.data.DisplayLoanRecord
-import com.ivy.wallet.ui.statistic.level2.ItemStatisticToolbar
+import com.ivy.loans.loan.data.DisplayLoanRecord
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.MediumBlack

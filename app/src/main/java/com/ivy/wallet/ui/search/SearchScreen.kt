@@ -29,8 +29,8 @@ import com.ivy.resources.R
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.ui.component.transaction.transactions
-import com.ivy.wallet.ui.data.AppBaseData
+import com.ivy.legacy.ui.component.transaction.transactions
+import com.ivy.legacy.data.AppBaseData
 import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_ANIM
 import com.ivy.wallet.utils.densityScope
 import com.ivy.wallet.utils.keyboardOnlyWindowInsets

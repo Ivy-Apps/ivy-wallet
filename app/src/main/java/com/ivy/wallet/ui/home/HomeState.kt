@@ -6,9 +6,9 @@ import com.ivy.design.l0_system.Theme
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyCardData
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
-import com.ivy.wallet.ui.data.AppBaseData
-import com.ivy.wallet.ui.data.BufferInfo
-import com.ivy.wallet.ui.data.DueSection
+import com.ivy.legacy.data.AppBaseData
+import com.ivy.legacy.data.BufferInfo
+import com.ivy.legacy.data.DueSection
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.math.BigDecimal

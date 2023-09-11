@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.component.transaction
+package com.ivy.legacy.ui.component.transaction
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -26,8 +26,8 @@ import com.ivy.resources.R
 import com.ivy.wallet.domain.data.TransactionHistoryDateDivider
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.ui.data.AppBaseData
-import com.ivy.wallet.ui.data.DueSection
+import com.ivy.legacy.data.AppBaseData
+import com.ivy.legacy.data.DueSection
 import com.ivy.wallet.ui.theme.Black
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Gray

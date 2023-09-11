@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.component.transaction
+package com.ivy.legacy.ui.component.transaction
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Column

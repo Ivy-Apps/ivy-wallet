@@ -45,11 +45,11 @@ import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyCardData
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.core.IvyWalletPreview
-import com.ivy.wallet.ui.component.transaction.TransactionsDividerLine
-import com.ivy.wallet.ui.component.transaction.transactions
-import com.ivy.wallet.ui.data.AppBaseData
-import com.ivy.wallet.ui.data.BufferInfo
-import com.ivy.wallet.ui.data.DueSection
+import com.ivy.legacy.ui.component.transaction.TransactionsDividerLine
+import com.ivy.legacy.ui.component.transaction.transactions
+import com.ivy.legacy.data.AppBaseData
+import com.ivy.legacy.data.BufferInfo
+import com.ivy.legacy.data.DueSection
 import com.ivy.wallet.ui.theme.modal.BufferModal
 import com.ivy.wallet.ui.theme.modal.BufferModalData
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModal

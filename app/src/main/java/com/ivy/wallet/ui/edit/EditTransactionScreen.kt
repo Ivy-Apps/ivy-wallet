@@ -51,7 +51,7 @@ import com.ivy.wallet.ui.edit.core.DueDate
 import com.ivy.wallet.ui.edit.core.EditBottomSheet
 import com.ivy.wallet.ui.edit.core.Title
 import com.ivy.wallet.ui.edit.core.Toolbar
-import com.ivy.wallet.ui.loan.data.EditTransactionDisplayLoan
+import com.ivy.loans.loan.data.EditTransactionDisplayLoan
 import com.ivy.wallet.ui.rootView
 import com.ivy.wallet.ui.theme.components.AddPrimaryAttributeButton
 import com.ivy.wallet.ui.theme.components.ChangeTransactionTypeModal

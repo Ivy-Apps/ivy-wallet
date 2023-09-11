@@ -11,4 +11,7 @@ dependencies {
     implementation(projects.ivyResources)
     implementation(projects.ivyDesign)
     implementation(projects.ivyNavigation)
+    implementation(projects.ivyLegacyCode)
+
+    implementation(libs.eventbus)
 }

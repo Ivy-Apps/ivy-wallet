@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.component.transaction
+package com.ivy.legacy.ui.component.transaction
 
 import androidx.compose.runtime.Composable
 import com.ivy.core.ivyWalletCtx

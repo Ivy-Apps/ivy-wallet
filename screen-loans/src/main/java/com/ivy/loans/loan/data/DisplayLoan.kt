@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.loan.data
+package com.ivy.loans.loan.data
 
 import com.ivy.wallet.domain.data.Reorderable
 import com.ivy.wallet.domain.data.core.Loan

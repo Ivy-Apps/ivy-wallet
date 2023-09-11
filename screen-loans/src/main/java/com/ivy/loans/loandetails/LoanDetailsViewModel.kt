@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.loandetails
+package com.ivy.loans.loandetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -25,7 +25,7 @@ import com.ivy.wallet.io.persistence.dao.LoanDao
 import com.ivy.wallet.io.persistence.dao.LoanRecordDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.wallet.ui.loan.data.DisplayLoanRecord
+import com.ivy.loans.loan.data.DisplayLoanRecord
 import com.ivy.wallet.utils.computationThread
 import com.ivy.wallet.utils.ioThread
 import dagger.hilt.android.lifecycle.HiltViewModel

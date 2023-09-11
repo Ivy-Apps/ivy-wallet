@@ -56,9 +56,10 @@ import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
-import com.ivy.wallet.ui.component.transaction.transactions
-import com.ivy.wallet.ui.data.AppBaseData
-import com.ivy.wallet.ui.data.DueSection
+import com.ivy.legacy.ui.component.transaction.transactions
+import com.ivy.legacy.data.AppBaseData
+import com.ivy.legacy.data.DueSection
+import com.ivy.legacy.ui.component.ItemStatisticToolbar
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
@@ -622,52 +623,6 @@ private fun Header(
         }
 
         Spacer(Modifier.height(20.dp))
-    }
-}
-
-@Composable
-fun ItemStatisticToolbar(
-    contrastColor: Color,
-
-    onEdit: () -> Unit,
-    onDelete: () -> Unit,
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Spacer(Modifier.width(24.dp))
-
-        val nav = navigation()
-        CircleButton(
-            modifier = Modifier.testTag("toolbar_close"),
-            icon = R.drawable.ic_dismiss,
-            borderColor = contrastColor,
-            tint = contrastColor,
-            backgroundColor = Transparent
-        ) {
-            nav.back()
-        }
-
-        Spacer(Modifier.weight(1f))
-
-        IvyOutlinedButton(
-            iconStart = R.drawable.ic_edit,
-            text = stringRes(R.string.edit),
-            borderColor = contrastColor,
-            iconTint = contrastColor,
-            textColor = contrastColor,
-            solidBackground = false
-        ) {
-            onEdit()
-        }
-
-        Spacer(Modifier.width(16.dp))
-
-        DeleteButton {
-            onDelete()
-        }
-
-        Spacer(Modifier.width(24.dp))
     }
 }
 
