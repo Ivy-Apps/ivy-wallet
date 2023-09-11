@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.statistic.level1
+package com.ivy.piechart
 
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Spacer

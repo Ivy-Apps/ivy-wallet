@@ -1,11 +1,11 @@
-package com.ivy.wallet.ui.statistic.level1
+package com.ivy.piechart
 
 import androidx.lifecycle.viewModelScope
 import com.ivy.core.IvyWalletCtx
 import com.ivy.core.data.model.TimePeriod
 import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.navigation.PieChartStatistic
-import com.ivy.wallet.domain.action.charts.PieChartAct
+import com.ivy.piechart.action.PieChartAct
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction

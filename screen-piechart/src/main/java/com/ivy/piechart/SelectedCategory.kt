@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.statistic.level1
+package com.ivy.piechart
 
 import com.ivy.wallet.domain.data.core.Category
 

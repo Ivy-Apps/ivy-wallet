@@ -1,6 +1,7 @@
 package com.ivy.wallet
 
 import android.content.Context
+import com.ivy.core.AppStarter
 import com.ivy.core.IvyWalletCtx
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.domain.deprecated.logic.*
