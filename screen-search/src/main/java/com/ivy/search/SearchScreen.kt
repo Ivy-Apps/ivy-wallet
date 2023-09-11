@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.search
+package com.ivy.search
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
@@ -23,14 +23,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.core.IvyWalletPreview
 import com.ivy.core.stringRes
+import com.ivy.legacy.data.AppBaseData
 import com.ivy.legacy.ui.SearchInput
+import com.ivy.legacy.ui.component.transaction.transactions
 import com.ivy.navigation.Search
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
-import com.ivy.legacy.ui.component.transaction.transactions
-import com.ivy.legacy.data.AppBaseData
 import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_ANIM
 import com.ivy.wallet.utils.densityScope
 import com.ivy.wallet.utils.keyboardOnlyWindowInsets

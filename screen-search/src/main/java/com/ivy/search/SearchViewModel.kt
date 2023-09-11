@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.search
+package com.ivy.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -34,7 +34,8 @@ class SearchViewModel @Inject constructor(
     private val _baseCurrencyCode = MutableStateFlow(getDefaultFIATCurrency().currencyCode)
     val baseCurrencyCode = _baseCurrencyCode.asStateFlow()
 
-    private val _transactions = MutableStateFlow<ImmutableList<TransactionHistoryItem>>(persistentListOf())
+    private val _transactions =
+        MutableStateFlow<ImmutableList<TransactionHistoryItem>>(persistentListOf())
     val transactions = _transactions.asStateFlow()
 
     private val _accounts = MutableStateFlow<ImmutableList<Account>>(persistentListOf())
@@ -59,7 +60,7 @@ class SearchViewModel @Inject constructor(
                 val trns = allTrnsAct(Unit)
                     .filter {
                         it.title.matchesQuery(normalizedQuery) ||
-                            it.description.matchesQuery(normalizedQuery)
+                                it.description.matchesQuery(normalizedQuery)
                     }
                 trnsWithDateDivsAct(
                     TrnsWithDateDivsAct.Input(

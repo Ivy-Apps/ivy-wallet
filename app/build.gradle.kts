@@ -145,6 +145,7 @@ dependencies {
     implementation(projects.screenTransactions)
     implementation(projects.screenExchangeRates)
     implementation(projects.screenOnboarding)
+    implementation(projects.screenSearch)
 
     implementation(libs.ivy.frp.temp)
     implementation(libs.bundles.kotlin)
