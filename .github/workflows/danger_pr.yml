@@ -13,7 +13,7 @@ jobs:
 
       - name: Comment on the PR
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
-        uses: danger/danger-js@10.6.4
+        uses: danger/danger-js@11.2.8
         with:
           args: "--dangerfile .danger/danger_pr.ts"
         env:
