@@ -213,7 +213,9 @@ class IvyBilling @Inject constructor() {
                     )
                 }
                 Timber.i(
-                    "Acknowledge purchase result, code=${acknowledgeResult?.responseCode}: ${acknowledgeResult?.debugMessage}"
+                    "Acknowledge result, " +
+                            "code=${acknowledgeResult?.responseCode}: " +
+                            "${acknowledgeResult?.debugMessage}"
                 )
             }
         }
