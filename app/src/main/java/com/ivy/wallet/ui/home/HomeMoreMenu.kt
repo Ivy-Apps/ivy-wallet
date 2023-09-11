@@ -62,7 +62,7 @@ import com.ivy.navigation.Settings
 import com.ivy.resources.R
 import com.ivy.core.IvyWalletPreview
 import com.ivy.wallet.ui.RootActivity
-import com.ivy.wallet.ui.donate.DonateScreen
+import com.ivy.donate.DonateScreen
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Gray

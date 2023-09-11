@@ -49,7 +49,6 @@ import com.ivy.core.Constants
 import com.ivy.core.Constants.URL_IVY_CONTRIBUTORS
 import com.ivy.core.IvyWalletPreview
 import com.ivy.core.ivyWalletCtx
-import com.ivy.core.rootActivity
 import com.ivy.core.rootScreen
 import com.ivy.design.l0_system.SunsetNight
 import com.ivy.design.l0_system.Theme
@@ -448,7 +447,7 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(12.dp))
 
-            val rootActivity = rootActivity()
+            val rootActivity = rootScreen()
             RequestFeature {
                 rootActivity.openUrlInBrowser(Constants.URL_IVY_TELEGRAM_INVITE)
             }
@@ -623,7 +622,7 @@ private fun StartDateOfMonth(
 
 @Composable
 private fun IvyTelegram() {
-    val rootActivity = rootActivity()
+    val rootActivity = rootScreen()
     SettingsPrimaryButton(
         icon = R.drawable.ic_telegram_24dp,
         text = stringResource(R.string.ivy_telegram),
@@ -670,7 +669,7 @@ private fun RequestFeature(
 
 @Composable
 private fun ContactSupport() {
-    val rootActivity = rootActivity()
+    val rootActivity = rootScreen()
     SettingsDefaultButton(
         icon = R.drawable.ic_support,
         text = stringResource(R.string.contact_support),

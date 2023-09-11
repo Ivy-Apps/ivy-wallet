@@ -1,11 +1,11 @@
-package com.ivy.wallet.ui.donate
+package com.ivy.donate
 
 import androidx.lifecycle.viewModelScope
+import com.ivy.donate.billing.IvyBilling
+import com.ivy.donate.billing.Plan
+import com.ivy.donate.data.DonateOption
 import com.ivy.frp.then
 import com.ivy.frp.viewmodel.FRPViewModel
-import com.ivy.wallet.android.billing.IvyBilling
-import com.ivy.wallet.android.billing.Plan
-import com.ivy.wallet.ui.donate.data.DonateOption
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -18,7 +18,7 @@ class DonateViewModel @Inject constructor(
 ) : FRPViewModel<DonateState, DonateEvent>() {
     override val _state: MutableStateFlow<DonateState> = MutableStateFlow(DonateState.Success)
 
-    val plans = mutableListOf<Plan>()
+    private val plans = mutableListOf<Plan>()
 
     override suspend fun handleEvent(event: DonateEvent): suspend () -> DonateState = when (event) {
         is DonateEvent.Load -> load(event)

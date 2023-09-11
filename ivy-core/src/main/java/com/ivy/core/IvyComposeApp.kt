@@ -1,6 +1,7 @@
 package com.ivy.core
 
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -28,7 +29,7 @@ fun ivyWalletCtx(): IvyWalletCtx = ivyContext() as IvyWalletCtx
 fun rootView(): View = LocalView.current
 
 @Composable
-fun rootActivity(): RootScreen = LocalContext.current as RootScreen
+fun rootActivity(): AppCompatActivity = LocalContext.current as AppCompatActivity
 
 @Composable
 fun rootScreen(): RootScreen = LocalContext.current as RootScreen

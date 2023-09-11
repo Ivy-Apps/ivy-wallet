@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.donate
+package com.ivy.donate
 
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.fillMaxWidth

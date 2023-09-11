@@ -1,4 +1,4 @@
-package com.ivy.wallet.android.billing
+package com.ivy.donate.billing
 
 import android.app.Activity
 import com.android.billingclient.api.AcknowledgePurchaseParams

@@ -81,7 +81,7 @@ import com.ivy.wallet.ui.category.CategoriesScreen
 import com.ivy.wallet.ui.charts.ChartsScreen
 import com.ivy.wallet.ui.csv.CSVScreen
 import com.ivy.wallet.ui.csvimport.ImportCSVScreen
-import com.ivy.wallet.ui.donate.DonateScreen
+import com.ivy.donate.DonateScreen
 import com.ivy.wallet.ui.edit.EditTransactionScreen
 import com.ivy.wallet.ui.loan.LoansScreen
 import com.ivy.wallet.ui.loandetails.LoanDetailsScreen

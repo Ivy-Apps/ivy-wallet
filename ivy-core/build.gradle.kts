@@ -19,4 +19,5 @@ dependencies {
 
     implementation(libs.keval)
     implementation(libs.androidx.recyclerview)
+    implementation(libs.bundles.activity)
 }

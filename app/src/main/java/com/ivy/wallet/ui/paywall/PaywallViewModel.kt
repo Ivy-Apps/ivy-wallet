@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.android.billingclient.api.Purchase
 import com.ivy.core.data.model.PaywallReason
 import com.ivy.navigation.Paywall
-import com.ivy.wallet.android.billing.IvyBilling
-import com.ivy.wallet.android.billing.Plan
-import com.ivy.wallet.android.billing.PlanType
+import com.ivy.donate.billing.IvyBilling
+import com.ivy.donate.billing.Plan
+import com.ivy.donate.billing.PlanType
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.budget.BudgetsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct

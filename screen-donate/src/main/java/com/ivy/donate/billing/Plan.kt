@@ -1,4 +1,4 @@
-package com.ivy.wallet.android.billing
+package com.ivy.donate.billing
 
 import com.android.billingclient.api.SkuDetails
 

@@ -1,12 +1,13 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import com.android.billingclient.api.Purchase
+import com.ivy.core.Constants
 import com.ivy.core.IvyWalletCtx
 import com.ivy.core.data.model.PaywallReason
+import com.ivy.donate.billing.IvyBilling
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.navigation.Paywall
 import com.ivy.wallet.BuildConfig
-import com.ivy.wallet.android.billing.IvyBilling
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.BudgetDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao

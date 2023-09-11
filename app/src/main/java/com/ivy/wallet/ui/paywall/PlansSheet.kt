@@ -41,8 +41,8 @@ import com.android.billingclient.api.SkuDetails
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.resources.R
-import com.ivy.wallet.android.billing.Plan
-import com.ivy.wallet.android.billing.PlanType
+import com.ivy.donate.billing.Plan
+import com.ivy.donate.billing.PlanType
 import com.ivy.core.IvyWalletPreview
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.GradientIvy

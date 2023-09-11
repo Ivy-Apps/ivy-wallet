@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.donate
+package com.ivy.donate
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
@@ -23,13 +23,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.core.Constants
+import com.ivy.core.IvyWalletPreview
+import com.ivy.core.rootActivity
 import com.ivy.design.l0_system.Black
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.White
@@ -41,14 +43,11 @@ import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l1_buildingBlocks.data.Background
 import com.ivy.design.l2_components.IconButton
 import com.ivy.design.utils.padding
+import com.ivy.donate.data.DonateOption
 import com.ivy.frp.view.navigation.Screen
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.resources.R
-import com.ivy.core.IvyWalletPreview
-import com.ivy.wallet.ui.RootActivity
-import com.ivy.wallet.ui.donate.data.DonateOption
-import com.ivy.wallet.ui.rootActivity
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.components.IvyButton
 
@@ -118,9 +117,9 @@ private fun BoxWithConstraintsScope.UI(
         }
     }
 
-    val context = LocalView.current.context
+    val activity = rootActivity()
     DonateButton {
-        onEvent(DonateEvent.Donate(context as RootActivity, donateOption))
+        onEvent(DonateEvent.Donate(activity, donateOption))
     }
 }
 

@@ -37,8 +37,8 @@ import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.navigation.Paywall
 import com.ivy.resources.R
-import com.ivy.wallet.android.billing.Plan
-import com.ivy.wallet.android.billing.PlanType
+import com.ivy.donate.billing.Plan
+import com.ivy.donate.billing.PlanType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Budget
 import com.ivy.wallet.domain.data.core.Category
