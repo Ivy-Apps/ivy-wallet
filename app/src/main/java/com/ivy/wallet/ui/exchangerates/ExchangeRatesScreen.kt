@@ -41,8 +41,6 @@ import com.ivy.wallet.utils.selectEndTextFieldValue
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
-object ExchangeRatesScreen : Screen
-
 @Composable
 fun BoxWithConstraintsScope.ExchangeRatesScreen() {
     val viewModel: ExchangeRatesViewModel = viewModel()

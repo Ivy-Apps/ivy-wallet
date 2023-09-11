@@ -47,7 +47,6 @@ import com.ivy.navigation.EditTransaction
 import com.ivy.navigation.ItemStatistic
 import com.ivy.navigation.PieChartStatistic
 import com.ivy.resources.R
-import com.ivy.wallet.Constants
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.TransactionType

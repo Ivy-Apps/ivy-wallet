@@ -68,8 +68,6 @@ import com.ivy.navigation.Settings
 import com.ivy.navigation.Test
 import com.ivy.resources.R
 import com.ivy.wallet.BuildConfig
-import com.ivy.wallet.Constants
-import com.ivy.wallet.Constants.SUPPORT_EMAIL
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyLogic
 import com.ivy.wallet.ui.applocked.AppLockedScreen

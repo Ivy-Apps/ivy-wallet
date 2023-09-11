@@ -94,3 +94,7 @@ data class LoanDetails(
 object Test : Screen
 
 object Charts : Screen
+
+object ExchangeRatesScreen : Screen
+
+object DonateScreen : Screen

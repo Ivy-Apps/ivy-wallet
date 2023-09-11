@@ -46,6 +46,7 @@ import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.core.IvyWalletCtx
 import com.ivy.core.ivyWalletCtx
+import com.ivy.core.legacy.ui.theme.components.ListItem
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.GreenDark
@@ -650,58 +651,6 @@ private fun ListFilterTitle(
 
         Spacer(modifier = Modifier.width(32.dp))
     }
-}
-
-@Composable
-fun ListItem(
-    icon: String?,
-    @DrawableRes defaultIcon: Int,
-    text: String,
-    selectedColor: Color?,
-    onClick: (selected: Boolean) -> Unit
-) {
-    val textColor =
-        if (selectedColor != null) findContrastTextColor(selectedColor) else UI.colors.pureInverse
-
-    Row(
-        modifier = Modifier
-            .clip(UI.shapes.rFull)
-            .thenIf(selectedColor == null) {
-                border(2.dp, UI.colors.medium, UI.shapes.rFull)
-            }
-            .thenIf(selectedColor != null) {
-                background(selectedColor!!, UI.shapes.rFull)
-            }
-            .clickable(
-                onClick = {
-                    onClick(selectedColor != null)
-                }
-            ),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Spacer(Modifier.width(12.dp))
-
-        ItemIconSDefaultIcon(
-            iconName = icon,
-            defaultIcon = defaultIcon,
-            tint = textColor
-        )
-
-        Spacer(Modifier.width(4.dp))
-
-        Text(
-            modifier = Modifier.padding(vertical = 10.dp),
-            text = text,
-            style = UI.typo.b2.style(
-                color = textColor,
-                fontWeight = FontWeight.ExtraBold
-            )
-        )
-
-        Spacer(Modifier.width(24.dp))
-    }
-
-    Spacer(Modifier.width(12.dp))
 }
 
 @Composable

@@ -15,7 +15,6 @@ import com.ivy.design.l0_system.Red3
 import com.ivy.navigation.EditPlanned
 import com.ivy.navigation.PieChartStatistic
 import com.ivy.resources.R
-import com.ivy.wallet.Constants
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao

@@ -6,7 +6,6 @@ import com.ivy.core.data.model.PaywallReason
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.navigation.Paywall
 import com.ivy.wallet.BuildConfig
-import com.ivy.wallet.Constants
 import com.ivy.wallet.android.billing.IvyBilling
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.BudgetDao

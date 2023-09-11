@@ -14,7 +14,6 @@ import com.ivy.navigation.EditTransaction
 import com.ivy.navigation.Main
 import com.ivy.navigation.Onboarding
 import com.ivy.resources.R
-import com.ivy.wallet.Constants
 import com.ivy.wallet.android.billing.IvyBilling
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.PaywallLogic

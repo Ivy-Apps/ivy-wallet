@@ -60,7 +60,6 @@ import com.ivy.navigation.Report
 import com.ivy.navigation.Search
 import com.ivy.navigation.Settings
 import com.ivy.resources.R
-import com.ivy.wallet.Constants
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.ui.donate.DonateScreen
