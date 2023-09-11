@@ -1,6 +1,6 @@
 package com.ivy.wallet.ui.exchangerates
 
-import com.ivy.wallet.ui.exchangerates.data.RateUi
+import com.ivy.rates.exchangerates.data.RateUi
 import kotlinx.collections.immutable.ImmutableList
 
 data class RatesState(

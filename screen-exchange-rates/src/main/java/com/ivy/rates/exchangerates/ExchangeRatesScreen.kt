@@ -30,10 +30,9 @@ import com.ivy.design.l1_buildingBlocks.ColumnRoot
 import com.ivy.design.l1_buildingBlocks.DividerW
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
-import com.ivy.frp.view.navigation.Screen
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.exchangerates.component.RateItem
-import com.ivy.wallet.ui.exchangerates.data.RateUi
+import com.ivy.rates.exchangerates.component.RateItem
+import com.ivy.rates.exchangerates.data.RateUi
 import com.ivy.wallet.ui.exchangerates.modal.AddRateModal
 import com.ivy.wallet.ui.search.SearchInput
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal

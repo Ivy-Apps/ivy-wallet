@@ -39,6 +39,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.ivy.core.Constants
+import com.ivy.core.Constants.SUPPORT_EMAIL
 import com.ivy.core.IvyWalletCtx
 import com.ivy.core.appDesign
 import com.ivy.design.api.IvyUI
@@ -52,6 +54,7 @@ import com.ivy.navigation.Categories
 import com.ivy.navigation.Charts
 import com.ivy.navigation.EditPlanned
 import com.ivy.navigation.EditTransaction
+import com.ivy.navigation.ExchangeRatesScreen
 import com.ivy.navigation.Import
 import com.ivy.navigation.ItemStatistic
 import com.ivy.navigation.LoanDetails
@@ -63,10 +66,10 @@ import com.ivy.navigation.PieChartStatistic
 import com.ivy.navigation.PlannedPayments
 import com.ivy.navigation.Report
 import com.ivy.navigation.Search
-import com.ivy.navigation.ServerStop
 import com.ivy.navigation.Settings
 import com.ivy.navigation.Test
 import com.ivy.resources.R
+import com.ivy.settings.SettingsScreen
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyLogic
@@ -89,8 +92,6 @@ import com.ivy.wallet.ui.planned.edit.EditPlannedScreen
 import com.ivy.wallet.ui.planned.list.PlannedPaymentsScreen
 import com.ivy.wallet.ui.reports.ReportScreen
 import com.ivy.wallet.ui.search.SearchScreen
-import com.ivy.wallet.ui.serverstop.ServerStopScreen
-import com.ivy.wallet.ui.settings.SettingsScreen
 import com.ivy.wallet.ui.statistic.level1.PieChartStatisticScreen
 import com.ivy.wallet.ui.statistic.level2.ItemStatisticScreen
 import com.ivy.wallet.ui.test.TestScreen
@@ -219,7 +220,6 @@ class RootActivity : AppCompatActivity() {
         when (screen) {
             is Main -> MainScreen(screen = screen)
             is Onboarding -> OnboardingScreen(screen = screen)
-            is ServerStop -> ServerStopScreen()
             is ExchangeRatesScreen -> ExchangeRatesScreen()
             is EditTransaction -> EditTransactionScreen(screen = screen)
             is ItemStatistic -> ItemStatisticScreen(screen = screen)

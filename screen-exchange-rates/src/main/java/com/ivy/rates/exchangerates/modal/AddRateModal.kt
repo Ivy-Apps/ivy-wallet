@@ -21,7 +21,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.exchangerates.RatesEvent
-import com.ivy.wallet.ui.exchangerates.data.RateUi
+import com.ivy.rates.exchangerates.data.RateUi
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalAdd
 import com.ivy.wallet.ui.theme.modal.ModalTitle

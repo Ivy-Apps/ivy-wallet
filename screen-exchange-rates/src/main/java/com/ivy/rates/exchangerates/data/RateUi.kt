@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.exchangerates.data
+package com.ivy.rates.exchangerates.data
 
 import androidx.compose.runtime.Immutable
 
