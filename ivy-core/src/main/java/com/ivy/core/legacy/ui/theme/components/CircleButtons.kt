@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.resources.R
-import com.ivy.wallet.ui.IvyWalletComponentPreview
+import com.ivy.core.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.Gradient
 
 @Composable

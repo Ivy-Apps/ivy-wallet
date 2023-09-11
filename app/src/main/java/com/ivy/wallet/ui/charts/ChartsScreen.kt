@@ -36,7 +36,7 @@ import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.pure.charts.ChartPeriod
 import com.ivy.wallet.domain.pure.charts.IncomeExpenseChartPoint
 import com.ivy.wallet.domain.pure.charts.SingleChartPoint
-import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.core.IvyWalletPreview
 import com.ivy.wallet.ui.charts.charts.accountCharts
 import com.ivy.wallet.ui.charts.charts.walletCharts
 import com.ivy.wallet.ui.theme.Ivy

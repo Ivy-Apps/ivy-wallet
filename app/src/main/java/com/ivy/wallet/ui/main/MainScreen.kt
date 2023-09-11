@@ -19,7 +19,7 @@ import com.ivy.navigation.EditTransaction
 import com.ivy.navigation.Main
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
-import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.core.IvyWalletPreview
 import com.ivy.wallet.ui.accounts.AccountsTab
 import com.ivy.wallet.ui.home.HomeTab
 import com.ivy.wallet.ui.theme.modal.edit.AccountModal

@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.exchangerates
+package com.ivy.exchangerates
 
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Row
@@ -23,6 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.core.IvyWalletPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.White
 import com.ivy.design.l0_system.style
@@ -30,11 +31,10 @@ import com.ivy.design.l1_buildingBlocks.ColumnRoot
 import com.ivy.design.l1_buildingBlocks.DividerW
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
-import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.rates.exchangerates.component.RateItem
-import com.ivy.rates.exchangerates.data.RateUi
-import com.ivy.wallet.ui.exchangerates.modal.AddRateModal
-import com.ivy.wallet.ui.search.SearchInput
+import com.ivy.legacy.ui.SearchInput
+import com.ivy.exchangerates.component.RateItem
+import com.ivy.exchangerates.data.RateUi
+import com.ivy.exchangerates.modal.AddRateModal
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import com.ivy.wallet.utils.selectEndTextFieldValue
 import kotlinx.collections.immutable.persistentListOf

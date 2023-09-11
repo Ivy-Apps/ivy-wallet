@@ -41,7 +41,7 @@ import com.ivy.navigation.Loans
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.LoanType
 import com.ivy.wallet.domain.data.core.Loan
-import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.core.IvyWalletPreview
 import com.ivy.wallet.ui.loan.data.DisplayLoan
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gray

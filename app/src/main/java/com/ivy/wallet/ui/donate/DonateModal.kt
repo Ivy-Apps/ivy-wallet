@@ -13,7 +13,7 @@ import com.ivy.design.l0_system.GradientOrange
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.resources.R
-import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.core.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.modal.IvyModal

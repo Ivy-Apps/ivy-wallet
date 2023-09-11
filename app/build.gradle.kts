@@ -143,6 +143,7 @@ dependencies {
     implementation(projects.screenReports)
     implementation(projects.screenTransaction)
     implementation(projects.screenTransactions)
+    implementation(projects.screenExchangeRates)
 
     implementation(libs.ivy.frp.temp)
     implementation(libs.bundles.kotlin)

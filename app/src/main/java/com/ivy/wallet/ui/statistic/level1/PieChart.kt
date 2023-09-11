@@ -23,7 +23,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.ui.IvyWalletComponentPreview
+import com.ivy.core.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.utils.convertDpToPixel

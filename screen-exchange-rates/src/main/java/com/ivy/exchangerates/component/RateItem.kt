@@ -1,4 +1,4 @@
-package com.ivy.rates.exchangerates.component
+package com.ivy.exchangerates.component
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -17,7 +17,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerWeight
-import com.ivy.rates.exchangerates.data.RateUi
+import com.ivy.exchangerates.data.RateUi
 import com.ivy.wallet.ui.theme.components.DeleteButton
 import com.ivy.wallet.utils.format
 

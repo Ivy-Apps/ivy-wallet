@@ -2,18 +2,11 @@ package com.ivy.wallet.ui.search
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
@@ -23,29 +16,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.core.IvyWalletPreview
 import com.ivy.core.stringRes
-import com.ivy.design.l0_system.UI
+import com.ivy.legacy.ui.SearchInput
 import com.ivy.navigation.Search
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.component.transaction.transactions
 import com.ivy.wallet.ui.data.AppBaseData
-import com.ivy.wallet.ui.theme.Gray
-import com.ivy.wallet.ui.theme.components.IvyBasicTextField
-import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_ANIM
 import com.ivy.wallet.utils.densityScope
 import com.ivy.wallet.utils.keyboardOnlyWindowInsets
@@ -155,60 +140,6 @@ private fun UI(
     }
 }
 
-@Composable
-fun SearchInput(
-    searchQueryTextFieldValue: TextFieldValue,
-    hint: String,
-    focus: Boolean = true,
-    onSetSearchQueryTextField: (TextFieldValue) -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .clip(UI.shapes.rFull)
-            .background(UI.colors.pure)
-            .border(1.dp, Gray, UI.shapes.rFull),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Spacer(Modifier.width(12.dp))
-
-        IvyIcon(icon = R.drawable.ic_search)
-
-        Spacer(Modifier.width(12.dp))
-
-        val searchFocus = FocusRequester()
-        IvyBasicTextField(
-            modifier = Modifier
-                .padding(vertical = 12.dp)
-                .focusRequester(searchFocus),
-            value = searchQueryTextFieldValue,
-            hint = hint,
-            onValueChanged = {
-                onSetSearchQueryTextField(it)
-            }
-        )
-
-        if (focus) {
-            onScreenStart {
-                searchFocus.requestFocus()
-            }
-        }
-
-        Spacer(Modifier.weight(1f))
-
-        IvyIcon(
-            modifier = Modifier
-                .clickable {
-                    onSetSearchQueryTextField(selectEndTextFieldValue(""))
-                }
-                .padding(all = 12.dp), // enlarge click area
-            icon = R.drawable.ic_outline_clear_24
-        )
-
-        Spacer(Modifier.width(8.dp))
-    }
-}
 
 @Preview
 @Composable

@@ -43,7 +43,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.resources.R
 import com.ivy.wallet.android.billing.Plan
 import com.ivy.wallet.android.billing.PlanType
-import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.core.IvyWalletPreview
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Gray

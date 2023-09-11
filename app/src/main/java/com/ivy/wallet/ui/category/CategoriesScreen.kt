@@ -48,7 +48,7 @@ import com.ivy.navigation.ItemStatistic
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.SortOrder
 import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.core.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Green

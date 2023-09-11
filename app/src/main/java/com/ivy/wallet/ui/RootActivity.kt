@@ -44,6 +44,7 @@ import com.ivy.core.Constants.SUPPORT_EMAIL
 import com.ivy.core.IvyWalletCtx
 import com.ivy.core.appDesign
 import com.ivy.design.api.IvyUI
+import com.ivy.exchangerates.ExchangeRatesScreen
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.NavigationRoot
 import com.ivy.frp.view.navigation.Screen
@@ -82,7 +83,6 @@ import com.ivy.wallet.ui.csv.CSVScreen
 import com.ivy.wallet.ui.csvimport.ImportCSVScreen
 import com.ivy.wallet.ui.donate.DonateScreen
 import com.ivy.wallet.ui.edit.EditTransactionScreen
-import com.ivy.wallet.ui.exchangerates.ExchangeRatesScreen
 import com.ivy.wallet.ui.loan.LoansScreen
 import com.ivy.wallet.ui.loandetails.LoanDetailsScreen
 import com.ivy.wallet.ui.main.MainScreen

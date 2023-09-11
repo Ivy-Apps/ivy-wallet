@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ivy.rates"
+    namespace = "com.ivy.exchangerates"
 }
 
 dependencies {
@@ -11,4 +11,5 @@ dependencies {
     implementation(projects.ivyResources)
     implementation(projects.ivyDesign)
     implementation(projects.ivyNavigation)
+    implementation(projects.ivyLegacyCode)
 }

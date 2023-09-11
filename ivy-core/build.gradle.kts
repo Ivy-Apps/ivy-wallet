@@ -18,4 +18,5 @@ dependencies {
     implementation(libs.bundles.firebase)
 
     implementation(libs.keval)
+    implementation(libs.androidx.recyclerview)
 }

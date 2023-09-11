@@ -21,7 +21,7 @@ import com.ivy.frp.view.navigation.navigation
 import com.ivy.navigation.AnalyticsReport
 import com.ivy.navigation.Test
 import com.ivy.wallet.domain.data.core.User
-import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.core.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.modal.ChooseIconModal

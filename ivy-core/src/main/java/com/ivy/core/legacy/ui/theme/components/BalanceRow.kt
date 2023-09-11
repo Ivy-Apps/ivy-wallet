@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.wallet.ui.IvyWalletComponentPreview
+import com.ivy.core.IvyWalletComponentPreview
 import com.ivy.wallet.utils.decimalPartFormatted
 import com.ivy.wallet.utils.shortenAmount
 import com.ivy.wallet.utils.shouldShortAmount

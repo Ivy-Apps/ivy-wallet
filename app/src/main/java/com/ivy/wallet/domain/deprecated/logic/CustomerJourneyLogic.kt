@@ -1,5 +1,6 @@
 package com.ivy.wallet.domain.deprecated.logic
 
+import com.ivy.core.Constants
 import com.ivy.core.IvyWalletCtx
 import com.ivy.core.data.model.MainTab
 import com.ivy.core.stringRes

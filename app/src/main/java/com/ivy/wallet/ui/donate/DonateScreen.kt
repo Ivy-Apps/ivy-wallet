@@ -45,7 +45,7 @@ import com.ivy.frp.view.navigation.Screen
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.resources.R
-import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.core.IvyWalletPreview
 import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.ui.donate.data.DonateOption
 import com.ivy.wallet.ui.rootActivity

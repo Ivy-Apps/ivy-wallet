@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.biometric.BiometricPrompt
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.core.Constants
 import com.ivy.core.IvyWalletCtx
 import com.ivy.core.stringRes
 import com.ivy.design.l0_system.Theme

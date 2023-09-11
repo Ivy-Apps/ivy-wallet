@@ -15,7 +15,7 @@ import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
-import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.core.IvyWalletPreview
 import com.ivy.wallet.ui.onboarding.steps.OnboardingAccounts
 import com.ivy.wallet.ui.onboarding.steps.OnboardingCategories
 import com.ivy.wallet.ui.onboarding.steps.OnboardingSetCurrency

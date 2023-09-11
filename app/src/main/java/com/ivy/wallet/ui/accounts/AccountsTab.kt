@@ -42,7 +42,7 @@ import com.ivy.navigation.ItemStatistic
 import com.ivy.navigation.Main
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.core.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.GreenDark
