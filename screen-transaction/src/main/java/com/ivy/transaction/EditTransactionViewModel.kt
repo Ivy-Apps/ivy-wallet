@@ -1,8 +1,10 @@
-package com.ivy.wallet.ui.edit
+package com.ivy.transaction
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.core.data.EditTransactionDisplayLoan
+import com.ivy.core.refreshWidget
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.navigation.EditTransaction
@@ -19,7 +21,6 @@ import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
-import com.ivy.wallet.domain.deprecated.logic.PaywallLogic
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.deprecated.logic.SmartTitleSuggestionsLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
@@ -31,8 +32,6 @@ import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.LoanDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.wallet.refreshWidget
-import com.ivy.loans.loan.data.EditTransactionDisplayLoan
 import com.ivy.wallet.utils.computationThread
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.readOnly
@@ -61,7 +60,6 @@ class EditTransactionViewModel @Inject constructor(
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val categoryCreator: CategoryCreator,
     private val accountCreator: AccountCreator,
-    private val paywallLogic: PaywallLogic,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
     private val smartTitleSuggestionsLogic: SmartTitleSuggestionsLogic,
     private val loanTransactionsLogic: LoanTransactionsLogic,
@@ -487,13 +485,7 @@ class EditTransactionViewModel @Inject constructor(
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            paywallLogic.protectQuotaExceededWithPaywall(
-                onPaywallHit = {
-                    nav.back()
-                }
-            ) {
-                saveInternal(closeScreen = closeScreen)
-            }
+            saveInternal(closeScreen = closeScreen)
 
             TestIdlingResource.decrement()
         }

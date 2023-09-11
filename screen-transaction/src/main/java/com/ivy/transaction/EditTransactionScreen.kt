@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.edit
+package com.ivy.transaction
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
@@ -30,11 +30,15 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.core.IvyWalletPreview
+import com.ivy.core.data.EditTransactionDisplayLoan
 import com.ivy.core.ivyWalletCtx
+import com.ivy.core.rootView
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.utils.hideKeyboard
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.legacy.ui.component.edit.TransactionDateTime
 import com.ivy.navigation.EditPlanned
 import com.ivy.navigation.EditTransaction
 import com.ivy.resources.R
@@ -44,15 +48,12 @@ import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
-import com.ivy.core.IvyWalletPreview
 import com.ivy.wallet.ui.edit.core.Category
 import com.ivy.wallet.ui.edit.core.Description
 import com.ivy.wallet.ui.edit.core.DueDate
 import com.ivy.wallet.ui.edit.core.EditBottomSheet
 import com.ivy.wallet.ui.edit.core.Title
 import com.ivy.wallet.ui.edit.core.Toolbar
-import com.ivy.loans.loan.data.EditTransactionDisplayLoan
-import com.ivy.wallet.ui.rootView
 import com.ivy.wallet.ui.theme.components.AddPrimaryAttributeButton
 import com.ivy.wallet.ui.theme.components.ChangeTransactionTypeModal
 import com.ivy.wallet.ui.theme.components.CustomExchangeRateCard
@@ -292,7 +293,7 @@ private fun BoxWithConstraintsScope.UI(
 
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp),
-                text = loanData.loanCaption,
+                text = loanData.loanCaption!!,
                 style = UI.typo.nB2.style(
                     color = UI.colors.mediumInverse,
                     fontWeight = FontWeight.Normal

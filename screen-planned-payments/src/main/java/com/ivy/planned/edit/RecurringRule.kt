@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.planned.edit
+package com.ivy.planned.edit
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,11 +18,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.core.IvyWalletComponentPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IntervalType
-import com.ivy.core.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.components.AddPrimaryAttributeButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -72,7 +72,7 @@ fun hasRecurringRule(
     oneTime: Boolean,
 ): Boolean {
     return startDate != null &&
-        ((intervalN != null && intervalType != null) || oneTime)
+            ((intervalN != null && intervalType != null) || oneTime)
 }
 
 @Composable

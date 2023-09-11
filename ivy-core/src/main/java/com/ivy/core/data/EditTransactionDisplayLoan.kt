@@ -1,4 +1,4 @@
-package com.ivy.loans.loan.data
+package com.ivy.core.data
 
 data class EditTransactionDisplayLoan(
     val isLoan: Boolean = false,

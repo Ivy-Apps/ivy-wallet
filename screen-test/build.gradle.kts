@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ivy.planned"
+    namespace = "com.ivy.test"
 }
 
 dependencies {
@@ -11,7 +11,4 @@ dependencies {
     implementation(projects.ivyResources)
     implementation(projects.ivyDesign)
     implementation(projects.ivyNavigation)
-    implementation(projects.ivyLegacyCode)
-
-    implementation(libs.eventbus)
 }

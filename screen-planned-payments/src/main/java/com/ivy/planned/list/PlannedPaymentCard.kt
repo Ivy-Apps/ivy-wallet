@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.planned.list
+package com.ivy.planned.list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,9 +24,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.core.IvyWalletPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.legacy.ui.component.transaction.TypeAmountCurrency
 import com.ivy.navigation.ItemStatistic
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IntervalType
@@ -34,8 +36,6 @@ import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.PlannedPaymentRule
-import com.ivy.core.IvyWalletPreview
-import com.ivy.legacy.ui.component.transaction.TypeAmountCurrency
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -235,7 +235,11 @@ private fun RuleTextRow(
             val intervalTypeFormatted = intervalType?.forDisplay(intervalN ?: 0)?.uppercaseLocal()
             Text(
                 modifier = Modifier.padding(bottom = 1.dp),
-                text = stringResource(R.string.repeats_every, intervalN ?: 0, intervalTypeFormatted ?: ""),
+                text = stringResource(
+                    R.string.repeats_every,
+                    intervalN ?: 0,
+                    intervalTypeFormatted ?: ""
+                ),
                 style = UI.typo.nC.style(
                     color = Orange,
                     fontWeight = FontWeight.ExtraBold

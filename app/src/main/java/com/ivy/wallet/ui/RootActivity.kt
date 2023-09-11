@@ -72,9 +72,13 @@ import com.ivy.navigation.Settings
 import com.ivy.navigation.Test
 import com.ivy.onboarding.OnboardingScreen
 import com.ivy.piechart.PieChartStatisticScreen
+import com.ivy.planned.edit.EditPlannedScreen
+import com.ivy.planned.list.PlannedPaymentsScreen
 import com.ivy.resources.R
 import com.ivy.search.SearchScreen
 import com.ivy.settings.SettingsScreen
+import com.ivy.test.TestScreen
+import com.ivy.transaction.EditTransactionScreen
 import com.ivy.transactions.ItemStatisticScreen
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.domain.data.TransactionType
@@ -85,12 +89,8 @@ import com.ivy.wallet.ui.budget.BudgetScreen
 import com.ivy.wallet.ui.category.CategoriesScreen
 import com.ivy.wallet.ui.csv.CSVScreen
 import com.ivy.wallet.ui.csvimport.ImportCSVScreen
-import com.ivy.wallet.ui.edit.EditTransactionScreen
 import com.ivy.wallet.ui.main.MainScreen
-import com.ivy.wallet.ui.planned.edit.EditPlannedScreen
-import com.ivy.wallet.ui.planned.list.PlannedPaymentsScreen
 import com.ivy.wallet.ui.reports.ReportScreen
-import com.ivy.wallet.ui.test.TestScreen
 import com.ivy.wallet.utils.activityForResultLauncher
 import com.ivy.wallet.utils.convertLocalToUTC
 import com.ivy.wallet.utils.sendToCrashlytics

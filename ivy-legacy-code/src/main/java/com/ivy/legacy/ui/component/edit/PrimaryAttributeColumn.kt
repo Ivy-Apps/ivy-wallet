@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.edit
+package com.ivy.legacy.ui.component.edit
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.border

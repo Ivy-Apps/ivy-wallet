@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.planned.list
+package com.ivy.planned.list
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

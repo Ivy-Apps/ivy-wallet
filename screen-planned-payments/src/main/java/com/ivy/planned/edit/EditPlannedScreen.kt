@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.planned.edit
+package com.ivy.planned.edit
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
@@ -24,6 +24,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.core.IvyWalletPreview
 import com.ivy.navigation.EditPlanned
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IntervalType
@@ -32,7 +33,6 @@ import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
-import com.ivy.core.IvyWalletPreview
 import com.ivy.wallet.ui.edit.core.Category
 import com.ivy.wallet.ui.edit.core.Description
 import com.ivy.wallet.ui.edit.core.EditBottomSheet
