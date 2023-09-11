@@ -51,7 +51,7 @@ class IvyBilling @Inject constructor() {
         )
     }
 
-    private lateinit var billingClient: BillingClient
+    private var billingClient: BillingClient? = null
 
     fun init(
         activity: Activity,
@@ -74,7 +74,7 @@ class IvyBilling @Inject constructor() {
             .enablePendingPurchases()
             .build()
 
-        billingClient.startConnection(object : BillingClientStateListener {
+        billingClient?.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                     // The BillingClient is ready. You can query purchases here.
@@ -106,12 +106,13 @@ class IvyBilling @Inject constructor() {
     }
 
     private suspend fun queryBoughtSubscriptions(): List<Purchase> {
-        return billingClient.queryPurchasesAsync(BillingClient.SkuType.SUBS).purchasesList
+        return billingClient?.queryPurchasesAsync(BillingClient.SkuType.SUBS)?.purchasesList
+            ?: emptyList()
     }
 
     private suspend fun queryBoughtOneTimeOffers(): List<Purchase> {
         return try {
-            billingClient.queryPurchasesAsync(BillingClient.SkuType.INAPP).purchasesList
+            billingClient!!.queryPurchasesAsync(BillingClient.SkuType.INAPP).purchasesList
         } catch (e: Exception) {
             e.printStackTrace()
             e.sendToCrashlytics("IvyBilling: failed to fetch ONE_TIME purchases")
@@ -130,8 +131,8 @@ class IvyBilling @Inject constructor() {
 
         // leverage querySkuDetails Kotlin extension function
         val skuDetailsResult = ioThread {
-            billingClient.querySkuDetails(params.build())
-        }
+            billingClient?.querySkuDetails(params.build())
+        } ?: return emptyList()
 
         return skuDetailsResult.skuDetailsList
             .orEmpty()
@@ -159,8 +160,8 @@ class IvyBilling @Inject constructor() {
 
         // leverage querySkuDetails Kotlin extension function
         val skuDetailsResult = ioThread {
-            billingClient.querySkuDetails(params.build())
-        }
+            billingClient?.querySkuDetails(params.build())
+        } ?: return emptyList()
 
         return skuDetailsResult.skuDetailsList
             .orEmpty()
@@ -191,8 +192,8 @@ class IvyBilling @Inject constructor() {
             )
         }
 
-        val billingResult = billingClient.launchBillingFlow(activity, flowBuilder.build())
-        Timber.i("buy(): code=${billingResult.responseCode}, msg: ${billingResult.debugMessage}")
+        val billingResult = billingClient?.launchBillingFlow(activity, flowBuilder.build())
+        Timber.i("buy(): code=${billingResult?.responseCode}, msg: ${billingResult?.debugMessage}")
     }
 
     suspend fun checkPremium(
@@ -205,14 +206,14 @@ class IvyBilling @Inject constructor() {
 
             if (!purchase.isAcknowledged) {
                 val acknowledgeResult = ioThread {
-                    billingClient.acknowledgePurchase(
+                    billingClient?.acknowledgePurchase(
                         AcknowledgePurchaseParams.newBuilder()
                             .setPurchaseToken(purchase.purchaseToken)
                             .build()
                     )
                 }
                 Timber.i(
-                    "Acknowledge purchase result, code=${acknowledgeResult.responseCode}: ${acknowledgeResult.debugMessage}"
+                    "Acknowledge purchase result, code=${acknowledgeResult?.responseCode}: ${acknowledgeResult?.debugMessage}"
                 )
             }
         }
