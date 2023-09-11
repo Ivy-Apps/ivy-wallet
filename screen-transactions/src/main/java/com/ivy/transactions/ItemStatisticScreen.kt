@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.statistic.level2
+package com.ivy.transactions
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

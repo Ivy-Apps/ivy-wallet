@@ -74,6 +74,7 @@ import com.ivy.onboarding.OnboardingScreen
 import com.ivy.piechart.PieChartStatisticScreen
 import com.ivy.resources.R
 import com.ivy.settings.SettingsScreen
+import com.ivy.transactions.ItemStatisticScreen
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyLogic
@@ -89,7 +90,6 @@ import com.ivy.wallet.ui.planned.edit.EditPlannedScreen
 import com.ivy.wallet.ui.planned.list.PlannedPaymentsScreen
 import com.ivy.wallet.ui.reports.ReportScreen
 import com.ivy.wallet.ui.search.SearchScreen
-import com.ivy.wallet.ui.statistic.level2.ItemStatisticScreen
 import com.ivy.wallet.ui.test.TestScreen
 import com.ivy.wallet.utils.activityForResultLauncher
 import com.ivy.wallet.utils.convertLocalToUTC

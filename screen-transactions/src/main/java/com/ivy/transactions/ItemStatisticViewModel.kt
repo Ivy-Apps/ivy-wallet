@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.statistic.level2
+package com.ivy.transactions
 
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
