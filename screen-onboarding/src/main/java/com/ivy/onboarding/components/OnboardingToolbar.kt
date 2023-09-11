@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.onboarding.components
+package com.ivy.onboarding.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Spacer

@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.onboarding.steps
+package com.ivy.onboarding.steps
 
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.core.animateDp
@@ -43,13 +43,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.core.Constants
 import com.ivy.core.IvyWalletCtx
+import com.ivy.core.IvyWalletPreview
 import com.ivy.core.ivyWalletCtx
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.onboarding.OnboardingState
 import com.ivy.resources.R
-import com.ivy.core.IvyWalletPreview
-import com.ivy.wallet.ui.onboarding.OnboardingState
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green

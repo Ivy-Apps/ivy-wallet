@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.onboarding.steps
+package com.ivy.onboarding.steps
 
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Column

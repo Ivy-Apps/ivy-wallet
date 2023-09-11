@@ -6,8 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import androidx.annotation.IdRes
+import com.ivy.core.AppStarter
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.widget.AppStarter
 import javax.inject.Inject
 
 class AddTransactionWidgetClick @Inject constructor(

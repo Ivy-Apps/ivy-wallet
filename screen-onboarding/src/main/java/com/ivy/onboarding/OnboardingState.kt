@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.onboarding
+package com.ivy.onboarding
 
 enum class OnboardingState {
     SPLASH,

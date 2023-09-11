@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.onboarding.steps.archived
+package com.ivy.onboarding.steps.archived
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -37,12 +37,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.core.Constants
+import com.ivy.core.IvyWalletPreview
 import com.ivy.core.ivyWalletCtx
+import com.ivy.core.rootScreen
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.resources.R
-import com.ivy.core.IvyWalletPreview
-import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
@@ -167,6 +168,7 @@ private fun TextLink(
     val context = LocalContext.current
     val ivy1 = UI.colors.primary1
 
+    val rootScreen = rootScreen()
     Text(
         modifier = Modifier
             .drawBehind {
@@ -183,7 +185,7 @@ private fun TextLink(
                 )
             }
             .clickable {
-                (context as RootActivity).openUrlInBrowser(url)
+                rootScreen.openUrlInBrowser(url)
             },
         text = text,
         style = UI.typo.b2.style(

@@ -1,11 +1,13 @@
-package com.ivy.wallet.ui.onboarding.viewmodel
+package com.ivy.onboarding.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.ivy.core.data.model.AccountBalance
 import com.ivy.frp.view.navigation.Navigation
+import com.ivy.legacy.LogoutLogic
 import com.ivy.navigation.Import
 import com.ivy.navigation.Main
 import com.ivy.navigation.Onboarding
+import com.ivy.onboarding.OnboardingState
 import com.ivy.wallet.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.core.Category
@@ -16,7 +18,6 @@ import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLo
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
-import com.ivy.wallet.ui.onboarding.OnboardingState
 import com.ivy.wallet.utils.OpResult
 import com.ivy.wallet.utils.ioThread
 import kotlinx.collections.immutable.ImmutableList
@@ -56,14 +57,17 @@ class OnboardingRouter(
                     // do nothing, consume back
                     true
                 }
+
                 OnboardingState.LOGIN -> {
                     // let the user exit the app
                     false
                 }
+
                 OnboardingState.CHOOSE_PATH -> {
                     _state.value = OnboardingState.LOGIN
                     true
                 }
+
                 OnboardingState.CURRENCY -> {
                     if (isLoginCache) {
                         // user with Ivy account
@@ -79,14 +83,17 @@ class OnboardingRouter(
                     }
                     true
                 }
+
                 OnboardingState.ACCOUNTS -> {
                     _state.value = OnboardingState.CURRENCY
                     true
                 }
+
                 OnboardingState.CATEGORIES -> {
                     _state.value = OnboardingState.ACCOUNTS
                     true
                 }
+
                 null -> {
                     // do nothing, consume back
                     true
@@ -208,7 +215,8 @@ class OnboardingRouter(
     }
 
     private suspend fun routeToCategories() {
-        _categories.value = ioThread { categoryDao.findAll().map { it.toDomain() }.toImmutableList() }!!
+        _categories.value =
+            ioThread { categoryDao.findAll().map { it.toDomain() }.toImmutableList() }!!
         _categorySuggestions.value = preloadDataLogic.categorySuggestions()
 
         _state.value = OnboardingState.CATEGORIES

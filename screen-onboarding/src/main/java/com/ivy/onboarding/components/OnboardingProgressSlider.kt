@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.onboarding.components
+package com.ivy.onboarding.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
