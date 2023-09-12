@@ -1,10 +1,10 @@
-package com.ivy.wallet.ui
+package com.ivy.import.csvimport.flow
 
 import androidx.compose.runtime.Composable
-import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
 import com.ivy.import.csvimport.flow.instructions.DefaultImportSteps
 import com.ivy.import.csvimport.flow.instructions.FinancistoSteps
 import com.ivy.import.csvimport.flow.instructions.FortuneCitySteps
+import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
 import com.ivy.import.csvimport.flow.instructions.IvyWalletSteps
 import com.ivy.import.csvimport.flow.instructions.KTWMoneyManagerSteps
 import com.ivy.import.csvimport.flow.instructions.MonefySteps

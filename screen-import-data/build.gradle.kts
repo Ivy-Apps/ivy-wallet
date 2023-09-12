@@ -11,4 +11,8 @@ dependencies {
     implementation(projects.ivyResources)
     implementation(projects.ivyDesign)
     implementation(projects.ivyNavigation)
+
+    implementation(projects.screenOnboarding) // TODO: Fix that
+
+    implementation(libs.bundles.opencsv)
 }

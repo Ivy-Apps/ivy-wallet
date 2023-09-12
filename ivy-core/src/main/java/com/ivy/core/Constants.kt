@@ -1,5 +1,9 @@
 package com.ivy.core
 
+import androidx.compose.ui.unit.dp
+
+val FAB_BUTTON_SIZE = 56.dp
+
 object Constants {
     const val ENABLE_PAYWALL_ON_DEBUG = false
     const val PREMIUM_INITIAL_VALUE_DEBUG = true

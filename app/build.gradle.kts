@@ -147,6 +147,7 @@ dependencies {
     implementation(projects.screenOnboarding)
     implementation(projects.screenSearch)
     implementation(projects.screenTest)
+    implementation(projects.screenBalance)
 
     implementation(libs.ivy.frp.temp)
     implementation(libs.bundles.kotlin)

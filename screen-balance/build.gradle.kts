@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ivy.accounts"
+    namespace = "com.ivy.balance"
 }
 
 dependencies {
@@ -11,6 +11,4 @@ dependencies {
     implementation(projects.ivyResources)
     implementation(projects.ivyDesign)
     implementation(projects.ivyNavigation)
-
-    implementation(libs.eventbus)
 }

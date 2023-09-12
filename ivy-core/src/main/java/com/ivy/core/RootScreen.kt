@@ -1,6 +1,7 @@
 package com.ivy.core
 
 import android.net.Uri
+import java.util.UUID
 
 interface RootScreen {
     /**
@@ -27,4 +28,6 @@ interface RootScreen {
     fun shareCSVFile(fileUri: Uri)
 
     fun shareZipFile(fileUri: Uri)
+
+    fun openGooglePlayAppPage(appId: String)
 }
