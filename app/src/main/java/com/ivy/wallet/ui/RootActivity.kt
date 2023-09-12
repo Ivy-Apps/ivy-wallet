@@ -52,6 +52,7 @@ import com.ivy.exchangerates.ExchangeRatesScreen
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.NavigationRoot
 import com.ivy.frp.view.navigation.Screen
+import com.ivy.home.customerjourney.CustomerJourneyCardsProvider
 import com.ivy.import.csv.CSVScreen
 import com.ivy.import.csvimport.ImportCSVScreen
 import com.ivy.loans.loan.LoansScreen
@@ -79,6 +80,7 @@ import com.ivy.onboarding.OnboardingScreen
 import com.ivy.piechart.PieChartStatisticScreen
 import com.ivy.planned.edit.EditPlannedScreen
 import com.ivy.planned.list.PlannedPaymentsScreen
+import com.ivy.reports.ReportScreen
 import com.ivy.resources.R
 import com.ivy.search.SearchScreen
 import com.ivy.settings.SettingsScreen
@@ -87,10 +89,8 @@ import com.ivy.transaction.EditTransactionScreen
 import com.ivy.transactions.ItemStatisticScreen
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyLogic
 import com.ivy.wallet.ui.applocked.AppLockedScreen
 import com.ivy.wallet.ui.main.MainScreen
-import com.ivy.wallet.ui.reports.ReportScreen
 import com.ivy.wallet.utils.activityForResultLauncher
 import com.ivy.wallet.utils.convertLocalToUTC
 import com.ivy.wallet.utils.sendToCrashlytics
@@ -127,7 +127,7 @@ class RootActivity : AppCompatActivity() {
     lateinit var navigation: Navigation
 
     @Inject
-    lateinit var customerJourneyLogic: CustomerJourneyLogic
+    lateinit var customerJourneyLogic: CustomerJourneyCardsProvider
 
     private lateinit var googleSignInLauncher: ActivityResultLauncher<GoogleSignInClient>
     private lateinit var onGoogleSignInIdTokenResult: (idToken: String?) -> Unit
@@ -544,7 +544,7 @@ class RootActivity : AppCompatActivity() {
                     // reviewed or not, or even whether the review dialog was shown. Thus, no
                     // matter the result, we continue our app flow.
                     if (dismissReviewCard) {
-                        customerJourneyLogic.dismissCard(CustomerJourneyLogic.rateUsCard())
+                        customerJourneyLogic.dismissCard(CustomerJourneyCardsProvider.rateUsCard())
                     }
 
                     openGooglePlayAppPage()
