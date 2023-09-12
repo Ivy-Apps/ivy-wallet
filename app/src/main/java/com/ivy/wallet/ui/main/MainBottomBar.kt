@@ -39,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.ivy.core.FAB_BUTTON_SIZE
 import com.ivy.core.data.model.MainTab
 import com.ivy.core.ivyWalletCtx
 import com.ivy.design.l0_system.UI
@@ -68,7 +69,6 @@ import java.util.UUID
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
-val FAB_BUTTON_SIZE = 56.dp
 val TRN_BUTTON_CLICK_AREA_HEIGHT = 150.dp
 
 @Composable

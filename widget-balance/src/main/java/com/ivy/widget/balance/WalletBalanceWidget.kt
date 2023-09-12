@@ -14,6 +14,7 @@ import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.currentState
 import androidx.glance.state.PreferencesGlanceStateDefinition
+import com.ivy.core.AppStarter
 import com.ivy.core.IvyWalletCtx
 import com.ivy.core.data.model.toCloseTimeRange
 import com.ivy.wallet.domain.action.account.AccountsAct
@@ -24,7 +25,6 @@ import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.shortenAmount
-import com.ivy.widget.AppStarter
 import com.ivy.widgets.WidgetBase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope

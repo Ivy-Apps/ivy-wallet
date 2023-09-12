@@ -35,19 +35,3 @@ class IvyAndroidApp : Application(), Configuration.Provider {
         }
     }
 }
-
-fun refreshWidget(widgetReceiver: Class<*>) {
-    val updateIntent = Intent(appContext, widgetReceiver)
-    updateIntent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-
-    val widgetManager = AppWidgetManager.getInstance(appContext)
-    val ids = widgetManager.getAppWidgetIds(
-        ComponentName(
-            appContext,
-            widgetReceiver
-        )
-    )
-    updateIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
-
-    appContext.sendBroadcast(updateIntent)
-}

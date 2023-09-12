@@ -39,63 +39,59 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.ivy.balance.BalanceScreen
+import com.ivy.budgets.BudgetScreen
+import com.ivy.categories.CategoriesScreen
+import com.ivy.core.Constants
+import com.ivy.core.Constants.SUPPORT_EMAIL
 import com.ivy.core.IvyWalletCtx
+import com.ivy.core.RootScreen
 import com.ivy.core.appDesign
 import com.ivy.design.api.IvyUI
+import com.ivy.donate.DonateScreen
+import com.ivy.exchangerates.ExchangeRatesScreen
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.NavigationRoot
 import com.ivy.frp.view.navigation.Screen
+import com.ivy.home.customerjourney.CustomerJourneyCardsProvider
+import com.ivy.importdata.csv.CSVScreen
+import com.ivy.importdata.csvimport.ImportCSVScreen
+import com.ivy.loans.loan.LoansScreen
+import com.ivy.loans.loandetails.LoanDetailsScreen
 import com.ivy.navigation.BalanceScreen
 import com.ivy.navigation.BudgetScreen
 import com.ivy.navigation.CSVScreen
 import com.ivy.navigation.Categories
-import com.ivy.navigation.Charts
 import com.ivy.navigation.EditPlanned
 import com.ivy.navigation.EditTransaction
+import com.ivy.navigation.ExchangeRatesScreen
 import com.ivy.navigation.Import
 import com.ivy.navigation.ItemStatistic
 import com.ivy.navigation.LoanDetails
 import com.ivy.navigation.Loans
 import com.ivy.navigation.Main
 import com.ivy.navigation.Onboarding
-import com.ivy.navigation.Paywall
 import com.ivy.navigation.PieChartStatistic
 import com.ivy.navigation.PlannedPayments
 import com.ivy.navigation.Report
 import com.ivy.navigation.Search
-import com.ivy.navigation.ServerStop
 import com.ivy.navigation.Settings
 import com.ivy.navigation.Test
+import com.ivy.onboarding.OnboardingScreen
+import com.ivy.piechart.PieChartStatisticScreen
+import com.ivy.planned.edit.EditPlannedScreen
+import com.ivy.planned.list.PlannedPaymentsScreen
+import com.ivy.reports.ReportScreen
 import com.ivy.resources.R
+import com.ivy.search.SearchScreen
+import com.ivy.settings.SettingsScreen
+import com.ivy.test.TestScreen
+import com.ivy.transaction.EditTransactionScreen
+import com.ivy.transactions.ItemStatisticScreen
 import com.ivy.wallet.BuildConfig
-import com.ivy.wallet.Constants
-import com.ivy.wallet.Constants.SUPPORT_EMAIL
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyLogic
 import com.ivy.wallet.ui.applocked.AppLockedScreen
-import com.ivy.wallet.ui.balance.BalanceScreen
-import com.ivy.wallet.ui.budget.BudgetScreen
-import com.ivy.wallet.ui.category.CategoriesScreen
-import com.ivy.wallet.ui.charts.ChartsScreen
-import com.ivy.wallet.ui.csv.CSVScreen
-import com.ivy.wallet.ui.csvimport.ImportCSVScreen
-import com.ivy.wallet.ui.donate.DonateScreen
-import com.ivy.wallet.ui.edit.EditTransactionScreen
-import com.ivy.wallet.ui.exchangerates.ExchangeRatesScreen
-import com.ivy.wallet.ui.loan.LoansScreen
-import com.ivy.wallet.ui.loandetails.LoanDetailsScreen
 import com.ivy.wallet.ui.main.MainScreen
-import com.ivy.wallet.ui.onboarding.OnboardingScreen
-import com.ivy.wallet.ui.paywall.PaywallScreen
-import com.ivy.wallet.ui.planned.edit.EditPlannedScreen
-import com.ivy.wallet.ui.planned.list.PlannedPaymentsScreen
-import com.ivy.wallet.ui.reports.ReportScreen
-import com.ivy.wallet.ui.search.SearchScreen
-import com.ivy.wallet.ui.serverstop.ServerStopScreen
-import com.ivy.wallet.ui.settings.SettingsScreen
-import com.ivy.wallet.ui.statistic.level1.PieChartStatisticScreen
-import com.ivy.wallet.ui.statistic.level2.ItemStatisticScreen
-import com.ivy.wallet.ui.test.TestScreen
 import com.ivy.wallet.utils.activityForResultLauncher
 import com.ivy.wallet.utils.convertLocalToUTC
 import com.ivy.wallet.utils.sendToCrashlytics
@@ -113,7 +109,7 @@ import java.util.Random
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class RootActivity : AppCompatActivity() {
+class RootActivity : AppCompatActivity(), RootScreen {
 
     companion object {
 
@@ -132,7 +128,7 @@ class RootActivity : AppCompatActivity() {
     lateinit var navigation: Navigation
 
     @Inject
-    lateinit var customerJourneyLogic: CustomerJourneyLogic
+    lateinit var customerJourneyLogic: CustomerJourneyCardsProvider
 
     private lateinit var googleSignInLauncher: ActivityResultLauncher<GoogleSignInClient>
     private lateinit var onGoogleSignInIdTokenResult: (idToken: String?) -> Unit
@@ -171,7 +167,6 @@ class RootActivity : AppCompatActivity() {
 
             LaunchedEffect(isSystemInDarkTheme) {
                 viewModel.start(isSystemInDarkTheme, intent)
-                viewModel.initBilling(this@RootActivity)
             }
 
             IvyUI(
@@ -221,7 +216,6 @@ class RootActivity : AppCompatActivity() {
         when (screen) {
             is Main -> MainScreen(screen = screen)
             is Onboarding -> OnboardingScreen(screen = screen)
-            is ServerStop -> ServerStopScreen()
             is ExchangeRatesScreen -> ExchangeRatesScreen()
             is EditTransaction -> EditTransactionScreen(screen = screen)
             is ItemStatistic -> ItemStatisticScreen(screen = screen)
@@ -231,13 +225,7 @@ class RootActivity : AppCompatActivity() {
             is PlannedPayments -> PlannedPaymentsScreen(screen = screen)
             is EditPlanned -> EditPlannedScreen(screen = screen)
             is BalanceScreen -> BalanceScreen(screen = screen)
-            is Paywall -> PaywallScreen(
-                screen = screen,
-                activity = this@RootActivity
-            )
-
             is Test -> TestScreen(screen = screen)
-            is Charts -> ChartsScreen(screen = screen)
             is Import -> ImportCSVScreen(screen = screen)
             is Report -> ReportScreen(screen = screen)
             is BudgetScreen -> BudgetScreen(screen = screen)
@@ -478,7 +466,7 @@ class RootActivity : AppCompatActivity() {
         }
     }
 
-    fun openUrlInBrowser(url: String) {
+    override fun openUrlInBrowser(url: String) {
         try {
             val browserIntent = Intent(Intent.ACTION_VIEW)
             browserIntent.data = Uri.parse(url)
@@ -494,7 +482,7 @@ class RootActivity : AppCompatActivity() {
         }
     }
 
-    fun shareIvyWallet() {
+    override fun shareIvyWallet() {
         val share = Intent.createChooser(
             Intent().apply {
                 action = Intent.ACTION_SEND
@@ -506,7 +494,7 @@ class RootActivity : AppCompatActivity() {
         startActivity(share)
     }
 
-    fun openGooglePlayAppPage(appId: String = packageName) {
+    override fun openGooglePlayAppPage(appId: String) {
         try {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appId")))
         } catch (e: ActivityNotFoundException) {
@@ -519,7 +507,7 @@ class RootActivity : AppCompatActivity() {
         }
     }
 
-    fun shareCSVFile(fileUri: Uri) {
+    override fun shareCSVFile(fileUri: Uri) {
         val intent = Intent.createChooser(
             Intent().apply {
                 action = Intent.ACTION_SEND
@@ -531,7 +519,7 @@ class RootActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun shareZipFile(fileUri: Uri) {
+    override fun shareZipFile(fileUri: Uri) {
         val intent = Intent.createChooser(
             Intent().apply {
                 action = Intent.ACTION_SEND
@@ -543,7 +531,14 @@ class RootActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun reviewIvyWallet(dismissReviewCard: Boolean) {
+    override val isDebug: Boolean
+        get() = BuildConfig.DEBUG
+    override val buildVersionName: String
+        get() = BuildConfig.VERSION_NAME
+    override val buildVersionCode: Int
+        get() = BuildConfig.VERSION_CODE
+
+    override fun reviewIvyWallet(dismissReviewCard: Boolean) {
         val manager = ReviewManagerFactory.create(this)
         val request = manager.requestReviewFlow()
         request.addOnCompleteListener { task ->
@@ -556,18 +551,18 @@ class RootActivity : AppCompatActivity() {
                     // reviewed or not, or even whether the review dialog was shown. Thus, no
                     // matter the result, we continue our app flow.
                     if (dismissReviewCard) {
-                        customerJourneyLogic.dismissCard(CustomerJourneyLogic.rateUsCard())
+                        customerJourneyLogic.dismissCard(CustomerJourneyCardsProvider.rateUsCard())
                     }
 
-                    openGooglePlayAppPage()
+                    openGooglePlayAppPage(packageName)
                 }
             } else {
-                openGooglePlayAppPage()
+                openGooglePlayAppPage(packageName)
             }
         }
     }
 
-    fun <T> pinWidget(widget: Class<T>) {
+    override fun <T> pinWidget(widget: Class<T>) {
         val appWidgetManager: AppWidgetManager = this.getSystemService(AppWidgetManager::class.java)
         val addTransactionWidget = ComponentName(this, widget)
         appWidgetManager.requestPinAppWidget(addTransactionWidget, null, null)

@@ -16,4 +16,8 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.bundles.opencsv)
     implementation(libs.bundles.firebase)
+
+    implementation(libs.keval)
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.bundles.activity)
 }

@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.resources.R
-import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.core.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IvyButton
