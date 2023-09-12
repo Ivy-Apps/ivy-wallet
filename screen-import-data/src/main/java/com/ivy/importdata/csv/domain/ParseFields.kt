@@ -1,16 +1,16 @@
-package com.ivy.import.csv.domain
+package com.ivy.importdata.csv.domain
 
+import com.ivy.importdata.csv.CSVRow
+import com.ivy.importdata.csv.ColumnMapping
+import com.ivy.importdata.csv.DateMetadata
+import com.ivy.importdata.csv.TrnTypeMetadata
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.import.csv.CSVRow
-import com.ivy.import.csv.ColumnMapping
-import com.ivy.import.csv.DateMetadata
-import com.ivy.import.csv.TrnTypeMetadata
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
-import java.util.*
+import java.util.Locale
 import kotlin.math.abs
 
 // region Parse amount
@@ -62,7 +62,7 @@ fun parseTransactionType(
 ): TransactionType? {
     fun String.tryMeta(metaContains: String): Boolean {
         return metaContains.isNotBlank() &&
-            this.contains(metaContains.trim(), ignoreCase = true)
+                this.contains(metaContains.trim(), ignoreCase = true)
     }
 
     return tryParse {
@@ -146,6 +146,7 @@ private fun possibleDateFormats(metadata: DateMetadata): List<String> {
             "yyyy d MMM",
             "yyyy dd MMM"
         )
+
         DateMetadata.MonthFirst -> listOf(
             "MM/dd/yyyy HH:mm:ss",
             "MM-dd-yyyy HH:mm:ss",

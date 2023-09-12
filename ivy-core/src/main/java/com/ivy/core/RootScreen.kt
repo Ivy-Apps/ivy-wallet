@@ -1,7 +1,6 @@
 package com.ivy.core
 
 import android.net.Uri
-import java.util.UUID
 
 interface RootScreen {
     /**
@@ -31,5 +30,5 @@ interface RootScreen {
 
     fun openGooglePlayAppPage(appId: String)
 
-    fun pinWidget(widget: Class<*>)
+    fun <T> pinWidget(widget: Class<T>)
 }

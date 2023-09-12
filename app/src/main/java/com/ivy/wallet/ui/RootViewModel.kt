@@ -1,6 +1,5 @@
 package com.ivy.wallet.ui
 
-import android.app.Activity
 import android.content.Intent
 import androidx.biometric.BiometricPrompt
 import androidx.lifecycle.ViewModel
@@ -9,22 +8,20 @@ import com.ivy.core.Constants
 import com.ivy.core.IvyWalletCtx
 import com.ivy.core.stringRes
 import com.ivy.design.l0_system.Theme
+import com.ivy.donate.billing.IvyBilling
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.navigation.EditTransaction
 import com.ivy.navigation.Main
 import com.ivy.navigation.Onboarding
 import com.ivy.resources.R
-import com.ivy.donate.billing.IvyBilling
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.deprecated.logic.PaywallLogic
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.migrations.MigrationsManager
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.readOnly
-import com.ivy.wallet.utils.sendToCrashlytics
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -43,7 +40,6 @@ class RootViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
     private val sharedPrefs: SharedPrefs,
     private val ivyBilling: IvyBilling,
-    private val paywallLogic: PaywallLogic,
     private val transactionReminderLogic: TransactionReminderLogic,
     private val migrationsManager: MigrationsManager,
 ) : ViewModel() {
@@ -141,27 +137,6 @@ class RootViewModel @Inject constructor(
             override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
             }
         }
-    }
-
-    fun initBilling(activity: Activity) {
-        ivyBilling.init(
-            activity = activity,
-            onReady = {
-                viewModelScope.launch {
-                    val purchases = ivyBilling.queryPurchases()
-                    paywallLogic.processPurchases(purchases)
-                }
-            },
-            onPurchases = { purchases ->
-                viewModelScope.launch {
-                    paywallLogic.processPurchases(purchases)
-                }
-            },
-            onError = { code, msg ->
-                sendToCrashlytics("IvyActivity Billing error: code=$code: $msg")
-                Timber.e("Billing error code=$code: $msg")
-            }
-        )
     }
 
     private fun isOnboardingCompleted(): Boolean {

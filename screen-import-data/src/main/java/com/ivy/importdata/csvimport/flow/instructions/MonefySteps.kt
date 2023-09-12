@@ -1,4 +1,4 @@
-package com.ivy.import.csvimport.flow.instructions
+package com.ivy.importdata.csvimport.flow.instructions
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -9,15 +9,15 @@ import androidx.compose.ui.unit.dp
 import com.ivy.resources.R
 
 @Composable
-fun FinancistoSteps(
+fun MonefySteps(
     onUploadClick: () -> Unit
 ) {
     Spacer(Modifier.height(12.dp))
 
     StepTitle(
         number = 1,
-        title = stringResource(R.string.export_csv_file_standard),
-        description = stringResource(R.string.export_csv_file_standard_description)
+        title = stringResource(R.string.export_to_file),
+        description = stringResource(R.string.export_to_file_description)
     )
 
     Spacer(Modifier.height(24.dp))

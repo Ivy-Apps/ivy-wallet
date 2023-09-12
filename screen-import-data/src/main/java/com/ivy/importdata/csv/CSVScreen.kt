@@ -1,4 +1,4 @@
-package com.ivy.import.csv
+package com.ivy.importdata.csv
 
 import android.net.Uri
 import androidx.compose.foundation.background
@@ -38,10 +38,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.core.ivyWalletCtx
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.colorAs
+import com.ivy.importdata.csvimport.flow.ImportProcessing
+import com.ivy.importdata.csvimport.flow.ImportResultUI
 import com.ivy.navigation.CSVScreen
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
-import com.ivy.import.csvimport.flow.ImportProcessing
-import com.ivy.import.csvimport.flow.ImportResultUI
 import com.ivy.wallet.utils.thenIf
 import kotlin.math.abs
 
@@ -82,7 +82,7 @@ fun CSVScreen(
 private fun ImportUI(
     state: CSVState,
     launchedFromOnboarding: Boolean,
-    onEvent: (CSVEvent) -> Unit,
+    onEvent: (com.ivy.importdata.csv.CSVEvent) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -96,7 +96,7 @@ private fun ImportUI(
         item(key = "import_btn") {
             ImportButton(
                 onFilePicked = {
-                    onEvent(CSVEvent.FilePicked(it))
+                    onEvent(com.ivy.importdata.csv.CSVEvent.FilePicked(it))
                 }
             )
             if (!launchedFromOnboarding) {
@@ -314,17 +314,24 @@ fun LazyListScope.sectionDivider(text: String) {
 fun LazyListScope.importantFields(
     columns: CSVRow,
     importantFields: ImportantFields,
-    onEvent: (CSVEvent) -> Unit
+    onEvent: (com.ivy.importdata.csv.CSVEvent) -> Unit
 ) {
     sectionDivider("Important")
     mappingRow(
         columns = columns,
         mapping = importantFields.amount,
         status = importantFields.amountStatus,
-        onMapTo = { index, name -> onEvent(CSVEvent.MapAmount(index, name)) },
+        onMapTo = { index, name ->
+            onEvent(
+                com.ivy.importdata.csv.CSVEvent.MapAmount(
+                    index,
+                    name
+                )
+            )
+        },
         metadataContent = { multiplier ->
             AmountMetadata(multiplier = multiplier, onMetaChange = {
-                onEvent(CSVEvent.AmountMultiplier(it))
+                onEvent(com.ivy.importdata.csv.CSVEvent.AmountMultiplier(it))
             })
         }
     )
@@ -332,7 +339,7 @@ fun LazyListScope.importantFields(
         columns = columns,
         mapping = importantFields.type,
         status = importantFields.typeStatus,
-        onMapTo = { index, name -> onEvent(CSVEvent.MapType(index, name)) },
+        onMapTo = { index, name -> onEvent(com.ivy.importdata.csv.CSVEvent.MapType(index, name)) },
         metadataContent = {
             TypeMetadata(metadata = it, onEvent = onEvent)
         }
@@ -341,7 +348,7 @@ fun LazyListScope.importantFields(
         columns = columns,
         mapping = importantFields.date,
         status = importantFields.dateStatus,
-        onMapTo = { index, name -> onEvent(CSVEvent.MapDate(index, name)) },
+        onMapTo = { index, name -> onEvent(com.ivy.importdata.csv.CSVEvent.MapDate(index, name)) },
         metadataContent = {
             DateMetadataUI(metadata = it, onEvent = onEvent)
         }
@@ -350,13 +357,27 @@ fun LazyListScope.importantFields(
         columns = columns,
         mapping = importantFields.account,
         status = importantFields.accountStatus,
-        onMapTo = { index, name -> onEvent(CSVEvent.MapAccount(index, name)) },
+        onMapTo = { index, name ->
+            onEvent(
+                com.ivy.importdata.csv.CSVEvent.MapAccount(
+                    index,
+                    name
+                )
+            )
+        },
     )
     mappingRow(
         columns = columns,
         mapping = importantFields.accountCurrency,
         status = importantFields.accountCurrencyStatus,
-        onMapTo = { index, name -> onEvent(CSVEvent.MapAccountCurrency(index, name)) },
+        onMapTo = { index, name ->
+            onEvent(
+                com.ivy.importdata.csv.CSVEvent.MapAccountCurrency(
+                    index,
+                    name
+                )
+            )
+        },
     )
 }
 
@@ -408,10 +429,10 @@ private fun AmountMetadata(
 @Composable
 private fun TypeMetadata(
     metadata: TrnTypeMetadata,
-    onEvent: (CSVEvent) -> Unit
+    onEvent: (com.ivy.importdata.csv.CSVEvent) -> Unit
 ) {
     val onTypeMetaEvent = { newMeta: TrnTypeMetadata ->
-        onEvent(CSVEvent.TypeMetaChange(newMeta))
+        onEvent(com.ivy.importdata.csv.CSVEvent.TypeMetaChange(newMeta))
     }
 
     LabelContainsField(
@@ -469,7 +490,7 @@ fun LabelContainsField(
 @Composable
 private fun DateMetadataUI(
     metadata: DateMetadata,
-    onEvent: (CSVEvent) -> Unit,
+    onEvent: (com.ivy.importdata.csv.CSVEvent) -> Unit,
 ) {
     Text(text = "Which is first in the format?")
     Row {
@@ -477,7 +498,7 @@ private fun DateMetadataUI(
             enabled = metadata == DateMetadata.DateFirst,
             text = "Date/Day (1,2,3...31)",
             onClick = {
-                onEvent(CSVEvent.DataMetaChange(DateMetadata.DateFirst))
+                onEvent(com.ivy.importdata.csv.CSVEvent.DataMetaChange(DateMetadata.DateFirst))
             }
         )
         Spacer8(horizontal = true)
@@ -485,7 +506,7 @@ private fun DateMetadataUI(
             enabled = metadata == DateMetadata.MonthFirst,
             text = "Month (1,2..12 / Jan, Feb..Dec)",
             onClick = {
-                onEvent(CSVEvent.DataMetaChange(DateMetadata.MonthFirst))
+                onEvent(com.ivy.importdata.csv.CSVEvent.DataMetaChange(DateMetadata.MonthFirst))
             }
         )
     }
@@ -513,31 +534,52 @@ private fun EnabledButton(
 fun LazyListScope.transferFields(
     columns: CSVRow,
     transferFields: TransferFields,
-    onEvent: (CSVEvent) -> Unit
+    onEvent: (com.ivy.importdata.csv.CSVEvent) -> Unit
 ) {
     sectionDivider("Transfer fields")
     mappingRow(
         columns = columns,
         mapping = transferFields.toAccount,
         status = transferFields.toAccountStatus,
-        onMapTo = { index, name -> onEvent(CSVEvent.MapToAccount(index, name)) },
+        onMapTo = { index, name ->
+            onEvent(
+                com.ivy.importdata.csv.CSVEvent.MapToAccount(
+                    index,
+                    name
+                )
+            )
+        },
     )
     mappingRow(
         columns = columns,
         mapping = transferFields.toAccountCurrency,
         status = transferFields.toAccountCurrencyStatus,
-        onMapTo = { index, name -> onEvent(CSVEvent.MapToAccountCurrency(index, name)) },
+        onMapTo = { index, name ->
+            onEvent(
+                com.ivy.importdata.csv.CSVEvent.MapToAccountCurrency(
+                    index,
+                    name
+                )
+            )
+        },
     )
     mappingRow(
         columns = columns,
         mapping = transferFields.toAmount,
         status = transferFields.toAmountStatus,
-        onMapTo = { index, name -> onEvent(CSVEvent.MapToAmount(index, name)) },
+        onMapTo = { index, name ->
+            onEvent(
+                com.ivy.importdata.csv.CSVEvent.MapToAmount(
+                    index,
+                    name
+                )
+            )
+        },
         metadataContent = { multiplier ->
             AmountMetadata(
                 multiplier = multiplier,
                 onMetaChange = {
-                    onEvent(CSVEvent.ToAmountMetaChange(it))
+                    onEvent(com.ivy.importdata.csv.CSVEvent.ToAmountMetaChange(it))
                 }
             )
         }
@@ -547,32 +589,46 @@ fun LazyListScope.transferFields(
 fun LazyListScope.optionalFields(
     columns: CSVRow,
     optionalFields: OptionalFields,
-    onEvent: (CSVEvent) -> Unit
+    onEvent: (com.ivy.importdata.csv.CSVEvent) -> Unit
 ) {
     sectionDivider("Optional fields")
     mappingRow(
         columns = columns,
         mapping = optionalFields.category,
         status = optionalFields.categoryStatus,
-        onMapTo = { index, name -> onEvent(CSVEvent.MapCategory(index, name)) },
+        onMapTo = { index, name ->
+            onEvent(
+                com.ivy.importdata.csv.CSVEvent.MapCategory(
+                    index,
+                    name
+                )
+            )
+        },
     )
     mappingRow(
         columns = columns,
         mapping = optionalFields.title,
         status = optionalFields.titleStatus,
-        onMapTo = { index, name -> onEvent(CSVEvent.MapTitle(index, name)) },
+        onMapTo = { index, name -> onEvent(com.ivy.importdata.csv.CSVEvent.MapTitle(index, name)) },
     )
     mappingRow(
         columns = columns,
         mapping = optionalFields.description,
         status = optionalFields.descriptionStatus,
-        onMapTo = { index, name -> onEvent(CSVEvent.MapDescription(index, name)) },
+        onMapTo = { index, name ->
+            onEvent(
+                com.ivy.importdata.csv.CSVEvent.MapDescription(
+                    index,
+                    name
+                )
+            )
+        },
     )
 }
 
 private fun LazyListScope.continueButton(
     enabled: Boolean,
-    onEvent: (CSVEvent) -> Unit
+    onEvent: (com.ivy.importdata.csv.CSVEvent) -> Unit
 ) {
     item {
         Spacer8()
@@ -583,7 +639,7 @@ private fun LazyListScope.continueButton(
                 .height(48.dp),
             enabled = enabled,
             onClick = {
-                onEvent(CSVEvent.Continue)
+                onEvent(com.ivy.importdata.csv.CSVEvent.Continue)
             }
         ) {
             Text(text = "Continue")

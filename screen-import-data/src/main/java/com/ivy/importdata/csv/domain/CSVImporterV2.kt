@@ -1,4 +1,4 @@
-package com.ivy.import.csv.domain
+package com.ivy.importdata.csv.domain
 
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.wallet.domain.data.IvyCurrency
@@ -13,18 +13,19 @@ import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.import.csv.ImportantFields
-import com.ivy.import.csv.OptionalFields
-import com.ivy.import.csv.TransferFields
+
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.IvyDark
 import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
+import com.ivy.importdata.csv.ImportantFields
+import com.ivy.importdata.csv.OptionalFields
+import com.ivy.importdata.csv.TransferFields
 import com.ivy.wallet.utils.toLowerCaseLocal
 import kotlinx.collections.immutable.toImmutableList
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.absoluteValue
-import com.ivy.import.csv.CSVRow as CSVRowNew
+import com.ivy.importdata.csv.CSVRow as CSVRowNew
 
 class CSVImporterV2 @Inject constructor(
     private val settingsDao: SettingsDao,

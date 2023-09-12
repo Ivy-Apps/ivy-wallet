@@ -45,6 +45,7 @@ import com.ivy.categories.CategoriesScreen
 import com.ivy.core.Constants
 import com.ivy.core.Constants.SUPPORT_EMAIL
 import com.ivy.core.IvyWalletCtx
+import com.ivy.core.RootScreen
 import com.ivy.core.appDesign
 import com.ivy.design.api.IvyUI
 import com.ivy.donate.DonateScreen
@@ -53,8 +54,8 @@ import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.NavigationRoot
 import com.ivy.frp.view.navigation.Screen
 import com.ivy.home.customerjourney.CustomerJourneyCardsProvider
-import com.ivy.import.csv.CSVScreen
-import com.ivy.import.csvimport.ImportCSVScreen
+import com.ivy.importdata.csv.CSVScreen
+import com.ivy.importdata.csvimport.ImportCSVScreen
 import com.ivy.loans.loan.LoansScreen
 import com.ivy.loans.loandetails.LoanDetailsScreen
 import com.ivy.navigation.BalanceScreen
@@ -108,7 +109,7 @@ import java.util.Random
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class RootActivity : AppCompatActivity() {
+class RootActivity : AppCompatActivity(), RootScreen {
 
     companion object {
 
@@ -166,7 +167,6 @@ class RootActivity : AppCompatActivity() {
 
             LaunchedEffect(isSystemInDarkTheme) {
                 viewModel.start(isSystemInDarkTheme, intent)
-                viewModel.initBilling(this@RootActivity)
             }
 
             IvyUI(
@@ -466,7 +466,7 @@ class RootActivity : AppCompatActivity() {
         }
     }
 
-    fun openUrlInBrowser(url: String) {
+    override fun openUrlInBrowser(url: String) {
         try {
             val browserIntent = Intent(Intent.ACTION_VIEW)
             browserIntent.data = Uri.parse(url)
@@ -482,7 +482,7 @@ class RootActivity : AppCompatActivity() {
         }
     }
 
-    fun shareIvyWallet() {
+    override fun shareIvyWallet() {
         val share = Intent.createChooser(
             Intent().apply {
                 action = Intent.ACTION_SEND
@@ -494,7 +494,7 @@ class RootActivity : AppCompatActivity() {
         startActivity(share)
     }
 
-    fun openGooglePlayAppPage(appId: String = packageName) {
+    override fun openGooglePlayAppPage(appId: String) {
         try {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appId")))
         } catch (e: ActivityNotFoundException) {
@@ -507,7 +507,7 @@ class RootActivity : AppCompatActivity() {
         }
     }
 
-    fun shareCSVFile(fileUri: Uri) {
+    override fun shareCSVFile(fileUri: Uri) {
         val intent = Intent.createChooser(
             Intent().apply {
                 action = Intent.ACTION_SEND
@@ -519,7 +519,7 @@ class RootActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun shareZipFile(fileUri: Uri) {
+    override fun shareZipFile(fileUri: Uri) {
         val intent = Intent.createChooser(
             Intent().apply {
                 action = Intent.ACTION_SEND
@@ -531,7 +531,14 @@ class RootActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun reviewIvyWallet(dismissReviewCard: Boolean) {
+    override val isDebug: Boolean
+        get() = BuildConfig.DEBUG
+    override val buildVersionName: String
+        get() = BuildConfig.VERSION_NAME
+    override val buildVersionCode: Int
+        get() = BuildConfig.VERSION_CODE
+
+    override fun reviewIvyWallet(dismissReviewCard: Boolean) {
         val manager = ReviewManagerFactory.create(this)
         val request = manager.requestReviewFlow()
         request.addOnCompleteListener { task ->
@@ -547,15 +554,15 @@ class RootActivity : AppCompatActivity() {
                         customerJourneyLogic.dismissCard(CustomerJourneyCardsProvider.rateUsCard())
                     }
 
-                    openGooglePlayAppPage()
+                    openGooglePlayAppPage(packageName)
                 }
             } else {
-                openGooglePlayAppPage()
+                openGooglePlayAppPage(packageName)
             }
         }
     }
 
-    fun <T> pinWidget(widget: Class<T>) {
+    override fun <T> pinWidget(widget: Class<T>) {
         val appWidgetManager: AppWidgetManager = this.getSystemService(AppWidgetManager::class.java)
         val addTransactionWidget = ComponentName(this, widget)
         appWidgetManager.requestPinAppWidget(addTransactionWidget, null, null)

@@ -1,4 +1,4 @@
-package com.ivy.import.csvimport.flow.instructions
+package com.ivy.importdata.csvimport.flow.instructions
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -9,24 +9,15 @@ import androidx.compose.ui.unit.dp
 import com.ivy.resources.R
 
 @Composable
-fun DefaultImportSteps(
-    videoUrl: String? = null,
-    articleUrl: String? = null,
-
+fun FinancistoSteps(
     onUploadClick: () -> Unit
 ) {
     Spacer(Modifier.height(12.dp))
 
     StepTitle(
         number = 1,
-        title = stringResource(R.string.export_csv_file)
-    )
-
-    Spacer(Modifier.height(12.dp))
-
-    VideoArticleRow(
-        videoUrl = videoUrl,
-        articleUrl = articleUrl
+        title = stringResource(R.string.export_csv_file_standard),
+        description = stringResource(R.string.export_csv_file_standard_description)
     )
 
     Spacer(Modifier.height(24.dp))

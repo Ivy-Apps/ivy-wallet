@@ -1,4 +1,4 @@
-package com.ivy.import.csvimport.flow.instructions
+package com.ivy.importdata.csvimport.flow.instructions
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -9,32 +9,30 @@ import androidx.compose.ui.unit.dp
 import com.ivy.resources.R
 
 @Composable
-fun IvyWalletSteps(
+fun DefaultImportSteps(
+    videoUrl: String? = null,
+    articleUrl: String? = null,
+
     onUploadClick: () -> Unit
 ) {
     Spacer(Modifier.height(12.dp))
 
     StepTitle(
         number = 1,
-        title = stringResource(R.string.export_data),
-        description = """
-            Settings > "Backup Data" (do NOT use "Export to CSV"!)
-        """.trimIndent()
+        title = stringResource(R.string.export_csv_file)
     )
 
     Spacer(Modifier.height(12.dp))
 
     VideoArticleRow(
-        videoUrl = null,
-        articleUrl = null
+        videoUrl = videoUrl,
+        articleUrl = articleUrl
     )
 
     Spacer(Modifier.height(24.dp))
 
     UploadFileStep(
         stepNumber = 2,
-        text = "Upload Backup (ZIP/CSV/JSON) file",
-        btnTitle = "Upload Backup file",
         onUploadClick = onUploadClick
     )
 }

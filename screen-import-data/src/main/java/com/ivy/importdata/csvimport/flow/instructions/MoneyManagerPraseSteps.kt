@@ -1,4 +1,4 @@
-package com.ivy.import.csvimport.flow.instructions
+package com.ivy.importdata.csvimport.flow.instructions
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height

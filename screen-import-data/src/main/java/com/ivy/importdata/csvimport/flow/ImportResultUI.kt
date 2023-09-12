@@ -1,4 +1,4 @@
-package com.ivy.import.csvimport.flow
+package com.ivy.importdata.csvimport.flow
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

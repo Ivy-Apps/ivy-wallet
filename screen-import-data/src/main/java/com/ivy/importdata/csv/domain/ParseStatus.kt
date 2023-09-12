@@ -1,8 +1,8 @@
-package com.ivy.import.csv.domain
+package com.ivy.importdata.csv.domain
 
-import com.ivy.import.csv.CSVRow
-import com.ivy.import.csv.ColumnMapping
-import com.ivy.import.csv.MappingStatus
+import com.ivy.importdata.csv.CSVRow
+import com.ivy.importdata.csv.ColumnMapping
+import com.ivy.importdata.csv.MappingStatus
 
 const val SAMPLE_SIZE = 20
 

@@ -1,4 +1,4 @@
-package com.ivy.import.csvimport.flow.instructions
+package com.ivy.importdata.csvimport.flow.instructions
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -35,7 +35,7 @@ import com.ivy.core.rootScreen
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
-import com.ivy.import.csvimport.flow.ImportSteps
+import com.ivy.importdata.csvimport.flow.ImportSteps
 import com.ivy.onboarding.components.OnboardingToolbar
 import com.ivy.resources.R
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType

@@ -1,4 +1,4 @@
-package com.ivy.import.csv
+package com.ivy.importdata.csv
 
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import kotlinx.collections.immutable.ImmutableList

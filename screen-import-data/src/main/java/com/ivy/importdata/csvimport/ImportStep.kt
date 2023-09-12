@@ -1,4 +1,4 @@
-package com.ivy.import.csvimport
+package com.ivy.importdata.csvimport
 
 enum class ImportStep {
     IMPORT_FROM, INSTRUCTIONS, LOADING, RESULT

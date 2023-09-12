@@ -1,4 +1,4 @@
-package com.ivy.import.csvimport
+package com.ivy.importdata.csvimport
 
 import android.content.Context
 import android.net.Uri
