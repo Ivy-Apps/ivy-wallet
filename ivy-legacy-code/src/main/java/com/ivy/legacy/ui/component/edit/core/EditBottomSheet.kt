@@ -44,14 +44,27 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ivy.core.Constants
-import com.ivy.legacy.IvyWalletPreview
-import com.ivy.legacy.ivyWalletCtx
+import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.model.Account
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.test.TestingContext
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.ivyWalletCtx
+import com.ivy.legacy.utils.addKeyboardListener
+import com.ivy.legacy.utils.clickableNoIndication
+import com.ivy.legacy.utils.consumeClicks
+import com.ivy.legacy.utils.densityScope
+import com.ivy.legacy.utils.format
+import com.ivy.legacy.utils.hideKeyboard
+import com.ivy.legacy.utils.keyboardOnlyWindowInsets
+import com.ivy.legacy.utils.lerp
+import com.ivy.legacy.utils.navigationBarInsets
+import com.ivy.legacy.utils.onScreenStart
+import com.ivy.legacy.utils.springBounce
+import com.ivy.legacy.utils.thenIf
+import com.ivy.legacy.utils.verticalSwipeListener
 import com.ivy.resources.R
-import com.ivy.core.data.db.entity.TransactionType
-import com.ivy.core.data.model.Account
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.GreenDark
@@ -70,19 +83,6 @@ import com.ivy.wallet.ui.theme.modal.ModalSave
 import com.ivy.wallet.ui.theme.modal.ModalSet
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import com.ivy.wallet.ui.theme.toComposeColor
-import com.ivy.legacy.utils.addKeyboardListener
-import com.ivy.legacy.utils.clickableNoIndication
-import com.ivy.legacy.utils.consumeClicks
-import com.ivy.legacy.utils.densityScope
-import com.ivy.legacy.utils.format
-import com.ivy.legacy.utils.hideKeyboard
-import com.ivy.legacy.utils.keyboardOnlyWindowInsets
-import com.ivy.legacy.utils.lerp
-import com.ivy.legacy.utils.navigationBarInsets
-import com.ivy.legacy.utils.onScreenStart
-import com.ivy.legacy.utils.springBounce
-import com.ivy.legacy.utils.thenIf
-import com.ivy.legacy.utils.verticalSwipeListener
 import kotlinx.coroutines.launch
 import java.util.Locale
 import java.util.UUID
@@ -144,7 +144,7 @@ fun BoxWithConstraintsScope.EditBottomSheet(
 
     val showConvertedAmountText by remember(convertedAmount) {
         if (type == TransactionType.TRANSFER && convertedAmount != null && convertedAmountCurrencyCode != null) {
-            mutableStateOf("${com.ivy.legacy.utils.format(2)} $convertedAmountCurrencyCode")
+            mutableStateOf("${convertedAmount.format(2)} $convertedAmountCurrencyCode")
         } else {
             mutableStateOf(null)
         }

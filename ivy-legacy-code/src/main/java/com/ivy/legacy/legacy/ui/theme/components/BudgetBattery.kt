@@ -17,7 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
-import com.ivy.legacy.utils.format
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -25,17 +24,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.resources.R
 import com.ivy.legacy.IvyWalletComponentPreview
+import com.ivy.legacy.utils.format
+import com.ivy.legacy.utils.thenIf
+import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.White
-import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB2Row
-import com.ivy.legacy.utils.format
-import com.ivy.legacy.utils.thenIf
 import com.ivy.wallet.ui.theme.components.IvyIcon
+import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB2Row
 import kotlin.math.abs
 
 @Composable
@@ -54,12 +53,15 @@ fun BudgetBattery(
         percentSpent <= 0.30 -> {
             UI.colors.pureInverse
         }
+
         percentSpent <= 0.50 -> {
             White
         }
+
         percentSpent <= 0.75 -> {
             White
         }
+
         else -> White
     }
 
@@ -67,12 +69,15 @@ fun BudgetBattery(
         percentSpent <= 0.30 -> {
             UI.colors.mediumInverse
         }
+
         percentSpent <= 0.50 -> {
             White
         }
+
         percentSpent <= 0.75 -> {
             White
         }
+
         else -> White
     }
 
@@ -126,6 +131,7 @@ fun BudgetBattery(
                     percentSpent <= 1 -> {
                         stringResource(R.string.left_to_spend)
                     }
+
                     else -> stringResource(R.string.budget_exceeded_by)
                 },
                 style = UI.typo.c.style(
@@ -145,11 +151,7 @@ fun BudgetBattery(
             Spacer(Modifier.height(2.dp))
 
             Text(
-                text = "${format(currency)}/${
-                    com.ivy.legacy.utils.format(
-                        currency
-                    )
-                } $currency",
+                text = "${expenses.format(currency)}/${budget.format(currency)} $currency",
                 style = UI.typo.nC.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = captionTextColor

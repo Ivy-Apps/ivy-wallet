@@ -86,7 +86,7 @@ fun CustomExchangeRateCard(
                     )
                 )
                 Text(
-                    text = com.ivy.legacy.utils.format(4),
+                    text = exchangeRate.format(4),
                     style = UI.typo.nB2.style(
                         fontWeight = FontWeight.ExtraBold,
                         color = Orange

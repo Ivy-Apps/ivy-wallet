@@ -181,7 +181,7 @@ fun TransactionCard(
         if (transaction.type == TransactionType.TRANSFER && toAccountCurrency != transactionCurrency) {
             Text(
                 modifier = Modifier.padding(start = 68.dp),
-                text = "${com.ivy.legacy.utils.format(2)} $toAccountCurrency",
+                text = "${transaction.toAmount.toDouble().format(2)} $toAccountCurrency",
                 style = UI.typo.nB2.style(
                     color = Gray,
                     fontWeight = FontWeight.Normal

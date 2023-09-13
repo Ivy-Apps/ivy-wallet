@@ -34,15 +34,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.ivy.legacy.IvyWalletPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.resources.R
-import com.ivy.wallet.ui.theme.Red
-import com.ivy.wallet.ui.theme.components.IvyIcon
-import com.ivy.wallet.ui.theme.modal.IvyModal
-import com.ivy.wallet.ui.theme.modal.ModalPositiveButton
-import com.ivy.wallet.ui.theme.modal.modalPreviewActionRowHeight
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.utils.amountToDouble
 import com.ivy.legacy.utils.amountToDoubleOrNull
 import com.ivy.legacy.utils.format
@@ -51,6 +45,12 @@ import com.ivy.legacy.utils.formatInt
 import com.ivy.legacy.utils.hideKeyboard
 import com.ivy.legacy.utils.localDecimalSeparator
 import com.ivy.legacy.utils.onScreenStart
+import com.ivy.resources.R
+import com.ivy.wallet.ui.theme.Red
+import com.ivy.wallet.ui.theme.components.IvyIcon
+import com.ivy.wallet.ui.theme.modal.IvyModal
+import com.ivy.wallet.ui.theme.modal.ModalPositiveButton
+import com.ivy.wallet.ui.theme.modal.modalPreviewActionRowHeight
 import java.util.UUID
 import kotlin.math.truncate
 
@@ -69,10 +69,10 @@ fun BoxWithConstraintsScope.AmountModal(
     var amount by remember(id) {
         mutableStateOf(
             if (currency.isNotEmpty()) {
-                com.ivy.legacy.utils.format(currency)
+                initialAmount?.takeIf { it != 0.0 }?.format(currency)
                     ?: ""
             } else {
-                com.ivy.legacy.utils.format(decimalCountMax)
+                initialAmount?.takeIf { it != 0.0 }?.format(decimalCountMax)
                     ?: ""
             }
         )
@@ -154,9 +154,7 @@ fun BoxWithConstraintsScope.AmountModal(
             calculatorModalVisible = false
         },
         onCalculation = {
-            amount = if (currency.isNotEmpty()) com.ivy.legacy.utils.format(currency) else com.ivy.legacy.utils.format(
-                decimalCountMax
-            )
+            amount = if (currency.isNotEmpty()) it.format(currency) else it.format(decimalCountMax)
         }
     )
 }

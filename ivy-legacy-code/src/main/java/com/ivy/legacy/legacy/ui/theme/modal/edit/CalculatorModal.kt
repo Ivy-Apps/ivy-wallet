@@ -19,20 +19,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.legacy.IvyWalletPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.utils.amountToDoubleOrNull
+import com.ivy.legacy.utils.format
+import com.ivy.legacy.utils.formatInputAmount
+import com.ivy.legacy.utils.localDecimalSeparator
+import com.ivy.legacy.utils.normalizeExpression
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalSet
 import com.ivy.wallet.ui.theme.modal.ModalTitle
-import com.ivy.legacy.utils.amountToDoubleOrNull
-import com.ivy.legacy.utils.format
-import com.ivy.legacy.utils.formatInputAmount
-import com.ivy.legacy.utils.localDecimalSeparator
-import com.ivy.legacy.utils.normalizeExpression
 import com.notkamui.keval.Keval
 import java.util.UUID
 
@@ -47,7 +47,7 @@ fun BoxWithConstraintsScope.CalculatorModal(
     onCalculation: (Double) -> Unit
 ) {
     var expression by remember(id, initialAmount) {
-        mutableStateOf(com.ivy.legacy.utils.format(currency) ?: "")
+        mutableStateOf(initialAmount?.format(currency) ?: "")
     }
 
     IvyModal(
@@ -156,7 +156,7 @@ fun BoxWithConstraintsScope.CalculatorModal(
                 ) {
                     val result = calculate(expression)
                     if (result != null) {
-                        expression = com.ivy.legacy.utils.format(currency)
+                        expression = result.format(currency)
                     }
                 }
             },

@@ -107,7 +107,7 @@ private fun SectionDividerIncomeExpenseRow(
         if (expenses > 0) {
             Text(
                 modifier = Modifier.testTag("upcoming_expense"),
-                text = "${com.ivy.legacy.utils.format(baseCurrency)} $baseCurrency",
+                text = "${expenses.format(baseCurrency)} $baseCurrency",
                 style = UI.typo.nC.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = UI.colors.pureInverse
@@ -134,7 +134,7 @@ private fun SectionDividerIncomeExpenseRow(
         if (income > 0) {
             Text(
                 modifier = Modifier.testTag("upcoming_income"),
-                text = "${com.ivy.legacy.utils.format(baseCurrency)} $baseCurrency",
+                text = "${income.format(baseCurrency)} $baseCurrency",
                 style = UI.typo.nC.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = UI.colors.green

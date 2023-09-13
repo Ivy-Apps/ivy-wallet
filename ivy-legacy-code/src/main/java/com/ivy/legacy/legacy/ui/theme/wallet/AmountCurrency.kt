@@ -28,7 +28,7 @@ fun AmountCurrencyB2Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = com.ivy.legacy.utils.format(currency),
+            text = amount.format(currency),
             style = UI.typo.nB2.style(
                 fontWeight = amountFontWeight,
                 color = textColor
@@ -76,7 +76,7 @@ fun AmountCurrencyB1(
 
     Text(
         modifier = Modifier.testTag("amount_currency_b1"),
-        text = if (shortAmount) shortenAmount(amount) else com.ivy.legacy.utils.format(currency),
+        text = if (shortAmount) shortenAmount(amount) else amount.format(currency),
         style = UI.typo.nB1.style(
             fontWeight = amountFontWeight,
             color = textColor
@@ -99,7 +99,7 @@ fun AmountCurrencyH1(
     textColor: Color = UI.colors.pureInverse
 ) {
     Text(
-        text = com.ivy.legacy.utils.format(currency),
+        text = amount.format(currency),
         style = UI.typo.nH1.style(
             fontWeight = FontWeight.Bold,
             color = textColor
@@ -125,7 +125,7 @@ fun AmountCurrencyH2Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = com.ivy.legacy.utils.format(currency),
+            text = amount.format(currency),
             style = UI.typo.nH2.style(
                 fontWeight = FontWeight.Bold,
                 color = textColor
@@ -150,7 +150,7 @@ fun AmountCurrencyCaption(
     textColor: Color = UI.colors.pureInverse
 ) {
     Text(
-        text = com.ivy.legacy.utils.format(currency),
+        text = amount.format(currency),
         style = UI.typo.nC.style(
             fontWeight = amountFontWeight,
             color = textColor

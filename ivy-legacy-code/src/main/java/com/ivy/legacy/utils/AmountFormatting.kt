@@ -60,9 +60,11 @@ fun Double.format(currency: IvyCurrency?): String {
                 val newResult = result.dropLast(1)
                 if (newResult.isEmpty()) "0" else newResult
             }
+
             result.isEmpty() -> {
                 "0"
             }
+
             else -> result
         }
     } else {
@@ -98,9 +100,11 @@ fun shortenAmount(amount: Double): String {
         abs(amount) >= MILLION -> {
             formatShortenedNumber(amount / MILLION, "m")
         }
+
         abs(amount) >= THOUSAND -> {
             formatShortenedNumber(amount / THOUSAND, "k")
         }
+
         else -> amount.toString()
     }
 }
@@ -176,7 +180,7 @@ fun formatInputAmount(
     val amountDouble = newlyEnteredNumberString.amountToDoubleOrNull()
 
     val decimalCountOkay = IvyCurrency.fromCode(currency)?.isCrypto == true ||
-        decimalCount <= decimalCountMax
+            decimalCount <= decimalCountMax
     if (amountDouble != null && decimalCountOkay) {
         val intPart = truncate(amountDouble).toInt()
         val decimalPartFormatted = if (decimalPartString != null) {
