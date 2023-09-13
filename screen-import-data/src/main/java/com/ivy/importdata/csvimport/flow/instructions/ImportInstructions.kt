@@ -30,15 +30,13 @@ import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.core.IvyWalletPreview
-import com.ivy.core.rootScreen
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.importdata.csvimport.flow.ImportSteps
 import com.ivy.onboarding.components.OnboardingToolbar
 import com.ivy.resources.R
-import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
+import com.ivy.legacy.domain.deprecated.logic.csv.model.ImportType
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.White
@@ -46,7 +44,7 @@ import com.ivy.wallet.ui.theme.components.GradientCutBottom
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.OnboardingButton
-import com.ivy.wallet.utils.drawColoredShadow
+import com.ivy.legacy.utils.drawColoredShadow
 
 @ExperimentalFoundationApi
 @Composable
@@ -141,7 +139,7 @@ fun VideoArticleRow(
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val rootScreen = rootScreen()
+        val rootScreen = com.ivy.legacy.rootScreen()
 
         Spacer(Modifier.width(16.dp))
 
@@ -330,7 +328,7 @@ fun StepTitle(
 private fun App(
     importType: ImportType
 ) {
-    val rootScreen = rootScreen()
+    val rootScreen = com.ivy.legacy.rootScreen()
 
     Row(
         modifier = Modifier
@@ -365,7 +363,7 @@ private fun App(
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletPreview {
+    com.ivy.legacy.IvyWalletPreview {
         ImportInstructions(
             hasSkip = true,
             importType = ImportType.MONEY_MANAGER,

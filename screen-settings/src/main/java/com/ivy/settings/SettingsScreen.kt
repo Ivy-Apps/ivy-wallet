@@ -15,11 +15,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -32,7 +30,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.testTag
@@ -44,12 +41,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.compose.AsyncImage
 import com.ivy.core.Constants
 import com.ivy.core.Constants.URL_IVY_CONTRIBUTORS
-import com.ivy.core.IvyWalletPreview
-import com.ivy.core.ivyWalletCtx
-import com.ivy.core.rootScreen
 import com.ivy.design.l0_system.SunsetNight
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.l0_system.UI
@@ -57,29 +50,30 @@ import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IconScale
 import com.ivy.design.l1_buildingBlocks.IvyIconScaled
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.rootScreen
+import com.ivy.legacy.utils.OpResult
+import com.ivy.legacy.utils.clickableNoIndication
+import com.ivy.legacy.utils.drawColoredShadow
+import com.ivy.legacy.utils.onScreenStart
+import com.ivy.legacy.utils.thenIf
 import com.ivy.navigation.DonateScreen
 import com.ivy.navigation.ExchangeRatesScreen
 import com.ivy.navigation.Import
-import com.ivy.navigation.Paywall
 import com.ivy.navigation.Settings
 import com.ivy.navigation.Test
 import com.ivy.resources.R
-import com.ivy.wallet.domain.data.AuthProviderType
 import com.ivy.wallet.domain.data.IvyCurrency
-import com.ivy.wallet.domain.data.core.User
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.GradientIvy
-import com.ivy.wallet.ui.theme.GradientOrange
-import com.ivy.wallet.ui.theme.GradientRed
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.Red3
 import com.ivy.wallet.ui.theme.White
-import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvySwitch
 import com.ivy.wallet.ui.theme.components.IvyToolbar
 import com.ivy.wallet.ui.theme.findContrastTextColor
@@ -88,20 +82,12 @@ import com.ivy.wallet.ui.theme.modal.CurrencyModal
 import com.ivy.wallet.ui.theme.modal.DeleteModal
 import com.ivy.wallet.ui.theme.modal.NameModal
 import com.ivy.wallet.ui.theme.modal.ProgressModal
-import com.ivy.wallet.utils.OpResult
-import com.ivy.wallet.utils.clickableNoIndication
-import com.ivy.wallet.utils.drawColoredShadow
-import com.ivy.wallet.utils.onScreenStart
-import com.ivy.wallet.utils.thenIf
-import java.util.UUID
 
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
     val viewModel: SettingsViewModel = viewModel()
 
-    val user by viewModel.user.observeAsState()
-    val opSync by viewModel.opSync.observeAsState()
     val theme by viewModel.currentTheme.observeAsState(Theme.AUTO)
     val currencyCode by viewModel.currencyCode.observeAsState("")
     val lockApp by viewModel.lockApp.observeAsState(false)
@@ -112,7 +98,6 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
     val progressState by viewModel.progressState.collectAsState()
 
     val nameLocalAccount by viewModel.nameLocalAccount.observeAsState()
-    val opFetchTrns by viewModel.opFetchTrns.collectAsState()
 
     onScreenStart {
         viewModel.start()
@@ -120,9 +105,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
 
     val context = LocalContext.current
     UI(
-        user = user,
         currencyCode = currencyCode,
-        opSync = opSync,
         theme = theme,
         onSwitchTheme = viewModel::switchTheme,
         lockApp = lockApp,
@@ -136,10 +119,6 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
 
         onSetCurrency = viewModel::setCurrency,
         onSetName = viewModel::setName,
-
-        onSync = viewModel::sync,
-        onLogout = viewModel::logout,
-        onLogin = viewModel::login,
         onBackupData = {
             viewModel.exportToZip(context)
         },
@@ -159,10 +138,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    user: User?,
     currencyCode: String,
-    opSync: OpResult<Boolean>?,
-
     theme: Theme,
     onSwitchTheme: () -> Unit,
 
@@ -178,9 +154,6 @@ private fun BoxWithConstraintsScope.UI(
     onSetCurrency: (String) -> Unit,
     onSetName: (String) -> Unit = {},
 
-    onSync: () -> Unit,
-    onLogout: () -> Unit,
-    onLogin: () -> Unit,
     onBackupData: () -> Unit = {},
     onExportToCSV: () -> Unit = {},
     onSetLockApp: (Boolean) -> Unit = {},
@@ -252,13 +225,7 @@ private fun BoxWithConstraintsScope.UI(
             Spacer(Modifier.height(12.dp))
 
             AccountCard(
-                user = user,
-                opSync = opSync,
                 nameLocalAccount = nameLocalAccount,
-
-                onSync = onSync,
-                onLogout = onLogout,
-                onLogin = onLogin,
             ) {
                 nameModalVisible = true
             }
@@ -480,18 +447,6 @@ private fun BoxWithConstraintsScope.UI(
             ) {
                 deleteAllDataModalVisible = true
             }
-
-            if (user != null) {
-                Spacer(Modifier.height(16.dp))
-
-                SettingsPrimaryButton(
-                    icon = R.drawable.ic_categories,
-                    text = stringResource(R.string.switch_to_offline_mode),
-                    backgroundGradient = Gradient.solid(Red)
-                ) {
-                    deleteCloudDataModalVisible = true
-                }
-            }
         }
 
         item {
@@ -528,9 +483,7 @@ private fun BoxWithConstraintsScope.UI(
         title = stringResource(R.string.delete_all_user_data_question),
         description = stringResource(
             R.string.delete_all_user_data_warning,
-            user?.email ?: stringResource(
-                R.string.your_account
-            )
+            stringResource(R.string.your_account)
         ),
         visible = deleteAllDataModalVisible,
         dismiss = { deleteAllDataModalVisible = false },
@@ -543,9 +496,7 @@ private fun BoxWithConstraintsScope.UI(
     DeleteModal(
         title = stringResource(
             R.string.confirm_all_userd_data_deletion,
-            user?.email ?: stringResource(
-                R.string.all_of_your_data
-            )
+            stringResource(R.string.all_of_your_data)
         ),
         description = stringResource(R.string.final_deletion_warning),
         visible = deleteAllDataModalFinalVisible,
@@ -559,9 +510,7 @@ private fun BoxWithConstraintsScope.UI(
         title = stringResource(R.string.delete_all_cloud_data_question),
         description = stringResource(
             R.string.delete_all_user_cloud_data_warning,
-            user?.email ?: stringResource(
-                R.string.your_account
-            )
+            stringResource(R.string.your_account)
         ),
         visible = deleteCloudDataModalVisible,
         dismiss = { deleteCloudDataModalVisible = false },
@@ -767,13 +716,7 @@ private fun AppSwitch(
 
 @Composable
 private fun AccountCard(
-    user: User?,
-    opSync: OpResult<Boolean>?,
     nameLocalAccount: String?,
-
-    onSync: () -> Unit,
-    onLogout: () -> Unit,
-    onLogin: () -> Unit,
     onCardClick: () -> Unit
 ) {
     Column(
@@ -804,194 +747,14 @@ private fun AccountCard(
                     color = UI.colors.gray
                 )
             )
-
-            Spacer(Modifier.weight(1f))
-
-            if (user != null) {
-                AccountCardButton(
-                    icon = R.drawable.ic_logout,
-                    text = stringResource(R.string.logout)
-                ) {
-                    onLogout()
-                }
-            } else {
-//                AccountCardButton(
-//                    icon = R.drawable.ic_login,
-//                    text = stringResource(R.string.login)
-//                ) {
-//                    onLogin()
-//                }
-            }
-
-            Spacer(Modifier.width(16.dp))
         }
 
-        if (user != null) {
-            AccountCardUser(
-                localName = nameLocalAccount,
-                user = user,
-                opSync = opSync,
-                onSync = onSync
-            )
-        } else {
-            AccountCardLocalAccount(
-                name = nameLocalAccount,
-            )
-        }
+        AccountCardLocalAccount(
+            name = nameLocalAccount,
+        )
     }
 }
 
-@Composable
-private fun AccountCardUser(
-    localName: String?,
-    user: User,
-    opSync: OpResult<Boolean>?,
-
-    onSync: () -> Unit,
-) {
-    Spacer(Modifier.height(4.dp))
-
-    Row(
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Spacer(Modifier.width(24.dp))
-
-        if (user.profilePicture != null) {
-            AsyncImage(
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .size(32.dp),
-                model = user.profilePicture,
-                contentScale = ContentScale.FillBounds,
-                contentDescription = "profile picture"
-            )
-
-            Spacer(Modifier.width(12.dp))
-        }
-
-        Text(
-            text = localName ?: user.names(),
-            style = UI.typo.b2.style(
-                fontWeight = FontWeight.ExtraBold,
-                color = UI.colors.pureInverse
-            )
-        )
-
-        Spacer(Modifier.width(24.dp))
-    }
-
-    Spacer(Modifier.height(12.dp))
-
-    Row(
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Spacer(Modifier.width(20.dp))
-
-        IvyIconScaled(
-            icon = R.drawable.ic_email,
-            iconScale = IconScale.S,
-            padding = 0.dp
-        )
-
-        Spacer(Modifier.width(12.dp))
-
-        Text(
-            text = user.email,
-            style = UI.typo.b2.style(
-                fontWeight = FontWeight.ExtraBold,
-                color = UI.colors.pureInverse
-            )
-        )
-
-        Spacer(Modifier.width(24.dp))
-    }
-
-    Spacer(Modifier.height(12.dp))
-
-    when (opSync) {
-        is OpResult.Loading -> {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Spacer(Modifier.width(20.dp))
-
-                IvyIconScaled(
-                    icon = R.drawable.ic_data_synced,
-                    tint = Orange,
-                    iconScale = IconScale.S,
-                    padding = 0.dp
-                )
-
-                Spacer(Modifier.width(12.dp))
-
-                Text(
-                    text = stringResource(R.string.syncing),
-                    style = UI.typo.b2.style(
-                        fontWeight = FontWeight.ExtraBold,
-                        color = Orange
-                    )
-                )
-
-                Spacer(Modifier.width(24.dp))
-            }
-        }
-
-        is OpResult.Success -> {
-            if (opSync.data) {
-                // synced
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Spacer(Modifier.width(20.dp))
-
-                    IvyIconScaled(
-                        icon = R.drawable.ic_data_synced,
-                        tint = Green,
-                        iconScale = IconScale.S,
-                        padding = 0.dp
-                    )
-
-                    Spacer(Modifier.width(12.dp))
-
-                    Text(
-                        text = stringResource(R.string.data_synced_to_cloud),
-                        style = UI.typo.b2.style(
-                            fontWeight = FontWeight.ExtraBold,
-                            color = Green
-                        )
-                    )
-
-                    Spacer(Modifier.width(24.dp))
-                }
-            } else {
-                // not synced
-                IvyButton(
-                    modifier = Modifier.padding(horizontal = 24.dp),
-                    iconStart = R.drawable.ic_sync,
-                    text = stringResource(R.string.tap_to_sync),
-                    backgroundGradient = GradientRed
-                ) {
-                    onSync()
-                }
-            }
-        }
-
-        is OpResult.Failure -> {
-            IvyButton(
-                modifier = Modifier.padding(horizontal = 24.dp),
-                iconStart = R.drawable.ic_sync,
-                text = stringResource(R.string.sync_failed),
-                backgroundGradient = GradientRed
-            ) {
-                onSync()
-            }
-        }
-
-        null -> {}
-    }
-
-    Spacer(Modifier.height(24.dp))
-}
 
 @Composable
 private fun AccountCardLocalAccount(
@@ -1021,23 +784,6 @@ private fun AccountCardLocalAccount(
     }
 
     Spacer(Modifier.height(24.dp))
-}
-
-@Composable
-private fun Premium() {
-    val nav = navigation()
-    SettingsPrimaryButton(
-        icon = R.drawable.ic_custom_crown_s,
-        text = if (ivyWalletCtx().isPremium) "Ivy Premium (owned)" else "Buy premium",
-        hasShadow = true,
-        backgroundGradient = if (ivyWalletCtx().isPremium) GradientIvy else GradientOrange
-    ) {
-        nav.navigateTo(
-            Paywall(
-                paywallReason = null
-            )
-        )
-    }
 }
 
 @Composable
@@ -1345,107 +1091,15 @@ private fun SettingsDefaultButton(
 @ExperimentalFoundationApi
 @Preview
 @Composable
-private fun Preview_synced() {
+private fun Preview() {
     IvyWalletPreview {
         UI(
-            user = User(
-                email = "iliyan.germanov971@gmail.com",
-                authProviderType = AuthProviderType.GOOGLE,
-                firstName = "Iliyan",
-                lastName = "Germanov",
-                color = 11,
-                id = UUID.randomUUID(),
-                profilePicture = null
-            ),
             nameLocalAccount = null,
-            opSync = OpResult.success(true),
             theme = Theme.AUTO,
             onSwitchTheme = {},
             lockApp = false,
             currencyCode = "BGN",
             onSetCurrency = {},
-            onLogout = {},
-            onLogin = {},
-            onSync = {}
-        )
-    }
-}
-
-@ExperimentalFoundationApi
-@Preview
-@Composable
-private fun Preview_notSynced() {
-    IvyWalletPreview {
-        UI(
-            user = User(
-                email = "iliyan.germanov971@gmail.com",
-                authProviderType = AuthProviderType.GOOGLE,
-                firstName = "Iliyan",
-                lastName = "Germanov",
-                color = 11,
-                id = UUID.randomUUID(),
-                profilePicture = null
-            ),
-            theme = Theme.AUTO,
-            onSwitchTheme = {},
-            lockApp = false,
-            nameLocalAccount = null,
-            opSync = OpResult.success(false),
-            currencyCode = "BGN",
-            onSetCurrency = {},
-            onLogout = {},
-            onLogin = {},
-            onSync = {}
-        )
-    }
-}
-
-@ExperimentalFoundationApi
-@Preview
-@Composable
-private fun Preview_loading() {
-    IvyWalletPreview {
-        UI(
-            user = User(
-                email = "iliyan.germanov971@gmail.com",
-                authProviderType = AuthProviderType.GOOGLE,
-                firstName = "Iliyan",
-                lastName = null,
-                color = 11,
-                id = UUID.randomUUID(),
-                profilePicture = null
-            ),
-            theme = Theme.AUTO,
-            onSwitchTheme = {},
-            lockApp = false,
-            nameLocalAccount = null,
-            opSync = OpResult.loading(),
-            currencyCode = "BGN",
-            onSetCurrency = {},
-            onLogout = {},
-            onLogin = {},
-            onSync = {}
-        )
-    }
-}
-
-@ExperimentalFoundationApi
-@Preview
-@Composable
-private fun Preview_localAccount() {
-    IvyWalletPreview {
-        UI(
-            user = null,
-            nameLocalAccount = "Iliyan",
-            opSync = null,
-            currencyCode = "BGN",
-            theme = Theme.AUTO,
-            onSwitchTheme = {},
-            lockApp = false,
-            onSetCurrency = {},
-            onLogout = {},
-            onLogin = {},
-            onSync = {}
         )
     }
 }

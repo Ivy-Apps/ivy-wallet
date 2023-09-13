@@ -1,9 +1,9 @@
 package com.ivy.reports
 
-import com.ivy.core.data.model.TimePeriod
-import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.data.core.Category
+import com.ivy.legacy.data.model.TimePeriod
+import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.model.Account
+import com.ivy.core.data.model.Category
 import java.util.UUID
 
 data class ReportFilter(

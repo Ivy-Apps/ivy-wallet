@@ -15,10 +15,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.core.IvyWalletPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.legacy.utils.format
 import com.ivy.navigation.CSVScreen
 import com.ivy.resources.R
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
@@ -30,7 +30,6 @@ import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.BackButton
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
 import com.ivy.wallet.ui.theme.components.OnboardingButton
-import com.ivy.wallet.utils.format
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
@@ -226,7 +225,7 @@ fun ImportResultUI(
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletPreview {
+    com.ivy.legacy.IvyWalletPreview {
         ImportResultUI(
             result = ImportResult(
                 rowsFound = 356,

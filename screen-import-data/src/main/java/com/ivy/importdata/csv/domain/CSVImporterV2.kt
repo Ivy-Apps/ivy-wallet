@@ -1,11 +1,16 @@
 package com.ivy.importdata.csv.domain
 
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.model.Account
+import com.ivy.core.data.model.Category
+import com.ivy.core.data.model.Transaction
+import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
+import com.ivy.importdata.csv.ImportantFields
+import com.ivy.importdata.csv.OptionalFields
+import com.ivy.importdata.csv.TransferFields
+import com.ivy.legacy.utils.toLowerCaseLocal
 import com.ivy.wallet.domain.data.IvyCurrency
-import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.csv.model.CSVRow
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import com.ivy.wallet.domain.pure.util.nextOrderNum
@@ -13,16 +18,10 @@ import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.IvyDark
-import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
-import com.ivy.importdata.csv.ImportantFields
-import com.ivy.importdata.csv.OptionalFields
-import com.ivy.importdata.csv.TransferFields
-import com.ivy.wallet.utils.toLowerCaseLocal
 import kotlinx.collections.immutable.toImmutableList
-import java.util.*
+import java.util.UUID
 import javax.inject.Inject
 import kotlin.math.absoluteValue
 import com.ivy.importdata.csv.CSVRow as CSVRowNew

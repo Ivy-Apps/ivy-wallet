@@ -29,11 +29,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.core.Constants
-import com.ivy.core.IvyWalletPreview
-import com.ivy.core.data.model.MainTab
-import com.ivy.core.data.model.TimePeriod
-import com.ivy.core.ivyWalletCtx
-import com.ivy.core.stringRes
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.data.model.MainTab
+import com.ivy.legacy.data.model.TimePeriod
+import com.ivy.legacy.ivyWalletCtx
+import com.ivy.core.utils.stringRes
 import com.ivy.frp.asParamTo2
 import com.ivy.frp.forward
 import com.ivy.frp.then2
@@ -49,8 +49,8 @@ import com.ivy.legacy.ui.component.transaction.transactions
 import com.ivy.navigation.Main
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IvyCurrency
-import com.ivy.wallet.domain.data.TransactionHistoryItem
-import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.core.data.model.TransactionHistoryItem
+import com.ivy.core.data.model.Transaction
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.ui.theme.modal.BufferModal
 import com.ivy.wallet.ui.theme.modal.BufferModalData
@@ -58,8 +58,8 @@ import com.ivy.wallet.ui.theme.modal.ChoosePeriodModal
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import com.ivy.wallet.ui.theme.modal.CurrencyModal
 import com.ivy.wallet.ui.theme.modal.DeleteModal
-import com.ivy.wallet.utils.horizontalSwipeListener
-import com.ivy.wallet.utils.verticalSwipeListener
+import com.ivy.legacy.utils.horizontalSwipeListener
+import com.ivy.legacy.utils.verticalSwipeListener
 import java.math.BigDecimal
 
 private const val SWIPE_HORIZONTAL_THRESHOLD = 200

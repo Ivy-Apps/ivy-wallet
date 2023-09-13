@@ -1,12 +1,9 @@
 package com.ivy.wallet
 
 import android.app.Application
-import android.appwidget.AppWidgetManager
-import android.content.ComponentName
-import android.content.Intent
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import com.ivy.core.appContext
+import com.ivy.core.utils.appContext
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import timber.log.Timber.DebugTree

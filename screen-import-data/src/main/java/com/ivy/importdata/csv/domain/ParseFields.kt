@@ -1,10 +1,10 @@
 package com.ivy.importdata.csv.domain
 
+import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.importdata.csv.CSVRow
 import com.ivy.importdata.csv.ColumnMapping
 import com.ivy.importdata.csv.DateMetadata
 import com.ivy.importdata.csv.TrnTypeMetadata
-import com.ivy.wallet.domain.data.TransactionType
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.time.LocalDateTime

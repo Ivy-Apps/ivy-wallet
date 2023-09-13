@@ -1,7 +1,7 @@
 package com.ivy.accounts
 
-import com.ivy.core.data.model.AccountData
-import com.ivy.wallet.utils.UiText
+import com.ivy.legacy.data.model.AccountData
+import com.ivy.legacy.utils.UiText
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 

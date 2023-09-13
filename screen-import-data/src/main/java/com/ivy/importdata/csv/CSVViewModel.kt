@@ -24,7 +24,7 @@ import com.ivy.importdata.csv.domain.parseToAccount
 import com.ivy.importdata.csv.domain.parseToAccountCurrency
 import com.ivy.importdata.csv.domain.parseTransactionType
 import com.ivy.wallet.domain.deprecated.logic.csv.IvyFileReader
-import com.ivy.wallet.utils.uiThread
+import com.ivy.legacy.utils.uiThread
 import com.opencsv.CSVReaderBuilder
 import com.opencsv.validators.LineValidator
 import com.opencsv.validators.RowValidator
@@ -543,7 +543,7 @@ class CSVViewModel @Inject constructor(
                     descriptionStatus = emptyStatus,
                 ),
                 onProgress = { progressPercent ->
-                    uiThread {
+                    com.ivy.legacy.utils.uiThread {
                         uiState = UIState.Processing(
                             (progressPercent * 100).roundToInt()
                         )

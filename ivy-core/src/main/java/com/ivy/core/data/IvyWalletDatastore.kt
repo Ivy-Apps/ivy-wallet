@@ -1,4 +1,4 @@
-package com.ivy.wallet.data
+package com.ivy.core.data
 
 import android.content.Context
 import androidx.datastore.core.DataStore

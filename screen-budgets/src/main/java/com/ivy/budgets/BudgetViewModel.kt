@@ -3,32 +3,28 @@ package com.ivy.budgets
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.budgets.model.DisplayBudget
-import com.ivy.core.IvyWalletCtx
-import com.ivy.core.data.model.TimePeriod
-import com.ivy.core.data.model.toCloseTimeRange
+import com.ivy.core.data.SharedPrefs
+import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.model.Account
+import com.ivy.core.data.model.Budget
+import com.ivy.core.data.model.Category
+import com.ivy.core.data.model.Transaction
 import com.ivy.frp.sumOfSuspend
 import com.ivy.frp.test.TestIdlingResource
+import com.ivy.legacy.data.model.toCloseTimeRange
+import com.ivy.legacy.utils.isNotNullOrBlank
+import com.ivy.legacy.utils.readOnly
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.budget.BudgetsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.exchange.ExchangeAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.transaction.HistoryTrnsAct
-import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.data.core.Budget
-import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.BudgetCreator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
 import com.ivy.wallet.domain.pure.exchange.ExchangeData
 import com.ivy.wallet.domain.pure.transaction.trnCurrency
-import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.BudgetDao
-import com.ivy.wallet.utils.getDefaultFIATCurrency
-import com.ivy.wallet.utils.ioThread
-import com.ivy.wallet.utils.isNotNullOrBlank
-import com.ivy.wallet.utils.readOnly
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -42,7 +38,7 @@ class BudgetViewModel @Inject constructor(
     private val sharedPrefs: SharedPrefs,
     private val budgetDao: BudgetDao,
     private val budgetCreator: BudgetCreator,
-    private val ivyContext: IvyWalletCtx,
+    private val ivyContext: com.ivy.legacy.IvyWalletCtx,
     private val accountsAct: AccountsAct,
     private val categoriesAct: CategoriesAct,
     private val budgetsAct: BudgetsAct,
@@ -54,7 +50,8 @@ class BudgetViewModel @Inject constructor(
     private val _timeRange = MutableStateFlow(ivyContext.selectedPeriod.toRange(1))
     val timeRange = _timeRange.readOnly()
 
-    private val _baseCurrencyCode = MutableStateFlow(getDefaultFIATCurrency().currencyCode)
+    private val _baseCurrencyCode =
+        MutableStateFlow(com.ivy.legacy.utils.getDefaultFIATCurrency().currencyCode)
     val baseCurrencyCode = _baseCurrencyCode.readOnly()
 
     private val _budgets = MutableStateFlow<ImmutableList<DisplayBudget>>(persistentListOf())
@@ -85,7 +82,7 @@ class BudgetViewModel @Inject constructor(
             _baseCurrencyCode.value = baseCurrency
 
             val startDateOfMonth = ivyContext.initStartDayOfMonthInMemory(sharedPrefs = sharedPrefs)
-            val timeRange = TimePeriod.currentMonth(
+            val timeRange = com.ivy.legacy.data.model.TimePeriod.currentMonth(
                 startDayOfMonth = startDateOfMonth
             ).toRange(startDateOfMonth = startDateOfMonth)
             _timeRange.value = timeRange
@@ -100,7 +97,7 @@ class BudgetViewModel @Inject constructor(
                 .filter { it.categoryIdsSerialized.isNotNullOrBlank() }
                 .sumOf { it.amount }
 
-            _budgets.value = ioThread {
+            _budgets.value = com.ivy.legacy.utils.ioThread {
                 budgets.map {
                     DisplayBudget(
                         budget = it,
@@ -200,7 +197,7 @@ class BudgetViewModel @Inject constructor(
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            ioThread {
+            com.ivy.legacy.utils.ioThread {
                 newOrder.forEachIndexed { index, item ->
                     budgetDao.save(
                         item.budget.toEntity().copy(

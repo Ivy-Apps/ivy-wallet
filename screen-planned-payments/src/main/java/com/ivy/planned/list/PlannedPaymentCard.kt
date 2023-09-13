@@ -24,18 +24,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.core.IvyWalletPreview
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.legacy.ui.component.transaction.TypeAmountCurrency
 import com.ivy.navigation.ItemStatistic
 import com.ivy.resources.R
-import com.ivy.wallet.domain.data.IntervalType
-import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.domain.data.core.PlannedPaymentRule
+import com.ivy.core.data.model.IntervalType
+import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.model.Account
+import com.ivy.core.data.model.Category
+import com.ivy.core.data.model.PlannedPaymentRule
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -43,11 +43,11 @@ import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.getCustomIconIdS
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.toComposeColor
-import com.ivy.wallet.utils.formatDateOnly
-import com.ivy.wallet.utils.formatDateOnlyWithYear
-import com.ivy.wallet.utils.isNotNullOrBlank
-import com.ivy.wallet.utils.timeNowUTC
-import com.ivy.wallet.utils.uppercaseLocal
+import com.ivy.legacy.utils.formatDateOnly
+import com.ivy.legacy.utils.formatDateOnlyWithYear
+import com.ivy.legacy.utils.isNotNullOrBlank
+import com.ivy.legacy.utils.timeNowUTC
+import com.ivy.legacy.utils.uppercaseLocal
 import java.time.LocalDateTime
 
 @Composable

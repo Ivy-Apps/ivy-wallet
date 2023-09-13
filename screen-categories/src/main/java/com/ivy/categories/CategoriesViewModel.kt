@@ -1,8 +1,8 @@
 package com.ivy.categories
 
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.IvyWalletCtx
-import com.ivy.core.data.model.TimePeriod
+import com.ivy.legacy.IvyWalletCtx
+import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.thenInvokeAfter
@@ -13,15 +13,15 @@ import com.ivy.wallet.domain.action.category.CategoryIncomeWithAccountFiltersAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithRangeAndAccFiltersAct
 import com.ivy.wallet.domain.data.SortOrder
-import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.core.data.model.Account
+import com.ivy.core.data.model.Transaction
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
-import com.ivy.wallet.io.persistence.SharedPrefs
+import com.ivy.core.data.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
-import com.ivy.wallet.utils.ioThread
-import com.ivy.wallet.utils.scopedIOThread
+import com.ivy.legacy.utils.ioThread
+import com.ivy.legacy.utils.scopedIOThread
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -40,7 +40,7 @@ class CategoriesViewModel @Inject constructor(
     private val categoryDao: CategoryDao,
     private val categoryCreator: CategoryCreator,
     private val categoriesAct: CategoriesAct,
-    private val ivyContext: IvyWalletCtx,
+    private val ivyContext: com.ivy.legacy.IvyWalletCtx,
     private val sharedPrefs: SharedPrefs,
     private val baseCurrencyAct: BaseCurrencyAct,
     private val accountsAct: AccountsAct,
@@ -72,8 +72,8 @@ class CategoriesViewModel @Inject constructor(
     }
 
     private suspend fun initialise() {
-        ioThread {
-            val range = TimePeriod.currentMonth(
+        com.ivy.legacy.utils.ioThread {
+            val range = com.ivy.legacy.data.model.TimePeriod.currentMonth(
                 startDayOfMonth = ivyContext.startDayOfMonth
             ).toRange(ivyContext.startDayOfMonth) // this must be monthly
 
@@ -102,7 +102,7 @@ class CategoriesViewModel @Inject constructor(
     }
 
     private suspend fun loadCategories() {
-        scopedIOThread { scope ->
+        com.ivy.legacy.utils.scopedIOThread { scope ->
             val categories = categoriesAct(Unit).mapAsync(scope) {
                 val catIncomeExpense = categoryIncomeWithAccountFiltersAct(
                     CategoryIncomeWithAccountFiltersAct.Input(
@@ -138,7 +138,7 @@ class CategoriesViewModel @Inject constructor(
         val sortedList = sortList(newOrder, sortOrder).toImmutableList()
 
         if (sortOrder == SortOrder.DEFAULT) {
-            ioThread {
+            com.ivy.legacy.utils.ioThread {
                 sortedList.forEachIndexed { index, categoryData ->
                     categoryDao.save(
                         categoryData.category.toEntity().copy(
@@ -150,7 +150,7 @@ class CategoriesViewModel @Inject constructor(
             }
         }
 
-        ioThread {
+        com.ivy.legacy.utils.ioThread {
             sharedPrefs.putInt(SharedPrefs.CATEGORY_SORT_ORDER, sortOrder.orderNum)
         }
 

@@ -18,17 +18,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.core.IvyWalletComponentPreview
+import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.resources.R
-import com.ivy.wallet.domain.data.IntervalType
+import com.ivy.core.data.model.IntervalType
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.components.AddPrimaryAttributeButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
-import com.ivy.wallet.utils.formatDateOnly
-import com.ivy.wallet.utils.timeNowUTC
-import com.ivy.wallet.utils.uppercaseLocal
+import com.ivy.legacy.utils.formatDateOnly
+import com.ivy.legacy.utils.timeNowUTC
+import com.ivy.legacy.utils.uppercaseLocal
 import java.time.LocalDateTime
 
 @Composable

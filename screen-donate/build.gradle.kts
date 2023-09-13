@@ -11,6 +11,7 @@ dependencies {
     implementation(projects.ivyResources)
     implementation(projects.ivyDesign)
     implementation(projects.ivyNavigation)
+    implementation(projects.tempLegacyCode)
 
     implementation(libs.bundles.activity)
     implementation(libs.bundles.google)

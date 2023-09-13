@@ -1,9 +1,8 @@
 package com.ivy.navigation
 
-import com.ivy.core.data.model.PaywallReason
+import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.model.Transaction
 import com.ivy.frp.view.navigation.Screen
-import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.core.Transaction
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
@@ -55,7 +54,7 @@ data class EditPlanned(
 ) : Screen {
     fun mandatoryFilled(): Boolean {
         return amount != null && amount > 0.0 &&
-            accountId != null
+                accountId != null
     }
 }
 
@@ -65,19 +64,11 @@ object PlannedPayments : Screen
 
 object Categories : Screen
 
-data class Paywall(
-    val paywallReason: PaywallReason?
-) : Screen
-
 object Settings : Screen
-
-object AnalyticsReport : Screen
 
 data class Import(
     val launchedFromOnboarding: Boolean
 ) : Screen
-
-object ConnectBank : Screen
 
 object Report : Screen
 
@@ -92,8 +83,6 @@ data class LoanDetails(
 ) : Screen
 
 object Test : Screen
-
-object Charts : Screen
 
 object ExchangeRatesScreen : Screen
 

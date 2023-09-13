@@ -5,23 +5,22 @@ import androidx.biometric.BiometricPrompt
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.core.Constants
-import com.ivy.core.IvyWalletCtx
-import com.ivy.core.stringRes
+import com.ivy.core.data.SharedPrefs
+import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.utils.stringRes
 import com.ivy.design.l0_system.Theme
-import com.ivy.donate.billing.IvyBilling
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
+import com.ivy.legacy.IvyWalletCtx
+import com.ivy.legacy.utils.ioThread
+import com.ivy.legacy.utils.readOnly
 import com.ivy.navigation.EditTransaction
 import com.ivy.navigation.Main
 import com.ivy.navigation.Onboarding
 import com.ivy.resources.R
-import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
-import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.migrations.MigrationsManager
-import com.ivy.wallet.utils.ioThread
-import com.ivy.wallet.utils.readOnly
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -39,7 +38,6 @@ class RootViewModel @Inject constructor(
     private val nav: Navigation,
     private val settingsDao: SettingsDao,
     private val sharedPrefs: SharedPrefs,
-    private val ivyBilling: IvyBilling,
     private val transactionReminderLogic: TransactionReminderLogic,
     private val migrationsManager: MigrationsManager,
 ) : ViewModel() {

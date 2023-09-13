@@ -12,11 +12,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.legacy.utils.navigationBarInset
+import com.ivy.legacy.utils.toDensityDp
 import com.ivy.resources.R
-import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.core.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.White
@@ -24,8 +25,6 @@ import com.ivy.wallet.ui.theme.components.ActionsRow
 import com.ivy.wallet.ui.theme.components.CloseButton
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.gradientCutBackgroundTop
-import com.ivy.wallet.utils.navigationBarInset
-import com.ivy.wallet.utils.toDensityDp
 
 @Composable
 fun BoxWithConstraintsScope.PieChartStatisticBottomBar(
@@ -76,7 +75,7 @@ fun BoxWithConstraintsScope.PieChartStatisticBottomBar(
 @Preview
 @Composable
 private fun PreviewBottomBar() {
-    IvyWalletPreview {
+    com.ivy.legacy.IvyWalletPreview {
         PieChartStatisticBottomBar(
             type = TransactionType.INCOME,
             bottomInset = 16.dp,

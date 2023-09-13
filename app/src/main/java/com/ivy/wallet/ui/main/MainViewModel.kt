@@ -3,8 +3,8 @@ package com.ivy.wallet.ui.main
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.IvyWalletCtx
-import com.ivy.core.data.model.MainTab
+import com.ivy.legacy.IvyWalletCtx
+import com.ivy.legacy.data.model.MainTab
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.navigation.Main
@@ -12,10 +12,10 @@ import com.ivy.wallet.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
-import com.ivy.wallet.io.persistence.SharedPrefs
+import com.ivy.core.data.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.SettingsDao
-import com.ivy.wallet.utils.asLiveData
-import com.ivy.wallet.utils.ioThread
+import com.ivy.legacy.utils.asLiveData
+import com.ivy.legacy.utils.ioThread
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus

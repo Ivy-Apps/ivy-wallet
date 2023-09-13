@@ -1,7 +1,7 @@
 package com.ivy.home.customerjourney
 
 import androidx.annotation.DrawableRes
-import com.ivy.core.IvyWalletCtx
+import com.ivy.legacy.IvyWalletCtx
 import com.ivy.core.RootScreen
 import com.ivy.frp.view.navigation.Navigation
 

@@ -1,0 +1,131 @@
+package com.ivy.core.data
+
+import android.content.Context
+import com.google.gson.Gson
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+
+/**
+ * Created by iliyan on 13.03.18.
+ */
+@Deprecated("Use IvyWalletDataStore instead.")
+class SharedPrefs @Inject constructor(
+    @ApplicationContext
+    appContext: Context
+) {
+    companion object {
+        private const val PREFS_FILENAME = "ivy_wallet_prefs"
+
+        const val ONBOARDING_COMPLETED = "onboarding_completed"
+
+        // -------------------------------------- UX ------------------------------------------------
+        const val LAST_SELECTED_ACCOUNT_ID = "last_selected_account_id"
+        // -------------------------------------- UX ------------------------------------------------
+
+        // ----------------------------- App Settings -----------------------------------------------
+        const val APP_LOCK_ENABLED = "lock_app"
+        const val START_DATE_OF_MONTH = "start_date_of_month"
+        const val SHOW_NOTIFICATIONS = "show_notifications"
+        const val HIDE_CURRENT_BALANCE = "hide_current_balance"
+        const val TRANSFERS_AS_INCOME_EXPENSE = "transfers_as_inc_exp"
+        // ----------------------------- App Settings -----------------------------------------------
+
+        // -------------------------------- Customer Journey ----------------------------------------
+        const val _CARD_DISMISSED = "_cj_dismissed"
+        // -------------------------------- Customer Journey ----------------------------------------
+
+        // ----------------------------- Others -----------------------------------------------
+        const val CATEGORY_SORT_ORDER = "categorySortOrder"
+        const val DATA_BACKUP_COMPLETED = "data_backup_completed"
+    }
+
+    private val preferences = appContext.getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
+    private val gson = Gson()
+
+    fun has(key: String): Boolean {
+        return preferences.contains(key)
+    }
+
+    val all: Map<String, *>
+        get() = preferences.all
+
+    fun putInt(key: String, value: Int) {
+        val editor = preferences.edit()
+        editor.putInt(key, value)
+        editor.apply()
+    }
+
+    fun putFloat(key: String, value: Float) {
+        val editor = preferences.edit()
+        editor.putFloat(key, value)
+        editor.apply()
+    }
+
+    fun putDouble(key: String, value: Double) {
+        val editor = preferences.edit()
+        editor.putFloat(key, value.toFloat())
+        editor.apply()
+    }
+
+    fun putLong(key: String, value: Long) {
+        val editor = preferences.edit()
+        editor.putLong(key, value)
+        editor.apply()
+    }
+
+    fun putString(key: String, value: String?) {
+        val editor = preferences.edit()
+        editor.putString(key, value)
+        editor.apply()
+    }
+
+    fun putBoolean(key: String, value: Boolean) {
+        val editor = preferences.edit()
+        editor.putBoolean(key, value)
+        editor.apply()
+    }
+
+    fun <T> put(key: String, value: T?) {
+        val editor = preferences.edit()
+        editor.putString(key, gson.toJson(value))
+        editor.apply()
+    }
+
+    fun getLong(key: String, defValue: Long): Long {
+        return preferences.getLong(key, defValue)
+    }
+
+    fun getInt(key: String, defValue: Int): Int {
+        return preferences.getInt(key, defValue)
+    }
+
+    fun getFloat(key: String, defValue: Float): Float {
+        return preferences.getFloat(key, defValue)
+    }
+
+    fun getBoolean(key: String, defValue: Boolean): Boolean {
+        return preferences.getBoolean(key, defValue)
+    }
+
+    fun getString(key: String): String {
+        return preferences.getString(key, null)
+            ?: throw IllegalStateException("SharePrefs key '$key' cannot be null")
+    }
+
+    fun getString(key: String, defValue: String?): String? {
+        return preferences.getString(key, defValue)
+    }
+
+    operator fun <T> get(key: String, aClass: Class<T>): T? {
+        val jsonString = preferences.getString(key, null)
+        return gson.fromJson(jsonString, aClass)
+    }
+
+    fun remove(key: String) {
+        preferences.edit().remove(key).apply()
+    }
+
+    fun removeAll() {
+        preferences.edit().clear().apply()
+    }
+}

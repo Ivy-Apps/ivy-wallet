@@ -4,32 +4,28 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.IvyWalletCtx
+import com.ivy.legacy.IvyWalletCtx
 import com.ivy.core.RootScreen
-import com.ivy.core.refreshWidget
+import com.ivy.core.utils.refreshWidget
 import com.ivy.design.l0_system.Theme
 import com.ivy.frp.monad.Res
 import com.ivy.frp.test.TestIdlingResource
-import com.ivy.frp.view.navigation.Navigation
 import com.ivy.legacy.LogoutLogic
 import com.ivy.wallet.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.action.global.UpdateStartDayOfMonthAct
 import com.ivy.wallet.domain.action.settings.SettingsAct
 import com.ivy.wallet.domain.action.settings.UpdateSettingsAct
-import com.ivy.wallet.domain.data.core.User
 import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
 import com.ivy.wallet.domain.deprecated.logic.zip.BackupLogic
-import com.ivy.wallet.io.persistence.SharedPrefs
+import com.ivy.core.data.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.SettingsDao
-import com.ivy.wallet.io.persistence.dao.UserDao
-import com.ivy.wallet.utils.OpResult
-import com.ivy.wallet.utils.asLiveData
-import com.ivy.wallet.utils.formatNicelyWithTime
-import com.ivy.wallet.utils.ioThread
-import com.ivy.wallet.utils.sendToCrashlytics
-import com.ivy.wallet.utils.timeNowUTC
-import com.ivy.wallet.utils.uiThread
+import com.ivy.legacy.utils.asLiveData
+import com.ivy.legacy.utils.formatNicelyWithTime
+import com.ivy.legacy.utils.ioThread
+import com.ivy.legacy.utils.sendToCrashlytics
+import com.ivy.legacy.utils.timeNowUTC
+import com.ivy.legacy.utils.uiThread
 import com.ivy.widget.balance.WalletBalanceWidgetReceiver
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -42,7 +38,6 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
-    private val userDao: UserDao,
     private val ivyContext: IvyWalletCtx,
     private val exportCSVLogic: ExportCSVLogic,
     private val logoutLogic: LogoutLogic,
@@ -50,20 +45,13 @@ class SettingsViewModel @Inject constructor(
     private val backupLogic: BackupLogic,
     private val startDayOfMonthAct: StartDayOfMonthAct,
     private val updateStartDayOfMonthAct: UpdateStartDayOfMonthAct,
-    private val nav: Navigation,
     private val syncExchangeRatesAct: SyncExchangeRatesAct,
     private val settingsAct: SettingsAct,
     private val updateSettingsAct: UpdateSettingsAct,
 ) : ViewModel() {
 
-    private val _user = MutableLiveData<User?>()
-    val user = _user.asLiveData()
-
     private val _nameLocalAccount = MutableLiveData<String?>()
     val nameLocalAccount = _nameLocalAccount.asLiveData()
-
-    private val _opSync = MutableLiveData<OpResult<Boolean>>()
-    val opSync = _opSync.asLiveData()
 
     private val _currencyCode = MutableLiveData<String>()
     val currencyCode = _currencyCode.asLiveData()
@@ -89,9 +77,6 @@ class SettingsViewModel @Inject constructor(
     private val _startDateOfMonth = MutableLiveData<Int>()
     val startDateOfMonth = _startDateOfMonth
 
-    private val _opFetchtrns = MutableStateFlow<OpResult<Unit>?>(null)
-    val opFetchTrns = _opFetchtrns.asStateFlow()
-
     fun start() {
         viewModelScope.launch {
             TestIdlingResource.increment()
@@ -104,7 +89,6 @@ class SettingsViewModel @Inject constructor(
 
             _startDateOfMonth.value = startDayOfMonthAct(Unit)!!
 
-            _user.value = null
             _currencyCode.value = settings.currency
 
             _currentTheme.value = settingsAct(Unit).theme
@@ -117,16 +101,6 @@ class SettingsViewModel @Inject constructor(
 
             _treatTransfersAsIncomeExpense.value =
                 sharedPrefs.getBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, false)
-
-            TestIdlingResource.decrement()
-        }
-    }
-
-    fun sync() {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
-
-            _opSync.value = OpResult.loading()
 
             TestIdlingResource.decrement()
         }
