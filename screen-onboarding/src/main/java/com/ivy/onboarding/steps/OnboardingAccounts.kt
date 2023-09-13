@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.core.data.model.Account
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.frp.view.navigation.navigation
+import com.ivy.navigation.navigation
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.model.AccountBalance
 import com.ivy.legacy.utils.toLowerCaseLocal

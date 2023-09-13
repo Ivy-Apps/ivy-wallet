@@ -10,12 +10,12 @@ import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.utils.stringRes
 import com.ivy.design.l0_system.Theme
 import com.ivy.frp.test.TestIdlingResource
-import com.ivy.frp.view.navigation.Navigation
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.readOnly
 import com.ivy.navigation.EditTransaction
 import com.ivy.navigation.Main
+import com.ivy.navigation.Navigation
 import com.ivy.navigation.Onboarding
 import com.ivy.resources.R
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic

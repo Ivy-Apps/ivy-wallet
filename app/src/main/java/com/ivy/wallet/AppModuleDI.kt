@@ -2,11 +2,11 @@ package com.ivy.wallet
 
 import android.content.Context
 import com.ivy.core.AppStarter
+import com.ivy.core.data.db.IvyRoomDatabase
 import com.ivy.legacy.IvyWalletCtx
-import com.ivy.frp.view.navigation.Navigation
+import com.ivy.navigation.Navigation
 import com.ivy.wallet.domain.deprecated.logic.*
 import com.ivy.wallet.domain.deprecated.logic.csv.*
-import com.ivy.core.data.db.IvyRoomDatabase
 import com.ivy.wallet.io.persistence.dao.*
 import dagger.Binds
 import dagger.Module

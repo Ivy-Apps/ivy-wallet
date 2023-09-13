@@ -2,7 +2,6 @@ package com.ivy.navigation
 
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.model.Transaction
-import com.ivy.frp.view.navigation.Screen
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID

@@ -42,7 +42,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.frp.view.navigation.navigation
+import com.ivy.navigation.navigation
 import com.ivy.navigation.Categories
 import com.ivy.navigation.ItemStatistic
 import com.ivy.resources.R

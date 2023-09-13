@@ -9,7 +9,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.frp.view.navigation.Navigation
 import com.ivy.importdata.csv.domain.CSVImporterV2
 import com.ivy.importdata.csv.domain.SAMPLE_SIZE
 import com.ivy.importdata.csv.domain.parseAccount
@@ -23,8 +22,8 @@ import com.ivy.importdata.csv.domain.parseTitle
 import com.ivy.importdata.csv.domain.parseToAccount
 import com.ivy.importdata.csv.domain.parseToAccountCurrency
 import com.ivy.importdata.csv.domain.parseTransactionType
+import com.ivy.navigation.Navigation
 import com.ivy.wallet.domain.deprecated.logic.csv.IvyFileReader
-import com.ivy.legacy.utils.uiThread
 import com.opencsv.CSVReaderBuilder
 import com.opencsv.validators.LineValidator
 import com.opencsv.validators.RowValidator

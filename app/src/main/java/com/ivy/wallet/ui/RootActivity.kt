@@ -50,9 +50,6 @@ import com.ivy.core.utils.toEpochMilli
 import com.ivy.design.api.IvyUI
 import com.ivy.donate.DonateScreen
 import com.ivy.exchangerates.ExchangeRatesScreen
-import com.ivy.frp.view.navigation.Navigation
-import com.ivy.frp.view.navigation.NavigationRoot
-import com.ivy.frp.view.navigation.Screen
 import com.ivy.home.customerjourney.CustomerJourneyCardsProvider
 import com.ivy.importdata.csv.CSVScreen
 import com.ivy.importdata.csvimport.ImportCSVScreen
@@ -69,6 +66,7 @@ import com.ivy.navigation.BalanceScreen
 import com.ivy.navigation.BudgetScreen
 import com.ivy.navigation.CSVScreen
 import com.ivy.navigation.Categories
+import com.ivy.navigation.DonateScreen
 import com.ivy.navigation.EditPlanned
 import com.ivy.navigation.EditTransaction
 import com.ivy.navigation.ExchangeRatesScreen
@@ -77,10 +75,13 @@ import com.ivy.navigation.ItemStatistic
 import com.ivy.navigation.LoanDetails
 import com.ivy.navigation.Loans
 import com.ivy.navigation.Main
+import com.ivy.navigation.Navigation
+import com.ivy.navigation.NavigationRoot
 import com.ivy.navigation.Onboarding
 import com.ivy.navigation.PieChartStatistic
 import com.ivy.navigation.PlannedPayments
 import com.ivy.navigation.Report
+import com.ivy.navigation.Screen
 import com.ivy.navigation.Search
 import com.ivy.navigation.Settings
 import com.ivy.navigation.Test

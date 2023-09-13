@@ -3,7 +3,8 @@ package com.ivy.home.customerjourney
 import androidx.annotation.DrawableRes
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.core.RootScreen
-import com.ivy.frp.view.navigation.Navigation
+import com.ivy.navigation.Navigation
+import com.ivy.navigation.navigation
 
 data class CustomerJourneyCardModel(
     val id: String,

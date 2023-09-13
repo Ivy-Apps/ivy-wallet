@@ -32,7 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.frp.view.navigation.navigation
+import com.ivy.navigation.navigation
 import com.ivy.importdata.csvimport.flow.ImportSteps
 import com.ivy.onboarding.components.OnboardingToolbar
 import com.ivy.resources.R

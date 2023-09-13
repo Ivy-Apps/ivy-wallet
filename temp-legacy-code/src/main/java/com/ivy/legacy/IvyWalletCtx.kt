@@ -5,14 +5,10 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import com.ivy.legacy.data.model.MainTab
-import com.ivy.legacy.data.model.PaywallReason
-import com.ivy.legacy.data.model.TimePeriod
-import com.ivy.design.IvyContext
-import com.ivy.frp.view.navigation.Navigation
+import com.ivy.core.data.SharedPrefs
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Category
-import com.ivy.core.data.SharedPrefs
+import com.ivy.design.IvyContext
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
@@ -39,9 +35,10 @@ class IvyWalletCtx : IvyContext() {
         return startDayOfMonth
     }
 
-    var selectedPeriod: com.ivy.legacy.data.model.TimePeriod = com.ivy.legacy.data.model.TimePeriod.currentMonth(
-        startDayOfMonth = startDayOfMonth // this is default value
-    )
+    var selectedPeriod: com.ivy.legacy.data.model.TimePeriod =
+        com.ivy.legacy.data.model.TimePeriod.currentMonth(
+            startDayOfMonth = startDayOfMonth // this is default value
+        )
     private var selectedPeriodInitialized = false
     fun initSelectedPeriodInMemory(
         startDayOfMonth: Int,
@@ -77,16 +74,6 @@ class IvyWalletCtx : IvyContext() {
         moreMenuExpanded = expanded
     }
     // ------------------------------------------ State ---------------------------------------------
-
-    // ------------------------------------------- Navigation ----------------------------------------
-    fun protectWithPaywall(
-        paywallReason: com.ivy.legacy.data.model.PaywallReason,
-        navigation: Navigation,
-        action: () -> Unit
-    ) {
-        action()
-    }
-    // ------------------------------------------- Navigation ----------------------------------------
 
     // Activity help -------------------------------------------------------------------------------
     lateinit var onShowDatePicker: (
