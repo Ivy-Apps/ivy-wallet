@@ -222,7 +222,7 @@ class ExportCSVLogic @Inject constructor(
     }
 
     private fun Double.formatAmountCSV(currency: String): String {
-        val ivyAmountFormat = com.ivy.legacy.utils.format(currency)
+        val ivyAmountFormat = format(currency)
 
         // string result example: 1078.38
         return when (localDecimalSeparator()) {

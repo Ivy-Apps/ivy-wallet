@@ -17,7 +17,6 @@ import com.ivy.legacy.IvyWalletPreview
 import com.ivy.navigation.Test
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.modal.ChooseIconModal
-import com.ivy.legacy.utils.onScreenStart
 
 @Composable
 fun BoxWithConstraintsScope.TestScreen(screen: Test) {
@@ -56,7 +55,7 @@ private fun BoxWithConstraintsScope.UI(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.legacy.IvyWalletPreview {
+    IvyWalletPreview {
         UI()
     }
 }

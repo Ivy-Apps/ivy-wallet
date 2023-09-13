@@ -127,7 +127,7 @@ class WalletAccountLogic @Inject constructor(
     ): List<Transaction> {
         return this.filter {
             it.dateTime != null &&
-                    (before == null || it.dateTime.isBefore(before))
+                    (before == null || it.dateTime!!.isBefore(before))
         }
     }
 

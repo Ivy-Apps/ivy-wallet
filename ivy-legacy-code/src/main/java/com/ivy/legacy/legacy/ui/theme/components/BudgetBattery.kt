@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.theme.components
+package com.ivy.legacy.legacy.ui.theme.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import com.ivy.legacy.utils.format
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -34,6 +35,7 @@ import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB2Row
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.thenIf
+import com.ivy.wallet.ui.theme.components.IvyIcon
 import kotlin.math.abs
 
 @Composable
@@ -143,7 +145,7 @@ fun BudgetBattery(
             Spacer(Modifier.height(2.dp))
 
             Text(
-                text = "${com.ivy.legacy.utils.format(currency)}/${
+                text = "${format(currency)}/${
                     com.ivy.legacy.utils.format(
                         currency
                     )

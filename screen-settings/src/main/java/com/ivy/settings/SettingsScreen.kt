@@ -43,9 +43,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.core.Constants
 import com.ivy.core.Constants.URL_IVY_CONTRIBUTORS
-import com.ivy.legacy.IvyWalletPreview
-import com.ivy.legacy.ivyWalletCtx
-import com.ivy.legacy.rootScreen
 import com.ivy.design.l0_system.SunsetNight
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.l0_system.UI
@@ -53,10 +50,16 @@ import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IconScale
 import com.ivy.design.l1_buildingBlocks.IvyIconScaled
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.rootScreen
+import com.ivy.legacy.utils.OpResult
+import com.ivy.legacy.utils.clickableNoIndication
+import com.ivy.legacy.utils.drawColoredShadow
+import com.ivy.legacy.utils.onScreenStart
+import com.ivy.legacy.utils.thenIf
 import com.ivy.navigation.DonateScreen
 import com.ivy.navigation.ExchangeRatesScreen
 import com.ivy.navigation.Import
-import com.ivy.navigation.Paywall
 import com.ivy.navigation.Settings
 import com.ivy.navigation.Test
 import com.ivy.resources.R
@@ -65,7 +68,6 @@ import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.GradientIvy
-import com.ivy.wallet.ui.theme.GradientOrange
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Orange
@@ -80,11 +82,6 @@ import com.ivy.wallet.ui.theme.modal.CurrencyModal
 import com.ivy.wallet.ui.theme.modal.DeleteModal
 import com.ivy.wallet.ui.theme.modal.NameModal
 import com.ivy.wallet.ui.theme.modal.ProgressModal
-import com.ivy.legacy.utils.OpResult
-import com.ivy.legacy.utils.clickableNoIndication
-import com.ivy.legacy.utils.drawColoredShadow
-import com.ivy.legacy.utils.onScreenStart
-import com.ivy.legacy.utils.thenIf
 
 @ExperimentalFoundationApi
 @Composable
@@ -787,23 +784,6 @@ private fun AccountCardLocalAccount(
     }
 
     Spacer(Modifier.height(24.dp))
-}
-
-@Composable
-private fun Premium() {
-    val nav = navigation()
-    SettingsPrimaryButton(
-        icon = R.drawable.ic_custom_crown_s,
-        text = if (ivyWalletCtx().isPremium) "Ivy Premium (owned)" else "Buy premium",
-        hasShadow = true,
-        backgroundGradient = if (ivyWalletCtx().isPremium) GradientIvy else GradientOrange
-    ) {
-        nav.navigateTo(
-            Paywall(
-                paywallReason = null
-            )
-        )
-    }
 }
 
 @Composable

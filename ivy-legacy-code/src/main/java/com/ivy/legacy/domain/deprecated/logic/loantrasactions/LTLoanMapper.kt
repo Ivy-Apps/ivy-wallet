@@ -90,11 +90,11 @@ class LTLoanMapper @Inject constructor(
 
             onBackgroundProcessingStart()
 
-            val loan = ltCore.fetchLoan(transaction.loanId) ?: return@computationThread
+            val loan = ltCore.fetchLoan(transaction.loanId!!) ?: return@computationThread
 
             if (accountsChanged) {
                 val newLoanRecords: List<LoanRecord> = calculateLoanRecords(
-                    loanId = transaction.loanId,
+                    loanId = transaction.loanId!!,
                     newAccountId = transaction.accountId
                 )
                 ltCore.saveLoanRecords(newLoanRecords)
@@ -102,7 +102,7 @@ class LTLoanMapper @Inject constructor(
 
             val modifiedLoan = loan.copy(
                 amount = transaction.amount.toDouble(),
-                name = if (transaction.title.isNullOrEmpty()) loan.name else transaction.title,
+                name = if (transaction.title.isNullOrEmpty()) loan.name else transaction.title!!,
                 type = if (transaction.type == TransactionType.INCOME) LoanType.BORROW else LoanType.LEND,
                 accountId = transaction.accountId
             )

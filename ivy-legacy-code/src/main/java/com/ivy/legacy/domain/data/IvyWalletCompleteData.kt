@@ -10,7 +10,6 @@ import com.ivy.core.data.db.entity.LoanRecordEntity
 import com.ivy.core.data.db.entity.PlannedPaymentRuleEntity
 import com.ivy.core.data.db.entity.SettingsEntity
 import com.ivy.core.data.db.entity.TransactionEntity
-import com.ivy.wallet.io.persistence.data.*
 
 @Keep
 data class IvyWalletCompleteData(

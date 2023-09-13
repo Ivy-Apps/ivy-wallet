@@ -8,11 +8,11 @@ import com.google.gson.reflect.TypeToken
 import com.ivy.wallet.domain.data.IvyWalletCompleteData
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import com.ivy.core.data.SharedPrefs
+import com.ivy.core.utils.toEpochMilli
 import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.readFile
 import com.ivy.legacy.utils.scopedIOThread
-import com.ivy.legacy.utils.toEpochMilli
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.async
@@ -279,9 +279,9 @@ class BackupLogic @Inject constructor(
             sharedPrefs.putBoolean(
                 SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE,
                 (
-                    completeData.sharedPrefs[SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE]
-                        ?: "false"
-                    ).toBoolean()
+                        completeData.sharedPrefs[SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE]
+                            ?: "false"
+                        ).toBoolean()
             )
 
             plannedPayments.await()

@@ -68,8 +68,8 @@ class LTLoanRecordMapper @Inject constructor(
             onBackgroundProcessingStart()
 
             val loanRecord =
-                ltCore.fetchLoanRecord(transaction.loanRecordId) ?: return@computationThread
-            val loan = ltCore.fetchLoan(transaction.loanId) ?: return@computationThread
+                ltCore.fetchLoanRecord(transaction.loanRecordId!!) ?: return@computationThread
+            val loan = ltCore.fetchLoan(transaction.loanId!!) ?: return@computationThread
 
             val convertedAmount = ltCore.computeConvertedAmount(
                 oldLoanRecordAccountId = loanRecord.accountId,

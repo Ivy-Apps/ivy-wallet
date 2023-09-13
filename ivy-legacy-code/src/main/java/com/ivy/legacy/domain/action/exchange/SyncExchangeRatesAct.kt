@@ -1,13 +1,14 @@
 package com.ivy.wallet.domain.action.exchange
 
 import androidx.annotation.Keep
+import com.ivy.core.data.db.entity.ExchangeRateEntity
 import com.ivy.frp.action.Action
 import com.ivy.wallet.io.persistence.dao.ExchangeRateDao
-import com.ivy.core.data.db.entity.ExchangeRateEntity
 import dagger.Lazy
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
+import kotlinx.serialization.Serializable
 import timber.log.Timber
 import javax.inject.Inject
 

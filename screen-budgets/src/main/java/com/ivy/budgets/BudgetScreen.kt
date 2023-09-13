@@ -29,9 +29,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.budgets.model.DisplayBudget
-import com.ivy.legacy.IvyWalletPreview
-import com.ivy.legacy.data.model.FromToTimeRange
-import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -42,7 +39,7 @@ import com.ivy.core.data.model.Budget
 import com.ivy.core.data.model.Category
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
 import com.ivy.wallet.ui.theme.Gray
-import com.ivy.wallet.ui.theme.components.BudgetBattery
+import com.ivy.legacy.legacy.ui.theme.components.BudgetBattery
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.ReorderButton
 import com.ivy.wallet.ui.theme.components.ReorderModalSingleType
@@ -51,7 +48,6 @@ import com.ivy.wallet.ui.theme.modal.BudgetModalData
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.format
-import com.ivy.legacy.utils.onScreenStart
 
 @Composable
 fun BoxWithConstraintsScope.BudgetScreen(screen: BudgetScreen) {
