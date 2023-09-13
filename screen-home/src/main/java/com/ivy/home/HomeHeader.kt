@@ -263,7 +263,7 @@ fun CashFlowInfo(
                 text = stringResource(
                     R.string.cashflow,
                     (if (cashflow > 0) "+" else ""),
-                    com.ivy.legacy.utils.format(currency),
+                    cashflow.format(currency),
                     currency
                 ),
                 style = UI.typo.nB2.style(

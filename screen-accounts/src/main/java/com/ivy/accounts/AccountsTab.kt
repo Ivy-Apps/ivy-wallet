@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -31,17 +32,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.legacy.data.model.AccountData
-import com.ivy.legacy.data.model.MainTab
-import com.ivy.legacy.ivyWalletCtx
+import com.ivy.core.data.model.Account
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.legacy.utils.clickableNoIndication
+import com.ivy.legacy.utils.horizontalSwipeListener
 import com.ivy.navigation.ItemStatistic
 import com.ivy.navigation.Main
 import com.ivy.resources.R
-import com.ivy.core.data.model.Account
-import com.ivy.legacy.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.GreenDark
@@ -55,10 +54,6 @@ import com.ivy.wallet.ui.theme.components.ReorderModalSingleType
 import com.ivy.wallet.ui.theme.dynamicContrast
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.toComposeColor
-import com.ivy.legacy.utils.UiText
-import com.ivy.legacy.utils.clickableNoIndication
-import com.ivy.legacy.utils.horizontalSwipeListener
-import com.ivy.legacy.utils.onScreenStart
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable

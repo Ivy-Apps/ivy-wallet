@@ -11,7 +11,7 @@ import com.ivy.importdata.csvimport.flow.instructions.MoneyManagerPraseSteps
 import com.ivy.importdata.csvimport.flow.instructions.OneMoneySteps
 import com.ivy.importdata.csvimport.flow.instructions.SpendeeSteps
 import com.ivy.importdata.csvimport.flow.instructions.WalletByBudgetBakersSteps
-import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
+import com.ivy.legacy.domain.deprecated.logic.csv.model.ImportType
 
 @Composable
 fun ImportType.ImportSteps(

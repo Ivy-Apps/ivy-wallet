@@ -5,7 +5,6 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.legacy.IvyWalletCtx
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.navigation.Import
@@ -15,12 +14,10 @@ import com.ivy.wallet.domain.deprecated.logic.csv.CSVMapper
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVNormalizer
 import com.ivy.wallet.domain.deprecated.logic.csv.IvyFileReader
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
-import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
+import com.ivy.legacy.domain.deprecated.logic.csv.model.ImportType
 import com.ivy.wallet.domain.deprecated.logic.zip.BackupLogic
 import com.ivy.legacy.utils.asLiveData
 import com.ivy.legacy.utils.getFileName
-import com.ivy.legacy.utils.ioThread
-import com.ivy.legacy.utils.uiThread
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch

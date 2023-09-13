@@ -29,25 +29,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.budgets.model.DisplayBudget
-import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.style
-import com.ivy.frp.view.navigation.navigation
-import com.ivy.navigation.BudgetScreen
-import com.ivy.resources.R
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Budget
 import com.ivy.core.data.model.Category
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
+import com.ivy.frp.view.navigation.navigation
+import com.ivy.legacy.legacy.ui.theme.components.BudgetBattery
+import com.ivy.legacy.utils.clickableNoIndication
+import com.ivy.legacy.utils.format
+import com.ivy.navigation.BudgetScreen
+import com.ivy.resources.R
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
 import com.ivy.wallet.ui.theme.Gray
-import com.ivy.legacy.legacy.ui.theme.components.BudgetBattery
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.ReorderButton
 import com.ivy.wallet.ui.theme.components.ReorderModalSingleType
 import com.ivy.wallet.ui.theme.modal.BudgetModal
 import com.ivy.wallet.ui.theme.modal.BudgetModalData
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
-import com.ivy.legacy.utils.clickableNoIndication
-import com.ivy.legacy.utils.format
 
 @Composable
 fun BoxWithConstraintsScope.BudgetScreen(screen: BudgetScreen) {
@@ -241,7 +241,7 @@ private fun Toolbar(
                 val categoryBudgetText = if (categoryBudgetsTotal > 0) {
                     stringResource(
                         R.string.for_categories,
-                        com.ivy.legacy.utils.format(baseCurrency),
+                        categoryBudgetsTotal.format(baseCurrency),
                         baseCurrency
                     )
                 } else {
@@ -251,7 +251,7 @@ private fun Toolbar(
                 val appBudgetMaxText = if (appBudgetMax > 0) {
                     stringResource(
                         R.string.app_budget,
-                        com.ivy.legacy.utils.format(baseCurrency),
+                        appBudgetMax.format(baseCurrency),
                         baseCurrency
                     )
                 } else {

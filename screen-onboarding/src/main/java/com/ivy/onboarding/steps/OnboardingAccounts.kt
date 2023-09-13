@@ -3,7 +3,6 @@ package com.ivy.onboarding.steps
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Column
@@ -34,30 +33,26 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.legacy.IvyWalletPreview
-import com.ivy.legacy.data.model.AccountBalance
-import com.ivy.legacy.data.model.PaywallReason
-import com.ivy.legacy.ivyWalletCtx
+import com.ivy.core.data.model.Account
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
-import com.ivy.navigation.Paywall
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.data.model.AccountBalance
+import com.ivy.legacy.utils.toLowerCaseLocal
 import com.ivy.onboarding.components.OnboardingProgressSlider
 import com.ivy.onboarding.components.OnboardingToolbar
 import com.ivy.onboarding.components.Suggestions
 import com.ivy.resources.R
-import com.ivy.core.data.model.Account
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.IvyDark
 import com.ivy.wallet.ui.theme.Orange
-import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.GradientCutBottom
 import com.ivy.wallet.ui.theme.components.ItemIconMDefaultIcon
-import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.OnboardingButton
 import com.ivy.wallet.ui.theme.dynamicContrast
 import com.ivy.wallet.ui.theme.findContrastTextColor
@@ -65,7 +60,6 @@ import com.ivy.wallet.ui.theme.modal.edit.AccountModal
 import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
 import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1Row
-import com.ivy.legacy.utils.toLowerCaseLocal
 
 @ExperimentalFoundationApi
 @Composable
@@ -217,74 +211,6 @@ fun BoxWithConstraintsScope.OnboardingAccounts(
             accountModalData = null
         }
     )
-}
-
-@Composable
-fun PremiumInfo(
-    itemLabelPlural: String,
-    itemsCount: Int,
-    freeItemsCount: Int
-) {
-    val freeItemsLeft = freeItemsCount - itemsCount
-
-    if (freeItemsLeft > 0) {
-        Spacer(Modifier.height(8.dp))
-
-        Text(
-            modifier = Modifier.padding(horizontal = 32.dp),
-            text = if (itemsCount == 0) "Up to $freeItemsCount free $itemLabelPlural" else "$freeItemsLeft $itemLabelPlural left",
-            style = UI.typo.nB2.style(
-                fontWeight = FontWeight.Bold,
-                color = if (freeItemsLeft > 2) Green else Orange
-            )
-        )
-    } else if (!ivyWalletCtx().isPremium) {
-        Spacer(Modifier.height(24.dp))
-
-        BuyPremiumRow(
-            itemLabelPlural = itemLabelPlural
-        )
-    }
-}
-
-@Composable
-fun BuyPremiumRow(
-    itemLabelPlural: String,
-) {
-    val nav = navigation()
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .clip(UI.shapes.r4)
-            .border(2.dp, UI.colors.medium, UI.shapes.r4)
-            .clickable {
-                nav.navigateTo(
-                    Paywall(
-                        paywallReason = PaywallReason.ACCOUNTS
-                    )
-                )
-            },
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Spacer(Modifier.width(16.dp))
-
-        IvyIcon(
-            icon = R.drawable.ic_premium_small,
-            tint = Red
-        )
-
-        Text(
-            modifier = Modifier
-                .padding(vertical = 12.dp)
-                .padding(start = 12.dp, end = 32.dp),
-            text = "Buy premium for unlimited number of $itemLabelPlural",
-            style = UI.typo.b2.style(
-                fontWeight = FontWeight.Bold,
-                color = Red
-            )
-        )
-    }
 }
 
 @Composable

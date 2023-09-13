@@ -1,4 +1,4 @@
-package com.ivy.wallet.domain.deprecated.logic.csv.model
+package com.ivy.legacy.domain.deprecated.logic.csv.model
 
 import androidx.annotation.DrawableRes
 import androidx.compose.ui.graphics.Color

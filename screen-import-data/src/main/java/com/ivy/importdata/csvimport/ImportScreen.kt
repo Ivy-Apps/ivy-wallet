@@ -8,7 +8,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.legacy.IvyWalletPreview
 import com.ivy.importdata.csvimport.flow.ImportFrom
 import com.ivy.importdata.csvimport.flow.ImportProcessing
 import com.ivy.importdata.csvimport.flow.ImportResultUI
@@ -16,8 +15,7 @@ import com.ivy.importdata.csvimport.flow.instructions.ImportInstructions
 import com.ivy.navigation.Import
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
-import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
-import com.ivy.legacy.utils.onScreenStart
+import com.ivy.legacy.domain.deprecated.logic.csv.model.ImportType
 
 @OptIn(ExperimentalStdlibApi::class)
 @ExperimentalFoundationApi

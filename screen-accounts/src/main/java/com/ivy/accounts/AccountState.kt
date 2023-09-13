@@ -7,8 +7,8 @@ import kotlinx.collections.immutable.persistentListOf
 
 data class AccountState(
     val baseCurrency: String = "",
-    val accountsData: ImmutableList<com.ivy.legacy.data.model.AccountData> = persistentListOf(),
+    val accountsData: ImmutableList<AccountData> = persistentListOf(),
     val totalBalanceWithExcluded: Double = 0.0,
-    val totalBalanceWithExcludedText: com.ivy.legacy.utils.UiText = com.ivy.legacy.utils.UiText.DynamicString(""),
+    val totalBalanceWithExcludedText: UiText = UiText.DynamicString(""),
     val reorderVisible: Boolean = false
 )

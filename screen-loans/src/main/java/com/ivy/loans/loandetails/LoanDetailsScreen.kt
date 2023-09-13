@@ -37,25 +37,33 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.legacy.IvyWalletPreview
-import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.style
-import com.ivy.frp.view.navigation.navigation
-import com.ivy.legacy.ui.component.ItemStatisticToolbar
-import com.ivy.legacy.ui.component.transaction.TypeAmountCurrency
-import com.ivy.navigation.ItemStatistic
-import com.ivy.navigation.LoanDetails
-import com.ivy.resources.R
-import com.ivy.wallet.domain.data.IvyCurrency
-import com.ivy.core.data.model.LoanType
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Loan
 import com.ivy.core.data.model.LoanRecord
+import com.ivy.core.data.model.LoanType
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
+import com.ivy.frp.view.navigation.navigation
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.ui.component.ItemStatisticToolbar
+import com.ivy.legacy.ui.component.transaction.TypeAmountCurrency
+import com.ivy.legacy.utils.clickableNoIndication
+import com.ivy.legacy.utils.drawColoredShadow
+import com.ivy.legacy.utils.format
+import com.ivy.legacy.utils.formatNicelyWithTime
+import com.ivy.legacy.utils.isNotNullOrBlank
+import com.ivy.legacy.utils.onScreenStart
+import com.ivy.legacy.utils.setStatusBarDarkTextCompat
+import com.ivy.legacy.utils.timeNowUTC
+import com.ivy.loans.loan.data.DisplayLoanRecord
+import com.ivy.navigation.ItemStatistic
+import com.ivy.navigation.LoanDetails
+import com.ivy.resources.R
+import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
 import com.ivy.wallet.domain.deprecated.logic.model.EditLoanRecordData
-import com.ivy.loans.loan.data.DisplayLoanRecord
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.MediumBlack
@@ -77,14 +85,6 @@ import com.ivy.wallet.ui.theme.modal.LoanRecordModal
 import com.ivy.wallet.ui.theme.modal.LoanRecordModalData
 import com.ivy.wallet.ui.theme.modal.ProgressModal
 import com.ivy.wallet.ui.theme.toComposeColor
-import com.ivy.legacy.utils.clickableNoIndication
-import com.ivy.legacy.utils.drawColoredShadow
-import com.ivy.legacy.utils.format
-import com.ivy.legacy.utils.formatNicelyWithTime
-import com.ivy.legacy.utils.isNotNullOrBlank
-import com.ivy.legacy.utils.onScreenStart
-import com.ivy.legacy.utils.setStatusBarDarkTextCompat
-import com.ivy.legacy.utils.timeNowUTC
 import java.util.UUID
 
 @Composable
@@ -487,11 +487,7 @@ private fun LoanInfoCard(
             modifier = Modifier
                 .padding(horizontal = 24.dp)
                 .testTag("amount_paid"),
-            text = "${com.ivy.legacy.utils.format(baseCurrency)} / ${
-                com.ivy.legacy.utils.format(
-                    baseCurrency
-                )
-            }",
+            text = "${amountPaid.format(baseCurrency)} / ${loan.amount.format(baseCurrency)}",
             style = UI.typo.nB1.style(
                 color = contrastColor,
                 fontWeight = FontWeight.ExtraBold
@@ -518,7 +514,7 @@ private fun LoanInfoCard(
             Text(
                 modifier = Modifier
                     .testTag("percent_paid"),
-                text = "${com.ivy.legacy.utils.format(2)}%",
+                text = "${percentPaid.times(100).format(2)}%",
                 style = UI.typo.nB1.style(
                     color = contrastColor,
                     fontWeight = FontWeight.ExtraBold
@@ -532,7 +528,7 @@ private fun LoanInfoCard(
                     .testTag("left_to_pay"),
                 text = stringResource(
                     R.string.left_to_pay,
-                    com.ivy.legacy.utils.format(baseCurrency),
+                    leftToPay.format(baseCurrency),
                     baseCurrency
                 ),
                 style = UI.typo.nB2.style(
@@ -582,7 +578,7 @@ private fun LoanInfoCard(
                 Text(
                     modifier = Modifier
                         .testTag("loan_interest_percent_paid"),
-                    text = "${com.ivy.legacy.utils.format(2)}%",
+                    text = "${loanPercentPaid.times(100).format(2)}%",
                     style = UI.typo.nB1.style(
                         color = contrastColor,
                         fontWeight = FontWeight.ExtraBold
@@ -596,7 +592,7 @@ private fun LoanInfoCard(
                         .testTag("interest_paid"),
                     text = stringResource(
                         R.string.interest_paid,
-                        com.ivy.legacy.utils.format(baseCurrency),
+                        loanAmountPaid.format(baseCurrency),
                         baseCurrency
                     ),
                     style = UI.typo.nB2.style(
@@ -779,7 +775,7 @@ private fun LoanRecordItem(
         if (loanRecord.convertedAmount != null) {
             Text(
                 modifier = Modifier.padding(start = 68.dp),
-                text = com.ivy.legacy.utils.format(baseCurrency) + " $loanBaseCurrency",
+                text = loanRecord.convertedAmount!!.format(baseCurrency) + " $loanBaseCurrency",
                 style = UI.typo.nB2.style(
                     color = Gray,
                     fontWeight = FontWeight.Normal

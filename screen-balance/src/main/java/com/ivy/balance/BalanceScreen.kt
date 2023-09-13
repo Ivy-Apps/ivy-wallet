@@ -220,7 +220,7 @@ private fun ColumnScope.BalanceAfterPlannedPayments(
             Spacer(Modifier.height(4.dp))
 
             Text(
-                text = "${com.ivy.legacy.utils.format(2)} $currency",
+                text = "${currentBalance.format(2)} $currency",
                 style = UI.typo.nC.style(
                     color = UI.colors.pureInverse,
                     fontWeight = FontWeight.Normal
@@ -231,7 +231,7 @@ private fun ColumnScope.BalanceAfterPlannedPayments(
 
             val plusSign = if (plannedPaymentsAmount >= 0) "+" else ""
             Text(
-                text = "${plusSign}${com.ivy.legacy.utils.format(2)} $currency",
+                text = "${plusSign}${plannedPaymentsAmount.format(2)} $currency",
                 style = UI.typo.nC.style(
                     color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold

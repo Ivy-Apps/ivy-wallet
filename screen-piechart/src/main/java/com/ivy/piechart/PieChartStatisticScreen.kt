@@ -39,18 +39,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.legacy.data.model.TimePeriod
-import com.ivy.legacy.ivyWalletCtx
+import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.model.Category
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.legacy.utils.drawColoredShadow
+import com.ivy.legacy.utils.format
+import com.ivy.legacy.utils.horizontalSwipeListener
+import com.ivy.legacy.utils.thenIf
 import com.ivy.navigation.EditTransaction
 import com.ivy.navigation.ItemStatistic
 import com.ivy.navigation.PieChartStatistic
 import com.ivy.resources.R
-import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.core.data.model.Category
-import com.ivy.legacy.IvyWalletPreview
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
@@ -73,13 +74,6 @@ import com.ivy.wallet.ui.theme.modal.ChoosePeriodModal
 import com.ivy.wallet.ui.theme.pureBlur
 import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1Row
-import com.ivy.legacy.utils.drawColoredShadow
-import com.ivy.legacy.utils.format
-import com.ivy.legacy.utils.horizontalSwipeListener
-import com.ivy.legacy.utils.lerp
-import com.ivy.legacy.utils.onScreenStart
-import com.ivy.legacy.utils.springBounce
-import com.ivy.legacy.utils.thenIf
 import kotlinx.collections.immutable.persistentListOf
 
 @ExperimentalFoundationApi
@@ -455,7 +449,7 @@ private fun PercentText(
 ) {
     Text(
         text = if (totalAmount != 0.0) {
-            stringResource(R.string.percent, com.ivy.legacy.utils.format(2))
+            stringResource(R.string.percent, ((amount / totalAmount) * 100).format(2))
         } else {
             stringResource(R.string.percent, "0")
         },

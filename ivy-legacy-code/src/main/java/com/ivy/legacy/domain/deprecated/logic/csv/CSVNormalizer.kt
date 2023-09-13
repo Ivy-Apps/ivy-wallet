@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.deprecated.logic.csv
 
-import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
+import com.ivy.legacy.domain.deprecated.logic.csv.model.ImportType
 import javax.inject.Inject
 
 class CSVNormalizer @Inject constructor() {

@@ -89,12 +89,14 @@ class LoanViewModel @Inject constructor(
                             loan = loan,
                             amountPaid = amountPaid,
                             currencyCode = currCode,
-                            formattedDisplayText = "${com.ivy.legacy.utils.format(currCode)} $currCode / ${
-                                com.ivy.legacy.utils.format(
+                            formattedDisplayText = "${amountPaid.format(currCode)} $currCode / ${
+                                loanAmount.format(
                                     currCode
                                 )
                             } $currCode (${
-                                com.ivy.legacy.utils.format(2)
+                                percentPaid.times(
+                                    100
+                                ).format(2)
                             }%)",
                             percentPaid = percentPaid
                         )

@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.deprecated.logic.csv
 
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.model.Transaction
-import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
+import com.ivy.legacy.domain.deprecated.logic.csv.model.ImportType
 import com.ivy.wallet.domain.deprecated.logic.csv.model.JoinResult
 import com.ivy.wallet.domain.deprecated.logic.csv.model.RowMapping
 import com.ivy.legacy.utils.toLowerCaseLocal

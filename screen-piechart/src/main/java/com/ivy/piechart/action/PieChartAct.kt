@@ -1,7 +1,10 @@
 package com.ivy.piechart.action
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.legacy.data.model.FromToTimeRange
+import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.model.Account
+import com.ivy.core.data.model.Category
+import com.ivy.core.data.model.Transaction
 import com.ivy.core.utils.stringRes
 import com.ivy.design.l0_system.RedLight
 import com.ivy.frp.Pure
@@ -17,10 +20,6 @@ import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.category.CategoryIncomeWithAccountFiltersAct
 import com.ivy.wallet.domain.action.transaction.CalcTrnsIncomeExpenseAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithRangeAndAccFiltersAct
-import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.Category
-import com.ivy.core.data.model.Transaction
 import com.ivy.wallet.domain.pure.account.filterExcluded
 import com.ivy.wallet.domain.pure.data.IncomeExpenseTransferPair
 import kotlinx.collections.immutable.ImmutableList

@@ -19,17 +19,15 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.ivy.design.l0_system.UI
-import com.ivy.resources.R
-import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.model.Category
-import com.ivy.legacy.IvyWalletComponentPreview
-import com.ivy.wallet.ui.theme.*
-import com.ivy.wallet.ui.theme.components.IvyIcon
-import com.ivy.legacy.utils.convertDpToPixel
+import com.ivy.core.utils.toEpochMilli
+import com.ivy.design.l0_system.UI
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.timeNowUTC
-import com.ivy.legacy.utils.toEpochMilli
+import com.ivy.resources.R
+import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.components.IvyIcon
 import timber.log.Timber
 import kotlin.math.acos
 import kotlin.math.sqrt
@@ -192,10 +190,12 @@ private class PieChartView(context: Context) : View(context) {
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                startClickTime = com.ivy.legacy.utils.timeNowUTC().toEpochMilli()
+                startClickTime = timeNowUTC().toEpochMilli()
             }
+
             MotionEvent.ACTION_UP -> {
-                val clickDuration: Long = com.ivy.legacy.utils.timeNowUTC().toEpochMilli() - startClickTime
+                val clickDuration: Long =
+                    timeNowUTC().toEpochMilli() - startClickTime
                 if (clickDuration < MAX_CLICK_DURATION) {
                     val touchX = event.x
                     val touchY = event.y
