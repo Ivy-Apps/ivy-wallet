@@ -30,8 +30,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.core.Constants
-import com.ivy.legacy.IvyWalletPreview
-import com.ivy.legacy.rootActivity
 import com.ivy.design.l0_system.Black
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.White
@@ -44,14 +42,12 @@ import com.ivy.design.l1_buildingBlocks.data.Background
 import com.ivy.design.l2_components.IconButton
 import com.ivy.design.utils.padding
 import com.ivy.donate.data.DonateOption
-import com.ivy.frp.view.navigation.Screen
-import com.ivy.frp.view.navigation.navigation
-import com.ivy.frp.view.navigation.onScreenStart
+import com.ivy.legacy.frp.onScreenStart
+import com.ivy.navigation.DonateScreen
+import com.ivy.navigation.navigation
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.components.IvyButton
-
-object DonateScreen : Screen
 
 @Composable
 fun BoxWithConstraintsScope.DonateScreen(screen: DonateScreen) {

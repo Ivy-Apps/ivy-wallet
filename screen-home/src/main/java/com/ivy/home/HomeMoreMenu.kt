@@ -54,7 +54,7 @@ import com.ivy.design.l0_system.SunsetNight
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.frp.view.navigation.navigation
+import com.ivy.navigation.navigation
 import com.ivy.navigation.BudgetScreen
 import com.ivy.navigation.Categories
 import com.ivy.navigation.DonateScreen

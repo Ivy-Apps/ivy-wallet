@@ -37,7 +37,7 @@ import com.ivy.legacy.rootView
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.utils.hideKeyboard
-import com.ivy.frp.view.navigation.navigation
+import com.ivy.navigation.navigation
 import com.ivy.legacy.ui.component.edit.TransactionDateTime
 import com.ivy.navigation.EditPlanned
 import com.ivy.navigation.EditTransaction

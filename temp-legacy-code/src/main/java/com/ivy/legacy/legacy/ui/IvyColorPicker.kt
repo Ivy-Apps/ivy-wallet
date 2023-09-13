@@ -25,7 +25,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.ivy.legacy.ivyWalletCtx
 import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.design.IVY_COLOR_PICKER_COLORS_PREMIUM
 import com.ivy.design.l0_system.UI
@@ -35,8 +34,9 @@ import com.ivy.design.l1_buildingBlocks.IvyIcon
 import com.ivy.design.utils.densityScope
 import com.ivy.design.utils.thenIf
 import com.ivy.frp.test.TestingContext
-import com.ivy.frp.view.navigation.navigation
-import com.ivy.frp.view.navigation.onScreenStart
+import com.ivy.legacy.frp.onScreenStart
+import com.ivy.legacy.ivyWalletCtx
+import com.ivy.navigation.navigation
 import com.ivy.resources.R
 import kotlinx.coroutines.launch
 

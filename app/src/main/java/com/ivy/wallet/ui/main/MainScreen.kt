@@ -15,7 +15,7 @@ import com.ivy.accounts.AccountsTab
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.model.MainTab
 import com.ivy.legacy.ivyWalletCtx
-import com.ivy.frp.view.navigation.navigation
+import com.ivy.navigation.navigation
 import com.ivy.home.HomeTab
 import com.ivy.navigation.EditPlanned
 import com.ivy.navigation.EditTransaction

@@ -26,7 +26,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.ivy.design.l0_system.Gradient
-import com.ivy.frp.view.navigation.navigation
+import com.ivy.navigation.navigation
 
 fun Modifier.horizontalGradientBackground(
     gradient: Gradient

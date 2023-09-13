@@ -21,8 +21,8 @@ import com.ivy.design.api.systems.IvyWalletDesign
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.utils.IvyPreview
-import com.ivy.frp.view.navigation.Navigation
-import com.ivy.frp.view.navigation.NavigationRoot
+import com.ivy.navigation.Navigation
+import com.ivy.navigation.NavigationRoot
 
 @Composable
 fun ivyWalletCtx(): IvyWalletCtx = ivyContext() as IvyWalletCtx

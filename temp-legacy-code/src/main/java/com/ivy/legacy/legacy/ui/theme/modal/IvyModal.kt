@@ -37,15 +37,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.ivy.design.l0_system.UI
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.ivyWalletCtx
-import com.ivy.design.l0_system.UI
-import com.ivy.frp.view.navigation.Navigation
-import com.ivy.frp.view.navigation.navigation
-import com.ivy.wallet.ui.theme.components.ActionsRow
-import com.ivy.wallet.ui.theme.components.CloseButton
-import com.ivy.wallet.ui.theme.gradientCutBackgroundTop
-import com.ivy.wallet.ui.theme.mediumBlur
 import com.ivy.legacy.utils.addKeyboardListener
 import com.ivy.legacy.utils.consumeClicks
 import com.ivy.legacy.utils.densityScope
@@ -54,6 +48,12 @@ import com.ivy.legacy.utils.keyboardOnlyWindowInsets
 import com.ivy.legacy.utils.navigationBarInsets
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.thenIf
+import com.ivy.navigation.Navigation
+import com.ivy.navigation.navigation
+import com.ivy.wallet.ui.theme.components.ActionsRow
+import com.ivy.wallet.ui.theme.components.CloseButton
+import com.ivy.wallet.ui.theme.gradientCutBackgroundTop
+import com.ivy.wallet.ui.theme.mediumBlur
 import java.util.UUID
 import kotlin.math.roundToInt
 

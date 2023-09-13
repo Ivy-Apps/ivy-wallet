@@ -4,15 +4,23 @@ import android.content.Context
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.ivy.legacy.IvyWalletCtx
 import com.ivy.core.RootScreen
-import com.ivy.legacy.data.model.PaywallReason
-import com.ivy.legacy.data.model.TimePeriod
+import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.model.Account
+import com.ivy.core.data.model.Category
+import com.ivy.core.data.model.Transaction
 import com.ivy.core.utils.stringRes
 import com.ivy.frp.filterSuspend
-import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.frp.viewmodel.readOnly
+import com.ivy.legacy.IvyWalletCtx
+import com.ivy.legacy.data.model.TimePeriod
+import com.ivy.legacy.utils.asLiveData
+import com.ivy.legacy.utils.formatNicelyWithTime
+import com.ivy.legacy.utils.scopedIOThread
+import com.ivy.legacy.utils.timeNowUTC
+import com.ivy.legacy.utils.toLowerCaseLocal
+import com.ivy.legacy.utils.uiThread
 import com.ivy.resources.R
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
@@ -20,25 +28,14 @@ import com.ivy.wallet.domain.action.exchange.ExchangeAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.transaction.CalcTrnsIncomeExpenseAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithDateDivsAct
-import com.ivy.core.data.db.entity.TransactionType
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.Category
-import com.ivy.core.data.model.Transaction
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
 import com.ivy.wallet.domain.pure.data.IncomeExpenseTransferPair
 import com.ivy.wallet.domain.pure.exchange.ExchangeData
 import com.ivy.wallet.domain.pure.transaction.trnCurrency
 import com.ivy.wallet.domain.pure.util.orZero
-import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.ui.theme.Gray
-import com.ivy.legacy.utils.asLiveData
-import com.ivy.legacy.utils.formatNicelyWithTime
-import com.ivy.legacy.utils.scopedIOThread
-import com.ivy.legacy.utils.timeNowUTC
-import com.ivy.legacy.utils.toLowerCaseLocal
-import com.ivy.legacy.utils.uiThread
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -53,10 +50,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ReportViewModel @Inject constructor(
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
-    private val settingsDao: SettingsDao,
     private val transactionDao: TransactionDao,
     private val ivyContext: IvyWalletCtx,
-    private val nav: Navigation,
     private val exportCSVLogic: ExportCSVLogic,
     private val exchangeAct: ExchangeAct,
     private val accountsAct: AccountsAct,
@@ -333,44 +328,39 @@ class ReportViewModel @Inject constructor(
     }
 
     private suspend fun export(context: Context) {
-        ivyContext.protectWithPaywall(
-            paywallReason = PaywallReason.EXPORT_CSV,
-            navigation = nav
-        ) {
-            val filter = _filter.value ?: return@protectWithPaywall
-            if (!filter.validate()) return@protectWithPaywall
-            val accounts = _allAccounts.value
-            val baseCurrency = _baseCurrency.value
+        val filter = _filter.value ?: return
+        if (!filter.validate()) return
+        val accounts = _allAccounts.value
+        val baseCurrency = _baseCurrency.value
 
-            ivyContext.createNewFile(
-                "Report (${
-                    timeNowUTC().formatNicelyWithTime(noWeekDay = true)
-                }).csv"
-            ) { fileUri ->
-                viewModelScope.launch {
-                    updateState {
-                        it.copy(loading = true)
+        ivyContext.createNewFile(
+            "Report (${
+                timeNowUTC().formatNicelyWithTime(noWeekDay = true)
+            }).csv"
+        ) { fileUri ->
+            viewModelScope.launch {
+                updateState {
+                    it.copy(loading = true)
+                }
+
+                exportCSVLogic.exportToFile(
+                    context = context,
+                    fileUri = fileUri,
+                    exportScope = {
+                        filterTransactions(
+                            baseCurrency = baseCurrency,
+                            accounts = accounts,
+                            filter = filter
+                        )
                     }
+                )
 
-                    exportCSVLogic.exportToFile(
-                        context = context,
-                        fileUri = fileUri,
-                        exportScope = {
-                            filterTransactions(
-                                baseCurrency = baseCurrency,
-                                accounts = accounts,
-                                filter = filter
-                            )
-                        }
-                    )
+                (context as RootScreen).shareCSVFile(
+                    fileUri = fileUri
+                )
 
-                    (context as RootScreen).shareCSVFile(
-                        fileUri = fileUri
-                    )
-
-                    updateState {
-                        it.copy(loading = false)
-                    }
+                updateState {
+                    it.copy(loading = false)
                 }
             }
         }
