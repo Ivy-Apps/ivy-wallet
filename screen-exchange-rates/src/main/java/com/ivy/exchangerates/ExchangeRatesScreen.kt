@@ -23,7 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.core.IvyWalletPreview
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.White
 import com.ivy.design.l0_system.style
@@ -36,7 +36,7 @@ import com.ivy.exchangerates.component.RateItem
 import com.ivy.exchangerates.data.RateUi
 import com.ivy.exchangerates.modal.AddRateModal
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
-import com.ivy.wallet.utils.selectEndTextFieldValue
+import com.ivy.legacy.utils.selectEndTextFieldValue
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 

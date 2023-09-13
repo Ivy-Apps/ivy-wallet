@@ -1,7 +1,7 @@
 package com.ivy.budgets.model
 
 import com.ivy.wallet.domain.data.Reorderable
-import com.ivy.wallet.domain.data.core.Budget
+import com.ivy.core.data.model.Budget
 
 data class DisplayBudget(
     val budget: Budget,

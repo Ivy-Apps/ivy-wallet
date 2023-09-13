@@ -30,8 +30,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.core.Constants
-import com.ivy.core.IvyWalletPreview
-import com.ivy.core.rootActivity
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.rootActivity
 import com.ivy.design.l0_system.Black
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.White
@@ -57,7 +57,7 @@ object DonateScreen : Screen
 fun BoxWithConstraintsScope.DonateScreen(screen: DonateScreen) {
     val viewModel: DonateViewModel = viewModel()
 
-    val rootActivity = rootActivity()
+    val rootActivity = com.ivy.legacy.rootActivity()
     onScreenStart {
         viewModel.onEvent(DonateEvent.Load(rootActivity))
     }
@@ -117,7 +117,7 @@ private fun BoxWithConstraintsScope.UI(
         }
     }
 
-    val activity = rootActivity()
+    val activity = com.ivy.legacy.rootActivity()
     DonateButton {
         onEvent(DonateEvent.Donate(activity, donateOption))
     }
@@ -311,7 +311,7 @@ private fun BoxWithConstraintsScope.DonateButton(
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletPreview {
+    com.ivy.legacy.IvyWalletPreview {
         UI(onEvent = {})
     }
 }

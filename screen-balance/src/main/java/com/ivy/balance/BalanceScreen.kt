@@ -31,8 +31,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.core.FAB_BUTTON_SIZE
-import com.ivy.core.IvyWalletPreview
-import com.ivy.core.data.model.TimePeriod
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -48,8 +48,8 @@ import com.ivy.wallet.ui.theme.components.IvyDividerLine
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModal
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import com.ivy.wallet.ui.theme.wallet.PeriodSelector
-import com.ivy.wallet.utils.format
-import com.ivy.wallet.utils.onScreenStart
+import com.ivy.legacy.utils.format
+import com.ivy.legacy.utils.onScreenStart
 
 @Composable
 fun BoxWithConstraintsScope.BalanceScreen(screen: BalanceScreen) {
@@ -61,7 +61,7 @@ fun BoxWithConstraintsScope.BalanceScreen(screen: BalanceScreen) {
     val plannedPaymentsAmount by viewModel.plannedPaymentsAmount.collectAsState()
     val balanceAfterPlannedPayments by viewModel.balanceAfterPlannedPayments.collectAsState()
 
-    onScreenStart {
+    com.ivy.legacy.utils.onScreenStart {
         viewModel.start()
     }
 
@@ -80,14 +80,14 @@ fun BoxWithConstraintsScope.BalanceScreen(screen: BalanceScreen) {
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    period: TimePeriod,
+    period: com.ivy.legacy.data.model.TimePeriod,
 
     baseCurrencyCode: String,
     currentBalance: Double,
     plannedPaymentsAmount: Double,
     balanceAfterPlannedPayments: Double,
 
-    onSetPeriod: (TimePeriod) -> Unit = {},
+    onSetPeriod: (com.ivy.legacy.data.model.TimePeriod) -> Unit = {},
     onPreviousMonth: () -> Unit = {},
     onNextMonth: () -> Unit = {}
 ) {
@@ -220,7 +220,7 @@ private fun ColumnScope.BalanceAfterPlannedPayments(
             Spacer(Modifier.height(4.dp))
 
             Text(
-                text = "${currentBalance.format(2)} $currency",
+                text = "${com.ivy.legacy.utils.format(2)} $currency",
                 style = UI.typo.nC.style(
                     color = UI.colors.pureInverse,
                     fontWeight = FontWeight.Normal
@@ -231,7 +231,7 @@ private fun ColumnScope.BalanceAfterPlannedPayments(
 
             val plusSign = if (plannedPaymentsAmount >= 0) "+" else ""
             Text(
-                text = "${plusSign}${plannedPaymentsAmount.format(2)} $currency",
+                text = "${plusSign}${com.ivy.legacy.utils.format(2)} $currency",
                 style = UI.typo.nC.style(
                     color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
@@ -265,9 +265,9 @@ private fun ColumnScope.CloseButton() {
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletPreview {
+    com.ivy.legacy.IvyWalletPreview {
         UI(
-            period = TimePeriod.currentMonth(
+            period = com.ivy.legacy.data.model.TimePeriod.currentMonth(
                 startDayOfMonth = 1
             ), // preview
             baseCurrencyCode = "BGN",

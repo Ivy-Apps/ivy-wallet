@@ -24,13 +24,13 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.core.IvyWalletPreview
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.navigation.EditPlanned
 import com.ivy.resources.R
-import com.ivy.wallet.domain.data.IntervalType
-import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.data.core.Category
+import com.ivy.core.data.model.IntervalType
+import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.model.Account
+import com.ivy.core.data.model.Category
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.edit.core.Category
@@ -49,7 +49,7 @@ import com.ivy.wallet.ui.theme.modal.edit.CategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import com.ivy.wallet.ui.theme.modal.edit.ChooseCategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.DescriptionModal
-import com.ivy.wallet.utils.onScreenStart
+import com.ivy.legacy.utils.onScreenStart
 import java.time.LocalDateTime
 
 @ExperimentalFoundationApi

@@ -1,9 +1,9 @@
 package com.ivy.home
 
-import com.ivy.core.IvyWalletCtx
-import com.ivy.core.data.model.MainTab
-import com.ivy.core.data.model.TimePeriod
-import com.ivy.core.data.model.toCloseTimeRange
+import com.ivy.legacy.IvyWalletCtx
+import com.ivy.legacy.data.model.MainTab
+import com.ivy.legacy.data.model.TimePeriod
+import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.design.l0_system.Theme
 import com.ivy.frp.fixUnit
 import com.ivy.frp.then
@@ -33,14 +33,14 @@ import com.ivy.wallet.domain.action.viewmodel.home.UpdateAccCacheAct
 import com.ivy.wallet.domain.action.viewmodel.home.UpdateCategoriesCacheAct
 import com.ivy.wallet.domain.action.wallet.CalcIncomeExpenseAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
-import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.data.core.Settings
-import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.core.data.model.Account
+import com.ivy.core.data.model.Settings
+import com.ivy.core.data.model.Transaction
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
-import com.ivy.wallet.utils.dateNowUTC
-import com.ivy.wallet.utils.ioThread
+import com.ivy.legacy.utils.dateNowUTC
+import com.ivy.legacy.utils.ioThread
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay

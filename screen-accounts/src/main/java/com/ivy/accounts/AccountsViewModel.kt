@@ -1,10 +1,10 @@
 package com.ivy.accounts
 
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.IvyWalletCtx
-import com.ivy.core.data.model.AccountData
-import com.ivy.core.data.model.TimePeriod
-import com.ivy.core.data.model.toCloseTimeRange
+import com.ivy.legacy.IvyWalletCtx
+import com.ivy.legacy.data.model.AccountData
+import com.ivy.legacy.data.model.TimePeriod
+import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.resources.R
@@ -12,16 +12,16 @@ import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.viewmodel.account.AccountDataAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
-import com.ivy.wallet.domain.data.core.Account
+import com.ivy.core.data.model.Account
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
 import com.ivy.wallet.domain.pure.data.WalletDAOs
-import com.ivy.wallet.io.persistence.SharedPrefs
+import com.ivy.core.data.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
-import com.ivy.wallet.utils.UiText
-import com.ivy.wallet.utils.format
-import com.ivy.wallet.utils.ioThread
+import com.ivy.legacy.utils.UiText
+import com.ivy.legacy.utils.format
+import com.ivy.legacy.utils.ioThread
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,7 +36,7 @@ class AccountsViewModel @Inject constructor(
     private val accountDao: AccountDao,
     private val settingsDao: SettingsDao,
     private val accountCreator: AccountCreator,
-    private val ivyContext: IvyWalletCtx,
+    private val ivyContext: com.ivy.legacy.IvyWalletCtx,
     private val sharedPrefs: SharedPrefs,
     private val accountsAct: AccountsAct,
     private val calcWalletBalanceAct: CalcWalletBalanceAct,
@@ -67,7 +67,7 @@ class AccountsViewModel @Inject constructor(
     private suspend fun startInternally() {
         TestIdlingResource.increment()
 
-        val period = TimePeriod.currentMonth(
+        val period = com.ivy.legacy.data.model.TimePeriod.currentMonth(
             startDayOfMonth = ivyContext.startDayOfMonth
         ) // this must be monthly
         val range = period.toRange(ivyContext.startDayOfMonth)
@@ -99,7 +99,7 @@ class AccountsViewModel @Inject constructor(
                 baseCurrency = baseCurrencyCode,
                 accountsData = accountsDataList,
                 totalBalanceWithExcluded = totalBalanceWithExcluded,
-                totalBalanceWithExcludedText = UiText.StringResource(
+                totalBalanceWithExcludedText = com.ivy.legacy.utils.UiText.StringResource(
                     R.string.total,
                     baseCurrencyCode,
                     totalBalanceWithExcluded.format(
@@ -112,10 +112,10 @@ class AccountsViewModel @Inject constructor(
         TestIdlingResource.decrement()
     }
 
-    private suspend fun reorder(newOrder: List<AccountData>) {
+    private suspend fun reorder(newOrder: List<com.ivy.legacy.data.model.AccountData>) {
         TestIdlingResource.increment()
 
-        ioThread {
+        com.ivy.legacy.utils.ioThread {
             newOrder.mapIndexed { index, accountData ->
                 accountDao.save(
                     accountData.account.toEntity().copy(

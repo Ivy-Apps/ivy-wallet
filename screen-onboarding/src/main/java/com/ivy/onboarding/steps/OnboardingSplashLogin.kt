@@ -44,9 +44,9 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.Constants
-import com.ivy.core.IvyWalletCtx
-import com.ivy.core.IvyWalletPreview
-import com.ivy.core.ivyWalletCtx
+import com.ivy.legacy.IvyWalletCtx
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.ivyWalletCtx
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.onboarding.OnboardingState
@@ -55,15 +55,15 @@ import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.components.IvyIcon
-import com.ivy.wallet.utils.OpResult
-import com.ivy.wallet.utils.clickableNoIndication
-import com.ivy.wallet.utils.drawColoredShadow
-import com.ivy.wallet.utils.lerp
-import com.ivy.wallet.utils.openUrl
-import com.ivy.wallet.utils.springBounceSlow
-import com.ivy.wallet.utils.thenIf
-import com.ivy.wallet.utils.toDensityDp
-import com.ivy.wallet.utils.toDensityPx
+import com.ivy.legacy.utils.OpResult
+import com.ivy.legacy.utils.clickableNoIndication
+import com.ivy.legacy.utils.drawColoredShadow
+import com.ivy.legacy.utils.lerp
+import com.ivy.legacy.utils.openUrl
+import com.ivy.legacy.utils.springBounceSlow
+import com.ivy.legacy.utils.thenIf
+import com.ivy.legacy.utils.toDensityDp
+import com.ivy.legacy.utils.toDensityPx
 import kotlin.math.roundToInt
 
 @Composable

@@ -15,16 +15,16 @@ import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.currentState
 import androidx.glance.state.PreferencesGlanceStateDefinition
 import com.ivy.core.AppStarter
-import com.ivy.core.IvyWalletCtx
-import com.ivy.core.data.model.toCloseTimeRange
+import com.ivy.legacy.IvyWalletCtx
+import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.settings.SettingsAct
 import com.ivy.wallet.domain.action.wallet.CalcIncomeExpenseAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.io.persistence.SharedPrefs
-import com.ivy.wallet.utils.ioThread
-import com.ivy.wallet.utils.shortenAmount
+import com.ivy.core.data.SharedPrefs
+import com.ivy.legacy.utils.ioThread
+import com.ivy.legacy.utils.shortenAmount
 import com.ivy.widgets.WidgetBase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
@@ -97,7 +97,7 @@ class WalletBalanceWidgetReceiver : GlanceAppWidgetReceiver() {
     lateinit var calcIncomeExpenseAct: CalcIncomeExpenseAct
 
     @Inject
-    lateinit var ivyContext: IvyWalletCtx
+    lateinit var ivyContext: com.ivy.legacy.IvyWalletCtx
 
     @Inject
     lateinit var sharedPrefs: SharedPrefs
@@ -114,7 +114,12 @@ class WalletBalanceWidgetReceiver : GlanceAppWidgetReceiver() {
     private fun updateData(context: Context) {
         coroutineScope.launch {
             val settings = settingsAct(Unit)
-            val appLocked = ioThread { sharedPrefs.getBoolean(SharedPrefs.APP_LOCK_ENABLED, false) }
+            val appLocked = com.ivy.legacy.utils.ioThread {
+                sharedPrefs.getBoolean(
+                    SharedPrefs.APP_LOCK_ENABLED,
+                    false
+                )
+            }
             val currency = settings.baseCurrency
             val balance = walletBalanceAct(CalcWalletBalanceAct.Input(baseCurrency = currency))
             val accounts = accountsAct(Unit)
@@ -134,12 +139,13 @@ class WalletBalanceWidgetReceiver : GlanceAppWidgetReceiver() {
                 updateAppWidgetState(context, PreferencesGlanceStateDefinition, it) { pref ->
                     pref.toMutablePreferences().apply {
                         this[booleanPreferencesKey("appLocked")] = appLocked
-                        this[stringPreferencesKey("balance")] = shortenAmount(balance.toDouble())
+                        this[stringPreferencesKey("balance")] =
+                            com.ivy.legacy.utils.shortenAmount(balance.toDouble())
                         this[stringPreferencesKey("currency")] = currency
                         this[stringPreferencesKey("income")] =
-                            shortenAmount(incomeExpense.income.toDouble())
+                            com.ivy.legacy.utils.shortenAmount(incomeExpense.income.toDouble())
                         this[stringPreferencesKey("expense")] =
-                            shortenAmount(incomeExpense.expense.toDouble())
+                            com.ivy.legacy.utils.shortenAmount(incomeExpense.expense.toDouble())
                     }
                 }
                 glanceAppWidget.update(context, it)

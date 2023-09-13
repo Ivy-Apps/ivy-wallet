@@ -2,14 +2,14 @@ package com.ivy.balance
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.IvyWalletCtx
-import com.ivy.core.data.model.TimePeriod
+import com.ivy.legacy.IvyWalletCtx
+import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
-import com.ivy.wallet.utils.dateNowUTC
-import com.ivy.wallet.utils.ioThread
-import com.ivy.wallet.utils.readOnly
+import com.ivy.legacy.utils.dateNowUTC
+import com.ivy.legacy.utils.ioThread
+import com.ivy.legacy.utils.readOnly
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class BalanceViewModel @Inject constructor(
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
-    private val ivyContext: IvyWalletCtx,
+    private val ivyContext: com.ivy.legacy.IvyWalletCtx,
     private val baseCurrencyAct: BaseCurrencyAct,
     private val calcWalletBalanceAct: CalcWalletBalanceAct
 ) : ViewModel() {
@@ -38,7 +38,7 @@ class BalanceViewModel @Inject constructor(
     private val _balanceAfterPlannedPayments = MutableStateFlow(0.0)
     val balanceAfterPlannedPayments = _balanceAfterPlannedPayments.readOnly()
 
-    fun start(period: TimePeriod = ivyContext.selectedPeriod) {
+    fun start(period: com.ivy.legacy.data.model.TimePeriod = ivyContext.selectedPeriod) {
         viewModelScope.launch {
             _baseCurrencyCode.value = baseCurrencyAct(Unit)
 
@@ -50,7 +50,7 @@ class BalanceViewModel @Inject constructor(
 
             _currentBalance.value = currentBalance
 
-            val plannedPaymentsAmount = ioThread {
+            val plannedPaymentsAmount = com.ivy.legacy.utils.ioThread {
                 plannedPaymentsLogic.plannedPaymentsAmountFor(
                     period.toRange(ivyContext.startDayOfMonth)
                 ) // + positive if Income > Expenses else - negative
@@ -61,13 +61,13 @@ class BalanceViewModel @Inject constructor(
         }
     }
 
-    fun setPeriod(period: TimePeriod) {
+    fun setPeriod(period: com.ivy.legacy.data.model.TimePeriod) {
         start(period = period)
     }
 
     fun nextMonth() {
         val month = period.value.month
-        val year = period.value.year ?: dateNowUTC().year
+        val year = period.value.year ?: com.ivy.legacy.utils.dateNowUTC().year
         if (month != null) {
             start(
                 period = month.incrementMonthPeriod(ivyContext, 1L, year = year),
@@ -77,7 +77,7 @@ class BalanceViewModel @Inject constructor(
 
     fun previousMonth() {
         val month = period.value.month
-        val year = period.value.year ?: dateNowUTC().year
+        val year = period.value.year ?: com.ivy.legacy.utils.dateNowUTC().year
         if (month != null) {
             start(
                 period = month.incrementMonthPeriod(ivyContext, -1L, year = year),

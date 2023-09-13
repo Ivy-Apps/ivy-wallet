@@ -19,13 +19,13 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.resources.R
-import com.ivy.wallet.domain.data.core.Account
+import com.ivy.core.data.model.Account
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
-import com.ivy.core.IvyWalletComponentPreview
+import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.WrapContentRow
-import com.ivy.wallet.utils.drawColoredShadow
+import com.ivy.legacy.utils.drawColoredShadow
 
 @Composable
 fun Suggestions(

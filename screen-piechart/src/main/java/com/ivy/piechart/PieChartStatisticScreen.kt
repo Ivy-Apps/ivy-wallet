@@ -39,8 +39,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.core.data.model.TimePeriod
-import com.ivy.core.ivyWalletCtx
+import com.ivy.legacy.data.model.TimePeriod
+import com.ivy.legacy.ivyWalletCtx
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -49,8 +49,8 @@ import com.ivy.navigation.ItemStatistic
 import com.ivy.navigation.PieChartStatistic
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.core.Category
-import com.ivy.core.IvyWalletPreview
+import com.ivy.core.data.model.Category
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
@@ -73,13 +73,13 @@ import com.ivy.wallet.ui.theme.modal.ChoosePeriodModal
 import com.ivy.wallet.ui.theme.pureBlur
 import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1Row
-import com.ivy.wallet.utils.drawColoredShadow
-import com.ivy.wallet.utils.format
-import com.ivy.wallet.utils.horizontalSwipeListener
-import com.ivy.wallet.utils.lerp
-import com.ivy.wallet.utils.onScreenStart
-import com.ivy.wallet.utils.springBounce
-import com.ivy.wallet.utils.thenIf
+import com.ivy.legacy.utils.drawColoredShadow
+import com.ivy.legacy.utils.format
+import com.ivy.legacy.utils.horizontalSwipeListener
+import com.ivy.legacy.utils.lerp
+import com.ivy.legacy.utils.onScreenStart
+import com.ivy.legacy.utils.springBounce
+import com.ivy.legacy.utils.thenIf
 import kotlinx.collections.immutable.persistentListOf
 
 @ExperimentalFoundationApi
@@ -90,7 +90,7 @@ fun BoxWithConstraintsScope.PieChartStatisticScreen(
     val viewModel: PieChartStatisticViewModel = viewModel()
     val state by viewModel.state().collectAsState()
 
-    onScreenStart {
+    com.ivy.legacy.utils.onScreenStart {
         viewModel.start(screen)
     }
 
@@ -111,7 +111,7 @@ private fun BoxWithConstraintsScope.UI(
     val expanded = lazyState.firstVisibleItemIndex < 1
     val percentExpanded by animateFloatAsState(
         targetValue = if (expanded) 1f else 0f,
-        animationSpec = springBounce()
+        animationSpec = com.ivy.legacy.utils.springBounce()
     )
 
     LazyColumn(
@@ -246,7 +246,7 @@ private fun BoxWithConstraintsScope.UI(
 @Composable
 private fun Header(
     transactionType: TransactionType,
-    period: TimePeriod,
+    period: com.ivy.legacy.data.model.TimePeriod,
     percentExpanded: Float,
 
     currency: String,
@@ -300,7 +300,7 @@ private fun Header(
                     }
                 ),
                 iconStart = R.drawable.ic_calendar,
-                text = period.toDisplayShort(ivyWalletCtx().startDayOfMonth),
+                text = period.toDisplayShort(com.ivy.legacy.ivyWalletCtx().startDayOfMonth),
             ) {
                 onShowMonthModal()
             }
@@ -319,7 +319,7 @@ private fun Header(
                             drawColoredShadow(backgroundGradient.startColor)
                         }
                         .alpha(percentExpanded)
-                        .size(lerp(1, 40, percentExpanded).dp),
+                        .size(com.ivy.legacy.utils.lerp(1, 40, percentExpanded).dp),
                     iconPadding = 4.dp,
                     icon = R.drawable.ic_plus,
                     backgroundGradient = backgroundGradient,
@@ -455,7 +455,7 @@ private fun PercentText(
 ) {
     Text(
         text = if (totalAmount != 0.0) {
-            stringResource(R.string.percent, ((amount / totalAmount) * 100).format(2))
+            stringResource(R.string.percent, com.ivy.legacy.utils.format(2))
         } else {
             stringResource(R.string.percent, "0")
         },
@@ -470,10 +470,10 @@ private fun PercentText(
 @Preview
 @Composable
 private fun Preview_Expense() {
-    IvyWalletPreview {
+    com.ivy.legacy.IvyWalletPreview {
         val state = PieChartStatisticState(
             transactionType = TransactionType.EXPENSE,
-            period = TimePeriod.currentMonth(
+            period = com.ivy.legacy.data.model.TimePeriod.currentMonth(
                 startDayOfMonth = 1
             ), // preview
             baseCurrency = "BGN",
@@ -524,10 +524,10 @@ private fun Preview_Expense() {
 @Preview
 @Composable
 private fun Preview_Income() {
-    IvyWalletPreview {
+    com.ivy.legacy.IvyWalletPreview {
         val state = PieChartStatisticState(
             transactionType = TransactionType.INCOME,
-            period = TimePeriod.currentMonth(
+            period = com.ivy.legacy.data.model.TimePeriod.currentMonth(
                 startDayOfMonth = 1
             ), // preview
             baseCurrency = "BGN",

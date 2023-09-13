@@ -13,7 +13,7 @@ import com.ivy.design.l0_system.GradientOrange
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.resources.R
-import com.ivy.core.IvyWalletPreview
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.modal.IvyModal
@@ -90,7 +90,7 @@ fun BoxWithConstraintsScope.DonateModal(
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletPreview {
+    com.ivy.legacy.IvyWalletPreview {
         DonateModal(
             visible = true,
             dismiss = {},

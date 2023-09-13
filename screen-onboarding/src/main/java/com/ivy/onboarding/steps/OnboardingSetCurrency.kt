@@ -26,14 +26,14 @@ import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IvyCurrency
-import com.ivy.core.IvyWalletPreview
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.BackButton
 import com.ivy.wallet.ui.theme.components.CurrencyPicker
 import com.ivy.wallet.ui.theme.components.GradientCutBottom
 import com.ivy.wallet.ui.theme.components.OnboardingButton
-import com.ivy.wallet.utils.setStatusBarDarkTextCompat
+import com.ivy.legacy.utils.setStatusBarDarkTextCompat
 
 @Composable
 fun BoxWithConstraintsScope.OnboardingSetCurrency(

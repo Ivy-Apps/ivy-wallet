@@ -8,11 +8,11 @@ import com.ivy.frp.view.navigation.Navigation
 import com.ivy.navigation.EditPlanned
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
-import com.ivy.wallet.domain.data.IntervalType
-import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.domain.data.core.PlannedPaymentRule
+import com.ivy.core.data.model.IntervalType
+import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.model.Account
+import com.ivy.core.data.model.Category
+import com.ivy.core.data.model.PlannedPaymentRule
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsGenerator
@@ -24,8 +24,8 @@ import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.wallet.utils.asLiveData
-import com.ivy.wallet.utils.ioThread
+import com.ivy.legacy.utils.asLiveData
+import com.ivy.legacy.utils.ioThread
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus

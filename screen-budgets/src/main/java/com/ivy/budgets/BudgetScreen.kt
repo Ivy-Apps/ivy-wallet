@@ -29,17 +29,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.budgets.model.DisplayBudget
-import com.ivy.core.IvyWalletPreview
-import com.ivy.core.data.model.FromToTimeRange
-import com.ivy.core.data.model.TimePeriod
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.data.model.FromToTimeRange
+import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.navigation.BudgetScreen
 import com.ivy.resources.R
-import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.data.core.Budget
-import com.ivy.wallet.domain.data.core.Category
+import com.ivy.core.data.model.Account
+import com.ivy.core.data.model.Budget
+import com.ivy.core.data.model.Category
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.BudgetBattery
@@ -49,9 +49,9 @@ import com.ivy.wallet.ui.theme.components.ReorderModalSingleType
 import com.ivy.wallet.ui.theme.modal.BudgetModal
 import com.ivy.wallet.ui.theme.modal.BudgetModalData
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
-import com.ivy.wallet.utils.clickableNoIndication
-import com.ivy.wallet.utils.format
-import com.ivy.wallet.utils.onScreenStart
+import com.ivy.legacy.utils.clickableNoIndication
+import com.ivy.legacy.utils.format
+import com.ivy.legacy.utils.onScreenStart
 
 @Composable
 fun BoxWithConstraintsScope.BudgetScreen(screen: BudgetScreen) {
@@ -65,7 +65,7 @@ fun BoxWithConstraintsScope.BudgetScreen(screen: BudgetScreen) {
     val appBudgetMax by viewModel.appBudgetMax.collectAsState()
     val categoryBudgetsTotal by viewModel.categoryBudgetsTotal.collectAsState()
 
-    onScreenStart {
+    com.ivy.legacy.utils.onScreenStart {
         viewModel.start()
     }
 
@@ -87,7 +87,7 @@ fun BoxWithConstraintsScope.BudgetScreen(screen: BudgetScreen) {
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    timeRange: FromToTimeRange?,
+    timeRange: com.ivy.legacy.data.model.FromToTimeRange?,
     baseCurrency: String,
     categories: List<Category>,
     accounts: List<Account>,
@@ -203,7 +203,7 @@ private fun BoxWithConstraintsScope.UI(
 
 @Composable
 private fun Toolbar(
-    timeRange: FromToTimeRange?,
+    timeRange: com.ivy.legacy.data.model.FromToTimeRange?,
     baseCurrency: String,
     appBudgetMax: Double,
     categoryBudgetsTotal: Double,
@@ -245,7 +245,7 @@ private fun Toolbar(
                 val categoryBudgetText = if (categoryBudgetsTotal > 0) {
                     stringResource(
                         R.string.for_categories,
-                        categoryBudgetsTotal.format(baseCurrency),
+                        com.ivy.legacy.utils.format(baseCurrency),
                         baseCurrency
                     )
                 } else {
@@ -255,7 +255,7 @@ private fun Toolbar(
                 val appBudgetMaxText = if (appBudgetMax > 0) {
                     stringResource(
                         R.string.app_budget,
-                        appBudgetMax.format(baseCurrency),
+                        com.ivy.legacy.utils.format(baseCurrency),
                         baseCurrency
                     )
                 } else {
@@ -397,9 +397,9 @@ private fun NoBudgetsEmptyState(
 @Preview
 @Composable
 private fun Preview_Empty() {
-    IvyWalletPreview {
+    com.ivy.legacy.IvyWalletPreview {
         UI(
-            timeRange = TimePeriod.currentMonth(
+            timeRange = com.ivy.legacy.data.model.TimePeriod.currentMonth(
                 startDayOfMonth = 1
             ).toRange(1), // preview
             baseCurrency = "BGN",
@@ -417,9 +417,9 @@ private fun Preview_Empty() {
 @Preview
 @Composable
 private fun Preview_Budgets() {
-    IvyWalletPreview {
+    com.ivy.legacy.IvyWalletPreview {
         UI(
-            timeRange = TimePeriod.currentMonth(
+            timeRange = com.ivy.legacy.data.model.TimePeriod.currentMonth(
                 startDayOfMonth = 1
             ).toRange(1), // preview
             baseCurrency = "BGN",

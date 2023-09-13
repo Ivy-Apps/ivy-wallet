@@ -18,9 +18,9 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.core.IvyWalletComponentPreview
-import com.ivy.core.ivyWalletCtx
-import com.ivy.core.rootScreen
+import com.ivy.legacy.IvyWalletComponentPreview
+import com.ivy.legacy.ivyWalletCtx
+import com.ivy.legacy.rootScreen
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -30,7 +30,7 @@ import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.dynamicContrast
 import com.ivy.wallet.ui.theme.findContrastTextColor
-import com.ivy.wallet.utils.drawColoredShadow
+import com.ivy.legacy.utils.drawColoredShadow
 
 @Composable
 fun CustomerJourney(

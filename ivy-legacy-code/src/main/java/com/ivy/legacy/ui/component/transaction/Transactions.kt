@@ -16,7 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.ivy.core.stringRes
+import com.ivy.core.utils.stringRes
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.Navigation
@@ -24,8 +24,8 @@ import com.ivy.frp.view.navigation.navigation
 import com.ivy.navigation.EditTransaction
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.TransactionHistoryDateDivider
-import com.ivy.wallet.domain.data.TransactionHistoryItem
-import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.core.data.model.TransactionHistoryItem
+import com.ivy.core.data.model.Transaction
 import com.ivy.legacy.data.AppBaseData
 import com.ivy.legacy.data.DueSection
 import com.ivy.wallet.ui.theme.Black

@@ -12,13 +12,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.core.IvyWalletComponentPreview
+import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.ui.component.edit.PrimaryAttributeColumn
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.components.AddPrimaryAttributeButton
-import com.ivy.wallet.utils.isNotNullOrBlank
+import com.ivy.legacy.utils.isNotNullOrBlank
 
 @Composable
 fun Description(

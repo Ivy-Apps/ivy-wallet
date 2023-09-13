@@ -1,9 +1,9 @@
 package com.ivy.navigation
 
-import com.ivy.core.data.model.PaywallReason
+import com.ivy.legacy.data.model.PaywallReason
 import com.ivy.frp.view.navigation.Screen
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.core.data.model.Transaction
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
@@ -66,7 +66,7 @@ object PlannedPayments : Screen
 object Categories : Screen
 
 data class Paywall(
-    val paywallReason: PaywallReason?
+    val paywallReason: com.ivy.legacy.data.model.PaywallReason?
 ) : Screen
 
 object Settings : Screen

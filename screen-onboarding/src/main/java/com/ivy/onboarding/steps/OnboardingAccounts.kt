@@ -34,10 +34,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.core.IvyWalletPreview
-import com.ivy.core.data.model.AccountBalance
-import com.ivy.core.data.model.PaywallReason
-import com.ivy.core.ivyWalletCtx
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.data.model.AccountBalance
+import com.ivy.legacy.data.model.PaywallReason
+import com.ivy.legacy.ivyWalletCtx
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -46,7 +46,7 @@ import com.ivy.onboarding.components.OnboardingProgressSlider
 import com.ivy.onboarding.components.OnboardingToolbar
 import com.ivy.onboarding.components.Suggestions
 import com.ivy.resources.R
-import com.ivy.wallet.domain.data.core.Account
+import com.ivy.core.data.model.Account
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Green
@@ -65,7 +65,7 @@ import com.ivy.wallet.ui.theme.modal.edit.AccountModal
 import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
 import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1Row
-import com.ivy.wallet.utils.toLowerCaseLocal
+import com.ivy.legacy.utils.toLowerCaseLocal
 
 @ExperimentalFoundationApi
 @Composable

@@ -35,14 +35,14 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.core.ivyWalletCtx
+import com.ivy.legacy.ivyWalletCtx
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.colorAs
 import com.ivy.importdata.csvimport.flow.ImportProcessing
 import com.ivy.importdata.csvimport.flow.ImportResultUI
 import com.ivy.navigation.CSVScreen
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
-import com.ivy.wallet.utils.thenIf
+import com.ivy.legacy.utils.thenIf
 import kotlin.math.abs
 
 @Composable
@@ -141,7 +141,7 @@ private fun ImportUI(
 private fun ImportButton(
     onFilePicked: (Uri) -> Unit,
 ) {
-    val ivyContext = ivyWalletCtx()
+    val ivyContext = com.ivy.legacy.ivyWalletCtx()
     Button(
         modifier = Modifier
             .fillMaxWidth()

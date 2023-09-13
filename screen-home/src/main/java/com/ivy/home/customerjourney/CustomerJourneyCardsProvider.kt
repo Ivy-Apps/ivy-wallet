@@ -1,9 +1,9 @@
 package com.ivy.home.customerjourney
 
 import com.ivy.core.Constants
-import com.ivy.core.IvyWalletCtx
-import com.ivy.core.data.model.MainTab
-import com.ivy.core.stringRes
+import com.ivy.legacy.IvyWalletCtx
+import com.ivy.legacy.data.model.MainTab
+import com.ivy.core.utils.stringRes
 import com.ivy.design.l0_system.Blue
 import com.ivy.design.l0_system.Blue3
 import com.ivy.design.l0_system.Gradient
@@ -16,8 +16,8 @@ import com.ivy.design.l0_system.Red3
 import com.ivy.navigation.EditPlanned
 import com.ivy.navigation.PieChartStatistic
 import com.ivy.resources.R
-import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.io.persistence.SharedPrefs
+import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.widget.transaction.AddTransactionWidgetCompact

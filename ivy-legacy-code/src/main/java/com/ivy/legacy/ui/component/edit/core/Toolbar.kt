@@ -10,7 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.resources.R
-import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.wallet.ui.theme.components.CloseButton
 import com.ivy.wallet.ui.theme.components.DeleteButton
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton

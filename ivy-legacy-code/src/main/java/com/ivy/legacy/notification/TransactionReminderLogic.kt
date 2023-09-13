@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.ivy.wallet.io.persistence.SharedPrefs
-import com.ivy.wallet.utils.timeNowLocal
-import com.ivy.wallet.utils.toEpochSeconds
+import com.ivy.core.data.SharedPrefs
+import com.ivy.legacy.utils.timeNowLocal
+import com.ivy.legacy.utils.toEpochSeconds
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

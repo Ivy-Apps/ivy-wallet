@@ -21,22 +21,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.core.IvyWalletPreview
-import com.ivy.core.stringRes
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.core.utils.stringRes
 import com.ivy.legacy.data.AppBaseData
 import com.ivy.legacy.ui.SearchInput
 import com.ivy.legacy.ui.component.transaction.transactions
 import com.ivy.navigation.Search
 import com.ivy.resources.R
-import com.ivy.wallet.domain.data.TransactionHistoryItem
-import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.data.core.Category
+import com.ivy.core.data.model.TransactionHistoryItem
+import com.ivy.core.data.model.Account
+import com.ivy.core.data.model.Category
 import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_ANIM
-import com.ivy.wallet.utils.densityScope
-import com.ivy.wallet.utils.keyboardOnlyWindowInsets
-import com.ivy.wallet.utils.keyboardVisibleState
-import com.ivy.wallet.utils.onScreenStart
-import com.ivy.wallet.utils.selectEndTextFieldValue
+import com.ivy.legacy.utils.densityScope
+import com.ivy.legacy.utils.keyboardOnlyWindowInsets
+import com.ivy.legacy.utils.keyboardVisibleState
+import com.ivy.legacy.utils.onScreenStart
+import com.ivy.legacy.utils.selectEndTextFieldValue
 
 @Composable
 fun SearchScreen(screen: Search) {

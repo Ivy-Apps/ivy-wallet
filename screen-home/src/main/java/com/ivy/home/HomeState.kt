@@ -1,13 +1,13 @@
 package com.ivy.home
 
-import com.ivy.core.IvyWalletCtx
-import com.ivy.core.data.model.TimePeriod
+import com.ivy.legacy.IvyWalletCtx
+import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.design.l0_system.Theme
 import com.ivy.home.customerjourney.CustomerJourneyCardModel
 import com.ivy.legacy.data.AppBaseData
 import com.ivy.legacy.data.BufferInfo
 import com.ivy.legacy.data.DueSection
-import com.ivy.wallet.domain.data.TransactionHistoryItem
+import com.ivy.core.data.model.TransactionHistoryItem
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf

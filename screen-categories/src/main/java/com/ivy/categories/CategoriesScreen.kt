@@ -47,8 +47,8 @@ import com.ivy.navigation.Categories
 import com.ivy.navigation.ItemStatistic
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.SortOrder
-import com.ivy.wallet.domain.data.core.Category
-import com.ivy.core.IvyWalletPreview
+import com.ivy.core.data.model.Category
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Green
@@ -71,8 +71,8 @@ import com.ivy.wallet.ui.theme.modal.edit.CategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
-import com.ivy.wallet.utils.balancePrefix
-import com.ivy.wallet.utils.onScreenStart
+import com.ivy.legacy.utils.balancePrefix
+import com.ivy.legacy.utils.onScreenStart
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
@@ -81,7 +81,7 @@ fun BoxWithConstraintsScope.CategoriesScreen(screen: Categories) {
     val viewModel: CategoriesViewModel = viewModel()
     val state by viewModel.state().collectAsState()
 
-    onScreenStart {
+    com.ivy.legacy.utils.onScreenStart {
         viewModel.start()
     }
 
@@ -414,7 +414,7 @@ private fun CategoryHeader(
             currencyFontSize = 30.sp,
 
             currencyUpfront = false,
-            balanceAmountPrefix = balancePrefix(
+            balanceAmountPrefix = com.ivy.legacy.utils.balancePrefix(
                 income = categoryData.monthlyIncome,
                 expenses = categoryData.monthlyExpenses
             )
@@ -548,7 +548,7 @@ private fun SelectTypeButton(
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletPreview {
+    com.ivy.legacy.IvyWalletPreview {
         val state = CategoriesScreenState(
             baseCurrency = "BGN",
             categories = persistentListOf(

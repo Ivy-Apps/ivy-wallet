@@ -15,21 +15,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.core.IvyWalletPreview
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.navigation.EditPlanned
 import com.ivy.navigation.PlannedPayments
 import com.ivy.resources.R
-import com.ivy.wallet.domain.data.IntervalType
-import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.domain.data.core.PlannedPaymentRule
+import com.ivy.core.data.model.IntervalType
+import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.model.Account
+import com.ivy.core.data.model.Category
+import com.ivy.core.data.model.PlannedPaymentRule
 import com.ivy.wallet.ui.theme.Orange
-import com.ivy.wallet.utils.onScreenStart
-import com.ivy.wallet.utils.timeNowUTC
+import com.ivy.legacy.utils.onScreenStart
+import com.ivy.legacy.utils.timeNowUTC
 
 @Composable
 fun BoxWithConstraintsScope.PlannedPaymentsScreen(screen: PlannedPayments) {

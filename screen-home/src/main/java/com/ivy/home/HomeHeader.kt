@@ -28,15 +28,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ivy.core.Constants
-import com.ivy.core.data.model.TimePeriod
-import com.ivy.core.ivyWalletCtx
+import com.ivy.legacy.data.model.TimePeriod
+import com.ivy.legacy.ivyWalletCtx
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.legacy.ui.component.transaction.TransactionsDividerLine
 import com.ivy.navigation.PieChartStatistic
 import com.ivy.resources.R
-import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Gray
@@ -47,14 +47,14 @@ import com.ivy.wallet.ui.theme.components.BalanceRowMini
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
-import com.ivy.wallet.utils.clickableNoIndication
-import com.ivy.wallet.utils.drawColoredShadow
-import com.ivy.wallet.utils.format
-import com.ivy.wallet.utils.horizontalSwipeListener
-import com.ivy.wallet.utils.isNotNullOrBlank
-import com.ivy.wallet.utils.springBounce
-import com.ivy.wallet.utils.thenIf
-import com.ivy.wallet.utils.verticalSwipeListener
+import com.ivy.legacy.utils.clickableNoIndication
+import com.ivy.legacy.utils.drawColoredShadow
+import com.ivy.legacy.utils.format
+import com.ivy.legacy.utils.horizontalSwipeListener
+import com.ivy.legacy.utils.isNotNullOrBlank
+import com.ivy.legacy.utils.springBounce
+import com.ivy.legacy.utils.thenIf
+import com.ivy.legacy.utils.verticalSwipeListener
 import kotlin.math.absoluteValue
 
 @ExperimentalAnimationApi
@@ -263,7 +263,7 @@ fun CashFlowInfo(
                 text = stringResource(
                     R.string.cashflow,
                     (if (cashflow > 0) "+" else ""),
-                    cashflow.format(currency),
+                    com.ivy.legacy.utils.format(currency),
                     currency
                 ),
                 style = UI.typo.nB2.style(

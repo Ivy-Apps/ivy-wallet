@@ -18,12 +18,12 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.resources.R
-import com.ivy.core.IvyWalletComponentPreview
+import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
-import com.ivy.wallet.utils.dateNowUTC
-import com.ivy.wallet.utils.format
-import com.ivy.wallet.utils.formatLocal
+import com.ivy.legacy.utils.dateNowUTC
+import com.ivy.legacy.utils.format
+import com.ivy.legacy.utils.formatLocal
 import java.time.LocalDate
 
 @Composable
@@ -82,7 +82,7 @@ fun HistoryDateDivider(
 
         val cashflow = income - expenses
         Text(
-            text = "${cashflow.format(baseCurrency)} $baseCurrency",
+            text = "${com.ivy.legacy.utils.format(baseCurrency)} $baseCurrency",
             style = UI.typo.nB2.style(
                 fontWeight = FontWeight.Bold,
                 color = if (cashflow > 0) Green else Gray

@@ -19,10 +19,10 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.resources.R
-import com.ivy.core.IvyWalletComponentPreview
+import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.components.IvyIcon
-import com.ivy.wallet.utils.formatDateOnly
-import com.ivy.wallet.utils.timeNowUTC
+import com.ivy.legacy.utils.formatDateOnly
+import com.ivy.legacy.utils.timeNowUTC
 import java.time.LocalDateTime
 
 @Composable

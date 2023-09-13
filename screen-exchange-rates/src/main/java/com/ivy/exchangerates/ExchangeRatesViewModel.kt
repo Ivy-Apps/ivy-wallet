@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.io.persistence.dao.ExchangeRateDao
-import com.ivy.wallet.io.persistence.data.ExchangeRateEntity
+import com.ivy.core.data.db.entity.ExchangeRateEntity
 import com.ivy.exchangerates.data.RateUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf

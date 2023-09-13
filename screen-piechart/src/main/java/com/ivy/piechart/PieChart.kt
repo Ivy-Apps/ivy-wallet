@@ -22,14 +22,14 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.ivy.design.l0_system.UI
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.core.Category
-import com.ivy.core.IvyWalletComponentPreview
+import com.ivy.core.data.model.Category
+import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyIcon
-import com.ivy.wallet.utils.convertDpToPixel
-import com.ivy.wallet.utils.drawColoredShadow
-import com.ivy.wallet.utils.timeNowUTC
-import com.ivy.wallet.utils.toEpochMilli
+import com.ivy.legacy.utils.convertDpToPixel
+import com.ivy.legacy.utils.drawColoredShadow
+import com.ivy.legacy.utils.timeNowUTC
+import com.ivy.legacy.utils.toEpochMilli
 import timber.log.Timber
 import kotlin.math.acos
 import kotlin.math.sqrt
@@ -99,8 +99,8 @@ private class PieChartView(context: Context) : View(context) {
     val rectangle = RectF(
         0f,
         0f,
-        convertDpToPixel(context, 2 * RADIUS_DP),
-        convertDpToPixel(context, 2 * RADIUS_DP)
+        com.ivy.legacy.utils.convertDpToPixel(context, 2 * RADIUS_DP),
+        com.ivy.legacy.utils.convertDpToPixel(context, 2 * RADIUS_DP)
     )
 
     var onCategoryClicked: (Category?) -> Unit = {}
@@ -143,7 +143,7 @@ private class PieChartView(context: Context) : View(context) {
     private fun paintFor(color: Color): Paint {
         return Paint().apply {
             this.color = color.toArgb()
-            this.strokeWidth = convertDpToPixel(context, 2f)
+            this.strokeWidth = com.ivy.legacy.utils.convertDpToPixel(context, 2f)
             this.strokeCap = Paint.Cap.ROUND
             this.strokeJoin = Paint.Join.ROUND
             this.isAntiAlias = true
@@ -192,10 +192,10 @@ private class PieChartView(context: Context) : View(context) {
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                startClickTime = timeNowUTC().toEpochMilli()
+                startClickTime = com.ivy.legacy.utils.timeNowUTC().toEpochMilli()
             }
             MotionEvent.ACTION_UP -> {
-                val clickDuration: Long = timeNowUTC().toEpochMilli() - startClickTime
+                val clickDuration: Long = com.ivy.legacy.utils.timeNowUTC().toEpochMilli() - startClickTime
                 if (clickDuration < MAX_CLICK_DURATION) {
                     val touchX = event.x
                     val touchY = event.y
@@ -262,7 +262,7 @@ private class PieChartView(context: Context) : View(context) {
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletComponentPreview {
+    com.ivy.legacy.IvyWalletComponentPreview {
         Column(
             Modifier.fillMaxSize()
         ) {

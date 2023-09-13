@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import com.ivy.core.stringRes
+import com.ivy.core.utils.stringRes
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Transparent

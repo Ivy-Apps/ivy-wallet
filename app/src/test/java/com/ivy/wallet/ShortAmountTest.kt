@@ -1,7 +1,7 @@
 package com.ivy.wallet
 
-import com.ivy.wallet.utils.hasSignificantDecimalPart
-import com.ivy.wallet.utils.shortenAmount
+import com.ivy.legacy.utils.hasSignificantDecimalPart
+import com.ivy.legacy.utils.shortenAmount
 import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.Test
 

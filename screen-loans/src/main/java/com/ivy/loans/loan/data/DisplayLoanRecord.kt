@@ -1,7 +1,7 @@
 package com.ivy.loans.loan.data
 
-import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.data.core.LoanRecord
+import com.ivy.core.data.model.Account
+import com.ivy.core.data.model.LoanRecord
 
 data class DisplayLoanRecord(
     val loanRecord: LoanRecord,

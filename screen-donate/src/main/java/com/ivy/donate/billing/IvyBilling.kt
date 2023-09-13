@@ -13,8 +13,8 @@ import com.android.billingclient.api.SkuDetailsParams
 import com.android.billingclient.api.acknowledgePurchase
 import com.android.billingclient.api.queryPurchasesAsync
 import com.android.billingclient.api.querySkuDetails
-import com.ivy.wallet.utils.ioThread
-import com.ivy.wallet.utils.sendToCrashlytics
+import com.ivy.legacy.utils.ioThread
+import com.ivy.legacy.utils.sendToCrashlytics
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -93,7 +93,7 @@ class IvyBilling @Inject constructor() {
     }
 
     suspend fun queryPurchases(): List<Purchase> {
-        return ioThread {
+        return com.ivy.legacy.utils.ioThread {
             try {
                 queryBoughtSubscriptions()
                     .plus(queryBoughtOneTimeOffers())
@@ -130,7 +130,7 @@ class IvyBilling @Inject constructor() {
             .setType(BillingClient.SkuType.SUBS)
 
         // leverage querySkuDetails Kotlin extension function
-        val skuDetailsResult = ioThread {
+        val skuDetailsResult = com.ivy.legacy.utils.ioThread {
             billingClient?.querySkuDetails(params.build())
         } ?: return emptyList()
 
@@ -159,7 +159,7 @@ class IvyBilling @Inject constructor() {
             .setType(BillingClient.SkuType.INAPP)
 
         // leverage querySkuDetails Kotlin extension function
-        val skuDetailsResult = ioThread {
+        val skuDetailsResult = com.ivy.legacy.utils.ioThread {
             billingClient?.querySkuDetails(params.build())
         } ?: return emptyList()
 
@@ -205,7 +205,7 @@ class IvyBilling @Inject constructor() {
             onActivatePremium(purchase)
 
             if (!purchase.isAcknowledged) {
-                val acknowledgeResult = ioThread {
+                val acknowledgeResult = com.ivy.legacy.utils.ioThread {
                     billingClient?.acknowledgePurchase(
                         AcknowledgePurchaseParams.newBuilder()
                             .setPurchaseToken(purchase.purchaseToken)

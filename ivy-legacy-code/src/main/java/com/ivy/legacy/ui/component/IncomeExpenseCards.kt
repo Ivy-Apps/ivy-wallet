@@ -18,14 +18,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.ivy.core.stringRes
+import com.ivy.core.utils.stringRes
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IvyCurrency
-import com.ivy.wallet.domain.data.TransactionHistoryItem
-import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.core.data.model.TransactionHistoryItem
+import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.model.Transaction
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.MediumBlack
@@ -33,8 +33,8 @@ import com.ivy.wallet.ui.theme.MediumWhite
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.isDarkColor
-import com.ivy.wallet.utils.drawColoredShadow
-import com.ivy.wallet.utils.format
+import com.ivy.legacy.utils.drawColoredShadow
+import com.ivy.legacy.utils.format
 
 @Composable
 fun IncomeExpensesCards(
@@ -142,7 +142,7 @@ private fun RowScope.HeaderCard(
 
         Text(
             modifier = Modifier.padding(horizontal = 24.dp),
-            text = amount.format(currencyCode),
+            text = com.ivy.legacy.utils.format(currencyCode),
             style = UI.typo.nB1.style(
                 color = contrastColor,
                 fontWeight = FontWeight.ExtraBold

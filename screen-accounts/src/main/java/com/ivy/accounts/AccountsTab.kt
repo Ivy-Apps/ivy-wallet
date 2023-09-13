@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -32,17 +31,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.core.data.model.AccountData
-import com.ivy.core.data.model.MainTab
-import com.ivy.core.ivyWalletCtx
+import com.ivy.legacy.data.model.AccountData
+import com.ivy.legacy.data.model.MainTab
+import com.ivy.legacy.ivyWalletCtx
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.navigation.ItemStatistic
 import com.ivy.navigation.Main
 import com.ivy.resources.R
-import com.ivy.wallet.domain.data.core.Account
-import com.ivy.core.IvyWalletPreview
+import com.ivy.core.data.model.Account
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.GreenDark
@@ -56,10 +55,10 @@ import com.ivy.wallet.ui.theme.components.ReorderModalSingleType
 import com.ivy.wallet.ui.theme.dynamicContrast
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.toComposeColor
-import com.ivy.wallet.utils.UiText
-import com.ivy.wallet.utils.clickableNoIndication
-import com.ivy.wallet.utils.horizontalSwipeListener
-import com.ivy.wallet.utils.onScreenStart
+import com.ivy.legacy.utils.UiText
+import com.ivy.legacy.utils.clickableNoIndication
+import com.ivy.legacy.utils.horizontalSwipeListener
+import com.ivy.legacy.utils.onScreenStart
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
@@ -67,7 +66,7 @@ fun BoxWithConstraintsScope.AccountsTab(screen: Main) {
     val viewModel: AccountsViewModel = viewModel()
     val state by viewModel.state().collectAsState()
 
-    onScreenStart {
+    com.ivy.legacy.utils.onScreenStart {
         viewModel.start()
     }
 
@@ -83,7 +82,7 @@ private fun BoxWithConstraintsScope.UI(
     onEventHandler: (AccountsEvent) -> Unit = {}
 ) {
     val nav = navigation()
-    val ivyContext = ivyWalletCtx()
+    val ivyContext = com.ivy.legacy.ivyWalletCtx()
 
     LazyColumn(
         modifier = Modifier
@@ -93,10 +92,10 @@ private fun BoxWithConstraintsScope.UI(
             .horizontalSwipeListener(
                 sensitivity = 200,
                 onSwipeLeft = {
-                    ivyContext.selectMainTab(MainTab.HOME)
+                    ivyContext.selectMainTab(com.ivy.legacy.data.model.MainTab.HOME)
                 },
                 onSwipeRight = {
-                    ivyContext.selectMainTab(MainTab.HOME)
+                    ivyContext.selectMainTab(com.ivy.legacy.data.model.MainTab.HOME)
                 }
             ),
     ) {
@@ -197,7 +196,7 @@ private fun BoxWithConstraintsScope.UI(
 @Composable
 private fun AccountCard(
     baseCurrency: String,
-    accountData: AccountData,
+    accountData: com.ivy.legacy.data.model.AccountData,
     onBalanceClick: () -> Unit,
     onLongClick: () -> Unit,
     onClick: () -> Unit
@@ -244,7 +243,7 @@ private fun AccountCard(
 
 @Composable
 private fun AccountHeader(
-    accountData: AccountData,
+    accountData: com.ivy.legacy.data.model.AccountData,
     currency: String,
     baseCurrency: String,
     contrastColor: Color,
@@ -339,25 +338,25 @@ private fun AccountHeader(
 @Preview
 @Composable
 private fun PreviewAccountsTab() {
-    IvyWalletPreview {
+    com.ivy.legacy.IvyWalletPreview {
         val state = AccountState(
             baseCurrency = "BGN",
             accountsData = persistentListOf(
-                AccountData(
+                com.ivy.legacy.data.model.AccountData(
                     account = Account("Phyre", color = Green.toArgb()),
                     balance = 2125.0,
                     balanceBaseCurrency = null,
                     monthlyExpenses = 920.0,
                     monthlyIncome = 3045.0
                 ),
-                AccountData(
+                com.ivy.legacy.data.model.AccountData(
                     account = Account("DSK", color = GreenLight.toArgb()),
                     balance = 12125.21,
                     balanceBaseCurrency = null,
                     monthlyExpenses = 1350.50,
                     monthlyIncome = 8000.48
                 ),
-                AccountData(
+                com.ivy.legacy.data.model.AccountData(
                     account = Account(
                         "Revolut",
                         color = IvyDark.toArgb(),
@@ -370,7 +369,7 @@ private fun PreviewAccountsTab() {
                     monthlyExpenses = 750.0,
                     monthlyIncome = 1000.30
                 ),
-                AccountData(
+                com.ivy.legacy.data.model.AccountData(
                     account = Account(
                         "Cash",
                         color = GreenDark.toArgb(),
@@ -383,7 +382,7 @@ private fun PreviewAccountsTab() {
                 ),
             ),
             totalBalanceWithExcluded = 25.54,
-            totalBalanceWithExcludedText = UiText.StringResource(
+            totalBalanceWithExcludedText = com.ivy.legacy.utils.UiText.StringResource(
                 R.string.total,
                 "BGN",
                 "25.54"

@@ -5,7 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.IvyWalletCtx
+import com.ivy.legacy.IvyWalletCtx
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.navigation.Import
@@ -17,10 +17,10 @@ import com.ivy.wallet.domain.deprecated.logic.csv.IvyFileReader
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
 import com.ivy.wallet.domain.deprecated.logic.zip.BackupLogic
-import com.ivy.wallet.utils.asLiveData
-import com.ivy.wallet.utils.getFileName
-import com.ivy.wallet.utils.ioThread
-import com.ivy.wallet.utils.uiThread
+import com.ivy.legacy.utils.asLiveData
+import com.ivy.legacy.utils.getFileName
+import com.ivy.legacy.utils.ioThread
+import com.ivy.legacy.utils.uiThread
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
@@ -30,7 +30,7 @@ import kotlin.math.roundToInt
 
 @HiltViewModel
 class ImportViewModel @Inject constructor(
-    private val ivyContext: IvyWalletCtx,
+    private val ivyContext: com.ivy.legacy.IvyWalletCtx,
     private val nav: Navigation,
     private val fileReader: IvyFileReader,
     private val csvNormalizer: CSVNormalizer,
@@ -90,7 +90,7 @@ class ImportViewModel @Inject constructor(
                     backupLogic.import(
                         backupFileUri = fileUri
                     ) { progressPercent ->
-                        uiThread {
+                        com.ivy.legacy.utils.uiThread {
                             _importProgressPercent.value =
                                 (progressPercent * 100).roundToInt()
                         }
@@ -106,7 +106,7 @@ class ImportViewModel @Inject constructor(
 
     @ExperimentalStdlibApi
     private suspend fun restoreCSVFile(fileUri: Uri, importType: ImportType): ImportResult {
-        return ioThread {
+        return com.ivy.legacy.utils.ioThread {
             val rawCSV = fileReader.read(
                 uri = fileUri,
                 charset = when (importType) {
@@ -139,7 +139,7 @@ class ImportViewModel @Inject constructor(
                     csv = normalizedCSV,
                     rowMapping = mapping,
                     onProgress = { progressPercent ->
-                        uiThread {
+                        com.ivy.legacy.utils.uiThread {
                             _importProgressPercent.value =
                                 (progressPercent * 100).roundToInt()
                         }
@@ -203,7 +203,7 @@ class ImportViewModel @Inject constructor(
     private suspend fun hasCSVExtension(
         context: Context,
         fileUri: Uri
-    ): Boolean = ioThread {
+    ): Boolean = com.ivy.legacy.utils.ioThread {
         val fileName = context.getFileName(fileUri)
         fileName?.endsWith(suffix = ".csv", ignoreCase = true) ?: false
     }

@@ -16,7 +16,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.core.IvyWalletPreview
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.White
@@ -24,13 +24,13 @@ import com.ivy.wallet.ui.theme.components.ActionsRow
 import com.ivy.wallet.ui.theme.components.CloseButton
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.gradientCutBackgroundTop
-import com.ivy.wallet.utils.navigationBarInset
-import com.ivy.wallet.utils.toDensityDp
+import com.ivy.legacy.utils.navigationBarInset
+import com.ivy.legacy.utils.toDensityDp
 
 @Composable
 fun BoxWithConstraintsScope.PieChartStatisticBottomBar(
     type: TransactionType,
-    bottomInset: Dp = navigationBarInset().toDensityDp(),
+    bottomInset: Dp = com.ivy.legacy.utils.navigationBarInset().toDensityDp(),
     onClose: () -> Unit,
     onAdd: (TransactionType) -> Unit
 ) {
@@ -76,7 +76,7 @@ fun BoxWithConstraintsScope.PieChartStatisticBottomBar(
 @Preview
 @Composable
 private fun PreviewBottomBar() {
-    IvyWalletPreview {
+    com.ivy.legacy.IvyWalletPreview {
         PieChartStatisticBottomBar(
             type = TransactionType.INCOME,
             bottomInset = 16.dp,

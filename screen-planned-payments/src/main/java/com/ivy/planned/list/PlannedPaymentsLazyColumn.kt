@@ -32,9 +32,9 @@ import com.ivy.frp.view.navigation.navigation
 import com.ivy.legacy.ui.component.transaction.SectionDivider
 import com.ivy.navigation.EditPlanned
 import com.ivy.resources.R
-import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.domain.data.core.PlannedPaymentRule
+import com.ivy.core.data.model.Account
+import com.ivy.core.data.model.Category
+import com.ivy.core.data.model.PlannedPaymentRule
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import kotlin.math.absoluteValue

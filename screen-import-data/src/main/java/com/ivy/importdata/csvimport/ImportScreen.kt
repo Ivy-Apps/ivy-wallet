@@ -8,7 +8,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.core.IvyWalletPreview
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.importdata.csvimport.flow.ImportFrom
 import com.ivy.importdata.csvimport.flow.ImportProcessing
 import com.ivy.importdata.csvimport.flow.ImportResultUI
@@ -17,7 +17,7 @@ import com.ivy.navigation.Import
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
-import com.ivy.wallet.utils.onScreenStart
+import com.ivy.legacy.utils.onScreenStart
 
 @OptIn(ExperimentalStdlibApi::class)
 @ExperimentalFoundationApi
@@ -32,7 +32,7 @@ fun BoxWithConstraintsScope.ImportCSVScreen(screen: Import) {
 
     val onboardingViewModel: OnboardingViewModel = viewModel()
 
-    onScreenStart {
+    com.ivy.legacy.utils.onScreenStart {
         viewModel.start(screen)
     }
     val context = LocalContext.current
@@ -116,7 +116,7 @@ private fun BoxWithConstraintsScope.UI(
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletPreview {
+    com.ivy.legacy.IvyWalletPreview {
         UI(
             screen = Import(launchedFromOnboarding = true),
             importStep = ImportStep.IMPORT_FROM,

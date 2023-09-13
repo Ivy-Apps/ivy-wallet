@@ -15,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.core.IvyWalletPreview
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -30,7 +30,7 @@ import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.BackButton
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
 import com.ivy.wallet.ui.theme.components.OnboardingButton
-import com.ivy.wallet.utils.format
+import com.ivy.legacy.utils.format
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
@@ -89,7 +89,7 @@ fun ImportResultUI(
         }
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
-            text = "${successPercent.format(2)}%",
+            text = "${com.ivy.legacy.utils.format(2)}%",
             style = UI.typo.nH2.style(
                 fontWeight = FontWeight.Normal
             )
@@ -147,7 +147,7 @@ fun ImportResultUI(
 
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
-            text = "${(100 - successPercent).format(2)}%",
+            text = "${com.ivy.legacy.utils.format(2)}%",
             style = UI.typo.nH2.style(
                 fontWeight = FontWeight.Normal
             )
@@ -226,7 +226,7 @@ fun ImportResultUI(
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletPreview {
+    com.ivy.legacy.IvyWalletPreview {
         ImportResultUI(
             result = ImportResult(
                 rowsFound = 356,

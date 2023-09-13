@@ -1,7 +1,7 @@
 package com.ivy.legacy.data
 
-import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.data.core.Category
+import com.ivy.core.data.model.Account
+import com.ivy.core.data.model.Category
 
 data class AppBaseData(
     val baseCurrency: String,

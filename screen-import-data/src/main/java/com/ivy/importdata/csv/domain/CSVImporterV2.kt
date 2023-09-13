@@ -3,9 +3,9 @@ package com.ivy.importdata.csv.domain
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.core.data.model.Account
+import com.ivy.core.data.model.Category
+import com.ivy.core.data.model.Transaction
 import com.ivy.wallet.domain.deprecated.logic.csv.model.CSVRow
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import com.ivy.wallet.domain.pure.util.nextOrderNum
@@ -20,7 +20,7 @@ import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.importdata.csv.ImportantFields
 import com.ivy.importdata.csv.OptionalFields
 import com.ivy.importdata.csv.TransferFields
-import com.ivy.wallet.utils.toLowerCaseLocal
+import com.ivy.legacy.utils.toLowerCaseLocal
 import kotlinx.collections.immutable.toImmutableList
 import java.util.*
 import javax.inject.Inject

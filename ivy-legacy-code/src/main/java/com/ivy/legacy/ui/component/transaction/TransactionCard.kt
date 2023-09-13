@@ -26,7 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.core.IvyWalletPreview
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IvyText
@@ -35,10 +35,10 @@ import com.ivy.frp.view.navigation.navigation
 import com.ivy.legacy.data.AppBaseData
 import com.ivy.navigation.ItemStatistic
 import com.ivy.resources.R
-import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.model.Account
+import com.ivy.core.data.model.Category
+import com.ivy.core.data.model.Transaction
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.GradientIvy
@@ -59,11 +59,11 @@ import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.gradientExpenses
 import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
-import com.ivy.wallet.utils.dateNowUTC
-import com.ivy.wallet.utils.format
-import com.ivy.wallet.utils.formatNicely
-import com.ivy.wallet.utils.isNotNullOrBlank
-import com.ivy.wallet.utils.timeNowUTC
+import com.ivy.legacy.utils.dateNowUTC
+import com.ivy.legacy.utils.format
+import com.ivy.legacy.utils.formatNicely
+import com.ivy.legacy.utils.isNotNullOrBlank
+import com.ivy.legacy.utils.timeNowUTC
 import java.time.LocalDateTime
 
 @Composable
@@ -181,7 +181,7 @@ fun TransactionCard(
         if (transaction.type == TransactionType.TRANSFER && toAccountCurrency != transactionCurrency) {
             Text(
                 modifier = Modifier.padding(start = 68.dp),
-                text = "${transaction.toAmount.toDouble().format(2)} $toAccountCurrency",
+                text = "${com.ivy.legacy.utils.format(2)} $toAccountCurrency",
                 style = UI.typo.nB2.style(
                     color = Gray,
                     fontWeight = FontWeight.Normal
