@@ -11,5 +11,5 @@ dependencies {
     implementation(projects.ivyResources)
     implementation(projects.ivyDesign)
     implementation(projects.ivyWidgetBase)
-    implementation(projects.ivyLegacyCode)
+    implementation(projects.tempLegacyCode)
 }
