@@ -5,7 +5,7 @@ Ivy Wallet's architecture is simple - use the shortest solution that works and d
 Although there a few principles that we like:
 
 - **80/20:** 20% of the code brings 80% of the user value
-- **Don't walk away from complexity, run!** If you can't explain it to a 5 yr old, delete it and start from scratch.
+- **Don't walk away from complexity, run!** If you can't explain it to a 5 yr old, delete it and start over from scratch.
 - **Don't overengineer.** Less is more. The best developers come up with the "dumbest" solutions. Be pragmactic.
 - **Build for today cuz tomorrow may never come.** Building for the future is a sure way to fail in the present.
 
@@ -37,11 +37,24 @@ The reason is very pragmactic - the Compose runtime (using Compose states) API i
 
 ## Modularization: by screen/feature
 
-⚠️ WIP...
+We split the app into multiple modules to reduce coupling (spaghetti code) and make the all build faster. Also, this allows multiple contributors to work on different features without merge conflicts.
+
+⚠️ WIP: Modularization diagram ⚠️
+
+Our modularization strategy is simply:
+- We have a few shared **:ivy-core**, **:ivy-design**, **:ivy-navigation** and **:ivy-resources**.
+- Use the above modules to access the shared code in your screens.
+- Each screen is a separate **:screen-home** / **:screen-something** module.
 
 ## Paradigm: pragmatic
 
-⚠️ WIP...
+Ivy Wallet is a multi-paradigm project. Follow whatever paradigm that you want. We appreciate both OOP (Object Oriented Programming) and FP (Functional Programming), use the best from both worlds.
+
+**Just avoid:**
+- Inheritance (maximum 1 parent deep)
+- Complex design patterns
+
+That being said, we lean more towards the FP world because of its simplicity and predictability. Ivy Wallet is built on top and actively promotes [ArrowKt](https://arrow-kt.io/).
 
 ## Clean code: NO 🚫
 
