@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
+@Deprecated("Legacy. Use ComposeViewModel")
 abstract class FRPViewModel<S, E> : ViewModel() {
     protected abstract val _state: MutableStateFlow<S>
 
