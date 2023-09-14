@@ -48,13 +48,13 @@ Our modularization strategy is simply:
 
 ## Paradigm: pragmatic
 
-Ivy Wallet is a multi-paradigm project. Follow whatever paradigm that you want. We appreciate both OOP (Object Oriented Programming) and FP (Functional Programming), use the best from both worlds.
+Ivy Wallet is a multi-paradigm project. Follow whatever paradigm that you prefer. We appreciate both OOP (Object Oriented Programming) and FP (Functional Programming), use the best from both worlds.
 
 **Just avoid:**
 - Inheritance
 - Complex design patterns
 
-That being said, we lean more towards the FP world because of its simplicity and predictability. Ivy Wallet is built on top and actively promotes [ArrowKt](https://arrow-kt.io/).
+That being said, we lean more towards the FP world because of its simplicity and safety. Ivy Wallet is built on top [ArrowKt](https://arrow-kt.io/) so you can take advantage of it.
 
 ## Clean code: NO 🚫
 
