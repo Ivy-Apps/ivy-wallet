@@ -118,9 +118,11 @@ android {
         disable += "ComposeViewModelInjection"
         checkReleaseBuilds = true
         checkDependencies = true
-        htmlReport = true
         abortOnError = false
+        htmlReport = true
         htmlOutput = file("${project.rootDir}/build/reports/lint/lint.html")
+        xmlReport = true
+        xmlOutput = file("${project.rootDir}/build/reports/lint-results.xml")
         baseline = file("${project.rootDir}/lint-baseline.xml")
     }
 }
