@@ -13,8 +13,10 @@ Enough philosophy, just be yourself - keep it simple and let's dive to the detai
 
 ## Screen: Compose UI + ComposeViewModel
 
-We separate the Compose UI from the screen logic because of:
-1. **Jetpack Compose perfomance:** Uses a Compose-optimized `UiState`
+We separate the Compose UI from the screen logic using a ViewModel. We do that because of the following benefits:
+1. **Jetpack Compose perfomance:** The less computations the UI does, the faster it'll recompose. Also, Compose will recompose fewer times if it only works with primitives and **@Immutable** data.
+2. **DI (Dependency Injection):** You can't inject dependencies using Hilt in a composable function but you can easily do so via `@Inject constructor` in the ViewModel.
+3. **Simpler code:** results in dumb UI and pure business logic without the UI complexities. 
 
 ![Screen-Viewmodel](../assets/screen-vm.svg)
 
