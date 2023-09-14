@@ -49,5 +49,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: lint-release-report.html
-          path: app/build/reports/lint-results-release.html
+          path: build/reports/lint/lint.html
       #------------------------------------------------------------------

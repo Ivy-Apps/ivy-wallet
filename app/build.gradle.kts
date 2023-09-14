@@ -120,7 +120,7 @@ android {
         checkDependencies = true
         htmlReport = true
         abortOnError = false
-        htmlOutput = file("${project.rootDir}/build/lint/reports/lint.html")
+        htmlOutput = file("${project.rootDir}/build/reports/lint/lint.html")
         baseline = file("${project.rootDir}/lint-baseline.xml")
     }
 }
