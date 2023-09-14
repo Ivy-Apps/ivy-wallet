@@ -13,15 +13,18 @@ Enough philosophy, just be yourself - keep it simple and let's dive to the detai
 
 ## Screen: Compose UI + ComposeViewModel
 
-To make our life our simple we divide the UI from the screen logic. 
+We separate the Compose UI from the screen logic because of:
+1. **Jetpack Compose perfomance:** Uses a Compose-optimized `UiState`
 
-**TL;DR;**
-- **UI:** very dumb. Displays a snapshot of a **UiState** and sends user interaction events as **UiEven** to the **ViewModel**.
+![Screen-Viewmodel](../assets/screen-vm.svg)
+
+**How it works? TL;DR;**
+- **Sceen (UI):** very dumb. Displays a snapshot of a **UiState** and sends user interaction events as **UiEven** to the **ViewModel**.
 - **UiState:** usually a `data class` with a bunch of primitive `val`s that are displayed in the UI. _Note: The `UiState` must be optimized for Compose and contain only **@Immutable** structures so Compose can run efficiently._
 - **UiEvent:** defines all possible user interections _(e.g. user clicks a button, enters text, checks a checkbox, slides a slider)_
 - **ViewModel:** produces the current `UiState` and handles `UiEvents`. Encapsulates the screen's logic and does the CRUD/IO operations.
 
-
+**Compose in the ViewModel - Why?**
 
 
 ## Modularization: by screen/feature

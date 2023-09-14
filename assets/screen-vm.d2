@@ -1,0 +1,12 @@
+direction: right
+ui: Screen {
+    a: "@Composable Screen(ViewModel)"
+    b: "@Composable Ui(UiState, (UiEvent) -> Unit)"
+}
+vm: ViewModel {
+    "@Composable uiState(): UiState"
+    "fun onEvent(UiEvent)"
+}
+
+vm -> ui: UiState
+ui -> vm: UiEvent
