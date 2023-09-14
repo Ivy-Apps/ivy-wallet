@@ -113,11 +113,17 @@ android {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 
-    testOptions {
-        unitTests.all {
-            // Required by Kotest
-            it.useJUnitPlatform()
-        }
+    lint {
+        disable += "MissingTranslation"
+        disable += "ComposeViewModelInjection"
+        checkReleaseBuilds = true
+        checkDependencies = true
+        abortOnError = false
+        htmlReport = true
+        htmlOutput = file("${project.rootDir}/build/reports/lint/lint.html")
+        xmlReport = true
+        xmlOutput = file("${project.rootDir}/build/reports/lint-results.xml")
+        baseline = file("${project.rootDir}/lint-baseline.xml")
     }
 }
 
@@ -179,6 +185,8 @@ dependencies {
     testImplementation(libs.bundles.kotlin.test)
     testImplementation(libs.hilt.testing)
     testImplementation(libs.androidx.work.testing)
+
+    lintChecks(libs.slack.lint.compose)
 }
 
 // TODO: Remove after migrating to KSP

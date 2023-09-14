@@ -3,7 +3,7 @@ plugins {
     // Run with:
     // ./gradlew detekt // Simple report in the console
     // ./gradlew detektFormat // To check with enabled auto-correction
-    id("ivy.lint")
+    id("ivy.detekt")
 
     alias(libs.plugins.gradleWrapperUpgrade)
 }

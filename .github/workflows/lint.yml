@@ -49,5 +49,14 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: lint-release-report.html
-          path: app/build/reports/lint-results-release.html
+          path: build/reports/lint/lint.html
       #------------------------------------------------------------------
+
+      - name: Fail if lint errors are found
+        run: |
+          # Check if the lint XML report contains any error issues
+          if grep -q 'severity="Error"' build/reports/lint-results.xml; then
+            echo "Lint errors found. Failing the build."
+            exit 1
+          fi
+
