@@ -42,10 +42,6 @@ android {
             it.useJUnitPlatform()
         }
     }
-
-    lint {
-        disable += "MissingTranslation"
-    }
 }
 
 dependencies {
@@ -60,8 +56,6 @@ dependencies {
     testImplementation(libs.bundles.kotest)
     testImplementation(catalog.bundle("kotlin-test"))
     testImplementation(catalog.library("hilt-testing"))
-
-    lintChecks(catalog.library("slack-lint-compose"))
 }
 
 // TODO: Remove after migrating to KSP
