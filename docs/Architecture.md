@@ -33,7 +33,7 @@ The reason is very pragmactic - the Compose runtime (using Compose states) API i
 
 - No need to use complex `combine` and `flattenLatest` Flow APIs.
 - You have access to `LaunchedEffect`, `remember` and the entire Compose runtime.
-- The above results in a simple and not nested code.
+- The above leads to a simple, straightforward and not nested code.
 
 ## Modularization: by screen/feature
 
@@ -51,11 +51,11 @@ Our modularization strategy is simply:
 Ivy Wallet is a multi-paradigm project. Follow whatever paradigm that you want. We appreciate both OOP (Object Oriented Programming) and FP (Functional Programming), use the best from both worlds.
 
 **Just avoid:**
-- Inheritance (maximum 1 parent deep)
+- Inheritance
 - Complex design patterns
 
 That being said, we lean more towards the FP world because of its simplicity and predictability. Ivy Wallet is built on top and actively promotes [ArrowKt](https://arrow-kt.io/).
 
 ## Clean code: NO 🚫
 
-⚠️ WIP...
+I added it for a bit of controversy but IMO the term "Clean" has lost meaning and it leads to unnecessary layers of abstractions => more complexity, lots of boilerplate and worse performance. Keep it simple, be like [Grug](https://grugbrain.dev/).
