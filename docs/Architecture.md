@@ -1,6 +1,6 @@
 # Ivy's Architecture
 
-Ivy Wallet's architecture is simple - do the shortest solution that works and doesn't break the app. We are no fanatics/sectarians that follow strict rules/patterns/paradigms - we do whatever makes sense.
+Ivy Wallet's architecture is simple - use the shortest solution that works and doesn't break the app. We are no fanatics/sectarians that follow strict rules/patterns/paradigms - we do whatever makes sense.
 
 Although there a few principles that we like:
 
