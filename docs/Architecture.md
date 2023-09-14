@@ -42,9 +42,9 @@ We split the app into multiple modules to reduce coupling (spaghetti code) and m
 ⚠️ WIP: Modularization diagram ⚠️
 
 Our modularization strategy is simply:
-- We have a few shared **:ivy-core**, **:ivy-design**, **:ivy-navigation** and **:ivy-resources**.
+- We have a few shared `:ivy-core`, `:ivy-design`, `:ivy-navigation` and `:ivy-resources`.
 - Use the above modules to access the shared code in your screens.
-- Each screen is a separate **:screen-home** / **:screen-something** module.
+- Each screen is in a separate `:screen-home`, `:screen-something` module.
 
 ## Paradigm: pragmatic
 
