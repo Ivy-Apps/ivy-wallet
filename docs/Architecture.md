@@ -1,15 +1,15 @@
 # Ivy's Architecture
 
-Ivy Wallet's architecture is simple - use the shortest solution that works and doesn't break the app. We are no fanatics/sectarians that follow strict rules, patterns, paradigms - we do whatever makes sense.
+Ivy Wallet's architecture is simple - use the shortest solution that works and doesn't break the app. We are no fanatics who follow strict rules, patterns or paradigms. We simply do whatever makes sense.
 
-Although there a few principles that we like:
+Although there a few **principles that we like:**
 
 - **80/20:** 20% of the code brings 80% of the user value
 - **Don't walk away from complexity, run!** If you can't explain it to a 5 yr old, delete it and start over from scratch.
 - **Don't overengineer.** Less is more. The best developers come up with the "dumbest" solutions. Be pragmactic.
 - **Build for today cuz tomorrow may never come.** Building for the future is a sure way to fail in the present.
 
-Enough philosophy, just be yourself - keep it simple and let's dive to the details.
+Enough philosophy, just be yourself - keep it simple and let's dive into the details.
 
 ## Screen: Compose UI + ComposeViewModel
 
@@ -54,7 +54,9 @@ Ivy Wallet is a multi-paradigm project. Follow whatever paradigm that you prefer
 - Inheritance
 - Complex design patterns
 
-That being said, we lean more towards the FP world because of its simplicity and safety. Ivy Wallet is built on top [ArrowKt](https://arrow-kt.io/) so you can take advantage of it.
+That being said, we lean more towards the FP world because of its simplicity and safety. Ivy Wallet is built on top [ArrowKt](https://arrow-kt.io/) so take advantage of it. 
+
+> Tip: Arrow's **Either<Left, Right>** is very useful for modeling operations that may result in either success (right) or error (left), for example HTTP requests.
 
 ## Clean code: NO 🚫
 
