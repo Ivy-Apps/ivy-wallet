@@ -1,8 +1,9 @@
 ## Pull Request (PR) Checklist
 Please check if your pull request fulfills the following requirements:
 - [ ] The PR is submitted to the `main` branch.
-- [ ] I've read the **[Contribution Guidelines](https://github.com/Ivy-Apps/ivy-wallet/blob/main/CONTRIBUTING.md)**.
-- [ ] The code builds and is tested on a real Android device.
+- [ ] I've read the [Contribution Guidelines](https://github.com/Ivy-Apps/ivy-wallet/blob/main/CONTRIBUTING.md).
+- [ ] I've read the [Architecture Guidelines](https://github.com/Ivy-Apps/ivy-wallet/blob/main/docs/Architecture.md).
+- [ ] My code builds and is tested on a real Android device.
 - [ ] I confirm that I've run the code locally and everything works as expected.
 
 ## What's changed?

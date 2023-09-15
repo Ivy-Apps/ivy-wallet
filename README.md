@@ -58,9 +58,19 @@ chmod +x scripts/init.sh
 ./scripts/init.sh
 ```
 
+### Need help?
+
+Jour our Telegram community and drop a message in the "Development" topic.
+
+[![Telegram Group](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/+ETavgioAvWg4NThk)
+
 ## Learning Materials
 
 Ivy Wallet is a great place to code and learn. That's why we're also linking great learning materials (books, articles, videos), check them in **[docs/resources 📚](docs/resources/)**.
+
+Make sure to also check our short **[Architecture Guidelines](docs/Architecture.md)** and tell us what you think.
+
+[![PRs welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Ivy-Apps/ivy-wallet/blob/main/CONTRIBUTING.md)
 
 ## Tech Stack
 
@@ -72,9 +82,10 @@ Ivy Wallet is a great place to code and learn. That's why we're also linking gre
 - [Kotlin Flow](https://kotlinlang.org/docs/flow.html) (reactivity)
 - [Hilt](https://dagger.dev/hilt/) (DI)
 - [ArrowKt](https://arrow-kt.io/) (functional programming)
+- [Kotest](https://kotest.io/) (unit testing)
 
 ### Local Persistence
-- [DataStore](https://developer.android.com/topic/libraries/architecture/datastore) (key-value storage, `SharedPreferences` replacement)
+- [DataStore](https://developer.android.com/topic/libraries/architecture/datastore) (key-value storage)
 - [Room DB](https://developer.android.com/training/data-storage/room) (SQLite ORM)
 
 ### Networking
@@ -85,6 +96,12 @@ Ivy Wallet is a great place to code and learn. That's why we're also linking gre
 - [Gradle KTS](https://docs.gradle.org/current/userguide/kotlin_dsl.html) (Kotlin DSL)
 - [Fastlane](https://fastlane.tools/) (uploads the app to the Google PlayStore)
 - [Github Actions](https://github.com/Ivy-Apps/ivy-wallet/actions) (CI/CD)
+
+### Other
+- [Timber](https://github.com/JakeWharton/timber) (logging)
+- [Detekt](https://github.com/detekt/detekt) (linter)
+- [Ktlint](https://github.com/pinterest/ktlint) (linter)
+- [Slack's compose-lints](https://slackhq.github.io/compose-lints/) (linter)
 
 ## Contribute
 

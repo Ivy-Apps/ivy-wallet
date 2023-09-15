@@ -8,5 +8,4 @@ android {
 
 dependencies {
     implementation(projects.ivyCore)
-    implementation(projects.ivyDesign)
 }

@@ -10,8 +10,6 @@ object Main : Screen
 
 object Onboarding : Screen
 
-object ServerStop : Screen
-
 data class CSVScreen(
     val launchedFromOnboarding: Boolean
 ) : Screen
