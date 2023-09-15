@@ -1,13 +1,13 @@
 # Ivy's Architecture
 
-Ivy Wallet's architecture is simple - use the shortest solution possible that works and doesn't break the app. We don't follow strict rules, patterns or paradigms, we just do whatever makes the most sense.
+Ivy Wallet's architecture is simple - use the shortest solution possible that works and doesn't break the app. We don't follow strict rules, patterns or paradigms. Just do whatever makes the most sense.
 
 Although here a few **principles that we like:**
 
 - **80/20:** 20% of the code brings 80% of the user value
 - **Don't walk away from complexity, run!** If you can't explain it to a 5 yr old, delete it and start over.
 - **Don't overengineer.** Less is more. The best developers come up with the "dumbest" solutions. Be pragmactic.
-- **Build for today cuz tomorrow may never come.** Building for the future is a sure way to fail in the present.
+- **Build for today cuz tomorrow may never come.** Building for the future is the best way to fail in the present.
 
 Enough philosophy, just be yourself. Keep it simple and let's dive into the details.
 
