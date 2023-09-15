@@ -1,0 +1,33 @@
+ivy-res: ":ivy-resources" {
+    "Shared common resources"
+}
+ivy-core: ":ivy-core" {
+    "Core API - domain"
+}
+ivy-nav: ":ivy-navigation" {
+    "Ivy's Nav graph"
+}
+ivy-design: ":ivy-design" {
+    "Ivy's Design system"
+}
+screens: ":screen-x" {
+    ":screen-a"
+    ":screen-b"
+    ":screen-c"
+    ":screen-z"
+}
+app: ":app" {
+    "App's monolith shipped to the PlayStore"
+}
+
+ivy-design -> ivy-res
+ivy-core -> ivy-res
+
+ivy-nav -> ivy-core
+
+screens -> ivy-core
+screens -> ivy-design
+screens -> ivy-nav
+screens -> ivy-res
+
+app -> screens

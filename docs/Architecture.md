@@ -19,7 +19,7 @@ We separate the Compose UI from the screen logic using a ViewModel. We do that b
 3. **Simpler code:** "dumb" UI that only draws a primitive UiState and pure business logic without UI/Android dependencies.
 4. **Bonus: Compose Previews:** When the `UiState` is a simple data class you can mock any arbitrary preview for all possible states. Otherwise, good luck previewing HTTP calls, etc.
 
-![Screen-Viewmodel](../assets/screen-vm.svg)
+![screen-viewmodel](../assets/screen-vm.svg)
 
 **How it works? TL;DR;**
 - **Sceen (UI):** very dumb. Displays a snapshot of a **UiState** and sends user interaction as **UiEvent**s to the **ViewModel**.
@@ -43,7 +43,7 @@ We split our app into multiple modules to reduce coupling (spaghetti code) and m
 
 Another big benefit is that each screen can have a simple package structure and be able to scale with more code to support complex use cases w/o affecting the rest of the code.
 
-⚠️ WIP: Modularization diagram ⚠️
+![modularization-strategy](../assets/modularization.svg)
 
 Our modularization strategy is simply:
 - We have a few shared `:ivy-core`, `:ivy-design`, `:ivy-navigation` and `:ivy-resources`.
@@ -52,8 +52,10 @@ Our modularization strategy is simply:
 
 To create a new module just run:
 ```
-./scripts/create_module.sh my-module
+./scripts/create_module.sh screen-something
 ```
+
+> Simplification: We have a few modules that are an exception to this strategy, for example widgets `:widget-something` and other things worthy of encapsulation in an own module. But use the above strategy as a rule-of-thumb.
 
 
 ## Paradigm: pragmatic
