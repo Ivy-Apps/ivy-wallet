@@ -80,6 +80,6 @@ data class LoanDetailsScreen(
 
 data object TestScreen : Screen
 
-object ExchangeRatesScreen : Screen
+data object ExchangeRatesScreen : Screen
 
-object DonateScreen : Screen
+data object DonateScreen : Screen

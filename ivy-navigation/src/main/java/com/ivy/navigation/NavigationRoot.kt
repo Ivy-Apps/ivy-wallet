@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 
-val LocalNavigation = compositionLocalOf<Navigation> { error("No LocalNavigation") }
+private val localNavigation = compositionLocalOf<Navigation> { error("No LocalNavigation") }
 
 @Composable
 fun NavigationRoot(
@@ -12,7 +12,7 @@ fun NavigationRoot(
     screenMapping: @Composable (screen: Screen?) -> Unit
 ) {
     CompositionLocalProvider(
-        LocalNavigation provides navigation,
+        localNavigation provides navigation,
     ) {
         screenMapping(navigation.currentScreen)
     }
@@ -20,5 +20,5 @@ fun NavigationRoot(
 
 @Composable
 fun navigation(): Navigation {
-    return LocalNavigation.current
+    return localNavigation.current
 }
