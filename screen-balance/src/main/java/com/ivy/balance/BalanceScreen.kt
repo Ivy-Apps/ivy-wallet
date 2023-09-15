@@ -30,13 +30,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.core.FAB_BUTTON_SIZE
-import com.ivy.legacy.IvyWalletPreview
-import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.navigation.navigation
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.data.model.TimePeriod
+import com.ivy.legacy.utils.format
+import com.ivy.legacy.utils.onScreenStart
 import com.ivy.navigation.BalanceScreen
+import com.ivy.navigation.navigation
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Gray
@@ -48,8 +49,9 @@ import com.ivy.wallet.ui.theme.components.IvyDividerLine
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModal
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import com.ivy.wallet.ui.theme.wallet.PeriodSelector
-import com.ivy.legacy.utils.format
-import com.ivy.legacy.utils.onScreenStart
+
+val FAB_BUTTON_SIZE = 56.dp
+
 
 @Composable
 fun BoxWithConstraintsScope.BalanceScreen(screen: BalanceScreen) {
@@ -61,7 +63,7 @@ fun BoxWithConstraintsScope.BalanceScreen(screen: BalanceScreen) {
     val plannedPaymentsAmount by viewModel.plannedPaymentsAmount.collectAsState()
     val balanceAfterPlannedPayments by viewModel.balanceAfterPlannedPayments.collectAsState()
 
-    com.ivy.legacy.utils.onScreenStart {
+    onScreenStart {
         viewModel.start()
     }
 
@@ -80,14 +82,14 @@ fun BoxWithConstraintsScope.BalanceScreen(screen: BalanceScreen) {
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    period: com.ivy.legacy.data.model.TimePeriod,
+    period: TimePeriod,
 
     baseCurrencyCode: String,
     currentBalance: Double,
     plannedPaymentsAmount: Double,
     balanceAfterPlannedPayments: Double,
 
-    onSetPeriod: (com.ivy.legacy.data.model.TimePeriod) -> Unit = {},
+    onSetPeriod: (TimePeriod) -> Unit = {},
     onPreviousMonth: () -> Unit = {},
     onNextMonth: () -> Unit = {}
 ) {
@@ -265,9 +267,9 @@ private fun ColumnScope.CloseButton() {
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.legacy.IvyWalletPreview {
+    IvyWalletPreview {
         UI(
-            period = com.ivy.legacy.data.model.TimePeriod.currentMonth(
+            period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
             ), // preview
             baseCurrencyCode = "BGN",

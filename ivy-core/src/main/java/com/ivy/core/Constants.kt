@@ -1,9 +1,5 @@
 package com.ivy.core
 
-import androidx.compose.ui.unit.dp
-
-val FAB_BUTTON_SIZE = 56.dp
-
 object Constants {
     const val URL_TC =
         "https://github.com/ILIYANGERMANOV/privacy-policies/blob/master/ivy-wallet-tc.md"
@@ -30,8 +26,4 @@ object Constants {
         "https://github.com/sponsors/Ivy-Apps"
 
     const val USER_INACTIVITY_TIME_LIMIT = 60 // Time in seconds
-
-    const val SWIPE_DOWN_THRESHOLD_OPEN_MORE_MENU = 200
-
-    const val SWIPE_UP_EXPANDED_THRESHOLD = 200
 }
