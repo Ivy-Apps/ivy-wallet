@@ -59,7 +59,7 @@ fun IvyWalletComponentPreview(
 @Composable
 fun IvyWalletPreview(
     theme: Theme = Theme.LIGHT,
-    Content: @Composable BoxWithConstraintsScope.() -> Unit
+    content: @Composable BoxWithConstraintsScope.() -> Unit
 ) {
     appContext = rootView().context
     IvyPreview(
@@ -67,7 +67,7 @@ fun IvyWalletPreview(
         design = appDesign(IvyWalletCtx()),
     ) {
         NavigationRoot(navigation = Navigation()) {
-            Content()
+            content()
         }
     }
 }
