@@ -43,7 +43,7 @@ _Replace "YOUR_ISSUE_NUMBER" with the id/number of your issue._
 
 Make sure to read the **[Architecture Guidelines](docs/Architecture.md)** before you begin.
 
-**Workflow:**
+**🔨 Workflow:**
 
 - Make commits.
 - Refactor your code.
