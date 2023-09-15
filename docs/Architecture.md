@@ -75,3 +75,9 @@ That being said, we lean more towards the FP world because of its simplicity and
 I added it for a bit of controversy but IMO the term "Clean" has lost meaning and it often leads to unnecessary layers of abstractions => more complexity, lots of boilerplate and worse performance. Keep it simple, be like **[Grug](https://grugbrain.dev/)**.
 
 > Tip: Read the [The Grug Brained Developer article](https://grugbrain.dev/) it's fun and have some wisdom in it.
+
+## Questions or feedback?
+
+Please, reach us in the "Development" topic of **[our private Telegram community](https://t.me/+ETavgioAvWg4NThk)**.
+
+[![Telegram Group](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/+ETavgioAvWg4NThk)
