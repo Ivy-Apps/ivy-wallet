@@ -4,13 +4,13 @@ import android.content.Intent
 import androidx.biometric.BiometricPrompt
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.Constants
-import com.ivy.legacy.data.SharedPrefs
+import com.ivy.core.data.db.dao.SettingsDao
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.utils.stringRes
 import com.ivy.design.l0_system.Theme
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.IvyWalletCtx
+import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.readOnly
 import com.ivy.navigation.EditTransactionScreen
@@ -19,7 +19,6 @@ import com.ivy.navigation.Navigation
 import com.ivy.navigation.OnboardingScreen
 import com.ivy.resources.R
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
-import com.ivy.core.data.db.dao.SettingsDao
 import com.ivy.wallet.migrations.MigrationsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -44,6 +43,8 @@ class RootViewModel @Inject constructor(
 
     companion object {
         const val EXTRA_ADD_TRANSACTION_TYPE = "add_transaction_type_extra"
+
+        const val USER_INACTIVITY_TIME_LIMIT = 60 // Time in seconds
     }
 
     private var appLockEnabled = false
@@ -166,7 +167,7 @@ class RootViewModel @Inject constructor(
         if (userInactiveJob != null && userInactiveJob!!.isActive) return
 
         userInactiveJob = viewModelScope.launch(Dispatchers.IO) {
-            while (userInactiveTime.get() < Constants.USER_INACTIVITY_TIME_LIMIT &&
+            while (userInactiveTime.get() < USER_INACTIVITY_TIME_LIMIT &&
                 userInactiveJob != null && !userInactiveJob?.isCancelled!!
             ) {
                 delay(1000)
@@ -182,7 +183,7 @@ class RootViewModel @Inject constructor(
     }
 
     fun checkUserInactiveTimeStatus() {
-        if (userInactiveTime.get() < Constants.USER_INACTIVITY_TIME_LIMIT) {
+        if (userInactiveTime.get() < USER_INACTIVITY_TIME_LIMIT) {
             if (userInactiveJob != null && userInactiveJob?.isCancelled == false) {
                 userInactiveJob?.cancel()
                 resetUserInactiveTimer()
