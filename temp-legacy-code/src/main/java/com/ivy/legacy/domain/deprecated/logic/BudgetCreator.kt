@@ -3,7 +3,7 @@ package com.ivy.wallet.domain.deprecated.logic
 import com.ivy.core.data.model.Budget
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
 import com.ivy.wallet.domain.pure.util.nextOrderNum
-import com.ivy.wallet.io.persistence.dao.BudgetDao
+import com.ivy.core.data.db.dao.BudgetDao
 import com.ivy.legacy.utils.ioThread
 import javax.inject.Inject
 

@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.action.loan
 
 import com.ivy.frp.action.FPAction
 import com.ivy.core.data.model.Loan
-import com.ivy.wallet.io.persistence.dao.LoanDao
+import com.ivy.core.data.db.dao.LoanDao
 import java.util.*
 import javax.inject.Inject
 

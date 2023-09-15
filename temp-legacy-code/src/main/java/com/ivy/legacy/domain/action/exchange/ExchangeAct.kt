@@ -5,7 +5,7 @@ import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.wallet.domain.pure.exchange.ExchangeData
 import com.ivy.wallet.domain.pure.exchange.exchange
-import com.ivy.wallet.io.persistence.dao.ExchangeRateDao
+import com.ivy.core.data.db.dao.ExchangeRateDao
 import java.math.BigDecimal
 import javax.inject.Inject
 

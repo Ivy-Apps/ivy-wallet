@@ -43,7 +43,6 @@ import com.ivy.balance.BalanceScreen
 import com.ivy.budgets.BudgetScreen
 import com.ivy.categories.CategoriesScreen
 import com.ivy.core.Constants
-import com.ivy.core.Constants.SUPPORT_EMAIL
 import com.ivy.core.RootScreen
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.utils.toEpochMilli
@@ -106,7 +105,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.time.LocalDate
 import java.time.LocalTime
-import java.util.Random
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -440,30 +438,6 @@ class RootActivity : AppCompatActivity(), RootScreen {
             if (!navigation.onBackPressed()) {
                 super.onBackPressed()
             }
-        }
-    }
-
-    // Helpers for Compose UI
-    fun contactSupport() {
-        val caseNumber: Int = Random().nextInt(100) + 100
-
-        val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
-            data = Uri.parse("mailto:") // only email apps should handle this
-
-            putExtra(Intent.EXTRA_EMAIL, arrayOf(SUPPORT_EMAIL))
-            putExtra(
-                Intent.EXTRA_SUBJECT,
-                "Ivy Wallet Support Request #" + caseNumber +
-                        "0" + BuildConfig.VERSION_CODE
-            )
-            putExtra(Intent.EXTRA_TEXT, "")
-        }
-
-        try {
-            startActivity(emailIntent)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Toast.makeText(this, "Email: $SUPPORT_EMAIL", Toast.LENGTH_LONG).show()
         }
     }
 

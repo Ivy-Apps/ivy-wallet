@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.toArgb
 import com.ivy.core.data.model.Account
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.pure.util.nextOrderNum
-import com.ivy.wallet.io.persistence.dao.AccountDao
+import com.ivy.core.data.db.dao.AccountDao
 import com.ivy.legacy.utils.ioThread
 import javax.inject.Inject
 

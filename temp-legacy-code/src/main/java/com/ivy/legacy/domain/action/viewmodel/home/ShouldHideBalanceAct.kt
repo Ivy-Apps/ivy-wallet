@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.action.viewmodel.home
 
 import com.ivy.frp.action.FPAction
-import com.ivy.core.data.SharedPrefs
+import com.ivy.legacy.data.SharedPrefs
 import javax.inject.Inject
 
 class ShouldHideBalanceAct @Inject constructor(

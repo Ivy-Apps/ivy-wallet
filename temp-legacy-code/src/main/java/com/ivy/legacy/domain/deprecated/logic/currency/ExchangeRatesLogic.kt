@@ -3,9 +3,9 @@ package com.ivy.wallet.domain.deprecated.logic.currency
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.PlannedPaymentRule
 import com.ivy.core.data.model.Transaction
-import com.ivy.wallet.io.persistence.dao.AccountDao
-import com.ivy.wallet.io.persistence.dao.ExchangeRateDao
-import com.ivy.wallet.io.persistence.dao.SettingsDao
+import com.ivy.core.data.db.dao.AccountDao
+import com.ivy.core.data.db.dao.ExchangeRateDao
+import com.ivy.core.data.db.dao.SettingsDao
 import java.util.UUID
 import javax.inject.Inject
 

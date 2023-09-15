@@ -1,9 +1,6 @@
 package com.ivy.accounts
 
 import androidx.lifecycle.viewModelScope
-import com.ivy.legacy.IvyWalletCtx
-import com.ivy.legacy.data.model.AccountData
-import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.viewmodel.FRPViewModel
@@ -16,12 +13,10 @@ import com.ivy.core.data.model.Account
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
 import com.ivy.wallet.domain.pure.data.WalletDAOs
-import com.ivy.core.data.SharedPrefs
-import com.ivy.wallet.io.persistence.dao.AccountDao
-import com.ivy.wallet.io.persistence.dao.SettingsDao
-import com.ivy.legacy.utils.UiText
+import com.ivy.legacy.data.SharedPrefs
+import com.ivy.core.data.db.dao.AccountDao
+import com.ivy.core.data.db.dao.SettingsDao
 import com.ivy.legacy.utils.format
-import com.ivy.legacy.utils.ioThread
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

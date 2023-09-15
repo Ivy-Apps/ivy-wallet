@@ -1,7 +1,7 @@
 package com.ivy.home.customerjourney
 
 import com.ivy.core.Constants
-import com.ivy.core.data.SharedPrefs
+import com.ivy.legacy.data.SharedPrefs
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.utils.stringRes
 import com.ivy.design.l0_system.Blue
@@ -18,8 +18,8 @@ import com.ivy.legacy.data.model.MainTab
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.resources.R
-import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
-import com.ivy.wallet.io.persistence.dao.TransactionDao
+import com.ivy.core.data.db.dao.PlannedPaymentRuleDao
+import com.ivy.core.data.db.dao.TransactionDao
 import com.ivy.widget.transaction.AddTransactionWidgetCompact
 import javax.inject.Inject
 

@@ -1,4 +1,4 @@
-package com.ivy.wallet.ktor.kotlinxserilzation
+package com.ivy.core.data.network.kotlinxserilzation
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind

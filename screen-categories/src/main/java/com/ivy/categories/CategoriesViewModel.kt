@@ -1,8 +1,6 @@
 package com.ivy.categories
 
 import androidx.lifecycle.viewModelScope
-import com.ivy.legacy.IvyWalletCtx
-import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.thenInvokeAfter
@@ -17,11 +15,9 @@ import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Transaction
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
-import com.ivy.core.data.SharedPrefs
-import com.ivy.wallet.io.persistence.dao.CategoryDao
+import com.ivy.legacy.data.SharedPrefs
+import com.ivy.core.data.db.dao.CategoryDao
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
-import com.ivy.legacy.utils.ioThread
-import com.ivy.legacy.utils.scopedIOThread
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf

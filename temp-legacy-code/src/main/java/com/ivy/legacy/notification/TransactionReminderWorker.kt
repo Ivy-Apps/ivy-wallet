@@ -11,8 +11,8 @@ import com.ivy.core.utils.stringRes
 import com.ivy.resources.R
 import com.ivy.wallet.android.notification.IvyNotificationChannel
 import com.ivy.wallet.android.notification.NotificationService
-import com.ivy.core.data.SharedPrefs
-import com.ivy.wallet.io.persistence.dao.TransactionDao
+import com.ivy.legacy.data.SharedPrefs
+import com.ivy.core.data.db.dao.TransactionDao
 import com.ivy.legacy.utils.atEndOfDay
 import com.ivy.legacy.utils.dateNowUTC
 import dagger.assisted.Assisted

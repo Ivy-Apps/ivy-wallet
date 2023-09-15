@@ -3,6 +3,16 @@ package com.ivy.wallet
 import android.content.Context
 import com.ivy.core.AppStarter
 import com.ivy.core.data.db.IvyRoomDatabase
+import com.ivy.core.data.db.dao.AccountDao
+import com.ivy.core.data.db.dao.BudgetDao
+import com.ivy.core.data.db.dao.CategoryDao
+import com.ivy.core.data.db.dao.ExchangeRateDao
+import com.ivy.core.data.db.dao.LoanDao
+import com.ivy.core.data.db.dao.LoanRecordDao
+import com.ivy.core.data.db.dao.PlannedPaymentRuleDao
+import com.ivy.core.data.db.dao.SettingsDao
+import com.ivy.core.data.db.dao.TransactionDao
+import com.ivy.core.data.db.dao.UserDao
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.wallet.domain.deprecated.logic.*
 import com.ivy.wallet.domain.deprecated.logic.csv.*

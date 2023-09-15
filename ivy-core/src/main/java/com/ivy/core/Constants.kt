@@ -5,14 +5,6 @@ import androidx.compose.ui.unit.dp
 val FAB_BUTTON_SIZE = 56.dp
 
 object Constants {
-    const val ENABLE_PAYWALL_ON_DEBUG = false
-    const val PREMIUM_INITIAL_VALUE_DEBUG = true
-
-    const val FREE_ACCOUNTS = 3
-    const val FREE_CATEGORIES = 12
-    const val FREE_BUDGETS = 2
-    const val FREE_LOANS = 2
-
     const val URL_TC =
         "https://github.com/ILIYANGERMANOV/privacy-policies/blob/master/ivy-wallet-tc.md"
     const val URL_PRIVACY_POLICY =
@@ -42,8 +34,4 @@ object Constants {
     const val SWIPE_DOWN_THRESHOLD_OPEN_MORE_MENU = 200
 
     const val SWIPE_UP_EXPANDED_THRESHOLD = 200
-
-    const val SUPPORT_EMAIL = "iliyan.germanov971@gmail.com"
-
-    const val PAGE_TRANSACTIONS_SIZE = 100
 }

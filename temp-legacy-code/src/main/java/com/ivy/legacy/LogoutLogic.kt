@@ -1,6 +1,6 @@
 package com.ivy.legacy
 
-import com.ivy.core.data.SharedPrefs
+import com.ivy.legacy.data.SharedPrefs
 import com.ivy.core.data.db.IvyRoomDatabase
 import com.ivy.legacy.utils.ioThread
 import com.ivy.navigation.MainScreen

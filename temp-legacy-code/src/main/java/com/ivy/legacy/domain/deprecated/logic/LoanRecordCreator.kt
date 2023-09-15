@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.deprecated.logic
 
 import com.ivy.core.data.model.LoanRecord
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
-import com.ivy.wallet.io.persistence.dao.LoanRecordDao
+import com.ivy.core.data.db.dao.LoanRecordDao
 import com.ivy.legacy.utils.ioThread
 import java.util.UUID
 import javax.inject.Inject
