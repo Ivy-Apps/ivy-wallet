@@ -4,7 +4,6 @@ import android.content.Context
 import com.ivy.core.AppStarter
 import com.ivy.core.data.db.IvyRoomDatabase
 import com.ivy.legacy.IvyWalletCtx
-import com.ivy.navigation.Navigation
 import com.ivy.wallet.domain.deprecated.logic.*
 import com.ivy.wallet.domain.deprecated.logic.csv.*
 import com.ivy.wallet.io.persistence.dao.*
@@ -30,12 +29,6 @@ object AppModuleDI {
     @Singleton
     fun provideIvyContext(): IvyWalletCtx {
         return IvyWalletCtx()
-    }
-
-    @Provides
-    @Singleton
-    fun provideNavigation(): Navigation {
-        return Navigation()
     }
 
     @Provides

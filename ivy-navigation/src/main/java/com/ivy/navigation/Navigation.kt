@@ -1,18 +1,24 @@
 package com.ivy.navigation
 
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import java.util.*
+import java.util.Stack
+import java.util.UUID
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class Navigation {
+@Stable
+@Singleton
+class Navigation @Inject constructor() {
     var currentScreen: Screen? by mutableStateOf(null)
         private set
+    val modalBackHandling: Stack<ModalBackHandler> = Stack()
+    val onBackPressed: MutableMap<Screen, () -> Boolean> = mutableMapOf()
 
     private val backStack: Stack<Screen> = Stack()
     private var lastScreen: Screen? = null
-
-    var modalBackHandling: Stack<ModalBackHandler> = Stack()
 
     data class ModalBackHandler(
         val id: UUID,
@@ -27,29 +33,14 @@ class Navigation {
         }
     }
 
-    var onBackPressed: MutableMap<Screen, () -> Boolean> = mutableMapOf()
-
-    fun navigateTo(screen: Screen, allowBackStackStore: Boolean = true) {
-        if (lastScreen != null && allowBackStackStore) {
+    fun navigateTo(screen: Screen) {
+        if (lastScreen != null) {
             backStack.push(lastScreen)
         }
         switchScreen(screen)
     }
 
-    fun resetBackStack() {
-        while (!backStackEmpty()) {
-            popBackStack()
-        }
-        lastScreen = null
-    }
-
     fun backStackEmpty() = backStack.empty()
-
-    fun popBackStackSafe() {
-        if (!backStackEmpty()) {
-            popBackStack()
-        }
-    }
 
     private fun popBackStack() {
         backStack.pop()
@@ -71,21 +62,15 @@ class Navigation {
         return false
     }
 
-    fun lastBackstackScreen(): Screen? {
-        return if (!backStackEmpty()) {
-            backStack.peek()
-        } else {
-            null
-        }
-    }
-
     private fun switchScreen(screen: Screen) {
         this.currentScreen = screen
         lastScreen = screen
     }
 
-    fun reset() {
-        currentScreen = null
-        resetBackStack()
+    fun resetBackStack() {
+        while (!backStackEmpty()) {
+            popBackStack()
+        }
+        lastScreen = null
     }
 }
