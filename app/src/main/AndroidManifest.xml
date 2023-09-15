@@ -39,7 +39,7 @@
         tools:ignore="LockedOrientationActivity">
 
         <activity
-            android:name=".ui.RootActivity"
+            android:name=".RootActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden">

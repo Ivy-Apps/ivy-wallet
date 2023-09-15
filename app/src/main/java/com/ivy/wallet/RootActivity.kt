@@ -1,11 +1,10 @@
-package com.ivy.wallet.ui
+package com.ivy.wallet
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.appwidget.AppWidgetManager
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -44,7 +43,6 @@ import com.ivy.budgets.BudgetScreen
 import com.ivy.categories.CategoriesScreen
 import com.ivy.core.Constants
 import com.ivy.core.RootScreen
-import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.utils.toEpochMilli
 import com.ivy.design.api.IvyUI
 import com.ivy.donate.DonateScreen
@@ -109,17 +107,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class RootActivity : AppCompatActivity(), RootScreen {
-
-    companion object {
-
-        fun getIntent(context: Context): Intent = Intent(context, RootActivity::class.java)
-
-        fun addTransactionStart(context: Context, type: TransactionType): Intent =
-            Intent(context, RootActivity::class.java).apply {
-                putExtra(RootViewModel.EXTRA_ADD_TRANSACTION_TYPE, type)
-            }
-    }
-
     @Inject
     lateinit var ivyContext: IvyWalletCtx
 

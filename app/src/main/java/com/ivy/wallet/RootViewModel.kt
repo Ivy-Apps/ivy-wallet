@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui
+package com.ivy.wallet
 
 import android.content.Intent
 import androidx.biometric.BiometricPrompt

@@ -1,7 +1,6 @@
-package com.ivy.wallet
+package com.ivy.wallet.di
 
 import android.content.Context
-import com.ivy.core.AppStarter
 import com.ivy.core.data.db.IvyRoomDatabase
 import com.ivy.core.data.db.dao.AccountDao
 import com.ivy.core.data.db.dao.BudgetDao
@@ -16,21 +15,12 @@ import com.ivy.core.data.db.dao.UserDao
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.wallet.domain.deprecated.logic.*
 import com.ivy.wallet.domain.deprecated.logic.csv.*
-import com.ivy.wallet.io.persistence.dao.*
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
-
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class AppModuleBindingsDI {
-    @Binds
-    abstract fun appStarter(appStarter: IvyAppStarter): AppStarter
-}
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -52,32 +42,49 @@ object AppModuleDI {
     }
 
     @Provides
-    fun provideUserDao(db: IvyRoomDatabase): UserDao = db.userDao()
+    fun provideUserDao(db: IvyRoomDatabase): UserDao {
+        return db.userDao()
+    }
 
     @Provides
-    fun provideAccountDao(db: IvyRoomDatabase): AccountDao = db.accountDao()
+    fun provideAccountDao(db: IvyRoomDatabase): AccountDao {
+        return db.accountDao()
+    }
 
     @Provides
-    fun provideTransactionDao(db: IvyRoomDatabase): TransactionDao = db.transactionDao()
+    fun provideTransactionDao(db: IvyRoomDatabase): TransactionDao {
+        return db.transactionDao()
+    }
 
     @Provides
-    fun provideCategoryDao(db: IvyRoomDatabase): CategoryDao = db.categoryDao()
+    fun provideCategoryDao(db: IvyRoomDatabase): CategoryDao {
+        return db.categoryDao()
+    }
 
     @Provides
-    fun provideBudgetDao(db: IvyRoomDatabase): BudgetDao = db.budgetDao()
+    fun provideBudgetDao(db: IvyRoomDatabase): BudgetDao {
+        return db.budgetDao()
+    }
 
     @Provides
-    fun provideSettingsDao(db: IvyRoomDatabase): SettingsDao = db.settingsDao()
+    fun provideSettingsDao(db: IvyRoomDatabase): SettingsDao {
+        return db.settingsDao()
+    }
 
     @Provides
-    fun provideLoanDao(db: IvyRoomDatabase): LoanDao = db.loanDao()
+    fun provideLoanDao(db: IvyRoomDatabase): LoanDao {
+        return db.loanDao()
+    }
 
     @Provides
-    fun provideLoanRecordDao(db: IvyRoomDatabase): LoanRecordDao = db.loanRecordDao()
+    fun provideLoanRecordDao(db: IvyRoomDatabase): LoanRecordDao {
+        return db.loanRecordDao()
+    }
 
     @Provides
-    fun provideTrnRecurringRuleDao(db: IvyRoomDatabase): PlannedPaymentRuleDao =
-        db.plannedPaymentRuleDao()
+    fun provideTrnRecurringRuleDao(db: IvyRoomDatabase): PlannedPaymentRuleDao {
+        return db.plannedPaymentRuleDao()
+    }
 
     @Provides
     fun provideExchangeRatesDao(
