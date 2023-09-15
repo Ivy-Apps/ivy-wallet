@@ -39,14 +39,14 @@ The reason is very pragmatic - the Compose runtime API (e.g. Compose state, `rem
 
 ## Modularization: by screen/feature
 
-We split our app into multiple modules to reduce coupling (spaghetti code) and make it build faster. Also, this allows multiple contributors to work on different features without merge conflicts.
+We split our app into multiple modules to reduce coupling (spaghetti code) and make the app build faster. Also, this allows multiple contributors to work on different features without merge conflicts.
 
 Another big benefit is that each screen can have a simple package structure and be able to scale with more code to support complex use cases w/o affecting the rest of the code.
 
 ![modularization-strategy](../assets/modularization.svg)
 
 Our modularization strategy is simple:
-- We have a few shared `:ivy-core`, `:ivy-design`, `:ivy-navigation`, and `:ivy-resources`.
+- We have a few shared `:ivy-core`, `:ivy-design`, `:ivy-navigation`, and `:ivy-resources` modules.
 - Use the above modules to access the shared code in your screens.
 - Each screen is in a separate `:screen-home`, `:screen-something` module.
 
