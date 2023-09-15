@@ -35,7 +35,7 @@ The reason is very pragmactic - the Compose runtime API (e.g. Compose state, `re
 - You have access to `LaunchedEffect`, `remember` and the entire Compose runtime.
 - The above leads to more simple and less nested code.
 
-> Tip: In Ivy Wallet, inherit the `ComposeViewModel` base class and you're good to go!
+> Tip: In Ivy Wallet, inherit the `ComposeViewModel` base class and you're good to go.
 
 ## Modularization: by screen/feature
 
@@ -55,7 +55,7 @@ To create a new module just run:
 ./scripts/create_module.sh screen-something
 ```
 
-> Simplification: We have a few modules that are an exception to this strategy, for example widgets `:widget-something` and other things worthy of encapsulation in an own module. But use the above strategy as a rule-of-thumb.
+> Simplification: We have a few modules that are an exception to this strategy (for example widgets `:widget-something`) but use the above strategy holds true of most cases.
 
 
 ## Paradigm: pragmatic
@@ -66,7 +66,7 @@ Ivy Wallet is a multi-paradigm project. Follow whatever paradigm that you prefer
 - Inheritance
 - Complex design patterns
 
-That being said, we lean more towards the FP world because of its simplicity and safety. Ivy Wallet is built on top [ArrowKt](https://arrow-kt.io/) so take advantage of it. 
+That being said, we **lean more towards the FP world** because of its simplicity and safety. Ivy Wallet is built on top of [ArrowKt](https://arrow-kt.io/) so take advantage of it. 
 
 > Tip: Arrow's **Either<Left, Right>** is very useful for modeling operations that may result in either success (right) or error (left), for example HTTP requests.
 
@@ -74,10 +74,10 @@ That being said, we lean more towards the FP world because of its simplicity and
 
 I added it for a bit of controversy but IMO the term "Clean" has lost meaning and it often leads to unnecessary layers of abstractions => more complexity, lots of boilerplate and worse performance. Keep it simple, be like **[Grug](https://grugbrain.dev/)**.
 
-> Tip: Read the [The Grug Brained Developer article](https://grugbrain.dev/) it's fun and have some wisdom in it.
+> Tip: Read the ["The Grug Brained Developer"](https://grugbrain.dev/) article, it's fun and have some good wisdom in it.
 
 ## Questions or feedback?
 
-Please, reach us in the "Development" topic of **[our private Telegram community](https://t.me/+ETavgioAvWg4NThk)**.
+Please, reach us in the "Development" topic of our private Telegram community.
 
 [![Telegram Group](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/+ETavgioAvWg4NThk)
