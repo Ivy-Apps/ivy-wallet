@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.frp.test.TestIdlingResource
-import com.ivy.navigation.PlannedPayments
+import com.ivy.navigation.PlannedPaymentsScreen
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.core.data.model.Account
@@ -59,7 +59,7 @@ class PlannedPaymentsViewModel @Inject constructor(
     private val _recurringExpenses = MutableLiveData<Double>()
     val recurringExpenses = _recurringExpenses.asLiveData()
 
-    fun start(screen: PlannedPayments) {
+    fun start(screen: PlannedPaymentsScreen) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 

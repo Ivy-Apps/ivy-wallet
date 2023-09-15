@@ -6,24 +6,23 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
-object Main : Screen
+data object MainScreen : Screen
 
-object Onboarding : Screen
+data object OnboardingScreen : Screen
 
 data class CSVScreen(
     val launchedFromOnboarding: Boolean
 ) : Screen
 
-data class EditTransaction(
+data class EditTransactionScreen(
     val initialTransactionId: UUID?,
     val type: TransactionType,
-
     // extras
     val accountId: UUID? = null,
     val categoryId: UUID? = null
 ) : Screen
 
-data class ItemStatistic(
+data class ItemStatisticScreen(
     val accountId: UUID? = null,
     val categoryId: UUID? = null,
     val unspecifiedCategory: Boolean? = false,
@@ -32,7 +31,7 @@ data class ItemStatistic(
     val transactions: List<Transaction> = persistentListOf()
 ) : Screen
 
-data class PieChartStatistic(
+data class PieChartStatisticScreen(
     val type: TransactionType,
     val filterExcluded: Boolean = true,
     val accountList: ImmutableList<UUID> = persistentListOf(),
@@ -40,7 +39,7 @@ data class PieChartStatistic(
     val treatTransfersAsIncomeExpense: Boolean = false
 ) : Screen
 
-data class EditPlanned(
+data class EditPlannedScreen(
     val plannedPaymentRuleId: UUID?,
     val type: TransactionType,
     val amount: Double? = null,
@@ -55,31 +54,31 @@ data class EditPlanned(
     }
 }
 
-object BalanceScreen : Screen
+data object BalanceScreen : Screen
 
-object PlannedPayments : Screen
+data object PlannedPaymentsScreen : Screen
 
-object Categories : Screen
+data object CategoriesScreen : Screen
 
-object Settings : Screen
+data object SettingsScreen : Screen
 
-data class Import(
+data class ImportScreen(
     val launchedFromOnboarding: Boolean
 ) : Screen
 
-object Report : Screen
+data object ReportScreen : Screen
 
-object BudgetScreen : Screen
+data object BudgetScreen : Screen
 
-object Loans : Screen
+data object LoansScreen : Screen
 
-object Search : Screen
+data object SearchScreen : Screen
 
-data class LoanDetails(
+data class LoanDetailsScreen(
     val loanId: UUID
 ) : Screen
 
-object Test : Screen
+data object TestScreen : Screen
 
 object ExchangeRatesScreen : Screen
 

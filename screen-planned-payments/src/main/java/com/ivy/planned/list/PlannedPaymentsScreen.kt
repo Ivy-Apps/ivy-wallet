@@ -19,8 +19,8 @@ import com.ivy.legacy.IvyWalletPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.navigation.navigation
-import com.ivy.navigation.EditPlanned
-import com.ivy.navigation.PlannedPayments
+import com.ivy.navigation.EditPlannedScreen
+import com.ivy.navigation.PlannedPaymentsScreen
 import com.ivy.resources.R
 import com.ivy.core.data.model.IntervalType
 import com.ivy.core.data.db.entity.TransactionType
@@ -32,7 +32,7 @@ import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.timeNowUTC
 
 @Composable
-fun BoxWithConstraintsScope.PlannedPaymentsScreen(screen: PlannedPayments) {
+fun BoxWithConstraintsScope.PlannedPaymentsScreen(screen: PlannedPaymentsScreen) {
     val viewModel: PlannedPaymentsViewModel = viewModel()
 
     val currency by viewModel.currency.observeAsState("")
@@ -111,7 +111,7 @@ private fun BoxWithConstraintsScope.UI(
         },
         onAdd = {
             nav.navigateTo(
-                EditPlanned(
+                EditPlannedScreen(
                     type = TransactionType.EXPENSE,
                     plannedPaymentRuleId = null
                 )

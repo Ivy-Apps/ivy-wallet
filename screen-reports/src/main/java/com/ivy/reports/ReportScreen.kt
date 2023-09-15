@@ -38,8 +38,8 @@ import com.ivy.legacy.data.DueSection
 import com.ivy.legacy.ui.component.IncomeExpensesCards
 import com.ivy.legacy.ui.component.transaction.TransactionsDividerLine
 import com.ivy.legacy.ui.component.transaction.transactions
-import com.ivy.navigation.PieChartStatistic
-import com.ivy.navigation.Report
+import com.ivy.navigation.PieChartStatisticScreen
+import com.ivy.navigation.ReportScreen
 import com.ivy.resources.R
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.model.Account
@@ -69,7 +69,7 @@ import kotlinx.collections.immutable.persistentListOf
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.ReportScreen(
-    screen: Report
+    screen: ReportScreen
 ) {
     val viewModel: ReportViewModel = viewModel()
     val state by viewModel.state().collectAsState()
@@ -171,7 +171,7 @@ private fun BoxWithConstraintsScope.UI(
                 incomeHeaderCardClicked = {
                     if (state.transactions.isNotEmpty()) {
                         nav.navigateTo(
-                            PieChartStatistic(
+                            PieChartStatisticScreen(
                                 type = TransactionType.INCOME,
                                 transactions = state.transactions,
                                 accountList = state.accountIdFilters,
@@ -183,7 +183,7 @@ private fun BoxWithConstraintsScope.UI(
                 expenseHeaderCardClicked = {
                     if (state.transactions.isNotEmpty()) {
                         nav.navigateTo(
-                            PieChartStatistic(
+                            PieChartStatisticScreen(
                                 type = TransactionType.EXPENSE,
                                 transactions = state.transactions,
                                 accountList = state.accountIdFilters,

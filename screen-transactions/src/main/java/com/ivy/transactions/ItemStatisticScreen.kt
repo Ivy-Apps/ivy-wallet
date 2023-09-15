@@ -48,9 +48,9 @@ import com.ivy.legacy.data.DueSection
 import com.ivy.legacy.ui.component.IncomeExpensesCards
 import com.ivy.legacy.ui.component.ItemStatisticToolbar
 import com.ivy.legacy.ui.component.transaction.transactions
-import com.ivy.navigation.EditTransaction
-import com.ivy.navigation.ItemStatistic
-import com.ivy.navigation.PieChartStatistic
+import com.ivy.navigation.EditTransactionScreen
+import com.ivy.navigation.ItemStatisticScreen
+import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.resources.R
 import com.ivy.core.data.model.TransactionHistoryItem
 import com.ivy.core.data.db.entity.TransactionType
@@ -86,7 +86,7 @@ import java.math.BigDecimal
 import java.util.UUID
 
 @Composable
-fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatistic) {
+fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatisticScreen) {
     val viewModel: ItemStatisticViewModel = viewModel()
 
     val ivyContext = ivyWalletCtx()
@@ -577,7 +577,7 @@ private fun Header(
             incomeHeaderCardClicked = {
                 if (account != null) {
                     nav.navigateTo(
-                        PieChartStatistic(
+                        PieChartStatisticScreen(
                             type = TransactionType.INCOME,
                             accountList = persistentListOf(account.id),
                             filterExcluded = false,
@@ -589,7 +589,7 @@ private fun Header(
             expenseHeaderCardClicked = {
                 if (account != null) {
                     nav.navigateTo(
-                        PieChartStatistic(
+                        PieChartStatisticScreen(
                             type = TransactionType.EXPENSE,
                             accountList = persistentListOf(account.id),
                             filterExcluded = false,
@@ -600,7 +600,7 @@ private fun Header(
             }
         ) { trnType ->
             nav.navigateTo(
-                EditTransaction(
+                EditTransactionScreen(
                     initialTransactionId = null,
                     type = trnType,
                     accountId = account?.id,

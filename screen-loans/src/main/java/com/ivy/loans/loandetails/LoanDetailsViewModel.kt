@@ -11,7 +11,7 @@ import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.ioThread
 import com.ivy.loans.loan.data.DisplayLoanRecord
-import com.ivy.navigation.LoanDetails
+import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.Navigation
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.loan.LoanByIdAct
@@ -85,7 +85,7 @@ class LoanDetailsViewModel @Inject constructor(
 
     private var defaultCurrencyCode = ""
 
-    fun start(screen: LoanDetails) {
+    fun start(screen: LoanDetailsScreen) {
         load(loanId = screen.loanId)
     }
 

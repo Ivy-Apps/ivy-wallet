@@ -46,7 +46,7 @@ import com.ivy.legacy.data.BufferInfo
 import com.ivy.legacy.data.DueSection
 import com.ivy.legacy.ui.component.transaction.TransactionsDividerLine
 import com.ivy.legacy.ui.component.transaction.transactions
-import com.ivy.navigation.Main
+import com.ivy.navigation.MainScreen
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.core.data.model.TransactionHistoryItem
@@ -67,7 +67,7 @@ private const val SWIPE_HORIZONTAL_THRESHOLD = 200
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.HomeTab(screen: Main) {
+fun BoxWithConstraintsScope.HomeTab(screen: MainScreen) {
     val viewModel: HomeViewModel = viewModel()
     val state by viewModel.state().collectAsState()
 

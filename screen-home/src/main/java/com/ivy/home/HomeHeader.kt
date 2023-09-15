@@ -34,7 +34,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.navigation.navigation
 import com.ivy.legacy.ui.component.transaction.TransactionsDividerLine
-import com.ivy.navigation.PieChartStatistic
+import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.resources.R
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.wallet.ui.theme.Gradient
@@ -305,7 +305,7 @@ private fun IncomeExpenses(
             testTag = "home_card_income"
         ) {
             nav.navigateTo(
-                PieChartStatistic(
+                PieChartStatisticScreen(
                     type = TransactionType.INCOME,
                 )
             )
@@ -324,7 +324,7 @@ private fun IncomeExpenses(
             testTag = "home_card_expense"
         ) {
             nav.navigateTo(
-                PieChartStatistic(
+                PieChartStatisticScreen(
                     type = TransactionType.EXPENSE,
                 )
             )

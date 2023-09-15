@@ -4,8 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.frp.test.TestIdlingResource
-import com.ivy.navigation.navigation
-import com.ivy.navigation.EditPlanned
+import com.ivy.navigation.EditPlannedScreen
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.core.data.model.IntervalType
@@ -92,7 +91,7 @@ class EditPlannedViewModel @Inject constructor(
 
     var title: String? = null
 
-    fun start(screen: EditPlanned) {
+    fun start(screen: EditPlannedScreen) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 

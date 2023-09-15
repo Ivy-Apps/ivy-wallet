@@ -39,8 +39,8 @@ import com.ivy.design.l0_system.style
 import com.ivy.design.utils.hideKeyboard
 import com.ivy.navigation.navigation
 import com.ivy.legacy.ui.component.edit.TransactionDateTime
-import com.ivy.navigation.EditPlanned
-import com.ivy.navigation.EditTransaction
+import com.ivy.navigation.EditPlannedScreen
+import com.ivy.navigation.EditTransactionScreen
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.CustomExchangeRateState
 import com.ivy.core.data.db.entity.TransactionType
@@ -79,7 +79,7 @@ import kotlin.math.roundToInt
 
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransaction) {
+fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransactionScreen) {
     val viewModel: EditTransactionViewModel = viewModel()
 
     val transactionType by viewModel.transactionType.observeAsState(screen.type)
@@ -159,7 +159,7 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransaction) {
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    screen: EditTransaction,
+    screen: EditTransactionScreen,
     transactionType: TransactionType,
     baseCurrency: String,
     initialTitle: String?,
@@ -375,7 +375,7 @@ private fun BoxWithConstraintsScope.UI(
                 onClick = {
                     nav.back()
                     nav.navigateTo(
-                        EditPlanned(
+                        EditPlannedScreen(
                             plannedPaymentRuleId = null,
                             type = transactionType,
                             amount = amount,
@@ -599,7 +599,7 @@ private fun shouldFocusAmount(amount: Double) = amount == 0.0
 private fun Preview() {
     IvyWalletPreview {
         UI(
-            screen = EditTransaction(null, TransactionType.EXPENSE),
+            screen = EditTransactionScreen(null, TransactionType.EXPENSE),
             initialTitle = "",
             titleSuggestions = emptySet(),
             baseCurrency = "BGN",

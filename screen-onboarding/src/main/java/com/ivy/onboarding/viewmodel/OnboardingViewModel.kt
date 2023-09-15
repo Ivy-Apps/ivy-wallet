@@ -17,7 +17,7 @@ import com.ivy.legacy.utils.asLiveData
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.sendToCrashlytics
 import com.ivy.navigation.Navigation
-import com.ivy.navigation.Onboarding
+import com.ivy.navigation.OnboardingScreen
 import com.ivy.onboarding.OnboardingState
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
@@ -103,7 +103,7 @@ class OnboardingViewModel @Inject constructor(
         syncExchangeRatesAct = syncExchangeRatesAct,
     )
 
-    fun start(screen: Onboarding, isSystemDarkMode: Boolean) {
+    fun start(screen: OnboardingScreen, isSystemDarkMode: Boolean) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 

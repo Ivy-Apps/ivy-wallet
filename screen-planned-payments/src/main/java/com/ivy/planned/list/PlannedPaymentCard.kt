@@ -29,7 +29,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.navigation.navigation
 import com.ivy.legacy.ui.component.transaction.TypeAmountCurrency
-import com.ivy.navigation.ItemStatistic
+import com.ivy.navigation.ItemStatisticScreen
 import com.ivy.resources.R
 import com.ivy.core.data.model.IntervalType
 import com.ivy.core.data.db.entity.TransactionType
@@ -157,7 +157,7 @@ private fun PlannedPaymentHeaderRow(
                     iconEdgePadding = 10.dp
                 ) {
                     nav.navigateTo(
-                        ItemStatistic(
+                        ItemStatisticScreen(
                             accountId = null,
                             categoryId = category.id
                         )
@@ -182,7 +182,7 @@ private fun PlannedPaymentHeaderRow(
             ) {
                 account?.let {
                     nav.navigateTo(
-                        ItemStatistic(
+                        ItemStatisticScreen(
                             accountId = account.id,
                             categoryId = null
                         )

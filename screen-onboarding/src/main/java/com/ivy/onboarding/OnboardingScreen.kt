@@ -10,7 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.model.AccountBalance
-import com.ivy.navigation.Onboarding
+import com.ivy.navigation.OnboardingScreen
 import com.ivy.onboarding.steps.OnboardingAccounts
 import com.ivy.onboarding.steps.OnboardingCategories
 import com.ivy.onboarding.steps.OnboardingSetCurrency
@@ -27,7 +27,7 @@ import com.ivy.legacy.utils.onScreenStart
 
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.OnboardingScreen(screen: Onboarding) {
+fun BoxWithConstraintsScope.OnboardingScreen(screen: OnboardingScreen) {
     val viewModel: OnboardingViewModel = viewModel()
 
     val state by viewModel.state.observeAsState(OnboardingState.SPLASH)

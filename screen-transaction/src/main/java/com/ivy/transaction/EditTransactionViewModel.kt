@@ -16,8 +16,8 @@ import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.readOnly
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.uiThread
-import com.ivy.navigation.EditTransaction
-import com.ivy.navigation.Main
+import com.ivy.navigation.EditTransactionScreen
+import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
 import com.ivy.wallet.domain.action.account.AccountByIdAct
 import com.ivy.wallet.domain.action.account.AccountsAct
@@ -133,7 +133,7 @@ class EditTransactionViewModel @Inject constructor(
     var title: String? = null
     private lateinit var baseUserCurrency: String
 
-    fun start(screen: EditTransaction) {
+    fun start(screen: EditTransactionScreen) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -206,7 +206,7 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     private suspend fun defaultAccountId(
-        screen: EditTransaction,
+        screen: EditTransactionScreen,
         accounts: List<Account>,
     ): UUID {
         if (screen.accountId != null) {
@@ -568,7 +568,7 @@ class EditTransactionViewModel @Inject constructor(
     private fun closeScreen() {
         if (nav.backStackEmpty()) {
             nav.resetBackStack()
-            nav.navigateTo(Main)
+            nav.navigateTo(MainScreen)
         } else {
             nav.back()
         }

@@ -9,7 +9,7 @@ import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.model.MainTab
 import com.ivy.legacy.utils.asLiveData
 import com.ivy.legacy.utils.ioThread
-import com.ivy.navigation.Main
+import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
 import com.ivy.wallet.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
@@ -34,7 +34,7 @@ class MainViewModel @Inject constructor(
     private val _currency = MutableLiveData<String>()
     val currency = _currency.asLiveData()
 
-    fun start(screen: Main) {
+    fun start(screen: MainScreen) {
         nav.onBackPressed[screen] = {
             if (ivyContext.mainTab == MainTab.ACCOUNTS) {
                 ivyContext.selectMainTab(MainTab.HOME)

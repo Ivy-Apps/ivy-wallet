@@ -13,10 +13,10 @@ import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.readOnly
-import com.ivy.navigation.EditTransaction
-import com.ivy.navigation.Main
+import com.ivy.navigation.EditTransactionScreen
+import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
-import com.ivy.navigation.Onboarding
+import com.ivy.navigation.OnboardingScreen
 import com.ivy.resources.R
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
 import com.ivy.wallet.io.persistence.dao.SettingsDao
@@ -77,7 +77,7 @@ class RootViewModel @Inject constructor(
                 if (isOnboardingCompleted()) {
                     navigateOnboardedUser(intent)
                 } else {
-                    nav.navigateTo(Onboarding)
+                    nav.navigateTo(OnboardingScreen)
                 }
             }
 
@@ -91,7 +91,7 @@ class RootViewModel @Inject constructor(
 
     private fun navigateOnboardedUser(intent: Intent) {
         if (!handleSpecialStart(intent)) {
-            nav.navigateTo(Main)
+            nav.navigateTo(MainScreen)
             transactionReminderLogic.scheduleReminder()
         }
     }
@@ -106,7 +106,7 @@ class RootViewModel @Inject constructor(
 
         if (addTrnType != null) {
             nav.navigateTo(
-                EditTransaction(
+                EditTransactionScreen(
                     initialTransactionId = null,
                     type = addTrnType
                 )

@@ -33,7 +33,7 @@ import com.ivy.design.l1_buildingBlocks.IvyText
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.navigation.navigation
 import com.ivy.legacy.data.AppBaseData
-import com.ivy.navigation.ItemStatistic
+import com.ivy.navigation.ItemStatisticScreen
 import com.ivy.resources.R
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.model.Account
@@ -264,7 +264,7 @@ private fun TransactionHeaderRow(
                     defaultIcon = R.drawable.ic_custom_category_s
                 ) {
                     nav.navigateTo(
-                        ItemStatistic(
+                        ItemStatisticScreen(
                             accountId = null,
                             categoryId = category.id
                         )
@@ -287,7 +287,7 @@ private fun TransactionHeaderRow(
             ) {
                 account?.let {
                     nav.navigateTo(
-                        ItemStatistic(
+                        ItemStatisticScreen(
                             accountId = account.id,
                             categoryId = null
                         )

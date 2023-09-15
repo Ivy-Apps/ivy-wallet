@@ -38,8 +38,8 @@ import com.ivy.design.l0_system.style
 import com.ivy.navigation.navigation
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.horizontalSwipeListener
-import com.ivy.navigation.ItemStatistic
-import com.ivy.navigation.Main
+import com.ivy.navigation.ItemStatisticScreen
+import com.ivy.navigation.MainScreen
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
@@ -57,7 +57,7 @@ import com.ivy.wallet.ui.theme.toComposeColor
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
-fun BoxWithConstraintsScope.AccountsTab(screen: Main) {
+fun BoxWithConstraintsScope.AccountsTab(screen: MainScreen) {
     val viewModel: AccountsViewModel = viewModel()
     val state by viewModel.state().collectAsState()
 
@@ -140,7 +140,7 @@ private fun BoxWithConstraintsScope.UI(
                 accountData = it,
                 onBalanceClick = {
                     nav.navigateTo(
-                        ItemStatistic(
+                        ItemStatisticScreen(
                             accountId = it.account.id,
                             categoryId = null
                         )
@@ -151,7 +151,7 @@ private fun BoxWithConstraintsScope.UI(
                 }
             ) {
                 nav.navigateTo(
-                    ItemStatistic(
+                    ItemStatisticScreen(
                         accountId = it.account.id,
                         categoryId = null
                     )
