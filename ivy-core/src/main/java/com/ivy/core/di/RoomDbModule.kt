@@ -1,4 +1,4 @@
-package com.ivy.wallet.di
+package com.ivy.core.di
 
 import android.content.Context
 import com.ivy.core.data.db.IvyRoomDatabase
@@ -12,9 +12,6 @@ import com.ivy.core.data.db.dao.PlannedPaymentRuleDao
 import com.ivy.core.data.db.dao.SettingsDao
 import com.ivy.core.data.db.dao.TransactionDao
 import com.ivy.core.data.db.dao.UserDao
-import com.ivy.legacy.IvyWalletCtx
-import com.ivy.wallet.domain.deprecated.logic.*
-import com.ivy.wallet.domain.deprecated.logic.csv.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,12 +21,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModuleDI {
-    @Provides
-    @Singleton
-    fun provideIvyContext(): IvyWalletCtx {
-        return IvyWalletCtx()
-    }
+object RoomDbModule {
 
     @Provides
     @Singleton

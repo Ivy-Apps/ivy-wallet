@@ -12,8 +12,11 @@ import com.ivy.design.IvyContext
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class IvyWalletCtx : IvyContext() {
+@Singleton
+class IvyWalletCtx @Inject constructor() : IvyContext() {
     // ------------------------------------------ State ---------------------------------------------
     var startDayOfMonth = 1
         private set
