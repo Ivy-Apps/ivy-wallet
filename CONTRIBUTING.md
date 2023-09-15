@@ -41,6 +41,10 @@ _Replace "YOUR_ISSUE_NUMBER" with the id/number of your issue._
 
 ### Time to work
 
+Make sure to read the **[Architecture Guidelines](docs/Architecture.md)** before you begin.
+
+**Workflow:**
+
 - Make commits.
 - Refactor your code.
 - Verify that your implementation works.
