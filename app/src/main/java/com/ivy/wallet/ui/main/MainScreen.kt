@@ -17,9 +17,9 @@ import com.ivy.legacy.data.model.MainTab
 import com.ivy.legacy.ivyWalletCtx
 import com.ivy.navigation.navigation
 import com.ivy.home.HomeTab
-import com.ivy.navigation.EditPlanned
-import com.ivy.navigation.EditTransaction
-import com.ivy.navigation.Main
+import com.ivy.navigation.EditPlannedScreen
+import com.ivy.navigation.EditTransactionScreen
+import com.ivy.navigation.MainScreen
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.ui.theme.modal.edit.AccountModal
@@ -29,7 +29,7 @@ import com.ivy.legacy.utils.onScreenStart
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.MainScreen(screen: Main) {
+fun BoxWithConstraintsScope.MainScreen(screen: MainScreen) {
     val viewModel: MainViewModel = viewModel()
 
     val currency by viewModel.currency.observeAsState("")
@@ -52,7 +52,7 @@ fun BoxWithConstraintsScope.MainScreen(screen: Main) {
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    screen: Main,
+    screen: MainScreen,
     tab: MainTab,
 
     baseCurrency: String,
@@ -74,7 +74,7 @@ private fun BoxWithConstraintsScope.UI(
 
         onAddIncome = {
             nav.navigateTo(
-                EditTransaction(
+                EditTransactionScreen(
                     initialTransactionId = null,
                     type = TransactionType.INCOME
                 )
@@ -82,7 +82,7 @@ private fun BoxWithConstraintsScope.UI(
         },
         onAddExpense = {
             nav.navigateTo(
-                EditTransaction(
+                EditTransactionScreen(
                     initialTransactionId = null,
                     type = TransactionType.EXPENSE
                 )
@@ -90,7 +90,7 @@ private fun BoxWithConstraintsScope.UI(
         },
         onAddTransfer = {
             nav.navigateTo(
-                EditTransaction(
+                EditTransactionScreen(
                     initialTransactionId = null,
                     type = TransactionType.TRANSFER
                 )
@@ -98,7 +98,7 @@ private fun BoxWithConstraintsScope.UI(
         },
         onAddPlannedPayment = {
             nav.navigateTo(
-                EditPlanned(
+                EditPlannedScreen(
                     type = TransactionType.EXPENSE,
                     plannedPaymentRuleId = null
                 )
@@ -131,7 +131,7 @@ private fun BoxWithConstraintsScope.UI(
 private fun PreviewMainScreen() {
     IvyWalletPreview {
         UI(
-            screen = Main,
+            screen = MainScreen,
             tab = MainTab.HOME,
             baseCurrency = "BGN",
             selectTab = {},

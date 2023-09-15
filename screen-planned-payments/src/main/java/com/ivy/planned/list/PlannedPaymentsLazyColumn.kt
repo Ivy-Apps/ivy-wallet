@@ -31,7 +31,7 @@ import com.ivy.core.data.model.PlannedPaymentRule
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.ui.component.transaction.SectionDivider
-import com.ivy.navigation.EditPlanned
+import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.navigation
 import com.ivy.resources.R
@@ -195,7 +195,7 @@ private fun onPlannedPaymentClick(
     rule: PlannedPaymentRule
 ) {
     nav.navigateTo(
-        EditPlanned(
+        EditPlannedScreen(
             plannedPaymentRuleId = rule.id,
             type = rule.type
         )

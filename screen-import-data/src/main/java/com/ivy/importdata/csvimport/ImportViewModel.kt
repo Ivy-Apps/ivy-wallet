@@ -9,7 +9,7 @@ import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.domain.deprecated.logic.csv.model.ImportType
 import com.ivy.legacy.utils.asLiveData
 import com.ivy.legacy.utils.getFileName
-import com.ivy.navigation.Import
+import com.ivy.navigation.ImportScreen
 import com.ivy.navigation.Navigation
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVImporter
@@ -47,7 +47,7 @@ class ImportViewModel @Inject constructor(
     private val _importResult = MutableLiveData<ImportResult>()
     val importResult = _importResult.asLiveData()
 
-    fun start(screen: Import) {
+    fun start(screen: ImportScreen) {
         nav.onBackPressed[screen] = {
             when (importStep.value) {
                 ImportStep.IMPORT_FROM -> false
@@ -167,7 +167,7 @@ class ImportViewModel @Inject constructor(
     }
 
     fun skip(
-        screen: Import,
+        screen: ImportScreen,
         onboardingViewModel: OnboardingViewModel
     ) {
         if (screen.launchedFromOnboarding) {
@@ -179,7 +179,7 @@ class ImportViewModel @Inject constructor(
     }
 
     fun finish(
-        screen: Import,
+        screen: ImportScreen,
         onboardingViewModel: OnboardingViewModel
     ) {
         if (screen.launchedFromOnboarding) {

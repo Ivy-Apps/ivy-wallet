@@ -1,11 +1,10 @@
-package com.ivy.wallet.ui
+package com.ivy.wallet
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.appwidget.AppWidgetManager
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -43,9 +42,7 @@ import com.ivy.balance.BalanceScreen
 import com.ivy.budgets.BudgetScreen
 import com.ivy.categories.CategoriesScreen
 import com.ivy.core.Constants
-import com.ivy.core.Constants.SUPPORT_EMAIL
 import com.ivy.core.RootScreen
-import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.utils.toEpochMilli
 import com.ivy.design.api.IvyUI
 import com.ivy.donate.DonateScreen
@@ -65,26 +62,26 @@ import com.ivy.loans.loandetails.LoanDetailsScreen
 import com.ivy.navigation.BalanceScreen
 import com.ivy.navigation.BudgetScreen
 import com.ivy.navigation.CSVScreen
-import com.ivy.navigation.Categories
+import com.ivy.navigation.CategoriesScreen
 import com.ivy.navigation.DonateScreen
-import com.ivy.navigation.EditPlanned
-import com.ivy.navigation.EditTransaction
+import com.ivy.navigation.EditPlannedScreen
+import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.ExchangeRatesScreen
-import com.ivy.navigation.Import
-import com.ivy.navigation.ItemStatistic
-import com.ivy.navigation.LoanDetails
-import com.ivy.navigation.Loans
-import com.ivy.navigation.Main
+import com.ivy.navigation.ImportScreen
+import com.ivy.navigation.ItemStatisticScreen
+import com.ivy.navigation.LoanDetailsScreen
+import com.ivy.navigation.LoansScreen
+import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.NavigationRoot
-import com.ivy.navigation.Onboarding
-import com.ivy.navigation.PieChartStatistic
-import com.ivy.navigation.PlannedPayments
-import com.ivy.navigation.Report
+import com.ivy.navigation.OnboardingScreen
+import com.ivy.navigation.PieChartStatisticScreen
+import com.ivy.navigation.PlannedPaymentsScreen
+import com.ivy.navigation.ReportScreen
 import com.ivy.navigation.Screen
-import com.ivy.navigation.Search
-import com.ivy.navigation.Settings
-import com.ivy.navigation.Test
+import com.ivy.navigation.SearchScreen
+import com.ivy.navigation.SettingsScreen
+import com.ivy.navigation.TestScreen
 import com.ivy.onboarding.OnboardingScreen
 import com.ivy.piechart.PieChartStatisticScreen
 import com.ivy.planned.edit.EditPlannedScreen
@@ -106,22 +103,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.time.LocalDate
 import java.time.LocalTime
-import java.util.Random
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class RootActivity : AppCompatActivity(), RootScreen {
-
-    companion object {
-
-        fun getIntent(context: Context): Intent = Intent(context, RootActivity::class.java)
-
-        fun addTransactionStart(context: Context, type: TransactionType): Intent =
-            Intent(context, RootActivity::class.java).apply {
-                putExtra(RootViewModel.EXTRA_ADD_TRANSACTION_TYPE, type)
-            }
-    }
-
     @Inject
     lateinit var ivyContext: IvyWalletCtx
 
@@ -215,24 +200,24 @@ class RootActivity : AppCompatActivity(), RootScreen {
     @Composable
     private fun BoxWithConstraintsScope.Screens(screen: Screen?) {
         when (screen) {
-            is Main -> MainScreen(screen = screen)
-            is Onboarding -> OnboardingScreen(screen = screen)
+            is MainScreen -> MainScreen(screen = screen)
+            is OnboardingScreen -> OnboardingScreen(screen = screen)
             is ExchangeRatesScreen -> ExchangeRatesScreen()
-            is EditTransaction -> EditTransactionScreen(screen = screen)
-            is ItemStatistic -> ItemStatisticScreen(screen = screen)
-            is PieChartStatistic -> PieChartStatisticScreen(screen = screen)
-            is Categories -> CategoriesScreen(screen = screen)
-            is Settings -> SettingsScreen(screen = screen)
-            is PlannedPayments -> PlannedPaymentsScreen(screen = screen)
-            is EditPlanned -> EditPlannedScreen(screen = screen)
+            is EditTransactionScreen -> EditTransactionScreen(screen = screen)
+            is ItemStatisticScreen -> ItemStatisticScreen(screen = screen)
+            is PieChartStatisticScreen -> PieChartStatisticScreen(screen = screen)
+            is CategoriesScreen -> CategoriesScreen(screen = screen)
+            is SettingsScreen -> SettingsScreen(screen = screen)
+            is PlannedPaymentsScreen -> PlannedPaymentsScreen(screen = screen)
+            is EditPlannedScreen -> EditPlannedScreen(screen = screen)
             is BalanceScreen -> BalanceScreen(screen = screen)
-            is Test -> TestScreen(screen = screen)
-            is Import -> ImportCSVScreen(screen = screen)
-            is Report -> ReportScreen(screen = screen)
+            is TestScreen -> TestScreen(screen = screen)
+            is ImportScreen -> ImportCSVScreen(screen = screen)
+            is ReportScreen -> ReportScreen(screen = screen)
             is BudgetScreen -> BudgetScreen(screen = screen)
-            is Loans -> LoansScreen(screen = screen)
-            is LoanDetails -> LoanDetailsScreen(screen = screen)
-            is Search -> SearchScreen(screen = screen)
+            is LoansScreen -> LoansScreen(screen = screen)
+            is LoanDetailsScreen -> LoanDetailsScreen(screen = screen)
+            is SearchScreen -> SearchScreen(screen = screen)
             is DonateScreen -> DonateScreen(screen = screen)
             is CSVScreen -> CSVScreen(screen = screen)
             null -> {
@@ -440,30 +425,6 @@ class RootActivity : AppCompatActivity(), RootScreen {
             if (!navigation.onBackPressed()) {
                 super.onBackPressed()
             }
-        }
-    }
-
-    // Helpers for Compose UI
-    fun contactSupport() {
-        val caseNumber: Int = Random().nextInt(100) + 100
-
-        val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
-            data = Uri.parse("mailto:") // only email apps should handle this
-
-            putExtra(Intent.EXTRA_EMAIL, arrayOf(SUPPORT_EMAIL))
-            putExtra(
-                Intent.EXTRA_SUBJECT,
-                "Ivy Wallet Support Request #" + caseNumber +
-                        "0" + BuildConfig.VERSION_CODE
-            )
-            putExtra(Intent.EXTRA_TEXT, "")
-        }
-
-        try {
-            startActivity(emailIntent)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Toast.makeText(this, "Email: $SUPPORT_EMAIL", Toast.LENGTH_LONG).show()
         }
     }
 

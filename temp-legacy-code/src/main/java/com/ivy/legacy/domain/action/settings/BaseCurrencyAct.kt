@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.action.settings
 
 import com.ivy.frp.action.FPAction
-import com.ivy.wallet.io.persistence.dao.SettingsDao
+import com.ivy.core.data.db.dao.SettingsDao
 import javax.inject.Inject
 
 class BaseCurrencyAct @Inject constructor(

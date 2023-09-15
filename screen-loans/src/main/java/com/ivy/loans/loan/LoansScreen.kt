@@ -37,8 +37,8 @@ import com.ivy.legacy.IvyWalletPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.navigation.navigation
-import com.ivy.navigation.LoanDetails
-import com.ivy.navigation.Loans
+import com.ivy.navigation.LoanDetailsScreen
+import com.ivy.navigation.LoansScreen
 import com.ivy.resources.R
 import com.ivy.core.data.model.LoanType
 import com.ivy.core.data.model.Loan
@@ -61,7 +61,7 @@ import com.ivy.legacy.utils.getDefaultFIATCurrency
 import com.ivy.legacy.utils.onScreenStart
 
 @Composable
-fun BoxWithConstraintsScope.LoansScreen(screen: Loans) {
+fun BoxWithConstraintsScope.LoansScreen(screen: LoansScreen) {
     val viewModel: LoanViewModel = viewModel()
 
     val state by viewModel.state.collectAsState()
@@ -106,7 +106,7 @@ private fun BoxWithConstraintsScope.UI(
                 displayLoan = item
             ) {
                 nav.navigateTo(
-                    screen = LoanDetails(
+                    screen = LoanDetailsScreen(
                         loanId = item.loan.id
                     )
                 )

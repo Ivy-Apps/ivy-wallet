@@ -28,29 +28,30 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.core.Constants
-import com.ivy.legacy.IvyWalletPreview
-import com.ivy.legacy.data.model.MainTab
-import com.ivy.legacy.data.model.TimePeriod
-import com.ivy.legacy.ivyWalletCtx
+import com.ivy.core.data.model.Transaction
+import com.ivy.core.data.model.TransactionHistoryItem
 import com.ivy.core.utils.stringRes
 import com.ivy.frp.asParamTo2
 import com.ivy.frp.forward
 import com.ivy.frp.then2
-import com.ivy.navigation.navigation
-import com.ivy.legacy.frp.onScreenStart
 import com.ivy.home.customerjourney.CustomerJourney
 import com.ivy.home.customerjourney.CustomerJourneyCardModel
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.AppBaseData
 import com.ivy.legacy.data.BufferInfo
 import com.ivy.legacy.data.DueSection
+import com.ivy.legacy.data.model.MainTab
+import com.ivy.legacy.data.model.TimePeriod
+import com.ivy.legacy.frp.onScreenStart
+import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.ui.component.transaction.TransactionsDividerLine
 import com.ivy.legacy.ui.component.transaction.transactions
-import com.ivy.navigation.Main
+import com.ivy.legacy.utils.horizontalSwipeListener
+import com.ivy.legacy.utils.verticalSwipeListener
+import com.ivy.navigation.MainScreen
+import com.ivy.navigation.navigation
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IvyCurrency
-import com.ivy.core.data.model.TransactionHistoryItem
-import com.ivy.core.data.model.Transaction
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.ui.theme.modal.BufferModal
 import com.ivy.wallet.ui.theme.modal.BufferModalData
@@ -58,8 +59,6 @@ import com.ivy.wallet.ui.theme.modal.ChoosePeriodModal
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import com.ivy.wallet.ui.theme.modal.CurrencyModal
 import com.ivy.wallet.ui.theme.modal.DeleteModal
-import com.ivy.legacy.utils.horizontalSwipeListener
-import com.ivy.legacy.utils.verticalSwipeListener
 import java.math.BigDecimal
 
 private const val SWIPE_HORIZONTAL_THRESHOLD = 200
@@ -67,7 +66,7 @@ private const val SWIPE_HORIZONTAL_THRESHOLD = 200
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.HomeTab(screen: Main) {
+fun BoxWithConstraintsScope.HomeTab(screen: MainScreen) {
     val viewModel: HomeViewModel = viewModel()
     val state by viewModel.state().collectAsState()
 

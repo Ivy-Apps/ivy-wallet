@@ -27,16 +27,23 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.ivy.core.Constants
-import com.ivy.legacy.data.model.TimePeriod
-import com.ivy.legacy.ivyWalletCtx
+import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.navigation.navigation
+import com.ivy.legacy.data.model.TimePeriod
+import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.ui.component.transaction.TransactionsDividerLine
-import com.ivy.navigation.PieChartStatistic
+import com.ivy.legacy.utils.clickableNoIndication
+import com.ivy.legacy.utils.drawColoredShadow
+import com.ivy.legacy.utils.format
+import com.ivy.legacy.utils.horizontalSwipeListener
+import com.ivy.legacy.utils.isNotNullOrBlank
+import com.ivy.legacy.utils.springBounce
+import com.ivy.legacy.utils.thenIf
+import com.ivy.legacy.utils.verticalSwipeListener
+import com.ivy.navigation.PieChartStatisticScreen
+import com.ivy.navigation.navigation
 import com.ivy.resources.R
-import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Gray
@@ -47,14 +54,6 @@ import com.ivy.wallet.ui.theme.components.BalanceRowMini
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
-import com.ivy.legacy.utils.clickableNoIndication
-import com.ivy.legacy.utils.drawColoredShadow
-import com.ivy.legacy.utils.format
-import com.ivy.legacy.utils.horizontalSwipeListener
-import com.ivy.legacy.utils.isNotNullOrBlank
-import com.ivy.legacy.utils.springBounce
-import com.ivy.legacy.utils.thenIf
-import com.ivy.legacy.utils.verticalSwipeListener
 import kotlin.math.absoluteValue
 
 @ExperimentalAnimationApi
@@ -305,7 +304,7 @@ private fun IncomeExpenses(
             testTag = "home_card_income"
         ) {
             nav.navigateTo(
-                PieChartStatistic(
+                PieChartStatisticScreen(
                     type = TransactionType.INCOME,
                 )
             )
@@ -324,7 +323,7 @@ private fun IncomeExpenses(
             testTag = "home_card_expense"
         ) {
             nav.navigateTo(
-                PieChartStatistic(
+                PieChartStatisticScreen(
                     type = TransactionType.EXPENSE,
                 )
             )

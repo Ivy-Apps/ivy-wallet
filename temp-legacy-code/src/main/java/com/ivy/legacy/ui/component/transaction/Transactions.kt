@@ -23,7 +23,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.data.AppBaseData
 import com.ivy.legacy.data.DueSection
-import com.ivy.navigation.EditTransaction
+import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.navigation
 import com.ivy.resources.R
@@ -292,7 +292,7 @@ private fun onTransactionClick(
     transaction: Transaction
 ) {
     nav.navigateTo(
-        EditTransaction(
+        EditTransactionScreen(
             initialTransactionId = transaction.id,
             type = transaction.type
         )

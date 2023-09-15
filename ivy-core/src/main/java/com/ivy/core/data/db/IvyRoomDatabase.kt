@@ -3,6 +3,16 @@ package com.ivy.core.data.db
 import android.content.Context
 import androidx.room.*
 import androidx.room.migration.AutoMigrationSpec
+import com.ivy.core.data.db.dao.AccountDao
+import com.ivy.core.data.db.dao.BudgetDao
+import com.ivy.core.data.db.dao.CategoryDao
+import com.ivy.core.data.db.dao.ExchangeRateDao
+import com.ivy.core.data.db.dao.LoanDao
+import com.ivy.core.data.db.dao.LoanRecordDao
+import com.ivy.core.data.db.dao.PlannedPaymentRuleDao
+import com.ivy.core.data.db.dao.SettingsDao
+import com.ivy.core.data.db.dao.TransactionDao
+import com.ivy.core.data.db.dao.UserDao
 import com.ivy.core.data.db.entity.AccountEntity
 import com.ivy.core.data.db.entity.BudgetEntity
 import com.ivy.core.data.db.entity.CategoryEntity
@@ -30,7 +40,6 @@ import com.ivy.core.data.db.migration.Migration118to119_Loans
 import com.ivy.core.data.db.migration.Migration119to120_LoanTransactions
 import com.ivy.core.data.db.migration.Migration120to121_DropWishlistItem
 import com.ivy.core.data.db.migration.Migration122to123_ExchangeRates
-import com.ivy.wallet.io.persistence.dao.*
 
 @Database(
     entities = [

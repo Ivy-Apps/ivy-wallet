@@ -1,7 +1,7 @@
 package com.ivy.home.customerjourney
 
 import com.ivy.core.Constants
-import com.ivy.core.data.SharedPrefs
+import com.ivy.legacy.data.SharedPrefs
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.utils.stringRes
 import com.ivy.design.l0_system.Blue
@@ -15,11 +15,11 @@ import com.ivy.design.l0_system.Red
 import com.ivy.design.l0_system.Red3
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.model.MainTab
-import com.ivy.navigation.EditPlanned
-import com.ivy.navigation.PieChartStatistic
+import com.ivy.navigation.EditPlannedScreen
+import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.resources.R
-import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
-import com.ivy.wallet.io.persistence.dao.TransactionDao
+import com.ivy.core.data.db.dao.PlannedPaymentRuleDao
+import com.ivy.core.data.db.dao.TransactionDao
 import com.ivy.widget.transaction.AddTransactionWidgetCompact
 import javax.inject.Inject
 
@@ -97,7 +97,7 @@ class CustomerJourneyCardsProvider @Inject constructor(
             hasDismiss = true,
             onAction = { navigation, _, _ ->
                 navigation.navigateTo(
-                    EditPlanned(
+                    EditPlannedScreen(
                         type = TransactionType.EXPENSE,
                         plannedPaymentRuleId = null
                     )
@@ -134,7 +134,7 @@ class CustomerJourneyCardsProvider @Inject constructor(
             background = Gradient.solid(Red),
             hasDismiss = true,
             onAction = { navigation, _, _ ->
-                navigation.navigateTo(PieChartStatistic(type = TransactionType.EXPENSE))
+                navigation.navigateTo(PieChartStatisticScreen(type = TransactionType.EXPENSE))
             }
         )
 

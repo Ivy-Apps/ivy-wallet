@@ -48,9 +48,9 @@ import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.horizontalSwipeListener
 import com.ivy.legacy.utils.thenIf
-import com.ivy.navigation.EditTransaction
-import com.ivy.navigation.ItemStatistic
-import com.ivy.navigation.PieChartStatistic
+import com.ivy.navigation.EditTransactionScreen
+import com.ivy.navigation.ItemStatisticScreen
+import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Gray
@@ -79,7 +79,7 @@ import kotlinx.collections.immutable.persistentListOf
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.PieChartStatisticScreen(
-    screen: PieChartStatistic
+    screen: PieChartStatisticScreen
 ) {
     val viewModel: PieChartStatisticViewModel = viewModel()
     val state by viewModel.state().collectAsState()
@@ -139,7 +139,7 @@ private fun BoxWithConstraintsScope.UI(
                 },
                 onAdd = { trnType ->
                     nav.navigateTo(
-                        EditTransaction(
+                        EditTransactionScreen(
                             initialTransactionId = null,
                             type = trnType
                         )
@@ -211,7 +211,7 @@ private fun BoxWithConstraintsScope.UI(
                     selectedCategory = state.selectedCategory
                 ) {
                     nav.navigateTo(
-                        ItemStatistic(
+                        ItemStatisticScreen(
                             categoryId = item.category?.id,
                             unspecifiedCategory = item.isCategoryUnspecified,
                             accountIdFilterList = state.accountIdFilterList,

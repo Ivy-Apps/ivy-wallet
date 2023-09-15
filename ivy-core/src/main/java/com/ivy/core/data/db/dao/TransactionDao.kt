@@ -1,4 +1,4 @@
-package com.ivy.wallet.io.persistence.dao
+package com.ivy.core.data.db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert

@@ -1,13 +1,10 @@
-package com.ivy.core.data
+package com.ivy.legacy.data
 
 import android.content.Context
 import com.google.gson.Gson
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-/**
- * Created by iliyan on 13.03.18.
- */
 @Deprecated("Use IvyWalletDataStore instead.")
 class SharedPrefs @Inject constructor(
     @ApplicationContext

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
-import com.ivy.wallet.io.persistence.dao.ExchangeRateDao
+import com.ivy.core.data.db.dao.ExchangeRateDao
 import com.ivy.core.data.db.entity.ExchangeRateEntity
 import com.ivy.exchangerates.data.RateUi
 import dagger.hilt.android.lifecycle.HiltViewModel

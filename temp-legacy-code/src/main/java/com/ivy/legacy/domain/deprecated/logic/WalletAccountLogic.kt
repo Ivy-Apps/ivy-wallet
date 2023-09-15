@@ -5,7 +5,7 @@ import com.ivy.legacy.data.model.filterUpcoming
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Transaction
-import com.ivy.wallet.io.persistence.dao.TransactionDao
+import com.ivy.core.data.db.dao.TransactionDao
 import com.ivy.legacy.utils.timeNowUTC
 import java.time.LocalDateTime
 import javax.inject.Inject

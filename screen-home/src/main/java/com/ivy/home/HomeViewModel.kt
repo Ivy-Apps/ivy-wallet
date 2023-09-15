@@ -20,7 +20,7 @@ import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.legacy.utils.dateNowUTC
 import com.ivy.legacy.utils.ioThread
 import com.ivy.navigation.BalanceScreen
-import com.ivy.navigation.Main
+import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
@@ -274,7 +274,7 @@ class HomeViewModel @Inject constructor(
         } else {
             // doesn't have transactions lead him to adjust balance
             ivyContext.selectMainTab(MainTab.ACCOUNTS)
-            nav.navigateTo(Main)
+            nav.navigateTo(MainScreen)
         }
 
         stateVal()

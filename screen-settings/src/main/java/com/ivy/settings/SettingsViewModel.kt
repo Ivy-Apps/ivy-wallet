@@ -18,8 +18,8 @@ import com.ivy.wallet.domain.action.settings.SettingsAct
 import com.ivy.wallet.domain.action.settings.UpdateSettingsAct
 import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
 import com.ivy.wallet.domain.deprecated.logic.zip.BackupLogic
-import com.ivy.core.data.SharedPrefs
-import com.ivy.wallet.io.persistence.dao.SettingsDao
+import com.ivy.legacy.data.SharedPrefs
+import com.ivy.core.data.db.dao.SettingsDao
 import com.ivy.legacy.utils.asLiveData
 import com.ivy.legacy.utils.formatNicelyWithTime
 import com.ivy.legacy.utils.ioThread

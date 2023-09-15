@@ -3,7 +3,7 @@ package com.ivy.transaction
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.data.SharedPrefs
+import com.ivy.legacy.data.SharedPrefs
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Category
@@ -16,8 +16,8 @@ import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.readOnly
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.uiThread
-import com.ivy.navigation.EditTransaction
-import com.ivy.navigation.Main
+import com.ivy.navigation.EditTransactionScreen
+import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
 import com.ivy.wallet.domain.action.account.AccountByIdAct
 import com.ivy.wallet.domain.action.account.AccountsAct
@@ -34,9 +34,9 @@ import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LoanTransactionsLo
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
-import com.ivy.wallet.io.persistence.dao.LoanDao
-import com.ivy.wallet.io.persistence.dao.SettingsDao
-import com.ivy.wallet.io.persistence.dao.TransactionDao
+import com.ivy.core.data.db.dao.LoanDao
+import com.ivy.core.data.db.dao.SettingsDao
+import com.ivy.core.data.db.dao.TransactionDao
 import com.ivy.widget.balance.WalletBalanceWidgetReceiver
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
@@ -133,7 +133,7 @@ class EditTransactionViewModel @Inject constructor(
     var title: String? = null
     private lateinit var baseUserCurrency: String
 
-    fun start(screen: EditTransaction) {
+    fun start(screen: EditTransactionScreen) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -206,7 +206,7 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     private suspend fun defaultAccountId(
-        screen: EditTransaction,
+        screen: EditTransactionScreen,
         accounts: List<Account>,
     ): UUID {
         if (screen.accountId != null) {
@@ -568,7 +568,7 @@ class EditTransactionViewModel @Inject constructor(
     private fun closeScreen() {
         if (nav.backStackEmpty()) {
             nav.resetBackStack()
-            nav.navigateTo(Main)
+            nav.navigateTo(MainScreen)
         } else {
             nav.back()
         }

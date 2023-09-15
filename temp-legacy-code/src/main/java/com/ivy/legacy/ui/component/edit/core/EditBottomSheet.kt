@@ -43,7 +43,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ivy.core.Constants
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.model.Account
 import com.ivy.design.l0_system.UI
@@ -87,6 +86,8 @@ import kotlinx.coroutines.launch
 import java.util.Locale
 import java.util.UUID
 import kotlin.math.roundToInt
+
+const val SWIPE_UP_EXPANDED_THRESHOLD = 200
 
 @Composable
 fun BoxWithConstraintsScope.EditBottomSheet(
@@ -169,7 +170,7 @@ fun BoxWithConstraintsScope.EditBottomSheet(
             )
             .background(UI.colors.pure, UI.shapes.r2Top)
             .verticalSwipeListener(
-                sensitivity = Constants.SWIPE_UP_EXPANDED_THRESHOLD,
+                sensitivity = SWIPE_UP_EXPANDED_THRESHOLD,
                 onSwipeUp = {
                     hideKeyboard(rootView)
                     internalExpanded = true

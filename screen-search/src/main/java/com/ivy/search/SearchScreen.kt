@@ -26,7 +26,7 @@ import com.ivy.core.utils.stringRes
 import com.ivy.legacy.data.AppBaseData
 import com.ivy.legacy.ui.SearchInput
 import com.ivy.legacy.ui.component.transaction.transactions
-import com.ivy.navigation.Search
+import com.ivy.navigation.SearchScreen
 import com.ivy.resources.R
 import com.ivy.core.data.model.TransactionHistoryItem
 import com.ivy.core.data.model.Account
@@ -39,7 +39,7 @@ import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.selectEndTextFieldValue
 
 @Composable
-fun SearchScreen(screen: Search) {
+fun SearchScreen(screen: SearchScreen) {
     val viewModel: SearchViewModel = viewModel()
 
     val transactions by viewModel.transactions.collectAsState()

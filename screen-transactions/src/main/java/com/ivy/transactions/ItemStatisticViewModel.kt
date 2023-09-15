@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.toOption
-import com.ivy.core.data.SharedPrefs
+import com.ivy.legacy.data.SharedPrefs
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Category
@@ -21,7 +21,7 @@ import com.ivy.legacy.utils.dateNowUTC
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.readOnly
-import com.ivy.navigation.ItemStatistic
+import com.ivy.navigation.ItemStatisticScreen
 import com.ivy.navigation.Navigation
 import com.ivy.resources.R
 import com.ivy.wallet.domain.action.account.AccTrnsAct
@@ -39,10 +39,10 @@ import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.deprecated.logic.WalletAccountLogic
 import com.ivy.wallet.domain.deprecated.logic.WalletCategoryLogic
 import com.ivy.wallet.domain.pure.exchange.ExchangeData
-import com.ivy.wallet.io.persistence.dao.AccountDao
-import com.ivy.wallet.io.persistence.dao.CategoryDao
-import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
-import com.ivy.wallet.io.persistence.dao.TransactionDao
+import com.ivy.core.data.db.dao.AccountDao
+import com.ivy.core.data.db.dao.CategoryDao
+import com.ivy.core.data.db.dao.PlannedPaymentRuleDao
+import com.ivy.core.data.db.dao.TransactionDao
 import com.ivy.wallet.ui.theme.RedLight
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
@@ -148,7 +148,7 @@ class ItemStatisticViewModel @Inject constructor(
     val treatTransfersAsIncomeExpense = _treatTransfersAsIncomeExpense.readOnly()
 
     fun start(
-        screen: ItemStatistic,
+        screen: ItemStatisticScreen,
         period: TimePeriod? = ivyContext.selectedPeriod,
         reset: Boolean = true
     ) {
@@ -521,7 +521,7 @@ class ItemStatisticViewModel @Inject constructor(
     }
 
     fun setPeriod(
-        screen: ItemStatistic,
+        screen: ItemStatisticScreen,
         period: TimePeriod
     ) {
         start(
@@ -531,7 +531,7 @@ class ItemStatisticViewModel @Inject constructor(
         )
     }
 
-    fun nextMonth(screen: ItemStatistic) {
+    fun nextMonth(screen: ItemStatisticScreen) {
         val month = period.value.month
         val year = period.value.year ?: dateNowUTC().year
         if (month != null) {
@@ -543,7 +543,7 @@ class ItemStatisticViewModel @Inject constructor(
         }
     }
 
-    fun previousMonth(screen: ItemStatistic) {
+    fun previousMonth(screen: ItemStatisticScreen) {
         val month = period.value.month
         val year = period.value.year ?: dateNowUTC().year
         if (month != null) {
@@ -555,7 +555,7 @@ class ItemStatisticViewModel @Inject constructor(
         }
     }
 
-    fun delete(screen: ItemStatistic) {
+    fun delete(screen: ItemStatisticScreen) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -603,7 +603,7 @@ class ItemStatisticViewModel @Inject constructor(
         }
     }
 
-    fun editAccount(screen: ItemStatistic, account: Account, newBalance: Double) {
+    fun editAccount(screen: ItemStatisticScreen, account: Account, newBalance: Double) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -619,7 +619,7 @@ class ItemStatisticViewModel @Inject constructor(
         }
     }
 
-    fun payOrGet(screen: ItemStatistic, transaction: Transaction) {
+    fun payOrGet(screen: ItemStatisticScreen, transaction: Transaction) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -634,7 +634,7 @@ class ItemStatisticViewModel @Inject constructor(
         }
     }
 
-    fun skipTransaction(screen: ItemStatistic, transaction: Transaction) {
+    fun skipTransaction(screen: ItemStatisticScreen, transaction: Transaction) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -652,7 +652,7 @@ class ItemStatisticViewModel @Inject constructor(
         }
     }
 
-    fun skipTransactions(screen: ItemStatistic, transactions: List<Transaction>) {
+    fun skipTransactions(screen: ItemStatisticScreen, transactions: List<Transaction>) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 

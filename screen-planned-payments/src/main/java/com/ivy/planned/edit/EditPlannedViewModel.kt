@@ -4,8 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.frp.test.TestIdlingResource
-import com.ivy.navigation.navigation
-import com.ivy.navigation.EditPlanned
+import com.ivy.navigation.EditPlannedScreen
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.core.data.model.IntervalType
@@ -19,11 +18,11 @@ import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsGenerator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
-import com.ivy.wallet.io.persistence.dao.AccountDao
-import com.ivy.wallet.io.persistence.dao.CategoryDao
-import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
-import com.ivy.wallet.io.persistence.dao.SettingsDao
-import com.ivy.wallet.io.persistence.dao.TransactionDao
+import com.ivy.core.data.db.dao.AccountDao
+import com.ivy.core.data.db.dao.CategoryDao
+import com.ivy.core.data.db.dao.PlannedPaymentRuleDao
+import com.ivy.core.data.db.dao.SettingsDao
+import com.ivy.core.data.db.dao.TransactionDao
 import com.ivy.legacy.utils.asLiveData
 import com.ivy.legacy.utils.ioThread
 import com.ivy.navigation.Navigation
@@ -92,7 +91,7 @@ class EditPlannedViewModel @Inject constructor(
 
     var title: String? = null
 
-    fun start(screen: EditPlanned) {
+    fun start(screen: EditPlannedScreen) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 

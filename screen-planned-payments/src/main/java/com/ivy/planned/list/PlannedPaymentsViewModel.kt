@@ -4,16 +4,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.frp.test.TestIdlingResource
-import com.ivy.navigation.PlannedPayments
+import com.ivy.navigation.PlannedPaymentsScreen
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Category
 import com.ivy.core.data.model.PlannedPaymentRule
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
-import com.ivy.wallet.io.persistence.dao.AccountDao
-import com.ivy.wallet.io.persistence.dao.CategoryDao
-import com.ivy.wallet.io.persistence.dao.SettingsDao
+import com.ivy.core.data.db.dao.AccountDao
+import com.ivy.core.data.db.dao.CategoryDao
+import com.ivy.core.data.db.dao.SettingsDao
 import com.ivy.legacy.utils.asLiveData
 import com.ivy.legacy.utils.ioThread
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -59,7 +59,7 @@ class PlannedPaymentsViewModel @Inject constructor(
     private val _recurringExpenses = MutableLiveData<Double>()
     val recurringExpenses = _recurringExpenses.asLiveData()
 
-    fun start(screen: PlannedPayments) {
+    fun start(screen: PlannedPaymentsScreen) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 

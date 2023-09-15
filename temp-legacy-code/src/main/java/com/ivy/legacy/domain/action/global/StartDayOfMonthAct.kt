@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.action.global
 
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
-import com.ivy.core.data.SharedPrefs
+import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.IvyWalletCtx
 import javax.inject.Inject
 

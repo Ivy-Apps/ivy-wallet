@@ -56,13 +56,13 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.navigation.navigation
 import com.ivy.navigation.BudgetScreen
-import com.ivy.navigation.Categories
+import com.ivy.navigation.CategoriesScreen
 import com.ivy.navigation.DonateScreen
-import com.ivy.navigation.Loans
-import com.ivy.navigation.PlannedPayments
-import com.ivy.navigation.Report
-import com.ivy.navigation.Search
-import com.ivy.navigation.Settings
+import com.ivy.navigation.LoansScreen
+import com.ivy.navigation.PlannedPaymentsScreen
+import com.ivy.navigation.ReportScreen
+import com.ivy.navigation.SearchScreen
+import com.ivy.navigation.SettingsScreen
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gradient
@@ -242,7 +242,7 @@ private fun ColumnScope.Content(
     val nav = navigation()
     SearchButton {
         nav.navigateTo(
-            screen = Search
+            screen = SearchScreen
         )
     }
 
@@ -429,7 +429,7 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_settings,
             label = stringResource(R.string.settings)
         ) {
-            nav.navigateTo(Settings)
+            nav.navigateTo(SettingsScreen)
         }
 
         Spacer(Modifier.weight(1f))
@@ -438,7 +438,7 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_categories,
             label = stringResource(R.string.categories)
         ) {
-            nav.navigateTo(Categories)
+            nav.navigateTo(CategoriesScreen)
         }
 
         Spacer(Modifier.weight(1f))
@@ -474,7 +474,7 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_planned_payments,
             label = stringResource(R.string.planned_payments)
         ) {
-            nav.navigateTo(PlannedPayments)
+            nav.navigateTo(PlannedPaymentsScreen)
         }
 
         Spacer(Modifier.weight(1f))
@@ -512,7 +512,7 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_reports,
             label = stringResource(R.string.reports),
         ) {
-            nav.navigateTo(Report)
+            nav.navigateTo(ReportScreen)
         }
 
         Spacer(Modifier.weight(1f))
@@ -530,7 +530,7 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_loans,
             label = stringResource(R.string.loans),
         ) {
-            nav.navigateTo(Loans)
+            nav.navigateTo(LoansScreen)
         }
 
         Spacer(Modifier.weight(1f))

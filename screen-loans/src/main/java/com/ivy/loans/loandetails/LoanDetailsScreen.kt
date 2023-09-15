@@ -57,8 +57,8 @@ import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.setStatusBarDarkTextCompat
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.loans.loan.data.DisplayLoanRecord
-import com.ivy.navigation.ItemStatistic
-import com.ivy.navigation.LoanDetails
+import com.ivy.navigation.ItemStatisticScreen
+import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
@@ -88,7 +88,7 @@ import com.ivy.wallet.ui.theme.toComposeColor
 import java.util.UUID
 
 @Composable
-fun BoxWithConstraintsScope.LoanDetailsScreen(screen: LoanDetails) {
+fun BoxWithConstraintsScope.LoanDetailsScreen(screen: LoanDetailsScreen) {
     val viewModel: LoanDetailsViewModel = viewModel()
 
     val baseCurrency by viewModel.baseCurrency.collectAsState()
@@ -469,7 +469,7 @@ private fun LoanInfoCard(
                     iconEdgePadding = 10.dp
                 ) {
                     nav.navigateTo(
-                        ItemStatistic(
+                        ItemStatisticScreen(
                             accountId = selectedLoanAccount.id,
                             categoryId = null
                         )
@@ -701,7 +701,7 @@ private fun LoanRecordItem(
                         iconEdgePadding = 10.dp
                     ) {
                         nav.navigateTo(
-                            ItemStatistic(
+                            ItemStatisticScreen(
                                 accountId = account.id,
                                 categoryId = null
                             )

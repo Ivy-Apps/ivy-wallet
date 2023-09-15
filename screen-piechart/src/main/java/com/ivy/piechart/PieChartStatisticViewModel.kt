@@ -1,7 +1,7 @@
 package com.ivy.piechart
 
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.data.SharedPrefs
+import com.ivy.legacy.data.SharedPrefs
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.model.Category
 import com.ivy.core.data.model.Transaction
@@ -10,9 +10,9 @@ import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.readOnly
-import com.ivy.navigation.PieChartStatistic
+import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.piechart.action.PieChartAct
-import com.ivy.wallet.io.persistence.dao.SettingsDao
+import com.ivy.core.data.db.dao.SettingsDao
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
@@ -44,7 +44,7 @@ class PieChartStatisticViewModel @Inject constructor(
     private val treatTransfersAsIncomeExpense = _treatTransfersAsIncomeExpense.readOnly()
 
     fun start(
-        screen: PieChartStatistic
+        screen: PieChartStatisticScreen
     ) {
         viewModelScope.launch(Dispatchers.Default) {
             startInternally(

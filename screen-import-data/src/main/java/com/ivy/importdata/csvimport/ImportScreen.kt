@@ -12,7 +12,7 @@ import com.ivy.importdata.csvimport.flow.ImportFrom
 import com.ivy.importdata.csvimport.flow.ImportProcessing
 import com.ivy.importdata.csvimport.flow.ImportResultUI
 import com.ivy.importdata.csvimport.flow.instructions.ImportInstructions
-import com.ivy.navigation.Import
+import com.ivy.navigation.ImportScreen
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import com.ivy.legacy.domain.deprecated.logic.csv.model.ImportType
@@ -20,7 +20,7 @@ import com.ivy.legacy.domain.deprecated.logic.csv.model.ImportType
 @OptIn(ExperimentalStdlibApi::class)
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.ImportCSVScreen(screen: Import) {
+fun BoxWithConstraintsScope.ImportCSVScreen(screen: ImportScreen) {
     val viewModel: ImportViewModel = viewModel()
 
     val importStep by viewModel.importStep.observeAsState(ImportStep.IMPORT_FROM)
@@ -62,7 +62,7 @@ fun BoxWithConstraintsScope.ImportCSVScreen(screen: Import) {
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    screen: Import,
+    screen: ImportScreen,
 
     importStep: ImportStep,
     importType: ImportType?,
@@ -116,7 +116,7 @@ private fun BoxWithConstraintsScope.UI(
 private fun Preview() {
     com.ivy.legacy.IvyWalletPreview {
         UI(
-            screen = Import(launchedFromOnboarding = true),
+            screen = ImportScreen(launchedFromOnboarding = true),
             importStep = ImportStep.IMPORT_FROM,
             importType = null,
             importProgressPercent = 0,

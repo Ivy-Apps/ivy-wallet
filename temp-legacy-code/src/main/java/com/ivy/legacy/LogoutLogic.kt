@@ -1,11 +1,11 @@
 package com.ivy.legacy
 
-import com.ivy.core.data.SharedPrefs
+import com.ivy.legacy.data.SharedPrefs
 import com.ivy.core.data.db.IvyRoomDatabase
 import com.ivy.legacy.utils.ioThread
-import com.ivy.navigation.Main
+import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
-import com.ivy.navigation.Onboarding
+import com.ivy.navigation.OnboardingScreen
 import javax.inject.Inject
 
 @Deprecated("Migrate to FP Style & Actions")
@@ -21,10 +21,10 @@ class LogoutLogic @Inject constructor(
         }
 
         navigation.resetBackStack()
-        navigation.navigateTo(Onboarding)
+        navigation.navigateTo(OnboardingScreen)
     }
 
     suspend fun cloudLogout() {
-        navigation.navigateTo(Main)
+        navigation.navigateTo(MainScreen)
     }
 }

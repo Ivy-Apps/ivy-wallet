@@ -1,4 +1,4 @@
-package com.ivy.core.data.network
+package com.ivy.core.di
 
 import dagger.Module
 import dagger.Provides

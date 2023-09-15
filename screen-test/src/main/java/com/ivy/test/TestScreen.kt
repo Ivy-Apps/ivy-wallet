@@ -14,12 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.legacy.IvyWalletPreview
-import com.ivy.navigation.Test
+import com.ivy.navigation.TestScreen
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.modal.ChooseIconModal
 
 @Composable
-fun BoxWithConstraintsScope.TestScreen(screen: Test) {
+fun BoxWithConstraintsScope.TestScreen(screen: TestScreen) {
     val viewModel: TestViewModel = viewModel()
 
     com.ivy.legacy.utils.onScreenStart {

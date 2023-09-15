@@ -39,11 +39,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.ivy.core.FAB_BUTTON_SIZE
-import com.ivy.legacy.data.model.MainTab
-import com.ivy.legacy.ivyWalletCtx
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.legacy.data.model.MainTab
+import com.ivy.legacy.ivyWalletCtx
+import com.ivy.legacy.utils.clickableNoIndication
+import com.ivy.legacy.utils.densityScope
+import com.ivy.legacy.utils.lerp
+import com.ivy.legacy.utils.navigationBarInset
+import com.ivy.legacy.utils.springBounceFast
+import com.ivy.legacy.utils.thenIf
+import com.ivy.legacy.utils.toDensityDp
+import com.ivy.legacy.utils.toDensityPx
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
@@ -57,19 +64,12 @@ import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
 import com.ivy.wallet.ui.theme.gradientExpenses
 import com.ivy.wallet.ui.theme.modal.AddModalBackHandling
 import com.ivy.wallet.ui.theme.pureBlur
-import com.ivy.legacy.utils.clickableNoIndication
-import com.ivy.legacy.utils.densityScope
-import com.ivy.legacy.utils.lerp
-import com.ivy.legacy.utils.navigationBarInset
-import com.ivy.legacy.utils.springBounceFast
-import com.ivy.legacy.utils.thenIf
-import com.ivy.legacy.utils.toDensityDp
-import com.ivy.legacy.utils.toDensityPx
 import java.util.UUID
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
 val TRN_BUTTON_CLICK_AREA_HEIGHT = 150.dp
+val FAB_BUTTON_SIZE = 56.dp
 
 @Composable
 fun BoxWithConstraintsScope.BottomBar(

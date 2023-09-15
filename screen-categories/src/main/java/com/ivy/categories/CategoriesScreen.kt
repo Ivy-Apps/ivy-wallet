@@ -43,12 +43,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.navigation.navigation
-import com.ivy.navigation.Categories
-import com.ivy.navigation.ItemStatistic
+import com.ivy.navigation.CategoriesScreen
+import com.ivy.navigation.ItemStatisticScreen
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.SortOrder
 import com.ivy.core.data.model.Category
-import com.ivy.legacy.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Green
@@ -71,13 +70,11 @@ import com.ivy.wallet.ui.theme.modal.edit.CategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
-import com.ivy.legacy.utils.balancePrefix
-import com.ivy.legacy.utils.onScreenStart
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
 @Composable
-fun BoxWithConstraintsScope.CategoriesScreen(screen: Categories) {
+fun BoxWithConstraintsScope.CategoriesScreen(screen: CategoriesScreen) {
     val viewModel: CategoriesViewModel = viewModel()
     val state by viewModel.state().collectAsState()
 
@@ -152,7 +149,7 @@ private fun BoxWithConstraintsScope.UI(
                 }
             ) {
                 nav.navigateTo(
-                    ItemStatistic(
+                    ItemStatisticScreen(
                         accountId = null,
                         categoryId = categoryData.category.id
                     )

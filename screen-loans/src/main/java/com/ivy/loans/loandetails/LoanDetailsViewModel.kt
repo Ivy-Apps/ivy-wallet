@@ -11,7 +11,7 @@ import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.ioThread
 import com.ivy.loans.loan.data.DisplayLoanRecord
-import com.ivy.navigation.LoanDetails
+import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.Navigation
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.loan.LoanByIdAct
@@ -23,11 +23,11 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
 import com.ivy.wallet.domain.deprecated.logic.model.EditLoanRecordData
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
-import com.ivy.wallet.io.persistence.dao.AccountDao
-import com.ivy.wallet.io.persistence.dao.LoanDao
-import com.ivy.wallet.io.persistence.dao.LoanRecordDao
-import com.ivy.wallet.io.persistence.dao.SettingsDao
-import com.ivy.wallet.io.persistence.dao.TransactionDao
+import com.ivy.core.data.db.dao.AccountDao
+import com.ivy.core.data.db.dao.LoanDao
+import com.ivy.core.data.db.dao.LoanRecordDao
+import com.ivy.core.data.db.dao.SettingsDao
+import com.ivy.core.data.db.dao.TransactionDao
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -85,7 +85,7 @@ class LoanDetailsViewModel @Inject constructor(
 
     private var defaultCurrencyCode = ""
 
-    fun start(screen: LoanDetails) {
+    fun start(screen: LoanDetailsScreen) {
         load(loanId = screen.loanId)
     }
 

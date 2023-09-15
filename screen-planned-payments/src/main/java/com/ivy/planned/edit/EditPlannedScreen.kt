@@ -25,7 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.legacy.IvyWalletPreview
-import com.ivy.navigation.EditPlanned
+import com.ivy.navigation.EditPlannedScreen
 import com.ivy.resources.R
 import com.ivy.core.data.model.IntervalType
 import com.ivy.core.data.db.entity.TransactionType
@@ -54,7 +54,7 @@ import java.time.LocalDateTime
 
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.EditPlannedScreen(screen: EditPlanned) {
+fun BoxWithConstraintsScope.EditPlannedScreen(screen: EditPlannedScreen) {
     val viewModel: EditPlannedViewModel = viewModel()
 
     val startDate by viewModel.startDate.observeAsState()
@@ -117,7 +117,7 @@ fun BoxWithConstraintsScope.EditPlannedScreen(screen: EditPlanned) {
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    screen: EditPlanned,
+    screen: EditPlannedScreen,
 
     startDate: LocalDateTime?,
     intervalN: Int?,
@@ -454,7 +454,7 @@ private fun shouldFocusAmount(amount: Double) = amount == 0.0
 private fun Preview() {
     IvyWalletPreview {
         UI(
-            screen = EditPlanned(null, TransactionType.EXPENSE),
+            screen = EditPlannedScreen(null, TransactionType.EXPENSE),
             oneTime = false,
             startDate = null,
             intervalN = null,

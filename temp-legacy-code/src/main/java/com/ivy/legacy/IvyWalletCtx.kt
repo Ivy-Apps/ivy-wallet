@@ -5,15 +5,18 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import com.ivy.core.data.SharedPrefs
+import com.ivy.legacy.data.SharedPrefs
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Category
 import com.ivy.design.IvyContext
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class IvyWalletCtx : IvyContext() {
+@Singleton
+class IvyWalletCtx @Inject constructor() : IvyContext() {
     // ------------------------------------------ State ---------------------------------------------
     var startDayOfMonth = 1
         private set

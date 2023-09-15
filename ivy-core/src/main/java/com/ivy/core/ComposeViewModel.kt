@@ -16,8 +16,8 @@ abstract class ComposeViewModel<UiState, UiEvent> : ViewModel() {
     abstract fun uiState(): UiState
 
     /**
-     * Sends an event of an action that happened in the UI
-     * to be processed in the ViewModel.
+     * Sends an event of an action that happened
+     * in the UI to be processed in the ViewModel.
      */
     abstract fun onEvent(event: UiEvent)
 }

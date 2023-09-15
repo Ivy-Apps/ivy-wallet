@@ -3,7 +3,7 @@ package com.ivy.onboarding.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.data.SharedPrefs
+import com.ivy.legacy.data.SharedPrefs
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Category
 import com.ivy.core.data.model.Settings
@@ -17,7 +17,7 @@ import com.ivy.legacy.utils.asLiveData
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.sendToCrashlytics
 import com.ivy.navigation.Navigation
-import com.ivy.navigation.Onboarding
+import com.ivy.navigation.OnboardingScreen
 import com.ivy.onboarding.OnboardingState
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
@@ -31,9 +31,9 @@ import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
-import com.ivy.wallet.io.persistence.dao.AccountDao
-import com.ivy.wallet.io.persistence.dao.CategoryDao
-import com.ivy.wallet.io.persistence.dao.SettingsDao
+import com.ivy.core.data.db.dao.AccountDao
+import com.ivy.core.data.db.dao.CategoryDao
+import com.ivy.core.data.db.dao.SettingsDao
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
@@ -103,7 +103,7 @@ class OnboardingViewModel @Inject constructor(
         syncExchangeRatesAct = syncExchangeRatesAct,
     )
 
-    fun start(screen: Onboarding, isSystemDarkMode: Boolean) {
+    fun start(screen: OnboardingScreen, isSystemDarkMode: Boolean) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 

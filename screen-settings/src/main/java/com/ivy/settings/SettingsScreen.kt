@@ -59,9 +59,9 @@ import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.thenIf
 import com.ivy.navigation.DonateScreen
 import com.ivy.navigation.ExchangeRatesScreen
-import com.ivy.navigation.Import
-import com.ivy.navigation.Settings
-import com.ivy.navigation.Test
+import com.ivy.navigation.ImportScreen
+import com.ivy.navigation.SettingsScreen
+import com.ivy.navigation.TestScreen
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.ui.theme.Blue
@@ -85,7 +85,7 @@ import com.ivy.wallet.ui.theme.modal.ProgressModal
 
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
+fun BoxWithConstraintsScope.SettingsScreen(screen: SettingsScreen) {
     val viewModel: SettingsViewModel = viewModel()
 
     val theme by viewModel.currentTheme.observeAsState(Theme.AUTO)
@@ -190,7 +190,7 @@ private fun BoxWithConstraintsScope.UI(
                 Text(
                     modifier = Modifier.clickableNoIndication {
                         if (rootScreen.isDebug) {
-                            nav.navigateTo(Test)
+                            nav.navigateTo(TestScreen)
                         }
                     },
                     text = "${rootScreen.buildVersionName} (${rootScreen.buildVersionCode})",
@@ -262,7 +262,7 @@ private fun BoxWithConstraintsScope.UI(
                 backgroundGradient = GradientGreen
             ) {
                 nav.navigateTo(
-                    Import(
+                    ImportScreen(
                         launchedFromOnboarding = false
                     )
                 )
