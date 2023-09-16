@@ -9,12 +9,12 @@ private val localNavigation = compositionLocalOf<Navigation> { error("No LocalNa
 @Composable
 fun NavigationRoot(
     navigation: Navigation,
-    screenMapping: @Composable (screen: Screen?) -> Unit
+    navGraph: @Composable (screen: Screen?) -> Unit
 ) {
     CompositionLocalProvider(
         localNavigation provides navigation,
     ) {
-        screenMapping(navigation.currentScreen)
+        navGraph(navigation.currentScreen)
     }
 }
 

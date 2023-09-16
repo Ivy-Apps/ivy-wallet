@@ -38,6 +38,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.ivy.IvyNavGraph
 import com.ivy.balance.BalanceScreen
 import com.ivy.budgets.BudgetScreen
 import com.ivy.categories.CategoriesScreen
@@ -189,38 +190,8 @@ class RootActivity : AppCompatActivity(), RootScreen {
 
             false -> {
                 NavigationRoot(navigation = navigation) { screen ->
-                    Screens(screen)
+                    IvyNavGraph(screen)
                 }
-            }
-        }
-    }
-
-    @ExperimentalFoundationApi
-    @ExperimentalAnimationApi
-    @Composable
-    private fun BoxWithConstraintsScope.Screens(screen: Screen?) {
-        when (screen) {
-            is MainScreen -> MainScreen(screen = screen)
-            is OnboardingScreen -> OnboardingScreen(screen = screen)
-            is ExchangeRatesScreen -> ExchangeRatesScreen()
-            is EditTransactionScreen -> EditTransactionScreen(screen = screen)
-            is ItemStatisticScreen -> ItemStatisticScreen(screen = screen)
-            is PieChartStatisticScreen -> PieChartStatisticScreen(screen = screen)
-            is CategoriesScreen -> CategoriesScreen(screen = screen)
-            is SettingsScreen -> SettingsScreen(screen = screen)
-            is PlannedPaymentsScreen -> PlannedPaymentsScreen(screen = screen)
-            is EditPlannedScreen -> EditPlannedScreen(screen = screen)
-            is BalanceScreen -> BalanceScreen(screen = screen)
-            is TestScreen -> TestScreen(screen = screen)
-            is ImportScreen -> ImportCSVScreen(screen = screen)
-            is ReportScreen -> ReportScreen(screen = screen)
-            is BudgetScreen -> BudgetScreen(screen = screen)
-            is LoansScreen -> LoansScreen(screen = screen)
-            is LoanDetailsScreen -> LoanDetailsScreen(screen = screen)
-            is SearchScreen -> SearchScreen(screen = screen)
-            is DonateScreen -> DonateScreen(screen = screen)
-            is CSVScreen -> CSVScreen(screen = screen)
-            null -> {
             }
         }
     }
