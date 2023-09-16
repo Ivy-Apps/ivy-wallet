@@ -1,8 +1,8 @@
 package com.ivy.legacy.data.model
 
 import androidx.compose.runtime.Immutable
-import com.ivy.wallet.domain.data.Reorderable
 import com.ivy.core.data.model.Account
+import com.ivy.wallet.domain.data.Reorderable
 
 @Immutable
 data class AccountData(

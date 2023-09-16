@@ -245,7 +245,6 @@ private fun BoxWithConstraintsScope.UI(
     onSkipAllTransactions: (List<Transaction>) -> Unit = {}
 ) {
     val ivyContext = ivyWalletCtx()
-    val nav = navigation()
     val itemColor = (account?.color ?: category?.color)?.toComposeColor() ?: Gray
 
     var deleteModalVisible by remember { mutableStateOf(false) }
