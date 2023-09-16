@@ -5,12 +5,14 @@ import com.ivy.core.data.model.Loan
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanData
 import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.core.data.db.read.LoanDao
+import com.ivy.core.data.db.write.LoanWriter
 import com.ivy.legacy.utils.ioThread
 import java.util.UUID
 import javax.inject.Inject
 
 class LoanCreator @Inject constructor(
     private val dao: LoanDao,
+    private val loanWriter: LoanWriter,
 ) {
     suspend fun create(
         data: CreateLoanData,
@@ -35,7 +37,7 @@ class LoanCreator @Inject constructor(
                     accountId = data.account?.id
                 )
                 loanId = item.id
-                dao.save(item.toEntity())
+                loanWriter.save(item.toEntity())
                 item
             }
 
@@ -56,7 +58,7 @@ class LoanCreator @Inject constructor(
 
         try {
             ioThread {
-                dao.save(
+                loanWriter.save(
                     updatedItem.toEntity().copy(
                         isSynced = false
                     )
@@ -75,7 +77,7 @@ class LoanCreator @Inject constructor(
     ) {
         try {
             ioThread {
-                dao.flagDeleted(item.id)
+                loanWriter.flagDeleted(item.id)
             }
 
             onRefreshUI()

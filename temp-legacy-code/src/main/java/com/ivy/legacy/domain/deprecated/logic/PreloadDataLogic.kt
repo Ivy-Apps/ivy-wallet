@@ -1,8 +1,8 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.core.data.db.read.AccountDao
-import com.ivy.core.data.db.read.CategoryDao
+import com.ivy.core.data.db.write.AccountWriter
+import com.ivy.core.data.db.write.CategoryWriter
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Category
 import com.ivy.core.util.stringRes
@@ -17,8 +17,8 @@ import javax.inject.Inject
 
 @Deprecated("Migrate to FP Style")
 class PreloadDataLogic @Inject constructor(
-    private val accountsDao: AccountDao,
-    private val categoryDao: CategoryDao
+    private val accountWriter: AccountWriter,
+    private val categoryWriter: CategoryWriter,
 ) {
     var categoryOrderNum = 0.0
 
@@ -46,33 +46,34 @@ class PreloadDataLogic @Inject constructor(
             isSynced = false
         )
 
-        accountsDao.save(cash.toEntity())
-        accountsDao.save(bank.toEntity())
+        accountWriter.save(cash.toEntity())
+        accountWriter.save(bank.toEntity())
     }
 
-    fun accountSuggestions(baseCurrency: String): ImmutableList<CreateAccountData> = persistentListOf(
-        CreateAccountData(
-            name = stringRes(R.string.cash),
-            currency = baseCurrency,
-            color = Green,
-            icon = "cash",
-            balance = 0.0
-        ),
-        CreateAccountData(
-            name = stringRes(R.string.bank),
-            currency = baseCurrency,
-            color = IvyDark,
-            icon = "bank",
-            balance = 0.0
-        ),
-        CreateAccountData(
-            name = stringRes(R.string.revoult),
-            currency = baseCurrency,
-            color = Blue,
-            icon = "revolut",
-            balance = 0.0
-        ),
-    )
+    fun accountSuggestions(baseCurrency: String): ImmutableList<CreateAccountData> =
+        persistentListOf(
+            CreateAccountData(
+                name = stringRes(R.string.cash),
+                currency = baseCurrency,
+                color = Green,
+                icon = "cash",
+                balance = 0.0
+            ),
+            CreateAccountData(
+                name = stringRes(R.string.bank),
+                currency = baseCurrency,
+                color = IvyDark,
+                icon = "bank",
+                balance = 0.0
+            ),
+            CreateAccountData(
+                name = stringRes(R.string.revoult),
+                currency = baseCurrency,
+                color = Blue,
+                icon = "revolut",
+                balance = 0.0
+            ),
+        )
 
     suspend fun preloadCategories() {
         categoryOrderNum = 0.0
@@ -157,7 +158,7 @@ class PreloadDataLogic @Inject constructor(
             isSynced = false
         )
 
-        categoryDao.save(category.toEntity())
+        categoryWriter.save(category.toEntity())
     }
 
     fun categorySuggestions(): ImmutableList<CreateCategoryData> = preloadCategoriesCreateData()

@@ -14,8 +14,8 @@ import com.ivy.legacy.utils.asLiveData
 import com.ivy.legacy.utils.ioThread
 import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
-import com.ivy.wallet.domain.action.exchange.SyncExchangeRatesAct
-import com.ivy.wallet.domain.deprecated.logic.AccountCreator
+import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
+import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

@@ -24,11 +24,11 @@ import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
-import com.ivy.wallet.domain.action.exchange.SyncExchangeRatesAct
+import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.action.settings.CalcBufferDiffAct
 import com.ivy.wallet.domain.action.settings.SettingsAct
-import com.ivy.wallet.domain.action.settings.UpdateSettingsAct
+import com.ivy.legacy.domain.action.settings.UpdateSettingsAct
 import com.ivy.wallet.domain.action.transaction.HistoryWithDateDivsAct
 import com.ivy.wallet.domain.action.viewmodel.home.HasTrnsAct
 import com.ivy.wallet.domain.action.viewmodel.home.OverdueAct

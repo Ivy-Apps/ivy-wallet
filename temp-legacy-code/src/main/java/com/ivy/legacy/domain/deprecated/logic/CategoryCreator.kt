@@ -1,15 +1,17 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.core.data.db.read.CategoryDao
+import com.ivy.core.data.db.write.CategoryWriter
 import com.ivy.core.data.model.Category
+import com.ivy.legacy.utils.ioThread
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.pure.util.nextOrderNum
-import com.ivy.core.data.db.read.CategoryDao
-import com.ivy.legacy.utils.ioThread
 import javax.inject.Inject
 
 class CategoryCreator @Inject constructor(
     private val categoryDao: CategoryDao,
+    private val categoryWriter: CategoryWriter,
 ) {
     suspend fun createCategory(
         data: CreateCategoryData,
@@ -28,7 +30,7 @@ class CategoryCreator @Inject constructor(
                     isSynced = false
                 )
 
-                categoryDao.save(newCategory.toEntity())
+                categoryWriter.save(newCategory.toEntity())
                 newCategory
             }
 
@@ -46,7 +48,7 @@ class CategoryCreator @Inject constructor(
 
         try {
             ioThread {
-                categoryDao.save(
+                categoryWriter.save(
                     updatedCategory.toEntity().copy(
                         isSynced = false
                     )

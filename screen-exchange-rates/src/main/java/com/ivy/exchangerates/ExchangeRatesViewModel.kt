@@ -2,7 +2,7 @@ package com.ivy.exchangerates
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.wallet.domain.action.exchange.SyncExchangeRatesAct
+import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.core.data.db.read.ExchangeRatesDao
 import com.ivy.core.data.db.entity.ExchangeRateEntity

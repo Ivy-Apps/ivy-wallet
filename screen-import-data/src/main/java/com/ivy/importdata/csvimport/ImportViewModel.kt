@@ -12,12 +12,12 @@ import com.ivy.legacy.utils.getFileName
 import com.ivy.navigation.ImportScreen
 import com.ivy.navigation.Navigation
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
-import com.ivy.wallet.domain.deprecated.logic.csv.CSVImporter
+import com.ivy.legacy.domain.deprecated.logic.csv.CSVImporter
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVMapper
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVNormalizer
 import com.ivy.wallet.domain.deprecated.logic.csv.IvyFileReader
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
-import com.ivy.wallet.domain.deprecated.logic.zip.BackupLogic
+import com.ivy.legacy.domain.deprecated.logic.zip.BackupLogic
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch

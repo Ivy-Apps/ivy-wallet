@@ -9,18 +9,24 @@ import javax.inject.Inject
 
 class SettingsWriter @Inject constructor(
     private val dao: WriteSettingsDao,
-) : DbWriter<SettingsEntity> {
-    override suspend fun save(value: SettingsEntity): Either<String, Unit> {
+) {
+    suspend fun save(value: SettingsEntity): Either<String, Unit> {
         return withContext(Dispatchers.IO) {
             dao.save(value)
             Either.Right(Unit)
         }
     }
 
-    override suspend fun saveMany(values: List<SettingsEntity>): Either<String, Unit> {
+    suspend fun saveMany(values: List<SettingsEntity>): Either<String, Unit> {
         return withContext(Dispatchers.IO) {
             dao.saveMany(values)
             Either.Right(Unit)
+        }
+    }
+
+    suspend fun deleteAll() {
+        withContext(Dispatchers.IO) {
+            dao.deleteAll()
         }
     }
 }

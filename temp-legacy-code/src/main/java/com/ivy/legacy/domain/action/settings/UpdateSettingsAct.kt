@@ -1,15 +1,15 @@
-package com.ivy.wallet.domain.action.settings
+package com.ivy.legacy.domain.action.settings
 
-import com.ivy.frp.action.FPAction
+import com.ivy.core.data.db.write.SettingsWriter
 import com.ivy.core.data.model.Settings
-import com.ivy.core.data.db.read.SettingsDao
+import com.ivy.frp.action.FPAction
 import javax.inject.Inject
 
 class UpdateSettingsAct @Inject constructor(
-    private val settingsDao: SettingsDao
+    private val settingsWriter: SettingsWriter
 ) : FPAction<Settings, Settings>() {
     override suspend fun Settings.compose(): suspend () -> Settings = suspend {
-        settingsDao.save(this.toEntity())
+        settingsWriter.save(this.toEntity())
         this
     }
 }

@@ -8,16 +8,16 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class AccountWriter @Inject constructor(
-    private val dao: WriteAccountDao,
-) : DbWriter<AccountEntity> {
-    override suspend fun save(value: AccountEntity): Either<String, Unit> {
+    val dao: WriteAccountDao,
+) {
+    suspend fun save(value: AccountEntity): Either<String, Unit> {
         return withContext(Dispatchers.IO) {
             dao.save(value)
             Either.Right(Unit)
         }
     }
 
-    override suspend fun saveMany(values: List<AccountEntity>): Either<String, Unit> {
+    suspend fun saveMany(values: List<AccountEntity>): Either<String, Unit> {
         return withContext(Dispatchers.IO) {
             dao.saveMany(values)
             Either.Right(Unit)

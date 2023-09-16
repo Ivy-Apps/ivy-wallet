@@ -6,6 +6,7 @@ import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Loan
 import com.ivy.core.data.model.LoanRecord
 import com.ivy.core.data.model.Transaction
+import com.ivy.legacy.domain.deprecated.logic.loantrasactions.LoanTransactionsCore
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanData
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.scopedIOThread

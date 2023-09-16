@@ -1,25 +1,27 @@
-package com.ivy.wallet.domain.deprecated.logic.csv
+package com.ivy.legacy.domain.deprecated.logic.csv
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
-import com.ivy.design.l0_system.Green
-import com.ivy.design.l0_system.IvyDark
-import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.db.read.AccountDao
+import com.ivy.core.data.db.read.CategoryDao
+import com.ivy.core.data.db.read.SettingsDao
+import com.ivy.core.data.db.write.AccountWriter
+import com.ivy.core.data.db.write.CategoryWriter
+import com.ivy.core.data.db.write.TransactionWriter
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Category
 import com.ivy.core.data.model.Transaction
+import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
+import com.ivy.design.l0_system.Green
+import com.ivy.design.l0_system.IvyDark
+import com.ivy.legacy.utils.convertLocalToUTC
+import com.ivy.legacy.utils.timeNowUTC
+import com.ivy.legacy.utils.toLowerCaseLocal
+import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.deprecated.logic.csv.model.CSVRow
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import com.ivy.wallet.domain.deprecated.logic.csv.model.RowMapping
 import com.ivy.wallet.domain.pure.util.nextOrderNum
-import com.ivy.core.data.db.read.AccountDao
-import com.ivy.core.data.db.read.CategoryDao
-import com.ivy.core.data.db.read.SettingsDao
-import com.ivy.core.data.db.read.TransactionDao
-import com.ivy.legacy.utils.convertLocalToUTC
-import com.ivy.legacy.utils.timeNowUTC
-import com.ivy.legacy.utils.toLowerCaseLocal
 import com.opencsv.CSVReaderBuilder
 import com.opencsv.validators.LineValidator
 import com.opencsv.validators.RowValidator
@@ -37,7 +39,9 @@ class CSVImporter @Inject constructor(
     private val settingsDao: SettingsDao,
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
-    private val transactionDao: TransactionDao
+    private val transactionWriter: TransactionWriter,
+    private val accountWriter: AccountWriter,
+    private val categoryWriter: CategoryWriter,
 ) {
 
     lateinit var accounts: List<Account>
@@ -128,7 +132,7 @@ class CSVImporter @Inject constructor(
                 0.0
             }
             onProgress(0.5 + progressPercent / 2)
-            transactionDao.save(transaction.toEntity())
+            transactionWriter.save(transaction.toEntity())
         }
 
         return ImportResult(
@@ -435,9 +439,11 @@ class CSVImporter @Inject constructor(
             accountNameString.toLowerCaseLocal().contains("cash") -> {
                 Green
             }
+
             accountNameString.toLowerCaseLocal().contains("revolut") -> {
                 IvyDark
             }
+
             else -> IVY_COLOR_PICKER_COLORS_FREE.getOrElse(newAccountColorIndex++) {
                 newAccountColorIndex = 0
                 IVY_COLOR_PICKER_COLORS_FREE.first()
@@ -454,7 +460,7 @@ class CSVImporter @Inject constructor(
             icon = icon,
             orderNum = orderNum ?: accountDao.findMaxOrderNum().nextOrderNum()
         )
-        accountDao.save(newAccount.toEntity())
+        accountWriter.save(newAccount.toEntity())
         accounts = accountDao.findAll().map { it.toDomain() }
 
         return newAccount
@@ -502,7 +508,7 @@ class CSVImporter @Inject constructor(
             icon = icon,
             orderNum = orderNum ?: categoryDao.findMaxOrderNum().nextOrderNum()
         )
-        categoryDao.save(newCategory.toEntity())
+        categoryWriter.save(newCategory.toEntity())
         categories = categoryDao.findAll().map { it.toDomain() }
 
         return newCategory

@@ -1,9 +1,10 @@
-package com.ivy.wallet.domain.action.exchange
+package com.ivy.legacy.domain.action.exchange
 
 import androidx.annotation.Keep
 import com.ivy.core.data.db.entity.ExchangeRateEntity
-import com.ivy.frp.action.Action
 import com.ivy.core.data.db.read.ExchangeRatesDao
+import com.ivy.core.data.db.write.ExchangeRatesWriter
+import com.ivy.frp.action.Action
 import dagger.Lazy
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -14,6 +15,7 @@ import javax.inject.Inject
 
 class SyncExchangeRatesAct @Inject constructor(
     private val exchangeRatesDao: ExchangeRatesDao,
+    private val exchangeRatesWriter: ExchangeRatesWriter,
     private val ktorClient: Lazy<HttpClient>,
 ) : Action<SyncExchangeRatesAct.Input, Unit>() {
     data class Input(
@@ -73,7 +75,7 @@ class SyncExchangeRatesAct @Inject constructor(
             }
         }.toList()
         Timber.d("Updating exchange rates: $rateEntities")
-        rateEntities.forEach { newRate ->
+        rateEntities.map { newRate ->
             val manualOverride = exchangeRatesDao.findByBaseCurrencyAndCurrency(
                 baseCurrency = newRate.baseCurrency,
                 currency = newRate.currency
@@ -81,7 +83,7 @@ class SyncExchangeRatesAct @Inject constructor(
 
             if (!manualOverride && newRate.rate > 0.0) {
                 // save only the once that aren't overridden
-                exchangeRatesDao.save(newRate)
+                exchangeRatesWriter.save(newRate)
             }
         }
     }

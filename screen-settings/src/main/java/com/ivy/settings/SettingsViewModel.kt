@@ -19,13 +19,13 @@ import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.sendToCrashlytics
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.uiThread
-import com.ivy.wallet.domain.action.exchange.SyncExchangeRatesAct
+import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.action.global.UpdateStartDayOfMonthAct
 import com.ivy.wallet.domain.action.settings.SettingsAct
-import com.ivy.wallet.domain.action.settings.UpdateSettingsAct
+import com.ivy.legacy.domain.action.settings.UpdateSettingsAct
 import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
-import com.ivy.wallet.domain.deprecated.logic.zip.BackupLogic
+import com.ivy.legacy.domain.deprecated.logic.zip.BackupLogic
 import com.ivy.widget.balance.WalletBalanceWidgetReceiver
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

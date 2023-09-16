@@ -3,13 +3,14 @@ package com.ivy.wallet.domain.deprecated.logic
 import com.ivy.core.data.model.LoanRecord
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
 import com.ivy.core.data.db.read.LoanRecordDao
+import com.ivy.core.data.db.write.LoanRecordWriter
 import com.ivy.legacy.utils.ioThread
 import java.util.UUID
 import javax.inject.Inject
 
 @Deprecated("Use FP style, look into `domain.fp` package")
 class LoanRecordCreator @Inject constructor(
-    private val dao: LoanRecordDao,
+    private val loanRecordWriter: LoanRecordWriter,
 ) {
     suspend fun create(
         loanId: UUID,
@@ -33,7 +34,7 @@ class LoanRecordCreator @Inject constructor(
                     convertedAmount = data.convertedAmount
                 )
 
-                dao.save(item.toEntity())
+                loanRecordWriter.save(item.toEntity())
                 item
             }
 
@@ -53,7 +54,7 @@ class LoanRecordCreator @Inject constructor(
 
         try {
             ioThread {
-                dao.save(
+                loanRecordWriter.save(
                     updatedItem.toEntity().copy(
                         isSynced = false
                     )
@@ -72,7 +73,7 @@ class LoanRecordCreator @Inject constructor(
     ) {
         try {
             ioThread {
-                dao.flagDeleted(item.id)
+                loanRecordWriter.flagDeleted(item.id)
             }
 
             onRefreshUI()
