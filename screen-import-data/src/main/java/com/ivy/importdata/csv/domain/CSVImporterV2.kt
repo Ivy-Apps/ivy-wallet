@@ -2,6 +2,12 @@ package com.ivy.importdata.csv.domain
 
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.db.read.AccountDao
+import com.ivy.core.data.db.read.CategoryDao
+import com.ivy.core.data.db.read.SettingsDao
+import com.ivy.core.data.db.write.AccountWriter
+import com.ivy.core.data.db.write.CategoryWriter
+import com.ivy.core.data.db.write.TransactionWriter
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Category
 import com.ivy.core.data.model.Transaction
@@ -14,10 +20,6 @@ import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.deprecated.logic.csv.model.CSVRow
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import com.ivy.wallet.domain.pure.util.nextOrderNum
-import com.ivy.core.data.db.read.AccountDao
-import com.ivy.core.data.db.read.CategoryDao
-import com.ivy.core.data.db.read.SettingsDao
-import com.ivy.core.data.db.read.TransactionDao
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.IvyDark
 import kotlinx.collections.immutable.toImmutableList
@@ -28,9 +30,11 @@ import com.ivy.importdata.csv.CSVRow as CSVRowNew
 
 class CSVImporterV2 @Inject constructor(
     private val settingsDao: SettingsDao,
+    private val transactionWriter: TransactionWriter,
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
-    private val transactionDao: TransactionDao
+    private val accountWriter: AccountWriter,
+    private val categoryWriter: CategoryWriter,
 ) {
 
     lateinit var accounts: List<Account>
@@ -96,7 +100,7 @@ class CSVImporterV2 @Inject constructor(
                 0.0
             }
             onProgress(0.5 + progressPercent / 2)
-            transactionDao.save(transaction.toEntity())
+            transactionWriter.save(transaction.toEntity())
         }
 
         return ImportResult(
@@ -265,7 +269,7 @@ class CSVImporterV2 @Inject constructor(
             icon = icon,
             orderNum = orderNum ?: accountDao.findMaxOrderNum().nextOrderNum()
         )
-        accountDao.save(newAccount.toEntity())
+        accountWriter.save(newAccount.toEntity())
         accounts = accountDao.findAll().map { it.toDomain() }
 
         return newAccount
@@ -313,7 +317,7 @@ class CSVImporterV2 @Inject constructor(
             icon = icon,
             orderNum = orderNum ?: categoryDao.findMaxOrderNum().nextOrderNum()
         )
-        categoryDao.save(newCategory.toEntity())
+        categoryWriter.save(newCategory.toEntity())
         categories = categoryDao.findAll().map { it.toDomain() }
 
         return newCategory
