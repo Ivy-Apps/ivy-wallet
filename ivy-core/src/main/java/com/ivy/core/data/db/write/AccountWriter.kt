@@ -5,6 +5,7 @@ import com.ivy.core.data.db.entity.AccountEntity
 import com.ivy.core.data.db.write.dao.WriteAccountDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.UUID
 import javax.inject.Inject
 
 class AccountWriter @Inject constructor(
@@ -21,6 +22,12 @@ class AccountWriter @Inject constructor(
         return withContext(Dispatchers.IO) {
             dao.saveMany(values)
             Either.Right(Unit)
+        }
+    }
+
+    suspend fun flagDeleted(id: UUID) {
+        withContext(Dispatchers.IO) {
+            dao.flagDeleted(id)
         }
     }
 }

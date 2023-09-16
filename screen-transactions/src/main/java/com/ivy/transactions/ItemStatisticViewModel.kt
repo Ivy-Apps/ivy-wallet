@@ -9,6 +9,10 @@ import com.ivy.core.data.db.read.CategoryDao
 import com.ivy.core.data.db.read.PlannedPaymentRuleDao
 import com.ivy.core.data.db.read.TransactionDao
 import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.db.write.AccountWriter
+import com.ivy.core.data.db.write.CategoryWriter
+import com.ivy.core.data.db.write.PlannedPaymentRuleWriter
+import com.ivy.core.data.db.write.TransactionWriter
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Category
 import com.ivy.core.data.model.Transaction
@@ -75,7 +79,11 @@ class ItemStatisticViewModel @Inject constructor(
     private val calcAccBalanceAct: CalcAccBalanceAct,
     private val calcAccIncomeExpenseAct: CalcAccIncomeExpenseAct,
     private val calcTrnsIncomeExpenseAct: CalcTrnsIncomeExpenseAct,
-    private val exchangeAct: ExchangeAct
+    private val exchangeAct: ExchangeAct,
+    private val transactionWriter: TransactionWriter,
+    private val categoryWriter: CategoryWriter,
+    private val accountWriter: AccountWriter,
+    private val plannedPaymentRuleWriter: PlannedPaymentRuleWriter,
 ) : ViewModel() {
 
     private val _period = MutableStateFlow(ivyContext.selectedPeriod!!)
@@ -582,9 +590,9 @@ class ItemStatisticViewModel @Inject constructor(
 
     private suspend fun deleteAccount(accountId: UUID) {
         ioThread {
-            transactionDao.flagDeletedByAccountId(accountId = accountId)
-            plannedPaymentRuleDao.flagDeletedByAccountId(accountId = accountId)
-            accountDao.flagDeleted(accountId)
+            transactionWriter.flagDeletedByAccountId(accountId = accountId)
+            plannedPaymentRuleWriter.flagDeletedByAccountId(accountId = accountId)
+            accountWriter.flagDeleted(accountId)
 
             nav.back()
         }
@@ -592,7 +600,7 @@ class ItemStatisticViewModel @Inject constructor(
 
     private suspend fun deleteCategory(categoryId: UUID) {
         ioThread {
-            categoryDao.flagDeleted(categoryId)
+            categoryWriter.flagDeleted(categoryId)
 
             nav.back()
         }

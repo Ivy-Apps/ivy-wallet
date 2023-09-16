@@ -6,6 +6,7 @@ import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.core.data.db.read.ExchangeRatesDao
 import com.ivy.core.data.db.entity.ExchangeRateEntity
+import com.ivy.core.data.db.write.ExchangeRatesWriter
 import com.ivy.exchangerates.data.RateUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
@@ -20,7 +21,8 @@ import javax.inject.Inject
 class ExchangeRatesViewModel @Inject constructor(
     private val exchangeRatesDao: ExchangeRatesDao,
     private val baseCurrencyAct: BaseCurrencyAct,
-    private val syncExchangeRatesAct: SyncExchangeRatesAct
+    private val syncExchangeRatesAct: SyncExchangeRatesAct,
+    private val exchangeRatesWriter: ExchangeRatesWriter,
 ) : ViewModel() {
     private val searchQuery = MutableStateFlow("")
 
@@ -75,7 +77,7 @@ class ExchangeRatesViewModel @Inject constructor(
 
     private suspend fun handleRemoveOverride(event: RatesEvent.RemoveOverride) {
         withContext(Dispatchers.IO) {
-            exchangeRatesDao.deleteByBaseCurrencyAndCurrency(
+            exchangeRatesWriter.deleteByBaseCurrencyAndCurrency(
                 baseCurrency = event.rate.from,
                 currency = event.rate.to
             )
@@ -90,7 +92,7 @@ class ExchangeRatesViewModel @Inject constructor(
     private suspend fun handleUpdateRate(event: RatesEvent.UpdateRate) {
         withContext(Dispatchers.IO) {
             if (event.newRate > 0.0) {
-                exchangeRatesDao.save(
+                exchangeRatesWriter.save(
                     ExchangeRateEntity(
                         baseCurrency = event.rate.from,
                         currency = event.rate.to,
@@ -105,7 +107,7 @@ class ExchangeRatesViewModel @Inject constructor(
     private suspend fun handleAddRate(event: RatesEvent.AddRate) {
         withContext(Dispatchers.IO) {
             if (event.rate.rate > 0.0) {
-                exchangeRatesDao.save(
+                exchangeRatesWriter.save(
                     ExchangeRateEntity(
                         baseCurrency = event.rate.from.uppercase().trim(),
                         currency = event.rate.to.uppercase().trim(),

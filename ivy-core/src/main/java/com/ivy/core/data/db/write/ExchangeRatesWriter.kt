@@ -23,4 +23,13 @@ class ExchangeRatesWriter @Inject constructor(
             Either.Right(Unit)
         }
     }
+
+    suspend fun deleteByBaseCurrencyAndCurrency(
+        baseCurrency: String,
+        currency: String,
+    ) {
+        withContext(Dispatchers.IO) {
+            dao.deleteByBaseCurrencyAndCurrency(baseCurrency, currency)
+        }
+    }
 }

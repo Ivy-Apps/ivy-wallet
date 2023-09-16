@@ -36,4 +36,10 @@ class TransactionWriter @Inject constructor(
             dao.flagDeleted(id)
         }
     }
+
+    suspend fun flagDeletedByAccountId(accountId: UUID) {
+        withContext(Dispatchers.IO) {
+            dao.flagDeletedByAccountId(accountId)
+        }
+    }
 }

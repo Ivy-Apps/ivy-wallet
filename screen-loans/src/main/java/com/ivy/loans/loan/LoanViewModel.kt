@@ -5,19 +5,20 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.core.data.db.read.LoanDao
 import com.ivy.core.data.db.read.LoanRecordDao
 import com.ivy.core.data.db.read.SettingsDao
+import com.ivy.core.data.db.write.LoanWriter
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Loan
 import com.ivy.core.event.AccountUpdatedEvent
 import com.ivy.core.event.EventBus
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.data.SharedPrefs
+import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.getDefaultFIATCurrency
 import com.ivy.legacy.utils.ioThread
 import com.ivy.loans.loan.data.DisplayLoan
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.loan.LoansAct
-import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.deprecated.logic.LoanCreator
 import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LoanTransactionsLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
@@ -47,6 +48,7 @@ class LoanViewModel @Inject constructor(
     private val loansAct: LoansAct,
     private val accountsAct: AccountsAct,
     private val eventBus: EventBus,
+    private val loanWriter: LoanWriter,
 ) : ViewModel() {
 
     private val _baseCurrencyCode = MutableStateFlow(getDefaultFIATCurrency().currencyCode)
@@ -145,7 +147,7 @@ class LoanViewModel @Inject constructor(
 
             ioThread {
                 newOrder.forEachIndexed { index, item ->
-                    loanDao.save(
+                    loanWriter.save(
                         item.loan.toEntity().copy(
                             orderNum = index.toDouble(),
                             isSynced = false

@@ -5,6 +5,7 @@ import com.ivy.core.data.db.entity.CategoryEntity
 import com.ivy.core.data.db.write.dao.WriteCategoryDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.UUID
 import javax.inject.Inject
 
 class CategoryWriter @Inject constructor(
@@ -21,6 +22,12 @@ class CategoryWriter @Inject constructor(
         return withContext(Dispatchers.IO) {
             dao.saveMany(values)
             Either.Right(Unit)
+        }
+    }
+
+    suspend fun flagDeleted(id: UUID) {
+        withContext(Dispatchers.IO) {
+            dao.flagDeleted(id)
         }
     }
 }

@@ -3,10 +3,11 @@ package com.ivy.transaction
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.db.read.LoanDao
 import com.ivy.core.data.db.read.SettingsDao
 import com.ivy.core.data.db.read.TransactionDao
-import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.db.write.TransactionWriter
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Category
 import com.ivy.core.data.model.Transaction
@@ -16,6 +17,7 @@ import com.ivy.core.util.refreshWidget
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.data.EditTransactionDisplayLoan
 import com.ivy.legacy.data.SharedPrefs
+import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.readOnly
@@ -30,7 +32,6 @@ import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.category.CategoryByIdAct
 import com.ivy.wallet.domain.action.transaction.TrnByIdAct
 import com.ivy.wallet.domain.data.CustomExchangeRateState
-import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.deprecated.logic.SmartTitleSuggestionsLogic
@@ -69,6 +70,7 @@ class EditTransactionViewModel @Inject constructor(
     private val categoryByIdAct: CategoryByIdAct,
     private val accountByIdAct: AccountByIdAct,
     private val eventBus: EventBus,
+    private val transactionWriter: TransactionWriter,
 ) : ViewModel() {
 
     private val _transactionType = MutableLiveData<TransactionType>()
@@ -421,7 +423,7 @@ class EditTransactionViewModel @Inject constructor(
 
             ioThread {
                 loadedTransaction?.let {
-                    transactionDao.flagDeleted(it.id)
+                    transactionWriter.flagDeleted(it.id)
                 }
                 closeScreen()
             }
@@ -535,7 +537,7 @@ class EditTransactionViewModel @Inject constructor(
                     accountsChanged = false
                 }
 
-                transactionDao.save(loadedTransaction().toEntity())
+                transactionWriter.save(loadedTransaction().toEntity())
                 refreshWidget(WalletBalanceWidgetReceiver::class.java)
             }
 

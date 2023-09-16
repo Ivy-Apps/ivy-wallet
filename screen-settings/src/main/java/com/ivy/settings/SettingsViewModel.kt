@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.core.RootScreen
 import com.ivy.core.data.db.read.SettingsDao
+import com.ivy.core.data.db.write.SettingsWriter
 import com.ivy.core.util.refreshWidget
 import com.ivy.design.l0_system.Theme
 import com.ivy.frp.monad.Res
@@ -13,19 +14,19 @@ import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.LogoutLogic
 import com.ivy.legacy.data.SharedPrefs
+import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
+import com.ivy.legacy.domain.action.settings.UpdateSettingsAct
+import com.ivy.legacy.domain.deprecated.logic.zip.BackupLogic
 import com.ivy.legacy.utils.asLiveData
 import com.ivy.legacy.utils.formatNicelyWithTime
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.sendToCrashlytics
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.uiThread
-import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.action.global.UpdateStartDayOfMonthAct
 import com.ivy.wallet.domain.action.settings.SettingsAct
-import com.ivy.legacy.domain.action.settings.UpdateSettingsAct
 import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
-import com.ivy.legacy.domain.deprecated.logic.zip.BackupLogic
 import com.ivy.widget.balance.WalletBalanceWidgetReceiver
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -48,6 +49,7 @@ class SettingsViewModel @Inject constructor(
     private val syncExchangeRatesAct: SyncExchangeRatesAct,
     private val settingsAct: SettingsAct,
     private val updateSettingsAct: UpdateSettingsAct,
+    private val settingsWriter: SettingsWriter,
 ) : ViewModel() {
 
     private val _nameLocalAccount = MutableLiveData<String?>()
@@ -111,7 +113,7 @@ class SettingsViewModel @Inject constructor(
             TestIdlingResource.increment()
 
             ioThread {
-                settingsDao.save(
+                settingsWriter.save(
                     settingsDao.findFirst().copy(
                         name = newName
                     )
@@ -128,7 +130,7 @@ class SettingsViewModel @Inject constructor(
             TestIdlingResource.increment()
 
             ioThread {
-                settingsDao.save(
+                settingsWriter.save(
                     settingsDao.findFirst().copy(
                         currency = newCurrency
                     )

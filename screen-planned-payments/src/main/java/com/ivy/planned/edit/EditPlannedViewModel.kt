@@ -3,12 +3,14 @@ package com.ivy.planned.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.db.read.AccountDao
 import com.ivy.core.data.db.read.CategoryDao
 import com.ivy.core.data.db.read.PlannedPaymentRuleDao
 import com.ivy.core.data.db.read.SettingsDao
 import com.ivy.core.data.db.read.TransactionDao
-import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.db.write.PlannedPaymentRuleWriter
+import com.ivy.core.data.db.write.TransactionWriter
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Category
 import com.ivy.core.data.model.IntervalType
@@ -16,13 +18,13 @@ import com.ivy.core.data.model.PlannedPaymentRule
 import com.ivy.core.event.AccountUpdatedEvent
 import com.ivy.core.event.EventBus
 import com.ivy.frp.test.TestIdlingResource
+import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.asLiveData
 import com.ivy.legacy.utils.ioThread
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.Navigation
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
-import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsGenerator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
@@ -46,6 +48,8 @@ class EditPlannedViewModel @Inject constructor(
     private val accountsAct: AccountsAct,
     private val categoriesAct: CategoriesAct,
     private val eventBus: EventBus,
+    private val plannedPaymentRuleWriter: PlannedPaymentRuleWriter,
+    private val transactionWriter: TransactionWriter,
 ) : ViewModel() {
 
     private val _transactionType = MutableLiveData<TransactionType>()
@@ -264,7 +268,7 @@ class EditPlannedViewModel @Inject constructor(
                         isSynced = false
                     )
 
-                    plannedPaymentRuleDao.save(loadedRule().toEntity())
+                    plannedPaymentRuleWriter.save(loadedRule().toEntity())
                     plannedPaymentsGenerator.generate(loadedRule())
                 }
 
@@ -306,8 +310,8 @@ class EditPlannedViewModel @Inject constructor(
         viewModelScope.launch {
             ioThread {
                 loadedRule?.let {
-                    plannedPaymentRuleDao.flagDeleted(it.id)
-                    transactionDao.flagDeletedByRecurringRuleIdAndNoDateTime(
+                    plannedPaymentRuleWriter.flagDeleted(it.id)
+                    transactionWriter.flagDeletedByRecurringRuleIdAndNoDateTime(
                         recurringRuleId = it.id
                     )
                 }

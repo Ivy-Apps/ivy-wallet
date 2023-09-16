@@ -30,4 +30,10 @@ class PlannedPaymentRuleWriter @Inject constructor(
             dao.flagDeleted(id)
         }
     }
+
+    suspend fun flagDeletedByAccountId(accountId: UUID) {
+        withContext(Dispatchers.IO) {
+            dao.flagDeletedByAccountId(accountId)
+        }
+    }
 }
