@@ -50,6 +50,7 @@ ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 
 # Arrow + Kotest
 arrowkt-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
+arrow-exact = { module = "io.arrow-kt:arrow-exact-jvm", version = "0.1.0" }
 kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
@@ -132,7 +133,8 @@ kotlin-test = [
     "kotlin-coroutines-test"
 ]
 arrow = [
-    "arrowkt-core"
+    "arrowkt-core",
+    "arrow-exact"
 ]
 ktor = [
     "kotlinx-serialization-json",
