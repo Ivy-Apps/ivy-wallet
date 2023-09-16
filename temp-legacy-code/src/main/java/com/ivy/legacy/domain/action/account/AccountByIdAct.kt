@@ -1,10 +1,10 @@
 package com.ivy.wallet.domain.action.account
 
+import com.ivy.core.data.db.read.AccountDao
+import com.ivy.core.data.model.Account
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.db.dao.AccountDao
-import java.util.*
+import java.util.UUID
 import javax.inject.Inject
 
 class AccountByIdAct @Inject constructor(

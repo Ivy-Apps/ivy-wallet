@@ -1,13 +1,17 @@
-package com.ivy.wallet.domain.deprecated.logic.loantrasactions
+package com.ivy.legacy.domain.deprecated.logic.loantrasactions
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.core.data.db.dao.AccountDao
-import com.ivy.core.data.db.dao.CategoryDao
-import com.ivy.core.data.db.dao.LoanDao
-import com.ivy.core.data.db.dao.LoanRecordDao
-import com.ivy.core.data.db.dao.SettingsDao
-import com.ivy.core.data.db.dao.TransactionDao
 import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.db.read.AccountDao
+import com.ivy.core.data.db.read.CategoryDao
+import com.ivy.core.data.db.read.LoanDao
+import com.ivy.core.data.db.read.LoanRecordDao
+import com.ivy.core.data.db.read.SettingsDao
+import com.ivy.core.data.db.read.TransactionDao
+import com.ivy.core.data.db.write.CategoryWriter
+import com.ivy.core.data.db.write.LoanRecordWriter
+import com.ivy.core.data.db.write.LoanWriter
+import com.ivy.core.data.db.write.TransactionWriter
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Category
 import com.ivy.core.data.model.Loan
@@ -38,7 +42,11 @@ class LoanTransactionsCore @Inject constructor(
     private val loanDao: LoanDao,
     private val settingsDao: SettingsDao,
     private val accountsDao: AccountDao,
-    private val exchangeRatesLogic: ExchangeRatesLogic
+    private val exchangeRatesLogic: ExchangeRatesLogic,
+    private val transactionWriter: TransactionWriter,
+    private val categoryWriter: CategoryWriter,
+    private val loanRecordWriter: LoanRecordWriter,
+    private val loanWriter: LoanWriter,
 ) {
     private var baseCurrencyCode: String? = null
 
@@ -177,14 +185,14 @@ class LoanTransactionsCore @Inject constructor(
             )
 
         ioThread {
-            transactionDao.save(modifiedTransaction.toEntity())
+            transactionWriter.save(modifiedTransaction.toEntity())
         }
     }
 
     private suspend fun deleteTransaction(transaction: Transaction?) {
         ioThread {
             transaction?.let {
-                transactionDao.flagDeleted(it.id)
+                transactionWriter.flagDeleted(it.id)
             }
         }
     }
@@ -216,7 +224,7 @@ class LoanTransactionsCore @Inject constructor(
         if (addCategoryToDb) {
             ioThread {
                 loanCategory?.let {
-                    categoryDao.save(it.toEntity())
+                    categoryWriter.save(it.toEntity())
                 }
             }
         }
@@ -283,15 +291,15 @@ class LoanTransactionsCore @Inject constructor(
     }
 
     suspend fun saveLoanRecords(loanRecords: List<LoanRecord>) = ioThread {
-        loanRecordDao.save(loanRecords.map { it.toEntity() })
+        loanRecordWriter.saveMany(loanRecords.map { it.toEntity() })
     }
 
     suspend fun saveLoanRecords(loanRecord: LoanRecord) = ioThread {
-        loanRecordDao.save(loanRecord.toEntity())
+        loanRecordWriter.save(loanRecord.toEntity())
     }
 
     suspend fun saveLoan(loan: Loan) = ioThread {
-        loanDao.save(loan.toEntity())
+        loanWriter.save(loan.toEntity())
     }
 
     suspend fun fetchLoanRecord(loanRecordId: UUID) = ioThread {

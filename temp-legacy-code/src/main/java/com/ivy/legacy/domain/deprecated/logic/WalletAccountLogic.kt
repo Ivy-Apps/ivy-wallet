@@ -1,11 +1,12 @@
 package com.ivy.wallet.domain.deprecated.logic
 
-import com.ivy.legacy.data.model.filterOverdue
-import com.ivy.legacy.data.model.filterUpcoming
 import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.db.read.TransactionDao
+import com.ivy.core.data.db.write.TransactionWriter
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Transaction
-import com.ivy.core.data.db.dao.TransactionDao
+import com.ivy.legacy.data.model.filterOverdue
+import com.ivy.legacy.data.model.filterUpcoming
 import com.ivy.legacy.utils.timeNowUTC
 import java.time.LocalDateTime
 import javax.inject.Inject
@@ -15,6 +16,7 @@ import kotlin.math.absoluteValue
 @Deprecated("Migrate to FP Style")
 class WalletAccountLogic @Inject constructor(
     private val transactionDao: TransactionDao,
+    private val transactionWriter: TransactionWriter,
 ) {
 
     suspend fun adjustBalance(
@@ -34,7 +36,7 @@ class WalletAccountLogic @Inject constructor(
         when {
             finalDiff < 0 -> {
                 // add income
-                transactionDao.save(
+                transactionWriter.save(
                     Transaction(
                         type = TransactionType.INCOME,
                         title = adjustTransactionTitle,
@@ -49,7 +51,7 @@ class WalletAccountLogic @Inject constructor(
 
             finalDiff > 0 -> {
                 // add expense
-                transactionDao.save(
+                transactionWriter.save(
                     Transaction(
                         type = TransactionType.EXPENSE,
                         title = adjustTransactionTitle,

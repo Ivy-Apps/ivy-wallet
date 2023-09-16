@@ -1,17 +1,17 @@
 package com.ivy.wallet.domain.deprecated.logic
 
-import com.ivy.legacy.data.model.filterOverdue
-import com.ivy.legacy.data.model.filterUpcoming
-import com.ivy.core.data.model.TransactionHistoryItem
 import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.db.read.AccountDao
+import com.ivy.core.data.db.read.SettingsDao
+import com.ivy.core.data.db.read.TransactionDao
 import com.ivy.core.data.model.Category
 import com.ivy.core.data.model.Transaction
+import com.ivy.core.data.model.TransactionHistoryItem
+import com.ivy.legacy.data.model.filterOverdue
+import com.ivy.legacy.data.model.filterUpcoming
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.sumInBaseCurrency
 import com.ivy.wallet.domain.pure.transaction.withDateDividers
-import com.ivy.core.data.db.dao.AccountDao
-import com.ivy.core.data.db.dao.SettingsDao
-import com.ivy.core.data.db.dao.TransactionDao
 import java.util.*
 import javax.inject.Inject
 

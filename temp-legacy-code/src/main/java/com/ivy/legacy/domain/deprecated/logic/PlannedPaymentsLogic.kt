@@ -1,18 +1,20 @@
 package com.ivy.wallet.domain.deprecated.logic
 
-import com.ivy.core.data.model.IntervalType
 import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.db.read.AccountDao
+import com.ivy.core.data.db.read.PlannedPaymentRuleDao
+import com.ivy.core.data.db.read.SettingsDao
+import com.ivy.core.data.db.read.TransactionDao
+import com.ivy.core.data.db.write.PlannedPaymentRuleWriter
+import com.ivy.core.data.db.write.TransactionWriter
 import com.ivy.core.data.model.Account
+import com.ivy.core.data.model.IntervalType
 import com.ivy.core.data.model.PlannedPaymentRule
 import com.ivy.core.data.model.Transaction
-import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
-import com.ivy.wallet.domain.deprecated.logic.currency.sumByDoublePlannedInBaseCurrency
-import com.ivy.core.data.db.dao.AccountDao
-import com.ivy.core.data.db.dao.PlannedPaymentRuleDao
-import com.ivy.core.data.db.dao.SettingsDao
-import com.ivy.core.data.db.dao.TransactionDao
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeNowUTC
+import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
+import com.ivy.wallet.domain.deprecated.logic.currency.sumByDoublePlannedInBaseCurrency
 import javax.inject.Inject
 
 @Deprecated("Migrate to FP Style")
@@ -22,6 +24,8 @@ class PlannedPaymentsLogic @Inject constructor(
     private val settingsDao: SettingsDao,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val accountDao: AccountDao,
+    private val transactionWriter: TransactionWriter,
+    private val plannedPaymentRuleWriter: PlannedPaymentRuleWriter,
 ) {
     companion object {
         private const val AVG_DAYS_IN_MONTH = 30.436875
@@ -167,15 +171,16 @@ class PlannedPaymentsLogic @Inject constructor(
         }
 
         ioThread {
-            if (skipTransaction)
-                transactionDao.flagDeleted(paidTransaction.id)
-            else
-                transactionDao.save(paidTransaction.toEntity())
+            if (skipTransaction) {
+                transactionWriter.flagDeleted(paidTransaction.id)
+            } else {
+                transactionWriter.save(paidTransaction.toEntity())
+            }
 
 
             if (plannedPaymentRule != null && plannedPaymentRule.oneTime) {
                 //delete paid oneTime planned payment rules
-                plannedPaymentRuleDao.flagDeleted(plannedPaymentRule.id)
+                plannedPaymentRuleWriter.flagDeleted(plannedPaymentRule.id)
             }
         }
 
@@ -210,19 +215,20 @@ class PlannedPaymentsLogic @Inject constructor(
         }
 
         ioThread {
-            if (skipTransaction)
+            if (skipTransaction) {
                 paidTransactions.forEach { paidTransaction ->
-                    transactionDao.flagDeleted(paidTransaction.id)
+                    transactionWriter.flagDeleted(paidTransaction.id)
                 }
-            else
+            } else {
                 paidTransactions.forEach { paidTransaction ->
-                    transactionDao.save(paidTransaction.toEntity())
+                    transactionWriter.save(paidTransaction.toEntity())
                 }
+            }
 
             plannedPaymentRules.forEach { plannedPaymentRule ->
                 if (plannedPaymentRule != null && plannedPaymentRule.oneTime) {
                     //delete paid oneTime planned payment rules
-                    plannedPaymentRuleDao.flagDeleted(plannedPaymentRule.id)
+                    plannedPaymentRuleWriter.flagDeleted(plannedPaymentRule.id)
                 }
             }
         }

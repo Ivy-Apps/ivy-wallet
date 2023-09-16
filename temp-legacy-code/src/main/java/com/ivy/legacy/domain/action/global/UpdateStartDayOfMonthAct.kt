@@ -3,8 +3,8 @@ package com.ivy.wallet.domain.action.global
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.monad.Res
 import com.ivy.frp.monad.thenIfSuccess
-import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.IvyWalletCtx
+import com.ivy.legacy.data.SharedPrefs
 import javax.inject.Inject
 
 class UpdateStartDayOfMonthAct @Inject constructor(

@@ -1,12 +1,12 @@
 package com.ivy.wallet.domain.action.transaction
 
 import arrow.core.nonEmptyListOf
+import com.ivy.core.data.model.Account
+import com.ivy.core.data.model.Transaction
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.wallet.domain.action.exchange.ExchangeAct
 import com.ivy.wallet.domain.action.exchange.actInput
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.Transaction
 import com.ivy.wallet.domain.pure.data.IncomeExpenseTransferPair
 import com.ivy.wallet.domain.pure.transaction.WalletValueFunctions
 import com.ivy.wallet.domain.pure.transaction.foldTransactionsSuspend

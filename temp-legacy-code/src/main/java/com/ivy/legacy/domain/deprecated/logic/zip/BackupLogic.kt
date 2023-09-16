@@ -1,18 +1,26 @@
-package com.ivy.wallet.domain.deprecated.logic.zip
+package com.ivy.legacy.domain.deprecated.logic.zip
 
 import android.content.Context
 import android.net.Uri
 import androidx.core.net.toUri
 import com.google.gson.*
 import com.google.gson.reflect.TypeToken
-import com.ivy.core.data.db.dao.AccountDao
-import com.ivy.core.data.db.dao.BudgetDao
-import com.ivy.core.data.db.dao.CategoryDao
-import com.ivy.core.data.db.dao.LoanDao
-import com.ivy.core.data.db.dao.LoanRecordDao
-import com.ivy.core.data.db.dao.PlannedPaymentRuleDao
-import com.ivy.core.data.db.dao.SettingsDao
-import com.ivy.core.data.db.dao.TransactionDao
+import com.ivy.core.data.db.read.AccountDao
+import com.ivy.core.data.db.read.BudgetDao
+import com.ivy.core.data.db.read.CategoryDao
+import com.ivy.core.data.db.read.LoanDao
+import com.ivy.core.data.db.read.LoanRecordDao
+import com.ivy.core.data.db.read.PlannedPaymentRuleDao
+import com.ivy.core.data.db.read.SettingsDao
+import com.ivy.core.data.db.read.TransactionDao
+import com.ivy.core.data.db.write.AccountWriter
+import com.ivy.core.data.db.write.BudgetWriter
+import com.ivy.core.data.db.write.CategoryWriter
+import com.ivy.core.data.db.write.LoanRecordWriter
+import com.ivy.core.data.db.write.LoanWriter
+import com.ivy.core.data.db.write.PlannedPaymentRuleWriter
+import com.ivy.core.data.db.write.SettingsWriter
+import com.ivy.core.data.db.write.TransactionWriter
 import com.ivy.core.util.toEpochMilli
 import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.utils.ioThread
@@ -20,6 +28,8 @@ import com.ivy.legacy.utils.readFile
 import com.ivy.legacy.utils.scopedIOThread
 import com.ivy.wallet.domain.data.IvyWalletCompleteData
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
+import com.ivy.wallet.domain.deprecated.logic.zip.unzip
+import com.ivy.wallet.domain.deprecated.logic.zip.zip
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.async
@@ -42,6 +52,14 @@ class BackupLogic @Inject constructor(
     private val settingsDao: SettingsDao,
     private val transactionDao: TransactionDao,
     private val sharedPrefs: SharedPrefs,
+    private val accountWriter: AccountWriter,
+    private val categoryWriter: CategoryWriter,
+    private val transactionWriter: TransactionWriter,
+    private val settingsWriter: SettingsWriter,
+    private val budgetWriter: BudgetWriter,
+    private val loanWriter: LoanWriter,
+    private val loanRecordWriter: LoanRecordWriter,
+    private val plannedPaymentRuleWriter: PlannedPaymentRuleWriter,
     @ApplicationContext
     private val context: Context,
 ) {
@@ -239,22 +257,22 @@ class BackupLogic @Inject constructor(
         onProgress: suspend (progressPercent: Double) -> Unit = {}
     ) {
         scopedIOThread {
-            transactionDao.save(completeData.transactions)
+            transactionWriter.saveMany(completeData.transactions)
             onProgress(0.6)
 
-            val accounts = it.async { accountDao.save(completeData.accounts) }
-            val budgets = it.async { budgetDao.save(completeData.budgets) }
+            val accounts = it.async { accountWriter.saveMany(completeData.accounts) }
+            val budgets = it.async { budgetWriter.saveMany(completeData.budgets) }
             val categories =
-                it.async { categoryDao.save(completeData.categories) }
+                it.async { categoryWriter.saveMany(completeData.categories) }
             accounts.await()
             budgets.await()
             categories.await()
 
             onProgress(0.7)
 
-            val loans = it.async { loanDao.save(completeData.loans) }
+            val loans = it.async { loanWriter.saveMany(completeData.loans) }
             val loanRecords =
-                it.async { loanRecordDao.save(completeData.loanRecords) }
+                it.async { loanRecordWriter.saveMany(completeData.loanRecords) }
 
             loans.await()
             loanRecords.await()
@@ -262,10 +280,10 @@ class BackupLogic @Inject constructor(
             onProgress(0.8)
 
             val plannedPayments =
-                it.async { plannedPaymentRuleDao.save(completeData.plannedPaymentRules) }
+                it.async { plannedPaymentRuleWriter.saveMany(completeData.plannedPaymentRules) }
             val settings = it.async {
-                settingsDao.deleteAll()
-                settingsDao.save(completeData.settings)
+                settingsWriter.deleteAll()
+                settingsWriter.saveMany(completeData.settings)
             }
 
             sharedPrefs.putBoolean(

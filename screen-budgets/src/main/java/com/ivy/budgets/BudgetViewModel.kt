@@ -3,15 +3,17 @@ package com.ivy.budgets
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.budgets.model.DisplayBudget
-import com.ivy.legacy.data.SharedPrefs
 import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.db.write.BudgetWriter
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Budget
 import com.ivy.core.data.model.Category
 import com.ivy.core.data.model.Transaction
 import com.ivy.frp.sumOfSuspend
 import com.ivy.frp.test.TestIdlingResource
+import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.data.model.toCloseTimeRange
+import com.ivy.legacy.domain.deprecated.logic.BudgetCreator
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.readOnly
 import com.ivy.wallet.domain.action.account.AccountsAct
@@ -20,11 +22,9 @@ import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.exchange.ExchangeAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.transaction.HistoryTrnsAct
-import com.ivy.wallet.domain.deprecated.logic.BudgetCreator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
 import com.ivy.wallet.domain.pure.exchange.ExchangeData
 import com.ivy.wallet.domain.pure.transaction.trnCurrency
-import com.ivy.core.data.db.dao.BudgetDao
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -36,7 +36,7 @@ import javax.inject.Inject
 @HiltViewModel
 class BudgetViewModel @Inject constructor(
     private val sharedPrefs: SharedPrefs,
-    private val budgetDao: BudgetDao,
+    private val budgetWriter: BudgetWriter,
     private val budgetCreator: BudgetCreator,
     private val ivyContext: com.ivy.legacy.IvyWalletCtx,
     private val accountsAct: AccountsAct,
@@ -199,7 +199,7 @@ class BudgetViewModel @Inject constructor(
 
             com.ivy.legacy.utils.ioThread {
                 newOrder.forEachIndexed { index, item ->
-                    budgetDao.save(
+                    budgetWriter.save(
                         item.budget.toEntity().copy(
                             orderId = index.toDouble(),
                             isSynced = false

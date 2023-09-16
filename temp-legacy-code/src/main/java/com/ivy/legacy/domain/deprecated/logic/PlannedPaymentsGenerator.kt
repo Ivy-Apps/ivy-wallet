@@ -1,14 +1,16 @@
 package com.ivy.wallet.domain.deprecated.logic
 
+import com.ivy.core.data.db.read.TransactionDao
+import com.ivy.core.data.db.write.TransactionWriter
 import com.ivy.core.data.model.PlannedPaymentRule
 import com.ivy.core.data.model.Transaction
-import com.ivy.core.data.db.dao.TransactionDao
 import java.time.LocalDateTime
 import javax.inject.Inject
 
 @Deprecated("Migrate to FP Style")
 class PlannedPaymentsGenerator @Inject constructor(
-    private val transactionDao: TransactionDao
+    private val transactionDao: TransactionDao,
+    private val transactionWriter: TransactionWriter
 ) {
     companion object {
         private const val GENERATED_INSTANCES_LIMIT = 72
@@ -16,7 +18,7 @@ class PlannedPaymentsGenerator @Inject constructor(
 
     suspend fun generate(rule: PlannedPaymentRule) {
         // delete all not happened transactions
-        transactionDao.flagDeletedByRecurringRuleIdAndNoDateTime(
+        transactionWriter.flagDeletedByRecurringRuleIdAndNoDateTime(
             recurringRuleId = rule.id
         )
 
@@ -71,7 +73,7 @@ class PlannedPaymentsGenerator @Inject constructor(
     }
 
     private suspend fun generateTransaction(rule: PlannedPaymentRule, dueDate: LocalDateTime) {
-        transactionDao.save(
+        transactionWriter.save(
             Transaction(
                 type = rule.type,
                 accountId = rule.accountId,

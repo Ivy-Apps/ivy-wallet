@@ -3,7 +3,10 @@ package com.ivy.onboarding.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.legacy.data.SharedPrefs
+import com.ivy.core.data.db.read.AccountDao
+import com.ivy.core.data.db.read.CategoryDao
+import com.ivy.core.data.db.read.SettingsDao
+import com.ivy.core.data.db.write.SettingsWriter
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Category
 import com.ivy.core.data.model.Settings
@@ -11,7 +14,10 @@ import com.ivy.design.l0_system.Theme
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.LogoutLogic
+import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.data.model.AccountBalance
+import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
+import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.OpResult
 import com.ivy.legacy.utils.asLiveData
 import com.ivy.legacy.utils.ioThread
@@ -21,19 +27,13 @@ import com.ivy.navigation.OnboardingScreen
 import com.ivy.onboarding.OnboardingState
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
-import com.ivy.wallet.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.data.IvyCurrency
-import com.ivy.wallet.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.PreloadDataLogic
 import com.ivy.wallet.domain.deprecated.logic.WalletAccountLogic
-import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
-import com.ivy.core.data.db.dao.AccountDao
-import com.ivy.core.data.db.dao.CategoryDao
-import com.ivy.core.data.db.dao.SettingsDao
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
@@ -55,12 +55,12 @@ class OnboardingViewModel @Inject constructor(
     private val accountsAct: AccountsAct,
     private val categoriesAct: CategoriesAct,
     private val syncExchangeRatesAct: SyncExchangeRatesAct,
+    private val settingsWriter: SettingsWriter,
 
     // Only OnboardingRouter stuff
     sharedPrefs: SharedPrefs,
     transactionReminderLogic: TransactionReminderLogic,
     preloadDataLogic: PreloadDataLogic,
-    exchangeRatesLogic: ExchangeRatesLogic,
     logoutLogic: LogoutLogic,
 ) : ViewModel() {
 
@@ -131,7 +131,7 @@ class OnboardingViewModel @Inject constructor(
             TestIdlingResource.increment()
 
             if (settingsDao.findAll().isEmpty()) {
-                settingsDao.save(
+                settingsWriter.save(
                     Settings(
                         theme = if (isSystemDarkMode) Theme.DARK else Theme.LIGHT,
                         name = "",
@@ -228,7 +228,7 @@ class OnboardingViewModel @Inject constructor(
         ioThread {
             TestIdlingResource.increment()
 
-            settingsDao.save(
+            settingsWriter.save(
                 settingsDao.findFirst().copy(
                     currency = baseCurrency.code
                 )

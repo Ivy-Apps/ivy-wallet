@@ -1,17 +1,18 @@
 package com.ivy.wallet.domain.deprecated.logic.loantrasactions
 
-import com.ivy.core.data.model.LoanType
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Loan
 import com.ivy.core.data.model.LoanRecord
+import com.ivy.core.data.model.LoanType
 import com.ivy.core.data.model.Transaction
-import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanData
+import com.ivy.legacy.domain.deprecated.logic.loantrasactions.LoanTransactionsCore
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.scopedIOThread
+import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanData
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
-import java.util.*
+import java.util.UUID
 import javax.inject.Inject
 
 class LTLoanMapper @Inject constructor(

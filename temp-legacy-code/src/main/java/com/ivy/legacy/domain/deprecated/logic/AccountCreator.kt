@@ -1,16 +1,19 @@
-package com.ivy.wallet.domain.deprecated.logic
+package com.ivy.legacy.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.core.data.db.read.AccountDao
+import com.ivy.core.data.db.write.AccountWriter
 import com.ivy.core.data.model.Account
+import com.ivy.legacy.utils.ioThread
+import com.ivy.wallet.domain.deprecated.logic.WalletAccountLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.pure.util.nextOrderNum
-import com.ivy.core.data.db.dao.AccountDao
-import com.ivy.legacy.utils.ioThread
 import javax.inject.Inject
 
 class AccountCreator @Inject constructor(
+    private val accountLogic: WalletAccountLogic,
     private val accountDao: AccountDao,
-    private val accountLogic: WalletAccountLogic
+    private val accountWriter: AccountWriter,
 ) {
 
     suspend fun createAccount(
@@ -21,7 +24,7 @@ class AccountCreator @Inject constructor(
         if (name.isBlank()) return
 
 
-        val newAccount = ioThread {
+        ioThread {
             val account = Account(
                 name = name,
                 currency = data.currency,
@@ -31,14 +34,13 @@ class AccountCreator @Inject constructor(
                 orderNum = accountDao.findMaxOrderNum().nextOrderNum(),
                 isSynced = false
             )
-            accountDao.save(account.toEntity())
+            accountWriter.save(account.toEntity())
 
             accountLogic.adjustBalance(
                 account = account,
                 actualBalance = 0.0,
                 newBalance = data.balance
             )
-            account
         }
 
         onRefreshUI()
@@ -54,7 +56,7 @@ class AccountCreator @Inject constructor(
         )
 
         ioThread {
-            accountDao.save(updatedAccount.toEntity())
+            accountWriter.save(updatedAccount.toEntity())
             accountLogic.adjustBalance(
                 account = updatedAccount,
                 actualBalance = accountLogic.calculateAccountBalance(updatedAccount),

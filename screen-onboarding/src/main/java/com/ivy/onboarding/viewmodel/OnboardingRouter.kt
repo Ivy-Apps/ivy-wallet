@@ -1,10 +1,13 @@
 package com.ivy.onboarding.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.ivy.legacy.data.SharedPrefs
+import com.ivy.core.data.db.read.AccountDao
+import com.ivy.core.data.db.read.CategoryDao
 import com.ivy.core.data.model.Category
 import com.ivy.legacy.LogoutLogic
+import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.data.model.AccountBalance
+import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.legacy.utils.OpResult
 import com.ivy.legacy.utils.ioThread
 import com.ivy.navigation.ImportScreen
@@ -12,14 +15,11 @@ import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.OnboardingScreen
 import com.ivy.onboarding.OnboardingState
-import com.ivy.wallet.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.deprecated.logic.PreloadDataLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
-import com.ivy.core.data.db.dao.AccountDao
-import com.ivy.core.data.db.dao.CategoryDao
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineScope

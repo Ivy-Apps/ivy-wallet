@@ -2,11 +2,11 @@ package com.ivy.loans.loandetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.data.db.dao.AccountDao
-import com.ivy.core.data.db.dao.LoanDao
-import com.ivy.core.data.db.dao.LoanRecordDao
-import com.ivy.core.data.db.dao.SettingsDao
-import com.ivy.core.data.db.dao.TransactionDao
+import com.ivy.core.data.db.read.AccountDao
+import com.ivy.core.data.db.read.LoanDao
+import com.ivy.core.data.db.read.LoanRecordDao
+import com.ivy.core.data.db.read.SettingsDao
+import com.ivy.core.data.db.read.TransactionDao
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Loan
 import com.ivy.core.data.model.LoanRecord
@@ -15,6 +15,7 @@ import com.ivy.core.event.AccountUpdatedEvent
 import com.ivy.core.event.EventBus
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.IvyWalletCtx
+import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.ioThread
 import com.ivy.loans.loan.data.DisplayLoanRecord
@@ -22,7 +23,6 @@ import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.Navigation
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.loan.LoanByIdAct
-import com.ivy.wallet.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.deprecated.logic.LoanCreator
 import com.ivy.wallet.domain.deprecated.logic.LoanRecordCreator
 import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LoanTransactionsLogic

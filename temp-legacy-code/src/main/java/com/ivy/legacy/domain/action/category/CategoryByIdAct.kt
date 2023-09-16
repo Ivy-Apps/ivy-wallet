@@ -1,9 +1,9 @@
 package com.ivy.wallet.domain.action.category
 
-import com.ivy.frp.action.FPAction
+import com.ivy.core.data.db.read.CategoryDao
 import com.ivy.core.data.model.Category
-import com.ivy.core.data.db.dao.CategoryDao
-import java.util.*
+import com.ivy.frp.action.FPAction
+import java.util.UUID
 import javax.inject.Inject
 
 class CategoryByIdAct @Inject constructor(

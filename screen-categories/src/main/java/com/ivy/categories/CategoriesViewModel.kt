@@ -1,22 +1,22 @@
 package com.ivy.categories
 
 import androidx.lifecycle.viewModelScope
+import com.ivy.core.data.db.write.CategoryWriter
+import com.ivy.core.data.model.Account
+import com.ivy.core.data.model.Transaction
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.thenInvokeAfter
 import com.ivy.frp.viewmodel.FRPViewModel
+import com.ivy.legacy.data.SharedPrefs
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.category.CategoryIncomeWithAccountFiltersAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithRangeAndAccFiltersAct
 import com.ivy.wallet.domain.data.SortOrder
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.Transaction
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
-import com.ivy.legacy.data.SharedPrefs
-import com.ivy.core.data.db.dao.CategoryDao
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
@@ -33,7 +33,6 @@ import kotlin.math.absoluteValue
 
 @HiltViewModel
 class CategoriesViewModel @Inject constructor(
-    private val categoryDao: CategoryDao,
     private val categoryCreator: CategoryCreator,
     private val categoriesAct: CategoriesAct,
     private val ivyContext: com.ivy.legacy.IvyWalletCtx,
@@ -41,7 +40,8 @@ class CategoriesViewModel @Inject constructor(
     private val baseCurrencyAct: BaseCurrencyAct,
     private val accountsAct: AccountsAct,
     private val trnsWithRangeAndAccFiltersAct: TrnsWithRangeAndAccFiltersAct,
-    private val categoryIncomeWithAccountFiltersAct: CategoryIncomeWithAccountFiltersAct
+    private val categoryIncomeWithAccountFiltersAct: CategoryIncomeWithAccountFiltersAct,
+    private val categoryWriter: CategoryWriter,
 ) : FRPViewModel<CategoriesScreenState, Nothing>() {
 
     override val _state: MutableStateFlow<CategoriesScreenState> = MutableStateFlow(
@@ -136,7 +136,7 @@ class CategoriesViewModel @Inject constructor(
         if (sortOrder == SortOrder.DEFAULT) {
             com.ivy.legacy.utils.ioThread {
                 sortedList.forEachIndexed { index, categoryData ->
-                    categoryDao.save(
+                    categoryWriter.save(
                         categoryData.category.toEntity().copy(
                             orderNum = index.toDouble(),
                             isSynced = false

@@ -1,10 +1,10 @@
 package com.ivy.wallet.domain.action.loan
 
+import com.ivy.core.data.db.read.LoanDao
+import com.ivy.core.data.model.Loan
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.then
-import com.ivy.core.data.model.Loan
-import com.ivy.core.data.db.dao.LoanDao
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import javax.inject.Inject
