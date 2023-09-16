@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -34,6 +36,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.ivy.core.data.dataStore
+import com.ivy.core.data.model.NumpadType
+import com.ivy.core.data.numpadType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
@@ -282,6 +287,8 @@ fun AmountKeyboard(
     onDecimalPoint: () -> Unit,
     onBackspace: () -> Unit,
 ) {
+    val numpad by LocalContext.current.dataStore.data.numpadType.collectAsState(NumpadType.Calc)
+
     if (ZeroRow != null) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -301,7 +308,7 @@ fun AmountKeyboard(
     ) {
         CircleNumberButton(
             forCalculator = forCalculator,
-            value = "7",
+            value = numpad.layout[0],
             onNumberPressed = onNumberPressed
         )
 
@@ -309,7 +316,7 @@ fun AmountKeyboard(
 
         CircleNumberButton(
             forCalculator = forCalculator,
-            value = "8",
+            value = numpad.layout[1],
             onNumberPressed = onNumberPressed
         )
 
@@ -317,7 +324,7 @@ fun AmountKeyboard(
 
         CircleNumberButton(
             forCalculator = forCalculator,
-            value = "9",
+            value = numpad.layout[2],
             onNumberPressed = onNumberPressed
         )
 
@@ -337,7 +344,7 @@ fun AmountKeyboard(
     ) {
         CircleNumberButton(
             forCalculator = forCalculator,
-            value = "4",
+            value = numpad.layout[3],
             onNumberPressed = onNumberPressed
         )
 
@@ -345,7 +352,7 @@ fun AmountKeyboard(
 
         CircleNumberButton(
             forCalculator = forCalculator,
-            value = "5",
+            value = numpad.layout[4],
             onNumberPressed = onNumberPressed
         )
 
@@ -353,7 +360,7 @@ fun AmountKeyboard(
 
         CircleNumberButton(
             forCalculator = forCalculator,
-            value = "6",
+            value = numpad.layout[5],
             onNumberPressed = onNumberPressed
         )
 
@@ -373,7 +380,7 @@ fun AmountKeyboard(
     ) {
         CircleNumberButton(
             forCalculator = forCalculator,
-            value = "1",
+            value = numpad.layout[6],
             onNumberPressed = onNumberPressed
         )
 
@@ -381,7 +388,7 @@ fun AmountKeyboard(
 
         CircleNumberButton(
             forCalculator = forCalculator,
-            value = "2",
+            value = numpad.layout[7],
             onNumberPressed = onNumberPressed
         )
 
@@ -389,7 +396,7 @@ fun AmountKeyboard(
 
         CircleNumberButton(
             forCalculator = forCalculator,
-            value = "3",
+            value = numpad.layout[8],
             onNumberPressed = onNumberPressed
         )
 
@@ -422,7 +429,7 @@ fun AmountKeyboard(
 
         CircleNumberButton(
             forCalculator = forCalculator,
-            value = "0",
+            value = numpad.layout[9],
             onNumberPressed = onNumberPressed
         )
 

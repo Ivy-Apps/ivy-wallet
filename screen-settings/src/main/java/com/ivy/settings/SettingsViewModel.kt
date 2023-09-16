@@ -1,16 +1,29 @@
 package com.ivy.settings
 
 import android.content.Context
+import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.legacy.IvyWalletCtx
 import com.ivy.core.RootScreen
+import com.ivy.core.data.dataStore
+import com.ivy.core.data.db.dao.SettingsDao
+import com.ivy.core.data.model.NumpadType
+import com.ivy.core.data.numpadType
+import com.ivy.core.data.setNumpadType
 import com.ivy.core.utils.refreshWidget
 import com.ivy.design.l0_system.Theme
 import com.ivy.frp.monad.Res
 import com.ivy.frp.test.TestIdlingResource
+import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.LogoutLogic
+import com.ivy.legacy.data.SharedPrefs
+import com.ivy.legacy.utils.asLiveData
+import com.ivy.legacy.utils.formatNicelyWithTime
+import com.ivy.legacy.utils.ioThread
+import com.ivy.legacy.utils.sendToCrashlytics
+import com.ivy.legacy.utils.timeNowUTC
+import com.ivy.legacy.utils.uiThread
 import com.ivy.wallet.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.action.global.UpdateStartDayOfMonthAct
@@ -18,25 +31,22 @@ import com.ivy.wallet.domain.action.settings.SettingsAct
 import com.ivy.wallet.domain.action.settings.UpdateSettingsAct
 import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
 import com.ivy.wallet.domain.deprecated.logic.zip.BackupLogic
-import com.ivy.legacy.data.SharedPrefs
-import com.ivy.core.data.db.dao.SettingsDao
-import com.ivy.legacy.utils.asLiveData
-import com.ivy.legacy.utils.formatNicelyWithTime
-import com.ivy.legacy.utils.ioThread
-import com.ivy.legacy.utils.sendToCrashlytics
-import com.ivy.legacy.utils.timeNowUTC
-import com.ivy.legacy.utils.uiThread
 import com.ivy.widget.balance.WalletBalanceWidgetReceiver
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
+    @ApplicationContext
+    private val context: Context,
     private val settingsDao: SettingsDao,
     private val ivyContext: IvyWalletCtx,
     private val exportCSVLogic: ExportCSVLogic,
@@ -76,6 +86,9 @@ class SettingsViewModel @Inject constructor(
 
     private val _startDateOfMonth = MutableLiveData<Int>()
     val startDateOfMonth = _startDateOfMonth
+
+    val dialerNumpad: Flow<Boolean> = context.dataStore.data.numpadType
+        .map { it == NumpadType.Dialer }
 
     fun start() {
         viewModelScope.launch {
@@ -330,6 +343,14 @@ class SettingsViewModel @Inject constructor(
     fun deleteCloudUserData() {
         viewModelScope.launch {
             cloudLogout()
+        }
+    }
+
+    fun toggleNumpadType(dialer: Boolean) {
+        viewModelScope.launch {
+            context.dataStore.edit {
+                it.setNumpadType(if (dialer) NumpadType.Dialer else NumpadType.Calc)
+            }
         }
     }
 }

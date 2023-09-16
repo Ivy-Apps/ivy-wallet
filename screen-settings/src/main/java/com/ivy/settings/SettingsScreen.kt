@@ -94,6 +94,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: SettingsScreen) {
     val treatTransfersAsIncomeExpense by viewModel.treatTransfersAsIncomeExpense.collectAsState()
     val startDateOfMonth by viewModel.startDateOfMonth.observeAsState(1)
     val progressState by viewModel.progressState.collectAsState()
+    val dialerNumpad by viewModel.dialerNumpad.collectAsState(false)
 
     val nameLocalAccount by viewModel.nameLocalAccount.observeAsState()
 
@@ -111,6 +112,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: SettingsScreen) {
         hideCurrentBalance = hideCurrentBalance,
         progressState = progressState,
         treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense,
+        dialerNumpad = dialerNumpad,
 
         nameLocalAccount = nameLocalAccount,
         startDateOfMonth = startDateOfMonth,
@@ -130,6 +132,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: SettingsScreen) {
         onSetTreatTransfersAsIncExp = viewModel::setTransfersAsIncomeExpense,
         onDeleteAllUserData = viewModel::deleteAllUserData,
         onDeleteCloudUserData = viewModel::deleteCloudUserData,
+        onToggleNumpadType = viewModel::toggleNumpadType,
     )
 }
 
@@ -145,6 +148,7 @@ private fun BoxWithConstraintsScope.UI(
     hideCurrentBalance: Boolean = false,
     progressState: Boolean = false,
     treatTransfersAsIncomeExpense: Boolean = false,
+    dialerNumpad: Boolean = false,
 
     nameLocalAccount: String?,
     startDateOfMonth: Int = 1,
@@ -161,8 +165,8 @@ private fun BoxWithConstraintsScope.UI(
     onSetStartDateOfMonth: (Int) -> Unit = {},
     onDeleteAllUserData: () -> Unit = {},
     onDeleteCloudUserData: () -> Unit = {},
-
-    ) {
+    onToggleNumpadType: (Boolean) -> Unit = {},
+) {
     var currencyModalVisible by remember { mutableStateOf(false) }
     var nameModalVisible by remember { mutableStateOf(false) }
     var chooseStartDateOfMonthVisible by remember { mutableStateOf(false) }
@@ -313,6 +317,16 @@ private fun BoxWithConstraintsScope.UI(
                 onSetLockApp = onSetShowNotifications,
                 text = stringResource(R.string.show_notifications),
                 icon = R.drawable.ic_notification_m
+            )
+
+            Spacer(Modifier.height(12.dp))
+
+            AppSwitch(
+                lockApp = dialerNumpad,
+                onSetLockApp = onToggleNumpadType,
+                text = stringResource(R.string.numpad_type),
+                description = stringResource(R.string.numpad_type_description),
+                icon = R.drawable.ic_baseline_keyboard_24
             )
 
             Spacer(Modifier.height(12.dp))
@@ -740,7 +754,6 @@ private fun AccountCard(
         )
     }
 }
-
 
 @Composable
 private fun AccountCardLocalAccount(
