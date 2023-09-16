@@ -17,8 +17,8 @@ kotlinx-collections = "0.3.5"
 # Android
 min-sdk = "28"
 compile-sdk = "34"
-version-name = "4.4.5"
-version-code = "145"
+version-name = "4.4.6"
+version-code = "146"
 
 
 # Linters
