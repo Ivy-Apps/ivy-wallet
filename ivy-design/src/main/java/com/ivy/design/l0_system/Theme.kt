@@ -1,5 +1,8 @@
 package com.ivy.design.l0_system
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 enum class Theme {
     LIGHT, DARK, AUTO;
 

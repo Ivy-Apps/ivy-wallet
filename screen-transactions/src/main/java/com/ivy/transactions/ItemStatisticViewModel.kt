@@ -4,7 +4,10 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.toOption
-import com.ivy.legacy.data.SharedPrefs
+import com.ivy.core.data.db.dao.AccountDao
+import com.ivy.core.data.db.dao.CategoryDao
+import com.ivy.core.data.db.dao.PlannedPaymentRuleDao
+import com.ivy.core.data.db.dao.TransactionDao
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Category
@@ -14,6 +17,7 @@ import com.ivy.core.utils.stringRes
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.then
 import com.ivy.legacy.IvyWalletCtx
+import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.legacy.utils.computationThread
@@ -39,10 +43,6 @@ import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.deprecated.logic.WalletAccountLogic
 import com.ivy.wallet.domain.deprecated.logic.WalletCategoryLogic
 import com.ivy.wallet.domain.pure.exchange.ExchangeData
-import com.ivy.core.data.db.dao.AccountDao
-import com.ivy.core.data.db.dao.CategoryDao
-import com.ivy.core.data.db.dao.PlannedPaymentRuleDao
-import com.ivy.core.data.db.dao.TransactionDao
 import com.ivy.wallet.ui.theme.RedLight
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
@@ -106,7 +106,7 @@ class ItemStatisticViewModel @Inject constructor(
     val expenses = _expenses.readOnly()
 
     // Upcoming
-    private val _upcoming = MutableStateFlow<List<Transaction>>(emptyList())
+    private val _upcoming = MutableStateFlow<ImmutableList<Transaction>>(persistentListOf())
     val upcoming = _upcoming.readOnly()
 
     private val _upcomingIncome = MutableStateFlow(0.0)
@@ -132,7 +132,8 @@ class ItemStatisticViewModel @Inject constructor(
     val overdueExpanded = _overdueExpanded.readOnly()
 
     // History
-    private val _history = MutableStateFlow<List<TransactionHistoryItem>>(emptyList())
+    private val _history =
+        MutableStateFlow<ImmutableList<TransactionHistoryItem>>(persistentListOf())
     val history = _history.readOnly()
 
     private val _account = MutableStateFlow<Account?>(null)
@@ -264,7 +265,7 @@ class ItemStatisticViewModel @Inject constructor(
                 accountId = account.id,
                 range = range.toCloseTimeRange()
             )
-        )
+        ).toImmutableList()
 
         // Upcoming
         _upcomingIncome.value = ioThread {
@@ -275,7 +276,7 @@ class ItemStatisticViewModel @Inject constructor(
             accountLogic.calculateUpcomingExpenses(account, range)
         }
 
-        _upcoming.value = ioThread { accountLogic.upcoming(account, range) }
+        _upcoming.value = ioThread { accountLogic.upcoming(account, range).toImmutableList() }
 
         // Overdue
         _overdueIncome.value = ioThread {
@@ -314,7 +315,7 @@ class ItemStatisticViewModel @Inject constructor(
                 category,
                 range,
                 accountFilterSet = accountFilterList.toSet(),
-            )
+            ).toImmutableList()
         }
 
         // Upcoming
@@ -327,7 +328,9 @@ class ItemStatisticViewModel @Inject constructor(
             categoryLogic.calculateUpcomingExpensesByCategory(category, range)
         }
 
-        _upcoming.value = ioThread { categoryLogic.upcomingByCategory(category, range) }
+        _upcoming.value = ioThread {
+            categoryLogic.upcomingByCategory(category, range).toImmutableList()
+        }
 
         // Overdue
         // TODO: Rework Overdue to FP
@@ -399,7 +402,7 @@ class ItemStatisticViewModel @Inject constructor(
                     range,
                     accountFilterSet = accountFilterList.toSet(),
                     transactions = trans
-                )
+                ).toImmutableList()
             }
 
             // Upcoming
@@ -412,7 +415,9 @@ class ItemStatisticViewModel @Inject constructor(
                 categoryLogic.calculateUpcomingExpensesByCategory(category, range)
             }
 
-            _upcoming.value = ioThread { categoryLogic.upcomingByCategory(category, range) }
+            _upcoming.value = ioThread {
+                categoryLogic.upcomingByCategory(category, range).toImmutableList()
+            }
 
             // Overdue
             // TODO: Rework Overdue to FP
@@ -445,7 +450,7 @@ class ItemStatisticViewModel @Inject constructor(
         }
 
         _history.value = ioThread {
-            categoryLogic.historyUnspecified(range)
+            categoryLogic.historyUnspecified(range).toImmutableList()
         }
 
         // Upcoming
@@ -457,7 +462,9 @@ class ItemStatisticViewModel @Inject constructor(
             categoryLogic.calculateUpcomingExpensesUnspecified(range)
         }
 
-        _upcoming.value = ioThread { categoryLogic.upcomingUnspecified(range) }
+        _upcoming.value = ioThread {
+            categoryLogic.upcomingUnspecified(range).toImmutableList()
+        }
 
         // Overdue
         _overdueIncome.value = ioThread {
@@ -504,7 +511,7 @@ class ItemStatisticViewModel @Inject constructor(
                 baseCurrency = baseCurrency.value,
                 transactions = transactions
             )
-        )
+        ).toImmutableList()
     }
 
     private fun reset() {

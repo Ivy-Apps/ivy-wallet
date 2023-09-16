@@ -35,28 +35,34 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.core.Constants
-import com.ivy.legacy.IvyWalletPreview
-import com.ivy.legacy.data.model.TimePeriod
-import com.ivy.legacy.ivyWalletCtx
-import com.ivy.core.utils.stringRes
-import com.ivy.design.l0_system.Theme
-import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.style
-import com.ivy.navigation.navigation
-import com.ivy.legacy.data.AppBaseData
-import com.ivy.legacy.data.DueSection
-import com.ivy.legacy.ui.component.IncomeExpensesCards
-import com.ivy.legacy.ui.component.ItemStatisticToolbar
-import com.ivy.legacy.ui.component.transaction.transactions
-import com.ivy.navigation.EditTransactionScreen
-import com.ivy.navigation.ItemStatisticScreen
-import com.ivy.navigation.PieChartStatisticScreen
-import com.ivy.resources.R
-import com.ivy.core.data.model.TransactionHistoryItem
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Category
 import com.ivy.core.data.model.Transaction
+import com.ivy.core.data.model.TransactionHistoryItem
+import com.ivy.core.utils.stringRes
+import com.ivy.design.l0_system.Theme
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.data.AppBaseData
+import com.ivy.legacy.data.DueSection
+import com.ivy.legacy.data.model.TimePeriod
+import com.ivy.legacy.ivyWalletCtx
+import com.ivy.legacy.ui.component.IncomeExpensesCards
+import com.ivy.legacy.ui.component.ItemStatisticToolbar
+import com.ivy.legacy.ui.component.transaction.transactions
+import com.ivy.legacy.utils.balancePrefix
+import com.ivy.legacy.utils.clickableNoIndication
+import com.ivy.legacy.utils.horizontalSwipeListener
+import com.ivy.legacy.utils.onScreenStart
+import com.ivy.legacy.utils.setStatusBarDarkTextCompat
+import com.ivy.legacy.utils.thenIf
+import com.ivy.navigation.EditTransactionScreen
+import com.ivy.navigation.ItemStatisticScreen
+import com.ivy.navigation.PieChartStatisticScreen
+import com.ivy.navigation.navigation
+import com.ivy.resources.R
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.GreenDark
@@ -75,12 +81,7 @@ import com.ivy.wallet.ui.theme.modal.edit.CategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.wallet.PeriodSelector
-import com.ivy.legacy.utils.balancePrefix
-import com.ivy.legacy.utils.clickableNoIndication
-import com.ivy.legacy.utils.horizontalSwipeListener
-import com.ivy.legacy.utils.onScreenStart
-import com.ivy.legacy.utils.setStatusBarDarkTextCompat
-import com.ivy.legacy.utils.thenIf
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.math.BigDecimal
 import java.util.UUID
@@ -208,8 +209,8 @@ private fun BoxWithConstraintsScope.UI(
     account: Account?,
     category: Category?,
 
-    categories: List<Category>,
-    accounts: List<Account>,
+    categories: ImmutableList<Category>,
+    accounts: ImmutableList<Account>,
 
     balance: Double,
     balanceBaseCurrency: Double?,
@@ -219,19 +220,19 @@ private fun BoxWithConstraintsScope.UI(
     initWithTransactions: Boolean = false,
     treatTransfersAsIncomeExpense: Boolean = false,
 
-    history: List<TransactionHistoryItem>,
+    history: ImmutableList<TransactionHistoryItem>,
 
     upcomingExpanded: Boolean = true,
     setUpcomingExpanded: (Boolean) -> Unit = {},
     upcomingIncome: Double = 0.0,
     upcomingExpenses: Double = 0.0,
-    upcoming: List<Transaction> = emptyList(),
+    upcoming: ImmutableList<Transaction> = persistentListOf(),
 
     overdueExpanded: Boolean = true,
     setOverdueExpanded: (Boolean) -> Unit = {},
     overdueIncome: Double = 0.0,
     overdueExpenses: Double = 0.0,
-    overdue: List<Transaction> = emptyList(),
+    overdue: ImmutableList<Transaction> = persistentListOf(),
 
     onPreviousMonth: () -> Unit,
     onNextMonth: () -> Unit,
@@ -723,15 +724,15 @@ private fun Preview_empty() {
             baseCurrency = "BGN",
             currency = "BGN",
 
-            categories = emptyList(),
-            accounts = emptyList(),
+            categories = persistentListOf(),
+            accounts = persistentListOf(),
 
             balance = 1314.578,
             balanceBaseCurrency = null,
             income = 8000.0,
             expenses = 6000.0,
 
-            history = emptyList(),
+            history = persistentListOf(),
             category = null,
             account = Account("DSK", color = GreenDark.toArgb(), icon = "pet"),
             onSetPeriod = { },
@@ -755,15 +756,15 @@ private fun Preview_crypto() {
             baseCurrency = "BGN",
             currency = "ADA",
 
-            categories = emptyList(),
-            accounts = emptyList(),
+            categories = persistentListOf(),
+            accounts = persistentListOf(),
 
             balance = 1314.578,
             balanceBaseCurrency = 2879.28,
             income = 8000.0,
             expenses = 6000.0,
 
-            history = emptyList(),
+            history = persistentListOf(),
             category = null,
             account = Account(
                 name = "DSK",
@@ -792,15 +793,15 @@ private fun Preview_empty_upcoming() {
             baseCurrency = "BGN",
             currency = "BGN",
 
-            categories = emptyList(),
-            accounts = emptyList(),
+            categories = persistentListOf(),
+            accounts = persistentListOf(),
 
             balance = 1314.578,
             balanceBaseCurrency = null,
             income = 8000.0,
             expenses = 6000.0,
 
-            history = emptyList(),
+            history = persistentListOf(),
             category = null,
             account = Account("DSK", color = GreenDark.toArgb(), icon = "pet"),
             onSetPeriod = { },
@@ -809,7 +810,7 @@ private fun Preview_empty_upcoming() {
             onDelete = {},
             onEditAccount = { _, _ -> },
             onEditCategory = {},
-            upcoming = listOf(
+            upcoming = persistentListOf(
                 Transaction(UUID(1L, 2L), TransactionType.EXPENSE, BigDecimal.valueOf(10L))
             )
         )

@@ -1,5 +1,6 @@
 package com.ivy.legacy.data.model
 
+import androidx.compose.runtime.Immutable
 import com.ivy.legacy.utils.atEndOfDay
 import com.ivy.legacy.utils.convertLocalToUTC
 import com.ivy.legacy.utils.dateNowUTC
@@ -11,6 +12,7 @@ import com.ivy.legacy.utils.withDayOfMonthSafe
 import java.time.LocalDate
 import java.time.LocalDateTime
 
+@Immutable
 data class TimePeriod(
     val month: Month? = null,
     val year: Int? = null,

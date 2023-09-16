@@ -1,11 +1,13 @@
 package com.ivy.legacy.data.model
 
+import androidx.compose.runtime.Immutable
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.core.utils.stringRes
 import com.ivy.resources.R
 import com.ivy.legacy.utils.dateNowUTC
 import java.time.LocalDate
 
+@Immutable
 data class Month(
     val monthValue: Int,
     val name: String

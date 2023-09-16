@@ -37,6 +37,8 @@ import com.ivy.legacy.utils.keyboardOnlyWindowInsets
 import com.ivy.legacy.utils.keyboardVisibleState
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.selectEndTextFieldValue
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun SearchScreen(screen: SearchScreen) {
@@ -63,10 +65,10 @@ fun SearchScreen(screen: SearchScreen) {
 
 @Composable
 private fun UI(
-    transactions: List<TransactionHistoryItem>,
+    transactions: ImmutableList<TransactionHistoryItem>,
     baseCurrency: String,
-    categories: List<Category>,
-    accounts: List<Account>,
+    categories: ImmutableList<Category>,
+    accounts: ImmutableList<Account>,
 
     onSearch: (String) -> Unit = {}
 ) {
@@ -146,10 +148,10 @@ private fun UI(
 private fun Preview() {
     IvyWalletPreview {
         UI(
-            transactions = emptyList(),
+            transactions = persistentListOf(),
             baseCurrency = "BGN",
-            categories = emptyList(),
-            accounts = emptyList()
+            categories = persistentListOf(),
+            accounts = persistentListOf()
         )
     }
 }

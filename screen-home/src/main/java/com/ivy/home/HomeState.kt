@@ -1,18 +1,20 @@
 package com.ivy.home
 
-import com.ivy.legacy.IvyWalletCtx
-import com.ivy.legacy.data.model.TimePeriod
+import androidx.compose.runtime.Immutable
+import com.ivy.core.data.model.TransactionHistoryItem
 import com.ivy.design.l0_system.Theme
 import com.ivy.home.customerjourney.CustomerJourneyCardModel
+import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.AppBaseData
 import com.ivy.legacy.data.BufferInfo
 import com.ivy.legacy.data.DueSection
-import com.ivy.core.data.model.TransactionHistoryItem
+import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.math.BigDecimal
 
+@Immutable
 data class HomeState(
     val theme: Theme,
     val name: String,
@@ -39,8 +41,8 @@ data class HomeState(
             name = "",
             baseData = AppBaseData(
                 baseCurrency = "",
-                accounts = emptyList(),
-                categories = emptyList()
+                accounts = persistentListOf(),
+                categories = persistentListOf()
             ),
             balance = BigDecimal.ZERO,
             buffer = BufferInfo(
@@ -51,12 +53,12 @@ data class HomeState(
             history = persistentListOf(),
             stats = IncomeExpensePair.zero(),
             upcoming = DueSection(
-                trns = emptyList(),
+                trns = persistentListOf(),
                 stats = IncomeExpensePair.zero(),
                 expanded = false,
             ),
             overdue = DueSection(
-                trns = emptyList(),
+                trns = persistentListOf(),
                 stats = IncomeExpensePair.zero(),
                 expanded = false,
             ),

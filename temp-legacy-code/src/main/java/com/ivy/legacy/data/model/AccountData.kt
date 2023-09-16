@@ -1,8 +1,10 @@
 package com.ivy.legacy.data.model
 
+import androidx.compose.runtime.Immutable
 import com.ivy.wallet.domain.data.Reorderable
 import com.ivy.core.data.model.Account
 
+@Immutable
 data class AccountData(
     val account: Account,
     val balance: Double,
