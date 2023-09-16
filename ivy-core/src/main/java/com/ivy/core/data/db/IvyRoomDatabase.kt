@@ -134,6 +134,7 @@ abstract class IvyRoomDatabase : RoomDatabase() {
         writeBudgetDao.deleteAll()
         writeLoanDao.deleteAll()
         writeLoanRecordDao.deleteAll()
+        writeExchangeRatesDao.deleteALl()
     }
 
     @DeleteColumn(tableName = "accounts", columnName = "seAccountId")
