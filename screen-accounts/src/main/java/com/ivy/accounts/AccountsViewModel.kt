@@ -1,42 +1,38 @@
 package com.ivy.accounts
 
 import androidx.lifecycle.viewModelScope
-import com.ivy.legacy.data.model.toCloseTimeRange
+import com.ivy.core.data.db.dao.AccountDao
+import com.ivy.core.data.model.Account
+import com.ivy.core.event.AccountUpdatedEvent
+import com.ivy.core.event.EventBus
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.viewmodel.FRPViewModel
+import com.ivy.legacy.data.SharedPrefs
+import com.ivy.legacy.data.model.toCloseTimeRange
+import com.ivy.legacy.utils.format
 import com.ivy.resources.R
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.viewmodel.account.AccountDataAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
-import com.ivy.core.data.model.Account
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
-import com.ivy.wallet.domain.event.AccountsUpdatedEvent
-import com.ivy.wallet.domain.pure.data.WalletDAOs
-import com.ivy.legacy.data.SharedPrefs
-import com.ivy.core.data.db.dao.AccountDao
-import com.ivy.core.data.db.dao.SettingsDao
-import com.ivy.legacy.utils.format
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
 import javax.inject.Inject
 
 @HiltViewModel
 class AccountsViewModel @Inject constructor(
-    private val walletDAOs: WalletDAOs,
     private val accountDao: AccountDao,
-    private val settingsDao: SettingsDao,
     private val accountCreator: AccountCreator,
     private val ivyContext: com.ivy.legacy.IvyWalletCtx,
     private val sharedPrefs: SharedPrefs,
     private val accountsAct: AccountsAct,
     private val calcWalletBalanceAct: CalcWalletBalanceAct,
     private val baseCurrencyAct: BaseCurrencyAct,
-    private val accountDataAct: AccountDataAct
+    private val accountDataAct: AccountDataAct,
+    private val eventBus: EventBus,
 ) : FRPViewModel<AccountState, Unit>() {
     override val _state: MutableStateFlow<AccountState> = MutableStateFlow(AccountState())
 
@@ -44,13 +40,12 @@ class AccountsViewModel @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    @Subscribe
-    fun onAccountsUpdated(event: AccountsUpdatedEvent) {
-        start()
-    }
-
     init {
-        EventBus.getDefault().register(this)
+        viewModelScope.launch {
+            eventBus.subscribe(AccountUpdatedEvent) {
+                start()
+            }
+        }
     }
 
     fun start() {
@@ -133,11 +128,6 @@ class AccountsViewModel @Inject constructor(
         }
 
         TestIdlingResource.decrement()
-    }
-
-    override fun onCleared() {
-        EventBus.getDefault().unregister(this)
-        super.onCleared()
     }
 
     private suspend fun reorderModalVisible(reorderVisible: Boolean) {

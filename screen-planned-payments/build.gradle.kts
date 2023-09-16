@@ -12,6 +12,4 @@ dependencies {
     implementation(projects.ivyDesign)
     implementation(projects.ivyNavigation)
     implementation(projects.tempLegacyCode)
-
-    implementation(libs.eventbus)
 }
