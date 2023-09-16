@@ -215,14 +215,15 @@ class PlannedPaymentsLogic @Inject constructor(
         }
 
         ioThread {
-            if (skipTransaction)
+            if (skipTransaction) {
                 paidTransactions.forEach { paidTransaction ->
                     transactionWriter.flagDeleted(paidTransaction.id)
                 }
-            else
+            } else {
                 paidTransactions.forEach { paidTransaction ->
                     transactionWriter.save(paidTransaction.toEntity())
                 }
+            }
 
             plannedPaymentRules.forEach { plannedPaymentRule ->
                 if (plannedPaymentRule != null && plannedPaymentRule.oneTime) {

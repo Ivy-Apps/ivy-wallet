@@ -24,7 +24,7 @@ class AccountCreator @Inject constructor(
         if (name.isBlank()) return
 
 
-        val newAccount = ioThread {
+        ioThread {
             val account = Account(
                 name = name,
                 currency = data.currency,
@@ -41,7 +41,6 @@ class AccountCreator @Inject constructor(
                 actualBalance = 0.0,
                 newBalance = data.balance
             )
-            account
         }
 
         onRefreshUI()

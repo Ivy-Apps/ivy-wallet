@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.db.read.LoanDao
 import com.ivy.core.data.db.read.SettingsDao
-import com.ivy.core.data.db.read.TransactionDao
 import com.ivy.core.data.db.write.TransactionWriter
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Category
@@ -54,7 +53,6 @@ import javax.inject.Inject
 @HiltViewModel
 class EditTransactionViewModel @Inject constructor(
     private val loanDao: LoanDao,
-    private val transactionDao: TransactionDao,
     private val settingsDao: SettingsDao,
     private val nav: Navigation,
     private val sharedPrefs: SharedPrefs,

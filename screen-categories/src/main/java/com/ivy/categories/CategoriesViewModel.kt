@@ -1,7 +1,6 @@
 package com.ivy.categories
 
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.data.db.read.CategoryDao
 import com.ivy.core.data.db.write.CategoryWriter
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Transaction
@@ -34,7 +33,6 @@ import kotlin.math.absoluteValue
 
 @HiltViewModel
 class CategoriesViewModel @Inject constructor(
-    private val categoryDao: CategoryDao,
     private val categoryCreator: CategoryCreator,
     private val categoriesAct: CategoriesAct,
     private val ivyContext: com.ivy.legacy.IvyWalletCtx,

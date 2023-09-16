@@ -1,9 +1,9 @@
 package com.ivy.home.customerjourney
 
 import com.ivy.core.Constants
+import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.db.read.PlannedPaymentRuleDao
 import com.ivy.core.data.db.read.TransactionDao
-import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.util.stringRes
 import com.ivy.design.l0_system.Blue
 import com.ivy.design.l0_system.Blue3

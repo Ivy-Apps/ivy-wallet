@@ -90,7 +90,6 @@ abstract class IvyRoomDatabase : RoomDatabase() {
     abstract val writeLoanDao: WriteLoanDao
     abstract val writeLoanRecordDao: WriteLoanRecordDao
 
-
     companion object {
         const val DB_NAME = "ivywallet.db"
 

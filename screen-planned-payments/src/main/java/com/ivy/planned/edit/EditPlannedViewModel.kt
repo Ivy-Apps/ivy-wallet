@@ -8,7 +8,6 @@ import com.ivy.core.data.db.read.AccountDao
 import com.ivy.core.data.db.read.CategoryDao
 import com.ivy.core.data.db.read.PlannedPaymentRuleDao
 import com.ivy.core.data.db.read.SettingsDao
-import com.ivy.core.data.db.read.TransactionDao
 import com.ivy.core.data.db.write.PlannedPaymentRuleWriter
 import com.ivy.core.data.db.write.TransactionWriter
 import com.ivy.core.data.model.Account
@@ -36,7 +35,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditPlannedViewModel @Inject constructor(
-    private val transactionDao: TransactionDao,
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
     private val settingsDao: SettingsDao,

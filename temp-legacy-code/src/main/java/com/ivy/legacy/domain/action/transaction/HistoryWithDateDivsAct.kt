@@ -1,8 +1,8 @@
 package com.ivy.wallet.domain.action.transaction
 
+import com.ivy.core.data.model.TransactionHistoryItem
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
-import com.ivy.core.data.model.TransactionHistoryItem
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList

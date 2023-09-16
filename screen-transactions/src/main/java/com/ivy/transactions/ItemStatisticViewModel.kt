@@ -4,11 +4,9 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.toOption
+import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.db.read.AccountDao
 import com.ivy.core.data.db.read.CategoryDao
-import com.ivy.core.data.db.read.PlannedPaymentRuleDao
-import com.ivy.core.data.db.read.TransactionDao
-import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.db.write.AccountWriter
 import com.ivy.core.data.db.write.CategoryWriter
 import com.ivy.core.data.db.write.PlannedPaymentRuleWriter
@@ -24,6 +22,7 @@ import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.data.model.toCloseTimeRange
+import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.dateNowUTC
 import com.ivy.legacy.utils.ioThread
@@ -41,7 +40,6 @@ import com.ivy.wallet.domain.action.exchange.ExchangeAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.transaction.CalcTrnsIncomeExpenseAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithDateDivsAct
-import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.deprecated.logic.WalletAccountLogic
@@ -60,13 +58,11 @@ import javax.inject.Inject
 @HiltViewModel
 class ItemStatisticViewModel @Inject constructor(
     private val accountDao: AccountDao,
-    private val transactionDao: TransactionDao,
     private val categoryDao: CategoryDao,
     private val ivyContext: IvyWalletCtx,
     private val nav: Navigation,
     private val accountLogic: WalletAccountLogic,
     private val categoryLogic: WalletCategoryLogic,
-    private val plannedPaymentRuleDao: PlannedPaymentRuleDao,
     private val categoryCreator: CategoryCreator,
     private val accountCreator: AccountCreator,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,

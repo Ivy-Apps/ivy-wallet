@@ -2,17 +2,21 @@ package com.ivy.exchangerates
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
-import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
-import com.ivy.core.data.db.read.ExchangeRatesDao
 import com.ivy.core.data.db.entity.ExchangeRateEntity
+import com.ivy.core.data.db.read.ExchangeRatesDao
 import com.ivy.core.data.db.write.ExchangeRatesWriter
 import com.ivy.exchangerates.data.RateUi
+import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
+import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

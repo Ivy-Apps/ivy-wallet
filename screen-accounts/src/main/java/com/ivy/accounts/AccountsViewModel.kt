@@ -1,7 +1,6 @@
 package com.ivy.accounts
 
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.data.db.read.AccountDao
 import com.ivy.core.data.db.write.AccountWriter
 import com.ivy.core.data.model.Account
 import com.ivy.core.event.AccountUpdatedEvent
@@ -26,7 +25,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AccountsViewModel @Inject constructor(
-    private val accountDao: AccountDao,
     private val accountCreator: AccountCreator,
     private val ivyContext: com.ivy.legacy.IvyWalletCtx,
     private val sharedPrefs: SharedPrefs,

@@ -1,9 +1,9 @@
 package com.ivy.wallet.domain.action.loan
 
-import com.ivy.frp.action.FPAction
-import com.ivy.core.data.model.Loan
 import com.ivy.core.data.db.read.LoanDao
-import java.util.*
+import com.ivy.core.data.model.Loan
+import com.ivy.frp.action.FPAction
+import java.util.UUID
 import javax.inject.Inject
 
 class LoanByIdAct @Inject constructor(

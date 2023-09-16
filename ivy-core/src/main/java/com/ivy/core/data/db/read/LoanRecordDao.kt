@@ -1,8 +1,6 @@
 package com.ivy.core.data.db.read
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ivy.core.data.db.entity.LoanRecordEntity
 import java.util.*

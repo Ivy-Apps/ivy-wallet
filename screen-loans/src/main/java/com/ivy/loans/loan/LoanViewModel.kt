@@ -2,7 +2,6 @@ package com.ivy.loans.loan
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.data.db.read.LoanDao
 import com.ivy.core.data.db.read.LoanRecordDao
 import com.ivy.core.data.db.read.SettingsDao
 import com.ivy.core.data.db.write.LoanWriter
@@ -38,7 +37,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoanViewModel @Inject constructor(
-    private val loanDao: LoanDao,
     private val loanRecordDao: LoanRecordDao,
     private val settingsDao: SettingsDao,
     private val loanCreator: LoanCreator,

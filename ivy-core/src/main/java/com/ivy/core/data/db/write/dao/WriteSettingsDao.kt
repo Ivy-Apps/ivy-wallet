@@ -1,8 +1,6 @@
 package com.ivy.core.data.db.write.dao
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
 import com.ivy.core.data.db.entity.SettingsEntity
@@ -15,7 +13,6 @@ interface WriteSettingsDao {
 
     @Upsert
     suspend fun saveMany(value: List<SettingsEntity>)
-
 
     @Query("DELETE FROM settings WHERE id = :id")
     suspend fun deleteById(id: UUID)

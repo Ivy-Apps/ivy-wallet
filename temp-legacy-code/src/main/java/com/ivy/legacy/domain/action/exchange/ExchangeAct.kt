@@ -1,11 +1,11 @@
 package com.ivy.wallet.domain.action.exchange
 
 import arrow.core.Option
+import com.ivy.core.data.db.read.ExchangeRatesDao
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.wallet.domain.pure.exchange.ExchangeData
 import com.ivy.wallet.domain.pure.exchange.exchange
-import com.ivy.core.data.db.read.ExchangeRatesDao
 import java.math.BigDecimal
 import javax.inject.Inject
 

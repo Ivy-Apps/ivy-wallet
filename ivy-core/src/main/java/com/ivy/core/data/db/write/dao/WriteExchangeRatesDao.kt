@@ -13,7 +13,6 @@ interface WriteExchangeRatesDao {
     @Upsert
     suspend fun saveMany(value: List<ExchangeRateEntity>)
 
-
     @Query("DELETE FROM exchange_rates WHERE baseCurrency = :baseCurrency AND currency = :currency")
     suspend fun deleteByBaseCurrencyAndCurrency(
         baseCurrency: String,

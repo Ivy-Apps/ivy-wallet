@@ -4,9 +4,9 @@ import com.ivy.core.data.model.Loan
 import com.ivy.core.data.model.LoanRecord
 import com.ivy.core.data.model.Transaction
 import com.ivy.legacy.domain.deprecated.logic.loantrasactions.LoanTransactionsCore
-import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
 import com.ivy.legacy.utils.computationThread
-import java.util.*
+import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
+import java.util.UUID
 import javax.inject.Inject
 
 class LTLoanRecordMapper @Inject constructor(

@@ -1,9 +1,9 @@
 package com.ivy.wallet.domain.action.settings
 
+import com.ivy.core.data.db.read.SettingsDao
+import com.ivy.core.data.model.Settings
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
-import com.ivy.core.data.model.Settings
-import com.ivy.core.data.db.read.SettingsDao
 import javax.inject.Inject
 
 class SettingsAct @Inject constructor(
