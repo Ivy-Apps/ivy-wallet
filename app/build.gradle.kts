@@ -174,7 +174,6 @@ dependencies {
     ksp(libs.room.compiler)
 
     implementation(libs.timber)
-    implementation(libs.eventbus)
     implementation(libs.keval)
     implementation(libs.bundles.opencsv)
     implementation(libs.androidx.work)

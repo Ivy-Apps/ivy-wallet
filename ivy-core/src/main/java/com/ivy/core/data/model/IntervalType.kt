@@ -1,7 +1,7 @@
 package com.ivy.core.data.model
 
 import androidx.annotation.Keep
-import com.ivy.core.utils.stringRes
+import com.ivy.core.util.stringRes
 import com.ivy.resources.R
 import java.time.LocalDateTime
 

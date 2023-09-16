@@ -2,10 +2,17 @@ package com.ivy.loans.loandetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.core.data.db.dao.AccountDao
+import com.ivy.core.data.db.dao.LoanDao
+import com.ivy.core.data.db.dao.LoanRecordDao
+import com.ivy.core.data.db.dao.SettingsDao
+import com.ivy.core.data.db.dao.TransactionDao
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Loan
 import com.ivy.core.data.model.LoanRecord
 import com.ivy.core.data.model.Transaction
+import com.ivy.core.event.AccountUpdatedEvent
+import com.ivy.core.event.EventBus
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.utils.computationThread
@@ -22,12 +29,6 @@ import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LoanTransactionsLo
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
 import com.ivy.wallet.domain.deprecated.logic.model.EditLoanRecordData
-import com.ivy.wallet.domain.event.AccountsUpdatedEvent
-import com.ivy.core.data.db.dao.AccountDao
-import com.ivy.core.data.db.dao.LoanDao
-import com.ivy.core.data.db.dao.LoanRecordDao
-import com.ivy.core.data.db.dao.SettingsDao
-import com.ivy.core.data.db.dao.TransactionDao
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -35,7 +36,6 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.greenrobot.eventbus.EventBus
 import java.util.UUID
 import javax.inject.Inject
 
@@ -53,7 +53,8 @@ class LoanDetailsViewModel @Inject constructor(
     private val loanTransactionsLogic: LoanTransactionsLogic,
     private val nav: Navigation,
     private val accountsAct: AccountsAct,
-    private val loanByIdAct: LoanByIdAct
+    private val loanByIdAct: LoanByIdAct,
+    private val eventBus: EventBus,
 ) : ViewModel() {
 
     private val _baseCurrency = MutableStateFlow("")
@@ -304,7 +305,7 @@ class LoanDetailsViewModel @Inject constructor(
             TestIdlingResource.increment()
 
             accountCreator.createAccount(data) {
-                EventBus.getDefault().post(AccountsUpdatedEvent())
+                eventBus.post(AccountUpdatedEvent)
                 _accounts.value = accountsAct(Unit)
             }
 

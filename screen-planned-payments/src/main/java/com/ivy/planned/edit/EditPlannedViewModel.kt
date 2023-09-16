@@ -3,32 +3,32 @@ package com.ivy.planned.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.frp.test.TestIdlingResource
-import com.ivy.navigation.EditPlannedScreen
-import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
-import com.ivy.core.data.model.IntervalType
-import com.ivy.core.data.db.entity.TransactionType
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.Category
-import com.ivy.core.data.model.PlannedPaymentRule
-import com.ivy.wallet.domain.deprecated.logic.AccountCreator
-import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
-import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsGenerator
-import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
-import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
-import com.ivy.wallet.domain.event.AccountsUpdatedEvent
 import com.ivy.core.data.db.dao.AccountDao
 import com.ivy.core.data.db.dao.CategoryDao
 import com.ivy.core.data.db.dao.PlannedPaymentRuleDao
 import com.ivy.core.data.db.dao.SettingsDao
 import com.ivy.core.data.db.dao.TransactionDao
+import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.data.model.Account
+import com.ivy.core.data.model.Category
+import com.ivy.core.data.model.IntervalType
+import com.ivy.core.data.model.PlannedPaymentRule
+import com.ivy.core.event.AccountUpdatedEvent
+import com.ivy.core.event.EventBus
+import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.utils.asLiveData
 import com.ivy.legacy.utils.ioThread
+import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.Navigation
+import com.ivy.wallet.domain.action.account.AccountsAct
+import com.ivy.wallet.domain.action.category.CategoriesAct
+import com.ivy.wallet.domain.deprecated.logic.AccountCreator
+import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
+import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsGenerator
+import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
+import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import org.greenrobot.eventbus.EventBus
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -44,7 +44,8 @@ class EditPlannedViewModel @Inject constructor(
     private val categoryCreator: CategoryCreator,
     private val accountCreator: AccountCreator,
     private val accountsAct: AccountsAct,
-    private val categoriesAct: CategoriesAct
+    private val categoriesAct: CategoriesAct,
+    private val eventBus: EventBus,
 ) : ViewModel() {
 
     private val _transactionType = MutableLiveData<TransactionType>()
@@ -328,7 +329,7 @@ class EditPlannedViewModel @Inject constructor(
     fun createAccount(data: CreateAccountData) {
         viewModelScope.launch {
             accountCreator.createAccount(data) {
-                EventBus.getDefault().post(AccountsUpdatedEvent())
+                eventBus.post(AccountUpdatedEvent)
                 _accounts.value = accountsAct(Unit)!!
             }
         }

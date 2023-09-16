@@ -13,6 +13,4 @@ dependencies {
     implementation(projects.ivyNavigation)
     implementation(projects.tempLegacyCode)
     implementation(projects.widgetBalance)
-
-    implementation(libs.eventbus)
 }

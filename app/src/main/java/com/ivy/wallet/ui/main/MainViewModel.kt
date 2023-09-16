@@ -3,9 +3,12 @@ package com.ivy.wallet.ui.main
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.legacy.data.SharedPrefs
+import com.ivy.core.data.db.dao.SettingsDao
+import com.ivy.core.event.AccountUpdatedEvent
+import com.ivy.core.event.EventBus
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.IvyWalletCtx
+import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.data.model.MainTab
 import com.ivy.legacy.utils.asLiveData
 import com.ivy.legacy.utils.ioThread
@@ -14,11 +17,8 @@ import com.ivy.navigation.Navigation
 import com.ivy.wallet.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
-import com.ivy.wallet.domain.event.AccountsUpdatedEvent
-import com.ivy.core.data.db.dao.SettingsDao
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,6 +29,7 @@ class MainViewModel @Inject constructor(
     private val syncExchangeRatesAct: SyncExchangeRatesAct,
     private val accountCreator: AccountCreator,
     private val sharedPrefs: SharedPrefs,
+    private val eventBus: EventBus,
 ) : ViewModel() {
 
     private val _currency = MutableLiveData<String>()
@@ -74,7 +75,7 @@ class MainViewModel @Inject constructor(
             TestIdlingResource.increment()
 
             accountCreator.createAccount(data) {
-                EventBus.getDefault().post(AccountsUpdatedEvent())
+                eventBus.post(AccountUpdatedEvent)
             }
 
             TestIdlingResource.decrement()

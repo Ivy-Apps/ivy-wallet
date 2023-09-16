@@ -3,14 +3,19 @@ package com.ivy.transaction
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.legacy.data.SharedPrefs
+import com.ivy.core.data.db.dao.LoanDao
+import com.ivy.core.data.db.dao.SettingsDao
+import com.ivy.core.data.db.dao.TransactionDao
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Category
 import com.ivy.core.data.model.Transaction
-import com.ivy.core.utils.refreshWidget
+import com.ivy.core.event.AccountUpdatedEvent
+import com.ivy.core.event.EventBus
+import com.ivy.core.util.refreshWidget
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.data.EditTransactionDisplayLoan
+import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.readOnly
@@ -33,10 +38,6 @@ import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LoanTransactionsLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
-import com.ivy.wallet.domain.event.AccountsUpdatedEvent
-import com.ivy.core.data.db.dao.LoanDao
-import com.ivy.core.data.db.dao.SettingsDao
-import com.ivy.core.data.db.dao.TransactionDao
 import com.ivy.widget.balance.WalletBalanceWidgetReceiver
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
@@ -44,7 +45,6 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.greenrobot.eventbus.EventBus
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.util.UUID
@@ -67,7 +67,8 @@ class EditTransactionViewModel @Inject constructor(
     private val categoriesAct: CategoriesAct,
     private val trnByIdAct: TrnByIdAct,
     private val categoryByIdAct: CategoryByIdAct,
-    private val accountByIdAct: AccountByIdAct
+    private val accountByIdAct: AccountByIdAct,
+    private val eventBus: EventBus,
 ) : ViewModel() {
 
     private val _transactionType = MutableLiveData<TransactionType>()
@@ -461,7 +462,7 @@ class EditTransactionViewModel @Inject constructor(
             TestIdlingResource.increment()
 
             accountCreator.createAccount(data) {
-                EventBus.getDefault().post(AccountsUpdatedEvent())
+                eventBus.post(AccountUpdatedEvent)
                 _accounts.value = accountsAct(Unit)
             }
 

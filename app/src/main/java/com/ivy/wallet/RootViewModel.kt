@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.core.data.db.dao.SettingsDao
 import com.ivy.core.data.db.entity.TransactionType
-import com.ivy.core.utils.stringRes
+import com.ivy.core.util.stringRes
 import com.ivy.design.l0_system.Theme
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.IvyWalletCtx

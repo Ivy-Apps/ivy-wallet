@@ -40,7 +40,7 @@ import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Category
 import com.ivy.core.data.model.Transaction
 import com.ivy.core.data.model.TransactionHistoryItem
-import com.ivy.core.utils.stringRes
+import com.ivy.core.util.stringRes
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style

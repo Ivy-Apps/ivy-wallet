@@ -1,7 +1,7 @@
 package com.ivy.legacy.data.model
 
 import androidx.compose.runtime.Immutable
-import com.ivy.core.utils.stringRes
+import com.ivy.core.util.stringRes
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.utils.dateNowUTC
 import com.ivy.resources.R
