@@ -1,4 +1,4 @@
-package com.ivy.core.utils
+package com.ivy.core.util
 
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName

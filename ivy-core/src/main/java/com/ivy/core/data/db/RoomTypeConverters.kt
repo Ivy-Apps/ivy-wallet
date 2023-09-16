@@ -4,8 +4,8 @@ import androidx.room.TypeConverter
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.model.IntervalType
 import com.ivy.core.data.model.LoanType
-import com.ivy.core.utils.epochMilliToDateTime
-import com.ivy.core.utils.toEpochMilli
+import com.ivy.core.util.epochMilliToDateTime
+import com.ivy.core.util.toEpochMilli
 import com.ivy.design.l0_system.Theme
 import java.time.LocalDateTime
 import java.util.*

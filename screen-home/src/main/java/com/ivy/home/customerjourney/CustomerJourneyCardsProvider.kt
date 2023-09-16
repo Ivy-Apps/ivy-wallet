@@ -3,7 +3,7 @@ package com.ivy.home.customerjourney
 import com.ivy.core.Constants
 import com.ivy.legacy.data.SharedPrefs
 import com.ivy.core.data.db.entity.TransactionType
-import com.ivy.core.utils.stringRes
+import com.ivy.core.util.stringRes
 import com.ivy.design.l0_system.Blue
 import com.ivy.design.l0_system.Blue3
 import com.ivy.design.l0_system.Gradient

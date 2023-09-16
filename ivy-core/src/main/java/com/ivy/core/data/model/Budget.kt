@@ -1,7 +1,7 @@
 package com.ivy.core.data.model
 
 import androidx.compose.runtime.Immutable
-import com.ivy.core.utils.stringRes
+import com.ivy.core.util.stringRes
 import com.ivy.resources.R
 import com.ivy.core.data.db.entity.BudgetEntity
 import java.util.UUID

@@ -16,7 +16,7 @@ import com.ivy.core.data.db.dao.LoanRecordDao
 import com.ivy.core.data.db.dao.PlannedPaymentRuleDao
 import com.ivy.core.data.db.dao.SettingsDao
 import com.ivy.core.data.db.dao.TransactionDao
-import com.ivy.core.utils.toEpochMilli
+import com.ivy.core.util.toEpochMilli
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.readFile
 import com.ivy.legacy.utils.scopedIOThread

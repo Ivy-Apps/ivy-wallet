@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.deprecated.logic.loantrasactions
 
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.legacy.IvyWalletCtx
-import com.ivy.core.utils.stringRes
+import com.ivy.core.util.stringRes
 import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.resources.R
 import com.ivy.core.data.model.LoanType

@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.model.Transaction
 import com.ivy.core.data.model.TransactionHistoryItem
-import com.ivy.core.utils.stringRes
+import com.ivy.core.util.stringRes
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.utils.drawColoredShadow

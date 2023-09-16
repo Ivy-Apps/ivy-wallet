@@ -41,7 +41,7 @@ import com.google.android.play.core.review.ReviewManagerFactory
 import com.ivy.IvyNavGraph
 import com.ivy.core.Constants
 import com.ivy.core.RootScreen
-import com.ivy.core.utils.toEpochMilli
+import com.ivy.core.util.toEpochMilli
 import com.ivy.design.api.IvyUI
 import com.ivy.home.customerjourney.CustomerJourneyCardsProvider
 import com.ivy.legacy.IvyWalletCtx

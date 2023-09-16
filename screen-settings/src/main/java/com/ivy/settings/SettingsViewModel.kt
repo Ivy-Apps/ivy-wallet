@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.core.RootScreen
-import com.ivy.core.utils.refreshWidget
+import com.ivy.core.util.refreshWidget
 import com.ivy.design.l0_system.Theme
 import com.ivy.frp.monad.Res
 import com.ivy.frp.test.TestIdlingResource

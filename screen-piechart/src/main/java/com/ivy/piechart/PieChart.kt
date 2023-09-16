@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.model.Category
-import com.ivy.core.utils.toEpochMilli
+import com.ivy.core.util.toEpochMilli
 import com.ivy.design.l0_system.UI
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.timeNowUTC

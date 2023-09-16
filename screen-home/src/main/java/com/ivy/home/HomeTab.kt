@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.core.data.model.Transaction
 import com.ivy.core.data.model.TransactionHistoryItem
-import com.ivy.core.utils.stringRes
+import com.ivy.core.util.stringRes
 import com.ivy.frp.asParamTo2
 import com.ivy.frp.forward
 import com.ivy.frp.then2

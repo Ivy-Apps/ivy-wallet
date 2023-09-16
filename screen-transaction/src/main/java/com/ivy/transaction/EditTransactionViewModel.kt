@@ -8,7 +8,7 @@ import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Category
 import com.ivy.core.data.model.Transaction
-import com.ivy.core.utils.refreshWidget
+import com.ivy.core.util.refreshWidget
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.data.EditTransactionDisplayLoan
 import com.ivy.legacy.utils.computationThread
