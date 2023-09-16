@@ -28,6 +28,7 @@ import com.ivy.legacy.utils.dateNowUTC
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.readOnly
+import com.ivy.legacy.utils.selectEndTextFieldValue
 import com.ivy.navigation.ItemStatisticScreen
 import com.ivy.navigation.Navigation
 import com.ivy.resources.R

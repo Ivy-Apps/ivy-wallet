@@ -23,11 +23,11 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.legacy.utils.hideKeyboard
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.components.IvyBasicTextField
 import com.ivy.wallet.ui.theme.components.IvyNameTextField
-import com.ivy.wallet.utils.hideKeyboard
 import java.util.UUID
 
 @Composable
