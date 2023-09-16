@@ -43,13 +43,11 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.core.Constants
 import com.ivy.core.Constants.URL_IVY_CONTRIBUTORS
-import com.ivy.design.l0_system.SunsetNight
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IconScale
 import com.ivy.design.l1_buildingBlocks.IvyIconScaled
-import com.ivy.navigation.navigation
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.rootScreen
 import com.ivy.legacy.utils.OpResult
@@ -57,11 +55,11 @@ import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.thenIf
-import com.ivy.navigation.DonateScreen
 import com.ivy.navigation.ExchangeRatesScreen
 import com.ivy.navigation.ImportScreen
 import com.ivy.navigation.SettingsScreen
 import com.ivy.navigation.TestScreen
+import com.ivy.navigation.navigation
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.ui.theme.Blue
@@ -382,18 +380,6 @@ private fun BoxWithConstraintsScope.UI(
                 backgroundGradient = Gradient.solid(Red3)
             ) {
                 rootScreen.shareIvyWallet()
-            }
-
-            Spacer(Modifier.height(12.dp))
-
-            val nav = navigation()
-            SettingsPrimaryButton(
-                icon = R.drawable.ic_donate_crown,
-                text = "Donate",
-                iconPadding = 8.dp,
-                backgroundGradient = Gradient.from(SunsetNight)
-            ) {
-                nav.navigateTo(DonateScreen)
             }
         }
 

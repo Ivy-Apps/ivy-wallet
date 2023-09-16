@@ -140,7 +140,6 @@ dependencies {
     implementation(projects.screenBudgets)
     implementation(projects.screenCategories)
     implementation(projects.screenHome)
-    implementation(projects.screenDonate)
     implementation(projects.screenImportData)
     implementation(projects.screenLoans)
     implementation(projects.screenPiechart)
