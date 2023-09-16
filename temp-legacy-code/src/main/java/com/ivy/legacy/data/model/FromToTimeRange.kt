@@ -1,5 +1,6 @@
 package com.ivy.legacy.data.model
 
+import androidx.compose.runtime.Immutable
 import com.ivy.core.data.model.Transaction
 import com.ivy.legacy.utils.beginningOfIvyTime
 import com.ivy.legacy.utils.dateNowUTC
@@ -10,6 +11,7 @@ import com.ivy.legacy.utils.toIvyFutureTime
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import java.time.LocalDateTime
 
+@Immutable
 data class FromToTimeRange(
     val from: LocalDateTime?,
     val to: LocalDateTime?,

@@ -141,8 +141,8 @@ class HomeViewModel @Inject constructor(
                 it.copy(
                     baseData = AppBaseData(
                         baseCurrency = settings.baseCurrency,
-                        categories = categories,
-                        accounts = accounts
+                        categories = categories.toImmutableList(),
+                        accounts = accounts.toImmutableList()
                     )
                 )
             }
@@ -225,7 +225,7 @@ class HomeViewModel @Inject constructor(
         updateState {
             it.copy(
                 upcoming = DueSection(
-                    trns = result.upcomingTrns,
+                    trns = result.upcomingTrns.toImmutableList(),
                     stats = result.upcoming,
                     expanded = it.upcoming.expanded
                 )
@@ -237,7 +237,7 @@ class HomeViewModel @Inject constructor(
         updateState {
             it.copy(
                 overdue = DueSection(
-                    trns = result.overdueTrns,
+                    trns = result.overdueTrns.toImmutableList(),
                     stats = result.overdue,
                     expanded = it.overdue.expanded
                 )

@@ -26,19 +26,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.legacy.IvyWalletPreview
-import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.style
-import com.ivy.design.l1_buildingBlocks.IvyText
-import com.ivy.design.l1_buildingBlocks.SpacerHor
-import com.ivy.navigation.navigation
-import com.ivy.legacy.data.AppBaseData
-import com.ivy.navigation.ItemStatisticScreen
-import com.ivy.resources.R
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.Category
 import com.ivy.core.data.model.Transaction
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
+import com.ivy.design.l1_buildingBlocks.IvyText
+import com.ivy.design.l1_buildingBlocks.SpacerHor
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.data.AppBaseData
+import com.ivy.legacy.utils.dateNowUTC
+import com.ivy.legacy.utils.format
+import com.ivy.legacy.utils.formatNicely
+import com.ivy.legacy.utils.isNotNullOrBlank
+import com.ivy.legacy.utils.timeNowUTC
+import com.ivy.navigation.ItemStatisticScreen
+import com.ivy.navigation.navigation
+import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.GradientIvy
@@ -59,11 +64,7 @@ import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.gradientExpenses
 import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
-import com.ivy.legacy.utils.dateNowUTC
-import com.ivy.legacy.utils.format
-import com.ivy.legacy.utils.formatNicely
-import com.ivy.legacy.utils.isNotNullOrBlank
-import com.ivy.legacy.utils.timeNowUTC
+import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalDateTime
 
 @Composable
@@ -508,8 +509,8 @@ private fun PreviewUpcomingExpense() {
                 TransactionCard(
                     baseData = AppBaseData(
                         baseCurrency = "BGN",
-                        categories = listOf(food),
-                        accounts = listOf(cash)
+                        categories = persistentListOf(food),
+                        accounts = persistentListOf(cash)
                     ),
                     transaction = Transaction(
                         accountId = cash.id,
@@ -540,8 +541,8 @@ private fun PreviewOverdueExpense() {
                 TransactionCard(
                     baseData = AppBaseData(
                         baseCurrency = "BGN",
-                        categories = listOf(food),
-                        accounts = listOf(cash)
+                        categories = persistentListOf(food),
+                        accounts = persistentListOf(cash)
                     ),
                     transaction = Transaction(
                         accountId = cash.id,
@@ -576,8 +577,8 @@ private fun PreviewNormalExpense() {
                 TransactionCard(
                     baseData = AppBaseData(
                         baseCurrency = "BGN",
-                        categories = listOf(food),
-                        accounts = listOf(cash)
+                        categories = persistentListOf(food),
+                        accounts = persistentListOf(cash)
                     ),
                     transaction = Transaction(
                         accountId = cash.id,
@@ -607,8 +608,8 @@ private fun PreviewIncome() {
                 TransactionCard(
                     baseData = AppBaseData(
                         baseCurrency = "BGN",
-                        categories = listOf(category),
-                        accounts = listOf(cash)
+                        categories = persistentListOf(category),
+                        accounts = persistentListOf(cash)
                     ),
                     transaction = Transaction(
                         accountId = cash.id,
@@ -638,8 +639,8 @@ private fun PreviewTransfer() {
                 TransactionCard(
                     baseData = AppBaseData(
                         baseCurrency = "BGN",
-                        categories = listOf(),
-                        accounts = listOf(acc1, acc2)
+                        categories = persistentListOf(),
+                        accounts = persistentListOf(acc1, acc2)
                     ),
                     transaction = Transaction(
                         accountId = acc1.id,
@@ -674,8 +675,8 @@ private fun PreviewTransfer_differentCurrency() {
                 TransactionCard(
                     baseData = AppBaseData(
                         baseCurrency = "BGN",
-                        categories = listOf(),
-                        accounts = listOf(acc1, acc2)
+                        categories = persistentListOf(),
+                        accounts = persistentListOf(acc1, acc2)
                     ),
                     transaction = Transaction(
                         accountId = acc1.id,

@@ -2,6 +2,7 @@ package com.ivy.design.l0_system
 
 import androidx.annotation.ColorInt
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -104,6 +105,7 @@ fun pureBlur() = UI.colors.pure.copy(alpha = 0.95f)
 @Composable
 fun mediumBlur() = UI.colors.medium.copy(alpha = 0.95f)
 
+@Immutable
 data class Gradient(
     val startColor: Color,
     val endColor: Color

@@ -47,32 +47,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.ivy.core.Constants
-import com.ivy.legacy.IvyWalletPreview
-import com.ivy.legacy.ivyWalletCtx
-import com.ivy.legacy.rootScreen
-import com.ivy.design.l0_system.SunsetNight
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.navigation.navigation
-import com.ivy.navigation.BudgetScreen
-import com.ivy.navigation.CategoriesScreen
-import com.ivy.navigation.DonateScreen
-import com.ivy.navigation.LoansScreen
-import com.ivy.navigation.PlannedPaymentsScreen
-import com.ivy.navigation.ReportScreen
-import com.ivy.navigation.SearchScreen
-import com.ivy.navigation.SettingsScreen
-import com.ivy.resources.R
-import com.ivy.wallet.ui.theme.Blue
-import com.ivy.wallet.ui.theme.Gradient
-import com.ivy.wallet.ui.theme.Gray
-import com.ivy.wallet.ui.theme.components.BufferBattery
-import com.ivy.wallet.ui.theme.components.CircleButtonFilled
-import com.ivy.wallet.ui.theme.components.IvyButton
-import com.ivy.wallet.ui.theme.components.IvyIcon
-import com.ivy.wallet.ui.theme.modal.AddModalBackHandling
-import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.ivyWalletCtx
+import com.ivy.legacy.rootScreen
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.colorLerp
 import com.ivy.legacy.utils.lerp
@@ -83,6 +63,22 @@ import com.ivy.legacy.utils.statusBarInset
 import com.ivy.legacy.utils.thenIf
 import com.ivy.legacy.utils.toDensityPx
 import com.ivy.legacy.utils.verticalSwipeListener
+import com.ivy.navigation.BudgetScreen
+import com.ivy.navigation.CategoriesScreen
+import com.ivy.navigation.LoansScreen
+import com.ivy.navigation.PlannedPaymentsScreen
+import com.ivy.navigation.ReportScreen
+import com.ivy.navigation.SearchScreen
+import com.ivy.navigation.SettingsScreen
+import com.ivy.navigation.navigation
+import com.ivy.resources.R
+import com.ivy.wallet.ui.theme.Blue
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.components.BufferBattery
+import com.ivy.wallet.ui.theme.components.CircleButtonFilled
+import com.ivy.wallet.ui.theme.components.IvyIcon
+import com.ivy.wallet.ui.theme.modal.AddModalBackHandling
+import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 import java.util.UUID
 import kotlin.math.roundToInt
 
@@ -194,12 +190,6 @@ fun BoxWithConstraintsScope.MoreMenu(
                 onCurrencyClick = onCurrencyClick
             )
         }
-    }
-
-    if (percentExpanded > 0.01f) {
-        DonateButton(
-            percentExpanded = percentExpanded
-        )
     }
 
     CircleButtonFilled(
@@ -593,28 +583,6 @@ private fun Preview_Expanded() {
             onBufferClick = { }
         ) {
         }
-    }
-}
-
-@Composable
-private fun BoxWithConstraintsScope.DonateButton(
-    percentExpanded: Float
-) {
-    val nav = navigation()
-    IvyButton(
-        modifier = Modifier
-            .align(Alignment.BottomCenter)
-            .navigationBarsPadding()
-            .padding(bottom = 40.dp)
-            .zIndex(510f)
-            .alpha(percentExpanded),
-        text = "Donate",
-        iconStart = R.drawable.ic_donate_crown,
-        iconEdgePadding = 16.dp,
-        iconTextPadding = 12.dp,
-        backgroundGradient = Gradient.from(SunsetNight)
-    ) {
-        nav.navigateTo(DonateScreen)
     }
 }
 

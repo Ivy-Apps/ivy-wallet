@@ -38,18 +38,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewManagerFactory
-import com.ivy.balance.BalanceScreen
-import com.ivy.budgets.BudgetScreen
-import com.ivy.categories.CategoriesScreen
+import com.ivy.IvyNavGraph
 import com.ivy.core.Constants
 import com.ivy.core.RootScreen
 import com.ivy.core.utils.toEpochMilli
 import com.ivy.design.api.IvyUI
-import com.ivy.donate.DonateScreen
-import com.ivy.exchangerates.ExchangeRatesScreen
 import com.ivy.home.customerjourney.CustomerJourneyCardsProvider
-import com.ivy.importdata.csv.CSVScreen
-import com.ivy.importdata.csvimport.ImportCSVScreen
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.appDesign
 import com.ivy.legacy.utils.activityForResultLauncher
@@ -57,45 +51,10 @@ import com.ivy.legacy.utils.convertLocalToUTC
 import com.ivy.legacy.utils.sendToCrashlytics
 import com.ivy.legacy.utils.simpleActivityForResultLauncher
 import com.ivy.legacy.utils.timeNowLocal
-import com.ivy.loans.loan.LoansScreen
-import com.ivy.loans.loandetails.LoanDetailsScreen
-import com.ivy.navigation.BalanceScreen
-import com.ivy.navigation.BudgetScreen
-import com.ivy.navigation.CSVScreen
-import com.ivy.navigation.CategoriesScreen
-import com.ivy.navigation.DonateScreen
-import com.ivy.navigation.EditPlannedScreen
-import com.ivy.navigation.EditTransactionScreen
-import com.ivy.navigation.ExchangeRatesScreen
-import com.ivy.navigation.ImportScreen
-import com.ivy.navigation.ItemStatisticScreen
-import com.ivy.navigation.LoanDetailsScreen
-import com.ivy.navigation.LoansScreen
-import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.NavigationRoot
-import com.ivy.navigation.OnboardingScreen
-import com.ivy.navigation.PieChartStatisticScreen
-import com.ivy.navigation.PlannedPaymentsScreen
-import com.ivy.navigation.ReportScreen
-import com.ivy.navigation.Screen
-import com.ivy.navigation.SearchScreen
-import com.ivy.navigation.SettingsScreen
-import com.ivy.navigation.TestScreen
-import com.ivy.onboarding.OnboardingScreen
-import com.ivy.piechart.PieChartStatisticScreen
-import com.ivy.planned.edit.EditPlannedScreen
-import com.ivy.planned.list.PlannedPaymentsScreen
-import com.ivy.reports.ReportScreen
 import com.ivy.resources.R
-import com.ivy.search.SearchScreen
-import com.ivy.settings.SettingsScreen
-import com.ivy.test.TestScreen
-import com.ivy.transaction.EditTransactionScreen
-import com.ivy.transactions.ItemStatisticScreen
-import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.ui.applocked.AppLockedScreen
-import com.ivy.wallet.ui.main.MainScreen
 import com.ivy.widget.balance.WalletBalanceWidgetReceiver
 import com.ivy.widget.transaction.AddTransactionWidget
 import com.ivy.widget.transaction.AddTransactionWidgetCompact
@@ -189,38 +148,8 @@ class RootActivity : AppCompatActivity(), RootScreen {
 
             false -> {
                 NavigationRoot(navigation = navigation) { screen ->
-                    Screens(screen)
+                    IvyNavGraph(screen)
                 }
-            }
-        }
-    }
-
-    @ExperimentalFoundationApi
-    @ExperimentalAnimationApi
-    @Composable
-    private fun BoxWithConstraintsScope.Screens(screen: Screen?) {
-        when (screen) {
-            is MainScreen -> MainScreen(screen = screen)
-            is OnboardingScreen -> OnboardingScreen(screen = screen)
-            is ExchangeRatesScreen -> ExchangeRatesScreen()
-            is EditTransactionScreen -> EditTransactionScreen(screen = screen)
-            is ItemStatisticScreen -> ItemStatisticScreen(screen = screen)
-            is PieChartStatisticScreen -> PieChartStatisticScreen(screen = screen)
-            is CategoriesScreen -> CategoriesScreen(screen = screen)
-            is SettingsScreen -> SettingsScreen(screen = screen)
-            is PlannedPaymentsScreen -> PlannedPaymentsScreen(screen = screen)
-            is EditPlannedScreen -> EditPlannedScreen(screen = screen)
-            is BalanceScreen -> BalanceScreen(screen = screen)
-            is TestScreen -> TestScreen(screen = screen)
-            is ImportScreen -> ImportCSVScreen(screen = screen)
-            is ReportScreen -> ReportScreen(screen = screen)
-            is BudgetScreen -> BudgetScreen(screen = screen)
-            is LoansScreen -> LoansScreen(screen = screen)
-            is LoanDetailsScreen -> LoanDetailsScreen(screen = screen)
-            is SearchScreen -> SearchScreen(screen = screen)
-            is DonateScreen -> DonateScreen(screen = screen)
-            is CSVScreen -> CSVScreen(screen = screen)
-            null -> {
             }
         }
     }
