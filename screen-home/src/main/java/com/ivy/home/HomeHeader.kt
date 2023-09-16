@@ -6,15 +6,7 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.design.l0_system.UI
@@ -128,12 +121,16 @@ private fun HeaderStickyRow(
 ) {
     Row(
         modifier = Modifier
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.End,
     ) {
-        Spacer(Modifier.width(24.dp))
 
-        Box {
+        Box(
+            modifier = Modifier.weight(1f),
+            contentAlignment = Alignment.CenterStart,
+        ) {
             Text(
                 modifier = Modifier
                     .alpha(percentExpanded)
@@ -149,7 +146,9 @@ private fun HeaderStickyRow(
                 style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = UI.colors.pureInverse
-                )
+                ),
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
             )
 
             // Balance mini row
@@ -172,8 +171,6 @@ private fun HeaderStickyRow(
             }
         }
 
-        Spacer(Modifier.weight(1f))
-
         IvyOutlinedButton(
             modifier = Modifier.horizontalSwipeListener(
                 sensitivity = 75,
@@ -194,7 +191,6 @@ private fun HeaderStickyRow(
 
         Spacer(Modifier.width(40.dp)) // settings menu button spacer
 
-        Spacer(Modifier.width(24.dp))
     }
 }
 
