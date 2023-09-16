@@ -301,7 +301,7 @@ fun AmountKeyboard(
     ) {
         CircleNumberButton(
             forCalculator = forCalculator,
-            value = "1",
+            value = "7",
             onNumberPressed = onNumberPressed
         )
 
@@ -309,7 +309,7 @@ fun AmountKeyboard(
 
         CircleNumberButton(
             forCalculator = forCalculator,
-            value = "2",
+            value = "8",
             onNumberPressed = onNumberPressed
         )
 
@@ -317,7 +317,7 @@ fun AmountKeyboard(
 
         CircleNumberButton(
             forCalculator = forCalculator,
-            value = "3",
+            value = "9",
             onNumberPressed = onNumberPressed
         )
 
@@ -373,7 +373,7 @@ fun AmountKeyboard(
     ) {
         CircleNumberButton(
             forCalculator = forCalculator,
-            value = "7",
+            value = "1",
             onNumberPressed = onNumberPressed
         )
 
@@ -381,7 +381,7 @@ fun AmountKeyboard(
 
         CircleNumberButton(
             forCalculator = forCalculator,
-            value = "8",
+            value = "2",
             onNumberPressed = onNumberPressed
         )
 
@@ -389,7 +389,7 @@ fun AmountKeyboard(
 
         CircleNumberButton(
             forCalculator = forCalculator,
-            value = "9",
+            value = "3",
             onNumberPressed = onNumberPressed
         )
 
