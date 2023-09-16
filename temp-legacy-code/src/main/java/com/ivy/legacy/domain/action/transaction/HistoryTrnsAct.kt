@@ -4,7 +4,7 @@ import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenMap
 import com.ivy.core.data.model.Transaction
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
-import com.ivy.core.data.db.dao.TransactionDao
+import com.ivy.core.data.db.read.TransactionDao
 import javax.inject.Inject
 
 class HistoryTrnsAct @Inject constructor(

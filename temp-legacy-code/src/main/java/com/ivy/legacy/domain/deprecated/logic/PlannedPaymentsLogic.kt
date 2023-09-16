@@ -7,10 +7,10 @@ import com.ivy.core.data.model.PlannedPaymentRule
 import com.ivy.core.data.model.Transaction
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.sumByDoublePlannedInBaseCurrency
-import com.ivy.core.data.db.dao.AccountDao
-import com.ivy.core.data.db.dao.PlannedPaymentRuleDao
-import com.ivy.core.data.db.dao.SettingsDao
-import com.ivy.core.data.db.dao.TransactionDao
+import com.ivy.core.data.db.read.AccountDao
+import com.ivy.core.data.db.read.PlannedPaymentRuleDao
+import com.ivy.core.data.db.read.SettingsDao
+import com.ivy.core.data.db.read.TransactionDao
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeNowUTC
 import javax.inject.Inject

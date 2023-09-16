@@ -18,8 +18,8 @@ import com.ivy.wallet.domain.deprecated.logic.PreloadDataLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
-import com.ivy.core.data.db.dao.AccountDao
-import com.ivy.core.data.db.dao.CategoryDao
+import com.ivy.core.data.db.read.AccountDao
+import com.ivy.core.data.db.read.CategoryDao
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineScope

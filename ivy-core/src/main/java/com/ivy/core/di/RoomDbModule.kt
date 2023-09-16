@@ -2,16 +2,16 @@ package com.ivy.core.di
 
 import android.content.Context
 import com.ivy.core.data.db.IvyRoomDatabase
-import com.ivy.core.data.db.dao.AccountDao
-import com.ivy.core.data.db.dao.BudgetDao
-import com.ivy.core.data.db.dao.CategoryDao
-import com.ivy.core.data.db.dao.ExchangeRateDao
-import com.ivy.core.data.db.dao.LoanDao
-import com.ivy.core.data.db.dao.LoanRecordDao
-import com.ivy.core.data.db.dao.PlannedPaymentRuleDao
-import com.ivy.core.data.db.dao.SettingsDao
-import com.ivy.core.data.db.dao.TransactionDao
-import com.ivy.core.data.db.dao.UserDao
+import com.ivy.core.data.db.read.AccountDao
+import com.ivy.core.data.db.read.BudgetDao
+import com.ivy.core.data.db.read.CategoryDao
+import com.ivy.core.data.db.read.ExchangeRatesDao
+import com.ivy.core.data.db.read.LoanDao
+import com.ivy.core.data.db.read.LoanRecordDao
+import com.ivy.core.data.db.read.PlannedPaymentRuleDao
+import com.ivy.core.data.db.read.SettingsDao
+import com.ivy.core.data.db.read.TransactionDao
+import com.ivy.core.data.db.read.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -81,7 +81,7 @@ object RoomDbModule {
     @Provides
     fun provideExchangeRatesDao(
         roomDatabase: IvyRoomDatabase
-    ): ExchangeRateDao {
+    ): ExchangeRatesDao {
         return roomDatabase.exchangeRatesDao()
     }
 }

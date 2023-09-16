@@ -7,7 +7,7 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.ivy.core.AppStarter
-import com.ivy.core.data.db.dao.TransactionDao
+import com.ivy.core.data.db.read.TransactionDao
 import com.ivy.core.util.stringRes
 import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.utils.atEndOfDay

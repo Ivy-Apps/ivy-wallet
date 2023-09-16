@@ -1,4 +1,4 @@
-package com.ivy.core.data.db.dao
+package com.ivy.core.data.db.read
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -7,6 +7,7 @@ import androidx.room.Query
 import com.ivy.core.data.db.entity.UserEntity
 import java.util.*
 
+@Deprecated("No longer needed, must be removed.")
 @Dao
 interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)

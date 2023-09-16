@@ -3,15 +3,15 @@ package com.ivy.wallet.domain.deprecated.logic.currency
 import com.ivy.core.data.model.Account
 import com.ivy.core.data.model.PlannedPaymentRule
 import com.ivy.core.data.model.Transaction
-import com.ivy.core.data.db.dao.AccountDao
-import com.ivy.core.data.db.dao.ExchangeRateDao
-import com.ivy.core.data.db.dao.SettingsDao
+import com.ivy.core.data.db.read.AccountDao
+import com.ivy.core.data.db.read.ExchangeRatesDao
+import com.ivy.core.data.db.read.SettingsDao
 import java.util.UUID
 import javax.inject.Inject
 
 @Deprecated("Use FP style, look into `domain.fp` package")
 class ExchangeRatesLogic @Inject constructor(
-    private val exchangeRateDao: ExchangeRateDao
+    private val exchangeRatesDao: ExchangeRatesDao
 ) {
     suspend fun amountBaseCurrency(
         plannedPayment: PlannedPaymentRule,
@@ -105,7 +105,7 @@ class ExchangeRatesLogic @Inject constructor(
         baseCurrency: String,
         currency: String
     ): Double {
-        val rate = exchangeRateDao.findByBaseCurrencyAndCurrency(
+        val rate = exchangeRatesDao.findByBaseCurrencyAndCurrency(
             baseCurrency = baseCurrency,
             currency = currency
         )?.rate ?: return 1.0

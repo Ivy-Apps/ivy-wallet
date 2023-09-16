@@ -3,7 +3,7 @@ package com.ivy.wallet.ui.main
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.data.db.dao.SettingsDao
+import com.ivy.core.data.db.read.SettingsDao
 import com.ivy.core.event.AccountUpdatedEvent
 import com.ivy.core.event.EventBus
 import com.ivy.frp.test.TestIdlingResource

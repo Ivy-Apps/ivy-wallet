@@ -5,18 +5,18 @@ import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.wallet.domain.pure.exchange.ExchangeData
 import com.ivy.wallet.domain.pure.exchange.exchange
-import com.ivy.core.data.db.dao.ExchangeRateDao
+import com.ivy.core.data.db.read.ExchangeRatesDao
 import java.math.BigDecimal
 import javax.inject.Inject
 
 class ExchangeAct @Inject constructor(
-    private val exchangeRateDao: ExchangeRateDao,
+    private val exchangeRatesDao: ExchangeRatesDao,
 ) : FPAction<ExchangeAct.Input, Option<BigDecimal>>() {
     override suspend fun Input.compose(): suspend () -> Option<BigDecimal> = suspend {
         exchange(
             data = data,
             amount = amount,
-            getExchangeRate = exchangeRateDao::findByBaseCurrencyAndCurrency then {
+            getExchangeRate = exchangeRatesDao::findByBaseCurrencyAndCurrency then {
                 it?.toDomain()
             }
         )

@@ -1,4 +1,4 @@
-package com.ivy.core.data.db.dao
+package com.ivy.core.data.db.read
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -9,12 +9,6 @@ import java.util.*
 
 @Dao
 interface SettingsDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun save(value: SettingsEntity)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun save(value: List<SettingsEntity>)
-
     @Query("SELECT * FROM settings LIMIT 1")
     suspend fun findFirst(): SettingsEntity
 
@@ -23,10 +17,4 @@ interface SettingsDao {
 
     @Query("SELECT * FROM settings WHERE id = :id")
     suspend fun findById(id: UUID): SettingsEntity?
-
-    @Query("DELETE FROM settings WHERE id = :id")
-    suspend fun deleteById(id: UUID)
-
-    @Query("DELETE FROM settings")
-    suspend fun deleteAll()
 }

@@ -7,7 +7,7 @@ import com.ivy.wallet.domain.action.exchange.actInput
 import com.ivy.core.data.model.TransactionHistoryItem
 import com.ivy.core.data.model.Transaction
 import com.ivy.wallet.domain.pure.transaction.transactionsWithDateDividers
-import com.ivy.core.data.db.dao.AccountDao
+import com.ivy.core.data.db.read.AccountDao
 import javax.inject.Inject
 
 class TrnsWithDateDivsAct @Inject constructor(

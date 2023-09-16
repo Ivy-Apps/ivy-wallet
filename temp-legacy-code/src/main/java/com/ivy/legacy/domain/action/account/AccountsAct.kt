@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.action.account
 
 import com.ivy.frp.action.FPAction
 import com.ivy.core.data.model.Account
-import com.ivy.core.data.db.dao.AccountDao
+import com.ivy.core.data.db.read.AccountDao
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import javax.inject.Inject

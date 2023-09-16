@@ -3,16 +3,6 @@ package com.ivy.core.data.db
 import android.content.Context
 import androidx.room.*
 import androidx.room.migration.AutoMigrationSpec
-import com.ivy.core.data.db.dao.AccountDao
-import com.ivy.core.data.db.dao.BudgetDao
-import com.ivy.core.data.db.dao.CategoryDao
-import com.ivy.core.data.db.dao.ExchangeRateDao
-import com.ivy.core.data.db.dao.LoanDao
-import com.ivy.core.data.db.dao.LoanRecordDao
-import com.ivy.core.data.db.dao.PlannedPaymentRuleDao
-import com.ivy.core.data.db.dao.SettingsDao
-import com.ivy.core.data.db.dao.TransactionDao
-import com.ivy.core.data.db.dao.UserDao
 import com.ivy.core.data.db.entity.AccountEntity
 import com.ivy.core.data.db.entity.BudgetEntity
 import com.ivy.core.data.db.entity.CategoryEntity
@@ -40,6 +30,25 @@ import com.ivy.core.data.db.migration.Migration118to119_Loans
 import com.ivy.core.data.db.migration.Migration119to120_LoanTransactions
 import com.ivy.core.data.db.migration.Migration120to121_DropWishlistItem
 import com.ivy.core.data.db.migration.Migration122to123_ExchangeRates
+import com.ivy.core.data.db.read.AccountDao
+import com.ivy.core.data.db.read.BudgetDao
+import com.ivy.core.data.db.read.CategoryDao
+import com.ivy.core.data.db.read.ExchangeRatesDao
+import com.ivy.core.data.db.read.LoanDao
+import com.ivy.core.data.db.read.LoanRecordDao
+import com.ivy.core.data.db.read.PlannedPaymentRuleDao
+import com.ivy.core.data.db.read.SettingsDao
+import com.ivy.core.data.db.read.TransactionDao
+import com.ivy.core.data.db.read.UserDao
+import com.ivy.core.data.db.write.dao.WriteAccountDao
+import com.ivy.core.data.db.write.dao.WriteBudgetDao
+import com.ivy.core.data.db.write.dao.WriteCategoryDao
+import com.ivy.core.data.db.write.dao.WriteExchangeRatesDao
+import com.ivy.core.data.db.write.dao.WriteLoanDao
+import com.ivy.core.data.db.write.dao.WriteLoanRecordDao
+import com.ivy.core.data.db.write.dao.WritePlannedPaymentRuleDao
+import com.ivy.core.data.db.write.dao.WriteSettingsDao
+import com.ivy.core.data.db.write.dao.WriteTransactionDao
 
 @Database(
     entities = [
@@ -60,25 +69,27 @@ import com.ivy.core.data.db.migration.Migration122to123_ExchangeRates
 )
 @TypeConverters(RoomTypeConverters::class)
 abstract class IvyRoomDatabase : RoomDatabase() {
-    abstract fun accountDao(): AccountDao
+    abstract val accountDao: AccountDao
+    abstract val transactionDao: TransactionDao
+    abstract val categoryDao: CategoryDao
+    abstract val budgetDao: BudgetDao
+    abstract val plannedPaymentRuleDao: PlannedPaymentRuleDao
+    abstract val settingsDao: SettingsDao
+    abstract val userDao: UserDao
+    abstract val exchangeRatesDao: ExchangeRatesDao
+    abstract val loanDao: LoanDao
+    abstract val loanRecordDao: LoanRecordDao
 
-    abstract fun transactionDao(): TransactionDao
+    abstract val writeAccountDao: WriteAccountDao
+    abstract val writeTransactionDao: WriteTransactionDao
+    abstract val writeCategoryDao: WriteCategoryDao
+    abstract val writeBudgetDao: WriteBudgetDao
+    abstract val writePlannedPaymentRuleDao: WritePlannedPaymentRuleDao
+    abstract val writeSettingsDao: WriteSettingsDao
+    abstract val writeExchangeRatesDao: WriteExchangeRatesDao
+    abstract val writeLoanDao: WriteLoanDao
+    abstract val writeLoanRecordDao: WriteLoanRecordDao
 
-    abstract fun categoryDao(): CategoryDao
-
-    abstract fun budgetDao(): BudgetDao
-
-    abstract fun plannedPaymentRuleDao(): PlannedPaymentRuleDao
-
-    abstract fun settingsDao(): SettingsDao
-
-    abstract fun userDao(): UserDao
-
-    abstract fun exchangeRatesDao(): ExchangeRateDao
-
-    abstract fun loanDao(): LoanDao
-
-    abstract fun loanRecordDao(): LoanRecordDao
 
     companion object {
         const val DB_NAME = "ivywallet.db"
@@ -114,15 +125,15 @@ abstract class IvyRoomDatabase : RoomDatabase() {
     }
 
     suspend fun reset() {
-        accountDao().deleteAll()
-        transactionDao().deleteAll()
-        categoryDao().deleteAll()
-        settingsDao().deleteAll()
-        plannedPaymentRuleDao().deleteAll()
-        userDao().deleteAll()
-        budgetDao().deleteAll()
-        loanDao().deleteAll()
-        loanRecordDao().deleteAll()
+        writeAccountDao.deleteAll()
+        writeTransactionDao.deleteAll()
+        writeCategoryDao.deleteAll()
+        writeSettingsDao.deleteAll()
+        writePlannedPaymentRuleDao.deleteAll()
+        userDao.deleteAll()
+        writeBudgetDao.deleteAll()
+        writeLoanDao.deleteAll()
+        writeLoanRecordDao.deleteAll()
     }
 
     @DeleteColumn(tableName = "accounts", columnName = "seAccountId")

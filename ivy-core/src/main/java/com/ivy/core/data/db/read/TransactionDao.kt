@@ -1,4 +1,4 @@
-package com.ivy.core.data.db.dao
+package com.ivy.core.data.db.read
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -11,12 +11,6 @@ import java.util.*
 
 @Dao
 interface TransactionDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun save(value: TransactionEntity)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun save(value: List<TransactionEntity>)
-
     @Query("SELECT * FROM transactions WHERE isDeleted = 0 ORDER BY dateTime DESC, dueDate ASC")
     suspend fun findAll(): List<TransactionEntity>
 
@@ -189,26 +183,6 @@ interface TransactionDao {
         synced: Boolean,
         deleted: Boolean = false
     ): List<TransactionEntity>
-
-    @Query("UPDATE transactions SET isDeleted = 1, isSynced = 0 WHERE id = :id")
-    suspend fun flagDeleted(id: UUID)
-
-    @Query(
-        "UPDATE transactions SET isDeleted = 1, isSynced = 0 WHERE recurringRuleId = :recurringRuleId AND dateTime IS NULL"
-    )
-    suspend fun flagDeletedByRecurringRuleIdAndNoDateTime(recurringRuleId: UUID)
-
-    @Query("UPDATE transactions SET isDeleted = 1, isSynced = 0 WHERE accountId = :accountId")
-    suspend fun flagDeletedByAccountId(accountId: UUID)
-
-    @Query("DELETE FROM transactions WHERE id = :id")
-    suspend fun deleteById(id: UUID)
-
-    @Query("DELETE FROM transactions WHERE accountId = :accountId")
-    suspend fun deleteAllByAccountId(accountId: UUID)
-
-    @Query("DELETE FROM transactions")
-    suspend fun deleteAll()
 
     @Query("SELECT COUNT(*) FROM transactions WHERE isDeleted = 0 AND dateTime IS NOT null")
     suspend fun countHappenedTransactions(): Long

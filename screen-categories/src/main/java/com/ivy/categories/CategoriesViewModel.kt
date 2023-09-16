@@ -16,7 +16,7 @@ import com.ivy.core.data.model.Transaction
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.legacy.data.SharedPrefs
-import com.ivy.core.data.db.dao.CategoryDao
+import com.ivy.core.data.db.read.CategoryDao
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
