@@ -1,7 +1,7 @@
 package com.ivy.home
 
 import androidx.compose.runtime.Immutable
-import com.ivy.core.data.model.TransactionHistoryItem
+import com.ivy.core.datamodel.TransactionHistoryItem
 import com.ivy.design.l0_system.Theme
 import com.ivy.home.customerjourney.CustomerJourneyCardModel
 import com.ivy.legacy.IvyWalletCtx

@@ -35,8 +35,8 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.test.TestingContext
 import com.ivy.resources.R
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.LoanRecord
+import com.ivy.core.datamodel.Account
+import com.ivy.core.datamodel.LoanRecord
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
 import com.ivy.wallet.domain.deprecated.logic.model.EditLoanRecordData

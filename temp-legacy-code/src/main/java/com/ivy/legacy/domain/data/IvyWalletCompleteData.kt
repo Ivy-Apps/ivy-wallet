@@ -10,25 +10,28 @@ import com.ivy.core.data.db.entity.LoanRecordEntity
 import com.ivy.core.data.db.entity.PlannedPaymentRuleEntity
 import com.ivy.core.data.db.entity.SettingsEntity
 import com.ivy.core.data.db.entity.TransactionEntity
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 @Keep
+@Serializable
 data class IvyWalletCompleteData(
-    @SerializedName("accounts")
+    @SerialName("accounts")
     val accounts: List<AccountEntity> = emptyList(),
-    @SerializedName("budgets")
+    @SerialName("budgets")
     val budgets: List<BudgetEntity> = emptyList(),
-    @SerializedName("categories")
+    @SerialName("categories")
     val categories: List<CategoryEntity> = emptyList(),
-    @SerializedName("loanRecords")
+    @SerialName("loanRecords")
     val loanRecords: List<LoanRecordEntity> = emptyList(),
-    @SerializedName("loans")
+    @SerialName("loans")
     val loans: List<LoanEntity> = emptyList(),
-    @SerializedName("plannedPaymentRules")
+    @SerialName("plannedPaymentRules")
     val plannedPaymentRules: List<PlannedPaymentRuleEntity> = emptyList(),
-    @SerializedName("settings")
+    @SerialName("settings")
     val settings: List<SettingsEntity> = emptyList(),
-    @SerializedName("transactions")
+    @SerialName("transactions")
     val transactions: List<TransactionEntity> = emptyList(),
-    @SerializedName("sharedPrefs")
+    @SerialName("sharedPrefs")
     val sharedPrefs: HashMap<String, String> = HashMap()
 )

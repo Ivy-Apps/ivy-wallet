@@ -22,11 +22,11 @@ import com.ivy.navigation.navigation
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.PlannedPaymentsScreen
 import com.ivy.resources.R
-import com.ivy.core.data.model.IntervalType
+import com.ivy.core.datamodel.IntervalType
 import com.ivy.core.data.db.entity.TransactionType
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.Category
-import com.ivy.core.data.model.PlannedPaymentRule
+import com.ivy.core.datamodel.Account
+import com.ivy.core.datamodel.Category
+import com.ivy.core.datamodel.PlannedPaymentRule
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.timeNowUTC

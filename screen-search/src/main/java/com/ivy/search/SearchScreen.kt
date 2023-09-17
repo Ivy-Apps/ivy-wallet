@@ -21,9 +21,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.Category
-import com.ivy.core.data.model.TransactionHistoryItem
+import com.ivy.core.datamodel.Account
+import com.ivy.core.datamodel.Category
+import com.ivy.core.datamodel.TransactionHistoryItem
 import com.ivy.core.util.stringRes
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.AppBaseData

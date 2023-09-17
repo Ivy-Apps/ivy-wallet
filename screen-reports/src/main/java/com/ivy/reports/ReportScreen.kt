@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.core.data.db.entity.TransactionType
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.Category
+import com.ivy.core.datamodel.Account
+import com.ivy.core.datamodel.Category
 import com.ivy.core.util.stringRes
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style

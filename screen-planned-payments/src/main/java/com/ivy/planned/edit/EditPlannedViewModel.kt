@@ -10,10 +10,10 @@ import com.ivy.core.data.db.read.PlannedPaymentRuleDao
 import com.ivy.core.data.db.read.SettingsDao
 import com.ivy.core.data.db.write.PlannedPaymentRuleWriter
 import com.ivy.core.data.db.write.TransactionWriter
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.Category
-import com.ivy.core.data.model.IntervalType
-import com.ivy.core.data.model.PlannedPaymentRule
+import com.ivy.core.datamodel.Account
+import com.ivy.core.datamodel.Category
+import com.ivy.core.datamodel.IntervalType
+import com.ivy.core.datamodel.PlannedPaymentRule
 import com.ivy.core.event.AccountUpdatedEvent
 import com.ivy.core.event.EventBus
 import com.ivy.frp.test.TestIdlingResource

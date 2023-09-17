@@ -2,8 +2,8 @@ package com.ivy.wallet.domain.deprecated.logic
 
 import com.ivy.core.data.db.read.TransactionDao
 import com.ivy.core.data.db.write.TransactionWriter
-import com.ivy.core.data.model.PlannedPaymentRule
-import com.ivy.core.data.model.Transaction
+import com.ivy.core.datamodel.PlannedPaymentRule
+import com.ivy.core.datamodel.Transaction
 import java.time.LocalDateTime
 import javax.inject.Inject
 

@@ -1,7 +1,7 @@
 package com.ivy.legacy.data.model
 
 import androidx.compose.runtime.Immutable
-import com.ivy.core.data.model.IntervalType
+import com.ivy.core.datamodel.IntervalType
 import com.ivy.legacy.utils.timeNowUTC
 import java.time.LocalDateTime
 

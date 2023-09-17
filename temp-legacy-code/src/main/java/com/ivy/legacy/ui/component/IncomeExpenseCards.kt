@@ -19,8 +19,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ivy.core.data.db.entity.TransactionType
-import com.ivy.core.data.model.Transaction
-import com.ivy.core.data.model.TransactionHistoryItem
+import com.ivy.core.datamodel.Transaction
+import com.ivy.core.datamodel.TransactionHistoryItem
 import com.ivy.core.util.stringRes
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style

@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.core.data.db.read.AccountDao
 import com.ivy.core.data.db.read.CategoryDao
 import com.ivy.core.data.db.read.SettingsDao
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.Category
-import com.ivy.core.data.model.PlannedPaymentRule
+import com.ivy.core.datamodel.Account
+import com.ivy.core.datamodel.Category
+import com.ivy.core.datamodel.PlannedPaymentRule
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.utils.asLiveData
 import com.ivy.legacy.utils.ioThread

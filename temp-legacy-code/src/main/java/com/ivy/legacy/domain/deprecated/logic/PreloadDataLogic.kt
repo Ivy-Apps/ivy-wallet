@@ -3,8 +3,8 @@ package com.ivy.wallet.domain.deprecated.logic
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.core.data.db.write.AccountWriter
 import com.ivy.core.data.db.write.CategoryWriter
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.Category
+import com.ivy.core.datamodel.Account
+import com.ivy.core.datamodel.Category
 import com.ivy.core.util.stringRes
 import com.ivy.design.l0_system.*
 import com.ivy.resources.R

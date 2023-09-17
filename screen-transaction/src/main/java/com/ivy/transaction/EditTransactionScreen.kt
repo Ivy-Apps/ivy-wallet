@@ -44,8 +44,8 @@ import com.ivy.navigation.EditTransactionScreen
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.CustomExchangeRateState
 import com.ivy.core.data.db.entity.TransactionType
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.Category
+import com.ivy.core.datamodel.Account
+import com.ivy.core.datamodel.Category
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.edit.core.Category

@@ -33,6 +33,7 @@ import com.ivy.wallet.domain.deprecated.logic.zip.zip
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.async
+import kotlinx.serialization.json.Json
 import timber.log.Timber
 import java.io.File
 import java.lang.reflect.Type

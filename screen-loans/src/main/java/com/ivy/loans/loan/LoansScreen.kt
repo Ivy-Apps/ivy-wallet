@@ -40,8 +40,8 @@ import com.ivy.navigation.navigation
 import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.LoansScreen
 import com.ivy.resources.R
-import com.ivy.core.data.model.LoanType
-import com.ivy.core.data.model.Loan
+import com.ivy.core.datamodel.LoanType
+import com.ivy.core.datamodel.Loan
 import com.ivy.loans.loan.data.DisplayLoan
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gray

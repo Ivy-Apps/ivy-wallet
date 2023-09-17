@@ -7,10 +7,10 @@ import com.ivy.core.data.db.read.LoanDao
 import com.ivy.core.data.db.read.LoanRecordDao
 import com.ivy.core.data.db.read.SettingsDao
 import com.ivy.core.data.db.read.TransactionDao
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.Loan
-import com.ivy.core.data.model.LoanRecord
-import com.ivy.core.data.model.Transaction
+import com.ivy.core.datamodel.Account
+import com.ivy.core.datamodel.Loan
+import com.ivy.core.datamodel.LoanRecord
+import com.ivy.core.datamodel.Transaction
 import com.ivy.core.event.AccountUpdatedEvent
 import com.ivy.core.event.EventBus
 import com.ivy.frp.test.TestIdlingResource

@@ -1,7 +1,7 @@
 package com.ivy.legacy.data.model
 
 import androidx.compose.runtime.Immutable
-import com.ivy.core.data.model.Account
+import com.ivy.core.datamodel.Account
 import com.ivy.wallet.domain.data.Reorderable
 
 @Immutable

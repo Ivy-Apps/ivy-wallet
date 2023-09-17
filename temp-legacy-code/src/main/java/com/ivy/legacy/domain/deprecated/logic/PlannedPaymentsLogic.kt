@@ -7,10 +7,10 @@ import com.ivy.core.data.db.read.SettingsDao
 import com.ivy.core.data.db.read.TransactionDao
 import com.ivy.core.data.db.write.PlannedPaymentRuleWriter
 import com.ivy.core.data.db.write.TransactionWriter
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.IntervalType
-import com.ivy.core.data.model.PlannedPaymentRule
-import com.ivy.core.data.model.Transaction
+import com.ivy.core.datamodel.Account
+import com.ivy.core.datamodel.IntervalType
+import com.ivy.core.datamodel.PlannedPaymentRule
+import com.ivy.core.datamodel.Transaction
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic

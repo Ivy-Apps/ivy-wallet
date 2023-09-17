@@ -22,7 +22,7 @@ import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.resources.R
-import com.ivy.core.data.model.IntervalType
+import com.ivy.core.datamodel.IntervalType
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.components.AddPrimaryAttributeButton
 import com.ivy.wallet.ui.theme.components.IvyIcon

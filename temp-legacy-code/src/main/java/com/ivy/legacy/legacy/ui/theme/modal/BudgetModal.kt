@@ -36,9 +36,9 @@ import com.ivy.core.legacy.ui.theme.components.ListItem
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.resources.R
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.Budget
-import com.ivy.core.data.model.Category
+import com.ivy.core.datamodel.Account
+import com.ivy.core.datamodel.Budget
+import com.ivy.core.datamodel.Category
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Purple1Dark

@@ -8,9 +8,9 @@ import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.transaction.AllTrnsAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithDateDivsAct
-import com.ivy.core.data.model.TransactionHistoryItem
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.Category
+import com.ivy.core.datamodel.TransactionHistoryItem
+import com.ivy.core.datamodel.Account
+import com.ivy.core.datamodel.Category
 import com.ivy.legacy.utils.getDefaultFIATCurrency
 import com.ivy.legacy.utils.ioThread
 import dagger.hilt.android.lifecycle.HiltViewModel

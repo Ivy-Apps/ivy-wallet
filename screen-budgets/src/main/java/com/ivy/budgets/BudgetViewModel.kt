@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.budgets.model.DisplayBudget
 import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.db.write.BudgetWriter
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.Budget
-import com.ivy.core.data.model.Category
-import com.ivy.core.data.model.Transaction
+import com.ivy.core.datamodel.Account
+import com.ivy.core.datamodel.Budget
+import com.ivy.core.datamodel.Category
+import com.ivy.core.datamodel.Transaction
 import com.ivy.frp.sumOfSuspend
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.data.SharedPrefs

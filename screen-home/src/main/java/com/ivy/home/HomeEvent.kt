@@ -2,7 +2,7 @@ package com.ivy.home
 
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.home.customerjourney.CustomerJourneyCardModel
-import com.ivy.core.data.model.Transaction
+import com.ivy.core.datamodel.Transaction
 
 sealed class HomeEvent {
     data object Start : HomeEvent()

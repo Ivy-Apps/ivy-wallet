@@ -7,9 +7,9 @@ import com.ivy.core.data.db.entity.TransactionType
 import com.ivy.core.data.db.read.LoanDao
 import com.ivy.core.data.db.read.SettingsDao
 import com.ivy.core.data.db.write.TransactionWriter
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.Category
-import com.ivy.core.data.model.Transaction
+import com.ivy.core.datamodel.Account
+import com.ivy.core.datamodel.Category
+import com.ivy.core.datamodel.Transaction
 import com.ivy.core.event.AccountUpdatedEvent
 import com.ivy.core.event.EventBus
 import com.ivy.core.util.refreshWidget

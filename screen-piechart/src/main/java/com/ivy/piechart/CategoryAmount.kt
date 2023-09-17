@@ -1,7 +1,7 @@
 package com.ivy.piechart
 
-import com.ivy.core.data.model.Category
-import com.ivy.core.data.model.Transaction
+import com.ivy.core.datamodel.Category
+import com.ivy.core.datamodel.Transaction
 
 data class CategoryAmount(
     val category: Category?,
