@@ -5,7 +5,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.ivy.core.datamodel.Budget
 import com.ivy.core.kotlinxserilzation.KSerializerUUID
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.util.*

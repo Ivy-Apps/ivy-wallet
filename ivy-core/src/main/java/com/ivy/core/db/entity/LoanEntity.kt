@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey
 import com.ivy.core.datamodel.Loan
 import com.ivy.core.datamodel.LoanType
 import com.ivy.core.kotlinxserilzation.KSerializerUUID
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.util.*
