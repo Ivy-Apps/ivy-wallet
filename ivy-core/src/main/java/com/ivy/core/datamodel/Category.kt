@@ -3,7 +3,7 @@ package com.ivy.core.datamodel
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.design.l0_system.Ivy
-import com.ivy.core.data.db.entity.CategoryEntity
+import com.ivy.core.db.entity.CategoryEntity
 import java.util.UUID
 
 @Immutable

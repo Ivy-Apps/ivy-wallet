@@ -3,10 +3,10 @@ package com.ivy.transaction
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.data.db.entity.TransactionType
-import com.ivy.core.data.db.read.LoanDao
-import com.ivy.core.data.db.read.SettingsDao
-import com.ivy.core.data.db.write.TransactionWriter
+import com.ivy.core.db.entity.TransactionType
+import com.ivy.core.db.read.LoanDao
+import com.ivy.core.db.read.SettingsDao
+import com.ivy.core.db.write.TransactionWriter
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Category
 import com.ivy.core.datamodel.Transaction

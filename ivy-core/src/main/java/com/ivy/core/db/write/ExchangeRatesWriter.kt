@@ -1,8 +1,8 @@
 package com.ivy.core.db.write
 
 import arrow.core.Either
-import com.ivy.core.data.db.entity.ExchangeRateEntity
-import com.ivy.core.data.db.write.dao.WriteExchangeRatesDao
+import com.ivy.core.db.entity.ExchangeRateEntity
+import com.ivy.core.db.write.dao.WriteExchangeRatesDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

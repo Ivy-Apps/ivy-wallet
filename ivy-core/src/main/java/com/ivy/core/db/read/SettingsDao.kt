@@ -2,7 +2,7 @@ package com.ivy.core.db.read
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.ivy.core.data.db.entity.SettingsEntity
+import com.ivy.core.db.entity.SettingsEntity
 import java.util.*
 
 @Dao

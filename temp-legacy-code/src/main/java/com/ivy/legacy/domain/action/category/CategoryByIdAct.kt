@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.action.category
 
-import com.ivy.core.data.db.read.CategoryDao
+import com.ivy.core.db.read.CategoryDao
 import com.ivy.core.datamodel.Category
 import com.ivy.frp.action.FPAction
 import java.util.UUID

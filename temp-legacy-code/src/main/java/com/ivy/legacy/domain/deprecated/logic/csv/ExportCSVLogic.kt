@@ -2,11 +2,11 @@ package com.ivy.wallet.domain.deprecated.logic.csv
 
 import android.content.Context
 import android.net.Uri
-import com.ivy.core.data.db.entity.TransactionType
-import com.ivy.core.data.db.read.AccountDao
-import com.ivy.core.data.db.read.CategoryDao
-import com.ivy.core.data.db.read.SettingsDao
-import com.ivy.core.data.db.read.TransactionDao
+import com.ivy.core.db.entity.TransactionType
+import com.ivy.core.db.read.AccountDao
+import com.ivy.core.db.read.CategoryDao
+import com.ivy.core.db.read.SettingsDao
+import com.ivy.core.db.read.TransactionDao
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Category
 import com.ivy.core.datamodel.Transaction

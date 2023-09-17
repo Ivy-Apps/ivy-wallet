@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.action.transaction
 
-import com.ivy.core.data.db.read.TransactionDao
+import com.ivy.core.db.read.TransactionDao
 import com.ivy.core.datamodel.Transaction
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenFilter

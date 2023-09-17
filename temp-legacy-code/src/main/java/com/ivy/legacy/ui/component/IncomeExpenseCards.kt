@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.db.entity.TransactionType
 import com.ivy.core.datamodel.Transaction
 import com.ivy.core.datamodel.TransactionHistoryItem
 import com.ivy.core.util.stringRes

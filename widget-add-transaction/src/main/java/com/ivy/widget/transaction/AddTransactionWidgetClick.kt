@@ -7,7 +7,7 @@ import android.content.Intent
 import android.widget.RemoteViews
 import androidx.annotation.IdRes
 import com.ivy.core.AppStarter
-import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.db.entity.TransactionType
 import javax.inject.Inject
 
 class AddTransactionWidgetClick @Inject constructor(

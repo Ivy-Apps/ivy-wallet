@@ -32,7 +32,7 @@ import com.ivy.legacy.ui.component.transaction.TypeAmountCurrency
 import com.ivy.navigation.ItemStatisticScreen
 import com.ivy.resources.R
 import com.ivy.core.datamodel.IntervalType
-import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.db.entity.TransactionType
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Category
 import com.ivy.core.datamodel.PlannedPaymentRule

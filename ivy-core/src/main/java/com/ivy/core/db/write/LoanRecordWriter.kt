@@ -1,8 +1,8 @@
 package com.ivy.core.db.write
 
 import arrow.core.Either
-import com.ivy.core.data.db.entity.LoanRecordEntity
-import com.ivy.core.data.db.write.dao.WriteLoanRecordDao
+import com.ivy.core.db.entity.LoanRecordEntity
+import com.ivy.core.db.write.dao.WriteLoanRecordDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.UUID

@@ -3,9 +3,9 @@ package com.ivy.planned.list
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.data.db.read.AccountDao
-import com.ivy.core.data.db.read.CategoryDao
-import com.ivy.core.data.db.read.SettingsDao
+import com.ivy.core.db.read.AccountDao
+import com.ivy.core.db.read.CategoryDao
+import com.ivy.core.db.read.SettingsDao
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Category
 import com.ivy.core.datamodel.PlannedPaymentRule

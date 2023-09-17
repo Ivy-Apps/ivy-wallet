@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.action.loan
 
-import com.ivy.core.data.db.read.LoanDao
+import com.ivy.core.db.read.LoanDao
 import com.ivy.core.datamodel.Loan
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenMap

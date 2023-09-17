@@ -2,7 +2,7 @@ package com.ivy.core.datamodel
 
 import androidx.compose.runtime.Immutable
 import com.ivy.design.l0_system.Theme
-import com.ivy.core.data.db.entity.SettingsEntity
+import com.ivy.core.db.entity.SettingsEntity
 import java.math.BigDecimal
 import java.util.UUID
 

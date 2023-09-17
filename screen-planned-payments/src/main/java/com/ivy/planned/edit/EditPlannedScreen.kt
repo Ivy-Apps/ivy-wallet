@@ -28,7 +28,7 @@ import com.ivy.legacy.IvyWalletPreview
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.resources.R
 import com.ivy.core.datamodel.IntervalType
-import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.db.entity.TransactionType
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Category
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData

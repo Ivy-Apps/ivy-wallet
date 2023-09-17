@@ -2,8 +2,8 @@ package com.ivy.core.db.read
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.ivy.core.data.db.entity.TransactionEntity
-import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.db.entity.TransactionEntity
+import com.ivy.core.db.entity.TransactionType
 import java.time.LocalDateTime
 import java.util.*
 

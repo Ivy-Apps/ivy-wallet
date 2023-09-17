@@ -1,8 +1,8 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.core.data.db.read.LoanDao
-import com.ivy.core.data.db.write.LoanWriter
+import com.ivy.core.db.read.LoanDao
+import com.ivy.core.db.write.LoanWriter
 import com.ivy.core.datamodel.Loan
 import com.ivy.legacy.utils.ioThread
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanData

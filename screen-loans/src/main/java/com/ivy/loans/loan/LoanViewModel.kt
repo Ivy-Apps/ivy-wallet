@@ -2,9 +2,9 @@ package com.ivy.loans.loan
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.data.db.read.LoanRecordDao
-import com.ivy.core.data.db.read.SettingsDao
-import com.ivy.core.data.db.write.LoanWriter
+import com.ivy.core.db.read.LoanRecordDao
+import com.ivy.core.db.read.SettingsDao
+import com.ivy.core.db.write.LoanWriter
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Loan
 import com.ivy.core.event.AccountUpdatedEvent

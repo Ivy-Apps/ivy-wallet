@@ -3,8 +3,8 @@ package com.ivy.budgets
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.budgets.model.DisplayBudget
-import com.ivy.core.data.db.entity.TransactionType
-import com.ivy.core.data.db.write.BudgetWriter
+import com.ivy.core.db.entity.TransactionType
+import com.ivy.core.db.write.BudgetWriter
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Budget
 import com.ivy.core.datamodel.Category

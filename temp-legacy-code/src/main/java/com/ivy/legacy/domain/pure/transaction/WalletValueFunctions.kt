@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.pure.transaction
 
 import com.ivy.frp.SideEffect
-import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.db.entity.TransactionType
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Transaction
 import com.ivy.wallet.domain.pure.exchange.ExchangeEffect

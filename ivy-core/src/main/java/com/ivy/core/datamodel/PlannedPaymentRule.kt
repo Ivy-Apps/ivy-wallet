@@ -1,8 +1,8 @@
 package com.ivy.core.datamodel
 
 import androidx.compose.runtime.Immutable
-import com.ivy.core.data.db.entity.PlannedPaymentRuleEntity
-import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.db.entity.PlannedPaymentRuleEntity
+import com.ivy.core.db.entity.TransactionType
 import java.time.LocalDateTime
 import java.util.UUID
 

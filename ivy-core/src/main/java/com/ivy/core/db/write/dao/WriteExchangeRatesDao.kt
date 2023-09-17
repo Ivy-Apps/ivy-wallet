@@ -3,7 +3,7 @@ package com.ivy.core.db.write.dao
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.ivy.core.data.db.entity.ExchangeRateEntity
+import com.ivy.core.db.entity.ExchangeRateEntity
 
 @Dao
 interface WriteExchangeRatesDao {

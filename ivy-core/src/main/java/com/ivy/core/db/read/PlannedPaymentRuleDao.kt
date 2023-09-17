@@ -2,7 +2,7 @@ package com.ivy.core.db.read
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.ivy.core.data.db.entity.PlannedPaymentRuleEntity
+import com.ivy.core.db.entity.PlannedPaymentRuleEntity
 import java.util.*
 
 @Dao

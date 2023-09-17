@@ -1,7 +1,7 @@
 package com.ivy.categories
 
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.data.db.write.CategoryWriter
+import com.ivy.core.db.write.CategoryWriter
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Transaction
 import com.ivy.frp.action.thenMap

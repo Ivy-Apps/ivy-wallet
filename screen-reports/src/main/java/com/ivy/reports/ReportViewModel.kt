@@ -5,8 +5,8 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ivy.core.RootScreen
-import com.ivy.core.data.db.entity.TransactionType
-import com.ivy.core.data.db.read.TransactionDao
+import com.ivy.core.db.entity.TransactionType
+import com.ivy.core.db.read.TransactionDao
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Category
 import com.ivy.core.datamodel.Transaction

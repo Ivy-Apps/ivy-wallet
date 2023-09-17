@@ -1,8 +1,8 @@
 package com.ivy.core.db.write
 
 import arrow.core.Either
-import com.ivy.core.data.db.entity.AccountEntity
-import com.ivy.core.data.db.write.dao.WriteAccountDao
+import com.ivy.core.db.entity.AccountEntity
+import com.ivy.core.db.write.dao.WriteAccountDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.UUID

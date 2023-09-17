@@ -1,7 +1,7 @@
 package com.ivy.legacy.domain.deprecated.logic
 
-import com.ivy.core.data.db.read.BudgetDao
-import com.ivy.core.data.db.write.BudgetWriter
+import com.ivy.core.db.read.BudgetDao
+import com.ivy.core.db.write.BudgetWriter
 import com.ivy.core.datamodel.Budget
 import com.ivy.legacy.utils.ioThread
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData

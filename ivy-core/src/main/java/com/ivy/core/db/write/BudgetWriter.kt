@@ -1,8 +1,8 @@
 package com.ivy.core.db.write
 
 import arrow.core.Either
-import com.ivy.core.data.db.entity.BudgetEntity
-import com.ivy.core.data.db.write.dao.WriteBudgetDao
+import com.ivy.core.db.entity.BudgetEntity
+import com.ivy.core.db.write.dao.WriteBudgetDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.UUID

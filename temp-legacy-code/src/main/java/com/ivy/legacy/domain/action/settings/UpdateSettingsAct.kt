@@ -1,6 +1,6 @@
 package com.ivy.legacy.domain.action.settings
 
-import com.ivy.core.data.db.write.SettingsWriter
+import com.ivy.core.db.write.SettingsWriter
 import com.ivy.core.datamodel.Settings
 import com.ivy.frp.action.FPAction
 import javax.inject.Inject

@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.action.budget
 
-import com.ivy.core.data.db.read.BudgetDao
+import com.ivy.core.db.read.BudgetDao
 import com.ivy.core.datamodel.Budget
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenMap

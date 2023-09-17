@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.ivy.core.data.db.entity.UserEntity
+import com.ivy.core.db.entity.UserEntity
 import java.util.*
 
 @Deprecated("No longer needed, must be removed.")

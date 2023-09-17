@@ -1,8 +1,8 @@
 package com.ivy.core.db.write
 
 import arrow.core.Either
-import com.ivy.core.data.db.entity.PlannedPaymentRuleEntity
-import com.ivy.core.data.db.write.dao.WritePlannedPaymentRuleDao
+import com.ivy.core.db.entity.PlannedPaymentRuleEntity
+import com.ivy.core.db.write.dao.WritePlannedPaymentRuleDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.UUID

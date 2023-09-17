@@ -1,8 +1,8 @@
 package com.ivy.onboarding.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.ivy.core.data.db.read.AccountDao
-import com.ivy.core.data.db.read.CategoryDao
+import com.ivy.core.db.read.AccountDao
+import com.ivy.core.db.read.CategoryDao
 import com.ivy.core.datamodel.Category
 import com.ivy.legacy.LogoutLogic
 import com.ivy.legacy.data.SharedPrefs
