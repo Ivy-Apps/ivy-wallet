@@ -9,7 +9,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class AppModuleBindings {
+abstract class AppBindingsModule {
     @Binds
     abstract fun appStarter(appStarter: IvyAppStarter): AppStarter
 }
