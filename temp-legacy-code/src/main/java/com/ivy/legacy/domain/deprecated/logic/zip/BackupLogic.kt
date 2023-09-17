@@ -215,7 +215,6 @@ class BackupLogic @Inject constructor(
         return modifiedString
     }
 
-
     private suspend fun insertDataToDb(
         completeData: IvyWalletCompleteData,
         onProgress: suspend (progressPercent: Double) -> Unit = {}

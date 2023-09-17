@@ -1,6 +1,9 @@
 package com.ivy.importdata.csv.domain
 
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.core.datamodel.Account
+import com.ivy.core.datamodel.Category
+import com.ivy.core.datamodel.Transaction
 import com.ivy.core.db.entity.TransactionType
 import com.ivy.core.db.read.AccountDao
 import com.ivy.core.db.read.CategoryDao
@@ -8,9 +11,6 @@ import com.ivy.core.db.read.SettingsDao
 import com.ivy.core.db.write.AccountWriter
 import com.ivy.core.db.write.CategoryWriter
 import com.ivy.core.db.write.TransactionWriter
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Category
-import com.ivy.core.datamodel.Transaction
 import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.importdata.csv.ImportantFields
 import com.ivy.importdata.csv.OptionalFields

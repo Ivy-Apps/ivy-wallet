@@ -105,7 +105,6 @@ class SharedPrefs @Inject constructor(
         return preferences.getString(key, defValue)
     }
 
-
     fun remove(key: String) {
         preferences.edit().remove(key).apply()
     }

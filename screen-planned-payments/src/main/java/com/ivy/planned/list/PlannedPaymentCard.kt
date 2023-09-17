@@ -24,18 +24,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.legacy.IvyWalletPreview
-import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.style
-import com.ivy.navigation.navigation
-import com.ivy.legacy.ui.component.transaction.TypeAmountCurrency
-import com.ivy.navigation.ItemStatisticScreen
-import com.ivy.resources.R
-import com.ivy.core.datamodel.IntervalType
-import com.ivy.core.db.entity.TransactionType
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Category
+import com.ivy.core.datamodel.IntervalType
 import com.ivy.core.datamodel.PlannedPaymentRule
+import com.ivy.core.db.entity.TransactionType
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.ui.component.transaction.TypeAmountCurrency
+import com.ivy.legacy.utils.formatDateOnly
+import com.ivy.legacy.utils.formatDateOnlyWithYear
+import com.ivy.legacy.utils.isNotNullOrBlank
+import com.ivy.legacy.utils.timeNowUTC
+import com.ivy.legacy.utils.uppercaseLocal
+import com.ivy.navigation.ItemStatisticScreen
+import com.ivy.navigation.navigation
+import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -43,11 +48,6 @@ import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.getCustomIconIdS
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.toComposeColor
-import com.ivy.legacy.utils.formatDateOnly
-import com.ivy.legacy.utils.formatDateOnlyWithYear
-import com.ivy.legacy.utils.isNotNullOrBlank
-import com.ivy.legacy.utils.timeNowUTC
-import com.ivy.legacy.utils.uppercaseLocal
 import java.time.LocalDateTime
 
 @Composable
