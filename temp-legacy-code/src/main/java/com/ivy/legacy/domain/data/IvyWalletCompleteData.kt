@@ -1,7 +1,6 @@
 package com.ivy.wallet.domain.data
 
 import androidx.annotation.Keep
-import com.google.gson.annotations.SerializedName
 import com.ivy.core.db.entity.AccountEntity
 import com.ivy.core.db.entity.BudgetEntity
 import com.ivy.core.db.entity.CategoryEntity

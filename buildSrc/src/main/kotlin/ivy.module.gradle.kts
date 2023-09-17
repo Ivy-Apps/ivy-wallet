@@ -1,10 +1,11 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    id("kotlin-kapt") // TODO: Remove
+    id("kotlin-kapt") // TODO: Remove when we migrate to KSP
     id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
     id("com.google.devtools.ksp")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 kotlin {
@@ -52,6 +53,8 @@ dependencies {
     implementation(libs.bundles.hilt)
     // TODO: Migrate to KSP when supported
     kapt(catalog.library("hilt-compiler"))
+
+    implementation(catalog.library("kotlinx-serialization-json"))
 
     testImplementation(libs.bundles.kotest)
     testImplementation(catalog.bundle("kotlin-test"))
