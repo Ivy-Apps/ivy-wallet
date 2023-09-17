@@ -51,12 +51,3 @@ jobs:
           name: detekt-report.html
           path: build/reports/detekt/detekt.html
       #------------------------------------------------------------------
-
-      - name: Comment Detekt results on the PR with Danger
-        if: (success() || failure()) && (github.event.pull_request.head.repo.full_name == github.repository)
-        uses: danger/danger-js@11.2.8
-        with:
-          args: "--dangerfile .danger/danger_detekt.ts"
-        env:
-          DANGER_GITHUB_API_TOKEN: ${{ secrets.IVYWALLET_BOT_GITHUB_PAT }}
-
