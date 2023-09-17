@@ -19,15 +19,12 @@ import javax.inject.Singleton
 object KtorClientModule {
     @Provides
     @Singleton
-    fun provideKtorClient(): HttpClient {
+    fun provideKtorClient(
+        json: Json
+    ): HttpClient {
         return HttpClient {
             install(ContentNegotiation) {
-                json(
-                    json = Json {
-                        ignoreUnknownKeys = true
-                        isLenient = true
-                    }
-                )
+                json(json)
             }
 
             install(Logging) {

@@ -4,6 +4,7 @@ import androidx.annotation.Keep
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.ivy.core.kotlinxserilzation.KSerializerUUID
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.util.*
@@ -39,5 +40,6 @@ data class UserEntity(
     @PrimaryKey
     @SerialName("id")
     @ColumnInfo(name = "id")
+    @Serializable(with = KSerializerUUID::class)
     var id: UUID
 )

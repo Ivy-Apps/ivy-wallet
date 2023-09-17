@@ -5,7 +5,9 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.ivy.core.datamodel.Category
+import com.ivy.core.kotlinxserilzation.KSerializerUUID
 import com.ivy.design.l0_system.Ivy
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.util.*
@@ -30,6 +32,7 @@ data class CategoryEntity(
 
     @PrimaryKey
     @SerialName("id")
+    @Serializable(with = KSerializerUUID::class)
     val id: UUID = UUID.randomUUID()
 ) {
     fun toDomain(): Category = Category(

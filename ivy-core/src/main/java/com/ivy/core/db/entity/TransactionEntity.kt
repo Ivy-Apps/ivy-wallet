@@ -1,3 +1,5 @@
+@file:UseContextualSerialization(UUID::class, LocalDateTime::class)
+
 package com.ivy.core.db.entity
 
 import androidx.annotation.Keep
@@ -6,6 +8,7 @@ import androidx.room.PrimaryKey
 import com.ivy.core.datamodel.Transaction
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.UseContextualSerialization
 import java.time.LocalDateTime
 import java.util.*
 
@@ -33,21 +36,16 @@ data class TransactionEntity(
     val categoryId: UUID? = null,
     @SerialName("dueDate")
     val dueDate: LocalDateTime? = null,
-
     @SerialName("recurringRuleId")
     val recurringRuleId: UUID? = null,
-
     @SerialName("attachmentUrl")
     val attachmentUrl: String? = null,
-
     // This refers to the loan id that is linked with a transaction
     @SerialName("loanId")
     val loanId: UUID? = null,
-
     // This refers to the loan record id that is linked with a transaction
     @SerialName("loanRecordId")
     val loanRecordId: UUID? = null,
-
     @SerialName("isSynced")
     val isSynced: Boolean = false,
     @SerialName("isDeleted")

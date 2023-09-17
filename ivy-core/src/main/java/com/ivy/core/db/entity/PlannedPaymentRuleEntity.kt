@@ -5,6 +5,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.ivy.core.datamodel.IntervalType
 import com.ivy.core.datamodel.PlannedPaymentRule
+import com.ivy.core.kotlinxserilzation.KSerializerLocalDateTime
+import com.ivy.core.kotlinxserilzation.KSerializerUUID
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
@@ -15,6 +18,7 @@ import java.util.*
 @Entity(tableName = "planned_payment_rules")
 data class PlannedPaymentRuleEntity(
     @SerialName("startDate")
+    @Serializable(with = KSerializerLocalDateTime::class)
     val startDate: LocalDateTime?,
     @SerialName("intervalN")
     val intervalN: Int?,
@@ -22,14 +26,15 @@ data class PlannedPaymentRuleEntity(
     val intervalType: IntervalType?,
     @SerialName("oneTime")
     val oneTime: Boolean,
-
     @SerialName("type")
     val type: TransactionType,
     @SerialName("accountId")
+    @Serializable(with = KSerializerUUID::class)
     val accountId: UUID,
     @SerialName("amount")
     val amount: Double = 0.0,
     @SerialName("categoryId")
+    @Serializable(with = KSerializerUUID::class)
     val categoryId: UUID? = null,
     @SerialName("title")
     val title: String? = null,
@@ -43,6 +48,7 @@ data class PlannedPaymentRuleEntity(
 
     @PrimaryKey
     @SerialName("id")
+    @Serializable(with = KSerializerUUID::class)
     val id: UUID = UUID.randomUUID()
 ) {
     fun toDomain(): PlannedPaymentRule = PlannedPaymentRule(
