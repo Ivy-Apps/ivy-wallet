@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.deprecated.logic
 
-import com.ivy.core.data.db.write.LoanRecordWriter
-import com.ivy.core.data.model.LoanRecord
+import com.ivy.core.db.write.LoanRecordWriter
+import com.ivy.core.datamodel.LoanRecord
 import com.ivy.legacy.utils.ioThread
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
 import java.util.UUID

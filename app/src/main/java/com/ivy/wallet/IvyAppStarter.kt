@@ -3,7 +3,7 @@ package com.ivy.wallet
 import android.content.Context
 import android.content.Intent
 import com.ivy.core.AppStarter
-import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.db.entity.TransactionType
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

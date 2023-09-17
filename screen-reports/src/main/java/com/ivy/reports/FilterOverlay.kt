@@ -40,9 +40,9 @@ import com.ivy.core.legacy.ui.theme.components.ListItem
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.resources.R
-import com.ivy.core.data.db.entity.TransactionType
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.Category
+import com.ivy.core.db.entity.TransactionType
+import com.ivy.core.datamodel.Account
+import com.ivy.core.datamodel.Category
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.GreenDark

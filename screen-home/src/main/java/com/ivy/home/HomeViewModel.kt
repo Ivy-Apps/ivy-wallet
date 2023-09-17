@@ -1,8 +1,8 @@
 package com.ivy.home
 
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.Settings
-import com.ivy.core.data.model.Transaction
+import com.ivy.core.datamodel.Account
+import com.ivy.core.datamodel.Settings
+import com.ivy.core.datamodel.Transaction
 import com.ivy.design.l0_system.Theme
 import com.ivy.frp.fixUnit
 import com.ivy.frp.then

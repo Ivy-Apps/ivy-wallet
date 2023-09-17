@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.action.viewmodel.home
 
-import com.ivy.core.data.model.Account
+import com.ivy.core.datamodel.Account
 import com.ivy.frp.action.FPAction
 import com.ivy.legacy.IvyWalletCtx
 import javax.inject.Inject

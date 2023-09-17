@@ -1,7 +1,6 @@
 package com.ivy.legacy.data
 
 import android.content.Context
-import com.google.gson.Gson
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -37,7 +36,6 @@ class SharedPrefs @Inject constructor(
     }
 
     private val preferences = appContext.getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
-    private val gson = Gson()
 
     fun has(key: String): Boolean {
         return preferences.contains(key)
@@ -82,12 +80,6 @@ class SharedPrefs @Inject constructor(
         editor.apply()
     }
 
-    fun <T> put(key: String, value: T?) {
-        val editor = preferences.edit()
-        editor.putString(key, gson.toJson(value))
-        editor.apply()
-    }
-
     fun getLong(key: String, defValue: Long): Long {
         return preferences.getLong(key, defValue)
     }
@@ -111,11 +103,6 @@ class SharedPrefs @Inject constructor(
 
     fun getString(key: String, defValue: String?): String? {
         return preferences.getString(key, defValue)
-    }
-
-    operator fun <T> get(key: String, aClass: Class<T>): T? {
-        val jsonString = preferences.getString(key, null)
-        return gson.fromJson(jsonString, aClass)
     }
 
     fun remove(key: String) {

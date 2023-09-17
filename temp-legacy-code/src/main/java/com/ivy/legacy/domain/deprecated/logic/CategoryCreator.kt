@@ -1,9 +1,9 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.core.data.db.read.CategoryDao
-import com.ivy.core.data.db.write.CategoryWriter
-import com.ivy.core.data.model.Category
+import com.ivy.core.db.read.CategoryDao
+import com.ivy.core.db.write.CategoryWriter
+import com.ivy.core.datamodel.Category
 import com.ivy.legacy.utils.ioThread
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.pure.util.nextOrderNum

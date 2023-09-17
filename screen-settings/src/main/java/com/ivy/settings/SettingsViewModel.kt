@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.core.RootScreen
-import com.ivy.core.data.db.read.SettingsDao
-import com.ivy.core.data.db.write.SettingsWriter
+import com.ivy.core.db.read.SettingsDao
+import com.ivy.core.db.write.SettingsWriter
 import com.ivy.core.util.refreshWidget
 import com.ivy.design.l0_system.Theme
 import com.ivy.frp.monad.Res

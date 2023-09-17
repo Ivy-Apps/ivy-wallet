@@ -153,6 +153,7 @@ dependencies {
     implementation(projects.screenSearch)
     implementation(projects.screenTest)
     implementation(projects.screenBalance)
+    implementation(projects.screenFeatures)
 
     implementation(libs.bundles.kotlin)
     implementation(libs.bundles.ktor)
@@ -164,8 +165,6 @@ dependencies {
     implementation(libs.datastore)
     implementation(libs.androidx.security)
     implementation(libs.androidx.biometrics)
-
-    implementation(libs.gson)
 
     implementation(libs.bundles.hilt)
     kapt(libs.hilt.compiler)

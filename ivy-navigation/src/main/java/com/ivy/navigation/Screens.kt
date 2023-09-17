@@ -1,7 +1,7 @@
 package com.ivy.navigation
 
-import com.ivy.core.data.db.entity.TransactionType
-import com.ivy.core.data.model.Transaction
+import com.ivy.core.db.entity.TransactionType
+import com.ivy.core.datamodel.Transaction
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
@@ -81,3 +81,5 @@ data class LoanDetailsScreen(
 data object TestScreen : Screen
 
 data object ExchangeRatesScreen : Screen
+
+data object FeaturesScreen : Screen

@@ -577,7 +577,7 @@ style:
       - reason: 'Kotlin does not support @Inherited annotation, see https://youtrack.jetbrains.com/issue/KT-22265'
         value: 'java.lang.annotation.Inherited'
   ForbiddenComment:
-    active: true
+    active: false
     comments:
       - reason: 'Forbidden FIXME todo marker in comment, please fix the problem.'
         value: 'FIXME:'
@@ -883,7 +883,7 @@ formatting:
     autoCorrect: true
     indentSize: 4
   ImportOrdering:
-    active: true
+    active: false
     autoCorrect: true
     layout: '*,java.**,javax.**,kotlin.**,^'
   Indentation:

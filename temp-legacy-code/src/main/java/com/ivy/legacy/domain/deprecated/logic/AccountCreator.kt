@@ -1,9 +1,9 @@
 package com.ivy.legacy.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.core.data.db.read.AccountDao
-import com.ivy.core.data.db.write.AccountWriter
-import com.ivy.core.data.model.Account
+import com.ivy.core.db.read.AccountDao
+import com.ivy.core.db.write.AccountWriter
+import com.ivy.core.datamodel.Account
 import com.ivy.legacy.utils.ioThread
 import com.ivy.wallet.domain.deprecated.logic.WalletAccountLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData

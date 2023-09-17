@@ -1,12 +1,12 @@
 package com.ivy.wallet.domain.deprecated.logic
 
-import com.ivy.core.data.db.entity.TransactionType
-import com.ivy.core.data.db.read.AccountDao
-import com.ivy.core.data.db.read.SettingsDao
-import com.ivy.core.data.db.read.TransactionDao
-import com.ivy.core.data.model.Category
-import com.ivy.core.data.model.Transaction
-import com.ivy.core.data.model.TransactionHistoryItem
+import com.ivy.core.db.entity.TransactionType
+import com.ivy.core.db.read.AccountDao
+import com.ivy.core.db.read.SettingsDao
+import com.ivy.core.db.read.TransactionDao
+import com.ivy.core.datamodel.Category
+import com.ivy.core.datamodel.Transaction
+import com.ivy.core.datamodel.TransactionHistoryItem
 import com.ivy.legacy.data.model.filterOverdue
 import com.ivy.legacy.data.model.filterUpcoming
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic

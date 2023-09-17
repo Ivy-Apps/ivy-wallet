@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.action.viewmodel.home
 
-import com.ivy.core.data.db.read.TransactionDao
+import com.ivy.core.db.read.TransactionDao
 import com.ivy.frp.action.FPAction
 import javax.inject.Inject
 

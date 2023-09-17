@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.pure.transaction
 
-import com.ivy.core.data.db.entity.TransactionType
-import com.ivy.core.data.model.Transaction
+import com.ivy.core.db.entity.TransactionType
+import com.ivy.core.datamodel.Transaction
 import java.math.BigDecimal
 import java.util.*
 

@@ -1,8 +1,8 @@
 package com.ivy.accounts
 
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.data.db.write.AccountWriter
-import com.ivy.core.data.model.Account
+import com.ivy.core.db.write.AccountWriter
+import com.ivy.core.datamodel.Account
 import com.ivy.core.event.AccountUpdatedEvent
 import com.ivy.core.event.EventBus
 import com.ivy.frp.test.TestIdlingResource

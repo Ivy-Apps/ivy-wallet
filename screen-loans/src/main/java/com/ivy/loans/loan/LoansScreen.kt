@@ -33,16 +33,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.legacy.IvyWalletPreview
+import com.ivy.core.datamodel.Loan
+import com.ivy.core.datamodel.LoanType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.navigation.navigation
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.utils.getDefaultFIATCurrency
+import com.ivy.legacy.utils.onScreenStart
+import com.ivy.loans.loan.data.DisplayLoan
 import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.LoansScreen
+import com.ivy.navigation.navigation
 import com.ivy.resources.R
-import com.ivy.core.data.model.LoanType
-import com.ivy.core.data.model.Loan
-import com.ivy.loans.loan.data.DisplayLoan
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Orange
@@ -57,8 +59,6 @@ import com.ivy.wallet.ui.theme.dynamicContrast
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.modal.LoanModal
 import com.ivy.wallet.ui.theme.toComposeColor
-import com.ivy.legacy.utils.getDefaultFIATCurrency
-import com.ivy.legacy.utils.onScreenStart
 
 @Composable
 fun BoxWithConstraintsScope.LoansScreen(screen: LoansScreen) {

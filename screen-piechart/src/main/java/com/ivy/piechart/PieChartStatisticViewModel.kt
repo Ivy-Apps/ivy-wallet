@@ -1,10 +1,10 @@
 package com.ivy.piechart
 
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.data.db.entity.TransactionType
-import com.ivy.core.data.db.read.SettingsDao
-import com.ivy.core.data.model.Category
-import com.ivy.core.data.model.Transaction
+import com.ivy.core.db.entity.TransactionType
+import com.ivy.core.db.read.SettingsDao
+import com.ivy.core.datamodel.Category
+import com.ivy.core.datamodel.Transaction
 import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.SharedPrefs
