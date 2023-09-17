@@ -153,6 +153,7 @@ dependencies {
     implementation(projects.screenSearch)
     implementation(projects.screenTest)
     implementation(projects.screenBalance)
+    implementation(projects.screenFeatures)
 
     implementation(libs.bundles.kotlin)
     implementation(libs.bundles.ktor)

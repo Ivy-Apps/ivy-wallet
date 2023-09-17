@@ -6,6 +6,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import com.ivy.core.datastore.dataStore
@@ -14,11 +15,13 @@ import kotlinx.coroutines.flow.map
 
 @Immutable
 class BoolFeature(
-    val name: String,
+    val key: String,
+    val name: String? = null,
+    val description: String? = null,
 ) {
     fun enabled(appContext: Context): Flow<Boolean?> {
         return appContext.dataStore.data.map {
-            it[booleanPreferencesKey(name)]
+            it[featureKey]
         }
     }
 
@@ -32,7 +35,10 @@ class BoolFeature(
 
     suspend fun set(appContext: Context, enabled: Boolean) {
         appContext.dataStore.edit {
-            it[booleanPreferencesKey(name)] = enabled
+            it[featureKey] = enabled
         }
     }
+
+    private val featureKey: Preferences.Key<Boolean>
+        get() = booleanPreferencesKey("feature_$key")
 }
