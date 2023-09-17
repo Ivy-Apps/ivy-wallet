@@ -13,5 +13,4 @@ dependencies {
 
     implementation(libs.datastore)
     implementation(libs.bundles.ktor)
-    implementation(libs.gson)
 }

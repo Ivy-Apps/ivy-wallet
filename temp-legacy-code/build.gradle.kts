@@ -21,5 +21,4 @@ dependencies {
     implementation(libs.datastore)
     implementation(libs.keval)
     implementation(libs.androidx.recyclerview)
-    implementation(libs.gson)
 }

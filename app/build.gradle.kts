@@ -165,8 +165,6 @@ dependencies {
     implementation(libs.androidx.security)
     implementation(libs.androidx.biometrics)
 
-    implementation(libs.gson)
-
     implementation(libs.bundles.hilt)
     kapt(libs.hilt.compiler)
 
