@@ -8,8 +8,8 @@ android {
 }
 
 dependencies {
-    implementation(projects.ivyDesign)
-    implementation(projects.ivyResources)
+    implementation(projects.ivyResources) // TODO: Get rid of
+    implementation(projects.ivyDesign) // TODO: Get rid of
 
     implementation(libs.datastore)
     implementation(libs.bundles.ktor)

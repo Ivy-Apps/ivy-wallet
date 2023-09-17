@@ -3,13 +3,12 @@ plugins {
 }
 
 android {
-    namespace = "com.ivy.__module"
+    namespace = "com.ivy.core.ui"
 }
 
 dependencies {
-    implementation(projects.ivyCore)
     implementation(projects.ivyResources)
     implementation(projects.ivyDesign)
+    implementation(projects.ivyCore)
     implementation(projects.ivyNavigation)
-    implementation(projects.ivyCoreUi)
 }
