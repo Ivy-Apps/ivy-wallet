@@ -1,4 +1,4 @@
-package com.ivy.core
+package com.ivy.legacy
 
 object Constants {
     const val URL_TC =

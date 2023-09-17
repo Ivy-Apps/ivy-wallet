@@ -1,6 +1,6 @@
 package com.ivy.home.customerjourney
 
-import com.ivy.core.Constants
+import com.ivy.legacy.Constants
 import com.ivy.core.db.entity.TransactionType
 import com.ivy.core.db.read.PlannedPaymentRuleDao
 import com.ivy.core.db.read.TransactionDao

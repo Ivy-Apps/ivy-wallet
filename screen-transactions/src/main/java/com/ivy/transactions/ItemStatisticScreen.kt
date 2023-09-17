@@ -34,7 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.core.Constants
+import com.ivy.legacy.Constants
 import com.ivy.core.db.entity.TransactionType
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Category
