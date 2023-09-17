@@ -31,6 +31,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -74,6 +75,7 @@ import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.isDarkColor
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModal
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
+import com.ivy.wallet.ui.theme.modal.DeleteConfirmationModal
 import com.ivy.wallet.ui.theme.modal.DeleteModal
 import com.ivy.wallet.ui.theme.modal.edit.AccountModal
 import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
@@ -196,7 +198,10 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatisticScreen) {
         },
         onSkipAllTransactions = { transactions ->
             viewModel.skipTransactions(screen, transactions)
-        }
+        },
+        accountNameConfirmation = viewModel.accountNameConfirmation,
+        updateAccountNameConfirmation = viewModel::updateAccountDeletionState,
+        enableDeletionButton = viewModel.enableDeletionButton
     )
 }
 
@@ -208,6 +213,10 @@ private fun BoxWithConstraintsScope.UI(
 
     account: Account?,
     category: Category?,
+
+    accountNameConfirmation: TextFieldValue,
+    updateAccountNameConfirmation: (String) -> Unit,
+    enableDeletionButton: Boolean,
 
     categories: ImmutableList<Category>,
     accounts: ImmutableList<Account>,
@@ -247,7 +256,9 @@ private fun BoxWithConstraintsScope.UI(
     val ivyContext = ivyWalletCtx()
     val itemColor = (account?.color ?: category?.color)?.toComposeColor() ?: Gray
 
-    var deleteModalVisible by remember { mutableStateOf(false) }
+    var deleteModal1Visible by remember { mutableStateOf(false) }
+    var deleteModal2Visible by remember { mutableStateOf(false) }
+    var deleteModal3Visible by remember { mutableStateOf(false) }
     var skipAllModalVisible by remember { mutableStateOf(false) }
     var categoryModalData: CategoryModalData? by remember { mutableStateOf(null) }
     var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
@@ -298,7 +309,7 @@ private fun BoxWithConstraintsScope.UI(
                     treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense,
 
                     onDelete = {
-                        deleteModalVisible = true
+                        deleteModal1Visible = true
                     },
                     onEdit = {
                         when {
@@ -422,16 +433,53 @@ private fun BoxWithConstraintsScope.UI(
     }
 
     DeleteModal(
-        visible = deleteModalVisible,
+        visible = deleteModal1Visible,
         title = stringResource(R.string.confirm_deletion),
         description = if (account != null) {
             stringResource(R.string.account_confirm_deletion_description)
         } else {
             stringResource(R.string.category_confirm_deletion_description)
         },
-        dismiss = { deleteModalVisible = false }
+        dismiss = { deleteModal1Visible = false }
+    ) {
+        deleteModal2Visible = true
+    }
+
+    DeleteModal(
+        visible = deleteModal2Visible,
+        title = stringResource(R.string.confirm_deletion),
+        description = if (account != null) {
+            stringResource(R.string.account_confirm_deletion_description2)
+        } else {
+            stringResource(R.string.category_confirm_deletion_description)
+        },
+        dismiss = {
+            deleteModal2Visible = false
+            deleteModal1Visible = false
+        }
+    ) {
+        deleteModal3Visible = true
+    }
+
+    DeleteConfirmationModal(
+        visible = deleteModal3Visible,
+        title = stringResource(id = R.string.confirm_deletion),
+        description = stringResource(
+            id = R.string.account_confirm_deletion_type_account_name,
+            account?.name ?: ""
+        ),
+        accountName = accountNameConfirmation,
+        onAccountNameChange = updateAccountNameConfirmation,
+        enableDeletionButton = enableDeletionButton,
+        dismiss = {
+            updateAccountNameConfirmation("")
+            deleteModal3Visible = false
+            deleteModal2Visible = false
+            deleteModal1Visible = false
+        }
     ) {
         onDelete()
+        updateAccountNameConfirmation("")
     }
 
     DeleteModal(
@@ -739,7 +787,10 @@ private fun Preview_empty() {
             onNextMonth = {},
             onDelete = {},
             onEditAccount = { _, _ -> },
-            onEditCategory = {}
+            onEditCategory = {},
+            accountNameConfirmation = TextFieldValue(),
+            updateAccountNameConfirmation = {},
+            enableDeletionButton = true
         )
     }
 }
@@ -776,7 +827,10 @@ private fun Preview_crypto() {
             onNextMonth = {},
             onDelete = {},
             onEditAccount = { _, _ -> },
-            onEditCategory = {}
+            onEditCategory = {},
+            accountNameConfirmation = TextFieldValue(),
+            updateAccountNameConfirmation = {},
+            enableDeletionButton = true
         )
     }
 }
@@ -811,7 +865,10 @@ private fun Preview_empty_upcoming() {
             onEditCategory = {},
             upcoming = persistentListOf(
                 Transaction(UUID(1L, 2L), TransactionType.EXPENSE, BigDecimal.valueOf(10L))
-            )
+            ),
+            accountNameConfirmation = TextFieldValue(),
+            updateAccountNameConfirmation = {},
+            enableDeletionButton = true
         )
     }
 }

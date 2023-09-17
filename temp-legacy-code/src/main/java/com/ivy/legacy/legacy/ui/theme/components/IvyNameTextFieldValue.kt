@@ -11,8 +11,11 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalView
@@ -46,6 +49,7 @@ fun IvyNameTextField(
         imeAction = ImeAction.Done,
         capitalization = KeyboardCapitalization.Sentences
     ),
+    focusRequester: FocusRequester = remember { FocusRequester() },
     keyboardActions: KeyboardActions? = null,
     onValueChanged: (TextFieldValue) -> Unit
 ) {
@@ -71,7 +75,8 @@ fun IvyNameTextField(
             val view = LocalView.current
             BasicTextField(
                 modifier = Modifier
-                    .testTag("base_input"),
+                    .testTag("base_input")
+                    .focusRequester(focusRequester),
                 value = value,
                 onValueChange = onValueChanged,
                 textStyle = UI.typo.b1.style(
