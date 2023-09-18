@@ -9,9 +9,9 @@ import javax.inject.Inject
 class AttributionsViewModel @Inject constructor() :
     ComposeViewModel<AttributionsState, AttributionsEvent>() {
     private val attributions = listOf(
-        Attributions(section = "Icons", name = "Icon1", link = ""),
-        Attributions(section = "Icons", name = "Icon2", link = ""),
-        Attributions(section = "Typography", name = "Typography1", link = ""),
+        Attribution(section = "Icons", name = "Icon1", link = "www.google.com"),
+        Attribution(section = "Icons", name = "Icon2", link = "www.google.com"),
+        Attribution(section = "Typography", name = "Typography1", link = "www.google.com"),
     )
 
     @Composable
