@@ -41,13 +41,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.legacy.Constants
-import com.ivy.legacy.Constants.URL_IVY_CONTRIBUTORS
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IconScale
 import com.ivy.design.l1_buildingBlocks.IvyIconScaled
+import com.ivy.legacy.Constants
+import com.ivy.legacy.Constants.URL_IVY_CONTRIBUTORS
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.rootScreen
 import com.ivy.legacy.utils.OpResult
@@ -55,6 +55,7 @@ import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.thenIf
+import com.ivy.navigation.AttributionsScreen
 import com.ivy.navigation.ExchangeRatesScreen
 import com.ivy.navigation.ImportScreen
 import com.ivy.navigation.SettingsScreen
@@ -415,6 +416,10 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(12.dp))
 
+            Attributions()
+
+            Spacer(Modifier.height(12.dp))
+
             TCAndPrivacyPolicy()
         }
 
@@ -622,6 +627,19 @@ private fun ProjectContributors() {
         iconPadding = 6.dp
     ) {
         uriHandler.openUri(URL_IVY_CONTRIBUTORS)
+    }
+}
+
+@Composable
+private fun Attributions() {
+    val nav = navigation()
+
+    SettingsDefaultButton(
+        icon = R.drawable.ic_vue_location_global,
+        text = "Attributions",
+        iconPadding = 6.dp
+    ) {
+        nav.navigateTo(AttributionsScreen)
     }
 }
 
