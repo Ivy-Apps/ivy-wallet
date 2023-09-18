@@ -1,5 +1,5 @@
 package com.ivy.attributions
 
 data class AttributionsState(
-    val attributions: List<Attribution>
+    val attributions: List<AttributionItem>
 )

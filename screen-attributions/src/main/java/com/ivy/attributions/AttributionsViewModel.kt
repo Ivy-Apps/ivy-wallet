@@ -8,10 +8,12 @@ import javax.inject.Inject
 @HiltViewModel
 class AttributionsViewModel @Inject constructor() :
     ComposeViewModel<AttributionsState, AttributionsEvent>() {
-    private val attributions = listOf(
-        Attribution(section = "Icons", name = "Icon1", link = "https://www.google.com"),
-        Attribution(section = "Icons", name = "Icon2", link = "https://www.google.com"),
-        Attribution(section = "Typography", name = "Typography1", link = "https://www.google.com"),
+    private val attributions = listOf<AttributionItem>(
+        AttributionItem.Divider(section = "Icons"),
+        AttributionItem.Attribution(name = "Icon1", link = "https://www.google.com"),
+        AttributionItem.Attribution(name = "Icon2", link = "https://www.google.com"),
+        AttributionItem.Divider(section = "Typography"),
+        AttributionItem.Attribution(name = "Typography1", link = "https://www.google.com"),
     )
 
     @Composable
