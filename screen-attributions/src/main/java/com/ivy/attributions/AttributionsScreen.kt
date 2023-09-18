@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Card
@@ -69,12 +70,8 @@ private fun AttributionsUI(
             LazyColumn(
                 modifier = Modifier.padding(it)
             ) {
-                item(key = "Icons Attribution Section") {
-                    AttributionsSectionDivider(text = "Icons")
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    AttributionCards(attributions = uiState.attributions)
+                items(uiState.attributions) {
+                    AttributionCard()
                 }
             }
         }
@@ -82,15 +79,8 @@ private fun AttributionsUI(
 }
 
 @Composable
-private fun AttributionCards(attributions: List<Attribution>) {
-    for (attribution in attributions) {
-        AttributionCard(attribution = attribution)
-    }
-}
-
-@Composable
 private fun AttributionCard(
-    attribution: Attribution
+    attribution: AttributionItem.Attribution
 ) {
     val browser = LocalUriHandler.current
 
