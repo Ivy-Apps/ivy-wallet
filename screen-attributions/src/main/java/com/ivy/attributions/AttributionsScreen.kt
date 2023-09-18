@@ -1,20 +1,29 @@
 package com.ivy.attributions
 
-import androidx.compose.foundation.ExperimentalFoundationApi
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.design.l0_system.Gray
@@ -30,56 +39,82 @@ fun AttributionsScreenImpl() {
     AttributionsUI(uiState = uiState)
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AttributionsUI(
     uiState: AttributionsState
 ) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .statusBarsPadding()
-            .navigationBarsPadding()
-            .testTag("attributions_lazy_column")
-    ) {
-        stickyHeader {
-            val nav = navigation()
-            IvyToolbar(
-                onBack = { nav.onBackPressed() },
+    val nav = navigation()
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        "Attributions",
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = {
+                        nav.back()
+                    }) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
+                }
+            )
+        },
+        content = {
+            LazyColumn(
+                modifier = Modifier.padding(it)
             ) {
-                Spacer(Modifier.weight(1f))
+                item(key = "Icons Attribution Section") {
+                    AttributionsSectionDivider(text = "Icons")
 
-                val rootScreen = rootScreen()
+                    Spacer(modifier = Modifier.height(16.dp))
 
-                Spacer(Modifier.width(32.dp))
+                    AttributionCards(attributions = uiState.attributions)
+                }
             }
         }
+    )
+}
 
-        item(key = "Attributions screen name") {
-            Spacer(Modifier.height(8.dp))
-
-            Text(
-                modifier = Modifier.padding(start = 32.dp),
-                text = "Attributions",
-                style = UI.typo.h2.style(
-                    fontWeight = FontWeight.Black
-                )
-            )
-        }
-
-        item(key = "Icons section") {
-            AttributionsSectionDivider(text = "Icons")
-
-            Spacer(Modifier.height(16.dp))
-
-
-        }
+@Composable
+private fun AttributionCards(attributions: List<Attribution>) {
+    for (attribution in attributions) {
+        AttributionCard(attribution = attribution)
     }
 }
 
 @Composable
-private fun AttributionCard() {
+private fun AttributionCard(
+    attribution: Attribution
+) {
+    val context = LocalContext.current
 
+    Card(
+        modifier = Modifier.clickable {
+            context.openUrlInBrowser(attribution.link)
+        }
+    ) {
+        Column(
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
+        ) {
+            Text(
+                text = attribution.name
+            )
+        }
+    }
+}
+
+fun Context.openUrlInBrowser(url: String) {
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    startActivity(intent)
 }
 
 @Composable
