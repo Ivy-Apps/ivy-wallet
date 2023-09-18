@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.core.legacy.ui.IvyColorPicker
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.resources.R
-import com.ivy.core.data.model.Category
+import com.ivy.core.datamodel.Category
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.components.ItemIconMDefaultIcon

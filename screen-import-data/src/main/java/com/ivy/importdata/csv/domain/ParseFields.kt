@@ -1,6 +1,6 @@
 package com.ivy.importdata.csv.domain
 
-import com.ivy.core.data.db.entity.TransactionType
+import com.ivy.core.db.entity.TransactionType
 import com.ivy.importdata.csv.CSVRow
 import com.ivy.importdata.csv.ColumnMapping
 import com.ivy.importdata.csv.DateMetadata

@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.action.account
 
-import com.ivy.core.data.db.read.AccountDao
-import com.ivy.core.data.model.Account
+import com.ivy.core.db.read.AccountDao
+import com.ivy.core.datamodel.Account
 import com.ivy.frp.action.FPAction
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList

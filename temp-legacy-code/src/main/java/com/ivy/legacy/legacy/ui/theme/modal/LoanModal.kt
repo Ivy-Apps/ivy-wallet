@@ -41,9 +41,9 @@ import com.ivy.design.l0_system.style
 import com.ivy.frp.test.TestingContext
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IvyCurrency
-import com.ivy.core.data.model.LoanType
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.Loan
+import com.ivy.core.datamodel.LoanType
+import com.ivy.core.datamodel.Account
+import com.ivy.core.datamodel.Loan
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanData
 import com.ivy.wallet.ui.theme.GradientIvy

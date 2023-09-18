@@ -2,11 +2,11 @@ package com.ivy.wallet.domain.pure.transaction
 
 import arrow.core.Option
 import arrow.core.toOption
-import com.ivy.core.data.db.read.AccountDao
-import com.ivy.core.data.db.read.SettingsDao
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.Transaction
-import com.ivy.core.data.model.TransactionHistoryItem
+import com.ivy.core.db.read.AccountDao
+import com.ivy.core.db.read.SettingsDao
+import com.ivy.core.datamodel.Account
+import com.ivy.core.datamodel.Transaction
+import com.ivy.core.datamodel.TransactionHistoryItem
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
 import com.ivy.frp.then

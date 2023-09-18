@@ -1,9 +1,9 @@
 package com.ivy.categories
 
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.data.db.write.CategoryWriter
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.Transaction
+import com.ivy.core.db.write.CategoryWriter
+import com.ivy.core.datamodel.Account
+import com.ivy.core.datamodel.Transaction
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.thenInvokeAfter

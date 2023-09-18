@@ -3,25 +3,22 @@ package com.ivy.legacy.domain.deprecated.logic.zip
 import android.content.Context
 import android.net.Uri
 import androidx.core.net.toUri
-import com.google.gson.*
-import com.google.gson.reflect.TypeToken
-import com.ivy.core.data.db.read.AccountDao
-import com.ivy.core.data.db.read.BudgetDao
-import com.ivy.core.data.db.read.CategoryDao
-import com.ivy.core.data.db.read.LoanDao
-import com.ivy.core.data.db.read.LoanRecordDao
-import com.ivy.core.data.db.read.PlannedPaymentRuleDao
-import com.ivy.core.data.db.read.SettingsDao
-import com.ivy.core.data.db.read.TransactionDao
-import com.ivy.core.data.db.write.AccountWriter
-import com.ivy.core.data.db.write.BudgetWriter
-import com.ivy.core.data.db.write.CategoryWriter
-import com.ivy.core.data.db.write.LoanRecordWriter
-import com.ivy.core.data.db.write.LoanWriter
-import com.ivy.core.data.db.write.PlannedPaymentRuleWriter
-import com.ivy.core.data.db.write.SettingsWriter
-import com.ivy.core.data.db.write.TransactionWriter
-import com.ivy.core.util.toEpochMilli
+import com.ivy.core.db.read.AccountDao
+import com.ivy.core.db.read.BudgetDao
+import com.ivy.core.db.read.CategoryDao
+import com.ivy.core.db.read.LoanDao
+import com.ivy.core.db.read.LoanRecordDao
+import com.ivy.core.db.read.PlannedPaymentRuleDao
+import com.ivy.core.db.read.SettingsDao
+import com.ivy.core.db.read.TransactionDao
+import com.ivy.core.db.write.AccountWriter
+import com.ivy.core.db.write.BudgetWriter
+import com.ivy.core.db.write.CategoryWriter
+import com.ivy.core.db.write.LoanRecordWriter
+import com.ivy.core.db.write.LoanWriter
+import com.ivy.core.db.write.PlannedPaymentRuleWriter
+import com.ivy.core.db.write.SettingsWriter
+import com.ivy.core.db.write.TransactionWriter
 import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.readFile
@@ -33,13 +30,11 @@ import com.ivy.wallet.domain.deprecated.logic.zip.zip
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.async
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import timber.log.Timber
 import java.io.File
-import java.lang.reflect.Type
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneOffset
-import java.util.*
+import java.util.UUID
 import javax.inject.Inject
 
 class BackupLogic @Inject constructor(
@@ -62,6 +57,7 @@ class BackupLogic @Inject constructor(
     private val plannedPaymentRuleWriter: PlannedPaymentRuleWriter,
     @ApplicationContext
     private val context: Context,
+    private val json: Json,
 ) {
     suspend fun exportToFile(
         zipFileUri: Uri
@@ -96,20 +92,6 @@ class BackupLogic @Inject constructor(
             val transactions = it.async { transactionDao.findAll() }
             val sharedPrefs = it.async { getSharedPrefsData() }
 
-            val gson = GsonBuilder().registerTypeAdapter(
-                LocalDateTime::class.java,
-                object : JsonSerializer<LocalDateTime?> {
-                    @Throws(JsonParseException::class)
-                    override fun serialize(
-                        src: LocalDateTime?,
-                        typeOfSrc: Type?,
-                        context: JsonSerializationContext?
-                    ): JsonElement {
-                        return JsonPrimitive(src!!.toEpochMilli().toString())
-                    }
-                }
-            ).create()
-
             val completeData = IvyWalletCompleteData(
                 accounts = accounts.await(),
                 budgets = budgets.await(),
@@ -122,7 +104,7 @@ class BackupLogic @Inject constructor(
                 sharedPrefs = sharedPrefs.await()
             )
 
-            gson.toJson(completeData)
+            json.encodeToString(completeData)
         }
     }
 
@@ -198,7 +180,9 @@ class BackupLogic @Inject constructor(
         clearCacheDir: Boolean = false,
     ): ImportResult {
         val modifiedJsonString = accommodateExistingAccountsAndCategories(jsonString)
-        val ivyWalletCompleteData = getIvyWalletCompleteData(modifiedJsonString)
+        val ivyWalletCompleteData = modifiedJsonString?.let {
+            json.decodeFromString<IvyWalletCompleteData>(it)
+        } ?: error("Failed to parse backup JSON.")
 
         onProgress(0.4)
         insertDataToDb(completeData = ivyWalletCompleteData, onProgress = onProgress)
@@ -218,7 +202,9 @@ class BackupLogic @Inject constructor(
     }
 
     private suspend fun accommodateExistingAccountsAndCategories(jsonString: String?): String? {
-        val ivyWalletCompleteData = getIvyWalletCompleteData(jsonString)
+        if (jsonString == null) return null
+
+        val ivyWalletCompleteData = json.decodeFromString<IvyWalletCompleteData>(jsonString)
         val replacementPairs = getReplacementPairs(ivyWalletCompleteData)
 
         var modifiedString = jsonString
@@ -227,29 +213,6 @@ class BackupLogic @Inject constructor(
         }
 
         return modifiedString
-    }
-
-    private fun getIvyWalletCompleteData(data: String?): IvyWalletCompleteData {
-        val typeOfObjectsList: Type =
-            object : TypeToken<IvyWalletCompleteData>() {}.type
-
-        val gson: Gson = GsonBuilder().registerTypeAdapter(
-            LocalDateTime::class.java,
-            object : JsonDeserializer<LocalDateTime?> {
-                @Throws(JsonParseException::class)
-                override fun deserialize(
-                    json: JsonElement,
-                    type: Type?,
-                    jsonDeserializationContext: JsonDeserializationContext?
-                ): LocalDateTime? {
-                    val instant: Instant =
-                        Instant.ofEpochMilli(json.asJsonPrimitive.asLong)
-                    return LocalDateTime.ofInstant(instant, ZoneOffset.UTC)
-                }
-            }
-        ).create()
-
-        return gson.fromJson(data, typeOfObjectsList)
     }
 
     private suspend fun insertDataToDb(

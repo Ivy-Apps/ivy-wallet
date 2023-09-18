@@ -3,9 +3,9 @@ package com.ivy.wallet.domain.pure.transaction
 import arrow.core.Option
 import arrow.core.toOption
 import com.ivy.frp.Pure
-import com.ivy.core.data.db.entity.TransactionType
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.Transaction
+import com.ivy.core.db.entity.TransactionType
+import com.ivy.core.datamodel.Account
+import com.ivy.core.datamodel.Transaction
 import com.ivy.wallet.domain.pure.account.accountCurrency
 import java.time.LocalDate
 

@@ -2,8 +2,8 @@ package com.ivy.legacy.ui.component.transaction
 
 import androidx.compose.runtime.Composable
 import com.ivy.legacy.ivyWalletCtx
-import com.ivy.core.data.model.Account
-import com.ivy.core.data.model.Category
+import com.ivy.core.datamodel.Account
+import com.ivy.core.datamodel.Category
 import java.util.UUID
 
 @Composable

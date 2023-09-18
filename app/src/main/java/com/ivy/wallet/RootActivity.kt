@@ -39,7 +39,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.ivy.IvyNavGraph
-import com.ivy.core.Constants
+import com.ivy.legacy.Constants
 import com.ivy.core.RootScreen
 import com.ivy.core.util.toEpochMilli
 import com.ivy.design.api.IvyUI
