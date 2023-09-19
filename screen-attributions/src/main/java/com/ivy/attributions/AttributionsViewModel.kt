@@ -10,10 +10,28 @@ class AttributionsViewModel @Inject constructor() :
     ComposeViewModel<AttributionsState, AttributionsEvent>() {
     private val attributionItems = listOf<AttributionItem>(
         AttributionItem.Divider(sectionName = "Icons"),
-        AttributionItem.Attribution(name = "Icon1", link = "https://www.google.com"),
-        AttributionItem.Attribution(name = "Icon2", link = "https://www.google.com"),
-        AttributionItem.Divider(sectionName = "Typography"),
-        AttributionItem.Attribution(name = "Typography1", link = "https://www.google.com"),
+        AttributionItem.Attribution(name = "iconsax", link = "https://iconsax.io"),
+        AttributionItem.Attribution(
+            name = "Material Symbols Google",
+            link = "https://fonts.google.com/icons"
+        ),
+        AttributionItem.Attribution(
+            name = "coolicons",
+            link = "https://github.com/krystonschwarze/coolicons"
+        ),
+        AttributionItem.Divider(sectionName = "Fonts"),
+        AttributionItem.Attribution(
+            name = "Open Sans",
+            link = "https://fonts.google.com/specimen/Open+Sans"
+        ),
+        AttributionItem.Attribution(
+            name = "Raleway",
+            link = "https://fonts.google.com/specimen/Raleway?query=raleway"
+        ),
+        AttributionItem.Attribution(
+            name = "Nunito Sans",
+            link = "https://fonts.google.com/specimen/Nunito+Sans?query=nunito"
+        )
     )
 
     @Composable
