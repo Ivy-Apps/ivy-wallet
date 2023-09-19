@@ -154,6 +154,7 @@ dependencies {
     implementation(projects.screenTest)
     implementation(projects.screenBalance)
     implementation(projects.screenFeatures)
+    implementation(projects.screenAttributions)
 
     implementation(libs.bundles.kotlin)
     implementation(libs.bundles.ktor)
