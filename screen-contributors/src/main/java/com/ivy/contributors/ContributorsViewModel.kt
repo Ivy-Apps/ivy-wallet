@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.ivy.core.ComposeViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import javax.inject.Inject
 
@@ -29,7 +30,17 @@ class ContributorsViewModel @Inject constructor(
             }
         }
 
-        return ContributorsState(contributors = contributors.value?.toImmutableList())
+        return ContributorsState(
+            contributors = contributors.value?.toImmutableList()
+                ?: persistentListOf<Contributor>(
+                    Contributor(
+                        name = "",
+                        photo = "",
+                        contributions = "",
+                        link = ""
+                    )
+                )
+        )
     }
 
     override fun onEvent(event: ContributorsEvent) {
