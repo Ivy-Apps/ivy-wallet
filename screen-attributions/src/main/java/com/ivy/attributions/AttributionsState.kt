@@ -1,5 +1,7 @@
 package com.ivy.attributions
 
+import kotlinx.collections.immutable.ImmutableList
+
 data class AttributionsState(
-    val attributionItems: List<AttributionItem>
+    val attributionItems: ImmutableList<AttributionItem>
 )
