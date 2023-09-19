@@ -895,8 +895,8 @@ private fun SettingsPrimaryButton(
             Text(
                 text = text,
                 style = UI.typo.b2.style(
-                    color = UI.colors.pureInverse,
-                    fontWeight = FontWeight.Bold
+                    color = textColor,
+                    fontWeight = FontWeight.Bold,
                 )
             )
             if (description.isNotEmpty()) {
