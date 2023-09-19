@@ -418,9 +418,6 @@
     <ID>ComposableParamOrder:ReorderModal.kt$ReorderModal</ID>
     <ID>ComposableParamOrder:ReorderModal.kt$ReorderModalSingleType</ID>
     <ID>ComposableParamOrder:ScreenTitle.kt$ScreenTitle</ID>
-    <ID>ComposableParamOrder:SettingsScreen.kt$AppSwitch</ID>
-    <ID>ComposableParamOrder:SettingsScreen.kt$SettingsButtonRow</ID>
-    <ID>ComposableParamOrder:SettingsScreen.kt$UI</ID>
     <ID>ComposableParamOrder:Shapes.kt$Shape</ID>
     <ID>ComposableParamOrder:Shapes.kt$ShapeOutlined</ID>
     <ID>ComposableParamOrder:Switch.kt$Switch</ID>
@@ -2121,7 +2118,6 @@
     <ID>FunctionParameterNaming:ReorderModal.kt$ItemContent: @Composable (Int, T) -&gt; Unit</ID>
     <ID>FunctionParameterNaming:ReorderModal.kt$ItemContent: @Composable RowScope.(Int, Any) -&gt; Unit</ID>
     <ID>FunctionParameterNaming:ReorderModal.kt$TitleContent: @Composable ColumnScope.() -&gt; Unit = { Text( modifier = Modifier.padding(start = 32.dp), text = stringResource(R.string.reorder), style = UI.typo.b1.style( UI.colors.pureInverse, FontWeight.ExtraBold ) ) }</ID>
-    <ID>FunctionParameterNaming:SettingsScreen.kt$Content: @Composable RowScope.() -&gt; Unit</ID>
     <ID>FunctionParameterNaming:WrapContentRow.kt$ItemContent: @Composable (item: T) -&gt; Unit</ID>
     <ID>InvalidPackageDeclaration:AccTrnsAct.kt$package com.ivy.wallet.domain.action.account</ID>
     <ID>InvalidPackageDeclaration:AccValueFunctions.kt$package com.ivy.wallet.domain.pure.transaction</ID>
@@ -2332,7 +2328,7 @@
     <ID>LongMethod:OnboardingSplashLogin.kt$@Composable fun BoxWithConstraintsScope.OnboardingSplashLogin( onboardingState: OnboardingState, opGoogleSignIn: OpResult&lt;Unit&gt;?, onLoginWithGoogle: () -&gt; Unit, onSkip: () -&gt; Unit, )</ID>
     <ID>LongMethod:PieChartStatisticScreen.kt$@ExperimentalFoundationApi @Composable private fun BoxWithConstraintsScope.UI( state: PieChartStatisticState = PieChartStatisticState(), onEventHandler: (PieChartStatisticEvent) -&gt; Unit = {} )</ID>
     <ID>LongMethod:ReportScreen.kt$@ExperimentalFoundationApi @Composable private fun BoxWithConstraintsScope.UI( state: ReportScreenState = ReportScreenState(), onEventHandler: (ReportScreenEvent) -&gt; Unit = {} )</ID>
-    <ID>LongMethod:SettingsScreen.kt$@ExperimentalFoundationApi @Composable private fun BoxWithConstraintsScope.UI( currencyCode: String, theme: Theme, onSwitchTheme: () -&gt; Unit, lockApp: Boolean, showNotifications: Boolean = true, hideCurrentBalance: Boolean = false, progressState: Boolean = false, treatTransfersAsIncomeExpense: Boolean = false, nameLocalAccount: String?, startDateOfMonth: Int = 1, onSetCurrency: (String) -&gt; Unit, onSetName: (String) -&gt; Unit = {}, onBackupData: () -&gt; Unit = {}, onExportToCSV: () -&gt; Unit = {}, onSetLockApp: (Boolean) -&gt; Unit = {}, onSetShowNotifications: (Boolean) -&gt; Unit = {}, onSetTreatTransfersAsIncExp: (Boolean) -&gt; Unit = {}, onSetHideCurrentBalance: (Boolean) -&gt; Unit = {}, onSetStartDateOfMonth: (Int) -&gt; Unit = {}, onDeleteAllUserData: () -&gt; Unit = {}, onDeleteCloudUserData: () -&gt; Unit = {}, )</ID>
+    <ID>LongMethod:SettingsScreen.kt$@ExperimentalFoundationApi @Composable private fun BoxWithConstraintsScope.UI( currencyCode: String, theme: Theme, onSwitchTheme: () -&gt; Unit, lockApp: Boolean, nameLocalAccount: String?, onSetCurrency: (String) -&gt; Unit, startDateOfMonth: Int = 1, showNotifications: Boolean = true, hideCurrentBalance: Boolean = false, progressState: Boolean = false, treatTransfersAsIncomeExpense: Boolean = false, onSetName: (String) -&gt; Unit = {}, onBackupData: () -&gt; Unit = {}, onExportToCSV: () -&gt; Unit = {}, onSetLockApp: (Boolean) -&gt; Unit = {}, onSetShowNotifications: (Boolean) -&gt; Unit = {}, onSetTreatTransfersAsIncExp: (Boolean) -&gt; Unit = {}, onSetHideCurrentBalance: (Boolean) -&gt; Unit = {}, onSetStartDateOfMonth: (Int) -&gt; Unit = {}, onDeleteAllUserData: () -&gt; Unit = {}, onDeleteCloudUserData: () -&gt; Unit = {}, )</ID>
     <ID>LongMethod:TransactionCard.kt$@Composable fun TransactionCard( baseData: AppBaseData, transaction: Transaction, onPayOrGet: (Transaction) -&gt; Unit, onSkipTransaction: (Transaction) -&gt; Unit = {}, onClick: (Transaction) -&gt; Unit, )</ID>
     <ID>LongParameterList:EditBottomSheet.kt$( initialTransactionId: UUID?, type: TransactionType, accounts: List&lt;Account&gt;, selectedAccount: Account?, toAccount: Account?, amount: Double, currency: String, convertedAmount: Double? = null, convertedAmountCurrencyCode: String? = null, amountModalShown: Boolean, setAmountModalShown: (Boolean) -&gt; Unit, ActionButton: @Composable () -&gt; Unit, onAmountChanged: (Double) -&gt; Unit, onSelectedAccountChanged: (Account) -&gt; Unit, onToAccountChanged: (Account) -&gt; Unit, onAddNewAccount: () -&gt; Unit )</ID>
     <ID>LongParameterList:EditPlannedScreen.kt$( screen: EditPlannedScreen, startDate: LocalDateTime?, intervalN: Int?, intervalType: IntervalType?, oneTime: Boolean, type: TransactionType, currency: String, initialTitle: String?, description: String?, category: Category?, account: Account?, amount: Double, categories: List&lt;Category&gt;, accounts: List&lt;Account&gt;, onRuleChanged: (LocalDateTime, oneTime: Boolean, Int?, IntervalType?) -&gt; Unit, onTitleChanged: (String?) -&gt; Unit, onDescriptionChanged: (String?) -&gt; Unit, onAmountChanged: (Double) -&gt; Unit, onCategoryChanged: (Category?) -&gt; Unit, onAccountChanged: (Account) -&gt; Unit, onSetTransactionType: (TransactionType) -&gt; Unit, onCreateCategory: (CreateCategoryData) -&gt; Unit = {}, onSave: () -&gt; Unit, onDelete: () -&gt; Unit, onCreateAccount: (CreateAccountData) -&gt; Unit = {}, )</ID>
@@ -7219,55 +7215,6 @@
     <ID>ReturnCount:SyncExchangeRatesAct.kt$SyncExchangeRatesAct$private suspend fun sync(baseCurrency: String)</ID>
     <ID>SpacingAroundParens:TestScreen.kt$(</ID>
     <ID>SpreadOperator:UiText.kt$UiText$(resId, *args)</ID>
-    <ID>SwallowedException:BackupLogic.kt$BackupLogic$e: Exception</ID>
-    <ID>SwallowedException:CSVImporter.kt$CSVImporter$e: Exception</ID>
-    <ID>SwallowedException:CSVImporterV2.kt$CSVImporterV2$e: Exception</ID>
-    <ID>SwallowedException:CSVViewModel.kt$CSVViewModel$e: Exception</ID>
-    <ID>SwallowedException:CalculatorModal.kt$e: Exception</ID>
-    <ID>SwallowedException:ComposeExt.kt$e: Exception</ID>
-    <ID>SwallowedException:IntervalPickerRow.kt$e: Exception</ID>
-    <ID>SwallowedException:ItemIcon.kt$e: Exception</ID>
-    <ID>SwallowedException:Ivy_composePlugin.kt$Ivy_composePlugin$e: java.lang.reflect.InvocationTargetException</ID>
-    <ID>SwallowedException:Ivy_detektPlugin.kt$Ivy_detektPlugin$e: java.lang.reflect.InvocationTargetException</ID>
-    <ID>SwallowedException:Ivy_featurePlugin.kt$Ivy_featurePlugin$e: java.lang.reflect.InvocationTargetException</ID>
-    <ID>SwallowedException:Ivy_modulePlugin.kt$Ivy_modulePlugin$e: java.lang.reflect.InvocationTargetException</ID>
-    <ID>SwallowedException:Ivy_roomPlugin.kt$Ivy_roomPlugin$e: java.lang.reflect.InvocationTargetException</ID>
-    <ID>SwallowedException:Ivy_widgetPlugin.kt$Ivy_widgetPlugin$e: java.lang.reflect.InvocationTargetException</ID>
-    <ID>SwallowedException:ParseFields.kt$e: Exception</ID>
-    <ID>SwallowedException:ParseStatus.kt$e: Exception</ID>
-    <ID>SwallowedException:RootActivity.kt$RootActivity$e: ActivityNotFoundException</ID>
-    <ID>SwallowedException:RootViewModel.kt$RootViewModel$e: IllegalArgumentException</ID>
-    <ID>TooGenericExceptionCaught:AmountModal.kt$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:BackupLogic.kt$BackupLogic$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:Budget.kt$Budget$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:BudgetCreator.kt$BudgetCreator$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:BudgetEntity.kt$BudgetEntity$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:CSVImporter.kt$CSVImporter$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:CSVImporterV2.kt$CSVImporterV2$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:CSVViewModel.kt$CSVViewModel$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:CalculatorModal.kt$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:CategoryCreator.kt$CategoryCreator$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:ComposeExt.kt$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:EditPlannedViewModel.kt$EditPlannedViewModel$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:EditTransactionViewModel.kt$EditTransactionViewModel$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:ExportCSVLogic.kt$ExportCSVLogic$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:ImportViewModel.kt$ImportViewModel$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:IntervalPickerRow.kt$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:ItemIcon.kt$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:IvyCurrency.kt$IvyCurrency.Companion$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:Keyboard.kt$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:LoanCreator.kt$LoanCreator$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:LoanRecordCreator.kt$LoanRecordCreator$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:MigrationsManager.kt$MigrationsManager$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:NotificationService.kt$NotificationService$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:OnboardingViewModel.kt$OnboardingViewModel$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:ParseFields.kt$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:ParseStatus.kt$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:Res.kt$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:RootActivity.kt$RootActivity$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:SettingsViewModel.kt$SettingsViewModel$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:SyncExchangeRatesAct.kt$SyncExchangeRatesAct$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:UIExt.kt$e: Exception</ID>
     <ID>TooManyFunctions:AmountFormatting.kt$com.ivy.legacy.utils.AmountFormatting.kt</ID>
     <ID>TooManyFunctions:BackupLogic.kt$BackupLogic</ID>
     <ID>TooManyFunctions:BudgetBattery.kt$com.ivy.legacy.legacy.ui.theme.components.BudgetBattery.kt</ID>
