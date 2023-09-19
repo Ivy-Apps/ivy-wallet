@@ -1,4 +1,3 @@
 package com.ivy.attributions
 
-sealed interface AttributionsEvent {
-}
+sealed interface AttributionsEvent
