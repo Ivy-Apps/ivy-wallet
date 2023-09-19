@@ -70,8 +70,8 @@ private fun AttributionsUI(
             LazyColumn(
                 modifier = Modifier.padding(it)
             ) {
-                items(uiState.attributions) {
-                    AttributionCard()
+                items(uiState.attributionItems) { attributionItem ->
+                    AttributionLayout(attributionItem)
                 }
             }
         }
@@ -79,9 +79,17 @@ private fun AttributionsUI(
 }
 
 @Composable
-private fun AttributionCard(
-    attribution: AttributionItem.Attribution
+private fun AttributionLayout(
+    attributionItem: AttributionItem
 ) {
+    when (attributionItem) {
+        is AttributionItem.Attribution -> AttributionCard(attribution = attributionItem)
+        is AttributionItem.Divider -> AttributionsSectionDivider(text = attributionItem.sectionName)
+    }
+}
+
+@Composable
+private fun AttributionCard(attribution: AttributionItem.Attribution) {
     val browser = LocalUriHandler.current
 
     Card(
