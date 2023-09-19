@@ -33,6 +33,8 @@ import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.navigation
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun AttributionsScreenImpl() {
@@ -93,7 +95,7 @@ private fun BackButton(nav: Navigation) {
 @Composable
 private fun AttributionsContent(
     paddingValues: PaddingValues,
-    attributionItems: List<AttributionItem>
+    attributionItems: ImmutableList<AttributionItem>
 ) {
     LazyColumn(
         modifier = Modifier
@@ -112,8 +114,14 @@ private fun AttributionLayout(
     attributionItem: AttributionItem
 ) {
     when (attributionItem) {
-        is AttributionItem.Attribution -> AttributionCard(attribution = attributionItem)
-        is AttributionItem.Divider -> AttributionsSectionDivider(text = attributionItem.sectionName)
+        is AttributionItem.Attribution -> {
+            AttributionCard(attribution = attributionItem)
+        }
+
+        is AttributionItem.Divider -> {
+            Spacer(modifier = Modifier.height(12.dp))
+            AttributionsSectionDivider(text = attributionItem.sectionName)
+        }
     }
 }
 
@@ -143,8 +151,6 @@ private fun AttributionsSectionDivider(
     text: String,
     color: Color = Gray
 ) {
-    Spacer(modifier = Modifier.height(12.dp))
-
     Text(
         modifier = Modifier.padding(start = 12.dp),
         text = text,
@@ -158,7 +164,7 @@ private fun AttributionsSectionDivider(
 @Preview
 @Composable
 private fun AttributionsUIPreview() {
-    val attributionItems = listOf<AttributionItem>(
+    val attributionItems = persistentListOf<AttributionItem>(
         AttributionItem.Divider(sectionName = "Icons"),
         AttributionItem.Attribution(name = "iconsax", link = "https://iconsax.io"),
         AttributionItem.Attribution(
