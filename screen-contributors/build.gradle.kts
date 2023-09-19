@@ -14,4 +14,5 @@ dependencies {
     implementation(projects.ivyCoreUi)
 
     implementation(libs.bundles.ktor)
+    implementation(projects.tempLegacyCode)
 }

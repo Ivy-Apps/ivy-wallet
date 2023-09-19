@@ -21,20 +21,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.navigation
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import com.ivy.contributors.ContributorsUi as ContributorsUi1
 
 @Composable
 fun ContributorsScreenImpl() {
     val viewModel: ContributorsViewModel = viewModel()
     val uiState = viewModel.uiState()
 
-    ContributorsUi(uiState)
+    ContributorsUi1(uiState)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -114,11 +118,34 @@ private fun ContributorCard(contributor: Contributor) {
         }
     ) {
         Column(
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(
                 text = contributor.name
             )
+            Text(
+                text = "${contributor.contributions} contributions"
+            )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun ContributorsUiPreview() {
+    IvyWalletPreview {
+        ContributorsUi1(
+            uiState = ContributorsState(
+                contributors = persistentListOf(
+                    Contributor(
+                        name = "Iliyan",
+                        photo = "",
+                        contributions = "564",
+                        link = ""
+                    )
+                )
+            )
+        )
     }
 }
