@@ -47,7 +47,6 @@ import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IconScale
 import com.ivy.design.l1_buildingBlocks.IvyIconScaled
 import com.ivy.legacy.Constants
-import com.ivy.legacy.Constants.URL_IVY_CONTRIBUTORS
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.rootScreen
 import com.ivy.legacy.utils.OpResult
@@ -56,6 +55,7 @@ import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.thenIf
 import com.ivy.navigation.AttributionsScreen
+import com.ivy.navigation.ContributorsScreen
 import com.ivy.navigation.ExchangeRatesScreen
 import com.ivy.navigation.ImportScreen
 import com.ivy.navigation.SettingsScreen
@@ -412,7 +412,7 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(12.dp))
 
-            ProjectContributors()
+            Contributors()
 
             Spacer(Modifier.height(12.dp))
 
@@ -619,14 +619,15 @@ private fun ContactSupport() {
 }
 
 @Composable
-private fun ProjectContributors() {
-    val uriHandler = LocalUriHandler.current
+private fun Contributors() {
+    val nav = navigation()
+
     SettingsDefaultButton(
         icon = R.drawable.ic_vue_people_people,
         text = stringResource(R.string.project_contributors),
         iconPadding = 6.dp
     ) {
-        uriHandler.openUri(URL_IVY_CONTRIBUTORS)
+        nav.navigateTo(ContributorsScreen)
     }
 }
 
