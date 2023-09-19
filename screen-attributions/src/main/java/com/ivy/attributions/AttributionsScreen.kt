@@ -98,7 +98,7 @@ private fun AttributionsContent(
     LazyColumn(
         modifier = Modifier
             .padding(paddingValues)
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 16.dp, vertical = 4.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(attributionItems) { attributionItem ->
