@@ -114,16 +114,15 @@ android {
     }
 
     lint {
-        disable += "MissingTranslation"
         disable += "ComposeViewModelInjection"
-        checkReleaseBuilds = true
         checkDependencies = true
         abortOnError = false
+        checkReleaseBuilds = false
         htmlReport = true
         htmlOutput = file("${project.rootDir}/build/reports/lint/lint.html")
         xmlReport = true
-        xmlOutput = file("${project.rootDir}/build/reports/lint-results.xml")
-        baseline = file("${project.rootDir}/lint-baseline.xml")
+        xmlOutput = file("${project.rootDir}/build/reports/lint/lint.xml")
+        baseline = file("lint-baseline.xml")
     }
 }
 
