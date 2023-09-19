@@ -1106,4 +1106,4 @@ Compose:
   ViewModelForwarding:
     active: true
   ViewModelInjection:
-    active: true
+    active: false
