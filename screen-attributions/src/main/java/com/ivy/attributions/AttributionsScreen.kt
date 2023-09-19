@@ -27,7 +27,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.design.l0_system.Black
 import com.ivy.design.l0_system.Gray
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -86,8 +85,7 @@ private fun BackButton(nav: Navigation) {
     }) {
         Icon(
             imageVector = Icons.Filled.ArrowBack,
-            contentDescription = "Back",
-            tint = Black
+            contentDescription = "Back"
         )
     }
 }
@@ -100,7 +98,7 @@ private fun AttributionsContent(
     LazyColumn(
         modifier = Modifier
             .padding(paddingValues)
-            .padding(12.dp),
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(attributionItems) { attributionItem ->
