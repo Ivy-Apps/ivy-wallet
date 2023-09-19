@@ -35,85 +35,76 @@ class AttributionsViewModel @Inject constructor() :
         ),
 
         AttributionItem.Divider(sectionName = "Tech Stack"),
-        AttributionItem.Divider(sectionName = "Core"),
         AttributionItem.Attribution(
-            name = "100% Kotlin",
+            name = "Kotlin",
             link = "https://kotlinlang.org"
         ),
         AttributionItem.Attribution(
-            name = "100% Jetpack Compose",
+            name = "Jetpack Compose",
             link = "https://developer.android.com/jetpack/compose"
         ),
         AttributionItem.Attribution(
-            name = "Kotlin Coroutines (structured concurrency)",
+            name = "Kotlin Coroutines",
             link = "https://kotlinlang.org/docs/coroutines-overview.html"
         ),
         AttributionItem.Attribution(
-            name = "Kotlin Flow (reactivity)",
+            name = "Kotlin Flow",
             link = "https://kotlinlang.org/docs/flow.html"
         ),
         AttributionItem.Attribution(
-            name = "Hilt (DI)",
+            name = "Hilt",
             link = "https://dagger.dev/hilt"
         ),
         AttributionItem.Attribution(
-            name = "ArrowKt (functional programming)",
+            name = "ArrowKt",
             link = "https://arrow-kt.io"
         ),
         AttributionItem.Attribution(
-            name = "Kotest (unit testing)",
+            name = "Kotest",
             link = "https://kotest.io"
         ),
-
-        AttributionItem.Divider(sectionName = "Local Persistence"),
         AttributionItem.Attribution(
-            name = "DataStore (key-value storage)",
+            name = "DataStore",
             link = "https://developer.android.com/topic/libraries/architecture/datastore"
         ),
         AttributionItem.Attribution(
-            name = "Room DB (SQLite ORM)",
+            name = "Room DB",
             link = "https://developer.android.com/training/data-storage/room"
         ),
-
-        AttributionItem.Divider(sectionName = "Networking"),
         AttributionItem.Attribution(
-            name = "Ktor Client (REST client)",
+            name = "Ktor Client",
             link = "https://ktor.io/docs/getting-started-ktor-client.html"
         ),
         AttributionItem.Attribution(
-            name = "KotlinX Serialization (JSON serialization)",
+            name = "KotlinX Serialization",
             link = "https://github.com/Kotlin/kotlinx.serialization"
         ),
-
-        AttributionItem.Divider(sectionName = "Build & CI"),
         AttributionItem.Attribution(
             name = "Gradle KTS (Kotlin DSL)",
             link = "https://docs.gradle.org/current/userguide/kotlin_dsl.html"
         ),
         AttributionItem.Attribution(
-            name = "Fastlane (uploads the app to the Google PlayStore)",
+            name = "Fastlane",
             link = "https://fastlane.tools"
         ),
         AttributionItem.Attribution(
-            name = "Github Actions (CI/CD)",
+            name = "Github Actions",
             link = "https://github.com/Ivy-Apps/ivy-wallet/actions"
         ),
-
-        AttributionItem.Divider(sectionName = "Other"),
         AttributionItem.Attribution(
-            name = "Timber (logging)",
+            name = "Timber",
             link = "https://github.com/JakeWharton/timber"
         ),
         AttributionItem.Attribution(
-            name = "Detekt (linter)",
+            name = "Detekt",
             link = "https://github.com/detekt/detekt"
         ),
         AttributionItem.Attribution(
-            name = "Ktlint (linter)",
+            name = "Ktlint",
             link = "https://github.com/pinterest/ktlint"
         ),
         AttributionItem.Attribution(
-            name = "Slack's compose-lints (linter)",
+            name = "Slack's compose-lints",
             link = "https://slackhq.github.io/compose-lints"
         )
     )
