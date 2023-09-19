@@ -2,6 +2,7 @@ package com.ivy.attributions
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,6 +28,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.design.l0_system.Gray
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.navigation.Navigation
 import com.ivy.navigation.navigation
 
 @Composable
@@ -48,34 +50,52 @@ private fun AttributionsUI(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(
-                        "Attributions",
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
+                    TopAppBarTitle(text = "Attributions")
                 },
                 navigationIcon = {
-                    IconButton(onClick = {
-                        nav.back()
-                    }) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "Back"
-                        )
-                    }
+                    BackButton(nav = nav)
                 }
             )
         },
         content = {
-            LazyColumn(
-                modifier = Modifier.padding(it)
-            ) {
-                items(uiState.attributionItems) { attributionItem ->
-                    AttributionLayout(attributionItem)
-                }
-            }
+            AttributionsContent(paddingValues = it, attributionItems = uiState.attributionItems)
         }
     )
+}
+
+@Composable
+private fun TopAppBarTitle(text: String) {
+    Text(
+        text = text,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis
+    )
+}
+
+@Composable
+private fun BackButton(nav: Navigation) {
+    IconButton(onClick = {
+        nav.back()
+    }) {
+        Icon(
+            imageVector = Icons.Filled.ArrowBack,
+            contentDescription = "Back"
+        )
+    }
+}
+
+@Composable
+private fun AttributionsContent(
+    paddingValues: PaddingValues,
+    attributionItems: List<AttributionItem>
+) {
+    LazyColumn(
+        modifier = Modifier.padding(paddingValues)
+    ) {
+        items(attributionItems) { attributionItem ->
+            AttributionLayout(attributionItem)
+        }
+    }
 }
 
 @Composable
