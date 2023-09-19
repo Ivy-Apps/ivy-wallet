@@ -37,8 +37,9 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
-fun AttributionsScreenImpl() {
-    val viewModel: AttributionsViewModel = viewModel()
+fun AttributionsScreenImpl(
+    viewModel: AttributionsViewModel = viewModel()
+) {
     val uiState = viewModel.uiState()
 
     AttributionsUI(uiState = uiState)
