@@ -40,7 +40,6 @@ class FeaturesViewModel @Inject constructor(
         return allFeatures.toImmutableList()
     }
 
-
     override fun onEvent(event: FeaturesUiEvent) {
         when (event) {
             is FeaturesUiEvent.ToggleFeature -> toggleFeature(event)
