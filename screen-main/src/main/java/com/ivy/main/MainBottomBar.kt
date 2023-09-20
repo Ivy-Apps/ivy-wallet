@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.main
+package com.ivy.main
 
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.core.animateDpAsState
@@ -71,6 +71,7 @@ import kotlin.math.roundToInt
 val TRN_BUTTON_CLICK_AREA_HEIGHT = 150.dp
 val FAB_BUTTON_SIZE = 56.dp
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.BottomBar(
     tab: MainTab,

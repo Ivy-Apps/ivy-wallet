@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.main
+package com.ivy.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
