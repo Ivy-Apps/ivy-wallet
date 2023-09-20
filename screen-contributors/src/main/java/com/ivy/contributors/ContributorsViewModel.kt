@@ -55,7 +55,7 @@ class ContributorsViewModel @Inject constructor(
                 contributors.toImmutableList()
             )
         } else {
-            contributorsState.value = ContributorsState.Error("Error. Try again.")
+            contributorsState.value = ContributorsState.Error("Try again.")
         }
     }
 }
