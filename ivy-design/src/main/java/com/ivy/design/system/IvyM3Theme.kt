@@ -11,7 +11,7 @@ fun IvyM3Theme(
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
-        colorScheme = if (dark) ivyLightColorScheme() else ivyDarkColorScheme(),
+        colorScheme = if (dark) ivyDarkColorScheme() else ivyLightColorScheme(),
         content = content,
     )
 }
@@ -32,11 +32,11 @@ private fun ivyLightColorScheme(): ColorScheme = ColorScheme(
     onTertiaryContainer = IvyColors.White,
     background = IvyColors.White,
     onBackground = IvyColors.Black,
-    surface = IvyColors.LightGray,
+    surface = IvyColors.White,
     onSurface = IvyColors.Black,
-    surfaceVariant = IvyColors.Gray,
-    onSurfaceVariant = IvyColors.White,
-    surfaceTint = IvyColors.ExtraLightGray,
+    surfaceVariant = IvyColors.White,
+    onSurfaceVariant = IvyColors.Black,
+    surfaceTint = IvyColors.Black,
     inverseSurface = IvyColors.DarkGray,
     inverseOnSurface = IvyColors.White,
     error = IvyColors.Red.primary,
