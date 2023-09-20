@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -124,8 +125,13 @@ private fun ContributorsContent(
                 }
             }
 
-            ContributorsStage.Loading -> TODO()
-            is ContributorsStage.Success -> TODO()
+            ContributorsStage.Loading -> item(key = "Loading") {
+                LoadingStage()
+            }
+
+            is ContributorsStage.Success -> items(contributorsStage.contributors) {
+                ContributorCard(contributor = it)
+            }
         }
     }
 }
@@ -145,6 +151,11 @@ fun LazyItemScope.ErrorStage(
             contentDescription = "Try again"
         )
     }
+}
+
+@Composable
+fun LoadingStage(modifier: Modifier = Modifier) {
+    Text(text = "Loading...")
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
