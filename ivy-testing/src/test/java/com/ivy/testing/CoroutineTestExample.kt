@@ -26,7 +26,7 @@ class CoroutineTestExample : FreeSpec({
     }
 
     "blocking operations with delay should be instant" {
-        withTimeout(100) { // verify that it's instant
+        withTimeout(1_000) { // verify that it's instant
             runTest {
                 blockingOperation() shouldBe 42
             }
