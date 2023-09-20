@@ -164,7 +164,7 @@ complexity:
     excludeStringsWithLessThan5Characters: true
     ignoreStringsRegex: '$^'
   TooManyFunctions:
-    active: true
+    active: false
     excludes: ['**/test/**', '**/androidTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**']
     thresholdInFiles: 11
     thresholdInClasses: 11
