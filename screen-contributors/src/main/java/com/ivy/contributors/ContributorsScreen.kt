@@ -17,6 +17,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -28,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,6 +41,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.navigation
+import com.ivy.resources.R
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
@@ -61,6 +64,7 @@ private fun ContributorsUi(
     onEvent: (ContributorsEvent) -> Unit
 ) {
     val nav = navigation()
+    val browser = LocalUriHandler.current
 
     Scaffold(
         topBar = {
@@ -81,6 +85,11 @@ private fun ContributorsUi(
                     onEvent(contributorsEvent)
                 }
             )
+        },
+        floatingActionButton = {
+            GitHubButton {
+                browser.openUri("https://github.com/Ivy-Apps/ivy-wallet")
+            }
         }
     )
 }
@@ -207,6 +216,20 @@ private fun ContributorCard(contributor: Contributor) {
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun GitHubButton(onClick: () -> Unit) {
+    FloatingActionButton(
+        onClick = onClick,
+        containerColor = MaterialTheme.colorScheme.primary,
+        contentColor = MaterialTheme.colorScheme.onPrimary
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.github_logo),
+            contentDescription = "GitHub"
+        )
     }
 }
 
