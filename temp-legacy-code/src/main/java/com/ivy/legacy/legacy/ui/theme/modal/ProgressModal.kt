@@ -18,6 +18,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.ui.theme.Red
 import java.util.UUID
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.ProgressModal(
     id: UUID = UUID.randomUUID(),

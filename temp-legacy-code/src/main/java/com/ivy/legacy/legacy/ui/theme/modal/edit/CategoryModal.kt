@@ -52,12 +52,14 @@ import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.selectEndTextFieldValue
 import java.util.UUID
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 data class CategoryModalData(
     val category: Category?,
     val id: UUID = UUID.randomUUID(),
     val autoFocusKeyboard: Boolean = true,
 )
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.CategoryModal(
     modal: CategoryModalData?,

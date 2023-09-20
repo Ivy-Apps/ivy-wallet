@@ -67,6 +67,7 @@ import com.ivy.legacy.utils.thenIf
 import kotlinx.coroutines.launch
 import java.util.UUID
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 data class LoanModalData(
     val loan: Loan?,
     val baseCurrency: String,
@@ -77,6 +78,7 @@ data class LoanModalData(
     val id: UUID = UUID.randomUUID()
 )
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.LoanModal(
     accounts: List<Account> = emptyList(),

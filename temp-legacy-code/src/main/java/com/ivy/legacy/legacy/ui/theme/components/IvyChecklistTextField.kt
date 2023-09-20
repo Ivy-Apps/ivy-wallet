@@ -32,6 +32,7 @@ import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.hideKeyboard
 import com.ivy.legacy.utils.isNotNullOrBlank
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun IvyChecklistTextField(
     modifier: Modifier = Modifier,

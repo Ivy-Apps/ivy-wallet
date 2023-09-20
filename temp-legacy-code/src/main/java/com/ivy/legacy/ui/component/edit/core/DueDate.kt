@@ -25,6 +25,7 @@ import com.ivy.legacy.utils.formatDateOnly
 import com.ivy.legacy.utils.timeNowUTC
 import java.time.LocalDateTime
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun DueDate(
     dueDate: LocalDateTime,

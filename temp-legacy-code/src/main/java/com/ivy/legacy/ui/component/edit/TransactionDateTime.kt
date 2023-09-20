@@ -26,6 +26,7 @@ import com.ivy.legacy.utils.formatNicelyWithTime
 import com.ivy.legacy.utils.timeNowUTC
 import java.time.LocalDateTime
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun TransactionDateTime(
     dateTime: LocalDateTime?,

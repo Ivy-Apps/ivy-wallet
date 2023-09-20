@@ -9,6 +9,7 @@ import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.GradientRed
 import com.ivy.wallet.ui.theme.White
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun DeleteButton(
     modifier: Modifier = Modifier,

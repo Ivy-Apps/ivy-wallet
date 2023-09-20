@@ -30,6 +30,7 @@ import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.thenIf
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun IvyOutlinedTextField(
     modifier: Modifier = Modifier,

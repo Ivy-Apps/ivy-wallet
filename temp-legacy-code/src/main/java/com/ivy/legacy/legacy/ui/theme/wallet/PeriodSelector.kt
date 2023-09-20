@@ -29,6 +29,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.components.IvyIcon
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun PeriodSelector(
     modifier: Modifier = Modifier,

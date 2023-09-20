@@ -36,6 +36,7 @@ import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.isDarkColor
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun IncomeExpensesCards(
     history: List<TransactionHistoryItem>,

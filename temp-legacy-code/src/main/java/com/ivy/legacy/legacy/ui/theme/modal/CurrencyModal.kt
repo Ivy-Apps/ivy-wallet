@@ -27,6 +27,7 @@ import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.CurrencyPicker
 import java.util.UUID
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.CurrencyModal(
     title: String,

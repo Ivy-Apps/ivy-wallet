@@ -14,6 +14,7 @@ import com.ivy.wallet.ui.theme.components.BufferBattery
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import java.util.*
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 data class BufferModalData(
     val balance: Double,
     val buffer: Double,
@@ -21,6 +22,7 @@ data class BufferModalData(
     val id: UUID = UUID.randomUUID()
 )
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.BufferModal(
     modal: BufferModalData?,

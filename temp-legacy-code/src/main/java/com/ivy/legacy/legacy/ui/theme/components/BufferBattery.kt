@@ -35,6 +35,7 @@ import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB2Row
 import com.ivy.legacy.utils.thenIf
 import kotlin.math.abs
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BufferBattery(
     modifier: Modifier = Modifier,

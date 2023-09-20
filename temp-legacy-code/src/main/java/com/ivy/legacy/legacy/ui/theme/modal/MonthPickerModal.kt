@@ -37,6 +37,7 @@ import com.ivy.legacy.utils.thenIf
 import java.time.LocalDate
 import java.util.UUID
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.MonthPickerModal(
     id: UUID = UUID.randomUUID(),

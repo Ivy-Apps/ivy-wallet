@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.legacy.IvyWalletComponentPreview
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun IvyDividerDot() {
     Spacer(

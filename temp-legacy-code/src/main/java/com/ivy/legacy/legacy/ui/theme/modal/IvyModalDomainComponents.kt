@@ -19,6 +19,7 @@ import com.ivy.wallet.ui.theme.components.BalanceRow
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
 import com.ivy.legacy.utils.clickableNoIndication
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun ModalAmountSection(
     label: String,

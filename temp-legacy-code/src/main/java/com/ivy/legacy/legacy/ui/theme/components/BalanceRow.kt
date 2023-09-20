@@ -23,6 +23,7 @@ import com.ivy.legacy.utils.shortenAmount
 import com.ivy.legacy.utils.shouldShortAmount
 import java.text.DecimalFormat
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BalanceRowMedium(
     modifier: Modifier = Modifier,

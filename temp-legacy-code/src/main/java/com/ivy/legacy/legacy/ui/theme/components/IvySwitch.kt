@@ -19,6 +19,7 @@ import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.legacy.utils.springBounce
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun IvySwitch(
     modifier: Modifier = Modifier,

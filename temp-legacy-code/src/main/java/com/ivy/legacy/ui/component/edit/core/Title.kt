@@ -35,6 +35,7 @@ import com.ivy.legacy.utils.selectEndTextFieldValue
 import kotlinx.coroutines.launch
 import java.util.UUID
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun ColumnScope.Title(
     type: TransactionType,

@@ -27,6 +27,7 @@ import com.ivy.legacy.utils.hideKeyboard
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.selectEndTextFieldValue
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun IvyBasicTextField(
     modifier: Modifier = Modifier,

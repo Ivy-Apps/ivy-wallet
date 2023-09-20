@@ -16,6 +16,7 @@ import com.ivy.wallet.ui.theme.components.DeleteButton
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
 import java.util.UUID
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun Toolbar(
     type: TransactionType,

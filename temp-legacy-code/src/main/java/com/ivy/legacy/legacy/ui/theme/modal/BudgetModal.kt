@@ -52,6 +52,7 @@ import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.selectEndTextFieldValue
 import java.util.UUID
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 data class BudgetModalData(
     val budget: Budget?,
 
@@ -63,6 +64,7 @@ data class BudgetModalData(
     val autoFocusKeyboard: Boolean = true,
 )
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.BudgetModal(
     modal: BudgetModalData?,

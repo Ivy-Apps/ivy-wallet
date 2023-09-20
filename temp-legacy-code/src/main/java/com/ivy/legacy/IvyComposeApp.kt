@@ -24,19 +24,22 @@ import com.ivy.design.utils.IvyPreview
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.NavigationRoot
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun ivyWalletCtx(): IvyWalletCtx = ivyContext() as IvyWalletCtx
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun rootView(): View = LocalView.current
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun rootActivity(): AppCompatActivity = LocalContext.current as AppCompatActivity
 
 @Composable
 fun rootScreen(): RootScreen = LocalContext.current as RootScreen
 
-
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun IvyWalletComponentPreview(
     theme: Theme = Theme.LIGHT,
@@ -56,6 +59,7 @@ fun IvyWalletComponentPreview(
     }
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun IvyWalletPreview(
     theme: Theme = Theme.LIGHT,
@@ -72,6 +76,7 @@ fun IvyWalletPreview(
     }
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun appDesign(context: IvyWalletCtx): IvyDesign = object : IvyWalletDesign() {
     override fun context(): IvyContext = context
 }

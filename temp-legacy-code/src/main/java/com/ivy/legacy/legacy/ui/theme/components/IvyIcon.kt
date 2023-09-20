@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import com.ivy.design.l0_system.UI
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun IvyIcon(
     modifier: Modifier = Modifier,

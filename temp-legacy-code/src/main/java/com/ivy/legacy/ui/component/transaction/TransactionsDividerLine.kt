@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun TransactionsDividerLine(
     modifier: Modifier = Modifier,

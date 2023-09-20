@@ -34,6 +34,7 @@ import com.ivy.wallet.ui.theme.White
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.thenIf
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun IvyButton(
     modifier: Modifier = Modifier,
