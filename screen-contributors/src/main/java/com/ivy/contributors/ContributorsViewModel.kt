@@ -3,22 +3,23 @@ package com.ivy.contributors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.lifecycle.viewModelScope
 import com.ivy.core.ComposeViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ContributorsViewModel @Inject constructor(
     private val contributorsDataSource: ContributorsDataSource
-) :
-    ComposeViewModel<ContributorsState, ContributorsEvent>() {
+) : ComposeViewModel<ContributorsState, ContributorsEvent>() {
+
+    private val contributors = mutableStateOf<List<Contributor>?>(null)
+    private val contributorsStage = mutableStateOf<ContributorsStage>(ContributorsStage.Loading)
+
     @Composable
     override fun uiState(): ContributorsState {
-        val contributors = remember { mutableStateOf<List<Contributor>?>(null) }
-
         LaunchedEffect(Unit) {
             contributors.value = contributorsDataSource.fetchContributors()?.map {
                 Contributor(
@@ -28,22 +29,35 @@ class ContributorsViewModel @Inject constructor(
                     link = it.link
                 )
             }
+
+            val contributors = contributors.value
+
+            if (contributors != null) {
+                contributorsStage.value = ContributorsStage.Success(contributors.toImmutableList())
+            } else {
+                contributorsStage.value = ContributorsStage.Error("Error. Try again.")
+            }
         }
 
-        return ContributorsState(
-            contributors = contributors.value?.toImmutableList()
-                ?: persistentListOf<Contributor>(
-                    Contributor(
-                        name = "",
-                        photo = "",
-                        contributions = "",
-                        link = ""
-                    )
-                )
-        )
+        return ContributorsState(contributorsStage.value)
     }
 
     override fun onEvent(event: ContributorsEvent) {
-        TODO("Not yet implemented")
+        when (event) {
+            ContributorsEvent.TryAgainButtonClicked -> onTryAgainButtonClicked()
+        }
+    }
+
+    private fun onTryAgainButtonClicked() {
+        viewModelScope.launch {
+            contributors.value = contributorsDataSource.fetchContributors()?.map {
+                Contributor(
+                    name = it.login,
+                    photo = it.avatarUrl,
+                    contributions = it.contributions.toString(),
+                    link = it.link
+                )
+            }
+        }
     }
 }

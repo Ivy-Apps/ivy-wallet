@@ -8,10 +8,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -34,22 +35,26 @@ import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.navigation
-import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import com.ivy.contributors.ContributorsUi as ContributorsUi1
 
 @Composable
 fun ContributorsScreenImpl() {
     val viewModel: ContributorsViewModel = viewModel()
     val uiState = viewModel.uiState()
 
-    ContributorsUi1(uiState)
+    ContributorsUi(
+        uiState = uiState,
+        onEvent = {
+            viewModel.onEvent(it)
+        }
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ContributorsUi(
-    uiState: ContributorsState
+    uiState: ContributorsState,
+    onEvent: (ContributorsEvent) -> Unit
 ) {
     val nav = navigation()
 
@@ -65,7 +70,13 @@ private fun ContributorsUi(
             )
         },
         content = {
-            ContributorsContent(paddingValues = it, contributors = uiState.contributors)
+            ContributorsContent(
+                paddingValues = it,
+                contributorsStage = uiState.contributors,
+                onEvent = { contributorsEvent ->
+                    onEvent(contributorsEvent)
+                }
+            )
         }
     )
 }
@@ -97,7 +108,8 @@ private fun BackButton(nav: Navigation) {
 @Composable
 private fun ContributorsContent(
     paddingValues: PaddingValues,
-    contributors: ImmutableList<Contributor>
+    contributorsStage: ContributorsStage,
+    onEvent: (ContributorsEvent) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -105,9 +117,33 @@ private fun ContributorsContent(
             .padding(horizontal = 16.dp, vertical = 4.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(contributors) { contributor ->
-            ContributorCard(contributor = contributor)
+        when (contributorsStage) {
+            is ContributorsStage.Error -> item(key = "Error") {
+                ErrorStage(message = contributorsStage.errorMessage) {
+                    onEvent(ContributorsEvent.TryAgainButtonClicked)
+                }
+            }
+
+            ContributorsStage.Loading -> TODO()
+            is ContributorsStage.Success -> TODO()
         }
+    }
+}
+
+@Composable
+fun LazyItemScope.ErrorStage(
+    message: String,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    Text(text = message)
+    IconButton(
+        onClick = onClick
+    ) {
+        Icon(
+            imageVector = Icons.Filled.Refresh,
+            contentDescription = "Try again"
+        )
     }
 }
 
@@ -149,19 +185,50 @@ private fun ContributorCard(contributor: Contributor) {
 
 @Preview
 @Composable
-private fun ContributorsUiPreview() {
+private fun PreviewSuccess() {
     IvyWalletPreview {
-        ContributorsUi1(
+        ContributorsUi(
             uiState = ContributorsState(
-                contributors = persistentListOf(
-                    Contributor(
-                        name = "Iliyan",
-                        photo = "",
-                        contributions = "564",
-                        link = ""
+                contributors = ContributorsStage.Success(
+                    persistentListOf(
+                        Contributor(
+                            name = "Iliyan",
+                            photo = "",
+                            contributions = "564",
+                            link = ""
+                        )
                     )
                 )
-            )
+            ),
+            onEvent = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewError() {
+    IvyWalletPreview {
+        ContributorsUi(
+            uiState = ContributorsState(
+                contributors = ContributorsStage.Error(
+                    errorMessage = "Error. Try again."
+                )
+            ),
+            onEvent = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewLoading() {
+    IvyWalletPreview {
+        ContributorsUi(
+            uiState = ContributorsState(
+                contributors = ContributorsStage.Loading
+            ),
+            onEvent = {}
         )
     }
 }

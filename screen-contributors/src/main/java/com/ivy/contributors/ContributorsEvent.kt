@@ -1,3 +1,5 @@
 package com.ivy.contributors
 
-sealed interface ContributorsEvent
+sealed interface ContributorsEvent {
+    data object TryAgainButtonClicked : ContributorsEvent
+}
