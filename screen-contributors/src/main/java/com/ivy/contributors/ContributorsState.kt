@@ -7,4 +7,3 @@ sealed interface ContributorsState {
     data class Success(val contributors: ImmutableList<Contributor>) : ContributorsState
     data class Error(val errorMessage: String) : ContributorsState
 }
-
