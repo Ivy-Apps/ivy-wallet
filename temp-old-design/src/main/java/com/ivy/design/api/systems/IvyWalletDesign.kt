@@ -12,12 +12,14 @@ import com.ivy.design.R
 import com.ivy.design.api.IvyDesign
 import com.ivy.design.l0_system.*
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 abstract class IvyWalletDesign : IvyDesign {
     companion object {
         const val OPEN_SANS_BASELINE_SHIFT = 0.075f
         const val RALEWAY_BASELINE_SHIFT = 0.2f
     }
 
+    @Deprecated("Old design system. Use `:ivy-design` and Material3")
     override fun typography(): IvyTypography {
         val openSans = FontFamily(
             Font(R.font.opensans_regular, FontWeight.Normal),
@@ -109,6 +111,7 @@ abstract class IvyWalletDesign : IvyDesign {
         }
     }
 
+    @Deprecated("Old design system. Use `:ivy-design` and Material3")
     override fun colors(theme: Theme, isDarkModeEnabled: Boolean): IvyColors {
         return when (theme) {
             Theme.LIGHT -> object : IvyColors {
@@ -159,6 +162,7 @@ abstract class IvyWalletDesign : IvyDesign {
         }
     }
 
+    @Deprecated("Old design system. Use `:ivy-design` and Material3")
     override fun shapes(): IvyShapes {
         return object : IvyShapes() {
             override val r1 = RoundedCornerShape(32.dp)

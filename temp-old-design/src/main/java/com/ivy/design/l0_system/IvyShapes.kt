@@ -4,6 +4,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 abstract class IvyShapes {
     abstract val r1: CornerBasedShape
     abstract val r1Top: CornerBasedShape

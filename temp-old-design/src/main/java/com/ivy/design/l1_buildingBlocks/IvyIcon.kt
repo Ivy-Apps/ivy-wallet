@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.utils.thenWhen
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun IvyIcon(
     modifier: Modifier = Modifier,
@@ -32,6 +33,7 @@ fun IvyIcon(
     )
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun IvyIconScaled(
     modifier: Modifier = Modifier,
@@ -68,6 +70,7 @@ fun IvyIconScaled(
     )
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 enum class IconScale {
     S, M, L
 }

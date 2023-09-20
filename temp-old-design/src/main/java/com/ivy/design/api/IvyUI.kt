@@ -14,6 +14,7 @@ import com.ivy.design.l0_system.IvyTheme
 
 val LocalIvyContext = compositionLocalOf<IvyContext> { error("No LocalIvyContext") }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun IvyUI(
     design: IvyDesign,
@@ -44,6 +45,7 @@ fun IvyUI(
     }
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun ivyContext(): IvyContext {
     return LocalIvyContext.current

@@ -13,6 +13,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.utils.IvyComponentPreview
 import com.ivy.design.utils.thenWhen
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun DividerH(
     size: DividerSize = DividerSize.FillMax(
@@ -40,6 +41,7 @@ fun DividerH(
     )
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun DividerV(
     size: DividerSize = DividerSize.FillMax(
@@ -67,6 +69,7 @@ fun DividerV(
     )
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun RowScope.DividerW(
     weight: Float = 1f,
@@ -83,22 +86,7 @@ fun RowScope.DividerW(
     )
 }
 
-@Composable
-fun ColumnScope.DividerW(
-    weight: Float = 1f,
-    width: Dp = 1.dp,
-    color: Color = UI.colors.gray,
-    shape: Shape = UI.shapes.rFull
-) {
-    Divider(
-        modifier = Modifier
-            .weight(weight)
-            .width(width),
-        color = color,
-        shape = shape
-    )
-}
-
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun Divider(
     modifier: Modifier = Modifier,
@@ -111,9 +99,12 @@ fun Divider(
     )
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 sealed class DividerSize {
+    @Deprecated("Old design system. Use `:ivy-design` and Material3")
     data class Fixed(val size: Dp) : DividerSize()
 
+    @Deprecated("Old design system. Use `:ivy-design` and Material3")
     data class FillMax(val padding: Dp) : DividerSize()
 }
 

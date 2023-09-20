@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.ivy.design.utils.thenIf
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun ColumnRoot(
     modifier: Modifier = Modifier,

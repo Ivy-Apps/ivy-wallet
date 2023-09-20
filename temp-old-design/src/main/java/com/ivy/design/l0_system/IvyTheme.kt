@@ -19,10 +19,14 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import com.ivy.design.api.IvyDesign
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 val LocalIvyColors = compositionLocalOf<IvyColors> { error("No IvyColors") }
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 val LocalIvyTypography = compositionLocalOf<IvyTypography> { error("No IvyTypography") }
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 val LocalIvyShapes = compositionLocalOf<IvyShapes> { error("No IvyShapes") }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 object UI {
     val colors: IvyColors
         @Composable
@@ -40,6 +44,7 @@ object UI {
         get() = LocalIvyShapes.current
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun IvyTheme(
     theme: Theme,
@@ -76,6 +81,7 @@ fun IvyTheme(
     }
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun adaptColors(colors: IvyColors): ColorScheme {
     val colorScheme = if (colors.isLight) {
         lightColorScheme()
@@ -97,6 +103,7 @@ fun adaptColors(colors: IvyColors): ColorScheme {
     )
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun adaptTypography(typography: IvyTypography): Typography {
     return Typography(
         headlineLarge = typography.h1,
@@ -107,6 +114,7 @@ fun adaptTypography(typography: IvyTypography): Typography {
     )
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun adaptShapes(shapes: IvyShapes): Shapes {
     return Shapes(
         large = shapes.r1,

@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.utils.IvyComponentPreview
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun Shape(
     modifier: Modifier = Modifier,
@@ -31,6 +32,7 @@ fun Shape(
     )
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun ShapeOutlined(
     modifier: Modifier = Modifier,
