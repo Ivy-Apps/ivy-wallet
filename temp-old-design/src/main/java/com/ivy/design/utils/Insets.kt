@@ -5,44 +5,21 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.graphics.Insets
 import androidx.core.view.WindowInsetsCompat
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun windowInsets(): WindowInsetsCompat {
     val rootView = LocalView.current
     return WindowInsetsCompat.toWindowInsetsCompat(rootView.rootWindowInsets, rootView)
 }
 
-@Composable
-fun systemWindowInsets(): Insets {
-    val windowInsets = windowInsets()
-    return windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.navigationBars())
-}
-
-@Composable
-fun statusBarInset(): Int {
-    val windowInsets = windowInsets()
-    return windowInsets.getInsets(WindowInsetsCompat.Type.statusBars()).top
-}
-
-@Composable
-fun navigationBarInset(): Int {
-    return navigationBarInsets().bottom
-}
-
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun navigationBarInsets(): Insets {
     val windowInsets = windowInsets()
     return windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
 }
 
-@Composable
-fun keyboardNavigationWindowInsets(): Insets {
-    val windowInsets = windowInsets()
-    return windowInsets.getInsets(
-        WindowInsetsCompat.Type.ime()
-            or WindowInsetsCompat.Type.systemBars()
-    )
-}
-
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun keyboardOnlyWindowInsets(): Insets {
     val windowInsets = windowInsets()

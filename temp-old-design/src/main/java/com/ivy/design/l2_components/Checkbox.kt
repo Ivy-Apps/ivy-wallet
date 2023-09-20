@@ -23,6 +23,7 @@ import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.utils.IvyComponentPreview
 import com.ivy.design.utils.clickableNoIndication
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun Checkbox(
     modifier: Modifier = Modifier,
@@ -44,6 +45,7 @@ fun Checkbox(
     )
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun CheckboxWithText(
     modifier: Modifier = Modifier,

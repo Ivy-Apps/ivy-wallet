@@ -15,6 +15,7 @@ import com.ivy.design.api.systems.IvyWalletDesign
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.l0_system.UI
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun IvyComponentPreview(
     design: IvyDesign = defaultDesign(),
@@ -36,6 +37,7 @@ fun IvyComponentPreview(
     }
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun IvyPreview(
     theme: Theme = Theme.LIGHT,
@@ -49,6 +51,7 @@ fun IvyPreview(
     )
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun defaultDesign(): IvyDesign = object : IvyWalletDesign() {
     override fun context(): IvyContext = object : IvyContext() {
     }

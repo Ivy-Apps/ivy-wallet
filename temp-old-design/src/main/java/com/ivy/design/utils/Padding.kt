@@ -6,6 +6,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l1_buildingBlocks.data.IvyPadding
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun Modifier.ivyPadding(ivyPadding: IvyPadding): Modifier {
     return this.padding(
         top = ivyPadding.top ?: 0.dp,
@@ -15,6 +16,7 @@ fun Modifier.ivyPadding(ivyPadding: IvyPadding): Modifier {
     )
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun padding(
     top: Dp? = null,
     start: Dp? = null,
@@ -29,6 +31,7 @@ fun padding(
     )
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun padding(
     horizontal: Dp? = null,
     vertical: Dp? = null
@@ -41,6 +44,7 @@ fun padding(
     )
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun padding(
     all: Dp? = null
 ): IvyPadding {

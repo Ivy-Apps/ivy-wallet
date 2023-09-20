@@ -13,11 +13,13 @@ import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun <T> densityScope(densityScope: @Composable Density.() -> T): T {
     return with(LocalDensity.current) { densityScope() }
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun Modifier.thenIf(
     condition: Boolean,
     otherModifier: @Composable Modifier.() -> Modifier
@@ -30,16 +32,15 @@ fun Modifier.thenIf(
     }
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun Modifier.thenWhen(
     logic: @Composable Modifier.() -> Modifier?
 ): Modifier = composed {
     this.logic() ?: this
 }
 
-fun Modifier.consumeClicks() = clickableNoIndication {
-    // consume click
-}
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun Modifier.clickableNoIndication(
     onClick: () -> Unit
 ): Modifier = composed {
@@ -51,6 +52,7 @@ fun Modifier.clickableNoIndication(
     )
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @SuppressLint("ComposableNaming")
 @Composable
 fun onEvent(
@@ -64,15 +66,7 @@ fun onEvent(
     }
 }
 
-@Composable
-fun Dp.toDensityPx() = densityScope { toPx() }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun Int.toDensityDp() = densityScope { toDp() }
-
-@Composable
-fun Float.toDensityDp() = densityScope { toDp() }
-
-fun openUrl(uriHandler: UriHandler, url: String) {
-    uriHandler.openUri(url)
-}

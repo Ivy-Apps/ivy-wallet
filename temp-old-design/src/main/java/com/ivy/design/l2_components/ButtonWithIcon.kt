@@ -29,6 +29,7 @@ import com.ivy.design.l1_buildingBlocks.data.clipBackground
 import com.ivy.design.utils.IvyComponentPreview
 import com.ivy.design.utils.padding
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun Button(
     modifier: Modifier = Modifier,
@@ -89,6 +90,7 @@ fun Button(
     }
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 enum class Mode {
     WRAP_CONTENT, FILL_MAX_WIDTH
 }

@@ -30,7 +30,7 @@ import kotlin.math.roundToInt
  * - font cannot be set
  * - handles color must be set Theme XML `accentColor`
  */
-@Deprecated("A new better componenet would be created soon.")
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun InputField(
     modifier: Modifier = Modifier,
@@ -216,10 +216,12 @@ fun EditText.setupInputType(
     }
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun EditText.selectTextEnd() {
     setSelection(text.length)
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 enum class IvyInputType {
     SHORT_TEXT,
     LONG_TEXT,
@@ -233,11 +235,13 @@ enum class IvyInputType {
     PASSWORD_NUMBER_VISIBLE
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 enum class IvyImeAction {
     DONE,
     NEXT
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 class InputFieldFocus {
     var requestFocus: Boolean by mutableStateOf(false)
         private set

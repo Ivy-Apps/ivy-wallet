@@ -21,6 +21,7 @@ import com.ivy.design.l1_buildingBlocks.SpacerWeight
 import com.ivy.design.utils.IvyComponentPreview
 import com.ivy.design.utils.springBounce
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun Switch(
     modifier: Modifier = Modifier,
