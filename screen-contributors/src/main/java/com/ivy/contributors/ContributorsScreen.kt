@@ -186,7 +186,7 @@ private fun ContributorCard(contributor: Contributor) {
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
         onClick = {
-            browser.openUri(contributor.link)
+            browser.openUri(contributor.githubProfileUrl)
         }
     ) {
         Row(
@@ -199,7 +199,7 @@ private fun ContributorCard(contributor: Contributor) {
                         border = BorderStroke(width = 1.dp, color = Color.LightGray),
                         shape = RoundedCornerShape(topStart = 12.dp, bottomStart = 12.dp)
                     ),
-                model = contributor.photo,
+                model = contributor.photoUrl,
                 contentDescription = null
             )
 
@@ -211,7 +211,7 @@ private fun ContributorCard(contributor: Contributor) {
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Text(
-                    text = "${contributor.contributions} contributions",
+                    text = "${contributor.contributionsCount} contributions",
                     style = MaterialTheme.typography.bodySmall
                 )
             }
@@ -220,8 +220,12 @@ private fun ContributorCard(contributor: Contributor) {
 }
 
 @Composable
-private fun GitHubButton(onClick: () -> Unit) {
+private fun GitHubButton(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
     FloatingActionButton(
+        modifier = modifier,
         onClick = onClick,
         containerColor = MaterialTheme.colorScheme.primary,
         contentColor = MaterialTheme.colorScheme.onPrimary
@@ -242,9 +246,9 @@ private fun PreviewSuccess() {
                 contributors = persistentListOf(
                     Contributor(
                         name = "Iliyan",
-                        photo = "",
-                        contributions = "564",
-                        link = ""
+                        photoUrl = "",
+                        contributionsCount = "564",
+                        githubProfileUrl = ""
                     )
                 )
             ),

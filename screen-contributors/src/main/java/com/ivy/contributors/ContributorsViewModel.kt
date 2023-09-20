@@ -44,9 +44,9 @@ class ContributorsViewModel @Inject constructor(
         val contributors = contributorsDataSource.fetchContributors()?.map {
             Contributor(
                 name = it.login,
-                photo = it.avatarUrl,
-                contributions = it.contributions.toString(),
-                link = it.link
+                photoUrl = it.avatarUrl,
+                contributionsCount = it.contributions.toString(),
+                githubProfileUrl = it.link
             )
         }
 
