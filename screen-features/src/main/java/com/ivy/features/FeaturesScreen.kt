@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Card
@@ -26,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -133,7 +133,6 @@ private fun FeatureRow(
 ) {
     Card(
         modifier = modifier.fillMaxSize(),
-        shape = RoundedCornerShape(12.dp),
         onClick = onToggleClick,
     ) {
         Row(
@@ -143,7 +142,8 @@ private fun FeatureRow(
             Column(Modifier.weight(1f)) {
                 Text(
                     text = feature.name,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.W700
                 )
                 if (feature.description != null) {
                     Spacer(modifier = Modifier.height(4.dp))

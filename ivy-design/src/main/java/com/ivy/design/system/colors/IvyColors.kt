@@ -5,13 +5,13 @@ import androidx.compose.ui.graphics.Color
 
 @Immutable
 object IvyColors {
-    val White = Color(0xFFFFFFFF)
-    val ExtraLightGray = Color(0xFFDFDFEB)
+    val White = Color(0xFFFAFAFA)
+    val ExtraLightGray = Color(0xFFEFEEF0)
     val LightGray = Color(0xFFCBCBD6)
     val Gray = Color(0xFF74747A)
     val DarkGray = Color(0xFF303033)
     val ExtraDarkGray = Color(0xFF1C1C1F)
-    val Black = Color(0xFF000000)
+    val Black = Color(0xFF111114)
 
     val Red = ColorShades(
         extraLight = Color(0xFFF5ABAB),
