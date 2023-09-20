@@ -47,7 +47,6 @@ import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IconScale
 import com.ivy.design.l1_buildingBlocks.IvyIconScaled
 import com.ivy.legacy.Constants
-import com.ivy.legacy.Constants.URL_IVY_CONTRIBUTORS
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.rootScreen
 import com.ivy.legacy.utils.OpResult
@@ -56,6 +55,7 @@ import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.thenIf
 import com.ivy.navigation.AttributionsScreen
+import com.ivy.navigation.ContributorsScreen
 import com.ivy.navigation.ExchangeRatesScreen
 import com.ivy.navigation.FeaturesScreen
 import com.ivy.navigation.ImportScreen
@@ -418,7 +418,7 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(12.dp))
 
-            ProjectContributors()
+            Contributors()
 
             Spacer(Modifier.height(12.dp))
 
@@ -625,14 +625,15 @@ private fun ContactSupport() {
 }
 
 @Composable
-private fun ProjectContributors() {
-    val uriHandler = LocalUriHandler.current
+private fun Contributors() {
+    val nav = navigation()
+
     SettingsDefaultButton(
         icon = R.drawable.ic_vue_people_people,
         text = stringResource(R.string.project_contributors),
         iconPadding = 6.dp
     ) {
-        uriHandler.openUri(URL_IVY_CONTRIBUTORS)
+        nav.navigateTo(ContributorsScreen)
     }
 }
 
@@ -803,7 +804,8 @@ private fun ExportCSV(
     SettingsDefaultButton(
         icon = R.drawable.ic_vue_pc_printer,
         text = stringResource(R.string.export_to_csv),
-        iconPadding = 6.dp
+        iconPadding = 6.dp,
+        description = "⚠\uFE0F Do not use for backup purposes"
     ) {
         onExportToCSV()
     }
@@ -868,7 +870,7 @@ private fun SettingsPrimaryButton(
     backgroundGradient: Gradient = Gradient.solid(UI.colors.medium),
     textColor: Color = White,
     iconPadding: Dp = 0.dp,
-    description: String = "",
+    description: String? = null,
     onClick: () -> Unit
 ) {
     SettingsButtonRow(
@@ -899,7 +901,7 @@ private fun SettingsPrimaryButton(
                     fontWeight = FontWeight.Bold,
                 )
             )
-            if (description.isNotEmpty()) {
+            if (!description.isNullOrEmpty()) {
                 Text(
                     modifier = Modifier.padding(end = 8.dp),
                     text = description,
@@ -1085,14 +1087,16 @@ private fun SettingsDefaultButton(
     @DrawableRes icon: Int,
     text: String,
     iconPadding: Dp = 0.dp,
-    onClick: () -> Unit
+    description: String? = null,
+    onClick: () -> Unit,
 ) {
     SettingsPrimaryButton(
         icon = icon,
         text = text,
         backgroundGradient = Gradient.solid(UI.colors.medium),
         textColor = UI.colors.pureInverse,
-        iconPadding = iconPadding
+        iconPadding = iconPadding,
+        description = description
     ) {
         onClick()
     }

@@ -154,6 +154,7 @@ dependencies {
     implementation(projects.screenAttributions)
     implementation(projects.screenMain)
     implementation(projects.screenHome)
+    implementation(projects.screenContributors)
 
     implementation(libs.bundles.kotlin)
     implementation(libs.bundles.ktor)
