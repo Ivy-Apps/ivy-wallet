@@ -1,5 +1,7 @@
 package com.ivy.contributors
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -17,12 +19,14 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -180,20 +184,26 @@ private fun ContributorCard(contributor: Contributor) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
-                modifier = Modifier.size(72.dp),
+                modifier = Modifier
+                    .size(72.dp)
+                    .border(
+                        border = BorderStroke(width = 0.5.dp, color = Color.LightGray),
+                        shape = RoundedCornerShape(topStart = 12.dp, bottomStart = 12.dp)
+                    ),
                 model = contributor.photo,
                 contentDescription = null
             )
 
             Column(
-                modifier = Modifier.padding(horizontal = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                modifier = Modifier.padding(horizontal = 12.dp)
             ) {
                 Text(
-                    text = contributor.name
+                    text = contributor.name,
+                    style = MaterialTheme.typography.bodyLarge
                 )
                 Text(
-                    text = "${contributor.contributions} contributions"
+                    text = "${contributor.contributions} contributions",
+                    style = MaterialTheme.typography.bodySmall
                 )
             }
         }
