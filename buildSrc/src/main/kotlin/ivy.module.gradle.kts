@@ -57,6 +57,7 @@ dependencies {
     implementation(catalog.library("kotlinx-serialization-json"))
 
     testImplementation(libs.bundles.kotest)
+    testImplementation(libs.mockk)
     testImplementation(catalog.bundle("kotlin-test"))
     testImplementation(catalog.library("hilt-testing"))
 }
