@@ -56,9 +56,7 @@ dependencies {
 
     implementation(catalog.library("kotlinx-serialization-json"))
 
-    testImplementation(libs.bundles.kotest)
-    testImplementation(catalog.bundle("kotlin-test"))
-    testImplementation(catalog.library("hilt-testing"))
+    testImplementation(libs.bundles.testing)
 }
 
 // TODO: Remove after migrating to KSP

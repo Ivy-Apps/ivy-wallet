@@ -16,6 +16,7 @@ import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Red
 import java.util.UUID
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.DeleteModal(
     id: UUID = UUID.randomUUID(),

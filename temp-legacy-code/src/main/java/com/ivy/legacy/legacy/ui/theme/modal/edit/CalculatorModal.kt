@@ -36,6 +36,7 @@ import com.ivy.wallet.ui.theme.modal.ModalTitle
 import com.notkamui.keval.Keval
 import java.util.UUID
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.CalculatorModal(
     id: UUID = UUID.randomUUID(),

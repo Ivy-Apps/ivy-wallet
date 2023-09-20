@@ -57,9 +57,12 @@ import com.ivy.wallet.ui.theme.mediumBlur
 import java.util.UUID
 import kotlin.math.roundToInt
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 private const val DURATION_BACKGROUND_BLUR_ANIM = 400
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 const val DURATION_MODAL_ANIM = 200
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxScope.IvyModal(
     id: UUID?,
@@ -187,6 +190,7 @@ fun BoxScope.IvyModal(
     }
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 private fun ModalBackHandling(
     modalId: UUID?,
@@ -202,6 +206,7 @@ private fun ModalBackHandling(
     )
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun AddModalBackHandling(
     modalId: UUID?,
@@ -245,6 +250,7 @@ private fun removeLastBackHandlerSafe(nav: Navigation) {
     }
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun ModalActionsRow(
     visible: Boolean,

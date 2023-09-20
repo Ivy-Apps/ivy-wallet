@@ -37,6 +37,7 @@ import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun LazyListScope.transactions(
     baseData: AppBaseData,
 

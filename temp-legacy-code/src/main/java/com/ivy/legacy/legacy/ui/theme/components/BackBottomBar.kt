@@ -15,6 +15,7 @@ import com.ivy.wallet.ui.theme.gradientCutBackgroundTop
 import com.ivy.legacy.utils.navigationBarInset
 import com.ivy.legacy.utils.toDensityDp
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.BackBottomBar(
     bottomInset: Dp = navigationBarInset().toDensityDp(),

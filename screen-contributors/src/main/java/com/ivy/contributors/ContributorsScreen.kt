@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -127,8 +129,11 @@ private fun ContributorsContent(
 ) {
     LazyColumn(
         modifier = Modifier
-            .padding(paddingValues)
-            .padding(horizontal = 16.dp, vertical = 4.dp),
+            .padding(paddingValues),
+        contentPadding = PaddingValues(
+            horizontal = 16.dp,
+            vertical = 12.dp,
+        ),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         when (contributorsState) {
@@ -200,7 +205,10 @@ private fun ContributorCard(contributor: Contributor) {
                 modifier = Modifier
                     .size(72.dp)
                     .border(
-                        border = BorderStroke(width = 1.dp, color = Color.LightGray),
+                        border = BorderStroke(
+                            width = 1.dp,
+                            color = MaterialTheme.colorScheme.outline
+                        ),
                         shape = RoundedCornerShape(topStart = 12.dp, bottomStart = 12.dp)
                     ),
                 model = contributor.photoUrl,
@@ -212,8 +220,10 @@ private fun ContributorCard(contributor: Contributor) {
             ) {
                 Text(
                     text = contributor.name,
-                    style = MaterialTheme.typography.bodyLarge
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.W600,
                 )
+                Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = "${contributor.contributionsCount} contributions",
                     style = MaterialTheme.typography.bodySmall

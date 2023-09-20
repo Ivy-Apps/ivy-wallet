@@ -16,6 +16,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.*
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun ProgressBar(
     modifier: Modifier = Modifier,

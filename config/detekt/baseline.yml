@@ -318,7 +318,6 @@
     <ID>ComposableNaming:Compose.kt$onEvent</ID>
     <ID>ComposableNaming:ComposeExt.kt$onScreenStart</ID>
     <ID>ComposableNaming:Keyboard.kt$hideKeyboard</ID>
-    <ID>ComposableNaming:Keyboard.kt$showKeyboard</ID>
     <ID>ComposableNaming:OnScreenStart.kt$onScreenStart</ID>
     <ID>ComposableNaming:UIExt.kt$setStatusBarDarkTextCompat</ID>
     <ID>ComposableParamOrder:AddKeywordModal.kt$AddKeywordModal</ID>
@@ -357,7 +356,6 @@
     <ID>ComposableParamOrder:EditPlannedScreen.kt$UI</ID>
     <ID>ComposableParamOrder:EditTransactionScreen.kt$UI</ID>
     <ID>ComposableParamOrder:FilterOverlay.kt$TypeFilterCheckbox</ID>
-    <ID>ComposableParamOrder:GradientCut.kt$GradientCutTop</ID>
     <ID>ComposableParamOrder:HomeHeader.kt$CashFlowInfo</ID>
     <ID>ComposableParamOrder:HomeHeader.kt$HeaderStickyRow</ID>
     <ID>ComposableParamOrder:HomeHeader.kt$HomeHeader</ID>
@@ -437,8 +435,8 @@
     <ID>ConstructorParameterNaming:OnboardingRouter.kt$OnboardingRouter$private val _opGoogleSignIn: MutableLiveData&lt;OpResult&lt;Unit&gt;?&gt;</ID>
     <ID>ConstructorParameterNaming:OnboardingRouter.kt$OnboardingRouter$private val _state: MutableLiveData&lt;OnboardingState&gt;</ID>
     <ID>ConstructorParameterNaming:ReorderModal.kt$Adapter$private val ItemContent: @Composable RowScope.(Int, Any) -&gt; Unit</ID>
-    <ID>CyclomaticComplexMethod:AccountModal.kt$@Composable fun BoxWithConstraintsScope.AccountModal( modal: AccountModalData?, onCreateAccount: (CreateAccountData) -&gt; Unit, onEditAccount: (Account, balance: Double) -&gt; Unit, dismiss: () -&gt; Unit, )</ID>
-    <ID>CyclomaticComplexMethod:BudgetBattery.kt$@Composable fun BudgetBattery( modifier: Modifier = Modifier, currency: String, expenses: Double, budget: Double, backgroundNotFilled: Color = UI.colors.pure, onClick: (() -&gt; Unit)? = null, )</ID>
+    <ID>CyclomaticComplexMethod:AccountModal.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun BoxWithConstraintsScope.AccountModal( modal: AccountModalData?, onCreateAccount: (CreateAccountData) -&gt; Unit, onEditAccount: (Account, balance: Double) -&gt; Unit, dismiss: () -&gt; Unit, )</ID>
+    <ID>CyclomaticComplexMethod:BudgetBattery.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun BudgetBattery( modifier: Modifier = Modifier, currency: String, expenses: Double, budget: Double, backgroundNotFilled: Color = UI.colors.pure, onClick: (() -&gt; Unit)? = null, )</ID>
     <ID>CyclomaticComplexMethod:CSVViewModel.kt$CSVViewModel$private suspend fun handleEvent(event: CSVEvent)</ID>
     <ID>CyclomaticComplexMethod:EditTransactionScreen.kt$@ExperimentalFoundationApi @Composable private fun BoxWithConstraintsScope.UI( screen: EditTransactionScreen, transactionType: TransactionType, baseCurrency: String, initialTitle: String?, titleSuggestions: Set&lt;String&gt;, description: String?, category: Category?, dateTime: LocalDateTime?, account: Account?, toAccount: Account?, dueDate: LocalDateTime?, amount: Double, loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(), backgroundProcessing: Boolean = false, customExchangeRateState: CustomExchangeRateState, categories: List&lt;Category&gt;, accounts: List&lt;Account&gt;, hasChanges: Boolean = false, onTitleChanged: (String?) -&gt; Unit, onDescriptionChanged: (String?) -&gt; Unit, onAmountChanged: (Double) -&gt; Unit, onCategoryChanged: (Category?) -&gt; Unit, onAccountChanged: (Account) -&gt; Unit, onToAccountChanged: (Account) -&gt; Unit, onDueDateChanged: (LocalDateTime?) -&gt; Unit, onSetDateTime: (LocalDateTime) -&gt; Unit, onSetTransactionType: (TransactionType) -&gt; Unit, onCreateCategory: (CreateCategoryData) -&gt; Unit, onEditCategory: (Category) -&gt; Unit, onPayPlannedPayment: () -&gt; Unit, onSave: (closeScreen: Boolean) -&gt; Unit, onSetHasChanges: (hasChanges: Boolean) -&gt; Unit, onDelete: () -&gt; Unit, onCreateAccount: (CreateAccountData) -&gt; Unit, onExchangeRateChanged: (Double?) -&gt; Unit = { } )</ID>
     <ID>CyclomaticComplexMethod:EditTransactionViewModel.kt$EditTransactionViewModel$private suspend fun updateCustomExchangeRateState( toAccount: Account? = null, fromAccount: Account? = null, amt: Double? = null, exchangeRate: Double? = null, resetRate: Boolean = false )</ID>
@@ -446,15 +444,13 @@
     <ID>CyclomaticComplexMethod:HomeViewModel.kt$HomeViewModel$override suspend fun handleEvent(event: HomeEvent): suspend () -&gt; HomeState</ID>
     <ID>CyclomaticComplexMethod:InputField.kt$fun EditText.setupInputType( inputType: IvyInputType, imeAction: IvyImeAction, onImeActionListener: ((EditText) -&gt; Unit)? )</ID>
     <ID>CyclomaticComplexMethod:IvyNavGraph.kt$@ExperimentalFoundationApi @ExperimentalAnimationApi @Composable fun BoxWithConstraintsScope.IvyNavGraph(screen: Screen?)</ID>
-    <ID>CyclomaticComplexMethod:LoanModal.kt$@Composable fun BoxWithConstraintsScope.LoanModal( accounts: List&lt;Account&gt; = emptyList(), onCreateAccount: (CreateAccountData) -&gt; Unit = {}, modal: LoanModalData?, onCreateLoan: (CreateLoanData) -&gt; Unit, onEditLoan: (Loan, Boolean) -&gt; Unit, onPerformCalculations: () -&gt; Unit = {}, dismiss: () -&gt; Unit, )</ID>
-    <ID>CyclomaticComplexMethod:LoanRecordModal.kt$@Composable fun BoxWithConstraintsScope.LoanRecordModal( modal: LoanRecordModalData?, accounts: List&lt;Account&gt; = emptyList(), onCreateAccount: (CreateAccountData) -&gt; Unit = {}, onCreate: (CreateLoanRecordData) -&gt; Unit, onEdit: (EditLoanRecordData) -&gt; Unit, onDelete: (LoanRecord) -&gt; Unit, dismiss: () -&gt; Unit )</ID>
-    <ID>CyclomaticComplexMethod:MainBottomBar.kt$@Composable fun BoxWithConstraintsScope.BottomBar( tab: MainTab, selectTab: (MainTab) -&gt; Unit, onAddIncome: () -&gt; Unit, onAddExpense: () -&gt; Unit, onAddTransfer: () -&gt; Unit, onAddPlannedPayment: () -&gt; Unit, showAddAccountModal: () -&gt; Unit, )</ID>
+    <ID>CyclomaticComplexMethod:LoanModal.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun BoxWithConstraintsScope.LoanModal( accounts: List&lt;Account&gt; = emptyList(), onCreateAccount: (CreateAccountData) -&gt; Unit = {}, modal: LoanModalData?, onCreateLoan: (CreateLoanData) -&gt; Unit, onEditLoan: (Loan, Boolean) -&gt; Unit, onPerformCalculations: () -&gt; Unit = {}, dismiss: () -&gt; Unit, )</ID>
+    <ID>CyclomaticComplexMethod:LoanRecordModal.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun BoxWithConstraintsScope.LoanRecordModal( modal: LoanRecordModalData?, accounts: List&lt;Account&gt; = emptyList(), onCreateAccount: (CreateAccountData) -&gt; Unit = {}, onCreate: (CreateLoanRecordData) -&gt; Unit, onEdit: (EditLoanRecordData) -&gt; Unit, onDelete: (LoanRecord) -&gt; Unit, dismiss: () -&gt; Unit )</ID>
+    <ID>CyclomaticComplexMethod:MainBottomBar.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun BoxWithConstraintsScope.BottomBar( tab: MainTab, selectTab: (MainTab) -&gt; Unit, onAddIncome: () -&gt; Unit, onAddExpense: () -&gt; Unit, onAddTransfer: () -&gt; Unit, onAddPlannedPayment: () -&gt; Unit, showAddAccountModal: () -&gt; Unit, )</ID>
     <ID>CyclomaticComplexMethod:ParseFields.kt$fun parseTransactionType( value: String, metadata: TrnTypeMetadata ): TransactionType?</ID>
     <ID>CyclomaticComplexMethod:ReportViewModel.kt$ReportViewModel$private suspend fun filterTransactions( baseCurrency: String, accounts: List&lt;Account&gt;, filter: ReportFilter, ): ImmutableList&lt;Transaction&gt;</ID>
-    <ID>CyclomaticComplexMethod:TransactionCard.kt$@Composable fun TransactionCard( baseData: AppBaseData, transaction: Transaction, onPayOrGet: (Transaction) -&gt; Unit, onSkipTransaction: (Transaction) -&gt; Unit = {}, onClick: (Transaction) -&gt; Unit, )</ID>
-    <ID>CyclomaticComplexMethod:ViewPager.kt$@Composable fun Pager( state: PagerState, modifier: Modifier = Modifier, pageContent: @Composable PagerScope.() -&gt; Unit )</ID>
+    <ID>CyclomaticComplexMethod:TransactionCard.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun TransactionCard( baseData: AppBaseData, transaction: Transaction, onPayOrGet: (Transaction) -&gt; Unit, onSkipTransaction: (Transaction) -&gt; Unit = {}, onClick: (Transaction) -&gt; Unit, )</ID>
     <ID>EmptyCatchBlock:CSVImporter.kt$CSVImporter${ }</ID>
-    <ID>EmptyCatchBlock:ComposeExt.kt${ }</ID>
     <ID>EmptyCatchBlock:IntervalPickerRow.kt${ }</ID>
     <ID>EmptyFunctionBlock:TestIdlingResource.kt$TestIdlingResource${ }</ID>
     <ID>EmptyTryBlock:SettingsViewModel.kt$SettingsViewModel${ }</ID>
@@ -2109,7 +2105,6 @@
     <ID>FunctionParameterNaming:IvyModal.kt$SecondaryActions: (@Composable () -&gt; Unit)? = null</ID>
     <ID>FunctionParameterNaming:IvyModalDomainComponents.kt$Header: (@Composable () -&gt; Unit)? = null</ID>
     <ID>FunctionParameterNaming:IvyToolbar.kt$Content: @Composable RowScope.() -&gt; Unit = { }</ID>
-    <ID>FunctionParameterNaming:IvyUI.kt$Content: @Composable BoxWithConstraintsScope.() -&gt; Unit</ID>
     <ID>FunctionParameterNaming:PlannedPaymentsLazyColumn.kt$Header: @Composable () -&gt; Unit</ID>
     <ID>FunctionParameterNaming:Preview.kt$Content: @Composable BoxWithConstraintsScope.() -&gt; Unit</ID>
     <ID>FunctionParameterNaming:PrimaryAttributeColumn.kt$Content: @Composable ColumnScope.() -&gt; Unit</ID>
@@ -2240,7 +2235,6 @@
     <ID>InvalidPackageDeclaration:IvySwitch.kt$package com.ivy.wallet.ui.theme.components</ID>
     <ID>InvalidPackageDeclaration:IvyTitleTextField.kt$package com.ivy.wallet.ui.theme.components</ID>
     <ID>InvalidPackageDeclaration:IvyToolbar.kt$package com.ivy.wallet.ui.theme.components</ID>
-    <ID>InvalidPackageDeclaration:IvyViewPager.kt$package com.ivy.wallet.ui.theme.components</ID>
     <ID>InvalidPackageDeclaration:IvyWalletCompleteData.kt$package com.ivy.wallet.domain.data</ID>
     <ID>InvalidPackageDeclaration:LTLoanMapper.kt$package com.ivy.wallet.domain.deprecated.logic.loantrasactions</ID>
     <ID>InvalidPackageDeclaration:LTLoanRecordMapper.kt$package com.ivy.wallet.domain.deprecated.logic.loantrasactions</ID>
@@ -2298,7 +2292,6 @@
     <ID>InvalidPackageDeclaration:UpdateStartDayOfMonthAct.kt$package com.ivy.wallet.domain.action.global</ID>
     <ID>InvalidPackageDeclaration:Utils.kt$package com.ivy.frp</ID>
     <ID>InvalidPackageDeclaration:Utils.kt$package com.ivy.wallet.domain.pure.util</ID>
-    <ID>InvalidPackageDeclaration:ViewPager.kt$package com.ivy.wallet.ui.theme.components</ID>
     <ID>InvalidPackageDeclaration:ViewmodelUtils.kt$package com.ivy.frp.viewmodel</ID>
     <ID>InvalidPackageDeclaration:WalletAccountLogic.kt$package com.ivy.wallet.domain.deprecated.logic</ID>
     <ID>InvalidPackageDeclaration:WalletCategoryLogic.kt$package com.ivy.wallet.domain.deprecated.logic</ID>
@@ -2308,12 +2301,12 @@
     <ID>InvalidPackageDeclaration:WidgetBase.kt$package com.ivy.widgets</ID>
     <ID>InvalidPackageDeclaration:WrapContentRow.kt$package com.ivy.wallet.ui.theme.components</ID>
     <ID>InvalidPackageDeclaration:ZipUtils.kt$package com.ivy.wallet.domain.deprecated.logic.zip</ID>
-    <ID>LongMethod:AccountModal.kt$@Composable fun BoxWithConstraintsScope.AccountModal( modal: AccountModalData?, onCreateAccount: (CreateAccountData) -&gt; Unit, onEditAccount: (Account, balance: Double) -&gt; Unit, dismiss: () -&gt; Unit, )</ID>
+    <ID>LongMethod:AccountModal.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun BoxWithConstraintsScope.AccountModal( modal: AccountModalData?, onCreateAccount: (CreateAccountData) -&gt; Unit, onEditAccount: (Account, balance: Double) -&gt; Unit, dismiss: () -&gt; Unit, )</ID>
     <ID>LongMethod:AmountModal.kt$@Composable fun AmountKeyboard( forCalculator: Boolean, ZeroRow: (@Composable RowScope.() -&gt; Unit)? = null, FirstRowExtra: (@Composable RowScope.() -&gt; Unit)? = null, SecondRowExtra: (@Composable RowScope.() -&gt; Unit)? = null, ThirdRowExtra: (@Composable RowScope.() -&gt; Unit)? = null, FourthRowExtra: (@Composable RowScope.() -&gt; Unit)? = null, onNumberPressed: (String) -&gt; Unit, onDecimalPoint: () -&gt; Unit, onBackspace: () -&gt; Unit, )</ID>
-    <ID>LongMethod:BudgetModal.kt$@Composable fun BoxWithConstraintsScope.BudgetModal( modal: BudgetModalData?, onCreate: (CreateBudgetData) -&gt; Unit, onEdit: (Budget) -&gt; Unit, onDelete: (Budget) -&gt; Unit, dismiss: () -&gt; Unit )</ID>
-    <ID>LongMethod:CalculatorModal.kt$@Composable fun BoxWithConstraintsScope.CalculatorModal( id: UUID = UUID.randomUUID(), initialAmount: Double?, visible: Boolean, currency: String, dismiss: () -&gt; Unit, onCalculation: (Double) -&gt; Unit )</ID>
+    <ID>LongMethod:BudgetModal.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun BoxWithConstraintsScope.BudgetModal( modal: BudgetModalData?, onCreate: (CreateBudgetData) -&gt; Unit, onEdit: (Budget) -&gt; Unit, onDelete: (Budget) -&gt; Unit, dismiss: () -&gt; Unit )</ID>
+    <ID>LongMethod:CalculatorModal.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun BoxWithConstraintsScope.CalculatorModal( id: UUID = UUID.randomUUID(), initialAmount: Double?, visible: Boolean, currency: String, dismiss: () -&gt; Unit, onCalculation: (Double) -&gt; Unit )</ID>
     <ID>LongMethod:ChooseIconModal.kt$fun ivyIcons(): List&lt;Any&gt;</ID>
-    <ID>LongMethod:EditBottomSheet.kt$@Composable fun BoxWithConstraintsScope.EditBottomSheet( initialTransactionId: UUID?, type: TransactionType, accounts: List&lt;Account&gt;, selectedAccount: Account?, toAccount: Account?, amount: Double, currency: String, convertedAmount: Double? = null, convertedAmountCurrencyCode: String? = null, amountModalShown: Boolean, setAmountModalShown: (Boolean) -&gt; Unit, ActionButton: @Composable () -&gt; Unit, onAmountChanged: (Double) -&gt; Unit, onSelectedAccountChanged: (Account) -&gt; Unit, onToAccountChanged: (Account) -&gt; Unit, onAddNewAccount: () -&gt; Unit )</ID>
+    <ID>LongMethod:EditBottomSheet.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun BoxWithConstraintsScope.EditBottomSheet( initialTransactionId: UUID?, type: TransactionType, accounts: List&lt;Account&gt;, selectedAccount: Account?, toAccount: Account?, amount: Double, currency: String, convertedAmount: Double? = null, convertedAmountCurrencyCode: String? = null, amountModalShown: Boolean, setAmountModalShown: (Boolean) -&gt; Unit, ActionButton: @Composable () -&gt; Unit, onAmountChanged: (Double) -&gt; Unit, onSelectedAccountChanged: (Account) -&gt; Unit, onToAccountChanged: (Account) -&gt; Unit, onAddNewAccount: () -&gt; Unit )</ID>
     <ID>LongMethod:EditPlannedScreen.kt$@ExperimentalFoundationApi @Composable private fun BoxWithConstraintsScope.UI( screen: EditPlannedScreen, startDate: LocalDateTime?, intervalN: Int?, intervalType: IntervalType?, oneTime: Boolean, type: TransactionType, currency: String, initialTitle: String?, description: String?, category: Category?, account: Account?, amount: Double, categories: List&lt;Category&gt;, accounts: List&lt;Account&gt;, onRuleChanged: (LocalDateTime, oneTime: Boolean, Int?, IntervalType?) -&gt; Unit, onTitleChanged: (String?) -&gt; Unit, onDescriptionChanged: (String?) -&gt; Unit, onAmountChanged: (Double) -&gt; Unit, onCategoryChanged: (Category?) -&gt; Unit, onAccountChanged: (Account) -&gt; Unit, onSetTransactionType: (TransactionType) -&gt; Unit, onCreateCategory: (CreateCategoryData) -&gt; Unit = {}, onSave: () -&gt; Unit, onDelete: () -&gt; Unit, onCreateAccount: (CreateAccountData) -&gt; Unit = {}, )</ID>
     <ID>LongMethod:EditTransactionScreen.kt$@ExperimentalFoundationApi @Composable private fun BoxWithConstraintsScope.UI( screen: EditTransactionScreen, transactionType: TransactionType, baseCurrency: String, initialTitle: String?, titleSuggestions: Set&lt;String&gt;, description: String?, category: Category?, dateTime: LocalDateTime?, account: Account?, toAccount: Account?, dueDate: LocalDateTime?, amount: Double, loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(), backgroundProcessing: Boolean = false, customExchangeRateState: CustomExchangeRateState, categories: List&lt;Category&gt;, accounts: List&lt;Account&gt;, hasChanges: Boolean = false, onTitleChanged: (String?) -&gt; Unit, onDescriptionChanged: (String?) -&gt; Unit, onAmountChanged: (Double) -&gt; Unit, onCategoryChanged: (Category?) -&gt; Unit, onAccountChanged: (Account) -&gt; Unit, onToAccountChanged: (Account) -&gt; Unit, onDueDateChanged: (LocalDateTime?) -&gt; Unit, onSetDateTime: (LocalDateTime) -&gt; Unit, onSetTransactionType: (TransactionType) -&gt; Unit, onCreateCategory: (CreateCategoryData) -&gt; Unit, onEditCategory: (Category) -&gt; Unit, onPayPlannedPayment: () -&gt; Unit, onSave: (closeScreen: Boolean) -&gt; Unit, onSetHasChanges: (hasChanges: Boolean) -&gt; Unit, onDelete: () -&gt; Unit, onCreateAccount: (CreateAccountData) -&gt; Unit, onExchangeRateChanged: (Double?) -&gt; Unit = { } )</ID>
     <ID>LongMethod:FilterOverlay.kt$@Composable fun BoxWithConstraintsScope.FilterOverlay( visible: Boolean, baseCurrency: String, accounts: List&lt;Account&gt;, categories: List&lt;Category&gt;, filter: ReportFilter?, onClose: () -&gt; Unit, onSetFilter: (ReportFilter?) -&gt; Unit )</ID>
@@ -2322,14 +2315,14 @@
     <ID>LongMethod:ItemStatisticScreen.kt$@Composable private fun BoxWithConstraintsScope.UI( period: TimePeriod, baseCurrency: String, currency: String, account: Account?, category: Category?, categories: ImmutableList&lt;Category&gt;, accounts: ImmutableList&lt;Account&gt;, balance: Double, balanceBaseCurrency: Double?, income: Double, expenses: Double, initWithTransactions: Boolean = false, treatTransfersAsIncomeExpense: Boolean = false, history: ImmutableList&lt;TransactionHistoryItem&gt;, upcomingExpanded: Boolean = true, setUpcomingExpanded: (Boolean) -&gt; Unit = {}, upcomingIncome: Double = 0.0, upcomingExpenses: Double = 0.0, upcoming: ImmutableList&lt;Transaction&gt; = persistentListOf(), overdueExpanded: Boolean = true, setOverdueExpanded: (Boolean) -&gt; Unit = {}, overdueIncome: Double = 0.0, overdueExpenses: Double = 0.0, overdue: ImmutableList&lt;Transaction&gt; = persistentListOf(), onPreviousMonth: () -&gt; Unit, onNextMonth: () -&gt; Unit, onSetPeriod: (TimePeriod) -&gt; Unit, onEditAccount: (Account, Double) -&gt; Unit, onEditCategory: (Category) -&gt; Unit, onDelete: () -&gt; Unit, onPayOrGet: (Transaction) -&gt; Unit = {}, onSkipTransaction: (Transaction) -&gt; Unit = {}, onSkipAllTransactions: (List&lt;Transaction&gt;) -&gt; Unit = {} )</ID>
     <ID>LongMethod:LoanDetailsScreen.kt$@Composable private fun BoxWithConstraintsScope.UI( baseCurrency: String, loan: Loan?, displayLoanRecords: List&lt;DisplayLoanRecord&gt; = emptyList(), amountPaid: Double, loanAmountPaid: Double = 0.0, accounts: List&lt;Account&gt; = emptyList(), selectedLoanAccount: Account? = null, createLoanTransaction: Boolean = false, onCreateAccount: (CreateAccountData) -&gt; Unit = {}, onEditLoan: (Loan, Boolean) -&gt; Unit = { _, _ -&gt; }, onCreateLoanRecord: (CreateLoanRecordData) -&gt; Unit = {}, onEditLoanRecord: (EditLoanRecordData) -&gt; Unit = {}, onDeleteLoanRecord: (LoanRecord) -&gt; Unit = {}, onDeleteLoan: () -&gt; Unit = {}, )</ID>
     <ID>LongMethod:LoanDetailsScreen.kt$@Composable private fun LoanInfoCard( loan: Loan, baseCurrency: String, amountPaid: Double, loanAmountPaid: Double = 0.0, selectedLoanAccount: Account? = null, onAddRecord: () -&gt; Unit )</ID>
-    <ID>LongMethod:LoanModal.kt$@Composable fun BoxWithConstraintsScope.LoanModal( accounts: List&lt;Account&gt; = emptyList(), onCreateAccount: (CreateAccountData) -&gt; Unit = {}, modal: LoanModalData?, onCreateLoan: (CreateLoanData) -&gt; Unit, onEditLoan: (Loan, Boolean) -&gt; Unit, onPerformCalculations: () -&gt; Unit = {}, dismiss: () -&gt; Unit, )</ID>
-    <ID>LongMethod:LoanRecordModal.kt$@Composable fun BoxWithConstraintsScope.LoanRecordModal( modal: LoanRecordModalData?, accounts: List&lt;Account&gt; = emptyList(), onCreateAccount: (CreateAccountData) -&gt; Unit = {}, onCreate: (CreateLoanRecordData) -&gt; Unit, onEdit: (EditLoanRecordData) -&gt; Unit, onDelete: (LoanRecord) -&gt; Unit, dismiss: () -&gt; Unit )</ID>
-    <ID>LongMethod:MainBottomBar.kt$@Composable fun BoxWithConstraintsScope.BottomBar( tab: MainTab, selectTab: (MainTab) -&gt; Unit, onAddIncome: () -&gt; Unit, onAddExpense: () -&gt; Unit, onAddTransfer: () -&gt; Unit, onAddPlannedPayment: () -&gt; Unit, showAddAccountModal: () -&gt; Unit, )</ID>
+    <ID>LongMethod:LoanModal.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun BoxWithConstraintsScope.LoanModal( accounts: List&lt;Account&gt; = emptyList(), onCreateAccount: (CreateAccountData) -&gt; Unit = {}, modal: LoanModalData?, onCreateLoan: (CreateLoanData) -&gt; Unit, onEditLoan: (Loan, Boolean) -&gt; Unit, onPerformCalculations: () -&gt; Unit = {}, dismiss: () -&gt; Unit, )</ID>
+    <ID>LongMethod:LoanRecordModal.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun BoxWithConstraintsScope.LoanRecordModal( modal: LoanRecordModalData?, accounts: List&lt;Account&gt; = emptyList(), onCreateAccount: (CreateAccountData) -&gt; Unit = {}, onCreate: (CreateLoanRecordData) -&gt; Unit, onEdit: (EditLoanRecordData) -&gt; Unit, onDelete: (LoanRecord) -&gt; Unit, dismiss: () -&gt; Unit )</ID>
+    <ID>LongMethod:MainBottomBar.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun BoxWithConstraintsScope.BottomBar( tab: MainTab, selectTab: (MainTab) -&gt; Unit, onAddIncome: () -&gt; Unit, onAddExpense: () -&gt; Unit, onAddTransfer: () -&gt; Unit, onAddPlannedPayment: () -&gt; Unit, showAddAccountModal: () -&gt; Unit, )</ID>
     <ID>LongMethod:OnboardingSplashLogin.kt$@Composable fun BoxWithConstraintsScope.OnboardingSplashLogin( onboardingState: OnboardingState, opGoogleSignIn: OpResult&lt;Unit&gt;?, onLoginWithGoogle: () -&gt; Unit, onSkip: () -&gt; Unit, )</ID>
     <ID>LongMethod:PieChartStatisticScreen.kt$@ExperimentalFoundationApi @Composable private fun BoxWithConstraintsScope.UI( state: PieChartStatisticState = PieChartStatisticState(), onEventHandler: (PieChartStatisticEvent) -&gt; Unit = {} )</ID>
     <ID>LongMethod:ReportScreen.kt$@ExperimentalFoundationApi @Composable private fun BoxWithConstraintsScope.UI( state: ReportScreenState = ReportScreenState(), onEventHandler: (ReportScreenEvent) -&gt; Unit = {} )</ID>
     <ID>LongMethod:SettingsScreen.kt$@ExperimentalFoundationApi @Composable private fun BoxWithConstraintsScope.UI( currencyCode: String, theme: Theme, onSwitchTheme: () -&gt; Unit, lockApp: Boolean, nameLocalAccount: String?, onSetCurrency: (String) -&gt; Unit, startDateOfMonth: Int = 1, showNotifications: Boolean = true, hideCurrentBalance: Boolean = false, progressState: Boolean = false, treatTransfersAsIncomeExpense: Boolean = false, onSetName: (String) -&gt; Unit = {}, onBackupData: () -&gt; Unit = {}, onExportToCSV: () -&gt; Unit = {}, onSetLockApp: (Boolean) -&gt; Unit = {}, onSetShowNotifications: (Boolean) -&gt; Unit = {}, onSetTreatTransfersAsIncExp: (Boolean) -&gt; Unit = {}, onSetHideCurrentBalance: (Boolean) -&gt; Unit = {}, onSetStartDateOfMonth: (Int) -&gt; Unit = {}, onDeleteAllUserData: () -&gt; Unit = {}, onDeleteCloudUserData: () -&gt; Unit = {}, )</ID>
-    <ID>LongMethod:TransactionCard.kt$@Composable fun TransactionCard( baseData: AppBaseData, transaction: Transaction, onPayOrGet: (Transaction) -&gt; Unit, onSkipTransaction: (Transaction) -&gt; Unit = {}, onClick: (Transaction) -&gt; Unit, )</ID>
+    <ID>LongMethod:TransactionCard.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun TransactionCard( baseData: AppBaseData, transaction: Transaction, onPayOrGet: (Transaction) -&gt; Unit, onSkipTransaction: (Transaction) -&gt; Unit = {}, onClick: (Transaction) -&gt; Unit, )</ID>
     <ID>LongParameterList:EditBottomSheet.kt$( initialTransactionId: UUID?, type: TransactionType, accounts: List&lt;Account&gt;, selectedAccount: Account?, toAccount: Account?, amount: Double, currency: String, convertedAmount: Double? = null, convertedAmountCurrencyCode: String? = null, amountModalShown: Boolean, setAmountModalShown: (Boolean) -&gt; Unit, ActionButton: @Composable () -&gt; Unit, onAmountChanged: (Double) -&gt; Unit, onSelectedAccountChanged: (Account) -&gt; Unit, onToAccountChanged: (Account) -&gt; Unit, onAddNewAccount: () -&gt; Unit )</ID>
     <ID>LongParameterList:EditPlannedScreen.kt$( screen: EditPlannedScreen, startDate: LocalDateTime?, intervalN: Int?, intervalType: IntervalType?, oneTime: Boolean, type: TransactionType, currency: String, initialTitle: String?, description: String?, category: Category?, account: Account?, amount: Double, categories: List&lt;Category&gt;, accounts: List&lt;Account&gt;, onRuleChanged: (LocalDateTime, oneTime: Boolean, Int?, IntervalType?) -&gt; Unit, onTitleChanged: (String?) -&gt; Unit, onDescriptionChanged: (String?) -&gt; Unit, onAmountChanged: (Double) -&gt; Unit, onCategoryChanged: (Category?) -&gt; Unit, onAccountChanged: (Account) -&gt; Unit, onSetTransactionType: (TransactionType) -&gt; Unit, onCreateCategory: (CreateCategoryData) -&gt; Unit = {}, onSave: () -&gt; Unit, onDelete: () -&gt; Unit, onCreateAccount: (CreateAccountData) -&gt; Unit = {}, )</ID>
     <ID>LongParameterList:EditTransactionScreen.kt$( screen: EditTransactionScreen, transactionType: TransactionType, baseCurrency: String, initialTitle: String?, titleSuggestions: Set&lt;String&gt;, description: String?, category: Category?, dateTime: LocalDateTime?, account: Account?, toAccount: Account?, dueDate: LocalDateTime?, amount: Double, loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(), backgroundProcessing: Boolean = false, customExchangeRateState: CustomExchangeRateState, categories: List&lt;Category&gt;, accounts: List&lt;Account&gt;, hasChanges: Boolean = false, onTitleChanged: (String?) -&gt; Unit, onDescriptionChanged: (String?) -&gt; Unit, onAmountChanged: (Double) -&gt; Unit, onCategoryChanged: (Category?) -&gt; Unit, onAccountChanged: (Account) -&gt; Unit, onToAccountChanged: (Account) -&gt; Unit, onDueDateChanged: (LocalDateTime?) -&gt; Unit, onSetDateTime: (LocalDateTime) -&gt; Unit, onSetTransactionType: (TransactionType) -&gt; Unit, onCreateCategory: (CreateCategoryData) -&gt; Unit, onEditCategory: (Category) -&gt; Unit, onPayPlannedPayment: () -&gt; Unit, onSave: (closeScreen: Boolean) -&gt; Unit, onSetHasChanges: (hasChanges: Boolean) -&gt; Unit, onDelete: () -&gt; Unit, onCreateAccount: (CreateAccountData) -&gt; Unit, onExchangeRateChanged: (Double?) -&gt; Unit = { } )</ID>
@@ -3115,8 +3108,6 @@
     <ID>MaxLineLength:TransactionDao.kt$TransactionDao$"SELECT * FROM transactions WHERE isDeleted = 0 AND type = :type and toAccountId = :toAccountId ORDER BY dateTime DESC"</ID>
     <ID>MaxLineLength:TransactionDao.kt$TransactionDao$"SELECT * FROM transactions WHERE isDeleted = 0 AND type = :type and toAccountId = :toAccountId and dateTime &gt;= :startDate AND dateTime &lt;= :endDate ORDER BY dateTime DESC"</ID>
     <ID>MaxLineLength:TransactionReminderWorker.kt$TransactionReminderWorker$// Double check is needed because the user can switch off notifications in settings after it has been scheduled to show notifications for the next day</ID>
-    <ID>MaxLineLength:UIExt.kt$if (pIsDark) lFlags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv() else lFlags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR</ID>
-    <ID>MaxLineLength:ViewPager.kt$"onDragStopped(): velocity = $velocity, finalVelocity = $finalVelocity, currentPageOffset = ${state.currentPageOffset}"</ID>
     <ID>MaxLineLength:WalletByBudgetBakersSteps.kt$articleUrl = "https://support.budgetbakers.com/hc/en-us/articles/209753325-How-to-EXPORT-transactions-from-Wallet"</ID>
     <ID>MaxLineLength:WalletCategoryLogic.kt$WalletCategoryLogic$suspend</ID>
     <ID>MaxLineLength:WearAppConfigurationAccessors.kt$fun</ID>
@@ -3609,8 +3600,6 @@
     <ID>MaximumLineLength:TestRuntimeOnlyConfigurationAccessors.kt$fun</ID>
     <ID>MaximumLineLength:TestWearAppConfigurationAccessors.kt$fun</ID>
     <ID>MaximumLineLength:TransactionDao.kt$TransactionDao$ </ID>
-    <ID>MaximumLineLength:UIExt.kt$ </ID>
-    <ID>MaximumLineLength:ViewPager.kt$ </ID>
     <ID>MaximumLineLength:WalletByBudgetBakersSteps.kt$ </ID>
     <ID>MaximumLineLength:WalletCategoryLogic.kt$WalletCategoryLogic$ </ID>
     <ID>MaximumLineLength:WearAppConfigurationAccessors.kt$fun</ID>
@@ -4109,7 +4098,6 @@
     <ID>ModifierMissing:IvyModalDomainComponents.kt$ModalAmountSection</ID>
     <ID>ModifierMissing:IvyToolbar.kt$IvyToolbar</ID>
     <ID>ModifierMissing:IvyUI.kt$IvyUI</ID>
-    <ID>ModifierMissing:IvyViewPager.kt$IvyPager</ID>
     <ID>ModifierMissing:IvyWalletSteps.kt$IvyWalletSteps</ID>
     <ID>ModifierMissing:ListItem.kt$ListItem</ID>
     <ID>ModifierMissing:LoanModal.kt$LoanModal</ID>
@@ -4228,6 +4216,7 @@
     <ID>MultipleEmitters:TransactionSectionDivider.kt$SectionDivider</ID>
     <ID>MutableParams:HomeTab.kt$hideBalanceRowState</ID>
     <ID>NestedBlockDepth:AccValueFunctions.kt$AccountValueFunctions$fun balance( transaction: Transaction, accountId: UUID ): BigDecimal</ID>
+    <ID>NoBlankLineBeforeRbrace:CoroutineTestExample.kt$CoroutineTestExample$ </ID>
     <ID>NoConsecutiveBlankLines:Accessors11xxvwy0y6zsdmgi5tg7sgrcq.kt$ </ID>
     <ID>NoConsecutiveBlankLines:Accessors12l04gyw3iri7cbpx1tj9yrz6.kt$ </ID>
     <ID>NoConsecutiveBlankLines:Accessors15c80wxji7qdhvcsteytc58m6.kt$ </ID>
@@ -4503,6 +4492,8 @@
     <ID>NoConsecutiveBlankLines:BalanceScreen.kt$ </ID>
     <ID>NoConsecutiveBlankLines:CompileOnlyConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:CompileOnlyDependenciesMetadataConfigurationAccessors.kt$ </ID>
+    <ID>NoConsecutiveBlankLines:Compose.kt$ </ID>
+    <ID>NoConsecutiveBlankLines:ComposeExt.kt$ </ID>
     <ID>NoConsecutiveBlankLines:Composition.kt$ </ID>
     <ID>NoConsecutiveBlankLines:Composition2.kt$ </ID>
     <ID>NoConsecutiveBlankLines:CompositionFilter.kt$ </ID>
@@ -4524,7 +4515,7 @@
     <ID>NoConsecutiveBlankLines:ImplementationConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:ImplementationDependenciesMetadataConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:IntransitiveDependenciesMetadataConfigurationAccessors.kt$ </ID>
-    <ID>NoConsecutiveBlankLines:IvyComposeApp.kt$ </ID>
+    <ID>NoConsecutiveBlankLines:IvyColors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:KaptAndroidTestConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:KaptAndroidTestDebugConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:KaptAndroidTestReleaseConfigurationAccessors.kt$ </ID>
@@ -4537,6 +4528,7 @@
     <ID>NoConsecutiveBlankLines:KaptTestFixturesDebugConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:KaptTestFixturesReleaseConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:KaptTestReleaseConfigurationAccessors.kt$ </ID>
+    <ID>NoConsecutiveBlankLines:Keyboard.kt$ </ID>
     <ID>NoConsecutiveBlankLines:KotlinBuildToolsApiClasspathConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:KotlinCompilerClasspathConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:KotlinCompilerPluginClasspathConfigurationAccessors.kt$ </ID>
@@ -4796,6 +4788,7 @@
     <ID>NoMultipleSpaces:WearAppConfigurationAccessors.kt$ </ID>
     <ID>NoMultipleSpaces:ivy.detekt.gradle.kts$ </ID>
     <ID>NoMultipleSpaces:ivy.module.gradle.kts$ </ID>
+    <ID>NoSemicolons:Theme.kt$Theme.AUTO$;</ID>
     <ID>NoTrailingSpaces:ivy.detekt.gradle.kts$ </ID>
     <ID>NoTrailingSpaces:ivy.module.gradle.kts$ </ID>
     <ID>NoUnusedImports:Accessors11xxvwy0y6zsdmgi5tg7sgrcq.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.Accessors11xxvwy0y6zsdmgi5tg7sgrcq.kt</ID>
@@ -5069,12 +5062,16 @@
     <ID>NoUnusedImports:AndroidTestRuntimeOnlyConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.AndroidTestRuntimeOnlyConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:AndroidTestUtilConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.AndroidTestUtilConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:AndroidTestWearAppConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.AndroidTestWearAppConfigurationAccessors.kt</ID>
+    <ID>NoUnusedImports:Animation.kt$com.ivy.design.utils.Animation.kt</ID>
     <ID>NoUnusedImports:AnnotationProcessorConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.AnnotationProcessorConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:ApiConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.ApiConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:ApiDependenciesMetadataConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.ApiDependenciesMetadataConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:ArchivesConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.ArchivesConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:CompileOnlyConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.CompileOnlyConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:CompileOnlyDependenciesMetadataConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.CompileOnlyDependenciesMetadataConfigurationAccessors.kt</ID>
+    <ID>NoUnusedImports:Compose.kt$com.ivy.design.utils.Compose.kt</ID>
+    <ID>NoUnusedImports:ComposeExt.kt$com.ivy.legacy.utils.ComposeExt.kt</ID>
+    <ID>NoUnusedImports:ContributorsScreen.kt$com.ivy.contributors.ContributorsScreen.kt</ID>
     <ID>NoUnusedImports:CoreLibraryDesugaringConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.CoreLibraryDesugaringConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:DebugAnnotationProcessorConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.DebugAnnotationProcessorConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:DebugApiConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.DebugApiConfigurationAccessors.kt</ID>
@@ -5092,6 +5089,7 @@
     <ID>NoUnusedImports:ImplementationConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.ImplementationConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:ImplementationDependenciesMetadataConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.ImplementationDependenciesMetadataConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:IntransitiveDependenciesMetadataConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.IntransitiveDependenciesMetadataConfigurationAccessors.kt</ID>
+    <ID>NoUnusedImports:IvyModalComponents.kt$com.ivy.wallet.ui.theme.modal.IvyModalComponents.kt</ID>
     <ID>NoUnusedImports:KaptAndroidTestConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.KaptAndroidTestConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:KaptAndroidTestDebugConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.KaptAndroidTestDebugConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:KaptAndroidTestReleaseConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.KaptAndroidTestReleaseConfigurationAccessors.kt</ID>
@@ -5104,6 +5102,7 @@
     <ID>NoUnusedImports:KaptTestFixturesDebugConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.KaptTestFixturesDebugConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:KaptTestFixturesReleaseConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.KaptTestFixturesReleaseConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:KaptTestReleaseConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.KaptTestReleaseConfigurationAccessors.kt</ID>
+    <ID>NoUnusedImports:Keyboard.kt$com.ivy.design.utils.Keyboard.kt</ID>
     <ID>NoUnusedImports:KotlinBuildToolsApiClasspathConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.KotlinBuildToolsApiClasspathConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:KotlinCompilerClasspathConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.KotlinCompilerClasspathConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:KotlinCompilerPluginClasspathConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.KotlinCompilerPluginClasspathConfigurationAccessors.kt</ID>
@@ -5194,6 +5193,7 @@
     <ID>NoUnusedImports:TestReleaseWearAppConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.TestReleaseWearAppConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:TestRuntimeOnlyConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.TestRuntimeOnlyConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:TestWearAppConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.TestWearAppConfigurationAccessors.kt</ID>
+    <ID>NoUnusedImports:UiText.kt$com.ivy.legacy.utils.UiText.kt</ID>
     <ID>NoUnusedImports:WearAppConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.WearAppConfigurationAccessors.kt</ID>
     <ID>NoWildcardImports:Accessors11xxvwy0y6zsdmgi5tg7sgrcq.kt$import org.gradle.kotlin.dsl.*</ID>
     <ID>NoWildcardImports:Accessors11xxvwy0y6zsdmgi5tg7sgrcq.kt$import org.gradle.kotlin.dsl.accessors.runtime.*</ID>
@@ -5999,7 +5999,6 @@
     <ID>NoWildcardImports:TestRuntimeOnlyConfigurationAccessors.kt$import org.gradle.kotlin.dsl.accessors.runtime.*</ID>
     <ID>NoWildcardImports:TestWearAppConfigurationAccessors.kt$import org.gradle.kotlin.dsl.*</ID>
     <ID>NoWildcardImports:TestWearAppConfigurationAccessors.kt$import org.gradle.kotlin.dsl.accessors.runtime.*</ID>
-    <ID>NoWildcardImports:ViewPager.kt$import androidx.compose.runtime.*</ID>
     <ID>NoWildcardImports:WearAppConfigurationAccessors.kt$import org.gradle.kotlin.dsl.*</ID>
     <ID>NoWildcardImports:WearAppConfigurationAccessors.kt$import org.gradle.kotlin.dsl.accessors.runtime.*</ID>
     <ID>NoWildcardImports:ZipUtils.kt$import java.io.*</ID>
@@ -6280,21 +6279,9 @@
     <ID>PackageName:ApiDependenciesMetadataConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageName:ArchivesConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageName:Background.kt$package com.ivy.design.l1_buildingBlocks.data</ID>
-    <ID>PackageName:BarChart.kt$package com.ivy.design.l3_ivyComponents.chart</ID>
-    <ID>PackageName:BottomBar.kt$package com.ivy.design.l3_ivyComponents.bar</ID>
-    <ID>PackageName:BottomNavigationBar.kt$package com.ivy.design.l3_ivyComponents.bar</ID>
     <ID>PackageName:Button.kt$package com.ivy.design.l2_components</ID>
-    <ID>PackageName:ButtonBack.kt$package com.ivy.design.l3_ivyComponents.button</ID>
-    <ID>PackageName:ButtonClose.kt$package com.ivy.design.l3_ivyComponents.button</ID>
-    <ID>PackageName:ButtonDelete.kt$package com.ivy.design.l3_ivyComponents.button</ID>
-    <ID>PackageName:ButtonExpandCollapse.kt$package com.ivy.design.l3_ivyComponents.button</ID>
-    <ID>PackageName:ButtonPrimary.kt$package com.ivy.design.l3_ivyComponents.button</ID>
-    <ID>PackageName:ButtonSecondary.kt$package com.ivy.design.l3_ivyComponents.button</ID>
     <ID>PackageName:ButtonWithIcon.kt$package com.ivy.design.l2_components</ID>
-    <ID>PackageName:Card.kt$package com.ivy.design.l3_ivyComponents</ID>
     <ID>PackageName:Checkbox.kt$package com.ivy.design.l2_components</ID>
-    <ID>PackageName:ColorPicker.kt$package com.ivy.design.l4_patterns</ID>
-    <ID>PackageName:ColoredItemCard.kt$package com.ivy.design.l4_patterns</ID>
     <ID>PackageName:Colors.kt$package com.ivy.design.l0_system</ID>
     <ID>PackageName:ColumnRoot.kt$package com.ivy.design.l1_buildingBlocks</ID>
     <ID>PackageName:CompileOnlyConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
@@ -6311,22 +6298,14 @@
     <ID>PackageName:DebugRuntimeOnlyConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageName:DebugWearAppConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageName:DefaultConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
-    <ID>PackageName:DeleteAllData.kt$package com.ivy.design.l4_patterns.delete</ID>
-    <ID>PackageName:DeleteConfirmationModal.kt$package com.ivy.design.l4_patterns.delete</ID>
-    <ID>PackageName:DeleteItem.kt$package com.ivy.design.l4_patterns.delete</ID>
     <ID>PackageName:DetektConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._6b1cdd1e881959619ea23cf7941079a9</ID>
     <ID>PackageName:DetektPluginsConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._6b1cdd1e881959619ea23cf7941079a9</ID>
     <ID>PackageName:Dividers.kt$package com.ivy.design.l1_buildingBlocks</ID>
-    <ID>PackageName:EditContentCard.kt$package com.ivy.design.l4_patterns</ID>
-    <ID>PackageName:ErrorModal.kt$package com.ivy.design.l4_patterns</ID>
-    <ID>PackageName:FAB.kt$package com.ivy.design.l3_ivyComponents.button</ID>
     <ID>PackageName:IconButton.kt$package com.ivy.design.l2_components</ID>
-    <ID>PackageName:IconPicker.kt$package com.ivy.design.l4_patterns</ID>
     <ID>PackageName:ImplementationConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageName:ImplementationDependenciesMetadataConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageName:InputField.kt$package com.ivy.design.l2_components</ID>
     <ID>PackageName:IntransitiveDependenciesMetadataConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
-    <ID>PackageName:ItemDetailsScreen.kt$package com.ivy.design.l5_concept</ID>
     <ID>PackageName:IvyColors.kt$package com.ivy.design.l0_system</ID>
     <ID>PackageName:IvyIcon.kt$package com.ivy.design.l1_buildingBlocks</ID>
     <ID>PackageName:IvyPadding.kt$package com.ivy.design.l1_buildingBlocks.data</ID>
@@ -6363,16 +6342,9 @@
     <ID>PackageName:KspTestFixturesDebugConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageName:KspTestFixturesReleaseConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageName:KspTestReleaseConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
-    <ID>PackageName:LineChart.kt$package com.ivy.design.l3_ivyComponents.chart</ID>
     <ID>PackageName:LintChecksConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageName:LintPublishConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
-    <ID>PackageName:Loading.kt$package com.ivy.design.l3_ivyComponents.percentage</ID>
-    <ID>PackageName:MoreInfo.kt$package com.ivy.design.l4_patterns</ID>
-    <ID>PackageName:MoreMenu.kt$package com.ivy.design.l4_patterns</ID>
-    <ID>PackageName:Onboarding.kt$package com.ivy.design.l5_concept</ID>
-    <ID>PackageName:PieChart.kt$package com.ivy.design.l3_ivyComponents.chart</ID>
-    <ID>PackageName:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._64c00ebec5a91e65338d5dc2e66f48fd</ID>
-    <ID>PackageName:ProgressBar.kt$package com.ivy.design.l3_ivyComponents.percentage</ID>
+    <ID>PackageName:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._32d2de474c57b16a27e69ffb9cb39d38</ID>
     <ID>PackageName:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageName:ReleaseApiConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageName:ReleaseApiDependenciesMetadataConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
@@ -6383,10 +6355,8 @@
     <ID>PackageName:ReleaseIntransitiveDependenciesMetadataConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageName:ReleaseRuntimeOnlyConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageName:ReleaseWearAppConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
-    <ID>PackageName:ReorderModal.kt$package com.ivy.design.l4_patterns</ID>
     <ID>PackageName:RuntimeOnlyConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageName:ScreenTitle.kt$package com.ivy.design.l3_ivyComponents</ID>
-    <ID>PackageName:SearchBar.kt$package com.ivy.design.l3_ivyComponents.bar</ID>
     <ID>PackageName:Shapes.kt$package com.ivy.design.l1_buildingBlocks</ID>
     <ID>PackageName:Spacers.kt$package com.ivy.design.l1_buildingBlocks</ID>
     <ID>PackageName:Switch.kt$package com.ivy.design.l2_components</ID>
@@ -6451,7 +6421,6 @@
     <ID>PackageName:TestRuntimeOnlyConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageName:TestWearAppConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageName:Theme.kt$package com.ivy.design.l0_system</ID>
-    <ID>PackageName:Toolbar.kt$package com.ivy.design.l3_ivyComponents.bar</ID>
     <ID>PackageName:TypographyExt.kt$package com.ivy.design.l0_system</ID>
     <ID>PackageName:WearAppConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageNaming:Accessors11xxvwy0y6zsdmgi5tg7sgrcq.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
@@ -6730,21 +6699,9 @@
     <ID>PackageNaming:ApiDependenciesMetadataConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageNaming:ArchivesConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageNaming:Background.kt$package com.ivy.design.l1_buildingBlocks.data</ID>
-    <ID>PackageNaming:BarChart.kt$package com.ivy.design.l3_ivyComponents.chart</ID>
-    <ID>PackageNaming:BottomBar.kt$package com.ivy.design.l3_ivyComponents.bar</ID>
-    <ID>PackageNaming:BottomNavigationBar.kt$package com.ivy.design.l3_ivyComponents.bar</ID>
     <ID>PackageNaming:Button.kt$package com.ivy.design.l2_components</ID>
-    <ID>PackageNaming:ButtonBack.kt$package com.ivy.design.l3_ivyComponents.button</ID>
-    <ID>PackageNaming:ButtonClose.kt$package com.ivy.design.l3_ivyComponents.button</ID>
-    <ID>PackageNaming:ButtonDelete.kt$package com.ivy.design.l3_ivyComponents.button</ID>
-    <ID>PackageNaming:ButtonExpandCollapse.kt$package com.ivy.design.l3_ivyComponents.button</ID>
-    <ID>PackageNaming:ButtonPrimary.kt$package com.ivy.design.l3_ivyComponents.button</ID>
-    <ID>PackageNaming:ButtonSecondary.kt$package com.ivy.design.l3_ivyComponents.button</ID>
     <ID>PackageNaming:ButtonWithIcon.kt$package com.ivy.design.l2_components</ID>
-    <ID>PackageNaming:Card.kt$package com.ivy.design.l3_ivyComponents</ID>
     <ID>PackageNaming:Checkbox.kt$package com.ivy.design.l2_components</ID>
-    <ID>PackageNaming:ColorPicker.kt$package com.ivy.design.l4_patterns</ID>
-    <ID>PackageNaming:ColoredItemCard.kt$package com.ivy.design.l4_patterns</ID>
     <ID>PackageNaming:Colors.kt$package com.ivy.design.l0_system</ID>
     <ID>PackageNaming:ColumnRoot.kt$package com.ivy.design.l1_buildingBlocks</ID>
     <ID>PackageNaming:CompileOnlyConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
@@ -6761,22 +6718,14 @@
     <ID>PackageNaming:DebugRuntimeOnlyConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageNaming:DebugWearAppConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageNaming:DefaultConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
-    <ID>PackageNaming:DeleteAllData.kt$package com.ivy.design.l4_patterns.delete</ID>
-    <ID>PackageNaming:DeleteConfirmationModal.kt$package com.ivy.design.l4_patterns.delete</ID>
-    <ID>PackageNaming:DeleteItem.kt$package com.ivy.design.l4_patterns.delete</ID>
     <ID>PackageNaming:DetektConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._6b1cdd1e881959619ea23cf7941079a9</ID>
     <ID>PackageNaming:DetektPluginsConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._6b1cdd1e881959619ea23cf7941079a9</ID>
     <ID>PackageNaming:Dividers.kt$package com.ivy.design.l1_buildingBlocks</ID>
-    <ID>PackageNaming:EditContentCard.kt$package com.ivy.design.l4_patterns</ID>
-    <ID>PackageNaming:ErrorModal.kt$package com.ivy.design.l4_patterns</ID>
-    <ID>PackageNaming:FAB.kt$package com.ivy.design.l3_ivyComponents.button</ID>
     <ID>PackageNaming:IconButton.kt$package com.ivy.design.l2_components</ID>
-    <ID>PackageNaming:IconPicker.kt$package com.ivy.design.l4_patterns</ID>
     <ID>PackageNaming:ImplementationConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageNaming:ImplementationDependenciesMetadataConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageNaming:InputField.kt$package com.ivy.design.l2_components</ID>
     <ID>PackageNaming:IntransitiveDependenciesMetadataConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
-    <ID>PackageNaming:ItemDetailsScreen.kt$package com.ivy.design.l5_concept</ID>
     <ID>PackageNaming:IvyColors.kt$package com.ivy.design.l0_system</ID>
     <ID>PackageNaming:IvyIcon.kt$package com.ivy.design.l1_buildingBlocks</ID>
     <ID>PackageNaming:IvyPadding.kt$package com.ivy.design.l1_buildingBlocks.data</ID>
@@ -6813,16 +6762,9 @@
     <ID>PackageNaming:KspTestFixturesDebugConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageNaming:KspTestFixturesReleaseConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageNaming:KspTestReleaseConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
-    <ID>PackageNaming:LineChart.kt$package com.ivy.design.l3_ivyComponents.chart</ID>
     <ID>PackageNaming:LintChecksConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageNaming:LintPublishConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
-    <ID>PackageNaming:Loading.kt$package com.ivy.design.l3_ivyComponents.percentage</ID>
-    <ID>PackageNaming:MoreInfo.kt$package com.ivy.design.l4_patterns</ID>
-    <ID>PackageNaming:MoreMenu.kt$package com.ivy.design.l4_patterns</ID>
-    <ID>PackageNaming:Onboarding.kt$package com.ivy.design.l5_concept</ID>
-    <ID>PackageNaming:PieChart.kt$package com.ivy.design.l3_ivyComponents.chart</ID>
-    <ID>PackageNaming:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._64c00ebec5a91e65338d5dc2e66f48fd</ID>
-    <ID>PackageNaming:ProgressBar.kt$package com.ivy.design.l3_ivyComponents.percentage</ID>
+    <ID>PackageNaming:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._32d2de474c57b16a27e69ffb9cb39d38</ID>
     <ID>PackageNaming:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageNaming:ReleaseApiConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageNaming:ReleaseApiDependenciesMetadataConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
@@ -6833,10 +6775,8 @@
     <ID>PackageNaming:ReleaseIntransitiveDependenciesMetadataConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageNaming:ReleaseRuntimeOnlyConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageNaming:ReleaseWearAppConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
-    <ID>PackageNaming:ReorderModal.kt$package com.ivy.design.l4_patterns</ID>
     <ID>PackageNaming:RuntimeOnlyConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageNaming:ScreenTitle.kt$package com.ivy.design.l3_ivyComponents</ID>
-    <ID>PackageNaming:SearchBar.kt$package com.ivy.design.l3_ivyComponents.bar</ID>
     <ID>PackageNaming:Shapes.kt$package com.ivy.design.l1_buildingBlocks</ID>
     <ID>PackageNaming:Spacers.kt$package com.ivy.design.l1_buildingBlocks</ID>
     <ID>PackageNaming:Switch.kt$package com.ivy.design.l2_components</ID>
@@ -6901,7 +6841,6 @@
     <ID>PackageNaming:TestRuntimeOnlyConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageNaming:TestWearAppConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageNaming:Theme.kt$package com.ivy.design.l0_system</ID>
-    <ID>PackageNaming:Toolbar.kt$package com.ivy.design.l3_ivyComponents.bar</ID>
     <ID>PackageNaming:TypographyExt.kt$package com.ivy.design.l0_system</ID>
     <ID>PackageNaming:WearAppConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>ParameterListWrapping:Accessors1qogh10qro8q0buetro8w0c3r.kt$(configure: Action&lt;org.gradle.api.plugins.ExtraPropertiesExtension&gt;)</ID>
@@ -7214,49 +7153,56 @@
     <ID>ReturnCount:ReportFilter.kt$ReportFilter$fun validate(): Boolean</ID>
     <ID>ReturnCount:SyncExchangeRatesAct.kt$SyncExchangeRatesAct$private suspend fun sync(baseCurrency: String)</ID>
     <ID>SpacingAroundParens:TestScreen.kt$(</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Black = Color(0xFF111114)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Blue2 = Color(0xFF45E6E6)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Blue2Dark = Color(0xFF227373)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Blue2Light = Color(0xFFB3FFFF)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Blue3 = Color(0xFF457BE6)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Blue3Dark = Color(0xFF223D73)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Blue3Light = Color(0xFFCCDDFF)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Gray = Color(0xFF939199)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Green2 = Color(0xFF45E67B)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Green2Dark = Color(0xFF22733D)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Green2Light = Color(0xFF99FFBB)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Green3 = Color(0xFF96E645)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Green3Dark = Color(0xFF66804D)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Green3Light = Color(0xFFCCFF99)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Green4 = Color(0xFFC7E62E)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Green4Dark = Color(0xFF637317)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Green4Light = Color(0xFFEEFF99)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val MediumWhite = Color(0xFFEFEEF0)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Orange2 = Color(0xFFE67B45)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Orange2Dark = Color(0xFF66371F)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Orange2Light = Color(0xFFFFCCB3)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Orange3 = Color(0xFFFFC34C)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Orange3Dark = Color(0xFF806226)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Orange3Light = Color(0xFFFFDC99)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Purple = Color(0xFF6B4DFF)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Purple1 = Color(0xFFC34CFF)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Purple1Dark = Color(0xFF622680)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Purple1Light = Color(0xFFEECCFF)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Purple2 = Color(0xFFFF4CFF)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Purple2Dark = Color(0xFF802680)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Purple2Light = Color(0xFFFFBFFF)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Red2 = Color(0xFFE62E2E)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Red2Dark = Color(0xFF802030)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Red2Light = Color(0xFFFFB3B3)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Red3 = Color(0xFFFF4CA6)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Red3Dark = Color(0xFF802653)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Red3Light = Color(0xFFFFCCE6)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:IvyColors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Black = Color(0xFF111114)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:IvyColors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val GradientGreen = Gradient(Green, Color(0xFF49F2C8))</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:IvyColors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val GradientIvy = Gradient(Ivy, Color(0xFFAA99FF))</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:IvyColors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val GradientOrangeRevert = Gradient(Color(0xFFF2CD9E), Orange)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:IvyColors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Gray = Color(0xFF939199)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:IvyColors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val GreenLight = Color(0xFFAAF2E0)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:IvyColors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val MediumWhite = Color(0xFFEFEEF0)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:IvyColors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Purple1Dark = Color(0xFF622680)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:IvyColors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Red3 = Color(0xFFFF4CA6)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:IvyColors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Red3Light = Color(0xFFFFCCE6)</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:IvyContext.kt$IvyContext$@Deprecated("Old design system. Use `:ivy-design` and Material3") var screenHeight: Int = -1 get() { return if (field &gt; 0) field else throw IllegalStateException("screenHeight not initialized") }</ID>
+    <ID>SpacingBetweenDeclarationsWithAnnotations:IvyModal.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") const val DURATION_MODAL_ANIM = 200</ID>
     <ID>SpreadOperator:UiText.kt$UiText$(resId, *args)</ID>
-    <ID>TooManyFunctions:AmountFormatting.kt$com.ivy.legacy.utils.AmountFormatting.kt</ID>
-    <ID>TooManyFunctions:BackupLogic.kt$BackupLogic</ID>
-    <ID>TooManyFunctions:BudgetBattery.kt$com.ivy.legacy.legacy.ui.theme.components.BudgetBattery.kt</ID>
-    <ID>TooManyFunctions:CSVImporter.kt$CSVImporter</ID>
-    <ID>TooManyFunctions:CSVMapper.kt$CSVMapper</ID>
-    <ID>TooManyFunctions:CSVScreen.kt$com.ivy.importdata.csv.CSVScreen.kt</ID>
-    <ID>TooManyFunctions:CSVViewModel.kt$CSVViewModel : ViewModel</ID>
-    <ID>TooManyFunctions:Colors.kt$com.ivy.design.l0_system.Colors.kt</ID>
-    <ID>TooManyFunctions:ComposeExt.kt$com.ivy.legacy.utils.ComposeExt.kt</ID>
-    <ID>TooManyFunctions:Composition.kt$com.ivy.frp.Composition.kt</ID>
-    <ID>TooManyFunctions:CustomerJourneyCardsProvider.kt$CustomerJourneyCardsProvider$Companion</ID>
-    <ID>TooManyFunctions:DateExt.kt$com.ivy.legacy.utils.DateExt.kt</ID>
-    <ID>TooManyFunctions:EditBottomSheet.kt$com.ivy.wallet.ui.edit.core.EditBottomSheet.kt</ID>
-    <ID>TooManyFunctions:EditPlannedViewModel.kt$EditPlannedViewModel : ViewModel</ID>
-    <ID>TooManyFunctions:EditTransactionViewModel.kt$EditTransactionViewModel : ViewModel</ID>
-    <ID>TooManyFunctions:FilterOverlay.kt$com.ivy.reports.FilterOverlay.kt</ID>
-    <ID>TooManyFunctions:HomeViewModel.kt$HomeViewModel : FRPViewModel</ID>
-    <ID>TooManyFunctions:ItemIcon.kt$com.ivy.wallet.ui.theme.components.ItemIcon.kt</ID>
-    <ID>TooManyFunctions:ItemStatisticViewModel.kt$ItemStatisticViewModel : ViewModel</ID>
-    <ID>TooManyFunctions:IvyColors.kt$com.ivy.wallet.ui.theme.IvyColors.kt</ID>
-    <ID>TooManyFunctions:IvyLineChart.kt$com.ivy.wallet.ui.theme.components.charts.linechart.IvyLineChart.kt</ID>
-    <ID>TooManyFunctions:IvyModalComponents.kt$com.ivy.wallet.ui.theme.modal.IvyModalComponents.kt</ID>
-    <ID>TooManyFunctions:LoanTransactionsCore.kt$LoanTransactionsCore</ID>
-    <ID>TooManyFunctions:OnboardingRouter.kt$OnboardingRouter</ID>
-    <ID>TooManyFunctions:OnboardingViewModel.kt$OnboardingViewModel : ViewModel</ID>
-    <ID>TooManyFunctions:ParseFields.kt$com.ivy.importdata.csv.domain.ParseFields.kt</ID>
-    <ID>TooManyFunctions:PieChartStatisticViewModel.kt$PieChartStatisticViewModel : FRPViewModel</ID>
-    <ID>TooManyFunctions:PlannedPaymentsLogic.kt$PlannedPaymentsLogic</ID>
-    <ID>TooManyFunctions:ReportViewModel.kt$ReportViewModel : FRPViewModel</ID>
-    <ID>TooManyFunctions:RoomDbModule.kt$RoomDbModule</ID>
-    <ID>TooManyFunctions:RoomTypeConverters.kt$RoomTypeConverters</ID>
-    <ID>TooManyFunctions:RootActivity.kt$RootActivity : AppCompatActivityRootScreen</ID>
-    <ID>TooManyFunctions:RootViewModel.kt$RootViewModel : ViewModel</ID>
-    <ID>TooManyFunctions:SettingsScreen.kt$com.ivy.settings.SettingsScreen.kt</ID>
-    <ID>TooManyFunctions:SettingsViewModel.kt$SettingsViewModel : ViewModel</ID>
-    <ID>TooManyFunctions:SharedPrefs.kt$SharedPrefs</ID>
-    <ID>TooManyFunctions:TransactionCard.kt$com.ivy.legacy.ui.component.transaction.TransactionCard.kt</ID>
-    <ID>TooManyFunctions:TransactionDao.kt$TransactionDao</ID>
-    <ID>TooManyFunctions:UIExt.kt$com.ivy.legacy.utils.UIExt.kt</ID>
-    <ID>TooManyFunctions:UtilExt.kt$com.ivy.legacy.utils.UtilExt.kt</ID>
-    <ID>TooManyFunctions:WalletAccountLogic.kt$WalletAccountLogic</ID>
-    <ID>TooManyFunctions:WalletCategoryLogic.kt$WalletCategoryLogic</ID>
     <ID>TopLevelPropertyNaming:Accessors11xxvwy0y6zsdmgi5tg7sgrcq.kt$/** * Provides the existing [androidTestAnnotationProcessor][org.gradle.api.artifacts.Configuration] element. */ internal val org.gradle.api.NamedDomainObjectContainer&lt;org.gradle.api.artifacts.Configuration&gt;.`androidTestAnnotationProcessor`: NamedDomainObjectProvider&lt;org.gradle.api.artifacts.Configuration&gt; get() = named&lt;org.gradle.api.artifacts.Configuration&gt;("androidTestAnnotationProcessor")</ID>
     <ID>TopLevelPropertyNaming:Accessors12l04gyw3iri7cbpx1tj9yrz6.kt$/** * Provides the existing [release][org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet] element. */ internal val org.gradle.api.NamedDomainObjectContainer&lt;org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet&gt;.`release`: NamedDomainObjectProvider&lt;org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet&gt; get() = named&lt;org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet&gt;("release")</ID>
     <ID>TopLevelPropertyNaming:Accessors15c80wxji7qdhvcsteytc58m6.kt$/** * Provides the existing [testCompileOnly][org.gradle.api.artifacts.Configuration] element. */ internal val org.gradle.api.NamedDomainObjectContainer&lt;org.gradle.api.artifacts.Configuration&gt;.`testCompileOnly`: NamedDomainObjectProvider&lt;org.gradle.api.artifacts.Configuration&gt; get() = named&lt;org.gradle.api.artifacts.Configuration&gt;("testCompileOnly")</ID>
@@ -7491,13 +7437,12 @@
     <ID>TopLevelPropertyNaming:Accessorsudq1uh318qqky95gjgywg3z1.kt$/** * Provides the existing [testDebugWearApp][org.gradle.api.artifacts.Configuration] element. */ internal val org.gradle.api.NamedDomainObjectContainer&lt;org.gradle.api.artifacts.Configuration&gt;.`testDebugWearApp`: NamedDomainObjectProvider&lt;org.gradle.api.artifacts.Configuration&gt; get() = named&lt;org.gradle.api.artifacts.Configuration&gt;("testDebugWearApp")</ID>
     <ID>TopLevelPropertyNaming:Accessorsv8sku3n0evm97p61uoj1tesf.kt$/** * Provides the existing [debugCompileOnly][org.gradle.api.artifacts.Configuration] element. */ internal val org.gradle.api.NamedDomainObjectContainer&lt;org.gradle.api.artifacts.Configuration&gt;.`debugCompileOnly`: NamedDomainObjectProvider&lt;org.gradle.api.artifacts.Configuration&gt; get() = named&lt;org.gradle.api.artifacts.Configuration&gt;("debugCompileOnly")</ID>
     <ID>TopLevelPropertyNaming:AmountFormatting.kt$const val N_100K = 100000</ID>
-    <ID>TopLevelPropertyNaming:ChooseIconModal.kt$private const val ICON_PICKER_ICONS_PER_ROW = 5</ID>
-    <ID>TopLevelPropertyNaming:EditBottomSheet.kt$const val SWIPE_UP_EXPANDED_THRESHOLD = 200</ID>
+    <ID>TopLevelPropertyNaming:ChooseIconModal.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") private const val ICON_PICKER_ICONS_PER_ROW = 5</ID>
+    <ID>TopLevelPropertyNaming:EditBottomSheet.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") const val SWIPE_UP_EXPANDED_THRESHOLD = 200</ID>
     <ID>TopLevelPropertyNaming:HomeMoreMenu.kt$private const val SWIPE_UP_THRESHOLD_CLOSE_MORE_MENU = 300</ID>
     <ID>TopLevelPropertyNaming:HomeTab.kt$private const val SWIPE_HORIZONTAL_THRESHOLD = 200</ID>
-    <ID>TopLevelPropertyNaming:IvyModal.kt$const val DURATION_MODAL_ANIM = 200</ID>
-    <ID>TopLevelPropertyNaming:IvyModal.kt$private const val DURATION_BACKGROUND_BLUR_ANIM = 400</ID>
-    <ID>TopLevelPropertyNaming:IvyViewPager.kt$private const val SWIPE_THRESHOLD = 0.2f</ID>
+    <ID>TopLevelPropertyNaming:IvyModal.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") const val DURATION_MODAL_ANIM = 200</ID>
+    <ID>TopLevelPropertyNaming:IvyModal.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") private const val DURATION_BACKGROUND_BLUR_ANIM = 400</ID>
     <ID>TopLevelPropertyNaming:ParseStatus.kt$const val SAMPLE_SIZE = 20</ID>
     <ID>TopLevelPropertyNaming:PieChart.kt$const val PIE_CHART_RADIUS_DP = 128</ID>
     <ID>TopLevelPropertyNaming:PieChart.kt$const val RADIUS_DP = 112f</ID>
@@ -8589,7 +8534,6 @@
     <ID>WildcardImport:TestRuntimeOnlyConfigurationAccessors.kt$import org.gradle.kotlin.dsl.accessors.runtime.*</ID>
     <ID>WildcardImport:TestWearAppConfigurationAccessors.kt$import org.gradle.kotlin.dsl.*</ID>
     <ID>WildcardImport:TestWearAppConfigurationAccessors.kt$import org.gradle.kotlin.dsl.accessors.runtime.*</ID>
-    <ID>WildcardImport:ViewPager.kt$import androidx.compose.runtime.*</ID>
     <ID>WildcardImport:WearAppConfigurationAccessors.kt$import org.gradle.kotlin.dsl.*</ID>
     <ID>WildcardImport:WearAppConfigurationAccessors.kt$import org.gradle.kotlin.dsl.accessors.runtime.*</ID>
     <ID>WildcardImport:ZipUtils.kt$import java.io.*</ID>

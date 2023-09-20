@@ -21,6 +21,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.core.datamodel.Category
 import com.ivy.legacy.IvyWalletPreview
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun <T> WrapContentRow(
     modifier: Modifier = Modifier,

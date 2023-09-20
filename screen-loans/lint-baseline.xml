@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 8.1.1" type="baseline" client="gradle" dependencies="false" name="AGP (8.1.1)" variant="all" version="8.1.1">
+
+    <issue
+        id="ComposeContentEmitterReturningValues"
+        message="Composable functions should either emit content into the composition or return a value, but not both.&#xA;If a composable should offer additional control surfaces to its caller, those control surfaces or callbacks should be provided as parameters to the composable function by the caller.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-content-and-return-a-result for more information."
+        errorLine1="@Composable"
+        errorLine2="^">
+        <location
+            file="src/main/java/com/ivy/loans/loandetails/LoanDetailsScreen.kt"
+            line="790"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="ComposeMultipleContentEmitters"
+        message="Composable functions should only be emitting content into the composition from one source at their top level.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-multiple-pieces-of-content for more information."
+        errorLine1="@Composable"
+        errorLine2="^">
+        <location
+            file="src/main/java/com/ivy/loans/loandetails/LoanDetailsScreen.kt"
+            line="790"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="ComposeParameterOrder"
+        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [baseCurrency: String, loan: Loan?, displayLoanRecords: List&lt;DisplayLoanRecord> = emptyList(), amountPaid: Double, loanAmountPaid: Double = 0.0, accounts: List&lt;Account> = emptyList(), selectedLoanAccount: Account? = null, createLoanTransaction: Boolean = false, onCreateAccount: (CreateAccountData) -> Unit = {}, onEditLoan: (Loan, Boolean) -> Unit = { _, _ -> }, onCreateLoanRecord: (CreateLoanRecordData) -> Unit = {}, onEditLoanRecord: (EditLoanRecordData) -> Unit = {}, onDeleteLoanRecord: (LoanRecord) -> Unit = {}, onDeleteLoan: () -> Unit = {}] but should be [baseCurrency: String, loan: Loan?, amountPaid: Double, displayLoanRecords: List&lt;DisplayLoanRecord> = emptyList(), loanAmountPaid: Double = 0.0, accounts: List&lt;Account> = emptyList(), selectedLoanAccount: Account? = null, createLoanTransaction: Boolean = false, onCreateAccount: (CreateAccountData) -> Unit = {}, onEditLoan: (Loan, Boolean) -> Unit = { _, _ -> }, onCreateLoanRecord: (CreateLoanRecordData) -> Unit = {}, onEditLoanRecord: (EditLoanRecordData) -> Unit = {}, onDeleteLoanRecord: (LoanRecord) -> Unit = {}, onDeleteLoan: () -> Unit = {}].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
+        errorLine1="@Composable"
+        errorLine2="^">
+        <location
+            file="src/main/java/com/ivy/loans/loandetails/LoanDetailsScreen.kt"
+            line="126"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="ComposeParameterOrder"
+        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [loan: Loan, baseCurrency: String, amountPaid: Double, loanAmountPaid: Double = 0.0, itemColor: Color, selectedLoanAccount: Account? = null, onAmountClick: () -> Unit, onEditLoan: () -> Unit, onDeleteLoan: () -> Unit, onAddRecord: () -> Unit] but should be [loan: Loan, baseCurrency: String, amountPaid: Double, itemColor: Color, onAmountClick: () -> Unit, onEditLoan: () -> Unit, onDeleteLoan: () -> Unit, loanAmountPaid: Double = 0.0, selectedLoanAccount: Account? = null, onAddRecord: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
+        errorLine1="@Composable"
+        errorLine2="^">
+        <location
+            file="src/main/java/com/ivy/loans/loandetails/LoanDetailsScreen.kt"
+            line="297"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="ComposeParameterOrder"
+        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, emptyStateTitle: String, emptyStateText: String] but should be [emptyStateTitle: String, emptyStateText: String, modifier: Modifier = Modifier].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
+        errorLine1="@Composable"
+        errorLine2="^">
+        <location
+            file="src/main/java/com/ivy/loans/loan/LoansScreen.kt"
+            line="339"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="ComposeUnstableCollections"
+        message="The Compose Compiler cannot infer the stability of a parameter if a List&lt;DisplayLoanRecord> is used in it, even if the item type is stable.&#xA;You should use Kotlinx Immutable Collections instead: `displayLoanRecords: ImmutableList&lt;DisplayLoanRecord>` or create an `@Immutable` wrapper for this class: `@Immutable data class DisplayLoanRecordsList(val items: List&lt;DisplayLoanRecord>)`&#xA;See https://slackhq.github.io/compose-lints/rules/#avoid-using-unstable-collections for more information."
+        errorLine1="    displayLoanRecords: List&lt;DisplayLoanRecord> = emptyList(),"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ivy/loans/loandetails/LoanDetailsScreen.kt"
+            line="130"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="ComposeUnstableCollections"
+        message="The Compose Compiler cannot infer the stability of a parameter if a List&lt;Account> is used in it, even if the item type is stable.&#xA;You should use Kotlinx Immutable Collections instead: `accounts: ImmutableList&lt;Account>` or create an `@Immutable` wrapper for this class: `@Immutable data class AccountsList(val items: List&lt;Account>)`&#xA;See https://slackhq.github.io/compose-lints/rules/#avoid-using-unstable-collections for more information."
+        errorLine1="    accounts: List&lt;Account> = emptyList(),"
+        errorLine2="              ~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ivy/loans/loandetails/LoanDetailsScreen.kt"
+            line="134"
+            column="15"/>
+    </issue>
+
+</issues>

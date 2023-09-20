@@ -54,6 +54,7 @@ import com.ivy.wallet.ui.theme.modal.modalPreviewActionRowHeight
 import java.util.UUID
 import kotlin.math.truncate
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.AmountModal(
     id: UUID,

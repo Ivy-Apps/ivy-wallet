@@ -17,6 +17,7 @@ import com.ivy.wallet.ui.theme.components.CircleButton
 import com.ivy.wallet.ui.theme.components.DeleteButton
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun ItemStatisticToolbar(
     contrastColor: Color,

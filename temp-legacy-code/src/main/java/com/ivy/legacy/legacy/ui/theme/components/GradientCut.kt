@@ -17,6 +17,7 @@ import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Transparent
 import com.ivy.legacy.utils.thenIf
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.GradientCutBottom(
     height: Dp = 96.dp,
@@ -33,19 +34,5 @@ fun BoxWithConstraintsScope.GradientCutBottom(
             .background(Gradient(Transparent, UI.colors.pure).asVerticalBrush())
             .align(Alignment.BottomCenter)
             .alpha(alpha = alpha)
-    )
-}
-
-@Composable
-fun BoxWithConstraintsScope.GradientCutTop(
-    modifier: Modifier = Modifier,
-    height: Dp,
-) {
-    Spacer(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(height)
-            .background(Gradient(UI.colors.pure, Transparent).asVerticalBrush())
-            .align(Alignment.TopCenter)
     )
 }

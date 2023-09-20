@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 8.1.1" type="baseline" client="gradle" dependencies="false" name="AGP (8.1.1)" variant="all" version="8.1.1">
+
+    <issue
+        id="ComposeContentEmitterReturningValues"
+        message="Composable functions should either emit content into the composition or return a value, but not both.&#xA;If a composable should offer additional control surfaces to its caller, those control surfaces or callbacks should be provided as parameters to the composable function by the caller.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-content-and-return-a-result for more information."
+        errorLine1="@Composable"
+        errorLine2="^">
+        <location
+            file="src/main/java/com/ivy/categories/CategoriesScreen.kt"
+            line="224"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="ComposeModifierMissing"
+        message="This @Composable function emits content but doesn&apos;t have a modifier parameter.&#xA;See https://slackhq.github.io/compose-lints/rules/#when-should-i-expose-modifier-parameters for more information."
+        errorLine1="fun BoxWithConstraintsScope.SortModal("
+        errorLine2="                            ~~~~~~~~~">
+        <location
+            file="src/main/java/com/ivy/categories/CategoriesScreen.kt"
+            line="425"
+            column="29"/>
+    </issue>
+
+    <issue
+        id="ComposeMultipleContentEmitters"
+        message="Composable functions should only be emitting content into the composition from one source at their top level.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-multiple-pieces-of-content for more information."
+        errorLine1="@Composable"
+        errorLine2="^">
+        <location
+            file="src/main/java/com/ivy/categories/CategoriesScreen.kt"
+            line="224"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="ComposeParameterOrder"
+        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, textColor: Color = UI.colors.pureInverse, dividerColor: Color = UI.colors.medium, monthlyIncome: Double, monthlyExpenses: Double, currency: String, center: Boolean = true, dividerSpacer: Dp? = null] but should be [monthlyIncome: Double, monthlyExpenses: Double, currency: String, modifier: Modifier = Modifier, textColor: Color = UI.colors.pureInverse, dividerColor: Color = UI.colors.medium, center: Boolean = true, dividerSpacer: Dp? = null].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
+        errorLine1="@Composable"
+        errorLine2="^">
+        <location
+            file="src/main/java/com/ivy/categories/CategoriesScreen.kt"
+            line="264"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="ComposeParameterOrder"
+        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [title: String = stringResource(R.string.sort_by), items: List&lt;SortOrder>, visible: Boolean, initialType: SortOrder, id: UUID = UUID.randomUUID(), dismiss: () -> Unit, onSortOrderChanged: (SortOrder) -> Unit] but should be [items: List&lt;SortOrder>, visible: Boolean, initialType: SortOrder, dismiss: () -> Unit, title: String = stringResource(R.string.sort_by), id: UUID = UUID.randomUUID(), onSortOrderChanged: (SortOrder) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
+        errorLine1="@Composable"
+        errorLine2="^">
+        <location
+            file="src/main/java/com/ivy/categories/CategoriesScreen.kt"
+            line="424"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="ComposeUnstableCollections"
+        message="The Compose Compiler cannot infer the stability of a parameter if a List&lt;SortOrder> is used in it, even if the item type is stable.&#xA;You should use Kotlinx Immutable Collections instead: `items: ImmutableList&lt;SortOrder>` or create an `@Immutable` wrapper for this class: `@Immutable data class ItemsList(val items: List&lt;SortOrder>)`&#xA;See https://slackhq.github.io/compose-lints/rules/#avoid-using-unstable-collections for more information."
+        errorLine1="    items: List&lt;SortOrder>,"
+        errorLine2="           ~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ivy/categories/CategoriesScreen.kt"
+            line="427"
+            column="12"/>
+    </issue>
+
+</issues>

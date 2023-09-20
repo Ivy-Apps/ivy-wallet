@@ -28,59 +28,35 @@ import androidx.lifecycle.Observer
 import com.ivy.design.l0_system.Gradient
 import com.ivy.navigation.navigation
 
-fun Modifier.horizontalGradientBackground(
-    gradient: Gradient
-) = drawWithCache {
-    // Use drawWithCache modifier to create and cache the gradient once size is known or changes.
-    onDrawBehind {
-        drawRect(
-            brush = Brush.horizontalGradient(
-                startX = 0.0f,
-                endX = size.width,
-                colors = listOf(gradient.startColor, gradient.endColor)
-            )
-        )
-    }
-}
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun windowInsets(): WindowInsetsCompat {
     val rootView = LocalView.current
     return WindowInsetsCompat.toWindowInsetsCompat(rootView.rootWindowInsets, rootView)
 }
 
-@Composable
-fun systemWindowInsets(): Insets {
-    val windowInsets = windowInsets()
-    return windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.navigationBars())
-}
-
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun statusBarInset(): Int {
     val windowInsets = windowInsets()
     return windowInsets.getInsets(WindowInsetsCompat.Type.statusBars()).top
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun navigationBarInset(): Int {
     return navigationBarInsets().bottom
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun navigationBarInsets(): Insets {
     val windowInsets = windowInsets()
     return windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
 }
 
-@Composable
-fun keyboardNavigationWindowInsets(): Insets {
-    val windowInsets = windowInsets()
-    return windowInsets.getInsets(
-        WindowInsetsCompat.Type.ime()
-            or WindowInsetsCompat.Type.systemBars()
-    )
-}
-
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun keyboardOnlyWindowInsets(): Insets {
     val windowInsets = windowInsets()
@@ -89,31 +65,13 @@ fun keyboardOnlyWindowInsets(): Insets {
     )
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun <T> densityScope(densityScope: @Composable Density.() -> T): T {
     return with(LocalDensity.current) { densityScope() }
 }
 
-fun <T> MutableState<T>.triggerUpdate() {
-    try {
-        this.value = value
-    } catch (e: Exception) {
-    }
-}
-
-@Composable
-fun <R, T : R> LiveData<T>.observeAsNeverEqualState(initial: R): State<R> {
-    val lifecycleOwner = LocalLifecycleOwner.current
-    val state = remember { mutableStateOf(initial, policy = neverEqualPolicy()) }
-
-    DisposableEffect(this, lifecycleOwner) {
-        val observer = Observer<T> { state.value = it }
-        observe(lifecycleOwner, observer)
-        onDispose { removeObserver(observer) }
-    }
-    return state
-}
-
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun Modifier.thenIf(condition: Boolean, thanModifier: @Composable Modifier.() -> Modifier): Modifier = composed {
     if (condition) {
         this.thanModifier()
@@ -122,6 +80,7 @@ fun Modifier.thenIf(condition: Boolean, thanModifier: @Composable Modifier.() ->
     }
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @SuppressLint("ComposableNaming")
 @Composable
 fun onScreenStart(
@@ -134,10 +93,12 @@ fun onScreenStart(
     }
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun Modifier.consumeClicks() = clickableNoIndication {
     // consume click
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun Modifier.clickableNoIndication(
     onClick: () -> Unit
 ): Modifier = composed {
@@ -149,6 +110,7 @@ fun Modifier.clickableNoIndication(
     )
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun Modifier.drawColoredShadow(
     color: Color,
     alpha: Float = 0.15f,
@@ -181,20 +143,25 @@ fun Modifier.drawColoredShadow(
     }
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun selectEndTextFieldValue(text: String?) = TextFieldValue(
     text = text ?: "",
     selection = TextRange(text?.length ?: 0)
 )
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun Dp.toDensityPx() = densityScope { toPx() }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun Int.toDensityDp() = densityScope { toDp() }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun Float.toDensityDp() = densityScope { toDp() }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun openUrl(uriHandler: UriHandler, url: String) {
     uriHandler.openUri(url)
 }

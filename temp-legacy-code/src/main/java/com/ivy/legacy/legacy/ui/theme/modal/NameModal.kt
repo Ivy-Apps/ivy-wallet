@@ -23,6 +23,7 @@ import com.ivy.wallet.ui.theme.components.IvyTitleTextField
 import com.ivy.legacy.utils.selectEndTextFieldValue
 import java.util.UUID
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.NameModal(
     visible: Boolean,

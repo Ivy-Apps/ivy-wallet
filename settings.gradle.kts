@@ -12,7 +12,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "IvyWallet"
 include(":app")
-include(":ivy-design")
+include(":temp-old-design")
 include(":ivy-core")
 include(":ivy-navigation")
 include(":ivy-resources")
@@ -40,4 +40,7 @@ include(":screen-balance")
 include(":ivy-core-ui")
 include(":screen-features")
 include(":screen-attributions")
+include(":ivy-testing")
+include(":ivy-design")
+include(":screen-main")
 include(":screen-contributors")

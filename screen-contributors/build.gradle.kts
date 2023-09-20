@@ -15,4 +15,5 @@ dependencies {
 
     implementation(libs.bundles.ktor)
     implementation(projects.tempLegacyCode)
+    implementation(projects.tempOldDesign)
 }

@@ -50,6 +50,7 @@ import com.ivy.legacy.utils.toLowerCaseLocal
 import com.ivy.legacy.utils.toUpperCaseLocal
 import java.util.UUID
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 data class AccountModalData(
     val account: Account?,
     val baseCurrency: String,
@@ -60,6 +61,7 @@ data class AccountModalData(
     val id: UUID = UUID.randomUUID()
 )
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.AccountModal(
     modal: AccountModalData?,

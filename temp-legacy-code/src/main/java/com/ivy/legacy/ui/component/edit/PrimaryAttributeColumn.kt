@@ -27,6 +27,7 @@ import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.legacy.utils.clickableNoIndication
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun PrimaryAttributeColumn(
     @DrawableRes icon: Int,
