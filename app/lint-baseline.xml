@@ -46,6 +46,72 @@
     </issue>
 
     <issue
+        id="GradleDependency"
+        message="A newer version of androidx.compose.material3:material3 than 1.1.1 is available: 1.1.2"
+        errorLine1="compose-material3 = &quot;1.1.1&quot;"
+        errorLine2="                    ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="10"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.compose.material3:material3-window-size-class than 1.1.1 is available: 1.1.2"
+        errorLine1="compose-material3 = &quot;1.1.1&quot;"
+        errorLine2="                    ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="10"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.room:room-compiler than 2.6.0-beta01 is available: 2.6.0-rc01"
+        errorLine1="room = &quot;2.6.0-beta01&quot;"
+        errorLine2="       ~~~~~~~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="13"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.room:room-ktx than 2.6.0-beta01 is available: 2.6.0-rc01"
+        errorLine1="room = &quot;2.6.0-beta01&quot;"
+        errorLine2="       ~~~~~~~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="13"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.room:room-runtime than 2.6.0-beta01 is available: 2.6.0-rc01"
+        errorLine1="room = &quot;2.6.0-beta01&quot;"
+        errorLine2="       ~~~~~~~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="13"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.activity:activity-ktx than 1.8.0-beta01 is available: 1.8.0-rc01"
+        errorLine1="androidx-activity = { module = &quot;androidx.activity:activity-ktx&quot;, version = &quot;1.8.0-beta01&quot; }"
+        errorLine2="                                                                           ~~~~~~~~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="103"
+            column="76"/>
+    </issue>
+
+    <issue
         id="PrivateResource"
         message="Overriding `@string/selected` which is marked as private in androidx.compose.ui:ui-android:1.5.1. If deliberate, use tools:override=&quot;true&quot;, otherwise pick a different name."
         errorLine1="    &lt;string name=&quot;selected&quot;>تم تحديده&lt;/string>"
@@ -151,7 +217,7 @@
         errorLine2="              ~~~~~~~~">
         <location
             file="src/main/java/com/ivy/design/utils/Compose.kt"
-            line="24"
+            line="26"
             column="15"/>
     </issue>
 
@@ -162,7 +228,7 @@
         errorLine2="              ~~~~~~~~">
         <location
             file="src/main/java/com/ivy/design/utils/Compose.kt"
-            line="35"
+            line="38"
             column="15"/>
     </issue>
 
@@ -173,7 +239,7 @@
         errorLine2="                                                                                                       ~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/utils/ComposeExt.kt"
-            line="117"
+            line="75"
             column="104"/>
     </issue>
 
@@ -184,7 +250,7 @@
         errorLine2="                                           ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ItemIcon.kt"
-            line="239"
+            line="219"
             column="44"/>
     </issue>
 
@@ -195,7 +261,7 @@
         errorLine2="                                           ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ItemIcon.kt"
-            line="289"
+            line="272"
             column="44"/>
     </issue>
 
@@ -312,17 +378,6 @@
             file="src/main/java/com/ivy/piechart/PieChart.kt"
             line="168"
             column="17"/>
-    </issue>
-
-    <issue
-        id="ObsoleteSdkInt"
-        message="Unnecessary; SDK_INT is always >= 23"
-        errorLine1="@RequiresApi(api = Build.VERSION_CODES.M)"
-        errorLine2="~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/ivy/legacy/utils/UIExt.kt"
-            line="125"
-            column="1"/>
     </issue>
 
     <issue
@@ -1318,7 +1373,7 @@
         errorLine2="        ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/AccountModal.kt"
-            line="78"
+            line="80"
             column="9"/>
     </issue>
 
@@ -1329,7 +1384,7 @@
         errorLine2="        ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/BudgetModal.kt"
-            line="80"
+            line="82"
             column="9"/>
     </issue>
 
@@ -1340,7 +1395,7 @@
         errorLine2="        ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/BufferModal.kt"
-            line="31"
+            line="33"
             column="9"/>
     </issue>
 
@@ -1351,7 +1406,7 @@
         errorLine2="                                      ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/edit/core/EditBottomSheet.kt"
-            line="135"
+            line="137"
             column="39"/>
     </issue>
 
@@ -1395,7 +1450,7 @@
         errorLine2="                                     ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/design/l2_components/InputField.kt"
-            line="244"
+            line="248"
             column="38"/>
     </issue>
 
@@ -1406,52 +1461,8 @@
         errorLine2="                                           ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/IvyModal.kt"
-            line="126"
+            line="129"
             column="44"/>
-    </issue>
-
-    <issue
-        id="AutoboxingStateCreation"
-        message="Prefer `mutableFloatStateOf` instead of `mutableStateOf`"
-        errorLine1="    var dragDistance by remember { mutableStateOf(0f) }"
-        errorLine2="                                   ~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyViewPager.kt"
-            line="57"
-            column="36"/>
-    </issue>
-
-    <issue
-        id="AutoboxingStateCreation"
-        message="Prefer `mutableFloatStateOf` instead of `mutableStateOf`"
-        errorLine1="    private var _offset = mutableStateOf(0f)"
-        errorLine2="                          ~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyViewPager.kt"
-            line="204"
-            column="27"/>
-    </issue>
-
-    <issue
-        id="AutoboxingStateCreation"
-        message="Prefer `mutableIntStateOf` instead of `mutableStateOf`"
-        errorLine1="    private var _maxPage by mutableStateOf(maxPage)"
-        errorLine2="                            ~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyViewPager.kt"
-            line="221"
-            column="29"/>
-    </issue>
-
-    <issue
-        id="AutoboxingStateCreation"
-        message="Prefer `mutableIntStateOf` instead of `mutableStateOf`"
-        errorLine1="    private var _currentPage by mutableStateOf(currentPage.coerceIn(minPage, maxPage))"
-        errorLine2="                                ~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyViewPager.kt"
-            line="229"
-            column="33"/>
     </issue>
 
     <issue
@@ -1461,7 +1472,7 @@
         errorLine2="        ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanModal.kt"
-            line="99"
+            line="101"
             column="9"/>
     </issue>
 
@@ -1472,7 +1483,7 @@
         errorLine2="        ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanRecordModal.kt"
-            line="94"
+            line="96"
             column="9"/>
     </issue>
 
@@ -1483,7 +1494,7 @@
         errorLine2="        ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/MonthPickerModal.kt"
-            line="49"
+            line="50"
             column="9"/>
     </issue>
 
@@ -1505,52 +1516,8 @@
         errorLine2="        ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/RecurringRuleModal.kt"
-            line="86"
+            line="88"
             column="9"/>
-    </issue>
-
-    <issue
-        id="AutoboxingStateCreation"
-        message="Prefer `mutableIntStateOf` instead of `mutableStateOf`"
-        errorLine1="    var pageSize by remember { mutableStateOf(0) }"
-        errorLine2="                               ~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ViewPager.kt"
-            line="54"
-            column="32"/>
-    </issue>
-
-    <issue
-        id="AutoboxingStateCreation"
-        message="Prefer `mutableIntStateOf` instead of `mutableStateOf`"
-        errorLine1="    private var _minPage by mutableStateOf(minPage)"
-        errorLine2="                            ~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ViewPager.kt"
-            line="179"
-            column="29"/>
-    </issue>
-
-    <issue
-        id="AutoboxingStateCreation"
-        message="Prefer `mutableIntStateOf` instead of `mutableStateOf`"
-        errorLine1="    private var _maxPage by mutableStateOf(maxPage, structuralEqualityPolicy())"
-        errorLine2="                            ~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ViewPager.kt"
-            line="187"
-            column="29"/>
-    </issue>
-
-    <issue
-        id="AutoboxingStateCreation"
-        message="Prefer `mutableIntStateOf` instead of `mutableStateOf`"
-        errorLine1="    private var _currentPage by mutableStateOf(currentPage.coerceIn(minPage, maxPage))"
-        errorLine2="                                ~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ViewPager.kt"
-            line="195"
-            column="33"/>
     </issue>
 
     <issue
@@ -1985,17 +1952,6 @@
         errorLine2="^">
         <location
             file="../ivy-resources/src/main/res/drawable/ic_custom_atom_l.xml"
-            line="1"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
-        message="The resource `R.drawable.ic_custom_atom_m` appears to be unused"
-        errorLine1="&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
-        errorLine2="^">
-        <location
-            file="../ivy-resources/src/main/res/drawable/ic_custom_atom_m.xml"
             line="1"
             column="1"/>
     </issue>
@@ -8653,6 +8609,17 @@
 
     <issue
         id="UnusedResources"
+        message="The resource `R.string.create` appears to be unused"
+        errorLine1="    &lt;string name=&quot;create&quot;>Create&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~">
+        <location
+            file="../ivy-resources/src/main/res/values/strings.xml"
+            line="307"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
         message="The resource `R.string.submit` appears to be unused"
         errorLine1="    &lt;string name=&quot;submit&quot;>Submit&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~">
@@ -8958,33 +8925,33 @@
     <issue
         id="ComposeCompositionLocalUsage"
         message="`CompositionLocal`s are implicit dependencies and creating new ones should be avoided.&#xA;See https://slackhq.github.io/compose-lints/rules/#compositionlocals for more information."
-        errorLine1="val LocalIvyColors = compositionLocalOf&lt;IvyColors> { error(&quot;No IvyColors&quot;) }"
-        errorLine2="~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
+        errorLine2="^">
         <location
             file="src/main/java/com/ivy/design/l0_system/IvyTheme.kt"
-            line="22"
+            line="17"
             column="1"/>
     </issue>
 
     <issue
         id="ComposeCompositionLocalUsage"
         message="`CompositionLocal`s are implicit dependencies and creating new ones should be avoided.&#xA;See https://slackhq.github.io/compose-lints/rules/#compositionlocals for more information."
-        errorLine1="val LocalIvyTypography = compositionLocalOf&lt;IvyTypography> { error(&quot;No IvyTypography&quot;) }"
-        errorLine2="~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
+        errorLine2="^">
+        <location
+            file="src/main/java/com/ivy/design/l0_system/IvyTheme.kt"
+            line="20"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="ComposeCompositionLocalUsage"
+        message="`CompositionLocal`s are implicit dependencies and creating new ones should be avoided.&#xA;See https://slackhq.github.io/compose-lints/rules/#compositionlocals for more information."
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
+        errorLine2="^">
         <location
             file="src/main/java/com/ivy/design/l0_system/IvyTheme.kt"
             line="23"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeCompositionLocalUsage"
-        message="`CompositionLocal`s are implicit dependencies and creating new ones should be avoided.&#xA;See https://slackhq.github.io/compose-lints/rules/#compositionlocals for more information."
-        errorLine1="val LocalIvyShapes = compositionLocalOf&lt;IvyShapes> { error(&quot;No IvyShapes&quot;) }"
-        errorLine2="~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/ivy/design/l0_system/IvyTheme.kt"
-            line="24"
             column="1"/>
     </issue>
 
@@ -9028,7 +8995,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/wallet/AmountCurrency.kt"
-            line="67"
+            line="68"
             column="1"/>
     </issue>
 
@@ -9039,7 +9006,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/wallet/AmountCurrency.kt"
-            line="95"
+            line="96"
             column="1"/>
     </issue>
 
@@ -9050,7 +9017,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/wallet/AmountCurrency.kt"
-            line="145"
+            line="146"
             column="1"/>
     </issue>
 
@@ -9061,7 +9028,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/AmountModal.kt"
-            line="272"
+            line="273"
             column="1"/>
     </issue>
 
@@ -9072,7 +9039,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/BudgetModal.kt"
-            line="251"
+            line="253"
             column="1"/>
     </issue>
 
@@ -9138,7 +9105,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/ChoosePeriodModal.kt"
-            line="154"
+            line="156"
             column="1"/>
     </issue>
 
@@ -9149,7 +9116,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/ChoosePeriodModal.kt"
-            line="278"
+            line="281"
             column="1"/>
     </issue>
 
@@ -9160,7 +9127,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/ChoosePeriodModal.kt"
-            line="425"
+            line="428"
             column="1"/>
     </issue>
 
@@ -9171,7 +9138,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/ChoosePeriodModal.kt"
-            line="484"
+            line="487"
             column="1"/>
     </issue>
 
@@ -9182,7 +9149,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/CurrencyPicker.kt"
-            line="337"
+            line="339"
             column="1"/>
     </issue>
 
@@ -9193,7 +9160,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/CurrencyPicker.kt"
-            line="385"
+            line="387"
             column="1"/>
     </issue>
 
@@ -9215,7 +9182,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/edit/core/EditBottomSheet.kt"
-            line="568"
+            line="570"
             column="1"/>
     </issue>
 
@@ -9226,7 +9193,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/edit/core/EditBottomSheet.kt"
-            line="617"
+            line="619"
             column="1"/>
     </issue>
 
@@ -9321,7 +9288,7 @@
     <issue
         id="ComposeContentEmitterReturningValues"
         message="Composable functions should either emit content into the composition or return a value, but not both.&#xA;If a composable should offer additional control surfaces to its caller, those control surfaces or callbacks should be provided as parameters to the composable function by the caller.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-content-and-return-a-result for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/transaction/HistoryDateDivider.kt"
@@ -9380,7 +9347,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyBorderButton.kt"
-            line="117"
+            line="118"
             column="1"/>
     </issue>
 
@@ -9391,7 +9358,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyBorderButton.kt"
-            line="134"
+            line="135"
             column="1"/>
     </issue>
 
@@ -9402,7 +9369,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyButton.kt"
-            line="144"
+            line="145"
             column="1"/>
     </issue>
 
@@ -9413,7 +9380,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyButton.kt"
-            line="163"
+            line="164"
             column="1"/>
     </issue>
 
@@ -9424,7 +9391,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/IvyColorPicker.kt"
-            line="126"
+            line="128"
             column="1"/>
     </issue>
 
@@ -9442,7 +9409,7 @@
     <issue
         id="ComposeContentEmitterReturningValues"
         message="Composable functions should either emit content into the composition or return a value, but not both.&#xA;If a composable should offer additional control surfaces to its caller, those control surfaces or callbacks should be provided as parameters to the composable function by the caller.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-content-and-return-a-result for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ListItem.kt"
@@ -9468,7 +9435,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanModal.kt"
-            line="389"
+            line="391"
             column="1"/>
     </issue>
 
@@ -9479,6 +9446,50 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanModal.kt"
+            line="440"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="ComposeContentEmitterReturningValues"
+        message="Composable functions should either emit content into the composition or return a value, but not both.&#xA;If a composable should offer additional control surfaces to its caller, those control surfaces or callbacks should be provided as parameters to the composable function by the caller.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-content-and-return-a-result for more information."
+        errorLine1="@Composable"
+        errorLine2="^">
+        <location
+            file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanRecordModal.kt"
+            line="500"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="ComposeContentEmitterReturningValues"
+        message="Composable functions should either emit content into the composition or return a value, but not both.&#xA;If a composable should offer additional control surfaces to its caller, those control surfaces or callbacks should be provided as parameters to the composable function by the caller.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-content-and-return-a-result for more information."
+        errorLine1="@Composable"
+        errorLine2="^">
+        <location
+            file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanRecordModal.kt"
+            line="549"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="ComposeContentEmitterReturningValues"
+        message="Composable functions should either emit content into the composition or return a value, but not both.&#xA;If a composable should offer additional control surfaces to its caller, those control surfaces or callbacks should be provided as parameters to the composable function by the caller.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-content-and-return-a-result for more information."
+        errorLine1="@Composable"
+        errorLine2="^">
+        <location
+            file="src/main/java/com/ivy/main/MainBottomBar.kt"
+            line="352"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="ComposeContentEmitterReturningValues"
+        message="Composable functions should either emit content into the composition or return a value, but not both.&#xA;If a composable should offer additional control surfaces to its caller, those control surfaces or callbacks should be provided as parameters to the composable function by the caller.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-content-and-return-a-result for more information."
+        errorLine1="@Composable"
+        errorLine2="^">
+        <location
+            file="src/main/java/com/ivy/main/MainBottomBar.kt"
             line="438"
             column="1"/>
     </issue>
@@ -9489,52 +9500,8 @@
         errorLine1="@Composable"
         errorLine2="^">
         <location
-            file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanRecordModal.kt"
-            line="498"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeContentEmitterReturningValues"
-        message="Composable functions should either emit content into the composition or return a value, but not both.&#xA;If a composable should offer additional control surfaces to its caller, those control surfaces or callbacks should be provided as parameters to the composable function by the caller.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-content-and-return-a-result for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
-            file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanRecordModal.kt"
-            line="547"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeContentEmitterReturningValues"
-        message="Composable functions should either emit content into the composition or return a value, but not both.&#xA;If a composable should offer additional control surfaces to its caller, those control surfaces or callbacks should be provided as parameters to the composable function by the caller.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-content-and-return-a-result for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
-            file="src/main/java/com/ivy/wallet/ui/main/MainBottomBar.kt"
-            line="351"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeContentEmitterReturningValues"
-        message="Composable functions should either emit content into the composition or return a value, but not both.&#xA;If a composable should offer additional control surfaces to its caller, those control surfaces or callbacks should be provided as parameters to the composable function by the caller.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-content-and-return-a-result for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
-            file="src/main/java/com/ivy/wallet/ui/main/MainBottomBar.kt"
-            line="437"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeContentEmitterReturningValues"
-        message="Composable functions should either emit content into the composition or return a value, but not both.&#xA;If a composable should offer additional control surfaces to its caller, those control surfaces or callbacks should be provided as parameters to the composable function by the caller.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-content-and-return-a-result for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
-            file="src/main/java/com/ivy/wallet/ui/main/MainBottomBar.kt"
-            line="523"
+            file="src/main/java/com/ivy/main/MainBottomBar.kt"
+            line="524"
             column="1"/>
     </issue>
 
@@ -9578,7 +9545,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/RecurringRuleModal.kt"
-            line="229"
+            line="231"
             column="1"/>
     </issue>
 
@@ -9589,7 +9556,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/RecurringRuleModal.kt"
-            line="243"
+            line="245"
             column="1"/>
     </issue>
 
@@ -9600,7 +9567,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/settings/SettingsScreen.kt"
-            line="763"
+            line="770"
             column="1"/>
     </issue>
 
@@ -9611,7 +9578,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/settings/SettingsScreen.kt"
-            line="1031"
+            line="1039"
             column="1"/>
     </issue>
 
@@ -9629,7 +9596,7 @@
     <issue
         id="ComposeContentEmitterReturningValues"
         message="Composable functions should either emit content into the composition or return a value, but not both.&#xA;If a composable should offer additional control surfaces to its caller, those control surfaces or callbacks should be provided as parameters to the composable function by the caller.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-content-and-return-a-result for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/transaction/TransactionCard.kt"
@@ -9640,7 +9607,7 @@
     <issue
         id="ComposeContentEmitterReturningValues"
         message="Composable functions should either emit content into the composition or return a value, but not both.&#xA;If a composable should offer additional control surfaces to its caller, those control surfaces or callbacks should be provided as parameters to the composable function by the caller.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-content-and-return-a-result for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/transaction/TransactionSectionDivider.kt"
@@ -9655,7 +9622,7 @@
         errorLine2="                            ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/AccountModal.kt"
-            line="64"
+            line="66"
             column="29"/>
     </issue>
 
@@ -9666,7 +9633,7 @@
         errorLine2="                            ~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/AddKeywordModal.kt"
-            line="30"
+            line="31"
             column="29"/>
     </issue>
 
@@ -9677,7 +9644,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/AddPrimaryAttributeButton.kt"
-            line="25"
+            line="26"
             column="5"/>
     </issue>
 
@@ -9699,7 +9666,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/wallet/AmountCurrency.kt"
-            line="21"
+            line="22"
             column="5"/>
     </issue>
 
@@ -9710,7 +9677,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/wallet/AmountCurrency.kt"
-            line="49"
+            line="50"
             column="5"/>
     </issue>
 
@@ -9721,7 +9688,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/wallet/AmountCurrency.kt"
-            line="68"
+            line="69"
             column="5"/>
     </issue>
 
@@ -9732,7 +9699,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/wallet/AmountCurrency.kt"
-            line="96"
+            line="97"
             column="5"/>
     </issue>
 
@@ -9743,7 +9710,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/wallet/AmountCurrency.kt"
-            line="119"
+            line="120"
             column="5"/>
     </issue>
 
@@ -9754,7 +9721,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/wallet/AmountCurrency.kt"
-            line="146"
+            line="147"
             column="5"/>
     </issue>
 
@@ -9765,7 +9732,7 @@
         errorLine2="                            ~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/AmountModal.kt"
-            line="58"
+            line="59"
             column="29"/>
     </issue>
 
@@ -9776,7 +9743,7 @@
         errorLine2="    ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/AmountModal.kt"
-            line="163"
+            line="164"
             column="5"/>
     </issue>
 
@@ -9787,7 +9754,7 @@
         errorLine2="    ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/AmountModal.kt"
-            line="273"
+            line="274"
             column="5"/>
     </issue>
 
@@ -9798,7 +9765,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/AmountModal.kt"
-            line="467"
+            line="468"
             column="5"/>
     </issue>
 
@@ -9820,7 +9787,7 @@
         errorLine2="                            ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/BackBottomBar.kt"
-            line="19"
+            line="20"
             column="29"/>
     </issue>
 
@@ -9831,7 +9798,7 @@
         errorLine2="                            ~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/BudgetModal.kt"
-            line="67"
+            line="69"
             column="29"/>
     </issue>
 
@@ -9842,7 +9809,7 @@
         errorLine2="    ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/BudgetModal.kt"
-            line="212"
+            line="214"
             column="5"/>
     </issue>
 
@@ -9853,7 +9820,7 @@
         errorLine2="                            ~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/BufferModal.kt"
-            line="25"
+            line="27"
             column="29"/>
     </issue>
 
@@ -9886,7 +9853,7 @@
         errorLine2="                            ~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/CalculatorModal.kt"
-            line="40"
+            line="41"
             column="29"/>
     </issue>
 
@@ -9908,7 +9875,7 @@
         errorLine2="    ~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/edit/core/Category.kt"
-            line="21"
+            line="22"
             column="5"/>
     </issue>
 
@@ -9919,7 +9886,7 @@
         errorLine2="                            ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/CategoryModal.kt"
-            line="62"
+            line="64"
             column="29"/>
     </issue>
 
@@ -9930,7 +9897,7 @@
         errorLine2="    ~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/CategoryModal.kt"
-            line="164"
+            line="166"
             column="5"/>
     </issue>
 
@@ -9941,7 +9908,7 @@
         errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ChangeTransactionTypeModal.kt"
-            line="43"
+            line="44"
             column="29"/>
     </issue>
 
@@ -9952,7 +9919,7 @@
         errorLine2="                            ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/ChooseCategoryModal.kt"
-            line="57"
+            line="58"
             column="29"/>
     </issue>
 
@@ -9963,7 +9930,7 @@
         errorLine2="                            ~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/ChooseIconModal.kt"
-            line="49"
+            line="51"
             column="29"/>
     </issue>
 
@@ -9974,7 +9941,7 @@
         errorLine2="                            ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/ChoosePeriodModal.kt"
-            line="68"
+            line="70"
             column="29"/>
     </issue>
 
@@ -9985,7 +9952,7 @@
         errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/ChooseStartDateOfMonthModal.kt"
-            line="35"
+            line="36"
             column="29"/>
     </issue>
 
@@ -9996,7 +9963,7 @@
         errorLine2="                            ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/CurrencyModal.kt"
-            line="31"
+            line="32"
             column="29"/>
     </issue>
 
@@ -10040,7 +10007,7 @@
         errorLine2="                            ~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/DeleteModal.kt"
-            line="20"
+            line="21"
             column="29"/>
     </issue>
 
@@ -10051,7 +10018,7 @@
         errorLine2="                            ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/DescriptionModal.kt"
-            line="42"
+            line="43"
             column="29"/>
     </issue>
 
@@ -10062,7 +10029,7 @@
         errorLine2="    ~~~~~~~~">
         <location
             file="src/main/java/com/ivy/design/l1_buildingBlocks/Dividers.kt"
-            line="17"
+            line="18"
             column="5"/>
     </issue>
 
@@ -10073,7 +10040,7 @@
         errorLine2="    ~~~~~~~~">
         <location
             file="src/main/java/com/ivy/design/l1_buildingBlocks/Dividers.kt"
-            line="44"
+            line="46"
             column="5"/>
     </issue>
 
@@ -10084,19 +10051,8 @@
         errorLine2="             ~~~~~~~~">
         <location
             file="src/main/java/com/ivy/design/l1_buildingBlocks/Dividers.kt"
-            line="71"
+            line="74"
             column="14"/>
-    </issue>
-
-    <issue
-        id="ComposeModifierMissing"
-        message="This @Composable function emits content but doesn&apos;t have a modifier parameter.&#xA;See https://slackhq.github.io/compose-lints/rules/#when-should-i-expose-modifier-parameters for more information."
-        errorLine1="fun ColumnScope.DividerW("
-        errorLine2="                ~~~~~~~~">
-        <location
-            file="src/main/java/com/ivy/design/l1_buildingBlocks/Dividers.kt"
-            line="87"
-            column="17"/>
     </issue>
 
     <issue
@@ -10106,7 +10062,7 @@
         errorLine2="                            ~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/edit/core/EditBottomSheet.kt"
-            line="93"
+            line="95"
             column="29"/>
     </issue>
 
@@ -10139,7 +10095,7 @@
         errorLine2="                            ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/GradientCut.kt"
-            line="21"
+            line="22"
             column="29"/>
     </issue>
 
@@ -10150,7 +10106,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/transaction/HistoryDateDivider.kt"
-            line="30"
+            line="31"
             column="5"/>
     </issue>
 
@@ -10271,7 +10227,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/IncomeExpenseCards.kt"
-            line="40"
+            line="41"
             column="5"/>
     </issue>
 
@@ -10282,7 +10238,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IntervalPickerRow.kt"
-            line="39"
+            line="40"
             column="5"/>
     </issue>
 
@@ -10293,7 +10249,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/ItemStatisticToolbar.kt"
-            line="21"
+            line="22"
             column="5"/>
     </issue>
 
@@ -10304,7 +10260,7 @@
         errorLine2="                ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/IvyColorPicker.kt"
-            line="49"
+            line="51"
             column="17"/>
     </issue>
 
@@ -10315,7 +10271,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/IvyComposeApp.kt"
-            line="41"
+            line="44"
             column="5"/>
     </issue>
 
@@ -10326,7 +10282,7 @@
         errorLine2="    ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyDividerDot.kt"
-            line="15"
+            line="16"
             column="5"/>
     </issue>
 
@@ -10337,7 +10293,7 @@
         errorLine2="             ~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/IvyModal.kt"
-            line="64"
+            line="67"
             column="14"/>
     </issue>
 
@@ -10348,7 +10304,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/IvyModal.kt"
-            line="249"
+            line="255"
             column="5"/>
     </issue>
 
@@ -10359,7 +10315,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/IvyModal.kt"
-            line="333"
+            line="339"
             column="5"/>
     </issue>
 
@@ -10370,7 +10326,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/IvyModalComponents.kt"
-            line="25"
+            line="26"
             column="5"/>
     </issue>
 
@@ -10381,7 +10337,7 @@
         errorLine2="    ~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/IvyModalComponents.kt"
-            line="131"
+            line="137"
             column="5"/>
     </issue>
 
@@ -10392,7 +10348,7 @@
         errorLine2="    ~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/IvyModalComponents.kt"
-            line="209"
+            line="189"
             column="5"/>
     </issue>
 
@@ -10403,7 +10359,7 @@
         errorLine2="    ~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/IvyModalComponents.kt"
-            line="227"
+            line="208"
             column="5"/>
     </issue>
 
@@ -10414,7 +10370,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/IvyModalDomainComponents.kt"
-            line="23"
+            line="24"
             column="5"/>
     </issue>
 
@@ -10425,7 +10381,7 @@
         errorLine2="    ~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyToolbar.kt"
-            line="17"
+            line="19"
             column="5"/>
     </issue>
 
@@ -10436,18 +10392,7 @@
         errorLine2="    ~~~~~">
         <location
             file="src/main/java/com/ivy/design/api/IvyUI.kt"
-            line="18"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="ComposeModifierMissing"
-        message="This @Composable function emits content but doesn&apos;t have a modifier parameter.&#xA;See https://slackhq.github.io/compose-lints/rules/#when-should-i-expose-modifier-parameters for more information."
-        errorLine1="fun IvyPager("
-        errorLine2="    ~~~~~~~~">
-        <location
-            file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyViewPager.kt"
-            line="52"
+            line="19"
             column="5"/>
     </issue>
 
@@ -10469,7 +10414,7 @@
         errorLine2="    ~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ListItem.kt"
-            line="26"
+            line="27"
             column="5"/>
     </issue>
 
@@ -10480,7 +10425,7 @@
         errorLine2="                            ~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanModal.kt"
-            line="81"
+            line="83"
             column="29"/>
     </issue>
 
@@ -10491,7 +10436,7 @@
         errorLine2="                            ~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanRecordModal.kt"
-            line="76"
+            line="78"
             column="29"/>
     </issue>
 
@@ -10501,8 +10446,8 @@
         errorLine1="fun BoxWithConstraintsScope.BottomBar("
         errorLine2="                            ~~~~~~~~~">
         <location
-            file="src/main/java/com/ivy/wallet/ui/main/MainBottomBar.kt"
-            line="75"
+            file="src/main/java/com/ivy/main/MainBottomBar.kt"
+            line="76"
             column="29"/>
     </issue>
 
@@ -10535,7 +10480,7 @@
         errorLine2="                            ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/MonthPickerModal.kt"
-            line="41"
+            line="42"
             column="29"/>
     </issue>
 
@@ -10546,7 +10491,7 @@
         errorLine2="                            ~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/NameModal.kt"
-            line="27"
+            line="28"
             column="29"/>
     </issue>
 
@@ -10700,7 +10645,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/design/utils/Preview.kt"
-            line="19"
+            line="20"
             column="5"/>
     </issue>
 
@@ -10711,7 +10656,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/edit/PrimaryAttributeColumn.kt"
-            line="31"
+            line="32"
             column="5"/>
     </issue>
 
@@ -10722,7 +10667,7 @@
         errorLine2="                            ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/ProgressModal.kt"
-            line="22"
+            line="23"
             column="29"/>
     </issue>
 
@@ -10744,7 +10689,7 @@
         errorLine2="                            ~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/RecurringRuleModal.kt"
-            line="73"
+            line="75"
             column="29"/>
     </issue>
 
@@ -10755,7 +10700,7 @@
         errorLine2="                               ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ReorderModal.kt"
-            line="38"
+            line="39"
             column="32"/>
     </issue>
 
@@ -10766,7 +10711,7 @@
         errorLine2="                               ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ReorderModal.kt"
-            line="78"
+            line="80"
             column="32"/>
     </issue>
 
@@ -10777,7 +10722,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/design/l3_ivyComponents/ScreenTitle.kt"
-            line="17"
+            line="18"
             column="5"/>
     </issue>
 
@@ -10788,7 +10733,7 @@
         errorLine2="    ~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/design/l3_ivyComponents/ScreenTitle.kt"
-            line="31"
+            line="33"
             column="5"/>
     </issue>
 
@@ -10799,7 +10744,7 @@
         errorLine2="    ~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/SearchInput.kt"
-            line="28"
+            line="29"
             column="5"/>
     </issue>
 
@@ -10810,7 +10755,7 @@
         errorLine2="    ~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/design/l1_buildingBlocks/Spacers.kt"
-            line="13"
+            line="10"
             column="5"/>
     </issue>
 
@@ -10821,7 +10766,7 @@
         errorLine2="    ~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/design/l1_buildingBlocks/Spacers.kt"
-            line="20"
+            line="18"
             column="5"/>
     </issue>
 
@@ -10832,19 +10777,8 @@
         errorLine2="             ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/design/l1_buildingBlocks/Spacers.kt"
-            line="27"
+            line="26"
             column="14"/>
-    </issue>
-
-    <issue
-        id="ComposeModifierMissing"
-        message="This @Composable function emits content but doesn&apos;t have a modifier parameter.&#xA;See https://slackhq.github.io/compose-lints/rules/#when-should-i-expose-modifier-parameters for more information."
-        errorLine1="fun ColumnScope.SpacerWeight("
-        errorLine2="                ~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/ivy/design/l1_buildingBlocks/Spacers.kt"
-            line="34"
-            column="17"/>
     </issue>
 
     <issue
@@ -10876,7 +10810,7 @@
         errorLine2="                ~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/edit/core/Title.kt"
-            line="39"
+            line="40"
             column="17"/>
     </issue>
 
@@ -10887,7 +10821,7 @@
         errorLine2="    ~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/edit/core/Toolbar.kt"
-            line="20"
+            line="21"
             column="5"/>
     </issue>
 
@@ -10898,7 +10832,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/transaction/TransactionCard.kt"
-            line="71"
+            line="72"
             column="5"/>
     </issue>
 
@@ -10909,7 +10843,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/transaction/TransactionCard.kt"
-            line="407"
+            line="408"
             column="5"/>
     </issue>
 
@@ -10920,7 +10854,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/edit/TransactionDateTime.kt"
-            line="30"
+            line="31"
             column="5"/>
     </issue>
 
@@ -10931,7 +10865,7 @@
         errorLine2="    ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/transaction/TransactionSectionDivider.kt"
-            line="35"
+            line="36"
             column="5"/>
     </issue>
 
@@ -10942,7 +10876,7 @@
         errorLine2="    ^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ItemIcon.kt"
-            line="49"
+            line="51"
             column="5"/>
     </issue>
 
@@ -10953,7 +10887,7 @@
         errorLine2="            ^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ItemIcon.kt"
-            line="54"
+            line="56"
             column="13"/>
     </issue>
 
@@ -10964,7 +10898,7 @@
         errorLine2="    ^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ItemIcon.kt"
-            line="90"
+            line="94"
             column="5"/>
     </issue>
 
@@ -10975,7 +10909,7 @@
         errorLine2="            ^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ItemIcon.kt"
-            line="95"
+            line="99"
             column="13"/>
     </issue>
 
@@ -10986,7 +10920,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/charts/linechart/IvyLineChart.kt"
-            line="323"
+            line="334"
             column="5"/>
     </issue>
 
@@ -11008,7 +10942,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/wallet/AmountCurrency.kt"
-            line="67"
+            line="68"
             column="1"/>
     </issue>
 
@@ -11019,7 +10953,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/wallet/AmountCurrency.kt"
-            line="95"
+            line="96"
             column="1"/>
     </issue>
 
@@ -11030,7 +10964,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/wallet/AmountCurrency.kt"
-            line="145"
+            line="146"
             column="1"/>
     </issue>
 
@@ -11041,7 +10975,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/AmountModal.kt"
-            line="272"
+            line="273"
             column="1"/>
     </issue>
 
@@ -11052,7 +10986,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/BudgetModal.kt"
-            line="251"
+            line="253"
             column="1"/>
     </issue>
 
@@ -11118,7 +11052,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/ChoosePeriodModal.kt"
-            line="154"
+            line="156"
             column="1"/>
     </issue>
 
@@ -11129,7 +11063,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/ChoosePeriodModal.kt"
-            line="278"
+            line="281"
             column="1"/>
     </issue>
 
@@ -11140,7 +11074,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/ChoosePeriodModal.kt"
-            line="425"
+            line="428"
             column="1"/>
     </issue>
 
@@ -11151,7 +11085,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/ChoosePeriodModal.kt"
-            line="484"
+            line="487"
             column="1"/>
     </issue>
 
@@ -11162,7 +11096,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/CurrencyPicker.kt"
-            line="337"
+            line="339"
             column="1"/>
     </issue>
 
@@ -11173,7 +11107,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/CurrencyPicker.kt"
-            line="385"
+            line="387"
             column="1"/>
     </issue>
 
@@ -11195,7 +11129,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/edit/core/EditBottomSheet.kt"
-            line="568"
+            line="570"
             column="1"/>
     </issue>
 
@@ -11206,7 +11140,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/edit/core/EditBottomSheet.kt"
-            line="617"
+            line="619"
             column="1"/>
     </issue>
 
@@ -11301,7 +11235,7 @@
     <issue
         id="ComposeMultipleContentEmitters"
         message="Composable functions should only be emitting content into the composition from one source at their top level.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-multiple-pieces-of-content for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/transaction/HistoryDateDivider.kt"
@@ -11360,7 +11294,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyBorderButton.kt"
-            line="117"
+            line="118"
             column="1"/>
     </issue>
 
@@ -11371,7 +11305,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyBorderButton.kt"
-            line="134"
+            line="135"
             column="1"/>
     </issue>
 
@@ -11382,7 +11316,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyButton.kt"
-            line="144"
+            line="145"
             column="1"/>
     </issue>
 
@@ -11393,7 +11327,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyButton.kt"
-            line="163"
+            line="164"
             column="1"/>
     </issue>
 
@@ -11404,7 +11338,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/IvyColorPicker.kt"
-            line="126"
+            line="128"
             column="1"/>
     </issue>
 
@@ -11422,7 +11356,7 @@
     <issue
         id="ComposeMultipleContentEmitters"
         message="Composable functions should only be emitting content into the composition from one source at their top level.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-multiple-pieces-of-content for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ListItem.kt"
@@ -11448,7 +11382,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanModal.kt"
-            line="389"
+            line="391"
             column="1"/>
     </issue>
 
@@ -11459,6 +11393,50 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanModal.kt"
+            line="440"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="ComposeMultipleContentEmitters"
+        message="Composable functions should only be emitting content into the composition from one source at their top level.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-multiple-pieces-of-content for more information."
+        errorLine1="@Composable"
+        errorLine2="^">
+        <location
+            file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanRecordModal.kt"
+            line="500"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="ComposeMultipleContentEmitters"
+        message="Composable functions should only be emitting content into the composition from one source at their top level.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-multiple-pieces-of-content for more information."
+        errorLine1="@Composable"
+        errorLine2="^">
+        <location
+            file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanRecordModal.kt"
+            line="549"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="ComposeMultipleContentEmitters"
+        message="Composable functions should only be emitting content into the composition from one source at their top level.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-multiple-pieces-of-content for more information."
+        errorLine1="@Composable"
+        errorLine2="^">
+        <location
+            file="src/main/java/com/ivy/main/MainBottomBar.kt"
+            line="352"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="ComposeMultipleContentEmitters"
+        message="Composable functions should only be emitting content into the composition from one source at their top level.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-multiple-pieces-of-content for more information."
+        errorLine1="@Composable"
+        errorLine2="^">
+        <location
+            file="src/main/java/com/ivy/main/MainBottomBar.kt"
             line="438"
             column="1"/>
     </issue>
@@ -11469,52 +11447,8 @@
         errorLine1="@Composable"
         errorLine2="^">
         <location
-            file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanRecordModal.kt"
-            line="498"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeMultipleContentEmitters"
-        message="Composable functions should only be emitting content into the composition from one source at their top level.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-multiple-pieces-of-content for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
-            file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanRecordModal.kt"
-            line="547"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeMultipleContentEmitters"
-        message="Composable functions should only be emitting content into the composition from one source at their top level.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-multiple-pieces-of-content for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
-            file="src/main/java/com/ivy/wallet/ui/main/MainBottomBar.kt"
-            line="351"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeMultipleContentEmitters"
-        message="Composable functions should only be emitting content into the composition from one source at their top level.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-multiple-pieces-of-content for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
-            file="src/main/java/com/ivy/wallet/ui/main/MainBottomBar.kt"
-            line="437"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeMultipleContentEmitters"
-        message="Composable functions should only be emitting content into the composition from one source at their top level.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-multiple-pieces-of-content for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
-            file="src/main/java/com/ivy/wallet/ui/main/MainBottomBar.kt"
-            line="523"
+            file="src/main/java/com/ivy/main/MainBottomBar.kt"
+            line="524"
             column="1"/>
     </issue>
 
@@ -11558,7 +11492,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/RecurringRuleModal.kt"
-            line="229"
+            line="231"
             column="1"/>
     </issue>
 
@@ -11569,7 +11503,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/RecurringRuleModal.kt"
-            line="243"
+            line="245"
             column="1"/>
     </issue>
 
@@ -11580,7 +11514,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/settings/SettingsScreen.kt"
-            line="763"
+            line="770"
             column="1"/>
     </issue>
 
@@ -11591,7 +11525,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/settings/SettingsScreen.kt"
-            line="1031"
+            line="1039"
             column="1"/>
     </issue>
 
@@ -11609,7 +11543,7 @@
     <issue
         id="ComposeMultipleContentEmitters"
         message="Composable functions should only be emitting content into the composition from one source at their top level.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-multiple-pieces-of-content for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/transaction/TransactionCard.kt"
@@ -11620,7 +11554,7 @@
     <issue
         id="ComposeMultipleContentEmitters"
         message="Composable functions should only be emitting content into the composition from one source at their top level.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-multiple-pieces-of-content for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/transaction/TransactionSectionDivider.kt"
@@ -11646,7 +11580,7 @@
         errorLine2="    ~~~~~~~">
         <location
             file="src/main/java/com/ivy/design/utils/Compose.kt"
-            line="56"
+            line="58"
             column="5"/>
     </issue>
 
@@ -11657,18 +11591,7 @@
         errorLine2="    ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/utils/ComposeExt.kt"
-            line="127"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="ComposeNamingUppercase"
-        message="Composable functions that return Unit should start with an uppercase letter.&#xA;They are considered declarative entities that can be either present or absent in a composition and therefore follow the naming rules for classes.&#xA;See https://slackhq.github.io/compose-lints/rules/#naming-composable-functions-properly for more information."
-        errorLine1="fun showKeyboard() {"
-        errorLine2="    ~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/ivy/design/utils/Keyboard.kt"
-            line="19"
+            line="86"
             column="5"/>
     </issue>
 
@@ -11679,7 +11602,7 @@
         errorLine2="    ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/design/utils/Keyboard.kt"
-            line="30"
+            line="27"
             column="5"/>
     </issue>
 
@@ -11701,14 +11624,14 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/utils/UIExt.kt"
-            line="92"
+            line="89"
             column="5"/>
     </issue>
 
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [id: UUID = UUID.randomUUID(), keyword: String, visible: Boolean, dismiss: () -> Unit, onKeywordChanged: (String) -> Unit] but should be [keyword: String, visible: Boolean, dismiss: () -> Unit, id: UUID = UUID.randomUUID(), onKeywordChanged: (String) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/AddKeywordModal.kt"
@@ -11719,7 +11642,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [id: UUID, visible: Boolean, currency: String, initialAmount: Double?, decimalCountMax: Int = 2, Header: (@Composable () -> Unit)? = null, amountSpacerTop: Dp = 64.dp, dismiss: () -> Unit, onAmountChanged: (Double) -> Unit] but should be [id: UUID, visible: Boolean, currency: String, initialAmount: Double?, dismiss: () -> Unit, decimalCountMax: Int = 2, Header: (@Composable () -> Unit)? = null, amountSpacerTop: Dp = 64.dp, onAmountChanged: (Double) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/AmountModal.kt"
@@ -11734,7 +11657,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/AmountModal.kt"
-            line="272"
+            line="273"
             column="1"/>
     </issue>
 
@@ -11745,14 +11668,14 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/AmountModal.kt"
-            line="466"
+            line="467"
             column="1"/>
     </issue>
 
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [bottomInset: Dp = navigationBarInset().toDensityDp(), onBack: () -> Unit, PrimaryAction: @Composable () -> Unit] but should be [onBack: () -> Unit, bottomInset: Dp = navigationBarInset().toDensityDp(), PrimaryAction: @Composable () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/BackBottomBar.kt"
@@ -11763,7 +11686,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, textColor: Color = UI.colors.pureInverse, currency: String, balance: Double, balanceAmountPrefix: String? = null, currencyUpfront: Boolean = true, shortenBigNumbers: Boolean = false, hiddenMode: Boolean = false] but should be [currency: String, balance: Double, modifier: Modifier = Modifier, textColor: Color = UI.colors.pureInverse, balanceAmountPrefix: String? = null, currencyUpfront: Boolean = true, shortenBigNumbers: Boolean = false, hiddenMode: Boolean = false].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/BalanceRow.kt"
@@ -11778,7 +11701,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/BalanceRow.kt"
-            line="57"
+            line="58"
             column="1"/>
     </issue>
 
@@ -11789,14 +11712,14 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/BalanceRow.kt"
-            line="88"
+            line="89"
             column="1"/>
     </issue>
 
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, currency: String, expenses: Double, budget: Double, backgroundNotFilled: Color = UI.colors.pure, onClick: (() -> Unit)? = null] but should be [currency: String, expenses: Double, budget: Double, modifier: Modifier = Modifier, backgroundNotFilled: Color = UI.colors.pure, onClick: (() -> Unit)? = null].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/BudgetBattery.kt"
@@ -11818,7 +11741,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, buffer: Double, balance: Double, currency: String, backgroundNotFilled: Color = UI.colors.pure, onClick: (() -> Unit)? = null] but should be [buffer: Double, balance: Double, currency: String, modifier: Modifier = Modifier, backgroundNotFilled: Color = UI.colors.pure, onClick: (() -> Unit)? = null].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/BufferBattery.kt"
@@ -11829,7 +11752,7 @@
     <issue
         id="ComposeParameterOrder"
         message="    Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;    Current params are: [modifier: Modifier = Modifier, text: String, background: Background = Background.Solid(&#xA;    color = UI.colors.primary,&#xA;    shape = UI.shapes.rFull,&#xA;    padding = padding(&#xA;        horizontal = 24.dp,&#xA;        vertical = 12.dp&#xA;    )&#xA;), textStyle: TextStyle = UI.typo.b2.style(&#xA;    color = White,&#xA;    textAlign = TextAlign.Center&#xA;), onClick: () -> Unit] but should be [text: String, modifier: Modifier = Modifier, background: Background = Background.Solid(&#xA;    color = UI.colors.primary,&#xA;    shape = UI.shapes.rFull,&#xA;    padding = padding(&#xA;        horizontal = 24.dp,&#xA;        vertical = 12.dp&#xA;    )&#xA;), textStyle: TextStyle = UI.typo.b2.style(&#xA;    color = White,&#xA;    textAlign = TextAlign.Center&#xA;), onClick: () -> Unit].&#xA;    See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/design/l2_components/Button.kt"
@@ -11840,7 +11763,7 @@
     <issue
         id="ComposeParameterOrder"
         message="    Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;    Current params are: [modifier: Modifier = Modifier, text: String, mode: Mode = Mode.WRAP_CONTENT, background: Background = Background.Solid(&#xA;    color = UI.colors.primary,&#xA;    shape = UI.shapes.rFull,&#xA;    padding = padding(&#xA;        horizontal = 24.dp,&#xA;        vertical = 12.dp&#xA;    )&#xA;), textStyle: TextStyle = UI.typo.b1.style(&#xA;    color = White,&#xA;    textAlign = TextAlign.Center&#xA;), @DrawableRes iconLeft: Int? = null, @DrawableRes iconRight: Int? = null, iconTint: Color = White, iconPadding: Dp = 12.dp, onClick: () -> Unit] but should be [text: String, modifier: Modifier = Modifier, mode: Mode = Mode.WRAP_CONTENT, background: Background = Background.Solid(&#xA;    color = UI.colors.primary,&#xA;    shape = UI.shapes.rFull,&#xA;    padding = padding(&#xA;        horizontal = 24.dp,&#xA;        vertical = 12.dp&#xA;    )&#xA;), textStyle: TextStyle = UI.typo.b1.style(&#xA;    color = White,&#xA;    textAlign = TextAlign.Center&#xA;), @DrawableRes iconLeft: Int? = null, @DrawableRes iconRight: Int? = null, iconTint: Color = White, iconPadding: Dp = 12.dp, onClick: () -> Unit].&#xA;    See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/design/l2_components/ButtonWithIcon.kt"
@@ -11851,7 +11774,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [id: UUID = UUID.randomUUID(), initialAmount: Double?, visible: Boolean, currency: String, dismiss: () -> Unit, onCalculation: (Double) -> Unit] but should be [initialAmount: Double?, visible: Boolean, currency: String, dismiss: () -> Unit, id: UUID = UUID.randomUUID(), onCalculation: (Double) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/CalculatorModal.kt"
@@ -11884,7 +11807,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [title: String = stringResource(R.string.set_transaction_type), visible: Boolean, includeTransferType: Boolean, initialType: TransactionType, id: UUID = UUID.randomUUID(), dismiss: () -> Unit, onTransactionTypeChanged: (TransactionType) -> Unit] but should be [visible: Boolean, includeTransferType: Boolean, initialType: TransactionType, dismiss: () -> Unit, title: String = stringResource(R.string.set_transaction_type), id: UUID = UUID.randomUUID(), onTransactionTypeChanged: (TransactionType) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ChangeTransactionTypeModal.kt"
@@ -11895,7 +11818,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, checked: Boolean, contentDescription: String = &quot;checkbox&quot;, onCheckedChange: (checked: Boolean) -> Unit] but should be [checked: Boolean, modifier: Modifier = Modifier, contentDescription: String = &quot;checkbox&quot;, onCheckedChange: (checked: Boolean) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/design/l2_components/Checkbox.kt"
@@ -11906,18 +11829,18 @@
     <issue
         id="ComposeParameterOrder"
         message="    Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;    Current params are: [modifier: Modifier = Modifier, checked: Boolean, text: String, textStyle: TextStyle = UI.typo.b2.style(&#xA;    color = UI.colors.pureInverse,&#xA;    fontWeight = FontWeight.SemiBold&#xA;), onCheckedChange: (checked: Boolean) -> Unit] but should be [checked: Boolean, text: String, modifier: Modifier = Modifier, textStyle: TextStyle = UI.typo.b2.style(&#xA;    color = UI.colors.pureInverse,&#xA;    fontWeight = FontWeight.SemiBold&#xA;), onCheckedChange: (checked: Boolean) -> Unit].&#xA;    See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/design/l2_components/Checkbox.kt"
-            line="47"
+            line="48"
             column="1"/>
     </issue>
 
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [id: UUID = UUID.randomUUID(), visible: Boolean, initialCategory: Category?, categories: List&lt;Category>, showCategoryModal: (Category?) -> Unit, onCategoryChanged: (Category?) -> Unit, dismiss: () -> Unit] but should be [visible: Boolean, initialCategory: Category?, categories: List&lt;Category>, showCategoryModal: (Category?) -> Unit, onCategoryChanged: (Category?) -> Unit, id: UUID = UUID.randomUUID(), dismiss: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@ExperimentalFoundationApi"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/ChooseCategoryModal.kt"
@@ -11928,11 +11851,11 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [visible: Boolean, initialIcon: String?, color: Color, id: UUID = UUID.randomUUID(), dismiss: () -> Unit, onIconChosen: (String?) -> Unit] but should be [visible: Boolean, initialIcon: String?, color: Color, dismiss: () -> Unit, id: UUID = UUID.randomUUID(), onIconChosen: (String?) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/ChooseIconModal.kt"
-            line="48"
+            line="49"
             column="1"/>
     </issue>
 
@@ -11943,14 +11866,14 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/ChoosePeriodModal.kt"
-            line="248"
+            line="251"
             column="1"/>
     </issue>
 
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [id: UUID = UUID.randomUUID(), visible: Boolean, selectedStartDateOfMonth: Int, dismiss: () -> Unit, onStartDateOfMonthSelected: (Int) -> Unit] but should be [visible: Boolean, selectedStartDateOfMonth: Int, dismiss: () -> Unit, id: UUID = UUID.randomUUID(), onStartDateOfMonthSelected: (Int) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/ChooseStartDateOfMonthModal.kt"
@@ -11961,40 +11884,40 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, @DrawableRes icon: Int, contentDescription: String = &quot;icon&quot;, backgroundColor: Color = UI.colors.pure, borderColor: Color = UI.colors.medium, tint: Color? = UI.colors.pureInverse, onClick: () -> Unit] but should be [@DrawableRes icon: Int, modifier: Modifier = Modifier, contentDescription: String = &quot;icon&quot;, backgroundColor: Color = UI.colors.pure, borderColor: Color = UI.colors.medium, tint: Color? = UI.colors.pureInverse, onClick: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/CircleButtons.kt"
-            line="36"
+            line="37"
             column="1"/>
     </issue>
 
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, @DrawableRes icon: Int, contentDescription: String = &quot;icon&quot;, backgroundColor: Color = UI.colors.medium, tint: Color? = UI.colors.pureInverse, clickAreaPadding: Dp = 8.dp, onClick: () -> Unit] but should be [@DrawableRes icon: Int, modifier: Modifier = Modifier, contentDescription: String = &quot;icon&quot;, backgroundColor: Color = UI.colors.medium, tint: Color? = UI.colors.pureInverse, clickAreaPadding: Dp = 8.dp, onClick: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/CircleButtons.kt"
-            line="59"
+            line="61"
             column="1"/>
     </issue>
 
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, @DrawableRes icon: Int, contentDescription: String = &quot;icon&quot;, iconPadding: Dp = 8.dp, backgroundGradient: Gradient = Gradient.solid(UI.colors.medium), tint: Color? = UI.colors.pureInverse, onClick: () -> Unit] but should be [@DrawableRes icon: Int, modifier: Modifier = Modifier, contentDescription: String = &quot;icon&quot;, iconPadding: Dp = 8.dp, backgroundGradient: Gradient = Gradient.solid(UI.colors.medium), tint: Color? = UI.colors.pureInverse, onClick: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/CircleButtons.kt"
-            line="81"
+            line="84"
             column="1"/>
     </issue>
 
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, initialSelectedCurrency: IvyCurrency?, preselectedCurrency: IvyCurrency = IvyCurrency.getDefault(), includeKeyboardShownInsetSpacer: Boolean, lastItemSpacer: Dp = 0.dp, onKeyboardShown: (keyboardVisible: Boolean) -> Unit = {}, onSelectedCurrencyChanged: (IvyCurrency) -> Unit] but should be [initialSelectedCurrency: IvyCurrency?, includeKeyboardShownInsetSpacer: Boolean, modifier: Modifier = Modifier, preselectedCurrency: IvyCurrency = IvyCurrency.getDefault(), lastItemSpacer: Dp = 0.dp, onKeyboardShown: (keyboardVisible: Boolean) -> Unit = {}, onSelectedCurrencyChanged: (IvyCurrency) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/CurrencyPicker.kt"
@@ -12005,7 +11928,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, title: String = stringResource(R.string.exchange_rate), fromCurrencyCode: String, toCurrencyCode: String, exchangeRate: Double, onRefresh: () -> Unit = {}, onClick: () -> Unit] but should be [fromCurrencyCode: String, toCurrencyCode: String, exchangeRate: Double, modifier: Modifier = Modifier, title: String = stringResource(R.string.exchange_rate), onRefresh: () -> Unit = {}, onClick: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/CustomExchangeRateCard.kt"
@@ -12016,7 +11939,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [id: UUID = UUID.randomUUID(), title: String, description: String, visible: Boolean, buttonText: String = stringResource(R.string.delete), iconStart: Int = R.drawable.ic_delete, dismiss: () -> Unit, onDelete: () -> Unit] but should be [title: String, description: String, visible: Boolean, dismiss: () -> Unit, id: UUID = UUID.randomUUID(), buttonText: String = stringResource(R.string.delete), iconStart: Int = R.drawable.ic_delete, onDelete: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/DeleteModal.kt"
@@ -12027,7 +11950,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [id: UUID = UUID.randomUUID(), visible: Boolean, description: String?, onDescriptionChanged: (String?) -> Unit, dismiss: () -> Unit] but should be [visible: Boolean, description: String?, onDescriptionChanged: (String?) -> Unit, id: UUID = UUID.randomUUID(), dismiss: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/DescriptionModal.kt"
@@ -12038,11 +11961,11 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [initialTransactionId: UUID?, type: TransactionType, accounts: List&lt;Account>, selectedAccount: Account?, toAccount: Account?, amount: Double, currency: String, convertedAmount: Double? = null, convertedAmountCurrencyCode: String? = null, amountModalShown: Boolean, setAmountModalShown: (Boolean) -> Unit, ActionButton: @Composable () -> Unit, onAmountChanged: (Double) -> Unit, onSelectedAccountChanged: (Account) -> Unit, onToAccountChanged: (Account) -> Unit, onAddNewAccount: () -> Unit] but should be [initialTransactionId: UUID?, type: TransactionType, accounts: List&lt;Account>, selectedAccount: Account?, toAccount: Account?, amount: Double, currency: String, amountModalShown: Boolean, setAmountModalShown: (Boolean) -> Unit, ActionButton: @Composable () -> Unit, onAmountChanged: (Double) -> Unit, onSelectedAccountChanged: (Account) -> Unit, onToAccountChanged: (Account) -> Unit, convertedAmount: Double? = null, convertedAmountCurrencyCode: String? = null, onAddNewAccount: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/edit/core/EditBottomSheet.kt"
-            line="92"
+            line="93"
             column="1"/>
     </issue>
 
@@ -12053,7 +11976,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/edit/core/EditBottomSheet.kt"
-            line="511"
+            line="513"
             column="1"/>
     </issue>
 
@@ -12064,7 +11987,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/edit/core/EditBottomSheet.kt"
-            line="652"
+            line="654"
             column="1"/>
     </issue>
 
@@ -12098,17 +12021,6 @@
         <location
             file="src/main/java/com/ivy/reports/FilterOverlay.kt"
             line="408"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeParameterOrder"
-        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, height: Dp] but should be [height: Dp, modifier: Modifier = Modifier].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
-            file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/GradientCut.kt"
-            line="39"
             column="1"/>
     </issue>
 
@@ -12159,7 +12071,7 @@
     <issue
         id="ComposeParameterOrder"
         message="    Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;    Current params are: [modifier: Modifier = Modifier, @DrawableRes icon: Int, iconTint: Color = White, background: Background = Background.Solid(&#xA;    color = UI.colors.primary,&#xA;    shape = CircleShape,&#xA;    padding = padding(all = 8.dp)&#xA;), onClick: () -> Unit] but should be [@DrawableRes icon: Int, modifier: Modifier = Modifier, iconTint: Color = White, background: Background = Background.Solid(&#xA;    color = UI.colors.primary,&#xA;    shape = CircleShape,&#xA;    padding = padding(all = 8.dp)&#xA;), onClick: () -> Unit].&#xA;    See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/design/l2_components/IconButton.kt"
@@ -12192,7 +12104,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, iconName: String?, tint: Color = UI.colors.pureInverse, iconContentScale: ContentScale? = null, Default: (@Composable () -> Unit)? = null] but should be [iconName: String?, modifier: Modifier = Modifier, tint: Color = UI.colors.pureInverse, iconContentScale: ContentScale? = null, Default: (@Composable () -> Unit)? = null].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ItemIcon.kt"
@@ -12203,55 +12115,55 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, iconName: String?, tint: Color = UI.colors.pureInverse, @DrawableRes defaultIcon: Int] but should be [iconName: String?, @DrawableRes defaultIcon: Int, modifier: Modifier = Modifier, tint: Color = UI.colors.pureInverse].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ItemIcon.kt"
-            line="42"
+            line="43"
             column="1"/>
     </issue>
 
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, iconName: String?, tint: Color = UI.colors.pureInverse, iconContentScale: ContentScale? = null, Default: (@Composable () -> Unit)? = null] but should be [iconName: String?, modifier: Modifier = Modifier, tint: Color = UI.colors.pureInverse, iconContentScale: ContentScale? = null, Default: (@Composable () -> Unit)? = null].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ItemIcon.kt"
-            line="64"
+            line="66"
             column="1"/>
     </issue>
 
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, iconName: String?, tint: Color = UI.colors.pureInverse, @DrawableRes defaultIcon: Int] but should be [iconName: String?, @DrawableRes defaultIcon: Int, modifier: Modifier = Modifier, tint: Color = UI.colors.pureInverse].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ItemIcon.kt"
-            line="83"
+            line="86"
             column="1"/>
     </issue>
 
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, iconName: String?, tint: Color = UI.colors.pureInverse, iconContentScale: ContentScale? = null, Default: (@Composable () -> Unit)? = null] but should be [iconName: String?, modifier: Modifier = Modifier, tint: Color = UI.colors.pureInverse, iconContentScale: ContentScale? = null, Default: (@Composable () -> Unit)? = null].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ItemIcon.kt"
-            line="105"
+            line="109"
             column="1"/>
     </issue>
 
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, iconName: String?, size: String, tint: Color = UI.colors.pureInverse, iconContentScale: ContentScale? = null, Default: (@Composable () -> Unit)? = null] but should be [iconName: String?, size: String, modifier: Modifier = Modifier, tint: Color = UI.colors.pureInverse, iconContentScale: ContentScale? = null, Default: (@Composable () -> Unit)? = null].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ItemIcon.kt"
-            line="124"
+            line="129"
             column="1"/>
     </issue>
 
@@ -12280,7 +12192,7 @@
     <issue
         id="ComposeParameterOrder"
         message="    Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;    Current params are: [modifier: Modifier = Modifier, value: TextFieldValue, textColor: Color = UI.colors.pureInverse, hint: String?, visualTransformation: VisualTransformation = VisualTransformation.None, keyboardOptions: KeyboardOptions = KeyboardOptions(&#xA;    autoCorrect = true,&#xA;    keyboardType = KeyboardType.Text,&#xA;    imeAction = ImeAction.Done,&#xA;    capitalization = KeyboardCapitalization.Sentences&#xA;), keyboardActions: KeyboardActions? = null, onValueChanged: (TextFieldValue) -> Unit] but should be [value: TextFieldValue, hint: String?, modifier: Modifier = Modifier, textColor: Color = UI.colors.pureInverse, visualTransformation: VisualTransformation = VisualTransformation.None, keyboardOptions: KeyboardOptions = KeyboardOptions(&#xA;    autoCorrect = true,&#xA;    keyboardType = KeyboardType.Text,&#xA;    imeAction = ImeAction.Done,&#xA;    capitalization = KeyboardCapitalization.Sentences&#xA;), keyboardActions: KeyboardActions? = null, onValueChanged: (TextFieldValue) -> Unit].&#xA;    See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyBasicTextField.kt"
@@ -12291,7 +12203,7 @@
     <issue
         id="ComposeParameterOrder"
         message="    Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;    Current params are: [modifier: Modifier = Modifier, text: String, textStyle: TextStyle = UI.typo.b2.style(&#xA;    color = UI.colors.pureInverse,&#xA;    fontWeight = FontWeight.Bold&#xA;), backgroundGradient: Gradient = Gradient.solid(UI.colors.mediumInverse), @DrawableRes iconStart: Int? = null, @DrawableRes iconEnd: Int? = null, iconTint: Color = UI.colors.pureInverse, enabled: Boolean = true, wrapContentMode: Boolean = true, padding: Dp = 12.dp, onClick: () -> Unit] but should be [text: String, modifier: Modifier = Modifier, textStyle: TextStyle = UI.typo.b2.style(&#xA;    color = UI.colors.pureInverse,&#xA;    fontWeight = FontWeight.Bold&#xA;), backgroundGradient: Gradient = Gradient.solid(UI.colors.mediumInverse), @DrawableRes iconStart: Int? = null, @DrawableRes iconEnd: Int? = null, iconTint: Color = UI.colors.pureInverse, enabled: Boolean = true, wrapContentMode: Boolean = true, padding: Dp = 12.dp, onClick: () -> Unit].&#xA;    See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyBorderButton.kt"
@@ -12302,7 +12214,7 @@
     <issue
         id="ComposeParameterOrder"
         message="    Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;    Current params are: [modifier: Modifier = Modifier, text: String, backgroundGradient: Gradient = GradientIvy, textStyle: TextStyle = UI.typo.b2.style(&#xA;    color = White,&#xA;    fontWeight = FontWeight.Bold&#xA;), @DrawableRes iconStart: Int? = null, @DrawableRes iconEnd: Int? = null, iconTint: Color = White, enabled: Boolean = true, shadowAlpha: Float = 0.15f, wrapContentMode: Boolean = true, hasGlow: Boolean = true, padding: Dp = 12.dp, iconEdgePadding: Dp = 12.dp, iconTextPadding: Dp = 4.dp, onClick: () -> Unit] but should be [text: String, modifier: Modifier = Modifier, backgroundGradient: Gradient = GradientIvy, textStyle: TextStyle = UI.typo.b2.style(&#xA;    color = White,&#xA;    fontWeight = FontWeight.Bold&#xA;), @DrawableRes iconStart: Int? = null, @DrawableRes iconEnd: Int? = null, iconTint: Color = White, enabled: Boolean = true, shadowAlpha: Float = 0.15f, wrapContentMode: Boolean = true, hasGlow: Boolean = true, padding: Dp = 12.dp, iconEdgePadding: Dp = 12.dp, iconTextPadding: Dp = 4.dp, onClick: () -> Unit].&#xA;    See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyButton.kt"
@@ -12313,7 +12225,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, checked: Boolean, onCheckedChange: (checked: Boolean) -> Unit] but should be [checked: Boolean, modifier: Modifier = Modifier, onCheckedChange: (checked: Boolean) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyCheckbox.kt"
@@ -12324,18 +12236,18 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, text: String, checked: Boolean, onCheckedChange: (checked: Boolean) -> Unit] but should be [text: String, checked: Boolean, modifier: Modifier = Modifier, onCheckedChange: (checked: Boolean) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyCheckbox.kt"
-            line="50"
+            line="51"
             column="1"/>
     </issue>
 
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, textModifier: Modifier = Modifier, value: TextFieldValue, hint: String?, readOnly: Boolean = false, fontWeight: FontWeight = FontWeight.Medium, hintFontWeight: FontWeight = FontWeight.Medium, textColor: Color = UI.colors.pureInverse, hintColor: Color = UI.colors.mediumInverse, textAlign: TextAlign = TextAlign.Start, visualTransformation: VisualTransformation = VisualTransformation.None, keyboardOptions: KeyboardOptions? = KeyboardOptions.Default, keyboardActions: KeyboardActions? = KeyboardActions.Default, paddingVertical: Dp = 16.dp, onValueChanged: (TextFieldValue) -> Unit] but should be [value: TextFieldValue, hint: String?, modifier: Modifier = Modifier, textModifier: Modifier = Modifier, readOnly: Boolean = false, fontWeight: FontWeight = FontWeight.Medium, hintFontWeight: FontWeight = FontWeight.Medium, textColor: Color = UI.colors.pureInverse, hintColor: Color = UI.colors.mediumInverse, textAlign: TextAlign = TextAlign.Start, visualTransformation: VisualTransformation = VisualTransformation.None, keyboardOptions: KeyboardOptions? = KeyboardOptions.Default, keyboardActions: KeyboardActions? = KeyboardActions.Default, paddingVertical: Dp = 16.dp, onValueChanged: (TextFieldValue) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyChecklistTextField.kt"
@@ -12346,7 +12258,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, backgroundPadding: Dp = 0.dp, backgroundGradient: Gradient = GradientIvy, horizontalGradient: Boolean = true, @DrawableRes icon: Int, tint: Color = White, enabled: Boolean = true, hasShadow: Boolean = true, onClick: () -> Unit] but should be [@DrawableRes icon: Int, modifier: Modifier = Modifier, backgroundPadding: Dp = 0.dp, backgroundGradient: Gradient = GradientIvy, horizontalGradient: Boolean = true, tint: Color = White, enabled: Boolean = true, hasShadow: Boolean = true, onClick: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyCircleButton.kt"
@@ -12357,7 +12269,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, textModifier: Modifier = Modifier, testTag: String = &quot;desc_input&quot;, value: TextFieldValue, hint: String?, fontWeight: FontWeight = FontWeight.Medium, textColor: Color = UI.colors.pureInverse, hintColor: Color = UI.colors.mediumInverse, visualTransformation: VisualTransformation = VisualTransformation.None, keyboardOptions: KeyboardOptions? = KeyboardOptions.Default, keyboardActions: KeyboardActions? = KeyboardActions.Default, onValueChanged: (TextFieldValue) -> Unit] but should be [value: TextFieldValue, hint: String?, modifier: Modifier = Modifier, textModifier: Modifier = Modifier, testTag: String = &quot;desc_input&quot;, fontWeight: FontWeight = FontWeight.Medium, textColor: Color = UI.colors.pureInverse, hintColor: Color = UI.colors.mediumInverse, visualTransformation: VisualTransformation = VisualTransformation.None, keyboardOptions: KeyboardOptions? = KeyboardOptions.Default, keyboardActions: KeyboardActions? = KeyboardActions.Default, onValueChanged: (TextFieldValue) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyDescriptionTextField.kt"
@@ -12368,7 +12280,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, @DrawableRes icon: Int, tint: Color = UI.colors.pureInverse, contentDescription: String = &quot;icon&quot;] but should be [@DrawableRes icon: Int, modifier: Modifier = Modifier, tint: Color = UI.colors.pureInverse, contentDescription: String = &quot;icon&quot;].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyIcon.kt"
@@ -12379,7 +12291,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, @DrawableRes icon: Int, tint: Color = UI.colors.pureInverse, contentDescription: String = &quot;icon&quot;] but should be [@DrawableRes icon: Int, modifier: Modifier = Modifier, tint: Color = UI.colors.pureInverse, contentDescription: String = &quot;icon&quot;].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/design/l1_buildingBlocks/IvyIcon.kt"
@@ -12390,40 +12302,40 @@
     <issue
         id="ComposeParameterOrder"
         message="    Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;    Current params are: [modifier: Modifier = Modifier, @DrawableRes icon: Int, tint: Color = UI.colors.pureInverse, iconScale: IconScale, padding: Dp = when (iconScale) {&#xA;    IconScale.S -> 4.dp&#xA;    IconScale.M -> 4.dp&#xA;    IconScale.L -> 4.dp&#xA;}, contentDescription: String = &quot;icon&quot;] but should be [@DrawableRes icon: Int, iconScale: IconScale, modifier: Modifier = Modifier, tint: Color = UI.colors.pureInverse, padding: Dp = when (iconScale) {&#xA;    IconScale.S -> 4.dp&#xA;    IconScale.M -> 4.dp&#xA;    IconScale.L -> 4.dp&#xA;}, contentDescription: String = &quot;icon&quot;].&#xA;    See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/design/l1_buildingBlocks/IvyIcon.kt"
-            line="35"
+            line="36"
             column="1"/>
     </issue>
 
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, height: Dp = 300.dp, functions: List&lt;Function>, title: String, xLabel: (x: Double) -> String, yLabel: (y: Double) -> String, onTap: (TapEvent) -> Unit = {}] but should be [functions: List&lt;Function>, title: String, xLabel: (x: Double) -> String, yLabel: (y: Double) -> String, modifier: Modifier = Modifier, height: Dp = 300.dp, onTap: (TapEvent) -> Unit = {}].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/charts/linechart/IvyLineChart.kt"
-            line="279"
+            line="288"
             column="1"/>
     </issue>
 
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [id: UUID?, visible: Boolean, dismiss: () -> Unit, SecondaryActions: (@Composable () -> Unit)? = null, PrimaryAction: @Composable () -> Unit, scrollState: ScrollState? = rememberScrollState(), shiftIfKeyboardShown: Boolean = true, includeActionsRowPadding: Boolean = true, Content: @Composable ColumnScope.() -> Unit] but should be [id: UUID?, visible: Boolean, dismiss: () -> Unit, PrimaryAction: @Composable () -> Unit, SecondaryActions: (@Composable () -> Unit)? = null, scrollState: ScrollState? = rememberScrollState(), shiftIfKeyboardShown: Boolean = true, includeActionsRowPadding: Boolean = true, Content: @Composable ColumnScope.() -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/IvyModal.kt"
-            line="63"
+            line="65"
             column="1"/>
     </issue>
 
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [initialEmpty: Boolean, initialChanged: Boolean, testTagSave: String = &quot;tag_save&quot;, testTagDelete: String = &quot;tag_delete&quot;, onDelete: () -> Unit, dismiss: () -> Unit, onSave: () -> Unit] but should be [initialEmpty: Boolean, initialChanged: Boolean, onDelete: () -> Unit, dismiss: () -> Unit, testTagSave: String = &quot;tag_save&quot;, testTagDelete: String = &quot;tag_delete&quot;, onSave: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/IvyModalComponents.kt"
@@ -12434,29 +12346,29 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, label: String, enabled: Boolean = true, onClick: () -> Unit] but should be [label: String, modifier: Modifier = Modifier, enabled: Boolean = true, onClick: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/IvyModalComponents.kt"
-            line="80"
+            line="82"
             column="1"/>
     </issue>
 
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, text: String, @DrawableRes iconStart: Int, enabled: Boolean = true, onClick: () -> Unit] but should be [text: String, @DrawableRes iconStart: Int, modifier: Modifier = Modifier, enabled: Boolean = true, onClick: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/IvyModalComponents.kt"
-            line="174"
+            line="168"
             column="1"/>
     </issue>
 
     <issue
         id="ComposeParameterOrder"
         message="    Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;    Current params are: [modifier: Modifier = Modifier, underlineModifier: Modifier = Modifier, value: TextFieldValue, textColor: Color = UI.colors.pureInverse, hint: String?, visualTransformation: VisualTransformation = VisualTransformation.None, keyboardOptions: KeyboardOptions = KeyboardOptions(&#xA;    autoCorrect = true,&#xA;    keyboardType = KeyboardType.Text,&#xA;    imeAction = ImeAction.Done,&#xA;    capitalization = KeyboardCapitalization.Sentences&#xA;), keyboardActions: KeyboardActions? = null, onValueChanged: (TextFieldValue) -> Unit] but should be [value: TextFieldValue, hint: String?, modifier: Modifier = Modifier, underlineModifier: Modifier = Modifier, textColor: Color = UI.colors.pureInverse, visualTransformation: VisualTransformation = VisualTransformation.None, keyboardOptions: KeyboardOptions = KeyboardOptions(&#xA;    autoCorrect = true,&#xA;    keyboardType = KeyboardType.Text,&#xA;    imeAction = ImeAction.Done,&#xA;    capitalization = KeyboardCapitalization.Sentences&#xA;), keyboardActions: KeyboardActions? = null, onValueChanged: (TextFieldValue) -> Unit].&#xA;    See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyNameTextFieldValue.kt"
@@ -12467,7 +12379,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, textModifier: Modifier = Modifier, value: TextFieldValue, hint: String?, fontWeight: FontWeight = FontWeight.ExtraBold, textColor: Color = UI.colors.pureInverse, hintColor: Color = Color.Gray, visualTransformation: VisualTransformation = VisualTransformation.None, keyboardOptions: KeyboardOptions? = null, keyboardActions: KeyboardActions? = null, onValueChanged: (TextFieldValue) -> Unit] but should be [value: TextFieldValue, hint: String?, modifier: Modifier = Modifier, textModifier: Modifier = Modifier, fontWeight: FontWeight = FontWeight.ExtraBold, textColor: Color = UI.colors.pureInverse, hintColor: Color = Color.Gray, visualTransformation: VisualTransformation = VisualTransformation.None, keyboardOptions: KeyboardOptions? = null, keyboardActions: KeyboardActions? = null, onValueChanged: (TextFieldValue) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyNumberTextField.kt"
@@ -12478,7 +12390,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, text: String, @DrawableRes iconStart: Int?, solidBackground: Boolean = false, iconTint: Color = UI.colors.pureInverse, borderColor: Color = UI.colors.medium, textColor: Color = UI.colors.pureInverse, padding: Dp = 12.dp, onClick: () -> Unit] but should be [text: String, @DrawableRes iconStart: Int?, modifier: Modifier = Modifier, solidBackground: Boolean = false, iconTint: Color = UI.colors.pureInverse, borderColor: Color = UI.colors.medium, textColor: Color = UI.colors.pureInverse, padding: Dp = 12.dp, onClick: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyOutlinedButton.kt"
@@ -12493,14 +12405,14 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyOutlinedButton.kt"
-            line="79"
+            line="80"
             column="1"/>
     </issue>
 
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, value: TextFieldValue, hint: String?, hintColor: Color = UI.colors.gray, backgroundColor: Color = UI.colors.primary, emptyBorderColor: Color = UI.colors.gray, textColor: Color = UI.colors.pureInverse, cursorColor: Color = UI.colors.pureInverse, visualTransformation: VisualTransformation = VisualTransformation.None, keyboardOptions: KeyboardOptions = KeyboardOptions.Default, keyboardActions: KeyboardActions = KeyboardActions.Default, validateInput: (TextFieldValue) -> Boolean = { it.text.isNotNullOrBlank() }, onValueChanged: (TextFieldValue) -> Unit] but should be [value: TextFieldValue, hint: String?, modifier: Modifier = Modifier, hintColor: Color = UI.colors.gray, backgroundColor: Color = UI.colors.primary, emptyBorderColor: Color = UI.colors.gray, textColor: Color = UI.colors.pureInverse, cursorColor: Color = UI.colors.pureInverse, visualTransformation: VisualTransformation = VisualTransformation.None, keyboardOptions: KeyboardOptions = KeyboardOptions.Default, keyboardActions: KeyboardActions = KeyboardActions.Default, validateInput: (TextFieldValue) -> Boolean = { it.text.isNotNullOrBlank() }, onValueChanged: (TextFieldValue) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyOutlinedTextField.kt"
@@ -12511,7 +12423,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, enabled: Boolean, onEnabledChange: (checked: Boolean) -> Unit] but should be [enabled: Boolean, modifier: Modifier = Modifier, onEnabledChange: (checked: Boolean) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvySwitch.kt"
@@ -12522,7 +12434,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, text: String, typo: TextStyle, padding: IvyPadding? = null] but should be [text: String, typo: TextStyle, modifier: Modifier = Modifier, padding: IvyPadding? = null].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/design/l1_buildingBlocks/IvyText.kt"
@@ -12533,7 +12445,7 @@
     <issue
         id="ComposeParameterOrder"
         message="    Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;    Current params are: [modifier: Modifier = Modifier, dividerModifier: Modifier = Modifier, value: TextFieldValue, textColor: Color = UI.colors.pureInverse, hint: String?, visualTransformation: VisualTransformation = VisualTransformation.None, keyboardOptions: KeyboardOptions = KeyboardOptions(&#xA;    autoCorrect = true,&#xA;    keyboardType = KeyboardType.Text,&#xA;    imeAction = ImeAction.Done,&#xA;    capitalization = KeyboardCapitalization.Sentences&#xA;), keyboardActions: KeyboardActions? = null, onValueChanged: (TextFieldValue) -> Unit] but should be [value: TextFieldValue, hint: String?, modifier: Modifier = Modifier, dividerModifier: Modifier = Modifier, textColor: Color = UI.colors.pureInverse, visualTransformation: VisualTransformation = VisualTransformation.None, keyboardOptions: KeyboardOptions = KeyboardOptions(&#xA;    autoCorrect = true,&#xA;    keyboardType = KeyboardType.Text,&#xA;    imeAction = ImeAction.Done,&#xA;    capitalization = KeyboardCapitalization.Sentences&#xA;), keyboardActions: KeyboardActions? = null, onValueChanged: (TextFieldValue) -> Unit].&#xA;    See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyTitleTextField.kt"
@@ -12566,11 +12478,11 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [accounts: List&lt;Account> = emptyList(), onCreateAccount: (CreateAccountData) -> Unit = {}, modal: LoanModalData?, onCreateLoan: (CreateLoanData) -> Unit, onEditLoan: (Loan, Boolean) -> Unit, onPerformCalculations: () -> Unit = {}, dismiss: () -> Unit] but should be [modal: LoanModalData?, onCreateLoan: (CreateLoanData) -> Unit, onEditLoan: (Loan, Boolean) -> Unit, accounts: List&lt;Account> = emptyList(), onCreateAccount: (CreateAccountData) -> Unit = {}, onPerformCalculations: () -> Unit = {}, dismiss: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanModal.kt"
-            line="80"
+            line="81"
             column="1"/>
     </issue>
 
@@ -12581,18 +12493,18 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanModal.kt"
-            line="332"
+            line="334"
             column="1"/>
     </issue>
 
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modal: LoanRecordModalData?, accounts: List&lt;Account> = emptyList(), onCreateAccount: (CreateAccountData) -> Unit = {}, onCreate: (CreateLoanRecordData) -> Unit, onEdit: (EditLoanRecordData) -> Unit, onDelete: (LoanRecord) -> Unit, dismiss: () -> Unit] but should be [modal: LoanRecordModalData?, onCreate: (CreateLoanRecordData) -> Unit, onEdit: (EditLoanRecordData) -> Unit, onDelete: (LoanRecord) -> Unit, accounts: List&lt;Account> = emptyList(), onCreateAccount: (CreateAccountData) -> Unit = {}, dismiss: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanRecordModal.kt"
-            line="75"
+            line="76"
             column="1"/>
     </issue>
 
@@ -12603,7 +12515,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanRecordModal.kt"
-            line="439"
+            line="441"
             column="1"/>
     </issue>
 
@@ -12621,7 +12533,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [id: UUID = UUID.randomUUID(), initialDate: LocalDate, visible: Boolean, dismiss: () -> Unit, onMonthSelected: (Int) -> Unit] but should be [initialDate: LocalDate, visible: Boolean, dismiss: () -> Unit, id: UUID = UUID.randomUUID(), onMonthSelected: (Int) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/MonthPickerModal.kt"
@@ -12632,7 +12544,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, text: String, textColor: Color, backgroundGradient: Gradient, @DrawableRes iconStart: Int? = null, hasNext: Boolean = false, enabled: Boolean = true, onClick: () -> Unit] but should be [text: String, textColor: Color, backgroundGradient: Gradient, modifier: Modifier = Modifier, @DrawableRes iconStart: Int? = null, hasNext: Boolean = false, enabled: Boolean = true, onClick: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/OnboardingComponents.kt"
@@ -12654,7 +12566,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, period: com.ivy.legacy.data.model.TimePeriod, onPreviousMonth: () -> Unit, onNextMonth: () -> Unit, onShowChoosePeriodModal: () -> Unit] but should be [period: com.ivy.legacy.data.model.TimePeriod, onPreviousMonth: () -> Unit, onNextMonth: () -> Unit, modifier: Modifier = Modifier, onShowChoosePeriodModal: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/wallet/PeriodSelector.kt"
@@ -12709,18 +12621,18 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [theme: Theme = Theme.LIGHT, design: IvyDesign, Content: @Composable BoxWithConstraintsScope.() -> Unit] but should be [design: IvyDesign, theme: Theme = Theme.LIGHT, Content: @Composable BoxWithConstraintsScope.() -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/design/utils/Preview.kt"
-            line="39"
+            line="40"
             column="1"/>
     </issue>
 
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [@DrawableRes icon: Int, title: String, TitleRowExtra: (@Composable RowScope.() -> Unit)? = null, onClick: () -> Unit, Content: @Composable ColumnScope.() -> Unit] but should be [@DrawableRes icon: Int, title: String, onClick: () -> Unit, TitleRowExtra: (@Composable RowScope.() -> Unit)? = null, Content: @Composable ColumnScope.() -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/edit/PrimaryAttributeColumn.kt"
@@ -12731,7 +12643,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, notFilledColor: Color = UI.colors.pure, positiveProgress: Boolean = true, percent: Double] but should be [percent: Double, modifier: Modifier = Modifier, notFilledColor: Color = UI.colors.pure, positiveProgress: Boolean = true].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ProgressBar.kt"
@@ -12742,7 +12654,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [id: UUID = UUID.randomUUID(), title: String, description: String, visible: Boolean, color: Color = UI.colors.orange, dismiss: () -> Unit = {}] but should be [title: String, description: String, visible: Boolean, id: UUID = UUID.randomUUID(), color: Color = UI.colors.orange, dismiss: () -> Unit = {}].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/ProgressModal.kt"
@@ -12753,7 +12665,7 @@
     <issue
         id="ComposeParameterOrder"
         message="    Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;    Current params are: [visible: Boolean, id: UUID = UUID.randomUUID(), TitleContent: @Composable ColumnScope.() -> Unit = {&#xA;    Text(&#xA;        modifier = Modifier.padding(start = 32.dp),&#xA;        text = stringResource(R.string.reorder),&#xA;        style = UI.typo.b1.style(&#xA;            UI.colors.pureInverse,&#xA;            FontWeight.ExtraBold&#xA;        )&#xA;    )&#xA;}, initialItems: List&lt;T>, dismiss: () -> Unit, onUpdateItemOrderNum: (item: T, newOrderNum: Double) -> Unit = { _, _ -> }, onReordered: ((List&lt;T>) -> Unit)? = null, ItemContent: @Composable (Int, T) -> Unit] but should be [visible: Boolean, initialItems: List&lt;T>, dismiss: () -> Unit, id: UUID = UUID.randomUUID(), TitleContent: @Composable ColumnScope.() -> Unit = {&#xA;    Text(&#xA;        modifier = Modifier.padding(start = 32.dp),&#xA;        text = stringResource(R.string.reorder),&#xA;        style = UI.typo.b1.style(&#xA;            UI.colors.pureInverse,&#xA;            FontWeight.ExtraBold&#xA;        )&#xA;    )&#xA;}, onUpdateItemOrderNum: (item: T, newOrderNum: Double) -> Unit = { _, _ -> }, onReordered: ((List&lt;T>) -> Unit)? = null, ItemContent: @Composable (Int, T) -> Unit].&#xA;    See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Suppress(&quot;UNCHECKED_CAST&quot;)"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ReorderModal.kt"
@@ -12764,62 +12676,29 @@
     <issue
         id="ComposeParameterOrder"
         message="    Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;    Current params are: [visible: Boolean, id: UUID = UUID.randomUUID(), TitleContent: @Composable ColumnScope.() -> Unit = {&#xA;    Text(&#xA;        modifier = Modifier.padding(start = 32.dp),&#xA;        text = stringResource(R.string.reorder),&#xA;        style = UI.typo.b1.style(&#xA;            UI.colors.pureInverse,&#xA;            FontWeight.ExtraBold&#xA;        )&#xA;    )&#xA;}, initialItems: List&lt;Any>, dismiss: () -> Unit, onUpdateItemOrderNum: (&#xA;    itemsInNewOrder: List&lt;Any>,&#xA;    item: T,&#xA;    newOrderNum: Double&#xA;) -> Unit = { _, _, _ -> }, onReordered: ((List&lt;Any>) -> Unit)? = null, ItemContent: @Composable RowScope.(Int, Any) -> Unit] but should be [visible: Boolean, initialItems: List&lt;Any>, dismiss: () -> Unit, id: UUID = UUID.randomUUID(), TitleContent: @Composable ColumnScope.() -> Unit = {&#xA;    Text(&#xA;        modifier = Modifier.padding(start = 32.dp),&#xA;        text = stringResource(R.string.reorder),&#xA;        style = UI.typo.b1.style(&#xA;            UI.colors.pureInverse,&#xA;            FontWeight.ExtraBold&#xA;        )&#xA;    )&#xA;}, onUpdateItemOrderNum: (&#xA;    itemsInNewOrder: List&lt;Any>,&#xA;    item: T,&#xA;    newOrderNum: Double&#xA;) -> Unit = { _, _, _ -> }, onReordered: ((List&lt;Any>) -> Unit)? = null, ItemContent: @Composable RowScope.(Int, Any) -> Unit].&#xA;    See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ReorderModal.kt"
-            line="77"
+            line="78"
             column="1"/>
     </issue>
 
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, text: String, textStyle: TextStyle] but should be [text: String, textStyle: TextStyle, modifier: Modifier = Modifier].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/design/l3_ivyComponents/ScreenTitle.kt"
-            line="44"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeParameterOrder"
-        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [currencyCode: String, theme: Theme, onSwitchTheme: () -> Unit, lockApp: Boolean, showNotifications: Boolean = true, hideCurrentBalance: Boolean = false, progressState: Boolean = false, treatTransfersAsIncomeExpense: Boolean = false, nameLocalAccount: String?, startDateOfMonth: Int = 1, onSetCurrency: (String) -> Unit, onSetName: (String) -> Unit = {}, onBackupData: () -> Unit = {}, onExportToCSV: () -> Unit = {}, onSetLockApp: (Boolean) -> Unit = {}, onSetShowNotifications: (Boolean) -> Unit = {}, onSetTreatTransfersAsIncExp: (Boolean) -> Unit = {}, onSetHideCurrentBalance: (Boolean) -> Unit = {}, onSetStartDateOfMonth: (Int) -> Unit = {}, onDeleteAllUserData: () -> Unit = {}, onDeleteCloudUserData: () -> Unit = {}] but should be [currencyCode: String, theme: Theme, onSwitchTheme: () -> Unit, lockApp: Boolean, nameLocalAccount: String?, onSetCurrency: (String) -> Unit, showNotifications: Boolean = true, hideCurrentBalance: Boolean = false, progressState: Boolean = false, treatTransfersAsIncomeExpense: Boolean = false, startDateOfMonth: Int = 1, onSetName: (String) -> Unit = {}, onBackupData: () -> Unit = {}, onExportToCSV: () -> Unit = {}, onSetLockApp: (Boolean) -> Unit = {}, onSetShowNotifications: (Boolean) -> Unit = {}, onSetTreatTransfersAsIncExp: (Boolean) -> Unit = {}, onSetHideCurrentBalance: (Boolean) -> Unit = {}, onSetStartDateOfMonth: (Int) -> Unit = {}, onDeleteAllUserData: () -> Unit = {}, onDeleteCloudUserData: () -> Unit = {}].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@ExperimentalFoundationApi"
-        errorLine2="^">
-        <location
-            file="src/main/java/com/ivy/settings/SettingsScreen.kt"
-            line="137"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeParameterOrder"
-        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [lockApp: Boolean, onSetLockApp: (Boolean) -> Unit, text: String, description: String = &quot;&quot;, icon: Int] but should be [lockApp: Boolean, onSetLockApp: (Boolean) -> Unit, text: String, icon: Int, description: String = &quot;&quot;].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
-            file="src/main/java/com/ivy/settings/SettingsScreen.kt"
-            line="663"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeParameterOrder"
-        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [hasShadow: Boolean = false, backgroundGradient: Gradient = Gradient.solid(UI.colors.medium), onClick: (() -> Unit)?, Content: @Composable RowScope.() -> Unit] but should be [onClick: (() -> Unit)?, hasShadow: Boolean = false, backgroundGradient: Gradient = Gradient.solid(UI.colors.medium), Content: @Composable RowScope.() -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
-            file="src/main/java/com/ivy/settings/SettingsScreen.kt"
-            line="910"
+            line="46"
             column="1"/>
     </issue>
 
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, size: Dp, shape: Shape, color: Color] but should be [size: Dp, shape: Shape, color: Color, modifier: Modifier = Modifier].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/design/l1_buildingBlocks/Shapes.kt"
@@ -12830,18 +12709,18 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, size: Dp, shape: Shape, borderColor: Color, borderWidth: Dp = 1.dp] but should be [size: Dp, shape: Shape, borderColor: Color, modifier: Modifier = Modifier, borderWidth: Dp = 1.dp].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/design/l1_buildingBlocks/Shapes.kt"
-            line="34"
+            line="35"
             column="1"/>
     </issue>
 
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, enabled: Boolean, enabledColor: Color = UI.colors.green, disabledColor: Color = UI.colors.gray, animationColor: AnimationSpec&lt;Color> = springBounce(), animationMove: AnimationSpec&lt;Float> = springBounce(), onEnabledChange: (checked: Boolean) -> Unit] but should be [enabled: Boolean, modifier: Modifier = Modifier, enabledColor: Color = UI.colors.green, disabledColor: Color = UI.colors.gray, animationColor: AnimationSpec&lt;Color> = springBounce(), animationMove: AnimationSpec&lt;Float> = springBounce(), onEnabledChange: (checked: Boolean) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/design/l2_components/Switch.kt"
@@ -12852,7 +12731,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [type: TransactionType, titleFocus: FocusRequester, initialTransactionId: UUID?, titleTextFieldValue: TextFieldValue, setTitleTextFieldValue: (TextFieldValue) -> Unit, suggestions: Set&lt;String>, scrollState: ScrollState? = null, onTitleChanged: (String?) -> Unit, onNext: () -> Unit] but should be [type: TransactionType, titleFocus: FocusRequester, initialTransactionId: UUID?, titleTextFieldValue: TextFieldValue, setTitleTextFieldValue: (TextFieldValue) -> Unit, suggestions: Set&lt;String>, onTitleChanged: (String?) -> Unit, scrollState: ScrollState? = null, onNext: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/edit/core/Title.kt"
@@ -12863,7 +12742,7 @@
     <issue
         id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, items: List&lt;T>, verticalMarginBetweenRows: Dp = 8.dp, horizontalMarginBetweenItems: Dp = 8.dp, ItemContent: @Composable (item: T) -> Unit] but should be [items: List&lt;T>, modifier: Modifier = Modifier, verticalMarginBetweenRows: Dp = 8.dp, horizontalMarginBetweenItems: Dp = 8.dp, ItemContent: @Composable (item: T) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
+        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/WrapContentRow.kt"
@@ -12878,7 +12757,7 @@
         errorLine2="                ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/BudgetModal.kt"
-            line="253"
+            line="255"
             column="17"/>
     </issue>
 
@@ -12889,7 +12768,7 @@
         errorLine2="                       ~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/BudgetModal.kt"
-            line="254"
+            line="256"
             column="24"/>
     </issue>
 
@@ -12977,7 +12856,7 @@
         errorLine2="                ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/ChooseCategoryModal.kt"
-            line="61"
+            line="62"
             column="17"/>
     </issue>
 
@@ -12988,7 +12867,7 @@
         errorLine2="                ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/ChooseCategoryModal.kt"
-            line="135"
+            line="136"
             column="17"/>
     </issue>
 
@@ -12999,7 +12878,7 @@
         errorLine2="           ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/ChooseIconModal.kt"
-            line="237"
+            line="239"
             column="12"/>
     </issue>
 
@@ -13021,7 +12900,7 @@
         errorLine2="              ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/edit/core/EditBottomSheet.kt"
-            line="96"
+            line="98"
             column="15"/>
     </issue>
 
@@ -13032,7 +12911,7 @@
         errorLine2="              ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/edit/core/EditBottomSheet.kt"
-            line="439"
+            line="441"
             column="15"/>
     </issue>
 
@@ -13043,7 +12922,7 @@
         errorLine2="              ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/edit/core/EditBottomSheet.kt"
-            line="514"
+            line="516"
             column="15"/>
     </issue>
 
@@ -13175,7 +13054,7 @@
         errorLine2="             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/IncomeExpenseCards.kt"
-            line="41"
+            line="42"
             column="14"/>
     </issue>
 
@@ -13197,7 +13076,7 @@
         errorLine2="               ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/charts/linechart/IvyLineChart.kt"
-            line="283"
+            line="293"
             column="16"/>
     </issue>
 
@@ -13208,7 +13087,7 @@
         errorLine2="               ~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/charts/linechart/IvyLineChart.kt"
-            line="325"
+            line="336"
             column="16"/>
     </issue>
 
@@ -13219,7 +13098,7 @@
         errorLine2="               ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/charts/linechart/IvyLineChart.kt"
-            line="330"
+            line="341"
             column="16"/>
     </issue>
 
@@ -13252,7 +13131,7 @@
         errorLine2="              ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanModal.kt"
-            line="82"
+            line="84"
             column="15"/>
     </issue>
 
@@ -13263,7 +13142,7 @@
         errorLine2="              ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanModal.kt"
-            line="335"
+            line="337"
             column="15"/>
     </issue>
 
@@ -13274,7 +13153,7 @@
         errorLine2="              ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanRecordModal.kt"
-            line="78"
+            line="80"
             column="15"/>
     </issue>
 
@@ -13285,7 +13164,7 @@
         errorLine2="              ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanRecordModal.kt"
-            line="442"
+            line="444"
             column="15"/>
     </issue>
 
@@ -13549,7 +13428,7 @@
         errorLine2="                  ~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ReorderModal.kt"
-            line="51"
+            line="52"
             column="19"/>
     </issue>
 
@@ -13560,7 +13439,7 @@
         errorLine2="                  ~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ReorderModal.kt"
-            line="91"
+            line="93"
             column="19"/>
     </issue>
 
@@ -13582,7 +13461,7 @@
         errorLine2="                 ~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/edit/core/Title.kt"
-            line="46"
+            line="47"
             column="18"/>
     </issue>
 
@@ -13593,7 +13472,7 @@
         errorLine2="                 ~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/edit/core/Title.kt"
-            line="96"
+            line="97"
             column="18"/>
     </issue>
 
@@ -13604,7 +13483,7 @@
         errorLine2="                ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/transaction/TransactionCard.kt"
-            line="240"
+            line="241"
             column="17"/>
     </issue>
 
@@ -13615,7 +13494,7 @@
         errorLine2="              ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/transaction/TransactionCard.kt"
-            line="241"
+            line="242"
             column="15"/>
     </issue>
 
@@ -13626,7 +13505,7 @@
         errorLine2="              ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/transaction/TransactionCard.kt"
-            line="347"
+            line="348"
             column="15"/>
     </issue>
 
@@ -13637,7 +13516,7 @@
         errorLine2="                ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/transaction/Utils.kt"
-            line="12"
+            line="13"
             column="17"/>
     </issue>
 
@@ -13648,7 +13527,7 @@
         errorLine2="              ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/transaction/Utils.kt"
-            line="21"
+            line="23"
             column="15"/>
     </issue>
 
@@ -13659,7 +13538,7 @@
         errorLine2="           ~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/WrapContentRow.kt"
-            line="27"
+            line="28"
             column="12"/>
     </issue>
 
