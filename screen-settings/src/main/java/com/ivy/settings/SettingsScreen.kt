@@ -803,7 +803,8 @@ private fun ExportCSV(
     SettingsDefaultButton(
         icon = R.drawable.ic_vue_pc_printer,
         text = stringResource(R.string.export_to_csv),
-        iconPadding = 6.dp
+        iconPadding = 6.dp,
+        description = "⚠\uFE0F Do not use for backup purposes"
     ) {
         onExportToCSV()
     }
@@ -868,7 +869,7 @@ private fun SettingsPrimaryButton(
     backgroundGradient: Gradient = Gradient.solid(UI.colors.medium),
     textColor: Color = White,
     iconPadding: Dp = 0.dp,
-    description: String = "",
+    description: String? = null,
     onClick: () -> Unit
 ) {
     SettingsButtonRow(
@@ -899,7 +900,7 @@ private fun SettingsPrimaryButton(
                     fontWeight = FontWeight.Bold,
                 )
             )
-            if (description.isNotEmpty()) {
+            if (!description.isNullOrEmpty()) {
                 Text(
                     modifier = Modifier.padding(end = 8.dp),
                     text = description,
@@ -1085,14 +1086,16 @@ private fun SettingsDefaultButton(
     @DrawableRes icon: Int,
     text: String,
     iconPadding: Dp = 0.dp,
-    onClick: () -> Unit
+    description: String? = null,
+    onClick: () -> Unit,
 ) {
     SettingsPrimaryButton(
         icon = icon,
         text = text,
         backgroundGradient = Gradient.solid(UI.colors.medium),
         textColor = UI.colors.pureInverse,
-        iconPadding = iconPadding
+        iconPadding = iconPadding,
+        description = description
     ) {
         onClick()
     }
