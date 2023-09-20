@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -14,8 +15,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Card
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -155,16 +156,19 @@ fun ErrorState(
     onClick: () -> Unit
 ) {
     Column(
-        modifier = modifier
+        modifier = modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        Text(text = message)
-        IconButton(
+        Text(
+            text = message,
+            style = MaterialTheme.typography.headlineMedium,
+            color = MaterialTheme.colorScheme.error
+        )
+        ElevatedButton(
             onClick = onClick
         ) {
-            Icon(
-                imageVector = Icons.Filled.Refresh,
-                contentDescription = "Try again"
-            )
+            Text(text = "Try again")
         }
     }
 }
@@ -262,7 +266,7 @@ private fun PreviewSuccess() {
 private fun PreviewError() {
     IvyWalletPreview {
         ContributorsUi(
-            uiState = ContributorsState.Error("Error. Try again."),
+            uiState = ContributorsState.Error("Error"),
             onEvent = {}
         )
     }
