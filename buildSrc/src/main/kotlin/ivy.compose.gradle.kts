@@ -16,6 +16,7 @@ android {
         disable += "MissingTranslation"
         disable += "ComposeViewModelInjection"
         abortOnError = false
+        baseline = file("lint-baseline.xml")
     }
 }
 
