@@ -58,7 +58,7 @@ kotest-property-arrow = { module = "io.kotest.extensions:kotest-property-arrow",
 kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
 
 # Testing
-mockk = {module="io.mockk:mockk", version="1.13.7"}
+mockk = { module = "io.mockk:mockk", version = "1.13.7" }
 
 # Compose
 compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
