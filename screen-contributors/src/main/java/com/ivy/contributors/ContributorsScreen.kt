@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -120,13 +119,13 @@ private fun ContributorsContent(
     ) {
         when (contributorsState) {
             is ContributorsState.Error -> item(key = "Error") {
-                ErrorStage(message = contributorsState.errorMessage) {
+                ErrorState(message = contributorsState.errorMessage) {
                     onEvent(ContributorsEvent.TryAgainButtonClicked)
                 }
             }
 
             ContributorsState.Loading -> item(key = "Loading") {
-                LoadingStage()
+                LoadingState()
             }
 
             is ContributorsState.Success -> items(contributorsState.contributors) {
@@ -137,25 +136,32 @@ private fun ContributorsContent(
 }
 
 @Composable
-fun LazyItemScope.ErrorStage(
+fun ErrorState(
     message: String,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
-    Text(text = message)
-    IconButton(
-        onClick = onClick
+    Column(
+        modifier = modifier
     ) {
-        Icon(
-            imageVector = Icons.Filled.Refresh,
-            contentDescription = "Try again"
-        )
+        Text(text = message)
+        IconButton(
+            onClick = onClick
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Refresh,
+                contentDescription = "Try again"
+            )
+        }
     }
 }
 
 @Composable
-fun LoadingStage(modifier: Modifier = Modifier) {
-    Text(text = "Loading...")
+fun LoadingState(modifier: Modifier = Modifier) {
+    Text(
+        modifier = modifier,
+        text = "Loading..."
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
