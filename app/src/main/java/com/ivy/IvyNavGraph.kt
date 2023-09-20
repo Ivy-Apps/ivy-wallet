@@ -8,6 +8,7 @@ import com.ivy.attributions.AttributionsScreenImpl
 import com.ivy.balance.BalanceScreen
 import com.ivy.budgets.BudgetScreen
 import com.ivy.categories.CategoriesScreen
+import com.ivy.contributors.ContributorsScreenImpl
 import com.ivy.exchangerates.ExchangeRatesScreen
 import com.ivy.features.FeaturesScreenImpl
 import com.ivy.importdata.csv.CSVScreen
@@ -19,6 +20,7 @@ import com.ivy.navigation.BalanceScreen
 import com.ivy.navigation.BudgetScreen
 import com.ivy.navigation.CSVScreen
 import com.ivy.navigation.CategoriesScreen
+import com.ivy.navigation.ContributorsScreen
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.ExchangeRatesScreen
@@ -77,5 +79,6 @@ fun BoxWithConstraintsScope.IvyNavGraph(screen: Screen?) {
         is CSVScreen -> CSVScreen(screen = screen)
         FeaturesScreen -> FeaturesScreenImpl()
         AttributionsScreen -> AttributionsScreenImpl()
+        ContributorsScreen -> ContributorsScreenImpl()
     }
 }

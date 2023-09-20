@@ -275,10 +275,10 @@
     <string name="left_to_spend">Оставащи</string>
     <string name="budget_exceeded_by">Надвишен с</string>
     <string name="buffer_exceeded_by">Надвишен с</string>
-    <string name="set_transaction_type">Тип транзацкия</string>
+    <string name="set_transaction_type">Тип транзакция</string>
     <string name="transfer">Трансфер</string>
     <string name="selected">Избран</string>
-    <string name="search_currency">Търсене (USD, EUR, GBP, BTC, и тн.)</string>
+    <string name="search_currency">Търсене (USD, EUR, GBP, BTC, и т.н.)</string>
     <string name="pre_selected">Пре-избран</string>
     <string name="crypto">Crypto</string>
     <string name="exchange_rate">Курс</string>
@@ -289,7 +289,7 @@
     <string name="create_budget">Създай бюджет</string>
     <string name="budget_name">Име на бюджет</string>
     <string name="budget_amount_uppercase">РАЗМЕР БЮДЖЕТ</string>
-    <string name="confirm_budget_deletion_warning">Наистина ли искате да изтриете този бюдбет: "%1$s"?</string>
+    <string name="confirm_budget_deletion_warning">Наистина ли искате да изтриете този бюджет: "%1$s"?</string>
     <string name="edit_savings_goal">Редактирай цел</string>
     <string name="choose_icon">Избери иконка</string>
     <string name="choose_month">Избери месец</string>
@@ -309,7 +309,7 @@
     <string name="new_loan">Нов заем</string>
     <string name="loan_name">Име на заем</string>
     <string name="associated_account">Свързана сметка</string>
-    <string name="create_main_transaction">Създай транзацкия</string>
+    <string name="create_main_transaction">Създай транзакция</string>
     <string name="enter_loan_amount_uppercase">РАЗМЕР НА ЗАЕМА</string>
     <string name="confirm_account_change_warning">"Важно: You are trying to change the account associated with the loan with an account of different currency, \nAll the loan records will be re-calculated based on today's exchanges rates "</string>
     <string name="loan_type">Тип заем</string>
@@ -321,7 +321,7 @@
     <string name="mark_as_interest">Маркирай като лихва</string>
     <string name="recalculate_amount_with_today_exchange_rates">Преизчисляване на стойност спрямо актуален курс</string>
     <string name="enter_record_amount_uppercase">СТОЙНОСТ НА ЗАПИСА</string>
-    <string name="record_deletion_warning">Сигурни ли сте че искате да изтриете този запис: "%1$s"?</string>
+    <string name="record_deletion_warning">Сигурни ли сте, че искате да изтриете този запис: "%1$s"?</string>
     <string name="account_change_warning">"Важно: You are trying to change the account associated with the loan record with an account of different currency\nThe amount will be re-calculated based on today's exchanges rates "</string>
     <string name="edit_name">Смени име</string>
     <string name="plan_for">Планирано за</string>
