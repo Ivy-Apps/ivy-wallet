@@ -57,6 +57,7 @@ import com.ivy.legacy.utils.thenIf
 import com.ivy.navigation.AttributionsScreen
 import com.ivy.navigation.ContributorsScreen
 import com.ivy.navigation.ExchangeRatesScreen
+import com.ivy.navigation.FeaturesScreen
 import com.ivy.navigation.ImportScreen
 import com.ivy.navigation.SettingsScreen
 import com.ivy.navigation.TestScreen
@@ -140,19 +141,15 @@ private fun BoxWithConstraintsScope.UI(
     currencyCode: String,
     theme: Theme,
     onSwitchTheme: () -> Unit,
-
     lockApp: Boolean,
+    nameLocalAccount: String?,
+    onSetCurrency: (String) -> Unit,
+    startDateOfMonth: Int = 1,
     showNotifications: Boolean = true,
     hideCurrentBalance: Boolean = false,
     progressState: Boolean = false,
     treatTransfersAsIncomeExpense: Boolean = false,
-
-    nameLocalAccount: String?,
-    startDateOfMonth: Int = 1,
-
-    onSetCurrency: (String) -> Unit,
     onSetName: (String) -> Unit = {},
-
     onBackupData: () -> Unit = {},
     onExportToCSV: () -> Unit = {},
     onSetLockApp: (Boolean) -> Unit = {},
@@ -291,6 +288,15 @@ private fun BoxWithConstraintsScope.UI(
             Spacer(Modifier.height(12.dp))
 
             val nav = navigation()
+            SettingsDefaultButton(
+                icon = R.drawable.ic_custom_atom_m,
+                text = "Features"
+            ) {
+                nav.navigateTo(FeaturesScreen)
+            }
+
+            Spacer(Modifier.height(12.dp))
+
             SettingsDefaultButton(
                 icon = R.drawable.ic_currency,
                 text = "Exchange rates"
@@ -666,8 +672,8 @@ private fun AppSwitch(
     lockApp: Boolean,
     onSetLockApp: (Boolean) -> Unit,
     text: String,
-    description: String = "",
     icon: Int,
+    description: String = "",
 ) {
     SettingsButtonRow(
         onClick = {
@@ -890,8 +896,8 @@ private fun SettingsPrimaryButton(
             Text(
                 text = text,
                 style = UI.typo.b2.style(
-                    color = UI.colors.pureInverse,
-                    fontWeight = FontWeight.Bold
+                    color = textColor,
+                    fontWeight = FontWeight.Bold,
                 )
             )
             if (description.isNotEmpty()) {
@@ -910,10 +916,10 @@ private fun SettingsPrimaryButton(
 
 @Composable
 private fun SettingsButtonRow(
+    onClick: (() -> Unit)?,
     hasShadow: Boolean = false,
     backgroundGradient: Gradient = Gradient.solid(UI.colors.medium),
-    onClick: (() -> Unit)?,
-    Content: @Composable RowScope.() -> Unit
+    content: @Composable RowScope.() -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -931,7 +937,7 @@ private fun SettingsButtonRow(
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Content()
+        content()
     }
 }
 

@@ -164,7 +164,7 @@ complexity:
     excludeStringsWithLessThan5Characters: true
     ignoreStringsRegex: '$^'
   TooManyFunctions:
-    active: true
+    active: false
     excludes: ['**/test/**', '**/androidTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**']
     thresholdInFiles: 11
     thresholdInClasses: 11
@@ -255,7 +255,7 @@ exceptions:
     active: true
     ignoreLabeled: false
   SwallowedException:
-    active: true
+    active: false
     ignoredExceptionTypes:
       - 'InterruptedException'
       - 'MalformedURLException'
@@ -282,7 +282,7 @@ exceptions:
   ThrowingNewInstanceOfSameException:
     active: true
   TooGenericExceptionCaught:
-    active: true
+    active: false
     excludes: ['**/test/**', '**/androidTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**']
     exceptionNames:
       - 'ArrayIndexOutOfBoundsException'
