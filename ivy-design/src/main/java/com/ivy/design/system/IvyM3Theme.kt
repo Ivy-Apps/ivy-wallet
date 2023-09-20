@@ -38,7 +38,7 @@ private fun ivyLightColorScheme(): ColorScheme = ColorScheme(
 
     background = IvyColors.White,
     onBackground = IvyColors.Black,
-    surface = IvyColors.LightGray,
+    surface = IvyColors.White,
     onSurface = IvyColors.Black,
     surfaceVariant = IvyColors.ExtraLightGray,
     onSurfaceVariant = IvyColors.Black,
@@ -48,7 +48,7 @@ private fun ivyLightColorScheme(): ColorScheme = ColorScheme(
 
     outline = IvyColors.Gray,
     outlineVariant = IvyColors.DarkGray,
-    scrim = IvyColors.Black.copy(alpha = 0.8f)
+    scrim = IvyColors.ExtraDarkGray.copy(alpha = 0.8f)
 )
 
 private fun ivyDarkColorScheme(): ColorScheme = ColorScheme(
