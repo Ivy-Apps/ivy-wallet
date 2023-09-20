@@ -128,7 +128,7 @@ android {
 
 dependencies {
     implementation(projects.ivyCore)
-    implementation(projects.ivyDesign)
+    implementation(projects.tempOldDesign)
     implementation(projects.ivyResources)
     implementation(projects.ivyNavigation)
     implementation(projects.ivyWidgetBase)
