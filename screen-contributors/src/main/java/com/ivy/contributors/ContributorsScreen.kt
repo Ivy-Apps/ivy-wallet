@@ -187,7 +187,7 @@ private fun ContributorCard(contributor: Contributor) {
                 modifier = Modifier
                     .size(72.dp)
                     .border(
-                        border = BorderStroke(width = 0.5.dp, color = Color.LightGray),
+                        border = BorderStroke(width = 1.dp, color = Color.LightGray),
                         shape = RoundedCornerShape(topStart = 12.dp, bottomStart = 12.dp)
                     ),
                 model = contributor.photo,
