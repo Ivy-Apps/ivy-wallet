@@ -178,9 +178,7 @@ dependencies {
     implementation(libs.androidx.work)
     implementation(libs.androidx.recyclerview)
 
-    testImplementation(libs.bundles.kotest)
-    testImplementation(libs.bundles.kotlin.test)
-    testImplementation(libs.hilt.testing)
+    testImplementation(libs.bundles.testing)
     testImplementation(libs.androidx.work.testing)
 
     lintChecks(libs.slack.lint.compose)
