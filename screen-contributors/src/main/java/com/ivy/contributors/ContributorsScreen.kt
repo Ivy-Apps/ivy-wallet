@@ -127,8 +127,11 @@ private fun ContributorsContent(
 ) {
     LazyColumn(
         modifier = Modifier
-            .padding(paddingValues)
-            .padding(horizontal = 16.dp, vertical = 4.dp),
+            .padding(paddingValues),
+        contentPadding = PaddingValues(
+            horizontal = 16.dp,
+            vertical = 12.dp,
+        ),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         when (contributorsState) {
