@@ -3,6 +3,7 @@ package com.ivy.design.api
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
@@ -17,7 +18,7 @@ val LocalIvyContext = compositionLocalOf<IvyContext> { error("No LocalIvyContext
 @Composable
 fun IvyUI(
     design: IvyDesign,
-    Content: @Composable BoxWithConstraintsScope.() -> Unit
+    content: @Composable BoxWithConstraintsScope.() -> Unit
 ) {
     val ivyContext = design.context()
 
@@ -28,17 +29,18 @@ fun IvyUI(
             theme = ivyContext.theme,
             design = design
         ) {
-            BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
-                ivyContext.screenWidth = with(LocalDensity.current) {
-                    maxWidth.roundToPx()
-                }
-                ivyContext.screenHeight = with(LocalDensity.current) {
-                    maxHeight.roundToPx()
-                }
+            Surface(modifier = Modifier.fillMaxSize()) {
+                BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+                    ivyContext.screenWidth = with(LocalDensity.current) {
+                        maxWidth.roundToPx()
+                    }
+                    ivyContext.screenHeight = with(LocalDensity.current) {
+                        maxHeight.roundToPx()
+                    }
 
-                Content()
+                    content()
+                }
             }
-
         }
     }
 }

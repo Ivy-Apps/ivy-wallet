@@ -47,7 +47,7 @@ fun IvyPreview(
     design.context().switchTheme(theme = theme)
     IvyUI(
         design = design,
-        Content = Content
+        content = Content
     )
 }
 
