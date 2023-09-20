@@ -16,7 +16,7 @@ class ContributorsViewModel @Inject constructor(
 ) : ComposeViewModel<ContributorsState, ContributorsEvent>() {
 
     private val contributors = mutableStateOf<List<Contributor>?>(null)
-    private val contributorsStage = mutableStateOf<ContributorsStage>(ContributorsStage.Loading)
+    private val contributorsState = mutableStateOf<ContributorsState>(ContributorsState.Loading)
 
     @Composable
     override fun uiState(): ContributorsState {
@@ -33,13 +33,13 @@ class ContributorsViewModel @Inject constructor(
             val contributors = contributors.value
 
             if (contributors != null) {
-                contributorsStage.value = ContributorsStage.Success(contributors.toImmutableList())
+                contributorsState.value = ContributorsState.Success(contributors.toImmutableList())
             } else {
-                contributorsStage.value = ContributorsStage.Error("Error. Try again.")
+                contributorsState.value = ContributorsState.Error("Error. Try again.")
             }
         }
 
-        return ContributorsState(contributorsStage.value)
+        return contributorsState.value
     }
 
     override fun onEvent(event: ContributorsEvent) {

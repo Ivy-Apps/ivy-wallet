@@ -73,7 +73,7 @@ private fun ContributorsUi(
         content = {
             ContributorsContent(
                 paddingValues = it,
-                contributorsStage = uiState.contributors,
+                contributorsState = uiState,
                 onEvent = { contributorsEvent ->
                     onEvent(contributorsEvent)
                 }
@@ -109,7 +109,7 @@ private fun BackButton(nav: Navigation) {
 @Composable
 private fun ContributorsContent(
     paddingValues: PaddingValues,
-    contributorsStage: ContributorsStage,
+    contributorsState: ContributorsState,
     onEvent: (ContributorsEvent) -> Unit
 ) {
     LazyColumn(
@@ -118,18 +118,18 @@ private fun ContributorsContent(
             .padding(horizontal = 16.dp, vertical = 4.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        when (contributorsStage) {
-            is ContributorsStage.Error -> item(key = "Error") {
-                ErrorStage(message = contributorsStage.errorMessage) {
+        when (contributorsState) {
+            is ContributorsState.Error -> item(key = "Error") {
+                ErrorStage(message = contributorsState.errorMessage) {
                     onEvent(ContributorsEvent.TryAgainButtonClicked)
                 }
             }
 
-            ContributorsStage.Loading -> item(key = "Loading") {
+            ContributorsState.Loading -> item(key = "Loading") {
                 LoadingStage()
             }
 
-            is ContributorsStage.Success -> items(contributorsStage.contributors) {
+            is ContributorsState.Success -> items(contributorsState.contributors) {
                 ContributorCard(contributor = it)
             }
         }
@@ -199,15 +199,13 @@ private fun ContributorCard(contributor: Contributor) {
 private fun PreviewSuccess() {
     IvyWalletPreview {
         ContributorsUi(
-            uiState = ContributorsState(
-                contributors = ContributorsStage.Success(
-                    persistentListOf(
-                        Contributor(
-                            name = "Iliyan",
-                            photo = "",
-                            contributions = "564",
-                            link = ""
-                        )
+            uiState = ContributorsState.Success(
+                contributors = persistentListOf(
+                    Contributor(
+                        name = "Iliyan",
+                        photo = "",
+                        contributions = "564",
+                        link = ""
                     )
                 )
             ),
@@ -221,11 +219,7 @@ private fun PreviewSuccess() {
 private fun PreviewError() {
     IvyWalletPreview {
         ContributorsUi(
-            uiState = ContributorsState(
-                contributors = ContributorsStage.Error(
-                    errorMessage = "Error. Try again."
-                )
-            ),
+            uiState = ContributorsState.Error("Error. Try again."),
             onEvent = {}
         )
     }
@@ -236,9 +230,7 @@ private fun PreviewError() {
 private fun PreviewLoading() {
     IvyWalletPreview {
         ContributorsUi(
-            uiState = ContributorsState(
-                contributors = ContributorsStage.Loading
-            ),
+            uiState = ContributorsState.Loading,
             onEvent = {}
         )
     }
