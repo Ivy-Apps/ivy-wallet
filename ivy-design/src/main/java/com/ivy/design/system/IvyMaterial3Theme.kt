@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import com.ivy.design.system.colors.IvyColors
 
 @Composable
-fun IvyM3Theme(
+fun IvyMaterial3Theme(
     dark: Boolean,
     content: @Composable () -> Unit
 ) {
