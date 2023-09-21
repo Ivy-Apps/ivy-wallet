@@ -27,7 +27,7 @@ class ContributorsDataSource @Inject constructor(
     @Keep
     @Serializable
     data class IvyWalletRepositoryInfo(
-        @SerialName("forks_count")
+        @SerialName("forks")
         val forks: Int,
         @SerialName("stargazers_count")
         val stars: Int

@@ -15,15 +15,21 @@ class ContributorsViewModel @Inject constructor(
     private val contributorsDataSource: ContributorsDataSource
 ) : ComposeViewModel<ContributorsState, ContributorsEvent>() {
 
-    private val contributorsState = mutableStateOf<ContributorsState>(ContributorsState.Loading)
+    private val projectResponse = mutableStateOf<ProjectResponse>(ProjectResponse.Loading)
+    private val contributorsResponse =
+        mutableStateOf<ContributorsResponse>(ContributorsResponse.Loading)
 
     @Composable
     override fun uiState(): ContributorsState {
         LaunchedEffect(Unit) {
             fetchContributors()
+            fetchProjectInfo()
         }
 
-        return contributorsState.value
+        return ContributorsState(
+            projectResponse = projectResponse.value,
+            contributorsResponse = contributorsResponse.value
+        )
     }
 
     override fun onEvent(event: ContributorsEvent) {
@@ -33,7 +39,7 @@ class ContributorsViewModel @Inject constructor(
     }
 
     private fun onTryAgainButtonClicked() {
-        contributorsState.value = ContributorsState.Loading
+        contributorsResponse.value = ContributorsResponse.Loading
 
         viewModelScope.launch {
             fetchContributors()
@@ -51,11 +57,26 @@ class ContributorsViewModel @Inject constructor(
         }
 
         if (contributors != null) {
-            contributorsState.value = ContributorsState.Success(
+            contributorsResponse.value = ContributorsResponse.Success(
                 contributors.toImmutableList()
             )
         } else {
-            contributorsState.value = ContributorsState.Error("Error")
+            contributorsResponse.value = ContributorsResponse.Error("Error")
+        }
+    }
+
+    private suspend fun fetchProjectInfo() {
+        val responseInfo = contributorsDataSource.fetchIvyWalletRepositoryInfo()
+
+        if (responseInfo != null) {
+            val projectRepositoryInfo = ProjectRepostoryInfo(
+                forks = responseInfo.forks.toString(),
+                stars = responseInfo.stars.toString()
+            )
+
+            projectResponse.value = ProjectResponse.Success(projectRepositoryInfo)
+        } else {
+            projectResponse.value = ProjectResponse.Error
         }
     }
 }

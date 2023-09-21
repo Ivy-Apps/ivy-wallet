@@ -10,7 +10,7 @@ data class ContributorsState(
 sealed interface ProjectResponse {
     data object Loading : ProjectResponse
     data class Success(val projectInfo: ProjectRepostoryInfo) : ProjectResponse
-    data object Error : ContributorsResponse
+    data object Error : ProjectResponse
 }
 
 sealed interface ContributorsResponse {
