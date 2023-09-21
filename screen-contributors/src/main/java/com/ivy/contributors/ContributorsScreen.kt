@@ -225,7 +225,10 @@ private fun ContributorCard(contributor: Contributor) {
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "${contributor.contributionsCount} contributions",
+                    text = when (contributor.contributionsCount.toInt()) {
+                        1 -> "1 contribution"
+                        else -> "${contributor.contributionsCount} contributions"
+                    },
                     style = MaterialTheme.typography.bodySmall
                 )
             }
