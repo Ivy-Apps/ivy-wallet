@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ContributorsViewModel @Inject constructor(
-    private val contributorsDataSource: ContributorsDataSource
+    private val ivyWalletRepositoryDataSource: IvyWalletRepositoryDataSource
 ) : ComposeViewModel<ContributorsState, ContributorsEvent>() {
 
     private val projectResponse = mutableStateOf<ProjectResponse>(ProjectResponse.Loading)
@@ -47,7 +47,7 @@ class ContributorsViewModel @Inject constructor(
     }
 
     private suspend fun fetchContributors() {
-        val contributors = contributorsDataSource.fetchContributors()?.map {
+        val contributors = ivyWalletRepositoryDataSource.fetchContributors()?.map {
             Contributor(
                 name = it.login,
                 photoUrl = it.avatarUrl,
@@ -66,7 +66,7 @@ class ContributorsViewModel @Inject constructor(
     }
 
     private suspend fun fetchProjectInfo() {
-        val responseInfo = contributorsDataSource.fetchIvyWalletRepositoryInfo()
+        val responseInfo = ivyWalletRepositoryDataSource.fetchRepositoryInfo()
 
         if (responseInfo != null) {
             val projectRepositoryInfo = ProjectRepositoryInfo(

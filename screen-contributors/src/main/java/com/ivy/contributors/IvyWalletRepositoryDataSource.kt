@@ -10,7 +10,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import javax.inject.Inject
 
-class ContributorsDataSource @Inject constructor(
+class IvyWalletRepositoryDataSource @Inject constructor(
     private val httpClient: HttpClient
 ) {
     @Keep
@@ -47,7 +47,7 @@ class ContributorsDataSource @Inject constructor(
         }
     }
 
-    suspend fun fetchIvyWalletRepositoryInfo(): IvyWalletRepositoryInfo? {
+    suspend fun fetchRepositoryInfo(): IvyWalletRepositoryInfo? {
         return try {
             withContext(Dispatchers.IO) {
                 httpClient
