@@ -174,7 +174,6 @@ private fun ProjectInfoContent(contributorsState: ContributorsState) {
         ProjectResponse.Loading -> {
             // show nothing
         }
-
         is ProjectResponse.Success -> ProjectInfoRow(
             projectRepositoryInfo = contributorsState.projectResponse
         )
