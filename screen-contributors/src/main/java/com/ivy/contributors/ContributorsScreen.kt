@@ -129,8 +129,9 @@ private fun ScreenContent(
         modifier = Modifier
             .padding(paddingValues),
         contentPadding = PaddingValues(
-            horizontal = 16.dp,
-            vertical = 12.dp,
+            start = 16.dp,
+            end = 16.dp,
+            bottom = 8.dp
         ),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
@@ -174,6 +175,7 @@ private fun ProjectInfoContent(contributorsState: ContributorsState) {
         ProjectResponse.Loading -> {
             // show nothing
         }
+
         is ProjectResponse.Success -> ProjectInfoRow(
             projectRepositoryInfo = contributorsState.projectResponse
         )
