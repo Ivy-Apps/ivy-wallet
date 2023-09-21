@@ -169,8 +169,13 @@ private fun LazyListScope.content(
 
 @Composable
 private fun ProjectInfoContent(contributorsState: ContributorsState) {
-    if (contributorsState.projectResponse is ProjectResponse.Success) {
-        ProjectInfoRow(
+    when (contributorsState.projectResponse) {
+        ProjectResponse.Error,
+        ProjectResponse.Loading -> {
+            // show nothing
+        }
+
+        is ProjectResponse.Success -> ProjectInfoRow(
             projectRepositoryInfo = contributorsState.projectResponse
         )
     }
