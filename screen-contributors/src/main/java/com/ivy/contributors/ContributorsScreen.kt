@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -80,7 +81,7 @@ private fun ContributorsUi(
             )
         },
         content = {
-            ContributorsContent(
+            ScreenContent(
                 paddingValues = it,
                 contributorsState = uiState,
                 onEvent = { contributorsEvent ->
@@ -118,7 +119,7 @@ private fun BackButton(nav: Navigation) {
 }
 
 @Composable
-private fun ContributorsContent(
+private fun ScreenContent(
     paddingValues: PaddingValues,
     contributorsState: ContributorsState,
     onEvent: (ContributorsEvent) -> Unit
@@ -132,40 +133,55 @@ private fun ContributorsContent(
         ),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        when (contributorsState.projectResponse) {
-            ProjectResponse.Error -> item { Text("") }
-            ProjectResponse.Loading -> item(key = "Project Response Loading") {
-                LoadingState()
-            }
+        item(key = "Project Info") {
+            ProjectInfoContent(contributorsState = contributorsState)
+        }
 
-            is ProjectResponse.Success -> item(key = "Project Info Row") {
-                ProjectInfoRow(
-                    projectRepositoryInfo = contributorsState.projectResponse.projectInfo
-                )
+        contributorsContent(contributorsState = contributorsState, onEvent = onEvent)
+    }
+}
+
+@Composable
+private fun ProjectInfoContent(contributorsState: ContributorsState) {
+    if (contributorsState.projectResponse != ProjectResponse.Error) {
+        if (contributorsState.projectResponse == ProjectResponse.Loading) {
+            LoadingState()
+        } else {
+            ProjectInfoRow(
+                projectRepositoryInfo =
+                contributorsState.projectResponse as ProjectResponse.Success
+            )
+        }
+    }
+}
+
+private fun LazyListScope.contributorsContent(
+    contributorsState: ContributorsState,
+    onEvent: (ContributorsEvent) -> Unit
+) {
+    when (contributorsState.contributorsResponse) {
+        is ContributorsResponse.Error -> item(key = "Error") {
+            ContributorsErrorState(
+                message = contributorsState.contributorsResponse.errorMessage
+            ) {
+                onEvent(ContributorsEvent.TryAgainButtonClicked)
             }
         }
 
-        when (contributorsState.contributorsResponse) {
-            is ContributorsResponse.Error -> item(key = "Error") {
-                ContributorsErrorState(message = contributorsState.contributorsResponse.errorMessage) {
-                    onEvent(ContributorsEvent.TryAgainButtonClicked)
-                }
-            }
+        ContributorsResponse.Loading -> item(key = "Loading") {
+            LoadingState()
+        }
 
-            ContributorsResponse.Loading -> item(key = "Loading") {
-                LoadingState()
-            }
-
-            is ContributorsResponse.Success -> items(contributorsState.contributorsResponse.contributors) {
+        is ContributorsResponse.Success ->
+            items(contributorsState.contributorsResponse.contributors) {
                 ContributorCard(contributor = it)
             }
-        }
     }
 }
 
 @Composable
 private fun ProjectInfoRow(
-    projectRepositoryInfo: ProjectRepositoryInfo,
+    projectRepositoryInfo: ProjectResponse.Success,
     modifier: Modifier = Modifier
 ) {
     val browser = LocalUriHandler.current
@@ -173,10 +189,10 @@ private fun ProjectInfoRow(
     Row(modifier = modifier.fillMaxWidth()) {
         ProjectInfoButton(
             icon = painterResource(id = R.drawable.ic_custom_connect_l),
-            info = "${projectRepositoryInfo.forks} forks",
+            info = "${projectRepositoryInfo.projectInfo.forks} forks",
             contentDescription = "Forks",
             onClick = {
-                browser.openUri(projectRepositoryInfo.url)
+                browser.openUri(projectRepositoryInfo.projectInfo.url)
             }
         )
 
@@ -184,10 +200,10 @@ private fun ProjectInfoRow(
 
         ProjectInfoButton(
             icon = painterResource(id = R.drawable.ic_custom_star_l),
-            info = "${projectRepositoryInfo.stars} stars",
+            info = "${projectRepositoryInfo.projectInfo.stars} stars",
             contentDescription = "Stars",
             onClick = {
-                browser.openUri(projectRepositoryInfo.url)
+                browser.openUri(projectRepositoryInfo.projectInfo.url)
             }
         )
     }
