@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,7 +34,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -191,9 +191,14 @@ private fun ProjectInfoRow(
 
     Row(modifier = modifier.fillMaxWidth()) {
         ProjectInfoButton(
-            icon = painterResource(id = R.drawable.ic_custom_connect_s),
+            icon = {
+                Icon(
+                    modifier = Modifier.size(24.dp),
+                    painter = painterResource(id = R.drawable.ic_vue_dev_hierarchy),
+                    contentDescription = "Forks"
+                )
+            },
             info = "${projectRepositoryInfo.projectInfo.forks} forks",
-            contentDescription = "Forks",
             onClick = {
                 browser.openUri("https://github.com/Ivy-Apps/ivy-wallet/fork")
             }
@@ -202,9 +207,14 @@ private fun ProjectInfoRow(
         Spacer(modifier = Modifier.weight(1f))
 
         ProjectInfoButton(
-            icon = painterResource(id = R.drawable.ic_custom_star_s),
+            icon = {
+                Icon(
+                    modifier = Modifier.size(24.dp),
+                    imageVector = Icons.Filled.Star,
+                    contentDescription = "Stars"
+                )
+            },
             info = "${projectRepositoryInfo.projectInfo.stars} stars",
-            contentDescription = "Stars",
             onClick = {
                 browser.openUri(projectRepositoryInfo.projectInfo.url)
             }
@@ -214,8 +224,7 @@ private fun ProjectInfoRow(
 
 @Composable
 private fun ProjectInfoButton(
-    icon: Painter,
-    contentDescription: String,
+    icon: @Composable () -> Unit,
     info: String,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
@@ -224,11 +233,7 @@ private fun ProjectInfoButton(
         modifier = modifier,
         onClick = onClick
     ) {
-        Icon(
-            modifier = Modifier.size(24.dp),
-            painter = icon,
-            contentDescription = contentDescription
-        )
+        icon()
 
         Spacer(modifier = Modifier.width(4.dp))
 
