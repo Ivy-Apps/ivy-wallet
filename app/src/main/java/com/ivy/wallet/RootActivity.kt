@@ -23,8 +23,6 @@ import androidx.biometric.BiometricPrompt
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.BoxWithConstraintsScope
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -114,45 +112,43 @@ class RootActivity : AppCompatActivity(), RootScreen {
                 viewModel.start(isSystemInDarkTheme, intent)
             }
 
-            IvyUI(
-                design = appDesign(ivyContext)
-            ) {
-                UI(viewModel)
-            }
-        }
-    }
+            val appLocked by viewModel.appLocked.collectAsState()
+            when (appLocked) {
+                null -> {
+                    // display nothing
+                }
 
-    @ExperimentalFoundationApi
-    @ExperimentalAnimationApi
-    @Composable
-    private fun BoxWithConstraintsScope.UI(viewModel: RootViewModel) {
-        val appLocked by viewModel.appLocked.collectAsState()
-
-        when (appLocked) {
-            null -> {
-                // display nothing
-            }
-
-            true -> {
-                AppLockedScreen(
-                    onShowOSBiometricsModal = {
-                        authenticateWithOSBiometricsModal(
-                            biometricPromptCallback = viewModel.handleBiometricAuthResult()
+                true -> {
+                    IvyUI(
+                        design = appDesign(ivyContext)
+                    ) {
+                        AppLockedScreen(
+                            onShowOSBiometricsModal = {
+                                authenticateWithOSBiometricsModal(
+                                    biometricPromptCallback = viewModel.handleBiometricAuthResult()
+                                )
+                            },
+                            onContinueWithoutAuthentication = {
+                                viewModel.unlockApp()
+                            }
                         )
-                    },
-                    onContinueWithoutAuthentication = {
-                        viewModel.unlockApp()
                     }
-                )
-            }
+                }
 
-            false -> {
-                NavigationRoot(navigation = navigation) { screen ->
-                    IvyNavGraph(screen)
+                false -> {
+                    NavigationRoot(navigation = navigation) { screen ->
+                        IvyUI(
+                            design = appDesign(ivyContext),
+                            includeSurface = screen?.isLegacy ?: true
+                        ) {
+                            IvyNavGraph(screen)
+                        }
+                    }
                 }
             }
         }
     }
+
 
     private fun setupDatePicker() {
         ivyContext.onShowDatePicker = { minDate,

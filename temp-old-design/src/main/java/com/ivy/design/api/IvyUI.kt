@@ -18,6 +18,7 @@ val LocalIvyContext = compositionLocalOf<IvyContext> { error("No LocalIvyContext
 @Composable
 fun IvyUI(
     design: IvyDesign,
+    includeSurface: Boolean = true,
     content: @Composable BoxWithConstraintsScope.() -> Unit
 ) {
     val ivyContext = design.context()
@@ -29,7 +30,7 @@ fun IvyUI(
             theme = ivyContext.theme,
             design = design
         ) {
-            Surface {
+            WrapWithSurface(includeSurface = includeSurface) {
                 BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
                     ivyContext.screenWidth = with(LocalDensity.current) {
                         maxWidth.roundToPx()
@@ -42,6 +43,20 @@ fun IvyUI(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun WrapWithSurface(
+    includeSurface: Boolean,
+    content: @Composable () -> Unit,
+) {
+    if(includeSurface) {
+        Surface {
+            content()
+        }
+    } else {
+        content()
     }
 }
 
