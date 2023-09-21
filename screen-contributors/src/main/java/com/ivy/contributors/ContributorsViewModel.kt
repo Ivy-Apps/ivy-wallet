@@ -12,18 +12,24 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ContributorsViewModel @Inject constructor(
-    private val contributorsDataSource: ContributorsDataSource
+    private val ivyWalletRepositoryDataSource: IvyWalletRepositoryDataSource
 ) : ComposeViewModel<ContributorsState, ContributorsEvent>() {
 
-    private val contributorsState = mutableStateOf<ContributorsState>(ContributorsState.Loading)
+    private val projectResponse = mutableStateOf<ProjectResponse>(ProjectResponse.Loading)
+    private val contributorsResponse =
+        mutableStateOf<ContributorsResponse>(ContributorsResponse.Loading)
 
     @Composable
     override fun uiState(): ContributorsState {
         LaunchedEffect(Unit) {
             fetchContributors()
+            fetchProjectInfo()
         }
 
-        return contributorsState.value
+        return ContributorsState(
+            projectResponse = projectResponse.value,
+            contributorsResponse = contributorsResponse.value
+        )
     }
 
     override fun onEvent(event: ContributorsEvent) {
@@ -33,7 +39,7 @@ class ContributorsViewModel @Inject constructor(
     }
 
     private fun onTryAgainButtonClicked() {
-        contributorsState.value = ContributorsState.Loading
+        contributorsResponse.value = ContributorsResponse.Loading
 
         viewModelScope.launch {
             fetchContributors()
@@ -41,7 +47,7 @@ class ContributorsViewModel @Inject constructor(
     }
 
     private suspend fun fetchContributors() {
-        val contributors = contributorsDataSource.fetchContributors()?.map {
+        val contributors = ivyWalletRepositoryDataSource.fetchContributors()?.map {
             Contributor(
                 name = it.login,
                 photoUrl = it.avatarUrl,
@@ -51,11 +57,27 @@ class ContributorsViewModel @Inject constructor(
         }
 
         if (contributors != null) {
-            contributorsState.value = ContributorsState.Success(
+            contributorsResponse.value = ContributorsResponse.Success(
                 contributors.toImmutableList()
             )
         } else {
-            contributorsState.value = ContributorsState.Error("Error")
+            contributorsResponse.value = ContributorsResponse.Error("Error")
+        }
+    }
+
+    private suspend fun fetchProjectInfo() {
+        val responseInfo = ivyWalletRepositoryDataSource.fetchRepositoryInfo()
+
+        if (responseInfo != null) {
+            val projectRepositoryInfo = ProjectRepositoryInfo(
+                forks = responseInfo.forks.toString(),
+                stars = responseInfo.stars.toString(),
+                url = responseInfo.url
+            )
+
+            projectResponse.value = ProjectResponse.Success(projectRepositoryInfo)
+        } else {
+            projectResponse.value = ProjectResponse.Error
         }
     }
 }

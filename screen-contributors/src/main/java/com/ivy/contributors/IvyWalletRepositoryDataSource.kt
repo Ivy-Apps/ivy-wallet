@@ -10,7 +10,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import javax.inject.Inject
 
-class ContributorsDataSource @Inject constructor(
+class IvyWalletRepositoryDataSource @Inject constructor(
     private val httpClient: HttpClient
 ) {
     @Keep
@@ -24,12 +24,35 @@ class ContributorsDataSource @Inject constructor(
         val link: String
     )
 
+    @Keep
+    @Serializable
+    data class IvyWalletRepositoryInfo(
+        @SerialName("forks")
+        val forks: Int,
+        @SerialName("stargazers_count")
+        val stars: Int,
+        @SerialName("html_url")
+        val url: String
+    )
+
     suspend fun fetchContributors(): List<ContributorDto>? {
         return try {
             withContext(Dispatchers.IO) {
                 httpClient
                     .get("https://api.github.com/repos/Ivy-Apps/ivy-wallet/contributors")
                     .body<List<ContributorDto>>()
+            }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    suspend fun fetchRepositoryInfo(): IvyWalletRepositoryInfo? {
+        return try {
+            withContext(Dispatchers.IO) {
+                httpClient
+                    .get("https://api.github.com/repos/Ivy-Apps/ivy-wallet")
+                    .body<IvyWalletRepositoryInfo>()
             }
         } catch (e: Exception) {
             null
