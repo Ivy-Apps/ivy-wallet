@@ -28,6 +28,10 @@ android {
         versionCode = libs.versions.version.code.get().toInt()
     }
 
+    androidResources {
+        generateLocaleConfig = true
+    }
+
     signingConfigs {
         getByName("debug") {
             storeFile = file("../debug.jks")
