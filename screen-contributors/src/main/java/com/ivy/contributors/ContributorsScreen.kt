@@ -12,7 +12,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -29,6 +31,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -37,8 +40,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
-import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.navigation
@@ -100,10 +101,7 @@ private fun TopAppBarTitle(text: String) {
     Text(
         text = text,
         maxLines = 1,
-        overflow = TextOverflow.Ellipsis,
-        style = UI.typo.h2.style(
-            fontWeight = FontWeight.Black
-        )
+        overflow = TextOverflow.Ellipsis
     )
 }
 
@@ -134,18 +132,31 @@ private fun ContributorsContent(
         ),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        when (contributorsState) {
-            is ContributorsState.Error -> item(key = "Error") {
-                ErrorState(message = contributorsState.errorMessage) {
+        when (contributorsState.projectResponse) {
+            ProjectResponse.Error -> item { Text("") }
+            ProjectResponse.Loading -> item(key = "Project Response Loading") {
+                LoadingState()
+            }
+
+            is ProjectResponse.Success -> item(key = "Project Info Row") {
+                ProjectInfoRow(
+                    projectRepositoryInfo = contributorsState.projectResponse.projectInfo
+                )
+            }
+        }
+
+        when (contributorsState.contributorsResponse) {
+            is ContributorsResponse.Error -> item(key = "Error") {
+                ContributorsErrorState(message = contributorsState.contributorsResponse.errorMessage) {
                     onEvent(ContributorsEvent.TryAgainButtonClicked)
                 }
             }
 
-            ContributorsState.Loading -> item(key = "Loading") {
+            ContributorsResponse.Loading -> item(key = "Loading") {
                 LoadingState()
             }
 
-            is ContributorsState.Success -> items(contributorsState.contributors) {
+            is ContributorsResponse.Success -> items(contributorsState.contributorsResponse.contributors) {
                 ContributorCard(contributor = it)
             }
         }
@@ -153,7 +164,60 @@ private fun ContributorsContent(
 }
 
 @Composable
-fun ErrorState(
+private fun ProjectInfoRow(
+    projectRepositoryInfo: ProjectRepositoryInfo,
+    modifier: Modifier = Modifier
+) {
+    val browser = LocalUriHandler.current
+
+    Row(modifier = modifier.fillMaxWidth()) {
+        ProjectInfoButton(
+            icon = painterResource(id = R.drawable.ic_custom_connect_l),
+            info = "${projectRepositoryInfo.forks} forks",
+            contentDescription = "Forks",
+            onClick = {
+                browser.openUri(projectRepositoryInfo.url)
+            }
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        ProjectInfoButton(
+            icon = painterResource(id = R.drawable.ic_custom_star_l),
+            info = "${projectRepositoryInfo.stars} stars",
+            contentDescription = "Stars",
+            onClick = {
+                browser.openUri(projectRepositoryInfo.url)
+            }
+        )
+    }
+}
+
+@Composable
+private fun ProjectInfoButton(
+    icon: Painter,
+    contentDescription: String,
+    info: String,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    IconButton(
+        modifier = modifier,
+        onClick = onClick
+    ) {
+        Icon(
+            painter = icon,
+            contentDescription = contentDescription
+        )
+
+        Spacer(modifier = Modifier.width(4.dp))
+
+        Text(text = info)
+    }
+}
+
+@Composable
+private fun ContributorsErrorState(
     message: String,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
@@ -177,7 +241,7 @@ fun ErrorState(
 }
 
 @Composable
-fun LoadingState(modifier: Modifier = Modifier) {
+private fun LoadingState(modifier: Modifier = Modifier) {
     Text(
         modifier = modifier,
         text = "Loading..."

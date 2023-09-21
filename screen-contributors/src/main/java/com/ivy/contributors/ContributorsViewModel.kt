@@ -69,9 +69,10 @@ class ContributorsViewModel @Inject constructor(
         val responseInfo = contributorsDataSource.fetchIvyWalletRepositoryInfo()
 
         if (responseInfo != null) {
-            val projectRepositoryInfo = ProjectRepostoryInfo(
+            val projectRepositoryInfo = ProjectRepositoryInfo(
                 forks = responseInfo.forks.toString(),
-                stars = responseInfo.stars.toString()
+                stars = responseInfo.stars.toString(),
+                url = responseInfo.url
             )
 
             projectResponse.value = ProjectResponse.Success(projectRepositoryInfo)

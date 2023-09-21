@@ -30,7 +30,9 @@ class ContributorsDataSource @Inject constructor(
         @SerialName("forks")
         val forks: Int,
         @SerialName("stargazers_count")
-        val stars: Int
+        val stars: Int,
+        @SerialName("html_url")
+        val url: String
     )
 
     suspend fun fetchContributors(): List<ContributorDto>? {
