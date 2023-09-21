@@ -51,7 +51,7 @@ private fun WrapWithSurface(
     includeSurface: Boolean,
     content: @Composable () -> Unit,
 ) {
-    if(includeSurface) {
+    if (includeSurface) {
         Surface {
             content()
         }

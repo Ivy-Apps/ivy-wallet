@@ -149,7 +149,6 @@ class RootActivity : AppCompatActivity(), RootScreen {
         }
     }
 
-
     private fun setupDatePicker() {
         ivyContext.onShowDatePicker = { minDate,
                                         maxDate,
