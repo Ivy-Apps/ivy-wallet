@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -26,6 +25,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -73,7 +73,7 @@ private fun ContributorsUi(
         topBar = {
             TopAppBar(
                 title = {
-                    TopAppBarTitle(text = "Contributors")
+                    TopAppBarTitle(title = "Contributors")
                 },
                 navigationIcon = {
                     BackButton(nav = nav)
@@ -98,9 +98,9 @@ private fun ContributorsUi(
 }
 
 @Composable
-private fun TopAppBarTitle(text: String) {
+private fun TopAppBarTitle(title: String) {
     Text(
-        text = text,
+        text = title,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis
     )
@@ -131,31 +131,13 @@ private fun ScreenContent(
             horizontal = 16.dp,
             vertical = 12.dp,
         ),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        item(key = "Project Info") {
-            ProjectInfoContent(contributorsState = contributorsState)
-        }
-
-        contributorsContent(contributorsState = contributorsState, onEvent = onEvent)
+        content(contributorsState = contributorsState, onEvent = onEvent)
     }
 }
 
-@Composable
-private fun ProjectInfoContent(contributorsState: ContributorsState) {
-    if (contributorsState.projectResponse != ProjectResponse.Error) {
-        if (contributorsState.projectResponse == ProjectResponse.Loading) {
-            LoadingState()
-        } else {
-            ProjectInfoRow(
-                projectRepositoryInfo =
-                contributorsState.projectResponse as ProjectResponse.Success
-            )
-        }
-    }
-}
-
-private fun LazyListScope.contributorsContent(
+private fun LazyListScope.content(
     contributorsState: ContributorsState,
     onEvent: (ContributorsEvent) -> Unit
 ) {
@@ -173,10 +155,28 @@ private fun LazyListScope.contributorsContent(
         }
 
         is ContributorsResponse.Success ->
-            items(contributorsState.contributorsResponse.contributors) {
-                ContributorCard(contributor = it)
+            item(key = "Success") {
+                ProjectInfoContent(contributorsState = contributorsState)
+
                 Spacer(modifier = Modifier.height(8.dp))
+
+                for (contributor in contributorsState.contributorsResponse.contributors) {
+                    ContributorCard(contributor = contributor)
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
             }
+    }
+}
+
+@Composable
+private fun ProjectInfoContent(contributorsState: ContributorsState) {
+    if (contributorsState.projectResponse != ProjectResponse.Loading &&
+        contributorsState.projectResponse != ProjectResponse.Error
+    ) {
+        ProjectInfoRow(
+            projectRepositoryInfo =
+            contributorsState.projectResponse as ProjectResponse.Success
+        )
     }
 }
 
@@ -189,18 +189,18 @@ private fun ProjectInfoRow(
 
     Row(modifier = modifier.fillMaxWidth()) {
         ProjectInfoButton(
-            icon = painterResource(id = R.drawable.ic_custom_connect_l),
+            icon = painterResource(id = R.drawable.ic_custom_connect_s),
             info = "${projectRepositoryInfo.projectInfo.forks} forks",
             contentDescription = "Forks",
             onClick = {
-                browser.openUri(projectRepositoryInfo.projectInfo.url)
+                browser.openUri("https://github.com/Ivy-Apps/ivy-wallet/fork")
             }
         )
 
         Spacer(modifier = Modifier.weight(1f))
 
         ProjectInfoButton(
-            icon = painterResource(id = R.drawable.ic_custom_star_l),
+            icon = painterResource(id = R.drawable.ic_custom_star_s),
             info = "${projectRepositoryInfo.projectInfo.stars} stars",
             contentDescription = "Stars",
             onClick = {
@@ -218,18 +218,19 @@ private fun ProjectInfoButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
-    IconButton(
+    OutlinedButton(
         modifier = modifier,
         onClick = onClick
     ) {
         Icon(
+            modifier = Modifier.size(24.dp),
             painter = icon,
             contentDescription = contentDescription
         )
 
         Spacer(modifier = Modifier.width(4.dp))
 
-        Text(text = info)
+        Text(info)
     }
 }
 
@@ -285,8 +286,8 @@ private fun ContributorCard(contributor: Contributor) {
                     .size(72.dp)
                     .border(
                         border = BorderStroke(
-                            width = 1.dp,
-                            color = MaterialTheme.colorScheme.outline
+                            width = 0.5.dp,
+                            color = MaterialTheme.colorScheme.outlineVariant
                         ),
                         shape = RoundedCornerShape(topStart = 12.dp, bottomStart = 12.dp)
                     ),
