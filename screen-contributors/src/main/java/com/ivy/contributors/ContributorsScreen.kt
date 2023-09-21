@@ -131,7 +131,7 @@ private fun ScreenContent(
             horizontal = 16.dp,
             vertical = 12.dp,
         ),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         item(key = "Project Info") {
             ProjectInfoContent(contributorsState = contributorsState)
@@ -175,6 +175,7 @@ private fun LazyListScope.contributorsContent(
         is ContributorsResponse.Success ->
             items(contributorsState.contributorsResponse.contributors) {
                 ContributorCard(contributor = it)
+                Spacer(modifier = Modifier.height(8.dp))
             }
     }
 }
@@ -337,13 +338,22 @@ private fun GitHubButton(
 private fun PreviewSuccess() {
     IvyWalletPreview {
         ContributorsUi(
-            uiState = ContributorsState.Success(
-                contributors = persistentListOf(
-                    Contributor(
-                        name = "Iliyan",
-                        photoUrl = "",
-                        contributionsCount = "564",
-                        githubProfileUrl = ""
+            uiState = ContributorsState(
+                projectResponse = ProjectResponse.Success(
+                    projectInfo = ProjectRepositoryInfo(
+                        forks = "259",
+                        stars = "1524",
+                        url = ""
+                    )
+                ),
+                contributorsResponse = ContributorsResponse.Success(
+                    contributors = persistentListOf(
+                        Contributor(
+                            name = "Iliyan",
+                            photoUrl = "",
+                            contributionsCount = "567",
+                            githubProfileUrl = ""
+                        )
                     )
                 )
             ),
@@ -357,7 +367,10 @@ private fun PreviewSuccess() {
 private fun PreviewError() {
     IvyWalletPreview {
         ContributorsUi(
-            uiState = ContributorsState.Error("Error"),
+            uiState = ContributorsState(
+                projectResponse = ProjectResponse.Error,
+                contributorsResponse = ContributorsResponse.Error("Error")
+            ),
             onEvent = {}
         )
     }
@@ -368,7 +381,10 @@ private fun PreviewError() {
 private fun PreviewLoading() {
     IvyWalletPreview {
         ContributorsUi(
-            uiState = ContributorsState.Loading,
+            uiState = ContributorsState(
+                projectResponse = ProjectResponse.Loading,
+                contributorsResponse = ContributorsResponse.Loading
+            ),
             onEvent = {}
         )
     }
