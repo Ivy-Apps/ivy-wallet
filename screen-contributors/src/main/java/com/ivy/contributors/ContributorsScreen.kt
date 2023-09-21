@@ -225,7 +225,7 @@ private fun ContributorCard(contributor: Contributor) {
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = when(contributor.contributionsCount.toInt()) {
+                    text = when (contributor.contributionsCount.toInt()) {
                         1 -> "1 contribution"
                         else -> "${contributor.contributionsCount} contributions"
                     },
