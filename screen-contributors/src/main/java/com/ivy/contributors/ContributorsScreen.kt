@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -154,26 +155,25 @@ private fun LazyListScope.content(
             LoadingState()
         }
 
-        is ContributorsResponse.Success ->
-            item(key = "Success") {
+        is ContributorsResponse.Success -> {
+            item(key = "Project info") {
                 ProjectInfoContent(contributorsState = contributorsState)
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                for (contributor in contributorsState.contributorsResponse.contributors) {
-                    ContributorCard(contributor = contributor)
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
             }
+
+            items(contributorsState.contributorsResponse.contributors) {
+                ContributorCard(contributor = it)
+            }
+        }
     }
 }
 
 @Composable
 private fun ProjectInfoContent(contributorsState: ContributorsState) {
-    ProjectInfoRow(
-        projectRepositoryInfo =
-        contributorsState.projectResponse as ProjectResponse.Success
-    )
+    if (contributorsState.projectResponse is ProjectResponse.Success) {
+        ProjectInfoRow(
+            projectRepositoryInfo = contributorsState.projectResponse
+        )
+    }
 }
 
 @Composable
