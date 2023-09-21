@@ -62,6 +62,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.util.UUID
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 data class LoanRecordModalData(
     val loanRecord: LoanRecord?,
     val baseCurrency: String,
@@ -72,6 +73,7 @@ data class LoanRecordModalData(
     val id: UUID = UUID.randomUUID()
 )
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.LoanRecordModal(
     modal: LoanRecordModalData?,

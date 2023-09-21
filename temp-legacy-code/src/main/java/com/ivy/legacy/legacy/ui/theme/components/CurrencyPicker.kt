@@ -61,6 +61,7 @@ import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.toLowerCaseLocal
 import java.util.Locale
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun CurrencyPicker(
     modifier: Modifier = Modifier,
@@ -134,6 +135,7 @@ fun CurrencyPicker(
     }
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 private fun SearchInput(
     searchTextFieldValue: TextFieldValue,

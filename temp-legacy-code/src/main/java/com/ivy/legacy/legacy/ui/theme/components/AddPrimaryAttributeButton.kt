@@ -21,6 +21,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.resources.R
 import com.ivy.legacy.IvyWalletComponentPreview
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun AddPrimaryAttributeButton(
     @DrawableRes icon: Int,

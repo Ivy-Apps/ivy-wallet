@@ -59,17 +59,19 @@ import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.util.UUID
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 data class ChoosePeriodModalData(
     val id: UUID = UUID.randomUUID(),
-    val period: com.ivy.legacy.data.model.TimePeriod
+    val period: TimePeriod
 )
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.ChoosePeriodModal(
     modal: ChoosePeriodModalData?,
 
     dismiss: () -> Unit,
-    onPeriodSelected: (com.ivy.legacy.data.model.TimePeriod) -> Unit
+    onPeriodSelected: (TimePeriod) -> Unit
 ) {
     var period by remember(modal) {
         mutableStateOf(modal?.period)
@@ -102,7 +104,7 @@ fun BoxWithConstraintsScope.ChoosePeriodModal(
                 MonthYear(month = it, year = period?.year ?: dateNowUTC().year)
             }
         ) {
-            period = com.ivy.legacy.data.model.TimePeriod(
+            period = TimePeriod(
                 month = it.month,
                 year = it.year
             )
@@ -121,7 +123,7 @@ fun BoxWithConstraintsScope.ChoosePeriodModal(
         FromToRange(
             timeRange = period?.fromToRange
         ) {
-            period = com.ivy.legacy.data.model.TimePeriod(
+            period = TimePeriod(
                 fromToRange = it
             )
         }
@@ -132,7 +134,7 @@ fun BoxWithConstraintsScope.ChoosePeriodModal(
             modalScrollState = modalScrollState,
             lastNTimeRange = period?.lastNRange,
         ) {
-            period = com.ivy.legacy.data.model.TimePeriod(
+            period = TimePeriod(
                 lastNRange = it
             )
         }
@@ -142,7 +144,7 @@ fun BoxWithConstraintsScope.ChoosePeriodModal(
         AllTime(
             timeRange = period?.fromToRange
         ) {
-            period = com.ivy.legacy.data.model.TimePeriod(
+            period = TimePeriod(
                 fromToRange = it
             )
         }
@@ -228,6 +230,7 @@ private fun ChooseMonth(
     }
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 data class MonthYear(
     val month: com.ivy.legacy.data.model.Month,
     val year: Int

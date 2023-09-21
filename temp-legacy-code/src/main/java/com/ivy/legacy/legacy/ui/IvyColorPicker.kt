@@ -40,11 +40,13 @@ import com.ivy.navigation.navigation
 import com.ivy.resources.R
 import kotlinx.coroutines.launch
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 private data class IvyColor(
     val color: Color,
     val premium: Boolean
 )
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun ColumnScope.IvyColorPicker(
     selectedColor: Color,

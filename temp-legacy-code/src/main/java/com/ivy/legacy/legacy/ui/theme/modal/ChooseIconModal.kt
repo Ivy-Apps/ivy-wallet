@@ -43,8 +43,10 @@ import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.thenIf
 import java.util.UUID
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 private const val ICON_PICKER_ICONS_PER_ROW = 5
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.ChooseIconModal(
     visible: Boolean,

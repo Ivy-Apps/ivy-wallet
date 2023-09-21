@@ -33,6 +33,7 @@ import com.ivy.legacy.utils.numberBetween
 import com.ivy.legacy.utils.swap
 import java.util.*
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Suppress("UNCHECKED_CAST")
 @Composable
 fun <T : Reorderable> BoxScope.ReorderModalSingleType(
@@ -74,6 +75,7 @@ fun <T : Reorderable> BoxScope.ReorderModalSingleType(
     )
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun <T : Reorderable> BoxScope.ReorderModal(
     visible: Boolean,
@@ -174,6 +176,7 @@ fun <T : Reorderable> BoxScope.ReorderModal(
     }
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Suppress("UNCHECKED_CAST")
 private class Adapter<T : Reorderable>(
     private val itemTouchHelper: ItemTouchHelper,

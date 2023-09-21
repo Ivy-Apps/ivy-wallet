@@ -33,7 +33,6 @@ kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlin-coroutines" }
 kotlin-coroutines-googleplay-temp = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlin-coroutines" }
-kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-collections" }
 
 # KotlinX Serialization
@@ -48,14 +47,19 @@ ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
 ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 
-# Arrow + Kotest
+# Arrow
 arrowkt-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
 arrow-exact = { module = "io.arrow-kt:arrow-exact-jvm", version = "0.1.0" }
+
+# Testing
+mockk = { module = "io.mockk:mockk", version = "1.13.7" }
 kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
 kotest-property-arrow = { module = "io.kotest.extensions:kotest-property-arrow", version.ref = "arrow" }
 kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
+kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
+hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
 
 # Compose
 compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
@@ -84,7 +88,6 @@ hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-work = { module = "androidx.hilt:hilt-work", version = "1.0.0" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
-hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
 
 # Google
 google-services-plugin = { module = "com.google.gms:google-services", version = "4.4.0" }
@@ -129,9 +132,6 @@ kotlin = [
     "kotlin-coroutines-googleplay-temp",
     "kotlinx-collections-immutable"
 ]
-kotlin-test = [
-    "kotlin-coroutines-test"
-]
 arrow = [
     "arrowkt-core",
     "arrow-exact"
@@ -145,12 +145,15 @@ ktor = [
     "ktor-client-serialization",
     "ktor-logging"
 ]
-kotest = [
+testing = [
     "kotest-junit5",
     "kotest-assertions",
     "kotest-property",
     "kotest-property-arrow",
-    "kotest-datatest"
+    "kotest-datatest",
+    "kotlin-coroutines-test",
+    "mockk",
+    "hilt-testing"
 ]
 compose = [
     "compose-animation",

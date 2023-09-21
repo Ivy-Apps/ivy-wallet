@@ -39,11 +39,11 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.ivy.IvyNavGraph
-import com.ivy.legacy.Constants
 import com.ivy.core.RootScreen
 import com.ivy.core.util.toEpochMilli
 import com.ivy.design.api.IvyUI
 import com.ivy.home.customerjourney.CustomerJourneyCardsProvider
+import com.ivy.legacy.Constants
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.appDesign
 import com.ivy.legacy.utils.activityForResultLauncher

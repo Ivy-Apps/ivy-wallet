@@ -26,6 +26,7 @@ import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.legacy.utils.format
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun CustomExchangeRateCard(
     modifier: Modifier = Modifier,

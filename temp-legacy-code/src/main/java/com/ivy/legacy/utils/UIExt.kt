@@ -4,18 +4,9 @@ import android.animation.ArgbEvaluator
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
-import android.renderscript.Allocation
-import android.renderscript.Element
-import android.renderscript.RenderScript
-import android.renderscript.ScriptIntrinsicBlur
 import android.util.DisplayMetrics
 import android.view.View
-import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowInsetsController
 import android.view.inputmethod.InputMethodManager
@@ -32,6 +23,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnLayout
 import kotlin.math.roundToInt
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun keyboardVisibleState(): State<Boolean> {
     val rootView = LocalView.current
@@ -49,6 +41,7 @@ fun keyboardVisibleState(): State<Boolean> {
     return keyboardVisible
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun View.addKeyboardListener(keyboardCallback: (visible: Boolean) -> Unit) {
     doOnLayout {
         // get init state of keyboard
@@ -69,6 +62,7 @@ fun View.addKeyboardListener(keyboardCallback: (visible: Boolean) -> Unit) {
     }
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun isKeyboardOpen(rootView: View): Boolean {
     return try {
         WindowInsetsCompat.toWindowInsetsCompat(rootView.rootWindowInsets, rootView)
@@ -79,14 +73,17 @@ fun isKeyboardOpen(rootView: View): Boolean {
     }
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun convertDpToPixel(context: Context, dp: Float): Float {
     return dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun convertDpToPixel(context: Context, dp: Int): Int {
     return convertDpToPixel(context, dp.toFloat()).roundToInt()
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @SuppressLint("ComposableNaming")
 @Composable
 fun setStatusBarDarkTextCompat(darkText: Boolean) {
@@ -96,6 +93,7 @@ fun setStatusBarDarkTextCompat(darkText: Boolean) {
     )
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun setStatusBarDarkTextCompat(view: View, darkText: Boolean) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         view.windowInsetsController?.setStatusBarDarkText(darkText)
@@ -105,6 +103,7 @@ fun setStatusBarDarkTextCompat(view: View, darkText: Boolean) {
     }
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @RequiresApi(Build.VERSION_CODES.R)
 fun WindowInsetsController.setStatusBarDarkText(darkText: Boolean) {
     setSystemBarsAppearance(
@@ -113,6 +112,7 @@ fun WindowInsetsController.setStatusBarDarkText(darkText: Boolean) {
     )
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Suppress("DEPRECATION")
 fun setStatusBarDarkTextOld(window: Window, darkText: Boolean) {
     window.decorView.systemUiVisibility = if (darkText) {
@@ -122,31 +122,27 @@ fun setStatusBarDarkTextOld(window: Window, darkText: Boolean) {
     }
 }
 
-@RequiresApi(api = Build.VERSION_CODES.M)
-fun setSystemBarTheme(pActivity: Activity, pIsDark: Boolean) {
-    // Fetch the current flags.
-    val lFlags = pActivity.window.decorView.systemUiVisibility
-    // Update the SystemUiVisibility dependening on whether we want a Light or Dark theme.
-    pActivity.window.decorView.systemUiVisibility =
-        if (pIsDark) lFlags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv() else lFlags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-}
-
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun lerp(start: Int, end: Int, @FloatRange(from = 0.0, to = 1.0) fraction: Float): Int {
     return ((start + fraction * (end - start)).roundToInt())
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun lerp(start: Float, end: Float, @FloatRange(from = 0.0, to = 1.0) fraction: Float): Float {
     return (start + fraction * (end - start))
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun lerp(start: Double, end: Double, @FloatRange(from = 0.0, to = 1.0) fraction: Double): Double {
     return (start + fraction * (end - start))
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun colorLerp(start: Color, end: Color, fraction: Float): Color {
     return Color(ArgbEvaluator().evaluate(fraction, start.toArgb(), end.toArgb()) as Int)
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun hideKeyboard(view: View) {
     try {
         val imm: InputMethodManager =
@@ -154,85 +150,4 @@ fun hideKeyboard(view: View) {
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     } catch (ignore: Exception) {
     }
-}
-
-/*
- * Creating a Bitmap of view with ARGB_8888.
- *
-*/
-fun captureView(view: View): Bitmap? {
-    return try {
-        val bitmap: Bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        val backgroundDrawable = view.background
-        if (backgroundDrawable != null) {
-            backgroundDrawable.draw(canvas)
-        } else {
-            canvas.drawColor(Color.Transparent.toArgb())
-        }
-        view.draw(canvas)
-        bitmap
-    } catch (e: Exception) {
-        e.printStackTrace()
-        null
-    }
-}
-
-fun Bitmap.blur(
-    context: Context,
-    blurRadius: Float = 7.5f,
-    bitmapScale: Float = 0.4f
-): Bitmap {
-    val width = (this.width * bitmapScale).roundToInt()
-    val height = (this.height * bitmapScale).roundToInt()
-    val inputBitmap: Bitmap = Bitmap.createScaledBitmap(this, width, height, false)
-    val outputBitmap: Bitmap = Bitmap.createBitmap(inputBitmap)
-
-    val rs = RenderScript.create(context)
-    val theIntrinsic = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs))
-    val tmpIn = Allocation.createFromBitmap(rs, inputBitmap)
-    val tmpOut = Allocation.createFromBitmap(rs, outputBitmap)
-    theIntrinsic.setRadius(blurRadius)
-    theIntrinsic.setInput(tmpIn)
-    theIntrinsic.forEach(tmpOut)
-    tmpOut.copyTo(outputBitmap)
-
-    return outputBitmap
-}
-
-fun postDelayed(delayMs: Long, run: () -> Unit) {
-    Handler(Looper.getMainLooper()).postDelayed({ run() }, delayMs)
-}
-
-fun post(run: () -> Unit) {
-    Handler(Looper.getMainLooper()).post { run() }
-}
-
-fun showKeyboard(context: Context) {
-    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-    imm!!.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
-}
-
-fun View.setMargin(
-    topDp: Int? = null,
-    bottomDp: Int? = null,
-    leftDp: Int? = null,
-    rightDp: Int? = null,
-) {
-    val lp = layoutParams as ViewGroup.MarginLayoutParams
-    if (topDp != null) {
-        lp.topMargin = convertDpToPixel(context, topDp)
-    }
-    if (bottomDp != null) {
-        lp.bottomMargin = convertDpToPixel(context, bottomDp)
-    }
-    if (leftDp != null) {
-        lp.leftMargin = convertDpToPixel(context, leftDp)
-    }
-    if (rightDp != null) {
-        lp.rightMargin = convertDpToPixel(context, rightDp)
-    }
-    layoutParams = lp
-    requestLayout()
-    invalidate()
 }

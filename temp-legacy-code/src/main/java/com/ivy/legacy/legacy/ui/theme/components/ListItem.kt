@@ -22,6 +22,7 @@ import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.legacy.utils.thenIf
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun ListItem(
     icon: String?,

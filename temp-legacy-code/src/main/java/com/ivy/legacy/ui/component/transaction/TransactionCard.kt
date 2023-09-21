@@ -67,6 +67,7 @@ import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalDateTime
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun TransactionCard(
     baseData: AppBaseData,

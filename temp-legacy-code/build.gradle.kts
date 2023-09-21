@@ -10,7 +10,7 @@ android {
 dependencies {
     implementation(projects.ivyCore)
     implementation(projects.ivyResources)
-    implementation(projects.ivyDesign)
+    implementation(projects.tempOldDesign)
     implementation(projects.ivyNavigation)
 
     implementation(libs.bundles.activity)

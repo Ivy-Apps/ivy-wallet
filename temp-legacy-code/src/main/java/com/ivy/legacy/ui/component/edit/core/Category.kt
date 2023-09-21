@@ -17,6 +17,7 @@ import com.ivy.wallet.ui.theme.components.getCustomIconIdS
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.toComposeColor
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun Category(
     category: Category?,

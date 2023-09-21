@@ -41,13 +41,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.legacy.Constants
-import com.ivy.legacy.Constants.URL_IVY_CONTRIBUTORS
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IconScale
 import com.ivy.design.l1_buildingBlocks.IvyIconScaled
+import com.ivy.legacy.Constants
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.rootScreen
 import com.ivy.legacy.utils.OpResult
@@ -55,7 +54,10 @@ import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.thenIf
+import com.ivy.navigation.AttributionsScreen
+import com.ivy.navigation.ContributorsScreen
 import com.ivy.navigation.ExchangeRatesScreen
+import com.ivy.navigation.FeaturesScreen
 import com.ivy.navigation.ImportScreen
 import com.ivy.navigation.SettingsScreen
 import com.ivy.navigation.TestScreen
@@ -139,19 +141,15 @@ private fun BoxWithConstraintsScope.UI(
     currencyCode: String,
     theme: Theme,
     onSwitchTheme: () -> Unit,
-
     lockApp: Boolean,
+    nameLocalAccount: String?,
+    onSetCurrency: (String) -> Unit,
+    startDateOfMonth: Int = 1,
     showNotifications: Boolean = true,
     hideCurrentBalance: Boolean = false,
     progressState: Boolean = false,
     treatTransfersAsIncomeExpense: Boolean = false,
-
-    nameLocalAccount: String?,
-    startDateOfMonth: Int = 1,
-
-    onSetCurrency: (String) -> Unit,
     onSetName: (String) -> Unit = {},
-
     onBackupData: () -> Unit = {},
     onExportToCSV: () -> Unit = {},
     onSetLockApp: (Boolean) -> Unit = {},
@@ -291,6 +289,15 @@ private fun BoxWithConstraintsScope.UI(
 
             val nav = navigation()
             SettingsDefaultButton(
+                icon = R.drawable.ic_custom_atom_m,
+                text = "Features"
+            ) {
+                nav.navigateTo(FeaturesScreen)
+            }
+
+            Spacer(Modifier.height(12.dp))
+
+            SettingsDefaultButton(
                 icon = R.drawable.ic_currency,
                 text = "Exchange rates"
             ) {
@@ -411,7 +418,11 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(12.dp))
 
-            ProjectContributors()
+            Contributors()
+
+            Spacer(Modifier.height(12.dp))
+
+            Attributions()
 
             Spacer(Modifier.height(12.dp))
 
@@ -614,14 +625,28 @@ private fun ContactSupport() {
 }
 
 @Composable
-private fun ProjectContributors() {
-    val uriHandler = LocalUriHandler.current
+private fun Contributors() {
+    val nav = navigation()
+
     SettingsDefaultButton(
         icon = R.drawable.ic_vue_people_people,
         text = stringResource(R.string.project_contributors),
         iconPadding = 6.dp
     ) {
-        uriHandler.openUri(URL_IVY_CONTRIBUTORS)
+        nav.navigateTo(ContributorsScreen)
+    }
+}
+
+@Composable
+private fun Attributions() {
+    val nav = navigation()
+
+    SettingsDefaultButton(
+        icon = R.drawable.ic_vue_location_global,
+        text = "Attributions",
+        iconPadding = 6.dp
+    ) {
+        nav.navigateTo(AttributionsScreen)
     }
 }
 
@@ -647,8 +672,8 @@ private fun AppSwitch(
     lockApp: Boolean,
     onSetLockApp: (Boolean) -> Unit,
     text: String,
-    description: String = "",
     icon: Int,
+    description: String = "",
 ) {
     SettingsButtonRow(
         onClick = {
@@ -779,7 +804,8 @@ private fun ExportCSV(
     SettingsDefaultButton(
         icon = R.drawable.ic_vue_pc_printer,
         text = stringResource(R.string.export_to_csv),
-        iconPadding = 6.dp
+        iconPadding = 6.dp,
+        description = "⚠\uFE0F Do not use for backup purposes"
     ) {
         onExportToCSV()
     }
@@ -844,7 +870,7 @@ private fun SettingsPrimaryButton(
     backgroundGradient: Gradient = Gradient.solid(UI.colors.medium),
     textColor: Color = White,
     iconPadding: Dp = 0.dp,
-    description: String = "",
+    description: String? = null,
     onClick: () -> Unit
 ) {
     SettingsButtonRow(
@@ -871,11 +897,11 @@ private fun SettingsPrimaryButton(
             Text(
                 text = text,
                 style = UI.typo.b2.style(
-                    color = UI.colors.pureInverse,
-                    fontWeight = FontWeight.Bold
+                    color = textColor,
+                    fontWeight = FontWeight.Bold,
                 )
             )
-            if (description.isNotEmpty()) {
+            if (!description.isNullOrEmpty()) {
                 Text(
                     modifier = Modifier.padding(end = 8.dp),
                     text = description,
@@ -891,10 +917,10 @@ private fun SettingsPrimaryButton(
 
 @Composable
 private fun SettingsButtonRow(
+    onClick: (() -> Unit)?,
     hasShadow: Boolean = false,
     backgroundGradient: Gradient = Gradient.solid(UI.colors.medium),
-    onClick: (() -> Unit)?,
-    Content: @Composable RowScope.() -> Unit
+    content: @Composable RowScope.() -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -912,7 +938,7 @@ private fun SettingsButtonRow(
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Content()
+        content()
     }
 }
 
@@ -1061,14 +1087,16 @@ private fun SettingsDefaultButton(
     @DrawableRes icon: Int,
     text: String,
     iconPadding: Dp = 0.dp,
-    onClick: () -> Unit
+    description: String? = null,
+    onClick: () -> Unit,
 ) {
     SettingsPrimaryButton(
         icon = icon,
         text = text,
         backgroundGradient = Gradient.solid(UI.colors.medium),
         textColor = UI.colors.pureInverse,
-        iconPadding = iconPadding
+        iconPadding = iconPadding,
+        description = description
     ) {
         onClick()
     }

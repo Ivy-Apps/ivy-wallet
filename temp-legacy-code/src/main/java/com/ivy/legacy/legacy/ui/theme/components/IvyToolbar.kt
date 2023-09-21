@@ -9,10 +9,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.wallet.ui.theme.gradientCutBackgroundBottom
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 enum class BackButtonType {
     BACK, CLOSE
 }
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun IvyToolbar(
     onBack: () -> Unit,

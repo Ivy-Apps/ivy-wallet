@@ -26,11 +26,11 @@ class BoolFeature(
     }
 
     @Composable
-    fun asState(defaultValue: Boolean = false): Boolean {
+    fun asEnabledState(): Boolean {
         val context = LocalContext.current
         val featureFlag = remember { enabled(context) }
-            .collectAsState(defaultValue).value
-        return featureFlag ?: defaultValue
+            .collectAsState(false).value
+        return featureFlag ?: false
     }
 
     suspend fun set(appContext: Context, enabled: Boolean) {

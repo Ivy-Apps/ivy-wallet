@@ -114,32 +114,29 @@ android {
     }
 
     lint {
-        disable += "MissingTranslation"
         disable += "ComposeViewModelInjection"
-        checkReleaseBuilds = true
         checkDependencies = true
         abortOnError = false
+        checkReleaseBuilds = false
         htmlReport = true
         htmlOutput = file("${project.rootDir}/build/reports/lint/lint.html")
         xmlReport = true
-        xmlOutput = file("${project.rootDir}/build/reports/lint-results.xml")
-        baseline = file("${project.rootDir}/lint-baseline.xml")
+        xmlOutput = file("${project.rootDir}/build/reports/lint/lint.xml")
+        baseline = file("lint-baseline.xml")
     }
 }
 
 dependencies {
     implementation(projects.ivyCore)
-    implementation(projects.ivyDesign)
+    implementation(projects.tempOldDesign)
     implementation(projects.ivyResources)
     implementation(projects.ivyNavigation)
     implementation(projects.ivyWidgetBase)
     implementation(projects.tempLegacyCode)
     implementation(projects.widgetBalance)
     implementation(projects.widgetAddTransaction)
-    implementation(projects.screenAccounts)
     implementation(projects.screenBudgets)
     implementation(projects.screenCategories)
-    implementation(projects.screenHome)
     implementation(projects.screenImportData)
     implementation(projects.screenLoans)
     implementation(projects.screenPiechart)
@@ -154,6 +151,10 @@ dependencies {
     implementation(projects.screenTest)
     implementation(projects.screenBalance)
     implementation(projects.screenFeatures)
+    implementation(projects.screenAttributions)
+    implementation(projects.screenMain)
+    implementation(projects.screenHome)
+    implementation(projects.screenContributors)
 
     implementation(libs.bundles.kotlin)
     implementation(libs.bundles.ktor)
@@ -178,9 +179,7 @@ dependencies {
     implementation(libs.androidx.work)
     implementation(libs.androidx.recyclerview)
 
-    testImplementation(libs.bundles.kotest)
-    testImplementation(libs.bundles.kotlin.test)
-    testImplementation(libs.hilt.testing)
+    testImplementation(libs.bundles.testing)
     testImplementation(libs.androidx.work.testing)
 
     lintChecks(libs.slack.lint.compose)

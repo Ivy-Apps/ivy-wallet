@@ -28,6 +28,7 @@ import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.thenIf
 
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun OnboardingButton(
     modifier: Modifier = Modifier,
