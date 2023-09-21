@@ -24,12 +24,33 @@ class ContributorsDataSource @Inject constructor(
         val link: String
     )
 
+    @Keep
+    @Serializable
+    data class IvyWalletRepositoryInfo(
+        @SerialName("forks_count")
+        val forks: Int,
+        @SerialName("stargazers_count")
+        val stars: Int
+    )
+
     suspend fun fetchContributors(): List<ContributorDto>? {
         return try {
             withContext(Dispatchers.IO) {
                 httpClient
                     .get("https://api.github.com/repos/Ivy-Apps/ivy-wallet/contributors")
                     .body<List<ContributorDto>>()
+            }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    suspend fun fetchIvyWalletRepositoryInfo(): IvyWalletRepositoryInfo? {
+        return try {
+            withContext(Dispatchers.IO) {
+                httpClient
+                    .get("https://api.github.com/repos/Ivy-Apps/ivy-wallet")
+                    .body<IvyWalletRepositoryInfo>()
             }
         } catch (e: Exception) {
             null
