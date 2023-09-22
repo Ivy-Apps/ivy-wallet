@@ -64,20 +64,19 @@ private fun ReleasesUi(
                     BackButton(nav = nav)
                 }
             )
-        },
-        content = { innerPadding ->
-            LazyColumn(
-                modifier = Modifier.padding(start = 12.dp, end = 12.dp, bottom = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                contentPadding = innerPadding,
-            ) {
-                content(
-                    releasesState = uiState,
-                    onEvent = onEvent
-                )
-            }
         }
-    )
+    ) { innerPadding ->
+        LazyColumn(
+            modifier = Modifier.padding(start = 12.dp, end = 12.dp, bottom = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            contentPadding = innerPadding,
+        ) {
+            content(
+                releasesState = uiState,
+                onEvent = onEvent
+            )
+        }
+    }
 }
 
 @Composable
