@@ -16,22 +16,18 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.design.l0_system.Gray
-import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.style
-import com.ivy.legacy.IvyWalletPreview
+import com.ivy.design.system.IvyPreview
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.navigation
 import kotlinx.collections.immutable.ImmutableList
@@ -57,7 +53,7 @@ private fun AttributionsUI(
         topBar = {
             TopAppBar(
                 title = {
-                    TopAppBarTitle(text = "Attributions")
+                    TopAppBarTitle(title = "Attributions")
                 },
                 navigationIcon = {
                     BackButton(nav = nav)
@@ -71,14 +67,11 @@ private fun AttributionsUI(
 }
 
 @Composable
-private fun TopAppBarTitle(text: String) {
+private fun TopAppBarTitle(title: String) {
     Text(
-        text = text,
+        text = title,
         maxLines = 1,
-        overflow = TextOverflow.Ellipsis,
-        style = UI.typo.h2.style(
-            fontWeight = FontWeight.Black
-        )
+        overflow = TextOverflow.Ellipsis
     )
 }
 
@@ -151,16 +144,13 @@ private fun AttributionCard(attribution: AttributionItem.Attribution) {
 
 @Composable
 private fun AttributionsSectionDivider(
-    text: String,
-    color: Color = Gray
+    text: String
 ) {
     Text(
         modifier = Modifier.padding(start = 12.dp),
         text = text,
-        style = UI.typo.b2.style(
-            color = color,
-            fontWeight = FontWeight.Bold
-        )
+        style = MaterialTheme.typography.labelLarge,
+        color = MaterialTheme.colorScheme.tertiary
     )
 }
 
@@ -193,7 +183,7 @@ private fun AttributionsUIPreview() {
         )
     )
 
-    IvyWalletPreview {
+    IvyPreview {
         AttributionsUI(uiState = AttributionsState(attributionItems))
     }
 }

@@ -42,7 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
-import com.ivy.legacy.IvyWalletPreview
+import com.ivy.design.system.IvyPreview
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.navigation
 import com.ivy.resources.R
@@ -74,7 +74,15 @@ private fun ContributorsUi(
         topBar = {
             TopAppBar(
                 title = {
-                    TopAppBarTitle(title = "Contributors")
+                    TopAppBarTitle(
+                        title = when (uiState.contributorsResponse) {
+                            is ContributorsResponse.Error, ContributorsResponse.Loading ->
+                                "Contributors"
+
+                            is ContributorsResponse.Success ->
+                                "${uiState.contributorsResponse.contributors.size} Contributors"
+                        }
+                    )
                 },
                 navigationIcon = {
                     BackButton(nav = nav)
@@ -344,7 +352,7 @@ private fun GitHubButton(
 @Preview
 @Composable
 private fun PreviewSuccess() {
-    IvyWalletPreview {
+    IvyPreview {
         ContributorsUi(
             uiState = ContributorsState(
                 projectResponse = ProjectResponse.Success(
@@ -373,7 +381,7 @@ private fun PreviewSuccess() {
 @Preview
 @Composable
 private fun PreviewError() {
-    IvyWalletPreview {
+    IvyPreview {
         ContributorsUi(
             uiState = ContributorsState(
                 projectResponse = ProjectResponse.Error,
@@ -387,7 +395,7 @@ private fun PreviewError() {
 @Preview
 @Composable
 private fun PreviewLoading() {
-    IvyWalletPreview {
+    IvyPreview {
         ContributorsUi(
             uiState = ContributorsState(
                 projectResponse = ProjectResponse.Loading,
