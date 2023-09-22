@@ -1,5 +1,6 @@
 package com.ivy.releases
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -100,17 +102,23 @@ private fun LazyListScope.content(
         }
 
         is ReleasesState.Success -> items(releasesState.releasesInfo) {
-            ReleasesInfoCard(releaseInfo = it)
+            ReleaseInfoCard(releaseInfo = it)
         }
     }
 }
 
 @Composable
-private fun ReleasesInfoCard(
+private fun ReleaseInfoCard(
     releaseInfo: ReleaseInfo,
     modifier: Modifier = Modifier
 ) {
-    OutlinedCard(modifier = modifier) {
+    val browser = LocalUriHandler.current
+
+    OutlinedCard(
+        modifier = modifier.clickable {
+            browser.openUri(releaseInfo.releaseUrl)
+        }
+    ) {
         Column(modifier = Modifier.padding(12.dp)) {
             ReleaseInfoRow(releaseInfo = releaseInfo)
 
