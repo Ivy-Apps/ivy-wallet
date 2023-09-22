@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -21,6 +23,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
@@ -35,13 +38,19 @@ fun ReleasesScreenImpl() {
     val viewModel: ReleasesViewModel = viewModel()
     val uiState = viewModel.uiState()
 
-    ReleasesUi(uiState = uiState)
+    ReleasesUi(
+        uiState = uiState,
+        onEvent = {
+            viewModel.onEvent(it)
+        }
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ReleasesUi(
-    uiState: ReleasesState
+    uiState: ReleasesState,
+    onEvent: (ReleasesEvent) -> Unit
 ) {
     val nav = navigation()
 
@@ -62,7 +71,10 @@ private fun ReleasesUi(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 contentPadding = innerPadding,
             ) {
-                content(releasesState = uiState)
+                content(
+                    releasesState = uiState,
+                    onEvent = onEvent
+                )
             }
         }
     )
@@ -90,11 +102,17 @@ private fun BackButton(nav: Navigation) {
 }
 
 private fun LazyListScope.content(
-    releasesState: ReleasesState
+    releasesState: ReleasesState,
+    onEvent: (ReleasesEvent) -> Unit
 ) {
     when (releasesState) {
         is ReleasesState.Error -> item {
-            Text(text = releasesState.errorMessage)
+            ReleasesErrorState(
+                message = releasesState.errorMessage,
+                onClick = {
+                    onEvent(ReleasesEvent.OnTryAgainClicked)
+                }
+            )
         }
 
         is ReleasesState.Loading -> item {
@@ -156,4 +174,28 @@ private fun ReleaseLabel(
         style = MaterialTheme.typography.bodyLarge,
         fontWeight = FontWeight.Bold
     )
+}
+
+@Composable
+private fun ReleasesErrorState(
+    message: String,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    Column(
+        modifier = modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = message,
+            style = MaterialTheme.typography.headlineMedium,
+            color = MaterialTheme.colorScheme.error
+        )
+        ElevatedButton(
+            onClick = onClick
+        ) {
+            Text(text = "Try again")
+        }
+    }
 }

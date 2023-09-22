@@ -3,9 +3,11 @@ package com.ivy.releases
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.viewModelScope
 import com.ivy.core.ComposeViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -13,8 +15,9 @@ class ReleasesViewModel @Inject constructor(
     private val releasesDataSource: ReleasesDataSource,
     private val releasesContentParser: ReleasesContentParser
 ) : ComposeViewModel<ReleasesState, ReleasesEvent>() {
-    val releaseState = mutableStateOf<ReleasesState>(
-        ReleasesState.Loading("Loading...")
+    private val loadingMessage = "Loading..."
+    private val releaseState = mutableStateOf<ReleasesState>(
+        ReleasesState.Loading(loadingMessage)
     )
 
     @Composable
@@ -27,7 +30,9 @@ class ReleasesViewModel @Inject constructor(
     }
 
     override fun onEvent(event: ReleasesEvent) {
-        TODO("Not yet implemented")
+        when (event) {
+            ReleasesEvent.OnTryAgainClicked -> onTryAgainClicked()
+        }
     }
 
     private suspend fun fetchReleaseInfo(): ReleasesState {
@@ -45,6 +50,16 @@ class ReleasesViewModel @Inject constructor(
         }.toImmutableList()
 
         releaseState.value = ReleasesState.Success(releasesInfo = releaseInfo)
+        return releaseState.value
+    }
+
+    private fun onTryAgainClicked(): ReleasesState {
+        releaseState.value = ReleasesState.Loading(loadingMessage)
+
+        viewModelScope.launch {
+            fetchReleaseInfo()
+        }
+
         return releaseState.value
     }
 }
