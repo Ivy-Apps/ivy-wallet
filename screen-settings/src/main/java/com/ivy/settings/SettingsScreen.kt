@@ -50,7 +50,6 @@ import com.ivy.legacy.Constants
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.rootScreen
 import com.ivy.legacy.utils.OpResult
-import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.thenIf
@@ -59,8 +58,8 @@ import com.ivy.navigation.ContributorsScreen
 import com.ivy.navigation.ExchangeRatesScreen
 import com.ivy.navigation.FeaturesScreen
 import com.ivy.navigation.ImportScreen
+import com.ivy.navigation.ReleasesScreen
 import com.ivy.navigation.SettingsScreen
-import com.ivy.navigation.TestScreen
 import com.ivy.navigation.navigation
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IvyCurrency
@@ -184,10 +183,8 @@ private fun BoxWithConstraintsScope.UI(
 
                 val rootScreen = rootScreen()
                 Text(
-                    modifier = Modifier.clickableNoIndication {
-                        if (rootScreen.isDebug) {
-                            nav.navigateTo(TestScreen)
-                        }
+                    modifier = Modifier.clickable {
+                        nav.navigateTo(ReleasesScreen)
                     },
                     text = "${rootScreen.buildVersionName} (${rootScreen.buildVersionCode})",
                     style = UI.typo.nC.style(
