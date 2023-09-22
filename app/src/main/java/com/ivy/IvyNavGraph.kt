@@ -34,6 +34,7 @@ import com.ivy.navigation.MainScreen
 import com.ivy.navigation.OnboardingScreen
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.navigation.PlannedPaymentsScreen
+import com.ivy.navigation.ReleasesScreen
 import com.ivy.navigation.ReportScreen
 import com.ivy.navigation.Screen
 import com.ivy.navigation.SearchScreen
@@ -43,6 +44,7 @@ import com.ivy.onboarding.OnboardingScreen
 import com.ivy.piechart.PieChartStatisticScreen
 import com.ivy.planned.edit.EditPlannedScreen
 import com.ivy.planned.list.PlannedPaymentsScreen
+import com.ivy.releases.ReleasesScreenImpl
 import com.ivy.reports.ReportScreen
 import com.ivy.search.SearchScreen
 import com.ivy.settings.SettingsScreen
@@ -81,5 +83,6 @@ fun BoxWithConstraintsScope.IvyNavGraph(screen: Screen?) {
         FeaturesScreen -> FeaturesScreenImpl()
         AttributionsScreen -> AttributionsScreenImpl()
         ContributorsScreen -> ContributorsScreenImpl()
+        ReleasesScreen -> ReleasesScreenImpl()
     }
 }
