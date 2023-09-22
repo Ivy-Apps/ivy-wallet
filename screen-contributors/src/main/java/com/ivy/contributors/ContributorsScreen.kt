@@ -74,7 +74,15 @@ private fun ContributorsUi(
         topBar = {
             TopAppBar(
                 title = {
-                    TopAppBarTitle(title = "Contributors")
+                    TopAppBarTitle(
+                        title = when (uiState.contributorsResponse) {
+                            is ContributorsResponse.Error, ContributorsResponse.Loading ->
+                                "Contributors"
+
+                            is ContributorsResponse.Success ->
+                                "${uiState.contributorsResponse.contributors.size} Contributors"
+                        }
+                    )
                 },
                 navigationIcon = {
                     BackButton(nav = nav)
