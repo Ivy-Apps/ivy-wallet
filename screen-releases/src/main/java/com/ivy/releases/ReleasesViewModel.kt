@@ -50,7 +50,8 @@ class ReleasesViewModel @Inject constructor(
     }
 
     private fun String?.toCustomList(): ImmutableList<String> {
-        val list = this?.split("\n") ?: return persistentListOf()
+        if (this.isNullOrBlank()) return persistentListOf()
+        val list = this.split("\n")
         val customList = mutableListOf<String>()
 
         for (commit in list) {

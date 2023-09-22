@@ -1,8 +1,10 @@
 package com.ivy.releases
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -12,12 +14,14 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -107,18 +111,38 @@ private fun ReleasesInfoCard(
     modifier: Modifier = Modifier
 ) {
     OutlinedCard(modifier = modifier) {
-        Row {
-            Text(text = releaseInfo.releaseName)
+        Column(modifier = Modifier.padding(12.dp)) {
+            ReleaseInfoRow(releaseInfo = releaseInfo)
 
-            Spacer(modifier = Modifier.weight(1f))
+            if (releaseInfo.releaseCommits.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(12.dp))
 
-            Text(text = releaseInfo.releaseDate)
-        }
-
-        if (releaseInfo.releaseCommits.isNotEmpty()) {
-            for (commit in releaseInfo.releaseCommits) {
-                Text(text = "• $commit")
+                for (commit in releaseInfo.releaseCommits) {
+                    Text(text = "• $commit")
+                }
             }
         }
     }
+}
+
+@Composable
+private fun ReleaseInfoRow(releaseInfo: ReleaseInfo) {
+    Row {
+        ReleaseLabel(info = releaseInfo.releaseName)
+        Spacer(modifier = Modifier.weight(1f))
+        ReleaseLabel(info = releaseInfo.releaseDate)
+    }
+}
+
+@Composable
+private fun ReleaseLabel(
+    info: String,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        modifier = modifier,
+        text = info,
+        style = MaterialTheme.typography.bodyLarge,
+        fontWeight = FontWeight.Bold
+    )
 }
