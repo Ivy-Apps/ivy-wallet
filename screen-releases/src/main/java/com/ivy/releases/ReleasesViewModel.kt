@@ -36,9 +36,12 @@ class ReleasesViewModel @Inject constructor(
     }
 
     private suspend fun fetchReleaseInfo(): ReleasesState {
-        val response = releasesDataSource.fetchReleaseInfo() ?: return ReleasesState.Error(
-            "Error"
-        )
+        val response = releasesDataSource.fetchReleaseInfo()
+
+        if (response == null) {
+            releaseState.value = ReleasesState.Error("Error")
+            return releaseState.value
+        }
 
         val releaseInfo = response.map {
             ReleaseInfo(
