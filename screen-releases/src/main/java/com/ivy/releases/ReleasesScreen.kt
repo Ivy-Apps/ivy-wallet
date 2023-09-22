@@ -3,15 +3,16 @@ package com.ivy.releases
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -51,6 +52,7 @@ private fun ReleasesUi(
         },
         content = { innerPadding ->
             LazyColumn(
+                modifier = Modifier.padding(start = 12.dp, end = 12.dp, bottom = 12.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 contentPadding = innerPadding,
             ) {
@@ -104,7 +106,7 @@ private fun ReleasesInfoCard(
     releaseInfo: ReleaseInfo,
     modifier: Modifier = Modifier
 ) {
-    Card(modifier = modifier) {
+    OutlinedCard(modifier = modifier) {
         Row {
             Text(text = releaseInfo.releaseName)
 
@@ -113,8 +115,10 @@ private fun ReleasesInfoCard(
             Text(text = releaseInfo.releaseDate)
         }
 
-        for (commit in releaseInfo.releaseCommits) {
-            Text(text = "• $commit")
+        if (releaseInfo.releaseCommits.isNotEmpty()) {
+            for (commit in releaseInfo.releaseCommits) {
+                Text(text = "• $commit")
+            }
         }
     }
 }

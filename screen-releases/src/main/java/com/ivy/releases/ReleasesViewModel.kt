@@ -5,6 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import com.ivy.core.ComposeViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import javax.inject.Inject
@@ -30,7 +31,7 @@ class ReleasesViewModel @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    private suspend fun fetchReleaseInfo(): ReleasesState? {
+    private suspend fun fetchReleaseInfo(): ReleasesState {
         val response = releasesDataSource.fetchReleaseInfo() ?: return ReleasesState.Error(
             "Error"
         )
@@ -40,12 +41,23 @@ class ReleasesViewModel @Inject constructor(
                 releaseName = it.releaseName,
                 releaseUrl = it.releaseUrl,
                 releaseDate = it.releaseDate,
-                releaseCommits = it.commits?.split("/n")?.toImmutableList()
-                    ?: persistentListOf("")
+                releaseCommits = it.commits.toCustomList()
             )
         }.toImmutableList()
 
         releaseState.value = ReleasesState.Success(releasesInfo = releaseInfo)
         return releaseState.value
+    }
+
+    private fun String?.toCustomList(): ImmutableList<String> {
+        val list = this?.split("\n") ?: return persistentListOf()
+        val customList = mutableListOf<String>()
+
+        for (commit in list) {
+            val new = commit.drop(2)
+            customList.add(new)
+        }
+
+        return customList.toImmutableList()
     }
 }
