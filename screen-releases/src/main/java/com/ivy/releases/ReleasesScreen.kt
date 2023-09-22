@@ -126,8 +126,11 @@ private fun ReleasesInfoCard(
 }
 
 @Composable
-private fun ReleaseInfoRow(releaseInfo: ReleaseInfo) {
-    Row {
+private fun ReleaseInfoRow(
+    releaseInfo: ReleaseInfo,
+    modifier: Modifier = Modifier
+) {
+    Row(modifier = modifier) {
         ReleaseLabel(info = releaseInfo.releaseName)
         Spacer(modifier = Modifier.weight(1f))
         ReleaseLabel(info = releaseInfo.releaseDate)
