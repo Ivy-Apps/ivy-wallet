@@ -255,7 +255,7 @@ fun CashFlowInfo(
         )
 
         val cashflow = monthlyIncome - monthlyExpenses
-        if (cashflow != 0.0) {
+        if (cashflow != 0.0 && !hideCurrentBalance) {
             Spacer(Modifier.height(12.dp))
 
             Text(
