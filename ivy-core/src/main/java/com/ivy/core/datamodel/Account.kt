@@ -1,7 +1,6 @@
 package com.ivy.core.datamodel
 
 import androidx.compose.runtime.Immutable
-import androidx.compose.ui.graphics.toArgb
 import com.ivy.core.db.entity.AccountEntity
 import java.util.UUID
 

@@ -21,9 +21,9 @@ import com.ivy.wallet.ui.theme.components.IvyNameTextField
 fun ModalNameInput(
     hint: String,
     autoFocusKeyboard: Boolean,
-
     textFieldValue: TextFieldValue,
     setTextFieldValue: (TextFieldValue) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val nameFocus = FocusRequester()
 
@@ -35,7 +35,7 @@ fun ModalNameInput(
 
     val view = LocalView.current
     IvyNameTextField(
-        modifier = Modifier
+        modifier = modifier
             .padding(start = 32.dp, end = 36.dp)
             .focusRequester(nameFocus),
         underlineModifier = Modifier.padding(start = 32.dp, end = 32.dp),
