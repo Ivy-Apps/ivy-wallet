@@ -79,7 +79,23 @@ These are the modules that you're allowed to use as a dependency in your own mod
 - `:ivy-navigation`: provides the definition (screen's startup params w/o implementation) of all Screen destinations in Ivy Wallet and implements a simple back-stack based custom `Navigation`. 
 - `:ivy-core-ui`: Builds re-usable high-level UI components (for example `AccountModal` that also encapsulates the account CRUD logic) that enforce consistent Ivy UI/UX patterns for common operations (e.g. CRUD for accounts, categories, etc).
 
-> ⚠️ WARNING ⚠️: The above shared modules are underconstruction. We're also actively trying to get rid of legacy code that is partly trapped in `temp-*` modules.
+> ⚠️ WARNING ⚠️: The above shared modules are under construction. We're also actively trying to get rid of legacy code that we partly encapsulated in the `temp-legacy-code` and `temp-old-design` modules.
+
+## Building Compose UI
+
+For majority of screens we don't have a Figma design. That's why you gotta get resourceful. 
+
+In a nutshell, we bet on [Material3 (Material You) Design](https://m3.material.io/) and follow the UI/UX best practices defined by Google.
+
+Here are a few principles to help you make a better Compose UI:
+
+- **Material3 components:** Use Material3 (M3) components with as little customzation as possible. _The M3 designers and creators are knowedgable people and they likely did better job than us._
+- **Ivy UI components:** We also got some re-usable UI components of our own that live in `:ivy-design` and `:ivy-core-ui`. Add those modules as a dependency and take advantage of them.
+- **Deprecation ban:** Do **not** use deprecated components.
+
+In terms of code quality, just follow and address the feedback provided from our CI checks powered by [Detekt](https://detekt.dev/) and [Slack's compose-lints](https://slackhq.github.io/compose-lints/).
+
+> 💡 The less you customize your UI components, the shorter the code. Also, this makes it easier for us to apply global styling and make the UI more consistent and more customizable to user's prefered theme, colors, fonts and shapes.
 
 ## Paradigm: pragmatic
 
