@@ -1,4 +1,4 @@
-package com.ivy.design.l0_system
+package com.ivy.core.datamodel.legacy
 
 import androidx.compose.runtime.Immutable
 

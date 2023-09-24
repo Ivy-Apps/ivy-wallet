@@ -12,20 +12,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.core.datamodel.Account
+import com.ivy.design.l0_system.Purple
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.legacy.IvyWalletComponentPreview
+import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.resources.R
-import com.ivy.core.datamodel.Account
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
-import com.ivy.legacy.IvyWalletComponentPreview
+import com.ivy.wallet.ui.theme.Green
+import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.WrapContentRow
-import com.ivy.legacy.utils.drawColoredShadow
 
 @Composable
 fun Suggestions(
@@ -50,11 +54,13 @@ fun Suggestions(
                     onAddSuggestion(it)
                 }
             }
+
             is CreateCategoryData -> {
                 Suggestion(name = it.name) {
                     onAddSuggestion(it)
                 }
             }
+
             is AddNew -> {
                 AddNewButton {
                     onAddNew()
@@ -140,9 +146,9 @@ private fun Preview() {
     IvyWalletComponentPreview {
         Suggestions(
             suggestions = listOf(
-                Account("Cash"),
-                Account("Bank"),
-                Account("Revolut")
+                Account("Cash", Green.toArgb()),
+                Account("Bank", Red.toArgb()),
+                Account("Revolut", Purple.toArgb())
             ),
             onAddSuggestion = { }
         ) {

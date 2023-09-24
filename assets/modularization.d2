@@ -2,7 +2,10 @@ ivy-res: ":ivy-resources" {
     "Shared common resources"
 }
 ivy-core: ":ivy-core" {
-    "Core API - domain"
+    "Core API: domain & business logic"
+}
+ivy-core-ui: ":ivy-core-ui" {
+    "Reusable Ivy Wallet UI componenets "
 }
 ivy-nav: ":ivy-navigation" {
     "Ivy's Nav graph"
@@ -10,14 +13,14 @@ ivy-nav: ":ivy-navigation" {
 ivy-design: ":ivy-design" {
     "Ivy's Design system"
 }
-screens: ":screen-x" {
+screens: ":screen-something" {
     ":screen-a"
     ":screen-b"
     ":screen-c"
     ":screen-z"
 }
 app: ":app" {
-    "App's monolith shipped to the PlayStore"
+    "Ivy Wallet app monolith shipped to the PlayStore"
 }
 
 ivy-design -> ivy-res

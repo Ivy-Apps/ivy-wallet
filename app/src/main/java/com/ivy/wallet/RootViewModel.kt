@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.core.db.entity.TransactionType
 import com.ivy.core.db.read.SettingsDao
 import com.ivy.core.util.stringRes
-import com.ivy.design.l0_system.Theme
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.SharedPrefs

@@ -8,5 +8,4 @@ android {
 
 dependencies {
     implementation(projects.ivyResources)
-    implementation(projects.ivyNavigation)
 }

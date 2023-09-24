@@ -3,7 +3,7 @@ package com.ivy.design
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import com.ivy.design.l0_system.Theme
+import com.ivy.core.datamodel.legacy.Theme
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 abstract class IvyContext {
@@ -16,6 +16,7 @@ abstract class IvyContext {
         get() {
             return if (field > 0) field else throw IllegalStateException("screenWidth not initialized")
         }
+
     @Deprecated("Old design system. Use `:ivy-design` and Material3")
     var screenHeight: Int = -1
         get() {

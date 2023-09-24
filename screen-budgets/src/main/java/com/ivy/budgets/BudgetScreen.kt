@@ -45,8 +45,6 @@ import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.ReorderButton
 import com.ivy.wallet.ui.theme.components.ReorderModalSingleType
-import com.ivy.wallet.ui.theme.modal.BudgetModal
-import com.ivy.wallet.ui.theme.modal.BudgetModalData
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 
 @Composable
@@ -318,7 +316,7 @@ private fun BudgetItem(
             Spacer(Modifier.height(2.dp))
 
             Text(
-                text = Budget.type(displayBudget.budget.parseCategoryIds().size),
+                text = determineBudgetType(displayBudget.budget.parseCategoryIds().size),
                 style = UI.typo.c.style(
                     color = Gray
                 )

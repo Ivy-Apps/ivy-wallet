@@ -20,6 +20,7 @@ import com.ivy.core.datamodel.Category
 import com.ivy.core.datamodel.IntervalType
 import com.ivy.core.datamodel.PlannedPaymentRule
 import com.ivy.core.db.entity.TransactionType
+import com.ivy.design.l0_system.Purple
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
@@ -29,6 +30,7 @@ import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.PlannedPaymentsScreen
 import com.ivy.navigation.navigation
 import com.ivy.resources.R
+import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Orange
 
 @Composable
@@ -124,8 +126,8 @@ private fun BoxWithConstraintsScope.UI(
 @Composable
 private fun Preview() {
     IvyWalletPreview {
-        val account = Account(name = "Cash")
-        val food = Category(name = "Food")
+        val account = Account(name = "Cash", Green.toArgb())
+        val food = Category(name = "Food", Purple.toArgb())
         val shisha = Category(name = "Shisha", color = Orange.toArgb())
 
         UI(

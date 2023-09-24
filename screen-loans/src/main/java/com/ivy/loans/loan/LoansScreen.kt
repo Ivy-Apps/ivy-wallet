@@ -38,6 +38,7 @@ import com.ivy.core.datamodel.LoanType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.humanReadableType
 import com.ivy.legacy.utils.getDefaultFIATCurrency
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.loans.loan.data.DisplayLoan

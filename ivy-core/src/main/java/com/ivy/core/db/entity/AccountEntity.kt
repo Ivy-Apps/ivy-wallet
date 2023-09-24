@@ -1,12 +1,10 @@
 package com.ivy.core.db.entity
 
 import androidx.annotation.Keep
-import androidx.compose.ui.graphics.toArgb
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.ivy.core.datamodel.Account
 import com.ivy.core.kotlinxserilzation.KSerializerUUID
-import com.ivy.design.l0_system.Green
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.util.*
@@ -20,7 +18,7 @@ data class AccountEntity(
     @SerialName("currency")
     val currency: String? = null,
     @SerialName("color")
-    val color: Int = Green.toArgb(),
+    val color: Int,
     @SerialName("icon")
     val icon: String? = null,
     @SerialName("orderNum")

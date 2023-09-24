@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.theme.modal
+package com.ivy.budgets
 
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Row
@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,38 +16,35 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.legacy.IvyWalletPreview
-import com.ivy.core.legacy.ui.theme.components.ListItem
-import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.style
-import com.ivy.resources.R
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Budget
 import com.ivy.core.datamodel.Category
+import com.ivy.core.legacy.ui.theme.components.ListItem
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.legacy.ui.theme.modal.ModalNameInput
+import com.ivy.legacy.utils.isNotNullOrBlank
+import com.ivy.legacy.utils.selectEndTextFieldValue
+import com.ivy.resources.R
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Purple1Dark
 import com.ivy.wallet.ui.theme.Red3Light
-import com.ivy.wallet.ui.theme.components.IvyNameTextField
+import com.ivy.wallet.ui.theme.modal.DeleteModal
+import com.ivy.wallet.ui.theme.modal.IvyModal
+import com.ivy.wallet.ui.theme.modal.ModalAddSave
+import com.ivy.wallet.ui.theme.modal.ModalAmountSection
+import com.ivy.wallet.ui.theme.modal.ModalDelete
+import com.ivy.wallet.ui.theme.modal.ModalTitle
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import com.ivy.wallet.ui.theme.toComposeColor
-import com.ivy.legacy.utils.hideKeyboard
-import com.ivy.legacy.utils.isNotNullOrBlank
-import com.ivy.legacy.utils.onScreenStart
-import com.ivy.legacy.utils.selectEndTextFieldValue
 import java.util.UUID
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
@@ -211,46 +206,6 @@ fun BoxWithConstraintsScope.BudgetModal(
 }
 
 @Composable
-fun ModalNameInput(
-    hint: String,
-    autoFocusKeyboard: Boolean,
-
-    textFieldValue: TextFieldValue,
-    setTextFieldValue: (TextFieldValue) -> Unit,
-) {
-    val nameFocus = FocusRequester()
-
-    onScreenStart {
-        if (autoFocusKeyboard) {
-            nameFocus.requestFocus()
-        }
-    }
-
-    val view = LocalView.current
-    IvyNameTextField(
-        modifier = Modifier
-            .padding(start = 32.dp, end = 36.dp)
-            .focusRequester(nameFocus),
-        underlineModifier = Modifier.padding(start = 32.dp, end = 32.dp),
-        value = textFieldValue,
-        hint = hint,
-        keyboardOptions = KeyboardOptions(
-            capitalization = KeyboardCapitalization.Words,
-            imeAction = ImeAction.Done,
-            keyboardType = KeyboardType.Text,
-            autoCorrect = true
-        ),
-        keyboardActions = KeyboardActions(
-            onDone = {
-                hideKeyboard(view)
-            }
-        ),
-    ) { newValue ->
-        setTextFieldValue(newValue)
-    }
-}
-
-@Composable
 private fun CategoriesRow(
     categories: List<Category>,
     budgetCategoryIds: List<UUID>,
@@ -259,7 +214,7 @@ private fun CategoriesRow(
 ) {
     Text(
         modifier = Modifier.padding(start = 32.dp),
-        text = Budget.type(budgetCategoryIds.size),
+        text = determineBudgetType(budgetCategoryIds.size),
         style = UI.typo.b1.style(
             fontWeight = FontWeight.Medium,
             color = UI.colors.pureInverse
