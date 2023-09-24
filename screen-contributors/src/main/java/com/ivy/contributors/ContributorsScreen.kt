@@ -40,17 +40,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.ivy.design.system.IvyPreview
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.navigation
+import com.ivy.navigation.screenScopedViewModel
 import com.ivy.resources.R
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun ContributorsScreenImpl() {
-    val viewModel: ContributorsViewModel = viewModel()
+    val viewModel: ContributorsViewModel = screenScopedViewModel()
     val uiState = viewModel.uiState()
 
     ContributorsUi(
