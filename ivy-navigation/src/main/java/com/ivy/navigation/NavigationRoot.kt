@@ -22,7 +22,12 @@ fun NavigationRoot(
     ) {
         val viewModelStore = LocalViewModelStoreOwner.current
         DisposableEffect(navigation.currentScreen) {
-            onDispose { viewModelStore?.viewModelStore?.clear() }
+            onDispose {
+                // Destroy viewModels only for non-legacy screens
+                if (navigation.lastScreen?.isLegacy == false) {
+                    viewModelStore?.viewModelStore?.clear()
+                }
+            }
         }
         navGraph(navigation.currentScreen)
     }

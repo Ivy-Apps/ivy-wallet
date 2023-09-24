@@ -18,7 +18,8 @@ class Navigation @Inject constructor() {
     val onBackPressed: MutableMap<Screen, () -> Boolean> = mutableMapOf()
 
     private val backStack: Stack<Screen> = Stack()
-    private var lastScreen: Screen? = null
+    var lastScreen: Screen? = null
+        private set
 
     data class ModalBackHandler(
         val id: UUID,
