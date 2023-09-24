@@ -78,6 +78,7 @@ Make sure to also check our short **[Architecture Guidelines 🏗️](docs/Archi
 
 - 100% [Kotlin](https://kotlinlang.org/)
 - 100% [Jetpack Compose](https://developer.android.com/jetpack/compose)
+- [Material3 design](https://m3.material.io/) (UI components)
 - [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html) (structured concurrency)
 - [Kotlin Flow](https://kotlinlang.org/docs/flow.html) (reactive datastream)
 - [Hilt](https://dagger.dev/hilt/) (DI)
@@ -94,6 +95,7 @@ Make sure to also check our short **[Architecture Guidelines 🏗️](docs/Archi
 
 ### Build & CI
 - [Gradle KTS](https://docs.gradle.org/current/userguide/kotlin_dsl.html) (Kotlin DSL)
+- [Gradle version catalogs](https://developer.android.com/build/migrate-to-catalogs) (dependencies versions)
 - [Fastlane](https://fastlane.tools/) (uploads the app to the Google PlayStore)
 - [Github Actions](https://github.com/Ivy-Apps/ivy-wallet/actions) (CI/CD)
 
