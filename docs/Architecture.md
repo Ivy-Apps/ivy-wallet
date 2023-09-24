@@ -64,10 +64,20 @@ To create a new module just run:
 
 ### Modularization gotchas
 
-- Screens cannot depend on each other. They can only depend on `:ivy-*` shared code modules.
+- Screens (`:screen-something`) **cannot** depend on other screens. They can only depend on `:ivy-*` shared code modules.
 - If you need to re-use code between screens, you need to move it to a shared code module like `:ivy-core` or `ivy-core-ui`.
 - The `:ivy-navigation` does **not** contain screen's implementation but only the screen's definition. A screen definition is a `data class` / `data object` class that models the screen's startup params. This way different screens can start other screen without knowing about their implementation.
 - Only `:app` knows about the implementation of all screens. It maps each `Screen` definition from `:ivy-navigation` to the actual implementation in `IvyNavGraph.kt` (in `:app`).
+
+### Shared modules
+
+These are the modules that you're allowed to use as a dependency in your own modules:
+
+- `:ivy-resources`: contains all Ivy Wallet's resources (e.g. strings, drawables). It's used to share string and drawable resources between different modules. _This resources monolithic approach makes it easier translating the app  (only one `strings.xml`) and protects us from duplicated resources. Also, it's simple._
+- `:ivy-design`: defines the Ivy design system (colors, typography and shapes) and provides a stylized Material3 (M3) theme. It also adds re-usable Ivy components that are missing in M3. _At some point may be extracted as a standalone open-source library._
+- `:ivy-core`: contains Ivy Wallet's data model, business logic and CRUD operations (Datastore, Room DB). Use it to interact or extend Ivy Wallet's domain.
+- `:ivy-navigation`: provides the definition (screen's startup params w/o implementation) of all Screen destinations in Ivy Wallet and implements a simple back-stack based custom `Navigation`. 
+- `:ivy-core-ui`: Builds re-usable high-level UI components (for example `AccountModal` that also encapsulates the account CRUD logic) that enforce consistent Ivy UI/UX patterns for common operations (e.g. CRUD for accounts, categories, etc).
 
 ## Paradigm: pragmatic
 
