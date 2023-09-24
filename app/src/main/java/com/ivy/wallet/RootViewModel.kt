@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.biometric.BiometricPrompt
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.core.datamodel.legacy.Theme
 import com.ivy.core.db.entity.TransactionType
 import com.ivy.core.db.read.SettingsDao
 import com.ivy.core.util.stringRes
