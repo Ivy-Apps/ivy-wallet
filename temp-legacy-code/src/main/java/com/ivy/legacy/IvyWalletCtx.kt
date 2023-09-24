@@ -31,6 +31,7 @@ class IvyWalletCtx @Inject constructor() : IvyContext() {
     // ---------------------- Optimization  ----------------------------
     @Deprecated("Legacy code. Don't use it, please.")
     val categoryMap: MutableMap<UUID, Category> = mutableMapOf()
+
     @Deprecated("Legacy code. Don't use it, please.")
     val accountMap: MutableMap<UUID, Account> = mutableMapOf()
     // ---------------------- Optimization  ----------------------------
@@ -49,8 +50,10 @@ class IvyWalletCtx @Inject constructor() : IvyContext() {
         com.ivy.legacy.data.model.TimePeriod.currentMonth(
             startDayOfMonth = startDayOfMonth // this is default value
         )
+
     @Deprecated("Legacy code. Don't use it, please.")
     private var selectedPeriodInitialized = false
+
     @Deprecated("Legacy code. Don't use it, please.")
     fun initSelectedPeriodInMemory(
         startDayOfMonth: Int,
