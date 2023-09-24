@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.ivy.core.datamodel.legacy.Theme
 
-@Deprecated("Old design system. Use `:ivy-design` and Material3")
+@Deprecated("Legacy code. Don't use it, please.")
 abstract class IvyContext {
     @Deprecated("Old design system. Use `:ivy-design` and Material3")
     var theme: Theme by mutableStateOf(Theme.LIGHT)
