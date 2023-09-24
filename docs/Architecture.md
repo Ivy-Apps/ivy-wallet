@@ -22,7 +22,7 @@ We separate the Compose UI from the screen logic using a ViewModel. We do that b
 ![screen-viewmodel](../assets/screen-vm.svg)
 
 **How it works? TL;DR;**
-- **Sceen (UI):** very dumb. Displays a snapshot of a **UiState** and sends user interaction as **UiEvent**s to the **ViewModel**.
+- **Sceen (UI):** very dumb. Displays a snapshot of a **UiState** and sends user interaction as **UiEvent**s to the **ViewModel**. Uses Material3 components and reusable Ivy ones.
 - **UiState:** usually a `data class` with a bunch of primitive `val`s that are displayed in the UI. _Note: The `UiState` must be optimized for Compose and must contain only primitives and **@Immutable** structures so Compose can recompose efficiently._
 - **UiEvent:** a snapshot of a user interaction _(e.g. button click, entered text change, checkbox checked change, etc)_
 - **ViewModel:** produces the current `UiState` and handles all `UiEvents`. Encapsulates the screen's logic and does the CRUD/IO operations.
@@ -41,22 +41,33 @@ The reason is very pragmatic - the Compose runtime API (e.g. Compose state, `rem
 
 We split our app into multiple modules to reduce coupling (spaghetti code) and make the app build faster. Also, this allows multiple contributors to work on different features without merge conflicts.
 
-Another big benefit is that each screen can have a simple package structure and be able to scale with more code to support complex use cases w/o affecting the rest of the code.
+Another big benefit is that each screen can have a simple package structure and be able to scale with more code to support complex use cases without affecting the rest of the codebase.
 
 ![modularization-strategy](../assets/modularization.svg)
 
 Our modularization strategy is simple:
-- We have a few shared `:ivy-core`, `:ivy-design`, `:ivy-navigation`, and `:ivy-resources` modules.
+- We have a few shared `:ivy-core-ui`, `:ivy-navigation`, `:ivy-core`, `:ivy-design`, and `:ivy-resources` modules.
 - Use the above modules to access the shared code in your screens.
 - Each screen is in a separate `:screen-home`, `:screen-something` module.
+
+> Simplification: We have a few modules that are an exception to this strategy (for example widgets like `:widget-balance` and other shared modules) but the above strategy holds true in most cases.
+
+
+### Creating a new module
 
 To create a new module just run:
 ```
 ./scripts/create_module.sh screen-something
 ```
 
-> Simplification: We have a few modules that are an exception to this strategy (for example widgets `:widget-something`) but the above strategy holds true in most cases.
+> If you're creating a new screen you'll need to add its input params (definition) to `Screens.kt` (:ivy-navigation) and wire its implementation in `IvyNavGraph.kt` (:app).
 
+### Modularization gotchas
+
+- Screens cannot depend on each other. They can only depend on `:ivy-*` shared code modules.
+- If you need to re-use code between screens, you need to move it to a shared code module like `:ivy-core` or `ivy-core-ui`.
+- The `:ivy-navigation` does **not** contain screen's implementation but only the screen's definition. A screen definition is a `data class` / `data object` class that models the screen's startup params. This way different screens can start other screen without knowing about their implementation.
+- Only `:app` knows about the implementation of all screens. It maps each `Screen` definition from `:ivy-navigation` to the actual implementation in `IvyNavGraph.kt` (in `:app`).
 
 ## Paradigm: pragmatic
 
