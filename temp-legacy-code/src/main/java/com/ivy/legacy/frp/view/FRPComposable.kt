@@ -8,6 +8,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.legacy.frp.onScreenStart
 
+@Deprecated("Legacy code. Don't use it, please.")
 @Composable
 inline fun <S, E, reified VM : FRPViewModel<S, E>> BoxWithConstraintsScope.FRP(
     initialEvent: E? = null,

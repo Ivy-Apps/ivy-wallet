@@ -152,7 +152,6 @@ dependencies {
     implementation(projects.screenExchangeRates)
     implementation(projects.screenOnboarding)
     implementation(projects.screenSearch)
-    implementation(projects.screenTest)
     implementation(projects.screenBalance)
     implementation(projects.screenFeatures)
     implementation(projects.screenAttributions)
