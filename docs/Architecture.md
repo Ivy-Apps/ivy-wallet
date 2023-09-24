@@ -79,6 +79,8 @@ These are the modules that you're allowed to use as a dependency in your own mod
 - `:ivy-navigation`: provides the definition (screen's startup params w/o implementation) of all Screen destinations in Ivy Wallet and implements a simple back-stack based custom `Navigation`. 
 - `:ivy-core-ui`: Builds re-usable high-level UI components (for example `AccountModal` that also encapsulates the account CRUD logic) that enforce consistent Ivy UI/UX patterns for common operations (e.g. CRUD for accounts, categories, etc).
 
+> ⚠️ WARNING ⚠️: The above shared modules are underconstruction. We're also actively trying to get rid of legacy code that is partly trapped in `temp-*` modules.
+
 ## Paradigm: pragmatic
 
 Ivy Wallet is a multi-paradigm project. Follow whatever paradigm that you prefer. We appreciate both OOP (Object Oriented Programming) and FP (Functional Programming) and use the best of both worlds.
