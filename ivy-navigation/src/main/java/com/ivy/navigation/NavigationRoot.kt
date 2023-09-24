@@ -38,6 +38,12 @@ fun navigation(): Navigation {
     return localNavigation.current
 }
 
+/**
+ * Provides a [ViewModel] instance scoped the screen's life.
+ * When the user navigates away from the screen all screen scoped
+ * viewModels are destroyed.
+ * Does not apply for legacy screens.
+ */
 @Composable
 inline fun <reified T : ViewModel> screenScopedViewModel(
     factory: ViewModelProvider.Factory? = null

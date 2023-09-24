@@ -30,11 +30,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.navigation.navigation
+import com.ivy.navigation.screenScopedViewModel
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 fun FeaturesScreenImpl(
-    viewModel: FeaturesViewModel = viewModel()
+    viewModel: FeaturesViewModel = screenScopedViewModel()
 ) {
     FeaturesUi(
         uiState = viewModel.uiState(),
