@@ -1,15 +1,13 @@
 package com.ivy.core.datamodel
 
 import androidx.compose.runtime.Immutable
-import androidx.compose.ui.graphics.toArgb
-import com.ivy.design.l0_system.Ivy
 import com.ivy.core.db.entity.CategoryEntity
 import java.util.UUID
 
 @Immutable
 data class Category(
     val name: String,
-    val color: Int = Ivy.toArgb(),
+    val color: Int,
     val icon: String? = null,
     val orderNum: Double = 0.0,
 

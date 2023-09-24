@@ -4,6 +4,7 @@ import com.ivy.core.db.read.TransactionDao
 import com.ivy.core.db.write.TransactionWriter
 import com.ivy.core.datamodel.PlannedPaymentRule
 import com.ivy.core.datamodel.Transaction
+import com.ivy.legacy.incrementDate
 import java.time.LocalDateTime
 import javax.inject.Inject
 

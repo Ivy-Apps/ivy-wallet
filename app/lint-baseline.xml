@@ -1383,8 +1383,8 @@
         errorLine1="        mutableStateOf(initialBudget?.amount ?: 0.0)"
         errorLine2="        ~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/BudgetModal.kt"
-            line="82"
+            file="src/main/java/com/ivy/budgets/BudgetModal.kt"
+            line="77"
             column="9"/>
     </issue>
 
@@ -1417,7 +1417,7 @@
         errorLine2="                                                 ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/transaction/EditTransactionScreen.kt"
-            line="234"
+            line="236"
             column="50"/>
     </issue>
 
@@ -1483,7 +1483,7 @@
         errorLine2="        ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanRecordModal.kt"
-            line="96"
+            line="97"
             column="9"/>
     </issue>
 
@@ -6336,17 +6336,6 @@
 
     <issue
         id="UnusedResources"
-        message="The resource `R.drawable.ic_vue_dev_hierarchy` appears to be unused"
-        errorLine1="&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
-        errorLine2="^">
-        <location
-            file="../ivy-resources/src/main/res/drawable/ic_vue_dev_hierarchy.xml"
-            line="1"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
         message="The resource `R.drawable.ic_vue_dev_relation` appears to be unused"
         errorLine1="&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
         errorLine2="^">
@@ -8929,7 +8918,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/design/l0_system/IvyTheme.kt"
-            line="17"
+            line="18"
             column="1"/>
     </issue>
 
@@ -8940,7 +8929,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/design/l0_system/IvyTheme.kt"
-            line="20"
+            line="21"
             column="1"/>
     </issue>
 
@@ -8951,7 +8940,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/design/l0_system/IvyTheme.kt"
-            line="23"
+            line="24"
             column="1"/>
     </issue>
 
@@ -8963,17 +8952,6 @@
         <location
             file="src/main/java/com/ivy/design/api/IvyUI.kt"
             line="15"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeCompositionLocalUsage"
-        message="`CompositionLocal`s are implicit dependencies and creating new ones should be avoided.&#xA;See https://slackhq.github.io/compose-lints/rules/#compositionlocals for more information."
-        errorLine1="private val localNavigation = compositionLocalOf&lt;Navigation> { error(&quot;No LocalNavigation&quot;) }"
-        errorLine2="~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/ivy/navigation/NavigationRoot.kt"
-            line="7"
             column="1"/>
     </issue>
 
@@ -9038,8 +9016,8 @@
         errorLine1="@Composable"
         errorLine2="^">
         <location
-            file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/BudgetModal.kt"
-            line="253"
+            file="src/main/java/com/ivy/budgets/BudgetModal.kt"
+            line="208"
             column="1"/>
     </issue>
 
@@ -9050,7 +9028,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/budgets/BudgetScreen.kt"
-            line="290"
+            line="288"
             column="1"/>
     </issue>
 
@@ -9424,7 +9402,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/loans/loandetails/LoanDetailsScreen.kt"
-            line="790"
+            line="791"
             column="1"/>
     </issue>
 
@@ -9457,7 +9435,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanRecordModal.kt"
-            line="500"
+            line="501"
             column="1"/>
     </issue>
 
@@ -9468,7 +9446,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanRecordModal.kt"
-            line="549"
+            line="550"
             column="1"/>
     </issue>
 
@@ -9600,7 +9578,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/transaction/TransactionCard.kt"
-            line="70"
+            line="71"
             column="1"/>
     </issue>
 
@@ -9797,20 +9775,9 @@
         errorLine1="fun BoxWithConstraintsScope.BudgetModal("
         errorLine2="                            ~~~~~~~~~~~">
         <location
-            file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/BudgetModal.kt"
-            line="69"
+            file="src/main/java/com/ivy/budgets/BudgetModal.kt"
+            line="64"
             column="29"/>
-    </issue>
-
-    <issue
-        id="ComposeModifierMissing"
-        message="This @Composable function emits content but doesn&apos;t have a modifier parameter.&#xA;See https://slackhq.github.io/compose-lints/rules/#when-should-i-expose-modifier-parameters for more information."
-        errorLine1="fun ModalNameInput("
-        errorLine2="    ~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/BudgetModal.kt"
-            line="214"
-            column="5"/>
     </issue>
 
     <issue
@@ -10238,7 +10205,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IntervalPickerRow.kt"
-            line="40"
+            line="41"
             column="5"/>
     </issue>
 
@@ -10436,7 +10403,7 @@
         errorLine2="                            ~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanRecordModal.kt"
-            line="78"
+            line="79"
             column="29"/>
     </issue>
 
@@ -10612,7 +10579,7 @@
         errorLine2="                  ~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/planned/list/PlannedPaymentCard.kt"
-            line="54"
+            line="57"
             column="19"/>
     </issue>
 
@@ -10799,7 +10766,7 @@
         errorLine2="    ~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/onboarding/components/Suggestions.kt"
-            line="31"
+            line="35"
             column="5"/>
     </issue>
 
@@ -10832,7 +10799,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/transaction/TransactionCard.kt"
-            line="72"
+            line="73"
             column="5"/>
     </issue>
 
@@ -10843,7 +10810,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/transaction/TransactionCard.kt"
-            line="408"
+            line="409"
             column="5"/>
     </issue>
 
@@ -10985,8 +10952,8 @@
         errorLine1="@Composable"
         errorLine2="^">
         <location
-            file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/BudgetModal.kt"
-            line="253"
+            file="src/main/java/com/ivy/budgets/BudgetModal.kt"
+            line="208"
             column="1"/>
     </issue>
 
@@ -10997,7 +10964,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/budgets/BudgetScreen.kt"
-            line="290"
+            line="288"
             column="1"/>
     </issue>
 
@@ -11371,7 +11338,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/loans/loandetails/LoanDetailsScreen.kt"
-            line="790"
+            line="791"
             column="1"/>
     </issue>
 
@@ -11404,7 +11371,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanRecordModal.kt"
-            line="500"
+            line="501"
             column="1"/>
     </issue>
 
@@ -11415,7 +11382,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanRecordModal.kt"
-            line="549"
+            line="550"
             column="1"/>
     </issue>
 
@@ -11547,7 +11514,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/transaction/TransactionCard.kt"
-            line="70"
+            line="71"
             column="1"/>
     </issue>
 
@@ -11734,7 +11701,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/budgets/BudgetScreen.kt"
-            line="350"
+            line="348"
             column="1"/>
     </issue>
 
@@ -11998,7 +11965,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/planned/edit/EditPlannedScreen.kt"
-            line="112"
+            line="114"
             column="1"/>
     </issue>
 
@@ -12009,7 +11976,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/transaction/EditTransactionScreen.kt"
-            line="159"
+            line="161"
             column="1"/>
     </issue>
 
@@ -12460,7 +12427,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/loans/loandetails/LoanDetailsScreen.kt"
-            line="126"
+            line="127"
             column="1"/>
     </issue>
 
@@ -12471,7 +12438,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/loans/loandetails/LoanDetailsScreen.kt"
-            line="297"
+            line="298"
             column="1"/>
     </issue>
 
@@ -12504,7 +12471,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanRecordModal.kt"
-            line="76"
+            line="77"
             column="1"/>
     </issue>
 
@@ -12515,7 +12482,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanRecordModal.kt"
-            line="441"
+            line="442"
             column="1"/>
     </issue>
 
@@ -12526,7 +12493,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/loans/loan/LoansScreen.kt"
-            line="339"
+            line="340"
             column="1"/>
     </issue>
 
@@ -12746,7 +12713,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/WrapContentRow.kt"
-            line="24"
+            line="25"
             column="1"/>
     </issue>
 
@@ -12756,8 +12723,8 @@
         errorLine1="    categories: List&lt;Category>,"
         errorLine2="                ~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/BudgetModal.kt"
-            line="255"
+            file="src/main/java/com/ivy/budgets/BudgetModal.kt"
+            line="210"
             column="17"/>
     </issue>
 
@@ -12767,8 +12734,8 @@
         errorLine1="    budgetCategoryIds: List&lt;UUID>,"
         errorLine2="                       ~~~~~~~~~~">
         <location
-            file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/BudgetModal.kt"
-            line="256"
+            file="src/main/java/com/ivy/budgets/BudgetModal.kt"
+            line="211"
             column="24"/>
     </issue>
 
@@ -12779,7 +12746,7 @@
         errorLine2="                ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/budgets/BudgetScreen.kt"
-            line="88"
+            line="86"
             column="17"/>
     </issue>
 
@@ -12790,7 +12757,7 @@
         errorLine2="              ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/budgets/BudgetScreen.kt"
-            line="89"
+            line="87"
             column="15"/>
     </issue>
 
@@ -12801,7 +12768,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/budgets/BudgetScreen.kt"
-            line="90"
+            line="88"
             column="21"/>
     </issue>
 
@@ -12933,7 +12900,7 @@
         errorLine2="                ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/planned/edit/EditPlannedScreen.kt"
-            line="135"
+            line="137"
             column="17"/>
     </issue>
 
@@ -12944,7 +12911,7 @@
         errorLine2="              ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/planned/edit/EditPlannedScreen.kt"
-            line="136"
+            line="138"
             column="15"/>
     </issue>
 
@@ -12955,7 +12922,7 @@
         errorLine2="                      ~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/transaction/EditTransactionScreen.kt"
-            line="166"
+            line="168"
             column="23"/>
     </issue>
 
@@ -12966,7 +12933,7 @@
         errorLine2="                ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/transaction/EditTransactionScreen.kt"
-            line="178"
+            line="180"
             column="17"/>
     </issue>
 
@@ -12977,7 +12944,7 @@
         errorLine2="              ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/transaction/EditTransactionScreen.kt"
-            line="179"
+            line="181"
             column="15"/>
     </issue>
 
@@ -13109,7 +13076,7 @@
         errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/loans/loandetails/LoanDetailsScreen.kt"
-            line="130"
+            line="131"
             column="25"/>
     </issue>
 
@@ -13120,7 +13087,7 @@
         errorLine2="              ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/loans/loandetails/LoanDetailsScreen.kt"
-            line="134"
+            line="135"
             column="15"/>
     </issue>
 
@@ -13153,7 +13120,7 @@
         errorLine2="              ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanRecordModal.kt"
-            line="80"
+            line="81"
             column="15"/>
     </issue>
 
@@ -13164,7 +13131,7 @@
         errorLine2="              ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/LoanRecordModal.kt"
-            line="444"
+            line="445"
             column="15"/>
     </issue>
 
@@ -13296,7 +13263,7 @@
         errorLine2="                ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/planned/list/PlannedPaymentCard.kt"
-            line="56"
+            line="59"
             column="17"/>
     </issue>
 
@@ -13307,7 +13274,7 @@
         errorLine2="              ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/planned/list/PlannedPaymentCard.kt"
-            line="57"
+            line="60"
             column="15"/>
     </issue>
 
@@ -13318,7 +13285,7 @@
         errorLine2="                ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/planned/list/PlannedPaymentCard.kt"
-            line="124"
+            line="127"
             column="17"/>
     </issue>
 
@@ -13329,7 +13296,7 @@
         errorLine2="              ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/planned/list/PlannedPaymentCard.kt"
-            line="125"
+            line="128"
             column="15"/>
     </issue>
 
@@ -13384,7 +13351,7 @@
         errorLine2="                ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/planned/list/PlannedPaymentsScreen.kt"
-            line="69"
+            line="71"
             column="17"/>
     </issue>
 
@@ -13395,7 +13362,7 @@
         errorLine2="              ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/planned/list/PlannedPaymentsScreen.kt"
-            line="70"
+            line="72"
             column="15"/>
     </issue>
 
@@ -13406,7 +13373,7 @@
         errorLine2="             ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/planned/list/PlannedPaymentsScreen.kt"
-            line="72"
+            line="74"
             column="14"/>
     </issue>
 
@@ -13417,7 +13384,7 @@
         errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/planned/list/PlannedPaymentsScreen.kt"
-            line="76"
+            line="78"
             column="16"/>
     </issue>
 
@@ -13450,7 +13417,7 @@
         errorLine2="                 ~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/onboarding/components/Suggestions.kt"
-            line="32"
+            line="36"
             column="18"/>
     </issue>
 
@@ -13483,7 +13450,7 @@
         errorLine2="                ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/transaction/TransactionCard.kt"
-            line="241"
+            line="242"
             column="17"/>
     </issue>
 
@@ -13494,7 +13461,7 @@
         errorLine2="              ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/transaction/TransactionCard.kt"
-            line="242"
+            line="243"
             column="15"/>
     </issue>
 
@@ -13505,7 +13472,7 @@
         errorLine2="              ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/ui/component/transaction/TransactionCard.kt"
-            line="348"
+            line="349"
             column="15"/>
     </issue>
 
@@ -13538,7 +13505,7 @@
         errorLine2="           ~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/WrapContentRow.kt"
-            line="28"
+            line="29"
             column="12"/>
     </issue>
 
