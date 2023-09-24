@@ -20,7 +20,7 @@ Imagine Ivy Wallet as a manual expense tracker that tries to replace the good ol
 
 **Do you know? Ask yourself.**
 
-1) How much money in total do I have?
+1) How much money do I have in total?
 
 2) How much did I spend this month and where?
 
@@ -111,14 +111,14 @@ Make sure to also check our short **[Architecture Guidelines 🏗️](docs/Archi
 ### Contributors Wall:
 
 <a href="https://github.com/ILIYANGERMANOV/ivy-wallet/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=ILIYANGERMANOV/ivy-wallet" />
+  <img src="https://contrib.rocks/image?repo=Ivy-Apps/ivy-wallet" />
 </a>
 <br>
 <br>
 
-_Note: It may take up to 24h for the [contrib.rocks](https://contrib.rocks/preview?repo=ILIYANGERMANOV%2Fivy-wallet) plugin to update because it's refreshed once a day._ 
+_Note: It may take up to 24h for the [contrib.rocks](https://contrib.rocks/preview?repo=Ivy-Apps%2Fivy-wallet) plugin to update because it's refreshed once a day._ 
 
-**P.S.** You'll be also recognized in Ivy Wallet's "Contributors" screen that can be found in the android app. We salute you 👏
+**P.S.** You'll also be recognized in Ivy Wallet's "Contributors" screen that can be found in the android app. We salute you! 👏
 
 ## Creative Contributors
 
