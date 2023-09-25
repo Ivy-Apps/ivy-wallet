@@ -6,9 +6,13 @@ body:
   - type: checkboxes
     id: terms
     attributes:
-      label: Please confirm the following
+      label: "Please confirm the following:"
       options:
-        - label: I checked [the current issues](https://github.com/Ivy-Apps/ivy-wallet/issues) for duplicate issues
+        - label: I've checked [the current issues](https://github.com/Ivy-Apps/ivy-wallet/issues) for duplicate issues.
+          required: true
+        - label: I've requested a single (only one) feature/change in this issue. It complies with the One Request Per GitHub Issue (ORPGI) rule.
+          required: true
+        - label: My issue is well-defined and describes how it should be implemented from UI/UX perspective.
           required: true
   - type: textarea
     id: description

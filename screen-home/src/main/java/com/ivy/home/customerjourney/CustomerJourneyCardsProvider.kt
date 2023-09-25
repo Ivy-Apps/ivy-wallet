@@ -1,6 +1,5 @@
 package com.ivy.home.customerjourney
 
-import com.ivy.legacy.Constants
 import com.ivy.core.db.entity.TransactionType
 import com.ivy.core.db.read.PlannedPaymentRuleDao
 import com.ivy.core.db.read.TransactionDao
@@ -14,6 +13,7 @@ import com.ivy.design.l0_system.Ivy
 import com.ivy.design.l0_system.Orange
 import com.ivy.design.l0_system.Red
 import com.ivy.design.l0_system.Red3
+import com.ivy.legacy.Constants
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.data.model.MainTab
@@ -65,7 +65,6 @@ class CustomerJourneyCardsProvider @Inject constructor(
             rateUsCard_2(),
             joinTelegram2(),
             ivyWalletIsOpenSource(),
-            githubBackupsDisabled(),
         )
 
         fun adjustBalanceCard() = CustomerJourneyCardModel(
@@ -184,25 +183,6 @@ class CustomerJourneyCardsProvider @Inject constructor(
             onAction = { _, _, rootActivity ->
                 rootActivity.openUrlInBrowser(Constants.URL_IVY_TELEGRAM_INVITE)
             }
-        )
-
-        fun githubBackupsDisabled() = CustomerJourneyCardModel(
-            id = "github_backups_disabled",
-            condition = { trnCount, _, _ ->
-                trnCount >= 18
-            },
-            title = "Shutting down GitHub auto-backups",
-            description = "Unfortunately, the GitHub auto-backups feature" +
-                    " might violate GitHub's Terms Of Use." +
-                    " That's why as a safety measure we're shutting it down for good." +
-                    " Apologies for the inconvenience and thank you for your understanding!" +
-                    "\n\nP.S. If you've backed up data in GitHub you can manually download " +
-                    "the JSON file from your repo and import it in Ivy Wallet.",
-            cta = null,
-            ctaIcon = R.drawable.github_logo,
-            background = Gradient.solid(Red),
-            hasDismiss = true,
-            onAction = { _, _, _ -> }
         )
 
         fun ivyWalletIsOpenSource() = CustomerJourneyCardModel(
