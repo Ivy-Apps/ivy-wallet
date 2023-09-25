@@ -631,7 +631,7 @@ private fun Releases(nav: Navigation) {
     SettingsDefaultButton(
         icon = R.drawable.ic_vue_money_tag,
         text = "Releases",
-        iconPadding = 6.dp
+        iconPadding = 10.dp
     ) {
         nav.navigateTo(ReleasesScreen)
     }
