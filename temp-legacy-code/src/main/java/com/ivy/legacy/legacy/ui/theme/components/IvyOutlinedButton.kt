@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -21,16 +22,18 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.resources.R
 import com.ivy.legacy.IvyWalletComponentPreview
-import com.ivy.wallet.ui.theme.Green
 import com.ivy.legacy.utils.thenIf
+import com.ivy.resources.R
+import com.ivy.wallet.ui.theme.Green
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun IvyOutlinedButton(
     modifier: Modifier = Modifier,
     text: String,
+    minHeight: Dp = Dp.Unspecified,
+    minWidth: Dp = Dp.Unspecified,
     @DrawableRes iconStart: Int?,
     solidBackground: Boolean = false,
     iconTint: Color = UI.colors.pureInverse,
@@ -40,23 +43,20 @@ fun IvyOutlinedButton(
     onClick: () -> Unit,
 ) {
     Row(
-        modifier = modifier
-            .clip(UI.shapes.rFull)
-            .clickable(
-                onClick = onClick
-            )
-            .border(2.dp, borderColor, UI.shapes.rFull)
+        modifier = modifier.clip(UI.shapes.rFull).clickable(
+            onClick = onClick,
+        ).border(2.dp, borderColor, UI.shapes.rFull).defaultMinSize(minWidth, minHeight)
             .thenIf(solidBackground) {
                 background(UI.colors.pure, UI.shapes.rFull)
             },
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         if (iconStart != null) {
             Spacer(Modifier.width(12.dp))
 
             IvyIcon(
                 icon = iconStart,
-                tint = iconTint
+                tint = iconTint,
             )
 
             Spacer(Modifier.width(4.dp))
@@ -69,8 +69,8 @@ fun IvyOutlinedButton(
             text = text,
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold,
-                color = textColor
-            )
+                color = textColor,
+            ),
         )
 
         Spacer(Modifier.width(24.dp))
@@ -90,24 +90,19 @@ fun IvyOutlinedButtonFillMaxWidth(
     onClick: () -> Unit,
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(UI.shapes.rFull)
-            .clickable(
-                onClick = onClick
-            )
-            .border(2.dp, borderColor, UI.shapes.rFull)
-            .thenIf(solidBackground) {
-                background(UI.colors.pure, UI.shapes.rFull)
-            },
-        verticalAlignment = Alignment.CenterVertically
+        modifier = modifier.fillMaxWidth().clip(UI.shapes.rFull).clickable(
+            onClick = onClick,
+        ).border(2.dp, borderColor, UI.shapes.rFull).thenIf(solidBackground) {
+            background(UI.colors.pure, UI.shapes.rFull)
+        },
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         if (iconStart != null) {
             Spacer(Modifier.width(12.dp))
 
             IvyIcon(
                 icon = iconStart,
-                tint = iconTint
+                tint = iconTint,
             )
         }
 
@@ -118,8 +113,8 @@ fun IvyOutlinedButtonFillMaxWidth(
             text = text,
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold,
-                color = textColor
-            )
+                color = textColor,
+            ),
         )
 
         Spacer(Modifier.weight(1f))
@@ -144,8 +139,7 @@ private fun Preview_FillMaxWidth() {
             text = "Import backup file",
             iconStart = R.drawable.ic_export_csv,
             textColor = Green,
-            iconTint = Green
-        ) {
-        }
+            iconTint = Green,
+        ) {}
     }
 }

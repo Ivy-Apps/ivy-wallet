@@ -79,8 +79,8 @@ internal fun HomeHeader(
     val percentExpanded by animateFloatAsState(
         targetValue = if (expanded) 1f else 0f,
         animationSpec = springBounce(
-            stiffness = Spring.StiffnessLow
-        )
+            stiffness = Spring.StiffnessLow,
+        ),
     )
 
     Spacer(Modifier.height(20.dp))
@@ -98,7 +98,7 @@ internal fun HomeHeader(
         onHiddenBalanceClick = onHiddenBalanceClick,
 
         onSelectNextMonth = onSelectNextMonth,
-        onSelectPreviousMonth = onSelectPreviousMonth
+        onSelectPreviousMonth = onSelectPreviousMonth,
     )
 
     Spacer(Modifier.height(16.dp))
@@ -106,7 +106,7 @@ internal fun HomeHeader(
     if (percentExpanded < 0.5f) {
         TransactionsDividerLine(
             modifier = Modifier.alpha(1f - percentExpanded),
-            paddingHorizontal = 0.dp
+            paddingHorizontal = 0.dp,
         )
     }
 }
@@ -146,14 +146,14 @@ private fun HeaderStickyRow(
                 text = if (name.isNotNullOrBlank()) {
                     stringResource(
                         R.string.hi_name,
-                        name
+                        name,
                     )
                 } else {
                     stringResource(R.string.hi)
                 },
                 style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
-                    color = UI.colors.pureInverse
+                    color = UI.colors.pureInverse,
                 ),
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
@@ -174,7 +174,7 @@ private fun HeaderStickyRow(
                     currency = currency,
                     balance = balance,
                     shortenBigNumbers = true,
-                    hiddenMode = hideCurrentBalance
+                    hiddenMode = hideCurrentBalance,
                 )
             }
         }
@@ -187,10 +187,11 @@ private fun HeaderStickyRow(
                 },
                 onSwipeRight = {
                     onSelectPreviousMonth()
-                }
+                },
             ),
             iconStart = R.drawable.ic_calendar,
             text = period.toDisplayShort(ivyWalletCtx().startDayOfMonth),
+            minWidth = 150.dp,
         ) {
             onShowMonthModal()
         }
@@ -216,7 +217,7 @@ fun CashFlowInfo(
 
     onOpenMoreMenu: () -> Unit,
     onBalanceClick: () -> Unit,
-    onHiddenBalanceClick: () -> Unit = {}
+    onHiddenBalanceClick: () -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -224,8 +225,8 @@ fun CashFlowInfo(
                 sensitivity = Constants.SWIPE_DOWN_THRESHOLD_OPEN_MORE_MENU,
                 onSwipeDown = {
                     onOpenMoreMenu()
-                }
-            )
+                },
+            ),
     ) {
         BalanceRow(
             modifier = Modifier
@@ -241,7 +242,7 @@ fun CashFlowInfo(
             currency = currency,
             balance = balance,
             shortenBigNumbers = true,
-            hiddenMode = hideCurrentBalance
+            hiddenMode = hideCurrentBalance,
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -251,7 +252,7 @@ fun CashFlowInfo(
             period = period,
             currency = currency,
             monthlyIncome = monthlyIncome,
-            monthlyExpenses = monthlyExpenses
+            monthlyExpenses = monthlyExpenses,
         )
 
         val cashflow = monthlyIncome - monthlyExpenses
@@ -260,17 +261,17 @@ fun CashFlowInfo(
 
             Text(
                 modifier = Modifier.padding(
-                    start = 24.dp
+                    start = 24.dp,
                 ),
                 text = stringResource(
                     R.string.cashflow,
                     (if (cashflow > 0) "+" else ""),
                     cashflow.format(currency),
-                    currency
+                    currency,
                 ),
                 style = UI.typo.nB2.style(
-                    color = if (cashflow < 0) Gray else Green
-                )
+                    color = if (cashflow < 0) Gray else Green,
+                ),
             )
 
             Spacer(Modifier.height(4.dp))
@@ -286,11 +287,11 @@ private fun IncomeExpenses(
     period: TimePeriod,
     currency: String,
     monthlyIncome: Double,
-    monthlyExpenses: Double
+    monthlyExpenses: Double,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Spacer(Modifier.width(16.dp))
 
@@ -304,12 +305,12 @@ private fun IncomeExpenses(
             label = stringResource(R.string.income),
             currency = currency,
             amount = monthlyIncome,
-            testTag = "home_card_income"
+            testTag = "home_card_income",
         ) {
             nav.navigateTo(
                 PieChartStatisticScreen(
                     type = TransactionType.INCOME,
-                )
+                ),
             )
         }
 
@@ -323,12 +324,12 @@ private fun IncomeExpenses(
             label = stringResource(R.string.expenses),
             currency = currency,
             amount = monthlyExpenses.absoluteValue,
-            testTag = "home_card_expense"
+            testTag = "home_card_expense",
         ) {
             nav.navigateTo(
                 PieChartStatisticScreen(
                     type = TransactionType.EXPENSE,
-                )
+                ),
             )
         }
 
@@ -346,7 +347,7 @@ private fun RowScope.HeaderCard(
     currency: String,
     amount: Double,
     testTag: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -358,19 +359,19 @@ private fun RowScope.HeaderCard(
             .background(backgroundGradient.asHorizontalBrush())
             .testTag(testTag)
             .clickable(
-                onClick = onClick
-            )
+                onClick = onClick,
+            ),
     ) {
         Spacer(Modifier.height(12.dp))
 
         Row(
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Spacer(Modifier.width(16.dp))
 
             IvyIcon(
                 icon = icon,
-                tint = textColor
+                tint = textColor,
             )
 
             Spacer(Modifier.width(4.dp))
@@ -379,8 +380,8 @@ private fun RowScope.HeaderCard(
                 text = label,
                 style = UI.typo.c.style(
                     color = textColor,
-                    fontWeight = FontWeight.ExtraBold
-                )
+                    fontWeight = FontWeight.ExtraBold,
+                ),
             )
         }
 
@@ -398,7 +399,7 @@ private fun RowScope.HeaderCard(
                 amount = amount,
                 currency = currency,
                 textColor = textColor,
-                shortenBigNumbers = true
+                shortenBigNumbers = true,
             )
 
             Spacer(Modifier.width(4.dp))
