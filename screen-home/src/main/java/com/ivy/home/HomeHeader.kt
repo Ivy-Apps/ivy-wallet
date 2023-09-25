@@ -191,7 +191,7 @@ private fun HeaderStickyRow(
             ),
             iconStart = R.drawable.ic_calendar,
             text = period.toDisplayShort(ivyWalletCtx().startDayOfMonth),
-            minWidth = 150.dp,
+            minWidth = 130.dp,
         ) {
             onShowMonthModal()
         }
