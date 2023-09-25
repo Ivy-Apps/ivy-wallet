@@ -114,46 +114,6 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun setName(newName: String) {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
-
-            ioThread {
-                settingsWriter.save(
-                    settingsDao.findFirst().copy(
-                        name = newName
-                    )
-                )
-            }
-            start()
-
-            TestIdlingResource.decrement()
-        }
-    }
-
-    fun setCurrency(newCurrency: String) {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
-
-            ioThread {
-                settingsWriter.save(
-                    settingsDao.findFirst().copy(
-                        currency = newCurrency
-                    )
-                )
-
-                syncExchangeRatesAct(
-                    SyncExchangeRatesAct.Input(
-                        baseCurrency = newCurrency
-                    )
-                )
-            }
-            start()
-
-            TestIdlingResource.decrement()
-        }
-    }
-
     fun exportToCSV(context: Context) {
         ivyContext.createNewFile(
             "Ivy Wallet (${
@@ -230,6 +190,8 @@ class SettingsViewModel @Inject constructor(
 
     override fun onEvent(event: SettingsEvent) {
         when (event) {
+            is SettingsEvent.SetCurrency -> setCurrency(event.newCurrency)
+            is SettingsEvent.SetName -> setName(event.newName)
             SettingsEvent.SwitchTheme -> switchTheme()
             is SettingsEvent.SetLockApp -> setLockApp(event.lockApp)
             is SettingsEvent.SetShowNotifications -> setShowNotifications(event.showNotifications)
@@ -245,6 +207,46 @@ class SettingsViewModel @Inject constructor(
 
             SettingsEvent.DeleteCloudUserData -> deleteCloudUserData()
             SettingsEvent.DeleteAllUserData -> deleteAllUserData()
+        }
+    }
+
+    fun setCurrency(newCurrency: String) {
+        viewModelScope.launch {
+            TestIdlingResource.increment()
+
+            ioThread {
+                settingsWriter.save(
+                    settingsDao.findFirst().copy(
+                        currency = newCurrency
+                    )
+                )
+
+                syncExchangeRatesAct(
+                    SyncExchangeRatesAct.Input(
+                        baseCurrency = newCurrency
+                    )
+                )
+            }
+            start()
+
+            TestIdlingResource.decrement()
+        }
+    }
+
+    fun setName(newName: String) {
+        viewModelScope.launch {
+            TestIdlingResource.increment()
+
+            ioThread {
+                settingsWriter.save(
+                    settingsDao.findFirst().copy(
+                        name = newName
+                    )
+                )
+            }
+            start()
+
+            TestIdlingResource.decrement()
         }
     }
 
