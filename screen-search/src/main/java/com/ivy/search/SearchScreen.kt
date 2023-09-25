@@ -47,6 +47,10 @@ fun SearchScreen(screen: SearchScreen) {
     val viewModel: SearchViewModel = screenScopedViewModel()
     val uiState = viewModel.uiState()
 
+    onScreenStart {
+        viewModel.onEvent(SearchEvent.Search(""))
+    }
+
     SearchUi(
         uiState = uiState,
         onEvent = { viewModel.onEvent(it) }

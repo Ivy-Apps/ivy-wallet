@@ -43,10 +43,6 @@ class SearchViewModel @Inject constructor(
         )
     )
 
-    init {
-        search("")
-    }
-
     @Composable
     override fun uiState(): SearchState {
         return _uiState.value
