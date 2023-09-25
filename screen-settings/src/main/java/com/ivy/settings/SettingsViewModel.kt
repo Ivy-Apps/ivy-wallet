@@ -2,7 +2,6 @@ package com.ivy.settings
 
 import android.content.Context
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
@@ -65,26 +64,6 @@ class SettingsViewModel @Inject constructor(
 
     @Composable
     override fun uiState(): SettingsState {
-        LaunchedEffect(Unit) {
-            val settings = ioThread {
-                settingsDao.findFirst()
-            }
-
-            name.value = settings.name
-            startDateOfMonth.intValue = startDayOfMonthAct(Unit)
-            currencyCode.value = settings.currency
-            currentTheme.value = settingsAct(Unit).theme
-            lockApp.value = sharedPrefs.getBoolean(SharedPrefs.APP_LOCK_ENABLED, false)
-            hideCurrentBalance.value =
-                sharedPrefs.getBoolean(SharedPrefs.HIDE_CURRENT_BALANCE, false)
-            showNotifications.value = sharedPrefs.getBoolean(
-                SharedPrefs.SHOW_NOTIFICATIONS, true
-            )
-            treatTransfersAsIncomeExpense.value =
-                sharedPrefs.getBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, false)
-
-        }
-
         return SettingsState(
             currencyCode = getCurrencyCode(),
             name = getName(),
@@ -99,34 +78,78 @@ class SettingsViewModel @Inject constructor(
     }
 
     private fun getCurrencyCode(): String {
+        viewModelScope.launch {
+            val settings = ioThread {
+                settingsDao.findFirst()
+            }
+
+            currencyCode.value = settings.currency
+        }
+
         return currencyCode.value
     }
 
     private fun getName(): String {
+        viewModelScope.launch {
+            val settings = ioThread {
+                settingsDao.findFirst()
+            }
+
+            name.value = settings.name
+        }
+
         return name.value
     }
 
     private fun getCurrentTheme(): Theme {
+        viewModelScope.launch {
+            currentTheme.value = settingsAct(Unit).theme
+        }
+
         return currentTheme.value
     }
 
     private fun getLockApp(): Boolean {
+        viewModelScope.launch {
+            lockApp.value = sharedPrefs.getBoolean(SharedPrefs.APP_LOCK_ENABLED, false)
+        }
+
         return lockApp.value
     }
 
     private fun getShowNotifications(): Boolean {
+        viewModelScope.launch {
+            showNotifications.value = sharedPrefs.getBoolean(
+                SharedPrefs.SHOW_NOTIFICATIONS, true
+            )
+        }
+
         return showNotifications.value
     }
 
     private fun getHideCurrentBalance(): Boolean {
+        viewModelScope.launch {
+            hideCurrentBalance.value =
+                sharedPrefs.getBoolean(SharedPrefs.HIDE_CURRENT_BALANCE, false)
+        }
+
         return hideCurrentBalance.value
     }
 
     private fun getTreatTransfersAsIncomeExpense(): Boolean {
+        viewModelScope.launch {
+            treatTransfersAsIncomeExpense.value =
+                sharedPrefs.getBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, false)
+        }
+
         return treatTransfersAsIncomeExpense.value
     }
 
     private fun getStartDateOfMonth(): String {
+        viewModelScope.launch {
+            startDateOfMonth.intValue = startDayOfMonthAct(Unit)
+        }
+
         return startDateOfMonth.value.toString()
     }
 
