@@ -2,7 +2,9 @@ package com.ivy.settings
 
 import android.content.Context
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.core.ComposeViewModel
 import com.ivy.core.RootScreen
@@ -18,7 +20,6 @@ import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.legacy.domain.action.settings.UpdateSettingsAct
 import com.ivy.legacy.domain.deprecated.logic.zip.BackupLogic
-import com.ivy.legacy.utils.asLiveData
 import com.ivy.legacy.utils.formatNicelyWithTime
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.sendToCrashlytics
@@ -32,8 +33,6 @@ import com.ivy.widget.balance.WalletBalanceWidgetReceiver
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -56,36 +55,23 @@ class SettingsViewModel @Inject constructor(
     private val settingsWriter: SettingsWriter,
 ) : ComposeViewModel<SettingsState, SettingsEvent>() {
 
-    private val _nameLocalAccount = MutableLiveData<String?>()
-    val nameLocalAccount = _nameLocalAccount.asLiveData()
+    private val currency = mutableStateOf(String)
+    private val name = mutableStateOf("")
+    private val currentTheme = mutableStateOf<Theme>(Theme.AUTO)
+    private val lockApp = mutableStateOf(false)
+    private val showNotifications = mutableStateOf(true)
+    private val hideCurrentBalance = mutableStateOf(false)
+    private val transfersAsIncomeExpense = mutableStateOf(false)
+    private val startDateOfMonth = mutableIntStateOf(1)
 
-    private val _currencyCode = MutableLiveData<String>()
-    val currencyCode = _currencyCode.asLiveData()
-
-    private val _currentTheme = MutableLiveData<Theme>()
-    val currentTheme = _currentTheme.asLiveData()
-
-    private val _lockApp = MutableLiveData<Boolean>()
-    val lockApp = _lockApp.asLiveData()
-
-    private val _hideCurrentBalance = MutableStateFlow(false)
-    val hideCurrentBalance = _hideCurrentBalance.asStateFlow()
-
-    private val _showNotifications = MutableStateFlow(true)
-    val showNotifications = _showNotifications.asStateFlow()
-
-    private val _treatTransfersAsIncomeExpense = MutableStateFlow(false)
-    val treatTransfersAsIncomeExpense = _treatTransfersAsIncomeExpense.asStateFlow()
-
-    private val _progressState = MutableStateFlow(false)
-    val progressState = _progressState.asStateFlow()
-
-    private val _startDateOfMonth = MutableLiveData<Int>()
-    val startDateOfMonth = _startDateOfMonth
+//    private val _progressState = MutableStateFlow(false)
+//    val progressState = _progressState.asStateFlow()
 
     @Composable
     override fun uiState(): SettingsState {
-        TODO("Not yet implemented")
+        LaunchedEffect(Unit) {
+
+        }
     }
 
     fun start() {
@@ -117,7 +103,7 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun exportToZip(context: Context) {
+    private fun exportToZip(context: Context) {
         ivyContext.createNewFile(
             "Ivy Wallet (${
                 timeNowUTC().formatNicelyWithTime(noWeekDay = true)
@@ -144,7 +130,7 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun login() {
+    private fun login() {
         ivyContext.googleSignIn { idToken ->
             if (idToken != null) {
                 viewModelScope.launch {
@@ -268,39 +254,39 @@ class SettingsViewModel @Inject constructor(
                 )
             )
             ivyContext.switchTheme(newTheme)
-            _currentTheme.value = newTheme
+            currentTheme.value = newTheme
         }
     }
 
-    private fun setLockApp(lockApp: Boolean) {
+    private fun setLockApp(lock: Boolean) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            sharedPrefs.putBoolean(SharedPrefs.APP_LOCK_ENABLED, lockApp)
-            _lockApp.value = lockApp
+            sharedPrefs.putBoolean(SharedPrefs.APP_LOCK_ENABLED, lock)
+            lockApp.value = lock
             refreshWidget(WalletBalanceWidgetReceiver::class.java)
 
             TestIdlingResource.decrement()
         }
     }
 
-    private fun setShowNotifications(showNotifications: Boolean) {
+    private fun setShowNotifications(notificationsShow: Boolean) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            sharedPrefs.putBoolean(SharedPrefs.SHOW_NOTIFICATIONS, showNotifications)
-            _showNotifications.value = showNotifications
+            sharedPrefs.putBoolean(SharedPrefs.SHOW_NOTIFICATIONS, notificationsShow)
+            showNotifications.value = notificationsShow
 
             TestIdlingResource.decrement()
         }
     }
 
-    private fun setHideCurrentBalance(hideCurrentBalance: Boolean) {
+    private fun setHideCurrentBalance(hideBalance: Boolean) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            sharedPrefs.putBoolean(SharedPrefs.HIDE_CURRENT_BALANCE, hideCurrentBalance)
-            _hideCurrentBalance.value = hideCurrentBalance
+            sharedPrefs.putBoolean(SharedPrefs.HIDE_CURRENT_BALANCE, hideBalance)
+            hideCurrentBalance.value = hideBalance
 
             TestIdlingResource.decrement()
         }
@@ -312,9 +298,9 @@ class SettingsViewModel @Inject constructor(
 
             sharedPrefs.putBoolean(
                 SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE,
-                treatTransfersAsIncomeExpense
+                transfersAsIncomeExpense.value
             )
-            _treatTransfersAsIncomeExpense.value = treatTransfersAsIncomeExpense
+            transfersAsIncomeExpense.value = treatTransfersAsIncomeExpense
 
             TestIdlingResource.decrement()
         }
@@ -327,7 +313,7 @@ class SettingsViewModel @Inject constructor(
             when (val res = updateStartDayOfMonthAct(startDate)) {
                 is Res.Err -> {}
                 is Res.Ok -> {
-                    _startDateOfMonth.value = res.data!!
+                    startDateOfMonth.intValue = res.data
                 }
             }
 
