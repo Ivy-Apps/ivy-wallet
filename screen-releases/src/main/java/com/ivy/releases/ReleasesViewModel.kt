@@ -35,6 +35,16 @@ class ReleasesViewModel @Inject constructor(
         }
     }
 
+    private fun onTryAgainClick(): ReleasesState {
+        releaseState.value = ReleasesState.Loading(loadingMessage)
+
+        viewModelScope.launch {
+            fetchReleaseInfo()
+        }
+
+        return releaseState.value
+    }
+
     private suspend fun fetchReleaseInfo(): ReleasesState {
         val response = releasesDataSource.fetchReleaseInfo()
 
@@ -53,16 +63,6 @@ class ReleasesViewModel @Inject constructor(
         }.toImmutableList()
 
         releaseState.value = ReleasesState.Success(releasesInfo = releaseInfo)
-        return releaseState.value
-    }
-
-    private fun onTryAgainClick(): ReleasesState {
-        releaseState.value = ReleasesState.Loading(loadingMessage)
-
-        viewModelScope.launch {
-            fetchReleaseInfo()
-        }
-
         return releaseState.value
     }
 }
