@@ -95,6 +95,7 @@ Make sure to also check our short **[Architecture Guidelines 🏗️](docs/Archi
 
 ### Build & CI
 - [Gradle KTS](https://docs.gradle.org/current/userguide/kotlin_dsl.html) (Kotlin DSL)
+- [Gradle convention plugins](https://docs.gradle.org/current/samples/sample_convention_plugins.html) (build logic)
 - [Gradle version catalogs](https://developer.android.com/build/migrate-to-catalogs) (dependencies versions)
 - [Fastlane](https://fastlane.tools/) (uploads the app to the Google PlayStore)
 - [Github Actions](https://github.com/Ivy-Apps/ivy-wallet/actions) (CI/CD)
