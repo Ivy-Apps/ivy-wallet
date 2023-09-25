@@ -1,7 +1,10 @@
 package com.ivy.search
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.core.ComposeViewModel
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Category
 import com.ivy.core.datamodel.TransactionHistoryItem
@@ -29,48 +32,56 @@ class SearchViewModel @Inject constructor(
     private val categoriesAct: CategoriesAct,
     private val baseCurrencyAct: BaseCurrencyAct,
     private val allTrnsAct: AllTrnsAct
-) : ViewModel() {
+) : ComposeViewModel<SearchState, SearchEvent>() {
 
-    private val _baseCurrencyCode = MutableStateFlow(getDefaultFIATCurrency().currencyCode)
-    val baseCurrencyCode = _baseCurrencyCode.asStateFlow()
+    private val _uiState = mutableStateOf(
+        SearchState(
+            transactions = persistentListOf(),
+            baseCurrency = getDefaultFIATCurrency().currencyCode,
+            accounts = persistentListOf(),
+            categories = persistentListOf()
+        )
+    )
 
-    private val _transactions =
-        MutableStateFlow<ImmutableList<TransactionHistoryItem>>(persistentListOf())
-    val transactions = _transactions.asStateFlow()
+    init {
+        search("")
+    }
 
-    private val _accounts = MutableStateFlow<ImmutableList<Account>>(persistentListOf())
-    val accounts = _accounts.asStateFlow()
+    @Composable
+    override fun uiState(): SearchState {
+        return _uiState.value
+    }
 
-    private val _categories = MutableStateFlow<ImmutableList<Category>>(persistentListOf())
-    val categories = _categories.asStateFlow()
+    override fun onEvent(event: SearchEvent) {
+        when(event) {
+            is SearchEvent.Search -> search(event.query)
+        }
+    }
 
-    fun search(query: String) {
+    private fun search(query: String) {
         val normalizedQuery = query.lowercase().trim()
 
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
-            _baseCurrencyCode.value = baseCurrencyAct(Unit)
-
-            _categories.value = categoriesAct(Unit)
-
-            _accounts.value = accountsAct(Unit)
-
-            _transactions.value = ioThread {
-                val trns = allTrnsAct(Unit)
-                    .filter {
-                        it.title.matchesQuery(normalizedQuery) ||
-                                it.description.matchesQuery(normalizedQuery)
+            val queryResult = ioThread {
+                val filteredTransactions = allTrnsAct(Unit)
+                    .filter { transaction ->
+                        transaction.title.matchesQuery(normalizedQuery) ||
+                                transaction.description.matchesQuery(normalizedQuery)
                     }
                 trnsWithDateDivsAct(
                     TrnsWithDateDivsAct.Input(
-                        baseCurrency = baseCurrencyCode.value,
-                        transactions = trns
+                        baseCurrency = baseCurrencyAct(Unit),
+                        transactions = filteredTransactions
                     )
                 ).toImmutableList()
             }
 
-            TestIdlingResource.decrement()
+            _uiState.value = _uiState.value.copy(
+                transactions = queryResult,
+                baseCurrency = baseCurrencyAct(Unit),
+                accounts = accountsAct(Unit),
+                categories = categoriesAct(Unit)
+            )
         }
     }
 
