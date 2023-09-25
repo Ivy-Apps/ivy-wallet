@@ -46,72 +46,6 @@
     </issue>
 
     <issue
-        id="GradleDependency"
-        message="A newer version of androidx.compose.material3:material3 than 1.1.1 is available: 1.1.2"
-        errorLine1="compose-material3 = &quot;1.1.1&quot;"
-        errorLine2="                    ~~~~~~~">
-        <location
-            file="../gradle/libs.versions.toml"
-            line="10"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.compose.material3:material3-window-size-class than 1.1.1 is available: 1.1.2"
-        errorLine1="compose-material3 = &quot;1.1.1&quot;"
-        errorLine2="                    ~~~~~~~">
-        <location
-            file="../gradle/libs.versions.toml"
-            line="10"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.room:room-compiler than 2.6.0-beta01 is available: 2.6.0-rc01"
-        errorLine1="room = &quot;2.6.0-beta01&quot;"
-        errorLine2="       ~~~~~~~~~~~~~~">
-        <location
-            file="../gradle/libs.versions.toml"
-            line="13"
-            column="8"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.room:room-ktx than 2.6.0-beta01 is available: 2.6.0-rc01"
-        errorLine1="room = &quot;2.6.0-beta01&quot;"
-        errorLine2="       ~~~~~~~~~~~~~~">
-        <location
-            file="../gradle/libs.versions.toml"
-            line="13"
-            column="8"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.room:room-runtime than 2.6.0-beta01 is available: 2.6.0-rc01"
-        errorLine1="room = &quot;2.6.0-beta01&quot;"
-        errorLine2="       ~~~~~~~~~~~~~~">
-        <location
-            file="../gradle/libs.versions.toml"
-            line="13"
-            column="8"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.activity:activity-ktx than 1.8.0-beta01 is available: 1.8.0-rc01"
-        errorLine1="androidx-activity = { module = &quot;androidx.activity:activity-ktx&quot;, version = &quot;1.8.0-beta01&quot; }"
-        errorLine2="                                                                           ~~~~~~~~~~~~~~">
-        <location
-            file="../gradle/libs.versions.toml"
-            line="103"
-            column="76"/>
-    </issue>
-
-    <issue
         id="PrivateResource"
         message="Overriding `@string/selected` which is marked as private in androidx.compose.ui:ui-android:1.5.1. If deliberate, use tools:override=&quot;true&quot;, otherwise pick a different name."
         errorLine1="    &lt;string name=&quot;selected&quot;>تم تحديده&lt;/string>"
@@ -7491,17 +7425,6 @@
 
     <issue
         id="UnusedResources"
-        message="The resource `R.drawable.ic_vue_money_tag` appears to be unused"
-        errorLine1="&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
-        errorLine2="^">
-        <location
-            file="../ivy-resources/src/main/res/drawable/ic_vue_money_tag.xml"
-            line="1"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
         message="The resource `R.drawable.ic_vue_money_ticket` appears to be unused"
         errorLine1="&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
         errorLine2="^">
@@ -9545,7 +9468,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/settings/SettingsScreen.kt"
-            line="770"
+            line="781"
             column="1"/>
     </issue>
 
@@ -9556,7 +9479,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/settings/SettingsScreen.kt"
-            line="1039"
+            line="1050"
             column="1"/>
     </issue>
 
@@ -11481,7 +11404,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/settings/SettingsScreen.kt"
-            line="770"
+            line="781"
             column="1"/>
     </issue>
 
@@ -11492,7 +11415,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/settings/SettingsScreen.kt"
-            line="1039"
+            line="1050"
             column="1"/>
     </issue>
 
@@ -11580,7 +11503,7 @@
         errorLine2="    ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/frp/OnScreenStart.kt"
-            line="10"
+            line="11"
             column="5"/>
     </issue>
 

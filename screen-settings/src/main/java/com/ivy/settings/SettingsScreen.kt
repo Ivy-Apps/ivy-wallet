@@ -58,6 +58,8 @@ import com.ivy.navigation.ContributorsScreen
 import com.ivy.navigation.ExchangeRatesScreen
 import com.ivy.navigation.FeaturesScreen
 import com.ivy.navigation.ImportScreen
+import com.ivy.navigation.Navigation
+import com.ivy.navigation.ReleasesScreen
 import com.ivy.navigation.SettingsScreen
 import com.ivy.navigation.navigation
 import com.ivy.resources.R
@@ -165,6 +167,7 @@ private fun BoxWithConstraintsScope.UI(
     var deleteCloudDataModalVisible by remember { mutableStateOf(false) }
     var deleteAllDataModalVisible by remember { mutableStateOf(false) }
     var deleteAllDataModalFinalVisible by remember { mutableStateOf(false) }
+    val nav = navigation()
 
     LazyColumn(
         modifier = Modifier
@@ -174,7 +177,6 @@ private fun BoxWithConstraintsScope.UI(
             .testTag("settings_lazy_column")
     ) {
         stickyHeader {
-            val nav = navigation()
             IvyToolbar(
                 onBack = { nav.onBackPressed() },
             ) {
@@ -182,6 +184,9 @@ private fun BoxWithConstraintsScope.UI(
 
                 val rootScreen = rootScreen()
                 Text(
+                    modifier = Modifier.clickable {
+                        nav.navigateTo(ReleasesScreen)
+                    },
                     text = "${rootScreen.buildVersionName} (${rootScreen.buildVersionCode})",
                     style = UI.typo.nC.style(
                         color = UI.colors.gray,
@@ -396,6 +401,10 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(12.dp))
 
+            Releases(nav = nav)
+
+            Spacer(Modifier.height(12.dp))
+
             Roadmap()
 
             Spacer(Modifier.height(12.dp))
@@ -411,7 +420,7 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(12.dp))
 
-            Contributors()
+            Contributors(nav = nav)
 
             Spacer(Modifier.height(12.dp))
 
@@ -618,9 +627,18 @@ private fun ContactSupport() {
 }
 
 @Composable
-private fun Contributors() {
-    val nav = navigation()
+private fun Releases(nav: Navigation) {
+    SettingsDefaultButton(
+        icon = R.drawable.ic_vue_money_tag,
+        text = "Releases",
+        iconPadding = 10.dp
+    ) {
+        nav.navigateTo(ReleasesScreen)
+    }
+}
 
+@Composable
+private fun Contributors(nav: Navigation) {
     SettingsDefaultButton(
         icon = R.drawable.ic_vue_people_people,
         text = stringResource(R.string.project_contributors),
