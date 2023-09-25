@@ -35,14 +35,12 @@ class ReleasesViewModel @Inject constructor(
         }
     }
 
-    private fun onTryAgainClick(): ReleasesState {
+    private fun onTryAgainClick() {
         releaseState.value = ReleasesState.Loading(loadingMessage)
 
         viewModelScope.launch {
             fetchReleaseInfo()
         }
-
-        return releaseState.value
     }
 
     private suspend fun fetchReleaseInfo() {
