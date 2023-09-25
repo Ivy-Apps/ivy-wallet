@@ -45,12 +45,12 @@ class ReleasesViewModel @Inject constructor(
         return releaseState.value
     }
 
-    private suspend fun fetchReleaseInfo(): ReleasesState {
+    private suspend fun fetchReleaseInfo() {
         val response = releasesDataSource.fetchReleaseInfo()
 
         if (response == null) {
             releaseState.value = ReleasesState.Error("Error")
-            return releaseState.value
+            return
         }
 
         val releaseInfo = response.map {
@@ -63,6 +63,5 @@ class ReleasesViewModel @Inject constructor(
         }.toImmutableList()
 
         releaseState.value = ReleasesState.Success(releasesInfo = releaseInfo)
-        return releaseState.value
     }
 }
