@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,9 +20,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.legacy.IvyWalletPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.navigation.navigation
 import com.ivy.onboarding.components.OnboardingProgressSlider
 import com.ivy.resources.R
@@ -35,13 +37,13 @@ import com.ivy.wallet.ui.theme.components.OnboardingButton
 
 @Composable
 fun OnboardingType(
-
     onStartImport: () -> Unit,
     onStartFresh: () -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .statusBarsPadding()
             .navigationBarsPadding()
     ) {
@@ -100,11 +102,11 @@ fun OnboardingType(
             )
         )
 
-        Spacer(Modifier.height(24.dp))
+        Spacer(Modifier.height(16.dp))
 
         IvyOutlinedButtonFillMaxWidth(
             modifier = Modifier
-                .padding(horizontal = 16.dp),
+                .padding(16.dp),
             text = stringResource(R.string.import_backup_file),
             iconStart = R.drawable.ic_export_csv,
             iconTint = Green,
