@@ -22,7 +22,6 @@ import com.ivy.legacy.domain.action.settings.UpdateSettingsAct
 import com.ivy.legacy.domain.deprecated.logic.zip.BackupLogic
 import com.ivy.legacy.utils.formatNicelyWithTime
 import com.ivy.legacy.utils.ioThread
-import com.ivy.legacy.utils.sendToCrashlytics
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.uiThread
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
@@ -34,7 +33,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -55,52 +53,85 @@ class SettingsViewModel @Inject constructor(
     private val settingsWriter: SettingsWriter,
 ) : ComposeViewModel<SettingsState, SettingsEvent>() {
 
-    private val currency = mutableStateOf(String)
+    private val currencyCode = mutableStateOf("")
     private val name = mutableStateOf("")
     private val currentTheme = mutableStateOf<Theme>(Theme.AUTO)
     private val lockApp = mutableStateOf(false)
     private val showNotifications = mutableStateOf(true)
     private val hideCurrentBalance = mutableStateOf(false)
-    private val transfersAsIncomeExpense = mutableStateOf(false)
+    private val treatTransfersAsIncomeExpense = mutableStateOf(false)
     private val startDateOfMonth = mutableIntStateOf(1)
-
-//    private val _progressState = MutableStateFlow(false)
-//    val progressState = _progressState.asStateFlow()
+    private val progressState = mutableStateOf(false)
 
     @Composable
     override fun uiState(): SettingsState {
         LaunchedEffect(Unit) {
-
-        }
-    }
-
-    fun start() {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
-
             val settings = ioThread {
                 settingsDao.findFirst()
             }
 
-            _nameLocalAccount.value = settings.name
-
-            _startDateOfMonth.value = startDayOfMonthAct(Unit)!!
-
-            _currencyCode.value = settings.currency
-
-            _currentTheme.value = settingsAct(Unit).theme
-
-            _lockApp.value = sharedPrefs.getBoolean(SharedPrefs.APP_LOCK_ENABLED, false)
-            _hideCurrentBalance.value =
+            name.value = settings.name
+            startDateOfMonth.intValue = startDayOfMonthAct(Unit)
+            currencyCode.value = settings.currency
+            currentTheme.value = settingsAct(Unit).theme
+            lockApp.value = sharedPrefs.getBoolean(SharedPrefs.APP_LOCK_ENABLED, false)
+            hideCurrentBalance.value =
                 sharedPrefs.getBoolean(SharedPrefs.HIDE_CURRENT_BALANCE, false)
-
-            _showNotifications.value = sharedPrefs.getBoolean(SharedPrefs.SHOW_NOTIFICATIONS, true)
-
-            _treatTransfersAsIncomeExpense.value =
+            showNotifications.value = sharedPrefs.getBoolean(
+                SharedPrefs.SHOW_NOTIFICATIONS, true
+            )
+            treatTransfersAsIncomeExpense.value =
                 sharedPrefs.getBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, false)
 
-            TestIdlingResource.decrement()
         }
+
+        return SettingsState(
+            currencyCode = getCurrencyCode(),
+            name = getName(),
+            currentTheme = getCurrentTheme(),
+            lockApp = getLockApp(),
+            showNotifications = getShowNotifications(),
+            hideCurrentBalance = getHideCurrentBalance(),
+            treatTransfersAsIncomeExpense = getTreatTransfersAsIncomeExpense(),
+            startDateOfMonth = getStartDateOfMonth(),
+            progressState = getProgressState()
+        )
+    }
+
+    private fun getCurrencyCode(): String {
+        return currencyCode.value
+    }
+
+    private fun getName(): String {
+        return name.value
+    }
+
+    private fun getCurrentTheme(): Theme {
+        return currentTheme.value
+    }
+
+    private fun getLockApp(): Boolean {
+        return lockApp.value
+    }
+
+    private fun getShowNotifications(): Boolean {
+        return showNotifications.value
+    }
+
+    private fun getHideCurrentBalance(): Boolean {
+        return hideCurrentBalance.value
+    }
+
+    private fun getTreatTransfersAsIncomeExpense(): Boolean {
+        return treatTransfersAsIncomeExpense.value
+    }
+
+    private fun getStartDateOfMonth(): String {
+        return startDateOfMonth.value.toString()
+    }
+
+    private fun getProgressState(): Boolean {
+        return progressState.value
     }
 
     private fun exportToZip(context: Context) {
@@ -110,11 +141,9 @@ class SettingsViewModel @Inject constructor(
             }).zip"
         ) { fileUri ->
             viewModelScope.launch(Dispatchers.IO) {
-                TestIdlingResource.increment()
-
-                _progressState.value = true
+                progressState.value = true
                 backupLogic.exportToFile(zipFileUri = fileUri)
-                _progressState.value = false
+                progressState.value = false
 
                 sharedPrefs.putBoolean(SharedPrefs.DATA_BACKUP_COMPLETED, true)
                 ivyContext.dataBackupCompleted = true
@@ -124,32 +153,6 @@ class SettingsViewModel @Inject constructor(
                         fileUri = fileUri
                     )
                 }
-
-                TestIdlingResource.decrement()
-            }
-        }
-    }
-
-    private fun login() {
-        ivyContext.googleSignIn { idToken ->
-            if (idToken != null) {
-                viewModelScope.launch {
-                    TestIdlingResource.increment()
-
-                    try {
-                    } catch (e: Exception) {
-                        e.sendToCrashlytics(
-                            "Settings - GOOGLE_SIGN_IN ERROR: generic exception when logging with GOOGLE"
-                        )
-                        e.printStackTrace()
-                        Timber.e("Settings - Login with Google failed on Ivy server - ${e.message}")
-                    }
-
-                    TestIdlingResource.decrement()
-                }
-            } else {
-                sendToCrashlytics("Settings - GOOGLE_SIGN_IN ERROR: idToken is null!!")
-                Timber.e("Settings - Login with Google failed while getting idToken")
             }
         }
     }
@@ -301,9 +304,10 @@ class SettingsViewModel @Inject constructor(
 
             sharedPrefs.putBoolean(
                 SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE,
-                transfersAsIncomeExpense.value
+                this@SettingsViewModel.treatTransfersAsIncomeExpense.value
             )
-            transfersAsIncomeExpense.value = treatTransfersAsIncomeExpense
+            this@SettingsViewModel.treatTransfersAsIncomeExpense.value =
+                treatTransfersAsIncomeExpense
 
             TestIdlingResource.decrement()
         }

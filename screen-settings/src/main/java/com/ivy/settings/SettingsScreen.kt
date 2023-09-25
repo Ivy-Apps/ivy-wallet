@@ -94,7 +94,7 @@ fun BoxWithConstraintsScope.SettingsScreen() {
         showNotifications = uiState.showNotifications,
         hideCurrentBalance = uiState.hideCurrentBalance,
         progressState = uiState.progressState,
-        treatTransfersAsIncomeExpense = uiState.transfersAsIncomeExpense,
+        treatTransfersAsIncomeExpense = uiState.treatTransfersAsIncomeExpense,
         nameLocalAccount = uiState.name,
         startDateOfMonth = uiState.startDateOfMonth.toInt(),
         onSetCurrency = {
