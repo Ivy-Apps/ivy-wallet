@@ -210,7 +210,7 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun setCurrency(newCurrency: String) {
+    private fun setCurrency(newCurrency: String) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -233,7 +233,7 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun setName(newName: String) {
+    private fun setName(newName: String) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
