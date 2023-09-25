@@ -47,8 +47,8 @@ class ReleasesViewModel @Inject constructor(
             ReleaseInfo(
                 releaseName = it.releaseName,
                 releaseUrl = it.releaseUrl,
-                releaseDate = releasesContentParser.toCustomDate(it.releaseDate),
-                releaseCommits = releasesContentParser.toCustomList(it.commits)
+                releaseDate = releasesContentParser.toReleaseDate(it.releaseDate),
+                releaseCommits = releasesContentParser.toCommitsList(it.commits)
             )
         }.toImmutableList()
 
