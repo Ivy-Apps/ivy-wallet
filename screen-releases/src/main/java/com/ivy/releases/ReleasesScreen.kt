@@ -14,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -25,11 +26,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.navigation.navigation
+import com.ivy.resources.R
 
 @Composable
 fun ReleasesScreenImpl() {
@@ -50,6 +53,7 @@ private fun ReleasesUi(
     uiState: ReleasesState,
     onEvent: (ReleasesEvent) -> Unit
 ) {
+    val browser = LocalUriHandler.current
     Scaffold(
         topBar = {
             TopAppBar(
@@ -60,6 +64,11 @@ private fun ReleasesUi(
                     BackButton()
                 }
             )
+        },
+        floatingActionButton = {
+            GitHubButton {
+                browser.openUri("https://github.com/Ivy-Apps/ivy-wallet")
+            }
         }
     ) { innerPadding ->
         LazyColumn(
@@ -151,15 +160,18 @@ private fun ReleaseInfoRow(
     releaseInfo: ReleaseInfo,
     modifier: Modifier = Modifier
 ) {
-    Row(modifier = modifier) {
-        ReleaseLabel(info = releaseInfo.releaseName)
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        ReleaseName(info = releaseInfo.releaseName)
         Spacer(modifier = Modifier.weight(1f))
-        ReleaseLabel(info = releaseInfo.releaseDate)
+        ReleaseDate(info = releaseInfo.releaseDate)
     }
 }
 
 @Composable
-private fun ReleaseLabel(
+private fun ReleaseName(
     info: String,
     modifier: Modifier = Modifier
 ) {
@@ -167,6 +179,20 @@ private fun ReleaseLabel(
         modifier = modifier,
         text = info,
         style = MaterialTheme.typography.bodyLarge,
+        fontWeight = FontWeight.Bold,
+        color = MaterialTheme.colorScheme.primary
+    )
+}
+
+@Composable
+private fun ReleaseDate(
+    info: String,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        modifier = modifier,
+        text = info,
+        style = MaterialTheme.typography.labelMedium,
         fontWeight = FontWeight.Bold
     )
 }
@@ -192,5 +218,23 @@ private fun ReleasesErrorState(
         ) {
             Text(text = "Try again")
         }
+    }
+}
+
+@Composable
+private fun GitHubButton(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    FloatingActionButton(
+        modifier = modifier,
+        onClick = onClick,
+        containerColor = MaterialTheme.colorScheme.primary,
+        contentColor = MaterialTheme.colorScheme.onPrimary
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.github_logo),
+            contentDescription = "GitHub"
+        )
     }
 }
