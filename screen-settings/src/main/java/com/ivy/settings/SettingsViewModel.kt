@@ -159,7 +159,10 @@ class SettingsViewModel @Inject constructor(
             is SettingsEvent.SetCurrency -> setCurrency(event.newCurrency)
             is SettingsEvent.SetName -> setName(event.newName)
             SettingsEvent.ExportToCsv -> exportToCSV()
-            SettingsEvent.SwitchTheme -> switchTheme()
+            SettingsEvent.BackupData -> // TODO
+                SettingsEvent.SwitchTheme
+
+            -> switchTheme()
             is SettingsEvent.SetLockApp -> setLockApp(event.lockApp)
             is SettingsEvent.SetShowNotifications -> setShowNotifications(event.showNotifications)
             is SettingsEvent.SetHideCurrentBalance -> setHideCurrentBalance(

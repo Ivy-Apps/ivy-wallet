@@ -20,9 +20,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -30,7 +28,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -51,7 +48,6 @@ import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.rootScreen
 import com.ivy.legacy.utils.OpResult
 import com.ivy.legacy.utils.drawColoredShadow
-import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.thenIf
 import com.ivy.navigation.AttributionsScreen
 import com.ivy.navigation.ContributorsScreen
@@ -60,7 +56,6 @@ import com.ivy.navigation.FeaturesScreen
 import com.ivy.navigation.ImportScreen
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.ReleasesScreen
-import com.ivy.navigation.SettingsScreen
 import com.ivy.navigation.navigation
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IvyCurrency
@@ -85,53 +80,56 @@ import com.ivy.wallet.ui.theme.modal.ProgressModal
 
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.SettingsScreen(screen: SettingsScreen) {
+fun BoxWithConstraintsScope.SettingsScreen() {
     val viewModel: SettingsViewModel = viewModel()
+    val uiState = viewModel.uiState()
 
-    val theme by viewModel.currentTheme.observeAsState(Theme.AUTO)
-    val currencyCode by viewModel.currencyCode.observeAsState("")
-    val lockApp by viewModel.lockApp.observeAsState(false)
-    val showNotifications by viewModel.showNotifications.collectAsState()
-    val hideCurrentBalance by viewModel.hideCurrentBalance.collectAsState()
-    val treatTransfersAsIncomeExpense by viewModel.treatTransfersAsIncomeExpense.collectAsState()
-    val startDateOfMonth by viewModel.startDateOfMonth.observeAsState(1)
-    val progressState by viewModel.progressState.collectAsState()
-
-    val nameLocalAccount by viewModel.nameLocalAccount.observeAsState()
-
-    onScreenStart {
-        viewModel.start()
-    }
-
-    val context = LocalContext.current
     UI(
-        currencyCode = currencyCode,
-        theme = theme,
-        onSwitchTheme = viewModel::switchTheme,
-        lockApp = lockApp,
-        showNotifications = showNotifications,
-        hideCurrentBalance = hideCurrentBalance,
-        progressState = progressState,
-        treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense,
-
-        nameLocalAccount = nameLocalAccount,
-        startDateOfMonth = startDateOfMonth,
-
-        onSetCurrency = viewModel::setCurrency,
-        onSetName = viewModel::setName,
+        currencyCode = uiState.currencyCode,
+        theme = uiState.currentTheme,
+        onSwitchTheme = {
+            viewModel.onEvent(SettingsEvent.SwitchTheme)
+        },
+        lockApp = uiState.lockApp,
+        showNotifications = uiState.showNotifications,
+        hideCurrentBalance = uiState.hideCurrentBalance,
+        progressState = uiState.progressState,
+        treatTransfersAsIncomeExpense = uiState.transfersAsIncomeExpense,
+        nameLocalAccount = uiState.name,
+        startDateOfMonth = uiState.startDateOfMonth.toInt(),
+        onSetCurrency = {
+            viewModel.onEvent(SettingsEvent.SetCurrency(it))
+        },
+        onSetName = {
+            viewModel.onEvent(SettingsEvent.SetName(it))
+        },
         onBackupData = {
-            viewModel.exportToZip(context)
+            viewModel.onEvent(SettingsEvent.BackupData)
         },
         onExportToCSV = {
-            viewModel.exportToCSV(context)
+            viewModel.onEvent(SettingsEvent.ExportToCsv)
         },
-        onSetLockApp = viewModel::setLockApp,
-        onSetShowNotifications = viewModel::setShowNotifications,
-        onSetHideCurrentBalance = viewModel::setHideCurrentBalance,
-        onSetStartDateOfMonth = viewModel::setStartDateOfMonth,
-        onSetTreatTransfersAsIncExp = viewModel::setTransfersAsIncomeExpense,
-        onDeleteAllUserData = viewModel::deleteAllUserData,
-        onDeleteCloudUserData = viewModel::deleteCloudUserData,
+        onSetLockApp = {
+            viewModel.onEvent(SettingsEvent.SetLockApp(it))
+        },
+        onSetShowNotifications = {
+            viewModel.onEvent(SettingsEvent.SetShowNotifications(it))
+        },
+        onSetHideCurrentBalance = {
+            viewModel.onEvent(SettingsEvent.SetHideCurrentBalance(it))
+        },
+        onSetStartDateOfMonth = {
+            viewModel.onEvent(SettingsEvent.SetStartDateOfMonth(it))
+        },
+        onSetTreatTransfersAsIncExp = {
+            viewModel.onEvent(SettingsEvent.SetTransfersAsIncomeExpense(it))
+        },
+        onDeleteAllUserData = {
+            viewModel.onEvent(SettingsEvent.DeleteAllUserData)
+        },
+        onDeleteCloudUserData = {
+            viewModel.onEvent(SettingsEvent.DeleteCloudUserData)
+        },
     )
 }
 
