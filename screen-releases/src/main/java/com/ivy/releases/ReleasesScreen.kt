@@ -149,7 +149,8 @@ private fun ReleaseInfoCard(
         modifier = modifier,
         onClick = {
             browser.openUri(releaseInfo.releaseUrl)
-        }) {
+        }
+    ) {
         Column(modifier = Modifier.padding(12.dp)) {
             ReleaseInfoRow(releaseInfo = releaseInfo)
 
