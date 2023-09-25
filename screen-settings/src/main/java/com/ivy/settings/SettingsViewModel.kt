@@ -1,9 +1,10 @@
 package com.ivy.settings
 
 import android.content.Context
+import androidx.compose.runtime.Composable
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.core.ComposeViewModel
 import com.ivy.core.RootScreen
 import com.ivy.core.datamodel.legacy.Theme
 import com.ivy.core.db.read.SettingsDao
@@ -50,7 +51,12 @@ class SettingsViewModel @Inject constructor(
     private val settingsAct: SettingsAct,
     private val updateSettingsAct: UpdateSettingsAct,
     private val settingsWriter: SettingsWriter,
-) : ViewModel() {
+) : ComposeViewModel<SettingsState, SettingsEvent>() {
+
+    @Composable
+    override fun uiState(): SettingsState {
+        TODO("Not yet implemented")
+    }
 
     private val _nameLocalAccount = MutableLiveData<String?>()
     val nameLocalAccount = _nameLocalAccount.asLiveData()
@@ -198,41 +204,6 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun setStartDateOfMonth(startDate: Int) {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
-
-            when (val res = updateStartDayOfMonthAct(startDate)) {
-                is Res.Err -> {}
-                is Res.Ok -> {
-                    _startDateOfMonth.value = res.data!!
-                }
-            }
-
-            TestIdlingResource.decrement()
-        }
-    }
-
-    fun logout() {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
-
-            logoutLogic.logout()
-
-            TestIdlingResource.decrement()
-        }
-    }
-
-    fun cloudLogout() {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
-
-            logoutLogic.cloudLogout()
-
-            TestIdlingResource.decrement()
-        }
-    }
-
     fun login() {
         ivyContext.googleSignIn { idToken ->
             if (idToken != null) {
@@ -257,7 +228,27 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun switchTheme() {
+    override fun onEvent(event: SettingsEvent) {
+        when (event) {
+            SettingsEvent.SwitchTheme -> switchTheme()
+            is SettingsEvent.SetLockApp -> setLockApp(event.lockApp)
+            is SettingsEvent.SetShowNotifications -> setShowNotifications(event.showNotifications)
+            is SettingsEvent.SetHideCurrentBalance -> setHideCurrentBalance(
+                event.hideCurrentBalance
+            )
+
+            is SettingsEvent.SetTransfersAsIncomeExpense -> setTransfersAsIncomeExpense(
+                event.treatTransfersAsIncomeExpense
+            )
+
+            is SettingsEvent.SetStartDateOfMonth -> setStartDateOfMonth(event.startDate)
+
+            SettingsEvent.DeleteCloudUserData -> deleteCloudUserData()
+            SettingsEvent.DeleteAllUserData -> deleteAllUserData()
+        }
+    }
+
+    private fun switchTheme() {
         viewModelScope.launch {
             val currentSettings = settingsAct(Unit)
             val newTheme = when (currentSettings.theme) {
@@ -275,7 +266,7 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun setLockApp(lockApp: Boolean) {
+    private fun setLockApp(lockApp: Boolean) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -287,7 +278,7 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun setShowNotifications(showNotifications: Boolean) {
+    private fun setShowNotifications(showNotifications: Boolean) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -298,7 +289,7 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun setHideCurrentBalance(hideCurrentBalance: Boolean) {
+    private fun setHideCurrentBalance(hideCurrentBalance: Boolean) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -309,7 +300,7 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun setTransfersAsIncomeExpense(treatTransfersAsIncomeExpense: Boolean) {
+    private fun setTransfersAsIncomeExpense(treatTransfersAsIncomeExpense: Boolean) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -323,15 +314,50 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun deleteAllUserData() {
+    private fun setStartDateOfMonth(startDate: Int) {
+        viewModelScope.launch {
+            TestIdlingResource.increment()
+
+            when (val res = updateStartDayOfMonthAct(startDate)) {
+                is Res.Err -> {}
+                is Res.Ok -> {
+                    _startDateOfMonth.value = res.data!!
+                }
+            }
+
+            TestIdlingResource.decrement()
+        }
+    }
+
+    private fun deleteCloudUserData() {
+        viewModelScope.launch {
+            cloudLogout()
+        }
+    }
+
+    private fun cloudLogout() {
+        viewModelScope.launch {
+            TestIdlingResource.increment()
+
+            logoutLogic.cloudLogout()
+
+            TestIdlingResource.decrement()
+        }
+    }
+
+    private fun deleteAllUserData() {
         viewModelScope.launch {
             logout()
         }
     }
 
-    fun deleteCloudUserData() {
+    private fun logout() {
         viewModelScope.launch {
-            cloudLogout()
+            TestIdlingResource.increment()
+
+            logoutLogic.logout()
+
+            TestIdlingResource.decrement()
         }
     }
 }
