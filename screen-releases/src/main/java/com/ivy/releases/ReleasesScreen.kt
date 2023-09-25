@@ -30,7 +30,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.navigation.Navigation
 import com.ivy.navigation.navigation
 
 @Composable
@@ -52,8 +51,6 @@ private fun ReleasesUi(
     uiState: ReleasesState,
     onEvent: (ReleasesEvent) -> Unit
 ) {
-    val nav = navigation()
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -61,7 +58,7 @@ private fun ReleasesUi(
                     TopAppBarTitle(title = "Releases")
                 },
                 navigationIcon = {
-                    BackButton(nav = nav)
+                    BackButton()
                 }
             )
         }
@@ -89,7 +86,9 @@ private fun TopAppBarTitle(title: String) {
 }
 
 @Composable
-private fun BackButton(nav: Navigation) {
+private fun BackButton() {
+    val nav = navigation()
+
     IconButton(onClick = {
         nav.back()
     }) {
