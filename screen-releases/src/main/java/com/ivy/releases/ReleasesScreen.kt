@@ -134,13 +134,16 @@ private fun LazyListScope.content(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ReleaseInfoCard(
-    releaseInfo: ReleaseInfo, modifier: Modifier = Modifier
+    releaseInfo: ReleaseInfo,
+    modifier: Modifier = Modifier
 ) {
     val browser = LocalUriHandler.current
 
-    OutlinedCard(modifier = modifier, onClick = {
-        browser.openUri(releaseInfo.releaseUrl)
-    }) {
+    OutlinedCard(
+        modifier = modifier,
+        onClick = {
+            browser.openUri(releaseInfo.releaseUrl)
+        }) {
         Column(modifier = Modifier.padding(12.dp)) {
             ReleaseInfoRow(releaseInfo = releaseInfo)
 

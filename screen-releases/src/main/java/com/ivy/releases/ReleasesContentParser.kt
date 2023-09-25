@@ -17,7 +17,8 @@ class ReleasesContentParser @Inject constructor() {
     }
 
     fun toReleaseDate(date: String): String {
+        val redundantCharsCount = 10
         // e.g. transforms original "2023-09-16T17:42:08Z" into "2023-09-16"
-        return date.dropLast(10)
+        return date.dropLast(redundantCharsCount)
     }
 }
