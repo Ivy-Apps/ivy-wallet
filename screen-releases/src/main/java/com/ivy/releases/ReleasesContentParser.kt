@@ -16,9 +16,12 @@ class ReleasesContentParser @Inject constructor() {
         }.toImmutableList()
     }
 
+    companion object {
+        private const val REDUNDANT_CHARS_COUNT = 10
+    }
+
     fun toReleaseDate(date: String): String {
-        val redundantCharsCount = 10
         // e.g. transforms original "2023-09-16T17:42:08Z" into "2023-09-16"
-        return date.dropLast(redundantCharsCount)
+        return date.dropLast(REDUNDANT_CHARS_COUNT)
     }
 }
