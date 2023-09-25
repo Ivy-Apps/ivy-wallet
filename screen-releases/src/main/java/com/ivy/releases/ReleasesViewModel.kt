@@ -31,7 +31,7 @@ class ReleasesViewModel @Inject constructor(
 
     override fun onEvent(event: ReleasesEvent) {
         when (event) {
-            ReleasesEvent.OnTryAgainClicked -> onTryAgainClicked()
+            ReleasesEvent.OnTryAgainClick -> onTryAgainClick()
         }
     }
 
@@ -56,7 +56,7 @@ class ReleasesViewModel @Inject constructor(
         return releaseState.value
     }
 
-    private fun onTryAgainClicked(): ReleasesState {
+    private fun onTryAgainClick(): ReleasesState {
         releaseState.value = ReleasesState.Loading(loadingMessage)
 
         viewModelScope.launch {

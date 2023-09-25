@@ -109,7 +109,7 @@ private fun LazyListScope.content(
             ReleasesErrorState(
                 message = releasesState.errorMessage,
                 onClick = {
-                    onEvent(ReleasesEvent.OnTryAgainClicked)
+                    onEvent(ReleasesEvent.OnTryAgainClick)
                 }
             )
         }
