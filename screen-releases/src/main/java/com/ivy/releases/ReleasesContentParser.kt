@@ -6,17 +6,14 @@ import kotlinx.collections.immutable.toImmutableList
 import javax.inject.Inject
 
 class ReleasesContentParser @Inject constructor() {
-    fun toCommitsList(text: String?): ImmutableList<String> {
-        if (text.isNullOrBlank()) return persistentListOf()
-        val list = text.split("\n")
-        val commitsList = mutableListOf<String>()
+    fun toCommitsList(commits: String?): ImmutableList<String> {
+        if (commits.isNullOrBlank()) return persistentListOf()
+        val commitsList = commits.split("\n")
 
-        for (commit in list) {
-            val transformedCommit = commit.drop(2)
-            commitsList.add(transformedCommit)
-        }
-
-        return commitsList.toImmutableList()
+        return commitsList.map { commit ->
+            // remove " -"
+            commit.drop(2).trim()
+        }.toImmutableList()
     }
 
     fun toReleaseDate(date: String): String {
