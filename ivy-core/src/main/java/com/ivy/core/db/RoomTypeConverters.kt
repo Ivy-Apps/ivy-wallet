@@ -1,12 +1,12 @@
 package com.ivy.core.db
 
 import androidx.room.TypeConverter
-import com.ivy.core.db.entity.TransactionType
 import com.ivy.core.datamodel.IntervalType
 import com.ivy.core.datamodel.LoanType
+import com.ivy.core.datamodel.legacy.Theme
+import com.ivy.core.db.entity.TransactionType
 import com.ivy.core.util.epochMilliToDateTime
 import com.ivy.core.util.toEpochMilli
-import com.ivy.design.l0_system.Theme
 import java.time.LocalDateTime
 import java.util.*
 

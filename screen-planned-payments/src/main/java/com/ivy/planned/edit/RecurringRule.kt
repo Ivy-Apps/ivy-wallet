@@ -22,6 +22,7 @@ import com.ivy.core.datamodel.IntervalType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletComponentPreview
+import com.ivy.legacy.forDisplay
 import com.ivy.legacy.utils.formatDateOnly
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.uppercaseLocal

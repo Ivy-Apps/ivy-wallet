@@ -11,7 +11,11 @@ if [ ! -f "settings.gradle.kts" ]; then
     exit 1
 fi
 
-
+rm app/lint-baseline.xml
+echo "Old lint-baseline.xml removed."
 ./gradlew lintR
-open build/reports/lint/lint.html
-echo "[FINISHED] Lint report opened in your default browser."
+echo "Lint baseline generated. Testing correctness.."
+./gradlew lintR || exit
+git add app/lint-baseline.xml
+git commit -m "Update Lint baseline"
+echo "[SUCCESS] Lint baseline committed. Do 'git push'."

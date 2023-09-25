@@ -8,7 +8,7 @@ android {
 
 dependencies {
     implementation(projects.ivyResources)
-    implementation(projects.tempOldDesign)
+    implementation(projects.ivyDesign)
     implementation(projects.ivyCore)
     implementation(projects.ivyNavigation)
 }

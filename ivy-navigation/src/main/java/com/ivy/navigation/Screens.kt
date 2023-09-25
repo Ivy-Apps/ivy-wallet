@@ -129,11 +129,6 @@ data class LoanDetailsScreen(
         get() = true
 }
 
-data object TestScreen : Screen {
-    override val isLegacy: Boolean
-        get() = true
-}
-
 data object ExchangeRatesScreen : Screen {
     override val isLegacy: Boolean
         get() = true

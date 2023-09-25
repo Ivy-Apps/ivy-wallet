@@ -5,7 +5,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
+@Deprecated("Legacy code. Don't use it, please.")
 abstract class Action<in I, out O> {
+    @Deprecated("Legacy code. Don't use it, please.")
     abstract suspend fun I.willDo(): O
 
     suspend operator fun invoke(input: I): O {

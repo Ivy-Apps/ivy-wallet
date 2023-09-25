@@ -8,9 +8,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ivy.design.R
+import com.ivy.core.datamodel.legacy.Theme
 import com.ivy.design.api.IvyDesign
 import com.ivy.design.l0_system.*
+import com.ivy.resources.R
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 abstract class IvyWalletDesign : IvyDesign {

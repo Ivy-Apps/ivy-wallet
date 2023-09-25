@@ -1,16 +1,14 @@
 package com.ivy.core.datamodel
 
 import androidx.compose.runtime.Immutable
-import androidx.compose.ui.graphics.toArgb
-import com.ivy.design.l0_system.Green
 import com.ivy.core.db.entity.AccountEntity
 import java.util.UUID
 
 @Immutable
 data class Account(
     val name: String,
+    val color: Int,
     val currency: String? = null,
-    val color: Int = Green.toArgb(),
     val icon: String? = null,
     val orderNum: Double = 0.0,
     val includeInBalance: Boolean = true,

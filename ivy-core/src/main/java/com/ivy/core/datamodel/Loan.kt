@@ -2,8 +2,6 @@ package com.ivy.core.datamodel
 
 import androidx.compose.runtime.Immutable
 import com.ivy.core.db.entity.LoanEntity
-import com.ivy.core.util.stringRes
-import com.ivy.resources.R
 import java.util.UUID
 
 @Immutable
@@ -33,12 +31,4 @@ data class Loan(
         isDeleted = isDeleted,
         id = id
     )
-
-    fun humanReadableType(): String {
-        return if (type == LoanType.BORROW) {
-            stringRes(R.string.borrowed_uppercase)
-        } else {
-            stringRes(R.string.lent_uppercase)
-        }
-    }
 }
