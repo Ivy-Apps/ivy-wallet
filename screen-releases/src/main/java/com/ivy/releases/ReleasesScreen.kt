@@ -112,21 +112,27 @@ private fun LazyListScope.content(
     onEvent: (ReleasesEvent) -> Unit
 ) {
     when (releasesState) {
-        is ReleasesState.Error -> item {
-            ReleasesErrorState(
-                message = releasesState.errorMessage,
-                onClick = {
-                    onEvent(ReleasesEvent.OnTryAgainClick)
-                }
-            )
+        is ReleasesState.Error -> {
+            item {
+                ReleasesErrorState(
+                    message = releasesState.errorMessage,
+                    onClick = {
+                        onEvent(ReleasesEvent.OnTryAgainClick)
+                    }
+                )
+            }
         }
 
-        is ReleasesState.Loading -> item {
-            Text(text = releasesState.loadingMessage)
+        is ReleasesState.Loading -> {
+            item {
+                Text(text = releasesState.loadingMessage)
+            }
         }
 
-        is ReleasesState.Success -> items(releasesState.releasesInfo) {
-            ReleaseInfoCard(releaseInfo = it)
+        is ReleasesState.Success -> {
+            items(releasesState.releasesInfo) {
+                ReleaseInfoCard(releaseInfo = it)
+            }
         }
     }
 }
