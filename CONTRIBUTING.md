@@ -20,10 +20,11 @@ What do you want to work on? [Choose an issue](https://github.com/Ivy-Apps/ivy-w
 
 ### Rules:
 
-- Only issues with a green `"approved"` label are ready for development.
-- If the issue that you like doesn't have the `"approved"` label, just **tag @ILIYANGERMANOV** and ask for an approval.
-- If someone else has already commented **"I'm on it"**, do **NOT** start working on it! Instead tag the person and ask them if you can take it.
-- If what you want isn't in issues, just [create a new issue](https://github.com/Ivy-Apps/ivy-wallet/issues/new/choose) and **tag @ILIYANGERMANOV** for approval.
+1. Only issues with a green `"approved"` label are ready for development.
+2. If the issue that you like doesn't have the `"approved"` label, just tag @ILIYANGERMANOV and ask for an approval.
+3. If what you're looking for isn't in [issues](https://github.com/Ivy-Apps/ivy-wallet/issues), just **[create a new issue](https://github.com/Ivy-Apps/ivy-wallet/issues/new/choose)** and tag @ILIYANGERMANOV for approval. We're open to new ideas!
+4. If someone else has commented **"I'm on it"** or the issue is already assigned, do **NOT** start working on it! Instead tag the person and ask them if you can take it.
+5. You can have only 1 (one) opened issue assigned at your name.
 
 ## 3. Create a feature branch in your fork
 
