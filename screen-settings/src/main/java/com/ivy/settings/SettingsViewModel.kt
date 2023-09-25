@@ -240,7 +240,6 @@ class SettingsViewModel @Inject constructor(
                     )
                 )
             }
-            start()
 
             TestIdlingResource.decrement()
         }
