@@ -30,6 +30,7 @@ import com.ivy.wallet.domain.action.settings.SettingsAct
 import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
 import com.ivy.widget.balance.WalletBalanceWidgetReceiver
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -40,6 +41,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
+    @ApplicationContext
+    private val context: Context,
     private val ivyContext: IvyWalletCtx,
     private val exportCSVLogic: ExportCSVLogic,
     private val logoutLogic: LogoutLogic,
@@ -52,11 +55,6 @@ class SettingsViewModel @Inject constructor(
     private val updateSettingsAct: UpdateSettingsAct,
     private val settingsWriter: SettingsWriter,
 ) : ComposeViewModel<SettingsState, SettingsEvent>() {
-
-    @Composable
-    override fun uiState(): SettingsState {
-        TODO("Not yet implemented")
-    }
 
     private val _nameLocalAccount = MutableLiveData<String?>()
     val nameLocalAccount = _nameLocalAccount.asLiveData()
@@ -85,6 +83,11 @@ class SettingsViewModel @Inject constructor(
     private val _startDateOfMonth = MutableLiveData<Int>()
     val startDateOfMonth = _startDateOfMonth
 
+    @Composable
+    override fun uiState(): SettingsState {
+        TODO("Not yet implemented")
+    }
+
     fun start() {
         viewModelScope.launch {
             TestIdlingResource.increment()
@@ -111,29 +114,6 @@ class SettingsViewModel @Inject constructor(
                 sharedPrefs.getBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, false)
 
             TestIdlingResource.decrement()
-        }
-    }
-
-    fun exportToCSV(context: Context) {
-        ivyContext.createNewFile(
-            "Ivy Wallet (${
-                timeNowUTC().formatNicelyWithTime(noWeekDay = true)
-            }).csv"
-        ) { fileUri ->
-            viewModelScope.launch {
-                TestIdlingResource.increment()
-
-                exportCSVLogic.exportToFile(
-                    context = context,
-                    fileUri = fileUri
-                )
-
-                (context as RootScreen).shareCSVFile(
-                    fileUri = fileUri
-                )
-
-                TestIdlingResource.decrement()
-            }
         }
     }
 
@@ -192,6 +172,7 @@ class SettingsViewModel @Inject constructor(
         when (event) {
             is SettingsEvent.SetCurrency -> setCurrency(event.newCurrency)
             is SettingsEvent.SetName -> setName(event.newName)
+            SettingsEvent.ExportToCsv -> exportToCSV()
             SettingsEvent.SwitchTheme -> switchTheme()
             is SettingsEvent.SetLockApp -> setLockApp(event.lockApp)
             is SettingsEvent.SetShowNotifications -> setShowNotifications(event.showNotifications)
@@ -247,6 +228,29 @@ class SettingsViewModel @Inject constructor(
             start()
 
             TestIdlingResource.decrement()
+        }
+    }
+
+    fun exportToCSV() {
+        ivyContext.createNewFile(
+            "Ivy Wallet (${
+                timeNowUTC().formatNicelyWithTime(noWeekDay = true)
+            }).csv"
+        ) { fileUri ->
+            viewModelScope.launch {
+                TestIdlingResource.increment()
+
+                exportCSVLogic.exportToFile(
+                    context = context,
+                    fileUri = fileUri
+                )
+
+                (context as RootScreen).shareCSVFile(
+                    fileUri = fileUri
+                )
+
+                TestIdlingResource.decrement()
+            }
         }
     }
 
