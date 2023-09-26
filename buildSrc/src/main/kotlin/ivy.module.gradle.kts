@@ -1,7 +1,6 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    id("kotlin-kapt") // TODO: Remove when we migrate to KSP
     id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
     id("com.google.devtools.ksp")
@@ -25,11 +24,6 @@ android {
         jvmTarget = "11"
     }
 
-    // TODO: Remove after migrating to KSP
-    kapt {
-        correctErrorTypes = true
-    }
-
     // Android
     compileSdk = catalog.version("compile-sdk").toInt()
     defaultConfig {
@@ -51,15 +45,9 @@ dependencies {
     implementation(libs.timber)
 
     implementation(libs.bundles.hilt)
-    // TODO: Migrate to KSP when supported
-    kapt(catalog.library("hilt-compiler"))
+    ksp(catalog.library("hilt-compiler"))
 
     implementation(catalog.library("kotlinx-serialization-json"))
 
     testImplementation(libs.bundles.testing)
-}
-
-// TODO: Remove after migrating to KSP
-kapt {
-    correctErrorTypes = true
 }
