@@ -18,8 +18,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,15 +29,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.core.datamodel.Account
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.navigation.navigation
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.horizontalSwipeListener
 import com.ivy.navigation.ItemStatisticScreen
-import com.ivy.navigation.MainScreen
+import com.ivy.navigation.IvyPreview
+import com.ivy.navigation.navigation
+import com.ivy.navigation.screenScopedViewModel
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
@@ -57,24 +55,20 @@ import com.ivy.wallet.ui.theme.toComposeColor
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
-fun BoxWithConstraintsScope.AccountsTab(screen: MainScreen) {
-    val viewModel: AccountsViewModel = viewModel()
-    val state by viewModel.state().collectAsState()
-
-    com.ivy.legacy.utils.onScreenStart {
-        viewModel.start()
-    }
+fun BoxWithConstraintsScope.AccountsTab() {
+    val viewModel: AccountsViewModel = screenScopedViewModel()
+    val uiState = viewModel.uiState()
 
     UI(
-        state = state,
-        onEventHandler = viewModel::onEvent
+        state = uiState,
+        onEvent = viewModel::onEvent
     )
 }
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    state: AccountState = AccountState(),
-    onEventHandler: (AccountsEvent) -> Unit = {}
+    state: AccountsState,
+    onEvent: (AccountsEvent) -> Unit = {}
 ) {
     val nav = navigation()
     val ivyContext = com.ivy.legacy.ivyWalletCtx()
@@ -114,7 +108,7 @@ private fun BoxWithConstraintsScope.UI(
                     Spacer(Modifier.height(4.dp))
 
                     Text(
-                        text = state.totalBalanceWithExcludedText.asString(),
+                        text = state.totalBalanceWithExcludedText,
                         style = UI.typo.nB2.style(
                             color = Gray,
                             fontWeight = FontWeight.Bold
@@ -125,7 +119,9 @@ private fun BoxWithConstraintsScope.UI(
                 Spacer(Modifier.weight(1f))
 
                 ReorderButton {
-                    onEventHandler.invoke(AccountsEvent.OnReorderModalVisible(reorderVisible = true))
+                    onEvent(
+                        AccountsEvent.OnReorderModalVisible(reorderVisible = true)
+                    )
                 }
 
                 Spacer(Modifier.width(24.dp))
@@ -135,6 +131,7 @@ private fun BoxWithConstraintsScope.UI(
         }
 
         items(state.accountsData) {
+            Spacer(Modifier.height(16.dp))
             AccountCard(
                 baseCurrency = state.baseCurrency,
                 accountData = it,
@@ -145,9 +142,6 @@ private fun BoxWithConstraintsScope.UI(
                             categoryId = null
                         )
                     )
-                },
-                onLongClick = {
-                    onEventHandler.invoke(AccountsEvent.OnReorderModalVisible(reorderVisible = true))
                 }
             ) {
                 nav.navigateTo(
@@ -168,10 +162,10 @@ private fun BoxWithConstraintsScope.UI(
         visible = state.reorderVisible,
         initialItems = state.accountsData,
         dismiss = {
-            onEventHandler.invoke(AccountsEvent.OnReorderModalVisible(reorderVisible = false))
+            onEvent(AccountsEvent.OnReorderModalVisible(reorderVisible = false))
         },
         onReordered = {
-            onEventHandler.invoke(AccountsEvent.OnReorder(reorderedList = it))
+            onEvent(AccountsEvent.OnReorder(reorderedList = it))
         }
     ) { _, item ->
         Text(
@@ -193,14 +187,8 @@ private fun AccountCard(
     baseCurrency: String,
     accountData: com.ivy.legacy.data.model.AccountData,
     onBalanceClick: () -> Unit,
-    onLongClick: () -> Unit,
     onClick: () -> Unit
 ) {
-    val account = accountData.account
-    val contrastColor = findContrastTextColor(account.color.toComposeColor())
-
-    Spacer(Modifier.height(16.dp))
-
     Column(
         modifier = Modifier
             .padding(horizontal = 16.dp)
@@ -211,6 +199,8 @@ private fun AccountCard(
                 onClick = onClick
             )
     ) {
+        val account = accountData.account
+        val contrastColor = findContrastTextColor(account.color.toComposeColor())
         val currency = account.currency ?: baseCurrency
 
         AccountHeader(
@@ -242,7 +232,6 @@ private fun AccountHeader(
     currency: String,
     baseCurrency: String,
     contrastColor: Color,
-
     onBalanceClick: () -> Unit
 ) {
     val account = accountData.account
@@ -333,8 +322,8 @@ private fun AccountHeader(
 @Preview
 @Composable
 private fun PreviewAccountsTab() {
-    com.ivy.legacy.IvyWalletPreview {
-        val state = AccountState(
+    IvyPreview {
+        val state = AccountsState(
             baseCurrency = "BGN",
             accountsData = persistentListOf(
                 com.ivy.legacy.data.model.AccountData(
@@ -376,14 +365,9 @@ private fun PreviewAccountsTab() {
                     monthlyIncome = 400.0
                 ),
             ),
-            totalBalanceWithExcluded = 25.54,
-            totalBalanceWithExcludedText = com.ivy.legacy.utils.UiText.StringResource(
-                R.string.total,
-                "BGN",
-                "25.54"
-            )
+            totalBalanceWithExcluded = "25.54",
+            totalBalanceWithExcludedText = "BGN 25.54",
+            reorderVisible = false
         )
-
-        UI(state = state)
     }
 }
