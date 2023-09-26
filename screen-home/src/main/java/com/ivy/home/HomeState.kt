@@ -14,7 +14,6 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.math.BigDecimal
 
-@Immutable
 data class HomeState(
     val theme: Theme,
     val name: String,
