@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Loan
+import com.ivy.core.datamodel.LoanType
 import com.ivy.core.db.read.LoanRecordDao
 import com.ivy.core.db.read.SettingsDao
 import com.ivy.core.db.write.LoanWriter
@@ -78,13 +79,22 @@ class LoanViewModel @Inject constructor(
 
             initialiseAccounts()
 
+            var totalOweAmount = 0.0
+            var totalOwedAmount = 0.0
+            var currCode = ""
+
             _loans.value = ioThread {
                 loansAct(Unit)
                     .map { loan ->
                         val amountPaid = calculateAmountPaid(loan)
                         val loanAmount = loan.amount
                         val percentPaid = amountPaid / loanAmount
-                        val currCode = findCurrencyCode(accounts.value, loan.accountId)
+                        currCode = findCurrencyCode(accounts.value, loan.accountId)
+
+                        when (loan.type) {
+                            LoanType.BORROW -> totalOweAmount += (loanAmount - amountPaid)
+                            LoanType.LEND -> totalOwedAmount += (loanAmount - amountPaid)
+                        }
 
                         DisplayLoan(
                             loan = loan,
@@ -107,10 +117,28 @@ class LoanViewModel @Inject constructor(
                 baseCurrency = defaultCurrencyCode,
                 loans = _loans.value,
                 accounts = accounts.value,
-                selectedAccount = selectedAccount.value
+                selectedAccount = selectedAccount.value,
+                totalOweAmount = getTotalOweAmount(totalOweAmount, currCode),
+                totalOwedAmount = getTotalOwedAmount(totalOwedAmount, currCode)
             )
 
             TestIdlingResource.decrement()
+        }
+    }
+
+    private fun getTotalOwedAmount(totalOwedAmount: Double, currCode: String): String {
+        return if (totalOwedAmount != 0.0) {
+            "${totalOwedAmount.format(currCode)} $currCode"
+        } else {
+            ""
+        }
+    }
+
+    private fun getTotalOweAmount(totalOweAmount: Double, currCode: String): String {
+        return if (totalOweAmount != 0.0) {
+            "${totalOweAmount.format(currCode)} $currCode"
+        } else {
+            ""
         }
     }
 
@@ -258,7 +286,9 @@ data class LoanScreenState(
     val accounts: List<Account> = emptyList(),
     val selectedAccount: Account? = null,
     val loanModalData: LoanModalData? = null,
-    val reorderModalVisible: Boolean = false
+    val reorderModalVisible: Boolean = false,
+    val totalOweAmount: String = "",
+    val totalOwedAmount: String = ""
 )
 
 sealed class LoanScreenEvent {
