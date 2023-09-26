@@ -1,26 +1,27 @@
 package com.ivy.settings
 
+import android.annotation.SuppressLint
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.ivy.core.ComposeViewModel
 import com.ivy.core.RootScreen
 import com.ivy.core.datamodel.legacy.Theme
 import com.ivy.core.db.read.SettingsDao
 import com.ivy.core.db.write.SettingsWriter
 import com.ivy.core.util.refreshWidget
 import com.ivy.frp.monad.Res
-import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.LogoutLogic
 import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.legacy.domain.action.settings.UpdateSettingsAct
 import com.ivy.legacy.domain.deprecated.logic.zip.BackupLogic
-import com.ivy.legacy.utils.asLiveData
 import com.ivy.legacy.utils.formatNicelyWithTime
 import com.ivy.legacy.utils.ioThread
-import com.ivy.legacy.utils.sendToCrashlytics
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.uiThread
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
@@ -29,16 +30,17 @@ import com.ivy.wallet.domain.action.settings.SettingsAct
 import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
 import com.ivy.widget.balance.WalletBalanceWidgetReceiver
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
+@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
+    @ApplicationContext
+    private val context: Context,
     private val ivyContext: IvyWalletCtx,
     private val exportCSVLogic: ExportCSVLogic,
     private val logoutLogic: LogoutLogic,
@@ -50,85 +52,165 @@ class SettingsViewModel @Inject constructor(
     private val settingsAct: SettingsAct,
     private val updateSettingsAct: UpdateSettingsAct,
     private val settingsWriter: SettingsWriter,
-) : ViewModel() {
+) : ComposeViewModel<SettingsState, SettingsEvent>() {
 
-    private val _nameLocalAccount = MutableLiveData<String?>()
-    val nameLocalAccount = _nameLocalAccount.asLiveData()
+    private val currencyCode = mutableStateOf("")
+    private val name = mutableStateOf("")
+    private val currentTheme = mutableStateOf<Theme>(Theme.AUTO)
+    private val lockApp = mutableStateOf(false)
+    private val showNotifications = mutableStateOf(true)
+    private val hideCurrentBalance = mutableStateOf(false)
+    private val treatTransfersAsIncomeExpense = mutableStateOf(false)
+    private val startDateOfMonth = mutableIntStateOf(1)
+    private val progressState = mutableStateOf(false)
 
-    private val _currencyCode = MutableLiveData<String>()
-    val currencyCode = _currencyCode.asLiveData()
+    @Composable
+    override fun uiState(): SettingsState {
+        LaunchedEffect(Unit) {
+            onStart()
+        }
 
-    private val _currentTheme = MutableLiveData<Theme>()
-    val currentTheme = _currentTheme.asLiveData()
+        return SettingsState(
+            currencyCode = getCurrencyCode(),
+            name = getName(),
+            currentTheme = getCurrentTheme(),
+            lockApp = getLockApp(),
+            showNotifications = getShowNotifications(),
+            hideCurrentBalance = getHideCurrentBalance(),
+            treatTransfersAsIncomeExpense = getTreatTransfersAsIncomeExpense(),
+            startDateOfMonth = getStartDateOfMonth(),
+            progressState = getProgressState()
+        )
+    }
 
-    private val _lockApp = MutableLiveData<Boolean>()
-    val lockApp = _lockApp.asLiveData()
+    private suspend fun onStart() {
+        initializeCurrency()
+        initializeName()
+        initializeCurrentTheme()
+        initializeLockApp()
+        initializeShowNotifications()
+        initializeHideCurrentBalance()
+        initializeTransfersAsIncomeExpense()
+        initializeStartDateOfMonth()
+    }
 
-    private val _hideCurrentBalance = MutableStateFlow(false)
-    val hideCurrentBalance = _hideCurrentBalance.asStateFlow()
+    private suspend fun initializeCurrency() {
+        val settings = ioThread {
+            settingsDao.findFirst()
+        }
 
-    private val _showNotifications = MutableStateFlow(true)
-    val showNotifications = _showNotifications.asStateFlow()
+        currencyCode.value = settings.currency
+    }
 
-    private val _treatTransfersAsIncomeExpense = MutableStateFlow(false)
-    val treatTransfersAsIncomeExpense = _treatTransfersAsIncomeExpense.asStateFlow()
+    private suspend fun initializeName() {
+        val settings = ioThread {
+            settingsDao.findFirst()
+        }
 
-    private val _progressState = MutableStateFlow(false)
-    val progressState = _progressState.asStateFlow()
+        name.value = settings.name
+    }
 
-    private val _startDateOfMonth = MutableLiveData<Int>()
-    val startDateOfMonth = _startDateOfMonth
+    private suspend fun initializeCurrentTheme() {
+        currentTheme.value = settingsAct(Unit).theme
+    }
 
-    fun start() {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
+    private fun initializeLockApp() {
+        lockApp.value = sharedPrefs.getBoolean(SharedPrefs.APP_LOCK_ENABLED, false)
+    }
 
-            val settings = ioThread {
-                settingsDao.findFirst()
-            }
+    private fun initializeShowNotifications() {
+        showNotifications.value = sharedPrefs.getBoolean(
+            SharedPrefs.SHOW_NOTIFICATIONS, true
+        )
+    }
 
-            _nameLocalAccount.value = settings.name
+    private fun initializeHideCurrentBalance() {
+        hideCurrentBalance.value =
+            sharedPrefs.getBoolean(SharedPrefs.HIDE_CURRENT_BALANCE, false)
+    }
 
-            _startDateOfMonth.value = startDayOfMonthAct(Unit)!!
+    private fun initializeTransfersAsIncomeExpense() {
+        treatTransfersAsIncomeExpense.value =
+            sharedPrefs.getBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, false)
+    }
 
-            _currencyCode.value = settings.currency
+    private suspend fun initializeStartDateOfMonth() {
+        startDateOfMonth.intValue = startDayOfMonthAct(Unit)
+    }
 
-            _currentTheme.value = settingsAct(Unit).theme
+    @Composable
+    private fun getCurrencyCode(): String {
+        return currencyCode.value
+    }
 
-            _lockApp.value = sharedPrefs.getBoolean(SharedPrefs.APP_LOCK_ENABLED, false)
-            _hideCurrentBalance.value =
-                sharedPrefs.getBoolean(SharedPrefs.HIDE_CURRENT_BALANCE, false)
+    @Composable
+    private fun getName(): String {
+        return name.value
+    }
 
-            _showNotifications.value = sharedPrefs.getBoolean(SharedPrefs.SHOW_NOTIFICATIONS, true)
+    @Composable
+    private fun getCurrentTheme(): Theme {
+        return currentTheme.value
+    }
 
-            _treatTransfersAsIncomeExpense.value =
-                sharedPrefs.getBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, false)
+    @Composable
+    private fun getLockApp(): Boolean {
+        return lockApp.value
+    }
 
-            TestIdlingResource.decrement()
+    @Composable
+    private fun getShowNotifications(): Boolean {
+        return showNotifications.value
+    }
+
+    @Composable
+    private fun getHideCurrentBalance(): Boolean {
+        return hideCurrentBalance.value
+    }
+
+    @Composable
+    private fun getTreatTransfersAsIncomeExpense(): Boolean {
+        return treatTransfersAsIncomeExpense.value
+    }
+
+    @Composable
+    private fun getStartDateOfMonth(): String {
+        return startDateOfMonth.intValue.toString()
+    }
+
+    @Composable
+    private fun getProgressState(): Boolean {
+        return progressState.value
+    }
+
+    override fun onEvent(event: SettingsEvent) {
+        when (event) {
+            is SettingsEvent.SetCurrency -> setCurrency(event.newCurrency)
+            is SettingsEvent.SetName -> setName(event.newName)
+            is SettingsEvent.ExportToCsv -> exportToCSV(event.rootScreen)
+            is SettingsEvent.BackupData -> exportToZip(event.rootScreen)
+            SettingsEvent.SwitchTheme -> switchTheme()
+            is SettingsEvent.SetLockApp -> setLockApp(event.lockApp)
+            is SettingsEvent.SetShowNotifications -> setShowNotifications(event.showNotifications)
+            is SettingsEvent.SetHideCurrentBalance -> setHideCurrentBalance(
+                event.hideCurrentBalance
+            )
+
+            is SettingsEvent.SetTransfersAsIncomeExpense -> setTransfersAsIncomeExpense(
+                event.treatTransfersAsIncomeExpense
+            )
+
+            is SettingsEvent.SetStartDateOfMonth -> setStartDateOfMonth(event.startDate)
+
+            SettingsEvent.DeleteCloudUserData -> deleteCloudUserData()
+            SettingsEvent.DeleteAllUserData -> deleteAllUserData()
         }
     }
 
-    fun setName(newName: String) {
+    private fun setCurrency(newCurrency: String) {
+        currencyCode.value = newCurrency
+
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
-            ioThread {
-                settingsWriter.save(
-                    settingsDao.findFirst().copy(
-                        name = newName
-                    )
-                )
-            }
-            start()
-
-            TestIdlingResource.decrement()
-        }
-    }
-
-    fun setCurrency(newCurrency: String) {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
-
             ioThread {
                 settingsWriter.save(
                     settingsDao.findFirst().copy(
@@ -142,122 +224,66 @@ class SettingsViewModel @Inject constructor(
                     )
                 )
             }
-            start()
-
-            TestIdlingResource.decrement()
         }
     }
 
-    fun exportToCSV(context: Context) {
+    private fun setName(newName: String) {
+        name.value = newName
+
+        viewModelScope.launch {
+            ioThread {
+                settingsWriter.save(
+                    settingsDao.findFirst().copy(
+                        name = newName
+                    )
+                )
+            }
+        }
+    }
+
+    private fun exportToCSV(rootScreen: RootScreen) {
         ivyContext.createNewFile(
             "Ivy Wallet (${
                 timeNowUTC().formatNicelyWithTime(noWeekDay = true)
             }).csv"
         ) { fileUri ->
             viewModelScope.launch {
-                TestIdlingResource.increment()
-
                 exportCSVLogic.exportToFile(
                     context = context,
                     fileUri = fileUri
                 )
 
-                (context as RootScreen).shareCSVFile(
+                rootScreen.shareCSVFile(
                     fileUri = fileUri
                 )
-
-                TestIdlingResource.decrement()
             }
         }
     }
 
-    fun exportToZip(context: Context) {
+    private fun exportToZip(rootScreen: RootScreen) {
         ivyContext.createNewFile(
             "Ivy Wallet (${
                 timeNowUTC().formatNicelyWithTime(noWeekDay = true)
             }).zip"
         ) { fileUri ->
             viewModelScope.launch(Dispatchers.IO) {
-                TestIdlingResource.increment()
-
-                _progressState.value = true
+                progressState.value = true
                 backupLogic.exportToFile(zipFileUri = fileUri)
-                _progressState.value = false
+                progressState.value = false
 
                 sharedPrefs.putBoolean(SharedPrefs.DATA_BACKUP_COMPLETED, true)
                 ivyContext.dataBackupCompleted = true
 
                 uiThread {
-                    (context as RootScreen).shareZipFile(
+                    rootScreen.shareZipFile(
                         fileUri = fileUri
                     )
                 }
-
-                TestIdlingResource.decrement()
             }
         }
     }
 
-    fun setStartDateOfMonth(startDate: Int) {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
-
-            when (val res = updateStartDayOfMonthAct(startDate)) {
-                is Res.Err -> {}
-                is Res.Ok -> {
-                    _startDateOfMonth.value = res.data!!
-                }
-            }
-
-            TestIdlingResource.decrement()
-        }
-    }
-
-    fun logout() {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
-
-            logoutLogic.logout()
-
-            TestIdlingResource.decrement()
-        }
-    }
-
-    fun cloudLogout() {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
-
-            logoutLogic.cloudLogout()
-
-            TestIdlingResource.decrement()
-        }
-    }
-
-    fun login() {
-        ivyContext.googleSignIn { idToken ->
-            if (idToken != null) {
-                viewModelScope.launch {
-                    TestIdlingResource.increment()
-
-                    try {
-                    } catch (e: Exception) {
-                        e.sendToCrashlytics(
-                            "Settings - GOOGLE_SIGN_IN ERROR: generic exception when logging with GOOGLE"
-                        )
-                        e.printStackTrace()
-                        Timber.e("Settings - Login with Google failed on Ivy server - ${e.message}")
-                    }
-
-                    TestIdlingResource.decrement()
-                }
-            } else {
-                sendToCrashlytics("Settings - GOOGLE_SIGN_IN ERROR: idToken is null!!")
-                Timber.e("Settings - Login with Google failed while getting idToken")
-            }
-        }
-    }
-
-    fun switchTheme() {
+    private fun switchTheme() {
         viewModelScope.launch {
             val currentSettings = settingsAct(Unit)
             val newTheme = when (currentSettings.theme) {
@@ -271,67 +297,78 @@ class SettingsViewModel @Inject constructor(
                 )
             )
             ivyContext.switchTheme(newTheme)
-            _currentTheme.value = newTheme
+            currentTheme.value = newTheme
         }
     }
 
-    fun setLockApp(lockApp: Boolean) {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
+    private fun setLockApp(lock: Boolean) {
+        lockApp.value = lock
 
-            sharedPrefs.putBoolean(SharedPrefs.APP_LOCK_ENABLED, lockApp)
-            _lockApp.value = lockApp
+        viewModelScope.launch {
+            sharedPrefs.putBoolean(SharedPrefs.APP_LOCK_ENABLED, lock)
             refreshWidget(WalletBalanceWidgetReceiver::class.java)
-
-            TestIdlingResource.decrement()
         }
     }
 
-    fun setShowNotifications(showNotifications: Boolean) {
+    private fun setShowNotifications(notificationsShow: Boolean) {
+        showNotifications.value = notificationsShow
+
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
-            sharedPrefs.putBoolean(SharedPrefs.SHOW_NOTIFICATIONS, showNotifications)
-            _showNotifications.value = showNotifications
-
-            TestIdlingResource.decrement()
+            sharedPrefs.putBoolean(SharedPrefs.SHOW_NOTIFICATIONS, notificationsShow)
         }
     }
 
-    fun setHideCurrentBalance(hideCurrentBalance: Boolean) {
+    private fun setHideCurrentBalance(hideBalance: Boolean) {
+        hideCurrentBalance.value = hideBalance
+
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
-            sharedPrefs.putBoolean(SharedPrefs.HIDE_CURRENT_BALANCE, hideCurrentBalance)
-            _hideCurrentBalance.value = hideCurrentBalance
-
-            TestIdlingResource.decrement()
+            sharedPrefs.putBoolean(SharedPrefs.HIDE_CURRENT_BALANCE, hideBalance)
         }
     }
 
-    fun setTransfersAsIncomeExpense(treatTransfersAsIncomeExpense: Boolean) {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
+    private fun setTransfersAsIncomeExpense(setTransfersAsIncomeExpense: Boolean) {
+        treatTransfersAsIncomeExpense.value = setTransfersAsIncomeExpense
 
+        viewModelScope.launch {
             sharedPrefs.putBoolean(
                 SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE,
-                treatTransfersAsIncomeExpense
+                treatTransfersAsIncomeExpense.value
             )
-            _treatTransfersAsIncomeExpense.value = treatTransfersAsIncomeExpense
-
-            TestIdlingResource.decrement()
         }
     }
 
-    fun deleteAllUserData() {
+    private fun setStartDateOfMonth(startDate: Int) {
+        viewModelScope.launch {
+            when (val res = updateStartDayOfMonthAct(startDate)) {
+                is Res.Err -> {}
+                is Res.Ok -> {
+                    startDateOfMonth.intValue = res.data
+                }
+            }
+        }
+    }
+
+    private fun deleteCloudUserData() {
+        viewModelScope.launch {
+            cloudLogout()
+        }
+    }
+
+    private fun cloudLogout() {
+        viewModelScope.launch {
+            logoutLogic.cloudLogout()
+        }
+    }
+
+    private fun deleteAllUserData() {
         viewModelScope.launch {
             logout()
         }
     }
 
-    fun deleteCloudUserData() {
+    private fun logout() {
         viewModelScope.launch {
-            cloudLogout()
+            logoutLogic.logout()
         }
     }
 }
