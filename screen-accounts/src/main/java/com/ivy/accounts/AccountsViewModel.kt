@@ -9,6 +9,7 @@ import com.ivy.core.db.write.AccountWriter
 import com.ivy.core.event.AccountUpdatedEvent
 import com.ivy.core.event.EventBus
 import com.ivy.legacy.data.SharedPrefs
+import com.ivy.legacy.data.model.AccountData
 import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.format
@@ -19,7 +20,8 @@ import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.viewmodel.account.AccountDataAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -36,16 +38,20 @@ class AccountsViewModel @Inject constructor(
     private val eventBus: EventBus,
     private val accountWriter: AccountWriter,
 ) : ComposeViewModel<AccountState, AccountsEvent>() {
-    val accountState = mutableStateOf(AccountState())
+    private val baseCurrency = mutableStateOf("")
+    private val accountsData = mutableStateOf(listOf<AccountData>())
+    private val totalBalanceWithExcluded = mutableStateOf("")
+    private val totalBalanceWithExcludedText = mutableStateOf("")
+    private val reorderVisible = mutableStateOf(false)
 
     @Composable
     override fun uiState(): AccountState {
         return AccountState(
-            baseCurrency =,
-            accountsData = persistentListOf(),
-            totalBalanceWithExcluded = 0.0,
-            totalBalanceWithExcludedText =,
-            reorderVisible = false
+            baseCurrency = getBaseCurrency(),
+            accountsData = getAccountsData(),
+            totalBalanceWithExcluded = getTotalBalanceWithExcluded(),
+            totalBalanceWithExcludedText = getTotalBalanceWithExcludedText(),
+            reorderVisible = getReorderVisible()
         )
     }
 
@@ -105,6 +111,31 @@ class AccountsViewModel @Inject constructor(
                 onStart()
             }
         }
+    }
+
+    @Composable
+    private fun getBaseCurrency(): String {
+        return baseCurrency.value
+    }
+
+    @Composable
+    private fun getAccountsData(): ImmutableList<AccountData> {
+        return accountsData.value.toImmutableList()
+    }
+
+    @Composable
+    private fun getTotalBalanceWithExcluded(): String {
+        return totalBalanceWithExcluded.value
+    }
+
+    @Composable
+    private fun getTotalBalanceWithExcludedText(): String {
+        return totalBalanceWithExcludedText.value
+    }
+
+    @Composable
+    private fun getReorderVisible(): Boolean {
+        return reorderVisible.value
     }
 
     override fun onEvent(event: AccountsEvent) {
