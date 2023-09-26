@@ -130,6 +130,8 @@
     <string name="no_transactions_for_period">You don\'t have any transactions for %1$s.\nYou can add one by scrolling down and tapping "Add income" or "Add expense" button at the top.</string>
     <string name="account_confirm_deletion_description">Note: Deleting this account will remove it permanently and delete all associated transactions with it.</string>
     <string name="category_confirm_deletion_description">Note: Deleting this category will remove it permanently.</string>
+    <string name="account_confirm_deletion_description2">Once you delete this account you cannot get it back and all the transactions associated with the account will be removed.</string>
+    <string name="account_confirm_deletion_type_account_name">Please type \"%s\" in order to delete your account.</string>
     <string name="edit">Edit</string>
     <string name="transactions">transactions</string>
     <string name="home">Home</string>
