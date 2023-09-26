@@ -56,6 +56,7 @@ import com.ivy.navigation.FeaturesScreen
 import com.ivy.navigation.ImportScreen
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.ReleasesScreen
+import com.ivy.navigation.SettingsScreen
 import com.ivy.navigation.navigation
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IvyCurrency
@@ -80,7 +81,7 @@ import com.ivy.wallet.ui.theme.modal.ProgressModal
 
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.SettingsScreen() {
+fun BoxWithConstraintsScope.SettingsScreen(screen: SettingsScreen) {
     val viewModel: SettingsViewModel = viewModel()
     val uiState = viewModel.uiState()
 

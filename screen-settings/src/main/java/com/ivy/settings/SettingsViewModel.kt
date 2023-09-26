@@ -12,7 +12,6 @@ import com.ivy.core.db.read.SettingsDao
 import com.ivy.core.db.write.SettingsWriter
 import com.ivy.core.util.refreshWidget
 import com.ivy.frp.monad.Res
-import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.LogoutLogic
 import com.ivy.legacy.data.SharedPrefs
@@ -183,8 +182,6 @@ class SettingsViewModel @Inject constructor(
 
     private fun setCurrency(newCurrency: String) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             ioThread {
                 settingsWriter.save(
                     settingsDao.findFirst().copy(
@@ -198,15 +195,11 @@ class SettingsViewModel @Inject constructor(
                     )
                 )
             }
-
-            TestIdlingResource.decrement()
         }
     }
 
     private fun setName(newName: String) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             ioThread {
                 settingsWriter.save(
                     settingsDao.findFirst().copy(
@@ -214,8 +207,6 @@ class SettingsViewModel @Inject constructor(
                     )
                 )
             }
-
-            TestIdlingResource.decrement()
         }
     }
 
@@ -226,8 +217,6 @@ class SettingsViewModel @Inject constructor(
             }).csv"
         ) { fileUri ->
             viewModelScope.launch {
-                TestIdlingResource.increment()
-
                 exportCSVLogic.exportToFile(
                     context = context,
                     fileUri = fileUri
@@ -236,8 +225,6 @@ class SettingsViewModel @Inject constructor(
                 (context as RootScreen).shareCSVFile(
                     fileUri = fileUri
                 )
-
-                TestIdlingResource.decrement()
             }
         }
     }
@@ -285,65 +272,45 @@ class SettingsViewModel @Inject constructor(
 
     private fun setLockApp(lock: Boolean) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             sharedPrefs.putBoolean(SharedPrefs.APP_LOCK_ENABLED, lock)
             lockApp.value = lock
             refreshWidget(WalletBalanceWidgetReceiver::class.java)
-
-            TestIdlingResource.decrement()
         }
     }
 
     private fun setShowNotifications(notificationsShow: Boolean) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             sharedPrefs.putBoolean(SharedPrefs.SHOW_NOTIFICATIONS, notificationsShow)
             showNotifications.value = notificationsShow
-
-            TestIdlingResource.decrement()
         }
     }
 
     private fun setHideCurrentBalance(hideBalance: Boolean) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             sharedPrefs.putBoolean(SharedPrefs.HIDE_CURRENT_BALANCE, hideBalance)
             hideCurrentBalance.value = hideBalance
-
-            TestIdlingResource.decrement()
         }
     }
 
     private fun setTransfersAsIncomeExpense(treatTransfersAsIncomeExpense: Boolean) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             sharedPrefs.putBoolean(
                 SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE,
                 this@SettingsViewModel.treatTransfersAsIncomeExpense.value
             )
             this@SettingsViewModel.treatTransfersAsIncomeExpense.value =
                 treatTransfersAsIncomeExpense
-
-            TestIdlingResource.decrement()
         }
     }
 
     private fun setStartDateOfMonth(startDate: Int) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             when (val res = updateStartDayOfMonthAct(startDate)) {
                 is Res.Err -> {}
                 is Res.Ok -> {
                     startDateOfMonth.intValue = res.data
                 }
             }
-
-            TestIdlingResource.decrement()
         }
     }
 
@@ -355,11 +322,7 @@ class SettingsViewModel @Inject constructor(
 
     private fun cloudLogout() {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             logoutLogic.cloudLogout()
-
-            TestIdlingResource.decrement()
         }
     }
 
@@ -371,11 +334,7 @@ class SettingsViewModel @Inject constructor(
 
     private fun logout() {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             logoutLogic.logout()
-
-            TestIdlingResource.decrement()
         }
     }
 }
