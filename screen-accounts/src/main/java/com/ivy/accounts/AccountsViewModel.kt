@@ -1,6 +1,7 @@
 package com.ivy.accounts
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.core.ComposeViewModel
@@ -47,6 +48,10 @@ class AccountsViewModel @Inject constructor(
 
     @Composable
     override fun uiState(): AccountsState {
+        LaunchedEffect(Unit) {
+            onStart()
+        }
+
         return AccountsState(
             baseCurrency = getBaseCurrency(),
             accountsData = getAccountsData(),
@@ -54,20 +59,6 @@ class AccountsViewModel @Inject constructor(
             totalBalanceWithExcludedText = getTotalBalanceWithExcludedText(),
             reorderVisible = getReorderVisible()
         )
-    }
-
-    init {
-        viewModelScope.launch {
-            eventBus.subscribe(AccountUpdatedEvent) {
-                onStart()
-            }
-        }
-    }
-
-    fun onStart() {
-        viewModelScope.launch(Dispatchers.Default) {
-            startInternally()
-        }
     }
 
     @Composable
@@ -122,6 +113,20 @@ class AccountsViewModel @Inject constructor(
 
     private suspend fun editAccount(account: Account, newBalance: Double) {
         accountCreator.editAccount(account, newBalance) {
+            startInternally()
+        }
+    }
+
+    init {
+        viewModelScope.launch {
+            eventBus.subscribe(AccountUpdatedEvent) {
+                onStart()
+            }
+        }
+    }
+
+    private fun onStart() {
+        viewModelScope.launch(Dispatchers.Default) {
             startInternally()
         }
     }

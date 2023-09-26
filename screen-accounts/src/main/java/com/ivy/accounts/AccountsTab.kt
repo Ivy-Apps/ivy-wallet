@@ -60,10 +60,6 @@ fun BoxWithConstraintsScope.AccountsTab(screen: MainScreen) {
     val viewModel: AccountsViewModel = screenScopedViewModel()
     val uiState = viewModel.uiState()
 
-    com.ivy.legacy.utils.onScreenStart {
-        viewModel.onStart()
-    }
-
     UI(
         state = uiState,
         onEventHandler = viewModel::onEvent
