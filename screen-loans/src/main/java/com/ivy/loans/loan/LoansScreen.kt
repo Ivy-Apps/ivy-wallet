@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -95,7 +97,9 @@ private fun BoxWithConstraintsScope.UI(
         Toolbar(
             setReorderModalVisible = {
                 onEventHandler.invoke(LoanScreenEvent.OnReOrderModalShow(show = it))
-            }
+            },
+            state.totalOweAmount,
+            state.totalOwedAmount
         )
 
         Spacer(Modifier.height(8.dp))
@@ -177,8 +181,11 @@ private fun BoxWithConstraintsScope.UI(
 }
 
 @Composable
+@OptIn(ExperimentalMaterial3Api::class)
 private fun Toolbar(
-    setReorderModalVisible: (Boolean) -> Unit
+    setReorderModalVisible: (Boolean) -> Unit,
+    totalOweAmount: String,
+    totalOwedAmount: String
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -196,6 +203,21 @@ private fun Toolbar(
                     fontWeight = FontWeight.ExtraBold
                 )
             )
+            if (totalOweAmount.isNotEmpty())
+                Text(
+                    text = "You Owe: $totalOweAmount",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontWeight = FontWeight.Bold
+                )
+
+            if (totalOwedAmount.isNotEmpty())
+                Text(
+                    text = "You're Owed: $totalOwedAmount",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontWeight = FontWeight.Bold
+                )
         }
 
         ReorderButton {
@@ -417,8 +439,10 @@ private fun Preview() {
                 ),
                 amountPaid = 8000.0,
                 percentPaid = 0.8
-            )
-        )
+            ),
+        ),
+        totalOweAmount = "1000.00 INR",
+        totalOwedAmount = "1500.0 INR"
     )
     IvyWalletPreview {
         UI(
