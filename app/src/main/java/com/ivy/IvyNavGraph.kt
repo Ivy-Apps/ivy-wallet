@@ -66,7 +66,7 @@ fun BoxWithConstraintsScope.IvyNavGraph(screen: Screen?) {
         is ItemStatisticScreen -> ItemStatisticScreen(screen = screen)
         is PieChartStatisticScreen -> PieChartStatisticScreen(screen = screen)
         is CategoriesScreen -> CategoriesScreen(screen = screen)
-        is SettingsScreen -> SettingsScreen(screen = screen)
+        is SettingsScreen -> SettingsScreen()
         is PlannedPaymentsScreen -> PlannedPaymentsScreen(screen = screen)
         is EditPlannedScreen -> EditPlannedScreen(screen = screen)
         is BalanceScreen -> BalanceScreen(screen = screen)
