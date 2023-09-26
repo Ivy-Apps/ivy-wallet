@@ -109,7 +109,7 @@ private fun BoxWithConstraintsScope.UI(
                     Spacer(Modifier.height(4.dp))
 
                     Text(
-                        text = state.totalBalanceWithExcludedText.asString(),
+                        text = state.totalBalanceWithExcludedText,
                         style = UI.typo.nB2.style(
                             color = Gray,
                             fontWeight = FontWeight.Bold
@@ -367,11 +367,7 @@ private fun PreviewAccountsTab() {
                 ),
             ),
             totalBalanceWithExcluded = "25.54",
-            totalBalanceWithExcludedText = com.ivy.legacy.utils.UiText.StringResource(
-                R.string.total,
-                "BGN",
-                "25.54"
-            ),
+            totalBalanceWithExcludedText = "BGN 25.54",
             reorderVisible = false
         )
     }
