@@ -18,8 +18,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,15 +29,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.core.datamodel.Account
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.horizontalSwipeListener
 import com.ivy.navigation.ItemStatisticScreen
+import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.MainScreen
 import com.ivy.navigation.navigation
+import com.ivy.navigation.screenScopedViewModel
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
@@ -58,15 +57,15 @@ import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun BoxWithConstraintsScope.AccountsTab(screen: MainScreen) {
-    val viewModel: AccountsViewModel = viewModel()
-    val state by viewModel.state().collectAsState()
+    val viewModel: AccountsViewModel = screenScopedViewModel()
+    val uiState = viewModel.uiState()
 
     com.ivy.legacy.utils.onScreenStart {
         viewModel.onStart()
     }
 
     UI(
-        state = state,
+        state = uiState,
         onEventHandler = viewModel::onEvent
     )
 }
@@ -125,7 +124,9 @@ private fun BoxWithConstraintsScope.UI(
                 Spacer(Modifier.weight(1f))
 
                 ReorderButton {
-                    onEventHandler.invoke(AccountsEvent.OnReorderModalVisible(reorderVisible = true))
+                    onEventHandler.invoke(
+                        AccountsEvent.OnReorderModalVisible(reorderVisible = true)
+                    )
                 }
 
                 Spacer(Modifier.width(24.dp))
@@ -145,9 +146,6 @@ private fun BoxWithConstraintsScope.UI(
                             categoryId = null
                         )
                     )
-                },
-                onLongClick = {
-                    onEventHandler.invoke(AccountsEvent.OnReorderModalVisible(reorderVisible = true))
                 }
             ) {
                 nav.navigateTo(
@@ -193,14 +191,8 @@ private fun AccountCard(
     baseCurrency: String,
     accountData: com.ivy.legacy.data.model.AccountData,
     onBalanceClick: () -> Unit,
-    onLongClick: () -> Unit,
     onClick: () -> Unit
 ) {
-    val account = accountData.account
-    val contrastColor = findContrastTextColor(account.color.toComposeColor())
-
-    Spacer(Modifier.height(16.dp))
-
     Column(
         modifier = Modifier
             .padding(horizontal = 16.dp)
@@ -211,6 +203,11 @@ private fun AccountCard(
                 onClick = onClick
             )
     ) {
+        val account = accountData.account
+        val contrastColor = findContrastTextColor(account.color.toComposeColor())
+
+        Spacer(Modifier.height(16.dp))
+
         val currency = account.currency ?: baseCurrency
 
         AccountHeader(
@@ -242,7 +239,6 @@ private fun AccountHeader(
     currency: String,
     baseCurrency: String,
     contrastColor: Color,
-
     onBalanceClick: () -> Unit
 ) {
     val account = accountData.account
@@ -333,7 +329,7 @@ private fun AccountHeader(
 @Preview
 @Composable
 private fun PreviewAccountsTab() {
-    com.ivy.legacy.IvyWalletPreview {
+    IvyPreview {
         val state = AccountState(
             baseCurrency = "BGN",
             accountsData = persistentListOf(
@@ -383,7 +379,5 @@ private fun PreviewAccountsTab() {
                 "25.54"
             )
         )
-
-        UI(state = state)
     }
 }
