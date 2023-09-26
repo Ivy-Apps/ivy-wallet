@@ -96,7 +96,7 @@ class AccountsViewModel @Inject constructor(
         }
     }
 
-    private suspend fun reorder(newOrder: List<com.ivy.legacy.data.model.AccountData>) {
+    private suspend fun reorder(newOrder: List<AccountData>) {
         ioThread {
             newOrder.mapIndexed { index, accountData ->
                 accountWriter.save(
