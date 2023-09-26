@@ -782,13 +782,13 @@ private fun AccountCard(
 
 @Composable
 private fun AccountCardLocalAccount(
-    name: String?,
+    name: String?
 ) {
     Row(
+        modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(20.dp))
-
         IvyIconScaled(
             icon = R.drawable.ic_local_account,
             iconScale = IconScale.M
@@ -797,12 +797,16 @@ private fun AccountCardLocalAccount(
         Spacer(Modifier.width(12.dp))
 
         Text(
-            modifier = Modifier.testTag("local_account_name"),
-            text = if (name != null && name.isNotBlank()) name else stringResource(R.string.anonymous),
+            modifier = Modifier
+                .weight(1f)
+                .testTag("local_account_name"),
+            text = if (!name.isNullOrBlank()) name else stringResource(R.string.anonymous),
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold
             )
         )
+
+        Spacer(Modifier.width(12.dp))
     }
 }
 
