@@ -23,14 +23,14 @@ import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 
 @Composable
 fun IncomeExpensesRow(
+    income: Double,
+    expenses: Double,
+    currency: String,
     modifier: Modifier = Modifier,
     textColor: Color = UI.colors.pureInverse,
     dividerColor: Color = UI.colors.medium,
     incomeLabel: String = stringResource(R.string.income_uppercase),
-    income: Double,
     expensesLabel: String = stringResource(R.string.expenses_uppercase),
-    expenses: Double,
-    currency: String,
     center: Boolean = true,
     dividerSpacer: Dp? = null,
 ) {

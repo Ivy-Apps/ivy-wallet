@@ -99,6 +99,24 @@ class AccountsViewModel @Inject constructor(
         }
     }
 
+    init {
+        viewModelScope.launch {
+            eventBus.subscribe(AccountUpdatedEvent) {
+                onStart()
+            }
+        }
+    }
+
+    override fun onEvent(event: AccountsEvent) {
+        viewModelScope.launch(Dispatchers.Default) {
+            when (event) {
+                is AccountsEvent.OnReorder -> reorder(event.reorderedList)
+                is AccountsEvent.OnEditAccount -> editAccount(event.editedAccount, event.newBalance)
+                is AccountsEvent.OnReorderModalVisible -> reorderModalVisible(event.reorderVisible)
+            }
+        }
+    }
+
     private suspend fun reorder(newOrder: List<com.ivy.legacy.data.model.AccountData>) {
         ioThread {
             newOrder.mapIndexed { index, accountData ->
@@ -122,24 +140,6 @@ class AccountsViewModel @Inject constructor(
     private suspend fun reorderModalVisible(reorderVisible: Boolean) {
         updateState {
             it.copy(reorderVisible = reorderVisible)
-        }
-    }
-
-    override fun onEvent(event: AccountsEvent) {
-        viewModelScope.launch(Dispatchers.Default) {
-            when (event) {
-                is AccountsEvent.OnReorder -> reorder(event.reorderedList)
-                is AccountsEvent.OnEditAccount -> editAccount(event.editedAccount, event.newBalance)
-                is AccountsEvent.OnReorderModalVisible -> reorderModalVisible(event.reorderVisible)
-            }
-        }
-    }
-
-    init {
-        viewModelScope.launch {
-            eventBus.subscribe(AccountUpdatedEvent) {
-                onStart()
-            }
         }
     }
 }
