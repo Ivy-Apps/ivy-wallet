@@ -26,7 +26,6 @@ import com.ivy.legacy.ui.component.transaction.transactions
 import com.ivy.legacy.utils.densityScope
 import com.ivy.legacy.utils.keyboardOnlyWindowInsets
 import com.ivy.legacy.utils.keyboardVisibleState
-import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.selectEndTextFieldValue
 import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.SearchScreen
