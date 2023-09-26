@@ -1,9 +1,13 @@
 package com.ivy.search
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.core.ComposeViewModel
+import com.ivy.core.datamodel.Account
+import com.ivy.core.datamodel.Category
+import com.ivy.core.datamodel.TransactionHistoryItem
 import com.ivy.legacy.utils.getDefaultFIATCurrency
 import com.ivy.legacy.utils.ioThread
 import com.ivy.wallet.domain.action.account.AccountsAct
@@ -12,6 +16,7 @@ import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.transaction.AllTrnsAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithDateDivsAct
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
@@ -26,18 +31,24 @@ class SearchViewModel @Inject constructor(
     private val allTrnsAct: AllTrnsAct
 ) : ComposeViewModel<SearchState, SearchEvent>() {
 
-    private val _uiState = mutableStateOf(
-        SearchState(
-            transactions = persistentListOf(),
-            baseCurrency = getDefaultFIATCurrency().currencyCode,
-            accounts = persistentListOf(),
-            categories = persistentListOf()
-        )
-    )
+    private val transactions =
+        mutableStateOf<ImmutableList<TransactionHistoryItem>>(persistentListOf())
+    private val baseCurrency = mutableStateOf<String>(getDefaultFIATCurrency().currencyCode)
+    private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
+    private val categories = mutableStateOf<ImmutableList<Category>>(persistentListOf())
 
     @Composable
     override fun uiState(): SearchState {
-        return _uiState.value
+        LaunchedEffect(Unit) {
+            search("")
+        }
+
+        return SearchState(
+            transactions = transactions.value,
+            baseCurrency = baseCurrency.value,
+            accounts = accounts.value,
+            categories = categories.value
+        )
     }
 
     override fun onEvent(event: SearchEvent) {
@@ -64,12 +75,10 @@ class SearchViewModel @Inject constructor(
                 ).toImmutableList()
             }
 
-            _uiState.value = _uiState.value.copy(
-                transactions = queryResult,
-                baseCurrency = baseCurrencyAct(Unit),
-                accounts = accountsAct(Unit),
-                categories = categoriesAct(Unit)
-            )
+            transactions.value = queryResult
+            baseCurrency.value = baseCurrencyAct(Unit)
+            accounts.value = accountsAct(Unit)
+            categories.value = categoriesAct(Unit)
         }
     }
 
