@@ -779,32 +779,36 @@ private fun AccountCard(
 
 @Composable
 private fun AccountCardLocalAccount(
-    name: String?,
+    name: String?
 ) {
-    Spacer(Modifier.height(4.dp))
-
-    Row(
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Spacer(Modifier.width(20.dp))
-
-        IvyIconScaled(
-            icon = R.drawable.ic_local_account,
-            iconScale = IconScale.M
-        )
-
-        Spacer(Modifier.width(12.dp))
-
-        Text(
-            modifier = Modifier.testTag("local_account_name"),
-            text = if (name != null && name.isNotBlank()) name else stringResource(R.string.anonymous),
-            style = UI.typo.b2.style(
-                fontWeight = FontWeight.Bold
+    Column {
+        Spacer(Modifier.height(4.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Spacer(Modifier.width(20.dp))
+            IvyIconScaled(
+                icon = R.drawable.ic_local_account,
+                iconScale = IconScale.M
             )
-        )
-    }
 
-    Spacer(Modifier.height(24.dp))
+            Spacer(Modifier.width(12.dp))
+
+            Text(
+                modifier = Modifier
+                    .weight(1f)
+                    .testTag("local_account_name"),
+                text = if (!name.isNullOrBlank()) name else stringResource(R.string.anonymous),
+                style = UI.typo.b2.style(
+                    fontWeight = FontWeight.Bold
+                )
+            )
+
+            Spacer(Modifier.width(12.dp))
+        }
+        Spacer(Modifier.height(24.dp))
+    }
 }
 
 @Composable
