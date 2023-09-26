@@ -3,6 +3,7 @@ package com.ivy.settings
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
@@ -65,6 +66,10 @@ class SettingsViewModel @Inject constructor(
 
     @Composable
     override fun uiState(): SettingsState {
+        LaunchedEffect(Unit) {
+            onStart()
+        }
+
         return SettingsState(
             currencyCode = getCurrencyCode(),
             name = getName(),
@@ -78,82 +83,102 @@ class SettingsViewModel @Inject constructor(
         )
     }
 
-    private fun getCurrencyCode(): String {
-        viewModelScope.launch {
-            val settings = ioThread {
-                settingsDao.findFirst()
-            }
+    private suspend fun onStart() {
+        initializeCurrency()
+        initializeName()
+        initializeCurrentTheme()
+        initializeLockApp()
+        initializeShowNotifications()
+        initializeHideCurrentBalance()
+        initializeTransfersAsIncomeExpense()
+        initializeStartDateOfMonth()
+    }
 
-            currencyCode.value = settings.currency
+    private suspend fun initializeCurrency() {
+        val settings = ioThread {
+            settingsDao.findFirst()
         }
 
+        currencyCode.value = settings.currency
+    }
+
+    private suspend fun initializeName() {
+        val settings = ioThread {
+            settingsDao.findFirst()
+        }
+
+        name.value = settings.name
+    }
+
+    private suspend fun initializeCurrentTheme() {
+        currentTheme.value = settingsAct(Unit).theme
+    }
+
+    private fun initializeLockApp() {
+        lockApp.value = sharedPrefs.getBoolean(SharedPrefs.APP_LOCK_ENABLED, false)
+    }
+
+    private fun initializeShowNotifications() {
+        showNotifications.value = sharedPrefs.getBoolean(
+            SharedPrefs.SHOW_NOTIFICATIONS, true
+        )
+    }
+
+    private fun initializeHideCurrentBalance() {
+        hideCurrentBalance.value =
+            sharedPrefs.getBoolean(SharedPrefs.HIDE_CURRENT_BALANCE, false)
+    }
+
+    private fun initializeTransfersAsIncomeExpense() {
+        treatTransfersAsIncomeExpense.value =
+            sharedPrefs.getBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, false)
+    }
+
+    private suspend fun initializeStartDateOfMonth() {
+        startDateOfMonth.intValue = startDayOfMonthAct(Unit)
+    }
+
+    @Composable
+    private fun getCurrencyCode(): String {
         return currencyCode.value
     }
 
+    @Composable
     private fun getName(): String {
-        viewModelScope.launch {
-            val settings = ioThread {
-                settingsDao.findFirst()
-            }
-
-            name.value = settings.name
-        }
-
         return name.value
     }
 
+    @Composable
     private fun getCurrentTheme(): Theme {
-        viewModelScope.launch {
-            currentTheme.value = settingsAct(Unit).theme
-        }
-
         return currentTheme.value
     }
 
+    @Composable
     private fun getLockApp(): Boolean {
-        viewModelScope.launch {
-            lockApp.value = sharedPrefs.getBoolean(SharedPrefs.APP_LOCK_ENABLED, false)
-        }
-
         return lockApp.value
     }
 
+    @Composable
     private fun getShowNotifications(): Boolean {
-        viewModelScope.launch {
-            showNotifications.value = sharedPrefs.getBoolean(
-                SharedPrefs.SHOW_NOTIFICATIONS, true
-            )
-        }
-
         return showNotifications.value
     }
 
+    @Composable
     private fun getHideCurrentBalance(): Boolean {
-        viewModelScope.launch {
-            hideCurrentBalance.value =
-                sharedPrefs.getBoolean(SharedPrefs.HIDE_CURRENT_BALANCE, false)
-        }
-
         return hideCurrentBalance.value
     }
 
+    @Composable
     private fun getTreatTransfersAsIncomeExpense(): Boolean {
-        viewModelScope.launch {
-            treatTransfersAsIncomeExpense.value =
-                sharedPrefs.getBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, false)
-        }
-
         return treatTransfersAsIncomeExpense.value
     }
 
+    @Composable
     private fun getStartDateOfMonth(): String {
-        viewModelScope.launch {
-            startDateOfMonth.intValue = startDayOfMonthAct(Unit)
-        }
-
         return startDateOfMonth.intValue.toString()
     }
 
+    @Composable
     private fun getProgressState(): Boolean {
         return progressState.value
     }

@@ -37,7 +37,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.core.datamodel.legacy.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -56,8 +55,8 @@ import com.ivy.navigation.FeaturesScreen
 import com.ivy.navigation.ImportScreen
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.ReleasesScreen
-import com.ivy.navigation.SettingsScreen
 import com.ivy.navigation.navigation
+import com.ivy.navigation.screenScopedViewModel
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.ui.theme.Blue
@@ -81,8 +80,8 @@ import com.ivy.wallet.ui.theme.modal.ProgressModal
 
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.SettingsScreen(screen: SettingsScreen) {
-    val viewModel: SettingsViewModel = viewModel()
+fun BoxWithConstraintsScope.SettingsScreen() {
+    val viewModel: SettingsViewModel = screenScopedViewModel()
     val uiState = viewModel.uiState()
     val rootScreen = rootScreen()
 
