@@ -267,7 +267,7 @@
 
     <issue
         id="StringFormatCount"
-        message="Inconsistent number of arguments in formatting string `percent`; found both 1 here and 0 in values/strings.xml"
+        message="Inconsistent number of arguments in formatting string `percent`; found both 1 here and 0 in values\strings.xml"
         errorLine1="    &lt;string name=&quot;percent&quot;>%1$s\\%%&lt;/string>"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -10113,7 +10113,7 @@
         errorLine2="    ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/home/HomeHeader.kt"
-            line="206"
+            line="207"
             column="5"/>
     </issue>
 
@@ -12060,7 +12060,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/home/HomeHeader.kt"
-            line="204"
+            line="205"
             column="1"/>
     </issue>
 
@@ -12396,12 +12396,12 @@
 
     <issue
         id="ComposeParameterOrder"
-        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, text: String, @DrawableRes iconStart: Int?, solidBackground: Boolean = false, iconTint: Color = UI.colors.pureInverse, borderColor: Color = UI.colors.medium, textColor: Color = UI.colors.pureInverse, padding: Dp = 12.dp, onClick: () -> Unit] but should be [text: String, @DrawableRes iconStart: Int?, modifier: Modifier = Modifier, solidBackground: Boolean = false, iconTint: Color = UI.colors.pureInverse, borderColor: Color = UI.colors.medium, textColor: Color = UI.colors.pureInverse, padding: Dp = 12.dp, onClick: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
+        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, text: String, minHeight: Dp = Dp.Unspecified, minWidth: Dp = Dp.Unspecified, @DrawableRes iconStart: Int?, solidBackground: Boolean = false, iconTint: Color = UI.colors.pureInverse, borderColor: Color = UI.colors.medium, textColor: Color = UI.colors.pureInverse, padding: Dp = 12.dp, onClick: () -> Unit] but should be [text: String, @DrawableRes iconStart: Int?, modifier: Modifier = Modifier, minHeight: Dp = Dp.Unspecified, minWidth: Dp = Dp.Unspecified, solidBackground: Boolean = false, iconTint: Color = UI.colors.pureInverse, borderColor: Color = UI.colors.medium, textColor: Color = UI.colors.pureInverse, padding: Dp = 12.dp, onClick: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
         errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyOutlinedButton.kt"
-            line="29"
+            line="31"
             column="1"/>
     </issue>
 
@@ -12412,7 +12412,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyOutlinedButton.kt"
-            line="80"
+            line="82"
             column="1"/>
     </issue>
 
