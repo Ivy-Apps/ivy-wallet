@@ -5,6 +5,12 @@ import com.ivy.base.model.Theme
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import com.ivy.core.ComposeViewModel
+import com.ivy.core.datamodel.Account
+import com.ivy.core.datamodel.Settings
+import com.ivy.core.datamodel.Transaction
+import com.ivy.core.datamodel.legacy.Theme
 import com.ivy.frp.fixUnit
 import com.ivy.frp.then
 import com.ivy.frp.thenInvokeAfter
@@ -74,9 +80,26 @@ class HomeViewModel @Inject constructor(
         HomeState.initial(ivyWalletCtx = ivyContext)
     )
 
+    private val theme = mutableStateOf<Theme>(Theme.AUTO)
+    private val name = mutableStateOf("")
+    private val timePeriod = mutableStateOf(TimePeriod())
+
     @Composable
     override fun uiState(): HomeState {
-        TODO("Not yet implemented")
+        return HomeState(
+            theme =,
+            name =,
+            period =,
+            baseData: AppBaseData,
+            history: ImmutableList< TransactionHistoryItem >,
+        stats: IncomeExpensePair,
+        balance: BigDecimal,
+        buffer: BufferInfo,
+        upcoming: DueSection,
+        overdue: DueSection,
+        customerJourneyCards: ImmutableList<CustomerJourneyCardModel>,
+        hideCurrentBalance: Boolean
+        )
     }
 
     override fun onEvent(event: HomeEvent) {
