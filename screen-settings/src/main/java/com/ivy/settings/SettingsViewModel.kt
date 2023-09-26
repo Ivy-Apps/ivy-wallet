@@ -157,38 +157,13 @@ class SettingsViewModel @Inject constructor(
         return progressState.value
     }
 
-    private fun exportToZip(context: Context) {
-        ivyContext.createNewFile(
-            "Ivy Wallet (${
-                timeNowUTC().formatNicelyWithTime(noWeekDay = true)
-            }).zip"
-        ) { fileUri ->
-            viewModelScope.launch(Dispatchers.IO) {
-                progressState.value = true
-                backupLogic.exportToFile(zipFileUri = fileUri)
-                progressState.value = false
-
-                sharedPrefs.putBoolean(SharedPrefs.DATA_BACKUP_COMPLETED, true)
-                ivyContext.dataBackupCompleted = true
-
-                uiThread {
-                    (context as RootScreen).shareZipFile(
-                        fileUri = fileUri
-                    )
-                }
-            }
-        }
-    }
-
     override fun onEvent(event: SettingsEvent) {
         when (event) {
             is SettingsEvent.SetCurrency -> setCurrency(event.newCurrency)
             is SettingsEvent.SetName -> setName(event.newName)
             SettingsEvent.ExportToCsv -> exportToCSV()
-            SettingsEvent.BackupData -> // TODO
-                SettingsEvent.SwitchTheme
-
-            -> switchTheme()
+            SettingsEvent.BackupData -> exportToZip(context)
+            SettingsEvent.SwitchTheme -> switchTheme()
             is SettingsEvent.SetLockApp -> setLockApp(event.lockApp)
             is SettingsEvent.SetShowNotifications -> setShowNotifications(event.showNotifications)
             is SettingsEvent.SetHideCurrentBalance -> setHideCurrentBalance(
@@ -263,6 +238,29 @@ class SettingsViewModel @Inject constructor(
                 )
 
                 TestIdlingResource.decrement()
+            }
+        }
+    }
+
+    private fun exportToZip(context: Context) {
+        ivyContext.createNewFile(
+            "Ivy Wallet (${
+                timeNowUTC().formatNicelyWithTime(noWeekDay = true)
+            }).zip"
+        ) { fileUri ->
+            viewModelScope.launch(Dispatchers.IO) {
+                progressState.value = true
+                backupLogic.exportToFile(zipFileUri = fileUri)
+                progressState.value = false
+
+                sharedPrefs.putBoolean(SharedPrefs.DATA_BACKUP_COMPLETED, true)
+                ivyContext.dataBackupCompleted = true
+
+                uiThread {
+                    (context as RootScreen).shareZipFile(
+                        fileUri = fileUri
+                    )
+                }
             }
         }
     }
