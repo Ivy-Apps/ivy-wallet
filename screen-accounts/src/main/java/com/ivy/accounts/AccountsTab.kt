@@ -36,7 +36,6 @@ import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.horizontalSwipeListener
 import com.ivy.navigation.ItemStatisticScreen
 import com.ivy.navigation.IvyPreview
-import com.ivy.navigation.MainScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.resources.R
@@ -56,7 +55,7 @@ import com.ivy.wallet.ui.theme.toComposeColor
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
-fun BoxWithConstraintsScope.AccountsTab(screen: MainScreen) {
+fun BoxWithConstraintsScope.AccountsTab() {
     val viewModel: AccountsViewModel = screenScopedViewModel()
     val uiState = viewModel.uiState()
 
