@@ -1,5 +1,6 @@
 package com.ivy.home
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
@@ -13,7 +14,6 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,9 +36,7 @@ import com.ivy.frp.forward
 import com.ivy.frp.then2
 import com.ivy.home.customerjourney.CustomerJourney
 import com.ivy.home.customerjourney.CustomerJourneyCardModel
-import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.AppBaseData
-import com.ivy.legacy.data.BufferInfo
 import com.ivy.legacy.data.DueSection
 import com.ivy.legacy.data.model.MainTab
 import com.ivy.legacy.data.model.TimePeriod
@@ -48,8 +46,8 @@ import com.ivy.legacy.ui.component.transaction.TransactionsDividerLine
 import com.ivy.legacy.ui.component.transaction.transactions
 import com.ivy.legacy.utils.horizontalSwipeListener
 import com.ivy.legacy.utils.verticalSwipeListener
-import com.ivy.navigation.MainScreen
-import com.ivy.navigation.navigation
+import com.ivy.navigation.IvyPreview
+import com.ivy.navigation.screenScopedViewModel
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
@@ -59,6 +57,7 @@ import com.ivy.wallet.ui.theme.modal.ChoosePeriodModal
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import com.ivy.wallet.ui.theme.modal.CurrencyModal
 import com.ivy.wallet.ui.theme.modal.DeleteModal
+import kotlinx.collections.immutable.ImmutableList
 import java.math.BigDecimal
 
 private const val SWIPE_HORIZONTAL_THRESHOLD = 200
@@ -66,22 +65,22 @@ private const val SWIPE_HORIZONTAL_THRESHOLD = 200
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.HomeTab(screen: MainScreen) {
-    val viewModel: HomeViewModel = viewModel()
-    val state by viewModel.state().collectAsState()
+fun BoxWithConstraintsScope.HomeTab() {
+    val viewModel: HomeViewModel = screenScopedViewModel()
+    val uiState = viewModel.uiState()
 
     onScreenStart {
         viewModel.onEvent(HomeEvent.Start)
     }
 
-    UI(state, viewModel::onEvent)
+    UI(uiState, viewModel::onEvent)
 }
 
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    state: HomeState,
+    uiState: HomeState,
 
     onEvent: (HomeEvent) -> Unit
 ) {
@@ -100,7 +99,7 @@ private fun BoxWithConstraintsScope.UI(
     }
     val hideBalanceRowState = remember { mutableStateOf(false) }
 
-    val baseCurrency = state.baseData.baseCurrency
+    val baseCurrency = uiState.baseData.baseCurrency
 
     Column(
         modifier = Modifier
@@ -131,15 +130,15 @@ private fun BoxWithConstraintsScope.UI(
 
         HomeHeader(
             expanded = !hideBalanceRowState.value,
-            name = state.name,
-            period = state.period,
+            name = uiState.name,
+            period = uiState.period,
             currency = baseCurrency,
-            balance = state.balance.toDouble(),
-            hideCurrentBalance = state.hideCurrentBalance,
+            balance = uiState.balance.toDouble(),
+            hideCurrentBalance = uiState.hideCurrentBalance,
 
             onShowMonthModal = {
                 choosePeriodModal = ChoosePeriodModalData(
-                    period = state.period
+                    period = uiState.period
                 )
             },
             onBalanceClick = HomeEvent.BalanceClick asParamTo2 onEvent,
@@ -150,28 +149,27 @@ private fun BoxWithConstraintsScope.UI(
 
         HomeLazyColumn(
             hideBalanceRowState = hideBalanceRowState,
-            balance = state.balance,
-            buffer = state.buffer,
+            balance = uiState.balance,
             onOpenMoreMenu = {
                 setMoreMenuExpanded(true)
             },
             onBalanceClick = HomeEvent.BalanceClick asParamTo2 onEvent,
             onHiddenBalanceClick = HomeEvent.HiddenBalanceClick asParamTo2 onEvent,
 
-            hideCurrentBalance = state.hideCurrentBalance,
+            hideCurrentBalance = uiState.hideCurrentBalance,
 
-            period = state.period,
+            period = uiState.period,
             listState = listState,
 
-            baseData = state.baseData,
+            baseData = uiState.baseData,
 
-            upcoming = state.upcoming,
-            overdue = state.overdue,
+            upcoming = uiState.upcoming,
+            overdue = uiState.overdue,
 
-            stats = state.stats,
-            history = state.history,
+            stats = uiState.stats,
+            history = uiState.history,
 
-            customerJourneyCards = state.customerJourneyCards,
+            customerJourneyCards = uiState.customerJourneyCards,
 
             onPayOrGet = forward<Transaction>() then2 {
                 HomeEvent.PayOrGetPlanned(it)
@@ -194,18 +192,18 @@ private fun BoxWithConstraintsScope.UI(
 
     MoreMenu(
         expanded = moreMenuExpanded,
-        theme = state.theme,
-        balance = state.balance.toDouble(),
+        theme = uiState.theme,
+        balance = uiState.balance.toDouble(),
         currency = baseCurrency,
-        buffer = state.buffer.amount.toDouble(),
+        buffer = uiState.buffer.amount.toDouble(),
         onSwitchTheme = HomeEvent.SwitchTheme asParamTo2 onEvent,
 
         setExpanded = setMoreMenuExpanded,
         onBufferClick = {
             bufferModalData = BufferModalData(
-                balance = state.balance.toDouble(),
+                balance = uiState.balance.toDouble(),
                 currency = baseCurrency,
-                buffer = state.buffer.amount.toDouble()
+                buffer = uiState.buffer.amount.toDouble()
             )
         },
         onCurrencyClick = {
@@ -249,18 +247,17 @@ private fun BoxWithConstraintsScope.UI(
         description = stringResource(R.string.confirm_skip_all_description),
         dismiss = { skipAllModalVisible = false }
     ) {
-        onEvent(HomeEvent.SkipAllPlanned(state.overdue.trns))
+        onEvent(HomeEvent.SkipAllPlanned(uiState.overdue.trns))
         skipAllModalVisible = false
     }
 }
 
+@SuppressLint("ComposeParameterOrder")
 @ExperimentalAnimationApi
 @Composable
 fun HomeLazyColumn(
     hideBalanceRowState: MutableState<Boolean>,
     listState: LazyListState,
-
-    buffer: BufferInfo,
     hideCurrentBalance: Boolean,
     period: TimePeriod,
 
@@ -270,24 +267,23 @@ fun HomeLazyColumn(
     overdue: DueSection,
     balance: BigDecimal,
     stats: IncomeExpensePair,
-    history: List<TransactionHistoryItem>,
+    history: ImmutableList<TransactionHistoryItem>,
 
-    customerJourneyCards: List<CustomerJourneyCardModel>,
+    customerJourneyCards: ImmutableList<CustomerJourneyCardModel>,
 
     setUpcomingExpanded: (Boolean) -> Unit,
     setOverdueExpanded: (Boolean) -> Unit,
 
     onOpenMoreMenu: () -> Unit,
     onBalanceClick: () -> Unit,
-    onHiddenBalanceClick: () -> Unit = {},
 
     onPayOrGet: (Transaction) -> Unit,
     onDismiss: (CustomerJourneyCardModel) -> Unit,
+    onHiddenBalanceClick: () -> Unit = {},
     onSkipTransaction: (Transaction) -> Unit = {},
     onSkipAllTransactions: (List<Transaction>) -> Unit = {}
 ) {
     val ivyContext = ivyWalletCtx()
-    val nav = navigation()
 
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
@@ -369,10 +365,10 @@ fun HomeLazyColumn(
 @ExperimentalFoundationApi
 @Preview
 @Composable
-private fun PreviewHomeTab() {
-    IvyWalletPreview {
+private fun BoxWithConstraintsScope.PreviewHomeTab() {
+    IvyPreview {
         UI(
-            state = HomeState.initial(ivyWalletCtx()),
+            uiState = HomeState.initial(ivyWalletCtx()),
             onEvent = {}
         )
     }
