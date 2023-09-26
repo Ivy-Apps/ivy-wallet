@@ -2132,7 +2132,6 @@
     <ID>InvalidPackageDeclaration:BackBottomBar.kt$package com.ivy.wallet.ui.theme.components</ID>
     <ID>InvalidPackageDeclaration:BalanceRow.kt$package com.ivy.wallet.ui.theme.components</ID>
     <ID>InvalidPackageDeclaration:BaseCurrencyAct.kt$package com.ivy.wallet.domain.action.settings</ID>
-    <ID>InvalidPackageDeclaration:BudgetModal.kt$package com.ivy.wallet.ui.theme.modal</ID>
     <ID>InvalidPackageDeclaration:BudgetsAct.kt$package com.ivy.wallet.domain.action.budget</ID>
     <ID>InvalidPackageDeclaration:BufferBattery.kt$package com.ivy.wallet.ui.theme.components</ID>
     <ID>InvalidPackageDeclaration:BufferModal.kt$package com.ivy.wallet.ui.theme.modal</ID>
@@ -4046,7 +4045,6 @@
     <ID>ModifierMissing:AppLockedScreen.kt$AppLockedScreen</ID>
     <ID>ModifierMissing:BackBottomBar.kt$BackBottomBar</ID>
     <ID>ModifierMissing:BudgetModal.kt$BudgetModal</ID>
-    <ID>ModifierMissing:BudgetModal.kt$ModalNameInput</ID>
     <ID>ModifierMissing:BufferModal.kt$BufferModal</ID>
     <ID>ModifierMissing:CSVScreen.kt$LabelContainsField</ID>
     <ID>ModifierMissing:CSVScreen.kt$Spacer8</ID>
@@ -4498,7 +4496,6 @@
     <ID>NoConsecutiveBlankLines:ComposeExt.kt$ </ID>
     <ID>NoConsecutiveBlankLines:Composition.kt$ </ID>
     <ID>NoConsecutiveBlankLines:Composition2.kt$ </ID>
-    <ID>NoConsecutiveBlankLines:CompositionFilter.kt$ </ID>
     <ID>NoConsecutiveBlankLines:CoreLibraryDesugaringConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:DateTimeUtil.kt$ </ID>
     <ID>NoConsecutiveBlankLines:DebugAnnotationProcessorConfigurationAccessors.kt$ </ID>
@@ -4611,7 +4608,6 @@
     <ID>NoConsecutiveBlankLines:TestFixturesReleaseWearAppConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:TestFixturesRuntimeOnlyConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:TestFixturesWearAppConfigurationAccessors.kt$ </ID>
-    <ID>NoConsecutiveBlankLines:TestIdlingResource.kt$TestIdlingResource$ </ID>
     <ID>NoConsecutiveBlankLines:TestImplementationConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:TestImplementationDependenciesMetadataConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:TestIntransitiveDependenciesMetadataConfigurationAccessors.kt$ </ID>
@@ -5073,7 +5069,6 @@
     <ID>NoUnusedImports:CompileOnlyDependenciesMetadataConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.CompileOnlyDependenciesMetadataConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:Compose.kt$com.ivy.design.utils.Compose.kt</ID>
     <ID>NoUnusedImports:ComposeExt.kt$com.ivy.legacy.utils.ComposeExt.kt</ID>
-    <ID>NoUnusedImports:ContributorsScreen.kt$com.ivy.contributors.ContributorsScreen.kt</ID>
     <ID>NoUnusedImports:CoreLibraryDesugaringConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.CoreLibraryDesugaringConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:DebugAnnotationProcessorConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.DebugAnnotationProcessorConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:DebugApiConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909.DebugApiConfigurationAccessors.kt</ID>
@@ -6422,7 +6417,6 @@
     <ID>PackageName:TestReleaseWearAppConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageName:TestRuntimeOnlyConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageName:TestWearAppConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
-    <ID>PackageName:Theme.kt$package com.ivy.design.l0_system</ID>
     <ID>PackageName:TypographyExt.kt$package com.ivy.design.l0_system</ID>
     <ID>PackageName:WearAppConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageNaming:Accessors11xxvwy0y6zsdmgi5tg7sgrcq.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
@@ -6842,7 +6836,6 @@
     <ID>PackageNaming:TestReleaseWearAppConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageNaming:TestRuntimeOnlyConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>PackageNaming:TestWearAppConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
-    <ID>PackageNaming:Theme.kt$package com.ivy.design.l0_system</ID>
     <ID>PackageNaming:TypographyExt.kt$package com.ivy.design.l0_system</ID>
     <ID>PackageNaming:WearAppConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d5c25c00695eeb94b9a0c8bc05ca8909</ID>
     <ID>ParameterListWrapping:Accessors1qogh10qro8q0buetro8w0c3r.kt$(configure: Action&lt;org.gradle.api.plugins.ExtraPropertiesExtension&gt;)</ID>
@@ -7155,7 +7148,6 @@
     <ID>ReturnCount:ReportFilter.kt$ReportFilter$fun validate(): Boolean</ID>
     <ID>ReturnCount:SyncExchangeRatesAct.kt$SyncExchangeRatesAct$private suspend fun sync(baseCurrency: String)</ID>
     <ID>SpacingAroundCurly:DeleteModal.kt${</ID>
-    <ID>SpacingAroundParens:TestScreen.kt$(</ID>
     <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Black = Color(0xFF111114)</ID>
     <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Blue2 = Color(0xFF45E6E6)</ID>
     <ID>SpacingBetweenDeclarationsWithAnnotations:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Blue2Dark = Color(0xFF227373)</ID>
@@ -7203,7 +7195,6 @@
     <ID>SpacingBetweenDeclarationsWithAnnotations:IvyColors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Purple1Dark = Color(0xFF622680)</ID>
     <ID>SpacingBetweenDeclarationsWithAnnotations:IvyColors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Red3 = Color(0xFFFF4CA6)</ID>
     <ID>SpacingBetweenDeclarationsWithAnnotations:IvyColors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Red3Light = Color(0xFFFFCCE6)</ID>
-    <ID>SpacingBetweenDeclarationsWithAnnotations:IvyContext.kt$IvyContext$@Deprecated("Old design system. Use `:ivy-design` and Material3") var screenHeight: Int = -1 get() { return if (field &gt; 0) field else throw IllegalStateException("screenHeight not initialized") }</ID>
     <ID>SpacingBetweenDeclarationsWithAnnotations:IvyModal.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") const val DURATION_MODAL_ANIM = 200</ID>
     <ID>SpreadOperator:UiText.kt$UiText$(resId, *args)</ID>
     <ID>TopLevelPropertyNaming:Accessors11xxvwy0y6zsdmgi5tg7sgrcq.kt$/** * Provides the existing [androidTestAnnotationProcessor][org.gradle.api.artifacts.Configuration] element. */ internal val org.gradle.api.NamedDomainObjectContainer&lt;org.gradle.api.artifacts.Configuration&gt;.`androidTestAnnotationProcessor`: NamedDomainObjectProvider&lt;org.gradle.api.artifacts.Configuration&gt; get() = named&lt;org.gradle.api.artifacts.Configuration&gt;("androidTestAnnotationProcessor")</ID>
@@ -7706,7 +7697,6 @@
     <ID>UnusedParameter:SearchScreen.kt$screen: SearchScreen</ID>
     <ID>UnusedParameter:SettingsScreen.kt$screen: SettingsScreen</ID>
     <ID>UnusedParameter:Shapes.kt$modifier: Modifier = Modifier</ID>
-    <ID>UnusedParameter:TestScreen.kt$screen: TestScreen</ID>
     <ID>UnusedParameter:Title.kt$initialTransactionId: UUID?</ID>
     <ID>UnusedParameter:WalletCharts.kt$baseCurrencyCode: String</ID>
     <ID>UnusedParameter:WalletCharts.kt$walletDAOs: WalletDAOs</ID>
