@@ -46,6 +46,14 @@ class AccountsViewModel @Inject constructor(
     private val totalBalanceWithExcludedText = mutableStateOf<UiText>(UiText.DynamicString(""))
     private val reorderVisible = mutableStateOf(false)
 
+    init {
+        viewModelScope.launch {
+            eventBus.subscribe(AccountUpdatedEvent) {
+                onStart()
+            }
+        }
+    }
+
     @Composable
     override fun uiState(): AccountsState {
         LaunchedEffect(Unit) {
@@ -114,14 +122,6 @@ class AccountsViewModel @Inject constructor(
     private suspend fun editAccount(account: Account, newBalance: Double) {
         accountCreator.editAccount(account, newBalance) {
             startInternally()
-        }
-    }
-
-    init {
-        viewModelScope.launch {
-            eventBus.subscribe(AccountUpdatedEvent) {
-                onStart()
-            }
         }
     }
 
