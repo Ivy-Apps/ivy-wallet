@@ -149,7 +149,7 @@ class SettingsViewModel @Inject constructor(
             startDateOfMonth.intValue = startDayOfMonthAct(Unit)
         }
 
-        return startDateOfMonth.value.toString()
+        return startDateOfMonth.intValue.toString()
     }
 
     private fun getProgressState(): Boolean {
@@ -181,6 +181,8 @@ class SettingsViewModel @Inject constructor(
     }
 
     private fun setCurrency(newCurrency: String) {
+        currencyCode.value = newCurrency
+
         viewModelScope.launch {
             ioThread {
                 settingsWriter.save(
@@ -199,6 +201,8 @@ class SettingsViewModel @Inject constructor(
     }
 
     private fun setName(newName: String) {
+        name.value = newName
+
         viewModelScope.launch {
             ioThread {
                 settingsWriter.save(
@@ -271,35 +275,38 @@ class SettingsViewModel @Inject constructor(
     }
 
     private fun setLockApp(lock: Boolean) {
+        lockApp.value = lock
+
         viewModelScope.launch {
             sharedPrefs.putBoolean(SharedPrefs.APP_LOCK_ENABLED, lock)
-            lockApp.value = lock
             refreshWidget(WalletBalanceWidgetReceiver::class.java)
         }
     }
 
     private fun setShowNotifications(notificationsShow: Boolean) {
+        showNotifications.value = notificationsShow
+
         viewModelScope.launch {
             sharedPrefs.putBoolean(SharedPrefs.SHOW_NOTIFICATIONS, notificationsShow)
-            showNotifications.value = notificationsShow
         }
     }
 
     private fun setHideCurrentBalance(hideBalance: Boolean) {
+        hideCurrentBalance.value = hideBalance
+
         viewModelScope.launch {
             sharedPrefs.putBoolean(SharedPrefs.HIDE_CURRENT_BALANCE, hideBalance)
-            hideCurrentBalance.value = hideBalance
         }
     }
 
-    private fun setTransfersAsIncomeExpense(treatTransfersAsIncomeExpense: Boolean) {
+    private fun setTransfersAsIncomeExpense(setTransfersAsIncomeExpense: Boolean) {
+        treatTransfersAsIncomeExpense.value = setTransfersAsIncomeExpense
+
         viewModelScope.launch {
             sharedPrefs.putBoolean(
                 SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE,
-                this@SettingsViewModel.treatTransfersAsIncomeExpense.value
+                treatTransfersAsIncomeExpense.value
             )
-            this@SettingsViewModel.treatTransfersAsIncomeExpense.value =
-                treatTransfersAsIncomeExpense
         }
     }
 
