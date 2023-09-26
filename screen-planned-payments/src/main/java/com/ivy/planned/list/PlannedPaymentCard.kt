@@ -32,6 +32,7 @@ import com.ivy.core.db.entity.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.forDisplay
 import com.ivy.legacy.ui.component.transaction.TypeAmountCurrency
 import com.ivy.legacy.utils.formatDateOnly
 import com.ivy.legacy.utils.formatDateOnlyWithYear
@@ -41,7 +42,9 @@ import com.ivy.legacy.utils.uppercaseLocal
 import com.ivy.navigation.ItemStatisticScreen
 import com.ivy.navigation.navigation
 import com.ivy.resources.R
+import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -256,8 +259,8 @@ private fun RuleTextRow(
 private fun Preview_oneTime() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
-            val cash = Account(name = "Cash")
-            val food = Category(name = "Food")
+            val cash = Account(name = "Cash", Green.toArgb())
+            val food = Category(name = "Food", Blue.toArgb())
 
             item {
                 Spacer(Modifier.height(68.dp))
@@ -289,7 +292,7 @@ private fun Preview_oneTime() {
 private fun Preview_recurring() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
-            val account = Account(name = "Revolut")
+            val account = Account(name = "Revolut", Blue.toArgb())
             val shisha = Category(name = "Shisha", color = Orange.toArgb())
 
             item {
@@ -322,7 +325,7 @@ private fun Preview_recurring() {
 private fun Preview_recurringError() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
-            val account = Account(name = "Revolut")
+            val account = Account(name = "Revolut", Blue.toArgb())
             val shisha = Category(name = "Shisha", color = Orange.toArgb())
 
             item {

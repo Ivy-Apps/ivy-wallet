@@ -1,32 +1,37 @@
 ivy-res: ":ivy-resources" {
-    "Shared common resources"
+  "Shared common resources"
+  "Contains all Ivy Wallet resources"
 }
 ivy-core: ":ivy-core" {
-    "Core API - domain"
+  "Core API: domain logic + CRUD"
+}
+ivy-core-ui: ":ivy-core-ui" {
+  "Reusable Ivy Wallet high-level UI components"
 }
 ivy-nav: ":ivy-navigation" {
-    "Ivy's Nav graph"
+  "Startup params for all Screen destinations in Ivy Wallet"
 }
 ivy-design: ":ivy-design" {
-    "Ivy's Design system"
+  "Ivy's design system (low-level)"
 }
-screens: ":screen-x" {
-    ":screen-a"
-    ":screen-b"
-    ":screen-c"
-    ":screen-z"
+screens: ":screen-something" {
+  ":screen-home"
+  ":screen-settings"
+  ":screen-abc"
+  ":screen-xyz"
 }
 app: ":app" {
-    "App's monolith shipped to the PlayStore"
+  "Ivy Wallet app's monolith shipped to the PlayStore"
+  "Wires the implementation of all Ivy Wallet screens"
 }
 
 ivy-design -> ivy-res
-ivy-core -> ivy-res
-
 ivy-nav -> ivy-core
+ivy-nav -> ivy-design
 
-screens -> ivy-core
-screens -> ivy-design
+ivy-core-ui -> ivy-nav
+
+screens -> ivy-core-ui
 screens -> ivy-nav
 screens -> ivy-res
 

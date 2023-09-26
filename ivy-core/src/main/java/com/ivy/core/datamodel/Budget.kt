@@ -2,8 +2,6 @@ package com.ivy.core.datamodel
 
 import androidx.compose.runtime.Immutable
 import com.ivy.core.db.entity.BudgetEntity
-import com.ivy.core.util.stringRes
-import com.ivy.resources.R
 import java.util.UUID
 
 @Immutable
@@ -34,14 +32,6 @@ data class Budget(
     companion object {
         fun serialize(ids: List<UUID>): String {
             return ids.joinToString(separator = ",")
-        }
-
-        fun type(categoriesCount: Int): String {
-            return when (categoriesCount) {
-                0 -> stringRes(R.string.total_budget)
-                1 -> stringRes(R.string.category_budget)
-                else -> stringRes(R.string.multi_category_budget, categoriesCount.toString())
-            }
         }
     }
 

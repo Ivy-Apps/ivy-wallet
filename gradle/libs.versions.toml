@@ -7,18 +7,18 @@ kotest = "5.7.2"
 compose = "1.5.1"
 # https://developer.android.com/jetpack/androidx/releases/compose-kotlin
 compose-compiler = "1.5.3" # It's used! Use compatible with Kotlin one
-compose-material3 = "1.1.1"
+compose-material3 = "1.1.2"
 glance = "1.0.0"
 hilt = "2.48"
-room = "2.6.0-beta01"
+room = "2.6.0-rc01"
 androidx-work = "2.8.1"
 kotlinx-collections = "0.3.5"
 
 # Android
 min-sdk = "28"
 compile-sdk = "34"
-version-name = "4.4.7"
-version-code = "147"
+version-name = "4.5.0"
+version-code = "150"
 
 
 # Linters
@@ -52,7 +52,7 @@ arrowkt-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
 arrow-exact = { module = "io.arrow-kt:arrow-exact-jvm", version = "0.1.0" }
 
 # Testing
-mockk = { module = "io.mockk:mockk", version = "1.13.7" }
+mockk = { module = "io.mockk:mockk", version = "1.13.8" }
 kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
@@ -100,7 +100,7 @@ firebase-crashlytics-gradle-plugin = { module = "com.google.firebase:firebase-cr
 # AndroidX
 androidx-security = { module = "androidx.security:security-crypto", version = "1.0.0" }
 androidx-biometrics = { module = "androidx.biometric:biometric", version = "1.2.0-alpha05" }
-androidx-activity = { module = "androidx.activity:activity-ktx", version = "1.8.0-beta01" }
+androidx-activity = { module = "androidx.activity:activity-ktx", version = "1.8.0-rc01" }
 appcompat-activity = { module = "androidx.appcompat:appcompat", version = "1.7.0-alpha03" }
 androidx-work = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "androidx-work" }
@@ -118,7 +118,7 @@ opencsv-apache-commons = { module = "org.apache.commons:commons-lang3", version 
 detekt-gradle-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 detekt-ruleset-compiler = { module = "com.braisgabin.detekt:kotlin-compiler-wrapper", version = "0.0.4" }
 detekt-ruleset-ktlint = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
-detekt-ruleset-compose = { module = "io.nlopez.compose.rules:detekt", version = "0.2.3" }
+detekt-ruleset-compose = { module = "io.nlopez.compose.rules:detekt", version = "0.3.0" }
 slack-lint-compose = { module = "com.slack.lint.compose:compose-lint-checks", version = "1.2.0" }
 
 # KSP

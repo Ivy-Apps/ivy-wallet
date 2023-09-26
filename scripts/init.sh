@@ -21,10 +21,12 @@ fi
 # chmod +x $GIT_HOOKS_DIR/pre-push || exit -1
 # echo "pre-push hook is now executable."
 
-chmod +x "$BASE_DIR"/scripts/detektFormat.sh || exit 1
 chmod +x "$BASE_DIR"/scripts/create_module.sh || exit 1
-chmod +x "$BASE_DIR"/scripts/lint.sh || exit 1
+chmod +x "$BASE_DIR"/scripts/detekt.sh || exit 1
 chmod +x "$BASE_DIR"/scripts/detektBaseline.sh || exit 1
+chmod +x "$BASE_DIR"/scripts/detektFormat.sh || exit 1
+chmod +x "$BASE_DIR"/scripts/lint.sh || exit 1
+chmod +x "$BASE_DIR"/scripts/lintBaseline.sh || exit 1
 echo "scripts in '/scripts' are now executable."
 
 echo "Repository setup complete!"

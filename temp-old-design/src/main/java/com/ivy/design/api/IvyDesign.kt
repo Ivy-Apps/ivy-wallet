@@ -1,10 +1,10 @@
 package com.ivy.design.api
 
+import com.ivy.core.datamodel.legacy.Theme
 import com.ivy.design.IvyContext
 import com.ivy.design.l0_system.IvyColors
 import com.ivy.design.l0_system.IvyShapes
 import com.ivy.design.l0_system.IvyTypography
-import com.ivy.design.l0_system.Theme
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 interface IvyDesign {

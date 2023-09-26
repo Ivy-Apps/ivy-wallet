@@ -14,3 +14,4 @@ fi
 
 ./gradlew lintR
 open build/reports/lint/lint.html
+echo "[FINISHED] Lint report opened in your default browser."

@@ -4,8 +4,8 @@ import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.ivy.core.datamodel.Settings
+import com.ivy.core.datamodel.legacy.Theme
 import com.ivy.core.kotlinxserilzation.KSerializerUUID
-import com.ivy.design.l0_system.Theme
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.util.*

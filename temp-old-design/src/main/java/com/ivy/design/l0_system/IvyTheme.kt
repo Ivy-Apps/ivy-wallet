@@ -11,8 +11,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.ivy.core.datamodel.legacy.Theme
 import com.ivy.design.api.IvyDesign
-import com.ivy.design.system.IvyM3Theme
+import com.ivy.design.system.IvyMaterial3Theme
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 val LocalIvyColors = compositionLocalOf<IvyColors> { error("No IvyColors") }
@@ -67,7 +68,7 @@ fun IvyTheme(
             }
         }
 
-        IvyM3Theme(
+        IvyMaterial3Theme(
             dark = !colors.isLight,
             content = content,
         )

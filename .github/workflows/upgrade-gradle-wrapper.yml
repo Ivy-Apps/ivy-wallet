@@ -9,7 +9,7 @@ jobs:
   upgrade-gradle-wrapper:
     runs-on: ubuntu-latest
     env:
-      WRAPPER_UPGRADE_GIT_TOKEN: ${{ secrets.IVYWALLET_BOT_GITHUB_PAT }}
+      WRAPPER_UPGRADE_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4

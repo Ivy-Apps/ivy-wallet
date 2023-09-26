@@ -41,7 +41,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.design.l0_system.Theme
+import com.ivy.core.datamodel.legacy.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IconScale
@@ -50,17 +50,16 @@ import com.ivy.legacy.Constants
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.rootScreen
 import com.ivy.legacy.utils.OpResult
-import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.thenIf
 import com.ivy.navigation.AttributionsScreen
 import com.ivy.navigation.ContributorsScreen
 import com.ivy.navigation.ExchangeRatesScreen
-import com.ivy.navigation.FeaturesScreen
 import com.ivy.navigation.ImportScreen
+import com.ivy.navigation.Navigation
+import com.ivy.navigation.ReleasesScreen
 import com.ivy.navigation.SettingsScreen
-import com.ivy.navigation.TestScreen
 import com.ivy.navigation.navigation
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IvyCurrency
@@ -167,6 +166,7 @@ private fun BoxWithConstraintsScope.UI(
     var deleteCloudDataModalVisible by remember { mutableStateOf(false) }
     var deleteAllDataModalVisible by remember { mutableStateOf(false) }
     var deleteAllDataModalFinalVisible by remember { mutableStateOf(false) }
+    val nav = navigation()
 
     LazyColumn(
         modifier = Modifier
@@ -176,7 +176,6 @@ private fun BoxWithConstraintsScope.UI(
             .testTag("settings_lazy_column")
     ) {
         stickyHeader {
-            val nav = navigation()
             IvyToolbar(
                 onBack = { nav.onBackPressed() },
             ) {
@@ -184,10 +183,8 @@ private fun BoxWithConstraintsScope.UI(
 
                 val rootScreen = rootScreen()
                 Text(
-                    modifier = Modifier.clickableNoIndication {
-                        if (rootScreen.isDebug) {
-                            nav.navigateTo(TestScreen)
-                        }
+                    modifier = Modifier.clickable {
+                        nav.navigateTo(ReleasesScreen)
                     },
                     text = "${rootScreen.buildVersionName} (${rootScreen.buildVersionCode})",
                     style = UI.typo.nC.style(
@@ -288,14 +285,14 @@ private fun BoxWithConstraintsScope.UI(
             Spacer(Modifier.height(12.dp))
 
             val nav = navigation()
-            SettingsDefaultButton(
-                icon = R.drawable.ic_custom_atom_m,
-                text = "Features"
-            ) {
-                nav.navigateTo(FeaturesScreen)
-            }
-
-            Spacer(Modifier.height(12.dp))
+//            SettingsDefaultButton(
+//                icon = R.drawable.ic_custom_atom_m,
+//                text = "Features"
+//            ) {
+//                nav.navigateTo(FeaturesScreen)
+//            }
+//
+//            Spacer(Modifier.height(12.dp))
 
             SettingsDefaultButton(
                 icon = R.drawable.ic_currency,
@@ -403,6 +400,10 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(12.dp))
 
+            Releases(nav = nav)
+
+            Spacer(Modifier.height(12.dp))
+
             Roadmap()
 
             Spacer(Modifier.height(12.dp))
@@ -418,7 +419,7 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(12.dp))
 
-            Contributors()
+            Contributors(nav = nav)
 
             Spacer(Modifier.height(12.dp))
 
@@ -625,9 +626,18 @@ private fun ContactSupport() {
 }
 
 @Composable
-private fun Contributors() {
-    val nav = navigation()
+private fun Releases(nav: Navigation) {
+    SettingsDefaultButton(
+        icon = R.drawable.ic_vue_money_tag,
+        text = "Releases",
+        iconPadding = 10.dp
+    ) {
+        nav.navigateTo(ReleasesScreen)
+    }
+}
 
+@Composable
+private fun Contributors(nav: Navigation) {
     SettingsDefaultButton(
         icon = R.drawable.ic_vue_people_people,
         text = stringResource(R.string.project_contributors),

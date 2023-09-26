@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import com.ivy.navigation.navigation
 
+@Deprecated("Legacy code. Don't use it, please.")
 @SuppressLint("ComposableNaming")
 @Composable
 fun onScreenStart(

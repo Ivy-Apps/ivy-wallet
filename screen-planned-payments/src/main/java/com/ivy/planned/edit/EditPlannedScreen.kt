@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
@@ -39,6 +40,7 @@ import com.ivy.wallet.ui.edit.core.Description
 import com.ivy.wallet.ui.edit.core.EditBottomSheet
 import com.ivy.wallet.ui.edit.core.Title
 import com.ivy.wallet.ui.edit.core.Toolbar
+import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.components.ChangeTransactionTypeModal
 import com.ivy.wallet.ui.theme.modal.DeleteModal
 import com.ivy.wallet.ui.theme.modal.ModalSet
@@ -463,7 +465,7 @@ private fun Preview() {
             currency = "BGN",
             description = null,
             category = null,
-            account = Account(name = "phyre"),
+            account = Account(name = "phyre", Orange.toArgb()),
             amount = 0.0,
             type = TransactionType.INCOME,
 

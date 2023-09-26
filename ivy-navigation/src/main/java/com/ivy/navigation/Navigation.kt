@@ -14,17 +14,24 @@ import javax.inject.Singleton
 class Navigation @Inject constructor() {
     var currentScreen: Screen? by mutableStateOf(null)
         private set
+
+    @Deprecated("Legacy code. Don't use it, please.")
     val modalBackHandling: Stack<ModalBackHandler> = Stack()
+
+    @Deprecated("Legacy code. Use Compose `BackHandler {}` instead.")
     val onBackPressed: MutableMap<Screen, () -> Boolean> = mutableMapOf()
 
     private val backStack: Stack<Screen> = Stack()
-    private var lastScreen: Screen? = null
+    var lastScreen: Screen? = null
+        private set
 
+    @Deprecated("Legacy code. Don't use it, please.")
     data class ModalBackHandler(
         val id: UUID,
         val onBackPressed: () -> Boolean
     )
 
+    @Deprecated("Legacy code. Don't use it, please.")
     fun lastModalBackHandlerId(): UUID? {
         return if (modalBackHandling.isEmpty()) {
             null
@@ -46,6 +53,7 @@ class Navigation @Inject constructor() {
         backStack.pop()
     }
 
+    @Deprecated("Legacy code. Don't use it, please.")
     fun onBackPressed(): Boolean {
         if (modalBackHandling.isNotEmpty()) {
             return modalBackHandling.peek().onBackPressed()

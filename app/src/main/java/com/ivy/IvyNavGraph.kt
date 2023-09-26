@@ -34,19 +34,19 @@ import com.ivy.navigation.MainScreen
 import com.ivy.navigation.OnboardingScreen
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.navigation.PlannedPaymentsScreen
+import com.ivy.navigation.ReleasesScreen
 import com.ivy.navigation.ReportScreen
 import com.ivy.navigation.Screen
 import com.ivy.navigation.SearchScreen
 import com.ivy.navigation.SettingsScreen
-import com.ivy.navigation.TestScreen
 import com.ivy.onboarding.OnboardingScreen
 import com.ivy.piechart.PieChartStatisticScreen
 import com.ivy.planned.edit.EditPlannedScreen
 import com.ivy.planned.list.PlannedPaymentsScreen
+import com.ivy.releases.ReleasesScreenImpl
 import com.ivy.reports.ReportScreen
 import com.ivy.search.SearchScreen
 import com.ivy.settings.SettingsScreen
-import com.ivy.test.TestScreen
 import com.ivy.transaction.EditTransactionScreen
 import com.ivy.transactions.ItemStatisticScreen
 
@@ -70,7 +70,6 @@ fun BoxWithConstraintsScope.IvyNavGraph(screen: Screen?) {
         is PlannedPaymentsScreen -> PlannedPaymentsScreen(screen = screen)
         is EditPlannedScreen -> EditPlannedScreen(screen = screen)
         is BalanceScreen -> BalanceScreen(screen = screen)
-        is TestScreen -> TestScreen(screen = screen)
         is ImportScreen -> ImportCSVScreen(screen = screen)
         is ReportScreen -> ReportScreen(screen = screen)
         is BudgetScreen -> BudgetScreen(screen = screen)
@@ -81,5 +80,6 @@ fun BoxWithConstraintsScope.IvyNavGraph(screen: Screen?) {
         FeaturesScreen -> FeaturesScreenImpl()
         AttributionsScreen -> AttributionsScreenImpl()
         ContributorsScreen -> ContributorsScreenImpl()
+        ReleasesScreen -> ReleasesScreenImpl()
     }
 }

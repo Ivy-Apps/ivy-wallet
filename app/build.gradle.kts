@@ -28,6 +28,10 @@ android {
         versionCode = libs.versions.version.code.get().toInt()
     }
 
+    androidResources {
+        generateLocaleConfig = true
+    }
+
     signingConfigs {
         getByName("debug") {
             storeFile = file("../debug.jks")
@@ -148,13 +152,13 @@ dependencies {
     implementation(projects.screenExchangeRates)
     implementation(projects.screenOnboarding)
     implementation(projects.screenSearch)
-    implementation(projects.screenTest)
     implementation(projects.screenBalance)
     implementation(projects.screenFeatures)
     implementation(projects.screenAttributions)
     implementation(projects.screenMain)
     implementation(projects.screenHome)
     implementation(projects.screenContributors)
+    implementation(projects.screenReleases)
 
     implementation(libs.bundles.kotlin)
     implementation(libs.bundles.ktor)
