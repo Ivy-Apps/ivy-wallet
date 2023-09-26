@@ -56,17 +56,17 @@ class AccountsViewModel @Inject constructor(
         )
     }
 
-    fun onStart() {
-        viewModelScope.launch(Dispatchers.Default) {
-            startInternally()
-        }
-    }
-
     init {
         viewModelScope.launch {
             eventBus.subscribe(AccountUpdatedEvent) {
                 onStart()
             }
+        }
+    }
+
+    fun onStart() {
+        viewModelScope.launch(Dispatchers.Default) {
+            startInternally()
         }
     }
 

@@ -72,7 +72,7 @@ fun BoxWithConstraintsScope.AccountsTab(screen: MainScreen) {
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    state: AccountsState = AccountsState(),
+    state: AccountsState,
     onEventHandler: (AccountsEvent) -> Unit = {}
 ) {
     val nav = navigation()
@@ -372,12 +372,13 @@ private fun PreviewAccountsTab() {
                     monthlyIncome = 400.0
                 ),
             ),
-            totalBalanceWithExcluded = 25.54,
+            totalBalanceWithExcluded = "25.54",
             totalBalanceWithExcludedText = com.ivy.legacy.utils.UiText.StringResource(
                 R.string.total,
                 "BGN",
                 "25.54"
-            )
+            ),
+            reorderVisible = false
         )
     }
 }
