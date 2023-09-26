@@ -223,7 +223,6 @@ class SettingsViewModel @Inject constructor(
                     )
                 )
             }
-            start()
 
             TestIdlingResource.decrement()
         }
@@ -245,7 +244,7 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun exportToCSV() {
+    private fun exportToCSV() {
         ivyContext.createNewFile(
             "Ivy Wallet (${
                 timeNowUTC().formatNicelyWithTime(noWeekDay = true)

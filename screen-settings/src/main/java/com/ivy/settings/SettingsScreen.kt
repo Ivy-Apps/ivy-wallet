@@ -769,9 +769,13 @@ private fun AccountCard(
             )
         }
 
+        Spacer(Modifier.height(4.dp))
+
         AccountCardLocalAccount(
             name = nameLocalAccount,
         )
+
+        Spacer(Modifier.height(24.dp))
     }
 }
 
@@ -780,8 +784,6 @@ private fun AccountCard(
 private fun AccountCardLocalAccount(
     name: String?,
 ) {
-    Spacer(Modifier.height(4.dp))
-
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -802,8 +804,6 @@ private fun AccountCardLocalAccount(
             )
         )
     }
-
-    Spacer(Modifier.height(24.dp))
 }
 
 @Composable
@@ -1050,16 +1050,18 @@ private fun SettingsSectionDivider(
     text: String,
     color: Color = Gray
 ) {
-    Spacer(Modifier.height(32.dp))
+    Column {
+        Spacer(Modifier.height(32.dp))
 
-    Text(
-        modifier = Modifier.padding(start = 32.dp),
-        text = text,
-        style = UI.typo.b2.style(
-            color = color,
-            fontWeight = FontWeight.Bold
+        Text(
+            modifier = Modifier.padding(start = 32.dp),
+            text = text,
+            style = UI.typo.b2.style(
+                color = color,
+                fontWeight = FontWeight.Bold
+            )
         )
-    )
+    }
 }
 
 @Composable
