@@ -136,6 +136,7 @@ private fun BoxWithConstraintsScope.UI(
         }
 
         items(state.accountsData) {
+            Spacer(Modifier.height(16.dp))
             AccountCard(
                 baseCurrency = state.baseCurrency,
                 accountData = it,
@@ -205,9 +206,6 @@ private fun AccountCard(
     ) {
         val account = accountData.account
         val contrastColor = findContrastTextColor(account.color.toComposeColor())
-
-        Spacer(Modifier.height(16.dp))
-
         val currency = account.currency ?: baseCurrency
 
         AccountHeader(
