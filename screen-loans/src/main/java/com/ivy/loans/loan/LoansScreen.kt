@@ -203,21 +203,20 @@ private fun Toolbar(
                     fontWeight = FontWeight.ExtraBold
                 )
             )
-            if (totalOweAmount.isNotEmpty())
+            if (totalOweAmount.isNotEmpty()) {
                 Text(
-                    text = "You Owe: $totalOweAmount",
-                    style = MaterialTheme.typography.titleSmall,
+                    text = "You Owe: $totalOweAmount", style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
-
-            if (totalOwedAmount.isNotEmpty())
+            }
+            if (totalOwedAmount.isNotEmpty()) {
                 Text(
-                    text = "You're Owed: $totalOwedAmount",
-                    style = MaterialTheme.typography.titleSmall,
+                    text = "You're Owed: $totalOwedAmount", style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
+            }
         }
 
         ReorderButton {

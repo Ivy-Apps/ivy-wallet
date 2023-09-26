@@ -129,13 +129,17 @@ class LoanViewModel @Inject constructor(
     private fun getTotalOwedAmount(totalOwedAmount: Double, currCode: String): String {
         return if (totalOwedAmount != 0.0) {
             "${totalOwedAmount.format(currCode)} $currCode"
-        } else ""
+        } else {
+            ""
+        }
     }
 
     private fun getTotalOweAmount(totalOweAmount: Double, currCode: String): String {
         return if (totalOweAmount != 0.0) {
             "${totalOweAmount.format(currCode)} $currCode"
-        } else ""
+        } else {
+            ""
+        }
     }
 
     private suspend fun initialiseAccounts() {
