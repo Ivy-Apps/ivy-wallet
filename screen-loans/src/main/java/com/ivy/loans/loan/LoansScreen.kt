@@ -204,14 +204,14 @@ private fun Toolbar(
                 )
             )
             if (totalOweAmount.isNotEmpty()) {
-                Text(
+                Text (
                     text = "You Owe: $totalOweAmount", style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
             }
             if (totalOwedAmount.isNotEmpty()) {
-                Text(
+                Text (
                     text = "You're Owed: $totalOwedAmount", style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
