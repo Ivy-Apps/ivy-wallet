@@ -36,12 +36,16 @@ class IvyWalletRepositoryDataSource @Inject constructor(
         val url: String
     )
 
+    companion object {
+        private const val CONTRIBUTORS_PER_PAGE = 100
+    }
+
     suspend fun fetchContributors(): List<ContributorDto>? {
         return try {
             withContext(Dispatchers.IO) {
                 httpClient
                     .get("https://api.github.com/repos/Ivy-Apps/ivy-wallet/contributors") {
-                        parameter("per_page", 100)
+                        parameter("per_page", CONTRIBUTORS_PER_PAGE)
                     }
                     .body<List<ContributorDto>>()
             }
