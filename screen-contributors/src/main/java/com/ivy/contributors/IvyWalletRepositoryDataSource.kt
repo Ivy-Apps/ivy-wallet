@@ -4,6 +4,7 @@ import androidx.annotation.Keep
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
+import io.ktor.client.request.parameter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerialName
@@ -39,7 +40,9 @@ class IvyWalletRepositoryDataSource @Inject constructor(
         return try {
             withContext(Dispatchers.IO) {
                 httpClient
-                    .get("https://api.github.com/repos/Ivy-Apps/ivy-wallet/contributors")
+                    .get("https://api.github.com/repos/Ivy-Apps/ivy-wallet/contributors") {
+                        parameter("per_page", 100)
+                    }
                     .body<List<ContributorDto>>()
             }
         } catch (e: Exception) {
