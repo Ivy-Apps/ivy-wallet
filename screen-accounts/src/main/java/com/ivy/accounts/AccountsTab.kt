@@ -72,7 +72,7 @@ fun BoxWithConstraintsScope.AccountsTab(screen: MainScreen) {
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    state: AccountState = AccountState(),
+    state: AccountsState = AccountsState(),
     onEventHandler: (AccountsEvent) -> Unit = {}
 ) {
     val nav = navigation()
@@ -330,7 +330,7 @@ private fun AccountHeader(
 @Composable
 private fun PreviewAccountsTab() {
     IvyPreview {
-        val state = AccountState(
+        val state = AccountsState(
             baseCurrency = "BGN",
             accountsData = persistentListOf(
                 com.ivy.legacy.data.model.AccountData(

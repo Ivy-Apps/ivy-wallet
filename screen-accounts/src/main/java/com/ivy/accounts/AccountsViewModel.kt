@@ -12,6 +12,7 @@ import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.data.model.AccountData
 import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
+import com.ivy.legacy.utils.UiText
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.ioThread
 import com.ivy.resources.R
@@ -37,16 +38,16 @@ class AccountsViewModel @Inject constructor(
     private val accountDataAct: AccountDataAct,
     private val eventBus: EventBus,
     private val accountWriter: AccountWriter,
-) : ComposeViewModel<AccountState, AccountsEvent>() {
+) : ComposeViewModel<AccountsState, AccountsEvent>() {
     private val baseCurrency = mutableStateOf("")
     private val accountsData = mutableStateOf(listOf<AccountData>())
     private val totalBalanceWithExcluded = mutableStateOf("")
-    private val totalBalanceWithExcludedText = mutableStateOf("")
+    private val totalBalanceWithExcludedText = mutableStateOf<UiText>(UiText.DynamicString(""))
     private val reorderVisible = mutableStateOf(false)
 
     @Composable
-    override fun uiState(): AccountState {
-        return AccountState(
+    override fun uiState(): AccountsState {
+        return AccountsState(
             baseCurrency = getBaseCurrency(),
             accountsData = getAccountsData(),
             totalBalanceWithExcluded = getTotalBalanceWithExcluded(),
@@ -58,50 +59,6 @@ class AccountsViewModel @Inject constructor(
     fun onStart() {
         viewModelScope.launch(Dispatchers.Default) {
             startInternally()
-        }
-    }
-
-    private suspend fun startInternally() {
-        val period = com.ivy.legacy.data.model.TimePeriod.currentMonth(
-            startDayOfMonth = ivyContext.startDayOfMonth
-        ) // this must be monthly
-        val range = period.toRange(ivyContext.startDayOfMonth)
-
-        val baseCurrencyCode = baseCurrencyAct(Unit)
-        val accs = accountsAct(Unit)
-
-        val includeTransfersInCalc =
-            sharedPrefs.getBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, false)
-
-        val accountsDataList = accountDataAct(
-            AccountDataAct.Input(
-                accounts = accs,
-                range = range.toCloseTimeRange(),
-                baseCurrency = baseCurrencyCode,
-                includeTransfersInCalc = includeTransfersInCalc
-            )
-        )
-
-        val totalBalanceWithExcluded = calcWalletBalanceAct(
-            CalcWalletBalanceAct.Input(
-                baseCurrency = baseCurrencyCode,
-                withExcluded = true
-            )
-        ).toDouble()
-
-        updateState {
-            it.copy(
-                baseCurrency = baseCurrencyCode,
-                accountsData = accountsDataList,
-                totalBalanceWithExcluded = totalBalanceWithExcluded,
-                totalBalanceWithExcludedText = com.ivy.legacy.utils.UiText.StringResource(
-                    R.string.total,
-                    baseCurrencyCode,
-                    totalBalanceWithExcluded.format(
-                        baseCurrencyCode
-                    )
-                )
-            )
         }
     }
 
@@ -129,7 +86,7 @@ class AccountsViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getTotalBalanceWithExcludedText(): String {
+    private fun getTotalBalanceWithExcludedText(): UiText {
         return totalBalanceWithExcludedText.value
     }
 
@@ -159,6 +116,7 @@ class AccountsViewModel @Inject constructor(
                 )
             }
         }
+
         startInternally()
     }
 
@@ -168,9 +126,47 @@ class AccountsViewModel @Inject constructor(
         }
     }
 
-    private suspend fun reorderModalVisible(reorderVisible: Boolean) {
-        updateState {
-            it.copy(reorderVisible = reorderVisible)
-        }
+    private suspend fun startInternally() {
+        val period = com.ivy.legacy.data.model.TimePeriod.currentMonth(
+            startDayOfMonth = ivyContext.startDayOfMonth
+        ) // this must be monthly
+        val range = period.toRange(ivyContext.startDayOfMonth)
+
+        val baseCurrencyCode = baseCurrencyAct(Unit)
+        val accs = accountsAct(Unit)
+
+        val includeTransfersInCalc =
+            sharedPrefs.getBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, false)
+
+        val accountsDataList = accountDataAct(
+            AccountDataAct.Input(
+                accounts = accs,
+                range = range.toCloseTimeRange(),
+                baseCurrency = baseCurrencyCode,
+                includeTransfersInCalc = includeTransfersInCalc
+            )
+        )
+
+        val totalBalanceIncludingExcluded = calcWalletBalanceAct(
+            CalcWalletBalanceAct.Input(
+                baseCurrency = baseCurrencyCode,
+                withExcluded = true
+            )
+        ).toDouble()
+
+        baseCurrency.value = baseCurrencyCode
+        accountsData.value = accountsDataList
+        totalBalanceWithExcluded.value = totalBalanceIncludingExcluded.toString()
+        totalBalanceWithExcludedText.value = UiText.StringResource(
+            R.string.total,
+            baseCurrencyCode,
+            totalBalanceIncludingExcluded.format(
+                baseCurrencyCode
+            )
+        )
+    }
+
+    private fun reorderModalVisible(visible: Boolean) {
+        reorderVisible.value = visible
     }
 }
