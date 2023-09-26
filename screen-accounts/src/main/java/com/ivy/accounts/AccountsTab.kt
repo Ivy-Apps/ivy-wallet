@@ -62,14 +62,14 @@ fun BoxWithConstraintsScope.AccountsTab(screen: MainScreen) {
 
     UI(
         state = uiState,
-        onEventHandler = viewModel::onEvent
+        onEvent = viewModel::onEvent
     )
 }
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
     state: AccountsState,
-    onEventHandler: (AccountsEvent) -> Unit = {}
+    onEvent: (AccountsEvent) -> Unit = {}
 ) {
     val nav = navigation()
     val ivyContext = com.ivy.legacy.ivyWalletCtx()
@@ -120,7 +120,7 @@ private fun BoxWithConstraintsScope.UI(
                 Spacer(Modifier.weight(1f))
 
                 ReorderButton {
-                    onEventHandler.invoke(
+                    onEvent(
                         AccountsEvent.OnReorderModalVisible(reorderVisible = true)
                     )
                 }
@@ -163,10 +163,10 @@ private fun BoxWithConstraintsScope.UI(
         visible = state.reorderVisible,
         initialItems = state.accountsData,
         dismiss = {
-            onEventHandler.invoke(AccountsEvent.OnReorderModalVisible(reorderVisible = false))
+            onEvent(AccountsEvent.OnReorderModalVisible(reorderVisible = false))
         },
         onReordered = {
-            onEventHandler.invoke(AccountsEvent.OnReorder(reorderedList = it))
+            onEvent(AccountsEvent.OnReorder(reorderedList = it))
         }
     ) { _, item ->
         Text(
