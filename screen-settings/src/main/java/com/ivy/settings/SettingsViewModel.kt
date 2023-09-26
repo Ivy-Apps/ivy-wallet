@@ -1,5 +1,6 @@
 package com.ivy.settings
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
@@ -33,6 +34,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
@@ -160,8 +162,8 @@ class SettingsViewModel @Inject constructor(
         when (event) {
             is SettingsEvent.SetCurrency -> setCurrency(event.newCurrency)
             is SettingsEvent.SetName -> setName(event.newName)
-            SettingsEvent.ExportToCsv -> exportToCSV()
-            SettingsEvent.BackupData -> exportToZip(context)
+            is SettingsEvent.ExportToCsv -> exportToCSV(event.rootScreen)
+            is SettingsEvent.BackupData -> exportToZip(event.rootScreen)
             SettingsEvent.SwitchTheme -> switchTheme()
             is SettingsEvent.SetLockApp -> setLockApp(event.lockApp)
             is SettingsEvent.SetShowNotifications -> setShowNotifications(event.showNotifications)
@@ -214,7 +216,7 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    private fun exportToCSV() {
+    private fun exportToCSV(rootScreen: RootScreen) {
         ivyContext.createNewFile(
             "Ivy Wallet (${
                 timeNowUTC().formatNicelyWithTime(noWeekDay = true)
@@ -226,14 +228,14 @@ class SettingsViewModel @Inject constructor(
                     fileUri = fileUri
                 )
 
-                (context as RootScreen).shareCSVFile(
+                rootScreen.shareCSVFile(
                     fileUri = fileUri
                 )
             }
         }
     }
 
-    private fun exportToZip(context: Context) {
+    private fun exportToZip(rootScreen: RootScreen) {
         ivyContext.createNewFile(
             "Ivy Wallet (${
                 timeNowUTC().formatNicelyWithTime(noWeekDay = true)
@@ -248,7 +250,7 @@ class SettingsViewModel @Inject constructor(
                 ivyContext.dataBackupCompleted = true
 
                 uiThread {
-                    (context as RootScreen).shareZipFile(
+                    rootScreen.shareZipFile(
                         fileUri = fileUri
                     )
                 }

@@ -1,10 +1,12 @@
 package com.ivy.settings
 
+import com.ivy.core.RootScreen
+
 sealed interface SettingsEvent {
     data class SetCurrency(val newCurrency: String) : SettingsEvent
     data class SetName(val newName: String) : SettingsEvent
-    data object ExportToCsv : SettingsEvent
-    data object BackupData : SettingsEvent
+    data class ExportToCsv(val rootScreen: RootScreen) : SettingsEvent
+    data class BackupData(val rootScreen: RootScreen) : SettingsEvent
     data object SwitchTheme : SettingsEvent
     data class SetLockApp(val lockApp: Boolean) : SettingsEvent
     data class SetShowNotifications(val showNotifications: Boolean) : SettingsEvent

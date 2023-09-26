@@ -84,6 +84,7 @@ import com.ivy.wallet.ui.theme.modal.ProgressModal
 fun BoxWithConstraintsScope.SettingsScreen(screen: SettingsScreen) {
     val viewModel: SettingsViewModel = viewModel()
     val uiState = viewModel.uiState()
+    val rootScreen = rootScreen()
 
     UI(
         currencyCode = uiState.currencyCode,
@@ -105,10 +106,10 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: SettingsScreen) {
             viewModel.onEvent(SettingsEvent.SetName(it))
         },
         onBackupData = {
-            viewModel.onEvent(SettingsEvent.BackupData)
+            viewModel.onEvent(SettingsEvent.BackupData(rootScreen))
         },
         onExportToCSV = {
-            viewModel.onEvent(SettingsEvent.ExportToCsv)
+            viewModel.onEvent(SettingsEvent.ExportToCsv(rootScreen))
         },
         onSetLockApp = {
             viewModel.onEvent(SettingsEvent.SetLockApp(it))
