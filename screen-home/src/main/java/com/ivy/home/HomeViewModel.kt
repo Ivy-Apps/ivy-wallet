@@ -4,10 +4,10 @@ import com.ivy.base.legacy.Transaction
 import com.ivy.base.model.Theme
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Settings
+import androidx.compose.runtime.Composable
 import com.ivy.frp.fixUnit
 import com.ivy.frp.then
 import com.ivy.frp.thenInvokeAfter
-import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.home.customerjourney.CustomerJourneyCardModel
 import com.ivy.home.customerjourney.CustomerJourneyCardsProvider
 import com.ivy.legacy.IvyWalletCtx
@@ -71,27 +71,34 @@ class HomeViewModel @Inject constructor(
     private val updateAccCacheAct: UpdateAccCacheAct,
     private val updateCategoriesCacheAct: UpdateCategoriesCacheAct,
     private val syncExchangeRatesAct: SyncExchangeRatesAct,
-) : FRPViewModel<HomeState, HomeEvent>() {
+) : ComposeViewModel<HomeState, HomeEvent>() {
     override val _state: MutableStateFlow<HomeState> = MutableStateFlow(
         HomeState.initial(ivyWalletCtx = ivyContext)
     )
 
-    override suspend fun handleEvent(event: HomeEvent): suspend () -> HomeState = when (event) {
-        HomeEvent.Start -> start()
-        HomeEvent.BalanceClick -> onBalanceClick()
-        HomeEvent.HiddenBalanceClick -> onHiddenBalanceClick()
-        is HomeEvent.PayOrGetPlanned -> payOrGetPlanned(event.transaction)
-        is HomeEvent.SkipPlanned -> skipPlanned(event.transaction)
-        is HomeEvent.SkipAllPlanned -> skipAllPlanned(event.transactions)
-        is HomeEvent.SetPeriod -> setPeriod(event.period)
-        HomeEvent.SelectNextMonth -> nextMonth()
-        HomeEvent.SelectPreviousMonth -> previousMonth()
-        is HomeEvent.SetUpcomingExpanded -> setUpcomingExpanded(event.expanded)
-        is HomeEvent.SetOverdueExpanded -> setOverdueExpanded(event.expanded)
-        is HomeEvent.SetBuffer -> setBuffer(event.buffer).fixUnit()
-        is HomeEvent.SetCurrency -> setCurrency(event.currency).fixUnit()
-        HomeEvent.SwitchTheme -> switchTheme().fixUnit()
-        is HomeEvent.DismissCustomerJourneyCard -> dismissCustomerJourneyCard(event.card)
+    @Composable
+    override fun uiState(): HomeState {
+        TODO("Not yet implemented")
+    }
+
+    override fun onEvent(event: HomeEvent) {
+        when (event) {
+            HomeEvent.Start -> start()
+            HomeEvent.BalanceClick -> onBalanceClick()
+            HomeEvent.HiddenBalanceClick -> onHiddenBalanceClick()
+            is HomeEvent.PayOrGetPlanned -> payOrGetPlanned(event.transaction)
+            is HomeEvent.SkipPlanned -> skipPlanned(event.transaction)
+            is HomeEvent.SkipAllPlanned -> skipAllPlanned(event.transactions)
+            is HomeEvent.SetPeriod -> setPeriod(event.period)
+            HomeEvent.SelectNextMonth -> nextMonth()
+            HomeEvent.SelectPreviousMonth -> previousMonth()
+            is HomeEvent.SetUpcomingExpanded -> setUpcomingExpanded(event.expanded)
+            is HomeEvent.SetOverdueExpanded -> setOverdueExpanded(event.expanded)
+            is HomeEvent.SetBuffer -> setBuffer(event.buffer).fixUnit()
+            is HomeEvent.SetCurrency -> setCurrency(event.currency).fixUnit()
+            HomeEvent.SwitchTheme -> switchTheme().fixUnit()
+            is HomeEvent.DismissCustomerJourneyCard -> dismissCustomerJourneyCard(event.card)
+        }
     }
 
     private suspend fun start(): suspend () -> HomeState =
