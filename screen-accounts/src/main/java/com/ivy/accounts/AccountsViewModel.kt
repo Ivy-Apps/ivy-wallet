@@ -1,12 +1,13 @@
 package com.ivy.accounts
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.db.write.AccountWriter
+import com.ivy.core.ComposeViewModel
 import com.ivy.core.datamodel.Account
+import com.ivy.core.db.write.AccountWriter
 import com.ivy.core.event.AccountUpdatedEvent
 import com.ivy.core.event.EventBus
-import com.ivy.frp.test.TestIdlingResource
-import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
@@ -18,8 +19,8 @@ import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.viewmodel.account.AccountDataAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,30 +35,27 @@ class AccountsViewModel @Inject constructor(
     private val accountDataAct: AccountDataAct,
     private val eventBus: EventBus,
     private val accountWriter: AccountWriter,
-) : FRPViewModel<AccountState, Unit>() {
-    override val _state: MutableStateFlow<AccountState> = MutableStateFlow(AccountState())
+) : ComposeViewModel<AccountState, AccountsEvent>() {
+    val accountState = mutableStateOf(AccountState())
 
-    override suspend fun handleEvent(event: Unit): suspend () -> AccountState {
-        TODO("Not yet implemented")
+    @Composable
+    override fun uiState(): AccountState {
+        return AccountState(
+            baseCurrency =,
+            accountsData = persistentListOf(),
+            totalBalanceWithExcluded = 0.0,
+            totalBalanceWithExcludedText =,
+            reorderVisible = false
+        )
     }
 
-    init {
-        viewModelScope.launch {
-            eventBus.subscribe(AccountUpdatedEvent) {
-                start()
-            }
-        }
-    }
-
-    fun start() {
+    fun onStart() {
         viewModelScope.launch(Dispatchers.Default) {
             startInternally()
         }
     }
 
     private suspend fun startInternally() {
-        TestIdlingResource.increment()
-
         val period = com.ivy.legacy.data.model.TimePeriod.currentMonth(
             startDayOfMonth = ivyContext.startDayOfMonth
         ) // this must be monthly
@@ -99,13 +97,9 @@ class AccountsViewModel @Inject constructor(
                 )
             )
         }
-
-        TestIdlingResource.decrement()
     }
 
     private suspend fun reorder(newOrder: List<com.ivy.legacy.data.model.AccountData>) {
-        TestIdlingResource.increment()
-
         ioThread {
             newOrder.mapIndexed { index, accountData ->
                 accountWriter.save(
@@ -117,18 +111,12 @@ class AccountsViewModel @Inject constructor(
             }
         }
         startInternally()
-
-        TestIdlingResource.decrement()
     }
 
     private suspend fun editAccount(account: Account, newBalance: Double) {
-        TestIdlingResource.increment()
-
         accountCreator.editAccount(account, newBalance) {
             startInternally()
         }
-
-        TestIdlingResource.decrement()
     }
 
     private suspend fun reorderModalVisible(reorderVisible: Boolean) {
@@ -137,12 +125,20 @@ class AccountsViewModel @Inject constructor(
         }
     }
 
-    fun onEvent(event: AccountsEvent) {
+    override fun onEvent(event: AccountsEvent) {
         viewModelScope.launch(Dispatchers.Default) {
             when (event) {
                 is AccountsEvent.OnReorder -> reorder(event.reorderedList)
                 is AccountsEvent.OnEditAccount -> editAccount(event.editedAccount, event.newBalance)
                 is AccountsEvent.OnReorderModalVisible -> reorderModalVisible(event.reorderVisible)
+            }
+        }
+    }
+
+    init {
+        viewModelScope.launch {
+            eventBus.subscribe(AccountUpdatedEvent) {
+                onStart()
             }
         }
     }

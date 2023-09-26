@@ -35,11 +35,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.core.datamodel.Account
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.navigation.navigation
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.horizontalSwipeListener
 import com.ivy.navigation.ItemStatisticScreen
 import com.ivy.navigation.MainScreen
+import com.ivy.navigation.navigation
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
@@ -62,7 +62,7 @@ fun BoxWithConstraintsScope.AccountsTab(screen: MainScreen) {
     val state by viewModel.state().collectAsState()
 
     com.ivy.legacy.utils.onScreenStart {
-        viewModel.start()
+        viewModel.onStart()
     }
 
     UI(
