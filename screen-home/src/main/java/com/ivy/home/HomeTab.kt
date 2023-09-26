@@ -135,7 +135,6 @@ private fun BoxWithConstraintsScope.UI(
             period = state.period,
             currency = baseCurrency,
             balance = state.balance.toDouble(),
-            bufferDiff = state.buffer.bufferDiff.toDouble(),
             hideCurrentBalance = state.hideCurrentBalance,
 
             onShowMonthModal = {
@@ -323,7 +322,6 @@ fun HomeLazyColumn(
                 period = period,
                 currency = baseData.baseCurrency,
                 balance = balance.toDouble(),
-                bufferDiff = buffer.bufferDiff.toDouble(),
 
                 hideCurrentBalance = hideCurrentBalance,
 
