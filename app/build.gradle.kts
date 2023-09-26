@@ -1,7 +1,6 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-kapt")
     id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
     id("org.jetbrains.kotlin.plugin.serialization")
@@ -14,11 +13,6 @@ plugins {
 android {
     namespace = "com.ivy.wallet"
     compileSdk = libs.versions.compile.sdk.get().toInt()
-
-    // TODO: Remove after migrating to KSP
-    kapt {
-        correctErrorTypes = true
-    }
 
     defaultConfig {
         applicationId = "com.ivy.wallet"
@@ -172,7 +166,7 @@ dependencies {
     implementation(libs.androidx.biometrics)
 
     implementation(libs.bundles.hilt)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     implementation(libs.bundles.room)
     ksp(libs.room.compiler)
@@ -187,9 +181,4 @@ dependencies {
     testImplementation(libs.androidx.work.testing)
 
     lintChecks(libs.slack.lint.compose)
-}
-
-// TODO: Remove after migrating to KSP
-kapt {
-    correctErrorTypes = true
 }
