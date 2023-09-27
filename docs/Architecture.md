@@ -69,7 +69,7 @@ To create a new module just run:
 - The `:ivy-navigation` does **not** contain screen's implementation but only the screen's definition. A screen definition is a `data class` / `data object` class that models the screen's startup params. This way different screens can start other screen without knowing about their implementation.
 - Only `:app` knows about the implementation of all screens. It maps each `Screen` definition from `:ivy-navigation` to the actual implementation in `IvyNavGraph.kt` (in `:app`).
 
-> Only `implementation("...")` dependencies are allowed. Usage of `api("...")` is banned for the sake of simplicity and performance. _Motivation: No `api` usage 🚫 => no tricky Gradle problems to solve._
+> Only `implementation("...")` dependencies are allowed. Usage of `api("...")` is banned for the sake of simplicity and performance. Motivation: No `api` usage 🚫 => no tricky Gradle problems to solve.
 
 ### Shared code modules
 
