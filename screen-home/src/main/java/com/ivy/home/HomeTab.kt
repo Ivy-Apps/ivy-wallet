@@ -92,7 +92,6 @@ private fun BoxWithConstraintsScope.UI(
         moreMenuExpanded = expanded
         ivyContext.setMoreMenuExpanded(expanded)
     }
-    val hideBalanceRowState = remember { mutableStateOf(false) }
 
     val baseCurrency = uiState.baseData.baseCurrency
 
@@ -124,7 +123,7 @@ private fun BoxWithConstraintsScope.UI(
         )
 
         HomeHeader(
-            expanded = !hideBalanceRowState.value,
+            expanded = !uiState.hideCurrentBalance,
             name = uiState.name,
             period = uiState.period,
             currency = baseCurrency,
@@ -143,7 +142,7 @@ private fun BoxWithConstraintsScope.UI(
         )
 
         HomeLazyColumn(
-            hideBalance = hideBalanceRowState.value,
+            hideBalance = uiState.hideCurrentBalance,
             onHideBalance = {
                 onEvent(HomeEvent.HideBalance(it))
             },
@@ -153,8 +152,6 @@ private fun BoxWithConstraintsScope.UI(
             },
             onBalanceClick = HomeEvent.BalanceClick asParamTo2 onEvent,
             onHiddenBalanceClick = HomeEvent.HiddenBalanceClick asParamTo2 onEvent,
-
-            hideCurrentBalance = uiState.hideCurrentBalance,
 
             period = uiState.period,
             listState = listState,
@@ -257,7 +254,6 @@ fun HomeLazyColumn(
     hideBalance: Boolean,
     onHideBalance: (Boolean) -> Unit,
     listState: LazyListState,
-    hideCurrentBalance: Boolean,
     period: TimePeriod,
 
     baseData: AppBaseData,
@@ -319,7 +315,7 @@ fun HomeLazyColumn(
                 currency = baseData.baseCurrency,
                 balance = balance.toDouble(),
 
-                hideCurrentBalance = hideCurrentBalance,
+                hideCurrentBalance = hideBalance,
 
                 monthlyIncome = stats.income.toDouble(),
                 monthlyExpenses = stats.expense.toDouble(),
