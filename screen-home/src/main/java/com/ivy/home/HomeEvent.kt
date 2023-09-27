@@ -5,8 +5,6 @@ import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.home.customerjourney.CustomerJourneyCardModel
 
 sealed interface HomeEvent {
-    data object Start : HomeEvent
-
     data class SetUpcomingExpanded(val expanded: Boolean) : HomeEvent
     data class SetOverdueExpanded(val expanded: Boolean) : HomeEvent
 

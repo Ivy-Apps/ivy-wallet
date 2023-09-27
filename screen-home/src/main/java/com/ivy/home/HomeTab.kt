@@ -40,7 +40,6 @@ import com.ivy.legacy.data.BufferInfo
 import com.ivy.legacy.data.DueSection
 import com.ivy.legacy.data.model.MainTab
 import com.ivy.legacy.data.model.TimePeriod
-import com.ivy.legacy.frp.onScreenStart
 import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.ui.component.transaction.TransactionsDividerLine
 import com.ivy.legacy.ui.component.transaction.transactions
@@ -69,10 +68,6 @@ private const val SWIPE_HORIZONTAL_THRESHOLD = 200
 fun BoxWithConstraintsScope.HomeTab() {
     val viewModel: HomeViewModel = screenScopedViewModel()
     val uiState = viewModel.uiState()
-
-    onScreenStart {
-        viewModel.onEvent(HomeEvent.Start)
-    }
 
     UI(uiState, viewModel::onEvent)
 }

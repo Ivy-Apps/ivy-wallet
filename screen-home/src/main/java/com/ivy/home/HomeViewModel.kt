@@ -5,6 +5,7 @@ import com.ivy.base.model.Theme
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.core.ComposeViewModel
@@ -120,6 +121,10 @@ class HomeViewModel @Inject constructor(
 
     @Composable
     override fun uiState(): HomeState {
+        LaunchedEffect(Unit) {
+            start()
+        }
+
         return HomeState(
             theme = getTheme(),
             name = getName(),
@@ -199,7 +204,6 @@ class HomeViewModel @Inject constructor(
     override fun onEvent(event: HomeEvent) {
         viewModelScope.launch {
             when (event) {
-                HomeEvent.Start -> start()
                 HomeEvent.BalanceClick -> onBalanceClick()
                 HomeEvent.HiddenBalanceClick -> onHiddenBalanceClick()
                 is HomeEvent.PayOrGetPlanned -> payOrGetPlanned(event.transaction)
@@ -219,13 +223,14 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun start(): suspend () -> Unit =
+    private suspend fun start() {
         suspend {
             val startDay = startDayOfMonthAct(Unit)
             ivyContext.initSelectedPeriodInMemory(
                 startDayOfMonth = startDay
             )
-        } then ::reload
+        } thenInvokeAfter ::reload
+    }
 
     // -----------------------------------------------------------------------------------
     private suspend fun reload(
