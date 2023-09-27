@@ -63,7 +63,7 @@ class CategoriesViewModel @Inject constructor(
           categories = getCategories(),
           reorderModalVisible = getReorderModalVisible(),
           categoryModalData = getCategoryModalData(),
-          sortOrder = getSortOrder() ,
+          sortOrder = getSortOrder(),
           sortModalVisible = getSortModalVisible()
         )
     }
@@ -72,22 +72,27 @@ class CategoriesViewModel @Inject constructor(
     private fun getBaseCurrency(): String {
         return baseCurrency.value
     }
+
     @Composable
     private fun getCategories(): ImmutableList<CategoryData> {
         return categories.value
     }
+
     @Composable
     private fun getReorderModalVisible(): Boolean {
         return reorderModalVisible.value
     }
+
     @Composable
     private fun getCategoryModalData(): CategoryModalData? {
         return categoryModalData.value
     }
+
     @Composable
     private fun getSortOrder(): SortOrder {
         return sortOrder.value
     }
+
     @Composable
     private fun getSortModalVisible(): Boolean {
         return sortModalVisible.value
@@ -132,7 +137,6 @@ class CategoriesViewModel @Inject constructor(
             )
 
             this.sortOrder.value = sortOrder
-
         }
     }
 
