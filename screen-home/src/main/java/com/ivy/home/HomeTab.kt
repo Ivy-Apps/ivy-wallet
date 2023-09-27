@@ -123,7 +123,7 @@ private fun BoxWithConstraintsScope.UI(
         )
 
         HomeHeader(
-            expanded = uiState.hideCurrentBalance,
+            expanded = !uiState.hideCurrentBalance,
             name = uiState.name,
             period = uiState.period,
             currency = baseCurrency,
@@ -315,7 +315,6 @@ fun HomeLazyColumn(
     ) {
         item {
             CashFlowInfo(
-                period = period,
                 currency = baseData.baseCurrency,
                 balance = balance.toDouble(),
 
