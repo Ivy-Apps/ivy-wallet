@@ -69,8 +69,8 @@ internal fun HomeHeader(
     onShowMonthModal: () -> Unit,
     onBalanceClick: () -> Unit,
     onSelectNextMonth: () -> Unit,
-    hideBalance: Boolean = false,
-    onHiddenBalanceClick: () -> Unit = {},
+    hideBalance: Boolean,
+    onHiddenBalanceClick: () -> Unit,
     onSelectPreviousMonth: () -> Unit,
 ) {
     Column {
@@ -120,8 +120,8 @@ private fun HeaderStickyRow(
     onShowMonthModal: () -> Unit,
     onBalanceClick: () -> Unit,
     onSelectNextMonth: () -> Unit,
-    hideBalance: Boolean = false,
-    onHiddenBalanceClick: () -> Unit = {},
+    hideBalance: Boolean,
+    onHiddenBalanceClick: () -> Unit,
     onSelectPreviousMonth: () -> Unit,
 ) {
     Row(
@@ -208,9 +208,9 @@ fun CashFlowInfo(
     hideBalance: Boolean,
     onOpenMoreMenu: () -> Unit,
     onBalanceClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    percentExpanded: Float = 1f,
-    onHiddenBalanceClick: () -> Unit = {}
+    percentExpanded: Float,
+    onHiddenBalanceClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier

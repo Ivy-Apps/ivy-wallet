@@ -118,7 +118,7 @@ class HomeViewModel @Inject constructor(
     private val customerJourneyCards =
         mutableStateOf<ImmutableList<CustomerJourneyCardModel>>(persistentListOf())
     private val hideBalance = mutableStateOf(false)
-    private val expanded = mutableStateOf(false)
+    private val expanded = mutableStateOf(true)
 
     @Composable
     override fun uiState(): HomeState {

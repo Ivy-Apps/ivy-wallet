@@ -339,7 +339,8 @@ fun HomeLazyColumn(
 
                 onOpenMoreMenu = onOpenMoreMenu,
                 onBalanceClick = onBalanceClick,
-                onHiddenBalanceClick = onHiddenBalanceClick
+                onHiddenBalanceClick = onHiddenBalanceClick,
+                percentExpanded = 1f
             )
         }
         item {
