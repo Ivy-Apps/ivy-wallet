@@ -453,7 +453,7 @@ class HomeViewModel @Inject constructor(
 
     private suspend fun dismissCustomerJourneyCard(card: CustomerJourneyCardModel) = suspend {
         customerJourneyLogic.dismissCard(card)
-    } then {
+    } thenInvokeAfter {
         reload()
     }
 
