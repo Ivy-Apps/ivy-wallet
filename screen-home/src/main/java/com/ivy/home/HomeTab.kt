@@ -152,7 +152,9 @@ private fun BoxWithConstraintsScope.UI(
             onOpenMoreMenu = {
                 setMoreMenuExpanded(true)
             },
-            onBalanceClick = HomeEvent.BalanceClick asParamTo2 onEvent,
+            onBalanceClick = {
+                onEvent(HomeEvent.BalanceClick)
+            },
             onHiddenBalanceClick = {
                 onEvent(HomeEvent.HiddenBalanceClick)
             },
@@ -185,7 +187,9 @@ private fun BoxWithConstraintsScope.UI(
             setOverdueExpanded = forward<Boolean>() then2 {
                 HomeEvent.SetOverdueExpanded(it)
             } then2 onEvent,
-            onSkipAllTransactions = { skipAllModalVisible = true }
+            onSkipAllTransactions = {
+                skipAllModalVisible = true
+            }
         )
     }
 
