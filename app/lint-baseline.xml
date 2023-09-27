@@ -267,7 +267,7 @@
 
     <issue
         id="StringFormatCount"
-        message="Inconsistent number of arguments in formatting string `percent`; found both 1 here and 0 in values/strings.xml"
+        message="Inconsistent number of arguments in formatting string `percent`; found both 1 here and 0 in values\strings.xml"
         errorLine1="    &lt;string name=&quot;percent&quot;>%1$s\\%%&lt;/string>"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -8979,17 +8979,6 @@
         errorLine1="@Composable"
         errorLine2="^">
         <location
-            file="src/main/java/com/ivy/accounts/AccountsTab.kt"
-            line="191"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeContentEmitterReturningValues"
-        message="Composable functions should either emit content into the composition or return a value, but not both.&#xA;If a composable should offer additional control surfaces to its caller, those control surfaces or callbacks should be provided as parameters to the composable function by the caller.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-content-and-return-a-result for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/wallet/AmountCurrency.kt"
             line="68"
             column="1"/>
@@ -9562,28 +9551,6 @@
         errorLine1="@Composable"
         errorLine2="^">
         <location
-            file="src/main/java/com/ivy/settings/SettingsScreen.kt"
-            line="780"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeContentEmitterReturningValues"
-        message="Composable functions should either emit content into the composition or return a value, but not both.&#xA;If a composable should offer additional control surfaces to its caller, those control surfaces or callbacks should be provided as parameters to the composable function by the caller.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-content-and-return-a-result for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
-            file="src/main/java/com/ivy/settings/SettingsScreen.kt"
-            line="1049"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeContentEmitterReturningValues"
-        message="Composable functions should either emit content into the composition or return a value, but not both.&#xA;If a composable should offer additional control surfaces to its caller, those control surfaces or callbacks should be provided as parameters to the composable function by the caller.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-content-and-return-a-result for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
             file="src/main/java/com/ivy/importdata/csvimport/flow/instructions/SpendeeSteps.kt"
             line="11"
             column="1"/>
@@ -10113,7 +10080,7 @@
         errorLine2="    ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/home/HomeHeader.kt"
-            line="206"
+            line="207"
             column="5"/>
     </issue>
 
@@ -10926,17 +10893,6 @@
         errorLine1="@Composable"
         errorLine2="^">
         <location
-            file="src/main/java/com/ivy/accounts/AccountsTab.kt"
-            line="191"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeMultipleContentEmitters"
-        message="Composable functions should only be emitting content into the composition from one source at their top level.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-multiple-pieces-of-content for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/wallet/AmountCurrency.kt"
             line="68"
             column="1"/>
@@ -11509,28 +11465,6 @@
         errorLine1="@Composable"
         errorLine2="^">
         <location
-            file="src/main/java/com/ivy/settings/SettingsScreen.kt"
-            line="780"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeMultipleContentEmitters"
-        message="Composable functions should only be emitting content into the composition from one source at their top level.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-multiple-pieces-of-content for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
-            file="src/main/java/com/ivy/settings/SettingsScreen.kt"
-            line="1049"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeMultipleContentEmitters"
-        message="Composable functions should only be emitting content into the composition from one source at their top level.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-multiple-pieces-of-content for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
             file="src/main/java/com/ivy/importdata/csvimport/flow/instructions/SpendeeSteps.kt"
             line="11"
             column="1"/>
@@ -12060,7 +11994,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/home/HomeHeader.kt"
-            line="204"
+            line="205"
             column="1"/>
     </issue>
 
@@ -12094,17 +12028,6 @@
         <location
             file="src/main/java/com/ivy/importdata/csvimport/flow/instructions/ImportInstructions.kt"
             line="200"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeParameterOrder"
-        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, textColor: Color = UI.colors.pureInverse, dividerColor: Color = UI.colors.medium, incomeLabel: String = stringResource(R.string.income_uppercase), income: Double, expensesLabel: String = stringResource(R.string.expenses_uppercase), expenses: Double, currency: String, center: Boolean = true, dividerSpacer: Dp? = null] but should be [income: Double, expenses: Double, currency: String, modifier: Modifier = Modifier, textColor: Color = UI.colors.pureInverse, dividerColor: Color = UI.colors.medium, incomeLabel: String = stringResource(R.string.income_uppercase), expensesLabel: String = stringResource(R.string.expenses_uppercase), center: Boolean = true, dividerSpacer: Dp? = null].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
-            file="src/main/java/com/ivy/accounts/IncomeExpensesRow.kt"
-            line="24"
             column="1"/>
     </issue>
 
@@ -12396,12 +12319,12 @@
 
     <issue
         id="ComposeParameterOrder"
-        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, text: String, @DrawableRes iconStart: Int?, solidBackground: Boolean = false, iconTint: Color = UI.colors.pureInverse, borderColor: Color = UI.colors.medium, textColor: Color = UI.colors.pureInverse, padding: Dp = 12.dp, onClick: () -> Unit] but should be [text: String, @DrawableRes iconStart: Int?, modifier: Modifier = Modifier, solidBackground: Boolean = false, iconTint: Color = UI.colors.pureInverse, borderColor: Color = UI.colors.medium, textColor: Color = UI.colors.pureInverse, padding: Dp = 12.dp, onClick: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
+        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, text: String, @DrawableRes iconStart: Int?, solidBackground: Boolean = false, minWidth: Dp = Dp.Unspecified, minHeight: Dp = Dp.Unspecified, iconTint: Color = UI.colors.pureInverse, borderColor: Color = UI.colors.medium, textColor: Color = UI.colors.pureInverse, padding: Dp = 12.dp, onClick: () -> Unit] but should be [text: String, @DrawableRes iconStart: Int?, modifier: Modifier = Modifier, solidBackground: Boolean = false, minWidth: Dp = Dp.Unspecified, minHeight: Dp = Dp.Unspecified, iconTint: Color = UI.colors.pureInverse, borderColor: Color = UI.colors.medium, textColor: Color = UI.colors.pureInverse, padding: Dp = 12.dp, onClick: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
         errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyOutlinedButton.kt"
-            line="29"
+            line="31"
             column="1"/>
     </issue>
 
@@ -12412,7 +12335,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyOutlinedButton.kt"
-            line="80"
+            line="81"
             column="1"/>
     </issue>
 
@@ -12533,7 +12456,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/loans/loan/LoansScreen.kt"
-            line="340"
+            line="363"
             column="1"/>
     </issue>
 
