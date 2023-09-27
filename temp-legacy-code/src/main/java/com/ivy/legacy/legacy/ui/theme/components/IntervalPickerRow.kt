@@ -34,6 +34,7 @@ import com.ivy.wallet.ui.theme.White
 import com.ivy.legacy.utils.capitalizeLocal
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.selectEndTextFieldValue
+import com.ivy.persistence.model.IntervalType
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
