@@ -1,6 +1,5 @@
 package com.ivy.legacy
 
-import com.ivy.core.datamodel.IntervalType
 import com.ivy.core.util.stringRes
 import java.time.LocalDateTime
 import com.ivy.resources.R

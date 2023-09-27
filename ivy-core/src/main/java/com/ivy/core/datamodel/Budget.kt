@@ -1,7 +1,7 @@
 package com.ivy.core.datamodel
 
 import androidx.compose.runtime.Immutable
-import com.ivy.core.db.entity.BudgetEntity
+import com.ivy.persistence.db.entity.BudgetEntity
 import java.util.UUID
 
 @Immutable

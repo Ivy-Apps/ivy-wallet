@@ -1,7 +1,7 @@
 package com.ivy.core.datamodel
 
 import androidx.compose.runtime.Immutable
-import com.ivy.core.db.entity.CategoryEntity
+import com.ivy.persistence.db.entity.CategoryEntity
 import java.util.UUID
 
 @Immutable

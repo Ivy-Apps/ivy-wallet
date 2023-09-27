@@ -26,7 +26,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Category
-import com.ivy.core.datamodel.IntervalType
 import com.ivy.core.datamodel.PlannedPaymentRule
 import com.ivy.core.db.entity.TransactionType
 import com.ivy.design.l0_system.UI

@@ -1,7 +1,7 @@
 package com.ivy.navigation
 
 import com.ivy.core.datamodel.Transaction
-import com.ivy.core.db.entity.TransactionType
+import com.ivy.persistence.model.TransactionType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID

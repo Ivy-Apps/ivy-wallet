@@ -16,7 +16,6 @@ import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Category
 import com.ivy.core.datamodel.Loan
 import com.ivy.core.datamodel.LoanRecord
-import com.ivy.core.datamodel.LoanType
 import com.ivy.core.datamodel.Transaction
 import com.ivy.core.util.stringRes
 import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE

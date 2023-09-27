@@ -8,7 +8,6 @@ import com.ivy.core.db.read.TransactionDao
 import com.ivy.core.db.write.PlannedPaymentRuleWriter
 import com.ivy.core.db.write.TransactionWriter
 import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.IntervalType
 import com.ivy.core.datamodel.PlannedPaymentRule
 import com.ivy.core.datamodel.Transaction
 import com.ivy.legacy.utils.ioThread

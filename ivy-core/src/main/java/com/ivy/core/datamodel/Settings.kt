@@ -1,8 +1,8 @@
 package com.ivy.core.datamodel
 
 import androidx.compose.runtime.Immutable
-import com.ivy.core.datamodel.legacy.Theme
-import com.ivy.core.db.entity.SettingsEntity
+import com.ivy.base.model.Theme
+import com.ivy.persistence.db.entity.SettingsEntity
 import java.math.BigDecimal
 import java.util.UUID
 

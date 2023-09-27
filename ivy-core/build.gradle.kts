@@ -1,6 +1,5 @@
 plugins {
     id("ivy.feature")
-    id("ivy.room")
 }
 
 android {
@@ -8,6 +7,9 @@ android {
 }
 
 dependencies {
+    implementation(projects.ivyBase)
+    implementation(projects.ivyPersistence)
+
     implementation(libs.datastore)
     implementation(libs.bundles.ktor)
 }

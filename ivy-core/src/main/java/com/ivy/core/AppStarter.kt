@@ -1,7 +1,7 @@
 package com.ivy.core
 
 import android.content.Intent
-import com.ivy.core.db.entity.TransactionType
+import com.ivy.persistence.model.TransactionType
 
 /**
  * A component used to start the **RootActivity** without knowing about it.

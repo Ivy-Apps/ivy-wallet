@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import com.ivy.core.datamodel.legacy.Theme
+import com.ivy.base.model.Theme
 import com.ivy.design.api.IvyDesign
 import com.ivy.design.system.IvyMaterial3Theme
 
