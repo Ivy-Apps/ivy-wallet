@@ -69,7 +69,7 @@ internal fun HomeHeader(
     onShowMonthModal: () -> Unit,
     onBalanceClick: () -> Unit,
     onSelectNextMonth: () -> Unit,
-    hideCurrentBalance: Boolean = false,
+    hideBalance: Boolean = false,
     onHiddenBalanceClick: () -> Unit = {},
     onSelectPreviousMonth: () -> Unit,
 ) {
@@ -79,7 +79,7 @@ internal fun HomeHeader(
             animationSpec = springBounce(
                 stiffness = Spring.StiffnessLow
             ),
-            label = ""
+            label = "Home Header Expand Collapse"
         )
 
         Spacer(Modifier.height(20.dp))
@@ -90,7 +90,7 @@ internal fun HomeHeader(
             period = period,
             currency = currency,
             balance = balance,
-            hideCurrentBalance = hideCurrentBalance,
+            hideBalance = hideBalance,
 
             onShowMonthModal = onShowMonthModal,
             onBalanceClick = onBalanceClick,
@@ -120,7 +120,7 @@ private fun HeaderStickyRow(
     onShowMonthModal: () -> Unit,
     onBalanceClick: () -> Unit,
     onSelectNextMonth: () -> Unit,
-    hideCurrentBalance: Boolean = false,
+    hideBalance: Boolean = false,
     onHiddenBalanceClick: () -> Unit = {},
     onSelectPreviousMonth: () -> Unit,
 ) {
@@ -161,7 +161,7 @@ private fun HeaderStickyRow(
                     modifier = Modifier
                         .alpha(alpha = 1f - percentExpanded)
                         .clickableNoIndication {
-                            if (hideCurrentBalance) {
+                            if (hideBalance) {
                                 onHiddenBalanceClick()
                             } else {
                                 onBalanceClick()
@@ -170,7 +170,7 @@ private fun HeaderStickyRow(
                     currency = currency,
                     balance = balance,
                     shortenBigNumbers = true,
-                    hiddenMode = hideCurrentBalance,
+                    hiddenMode = hideBalance
                 )
             }
         }
@@ -205,7 +205,7 @@ fun CashFlowInfo(
     balance: Double,
     monthlyIncome: Double,
     monthlyExpenses: Double,
-    hideCurrentBalance: Boolean,
+    hideBalance: Boolean,
     onOpenMoreMenu: () -> Unit,
     onBalanceClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -225,7 +225,7 @@ fun CashFlowInfo(
             modifier = Modifier
                 .padding(horizontal = 20.dp)
                 .clickableNoIndication {
-                    if (hideCurrentBalance) {
+                    if (hideBalance) {
                         onHiddenBalanceClick()
                     } else {
                         onBalanceClick()
@@ -235,7 +235,7 @@ fun CashFlowInfo(
             currency = currency,
             balance = balance,
             shortenBigNumbers = true,
-            hiddenMode = hideCurrentBalance,
+            hiddenMode = hideBalance
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -248,7 +248,7 @@ fun CashFlowInfo(
         )
 
         val cashflow = monthlyIncome - monthlyExpenses
-        if (cashflow != 0.0 && !hideCurrentBalance) {
+        if (cashflow != 0.0 && !hideBalance) {
             Spacer(Modifier.height(12.dp))
 
             Text(

@@ -138,7 +138,7 @@ class HomeViewModel @Inject constructor(
             upcoming = getUpcoming(),
             overdue = getOverdue(),
             customerJourneyCards = getCustomerJourneyCards(),
-            hideBalance = getHideCurrentBalance(),
+            hideBalance = getHideBalance(),
             expanded = getExpanded()
         )
     }
@@ -199,7 +199,7 @@ class HomeViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getHideCurrentBalance(): Boolean {
+    private fun getHideBalance(): Boolean {
         return hideBalance.value
     }
 

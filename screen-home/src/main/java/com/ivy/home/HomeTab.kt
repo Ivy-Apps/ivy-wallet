@@ -1,6 +1,5 @@
 package com.ivy.home
 
-import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
@@ -122,12 +121,12 @@ private fun BoxWithConstraintsScope.UI(
         )
 
         HomeHeader(
-            expanded = !uiState.expanded,
+            expanded = uiState.expanded,
             name = uiState.name,
             period = uiState.period,
             currency = baseCurrency,
             balance = uiState.balance.toDouble(),
-            hideCurrentBalance = uiState.hideBalance,
+            hideBalance = uiState.hideBalance,
 
             onShowMonthModal = {
                 choosePeriodModal = ChoosePeriodModalData(
@@ -149,6 +148,7 @@ private fun BoxWithConstraintsScope.UI(
         )
 
         HomeLazyColumn(
+            hideBalance = uiState.hideBalance,
             expanded = uiState.expanded,
             onSetExpanded = {
                 onEvent(HomeEvent.SetExpanded(it))
@@ -265,11 +265,11 @@ private fun BoxWithConstraintsScope.UI(
     }
 }
 
-@SuppressLint("ComposeParameterOrder")
 @ExperimentalAnimationApi
 @Composable
 fun HomeLazyColumn(
     expanded: Boolean,
+    hideBalance: Boolean,
     onSetExpanded: (Boolean) -> Unit,
     listState: LazyListState,
     period: TimePeriod,
@@ -292,10 +292,10 @@ fun HomeLazyColumn(
 
     onPayOrGet: (Transaction) -> Unit,
     onDismiss: (CustomerJourneyCardModel) -> Unit,
-    modifier: Modifier = Modifier,
-    onHiddenBalanceClick: () -> Unit = {},
-    onSkipTransaction: (Transaction) -> Unit = {},
-    onSkipAllTransactions: (List<Transaction>) -> Unit = {}
+    onHiddenBalanceClick: () -> Unit,
+    onSkipTransaction: (Transaction) -> Unit,
+    onSkipAllTransactions: (List<Transaction>) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val ivyContext = ivyWalletCtx()
 
@@ -332,7 +332,7 @@ fun HomeLazyColumn(
                 currency = baseData.baseCurrency,
                 balance = balance.toDouble(),
 
-                hideCurrentBalance = expanded,
+                hideBalance = hideBalance,
 
                 monthlyIncome = stats.income.toDouble(),
                 monthlyExpenses = stats.expense.toDouble(),
