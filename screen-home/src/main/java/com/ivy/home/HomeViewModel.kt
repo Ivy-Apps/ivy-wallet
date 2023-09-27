@@ -375,7 +375,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun onHiddenBalanceClick() = suspend {
+    private suspend fun onHiddenBalanceClick() {
         hideCurrentBalance.value = false
 
         // Showing Balance fow 5s

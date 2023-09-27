@@ -136,7 +136,9 @@ private fun BoxWithConstraintsScope.UI(
                 )
             },
             onBalanceClick = HomeEvent.BalanceClick asParamTo2 onEvent,
-            onHiddenBalanceClick = HomeEvent.HiddenBalanceClick asParamTo2 onEvent,
+            onHiddenBalanceClick = {
+                onEvent(HomeEvent.HiddenBalanceClick)
+            },
             onSelectNextMonth = HomeEvent.SelectNextMonth asParamTo2 onEvent,
             onSelectPreviousMonth = HomeEvent.SelectPreviousMonth asParamTo2 onEvent
         )
@@ -151,7 +153,9 @@ private fun BoxWithConstraintsScope.UI(
                 setMoreMenuExpanded(true)
             },
             onBalanceClick = HomeEvent.BalanceClick asParamTo2 onEvent,
-            onHiddenBalanceClick = HomeEvent.HiddenBalanceClick asParamTo2 onEvent,
+            onHiddenBalanceClick = {
+                onEvent(HomeEvent.HiddenBalanceClick)
+            },
 
             period = uiState.period,
             listState = listState,
