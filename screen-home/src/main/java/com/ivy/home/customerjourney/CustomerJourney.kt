@@ -31,10 +31,11 @@ import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.dynamicContrast
 import com.ivy.wallet.ui.theme.findContrastTextColor
+import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 fun CustomerJourney(
-    customerJourneyCards: List<CustomerJourneyCardModel>,
+    customerJourneyCards: ImmutableList<CustomerJourneyCardModel>,
     modifier: Modifier = Modifier,
     onDismiss: (CustomerJourneyCardModel) -> Unit
 ) {
