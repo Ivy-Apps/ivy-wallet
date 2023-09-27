@@ -9,7 +9,6 @@ import com.ivy.core.db.write.CategoryWriter
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Transaction
 import com.ivy.frp.action.thenMap
-import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.thenInvokeAfter
 import com.ivy.legacy.data.SharedPrefs
 import com.ivy.wallet.domain.action.account.AccountsAct
@@ -54,7 +53,7 @@ class CategoriesViewModel @Inject constructor(
     private val sortOrder = mutableStateOf(SortOrder.DEFAULT)
 
     @Composable override fun uiState(): CategoriesScreenState {
-        LaunchedEffect(key1 = Unit) {
+        LaunchedEffect(Unit) {
             start()
         }
 
@@ -103,12 +102,8 @@ class CategoriesViewModel @Inject constructor(
 
     private fun start() {
         viewModelScope.launch(Dispatchers.IO) {
-            TestIdlingResource.increment()
-
             initialise()
             loadCategories()
-
-            TestIdlingResource.decrement()
         }
     }
 
@@ -170,8 +165,6 @@ class CategoriesViewModel @Inject constructor(
         newOrder: List<CategoryData>,
         sortOrder: SortOrder = SortOrder.DEFAULT
     ) {
-        TestIdlingResource.increment()
-
         val sortedList = sortList(newOrder, sortOrder).toImmutableList()
 
         if (sortOrder == SortOrder.DEFAULT) {
@@ -193,8 +186,6 @@ class CategoriesViewModel @Inject constructor(
 
         this.categories.value = sortedList
         this.sortOrder.value = sortOrder
-
-        TestIdlingResource.decrement()
     }
 
     private fun sortList(
@@ -221,13 +212,9 @@ class CategoriesViewModel @Inject constructor(
     }
 
     private suspend fun createCategory(data: CreateCategoryData) {
-        TestIdlingResource.increment()
-
         categoryCreator.createCategory(data) {
             loadCategories()
         }
-
-        TestIdlingResource.decrement()
     }
 
     override fun onEvent(event: CategoriesScreenEvent) {
