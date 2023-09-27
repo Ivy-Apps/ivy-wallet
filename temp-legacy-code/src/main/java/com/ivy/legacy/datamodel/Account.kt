@@ -1,33 +1,31 @@
-package com.ivy.domain.datamodel
+package com.ivy.legacy.datamodel
 
 import androidx.compose.runtime.Immutable
-import com.ivy.persistence.db.entity.LoanEntity
-import com.ivy.persistence.model.LoanType
+import com.ivy.persistence.db.entity.AccountEntity
 import java.util.UUID
 
+@Deprecated("Legacy data model. Will be deleted")
 @Immutable
-data class Loan(
+data class Account(
     val name: String,
-    val amount: Double,
-    val type: LoanType,
-    val color: Int = 0,
+    val color: Int,
+    val currency: String? = null,
     val icon: String? = null,
     val orderNum: Double = 0.0,
-    val accountId: UUID? = null,
+    val includeInBalance: Boolean = true,
 
     val isSynced: Boolean = false,
     val isDeleted: Boolean = false,
 
     val id: UUID = UUID.randomUUID()
 ) {
-    fun toEntity(): LoanEntity = LoanEntity(
+    fun toEntity(): AccountEntity = AccountEntity(
         name = name,
-        amount = amount,
-        type = type,
+        currency = currency,
         color = color,
         icon = icon,
         orderNum = orderNum,
-        accountId = accountId,
+        includeInBalance = includeInBalance,
         isSynced = isSynced,
         isDeleted = isDeleted,
         id = id

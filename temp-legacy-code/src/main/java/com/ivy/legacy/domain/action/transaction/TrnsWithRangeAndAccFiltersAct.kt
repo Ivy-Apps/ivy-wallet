@@ -1,9 +1,9 @@
 package com.ivy.wallet.domain.action.transaction
 
-import com.ivy.domain.datamodel.Transaction
-import com.ivy.domain.temp.toDomain
+import com.ivy.base.legacy.Transaction
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenFilter
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.persistence.db.dao.read.TransactionDao
 import java.util.UUID
 import javax.inject.Inject

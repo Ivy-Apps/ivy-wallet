@@ -1,6 +1,6 @@
-package com.ivy.domain.temp
+package com.ivy.legacy.datamodel.temp
 
-import com.ivy.domain.datamodel.Loan
+import com.ivy.legacy.datamodel.Loan
 import com.ivy.persistence.db.entity.LoanEntity
 import com.ivy.persistence.model.LoanType
 

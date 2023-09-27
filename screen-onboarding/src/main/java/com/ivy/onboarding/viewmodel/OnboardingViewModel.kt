@@ -4,9 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.model.Theme
-import com.ivy.domain.datamodel.Account
-import com.ivy.domain.datamodel.Category
-import com.ivy.domain.datamodel.Settings
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
+import com.ivy.legacy.datamodel.Settings
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.LogoutLogic

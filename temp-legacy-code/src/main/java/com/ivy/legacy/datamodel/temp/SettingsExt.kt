@@ -1,6 +1,6 @@
-package com.ivy.domain.temp
+package com.ivy.legacy.datamodel.temp
 
-import com.ivy.domain.datamodel.Settings
+import com.ivy.legacy.datamodel.Settings
 import com.ivy.persistence.db.entity.SettingsEntity
 
 fun SettingsEntity.toDomain(): Settings = Settings(

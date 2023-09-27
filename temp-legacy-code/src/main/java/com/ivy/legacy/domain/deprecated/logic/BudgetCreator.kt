@@ -1,6 +1,6 @@
 package com.ivy.legacy.domain.deprecated.logic
 
-import com.ivy.domain.datamodel.Budget
+import com.ivy.legacy.datamodel.Budget
 import com.ivy.legacy.utils.ioThread
 import com.ivy.persistence.db.dao.read.BudgetDao
 import com.ivy.persistence.db.dao.write.WriteBudgetDao

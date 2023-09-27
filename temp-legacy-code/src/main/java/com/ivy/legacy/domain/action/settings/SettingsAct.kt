@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.action.settings
 
-import com.ivy.domain.datamodel.Settings
-import com.ivy.domain.temp.toDomain
+import com.ivy.legacy.datamodel.Settings
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.persistence.db.dao.read.SettingsDao

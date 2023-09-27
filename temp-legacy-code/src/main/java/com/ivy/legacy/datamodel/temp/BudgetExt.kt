@@ -1,6 +1,6 @@
-package com.ivy.domain.temp
+package com.ivy.legacy.datamodel.temp
 
-import com.ivy.domain.datamodel.Budget
+import com.ivy.legacy.datamodel.Budget
 import com.ivy.persistence.db.entity.BudgetEntity
 import java.util.UUID
 

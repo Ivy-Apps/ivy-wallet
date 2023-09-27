@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.action.loan
 
-import com.ivy.domain.datamodel.Loan
-import com.ivy.domain.temp.toDomain
+import com.ivy.legacy.datamodel.Loan
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.then

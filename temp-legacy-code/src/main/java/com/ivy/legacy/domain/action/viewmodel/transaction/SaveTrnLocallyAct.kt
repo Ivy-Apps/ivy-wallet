@@ -1,8 +1,9 @@
 package com.ivy.wallet.domain.action.viewmodel.transaction
 
-import com.ivy.domain.datamodel.Transaction
+import com.ivy.base.legacy.Transaction
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
+import com.ivy.legacy.datamodel.toEntity
 import com.ivy.persistence.db.dao.write.WriteTransactionDao
 import javax.inject.Inject
 

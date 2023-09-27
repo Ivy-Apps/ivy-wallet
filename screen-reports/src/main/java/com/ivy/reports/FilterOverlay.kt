@@ -34,8 +34,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.ivy.domain.datamodel.Account
-import com.ivy.domain.datamodel.Category
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
 import com.ivy.domain.legacy.ui.theme.components.ListItem
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style

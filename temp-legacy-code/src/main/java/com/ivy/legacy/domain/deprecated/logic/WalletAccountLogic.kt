@@ -1,10 +1,11 @@
 package com.ivy.wallet.domain.deprecated.logic
 
-import com.ivy.domain.datamodel.Account
-import com.ivy.domain.datamodel.Transaction
-import com.ivy.domain.temp.toDomain
+import com.ivy.base.legacy.Transaction
 import com.ivy.legacy.data.model.filterOverdue
 import com.ivy.legacy.data.model.filterUpcoming
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.persistence.db.dao.read.TransactionDao
 import com.ivy.persistence.db.dao.write.WriteTransactionDao

@@ -1,7 +1,7 @@
 package com.ivy.reports
 
-import com.ivy.domain.datamodel.Account
-import com.ivy.domain.datamodel.Category
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.persistence.model.TransactionType
 import java.util.UUID

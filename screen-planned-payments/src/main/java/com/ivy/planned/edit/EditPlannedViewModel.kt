@@ -3,12 +3,12 @@ package com.ivy.planned.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.domain.datamodel.Account
-import com.ivy.domain.datamodel.Category
-import com.ivy.domain.datamodel.PlannedPaymentRule
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
+import com.ivy.legacy.datamodel.PlannedPaymentRule
 import com.ivy.domain.event.AccountUpdatedEvent
 import com.ivy.domain.event.EventBus
-import com.ivy.domain.temp.toDomain
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.asLiveData

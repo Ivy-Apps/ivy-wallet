@@ -1,12 +1,12 @@
-package com.ivy.domain.datamodel
+package com.ivy.base.legacy
 
 import androidx.compose.runtime.Immutable
-import com.ivy.persistence.db.entity.TransactionEntity
 import com.ivy.persistence.model.TransactionType
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.util.UUID
 
+@Deprecated("Legacy data model. Will be deleted")
 @Immutable
 data class Transaction(
     // TODO: Remove default values & introduce Transaction#dummy() method
@@ -35,24 +35,4 @@ data class Transaction(
     val isDeleted: Boolean = false,
 
     val id: UUID = UUID.randomUUID()
-) : TransactionHistoryItem {
-    fun toEntity(): TransactionEntity = TransactionEntity(
-        accountId = accountId,
-        type = type,
-        amount = amount.toDouble(),
-        toAccountId = toAccountId,
-        toAmount = toAmount.toDouble(),
-        title = title,
-        description = description,
-        dateTime = dateTime,
-        categoryId = categoryId,
-        dueDate = dueDate,
-        recurringRuleId = recurringRuleId,
-        attachmentUrl = attachmentUrl,
-        loanId = loanId,
-        loanRecordId = loanRecordId,
-        id = id,
-        isSynced = isSynced,
-        isDeleted = isDeleted
-    )
-}
+) : TransactionHistoryItem

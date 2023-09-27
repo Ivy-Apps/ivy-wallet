@@ -7,7 +7,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.domain.ComposeViewModel
-import com.ivy.domain.datamodel.Account
+import com.ivy.legacy.datamodel.Account
 import com.ivy.domain.event.AccountUpdatedEvent
 import com.ivy.domain.event.EventBus
 import com.ivy.legacy.data.SharedPrefs

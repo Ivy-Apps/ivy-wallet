@@ -2,10 +2,8 @@ package com.ivy.wallet.domain.pure.transaction
 
 import arrow.core.Option
 import arrow.core.toOption
-import com.ivy.domain.datamodel.Account
-import com.ivy.domain.datamodel.Transaction
-import com.ivy.domain.datamodel.TransactionHistoryItem
-import com.ivy.domain.temp.toDomain
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
 import com.ivy.frp.then

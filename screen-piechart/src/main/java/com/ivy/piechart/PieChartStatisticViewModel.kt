@@ -1,8 +1,7 @@
 package com.ivy.piechart
 
 import androidx.lifecycle.viewModelScope
-import com.ivy.domain.datamodel.Category
-import com.ivy.domain.datamodel.Transaction
+import com.ivy.legacy.datamodel.Category
 import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.SharedPrefs

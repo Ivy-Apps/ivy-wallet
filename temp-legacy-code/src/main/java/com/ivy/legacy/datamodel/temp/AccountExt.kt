@@ -1,6 +1,6 @@
-package com.ivy.domain.temp
+package com.ivy.legacy.datamodel.temp
 
-import com.ivy.domain.datamodel.Account
+import com.ivy.legacy.datamodel.Account
 import com.ivy.persistence.db.entity.AccountEntity
 
 fun AccountEntity.toDomain(): Account = Account(

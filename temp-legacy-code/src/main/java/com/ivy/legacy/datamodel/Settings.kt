@@ -1,4 +1,4 @@
-package com.ivy.domain.datamodel
+package com.ivy.legacy.datamodel
 
 import androidx.compose.runtime.Immutable
 import com.ivy.base.model.Theme
@@ -6,6 +6,7 @@ import com.ivy.persistence.db.entity.SettingsEntity
 import java.math.BigDecimal
 import java.util.UUID
 
+@Deprecated("Legacy data model. Will be deleted")
 @Immutable
 data class Settings(
     val theme: Theme,

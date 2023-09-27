@@ -1,8 +1,7 @@
 package com.ivy.categories
 
 import androidx.lifecycle.viewModelScope
-import com.ivy.domain.datamodel.Account
-import com.ivy.domain.datamodel.Transaction
+import com.ivy.legacy.datamodel.Account
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.thenInvokeAfter

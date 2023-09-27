@@ -18,8 +18,8 @@ import com.ivy.onboarding.steps.OnboardingSplashLogin
 import com.ivy.onboarding.steps.OnboardingType
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
 import com.ivy.wallet.domain.data.IvyCurrency
-import com.ivy.domain.datamodel.Account
-import com.ivy.domain.datamodel.Category
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.legacy.utils.OpResult

@@ -34,8 +34,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.domain.datamodel.Account
-import com.ivy.domain.datamodel.Loan
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Loan
 import com.ivy.domain.legacy.ui.IvyColorPicker
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style

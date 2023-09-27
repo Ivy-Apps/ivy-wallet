@@ -1,9 +1,9 @@
 package com.ivy.wallet.domain.action.category
 
-import com.ivy.domain.datamodel.Transaction
-import com.ivy.domain.temp.toDomain
+import com.ivy.base.legacy.Transaction
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenMap
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.persistence.db.dao.read.TransactionDao
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import java.util.UUID

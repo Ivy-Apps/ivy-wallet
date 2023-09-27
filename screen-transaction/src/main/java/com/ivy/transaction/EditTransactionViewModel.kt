@@ -4,9 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.util.refreshWidget
-import com.ivy.domain.datamodel.Account
-import com.ivy.domain.datamodel.Category
-import com.ivy.domain.datamodel.Transaction
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
 import com.ivy.domain.event.AccountUpdatedEvent
 import com.ivy.domain.event.EventBus
 import com.ivy.frp.test.TestIdlingResource

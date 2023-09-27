@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.action.category
 
-import com.ivy.domain.datamodel.Category
-import com.ivy.domain.temp.toDomain
+import com.ivy.legacy.datamodel.Category
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.frp.action.FPAction
 import com.ivy.persistence.db.dao.read.CategoryDao
 import java.util.UUID

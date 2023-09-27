@@ -1,6 +1,6 @@
-package com.ivy.domain.temp
+package com.ivy.legacy.datamodel.temp
 
-import com.ivy.domain.datamodel.LoanRecord
+import com.ivy.legacy.datamodel.LoanRecord
 import com.ivy.persistence.db.entity.LoanRecordEntity
 
 fun LoanRecordEntity.toDomain(): LoanRecord = LoanRecord(

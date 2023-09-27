@@ -4,8 +4,7 @@ import arrow.core.Option
 import arrow.core.toOption
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
-import com.ivy.domain.datamodel.Account
-import com.ivy.domain.datamodel.Transaction
+import com.ivy.legacy.datamodel.Account
 import com.ivy.wallet.domain.pure.account.accountCurrency
 import com.ivy.wallet.domain.pure.transaction.trnCurrency
 import java.math.BigDecimal

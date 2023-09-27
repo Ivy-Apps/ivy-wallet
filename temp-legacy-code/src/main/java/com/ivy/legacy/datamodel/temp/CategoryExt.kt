@@ -1,6 +1,6 @@
-package com.ivy.domain.temp
+package com.ivy.legacy.datamodel.temp
 
-import com.ivy.domain.datamodel.Category
+import com.ivy.legacy.datamodel.Category
 import com.ivy.persistence.db.entity.CategoryEntity
 
 fun CategoryEntity.toDomain(): Category = Category(

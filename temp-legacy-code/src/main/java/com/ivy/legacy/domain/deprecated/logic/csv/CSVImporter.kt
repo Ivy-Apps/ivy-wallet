@@ -1,10 +1,9 @@
 package com.ivy.legacy.domain.deprecated.logic.csv
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.domain.datamodel.Account
-import com.ivy.domain.datamodel.Category
-import com.ivy.domain.datamodel.Transaction
-import com.ivy.domain.temp.toDomain
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.design.l0_system.Green
 import com.ivy.design.l0_system.IvyDark

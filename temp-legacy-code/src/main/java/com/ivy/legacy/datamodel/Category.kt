@@ -1,30 +1,27 @@
-package com.ivy.domain.datamodel
+package com.ivy.legacy.datamodel
 
 import androidx.compose.runtime.Immutable
-import com.ivy.persistence.db.entity.AccountEntity
+import com.ivy.persistence.db.entity.CategoryEntity
 import java.util.UUID
 
+@Deprecated("Legacy data model. Will be deleted")
 @Immutable
-data class Account(
+data class Category(
     val name: String,
     val color: Int,
-    val currency: String? = null,
     val icon: String? = null,
     val orderNum: Double = 0.0,
-    val includeInBalance: Boolean = true,
 
     val isSynced: Boolean = false,
     val isDeleted: Boolean = false,
 
     val id: UUID = UUID.randomUUID()
 ) {
-    fun toEntity(): AccountEntity = AccountEntity(
+    fun toEntity(): CategoryEntity = CategoryEntity(
         name = name,
-        currency = currency,
         color = color,
         icon = icon,
         orderNum = orderNum,
-        includeInBalance = includeInBalance,
         isSynced = isSynced,
         isDeleted = isDeleted,
         id = id

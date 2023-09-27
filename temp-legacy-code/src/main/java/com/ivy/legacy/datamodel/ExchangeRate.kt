@@ -1,8 +1,9 @@
-package com.ivy.domain.datamodel
+package com.ivy.legacy.datamodel
 
 import androidx.compose.runtime.Immutable
 import com.ivy.persistence.db.entity.ExchangeRateEntity
 
+@Deprecated("Legacy data model. Will be deleted")
 @Immutable
 data class ExchangeRate(
     val baseCurrency: String,

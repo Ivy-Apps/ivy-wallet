@@ -1,7 +1,6 @@
 package com.ivy.reports
 
 import android.content.Context
-import com.ivy.domain.datamodel.Transaction
 
 sealed class ReportScreenEvent {
     data class OnFilter(val filter: ReportFilter?) : ReportScreenEvent()

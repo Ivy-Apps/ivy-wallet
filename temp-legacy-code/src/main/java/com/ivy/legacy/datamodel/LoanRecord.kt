@@ -1,10 +1,11 @@
-package com.ivy.domain.datamodel
+package com.ivy.legacy.datamodel
 
 import androidx.compose.runtime.Immutable
 import com.ivy.persistence.db.entity.LoanRecordEntity
 import java.time.LocalDateTime
 import java.util.UUID
 
+@Deprecated("Legacy data model. Will be deleted")
 @Immutable
 data class LoanRecord(
     val loanId: UUID,

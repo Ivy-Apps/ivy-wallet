@@ -2,8 +2,8 @@ package com.ivy.loans.loan
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.domain.datamodel.Account
-import com.ivy.domain.datamodel.Loan
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Loan
 import com.ivy.domain.event.AccountUpdatedEvent
 import com.ivy.domain.event.EventBus
 import com.ivy.frp.test.TestIdlingResource

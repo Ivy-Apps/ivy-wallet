@@ -1,8 +1,8 @@
 package com.ivy.onboarding.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.ivy.domain.datamodel.Category
-import com.ivy.domain.temp.toDomain
+import com.ivy.legacy.datamodel.Category
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.LogoutLogic
 import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.data.model.AccountBalance

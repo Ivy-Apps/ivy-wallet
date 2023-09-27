@@ -3,9 +3,9 @@ package com.ivy.planned.list
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.domain.datamodel.Account
-import com.ivy.domain.datamodel.Category
-import com.ivy.domain.datamodel.PlannedPaymentRule
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
+import com.ivy.legacy.datamodel.PlannedPaymentRule
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.utils.asLiveData
 import com.ivy.legacy.utils.ioThread
