@@ -194,3 +194,17 @@ fun formatInputAmount(
 
     return null
 }
+
+/**
+ toInt on numbers in the range (-1.0, 0.0) (exclusive of boundaries) will produce a positive int 0
+ So, this function append negative sign in that case
+ */
+fun integerPartFormatted(value: Double): String {
+    val preciseValue = value.toBigDecimal()
+    val formattedValue = DecimalFormat("###,###").format(preciseValue.toInt())
+    return if (value > -1.0 && value < 0.0) {
+        "-$formattedValue"
+    } else {
+        formattedValue
+    }
+}
