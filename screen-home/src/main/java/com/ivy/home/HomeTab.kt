@@ -127,7 +127,7 @@ private fun BoxWithConstraintsScope.UI(
             period = uiState.period,
             currency = baseCurrency,
             balance = uiState.balance.toDouble(),
-            hideCurrentBalance = uiState.hideCurrentBalance,
+            hideCurrentBalance = uiState.hideBalance,
 
             onShowMonthModal = {
                 choosePeriodModal = ChoosePeriodModalData(
@@ -149,9 +149,9 @@ private fun BoxWithConstraintsScope.UI(
         )
 
         HomeLazyColumn(
-            hideBalance = uiState.expanded,
-            onHideBalance = {
-                onEvent(HomeEvent.HideBalance(it))
+            expanded = uiState.expanded,
+            onSetExpanded = {
+                onEvent(HomeEvent.SetExpanded(it))
             },
             balance = uiState.balance,
             onOpenMoreMenu = {
@@ -269,8 +269,8 @@ private fun BoxWithConstraintsScope.UI(
 @ExperimentalAnimationApi
 @Composable
 fun HomeLazyColumn(
-    hideBalance: Boolean,
-    onHideBalance: (Boolean) -> Unit,
+    expanded: Boolean,
+    onSetExpanded: (Boolean) -> Unit,
     listState: LazyListState,
     period: TimePeriod,
 
@@ -308,10 +308,10 @@ fun HomeLazyColumn(
             ): Offset {
                 if (listState.firstVisibleItemIndex == 0) {
                     // To prevent unnecessary updates
-                    if (listState.firstVisibleItemScrollOffset >= 150 && !hideBalance) {
-                        onHideBalance(true)
-                    } else if (listState.firstVisibleItemScrollOffset < 150 && hideBalance) {
-                        onHideBalance(false)
+                    if (listState.firstVisibleItemScrollOffset >= 150 && !expanded) {
+                        onSetExpanded(true)
+                    } else if (listState.firstVisibleItemScrollOffset < 150 && expanded) {
+                        onSetExpanded(false)
                     }
                 }
 
@@ -332,7 +332,7 @@ fun HomeLazyColumn(
                 currency = baseData.baseCurrency,
                 balance = balance.toDouble(),
 
-                hideCurrentBalance = hideBalance,
+                hideCurrentBalance = expanded,
 
                 monthlyIncome = stats.income.toDouble(),
                 monthlyExpenses = stats.expense.toDouble(),
@@ -408,7 +408,7 @@ private fun BoxWithConstraintsScope.PreviewHomeTab() {
                     expanded = false,
                 ),
                 period = ivyWalletCtx().selectedPeriod,
-                hideCurrentBalance = false,
+                hideBalance = false,
                 expanded = false
             ),
             onEvent = {}

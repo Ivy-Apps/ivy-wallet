@@ -31,6 +31,6 @@ data class HomeState(
     val overdue: DueSection,
 
     val customerJourneyCards: ImmutableList<CustomerJourneyCardModel>,
-    val hideCurrentBalance: Boolean,
+    val hideBalance: Boolean,
     val expanded: Boolean
 )

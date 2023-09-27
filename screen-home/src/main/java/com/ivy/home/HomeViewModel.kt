@@ -117,7 +117,7 @@ class HomeViewModel @Inject constructor(
     )
     private val customerJourneyCards =
         mutableStateOf<ImmutableList<CustomerJourneyCardModel>>(persistentListOf())
-    private val hideCurrentBalance = mutableStateOf(false)
+    private val hideBalance = mutableStateOf(false)
     private val expanded = mutableStateOf(false)
 
     @Composable
@@ -138,7 +138,7 @@ class HomeViewModel @Inject constructor(
             upcoming = getUpcoming(),
             overdue = getOverdue(),
             customerJourneyCards = getCustomerJourneyCards(),
-            hideCurrentBalance = getHideCurrentBalance(),
+            hideBalance = getHideCurrentBalance(),
             expanded = getExpanded()
         )
     }
@@ -200,7 +200,7 @@ class HomeViewModel @Inject constructor(
 
     @Composable
     private fun getHideCurrentBalance(): Boolean {
-        return hideCurrentBalance.value
+        return hideBalance.value
     }
 
     @Composable
@@ -225,7 +225,7 @@ class HomeViewModel @Inject constructor(
                 is HomeEvent.SetCurrency -> setCurrency(event.currency).fixUnit()
                 HomeEvent.SwitchTheme -> switchTheme().fixUnit()
                 is HomeEvent.DismissCustomerJourneyCard -> dismissCustomerJourneyCard(event.card)
-                is HomeEvent.HideBalance -> hideBalance(event.hide)
+                is HomeEvent.SetExpanded -> setExpanded(event.expanded)
             }
         }
     }
@@ -249,7 +249,7 @@ class HomeViewModel @Inject constructor(
         theme.value = settings.theme
         name.value = settings.name
         period.value = timePeriod
-        hideCurrentBalance.value = hideBalance
+        this.hideBalance.value = hideBalance
 
         // This method is used to restore the theme when user imports locally backed up data
         ivyContext.switchTheme(theme = settings.theme)
@@ -383,12 +383,12 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun onHiddenBalanceClick() {
-        hideCurrentBalance.value = false
+        hideBalance.value = false
 
         // Showing Balance fow 5s
         delay(5000)
 
-        hideCurrentBalance.value = true
+        hideBalance.value = true
     }
 
     private fun switchTheme() = settingsAct then {
@@ -488,7 +488,7 @@ class HomeViewModel @Inject constructor(
         reload(period)
     }
 
-    private fun hideBalance(hide: Boolean) {
-        expanded.value = hide
+    private fun setExpanded(expanded: Boolean) {
+        this.expanded.value = expanded
     }
 }
