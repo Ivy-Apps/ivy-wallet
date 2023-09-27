@@ -12,7 +12,7 @@ dependencies {
     implementation(projects.ivyResources)
     implementation(projects.ivyDesign)
     implementation(projects.ivyNavigation)
-    implementation(projects.ivyCoreUi)
+    implementation(projects.ivyDomainUi)
 
     implementation(libs.bundles.ktor)
 

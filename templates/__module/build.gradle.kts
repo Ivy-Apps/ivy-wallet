@@ -12,5 +12,5 @@ dependencies {
     implementation(projects.ivyDesign)
     implementation(projects.ivyDomain)
     implementation(projects.ivyNavigation)
-    implementation(projects.ivyCoreUi)
+    implementation(projects.ivyDomainUi)
 }
