@@ -228,24 +228,20 @@ class HomeViewModel @Inject constructor(
 
     // -----------------------------------------------------------------------------------
     private suspend fun reload(
-        period: TimePeriod = ivyContext.selectedPeriod
-    ): HomeState = suspend {
+        timePeriod: TimePeriod = ivyContext.selectedPeriod
+    ) = suspend {
         val settings = settingsAct(Unit)
         val hideBalance = shouldHideBalanceAct(Unit)
 
-        updateState {
-            it.copy(
-                theme = settings.theme,
-                name = settings.name,
-                period = period,
-                hideCurrentBalance = hideBalance
-            )
-        }
+        theme.value = settings.theme
+        name.value = settings.name
+        period.value = timePeriod
+        hideCurrentBalance.value = hideBalance
 
         // This method is used to restore the theme when user imports locally backed up data
         ivyContext.switchTheme(theme = settings.theme)
 
-        Pair(settings, period.toRange(ivyContext.startDayOfMonth).toCloseTimeRange())
+        Pair(settings, period.value.toRange(ivyContext.startDayOfMonth).toCloseTimeRange())
     } then ::loadAppBaseData then ::loadIncomeExpenseBalance then
             ::loadBuffer then ::loadTrnHistory then
             ::loadDueTrns thenInvokeAfter ::loadCustomerJourney
@@ -261,15 +257,11 @@ class HomeViewModel @Inject constructor(
         } thenInvokeAfter { (accounts, categories) ->
             val (settings, timeRange) = input
 
-            updateState {
-                it.copy(
-                    baseData = AppBaseData(
-                        baseCurrency = settings.baseCurrency,
-                        categories = categories.toImmutableList(),
-                        accounts = accounts.toImmutableList()
-                    )
-                )
-            }
+            baseData.value = AppBaseData(
+                baseCurrency = settings.baseCurrency,
+                categories = categories.toImmutableList(),
+                accounts = accounts.toImmutableList()
+            )
 
             Triple(settings, timeRange, accounts)
         }
@@ -287,18 +279,14 @@ class HomeViewModel @Inject constructor(
             )
         )
 
-        val balance = calcWalletBalanceAct(
+        val balanceAmount = calcWalletBalanceAct(
             CalcWalletBalanceAct.Input(baseCurrency = settings.baseCurrency)
         )
 
-        updateState {
-            it.copy(
-                balance = balance,
-                stats = incomeExpense
-            )
-        }
+        balance.value = balanceAmount
+        stats.value = incomeExpense
 
-        return Triple(settings, timeRange, balance)
+        return Triple(settings, timeRange, balanceAmount)
     }
 
     private suspend fun loadBuffer(
@@ -306,19 +294,15 @@ class HomeViewModel @Inject constructor(
     ): Pair<String, ClosedTimeRange> {
         val (settings, timeRange, balance) = input
 
-        updateState {
-            it.copy(
-                buffer = BufferInfo(
-                    amount = settings.bufferAmount,
-                    bufferDiff = calcBufferDiffAct(
-                        CalcBufferDiffAct.Input(
-                            balance = balance,
-                            buffer = settings.bufferAmount
-                        )
-                    )
+        buffer.value = BufferInfo(
+            amount = settings.bufferAmount,
+            bufferDiff = calcBufferDiffAct(
+                CalcBufferDiffAct.Input(
+                    balance = balance,
+                    buffer = settings.bufferAmount
                 )
             )
-        }
+        )
 
         return settings.baseCurrency to timeRange
     }
@@ -327,60 +311,43 @@ class HomeViewModel @Inject constructor(
         input: Pair<String, ClosedTimeRange>
     ): Pair<String, ClosedTimeRange> {
         val (baseCurrency, timeRange) = input
-        updateState {
-            it.copy(
-                history = historyWithDateDivsAct(
-                    HistoryWithDateDivsAct.Input(
-                        range = timeRange,
-                        baseCurrency = baseCurrency
-                    )
-                )
+
+        history.value = historyWithDateDivsAct(
+            HistoryWithDateDivsAct.Input(
+                range = timeRange,
+                baseCurrency = baseCurrency
             )
-        }
+        )
 
         return baseCurrency to timeRange
     }
 
     private suspend fun loadDueTrns(
         input: Pair<String, ClosedTimeRange>
-    ): HomeState = suspend {
+    ) = suspend {
         UpcomingAct.Input(baseCurrency = input.first, range = input.second)
     } then upcomingAct then { result ->
-        updateState {
-            it.copy(
-                upcoming = DueSection(
-                    trns = result.upcomingTrns.toImmutableList(),
-                    stats = result.upcoming,
-                    expanded = it.upcoming.expanded
-                )
-            )
-        }
+        upcoming.value = DueSection(
+            trns = result.upcomingTrns.toImmutableList(),
+            stats = result.upcoming,
+            expanded = upcoming.value.expanded
+        )
     } then {
         OverdueAct.Input(baseCurrency = input.first, toRange = input.second.to)
     } then overdueAct thenInvokeAfter { result ->
-        updateState {
-            it.copy(
-                overdue = DueSection(
-                    trns = result.overdueTrns.toImmutableList(),
-                    stats = result.overdue,
-                    expanded = it.overdue.expanded
-                )
-            )
-        }
+        overdue.value = DueSection(
+            trns = result.overdueTrns.toImmutableList(),
+            stats = result.overdue,
+            expanded = overdue.value.expanded
+        )
     }
 
-    private suspend fun loadCustomerJourney(
-        input: HomeState
-    ): HomeState {
-        return updateState {
-            it.copy(
-                customerJourneyCards = ioThread {
-                    customerJourneyLogic.loadCards().toImmutableList()
-                }
-            )
+    private suspend fun loadCustomerJourney() {
+        customerJourneyCards.value = ioThread {
+            customerJourneyLogic.loadCards().toImmutableList()
         }
     }
-    // -----------------------------------------------------------------
+// -----------------------------------------------------------------
 
     private suspend fun setUpcomingExpanded(expanded: Boolean) = suspend {
         updateState { it.copy(upcoming = it.upcoming.copy(expanded = expanded)) }
