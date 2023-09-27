@@ -1,9 +1,10 @@
 package com.ivy.wallet.domain.action.account
 
-import com.ivy.core.db.read.AccountDao
 import com.ivy.core.datamodel.Account
+import com.ivy.core.temp.toDomain
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
+import com.ivy.persistence.db.dao.read.AccountDao
 import java.util.UUID
 import javax.inject.Inject
 

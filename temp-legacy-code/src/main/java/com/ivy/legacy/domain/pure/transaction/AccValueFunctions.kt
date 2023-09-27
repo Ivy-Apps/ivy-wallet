@@ -1,9 +1,9 @@
 package com.ivy.wallet.domain.pure.transaction
 
-import com.ivy.core.db.entity.TransactionType
 import com.ivy.core.datamodel.Transaction
+import com.ivy.persistence.model.TransactionType
 import java.math.BigDecimal
-import java.util.*
+import java.util.UUID
 
 typealias AccountValueFunction = ValueFunction<UUID>
 

@@ -1,8 +1,9 @@
 package com.ivy.legacy
 
-import com.ivy.core.util.stringRes
-import java.time.LocalDateTime
+import com.ivy.base.util.stringRes
+import com.ivy.persistence.model.IntervalType
 import com.ivy.resources.R
+import java.time.LocalDateTime
 
 fun IntervalType.forDisplay(intervalN: Int): String {
     val plural = intervalN > 1 || intervalN == 0

@@ -1,10 +1,10 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.core.db.read.LoanDao
-import com.ivy.core.db.write.LoanWriter
 import com.ivy.core.datamodel.Loan
 import com.ivy.legacy.utils.ioThread
+import com.ivy.persistence.db.dao.read.LoanDao
+import com.ivy.persistence.db.dao.write.WriteLoanDao
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanData
 import com.ivy.wallet.domain.pure.util.nextOrderNum
 import java.util.UUID
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class LoanCreator @Inject constructor(
     private val dao: LoanDao,
-    private val loanWriter: LoanWriter,
+    private val loanWriter: WriteLoanDao,
 ) {
     suspend fun create(
         data: CreateLoanData,

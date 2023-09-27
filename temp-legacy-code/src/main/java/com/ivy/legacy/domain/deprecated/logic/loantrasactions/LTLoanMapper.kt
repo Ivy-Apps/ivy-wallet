@@ -1,13 +1,15 @@
 package com.ivy.wallet.domain.deprecated.logic.loantrasactions
 
-import com.ivy.core.db.entity.TransactionType
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Loan
 import com.ivy.core.datamodel.LoanRecord
 import com.ivy.core.datamodel.Transaction
+import com.ivy.core.temp.toDomain
 import com.ivy.legacy.domain.deprecated.logic.loantrasactions.LoanTransactionsCore
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.scopedIOThread
+import com.ivy.persistence.model.LoanType
+import com.ivy.persistence.model.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanData
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll

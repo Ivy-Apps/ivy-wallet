@@ -2,12 +2,12 @@ package com.ivy.wallet.domain.pure.transaction
 
 import arrow.core.Option
 import arrow.core.toOption
-import com.ivy.frp.SideEffect
-import com.ivy.core.db.entity.TransactionType
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Transaction
+import com.ivy.frp.SideEffect
+import com.ivy.persistence.model.TransactionType
 import java.math.BigDecimal
-import java.util.*
+import java.util.UUID
 
 typealias CategoryValueFunction = SuspendValueFunction<CategoryValueFunctions.Argument>
 

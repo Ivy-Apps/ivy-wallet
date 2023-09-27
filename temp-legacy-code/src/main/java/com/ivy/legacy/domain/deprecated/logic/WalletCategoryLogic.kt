@@ -1,14 +1,15 @@
 package com.ivy.wallet.domain.deprecated.logic
 
-import com.ivy.core.db.entity.TransactionType
-import com.ivy.core.db.read.AccountDao
-import com.ivy.core.db.read.SettingsDao
-import com.ivy.core.db.read.TransactionDao
 import com.ivy.core.datamodel.Category
 import com.ivy.core.datamodel.Transaction
 import com.ivy.core.datamodel.TransactionHistoryItem
+import com.ivy.core.temp.toDomain
 import com.ivy.legacy.data.model.filterOverdue
 import com.ivy.legacy.data.model.filterUpcoming
+import com.ivy.persistence.db.dao.read.AccountDao
+import com.ivy.persistence.db.dao.read.SettingsDao
+import com.ivy.persistence.db.dao.read.TransactionDao
+import com.ivy.persistence.model.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.sumInBaseCurrency
 import com.ivy.wallet.domain.pure.transaction.withDateDividers
@@ -255,7 +256,10 @@ class WalletCategoryLogic @Inject constructor(
             )
     }
 
-    suspend fun upcomingByCategory(category: Category, range: com.ivy.legacy.data.model.FromToTimeRange): List<Transaction> {
+    suspend fun upcomingByCategory(
+        category: Category,
+        range: com.ivy.legacy.data.model.FromToTimeRange
+    ): List<Transaction> {
         return transactionDao.findAllDueToBetweenByCategory(
             categoryId = category.id,
             startDate = range.upcomingFrom(),
@@ -320,7 +324,10 @@ class WalletCategoryLogic @Inject constructor(
             )
     }
 
-    suspend fun overdueByCategory(category: Category, range: com.ivy.legacy.data.model.FromToTimeRange): List<Transaction> {
+    suspend fun overdueByCategory(
+        category: Category,
+        range: com.ivy.legacy.data.model.FromToTimeRange
+    ): List<Transaction> {
         return transactionDao.findAllDueToBetweenByCategory(
             categoryId = category.id,
             startDate = range.from(),

@@ -1,16 +1,16 @@
 package com.ivy.legacy.domain.deprecated.logic
 
-import com.ivy.core.db.read.BudgetDao
-import com.ivy.core.db.write.BudgetWriter
 import com.ivy.core.datamodel.Budget
 import com.ivy.legacy.utils.ioThread
+import com.ivy.persistence.db.dao.read.BudgetDao
+import com.ivy.persistence.db.dao.write.WriteBudgetDao
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
 import com.ivy.wallet.domain.pure.util.nextOrderNum
 import javax.inject.Inject
 
 class BudgetCreator @Inject constructor(
     private val budgetDao: BudgetDao,
-    private val budgetWriter: BudgetWriter,
+    private val budgetWriter: WriteBudgetDao,
 ) {
     suspend fun createBudget(
         data: CreateBudgetData,

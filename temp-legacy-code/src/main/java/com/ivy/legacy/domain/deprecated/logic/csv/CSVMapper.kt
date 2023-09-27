@@ -1,11 +1,11 @@
 package com.ivy.wallet.domain.deprecated.logic.csv
 
-import com.ivy.core.db.entity.TransactionType
 import com.ivy.core.datamodel.Transaction
 import com.ivy.legacy.domain.deprecated.logic.csv.model.ImportType
+import com.ivy.legacy.utils.toLowerCaseLocal
+import com.ivy.persistence.model.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.csv.model.JoinResult
 import com.ivy.wallet.domain.deprecated.logic.csv.model.RowMapping
-import com.ivy.legacy.utils.toLowerCaseLocal
 import javax.inject.Inject
 
 class CSVMapper @Inject constructor() {
@@ -19,6 +19,7 @@ class CSVMapper @Inject constructor() {
                 ivyMappingV1()
             }
         }
+
         ImportType.MONEY_MANAGER -> moneyManager()
         ImportType.WALLET_BY_BUDGET_BAKERS -> walletByBudgetBakers()
         ImportType.SPENDEE -> spendee()

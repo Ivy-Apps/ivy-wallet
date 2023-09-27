@@ -1,5 +1,8 @@
 package com.ivy.wallet.domain.data
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 data class CustomExchangeRateState(
     val showCard: Boolean = false,
     val toCurrencyCode: String? = null,

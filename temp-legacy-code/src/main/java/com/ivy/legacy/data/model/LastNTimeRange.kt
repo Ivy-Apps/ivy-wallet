@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 import com.ivy.legacy.forDisplay
 import com.ivy.legacy.incrementDate
 import com.ivy.legacy.utils.timeNowUTC
+import com.ivy.persistence.model.IntervalType
 import java.time.LocalDateTime
 
 @Immutable

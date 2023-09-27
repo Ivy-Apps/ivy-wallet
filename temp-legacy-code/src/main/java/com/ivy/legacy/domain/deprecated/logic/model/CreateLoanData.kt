@@ -2,6 +2,7 @@ package com.ivy.wallet.domain.deprecated.logic.model
 
 import androidx.compose.ui.graphics.Color
 import com.ivy.core.datamodel.Account
+import com.ivy.persistence.model.LoanType
 
 data class CreateLoanData(
     val name: String,
