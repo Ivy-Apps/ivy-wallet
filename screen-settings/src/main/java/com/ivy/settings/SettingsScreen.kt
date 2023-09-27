@@ -64,6 +64,7 @@ import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
+import com.ivy.wallet.ui.theme.MediumBlack
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.Red3
@@ -381,6 +382,17 @@ private fun BoxWithConstraintsScope.UI(
                 icon = R.drawable.ic_custom_family_m,
                 text = stringResource(R.string.share_ivy_wallet),
                 backgroundGradient = Gradient.solid(Red3)
+            ) {
+                rootScreen.shareIvyWallet()
+            }
+
+            Spacer(Modifier.height(12.dp))
+
+            SettingsPrimaryButton(
+                icon = R.drawable.github_logo,
+                iconPadding = 5.dp,
+                text = stringResource(R.string.ivy_wallet_is_opensource),
+                backgroundGradient = Gradient.solid(MediumBlack)
             ) {
                 rootScreen.shareIvyWallet()
             }
