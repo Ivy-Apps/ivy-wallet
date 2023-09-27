@@ -37,6 +37,7 @@ import com.ivy.frp.then2
 import com.ivy.home.customerjourney.CustomerJourney
 import com.ivy.home.customerjourney.CustomerJourneyCardModel
 import com.ivy.legacy.data.AppBaseData
+import com.ivy.legacy.data.BufferInfo
 import com.ivy.legacy.data.DueSection
 import com.ivy.legacy.data.model.MainTab
 import com.ivy.legacy.data.model.TimePeriod
@@ -58,6 +59,7 @@ import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import com.ivy.wallet.ui.theme.modal.CurrencyModal
 import com.ivy.wallet.ui.theme.modal.DeleteModal
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import java.math.BigDecimal
 
 private const val SWIPE_HORIZONTAL_THRESHOLD = 200
@@ -368,7 +370,35 @@ fun HomeLazyColumn(
 private fun BoxWithConstraintsScope.PreviewHomeTab() {
     IvyPreview {
         UI(
-            uiState = HomeState.initial(ivyWalletCtx()),
+            uiState = HomeState(
+                theme = Theme.AUTO,
+                name = "",
+                baseData = AppBaseData(
+                    baseCurrency = "",
+                    accounts = persistentListOf(),
+                    categories = persistentListOf()
+                ),
+                balance = BigDecimal.ZERO,
+                buffer = BufferInfo(
+                    amount = BigDecimal.ZERO,
+                    bufferDiff = BigDecimal.ZERO,
+                ),
+                customerJourneyCards = persistentListOf(),
+                history = persistentListOf(),
+                stats = IncomeExpensePair.zero(),
+                upcoming = DueSection(
+                    trns = persistentListOf(),
+                    stats = IncomeExpensePair.zero(),
+                    expanded = false,
+                ),
+                overdue = DueSection(
+                    trns = persistentListOf(),
+                    stats = IncomeExpensePair.zero(),
+                    expanded = false,
+                ),
+                period = ivyWalletCtx().selectedPeriod,
+                hideCurrentBalance = false
+            ),
             onEvent = {}
         )
     }
