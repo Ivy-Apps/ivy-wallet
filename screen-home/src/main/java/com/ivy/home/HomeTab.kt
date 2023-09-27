@@ -205,8 +205,9 @@ private fun BoxWithConstraintsScope.UI(
         balance = uiState.balance.toDouble(),
         currency = baseCurrency,
         buffer = uiState.buffer.amount.toDouble(),
-        onSwitchTheme = HomeEvent.SwitchTheme asParamTo2 onEvent,
-
+        onSwitchTheme = {
+            onEvent(HomeEvent.SwitchTheme)
+        },
         setExpanded = setMoreMenuExpanded,
         onBufferClick = {
             bufferModalData = BufferModalData(
