@@ -13,7 +13,7 @@ dependencyResolutionManagement {
 rootProject.name = "IvyWallet"
 include(":app")
 include(":temp-old-design")
-include(":ivy-core")
+include(":ivy-domain")
 include(":ivy-navigation")
 include(":ivy-resources")
 include(":ivy-widget-base")

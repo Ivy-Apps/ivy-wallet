@@ -126,7 +126,7 @@ android {
 
 dependencies {
     implementation(projects.ivyBase)
-    implementation(projects.ivyCore)
+    implementation(projects.ivyDomain)
     implementation(projects.tempOldDesign)
     implementation(projects.ivyResources)
     implementation(projects.ivyNavigation)

@@ -10,5 +10,5 @@ dependencies {
     implementation(projects.ivyBase)
     implementation(projects.ivyResources)
     implementation(projects.ivyDesign)
-    implementation(projects.ivyCore)
+    implementation(projects.ivyDomain)
 }

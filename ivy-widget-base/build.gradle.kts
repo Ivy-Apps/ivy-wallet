@@ -8,6 +8,6 @@ android {
 
 dependencies {
     implementation(projects.ivyBase)
-    implementation(projects.ivyCore)
+    implementation(projects.ivyDomain)
     implementation(projects.ivyResources)
 }
