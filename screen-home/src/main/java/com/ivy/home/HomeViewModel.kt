@@ -363,7 +363,7 @@ class HomeViewModel @Inject constructor(
         overdue.value = overdue.value.copy(expanded = expanded)
     }
 
-    private suspend fun onBalanceClick() = suspend {
+    private suspend fun onBalanceClick() {
         val hasTransactions = hasTrnsAct(Unit)
         if (hasTransactions) {
             // has transactions show him "Balance" screen
