@@ -76,11 +76,7 @@ import java.util.UUID
 @Composable
 fun BoxWithConstraintsScope.CategoriesScreen(screen: CategoriesScreen) {
     val viewModel: CategoriesViewModel = viewModel()
-    val state by viewModel.state().collectAsState()
-
-    com.ivy.legacy.utils.onScreenStart {
-        viewModel.start()
-    }
+    val state = viewModel.uiState()
 
     UI(
         state = state,
