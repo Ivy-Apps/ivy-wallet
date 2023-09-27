@@ -1,5 +1,7 @@
 package com.ivy.reports
 
+import com.ivy.base.legacy.Transaction
+import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
 import kotlinx.collections.immutable.ImmutableList

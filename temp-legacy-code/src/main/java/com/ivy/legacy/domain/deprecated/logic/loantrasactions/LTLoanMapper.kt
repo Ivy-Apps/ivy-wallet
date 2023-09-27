@@ -1,5 +1,6 @@
 package com.ivy.wallet.domain.deprecated.logic.loantrasactions
 
+import com.ivy.base.legacy.Transaction
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Loan
 import com.ivy.legacy.datamodel.LoanRecord

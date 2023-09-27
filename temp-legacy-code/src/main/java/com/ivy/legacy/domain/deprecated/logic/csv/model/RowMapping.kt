@@ -1,5 +1,6 @@
 package com.ivy.wallet.domain.deprecated.logic.csv.model
 
+import com.ivy.base.legacy.Transaction
 import com.ivy.legacy.datamodel.Category
 
 data class RowMapping(

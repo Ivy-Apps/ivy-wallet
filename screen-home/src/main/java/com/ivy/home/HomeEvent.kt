@@ -1,5 +1,6 @@
 package com.ivy.home
 
+import com.ivy.base.legacy.Transaction
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.home.customerjourney.CustomerJourneyCardModel
 

@@ -3,6 +3,7 @@ package com.ivy.transaction
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.base.legacy.Transaction
 import com.ivy.base.util.refreshWidget
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
@@ -11,6 +12,7 @@ import com.ivy.domain.event.EventBus
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.data.EditTransactionDisplayLoan
 import com.ivy.legacy.data.SharedPrefs
+import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.ioThread

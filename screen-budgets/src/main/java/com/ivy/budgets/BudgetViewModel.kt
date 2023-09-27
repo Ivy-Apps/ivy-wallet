@@ -2,14 +2,15 @@ package com.ivy.budgets
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.base.legacy.Transaction
 import com.ivy.budgets.model.DisplayBudget
-import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Budget
-import com.ivy.legacy.datamodel.Category
 import com.ivy.frp.sumOfSuspend
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.data.model.toCloseTimeRange
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Budget
+import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.domain.deprecated.logic.BudgetCreator
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.readOnly

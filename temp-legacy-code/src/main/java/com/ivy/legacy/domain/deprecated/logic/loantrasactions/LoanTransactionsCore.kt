@@ -1,6 +1,7 @@
 package com.ivy.legacy.domain.deprecated.logic.loantrasactions
 
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.base.legacy.Transaction
 import com.ivy.base.util.stringRes
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
@@ -9,6 +10,7 @@ import com.ivy.legacy.datamodel.LoanRecord
 import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.legacy.IvyWalletCtx
+import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeNowUTC

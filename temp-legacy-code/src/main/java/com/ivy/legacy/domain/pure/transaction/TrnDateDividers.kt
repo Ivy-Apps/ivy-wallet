@@ -2,6 +2,8 @@ package com.ivy.wallet.domain.pure.transaction
 
 import arrow.core.Option
 import arrow.core.toOption
+import com.ivy.base.legacy.Transaction
+import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.frp.Pure

@@ -1,5 +1,6 @@
 package com.ivy.home
 
+import com.ivy.base.legacy.Transaction
 import com.ivy.base.model.Theme
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Settings

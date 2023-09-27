@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.domain.ComposeViewModel
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category

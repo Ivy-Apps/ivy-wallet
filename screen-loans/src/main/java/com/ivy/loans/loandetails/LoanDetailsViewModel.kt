@@ -2,6 +2,7 @@ package com.ivy.loans.loandetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.base.legacy.Transaction
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Loan
 import com.ivy.legacy.datamodel.LoanRecord

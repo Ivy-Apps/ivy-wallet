@@ -1,5 +1,6 @@
 package com.ivy.wallet.domain.deprecated.logic.csv
 
+import com.ivy.base.legacy.Transaction
 import com.ivy.legacy.domain.deprecated.logic.csv.model.ImportType
 import com.ivy.legacy.utils.toLowerCaseLocal
 import com.ivy.persistence.model.TransactionType

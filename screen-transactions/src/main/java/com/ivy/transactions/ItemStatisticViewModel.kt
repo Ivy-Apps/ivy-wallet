@@ -7,6 +7,8 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.toOption
+import com.ivy.base.legacy.Transaction
+import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.util.stringRes
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category

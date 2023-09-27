@@ -2,6 +2,7 @@ package com.ivy.wallet.domain.deprecated.logic.csv
 
 import android.content.Context
 import android.net.Uri
+import com.ivy.base.legacy.Transaction
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.datamodel.temp.toDomain

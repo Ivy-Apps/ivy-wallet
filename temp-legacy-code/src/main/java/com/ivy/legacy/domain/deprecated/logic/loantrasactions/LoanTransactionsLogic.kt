@@ -1,5 +1,6 @@
 package com.ivy.wallet.domain.deprecated.logic.loantrasactions
 
+import com.ivy.base.legacy.Transaction
 import com.ivy.legacy.utils.computationThread
 import javax.inject.Inject
 
