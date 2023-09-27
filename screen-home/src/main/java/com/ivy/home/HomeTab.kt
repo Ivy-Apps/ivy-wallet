@@ -306,15 +306,7 @@ fun HomeLazyColumn(
                 available: Offset,
                 source: NestedScrollSource
             ): Offset {
-                if (listState.firstVisibleItemIndex == 0) {
-                    // To prevent unnecessary updates
-                    if (listState.firstVisibleItemScrollOffset >= 150 && !expanded) {
-                        onSetExpanded(true)
-                    } else if (listState.firstVisibleItemScrollOffset < 150 && expanded) {
-                        onSetExpanded(false)
-                    }
-                }
-
+                onSetExpanded(listState.firstVisibleItemScrollOffset == 0)
                 return super.onPostScroll(consumed, available, source)
             }
         }
