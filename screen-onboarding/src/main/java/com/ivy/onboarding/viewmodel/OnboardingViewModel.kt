@@ -3,14 +3,10 @@ package com.ivy.onboarding.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.base.model.Theme
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Category
 import com.ivy.core.datamodel.Settings
-import com.ivy.core.datamodel.legacy.Theme
-import com.ivy.core.db.read.AccountDao
-import com.ivy.core.db.read.CategoryDao
-import com.ivy.core.db.read.SettingsDao
-import com.ivy.core.db.write.SettingsWriter
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.LogoutLogic
@@ -25,6 +21,10 @@ import com.ivy.legacy.utils.sendToCrashlytics
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.OnboardingScreen
 import com.ivy.onboarding.OnboardingState
+import com.ivy.persistence.db.dao.read.AccountDao
+import com.ivy.persistence.db.dao.read.CategoryDao
+import com.ivy.persistence.db.dao.read.SettingsDao
+import com.ivy.persistence.db.dao.write.WriteSettingsDao
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.data.IvyCurrency
@@ -55,7 +55,7 @@ class OnboardingViewModel @Inject constructor(
     private val accountsAct: AccountsAct,
     private val categoriesAct: CategoriesAct,
     private val syncExchangeRatesAct: SyncExchangeRatesAct,
-    private val settingsWriter: SettingsWriter,
+    private val settingsWriter: WriteSettingsDao,
 
     // Only OnboardingRouter stuff
     sharedPrefs: SharedPrefs,

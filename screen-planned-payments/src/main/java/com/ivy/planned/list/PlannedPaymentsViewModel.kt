@@ -6,13 +6,13 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Category
 import com.ivy.core.datamodel.PlannedPaymentRule
-import com.ivy.core.db.read.AccountDao
-import com.ivy.core.db.read.CategoryDao
-import com.ivy.core.db.read.SettingsDao
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.utils.asLiveData
 import com.ivy.legacy.utils.ioThread
 import com.ivy.navigation.PlannedPaymentsScreen
+import com.ivy.persistence.db.dao.read.AccountDao
+import com.ivy.persistence.db.dao.read.CategoryDao
+import com.ivy.persistence.db.dao.read.SettingsDao
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic

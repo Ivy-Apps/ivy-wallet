@@ -29,7 +29,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.ivy.core.db.entity.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.data.model.TimePeriod
@@ -45,6 +44,7 @@ import com.ivy.legacy.utils.thenIf
 import com.ivy.legacy.utils.verticalSwipeListener
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.navigation.navigation
+import com.ivy.persistence.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen

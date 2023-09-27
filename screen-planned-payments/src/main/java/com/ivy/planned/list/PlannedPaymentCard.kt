@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Category
 import com.ivy.core.datamodel.PlannedPaymentRule
-import com.ivy.core.db.entity.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
@@ -40,6 +39,8 @@ import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.uppercaseLocal
 import com.ivy.navigation.ItemStatisticScreen
 import com.ivy.navigation.navigation
+import com.ivy.persistence.model.IntervalType
+import com.ivy.persistence.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gradient

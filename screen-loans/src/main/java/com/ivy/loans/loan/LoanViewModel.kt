@@ -4,9 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Loan
-import com.ivy.core.db.read.LoanRecordDao
-import com.ivy.core.db.read.SettingsDao
-import com.ivy.core.db.write.LoanWriter
 import com.ivy.core.event.AccountUpdatedEvent
 import com.ivy.core.event.EventBus
 import com.ivy.frp.test.TestIdlingResource
@@ -16,6 +13,10 @@ import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.getDefaultFIATCurrency
 import com.ivy.legacy.utils.ioThread
 import com.ivy.loans.loan.data.DisplayLoan
+import com.ivy.persistence.db.dao.read.LoanRecordDao
+import com.ivy.persistence.db.dao.read.SettingsDao
+import com.ivy.persistence.db.dao.write.WriteLoanDao
+import com.ivy.persistence.model.LoanType
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.loan.LoansAct
 import com.ivy.wallet.domain.deprecated.logic.LoanCreator
@@ -46,7 +47,7 @@ class LoanViewModel @Inject constructor(
     private val loansAct: LoansAct,
     private val accountsAct: AccountsAct,
     private val eventBus: EventBus,
-    private val loanWriter: LoanWriter,
+    private val loanWriter: WriteLoanDao,
 ) : ViewModel() {
 
     private val _baseCurrencyCode = MutableStateFlow(getDefaultFIATCurrency().currencyCode)

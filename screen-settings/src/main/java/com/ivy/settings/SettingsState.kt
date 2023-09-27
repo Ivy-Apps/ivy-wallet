@@ -1,6 +1,6 @@
 package com.ivy.settings
 
-import com.ivy.core.datamodel.legacy.Theme
+import com.ivy.base.model.Theme
 
 data class SettingsState(
     val currencyCode: String,

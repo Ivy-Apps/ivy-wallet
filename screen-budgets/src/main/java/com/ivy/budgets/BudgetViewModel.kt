@@ -3,8 +3,6 @@ package com.ivy.budgets
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.budgets.model.DisplayBudget
-import com.ivy.core.db.entity.TransactionType
-import com.ivy.core.db.write.BudgetWriter
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Budget
 import com.ivy.core.datamodel.Category
@@ -16,6 +14,8 @@ import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.legacy.domain.deprecated.logic.BudgetCreator
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.readOnly
+import com.ivy.persistence.db.dao.write.WriteBudgetDao
+import com.ivy.persistence.model.TransactionType
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.budget.BudgetsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
@@ -36,7 +36,7 @@ import javax.inject.Inject
 @HiltViewModel
 class BudgetViewModel @Inject constructor(
     private val sharedPrefs: SharedPrefs,
-    private val budgetWriter: BudgetWriter,
+    private val budgetWriter: WriteBudgetDao,
     private val budgetCreator: BudgetCreator,
     private val ivyContext: com.ivy.legacy.IvyWalletCtx,
     private val accountsAct: AccountsAct,

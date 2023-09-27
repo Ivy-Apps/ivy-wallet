@@ -39,11 +39,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.core.db.entity.TransactionType
 import com.ivy.core.datamodel.Category
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.navigation.navigation
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.horizontalSwipeListener
@@ -51,6 +49,8 @@ import com.ivy.legacy.utils.thenIf
 import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.ItemStatisticScreen
 import com.ivy.navigation.PieChartStatisticScreen
+import com.ivy.navigation.navigation
+import com.ivy.persistence.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Gray

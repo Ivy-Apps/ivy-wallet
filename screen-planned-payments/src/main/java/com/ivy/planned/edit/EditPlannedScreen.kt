@@ -27,10 +27,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Category
-import com.ivy.core.db.entity.TransactionType
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.navigation.EditPlannedScreen
+import com.ivy.persistence.model.IntervalType
+import com.ivy.persistence.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData

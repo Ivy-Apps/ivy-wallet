@@ -7,12 +7,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.ivy.base.model.Theme
+import com.ivy.base.util.refreshWidget
 import com.ivy.core.ComposeViewModel
 import com.ivy.core.RootScreen
-import com.ivy.core.datamodel.legacy.Theme
-import com.ivy.core.db.read.SettingsDao
-import com.ivy.core.db.write.SettingsWriter
-import com.ivy.core.util.refreshWidget
 import com.ivy.frp.monad.Res
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.LogoutLogic
@@ -24,6 +22,8 @@ import com.ivy.legacy.utils.formatNicelyWithTime
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.uiThread
+import com.ivy.persistence.db.dao.read.SettingsDao
+import com.ivy.persistence.db.dao.write.WriteSettingsDao
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.action.global.UpdateStartDayOfMonthAct
 import com.ivy.wallet.domain.action.settings.SettingsAct
@@ -51,7 +51,7 @@ class SettingsViewModel @Inject constructor(
     private val syncExchangeRatesAct: SyncExchangeRatesAct,
     private val settingsAct: SettingsAct,
     private val updateSettingsAct: UpdateSettingsAct,
-    private val settingsWriter: SettingsWriter,
+    private val settingsWriter: WriteSettingsDao,
 ) : ComposeViewModel<SettingsState, SettingsEvent>() {
 
     private val currencyCode = mutableStateOf("")

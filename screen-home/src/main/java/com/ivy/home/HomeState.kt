@@ -1,8 +1,8 @@
 package com.ivy.home
 
 import androidx.compose.runtime.Immutable
+import com.ivy.base.model.Theme
 import com.ivy.core.datamodel.TransactionHistoryItem
-import com.ivy.core.datamodel.legacy.Theme
 import com.ivy.home.customerjourney.CustomerJourneyCardModel
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.AppBaseData

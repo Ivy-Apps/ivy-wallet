@@ -14,4 +14,5 @@ dependencies {
     implementation(projects.ivyNavigation)
     implementation(projects.tempLegacyCode)
     implementation(projects.widgetBalance)
+    implementation(projects.ivyPersistence)
 }

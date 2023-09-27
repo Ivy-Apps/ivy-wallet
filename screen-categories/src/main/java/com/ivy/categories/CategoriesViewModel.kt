@@ -1,7 +1,6 @@
 package com.ivy.categories
 
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.db.write.CategoryWriter
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Transaction
 import com.ivy.frp.action.thenMap
@@ -9,6 +8,7 @@ import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.thenInvokeAfter
 import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.legacy.data.SharedPrefs
+import com.ivy.persistence.db.dao.write.WriteCategoryDao
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.category.CategoryIncomeWithAccountFiltersAct
@@ -41,7 +41,7 @@ class CategoriesViewModel @Inject constructor(
     private val accountsAct: AccountsAct,
     private val trnsWithRangeAndAccFiltersAct: TrnsWithRangeAndAccFiltersAct,
     private val categoryIncomeWithAccountFiltersAct: CategoryIncomeWithAccountFiltersAct,
-    private val categoryWriter: CategoryWriter,
+    private val categoryWriter: WriteCategoryDao,
 ) : FRPViewModel<CategoriesScreenState, Nothing>() {
 
     override val _state: MutableStateFlow<CategoriesScreenState> = MutableStateFlow(

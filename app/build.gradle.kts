@@ -125,6 +125,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.ivyBase)
     implementation(projects.ivyCore)
     implementation(projects.tempOldDesign)
     implementation(projects.ivyResources)
@@ -153,6 +154,7 @@ dependencies {
     implementation(projects.screenHome)
     implementation(projects.screenContributors)
     implementation(projects.screenReleases)
+    implementation(projects.ivyPersistence)
 
     implementation(libs.bundles.kotlin)
     implementation(libs.bundles.ktor)

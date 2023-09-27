@@ -2,11 +2,11 @@ package com.ivy.exchangerates
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.db.entity.ExchangeRateEntity
-import com.ivy.core.db.read.ExchangeRatesDao
-import com.ivy.core.db.write.ExchangeRatesWriter
 import com.ivy.exchangerates.data.RateUi
 import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
+import com.ivy.persistence.db.dao.read.ExchangeRatesDao
+import com.ivy.persistence.db.dao.write.WriteExchangeRatesDao
+import com.ivy.persistence.db.entity.ExchangeRateEntity
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
@@ -26,7 +26,7 @@ class ExchangeRatesViewModel @Inject constructor(
     private val exchangeRatesDao: ExchangeRatesDao,
     private val baseCurrencyAct: BaseCurrencyAct,
     private val syncExchangeRatesAct: SyncExchangeRatesAct,
-    private val exchangeRatesWriter: ExchangeRatesWriter,
+    private val exchangeRatesWriter: WriteExchangeRatesDao,
 ) : ViewModel() {
     private val searchQuery = MutableStateFlow("")
 

@@ -4,10 +4,8 @@ import android.content.Intent
 import androidx.biometric.BiometricPrompt
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.datamodel.legacy.Theme
-import com.ivy.core.db.entity.TransactionType
-import com.ivy.core.db.read.SettingsDao
-import com.ivy.core.util.stringRes
+import com.ivy.base.model.Theme
+import com.ivy.base.util.stringRes
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.SharedPrefs
@@ -17,6 +15,8 @@ import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.OnboardingScreen
+import com.ivy.persistence.db.dao.read.SettingsDao
+import com.ivy.persistence.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
 import com.ivy.wallet.migrations.MigrationsManager

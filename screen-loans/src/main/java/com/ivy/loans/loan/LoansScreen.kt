@@ -46,6 +46,7 @@ import com.ivy.loans.loan.data.DisplayLoan
 import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.LoansScreen
 import com.ivy.navigation.navigation
+import com.ivy.persistence.model.LoanType
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gray

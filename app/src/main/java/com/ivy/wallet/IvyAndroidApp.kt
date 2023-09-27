@@ -3,7 +3,7 @@ package com.ivy.wallet
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import com.ivy.core.util.appContext
+import com.ivy.base.util.appContext
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import timber.log.Timber.DebugTree
