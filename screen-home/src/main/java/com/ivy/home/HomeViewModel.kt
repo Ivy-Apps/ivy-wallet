@@ -118,6 +118,7 @@ class HomeViewModel @Inject constructor(
     private val customerJourneyCards =
         mutableStateOf<ImmutableList<CustomerJourneyCardModel>>(persistentListOf())
     private val hideCurrentBalance = mutableStateOf(false)
+    private val expanded = mutableStateOf(false)
 
     @Composable
     override fun uiState(): HomeState {
@@ -137,7 +138,8 @@ class HomeViewModel @Inject constructor(
             upcoming = getUpcoming(),
             overdue = getOverdue(),
             customerJourneyCards = getCustomerJourneyCards(),
-            hideCurrentBalance = getHideCurrentBalance()
+            hideCurrentBalance = getHideCurrentBalance(),
+            expanded = getExpanded()
         )
     }
 
@@ -199,6 +201,11 @@ class HomeViewModel @Inject constructor(
     @Composable
     private fun getHideCurrentBalance(): Boolean {
         return hideCurrentBalance.value
+    }
+
+    @Composable
+    private fun getExpanded(): Boolean {
+        return expanded.value
     }
 
     override fun onEvent(event: HomeEvent) {
@@ -482,6 +489,6 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun hideBalance(hide: Boolean) {
-        hideCurrentBalance.value = hide
+        expanded.value = hide
     }
 }

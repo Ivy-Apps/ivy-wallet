@@ -122,7 +122,7 @@ private fun BoxWithConstraintsScope.UI(
         )
 
         HomeHeader(
-            expanded = !uiState.hideCurrentBalance,
+            expanded = !uiState.expanded,
             name = uiState.name,
             period = uiState.period,
             currency = baseCurrency,
@@ -149,7 +149,7 @@ private fun BoxWithConstraintsScope.UI(
         )
 
         HomeLazyColumn(
-            hideBalance = uiState.hideCurrentBalance,
+            hideBalance = uiState.expanded,
             onHideBalance = {
                 onEvent(HomeEvent.HideBalance(it))
             },
@@ -408,7 +408,8 @@ private fun BoxWithConstraintsScope.PreviewHomeTab() {
                     expanded = false,
                 ),
                 period = ivyWalletCtx().selectedPeriod,
-                hideCurrentBalance = false
+                hideCurrentBalance = false,
+                expanded = false
             ),
             onEvent = {}
         )
