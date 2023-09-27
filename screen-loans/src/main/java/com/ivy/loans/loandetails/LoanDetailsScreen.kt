@@ -37,11 +37,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Loan
-import com.ivy.core.datamodel.LoanRecord
-import com.ivy.core.datamodel.LoanType
-import com.ivy.core.db.entity.TransactionType
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Loan
+import com.ivy.legacy.datamodel.LoanRecord
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
@@ -60,6 +58,8 @@ import com.ivy.loans.loan.data.DisplayLoanRecord
 import com.ivy.navigation.ItemStatisticScreen
 import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.navigation
+import com.ivy.persistence.model.LoanType
+import com.ivy.persistence.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData

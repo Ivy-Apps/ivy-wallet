@@ -1,13 +1,15 @@
 package com.ivy.wallet.domain.deprecated.logic
 
-import com.ivy.core.db.entity.TransactionType
-import com.ivy.core.db.read.TransactionDao
-import com.ivy.core.db.write.TransactionWriter
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Transaction
+import com.ivy.base.legacy.Transaction
 import com.ivy.legacy.data.model.filterOverdue
 import com.ivy.legacy.data.model.filterUpcoming
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.utils.timeNowUTC
+import com.ivy.persistence.db.dao.read.TransactionDao
+import com.ivy.persistence.db.dao.write.WriteTransactionDao
+import com.ivy.persistence.model.TransactionType
 import java.time.LocalDateTime
 import javax.inject.Inject
 import kotlin.math.abs
@@ -16,7 +18,7 @@ import kotlin.math.absoluteValue
 @Deprecated("Migrate to FP Style")
 class WalletAccountLogic @Inject constructor(
     private val transactionDao: TransactionDao,
-    private val transactionWriter: TransactionWriter,
+    private val transactionWriter: WriteTransactionDao,
 ) {
 
     suspend fun adjustBalance(
@@ -133,7 +135,10 @@ class WalletAccountLogic @Inject constructor(
         }
     }
 
-    suspend fun calculateAccountIncome(account: Account, range: com.ivy.legacy.data.model.FromToTimeRange): Double =
+    suspend fun calculateAccountIncome(
+        account: Account,
+        range: com.ivy.legacy.data.model.FromToTimeRange
+    ): Double =
         transactionDao
             .findAllByTypeAndAccountBetween(
                 type = TransactionType.INCOME,
@@ -144,7 +149,10 @@ class WalletAccountLogic @Inject constructor(
             .filter { it.dateTime != null }
             .sumOf { it.amount }
 
-    suspend fun calculateAccountExpenses(account: Account, range: com.ivy.legacy.data.model.FromToTimeRange): Double =
+    suspend fun calculateAccountExpenses(
+        account: Account,
+        range: com.ivy.legacy.data.model.FromToTimeRange
+    ): Double =
         transactionDao
             .findAllByTypeAndAccountBetween(
                 type = TransactionType.EXPENSE,
@@ -155,27 +163,42 @@ class WalletAccountLogic @Inject constructor(
             .filter { it.dateTime != null }
             .sumOf { it.amount }
 
-    suspend fun calculateUpcomingIncome(account: Account, range: com.ivy.legacy.data.model.FromToTimeRange): Double =
+    suspend fun calculateUpcomingIncome(
+        account: Account,
+        range: com.ivy.legacy.data.model.FromToTimeRange
+    ): Double =
         upcoming(account, range = range)
             .filter { it.type == TransactionType.INCOME }
             .sumOf { it.amount.toDouble() }
 
-    suspend fun calculateUpcomingExpenses(account: Account, range: com.ivy.legacy.data.model.FromToTimeRange): Double =
+    suspend fun calculateUpcomingExpenses(
+        account: Account,
+        range: com.ivy.legacy.data.model.FromToTimeRange
+    ): Double =
         upcoming(account = account, range = range)
             .filter { it.type == TransactionType.EXPENSE }
             .sumOf { it.amount.toDouble() }
 
-    suspend fun calculateOverdueIncome(account: Account, range: com.ivy.legacy.data.model.FromToTimeRange): Double =
+    suspend fun calculateOverdueIncome(
+        account: Account,
+        range: com.ivy.legacy.data.model.FromToTimeRange
+    ): Double =
         overdue(account, range = range)
             .filter { it.type == TransactionType.INCOME }
             .sumOf { it.amount.toDouble() }
 
-    suspend fun calculateOverdueExpenses(account: Account, range: com.ivy.legacy.data.model.FromToTimeRange): Double =
+    suspend fun calculateOverdueExpenses(
+        account: Account,
+        range: com.ivy.legacy.data.model.FromToTimeRange
+    ): Double =
         overdue(account, range = range)
             .filter { it.type == TransactionType.EXPENSE }
             .sumOf { it.amount.toDouble() }
 
-    suspend fun upcoming(account: Account, range: com.ivy.legacy.data.model.FromToTimeRange): List<Transaction> {
+    suspend fun upcoming(
+        account: Account,
+        range: com.ivy.legacy.data.model.FromToTimeRange
+    ): List<Transaction> {
         return transactionDao.findAllDueToBetweenByAccount(
             accountId = account.id,
             startDate = range.upcomingFrom(),
@@ -185,7 +208,10 @@ class WalletAccountLogic @Inject constructor(
             .filterUpcoming()
     }
 
-    suspend fun overdue(account: Account, range: com.ivy.legacy.data.model.FromToTimeRange): List<Transaction> {
+    suspend fun overdue(
+        account: Account,
+        range: com.ivy.legacy.data.model.FromToTimeRange
+    ): List<Transaction> {
         return transactionDao.findAllDueToBetweenByAccount(
             accountId = account.id,
             startDate = range.from(),

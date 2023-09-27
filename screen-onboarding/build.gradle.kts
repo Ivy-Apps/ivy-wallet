@@ -7,9 +7,11 @@ android {
 }
 
 dependencies {
-    implementation(projects.ivyCore)
+    implementation(projects.ivyBase)
+    implementation(projects.ivyDomain)
     implementation(projects.ivyResources)
     implementation(projects.tempOldDesign)
     implementation(projects.ivyNavigation)
     implementation(projects.tempLegacyCode)
+    implementation(projects.ivyPersistence)
 }

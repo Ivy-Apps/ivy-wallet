@@ -1,29 +1,31 @@
 package com.ivy.legacy.domain.deprecated.logic.loantrasactions
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.core.db.entity.TransactionType
-import com.ivy.core.db.read.AccountDao
-import com.ivy.core.db.read.CategoryDao
-import com.ivy.core.db.read.LoanDao
-import com.ivy.core.db.read.LoanRecordDao
-import com.ivy.core.db.read.SettingsDao
-import com.ivy.core.db.read.TransactionDao
-import com.ivy.core.db.write.CategoryWriter
-import com.ivy.core.db.write.LoanRecordWriter
-import com.ivy.core.db.write.LoanWriter
-import com.ivy.core.db.write.TransactionWriter
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Category
-import com.ivy.core.datamodel.Loan
-import com.ivy.core.datamodel.LoanRecord
-import com.ivy.core.datamodel.LoanType
-import com.ivy.core.datamodel.Transaction
-import com.ivy.core.util.stringRes
+import com.ivy.base.legacy.Transaction
+import com.ivy.base.util.stringRes
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
+import com.ivy.legacy.datamodel.Loan
+import com.ivy.legacy.datamodel.LoanRecord
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.legacy.IvyWalletCtx
+import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeNowUTC
+import com.ivy.persistence.db.dao.read.AccountDao
+import com.ivy.persistence.db.dao.read.CategoryDao
+import com.ivy.persistence.db.dao.read.LoanDao
+import com.ivy.persistence.db.dao.read.LoanRecordDao
+import com.ivy.persistence.db.dao.read.SettingsDao
+import com.ivy.persistence.db.dao.read.TransactionDao
+import com.ivy.persistence.db.dao.write.WriteCategoryDao
+import com.ivy.persistence.db.dao.write.WriteLoanDao
+import com.ivy.persistence.db.dao.write.WriteLoanRecordDao
+import com.ivy.persistence.db.dao.write.WriteTransactionDao
+import com.ivy.persistence.model.LoanType
+import com.ivy.persistence.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import kotlinx.coroutines.CoroutineScope
@@ -43,10 +45,10 @@ class LoanTransactionsCore @Inject constructor(
     private val settingsDao: SettingsDao,
     private val accountsDao: AccountDao,
     private val exchangeRatesLogic: ExchangeRatesLogic,
-    private val transactionWriter: TransactionWriter,
-    private val categoryWriter: CategoryWriter,
-    private val loanRecordWriter: LoanRecordWriter,
-    private val loanWriter: LoanWriter,
+    private val writeTransactionDao: WriteTransactionDao,
+    private val writeCategoryDao: WriteCategoryDao,
+    private val writeLoanRecordDao: WriteLoanRecordDao,
+    private val writeLoanDao: WriteLoanDao,
 ) {
     private var baseCurrencyCode: String? = null
 
@@ -185,14 +187,14 @@ class LoanTransactionsCore @Inject constructor(
             )
 
         ioThread {
-            transactionWriter.save(modifiedTransaction.toEntity())
+            writeTransactionDao.save(modifiedTransaction.toEntity())
         }
     }
 
     private suspend fun deleteTransaction(transaction: Transaction?) {
         ioThread {
             transaction?.let {
-                transactionWriter.flagDeleted(it.id)
+                writeTransactionDao.flagDeleted(it.id)
             }
         }
     }
@@ -224,7 +226,7 @@ class LoanTransactionsCore @Inject constructor(
         if (addCategoryToDb) {
             ioThread {
                 loanCategory?.let {
-                    categoryWriter.save(it.toEntity())
+                    writeCategoryDao.save(it.toEntity())
                 }
             }
         }
@@ -291,15 +293,15 @@ class LoanTransactionsCore @Inject constructor(
     }
 
     suspend fun saveLoanRecords(loanRecords: List<LoanRecord>) = ioThread {
-        loanRecordWriter.saveMany(loanRecords.map { it.toEntity() })
+        writeLoanRecordDao.saveMany(loanRecords.map { it.toEntity() })
     }
 
     suspend fun saveLoanRecords(loanRecord: LoanRecord) = ioThread {
-        loanRecordWriter.save(loanRecord.toEntity())
+        writeLoanRecordDao.save(loanRecord.toEntity())
     }
 
     suspend fun saveLoan(loan: Loan) = ioThread {
-        loanWriter.save(loan.toEntity())
+        writeLoanDao.save(loan.toEntity())
     }
 
     suspend fun fetchLoanRecord(loanRecordId: UUID) = ioThread {

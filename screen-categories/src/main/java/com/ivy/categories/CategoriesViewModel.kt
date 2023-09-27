@@ -4,13 +4,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.ComposeViewModel
-import com.ivy.core.db.write.CategoryWriter
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Transaction
+import com.ivy.base.legacy.Transaction
+import com.ivy.domain.ComposeViewModel
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.thenInvokeAfter
 import com.ivy.legacy.data.SharedPrefs
+import com.ivy.legacy.datamodel.Account
+import com.ivy.persistence.db.dao.write.WriteCategoryDao
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.category.CategoryIncomeWithAccountFiltersAct
@@ -42,28 +42,30 @@ class CategoriesViewModel @Inject constructor(
     private val accountsAct: AccountsAct,
     private val trnsWithRangeAndAccFiltersAct: TrnsWithRangeAndAccFiltersAct,
     private val categoryIncomeWithAccountFiltersAct: CategoryIncomeWithAccountFiltersAct,
-    private val categoryWriter: CategoryWriter,
+    private val categoryWriter: WriteCategoryDao,
 ) : ComposeViewModel<CategoriesScreenState, CategoriesScreenEvent>() {
 
     private val baseCurrency = mutableStateOf("")
-    private val categories = mutableStateOf<ImmutableList<CategoryData>>(persistentListOf<CategoryData>())
+    private val categories =
+        mutableStateOf<ImmutableList<CategoryData>>(persistentListOf<CategoryData>())
     private val reorderModalVisible = mutableStateOf(false)
     private val categoryModalData = mutableStateOf<CategoryModalData?>(null)
     private val sortModalVisible = mutableStateOf(false)
     private val sortOrder = mutableStateOf(SortOrder.DEFAULT)
 
-    @Composable override fun uiState(): CategoriesScreenState {
+    @Composable
+    override fun uiState(): CategoriesScreenState {
         LaunchedEffect(Unit) {
             start()
         }
 
         return CategoriesScreenState(
-          baseCurrency = getBaseCurrency(),
-          categories = getCategories(),
-          reorderModalVisible = getReorderModalVisible(),
-          categoryModalData = getCategoryModalData(),
-          sortOrder = getSortOrder(),
-          sortModalVisible = getSortModalVisible()
+            baseCurrency = getBaseCurrency(),
+            categories = getCategories(),
+            reorderModalVisible = getReorderModalVisible(),
+            categoryModalData = getCategoryModalData(),
+            sortOrder = getSortOrder(),
+            sortModalVisible = getSortModalVisible()
         )
     }
 
@@ -110,25 +112,25 @@ class CategoriesViewModel @Inject constructor(
     private suspend fun initialise() {
         com.ivy.legacy.utils.ioThread {
             val range = com.ivy.legacy.data.model.TimePeriod.currentMonth(
-              startDayOfMonth = ivyContext.startDayOfMonth
+                startDayOfMonth = ivyContext.startDayOfMonth
             ).toRange(ivyContext.startDayOfMonth) // this must be monthly
 
             allAccounts = accountsAct(Unit)
             baseCurrency.value = baseCurrencyAct(Unit)
 
             transactions = trnsWithRangeAndAccFiltersAct(
-              TrnsWithRangeAndAccFiltersAct.Input(
-                range = range,
-                accountIdFilterSet = suspend { allAccounts } thenMap { it.id }
-                  thenInvokeAfter { it.toHashSet() }
-              )
+                TrnsWithRangeAndAccFiltersAct.Input(
+                    range = range,
+                    accountIdFilterSet = suspend { allAccounts } thenMap { it.id }
+                            thenInvokeAfter { it.toHashSet() }
+                )
             )
 
             val sortOrder = SortOrder.from(
-              sharedPrefs.getInt(
-                SharedPrefs.CATEGORY_SORT_ORDER,
-                SortOrder.DEFAULT.orderNum
-              )
+                sharedPrefs.getInt(
+                    SharedPrefs.CATEGORY_SORT_ORDER,
+                    SortOrder.DEFAULT.orderNum
+                )
             )
 
             this.sortOrder.value = sortOrder
@@ -139,19 +141,19 @@ class CategoriesViewModel @Inject constructor(
         com.ivy.legacy.utils.scopedIOThread { scope ->
             val categories = categoriesAct(Unit).mapAsync(scope) {
                 val catIncomeExpense = categoryIncomeWithAccountFiltersAct(
-                  CategoryIncomeWithAccountFiltersAct.Input(
-                    transactions = transactions,
-                    accountFilterList = allAccounts,
-                    category = it,
-                    baseCurrency = baseCurrency.value
-                  )
+                    CategoryIncomeWithAccountFiltersAct.Input(
+                        transactions = transactions,
+                        accountFilterList = allAccounts,
+                        category = it,
+                        baseCurrency = baseCurrency.value
+                    )
                 )
 
                 CategoryData(
-                  category = it,
-                  monthlyBalance = (catIncomeExpense.income - catIncomeExpense.expense).toDouble(),
-                  monthlyIncome = catIncomeExpense.income.toDouble(),
-                  monthlyExpenses = catIncomeExpense.expense.toDouble()
+                    category = it,
+                    monthlyBalance = (catIncomeExpense.income - catIncomeExpense.expense).toDouble(),
+                    monthlyIncome = catIncomeExpense.income.toDouble(),
+                    monthlyExpenses = catIncomeExpense.expense.toDouble()
                 )
             }
 
@@ -171,10 +173,10 @@ class CategoriesViewModel @Inject constructor(
             com.ivy.legacy.utils.ioThread {
                 sortedList.forEachIndexed { index, categoryData ->
                     categoryWriter.save(
-                      categoryData.category.toEntity().copy(
-                        orderNum = index.toDouble(),
-                        isSynced = false
-                      )
+                        categoryData.category.toEntity().copy(
+                            orderNum = index.toDouble(),
+                            isSynced = false
+                        )
                     )
                 }
             }

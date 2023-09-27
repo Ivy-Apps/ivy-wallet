@@ -7,11 +7,12 @@ android {
 }
 
 dependencies {
-    implementation(projects.ivyCore)
+    implementation(projects.ivyBase)
+    implementation(projects.ivyDomain)
     implementation(projects.ivyResources)
     implementation(projects.ivyDesign)
     implementation(projects.ivyNavigation)
-    implementation(projects.ivyCoreUi)
+    implementation(projects.ivyDomainUi)
 
     implementation(libs.bundles.ktor)
 

@@ -1,15 +1,15 @@
 package com.ivy.legacy.domain.action.settings
 
-import com.ivy.core.db.write.SettingsWriter
-import com.ivy.core.datamodel.Settings
+import com.ivy.legacy.datamodel.Settings
 import com.ivy.frp.action.FPAction
+import com.ivy.persistence.db.dao.write.WriteSettingsDao
 import javax.inject.Inject
 
 class UpdateSettingsAct @Inject constructor(
-    private val settingsWriter: SettingsWriter
+    private val writeSettingsDao: WriteSettingsDao
 ) : FPAction<Settings, Settings>() {
     override suspend fun Settings.compose(): suspend () -> Settings = suspend {
-        settingsWriter.save(this.toEntity())
+        writeSettingsDao.save(this.toEntity())
         this
     }
 }

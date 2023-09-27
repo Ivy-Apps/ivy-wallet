@@ -1,8 +1,9 @@
 package com.ivy.wallet.domain.action.account
 
-import com.ivy.core.db.read.AccountDao
-import com.ivy.core.datamodel.Account
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.frp.action.FPAction
+import com.ivy.persistence.db.dao.read.AccountDao
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import javax.inject.Inject

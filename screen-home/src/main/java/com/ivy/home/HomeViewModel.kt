@@ -1,9 +1,9 @@
 package com.ivy.home
 
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Settings
-import com.ivy.core.datamodel.Transaction
-import com.ivy.core.datamodel.legacy.Theme
+import com.ivy.base.legacy.Transaction
+import com.ivy.base.model.Theme
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Settings
 import com.ivy.frp.fixUnit
 import com.ivy.frp.then
 import com.ivy.frp.thenInvokeAfter

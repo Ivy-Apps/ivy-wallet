@@ -7,7 +7,9 @@ android {
 }
 
 dependencies {
-    implementation(projects.ivyCore)
+    implementation(projects.ivyBase)
+    implementation(projects.ivyBase)
+    implementation(projects.ivyDomain)
     implementation(projects.ivyResources)
     implementation(projects.ivyWidgetBase)
 }

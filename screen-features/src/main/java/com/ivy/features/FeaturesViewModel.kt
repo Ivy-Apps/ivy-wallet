@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.ComposeViewModel
-import com.ivy.core.features.Features
+import com.ivy.domain.ComposeViewModel
+import com.ivy.domain.features.Features
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.collections.immutable.ImmutableList

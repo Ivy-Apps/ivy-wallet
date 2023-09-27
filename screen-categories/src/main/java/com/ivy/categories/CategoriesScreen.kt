@@ -46,7 +46,7 @@ import com.ivy.navigation.CategoriesScreen
 import com.ivy.navigation.ItemStatisticScreen
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.SortOrder
-import com.ivy.core.datamodel.Category
+import com.ivy.legacy.datamodel.Category
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen

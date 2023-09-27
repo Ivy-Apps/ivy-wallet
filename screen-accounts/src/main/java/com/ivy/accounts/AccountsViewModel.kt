@@ -6,17 +6,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.ComposeViewModel
-import com.ivy.core.datamodel.Account
-import com.ivy.core.db.write.AccountWriter
-import com.ivy.core.event.AccountUpdatedEvent
-import com.ivy.core.event.EventBus
+import com.ivy.domain.ComposeViewModel
+import com.ivy.legacy.datamodel.Account
+import com.ivy.domain.event.AccountUpdatedEvent
+import com.ivy.domain.event.EventBus
 import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.data.model.AccountData
 import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.ioThread
+import com.ivy.persistence.db.dao.write.WriteAccountDao
 import com.ivy.resources.R
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
@@ -43,7 +43,7 @@ class AccountsViewModel @Inject constructor(
     private val baseCurrencyAct: BaseCurrencyAct,
     private val accountDataAct: AccountDataAct,
     private val eventBus: EventBus,
-    private val accountWriter: AccountWriter,
+    private val accountWriter: WriteAccountDao,
 ) : ComposeViewModel<AccountsState, AccountsEvent>() {
     private val baseCurrency = mutableStateOf("")
     private val accountsData = mutableStateOf(listOf<AccountData>())

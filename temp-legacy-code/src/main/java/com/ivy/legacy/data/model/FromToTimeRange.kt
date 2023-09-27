@@ -1,7 +1,7 @@
 package com.ivy.legacy.data.model
 
 import androidx.compose.runtime.Immutable
-import com.ivy.core.datamodel.Transaction
+import com.ivy.base.legacy.Transaction
 import com.ivy.legacy.utils.beginningOfIvyTime
 import com.ivy.legacy.utils.dateNowUTC
 import com.ivy.legacy.utils.formatDateOnly

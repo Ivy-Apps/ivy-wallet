@@ -7,18 +7,12 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.toOption
-import com.ivy.core.db.entity.TransactionType
-import com.ivy.core.db.read.AccountDao
-import com.ivy.core.db.read.CategoryDao
-import com.ivy.core.db.write.AccountWriter
-import com.ivy.core.db.write.CategoryWriter
-import com.ivy.core.db.write.PlannedPaymentRuleWriter
-import com.ivy.core.db.write.TransactionWriter
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Category
-import com.ivy.core.datamodel.Transaction
-import com.ivy.core.datamodel.TransactionHistoryItem
-import com.ivy.core.util.stringRes
+import com.ivy.base.legacy.Transaction
+import com.ivy.base.legacy.TransactionHistoryItem
+import com.ivy.base.util.stringRes
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.then
 import com.ivy.legacy.IvyWalletCtx
@@ -34,6 +28,13 @@ import com.ivy.legacy.utils.readOnly
 import com.ivy.legacy.utils.selectEndTextFieldValue
 import com.ivy.navigation.ItemStatisticScreen
 import com.ivy.navigation.Navigation
+import com.ivy.persistence.db.dao.read.AccountDao
+import com.ivy.persistence.db.dao.read.CategoryDao
+import com.ivy.persistence.db.dao.write.WriteAccountDao
+import com.ivy.persistence.db.dao.write.WriteCategoryDao
+import com.ivy.persistence.db.dao.write.WritePlannedPaymentRuleDao
+import com.ivy.persistence.db.dao.write.WriteTransactionDao
+import com.ivy.persistence.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.domain.action.account.AccTrnsAct
 import com.ivy.wallet.domain.action.account.AccountsAct
@@ -80,10 +81,10 @@ class ItemStatisticViewModel @Inject constructor(
     private val calcAccIncomeExpenseAct: CalcAccIncomeExpenseAct,
     private val calcTrnsIncomeExpenseAct: CalcTrnsIncomeExpenseAct,
     private val exchangeAct: ExchangeAct,
-    private val transactionWriter: TransactionWriter,
-    private val categoryWriter: CategoryWriter,
-    private val accountWriter: AccountWriter,
-    private val plannedPaymentRuleWriter: PlannedPaymentRuleWriter,
+    private val transactionWriter: WriteTransactionDao,
+    private val categoryWriter: WriteCategoryDao,
+    private val accountWriter: WriteAccountDao,
+    private val plannedPaymentRuleWriter: WritePlannedPaymentRuleDao,
 ) : ViewModel() {
 
     private val _period = MutableStateFlow(ivyContext.selectedPeriod!!)
@@ -689,6 +690,7 @@ class ItemStatisticViewModel @Inject constructor(
             TestIdlingResource.decrement()
         }
     }
+
     fun updateAccountDeletionState(newName: String) {
         accountNameConfirmation = selectEndTextFieldValue(newName)
         account.value?.name?.let { accountName ->

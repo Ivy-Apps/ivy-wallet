@@ -1,21 +1,23 @@
 package com.ivy.importdata.csv.domain
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Category
-import com.ivy.core.datamodel.Transaction
-import com.ivy.core.db.entity.TransactionType
-import com.ivy.core.db.read.AccountDao
-import com.ivy.core.db.read.CategoryDao
-import com.ivy.core.db.read.SettingsDao
-import com.ivy.core.db.write.AccountWriter
-import com.ivy.core.db.write.CategoryWriter
-import com.ivy.core.db.write.TransactionWriter
+import com.ivy.base.legacy.Transaction
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.importdata.csv.ImportantFields
 import com.ivy.importdata.csv.OptionalFields
 import com.ivy.importdata.csv.TransferFields
+import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.utils.toLowerCaseLocal
+import com.ivy.persistence.db.dao.read.AccountDao
+import com.ivy.persistence.db.dao.read.CategoryDao
+import com.ivy.persistence.db.dao.read.SettingsDao
+import com.ivy.persistence.db.dao.write.WriteAccountDao
+import com.ivy.persistence.db.dao.write.WriteCategoryDao
+import com.ivy.persistence.db.dao.write.WriteTransactionDao
+import com.ivy.persistence.model.TransactionType
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.deprecated.logic.csv.model.CSVRow
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
@@ -30,11 +32,11 @@ import com.ivy.importdata.csv.CSVRow as CSVRowNew
 
 class CSVImporterV2 @Inject constructor(
     private val settingsDao: SettingsDao,
-    private val transactionWriter: TransactionWriter,
+    private val transactionWriter: WriteTransactionDao,
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
-    private val accountWriter: AccountWriter,
-    private val categoryWriter: CategoryWriter,
+    private val accountWriter: WriteAccountDao,
+    private val categoryWriter: WriteCategoryDao,
 ) {
 
     lateinit var accounts: List<Account>

@@ -1,18 +1,20 @@
 package com.ivy.wallet.domain.deprecated.logic
 
-import com.ivy.core.db.entity.TransactionType
-import com.ivy.core.db.read.AccountDao
-import com.ivy.core.db.read.PlannedPaymentRuleDao
-import com.ivy.core.db.read.SettingsDao
-import com.ivy.core.db.read.TransactionDao
-import com.ivy.core.db.write.PlannedPaymentRuleWriter
-import com.ivy.core.db.write.TransactionWriter
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.IntervalType
-import com.ivy.core.datamodel.PlannedPaymentRule
-import com.ivy.core.datamodel.Transaction
+import com.ivy.base.legacy.Transaction
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.PlannedPaymentRule
+import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeNowUTC
+import com.ivy.persistence.db.dao.read.AccountDao
+import com.ivy.persistence.db.dao.read.PlannedPaymentRuleDao
+import com.ivy.persistence.db.dao.read.SettingsDao
+import com.ivy.persistence.db.dao.read.TransactionDao
+import com.ivy.persistence.db.dao.write.WritePlannedPaymentRuleDao
+import com.ivy.persistence.db.dao.write.WriteTransactionDao
+import com.ivy.persistence.model.IntervalType
+import com.ivy.persistence.model.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.sumByDoublePlannedInBaseCurrency
 import javax.inject.Inject
@@ -24,8 +26,8 @@ class PlannedPaymentsLogic @Inject constructor(
     private val settingsDao: SettingsDao,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val accountDao: AccountDao,
-    private val transactionWriter: TransactionWriter,
-    private val plannedPaymentRuleWriter: PlannedPaymentRuleWriter,
+    private val transactionWriter: WriteTransactionDao,
+    private val plannedPaymentRuleWriter: WritePlannedPaymentRuleDao,
 ) {
     companion object {
         private const val AVG_DAYS_IN_MONTH = 30.436875

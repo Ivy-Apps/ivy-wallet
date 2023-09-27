@@ -8,10 +8,12 @@ android {
 }
 
 dependencies {
-    implementation(projects.ivyCore)
+    implementation(projects.ivyBase)
+    implementation(projects.ivyDomain)
     implementation(projects.ivyResources)
     implementation(projects.tempOldDesign)
     implementation(projects.ivyNavigation)
+    implementation(projects.ivyPersistence)
 
     implementation(libs.bundles.activity)
     implementation(libs.bundles.opencsv)

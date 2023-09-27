@@ -1,7 +1,9 @@
 package com.ivy.piechart
 
-import com.ivy.core.datamodel.Category
+import androidx.compose.runtime.Immutable
+import com.ivy.legacy.datamodel.Category
 
+@Immutable
 data class SelectedCategory(
     val category: Category? // null - Unspecified
 )

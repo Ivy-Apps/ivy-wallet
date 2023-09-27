@@ -1,10 +1,11 @@
 package com.ivy.wallet.domain.action.category
 
-import com.ivy.core.db.read.CategoryDao
-import com.ivy.core.datamodel.Category
+import com.ivy.legacy.datamodel.Category
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.then
+import com.ivy.persistence.db.dao.read.CategoryDao
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import javax.inject.Inject

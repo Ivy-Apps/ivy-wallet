@@ -3,26 +3,26 @@ package com.ivy.legacy.domain.deprecated.logic.zip
 import android.content.Context
 import android.net.Uri
 import androidx.core.net.toUri
-import com.ivy.core.db.read.AccountDao
-import com.ivy.core.db.read.BudgetDao
-import com.ivy.core.db.read.CategoryDao
-import com.ivy.core.db.read.LoanDao
-import com.ivy.core.db.read.LoanRecordDao
-import com.ivy.core.db.read.PlannedPaymentRuleDao
-import com.ivy.core.db.read.SettingsDao
-import com.ivy.core.db.read.TransactionDao
-import com.ivy.core.db.write.AccountWriter
-import com.ivy.core.db.write.BudgetWriter
-import com.ivy.core.db.write.CategoryWriter
-import com.ivy.core.db.write.LoanRecordWriter
-import com.ivy.core.db.write.LoanWriter
-import com.ivy.core.db.write.PlannedPaymentRuleWriter
-import com.ivy.core.db.write.SettingsWriter
-import com.ivy.core.db.write.TransactionWriter
 import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.readFile
 import com.ivy.legacy.utils.scopedIOThread
+import com.ivy.persistence.db.dao.read.AccountDao
+import com.ivy.persistence.db.dao.read.BudgetDao
+import com.ivy.persistence.db.dao.read.CategoryDao
+import com.ivy.persistence.db.dao.read.LoanDao
+import com.ivy.persistence.db.dao.read.LoanRecordDao
+import com.ivy.persistence.db.dao.read.PlannedPaymentRuleDao
+import com.ivy.persistence.db.dao.read.SettingsDao
+import com.ivy.persistence.db.dao.read.TransactionDao
+import com.ivy.persistence.db.dao.write.WriteAccountDao
+import com.ivy.persistence.db.dao.write.WriteBudgetDao
+import com.ivy.persistence.db.dao.write.WriteCategoryDao
+import com.ivy.persistence.db.dao.write.WriteLoanDao
+import com.ivy.persistence.db.dao.write.WriteLoanRecordDao
+import com.ivy.persistence.db.dao.write.WritePlannedPaymentRuleDao
+import com.ivy.persistence.db.dao.write.WriteSettingsDao
+import com.ivy.persistence.db.dao.write.WriteTransactionDao
 import com.ivy.wallet.domain.data.IvyWalletCompleteData
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import com.ivy.wallet.domain.deprecated.logic.zip.unzip
@@ -47,14 +47,14 @@ class BackupLogic @Inject constructor(
     private val settingsDao: SettingsDao,
     private val transactionDao: TransactionDao,
     private val sharedPrefs: SharedPrefs,
-    private val accountWriter: AccountWriter,
-    private val categoryWriter: CategoryWriter,
-    private val transactionWriter: TransactionWriter,
-    private val settingsWriter: SettingsWriter,
-    private val budgetWriter: BudgetWriter,
-    private val loanWriter: LoanWriter,
-    private val loanRecordWriter: LoanRecordWriter,
-    private val plannedPaymentRuleWriter: PlannedPaymentRuleWriter,
+    private val accountWriter: WriteAccountDao,
+    private val categoryWriter: WriteCategoryDao,
+    private val transactionWriter: WriteTransactionDao,
+    private val settingsWriter: WriteSettingsDao,
+    private val budgetWriter: WriteBudgetDao,
+    private val loanWriter: WriteLoanDao,
+    private val loanRecordWriter: WriteLoanRecordDao,
+    private val plannedPaymentRuleWriter: WritePlannedPaymentRuleDao,
     @ApplicationContext
     private val context: Context,
     private val json: Json,

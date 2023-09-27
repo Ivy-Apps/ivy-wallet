@@ -1,7 +1,7 @@
 package com.ivy.attributions
 
 import androidx.compose.runtime.Composable
-import com.ivy.core.ComposeViewModel
+import com.ivy.domain.ComposeViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

@@ -1,10 +1,10 @@
 package com.ivy.legacy.domain.action.exchange
 
 import androidx.annotation.Keep
-import com.ivy.core.db.entity.ExchangeRateEntity
-import com.ivy.core.db.read.ExchangeRatesDao
-import com.ivy.core.db.write.ExchangeRatesWriter
 import com.ivy.frp.action.Action
+import com.ivy.persistence.db.dao.read.ExchangeRatesDao
+import com.ivy.persistence.db.dao.write.WriteExchangeRatesDao
+import com.ivy.persistence.db.entity.ExchangeRateEntity
 import dagger.Lazy
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 class SyncExchangeRatesAct @Inject constructor(
     private val exchangeRatesDao: ExchangeRatesDao,
-    private val exchangeRatesWriter: ExchangeRatesWriter,
+    private val writeExchangeRatesDao: WriteExchangeRatesDao,
     private val ktorClient: Lazy<HttpClient>,
 ) : Action<SyncExchangeRatesAct.Input, Unit>() {
     data class Input(
@@ -83,7 +83,7 @@ class SyncExchangeRatesAct @Inject constructor(
 
             if (!manualOverride && newRate.rate > 0.0) {
                 // save only the once that aren't overridden
-                exchangeRatesWriter.save(newRate)
+                writeExchangeRatesDao.save(newRate)
             }
         }
     }

@@ -46,6 +46,72 @@
     </issue>
 
     <issue
+        id="GradleDependency"
+        message="A newer version of androidx.compose.animation:animation than 1.5.1 is available: 1.5.2"
+        errorLine1="compose = &quot;1.5.1&quot;"
+        errorLine2="          ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="7"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.compose.runtime:runtime than 1.5.1 is available: 1.5.2"
+        errorLine1="compose = &quot;1.5.1&quot;"
+        errorLine2="          ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="7"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.compose.runtime:runtime-livedata than 1.5.1 is available: 1.5.2"
+        errorLine1="compose = &quot;1.5.1&quot;"
+        errorLine2="          ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="7"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.compose.ui:ui than 1.5.1 is available: 1.5.2"
+        errorLine1="compose = &quot;1.5.1&quot;"
+        errorLine2="          ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="7"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.compose.ui:ui-tooling than 1.5.1 is available: 1.5.2"
+        errorLine1="compose = &quot;1.5.1&quot;"
+        errorLine2="          ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="7"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="Upgrade `androidx.compose.foundation` for keyboard and mouse support"
+        errorLine1="compose = &quot;1.5.1&quot;"
+        errorLine2="          ~~~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="7"
+            column="11"/>
+    </issue>
+
+    <issue
         id="PrivateResource"
         message="Overriding `@string/selected` which is marked as private in androidx.compose.ui:ui-android:1.5.1. If deliberate, use tools:override=&quot;true&quot;, otherwise pick a different name."
         errorLine1="    &lt;string name=&quot;selected&quot;>تم تحديده&lt;/string>"
@@ -267,7 +333,7 @@
 
     <issue
         id="StringFormatCount"
-        message="Inconsistent number of arguments in formatting string `percent`; found both 1 here and 0 in values\strings.xml"
+        message="Inconsistent number of arguments in formatting string `percent`; found both 1 here and 0 in values/strings.xml"
         errorLine1="    &lt;string name=&quot;percent&quot;>%1$s\\%%&lt;/string>"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -9255,7 +9321,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/reports/FilterOverlay.kt"
-            line="841"
+            line="843"
             column="1"/>
     </issue>
 
@@ -11169,7 +11235,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/reports/FilterOverlay.kt"
-            line="841"
+            line="843"
             column="1"/>
     </issue>
 

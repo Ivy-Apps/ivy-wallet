@@ -1,12 +1,12 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.core.db.write.AccountWriter
-import com.ivy.core.db.write.CategoryWriter
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Category
-import com.ivy.core.util.stringRes
+import com.ivy.base.util.stringRes
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
 import com.ivy.design.l0_system.*
+import com.ivy.persistence.db.dao.write.WriteAccountDao
+import com.ivy.persistence.db.dao.write.WriteCategoryDao
 import com.ivy.resources.R
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
@@ -17,8 +17,8 @@ import javax.inject.Inject
 
 @Deprecated("Migrate to FP Style")
 class PreloadDataLogic @Inject constructor(
-    private val accountWriter: AccountWriter,
-    private val categoryWriter: CategoryWriter,
+    private val accountWriter: WriteAccountDao,
+    private val categoryWriter: WriteCategoryDao,
 ) {
     var categoryOrderNum = 0.0
 

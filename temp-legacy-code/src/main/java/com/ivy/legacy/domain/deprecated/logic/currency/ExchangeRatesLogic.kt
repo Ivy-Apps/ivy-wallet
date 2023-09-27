@@ -1,11 +1,12 @@
 package com.ivy.wallet.domain.deprecated.logic.currency
 
-import com.ivy.core.db.read.AccountDao
-import com.ivy.core.db.read.ExchangeRatesDao
-import com.ivy.core.db.read.SettingsDao
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.PlannedPaymentRule
-import com.ivy.core.datamodel.Transaction
+import com.ivy.base.legacy.Transaction
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.PlannedPaymentRule
+import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.persistence.db.dao.read.AccountDao
+import com.ivy.persistence.db.dao.read.ExchangeRatesDao
+import com.ivy.persistence.db.dao.read.SettingsDao
 import java.util.UUID
 import javax.inject.Inject
 

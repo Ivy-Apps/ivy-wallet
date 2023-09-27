@@ -15,11 +15,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Category
-import com.ivy.core.datamodel.IntervalType
-import com.ivy.core.datamodel.PlannedPaymentRule
-import com.ivy.core.db.entity.TransactionType
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
+import com.ivy.legacy.datamodel.PlannedPaymentRule
 import com.ivy.design.l0_system.Purple
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -29,6 +27,8 @@ import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.PlannedPaymentsScreen
 import com.ivy.navigation.navigation
+import com.ivy.persistence.model.IntervalType
+import com.ivy.persistence.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Orange

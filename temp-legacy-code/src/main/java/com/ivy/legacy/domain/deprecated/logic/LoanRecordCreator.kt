@@ -1,15 +1,14 @@
 package com.ivy.wallet.domain.deprecated.logic
 
-import com.ivy.core.db.write.LoanRecordWriter
-import com.ivy.core.datamodel.LoanRecord
+import com.ivy.legacy.datamodel.LoanRecord
 import com.ivy.legacy.utils.ioThread
+import com.ivy.persistence.db.dao.write.WriteLoanRecordDao
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
 import java.util.UUID
 import javax.inject.Inject
 
-@Deprecated("Use FP style, look into `domain.fp` package")
 class LoanRecordCreator @Inject constructor(
-    private val loanRecordWriter: LoanRecordWriter,
+    private val loanRecordWriter: WriteLoanRecordDao,
 ) {
     suspend fun create(
         loanId: UUID,
