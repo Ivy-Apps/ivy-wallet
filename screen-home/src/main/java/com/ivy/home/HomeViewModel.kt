@@ -218,7 +218,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun start(): suspend () -> HomeState =
+    private suspend fun start(): suspend () -> Unit =
         suspend {
             val startDay = startDayOfMonthAct(Unit)
             ivyContext.initSelectedPeriodInMemory(
@@ -324,7 +324,7 @@ class HomeViewModel @Inject constructor(
 
     private suspend fun loadDueTrns(
         input: Pair<String, ClosedTimeRange>
-    ) = suspend {
+    ): Unit = suspend {
         UpcomingAct.Input(baseCurrency = input.first, range = input.second)
     } then upcomingAct then { result ->
         upcoming.value = DueSection(
@@ -342,7 +342,7 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    private suspend fun loadCustomerJourney() {
+    private suspend fun loadCustomerJourney(unit: Unit) {
         customerJourneyCards.value = ioThread {
             customerJourneyLogic.loadCards().toImmutableList()
         }
@@ -350,11 +350,11 @@ class HomeViewModel @Inject constructor(
 // -----------------------------------------------------------------
 
     private suspend fun setUpcomingExpanded(expanded: Boolean) = suspend {
-        updateState { it.copy(upcoming = it.upcoming.copy(expanded = expanded)) }
+        upcoming.value = upcoming.value.copy(expanded = expanded)
     }
 
     private suspend fun setOverdueExpanded(expanded: Boolean) = suspend {
-        updateState { it.copy(overdue = it.overdue.copy(expanded = expanded)) }
+        overdue.value = overdue.value.copy(expanded = expanded)
     }
 
     private suspend fun onBalanceClick() = suspend {
@@ -367,20 +367,18 @@ class HomeViewModel @Inject constructor(
             ivyContext.selectMainTab(MainTab.ACCOUNTS)
             nav.navigateTo(MainScreen)
         }
-
-        stateVal()
     }
 
     private suspend fun onHiddenBalanceClick() = suspend {
-        updateState { it.copy(hideCurrentBalance = false) }
+        hideCurrentBalance.value = false
 
         // Showing Balance fow 5s
         delay(5000)
 
-        updateState { it.copy(hideCurrentBalance = true) }
+        hideCurrentBalance.value = true
     }
 
-    private suspend fun switchTheme() = settingsAct then {
+    private fun switchTheme() = settingsAct then {
         it.copy(
             theme = when (it.theme) {
                 Theme.LIGHT -> Theme.DARK
@@ -390,7 +388,7 @@ class HomeViewModel @Inject constructor(
         )
     } then updateSettingsAct then { newSettings ->
         ivyContext.switchTheme(newSettings.theme)
-        updateState { it.copy(theme = newSettings.theme) }
+        theme.value = newSettings.theme
     }
 
     private suspend fun setBuffer(newBuffer: Double) = settingsAct then {
@@ -419,9 +417,6 @@ class HomeViewModel @Inject constructor(
         ) {
             reload()
         }
-
-        // TODO: Refactor
-        stateVal()
     }
 
     private suspend fun skipPlanned(transaction: Transaction) = suspend {
@@ -431,9 +426,6 @@ class HomeViewModel @Inject constructor(
         ) {
             reload()
         }
-
-        // TODO: Refactor
-        stateVal()
     }
 
     private suspend fun skipAllPlanned(transactions: List<Transaction>) = suspend {
@@ -451,7 +443,6 @@ class HomeViewModel @Inject constructor(
         ) {
             reload()
         }
-        stateVal()
     }
 
     private suspend fun dismissCustomerJourneyCard(card: CustomerJourneyCardModel) = suspend {
@@ -461,26 +452,22 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun nextMonth() = suspend {
-        val month = stateVal().period.month
-        val year = stateVal().period.year ?: dateNowUTC().year
+        val month = period.value.month
+        val year = period.value.year ?: dateNowUTC().year
         month?.incrementMonthPeriod(ivyContext, 1L, year = year)
     } then {
         if (it != null) {
             reload(it)
-        } else {
-            stateVal()
         }
     }
 
     private suspend fun previousMonth() = suspend {
-        val month = stateVal().period.month
-        val year = stateVal().period.year ?: dateNowUTC().year
+        val month = period.value.month
+        val year = period.value.year ?: dateNowUTC().year
         month?.incrementMonthPeriod(ivyContext, -1L, year = year)
     } then {
         if (it != null) {
             reload(it)
-        } else {
-            stateVal()
         }
     }
 
