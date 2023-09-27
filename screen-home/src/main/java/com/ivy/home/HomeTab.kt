@@ -33,6 +33,7 @@ import com.ivy.base.util.stringRes
 import com.ivy.frp.asParamTo2
 import com.ivy.frp.forward
 import com.ivy.frp.then2
+import com.ivy.home.Constants.SWIPE_HORIZONTAL_THRESHOLD
 import com.ivy.home.customerjourney.CustomerJourney
 import com.ivy.home.customerjourney.CustomerJourneyCardModel
 import com.ivy.legacy.data.AppBaseData
@@ -59,8 +60,6 @@ import com.ivy.wallet.ui.theme.modal.DeleteModal
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.math.BigDecimal
-
-private const val SWIPE_HORIZONTAL_THRESHOLD = 200
 
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
