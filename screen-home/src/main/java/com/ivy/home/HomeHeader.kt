@@ -201,7 +201,6 @@ private fun HeaderStickyRow(
 @ExperimentalAnimationApi
 @Composable
 fun CashFlowInfo(
-    period: TimePeriod,
     currency: String,
     balance: Double,
     monthlyIncome: Double,
