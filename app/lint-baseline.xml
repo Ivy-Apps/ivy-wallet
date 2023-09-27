@@ -8979,17 +8979,6 @@
         errorLine1="@Composable"
         errorLine2="^">
         <location
-            file="src/main/java/com/ivy/accounts/AccountsTab.kt"
-            line="191"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeContentEmitterReturningValues"
-        message="Composable functions should either emit content into the composition or return a value, but not both.&#xA;If a composable should offer additional control surfaces to its caller, those control surfaces or callbacks should be provided as parameters to the composable function by the caller.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-content-and-return-a-result for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/wallet/AmountCurrency.kt"
             line="68"
             column="1"/>
@@ -10904,17 +10893,6 @@
         errorLine1="@Composable"
         errorLine2="^">
         <location
-            file="src/main/java/com/ivy/accounts/AccountsTab.kt"
-            line="191"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeMultipleContentEmitters"
-        message="Composable functions should only be emitting content into the composition from one source at their top level.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-multiple-pieces-of-content for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/wallet/AmountCurrency.kt"
             line="68"
             column="1"/>
@@ -12055,17 +12033,6 @@
 
     <issue
         id="ComposeParameterOrder"
-        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, textColor: Color = UI.colors.pureInverse, dividerColor: Color = UI.colors.medium, incomeLabel: String = stringResource(R.string.income_uppercase), income: Double, expensesLabel: String = stringResource(R.string.expenses_uppercase), expenses: Double, currency: String, center: Boolean = true, dividerSpacer: Dp? = null] but should be [income: Double, expenses: Double, currency: String, modifier: Modifier = Modifier, textColor: Color = UI.colors.pureInverse, dividerColor: Color = UI.colors.medium, incomeLabel: String = stringResource(R.string.income_uppercase), expensesLabel: String = stringResource(R.string.expenses_uppercase), center: Boolean = true, dividerSpacer: Dp? = null].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
-            file="src/main/java/com/ivy/accounts/IncomeExpensesRow.kt"
-            line="24"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [modifier: Modifier = Modifier, iconName: String?, tint: Color = UI.colors.pureInverse, iconContentScale: ContentScale? = null, Default: (@Composable () -> Unit)? = null] but should be [iconName: String?, modifier: Modifier = Modifier, tint: Color = UI.colors.pureInverse, iconContentScale: ContentScale? = null, Default: (@Composable () -> Unit)? = null].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
         errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
@@ -12489,7 +12456,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/loans/loan/LoansScreen.kt"
-            line="340"
+            line="363"
             column="1"/>
     </issue>
 
