@@ -235,7 +235,9 @@ private fun BoxWithConstraintsScope.UI(
         title = stringResource(R.string.set_currency),
         initialCurrency = IvyCurrency.fromCode(baseCurrency),
         visible = currencyModalVisible,
-        dismiss = { currencyModalVisible = false },
+        dismiss = {
+            currencyModalVisible = false
+        },
         onSetCurrency = forward<String>() then2 {
             HomeEvent.SetCurrency(it)
         } then2 onEvent
@@ -255,7 +257,9 @@ private fun BoxWithConstraintsScope.UI(
         visible = skipAllModalVisible,
         title = stringResource(R.string.confirm_skip_all),
         description = stringResource(R.string.confirm_skip_all_description),
-        dismiss = { skipAllModalVisible = false }
+        dismiss = {
+            skipAllModalVisible = false
+        }
     ) {
         onEvent(HomeEvent.SkipAllPlanned(uiState.overdue.trns))
         skipAllModalVisible = false
