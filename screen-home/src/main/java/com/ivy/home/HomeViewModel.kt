@@ -6,10 +6,12 @@ import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.viewModelScope
 import com.ivy.core.ComposeViewModel
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Settings
 import com.ivy.core.datamodel.Transaction
+import com.ivy.core.datamodel.TransactionHistoryItem
 import com.ivy.core.datamodel.legacy.Theme
 import com.ivy.frp.fixUnit
 import com.ivy.frp.then
@@ -46,10 +48,13 @@ import com.ivy.wallet.domain.action.wallet.CalcIncomeExpenseAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
+import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import javax.inject.Inject
 
@@ -76,49 +81,140 @@ class HomeViewModel @Inject constructor(
     private val updateCategoriesCacheAct: UpdateCategoriesCacheAct,
     private val syncExchangeRatesAct: SyncExchangeRatesAct,
 ) : ComposeViewModel<HomeState, HomeEvent>() {
-    override val _state: MutableStateFlow<HomeState> = MutableStateFlow(
-        HomeState.initial(ivyWalletCtx = ivyContext)
-    )
-
-    private val theme = mutableStateOf<Theme>(Theme.AUTO)
+    private val theme = mutableStateOf(Theme.AUTO)
     private val name = mutableStateOf("")
-    private val timePeriod = mutableStateOf(TimePeriod())
+    private val period = mutableStateOf(ivyContext.selectedPeriod)
+    private val baseData = mutableStateOf(
+        AppBaseData(
+            baseCurrency = "",
+            accounts = persistentListOf(),
+            categories = persistentListOf()
+        )
+    )
+    private val history = mutableStateOf<ImmutableList<TransactionHistoryItem>>(persistentListOf())
+    private val stats = mutableStateOf(IncomeExpensePair.zero())
+    private val balance = mutableStateOf(BigDecimal.ZERO)
+    private val buffer = mutableStateOf(
+        BufferInfo(
+            amount = BigDecimal.ZERO,
+            bufferDiff = BigDecimal.ZERO,
+        )
+    )
+    private val upcoming = mutableStateOf(
+        DueSection(
+            trns = persistentListOf(),
+            stats = IncomeExpensePair.zero(),
+            expanded = false,
+        )
+    )
+    private val overdue = mutableStateOf(
+        DueSection(
+            trns = persistentListOf(),
+            stats = IncomeExpensePair.zero(),
+            expanded = false,
+        )
+    )
+    private val customerJourneyCards =
+        mutableStateOf<ImmutableList<CustomerJourneyCardModel>>(persistentListOf())
+    private val hideCurrentBalance = mutableStateOf(false)
 
     @Composable
     override fun uiState(): HomeState {
         return HomeState(
-            theme =,
-            name =,
-            period =,
-            baseData: AppBaseData,
-            history: ImmutableList< TransactionHistoryItem >,
-        stats: IncomeExpensePair,
-        balance: BigDecimal,
-        buffer: BufferInfo,
-        upcoming: DueSection,
-        overdue: DueSection,
-        customerJourneyCards: ImmutableList<CustomerJourneyCardModel>,
-        hideCurrentBalance: Boolean
+            theme = getTheme(),
+            name = getName(),
+            period = getPeriod(),
+            baseData = getBaseData(),
+            history = getHistory(),
+            stats = getStats(),
+            balance = getBalance(),
+            buffer = getBuffer(),
+            upcoming = getUpcoming(),
+            overdue = getOverdue(),
+            customerJourneyCards = getCustomerJourneyCards(),
+            hideCurrentBalance = getHideCurrentBalance()
         )
     }
 
+    @Composable
+    private fun getTheme(): Theme {
+        return theme.value
+    }
+
+    @Composable
+    private fun getName(): String {
+        return name.value
+    }
+
+    @Composable
+    private fun getPeriod(): TimePeriod {
+        return period.value
+    }
+
+    @Composable
+    private fun getBaseData(): AppBaseData {
+        return baseData.value
+    }
+
+    @Composable
+    private fun getHistory(): ImmutableList<TransactionHistoryItem> {
+        return history.value
+    }
+
+    @Composable
+    private fun getStats(): IncomeExpensePair {
+        return stats.value
+    }
+
+    @Composable
+    private fun getBalance(): BigDecimal {
+        return balance.value
+    }
+
+    @Composable
+    private fun getBuffer(): BufferInfo {
+        return buffer.value
+    }
+
+    @Composable
+    private fun getUpcoming(): DueSection {
+        return upcoming.value
+    }
+
+    @Composable
+    private fun getOverdue(): DueSection {
+        return overdue.value
+    }
+
+    @Composable
+    private fun getCustomerJourneyCards(): ImmutableList<CustomerJourneyCardModel> {
+        return customerJourneyCards.value
+    }
+
+    @Composable
+    private fun getHideCurrentBalance(): Boolean {
+        return hideCurrentBalance.value
+    }
+
     override fun onEvent(event: HomeEvent) {
-        when (event) {
-            HomeEvent.Start -> start()
-            HomeEvent.BalanceClick -> onBalanceClick()
-            HomeEvent.HiddenBalanceClick -> onHiddenBalanceClick()
-            is HomeEvent.PayOrGetPlanned -> payOrGetPlanned(event.transaction)
-            is HomeEvent.SkipPlanned -> skipPlanned(event.transaction)
-            is HomeEvent.SkipAllPlanned -> skipAllPlanned(event.transactions)
-            is HomeEvent.SetPeriod -> setPeriod(event.period)
-            HomeEvent.SelectNextMonth -> nextMonth()
-            HomeEvent.SelectPreviousMonth -> previousMonth()
-            is HomeEvent.SetUpcomingExpanded -> setUpcomingExpanded(event.expanded)
-            is HomeEvent.SetOverdueExpanded -> setOverdueExpanded(event.expanded)
-            is HomeEvent.SetBuffer -> setBuffer(event.buffer).fixUnit()
-            is HomeEvent.SetCurrency -> setCurrency(event.currency).fixUnit()
-            HomeEvent.SwitchTheme -> switchTheme().fixUnit()
-            is HomeEvent.DismissCustomerJourneyCard -> dismissCustomerJourneyCard(event.card)
+        viewModelScope.launch {
+            when (event) {
+                HomeEvent.Start -> start()
+                HomeEvent.BalanceClick -> onBalanceClick()
+                HomeEvent.HiddenBalanceClick -> onHiddenBalanceClick()
+                is HomeEvent.PayOrGetPlanned -> payOrGetPlanned(event.transaction)
+                is HomeEvent.SkipPlanned -> skipPlanned(event.transaction)
+                is HomeEvent.SkipAllPlanned -> skipAllPlanned(event.transactions)
+                is HomeEvent.SetPeriod -> setPeriod(event.period)
+                HomeEvent.SelectNextMonth -> nextMonth()
+                HomeEvent.SelectPreviousMonth -> previousMonth()
+                is HomeEvent.SetUpcomingExpanded -> setUpcomingExpanded(event.expanded)
+                is HomeEvent.SetOverdueExpanded -> setOverdueExpanded(event.expanded)
+                is HomeEvent.SetBuffer -> setBuffer(event.buffer).fixUnit()
+                is HomeEvent.SetCurrency -> setCurrency(event.currency).fixUnit()
+                HomeEvent.SwitchTheme -> switchTheme().fixUnit()
+                is HomeEvent.DismissCustomerJourneyCard -> dismissCustomerJourneyCard(event.card)
+            }
         }
     }
 
