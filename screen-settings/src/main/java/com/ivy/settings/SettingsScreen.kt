@@ -390,7 +390,7 @@ private fun BoxWithConstraintsScope.UI(
 
             SettingsPrimaryButton(
                 icon = R.drawable.github_logo,
-                iconPadding = 5.dp,
+                iconPadding = 8.dp,
                 text = stringResource(R.string.ivy_wallet_is_opensource),
                 backgroundGradient = Gradient.solid(MediumBlack)
             ) {
