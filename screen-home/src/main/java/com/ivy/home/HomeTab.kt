@@ -29,8 +29,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.util.stringRes
-import com.ivy.core.datamodel.Transaction
-import com.ivy.core.datamodel.TransactionHistoryItem
+import com.ivy.domain.datamodel.Transaction
+import com.ivy.domain.datamodel.TransactionHistoryItem
 import com.ivy.frp.asParamTo2
 import com.ivy.frp.forward
 import com.ivy.frp.then2

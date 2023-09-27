@@ -4,10 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.ComposeViewModel
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Category
-import com.ivy.core.datamodel.TransactionHistoryItem
+import com.ivy.domain.ComposeViewModel
+import com.ivy.domain.datamodel.Account
+import com.ivy.domain.datamodel.Category
+import com.ivy.domain.datamodel.TransactionHistoryItem
 import com.ivy.legacy.utils.getDefaultFIATCurrency
 import com.ivy.legacy.utils.ioThread
 import com.ivy.wallet.domain.action.account.AccountsAct

@@ -8,11 +8,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.toOption
 import com.ivy.base.util.stringRes
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Category
-import com.ivy.core.datamodel.Transaction
-import com.ivy.core.datamodel.TransactionHistoryItem
-import com.ivy.core.temp.toDomain
+import com.ivy.domain.datamodel.Account
+import com.ivy.domain.datamodel.Category
+import com.ivy.domain.datamodel.Transaction
+import com.ivy.domain.datamodel.TransactionHistoryItem
+import com.ivy.domain.temp.toDomain
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.then
 import com.ivy.legacy.IvyWalletCtx

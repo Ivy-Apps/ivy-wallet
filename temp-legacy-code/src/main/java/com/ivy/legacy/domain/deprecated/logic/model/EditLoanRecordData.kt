@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.deprecated.logic.model
 
-import com.ivy.core.datamodel.LoanRecord
+import com.ivy.domain.datamodel.LoanRecord
 
 data class EditLoanRecordData(
     val newLoanRecord: LoanRecord,

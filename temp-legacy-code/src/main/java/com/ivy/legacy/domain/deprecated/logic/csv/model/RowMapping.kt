@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.deprecated.logic.csv.model
 
-import com.ivy.core.datamodel.Category
-import com.ivy.core.datamodel.Transaction
+import com.ivy.domain.datamodel.Category
+import com.ivy.domain.datamodel.Transaction
 
 data class RowMapping(
     val type: Int? = null,

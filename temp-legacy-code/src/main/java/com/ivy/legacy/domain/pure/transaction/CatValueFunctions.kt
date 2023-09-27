@@ -2,8 +2,8 @@ package com.ivy.wallet.domain.pure.transaction
 
 import arrow.core.Option
 import arrow.core.toOption
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Transaction
+import com.ivy.domain.datamodel.Account
+import com.ivy.domain.datamodel.Transaction
 import com.ivy.frp.SideEffect
 import com.ivy.persistence.model.TransactionType
 import java.math.BigDecimal

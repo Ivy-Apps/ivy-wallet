@@ -1,9 +1,9 @@
 package com.ivy.wallet.domain.deprecated.logic
 
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.PlannedPaymentRule
-import com.ivy.core.datamodel.Transaction
-import com.ivy.core.temp.toDomain
+import com.ivy.domain.datamodel.Account
+import com.ivy.domain.datamodel.PlannedPaymentRule
+import com.ivy.domain.datamodel.Transaction
+import com.ivy.domain.temp.toDomain
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.persistence.db.dao.read.AccountDao

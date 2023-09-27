@@ -3,7 +3,7 @@ package com.ivy.wallet.domain.pure.transaction
 import arrow.core.NonEmptyList
 import arrow.core.nonEmptyListOf
 import com.ivy.frp.Pure
-import com.ivy.core.datamodel.Transaction
+import com.ivy.domain.datamodel.Transaction
 import com.ivy.wallet.domain.pure.util.mapIndexedNel
 import com.ivy.wallet.domain.pure.util.mapIndexedNelSuspend
 import com.ivy.wallet.domain.pure.util.nonEmptyListOfZeros

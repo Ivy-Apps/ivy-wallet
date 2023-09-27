@@ -3,8 +3,8 @@ package com.ivy.main
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.event.AccountUpdatedEvent
-import com.ivy.core.event.EventBus
+import com.ivy.domain.event.AccountUpdatedEvent
+import com.ivy.domain.event.EventBus
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.SharedPrefs

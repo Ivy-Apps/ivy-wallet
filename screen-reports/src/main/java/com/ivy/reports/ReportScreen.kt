@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.util.stringRes
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Category
+import com.ivy.domain.datamodel.Account
+import com.ivy.domain.datamodel.Category
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview

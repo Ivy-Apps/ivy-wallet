@@ -1,9 +1,9 @@
 package com.ivy.reports
 
-import com.ivy.core.datamodel.TransactionHistoryItem
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Category
-import com.ivy.core.datamodel.Transaction
+import com.ivy.domain.datamodel.TransactionHistoryItem
+import com.ivy.domain.datamodel.Account
+import com.ivy.domain.datamodel.Category
+import com.ivy.domain.datamodel.Transaction
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.util.*

@@ -2,12 +2,12 @@ package com.ivy.legacy.domain.deprecated.logic.loantrasactions
 
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.base.util.stringRes
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Category
-import com.ivy.core.datamodel.Loan
-import com.ivy.core.datamodel.LoanRecord
-import com.ivy.core.datamodel.Transaction
-import com.ivy.core.temp.toDomain
+import com.ivy.domain.datamodel.Account
+import com.ivy.domain.datamodel.Category
+import com.ivy.domain.datamodel.Loan
+import com.ivy.domain.datamodel.LoanRecord
+import com.ivy.domain.datamodel.Transaction
+import com.ivy.domain.temp.toDomain
 import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.utils.computationThread

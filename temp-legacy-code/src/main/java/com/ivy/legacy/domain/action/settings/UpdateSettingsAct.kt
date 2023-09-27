@@ -1,6 +1,6 @@
 package com.ivy.legacy.domain.action.settings
 
-import com.ivy.core.datamodel.Settings
+import com.ivy.domain.datamodel.Settings
 import com.ivy.frp.action.FPAction
 import com.ivy.persistence.db.dao.write.WriteSettingsDao
 import javax.inject.Inject

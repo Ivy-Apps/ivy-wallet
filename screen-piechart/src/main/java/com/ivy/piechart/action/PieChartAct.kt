@@ -2,9 +2,9 @@ package com.ivy.piechart.action
 
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.base.util.stringRes
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Category
-import com.ivy.core.datamodel.Transaction
+import com.ivy.domain.datamodel.Account
+import com.ivy.domain.datamodel.Category
+import com.ivy.domain.datamodel.Transaction
 import com.ivy.design.l0_system.RedLight
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect

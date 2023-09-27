@@ -9,8 +9,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.model.Theme
 import com.ivy.base.util.refreshWidget
-import com.ivy.core.ComposeViewModel
-import com.ivy.core.RootScreen
+import com.ivy.domain.ComposeViewModel
+import com.ivy.domain.RootScreen
 import com.ivy.frp.monad.Res
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.LogoutLogic

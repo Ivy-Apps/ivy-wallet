@@ -1,8 +1,8 @@
 package com.ivy.piechart
 
 import androidx.compose.runtime.Immutable
-import com.ivy.core.datamodel.Category
-import com.ivy.core.datamodel.Transaction
+import com.ivy.domain.datamodel.Category
+import com.ivy.domain.datamodel.Transaction
 
 @Immutable
 data class CategoryAmount(

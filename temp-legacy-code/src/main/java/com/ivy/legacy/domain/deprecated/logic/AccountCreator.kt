@@ -1,7 +1,7 @@
 package com.ivy.legacy.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.core.datamodel.Account
+import com.ivy.domain.datamodel.Account
 import com.ivy.legacy.utils.ioThread
 import com.ivy.persistence.db.dao.read.AccountDao
 import com.ivy.persistence.db.dao.write.WriteAccountDao

@@ -14,7 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import com.ivy.base.model.Theme
 import com.ivy.base.util.appContext
-import com.ivy.core.RootScreen
+import com.ivy.domain.RootScreen
 import com.ivy.design.IvyContext
 import com.ivy.design.api.IvyDesign
 import com.ivy.design.api.ivyContext

@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.action.transaction
 
-import com.ivy.core.datamodel.Transaction
-import com.ivy.core.temp.toDomain
+import com.ivy.domain.datamodel.Transaction
+import com.ivy.domain.temp.toDomain
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenMap
 import com.ivy.persistence.db.dao.read.TransactionDao

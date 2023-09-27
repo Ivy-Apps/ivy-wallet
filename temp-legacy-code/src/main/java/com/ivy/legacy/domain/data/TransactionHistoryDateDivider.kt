@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.data
 
 import androidx.compose.runtime.Immutable
-import com.ivy.core.datamodel.TransactionHistoryItem
+import com.ivy.domain.datamodel.TransactionHistoryItem
 import java.time.LocalDate
 
 @Immutable

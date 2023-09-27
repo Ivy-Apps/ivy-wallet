@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.deprecated.logic
 
-import com.ivy.core.datamodel.PlannedPaymentRule
-import com.ivy.core.datamodel.Transaction
+import com.ivy.domain.datamodel.PlannedPaymentRule
+import com.ivy.domain.datamodel.Transaction
 import com.ivy.legacy.incrementDate
 import com.ivy.persistence.db.dao.read.TransactionDao
 import com.ivy.persistence.db.dao.write.WriteTransactionDao

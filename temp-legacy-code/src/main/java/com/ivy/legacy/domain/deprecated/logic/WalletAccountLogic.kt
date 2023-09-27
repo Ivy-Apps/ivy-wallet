@@ -1,8 +1,8 @@
 package com.ivy.wallet.domain.deprecated.logic
 
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Transaction
-import com.ivy.core.temp.toDomain
+import com.ivy.domain.datamodel.Account
+import com.ivy.domain.datamodel.Transaction
+import com.ivy.domain.temp.toDomain
 import com.ivy.legacy.data.model.filterOverdue
 import com.ivy.legacy.data.model.filterUpcoming
 import com.ivy.legacy.utils.timeNowUTC

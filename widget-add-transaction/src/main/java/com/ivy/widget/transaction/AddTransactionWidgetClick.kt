@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import androidx.annotation.IdRes
-import com.ivy.core.AppStarter
+import com.ivy.domain.AppStarter
 import com.ivy.persistence.model.TransactionType
 import javax.inject.Inject
 

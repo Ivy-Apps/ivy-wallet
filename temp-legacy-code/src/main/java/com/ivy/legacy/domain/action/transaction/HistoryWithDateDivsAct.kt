@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.action.transaction
 
-import com.ivy.core.datamodel.TransactionHistoryItem
+import com.ivy.domain.datamodel.TransactionHistoryItem
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange

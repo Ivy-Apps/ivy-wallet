@@ -2,7 +2,7 @@ package com.ivy.home.customerjourney
 
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Immutable
-import com.ivy.core.RootScreen
+import com.ivy.domain.RootScreen
 import com.ivy.design.l0_system.Gradient
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.navigation.Navigation

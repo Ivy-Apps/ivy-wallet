@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.action.viewmodel.account
 
 import arrow.core.toOption
-import com.ivy.core.datamodel.Account
+import com.ivy.domain.datamodel.Account
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.then

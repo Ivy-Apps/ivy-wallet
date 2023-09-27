@@ -38,7 +38,7 @@ import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.ivy.IvyNavGraph
 import com.ivy.base.util.toEpochMilli
-import com.ivy.core.RootScreen
+import com.ivy.domain.RootScreen
 import com.ivy.design.api.IvyUI
 import com.ivy.home.customerjourney.CustomerJourneyCardsProvider
 import com.ivy.legacy.Constants

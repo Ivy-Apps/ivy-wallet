@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.deprecated.logic
 
-import com.ivy.core.datamodel.LoanRecord
+import com.ivy.domain.datamodel.LoanRecord
 import com.ivy.legacy.utils.ioThread
 import com.ivy.persistence.db.dao.write.WriteLoanRecordDao
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData

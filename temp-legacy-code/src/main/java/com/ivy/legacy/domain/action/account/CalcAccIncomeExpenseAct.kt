@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.action.account
 
 import arrow.core.nonEmptyListOf
-import com.ivy.core.datamodel.Account
+import com.ivy.domain.datamodel.Account
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange

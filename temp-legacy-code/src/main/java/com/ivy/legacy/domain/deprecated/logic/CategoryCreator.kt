@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.core.datamodel.Category
+import com.ivy.domain.datamodel.Category
 import com.ivy.legacy.utils.ioThread
 import com.ivy.persistence.db.dao.read.CategoryDao
 import com.ivy.persistence.db.dao.write.WriteCategoryDao

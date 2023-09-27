@@ -3,10 +3,10 @@ package com.ivy.budgets
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.budgets.model.DisplayBudget
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Budget
-import com.ivy.core.datamodel.Category
-import com.ivy.core.datamodel.Transaction
+import com.ivy.domain.datamodel.Account
+import com.ivy.domain.datamodel.Budget
+import com.ivy.domain.datamodel.Category
+import com.ivy.domain.datamodel.Transaction
 import com.ivy.frp.sumOfSuspend
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.data.SharedPrefs

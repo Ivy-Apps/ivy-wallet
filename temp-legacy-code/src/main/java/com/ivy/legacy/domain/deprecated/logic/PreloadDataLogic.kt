@@ -2,8 +2,8 @@ package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.base.util.stringRes
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Category
+import com.ivy.domain.datamodel.Account
+import com.ivy.domain.datamodel.Category
 import com.ivy.design.l0_system.*
 import com.ivy.persistence.db.dao.write.WriteAccountDao
 import com.ivy.persistence.db.dao.write.WriteCategoryDao
