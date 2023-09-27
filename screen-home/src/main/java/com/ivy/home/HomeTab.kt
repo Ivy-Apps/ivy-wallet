@@ -135,12 +135,18 @@ private fun BoxWithConstraintsScope.UI(
                     period = uiState.period
                 )
             },
-            onBalanceClick = HomeEvent.BalanceClick asParamTo2 onEvent,
+            onBalanceClick = {
+                onEvent(HomeEvent.BalanceClick)
+            },
             onHiddenBalanceClick = {
                 onEvent(HomeEvent.HiddenBalanceClick)
             },
-            onSelectNextMonth = HomeEvent.SelectNextMonth asParamTo2 onEvent,
-            onSelectPreviousMonth = HomeEvent.SelectPreviousMonth asParamTo2 onEvent
+            onSelectNextMonth = {
+                onEvent(HomeEvent.SelectNextMonth)
+            },
+            onSelectPreviousMonth = {
+                onEvent(HomeEvent.SelectPreviousMonth)
+            }
         )
 
         HomeLazyColumn(
