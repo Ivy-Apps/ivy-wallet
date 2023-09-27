@@ -1,4 +1,4 @@
-package com.ivy.domain.di
+package com.ivy.base.di
 
 import dagger.Module
 import dagger.Provides
