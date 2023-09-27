@@ -9562,28 +9562,6 @@
         errorLine1="@Composable"
         errorLine2="^">
         <location
-            file="src/main/java/com/ivy/settings/SettingsScreen.kt"
-            line="780"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeContentEmitterReturningValues"
-        message="Composable functions should either emit content into the composition or return a value, but not both.&#xA;If a composable should offer additional control surfaces to its caller, those control surfaces or callbacks should be provided as parameters to the composable function by the caller.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-content-and-return-a-result for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
-            file="src/main/java/com/ivy/settings/SettingsScreen.kt"
-            line="1049"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeContentEmitterReturningValues"
-        message="Composable functions should either emit content into the composition or return a value, but not both.&#xA;If a composable should offer additional control surfaces to its caller, those control surfaces or callbacks should be provided as parameters to the composable function by the caller.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-content-and-return-a-result for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
             file="src/main/java/com/ivy/importdata/csvimport/flow/instructions/SpendeeSteps.kt"
             line="11"
             column="1"/>
@@ -11500,28 +11478,6 @@
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/RecurringRuleModal.kt"
             line="245"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeMultipleContentEmitters"
-        message="Composable functions should only be emitting content into the composition from one source at their top level.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-multiple-pieces-of-content for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
-            file="src/main/java/com/ivy/settings/SettingsScreen.kt"
-            line="780"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeMultipleContentEmitters"
-        message="Composable functions should only be emitting content into the composition from one source at their top level.&#xA;See https://slackhq.github.io/compose-lints/rules/#do-not-emit-multiple-pieces-of-content for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
-            file="src/main/java/com/ivy/settings/SettingsScreen.kt"
-            line="1049"
             column="1"/>
     </issue>
 
