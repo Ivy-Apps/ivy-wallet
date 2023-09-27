@@ -19,9 +19,9 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.legacy.utils.decimalPartFormatted
+import com.ivy.legacy.utils.integerPartFormatted
 import com.ivy.legacy.utils.shortenAmount
 import com.ivy.legacy.utils.shouldShortAmount
-import java.text.DecimalFormat
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
@@ -121,12 +121,10 @@ fun BalanceRow(
             Spacer(Modifier.width(spacerCurrency))
         }
 
-        val balancePrecise = balance.toBigDecimal()
-
         val integerPartFormatted = if (shortAmount) {
             shortenAmount(balance)
         } else {
-            DecimalFormat("###,###").format(balancePrecise.toInt())
+            integerPartFormatted(balance)
         }
         Text(
             text = when {
