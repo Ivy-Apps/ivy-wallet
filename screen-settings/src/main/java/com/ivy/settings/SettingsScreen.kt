@@ -394,7 +394,7 @@ private fun BoxWithConstraintsScope.UI(
                 text = stringResource(R.string.ivy_wallet_is_opensource),
                 backgroundGradient = Gradient.solid(MediumBlack)
             ) {
-                rootScreen.shareIvyWallet()
+                rootScreen.openUrlInBrowser(url = Constants.URL_IVY_WALLET_REPO)
             }
         }
 
