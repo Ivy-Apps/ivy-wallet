@@ -355,11 +355,11 @@ class HomeViewModel @Inject constructor(
     }
 // -----------------------------------------------------------------
 
-    private suspend fun setUpcomingExpanded(expanded: Boolean) = suspend {
+    private fun setUpcomingExpanded(expanded: Boolean) {
         upcoming.value = upcoming.value.copy(expanded = expanded)
     }
 
-    private suspend fun setOverdueExpanded(expanded: Boolean) = suspend {
+    private fun setOverdueExpanded(expanded: Boolean) {
         overdue.value = overdue.value.copy(expanded = expanded)
     }
 
@@ -416,7 +416,7 @@ class HomeViewModel @Inject constructor(
         reload()
     }
 
-    private suspend fun payOrGetPlanned(transaction: Transaction) = suspend {
+    private suspend fun payOrGetPlanned(transaction: Transaction) {
         plannedPaymentsLogic.payOrGet(
             transaction = transaction,
             skipTransaction = false
@@ -425,7 +425,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun skipPlanned(transaction: Transaction) = suspend {
+    private suspend fun skipPlanned(transaction: Transaction) {
         plannedPaymentsLogic.payOrGet(
             transaction = transaction,
             skipTransaction = true
@@ -434,7 +434,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun skipAllPlanned(transactions: List<Transaction>) = suspend {
+    private suspend fun skipAllPlanned(transactions: List<Transaction>) {
         // transactions.forEach {
         //    plannedPaymentsLogic.payOrGet(
         //        transaction = it,
@@ -477,7 +477,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun setPeriod(period: TimePeriod) = suspend {
+    private suspend fun setPeriod(period: TimePeriod) {
         reload(period)
     }
 
