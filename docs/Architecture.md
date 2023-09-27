@@ -69,13 +69,13 @@ To create a new module just run:
 - The `:ivy-navigation` does **not** contain screen's implementation but only the screen's definition. A screen definition is a `data class` / `data object` class that models the screen's startup params. This way different screens can start other screen without knowing about their implementation.
 - Only `:app` knows about the implementation of all screens. It maps each `Screen` definition from `:ivy-navigation` to the actual implementation in `IvyNavGraph.kt` (in `:app`).
 
-> Only `implementation("...")` dependencies are allowed. Usage of `api("...")` is banned for the sake of simplicity and performance. No `api("...")` => no tricky Gradle problems to solve.
+> Only `implementation("...")` dependencies are allowed. Usage of `api("...")` is banned for the sake of simplicity and performance. _Motivation: No `api` usage 🚫 => no tricky Gradle problems to solve._
 
 ### Shared code modules
 
 These are the modules that you're allowed to use as a dependency in your own modules:
 
-- `:ivy-base`: very light-weight low-level shared code that needs to be shared almost everywhere.
+- `:ivy-base`: very lightweight low-level shared code that needs to be shared almost everywhere.
 - `:ivy-resources`: contains all Ivy Wallet's resources (e.g. strings, drawables). It's used to share string and drawable resources between different modules. _This resources monolithic approach makes it easier translating the app  (only one `strings.xml`) and protects us from duplicated resources. Also, it's simple._
 - `:ivy-design`: defines the Ivy design system (colors, typography and shapes) and provides a stylized Material3 (M3) theme. It also adds re-usable Ivy components that are missing in M3. _At some point may be extracted as a standalone open-source library._
 - `:ivy-persistence`: Encapsulated CRUD logic - currently Room DB and Datastore.
