@@ -214,6 +214,7 @@ class HomeViewModel @Inject constructor(
                 is HomeEvent.SetCurrency -> setCurrency(event.currency).fixUnit()
                 HomeEvent.SwitchTheme -> switchTheme().fixUnit()
                 is HomeEvent.DismissCustomerJourneyCard -> dismissCustomerJourneyCard(event.card)
+                is HomeEvent.HideBalance -> hideBalance(event.hide)
             }
         }
     }
@@ -473,5 +474,9 @@ class HomeViewModel @Inject constructor(
 
     private suspend fun setPeriod(period: TimePeriod) = suspend {
         reload(period)
+    }
+
+    private fun hideBalance(hide: Boolean) {
+        hideCurrentBalance.value = hide
     }
 }

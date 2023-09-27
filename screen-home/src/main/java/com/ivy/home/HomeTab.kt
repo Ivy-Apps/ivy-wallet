@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -83,7 +82,6 @@ fun BoxWithConstraintsScope.HomeTab() {
 @Composable
 private fun BoxWithConstraintsScope.UI(
     uiState: HomeState,
-
     onEvent: (HomeEvent) -> Unit
 ) {
     val ivyContext = ivyWalletCtx()
@@ -150,7 +148,10 @@ private fun BoxWithConstraintsScope.UI(
         )
 
         HomeLazyColumn(
-            hideBalanceRowState = hideBalanceRowState,
+            hideBalance = hideBalanceRowState.value,
+            onHideBalance = {
+                onEvent(HomeEvent.HideBalance(it))
+            },
             balance = uiState.balance,
             onOpenMoreMenu = {
                 setMoreMenuExpanded(true)
@@ -258,7 +259,8 @@ private fun BoxWithConstraintsScope.UI(
 @ExperimentalAnimationApi
 @Composable
 fun HomeLazyColumn(
-    hideBalanceRowState: MutableState<Boolean>,
+    hideBalance: Boolean,
+    onHideBalance: (Boolean) -> Unit,
     listState: LazyListState,
     hideCurrentBalance: Boolean,
     period: TimePeriod,
@@ -281,6 +283,7 @@ fun HomeLazyColumn(
 
     onPayOrGet: (Transaction) -> Unit,
     onDismiss: (CustomerJourneyCardModel) -> Unit,
+    modifier: Modifier = Modifier,
     onHiddenBalanceClick: () -> Unit = {},
     onSkipTransaction: (Transaction) -> Unit = {},
     onSkipAllTransactions: (List<Transaction>) -> Unit = {}
@@ -296,10 +299,10 @@ fun HomeLazyColumn(
             ): Offset {
                 if (listState.firstVisibleItemIndex == 0) {
                     // To prevent unnecessary updates
-                    if (listState.firstVisibleItemScrollOffset >= 150 && !hideBalanceRowState.value) {
-                        hideBalanceRowState.value = true
-                    } else if (listState.firstVisibleItemScrollOffset < 150 && hideBalanceRowState.value) {
-                        hideBalanceRowState.value = false
+                    if (listState.firstVisibleItemScrollOffset >= 150 && !hideBalance) {
+                        onHideBalance(true)
+                    } else if (listState.firstVisibleItemScrollOffset < 150 && hideBalance) {
+                        onHideBalance(false)
                     }
                 }
 
@@ -309,7 +312,7 @@ fun HomeLazyColumn(
     }
 
     LazyColumn(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .nestedScroll(nestedScrollConnection)
             .testTag("home_lazy_column"),

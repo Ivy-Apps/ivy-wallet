@@ -12,6 +12,7 @@ sealed interface HomeEvent {
 
     data object BalanceClick : HomeEvent
     data object HiddenBalanceClick : HomeEvent
+    data class HideBalance(val hide: Boolean) : HomeEvent
 
     data object SwitchTheme : HomeEvent
 
