@@ -40,7 +40,6 @@ import com.ivy.base.util.stringRes
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.Constants
-import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.AppBaseData
 import com.ivy.legacy.data.DueSection
 import com.ivy.legacy.data.model.TimePeriod
@@ -540,11 +539,9 @@ private fun Header(
         Spacer(Modifier.height(24.dp))
 
         Item(
-            itemColor = itemColor,
             contrastColor = contrastColor,
             account = account,
             category = category,
-
             showAccountModal = showAccountModal,
             showCategoryModal = showCategoryModal
         )
@@ -643,7 +640,6 @@ private fun Header(
 
 @Composable
 private fun Item(
-    itemColor: Color,
     contrastColor: Color,
     account: Account?,
     category: Category?,
@@ -742,8 +738,8 @@ private fun Item(
 
 @Preview
 @Composable
-private fun Preview_empty() {
-    IvyWalletPreview {
+private fun BoxWithConstraintsScope.Preview_empty() {
+    IvyPreview {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
@@ -777,8 +773,8 @@ private fun Preview_empty() {
 
 @Preview
 @Composable
-private fun Preview_crypto() {
-    IvyWalletPreview {
+private fun BoxWithConstraintsScope.Preview_crypto() {
+    IvyPreview {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
