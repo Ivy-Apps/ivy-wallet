@@ -18,11 +18,12 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.legacy.IvyWalletComponentPreview
-import com.ivy.legacy.ivyWalletCtx
-import com.ivy.legacy.rootScreen
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.legacy.ivyWalletCtx
+import com.ivy.legacy.rootScreen
+import com.ivy.legacy.utils.drawColoredShadow
+import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.navigation
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gradient
@@ -30,11 +31,12 @@ import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.dynamicContrast
 import com.ivy.wallet.ui.theme.findContrastTextColor
-import com.ivy.legacy.utils.drawColoredShadow
+import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 fun CustomerJourney(
-    customerJourneyCards: List<CustomerJourneyCardModel>,
+    customerJourneyCards: ImmutableList<CustomerJourneyCardModel>,
+    modifier: Modifier = Modifier,
     onDismiss: (CustomerJourneyCardModel) -> Unit
 ) {
     val ivyContext = ivyWalletCtx()
@@ -49,6 +51,7 @@ fun CustomerJourney(
         Spacer(Modifier.height(12.dp))
 
         CustomerJourneyCard(
+            modifier = modifier,
             cardData = card,
             onDismiss = {
                 onDismiss(card)
@@ -62,12 +65,12 @@ fun CustomerJourney(
 @Composable
 fun CustomerJourneyCard(
     cardData: CustomerJourneyCardModel,
-
     onDismiss: () -> Unit,
+    modifier: Modifier = Modifier,
     onCTA: () -> Unit
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .drawColoredShadow(cardData.background.startColor)
@@ -152,7 +155,7 @@ fun CustomerJourneyCard(
 @Preview
 @Composable
 private fun PreviewCard() {
-    IvyWalletComponentPreview {
+    IvyPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyCardsProvider.adjustBalanceCard(),
             onCTA = { },
