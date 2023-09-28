@@ -1,19 +1,13 @@
 package com.ivy.home
 
-import com.ivy.base.legacy.Transaction
-import com.ivy.base.model.Theme
-import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.ComposeViewModel
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Settings
-import com.ivy.core.datamodel.Transaction
-import com.ivy.core.datamodel.TransactionHistoryItem
-import com.ivy.core.datamodel.legacy.Theme
+import com.ivy.base.legacy.Transaction
+import com.ivy.base.legacy.TransactionHistoryItem
+import com.ivy.base.model.Theme
+import com.ivy.domain.ComposeViewModel
 import com.ivy.frp.fixUnit
 import com.ivy.frp.then
 import com.ivy.frp.thenInvokeAfter
@@ -26,6 +20,8 @@ import com.ivy.legacy.data.DueSection
 import com.ivy.legacy.data.model.MainTab
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.data.model.toCloseTimeRange
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Settings
 import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.legacy.domain.action.settings.UpdateSettingsAct
 import com.ivy.legacy.utils.dateNowUTC
