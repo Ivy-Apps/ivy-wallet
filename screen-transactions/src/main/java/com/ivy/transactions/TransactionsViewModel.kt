@@ -288,63 +288,6 @@ class TransactionsViewModel @Inject constructor(
         }
     }
 
-    fun start(
-        screen: ItemStatisticScreen,
-        timePeriod: TimePeriod? = ivyContext.selectedPeriod,
-        reset: Boolean = true
-    ) {
-        if (reset) {
-            reset()
-        }
-
-        viewModelScope.launch {
-            period.value = timePeriod ?: ivyContext.selectedPeriod
-
-            val baseCurrencyValue = baseCurrencyAct(Unit)
-            baseCurrency.value = baseCurrencyValue
-            currency.value = baseCurrency.value
-
-            categories.value = categoriesAct(Unit)
-            accounts.value = accountsAct(Unit)
-            initWithTransactions.value = false
-            treatTransfersAsIncomeExpense.value =
-                sharedPrefs.getBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, false)
-
-            when {
-                screen.accountId != null -> {
-                    initForAccount(screen.accountId!!)
-                }
-
-                screen.categoryId != null && screen.transactions.isEmpty() -> {
-                    initForCategory(screen.categoryId!!, screen.accountIdFilterList)
-                }
-                // unspecifiedCategory==false is explicitly checked to accommodate for a temp AccountTransfers Category during Reports Screen
-                screen.categoryId != null && screen.transactions.isNotEmpty() &&
-                        screen.unspecifiedCategory == false -> {
-                    initForCategoryWithTransactions(
-                        screen.categoryId!!,
-                        screen.accountIdFilterList,
-                        screen.transactions
-                    )
-                }
-
-                screen.unspecifiedCategory == true && screen.transactions.isNotEmpty() -> {
-                    initForAccountTransfersCategory(
-                        screen.categoryId,
-                        screen.accountIdFilterList,
-                        screen.transactions
-                    )
-                }
-
-                screen.unspecifiedCategory == true -> {
-                    initForUnspecifiedCategory()
-                }
-
-                else -> error("no id provided")
-            }
-        }
-    }
-
     private suspend fun initForAccount(accountId: UUID) {
         val initialAccount = ioThread {
             accountDao.findById(accountId)?.toDomain() ?: error("account not found")
@@ -800,6 +743,63 @@ class TransactionsViewModel @Inject constructor(
         accountNameConfirmation = selectEndTextFieldValue(newName)
         account.value?.name?.let { accountName ->
             enableDeletionButton = newName == accountName
+        }
+    }
+
+    fun start(
+        screen: ItemStatisticScreen,
+        timePeriod: TimePeriod? = ivyContext.selectedPeriod,
+        reset: Boolean = true
+    ) {
+        if (reset) {
+            reset()
+        }
+
+        viewModelScope.launch {
+            period.value = timePeriod ?: ivyContext.selectedPeriod
+
+            val baseCurrencyValue = baseCurrencyAct(Unit)
+            baseCurrency.value = baseCurrencyValue
+            currency.value = baseCurrency.value
+
+            categories.value = categoriesAct(Unit)
+            accounts.value = accountsAct(Unit)
+            initWithTransactions.value = false
+            treatTransfersAsIncomeExpense.value =
+                sharedPrefs.getBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, false)
+
+            when {
+                screen.accountId != null -> {
+                    initForAccount(screen.accountId!!)
+                }
+
+                screen.categoryId != null && screen.transactions.isEmpty() -> {
+                    initForCategory(screen.categoryId!!, screen.accountIdFilterList)
+                }
+                // unspecifiedCategory==false is explicitly checked to accommodate for a temp AccountTransfers Category during Reports Screen
+                screen.categoryId != null && screen.transactions.isNotEmpty() &&
+                        screen.unspecifiedCategory == false -> {
+                    initForCategoryWithTransactions(
+                        screen.categoryId!!,
+                        screen.accountIdFilterList,
+                        screen.transactions
+                    )
+                }
+
+                screen.unspecifiedCategory == true && screen.transactions.isNotEmpty() -> {
+                    initForAccountTransfersCategory(
+                        screen.categoryId,
+                        screen.accountIdFilterList,
+                        screen.transactions
+                    )
+                }
+
+                screen.unspecifiedCategory == true -> {
+                    initForUnspecifiedCategory()
+                }
+
+                else -> error("no id provided")
+            }
         }
     }
 }
