@@ -90,7 +90,7 @@ import java.util.UUID
 
 @Composable
 fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatisticScreen) {
-    val viewModel: ItemStatisticViewModel = viewModel()
+    val viewModel: TransactionsViewModel = viewModel()
 
     val ivyContext = ivyWalletCtx()
     val nav = navigation()

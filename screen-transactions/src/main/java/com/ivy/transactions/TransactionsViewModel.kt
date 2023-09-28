@@ -1,30 +1,31 @@
 package com.ivy.transactions
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.toArgb
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.toOption
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.util.stringRes
-import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
-import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.domain.ComposeViewModel
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.then
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.data.model.toCloseTimeRange
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.dateNowUTC
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.isNotNullOrBlank
-import com.ivy.legacy.utils.readOnly
 import com.ivy.legacy.utils.selectEndTextFieldValue
 import com.ivy.navigation.ItemStatisticScreen
 import com.ivy.navigation.Navigation
@@ -55,13 +56,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
-class ItemStatisticViewModel @Inject constructor(
+class TransactionsViewModel @Inject constructor(
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
     private val ivyContext: IvyWalletCtx,
@@ -85,82 +85,48 @@ class ItemStatisticViewModel @Inject constructor(
     private val categoryWriter: WriteCategoryDao,
     private val accountWriter: WriteAccountDao,
     private val plannedPaymentRuleWriter: WritePlannedPaymentRuleDao,
-) : ViewModel() {
+) : ComposeViewModel<TransactionsState, TransactionsEvent>() {
 
-    private val _period = MutableStateFlow(ivyContext.selectedPeriod!!)
-    val period = _period.readOnly()
-
-    private val _categories = MutableStateFlow<ImmutableList<Category>>(persistentListOf())
-    val categories = _categories.readOnly()
-
-    private val _accounts = MutableStateFlow<ImmutableList<Account>>(persistentListOf())
-    val accounts = _accounts.readOnly()
-
-    private val _baseCurrency = MutableStateFlow("")
-    val baseCurrency = _baseCurrency.readOnly()
-
-    private val _currency = MutableStateFlow("")
-    val currency = _currency.readOnly()
-
-    private val _balance = MutableStateFlow(0.0)
-    val balance = _balance.readOnly()
-
-    private val _balanceBaseCurrency = MutableStateFlow<Double?>(null)
-    val balanceBaseCurrency = _balanceBaseCurrency.readOnly()
-
-    private val _income = MutableStateFlow(0.0)
-    val income = _income.readOnly()
-
-    private val _expenses = MutableStateFlow(0.0)
-    val expenses = _expenses.readOnly()
+    private val period = mutableStateOf(ivyContext.selectedPeriod)
+    private val categories = mutableStateOf<ImmutableList<Category>>(persistentListOf())
+    private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
+    private val baseCurrency = mutableStateOf("")
+    private val currency = mutableStateOf("")
+    private val balance = mutableDoubleStateOf(0.0)
+    private val balanceBaseCurrency = mutableStateOf<Double?>(null)
+    private val income = mutableDoubleStateOf(0.0)
+    private val expenses = mutableDoubleStateOf(0.0)
 
     // Upcoming
-    private val _upcoming = MutableStateFlow<ImmutableList<Transaction>>(persistentListOf())
-    val upcoming = _upcoming.readOnly()
-
-    private val _upcomingIncome = MutableStateFlow(0.0)
-    val upcomingIncome = _upcomingIncome.readOnly()
-
-    private val _upcomingExpenses = MutableStateFlow(0.0)
-    val upcomingExpenses = _upcomingExpenses.readOnly()
-
-    private val _upcomingExpanded = MutableStateFlow(false)
-    val upcomingExpanded = _upcomingExpanded.readOnly()
+    private val upcoming = mutableStateOf<ImmutableList<Transaction>>(persistentListOf())
+    private val upcomingIncome = mutableDoubleStateOf(0.0)
+    private val upcomingExpenses = mutableDoubleStateOf(0.0)
+    private val upcomingExpanded = mutableStateOf(false)
 
     // Overdue
-    private val _overdue = MutableStateFlow<ImmutableList<Transaction>>(persistentListOf())
-    val overdue = _overdue.readOnly()
-
-    private val _overdueIncome = MutableStateFlow(0.0)
-    val overdueIncome = _overdueIncome.readOnly()
-
-    private val _overdueExpenses = MutableStateFlow(0.0)
-    val overdueExpenses = _overdueExpenses.readOnly()
-
-    private val _overdueExpanded = MutableStateFlow(true)
-    val overdueExpanded = _overdueExpanded.readOnly()
+    private val overdue = mutableStateOf<ImmutableList<Transaction>>(persistentListOf())
+    private val overdueIncome = mutableDoubleStateOf(0.0)
+    private val overdueExpenses = mutableDoubleStateOf(0.0)
+    private val overdueExpanded = mutableStateOf(true)
 
     // History
-    private val _history =
-        MutableStateFlow<ImmutableList<TransactionHistoryItem>>(persistentListOf())
-    val history = _history.readOnly()
+    private val history =
+        mutableStateOf<ImmutableList<TransactionHistoryItem>>(persistentListOf())
 
-    private val _account = MutableStateFlow<Account?>(null)
-    val account = _account.readOnly()
-
-    private val _category = MutableStateFlow<Category?>(null)
-    val category = _category.readOnly()
-
-    private val _initWithTransactions = MutableStateFlow(false)
-    val initWithTransactions = _initWithTransactions.readOnly()
-
-    private val _treatTransfersAsIncomeExpense = MutableStateFlow(false)
-    val treatTransfersAsIncomeExpense = _treatTransfersAsIncomeExpense.readOnly()
+    private val account = mutableStateOf<Account?>(null)
+    private val category = mutableStateOf<Category?>(null)
+    private val initWithTransactions = mutableStateOf(false)
+    private val treatTransfersAsIncomeExpense = mutableStateOf(false)
 
     var accountNameConfirmation by mutableStateOf(selectEndTextFieldValue(""))
         private set
     var enableDeletionButton by mutableStateOf(false)
         private set
+
+    @Composable
+    override fun uiState(): TransactionsState {
+        return TransactionsState()
+    }
 
     fun start(
         screen: ItemStatisticScreen,
@@ -696,5 +662,9 @@ class ItemStatisticViewModel @Inject constructor(
         account.value?.name?.let { accountName ->
             enableDeletionButton = newName == accountName
         }
+    }
+
+    override fun onEvent(event: TransactionsEvent) {
+        TODO("Not yet implemented")
     }
 }
