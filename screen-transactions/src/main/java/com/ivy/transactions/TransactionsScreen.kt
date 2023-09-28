@@ -132,46 +132,56 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatisticScreen) {
 
         upcoming = uiState.upcoming,
         upcomingExpanded = uiState.upcomingExpanded,
-        setUpcomingExpanded = viewModel::setUpcomingExpanded,
+        setUpcomingExpanded = {
+            viewModel.onEvent(TransactionsEvent.SetUpcomingExpanded(it))
+        },
         upcomingIncome = uiState.upcomingIncome,
         upcomingExpenses = uiState.upcomingExpenses,
 
         overdue = uiState.overdue,
         overdueExpanded = uiState.overdueExpanded,
-        setOverdueExpanded = viewModel::setOverdueExpanded,
+        setOverdueExpanded = {
+            viewModel.onEvent(TransactionsEvent.SetOverdueExpanded(it))
+        },
         overdueIncome = uiState.overdueIncome,
         overdueExpenses = uiState.overdueExpenses,
 
         onSetPeriod = {
-            viewModel.setPeriod(
-                screen = screen,
-                period = it
+            viewModel.onEvent(
+                TransactionsEvent.SetPeriod(
+                    screen = screen,
+                    period = it
+                )
             )
         },
         onNextMonth = {
-            viewModel.nextMonth(screen)
+            viewModel.onEvent(TransactionsEvent.NextMonth(screen))
         },
         onPreviousMonth = {
-            viewModel.previousMonth(screen)
+            viewModel.onEvent(TransactionsEvent.PreviousMonth(screen))
         },
         onDelete = {
-            viewModel.delete(screen)
+            viewModel.onEvent(TransactionsEvent.Delete(screen))
         },
-        onEditCategory = viewModel::editCategory,
+        onEditCategory = {
+            viewModel.onEvent(TransactionsEvent.EditCategory(it))
+        },
         onEditAccount = { acc, newBalance ->
-            viewModel.editAccount(screen, acc, newBalance)
+            viewModel.onEvent(TransactionsEvent.EditAccount(screen, acc, newBalance))
         },
         onPayOrGet = { transaction ->
-            viewModel.payOrGet(screen, transaction)
+            viewModel.onEvent(TransactionsEvent.PayOrGet(screen, transaction))
         },
         onSkipTransaction = { transaction ->
-            viewModel.skipTransaction(screen, transaction)
+            viewModel.onEvent(TransactionsEvent.SkipTransaction(screen, transaction))
         },
         onSkipAllTransactions = { transactions ->
-            viewModel.skipTransactions(screen, transactions)
+            viewModel.onEvent(TransactionsEvent.SkipTransactions(screen, transactions))
         },
         accountNameConfirmation = viewModel.accountNameConfirmation,
-        updateAccountNameConfirmation = viewModel::updateAccountDeletionState,
+        updateAccountNameConfirmation = {
+            viewModel.onEvent(TransactionsEvent.UpdateAccountDeletionState(it))
+        },
         enableDeletionButton = viewModel.enableDeletionButton
     )
 }
