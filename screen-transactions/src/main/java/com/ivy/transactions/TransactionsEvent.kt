@@ -20,17 +20,24 @@ sealed interface TransactionsEvent {
     data class Delete(val screen: ItemStatisticScreen) : TransactionsEvent
     data class EditCategory(val updatedCategory: Category) : TransactionsEvent
     data class EditAccount(
-        val screen: ItemStatisticScreen, val account: Account, val newBalance: Double
+        val screen: ItemStatisticScreen,
+        val account: Account,
+        val newBalance: Double
     ) : TransactionsEvent
 
-    data class PayOrGet(val screen: ItemStatisticScreen, val transaction: Transaction) :
-        TransactionsEvent
+    data class PayOrGet(
+        val screen: ItemStatisticScreen,
+        val transaction: Transaction
+    ) : TransactionsEvent
 
-    data class SkipTransaction(val screen: ItemStatisticScreen, val transaction: Transaction) :
-        TransactionsEvent
+    data class SkipTransaction(
+        val screen: ItemStatisticScreen,
+        val transaction: Transaction
+    ) : TransactionsEvent
 
     data class SkipTransactions(
-        val screen: ItemStatisticScreen, val transactions: List<Transaction>
+        val screen: ItemStatisticScreen,
+        val transactions: List<Transaction>
     ) : TransactionsEvent
 
     data class UpdateAccountDeletionState(val confirmationText: String) : TransactionsEvent
