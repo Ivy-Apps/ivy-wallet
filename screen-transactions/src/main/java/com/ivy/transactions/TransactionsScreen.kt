@@ -237,7 +237,6 @@ private fun BoxWithConstraintsScope.UI(
     val itemColor = (account?.color ?: category?.color)?.toComposeColor() ?: Gray
 
     var deleteModal1Visible by remember { mutableStateOf(false) }
-    var deleteModal2Visible by remember { mutableStateOf(false) }
     var deleteModal3Visible by remember { mutableStateOf(false) }
     var skipAllModalVisible by remember { mutableStateOf(false) }
     var categoryModalData: CategoryModalData? by remember { mutableStateOf(null) }
@@ -422,39 +421,26 @@ private fun BoxWithConstraintsScope.UI(
         },
         dismiss = { deleteModal1Visible = false }
     ) {
-        deleteModal2Visible = true
-    }
-
-    DeleteModal(
-        visible = deleteModal2Visible,
-        title = stringResource(R.string.confirm_deletion),
-        description = if (account != null) {
-            stringResource(R.string.account_confirm_deletion_description2)
-        } else {
-            stringResource(R.string.category_confirm_deletion_description)
-        },
-        dismiss = {
-            deleteModal2Visible = false
-            deleteModal1Visible = false
-        }
-    ) {
         deleteModal3Visible = true
     }
 
     DeleteConfirmationModal(
         visible = deleteModal3Visible,
         title = stringResource(id = R.string.confirm_deletion),
-        description = stringResource(
-            id = R.string.account_confirm_deletion_type_account_name,
-            account?.name ?: category?.name ?: ""
-        ),
+        description = if (account != null) {
+            stringResource(
+                id = R.string.account_confirm_deletion_type_account_name,
+                account.name
+            )
+        } else {
+            "Please type \"${category?.name ?: ""}\" in order to delete your category."
+        },
         accountName = accountNameConfirmation,
         onAccountNameChange = updateAccountNameConfirmation,
         enableDeletionButton = enableDeletionButton,
         dismiss = {
             updateAccountNameConfirmation("")
             deleteModal3Visible = false
-            deleteModal2Visible = false
             deleteModal1Visible = false
         }
     ) {
