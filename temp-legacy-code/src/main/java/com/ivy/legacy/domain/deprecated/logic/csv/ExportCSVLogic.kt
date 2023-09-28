@@ -15,7 +15,7 @@ import com.ivy.persistence.db.dao.read.AccountDao
 import com.ivy.persistence.db.dao.read.CategoryDao
 import com.ivy.persistence.db.dao.read.SettingsDao
 import com.ivy.persistence.db.dao.read.TransactionDao
-import com.ivy.persistence.model.TransactionType
+import com.ivy.base.model.TransactionType
 import org.apache.commons.text.StringEscapeUtils
 import java.util.UUID
 import javax.inject.Inject

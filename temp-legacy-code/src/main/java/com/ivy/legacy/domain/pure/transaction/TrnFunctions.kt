@@ -5,7 +5,7 @@ import arrow.core.toOption
 import com.ivy.base.legacy.Transaction
 import com.ivy.legacy.datamodel.Account
 import com.ivy.frp.Pure
-import com.ivy.persistence.model.TransactionType
+import com.ivy.base.model.TransactionType
 import com.ivy.wallet.domain.pure.account.accountCurrency
 import java.time.LocalDate
 

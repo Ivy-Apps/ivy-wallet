@@ -3,7 +3,7 @@ package com.ivy.wallet.domain.pure.transaction
 import com.ivy.base.legacy.Transaction
 import com.ivy.legacy.datamodel.Account
 import com.ivy.frp.SideEffect
-import com.ivy.persistence.model.TransactionType
+import com.ivy.base.model.TransactionType
 import com.ivy.wallet.domain.pure.exchange.ExchangeEffect
 import com.ivy.wallet.domain.pure.exchange.exchangeInBaseCurrency
 import java.math.BigDecimal

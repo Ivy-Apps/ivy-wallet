@@ -25,7 +25,7 @@ import com.ivy.persistence.db.dao.write.WriteLoanDao
 import com.ivy.persistence.db.dao.write.WriteLoanRecordDao
 import com.ivy.persistence.db.dao.write.WriteTransactionDao
 import com.ivy.persistence.model.LoanType
-import com.ivy.persistence.model.TransactionType
+import com.ivy.base.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import kotlinx.coroutines.CoroutineScope

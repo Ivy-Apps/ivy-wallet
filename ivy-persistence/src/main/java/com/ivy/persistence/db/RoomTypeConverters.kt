@@ -6,7 +6,7 @@ import com.ivy.base.util.epochMilliToDateTime
 import com.ivy.base.util.toEpochMilli
 import com.ivy.persistence.model.IntervalType
 import com.ivy.persistence.model.LoanType
-import com.ivy.persistence.model.TransactionType
+import com.ivy.base.model.TransactionType
 import java.time.LocalDateTime
 import java.util.*
 

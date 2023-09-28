@@ -3,7 +3,7 @@ package com.ivy.persistence.db.dao.read
 import androidx.room.Dao
 import androidx.room.Query
 import com.ivy.persistence.db.entity.TransactionEntity
-import com.ivy.persistence.model.TransactionType
+import com.ivy.base.model.TransactionType
 import java.time.LocalDateTime
 import java.util.*
 

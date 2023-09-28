@@ -15,7 +15,7 @@ import com.ivy.legacy.domain.deprecated.logic.BudgetCreator
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.readOnly
 import com.ivy.persistence.db.dao.write.WriteBudgetDao
-import com.ivy.persistence.model.TransactionType
+import com.ivy.base.model.TransactionType
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.budget.BudgetsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct

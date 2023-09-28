@@ -24,7 +24,7 @@ import com.ivy.legacy.datamodel.Category
 import com.ivy.design.l0_system.UI
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.timeNowUTC
-import com.ivy.persistence.model.TransactionType
+import com.ivy.base.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyIcon

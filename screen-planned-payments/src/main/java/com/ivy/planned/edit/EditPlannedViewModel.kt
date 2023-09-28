@@ -22,7 +22,7 @@ import com.ivy.persistence.db.dao.read.SettingsDao
 import com.ivy.persistence.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.persistence.db.dao.write.WriteTransactionDao
 import com.ivy.persistence.model.IntervalType
-import com.ivy.persistence.model.TransactionType
+import com.ivy.base.model.TransactionType
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator

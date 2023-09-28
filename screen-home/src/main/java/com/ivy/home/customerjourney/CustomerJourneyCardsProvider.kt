@@ -18,7 +18,7 @@ import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.persistence.db.dao.read.PlannedPaymentRuleDao
 import com.ivy.persistence.db.dao.read.TransactionDao
-import com.ivy.persistence.model.TransactionType
+import com.ivy.base.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.widget.transaction.AddTransactionWidgetCompact
 import javax.inject.Inject

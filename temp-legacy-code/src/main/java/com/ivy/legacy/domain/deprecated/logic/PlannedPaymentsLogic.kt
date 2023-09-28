@@ -14,7 +14,7 @@ import com.ivy.persistence.db.dao.read.TransactionDao
 import com.ivy.persistence.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.persistence.db.dao.write.WriteTransactionDao
 import com.ivy.persistence.model.IntervalType
-import com.ivy.persistence.model.TransactionType
+import com.ivy.base.model.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.sumByDoublePlannedInBaseCurrency
 import javax.inject.Inject

@@ -12,7 +12,7 @@ import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenFilter
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.then
-import com.ivy.persistence.model.TransactionType
+import com.ivy.base.model.TransactionType
 import com.ivy.piechart.CategoryAmount
 import com.ivy.resources.R
 import com.ivy.wallet.domain.action.account.AccountsAct

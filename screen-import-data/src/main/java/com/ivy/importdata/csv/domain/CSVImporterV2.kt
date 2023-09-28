@@ -17,7 +17,7 @@ import com.ivy.persistence.db.dao.read.SettingsDao
 import com.ivy.persistence.db.dao.write.WriteAccountDao
 import com.ivy.persistence.db.dao.write.WriteCategoryDao
 import com.ivy.persistence.db.dao.write.WriteTransactionDao
-import com.ivy.persistence.model.TransactionType
+import com.ivy.base.model.TransactionType
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.deprecated.logic.csv.model.CSVRow
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult

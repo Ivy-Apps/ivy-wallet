@@ -9,7 +9,7 @@ import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.persistence.db.dao.read.AccountDao
 import com.ivy.persistence.db.dao.read.SettingsDao
 import com.ivy.persistence.db.dao.read.TransactionDao
-import com.ivy.persistence.model.TransactionType
+import com.ivy.base.model.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.sumInBaseCurrency
 import com.ivy.wallet.domain.pure.transaction.withDateDividers

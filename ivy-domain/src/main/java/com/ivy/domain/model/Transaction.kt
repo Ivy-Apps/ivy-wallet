@@ -1,15 +1,12 @@
-package com.ivy.base.legacy
+package com.ivy.domain.model
 
-import androidx.compose.runtime.Immutable
 import com.ivy.base.model.TransactionType
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.util.UUID
 
-@Deprecated("Legacy data model. Will be deleted")
-@Immutable
 data class Transaction(
-    // TODO: Remove default values & introduce Transaction#dummy() method
+    val id: UUID,
     val accountId: UUID,
     val type: TransactionType,
     val amount: BigDecimal,
@@ -34,5 +31,4 @@ data class Transaction(
     val isSynced: Boolean = false,
     val isDeleted: Boolean = false,
 
-    val id: UUID = UUID.randomUUID()
-) : TransactionHistoryItem
+    )
