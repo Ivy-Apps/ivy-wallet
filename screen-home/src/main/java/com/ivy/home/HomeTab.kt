@@ -148,7 +148,6 @@ private fun BoxWithConstraintsScope.UI(
 
         HomeLazyColumn(
             hideBalance = uiState.hideBalance,
-            expanded = uiState.expanded,
             onSetExpanded = {
                 onEvent(HomeEvent.SetExpanded(it))
             },
@@ -267,7 +266,6 @@ private fun BoxWithConstraintsScope.UI(
 @ExperimentalAnimationApi
 @Composable
 fun HomeLazyColumn(
-    expanded: Boolean,
     hideBalance: Boolean,
     onSetExpanded: (Boolean) -> Unit,
     listState: LazyListState,
