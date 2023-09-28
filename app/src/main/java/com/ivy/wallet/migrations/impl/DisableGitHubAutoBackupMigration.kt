@@ -3,8 +3,8 @@ package com.ivy.wallet.migrations.impl
 import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.work.WorkManager
-import com.ivy.domain.datastore.DatastoreKeys
-import com.ivy.domain.datastore.dataStore
+import com.ivy.persistence.datastore.DatastoreKeys
+import com.ivy.persistence.datastore.dataStore
 import com.ivy.wallet.migrations.Migration
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
