@@ -181,7 +181,11 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatisticScreen) {
         updateAccountNameConfirmation = {
             viewModel.onEvent(TransactionsEvent.UpdateAccountDeletionState(it))
         },
-        enableDeletionButton = uiState.enableDeletionButton
+        enableDeletionButton = uiState.enableDeletionButton,
+        skipAllModalVisible = uiState.skipAllModalVisible,
+        onSkipAllModalVisible = {
+            viewModel.onEvent(TransactionsEvent.SetSkipAllModalVisible(it))
+        }
     )
 }
 
@@ -190,6 +194,8 @@ private fun BoxWithConstraintsScope.UI(
     period: TimePeriod,
     baseCurrency: String,
     currency: String,
+    skipAllModalVisible: Boolean,
+    onSkipAllModalVisible: (Boolean) -> Unit,
 
     account: Account?,
     category: Category?,
@@ -236,9 +242,6 @@ private fun BoxWithConstraintsScope.UI(
     val ivyContext = ivyWalletCtx()
     val itemColor = (account?.color ?: category?.color)?.toComposeColor() ?: Gray
 
-    var deleteModal1Visible by remember { mutableStateOf(false) }
-    var deleteModal3Visible by remember { mutableStateOf(false) }
-    var skipAllModalVisible by remember { mutableStateOf(false) }
     var categoryModalData: CategoryModalData? by remember { mutableStateOf(null) }
     var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
     var choosePeriodModal: ChoosePeriodModalData? by remember { mutableStateOf(null) }
@@ -258,7 +261,6 @@ private fun BoxWithConstraintsScope.UI(
                     }
                 )
             }
-
     ) {
         val listState = rememberLazyListState()
         val density = LocalDensity.current
@@ -368,6 +370,8 @@ private fun BoxWithConstraintsScope.UI(
                 }
             }
 
+            val value = 0.7f
+
             transactions(
                 baseData = AppBaseData(
                     baseCurrency,
@@ -396,7 +400,7 @@ private fun BoxWithConstraintsScope.UI(
 
                 history = history,
                 lastItemSpacer = with(density) {
-                    (ivyContext.screenHeight * 0.7f).toDp()
+                    (ivyContext.screenHeight * value).toDp()
                 },
 
                 onPayOrGet = onPayOrGet,
@@ -410,6 +414,64 @@ private fun BoxWithConstraintsScope.UI(
             )
         }
     }
+
+    DeleteModals(
+        account = account,
+        category = category,
+        accountNameConfirmation = accountNameConfirmation,
+        updateAccountNameConfirmation = updateAccountNameConfirmation,
+        enableDeletionButton = enableDeletionButton,
+        onDelete = onDelete,
+        skipAllModalVisible = skipAllModalVisible,
+        onSkipAllModalVisible = {
+            onSkipAllModalVisible(it)
+        },
+        onSkipAllTransactions = onSkipAllTransactions
+    )
+
+    CategoryModal(
+        modal = categoryModalData,
+        onCreateCategory = { },
+        onEditCategory = onEditCategory,
+        dismiss = {
+            categoryModalData = null
+        }
+    )
+
+    AccountModal(
+        modal = accountModalData,
+        onCreateAccount = { },
+        onEditAccount = onEditAccount,
+        dismiss = {
+            accountModalData = null
+        }
+    )
+
+    ChoosePeriodModal(
+        modal = choosePeriodModal,
+        dismiss = {
+            choosePeriodModal = null
+        }
+    ) {
+        onSetPeriod(it)
+    }
+}
+
+@Composable
+private fun BoxWithConstraintsScope.DeleteModals(
+    account: Account?,
+    category: Category?,
+    accountNameConfirmation: TextFieldValue,
+    updateAccountNameConfirmation: (String) -> Unit,
+    enableDeletionButton: Boolean,
+    onDelete: () -> Unit,
+    skipAllModalVisible: Boolean,
+    onSkipAllModalVisible: (Boolean) -> Unit,
+    onSkipAllTransactions: (List<Transaction>) -> Unit,
+    overdue: ImmutableList<Transaction> = persistentListOf()
+) {
+    var deleteModal1Visible by remember { mutableStateOf(false) }
+    var deleteModal3Visible by remember { mutableStateOf(false) }
 
     DeleteModal(
         visible = deleteModal1Visible,
@@ -455,37 +517,12 @@ private fun BoxWithConstraintsScope.UI(
         visible = skipAllModalVisible,
         title = stringResource(R.string.confirm_skip_all),
         description = stringResource(R.string.confirm_skip_all_description),
-        dismiss = { skipAllModalVisible = false }
+        dismiss = {
+            onSkipAllModalVisible(false)
+        }
     ) {
         onSkipAllTransactions(overdue)
-        skipAllModalVisible = false
-    }
-
-    CategoryModal(
-        modal = categoryModalData,
-        onCreateCategory = { },
-        onEditCategory = onEditCategory,
-        dismiss = {
-            categoryModalData = null
-        }
-    )
-
-    AccountModal(
-        modal = accountModalData,
-        onCreateAccount = { },
-        onEditAccount = onEditAccount,
-        dismiss = {
-            accountModalData = null
-        }
-    )
-
-    ChoosePeriodModal(
-        modal = choosePeriodModal,
-        dismiss = {
-            choosePeriodModal = null
-        }
-    ) {
-        onSetPeriod(it)
+        onSkipAllModalVisible(false)
     }
 }
 
@@ -804,6 +841,8 @@ private fun BoxWithConstraintsScope.Preview_crypto() {
 @Composable
 private fun BoxWithConstraintsScope.Preview_empty_upcoming() {
     IvyPreview {
+        val value = 10L
+
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
@@ -829,7 +868,11 @@ private fun BoxWithConstraintsScope.Preview_empty_upcoming() {
             onEditAccount = { _, _ -> },
             onEditCategory = {},
             upcoming = persistentListOf(
-                Transaction(UUID(1L, 2L), TransactionType.EXPENSE, BigDecimal.valueOf(10L))
+                Transaction(
+                    UUID(1L, 2L),
+                    TransactionType.EXPENSE,
+                    BigDecimal.valueOf(value)
+                )
             ),
             accountNameConfirmation = TextFieldValue(),
             updateAccountNameConfirmation = {},

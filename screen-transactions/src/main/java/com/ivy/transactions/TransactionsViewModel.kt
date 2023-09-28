@@ -117,6 +117,7 @@ class TransactionsViewModel @Inject constructor(
     private val treatTransfersAsIncomeExpense = mutableStateOf(false)
     private val accountNameConfirmation = mutableStateOf(selectEndTextFieldValue(""))
     private val enableDeletionButton = mutableStateOf(false)
+    private val skipAllModalVisible = mutableStateOf(false)
 
     @Composable
     override fun uiState(): TransactionsState {
@@ -144,7 +145,8 @@ class TransactionsViewModel @Inject constructor(
             overdueIncome = getOverdueIncome(),
             overdueExpenses = getOverdueExpenses(),
             accountNameConfirmation = getAccountNameConfirmation(),
-            enableDeletionButton = getEnableDeletionButton()
+            enableDeletionButton = getEnableDeletionButton(),
+            skipAllModalVisible = getSkipAllModalVisible()
         )
     }
 
@@ -268,6 +270,11 @@ class TransactionsViewModel @Inject constructor(
         return enableDeletionButton.value
     }
 
+    @Composable
+    private fun getSkipAllModalVisible(): Boolean {
+        return skipAllModalVisible.value
+    }
+
     override fun onEvent(event: TransactionsEvent) {
         when (event) {
             is TransactionsEvent.Delete -> delete(event.screen)
@@ -284,7 +291,8 @@ class TransactionsViewModel @Inject constructor(
             is TransactionsEvent.SetPeriod -> setPeriod(event.screen, event.period)
             is TransactionsEvent.SkipTransaction -> skipTransaction(event.screen, event.transaction)
             is TransactionsEvent.SkipTransactions -> skipTransactions(
-                event.screen, event.transactions
+                event.screen,
+                event.transactions
             )
 
             is TransactionsEvent.UpdateAccountDeletionState -> updateAccountDeletionState(
@@ -293,6 +301,7 @@ class TransactionsViewModel @Inject constructor(
 
             is TransactionsEvent.SetOverdueExpanded -> setOverdueExpanded(event.expanded)
             is TransactionsEvent.SetUpcomingExpanded -> setUpcomingExpanded(event.expanded)
+            is TransactionsEvent.SetSkipAllModalVisible -> setSkipAllModalVisible(event.visible)
         }
     }
 
@@ -632,6 +641,10 @@ class TransactionsViewModel @Inject constructor(
         )
     }
 
+    private fun setSkipAllModalVisible(visible: Boolean) {
+        skipAllModalVisible.value = visible
+    }
+
     private fun nextMonth(screen: ItemStatisticScreen) {
         val month = period.value.month
         val year = period.value.year ?: dateNowUTC().year
@@ -783,7 +796,8 @@ class TransactionsViewModel @Inject constructor(
                 screen.categoryId != null && screen.transactions.isEmpty() -> {
                     initForCategory(screen.categoryId!!, screen.accountIdFilterList)
                 }
-                // unspecifiedCategory==false is explicitly checked to accommodate for a temp AccountTransfers Category during Reports Screen
+                // unspecifiedCategory==false is explicitly checked to accommodate for a temp
+                // AccountTransfers Category during Reports Screen
                 screen.categoryId != null && screen.transactions.isNotEmpty() &&
                         screen.unspecifiedCategory == false -> {
                     initForCategoryWithTransactions(
