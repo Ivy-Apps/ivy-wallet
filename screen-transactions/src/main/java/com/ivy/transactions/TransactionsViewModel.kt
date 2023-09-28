@@ -280,7 +280,7 @@ class TransactionsViewModel @Inject constructor(
             )
 
             is TransactionsEvent.UpdateAccountDeletionState -> updateAccountDeletionState(
-                event.newName
+                event.confirmationText
             )
 
             is TransactionsEvent.SetOverdueExpanded -> setOverdueExpanded(event.expanded)
@@ -739,11 +739,10 @@ class TransactionsViewModel @Inject constructor(
         }
     }
 
-    private fun updateAccountDeletionState(newName: String) {
-        accountNameConfirmation = selectEndTextFieldValue(newName)
-        account.value?.name?.let { accountName ->
-            enableDeletionButton = newName == accountName
-        }
+    private fun updateAccountDeletionState(confirmationText: String) {
+        accountNameConfirmation = selectEndTextFieldValue(confirmationText)
+        enableDeletionButton = account.value?.name == confirmationText ||
+                category.value?.name == confirmationText
     }
 
     fun start(

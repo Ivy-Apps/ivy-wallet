@@ -33,5 +33,5 @@ sealed interface TransactionsEvent {
         val screen: ItemStatisticScreen, val transactions: List<Transaction>
     ) : TransactionsEvent
 
-    data class UpdateAccountDeletionState(val newName: String) : TransactionsEvent
+    data class UpdateAccountDeletionState(val confirmationText: String) : TransactionsEvent
 }
