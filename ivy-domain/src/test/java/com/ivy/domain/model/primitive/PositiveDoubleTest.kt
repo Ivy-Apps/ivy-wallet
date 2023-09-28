@@ -2,6 +2,7 @@ package com.ivy.domain.model.primitive
 
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.core.spec.style.FreeSpec
+import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
 
 class PositiveDoubleTest : FreeSpec({
@@ -16,6 +17,7 @@ class PositiveDoubleTest : FreeSpec({
 
     "works for positive numbers" {
         PositiveDouble.from(42.0)
-            .isRight { it.value == 42.0 } shouldBe true
+            .isRight { it.value == 42.0 }
+            .shouldBeTrue()
     }
 })
