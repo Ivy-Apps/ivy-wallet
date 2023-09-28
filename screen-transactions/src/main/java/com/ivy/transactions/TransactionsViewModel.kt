@@ -125,7 +125,140 @@ class TransactionsViewModel @Inject constructor(
 
     @Composable
     override fun uiState(): TransactionsState {
-        return TransactionsState()
+        return TransactionsState(
+            period = getPeriod(),
+            baseCurrency = getBaseCurrency(),
+            currency = getCurrency(),
+            categories = getCategories(),
+            accounts = getAccounts(),
+            account = getAccount(),
+            category = getCategory(),
+            balance = getBalance(),
+            balanceBaseCurrency = getBalanceBaseCurrency(),
+            income = getIncome(),
+            expenses = getExpenses(),
+            initWithTransactions = getInitWithTransactions(),
+            treatTransfersAsIncomeExpense = getTreatTransfersAsIncomeExpense(),
+            history = getHistory(),
+            upcoming = getUpcoming(),
+            upcomingExpanded = getUpcomingExpanded(),
+            upcomingIncome = getUpcomingIncome(),
+            upcomingExpenses = getUpcomingExpenses(),
+            overdue = getOverdue(),
+            overdueExpanded = getOverdueExpanded(),
+            overdueIncome = getOverdueIncome(),
+            overdueExpenses = getOverdueExpenses()
+        )
+    }
+
+    @Composable
+    private fun getPeriod(): TimePeriod {
+        return period.value
+    }
+
+    @Composable
+    private fun getBaseCurrency(): String {
+        return baseCurrency.value
+    }
+
+    @Composable
+    private fun getAccount(): Account? {
+        return account.value
+    }
+
+    @Composable
+    private fun getCurrency(): String {
+        return currency.value
+    }
+
+    @Composable
+    private fun getCategories(): ImmutableList<Category> {
+        return categories.value
+    }
+
+    @Composable
+    private fun getAccounts(): ImmutableList<Account> {
+        return accounts.value
+    }
+
+    @Composable
+    private fun getCategory(): Category? {
+        return category.value
+    }
+
+    @Composable
+    private fun getBalance(): Double {
+        return balance.doubleValue
+    }
+
+    @Composable
+    private fun getBalanceBaseCurrency(): Double? {
+        return balanceBaseCurrency.value
+    }
+
+    @Composable
+    private fun getIncome(): Double {
+        return income.doubleValue
+    }
+
+    @Composable
+    private fun getExpenses(): Double {
+        return expenses.doubleValue
+    }
+
+    @Composable
+    private fun getInitWithTransactions(): Boolean {
+        return initWithTransactions.value
+    }
+
+    @Composable
+    private fun getTreatTransfersAsIncomeExpense(): Boolean {
+        return treatTransfersAsIncomeExpense.value
+    }
+
+    @Composable
+    private fun getUpcomingExpenses(): Double {
+        return upcomingExpenses.doubleValue
+    }
+
+    @Composable
+    private fun getUpcoming(): ImmutableList<Transaction> {
+        return upcoming.value
+    }
+
+    @Composable
+    private fun getUpcomingExpanded(): Boolean {
+        return upcomingExpanded.value
+    }
+
+    @Composable
+    private fun getUpcomingIncome(): Double {
+        return upcomingIncome.doubleValue
+    }
+
+    @Composable
+    private fun getHistory(): ImmutableList<TransactionHistoryItem> {
+        return history.value
+    }
+
+    @Composable
+    private fun getOverdue(): ImmutableList<Transaction> {
+        return overdue.value
+    }
+
+    @Composable
+    private fun getOverdueExpanded(): Boolean {
+        return overdueExpanded.value
+    }
+
+    @Composable
+    private fun getOverdueIncome(): Double {
+        return overdueIncome.doubleValue
+    }
+
+    @Composable
+    private fun getOverdueExpenses(): Double {
+        return overdueExpenses.doubleValue
     }
 
     override fun onEvent(event: TransactionsEvent) {
