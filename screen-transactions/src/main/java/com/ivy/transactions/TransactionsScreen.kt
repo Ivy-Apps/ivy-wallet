@@ -446,7 +446,7 @@ private fun BoxWithConstraintsScope.UI(
         title = stringResource(id = R.string.confirm_deletion),
         description = stringResource(
             id = R.string.account_confirm_deletion_type_account_name,
-            account?.name ?: ""
+            account?.name ?: category?.name ?: ""
         ),
         accountName = accountNameConfirmation,
         onAccountNameChange = updateAccountNameConfirmation,
@@ -502,7 +502,7 @@ private fun BoxWithConstraintsScope.UI(
 
 @Composable
 private fun Header(
-    history: List<TransactionHistoryItem>,
+    history: ImmutableList<TransactionHistoryItem>,
     currency: String,
     baseCurrency: String,
     itemColor: Color,
