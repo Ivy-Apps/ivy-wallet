@@ -16,7 +16,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,7 +33,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.model.Theme
@@ -62,6 +60,7 @@ import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.ItemStatisticScreen
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.navigation.navigation
+import com.ivy.navigation.screenScopedViewModel
 import com.ivy.persistence.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
@@ -90,40 +89,11 @@ import java.util.UUID
 
 @Composable
 fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatisticScreen) {
-    val viewModel: TransactionsViewModel = viewModel()
+    val viewModel: TransactionsViewModel = screenScopedViewModel()
 
     val ivyContext = ivyWalletCtx()
     val nav = navigation()
-
-    val period by viewModel.period.collectAsState()
-    val baseCurrency by viewModel.baseCurrency.collectAsState()
-    val currency by viewModel.currency.collectAsState()
-
-    val account by viewModel.account.collectAsState()
-    val category by viewModel.category.collectAsState()
-
-    val categories by viewModel.categories.collectAsState()
-    val accounts by viewModel.accounts.collectAsState()
-
-    val balance by viewModel.balance.collectAsState()
-    val balanceBaseCurrency by viewModel.balanceBaseCurrency.collectAsState()
-    val income by viewModel.income.collectAsState()
-    val expenses by viewModel.expenses.collectAsState()
-
-    val history by viewModel.history.collectAsState()
-
-    val upcoming by viewModel.upcoming.collectAsState()
-    val upcomingExpanded by viewModel.upcomingExpanded.collectAsState()
-    val upcomingIncome by viewModel.upcomingIncome.collectAsState()
-    val upcomingExpenses by viewModel.upcomingExpenses.collectAsState()
-
-    val overdue by viewModel.overdue.collectAsState()
-    val overdueExpanded by viewModel.overdueExpanded.collectAsState()
-    val overdueIncome by viewModel.overdueIncome.collectAsState()
-    val overdueExpenses by viewModel.overdueExpenses.collectAsState()
-
-    val initWithTransactions by viewModel.initWithTransactions.collectAsState()
-    val treatTransfersAsIncomeExpense by viewModel.treatTransfersAsIncomeExpense.collectAsState()
+    val uiState = viewModel.uiState()
 
     val view = LocalView.current
     onScreenStart {
@@ -139,7 +109,7 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatisticScreen) {
     }
 
     UI(
-        period = period,
+        period = uiState.period,
         baseCurrency = baseCurrency,
         currency = currency,
 
@@ -226,11 +196,17 @@ private fun BoxWithConstraintsScope.UI(
     income: Double,
     expenses: Double,
 
-    initWithTransactions: Boolean = false,
-    treatTransfersAsIncomeExpense: Boolean = false,
-
     history: ImmutableList<TransactionHistoryItem>,
 
+    onPreviousMonth: () -> Unit,
+    onNextMonth: () -> Unit,
+    onSetPeriod: (TimePeriod) -> Unit,
+    onEditAccount: (Account, Double) -> Unit,
+    onEditCategory: (Category) -> Unit,
+    onDelete: () -> Unit,
+
+    initWithTransactions: Boolean = false,
+    treatTransfersAsIncomeExpense: Boolean = false,
     upcomingExpanded: Boolean = true,
     setUpcomingExpanded: (Boolean) -> Unit = {},
     upcomingIncome: Double = 0.0,
@@ -243,12 +219,6 @@ private fun BoxWithConstraintsScope.UI(
     overdueExpenses: Double = 0.0,
     overdue: ImmutableList<Transaction> = persistentListOf(),
 
-    onPreviousMonth: () -> Unit,
-    onNextMonth: () -> Unit,
-    onSetPeriod: (TimePeriod) -> Unit,
-    onEditAccount: (Account, Double) -> Unit,
-    onEditCategory: (Category) -> Unit,
-    onDelete: () -> Unit,
     onPayOrGet: (Transaction) -> Unit = {},
     onSkipTransaction: (Transaction) -> Unit = {},
     onSkipAllTransactions: (List<Transaction>) -> Unit = {}
@@ -532,14 +502,13 @@ private fun Header(
     balanceBaseCurrency: Double?,
     income: Double,
     expenses: Double,
-    treatTransfersAsIncomeExpense: Boolean = false,
-
     onEdit: () -> Unit,
     onDelete: () -> Unit,
 
     onBalanceClick: () -> Unit,
     showCategoryModal: () -> Unit,
     showAccountModal: () -> Unit,
+    treatTransfersAsIncomeExpense: Boolean = false,
 ) {
     val contrastColor = findContrastTextColor(itemColor)
 

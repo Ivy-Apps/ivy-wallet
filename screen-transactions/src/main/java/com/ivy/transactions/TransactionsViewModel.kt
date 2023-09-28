@@ -128,6 +128,10 @@ class TransactionsViewModel @Inject constructor(
         return TransactionsState()
     }
 
+    override fun onEvent(event: TransactionsEvent) {
+        TODO("Not yet implemented")
+    }
+
     fun start(
         screen: ItemStatisticScreen,
         timePeriod: TimePeriod? = ivyContext.selectedPeriod,
@@ -669,9 +673,5 @@ class TransactionsViewModel @Inject constructor(
         account.value?.name?.let { accountName ->
             enableDeletionButton = newName == accountName
         }
-    }
-
-    override fun onEvent(event: TransactionsEvent) {
-        TODO("Not yet implemented")
     }
 }
