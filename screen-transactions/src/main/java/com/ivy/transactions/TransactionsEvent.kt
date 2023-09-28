@@ -7,6 +7,9 @@ import com.ivy.legacy.datamodel.Category
 import com.ivy.navigation.ItemStatisticScreen
 
 sealed interface TransactionsEvent {
+    data class SetUpcomingExpanded(val expanded: Boolean) : TransactionsEvent
+    data class SetOverdueExpanded(val expanded: Boolean) : TransactionsEvent
+
     data class SetPeriod(
         val screen: ItemStatisticScreen,
         val period: TimePeriod

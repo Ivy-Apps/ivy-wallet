@@ -262,7 +262,31 @@ class TransactionsViewModel @Inject constructor(
     }
 
     override fun onEvent(event: TransactionsEvent) {
-        TODO("Not yet implemented")
+        when (event) {
+            is TransactionsEvent.Delete -> delete(event.screen)
+            is TransactionsEvent.EditAccount -> editAccount(
+                event.screen,
+                event.account,
+                event.newBalance
+            )
+
+            is TransactionsEvent.EditCategory -> editCategory(event.updatedCategory)
+            is TransactionsEvent.NextMonth -> nextMonth(event.screen)
+            is TransactionsEvent.PayOrGet -> payOrGet(event.screen, event.transaction)
+            is TransactionsEvent.PreviousMonth -> previousMonth(event.screen)
+            is TransactionsEvent.SetPeriod -> setPeriod(event.screen, event.period)
+            is TransactionsEvent.SkipTransaction -> skipTransaction(event.screen, event.transaction)
+            is TransactionsEvent.SkipTransactions -> skipTransactions(
+                event.screen, event.transactions
+            )
+
+            is TransactionsEvent.UpdateAccountDeletionState -> updateAccountDeletionState(
+                event.newName
+            )
+
+            is TransactionsEvent.SetOverdueExpanded -> setOverdueExpanded(event.expanded)
+            is TransactionsEvent.SetUpcomingExpanded -> setUpcomingExpanded(event.expanded)
+        }
     }
 
     fun start(
@@ -511,7 +535,7 @@ class TransactionsViewModel @Inject constructor(
                 )
             }
 
-            expenses.value = ioThread {
+            expenses.doubleValue = ioThread {
                 categoryLogic.calculateCategoryExpenses(
                     expenseTransactions = expenseTrans,
                     accountFilterSet = accountFilterSet
@@ -643,15 +667,15 @@ class TransactionsViewModel @Inject constructor(
         category.value = null
     }
 
-    fun setUpcomingExpanded(expanded: Boolean) {
+    private fun setUpcomingExpanded(expanded: Boolean) {
         upcomingExpanded.value = expanded
     }
 
-    fun setOverdueExpanded(expanded: Boolean) {
+    private fun setOverdueExpanded(expanded: Boolean) {
         overdueExpanded.value = expanded
     }
 
-    fun setPeriod(
+    private fun setPeriod(
         screen: ItemStatisticScreen,
         period: TimePeriod
     ) {
@@ -662,7 +686,7 @@ class TransactionsViewModel @Inject constructor(
         )
     }
 
-    fun nextMonth(screen: ItemStatisticScreen) {
+    private fun nextMonth(screen: ItemStatisticScreen) {
         val month = period.value.month
         val year = period.value.year ?: dateNowUTC().year
         if (month != null) {
@@ -674,7 +698,7 @@ class TransactionsViewModel @Inject constructor(
         }
     }
 
-    fun previousMonth(screen: ItemStatisticScreen) {
+    private fun previousMonth(screen: ItemStatisticScreen) {
         val month = period.value.month
         val year = period.value.year ?: dateNowUTC().year
         if (month != null) {
@@ -686,7 +710,7 @@ class TransactionsViewModel @Inject constructor(
         }
     }
 
-    fun delete(screen: ItemStatisticScreen) {
+    private fun delete(screen: ItemStatisticScreen) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -722,7 +746,7 @@ class TransactionsViewModel @Inject constructor(
         }
     }
 
-    fun editCategory(updatedCategory: Category) {
+    private fun editCategory(updatedCategory: Category) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -734,7 +758,7 @@ class TransactionsViewModel @Inject constructor(
         }
     }
 
-    fun editAccount(screen: ItemStatisticScreen, account: Account, newBalance: Double) {
+    private fun editAccount(screen: ItemStatisticScreen, account: Account, newBalance: Double) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -750,7 +774,7 @@ class TransactionsViewModel @Inject constructor(
         }
     }
 
-    fun payOrGet(screen: ItemStatisticScreen, transaction: Transaction) {
+    private fun payOrGet(screen: ItemStatisticScreen, transaction: Transaction) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -765,7 +789,7 @@ class TransactionsViewModel @Inject constructor(
         }
     }
 
-    fun skipTransaction(screen: ItemStatisticScreen, transaction: Transaction) {
+    private fun skipTransaction(screen: ItemStatisticScreen, transaction: Transaction) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -783,7 +807,7 @@ class TransactionsViewModel @Inject constructor(
         }
     }
 
-    fun skipTransactions(screen: ItemStatisticScreen, transactions: List<Transaction>) {
+    private fun skipTransactions(screen: ItemStatisticScreen, transactions: List<Transaction>) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -801,7 +825,7 @@ class TransactionsViewModel @Inject constructor(
         }
     }
 
-    fun updateAccountDeletionState(newName: String) {
+    private fun updateAccountDeletionState(newName: String) {
         accountNameConfirmation = selectEndTextFieldValue(newName)
         account.value?.name?.let { accountName ->
             enableDeletionButton = newName == accountName
