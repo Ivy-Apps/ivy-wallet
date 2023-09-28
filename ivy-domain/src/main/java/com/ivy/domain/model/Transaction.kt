@@ -5,30 +5,32 @@ import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.util.UUID
 
+sealed interface Transaction {
+
+}
+
 data class Transaction(
     val id: UUID,
     val accountId: UUID,
     val type: TransactionType,
-    val amount: BigDecimal,
-    val toAccountId: UUID? = null,
-    val toAmount: BigDecimal = amount,
-    val title: String? = null,
-    val description: String? = null,
-    val dateTime: LocalDateTime? = null,
-    val categoryId: UUID? = null,
-    val dueDate: LocalDateTime? = null,
+    val amount: Double,
+    val toAccountId: UUID?,
+    val toAmount: Double,
+    val title: String,
+    val description: String,
+    val dateTime: LocalDateTime,
+    val categoryId: UUID,
+    val dueDate: LocalDateTime,
 
-    val recurringRuleId: UUID? = null,
+    val recurringRuleId: UUID,
 
-    val attachmentUrl: String? = null,
 
     // This refers to the loan id that is linked with a transaction
     val loanId: UUID? = null,
 
     // This refers to the loan record id that is linked with a transaction
-    val loanRecordId: UUID? = null,
+    val loanRecordId: UUID,
 
-    val isSynced: Boolean = false,
-    val isDeleted: Boolean = false,
-
-    )
+    val isSynced: Boolean,
+    val isDeleted: Boolean,
+)
