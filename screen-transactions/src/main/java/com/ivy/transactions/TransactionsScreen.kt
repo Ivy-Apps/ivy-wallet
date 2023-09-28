@@ -177,11 +177,11 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatisticScreen) {
         onSkipAllTransactions = { transactions ->
             viewModel.onEvent(TransactionsEvent.SkipTransactions(screen, transactions))
         },
-        accountNameConfirmation = viewModel.accountNameConfirmation,
+        accountNameConfirmation = uiState.accountNameConfirmation,
         updateAccountNameConfirmation = {
             viewModel.onEvent(TransactionsEvent.UpdateAccountDeletionState(it))
         },
-        enableDeletionButton = viewModel.enableDeletionButton
+        enableDeletionButton = uiState.enableDeletionButton
     )
 }
 
@@ -419,7 +419,9 @@ private fun BoxWithConstraintsScope.UI(
         } else {
             stringResource(R.string.category_confirm_deletion_description)
         },
-        dismiss = { deleteModal1Visible = false }
+        dismiss = {
+            deleteModal1Visible = false
+        }
     ) {
         deleteModal3Visible = true
     }

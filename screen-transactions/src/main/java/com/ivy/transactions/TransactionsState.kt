@@ -1,6 +1,7 @@
 package com.ivy.transactions
 
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.text.input.TextFieldValue
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.legacy.data.model.TimePeriod
@@ -31,5 +32,7 @@ data class TransactionsState(
     val overdue: ImmutableList<Transaction>,
     val overdueExpanded: Boolean,
     val overdueIncome: Double,
-    val overdueExpenses: Double
+    val overdueExpenses: Double,
+    val accountNameConfirmation: TextFieldValue,
+    val enableDeletionButton: Boolean
 )

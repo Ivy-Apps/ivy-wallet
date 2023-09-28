@@ -1,11 +1,10 @@
 package com.ivy.transactions
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.viewModelScope
 import arrow.core.toOption
 import com.ivy.base.legacy.Transaction
@@ -116,11 +115,8 @@ class TransactionsViewModel @Inject constructor(
     private val category = mutableStateOf<Category?>(null)
     private val initWithTransactions = mutableStateOf(false)
     private val treatTransfersAsIncomeExpense = mutableStateOf(false)
-
-    var accountNameConfirmation by mutableStateOf(selectEndTextFieldValue(""))
-        private set
-    var enableDeletionButton by mutableStateOf(false)
-        private set
+    private val accountNameConfirmation = mutableStateOf(selectEndTextFieldValue(""))
+    private val enableDeletionButton = mutableStateOf(false)
 
     @Composable
     override fun uiState(): TransactionsState {
@@ -146,7 +142,9 @@ class TransactionsViewModel @Inject constructor(
             overdue = getOverdue(),
             overdueExpanded = getOverdueExpanded(),
             overdueIncome = getOverdueIncome(),
-            overdueExpenses = getOverdueExpenses()
+            overdueExpenses = getOverdueExpenses(),
+            accountNameConfirmation = getAccountNameConfirmation(),
+            enableDeletionButton = getEnableDeletionButton()
         )
     }
 
@@ -258,6 +256,16 @@ class TransactionsViewModel @Inject constructor(
     @Composable
     private fun getOverdueExpenses(): Double {
         return overdueExpenses.doubleValue
+    }
+
+    @Composable
+    private fun getAccountNameConfirmation(): TextFieldValue {
+        return accountNameConfirmation.value
+    }
+
+    @Composable
+    private fun getEnableDeletionButton(): Boolean {
+        return enableDeletionButton.value
     }
 
     override fun onEvent(event: TransactionsEvent) {
@@ -740,8 +748,8 @@ class TransactionsViewModel @Inject constructor(
     }
 
     private fun updateAccountDeletionState(confirmationText: String) {
-        accountNameConfirmation = selectEndTextFieldValue(confirmationText)
-        enableDeletionButton = account.value?.name == confirmationText ||
+        accountNameConfirmation.value = selectEndTextFieldValue(confirmationText)
+        enableDeletionButton.value = account.value?.name == confirmationText ||
                 category.value?.name == confirmationText
     }
 
