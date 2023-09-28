@@ -58,6 +58,7 @@ import com.ivy.legacy.utils.setStatusBarDarkTextCompat
 import com.ivy.legacy.utils.thenIf
 import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.ItemStatisticScreen
+import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
@@ -110,36 +111,36 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatisticScreen) {
 
     UI(
         period = uiState.period,
-        baseCurrency = baseCurrency,
-        currency = currency,
+        baseCurrency = uiState.baseCurrency,
+        currency = uiState.currency,
 
-        categories = categories,
-        accounts = accounts,
+        categories = uiState.categories,
+        accounts = uiState.accounts,
 
-        account = account,
-        category = category,
+        account = uiState.account,
+        category = uiState.category,
 
-        balance = balance,
-        balanceBaseCurrency = balanceBaseCurrency,
-        income = income,
-        expenses = expenses,
+        balance = uiState.balance,
+        balanceBaseCurrency = uiState.balanceBaseCurrency,
+        income = uiState.income,
+        expenses = uiState.expenses,
 
-        initWithTransactions = initWithTransactions,
-        treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense,
+        initWithTransactions = uiState.initWithTransactions,
+        treatTransfersAsIncomeExpense = uiState.treatTransfersAsIncomeExpense,
 
-        history = history,
+        history = uiState.history,
 
-        upcoming = upcoming,
-        upcomingExpanded = upcomingExpanded,
+        upcoming = uiState.upcoming,
+        upcomingExpanded = uiState.upcomingExpanded,
         setUpcomingExpanded = viewModel::setUpcomingExpanded,
-        upcomingIncome = upcomingIncome,
-        upcomingExpenses = upcomingExpenses,
+        upcomingIncome = uiState.upcomingIncome,
+        upcomingExpenses = uiState.upcomingExpenses,
 
-        overdue = overdue,
-        overdueExpanded = overdueExpanded,
+        overdue = uiState.overdue,
+        overdueExpanded = uiState.overdueExpanded,
         setOverdueExpanded = viewModel::setOverdueExpanded,
-        overdueIncome = overdueIncome,
-        overdueExpenses = overdueExpenses,
+        overdueIncome = uiState.overdueIncome,
+        overdueExpenses = uiState.overdueExpenses,
 
         onSetPeriod = {
             viewModel.setPeriod(
@@ -806,8 +807,8 @@ private fun Preview_crypto() {
 
 @Preview
 @Composable
-private fun Preview_empty_upcoming() {
-    IvyWalletPreview {
+private fun BoxWithConstraintsScope.Preview_empty_upcoming() {
+    IvyPreview {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
