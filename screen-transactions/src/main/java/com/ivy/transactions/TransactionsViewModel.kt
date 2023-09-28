@@ -12,7 +12,6 @@ import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.util.stringRes
 import com.ivy.domain.ComposeViewModel
-import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.then
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.SharedPrefs
@@ -294,8 +293,6 @@ class TransactionsViewModel @Inject constructor(
         timePeriod: TimePeriod? = ivyContext.selectedPeriod,
         reset: Boolean = true
     ) {
-        TestIdlingResource.increment()
-
         if (reset) {
             reset()
         }
@@ -346,8 +343,6 @@ class TransactionsViewModel @Inject constructor(
                 else -> error("no id provided")
             }
         }
-
-        TestIdlingResource.decrement()
     }
 
     private suspend fun initForAccount(accountId: UUID) {
@@ -712,8 +707,6 @@ class TransactionsViewModel @Inject constructor(
 
     private fun delete(screen: ItemStatisticScreen) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             when {
                 screen.accountId != null -> {
                     deleteAccount(screen.accountId!!)
@@ -723,8 +716,6 @@ class TransactionsViewModel @Inject constructor(
                     deleteCategory(screen.categoryId!!)
                 }
             }
-
-            TestIdlingResource.decrement()
         }
     }
 
@@ -748,20 +739,14 @@ class TransactionsViewModel @Inject constructor(
 
     private fun editCategory(updatedCategory: Category) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             categoryCreator.editCategory(updatedCategory) {
                 category.value = it
             }
-
-            TestIdlingResource.decrement()
         }
     }
 
     private fun editAccount(screen: ItemStatisticScreen, account: Account, newBalance: Double) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             accountCreator.editAccount(account, newBalance) {
                 start(
                     screen = screen,
@@ -769,30 +754,22 @@ class TransactionsViewModel @Inject constructor(
                     reset = false
                 )
             }
-
-            TestIdlingResource.decrement()
         }
     }
 
     private fun payOrGet(screen: ItemStatisticScreen, transaction: Transaction) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             plannedPaymentsLogic.payOrGet(transaction = transaction) {
                 start(
                     screen = screen,
                     reset = false
                 )
             }
-
-            TestIdlingResource.decrement()
         }
     }
 
     private fun skipTransaction(screen: ItemStatisticScreen, transaction: Transaction) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             plannedPaymentsLogic.payOrGet(
                 transaction = transaction,
                 skipTransaction = true
@@ -802,15 +779,11 @@ class TransactionsViewModel @Inject constructor(
                     reset = false
                 )
             }
-
-            TestIdlingResource.decrement()
         }
     }
 
     private fun skipTransactions(screen: ItemStatisticScreen, transactions: List<Transaction>) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             plannedPaymentsLogic.payOrGet(
                 transactions = transactions,
                 skipTransaction = true
@@ -820,8 +793,6 @@ class TransactionsViewModel @Inject constructor(
                     reset = false
                 )
             }
-
-            TestIdlingResource.decrement()
         }
     }
 
