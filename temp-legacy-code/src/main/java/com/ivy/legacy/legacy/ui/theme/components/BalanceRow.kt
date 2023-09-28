@@ -2,7 +2,6 @@ package com.ivy.wallet.ui.theme.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,16 +37,13 @@ fun BalanceRowMedium(
     BalanceRow(
         modifier = modifier,
 
-        decimalPaddingTop = 8.dp,
         textColor = textColor,
         currency = currency,
         balance = balance,
         hiddenMode = hiddenMode,
         spacerCurrency = 12.dp,
-        spacerDecimal = 8.dp,
         currencyFontSize = 24.sp,
-        integerFontSize = 26.sp,
-        decimalFontSize = 11.sp,
+        balanceFontSize = 26.sp,
 
         balanceAmountPrefix = balanceAmountPrefix,
         currencyUpfront = currencyUpfront,
@@ -69,16 +65,13 @@ fun BalanceRowMini(
     BalanceRow(
         modifier = modifier,
 
-        decimalPaddingTop = 6.dp,
         textColor = textColor,
         currency = currency,
         balance = balance,
         hiddenMode = hiddenMode,
         spacerCurrency = 8.dp,
-        spacerDecimal = 4.dp,
         currencyFontSize = 20.sp,
-        integerFontSize = 22.sp,
-        decimalFontSize = 7.sp,
+        balanceFontSize = 22.sp,
 
         balanceAmountPrefix = balanceAmountPrefix,
         currencyUpfront = currencyUpfront,
@@ -94,12 +87,9 @@ fun BalanceRow(
     hiddenMode: Boolean = false,
 
     textColor: Color = UI.colors.pureInverse,
-    decimalPaddingTop: Dp = 12.dp,
     spacerCurrency: Dp = 12.dp,
-    spacerDecimal: Dp = 8.dp,
     currencyFontSize: TextUnit? = null,
-    integerFontSize: TextUnit? = null,
-    decimalFontSize: TextUnit? = null,
+    balanceFontSize: TextUnit? = null,
 
     currencyUpfront: Boolean = true,
     balanceAmountPrefix: String? = null,
@@ -132,7 +122,7 @@ fun BalanceRow(
                 balanceAmountPrefix != null -> "$balanceAmountPrefix$integerPartFormatted"
                 else -> integerPartFormatted
             },
-            style = if (integerFontSize == null) {
+            style = if (balanceFontSize == null) {
                 UI.typo.nH1.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = textColor
@@ -141,28 +131,24 @@ fun BalanceRow(
                 UI.typo.nH1.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = textColor
-                ).copy(fontSize = integerFontSize)
+                ).copy(fontSize = balanceFontSize)
             }
         )
 
         if (!shortAmount) {
-            Spacer(Modifier.width(spacerDecimal))
 
             Text(
-                modifier = Modifier
-                    .align(Alignment.Top)
-                    .padding(top = decimalPaddingTop),
                 text = if (hiddenMode) "" else decimalPartFormatted(currency, balance),
-                style = if (decimalFontSize == null) {
-                    UI.typo.nB1.style(
-                        fontWeight = FontWeight.Bold,
+                style = if (balanceFontSize == null) {
+                    UI.typo.nH1.style(
+                        fontWeight = FontWeight.ExtraBold,
                         color = textColor
                     )
                 } else {
-                    UI.typo.nB1.style(
-                        fontWeight = FontWeight.Bold,
+                    UI.typo.nH1.style(
+                        fontWeight = FontWeight.ExtraBold,
                         color = textColor
-                    ).copy(fontSize = decimalFontSize)
+                    ).copy(fontSize = balanceFontSize)
                 }
             )
         }

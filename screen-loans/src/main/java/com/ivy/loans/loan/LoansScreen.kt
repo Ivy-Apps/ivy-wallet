@@ -316,14 +316,11 @@ private fun LoanHeader(
         BalanceRow(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally),
-            decimalPaddingTop = 7.dp,
-            spacerDecimal = 6.dp,
             textColor = contrastColor,
             currency = displayLoan.currencyCode ?: getDefaultFIATCurrency().currencyCode,
             balance = leftToPay,
 
-            integerFontSize = 30.sp,
-            decimalFontSize = 18.sp,
+            balanceFontSize = 30.sp,
             currencyFontSize = 30.sp,
 
             currencyUpfront = false

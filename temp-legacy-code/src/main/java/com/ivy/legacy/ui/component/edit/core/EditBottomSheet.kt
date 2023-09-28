@@ -668,7 +668,7 @@ private fun Amount(
         verticalAlignment = Alignment.CenterVertically
     ) {
         val percentCollapsed = 1f - percentExpanded
-        val integerFontSize = lerp(40, 30, percentCollapsed)
+        val balanceFontSize = lerp(40, 30, percentCollapsed)
         val spacerInteger = lerp(4, 0, percentCollapsed)
         val currencyPaddingTop = lerp(8, 4, percentCollapsed)
         val currencyFontSize = lerp(30, 18, percentCollapsed)
@@ -693,12 +693,9 @@ private fun Amount(
                 currency = currency,
                 balance = amount,
 
-                decimalPaddingTop = currencyPaddingTop.dp,
-                spacerDecimal = spacerInteger.dp,
                 spacerCurrency = 8.dp,
 
-                integerFontSize = integerFontSize.sp,
-                decimalFontSize = 18.sp,
+                balanceFontSize = balanceFontSize.sp,
                 currencyFontSize = currencyFontSize.sp,
 
                 currencyUpfront = false
