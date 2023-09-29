@@ -7,13 +7,14 @@ import com.ivy.legacy.datamodel.Category
 import com.ivy.persistence.model.TransactionType
 import com.ivy.wallet.domain.data.CustomExchangeRateState
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.ImmutableSet
 import java.time.LocalDateTime
 
 @Immutable
 data class EditTransactionState(
     val transactionType: TransactionType,
     val initialTitle: String?,
-    val titleSuggestions: Set<String>,
+    val titleSuggestions: ImmutableSet<String>,
     val currency: String,
     val description: String?,
     val dateTime: LocalDateTime?,

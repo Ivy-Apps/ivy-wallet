@@ -106,8 +106,8 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransactionScreen)
         toAccount = uiState.toAccount,
         dueDate = uiState.dueDate,
         amount = uiState.amount,
-        loanData = uiState.loanData,
-        backgroundProcessing = uiState.backgroundProcessing,
+        loanData = uiState.displayLoanHelper,
+        backgroundProcessing = uiState.backgroundProcessingStarted,
         customExchangeRateState = uiState.customExchangeRateState,
 
         categories = uiState.categories,
@@ -115,28 +115,58 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransactionScreen)
 
         hasChanges = uiState.hasChanges,
 
-        onTitleChanged = viewModel::onTitleChanged,
-        onDescriptionChanged = viewModel::onDescriptionChanged,
-        onAmountChanged = viewModel::onAmountChanged,
-        onCategoryChanged = viewModel::onCategoryChanged,
-        onAccountChanged = viewModel::onAccountChanged,
-        onToAccountChanged = viewModel::onToAccountChanged,
-        onDueDateChanged = viewModel::onDueDateChanged,
-        onSetDateTime = viewModel::onSetDateTime,
-        onSetTransactionType = viewModel::onSetTransactionType,
+        onTitleChanged = {
+            viewModel.onEvent(EditTransactionEvent.OnTitleChanged(it))
+        },
+        onDescriptionChanged = {
+            viewModel.onEvent(EditTransactionEvent.OnDescriptionChanged(it))
+        },
+        onAmountChanged = {
+            viewModel.onEvent(EditTransactionEvent.OnAmountChanged(it))
+        },
+        onCategoryChanged = {
+            viewModel.onEvent(EditTransactionEvent.OnCategoryChanged(it))
+        },
+        onAccountChanged = {
+            viewModel.onEvent(EditTransactionEvent.OnAccountChanged(it))
+        },
+        onToAccountChanged = {
+            viewModel.onEvent(EditTransactionEvent.OnToAccountChanged(it))
+        },
+        onDueDateChanged = {
+            viewModel.onEvent(EditTransactionEvent.OnDueDateChanged(it))
+        },
+        onSetDateTime = {
+            viewModel.onEvent(EditTransactionEvent.OnSetDateTime(it))
+        },
+        onSetTransactionType = {
+            viewModel.onEvent(EditTransactionEvent.OnSetTransactionType(it))
+        },
 
-        onCreateCategory = viewModel::createCategory,
-        onEditCategory = viewModel::editCategory,
-        onPayPlannedPayment = viewModel::onPayPlannedPayment,
+        onCreateCategory = {
+            viewModel.onEvent(EditTransactionEvent.CreateCategory(it))
+        },
+        onEditCategory = {
+            viewModel.onEvent(EditTransactionEvent.EditCategory(it))
+        },
+        onPayPlannedPayment = {
+            viewModel.onEvent(EditTransactionEvent.OnPayPlannedPayment)
+        },
         onSave = {
             view.hideKeyboard()
-            viewModel.save()
+            viewModel.onEvent(EditTransactionEvent.Save(it))
         },
-        onSetHasChanges = viewModel::setHasChanges,
-        onDelete = viewModel::delete,
-        onCreateAccount = viewModel::createAccount,
+        onSetHasChanges = {
+            viewModel.onEvent(EditTransactionEvent.SetHasChanges(it))
+        },
+        onDelete = {
+            viewModel.onEvent(EditTransactionEvent.Delete)
+        },
+        onCreateAccount = {
+            viewModel.onEvent(EditTransactionEvent.CreateAccount(it))
+        },
         onExchangeRateChanged = {
-            viewModel.updateExchangeRate(exRate = it)
+            viewModel.onEvent(EditTransactionEvent.UpdateExchangeRate(it))
         }
     )
 }

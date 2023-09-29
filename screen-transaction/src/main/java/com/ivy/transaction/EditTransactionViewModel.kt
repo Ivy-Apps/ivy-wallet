@@ -42,7 +42,10 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.widget.balance.WalletBalanceWidgetReceiver
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.persistentSetOf
+import kotlinx.collections.immutable.toPersistentSet
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.time.LocalDateTime
@@ -72,7 +75,7 @@ class EditTransactionViewModel @Inject constructor(
 
     private val transactionType = mutableStateOf(TransactionType.EXPENSE)
     private val initialTitle = mutableStateOf<String?>(null)
-    private val titleSuggestions = mutableStateOf(emptySet<String>())
+    private val titleSuggestions = mutableStateOf(persistentSetOf<String>())
     private val currency = mutableStateOf("")
     private val description = mutableStateOf<String?>(null)
     private val dateTime = mutableStateOf<LocalDateTime?>(null)
@@ -169,7 +172,7 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getTitleSuggestions(): Set<String> {
+    private fun getTitleSuggestions(): ImmutableSet<String> {
         return titleSuggestions.value
     }
 
@@ -368,7 +371,7 @@ class EditTransactionViewModel @Inject constructor(
         )
     }
 
-    fun onAmountChanged(newAmount: Double) {
+    private fun onAmountChanged(newAmount: Double) {
         viewModelScope.launch {
             loadedTransaction = loadedTransaction().copy(
                 amount = newAmount.toBigDecimal()
@@ -380,7 +383,7 @@ class EditTransactionViewModel @Inject constructor(
         }
     }
 
-    fun onTitleChanged(newTitle: String?) {
+    private fun onTitleChanged(newTitle: String?) {
         loadedTransaction = loadedTransaction().copy(
             title = newTitle
         )
@@ -391,7 +394,7 @@ class EditTransactionViewModel @Inject constructor(
         updateTitleSuggestions(newTitle)
     }
 
-    fun onDescriptionChanged(newDescription: String?) {
+    private fun onDescriptionChanged(newDescription: String?) {
         loadedTransaction = loadedTransaction().copy(
             description = newDescription
         )
@@ -400,7 +403,7 @@ class EditTransactionViewModel @Inject constructor(
         saveIfEditMode()
     }
 
-    fun onAccountChanged(newAccount: Account) {
+    private fun onAccountChanged(newAccount: Account) {
         viewModelScope.launch {
             loadedTransaction = loadedTransaction().copy(
                 accountId = newAccount.id
@@ -428,7 +431,7 @@ class EditTransactionViewModel @Inject constructor(
         currency.value = account.currency ?: baseCurrency()
     }
 
-    fun onToAccountChanged(newAccount: Account) {
+    private fun onToAccountChanged(newAccount: Account) {
         viewModelScope.launch {
             loadedTransaction = loadedTransaction().copy(
                 toAccountId = newAccount.id
@@ -440,7 +443,7 @@ class EditTransactionViewModel @Inject constructor(
         }
     }
 
-    fun onDueDateChanged(newDueDate: LocalDateTime?) {
+    private fun onDueDateChanged(newDueDate: LocalDateTime?) {
         loadedTransaction = loadedTransaction().copy(
             dueDate = newDueDate
         )
@@ -449,7 +452,7 @@ class EditTransactionViewModel @Inject constructor(
         saveIfEditMode()
     }
 
-    fun onSetDateTime(newDateTime: LocalDateTime) {
+    private fun onSetDateTime(newDateTime: LocalDateTime) {
         loadedTransaction = loadedTransaction().copy(
             dateTime = newDateTime
         )
@@ -458,7 +461,7 @@ class EditTransactionViewModel @Inject constructor(
         saveIfEditMode()
     }
 
-    fun onSetTransactionType(newTransactionType: TransactionType) {
+    private fun onSetTransactionType(newTransactionType: TransactionType) {
         loadedTransaction = loadedTransaction().copy(
             type = newTransactionType
         )
@@ -467,7 +470,7 @@ class EditTransactionViewModel @Inject constructor(
         saveIfEditMode()
     }
 
-    fun onPayPlannedPayment() {
+    private fun onPayPlannedPayment() {
         viewModelScope.launch {
             plannedPaymentsLogic.payOrGet(
                 transaction = loadedTransaction(),
@@ -484,7 +487,7 @@ class EditTransactionViewModel @Inject constructor(
         }
     }
 
-    fun delete() {
+    private fun delete() {
         viewModelScope.launch {
             ioThread {
                 loadedTransaction?.let {
@@ -495,7 +498,7 @@ class EditTransactionViewModel @Inject constructor(
         }
     }
 
-    fun createCategory(data: CreateCategoryData) {
+    private fun createCategory(data: CreateCategoryData) {
         viewModelScope.launch {
             categoryCreator.createCategory(data) {
                 categories.value = categoriesAct(Unit)
@@ -506,7 +509,7 @@ class EditTransactionViewModel @Inject constructor(
         }
     }
 
-    fun onCategoryChanged(newCategory: Category?) {
+    private fun onCategoryChanged(newCategory: Category?) {
         loadedTransaction = loadedTransaction().copy(
             categoryId = newCategory?.id
         )
@@ -525,11 +528,11 @@ class EditTransactionViewModel @Inject constructor(
                     categoryId = category.value?.id,
                     accountId = account.value?.id
                 )
-            }
+            }.toPersistentSet()
         }
     }
 
-    fun editCategory(updatedCategory: Category) {
+    private fun editCategory(updatedCategory: Category) {
         viewModelScope.launch {
             categoryCreator.editCategory(updatedCategory) {
                 categories.value = categoriesAct(Unit)
@@ -537,7 +540,7 @@ class EditTransactionViewModel @Inject constructor(
         }
     }
 
-    fun createAccount(data: CreateAccountData) {
+    private fun createAccount(data: CreateAccountData) {
         viewModelScope.launch {
             accountCreator.createAccount(data) {
                 eventBus.post(AccountUpdatedEvent)
@@ -546,7 +549,7 @@ class EditTransactionViewModel @Inject constructor(
         }
     }
 
-    fun save(closeScreen: Boolean = true) {
+    private fun save(closeScreen: Boolean = true) {
         if (!validateTransaction()) {
             return
         }
@@ -611,7 +614,7 @@ class EditTransactionViewModel @Inject constructor(
         }
     }
 
-    fun setHasChanges(hasChangesValue: Boolean) {
+    private fun setHasChanges(hasChangesValue: Boolean) {
         hasChanges.value = hasChangesValue
     }
 
@@ -665,7 +668,7 @@ class EditTransactionViewModel @Inject constructor(
 
     private fun loadedTransaction() = loadedTransaction ?: error("Loaded transaction is null")
 
-    fun updateExchangeRate(exRate: Double?) {
+    private fun updateExchangeRate(exRate: Double?) {
         viewModelScope.launch {
             updateCustomExchangeRateState(exchangeRate = exRate, resetRate = exRate == null)
         }
