@@ -364,8 +364,6 @@ private fun BoxWithConstraintsScope.UI(
                 onChoosePeriodModal = onChoosePeriodModal
             )
 
-            val value = 0.7f
-
             transactions(
                 baseData = AppBaseData(
                     baseCurrency,
@@ -394,7 +392,7 @@ private fun BoxWithConstraintsScope.UI(
 
                 history = history,
                 lastItemSpacer = with(density) {
-                    (ivyContext.screenHeight * value).toDp()
+                    (ivyContext.screenHeight * 0.7f).toDp()
                 },
 
                 onPayOrGet = onPayOrGet,
@@ -890,8 +888,6 @@ private fun BoxWithConstraintsScope.Preview_crypto() {
 @Composable
 private fun BoxWithConstraintsScope.Preview_empty_upcoming() {
     IvyPreview {
-        val value = 10L
-
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
@@ -920,7 +916,7 @@ private fun BoxWithConstraintsScope.Preview_empty_upcoming() {
                 Transaction(
                     UUID(1L, 2L),
                     TransactionType.EXPENSE,
-                    BigDecimal.valueOf(value)
+                    BigDecimal.valueOf(10L)
                 )
             ),
             accountNameConfirmation = TextFieldValue(),
