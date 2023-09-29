@@ -222,14 +222,14 @@ class EditTransactionViewModel @Inject constructor(
 
             baseUserCurrency = baseCurrency()
 
-            val accounts = accountsAct(Unit)
-            if (accounts.isEmpty()) {
+            val getAccounts = accountsAct(Unit)
+            if (getAccounts.isEmpty()) {
                 closeScreen()
                 return@launch
             }
-            _accounts.value = accounts
+            accounts.value = getAccounts
 
-            _categories.value = categoriesAct(Unit)
+            categories.value = categoriesAct(Unit)
 
             reset()
 
@@ -238,7 +238,7 @@ class EditTransactionViewModel @Inject constructor(
             } ?: Transaction(
                 accountId = defaultAccountId(
                     screen = screen,
-                    accounts = accounts
+                    accounts = getAccounts
                 ),
                 categoryId = screen.categoryId,
                 type = screen.type,
@@ -263,12 +263,15 @@ class EditTransactionViewModel @Inject constructor(
 
         val loanWarningDescription = if (isLoanRecord) {
             "Note: This transaction is associated with a Loan Record of Loan : ${loan.name}\n" +
-                    "You are trying to change the account associated with the loan record to an account of different currency" +
-                    "\n The Loan Record will be re-calculated based on today's currency exchanges rates"
+                    "You are trying to change the account associated with the loan record to an " +
+                    "account of different currency" +
+                    "\n The Loan Record will be re-calculated based on today's currency exchanges" +
+                    " rates"
         } else {
-            "Note: You are trying to change the account associated with the loan: ${loan.name} with an account " +
-                    "of different currency, " +
-                    "\nAll the loan records will be re-calculated based on today's currency exchanges rates "
+            "Note: You are trying to change the account associated with the loan: ${loan.name} " +
+                    "with an account of different currency, " +
+                    "\nAll the loan records will be re-calculated based on today's currency " +
+                    "exchanges rates "
         }
 
         val loanCaption =
@@ -294,9 +297,15 @@ class EditTransactionViewModel @Inject constructor(
             return screen.accountId!!
         }
 
-        val lastSelectedId = sharedPrefs.getString(SharedPrefs.LAST_SELECTED_ACCOUNT_ID, null)
-            ?.let { UUID.fromString(it) }
-        if (lastSelectedId != null && ioThread { accounts.find { it.id == lastSelectedId } } != null) {
+        val lastSelectedId = sharedPrefs.getString(
+            SharedPrefs.LAST_SELECTED_ACCOUNT_ID,
+            null
+        )?.let { UUID.fromString(it) }
+        if (lastSelectedId != null && ioThread {
+                accounts.find {
+                    it.id == lastSelectedId
+                }
+            } != null) {
             // use last selected account
             return lastSelectedId
         }
@@ -307,29 +316,29 @@ class EditTransactionViewModel @Inject constructor(
     private suspend fun display(transaction: Transaction) {
         this.title = transaction.title
 
-        _transactionType.value = transaction.type
-        _initialTitle.value = transaction.title
-        _dateTime.value = transaction.dateTime
-        _description.value = transaction.description
-        _dueDate.value = transaction.dueDate
+        transactionType.value = transaction.type
+        initialTitle.value = transaction.title
+        dateTime.value = transaction.dateTime
+        description.value = transaction.description
+        dueDate.value = transaction.dueDate
         val selectedAccount = accountByIdAct(transaction.accountId)!!
-        _account.value = selectedAccount
-        _toAccount.value = transaction.toAccountId?.let {
+        account.value = selectedAccount
+        toAccount.value = transaction.toAccountId?.let {
             accountByIdAct(it)
         }
-        _category.value = transaction.categoryId?.let {
+        category.value = transaction.categoryId?.let {
             categoryByIdAct(it)
         }
-        _amount.value = transaction.amount.toDouble()
+        amount.doubleValue = transaction.amount.toDouble()
 
         updateCurrency(account = selectedAccount)
 
-        _customExchangeRateState.value = if (transaction.toAccountId == null) {
+        customExchangeRateState.value = if (transaction.toAccountId == null) {
             CustomExchangeRateState()
         } else {
             val exchangeRate = transaction.toAmount / transaction.amount
             val toAccountCurrency =
-                _accounts.value.find { acc -> acc.id == transaction.toAccountId }?.currency
+                accounts.value.find { acc -> acc.id == transaction.toAccountId }?.currency
             CustomExchangeRateState(
                 showCard = toAccountCurrency != account.value?.currency,
                 exchangeRate = exchangeRate.toDouble(),
@@ -339,11 +348,11 @@ class EditTransactionViewModel @Inject constructor(
             )
         }
 
-        _displayLoanHelper.value = getDisplayLoanHelper(trans = transaction)
+        displayLoanHelper.value = getDisplayLoanHelper(trans = transaction)
     }
 
     private suspend fun updateCurrency(account: Account) {
-        _currency.value = account.currency ?: baseCurrency()
+        currency.value = account.currency ?: baseCurrency()
     }
 
     private suspend fun baseCurrency(): String = ioThread { settingsDao.findFirst().currency }
@@ -353,7 +362,7 @@ class EditTransactionViewModel @Inject constructor(
             loadedTransaction = loadedTransaction().copy(
                 amount = newAmount.toBigDecimal()
             )
-            _amount.value = newAmount
+            amount.doubleValue = newAmount
             updateCustomExchangeRateState(amt = newAmount)
 
             saveIfEditMode()
@@ -375,7 +384,7 @@ class EditTransactionViewModel @Inject constructor(
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            _titleSuggestions.value = ioThread {
+            titleSuggestions.value = ioThread {
                 smartTitleSuggestionsLogic.suggest(
                     title = title,
                     categoryId = category.value?.id,
@@ -391,7 +400,7 @@ class EditTransactionViewModel @Inject constructor(
         loadedTransaction = loadedTransaction().copy(
             description = newDescription
         )
-        _description.value = newDescription
+        description.value = newDescription
 
         saveIfEditMode()
     }
@@ -400,7 +409,7 @@ class EditTransactionViewModel @Inject constructor(
         loadedTransaction = loadedTransaction().copy(
             categoryId = newCategory?.id
         )
-        _category.value = newCategory
+        category.value = newCategory
 
         saveIfEditMode()
 
@@ -414,7 +423,7 @@ class EditTransactionViewModel @Inject constructor(
             loadedTransaction = loadedTransaction().copy(
                 accountId = newAccount.id
             )
-            _account.value = newAccount
+            account.value = newAccount
 
             updateCustomExchangeRateState(fromAccount = newAccount)
 
@@ -440,8 +449,8 @@ class EditTransactionViewModel @Inject constructor(
             loadedTransaction = loadedTransaction().copy(
                 toAccountId = newAccount.id
             )
-            _toAccount.value = newAccount
-            updateCustomExchangeRateState(toAccount = newAccount)
+            toAccount.value = newAccount
+            updateCustomExchangeRateState(toAccountValue = newAccount)
 
             saveIfEditMode()
         }
@@ -451,7 +460,7 @@ class EditTransactionViewModel @Inject constructor(
         loadedTransaction = loadedTransaction().copy(
             dueDate = newDueDate
         )
-        _dueDate.value = newDueDate
+        dueDate.value = newDueDate
 
         saveIfEditMode()
     }
@@ -460,7 +469,7 @@ class EditTransactionViewModel @Inject constructor(
         loadedTransaction = loadedTransaction().copy(
             dateTime = newDateTime
         )
-        _dateTime.value = newDateTime
+        dateTime.value = newDateTime
 
         saveIfEditMode()
     }
@@ -469,7 +478,7 @@ class EditTransactionViewModel @Inject constructor(
         loadedTransaction = loadedTransaction().copy(
             type = newTransactionType
         )
-        _transactionType.value = newTransactionType
+        transactionType.value = newTransactionType
 
         saveIfEditMode()
     }
@@ -483,8 +492,8 @@ class EditTransactionViewModel @Inject constructor(
                 syncTransaction = false
             ) { paidTransaction ->
                 loadedTransaction = paidTransaction
-                _dueDate.value = paidTransaction.dueDate
-                _dateTime.value = paidTransaction.dateTime
+                dueDate.value = paidTransaction.dueDate
+                dateTime.value = paidTransaction.dateTime
 
                 saveIfEditMode(
                     closeScreen = true
@@ -515,7 +524,7 @@ class EditTransactionViewModel @Inject constructor(
             TestIdlingResource.increment()
 
             categoryCreator.createCategory(data) {
-                _categories.value = categoriesAct(Unit)
+                categories.value = categoriesAct(Unit)
 
                 // Select the newly created category
                 onCategoryChanged(it)
@@ -530,7 +539,7 @@ class EditTransactionViewModel @Inject constructor(
             TestIdlingResource.increment()
 
             categoryCreator.editCategory(updatedCategory) {
-                _categories.value = categoriesAct(Unit)
+                categories.value = categoriesAct(Unit)
             }
 
             TestIdlingResource.decrement()
@@ -543,7 +552,7 @@ class EditTransactionViewModel @Inject constructor(
 
             accountCreator.createAccount(data) {
                 eventBus.post(AccountUpdatedEvent)
-                _accounts.value = accountsAct(Unit)
+                accounts.value = accountsAct(Unit)
             }
 
             TestIdlingResource.decrement()
@@ -552,7 +561,7 @@ class EditTransactionViewModel @Inject constructor(
 
     private fun saveIfEditMode(closeScreen: Boolean = false) {
         if (editMode) {
-            _hasChanges.value = true
+            hasChanges.value = true
 
             save(closeScreen)
         }
@@ -575,17 +584,17 @@ class EditTransactionViewModel @Inject constructor(
     private suspend fun saveInternal(closeScreen: Boolean) {
         try {
             ioThread {
-                val amount = amount.value.toBigDecimal()
+                val amount = amount.doubleValue.toBigDecimal()
 
                 loadedTransaction = loadedTransaction().copy(
                     accountId = account.value?.id ?: error("no accountId"),
                     toAccountId = toAccount.value?.id,
-                    toAmount = _customExchangeRateState.value.convertedAmount?.toBigDecimal()
+                    toAmount = customExchangeRateState.value.convertedAmount?.toBigDecimal()
                         ?: amount,
                     title = title?.trim(),
                     description = description.value?.trim(),
                     amount = amount,
-                    type = transactionType.value ?: error("no transaction type"),
+                    type = transactionType.value,
                     dueDate = dueDate.value,
                     dateTime = when {
                         loadedTransaction().dateTime == null &&
@@ -603,10 +612,10 @@ class EditTransactionViewModel @Inject constructor(
                     loanTransactionsLogic.updateAssociatedLoanData(
                         loadedTransaction!!.copy(),
                         onBackgroundProcessingStart = {
-                            _backgroundProcessingStarted.value = true
+                            backgroundProcessingStarted.value = true
                         },
                         onBackgroundProcessingEnd = {
-                            _backgroundProcessingStarted.value = false
+                            backgroundProcessingStarted.value = false
                         },
                         accountsChanged = accountsChanged
                     )
@@ -627,8 +636,8 @@ class EditTransactionViewModel @Inject constructor(
         }
     }
 
-    fun setHasChanges(hasChanges: Boolean) {
-        _hasChanges.value = hasChanges
+    fun setHasChanges(hasChangesValue: Boolean) {
+        hasChanges.value = hasChangesValue
     }
 
     private suspend fun transferToAmount(
@@ -660,7 +669,7 @@ class EditTransactionViewModel @Inject constructor(
             return false
         }
 
-        if (amount.value == 0.0) {
+        if (amount.doubleValue == 0.0) {
             return false
         }
 
@@ -670,37 +679,39 @@ class EditTransactionViewModel @Inject constructor(
     private fun reset() {
         loadedTransaction = null
 
-        _initialTitle.value = null
-        _description.value = null
-        _dueDate.value = null
-        _category.value = null
-        _hasChanges.value = false
+        initialTitle.value = null
+        description.value = null
+        dueDate.value = null
+        category.value = null
+        hasChanges.value = false
     }
 
     private fun loadedTransaction() = loadedTransaction ?: error("Loaded transaction is null")
 
     private suspend fun updateCustomExchangeRateState(
-        toAccount: Account? = null,
+        toAccountValue: Account? = null,
         fromAccount: Account? = null,
         amt: Double? = null,
         exchangeRate: Double? = null,
         resetRate: Boolean = false
     ) {
         computationThread {
-            val toAcc = toAccount ?: _toAccount.value
-            val fromAcc = fromAccount ?: _account.value
+            val toAcc = toAccountValue ?: toAccount.value
+            val fromAcc = fromAccount ?: account.value
 
             val toAccCurrencyCode = toAcc?.currency ?: baseUserCurrency
             val fromAccCurrencyCode = fromAcc?.currency ?: baseUserCurrency
 
             if (toAcc == null || fromAcc == null || (toAccCurrencyCode == fromAccCurrencyCode)) {
-                _customExchangeRateState.value = CustomExchangeRateState()
+                customExchangeRateState.value = CustomExchangeRateState()
                 return@computationThread
             }
 
             val exRate = exchangeRate
-                ?: if (customExchangeRateState.value.showCard && toAccCurrencyCode == customExchangeRateState.value.toCurrencyCode &&
-                    fromAccCurrencyCode == customExchangeRateState.value.fromCurrencyCode && !resetRate
+                ?: if (customExchangeRateState.value.showCard &&
+                    toAccCurrencyCode == customExchangeRateState.value.toCurrencyCode &&
+                    fromAccCurrencyCode == customExchangeRateState.value.fromCurrencyCode &&
+                    !resetRate
                 ) {
                     customExchangeRateState.value.exchangeRate
                 } else {
@@ -712,7 +723,7 @@ class EditTransactionViewModel @Inject constructor(
                     )
                 }
 
-            val amount = amt ?: _amount.value ?: 0.0
+            val amount = amt ?: amount.doubleValue
 
             val customTransferExchangeRateState = CustomExchangeRateState(
                 showCard = true,
@@ -722,7 +733,7 @@ class EditTransactionViewModel @Inject constructor(
                 convertedAmount = exRate * amount
             )
 
-            _customExchangeRateState.value = customTransferExchangeRateState
+            customExchangeRateState.value = customTransferExchangeRateState
             uiThread {
                 saveIfEditMode()
             }
