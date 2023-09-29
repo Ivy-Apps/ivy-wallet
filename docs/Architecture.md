@@ -1,13 +1,13 @@
 # Ivy's Ways, These Are
 
-Solution short and working, must be. Break the app, it must not.
+Solutions short and working, must be. Break the app, they must not.
 
 **Wisdom we follow:**
 
-- **80/20 rule:** 20% code brings 80% feature value.
-- **Run, when complexity you see!** If explain to a youngling you cannot, start anew you must.
-- **Overengineer, you must not.** Less is more. Pragmatic be, with "dumb" solutions.
-- **For today, build.** Tomorrow, uncertain it is. Fail today by planning only for tomorrow, you might.
+- **80/20 rule:** From 20% code, 80% value.
+- **Complexity, a dark path it is.** Easy to start, difficult to undo. More layers, tempting they seem... Yet in simplicity, true power lies.
+- **Overengineer, you must not.** More, often is less. Clear and plain, solutions should stand.
+- **For today, build.** Tomorrow, uncertain it is. By looking too far ahead, stumble today, you could.
 
 ## Screen: Compose UI + ComposeViewModel
 
@@ -16,7 +16,7 @@ Separate, we do: **Compose UI** <> **Logic of Screen**. Why? Hmmm...
 1. **Performance of Jetpack Compose:** Less the UI thinks, faster it changes. Fewer changes when `UiState` primitive and `@Immutable`.
 2. **DI (The Way of Injecting):** Inject in composable functions, one cannot. Yet, in ViewModel with `@Inject constructor`, easy it is.
 3. **Code, simple it is:** UI dumb, only draws. Logic pure, without ties to the Android realm.
-4. **Compose Previews:** <<FILL THIS....>>
+4. **Compose Previews:** Mock `UiState`, easy it becomes. Any screen state, preview you can. 
 
 ![screen-viewmodel](../assets/screen-vm.svg)
 
