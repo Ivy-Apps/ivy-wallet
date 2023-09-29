@@ -124,7 +124,7 @@ fun BoxWithConstraintsScope.AmountModal(
         },
         SecondaryActions = {
             if (showPlusMinus) {
-                Row() {
+                Row {
                     Spacer(modifier = Modifier.width(34.dp))
                     KeypadCircleButton(
                         text = "+/-",
@@ -143,7 +143,6 @@ fun BoxWithConstraintsScope.AmountModal(
                         }
                     )
                 }
-
             }
         }
     ) {

@@ -299,7 +299,6 @@ fun ModalActionsRow(
                 onClick = onClose
             )
 
-
             SecondaryActions?.invoke()
 
             Spacer(Modifier.weight(1f))
