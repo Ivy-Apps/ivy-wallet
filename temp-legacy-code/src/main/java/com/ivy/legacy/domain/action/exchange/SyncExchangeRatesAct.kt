@@ -2,9 +2,9 @@ package com.ivy.legacy.domain.action.exchange
 
 import androidx.annotation.Keep
 import com.ivy.frp.action.Action
-import com.ivy.persistence.db.dao.read.ExchangeRatesDao
-import com.ivy.persistence.db.dao.write.WriteExchangeRatesDao
-import com.ivy.persistence.db.entity.ExchangeRateEntity
+import com.ivy.data.db.dao.read.ExchangeRatesDao
+import com.ivy.data.db.dao.write.WriteExchangeRatesDao
+import com.ivy.data.db.entity.ExchangeRateEntity
 import dagger.Lazy
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body

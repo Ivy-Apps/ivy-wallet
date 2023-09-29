@@ -1,7 +1,7 @@
 package com.ivy.legacy
 
 import com.ivy.base.util.stringRes
-import com.ivy.persistence.model.IntervalType
+import com.ivy.data.model.IntervalType
 import com.ivy.resources.R
 import java.time.LocalDateTime
 

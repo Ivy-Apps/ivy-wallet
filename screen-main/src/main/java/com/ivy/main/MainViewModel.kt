@@ -15,7 +15,7 @@ import com.ivy.legacy.utils.asLiveData
 import com.ivy.legacy.utils.ioThread
 import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
-import com.ivy.persistence.db.dao.read.SettingsDao
+import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

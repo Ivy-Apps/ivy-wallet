@@ -46,17 +46,6 @@
     </issue>
 
     <issue
-        id="AndroidGradlePluginVersion"
-        message="A newer version of com.android.tools.build:gradle than 8.1.1 is available: 8.1.2"
-        errorLine1="android-gradle-plugin = { module = &quot;com.android.tools.build:gradle&quot;, version = &quot;8.1.1&quot; }"
-        errorLine2="                                                                               ~~~~~~~">
-        <location
-            file="../gradle/libs.versions.toml"
-            line="28"
-            column="80"/>
-    </issue>
-
-    <issue
         id="GradleDependency"
         message="A newer version of androidx.compose.animation:animation than 1.5.1 is available: 1.5.2"
         errorLine1="compose = &quot;1.5.1&quot;"
@@ -9123,7 +9112,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/AmountModal.kt"
-            line="273"
+            line="299"
             column="1"/>
     </issue>
 
@@ -9783,7 +9772,7 @@
         errorLine2="                            ~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/AmountModal.kt"
-            line="59"
+            line="61"
             column="29"/>
     </issue>
 
@@ -9794,7 +9783,7 @@
         errorLine2="    ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/AmountModal.kt"
-            line="164"
+            line="190"
             column="5"/>
     </issue>
 
@@ -9805,7 +9794,7 @@
         errorLine2="    ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/AmountModal.kt"
-            line="274"
+            line="300"
             column="5"/>
     </issue>
 
@@ -9816,7 +9805,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/AmountModal.kt"
-            line="468"
+            line="494"
             column="5"/>
     </issue>
 
@@ -10960,7 +10949,7 @@
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/AmountModal.kt"
-            line="273"
+            line="299"
             column="1"/>
     </issue>
 
@@ -11571,34 +11560,12 @@
 
     <issue
         id="ComposeParameterOrder"
-        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [id: UUID, visible: Boolean, currency: String, initialAmount: Double?, decimalCountMax: Int = 2, Header: (@Composable () -> Unit)? = null, amountSpacerTop: Dp = 64.dp, dismiss: () -> Unit, onAmountChanged: (Double) -> Unit] but should be [id: UUID, visible: Boolean, currency: String, initialAmount: Double?, dismiss: () -> Unit, decimalCountMax: Int = 2, Header: (@Composable () -> Unit)? = null, amountSpacerTop: Dp = 64.dp, onAmountChanged: (Double) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
-        errorLine2="^">
-        <location
-            file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/AmountModal.kt"
-            line="57"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeParameterOrder"
         message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [forCalculator: Boolean, ZeroRow: (@Composable RowScope.() -> Unit)? = null, FirstRowExtra: (@Composable RowScope.() -> Unit)? = null, SecondRowExtra: (@Composable RowScope.() -> Unit)? = null, ThirdRowExtra: (@Composable RowScope.() -> Unit)? = null, FourthRowExtra: (@Composable RowScope.() -> Unit)? = null, onNumberPressed: (String) -> Unit, onDecimalPoint: () -> Unit, onBackspace: () -> Unit] but should be [forCalculator: Boolean, onNumberPressed: (String) -> Unit, onDecimalPoint: () -> Unit, ZeroRow: (@Composable RowScope.() -> Unit)? = null, FirstRowExtra: (@Composable RowScope.() -> Unit)? = null, SecondRowExtra: (@Composable RowScope.() -> Unit)? = null, ThirdRowExtra: (@Composable RowScope.() -> Unit)? = null, FourthRowExtra: (@Composable RowScope.() -> Unit)? = null, onBackspace: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
         errorLine1="@Composable"
         errorLine2="^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/AmountModal.kt"
-            line="273"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeParameterOrder"
-        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [text: String, textColor: Color = UI.colors.pureInverse, testTag: String, onClick: () -> Unit] but should be [text: String, testTag: String, textColor: Color = UI.colors.pureInverse, onClick: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
-            file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/AmountModal.kt"
-            line="467"
+            line="299"
             column="1"/>
     </issue>
 

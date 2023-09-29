@@ -21,10 +21,10 @@ import com.ivy.legacy.utils.sendToCrashlytics
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.OnboardingScreen
 import com.ivy.onboarding.OnboardingState
-import com.ivy.persistence.db.dao.read.AccountDao
-import com.ivy.persistence.db.dao.read.CategoryDao
-import com.ivy.persistence.db.dao.read.SettingsDao
-import com.ivy.persistence.db.dao.write.WriteSettingsDao
+import com.ivy.data.db.dao.read.AccountDao
+import com.ivy.data.db.dao.read.CategoryDao
+import com.ivy.data.db.dao.read.SettingsDao
+import com.ivy.data.db.dao.write.WriteSettingsDao
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.data.IvyCurrency

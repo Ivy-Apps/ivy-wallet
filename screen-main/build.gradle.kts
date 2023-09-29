@@ -12,8 +12,8 @@ dependencies {
     implementation(projects.ivyResources)
     implementation(projects.ivyDesign)
     implementation(projects.ivyNavigation)
-    implementation(projects.ivyDomainUi)
-    implementation(projects.ivyPersistence)
+    implementation(projects.ivyCommonUi)
+    implementation(projects.ivyData)
 
     implementation(projects.screenHome)
     implementation(projects.screenAccounts)

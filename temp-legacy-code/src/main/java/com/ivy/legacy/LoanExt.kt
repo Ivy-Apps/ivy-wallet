@@ -2,7 +2,7 @@ package com.ivy.legacy
 
 import com.ivy.base.util.stringRes
 import com.ivy.legacy.datamodel.Loan
-import com.ivy.persistence.model.LoanType
+import com.ivy.data.model.LoanType
 import com.ivy.resources.R
 
 fun Loan.humanReadableType(): String {

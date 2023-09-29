@@ -7,9 +7,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
-import com.ivy.domain.datastore.dataStore
+import com.ivy.data.datastore.DatastoreKeys
+import com.ivy.data.datastore.dataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -19,18 +19,18 @@ class BoolFeature(
     val name: String? = null,
     val description: String? = null,
 ) {
-    fun enabled(appContext: Context): Flow<Boolean?> {
-        return appContext.dataStore.data.map {
-            it[featureKey]
-        }
-    }
-
     @Composable
     fun asEnabledState(): Boolean {
         val context = LocalContext.current
         val featureFlag = remember { enabled(context) }
             .collectAsState(false).value
         return featureFlag ?: false
+    }
+
+    fun enabled(appContext: Context): Flow<Boolean?> {
+        return appContext.dataStore.data.map {
+            it[featureKey]
+        }
     }
 
     suspend fun set(appContext: Context, enabled: Boolean) {
@@ -40,5 +40,5 @@ class BoolFeature(
     }
 
     private val featureKey: Preferences.Key<Boolean>
-        get() = booleanPreferencesKey("feature_$key")
+        get() = DatastoreKeys.ivyFeature(key)
 }

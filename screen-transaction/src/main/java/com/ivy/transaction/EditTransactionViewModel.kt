@@ -22,10 +22,10 @@ import com.ivy.legacy.utils.uiThread
 import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
-import com.ivy.persistence.db.dao.read.LoanDao
-import com.ivy.persistence.db.dao.read.SettingsDao
-import com.ivy.persistence.db.dao.write.WriteTransactionDao
-import com.ivy.persistence.model.TransactionType
+import com.ivy.data.db.dao.read.LoanDao
+import com.ivy.data.db.dao.read.SettingsDao
+import com.ivy.data.db.dao.write.WriteTransactionDao
+import com.ivy.base.model.TransactionType
 import com.ivy.wallet.domain.action.account.AccountByIdAct
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct

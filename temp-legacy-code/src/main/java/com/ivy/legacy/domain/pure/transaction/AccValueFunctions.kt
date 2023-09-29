@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.pure.transaction
 
 import com.ivy.base.legacy.Transaction
-import com.ivy.persistence.model.TransactionType
+import com.ivy.base.model.TransactionType
 import java.math.BigDecimal
 import java.util.UUID
 
