@@ -214,6 +214,7 @@ private fun formatExpression(expression: String, currency: String): String {
 
 private fun calculate(expression: String): Double? {
     return try {
+        // Keval doesn't support negative numbers, so we add a zero in front of the expression
         val modifiedExpression = if (expression.startsWith("-")) "0$expression" else expression
         Keval.eval(modifiedExpression.normalizeExpression())
     } catch (e: Exception) {

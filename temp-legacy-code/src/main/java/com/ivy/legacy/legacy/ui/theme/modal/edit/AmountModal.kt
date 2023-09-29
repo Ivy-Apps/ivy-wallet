@@ -124,21 +124,26 @@ fun BoxWithConstraintsScope.AmountModal(
         },
         SecondaryActions = {
             if (showPlusMinus) {
-                KeypadCircleButton(
-                    text = "+/-",
-                    testTag = "plus_minus",
-                    fontSize = 22.sp,
-                    btnSize = 52.dp,
-                    onClick = {
-                        amount = if (amount.isEmpty()) {
-                            "-0"
-                        } else if (amount.first() == '-') {
-                            amount.substring(1)
-                        } else {
-                            "-$amount"
+                Row() {
+                    Spacer(modifier = Modifier.width(34.dp))
+                    KeypadCircleButton(
+                        text = "+/-",
+                        testTag = "plus_minus",
+                        fontSize = 22.sp,
+                        btnSize = 52.dp,
+                        onClick = {
+                            when {
+                                amount.firstOrNull() == '-' -> {
+                                    amount = amount.drop(1)
+                                }
+                                amount.isNotEmpty() -> {
+                                    amount = "-$amount"
+                                }
+                            }
                         }
-                    }
-                )
+                    )
+                }
+
             }
         }
     ) {
@@ -227,12 +232,7 @@ fun AmountInput(
         forCalculator = false,
         onNumberPressed = {
             if (firstInput) {
-                if (amount == "-0") {
-                    setAmount("-$it")
-                }
-                else {
-                    setAmount(it)
-                }
+                setAmount(it)
                 firstInput = false
             } else {
                 val formattedAmount = formatInputAmount(
