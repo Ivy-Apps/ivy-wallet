@@ -57,9 +57,9 @@ Face of the app, this is. Interactions with users, here they unfold. Displays da
 
 ## Modularization: by screen/feature
 
-We split our app into multiple modules to reduce coupling (spaghetti code) and make the app build faster. Also, this allows multiple contributors to work on different features without merge conflicts.
+Split our app into many modules, we do. Reduce tangled paths (spaghetti code) and faster app builds, it aims. Furthermore, permits many hands to craft different features, free from merging conflicts.
 
-Another big benefit is that each screen can have a simple package structure and be able to scale with more code to support complex use cases without affecting the rest of the codebase.
+Each screen, simple it stands. With more code it grows, supporting intricate tales. Yet, disturb the rest, it does not. In harmony, the entire codebase remains.
 
 ![modularization-strategy](../assets/modularization.svg)
 
@@ -95,8 +95,8 @@ These are the modules that you can use as a dependency in your screen/feature mo
 - `:ivy-base`: code that needs to be shared everywhere.
 - `:ivy-resources`: contains all Ivy Wallet's resources - **strings** and **drawables**.
 - `:ivy-design`: Ivy's design system (colors, typography and shapes) and provides a stylized Material3 (M3) theme.
-- `:ivy-data`: [Data layer](https://developer.android.com/topic/architecture/data-layer). Encapsulates CRUD operations. Includes Room DB, Datastore, Networking.
-- `:ivy-domain`: [Domain layer](https://developer.android.com/topic/architecture/domain-layer). Contains Ivy Wallet's data model, business logic.
+- `:ivy-data`: [Data layer](https://developer.android.com/topic/architecture/data-layer). Encapsulates CRUD operations. Holds `DataSources` (Room DB, Datastore, Networking) and `Repositories` (validation and mapping logic).
+- `:ivy-domain`: [Domain layer](https://developer.android.com/topic/architecture/domain-layer). Contains Ivy Wallet's business logic.
 - `:ivy-navigation`: provides the definition _(screen's startup params w/o implementation)_ of all Screen destinations in Ivy Wallet and implements a simple back-stack based custom `Navigation`. 
 - `:ivy-domain-ui`: Builds re-usable high-level UI components (for example `AccountModal` that also encapsulates the account CRUD logic) that enforce consistent Ivy UI/UX patterns for common operations (e.g. CRUD for accounts, categories, etc).
 
