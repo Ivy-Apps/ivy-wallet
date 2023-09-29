@@ -66,48 +66,47 @@ internal fun HomeHeader(
     period: TimePeriod,
     currency: String,
     balance: Double,
-    bufferDiff: Double,
-    hideCurrentBalance: Boolean = false,
-
     onShowMonthModal: () -> Unit,
     onBalanceClick: () -> Unit,
-    onHiddenBalanceClick: () -> Unit = {},
-
     onSelectNextMonth: () -> Unit,
+    hideBalance: Boolean,
+    onHiddenBalanceClick: () -> Unit,
     onSelectPreviousMonth: () -> Unit,
 ) {
-    val percentExpanded by animateFloatAsState(
-        targetValue = if (expanded) 1f else 0f,
-        animationSpec = springBounce(
-            stiffness = Spring.StiffnessLow,
-        ),
-    )
-
-    Spacer(Modifier.height(20.dp))
-
-    HeaderStickyRow(
-        percentExpanded = percentExpanded,
-        name = name,
-        period = period,
-        currency = currency,
-        balance = balance,
-        hideCurrentBalance = hideCurrentBalance,
-
-        onShowMonthModal = onShowMonthModal,
-        onBalanceClick = onBalanceClick,
-        onHiddenBalanceClick = onHiddenBalanceClick,
-
-        onSelectNextMonth = onSelectNextMonth,
-        onSelectPreviousMonth = onSelectPreviousMonth,
-    )
-
-    Spacer(Modifier.height(16.dp))
-
-    if (percentExpanded < 0.5f) {
-        TransactionsDividerLine(
-            modifier = Modifier.alpha(1f - percentExpanded),
-            paddingHorizontal = 0.dp,
+    Column {
+        val percentExpanded by animateFloatAsState(
+            targetValue = if (expanded) 1f else 0f,
+            animationSpec = springBounce(
+                stiffness = Spring.StiffnessLow
+            ),
+            label = "Home Header Expand Collapse"
         )
+
+        Spacer(Modifier.height(20.dp))
+
+        HeaderStickyRow(
+            percentExpanded = percentExpanded,
+            name = name,
+            period = period,
+            currency = currency,
+            balance = balance,
+            hideBalance = hideBalance,
+
+            onShowMonthModal = onShowMonthModal,
+            onBalanceClick = onBalanceClick,
+            onHiddenBalanceClick = onHiddenBalanceClick,
+            onSelectNextMonth = onSelectNextMonth,
+            onSelectPreviousMonth = onSelectPreviousMonth
+        )
+
+        Spacer(Modifier.height(16.dp))
+
+        if (percentExpanded < 0.5f) {
+            TransactionsDividerLine(
+                modifier = Modifier.alpha(1f - percentExpanded),
+                paddingHorizontal = 0.dp
+            )
+        }
     }
 }
 
@@ -116,16 +115,13 @@ private fun HeaderStickyRow(
     percentExpanded: Float,
     name: String,
     period: TimePeriod,
-
     currency: String,
     balance: Double,
-    hideCurrentBalance: Boolean = false,
-
     onShowMonthModal: () -> Unit,
     onBalanceClick: () -> Unit,
-    onHiddenBalanceClick: () -> Unit = {},
-
     onSelectNextMonth: () -> Unit,
+    hideBalance: Boolean,
+    onHiddenBalanceClick: () -> Unit,
     onSelectPreviousMonth: () -> Unit,
 ) {
     Row(
@@ -165,7 +161,7 @@ private fun HeaderStickyRow(
                     modifier = Modifier
                         .alpha(alpha = 1f - percentExpanded)
                         .clickableNoIndication {
-                            if (hideCurrentBalance) {
+                            if (hideBalance) {
                                 onHiddenBalanceClick()
                             } else {
                                 onBalanceClick()
@@ -174,7 +170,7 @@ private fun HeaderStickyRow(
                     currency = currency,
                     balance = balance,
                     shortenBigNumbers = true,
-                    hiddenMode = hideCurrentBalance,
+                    hiddenMode = hideBalance
                 )
             }
         }
@@ -205,22 +201,19 @@ private fun HeaderStickyRow(
 @ExperimentalAnimationApi
 @Composable
 fun CashFlowInfo(
-    percentExpanded: Float = 1f,
-    period: TimePeriod,
     currency: String,
     balance: Double,
-    bufferDiff: Double,
     monthlyIncome: Double,
     monthlyExpenses: Double,
-
-    hideCurrentBalance: Boolean,
-
+    hideBalance: Boolean,
     onOpenMoreMenu: () -> Unit,
     onBalanceClick: () -> Unit,
-    onHiddenBalanceClick: () -> Unit = {},
+    percentExpanded: Float,
+    onHiddenBalanceClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .verticalSwipeListener(
                 sensitivity = Constants.SWIPE_DOWN_THRESHOLD_OPEN_MORE_MENU,
                 onSwipeDown = {
@@ -232,7 +225,7 @@ fun CashFlowInfo(
             modifier = Modifier
                 .padding(horizontal = 20.dp)
                 .clickableNoIndication {
-                    if (hideCurrentBalance) {
+                    if (hideBalance) {
                         onHiddenBalanceClick()
                     } else {
                         onBalanceClick()
@@ -242,21 +235,20 @@ fun CashFlowInfo(
             currency = currency,
             balance = balance,
             shortenBigNumbers = true,
-            hiddenMode = hideCurrentBalance,
+            hiddenMode = hideBalance
         )
 
         Spacer(modifier = Modifier.height(24.dp))
 
         IncomeExpenses(
             percentExpanded = percentExpanded,
-            period = period,
             currency = currency,
             monthlyIncome = monthlyIncome,
             monthlyExpenses = monthlyExpenses,
         )
 
         val cashflow = monthlyIncome - monthlyExpenses
-        if (cashflow != 0.0 && !hideCurrentBalance) {
+        if (cashflow != 0.0 && !hideBalance) {
             Spacer(Modifier.height(12.dp))
 
             Text(
@@ -284,7 +276,6 @@ fun CashFlowInfo(
 @Composable
 private fun IncomeExpenses(
     percentExpanded: Float,
-    period: TimePeriod,
     currency: String,
     monthlyIncome: Double,
     monthlyExpenses: Double,

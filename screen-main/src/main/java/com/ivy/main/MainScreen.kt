@@ -61,7 +61,7 @@ private fun BoxWithConstraintsScope.UI(
     onCreateAccount: (CreateAccountData) -> Unit,
 ) {
     when (tab) {
-        MainTab.HOME -> HomeTab(screen = screen)
+        MainTab.HOME -> HomeTab()
         MainTab.ACCOUNTS -> AccountsTab()
     }
 
