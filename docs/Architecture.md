@@ -39,13 +39,21 @@ Reason, straightforward it is. More strength and simplicity, the Compose runtime
 
 ## Architecture Overview
 
-We follow the [offical Guide to app architecture by Google](https://developer.android.com/topic/architecture). Not because we want to be modern or fancy but because it makes sense. It's simple.
+Follow [offical Guide to app architecture by Google](https://developer.android.com/topic/architecture), we do. Not for fleeting trends or mere style, but for wisdom it holds. Simplicity, at its core.
+
+![app-architecture](../assets/app-layers.svg)
 
 ### [Data Layer](https://developer.android.com/topic/architecture/data-layer)
 
+Foundation it is, where data originates and resides. Persistence with databases, or fetch from afar through network calls, it handles. Stable and reliable, it must be, for all above to trust.
+
 ### [Domain Layer](https://developer.android.com/topic/architecture/domain-layer)
 
+Heart of the business logic, here it beats. Knowledge of UI or data sources, it has **not**. Pure and free from Android concerns, it remains. Transforms data into meaningful actions, and sets the rules the app lives by.
+
 ### [UI Layer](https://developer.android.com/topic/architecture/ui-layer)
+
+Face of the app, this is. Interactions with users, here they unfold. Displays data and listens to the user, it does. Lean it is, relying on lower layers for knowledge and truth. Its beauty, not just skin-deep, but in its simplicity and responsiveness.
 
 ## Modularization: by screen/feature
 
