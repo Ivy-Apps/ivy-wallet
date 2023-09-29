@@ -308,8 +308,6 @@
     <ID>ComposableNaming:UIExt.kt$setStatusBarDarkTextCompat</ID>
     <ID>ComposableParamOrder:AddKeywordModal.kt$AddKeywordModal</ID>
     <ID>ComposableParamOrder:AmountModal.kt$AmountKeyboard</ID>
-    <ID>ComposableParamOrder:AmountModal.kt$AmountModal</ID>
-    <ID>ComposableParamOrder:AmountModal.kt$KeypadCircleButton</ID>
     <ID>ComposableParamOrder:BackBottomBar.kt$BackBottomBar</ID>
     <ID>ComposableParamOrder:BalanceRow.kt$BalanceRow</ID>
     <ID>ComposableParamOrder:BalanceRow.kt$BalanceRowMedium</ID>
@@ -2058,7 +2056,7 @@
     <ID>InvalidPackageDeclaration:IncomeExpensePair.kt$package com.ivy.wallet.domain.pure.data</ID>
     <ID>InvalidPackageDeclaration:IncomeExpenseTransferPair.kt$package com.ivy.wallet.domain.pure.data</ID>
     <ID>InvalidPackageDeclaration:IntervalPickerRow.kt$package com.ivy.wallet.ui.theme.components</ID>
-    <ID>InvalidPackageDeclaration:IntervalType.kt$package com.ivy.persistence.model</ID>
+    <ID>InvalidPackageDeclaration:IntervalType.kt$package com.ivy.data.model</ID>
     <ID>InvalidPackageDeclaration:ItemIcon.kt$package com.ivy.wallet.ui.theme.components</ID>
     <ID>InvalidPackageDeclaration:IvyBasicTextField.kt$package com.ivy.wallet.ui.theme.components</ID>
     <ID>InvalidPackageDeclaration:IvyBorderButton.kt$package com.ivy.wallet.ui.theme.components</ID>
@@ -2100,7 +2098,7 @@
     <ID>InvalidPackageDeclaration:LoanRecordCreator.kt$package com.ivy.wallet.domain.deprecated.logic</ID>
     <ID>InvalidPackageDeclaration:LoanRecordModal.kt$package com.ivy.wallet.ui.theme.modal</ID>
     <ID>InvalidPackageDeclaration:LoanTransactionsLogic.kt$package com.ivy.wallet.domain.deprecated.logic.loantrasactions</ID>
-    <ID>InvalidPackageDeclaration:LoanType.kt$package com.ivy.persistence.model</ID>
+    <ID>InvalidPackageDeclaration:LoanType.kt$package com.ivy.data.model</ID>
     <ID>InvalidPackageDeclaration:LoansAct.kt$package com.ivy.wallet.domain.action.loan</ID>
     <ID>InvalidPackageDeclaration:Migration105to106_TrnRecurringRules.kt$package com.ivy.domain.db.migration</ID>
     <ID>InvalidPackageDeclaration:Migration106to107_Wishlist.kt$package com.ivy.domain.db.migration</ID>
@@ -2150,7 +2148,6 @@
     <ID>InvalidPackageDeclaration:TransactionHistoryDateDivider.kt$package com.ivy.wallet.domain.data</ID>
     <ID>InvalidPackageDeclaration:TransactionReminderLogic.kt$package com.ivy.wallet.domain.deprecated.logic.notification</ID>
     <ID>InvalidPackageDeclaration:TransactionReminderWorker.kt$package com.ivy.wallet.domain.deprecated.logic.notification</ID>
-    <ID>InvalidPackageDeclaration:TransactionType.kt$package com.ivy.persistence.model</ID>
     <ID>InvalidPackageDeclaration:TrnByIdAct.kt$package com.ivy.wallet.domain.action.transaction</ID>
     <ID>InvalidPackageDeclaration:TrnDateDividers.kt$package com.ivy.wallet.domain.pure.transaction</ID>
     <ID>InvalidPackageDeclaration:TrnFunctions.kt$package com.ivy.wallet.domain.pure.transaction</ID>
@@ -3989,6 +3986,9 @@
     <ID>MultipleEmitters:TransactionCard.kt$TransactionCard</ID>
     <ID>MultipleEmitters:TransactionSectionDivider.kt$SectionDivider</ID>
     <ID>NestedBlockDepth:AccValueFunctions.kt$AccountValueFunctions$fun balance( transaction: Transaction, accountId: UUID ): BigDecimal</ID>
+    <ID>NoBlankLineBeforeRbrace:AssetCode.kt$AssetCode.Companion$ </ID>
+    <ID>NoBlankLineBeforeRbrace:IconId.kt$IconId.Companion$ </ID>
+    <ID>NoBlankLineBeforeRbrace:PositiveDouble.kt$PositiveDouble.Companion$ </ID>
     <ID>NoConsecutiveBlankLines:Accessors11xxvwy0y6zsdmgi5tg7sgrcq.kt$ </ID>
     <ID>NoConsecutiveBlankLines:Accessors12l04gyw3iri7cbpx1tj9yrz6.kt$ </ID>
     <ID>NoConsecutiveBlankLines:Accessors15c80wxji7qdhvcsteytc58m6.kt$ </ID>
@@ -4255,7 +4255,6 @@
     <ID>NoConsecutiveBlankLines:Composition.kt$ </ID>
     <ID>NoConsecutiveBlankLines:Composition2.kt$ </ID>
     <ID>NoConsecutiveBlankLines:CoreLibraryDesugaringConfigurationAccessors.kt$ </ID>
-    <ID>NoConsecutiveBlankLines:DateTimeUtil.kt$ </ID>
     <ID>NoConsecutiveBlankLines:DebugAnnotationProcessorConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:DebugApiConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:DebugApiDependenciesMetadataConfigurationAccessors.kt$ </ID>
@@ -4369,6 +4368,7 @@
     <ID>NoConsecutiveBlankLines:TestReleaseWearAppConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:TestRuntimeOnlyConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:TestWearAppConfigurationAccessors.kt$ </ID>
+    <ID>NoConsecutiveBlankLines:Transaction.kt$Transaction$ </ID>
     <ID>NoConsecutiveBlankLines:WearAppConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:build.gradle.kts$ </ID>
     <ID>NoMultipleSpaces:AndroidApisConfigurationAccessors.kt$ </ID>
@@ -4825,6 +4825,7 @@
     <ID>NoUnusedImports:KspTestReleaseConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db.KspTestReleaseConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:LintChecksConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db.LintChecksConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:LintPublishConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db.LintPublishConfigurationAccessors.kt</ID>
+    <ID>NoUnusedImports:PositiveDoubleTest.kt$com.ivy.domain.model.primitive.PositiveDoubleTest.kt</ID>
     <ID>NoUnusedImports:ReleaseAnnotationProcessorConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db.ReleaseAnnotationProcessorConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:ReleaseApiConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db.ReleaseApiConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:ReleaseApiDependenciesMetadataConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db.ReleaseApiDependenciesMetadataConfigurationAccessors.kt</ID>
@@ -5969,7 +5970,7 @@
     <ID>PackageName:KspTestReleaseConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
     <ID>PackageName:LintChecksConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
     <ID>PackageName:LintPublishConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
-    <ID>PackageName:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._32d2de474c57b16a27e69ffb9cb39d38</ID>
+    <ID>PackageName:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._ec79472f60e0484b7a08dac5c5453e98</ID>
     <ID>PackageName:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
     <ID>PackageName:ReleaseApiConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
     <ID>PackageName:ReleaseApiDependenciesMetadataConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
@@ -6362,7 +6363,7 @@
     <ID>PackageNaming:KspTestReleaseConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
     <ID>PackageNaming:LintChecksConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
     <ID>PackageNaming:LintPublishConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
-    <ID>PackageNaming:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._32d2de474c57b16a27e69ffb9cb39d38</ID>
+    <ID>PackageNaming:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._ec79472f60e0484b7a08dac5c5453e98</ID>
     <ID>PackageNaming:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
     <ID>PackageNaming:ReleaseApiConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
     <ID>PackageNaming:ReleaseApiDependenciesMetadataConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
