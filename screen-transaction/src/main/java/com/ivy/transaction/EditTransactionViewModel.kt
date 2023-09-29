@@ -1,7 +1,8 @@
 package com.ivy.transaction
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.util.refreshWidget
@@ -17,7 +18,6 @@ import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.ioThread
-import com.ivy.legacy.utils.readOnly
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.uiThread
 import com.ivy.navigation.EditTransactionScreen
@@ -44,8 +44,6 @@ import com.ivy.widget.balance.WalletBalanceWidgetReceiver
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.time.LocalDateTime
@@ -73,59 +71,27 @@ class EditTransactionViewModel @Inject constructor(
     private val transactionWriter: WriteTransactionDao,
 ) : ComposeViewModel<EditTransactionState, EditTransactionEvent>() {
 
-    private val _transactionType = MutableLiveData<TransactionType>()
-    val transactionType = _transactionType
-
-    private val _initialTitle = MutableStateFlow<String?>(null)
-    val initialTitle = _initialTitle.readOnly()
-
-    private val _titleSuggestions = MutableStateFlow(emptySet<String>())
-    val titleSuggestions = _titleSuggestions.asStateFlow()
-
-    private val _currency = MutableStateFlow("")
-    val currency = _currency.readOnly()
-
-    private val _description = MutableStateFlow<String?>(null)
-    val description = _description.readOnly()
-
-    private val _dateTime = MutableStateFlow<LocalDateTime?>(null)
-    val dateTime = _dateTime.readOnly()
-
-    private val _dueDate = MutableStateFlow<LocalDateTime?>(null)
-    val dueDate = _dueDate.readOnly()
-
-    private val _accounts = MutableStateFlow<ImmutableList<Account>>(persistentListOf())
-    val accounts = _accounts.readOnly()
-
-    private val _categories = MutableStateFlow<ImmutableList<Category>>(persistentListOf())
-    val categories = _categories.readOnly()
-
-    private val _account = MutableStateFlow<Account?>(null)
-    val account = _account.readOnly()
-
-    private val _toAccount = MutableStateFlow<Account?>(null)
-    val toAccount = _toAccount.readOnly()
-
-    private val _category = MutableStateFlow<Category?>(null)
-    val category = _category.readOnly()
-
-    private val _amount = MutableStateFlow(0.0)
-    val amount = _amount.readOnly()
-
-    private val _hasChanges = MutableStateFlow(false)
-    val hasChanges = _hasChanges.readOnly()
-
-    private val _displayLoanHelper: MutableStateFlow<EditTransactionDisplayLoan> =
-        MutableStateFlow(EditTransactionDisplayLoan())
-    val displayLoanHelper = _displayLoanHelper.asStateFlow()
+    private val transactionType = mutableStateOf(TransactionType.EXPENSE)
+    private val initialTitle = mutableStateOf<String?>(null)
+    private val titleSuggestions = mutableStateOf(emptySet<String>())
+    private val currency = mutableStateOf("")
+    private val description = mutableStateOf<String?>(null)
+    private val dateTime = mutableStateOf<LocalDateTime?>(null)
+    private val dueDate = mutableStateOf<LocalDateTime?>(null)
+    private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
+    private val categories = mutableStateOf<ImmutableList<Category>>(persistentListOf())
+    private val account = mutableStateOf<Account?>(null)
+    private val toAccount = mutableStateOf<Account?>(null)
+    private val category = mutableStateOf<Category?>(null)
+    private val amount = mutableDoubleStateOf(0.0)
+    private val hasChanges = mutableStateOf(false)
+    private val displayLoanHelper = mutableStateOf(EditTransactionDisplayLoan())
 
     // This is used to when the transaction is associated with a loan/loan record,
     // used to indicate the background updating of loan/loanRecord data
-    private val _backgroundProcessingStarted = MutableStateFlow(false)
-    val backgroundProcessingStarted = _backgroundProcessingStarted.asStateFlow()
+    private val backgroundProcessingStarted = mutableStateOf(false)
 
-    private val _customExchangeRateState = MutableStateFlow(CustomExchangeRateState())
-    val customExchangeRateState = _customExchangeRateState.asStateFlow()
+    private val customExchangeRateState = mutableStateOf(CustomExchangeRateState())
 
     private var loadedTransaction: Transaction? = null
     private var editMode = false
@@ -133,7 +99,7 @@ class EditTransactionViewModel @Inject constructor(
     // Used for optimising in updating all loan/loanRecords
     private var accountsChanged = false
 
-    var title: String? = null
+    private var title: String? = null
     private lateinit var baseUserCurrency: String
 
     @Composable
