@@ -249,7 +249,29 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     override fun onEvent(event: EditTransactionEvent) {
-        TODO("Not yet implemented")
+        when (event) {
+            is EditTransactionEvent.CreateAccount -> createAccount(event.data)
+            is EditTransactionEvent.CreateCategory -> createCategory(event.data)
+            EditTransactionEvent.Delete -> delete()
+            is EditTransactionEvent.EditCategory -> editCategory(event.updatedCategory)
+            is EditTransactionEvent.OnAccountChanged -> onAccountChanged(event.newAccount)
+            is EditTransactionEvent.OnAmountChanged -> onAmountChanged(event.newAmount)
+            is EditTransactionEvent.OnCategoryChanged -> onCategoryChanged(event.newCategory)
+            is EditTransactionEvent.OnDescriptionChanged ->
+                onDescriptionChanged(event.newDescription)
+
+            is EditTransactionEvent.OnDueDateChanged -> onDueDateChanged(event.newDueDate)
+            EditTransactionEvent.OnPayPlannedPayment -> onPayPlannedPayment()
+            is EditTransactionEvent.OnSetDateTime -> onSetDateTime(event.newDateTime)
+            is EditTransactionEvent.OnSetTransactionType ->
+                onSetTransactionType(event.newTransactionType)
+
+            is EditTransactionEvent.OnTitleChanged -> onTitleChanged(event.newTitle)
+            is EditTransactionEvent.OnToAccountChanged -> onToAccountChanged(event.newAccount)
+            is EditTransactionEvent.Save -> save(event.closeScreen)
+            is EditTransactionEvent.SetHasChanges -> setHasChanges(event.hasChangesValue)
+            is EditTransactionEvent.UpdateExchangeRate -> updateExchangeRate(event.exRate)
+        }
     }
 
     private suspend fun defaultAccountId(
