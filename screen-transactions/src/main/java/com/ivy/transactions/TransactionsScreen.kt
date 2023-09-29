@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -189,7 +190,11 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatisticScreen) {
         deleteModal1Visible = uiState.deleteModal1Visible,
         onDeleteModal1Visible = {
             viewModel.onEvent(TransactionsEvent.OnDeleteModal1Visible(it))
-        }
+        },
+        onChoosePeriodModal = {
+            viewModel.onEvent(TransactionsEvent.OnChoosePeriodModalData(it))
+        },
+        choosePeriodModal = uiState.choosePeriodModal
     )
 }
 
@@ -215,6 +220,7 @@ private fun BoxWithConstraintsScope.UI(
     balanceBaseCurrency: Double?,
     income: Double,
     expenses: Double,
+    choosePeriodModal: ChoosePeriodModalData?,
 
     history: ImmutableList<TransactionHistoryItem>,
 
@@ -243,14 +249,14 @@ private fun BoxWithConstraintsScope.UI(
 
     onPayOrGet: (Transaction) -> Unit = {},
     onSkipTransaction: (Transaction) -> Unit = {},
-    onSkipAllTransactions: (List<Transaction>) -> Unit = {}
+    onSkipAllTransactions: (List<Transaction>) -> Unit = {},
+    onChoosePeriodModal: (ChoosePeriodModalData?) -> Unit
 ) {
     val ivyContext = ivyWalletCtx()
     val itemColor = (account?.color ?: category?.color)?.toComposeColor() ?: Gray
 
     var categoryModalData: CategoryModalData? by remember { mutableStateOf(null) }
     var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
-    var choosePeriodModal: ChoosePeriodModalData? by remember { mutableStateOf(null) }
 
     Column(
         modifier = Modifier
@@ -349,32 +355,14 @@ private fun BoxWithConstraintsScope.UI(
                 )
             }
 
-            item {
-                // Rounded corners top effect
-                Box {
-                    Spacer(
-                        Modifier
-                            .height(32.dp)
-                            .fillMaxWidth()
-                            .background(itemColor) // itemColor is displayed below the clip
-                            .background(UI.colors.pure, UI.shapes.r1Top)
-                    )
-
-                    PeriodSelector(
-                        modifier = Modifier.padding(top = 16.dp),
-                        period = period,
-                        onPreviousMonth = { if (!initWithTransactions) onPreviousMonth() },
-                        onNextMonth = { if (!initWithTransactions) onNextMonth() },
-                        onShowChoosePeriodModal = {
-                            if (!initWithTransactions) {
-                                choosePeriodModal = ChoosePeriodModalData(
-                                    period = period
-                                )
-                            }
-                        }
-                    )
-                }
-            }
+            choosePeriodModal(
+                period = period,
+                itemColor = itemColor,
+                initWithTransactions = initWithTransactions,
+                onPreviousMonth = onPreviousMonth,
+                onNextMonth = onNextMonth,
+                onChoosePeriodModal = onChoosePeriodModal
+            )
 
             val value = 0.7f
 
@@ -460,10 +448,48 @@ private fun BoxWithConstraintsScope.UI(
     ChoosePeriodModal(
         modal = choosePeriodModal,
         dismiss = {
-            choosePeriodModal = null
+            onChoosePeriodModal(null)
         }
     ) {
         onSetPeriod(it)
+    }
+}
+
+private fun LazyListScope.choosePeriodModal(
+    period: TimePeriod,
+    itemColor: Color,
+    initWithTransactions: Boolean,
+    onPreviousMonth: () -> Unit,
+    onNextMonth: () -> Unit,
+    onChoosePeriodModal: (ChoosePeriodModalData?) -> Unit
+) {
+    item {
+        // Rounded corners top effect
+        Box {
+            Spacer(
+                Modifier
+                    .height(32.dp)
+                    .fillMaxWidth()
+                    .background(itemColor) // itemColor is displayed below the clip
+                    .background(UI.colors.pure, UI.shapes.r1Top)
+            )
+
+            PeriodSelector(
+                modifier = Modifier.padding(top = 16.dp),
+                period = period,
+                onPreviousMonth = { if (!initWithTransactions) onPreviousMonth() },
+                onNextMonth = { if (!initWithTransactions) onNextMonth() },
+                onShowChoosePeriodModal = {
+                    if (!initWithTransactions) {
+                        onChoosePeriodModal(
+                            ChoosePeriodModalData(
+                                period = period
+                            )
+                        )
+                    }
+                }
+            )
+        }
     }
 }
 
@@ -807,7 +833,9 @@ private fun BoxWithConstraintsScope.Preview_empty() {
             deleteModal1Visible = false,
             onDeleteModal1Visible = {},
             skipAllModalVisible = false,
-            onSkipAllModalVisible = {}
+            onSkipAllModalVisible = {},
+            onChoosePeriodModal = {},
+            choosePeriodModal = null
         )
     }
 }
@@ -851,7 +879,9 @@ private fun BoxWithConstraintsScope.Preview_crypto() {
             deleteModal1Visible = false,
             onDeleteModal1Visible = {},
             skipAllModalVisible = false,
-            onSkipAllModalVisible = {}
+            onSkipAllModalVisible = {},
+            onChoosePeriodModal = {},
+            choosePeriodModal = null
         )
     }
 }
@@ -899,7 +929,9 @@ private fun BoxWithConstraintsScope.Preview_empty_upcoming() {
             deleteModal1Visible = false,
             onDeleteModal1Visible = {},
             skipAllModalVisible = false,
-            onSkipAllModalVisible = {}
+            onSkipAllModalVisible = {},
+            onChoosePeriodModal = {},
+            choosePeriodModal = null
         )
     }
 }

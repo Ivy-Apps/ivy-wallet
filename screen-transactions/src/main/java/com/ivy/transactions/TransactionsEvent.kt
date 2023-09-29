@@ -5,6 +5,7 @@ import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
 import com.ivy.navigation.ItemStatisticScreen
+import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 
 sealed interface TransactionsEvent {
     data class SetUpcomingExpanded(val expanded: Boolean) : TransactionsEvent
@@ -43,4 +44,5 @@ sealed interface TransactionsEvent {
     data class UpdateAccountDeletionState(val confirmationText: String) : TransactionsEvent
     data class SetSkipAllModalVisible(val visible: Boolean) : TransactionsEvent
     data class OnDeleteModal1Visible(val delete: Boolean) : TransactionsEvent
+    data class OnChoosePeriodModalData(val data: ChoosePeriodModalData?) : TransactionsEvent
 }

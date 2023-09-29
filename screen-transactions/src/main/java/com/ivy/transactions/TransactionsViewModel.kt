@@ -50,6 +50,7 @@ import com.ivy.wallet.domain.deprecated.logic.WalletAccountLogic
 import com.ivy.wallet.domain.deprecated.logic.WalletCategoryLogic
 import com.ivy.wallet.domain.pure.exchange.ExchangeData
 import com.ivy.wallet.ui.theme.RedLight
+import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -119,6 +120,7 @@ class TransactionsViewModel @Inject constructor(
     private val enableDeletionButton = mutableStateOf(false)
     private val skipAllModalVisible = mutableStateOf(false)
     private val deleteModal1Visible = mutableStateOf(false)
+    private val choosePeriodModal = mutableStateOf<ChoosePeriodModalData?>(null)
 
     @Composable
     override fun uiState(): TransactionsState {
@@ -148,7 +150,8 @@ class TransactionsViewModel @Inject constructor(
             accountNameConfirmation = getAccountNameConfirmation(),
             enableDeletionButton = getEnableDeletionButton(),
             skipAllModalVisible = getSkipAllModalVisible(),
-            deleteModal1Visible = getDeleteModal1Visible()
+            deleteModal1Visible = getDeleteModal1Visible(),
+            choosePeriodModal = getChoosePeriodModal()
         )
     }
 
@@ -282,6 +285,11 @@ class TransactionsViewModel @Inject constructor(
         return deleteModal1Visible.value
     }
 
+    @Composable
+    private fun getChoosePeriodModal(): ChoosePeriodModalData? {
+        return choosePeriodModal.value
+    }
+
     override fun onEvent(event: TransactionsEvent) {
         when (event) {
             is TransactionsEvent.Delete -> delete(event.screen)
@@ -310,6 +318,7 @@ class TransactionsViewModel @Inject constructor(
             is TransactionsEvent.SetUpcomingExpanded -> setUpcomingExpanded(event.expanded)
             is TransactionsEvent.SetSkipAllModalVisible -> setSkipAllModalVisible(event.visible)
             is TransactionsEvent.OnDeleteModal1Visible -> setDeleteModal1Visible(event.delete)
+            is TransactionsEvent.OnChoosePeriodModalData -> setChoosePeriodModalData(event.data)
         }
     }
 
@@ -711,6 +720,10 @@ class TransactionsViewModel @Inject constructor(
 
     private fun setDeleteModal1Visible(delete: Boolean) {
         deleteModal1Visible.value = delete
+    }
+
+    private fun setChoosePeriodModalData(data: ChoosePeriodModalData?) {
+        choosePeriodModal.value = data
     }
 
     private fun editCategory(updatedCategory: Category) {

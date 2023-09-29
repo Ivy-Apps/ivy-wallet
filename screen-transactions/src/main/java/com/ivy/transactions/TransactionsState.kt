@@ -7,6 +7,7 @@ import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
+import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import kotlinx.collections.immutable.ImmutableList
 
 @Immutable
@@ -36,5 +37,6 @@ data class TransactionsState(
     val accountNameConfirmation: TextFieldValue,
     val enableDeletionButton: Boolean,
     val skipAllModalVisible: Boolean,
-    val deleteModal1Visible: Boolean
+    val deleteModal1Visible: Boolean,
+    val choosePeriodModal: ChoosePeriodModalData?
 )
