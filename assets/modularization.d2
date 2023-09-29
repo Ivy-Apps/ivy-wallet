@@ -11,7 +11,7 @@ ivy-data: ":ivy-data" {
 ivy-domain: ":ivy-domain" {
   "Core API: domain rules & business logic"
 }
-ivy-domain-ui: ":ivy-domain-ui" {
+ivy-common-ui: ":ivy-common-ui" {
   "UI components bundled with domain logic"
 }
 ivy-nav: ":ivy-navigation" {
@@ -40,9 +40,9 @@ ivy-design -> ivy-res
 ivy-nav -> ivy-domain
 ivy-nav -> ivy-design
 
-ivy-domain-ui -> ivy-nav
+ivy-common-ui -> ivy-nav
 
-screens -> ivy-domain-ui
+screens -> ivy-common-ui
 screens -> ivy-nav
 screens -> ivy-res
 

@@ -63,26 +63,27 @@ Each screen, simple it stands. With more code it grows, supporting intricate tal
 
 ![modularization-strategy](../assets/modularization.svg)
 
-Our modularization strategy is simple:
-- We have a few shared `:ivy-*` modules.
-- Use the above modules to access the shared code in your screens.
-- Each screen is in a separate `:screen-home`, `:screen-something` module.
+**Simple, our modularization path is:**
 
-> Simplification: We have a few modules that are an exception to this strategy (for example widgets like `:widget-balance` and other shared modules) but the above strategy holds true in most cases.
+- Shared `:ivy-*` modules, a few we possess.
+- With these modules, shared wisdom in your screens you access.
+- Distinct, each screen/feature stands, like `:screen-home`, `:feature-something` they are.
+
+> Know this, young coder: Exceptions, a few modules have (widgets such as `:widget-balance`, for instance). Yet, the truth in the above strategy, mostly it remains.
 
 ### Creating a new module
 
-To create a new module just run:
+To Birth a New Module... Invoke this chant in your terminal, you must:
 ```
 ./scripts/create_module.sh screen-something
 ```
 
-> If you're creating a new screen you'll need to add its input params (definition) to `Screens.kt` (:ivy-navigation) and wire its implementation in `IvyNavGraph.kt` (:app).
+> If crafting a screen, you must also inscribe its essence in `Screens.kt` (:ivy-navigation) and weave its spirit in `IvyNavGraph.kt` (:app).
 
 ### Modularization gotchas
 
 - Screens (`:screen-something`) **cannot** depend on other screens. They can only depend on `:ivy-*` shared code modules.
-- If you need to re-use code between screens, you need to move it to a shared code module like `:ivy-domain` or `ivy-domain-ui`.
+- If you need to re-use code between screens, you need to move it to a shared code module like `:ivy-domain` or `ivy-common-ui`.
 - The `:ivy-navigation` does **not** contain screen's implementation but only the screen's definition. A screen definition is a `data class` / `data object` class that models the screen's startup params. This way different screens can start other screen without knowing about their implementation.
 - Only `:app` knows about the implementation of all screens. It maps each `Screen` definition from `:ivy-navigation` to the actual implementation in `IvyNavGraph.kt` (in `:app`).
 
@@ -98,7 +99,7 @@ These are the modules that you can use as a dependency in your screen/feature mo
 - `:ivy-data`: [Data layer](https://developer.android.com/topic/architecture/data-layer). Encapsulates CRUD operations. Holds `DataSources` (Room DB, Datastore, Networking) and `Repositories` (validation and mapping logic).
 - `:ivy-domain`: [Domain layer](https://developer.android.com/topic/architecture/domain-layer). Contains Ivy Wallet's business logic.
 - `:ivy-navigation`: provides the definition _(screen's startup params w/o implementation)_ of all Screen destinations in Ivy Wallet and implements a simple back-stack based custom `Navigation`. 
-- `:ivy-domain-ui`: Builds re-usable high-level UI components (for example `AccountModal` that also encapsulates the account CRUD logic) that enforce consistent Ivy UI/UX patterns for common operations (e.g. CRUD for accounts, categories, etc).
+- `:ivy-common-ui`: Builds re-usable high-level UI components (for example `AccountModal` that also encapsulates the account CRUD logic) that enforce consistent Ivy UI/UX patterns for common operations (e.g. CRUD for accounts, categories, etc).
 
 > ⚠️ WARNING ⚠️: The above shared modules are under construction. We're also actively trying to get rid of legacy code that we partly encapsulated in the `:temp-legacy-code` and `:temp-old-design` modules.
 
@@ -111,7 +112,7 @@ In a nutshell, we bet on [Material3 (Material You) Design](https://m3.material.i
 Here are a few principles to help you make a better Compose UI:
 
 - **Material3 components:** Use Material3 (M3) components with as little customzation as possible. _The M3 designers and creators are knowedgable people and they likely did better job than us._
-- **Ivy UI components:** We also got some re-usable UI components of our own that live in `:ivy-design` and `:ivy-domain-ui`. Add those modules as a dependency and take advantage of them.
+- **Ivy UI components:** We also got some re-usable UI components of our own that live in `:ivy-design` and `:ivy-common-ui`. Add those modules as a dependency and take advantage of them.
 - **Deprecation ban:** Do **not** use deprecated components.
 
 In terms of code quality, just follow and address the feedback provided from our CI checks powered by [Detekt](https://detekt.dev/) and [Slack's compose-lints](https://slackhq.github.io/compose-lints/).
