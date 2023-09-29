@@ -207,6 +207,7 @@ fun BoxWithConstraintsScope.AccountModal(
         visible = amountModalVisible,
         currency = currencyCode,
         initialAmount = amount,
+        showPlusMinus = true,
         dismiss = { amountModalVisible = false }
     ) { newAmount ->
         amount = newAmount
