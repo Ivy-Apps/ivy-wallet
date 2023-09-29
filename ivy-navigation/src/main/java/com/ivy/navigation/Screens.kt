@@ -41,10 +41,7 @@ data class ItemStatisticScreen(
     val transactionType: TransactionType? = null,
     val accountIdFilterList: List<UUID> = persistentListOf(),
     val transactions: List<Transaction> = persistentListOf()
-) : Screen {
-    override val isLegacy: Boolean
-        get() = true
-}
+) : Screen
 
 data class PieChartStatisticScreen(
     val type: TransactionType,
