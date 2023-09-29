@@ -1,5 +1,31 @@
 package com.ivy.transaction
 
-data class EditTransactionState(
+import androidx.compose.runtime.Immutable
+import com.ivy.legacy.data.EditTransactionDisplayLoan
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
+import com.ivy.persistence.model.TransactionType
+import com.ivy.wallet.domain.data.CustomExchangeRateState
+import kotlinx.collections.immutable.ImmutableList
+import java.time.LocalDateTime
 
+@Immutable
+data class EditTransactionState(
+    val transactionType: TransactionType,
+    val initialTitle: String?,
+    val titleSuggestions: Set<String>,
+    val currency: String,
+    val description: String?,
+    val dateTime: LocalDateTime?,
+    val dueDate: LocalDateTime?,
+    val accounts: ImmutableList<Account>,
+    val categories: ImmutableList<Category>,
+    val account: Account?,
+    val toAccount: Account?,
+    val category: Category?,
+    val amount: Double,
+    val hasChanges: Boolean,
+    val displayLoanHelper: EditTransactionDisplayLoan,
+    val backgroundProcessingStarted: Boolean,
+    val customExchangeRateState: CustomExchangeRateState
 )

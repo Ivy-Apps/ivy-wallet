@@ -104,7 +104,110 @@ class EditTransactionViewModel @Inject constructor(
 
     @Composable
     override fun uiState(): EditTransactionState {
-        TODO("Not yet implemented")
+        return EditTransactionState(
+            transactionType = getTransactionType(),
+            initialTitle = getInitialTitle(),
+            titleSuggestions = getTitleSuggestions(),
+            currency = getCurrency(),
+            description = getDescription(),
+            dateTime = getDateTime(),
+            dueDate = getDueDate(),
+            accounts = getAccounts(),
+            categories = getCategories(),
+            account = getAccount(),
+            toAccount = getToAccount(),
+            category = getCategory(),
+            amount = getAmount(),
+            hasChanges = getHasChanges(),
+            displayLoanHelper = getDisplayLoanHelper(),
+            backgroundProcessingStarted = getBackgroundProcessingStarted(),
+            customExchangeRateState = getCustomExchangeRateState()
+        )
+    }
+
+    @Composable
+    private fun getTransactionType(): TransactionType {
+        return transactionType.value
+    }
+
+    @Composable
+    private fun getInitialTitle(): String? {
+        return initialTitle.value
+    }
+
+    @Composable
+    private fun getTitleSuggestions(): Set<String> {
+        return titleSuggestions.value
+    }
+
+    @Composable
+    private fun getCurrency(): String {
+        return currency.value
+    }
+
+    @Composable
+    private fun getDescription(): String? {
+        return description.value
+    }
+
+    @Composable
+    private fun getDateTime(): LocalDateTime? {
+        return dateTime.value
+    }
+
+    @Composable
+    private fun getDueDate(): LocalDateTime? {
+        return dueDate.value
+    }
+
+    @Composable
+    private fun getAccounts(): ImmutableList<Account> {
+        return accounts.value
+    }
+
+    @Composable
+    private fun getCategories(): ImmutableList<Category> {
+        return categories.value
+    }
+
+    @Composable
+    private fun getAccount(): Account? {
+        return account.value
+    }
+
+    @Composable
+    private fun getToAccount(): Account? {
+        return toAccount.value
+    }
+
+    @Composable
+    private fun getCategory(): Category? {
+        return category.value
+    }
+
+    @Composable
+    private fun getAmount(): Double {
+        return amount.doubleValue
+    }
+
+    @Composable
+    private fun getHasChanges(): Boolean {
+        return hasChanges.value
+    }
+
+    @Composable
+    private fun getDisplayLoanHelper(): EditTransactionDisplayLoan {
+        return displayLoanHelper.value
+    }
+
+    @Composable
+    private fun getBackgroundProcessingStarted(): Boolean {
+        return backgroundProcessingStarted.value
+    }
+
+    @Composable
+    private fun getCustomExchangeRateState(): CustomExchangeRateState {
+        return customExchangeRateState.value
     }
 
     override fun onEvent(event: EditTransactionEvent) {
