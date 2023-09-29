@@ -13,10 +13,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,7 +34,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.model.Theme
@@ -42,7 +41,6 @@ import com.ivy.base.util.stringRes
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.Constants
-import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.AppBaseData
 import com.ivy.legacy.data.DueSection
 import com.ivy.legacy.data.model.TimePeriod
@@ -59,9 +57,11 @@ import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.setStatusBarDarkTextCompat
 import com.ivy.legacy.utils.thenIf
 import com.ivy.navigation.EditTransactionScreen
-import com.ivy.navigation.ItemStatisticScreen
+import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.PieChartStatisticScreen
+import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
+import com.ivy.navigation.screenScopedViewModel
 import com.ivy.persistence.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
@@ -89,41 +89,12 @@ import java.math.BigDecimal
 import java.util.UUID
 
 @Composable
-fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatisticScreen) {
-    val viewModel: ItemStatisticViewModel = viewModel()
+fun BoxWithConstraintsScope.TransactionsScreen(screen: TransactionsScreen) {
+    val viewModel: TransactionsViewModel = screenScopedViewModel()
 
     val ivyContext = ivyWalletCtx()
     val nav = navigation()
-
-    val period by viewModel.period.collectAsState()
-    val baseCurrency by viewModel.baseCurrency.collectAsState()
-    val currency by viewModel.currency.collectAsState()
-
-    val account by viewModel.account.collectAsState()
-    val category by viewModel.category.collectAsState()
-
-    val categories by viewModel.categories.collectAsState()
-    val accounts by viewModel.accounts.collectAsState()
-
-    val balance by viewModel.balance.collectAsState()
-    val balanceBaseCurrency by viewModel.balanceBaseCurrency.collectAsState()
-    val income by viewModel.income.collectAsState()
-    val expenses by viewModel.expenses.collectAsState()
-
-    val history by viewModel.history.collectAsState()
-
-    val upcoming by viewModel.upcoming.collectAsState()
-    val upcomingExpanded by viewModel.upcomingExpanded.collectAsState()
-    val upcomingIncome by viewModel.upcomingIncome.collectAsState()
-    val upcomingExpenses by viewModel.upcomingExpenses.collectAsState()
-
-    val overdue by viewModel.overdue.collectAsState()
-    val overdueExpanded by viewModel.overdueExpanded.collectAsState()
-    val overdueIncome by viewModel.overdueIncome.collectAsState()
-    val overdueExpenses by viewModel.overdueExpenses.collectAsState()
-
-    val initWithTransactions by viewModel.initWithTransactions.collectAsState()
-    val treatTransfersAsIncomeExpense by viewModel.treatTransfersAsIncomeExpense.collectAsState()
+    val uiState = viewModel.uiState()
 
     val view = LocalView.current
     onScreenStart {
@@ -139,69 +110,91 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatisticScreen) {
     }
 
     UI(
-        period = period,
-        baseCurrency = baseCurrency,
-        currency = currency,
+        period = uiState.period,
+        baseCurrency = uiState.baseCurrency,
+        currency = uiState.currency,
 
-        categories = categories,
-        accounts = accounts,
+        categories = uiState.categories,
+        accounts = uiState.accounts,
 
-        account = account,
-        category = category,
+        account = uiState.account,
+        category = uiState.category,
 
-        balance = balance,
-        balanceBaseCurrency = balanceBaseCurrency,
-        income = income,
-        expenses = expenses,
+        balance = uiState.balance,
+        balanceBaseCurrency = uiState.balanceBaseCurrency,
+        income = uiState.income,
+        expenses = uiState.expenses,
 
-        initWithTransactions = initWithTransactions,
-        treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense,
+        initWithTransactions = uiState.initWithTransactions,
+        treatTransfersAsIncomeExpense = uiState.treatTransfersAsIncomeExpense,
 
-        history = history,
+        history = uiState.history,
 
-        upcoming = upcoming,
-        upcomingExpanded = upcomingExpanded,
-        setUpcomingExpanded = viewModel::setUpcomingExpanded,
-        upcomingIncome = upcomingIncome,
-        upcomingExpenses = upcomingExpenses,
+        upcoming = uiState.upcoming,
+        upcomingExpanded = uiState.upcomingExpanded,
+        setUpcomingExpanded = {
+            viewModel.onEvent(TransactionsEvent.SetUpcomingExpanded(it))
+        },
+        upcomingIncome = uiState.upcomingIncome,
+        upcomingExpenses = uiState.upcomingExpenses,
 
-        overdue = overdue,
-        overdueExpanded = overdueExpanded,
-        setOverdueExpanded = viewModel::setOverdueExpanded,
-        overdueIncome = overdueIncome,
-        overdueExpenses = overdueExpenses,
+        overdue = uiState.overdue,
+        overdueExpanded = uiState.overdueExpanded,
+        setOverdueExpanded = {
+            viewModel.onEvent(TransactionsEvent.SetOverdueExpanded(it))
+        },
+        overdueIncome = uiState.overdueIncome,
+        overdueExpenses = uiState.overdueExpenses,
 
         onSetPeriod = {
-            viewModel.setPeriod(
-                screen = screen,
-                period = it
+            viewModel.onEvent(
+                TransactionsEvent.SetPeriod(
+                    screen = screen,
+                    period = it
+                )
             )
         },
         onNextMonth = {
-            viewModel.nextMonth(screen)
+            viewModel.onEvent(TransactionsEvent.NextMonth(screen))
         },
         onPreviousMonth = {
-            viewModel.previousMonth(screen)
+            viewModel.onEvent(TransactionsEvent.PreviousMonth(screen))
         },
         onDelete = {
-            viewModel.delete(screen)
+            viewModel.onEvent(TransactionsEvent.Delete(screen))
         },
-        onEditCategory = viewModel::editCategory,
+        onEditCategory = {
+            viewModel.onEvent(TransactionsEvent.EditCategory(it))
+        },
         onEditAccount = { acc, newBalance ->
-            viewModel.editAccount(screen, acc, newBalance)
+            viewModel.onEvent(TransactionsEvent.EditAccount(screen, acc, newBalance))
         },
         onPayOrGet = { transaction ->
-            viewModel.payOrGet(screen, transaction)
+            viewModel.onEvent(TransactionsEvent.PayOrGet(screen, transaction))
         },
         onSkipTransaction = { transaction ->
-            viewModel.skipTransaction(screen, transaction)
+            viewModel.onEvent(TransactionsEvent.SkipTransaction(screen, transaction))
         },
         onSkipAllTransactions = { transactions ->
-            viewModel.skipTransactions(screen, transactions)
+            viewModel.onEvent(TransactionsEvent.SkipTransactions(screen, transactions))
         },
-        accountNameConfirmation = viewModel.accountNameConfirmation,
-        updateAccountNameConfirmation = viewModel::updateAccountDeletionState,
-        enableDeletionButton = viewModel.enableDeletionButton
+        accountNameConfirmation = uiState.accountNameConfirmation,
+        updateAccountNameConfirmation = {
+            viewModel.onEvent(TransactionsEvent.UpdateAccountDeletionState(it))
+        },
+        enableDeletionButton = uiState.enableDeletionButton,
+        skipAllModalVisible = uiState.skipAllModalVisible,
+        onSkipAllModalVisible = {
+            viewModel.onEvent(TransactionsEvent.SetSkipAllModalVisible(it))
+        },
+        deleteModal1Visible = uiState.deleteModal1Visible,
+        onDeleteModal1Visible = {
+            viewModel.onEvent(TransactionsEvent.OnDeleteModal1Visible(it))
+        },
+        onChoosePeriodModal = {
+            viewModel.onEvent(TransactionsEvent.OnChoosePeriodModalData(it))
+        },
+        choosePeriodModal = uiState.choosePeriodModal
     )
 }
 
@@ -210,6 +203,8 @@ private fun BoxWithConstraintsScope.UI(
     period: TimePeriod,
     baseCurrency: String,
     currency: String,
+    skipAllModalVisible: Boolean,
+    onSkipAllModalVisible: (Boolean) -> Unit,
 
     account: Account?,
     category: Category?,
@@ -225,12 +220,21 @@ private fun BoxWithConstraintsScope.UI(
     balanceBaseCurrency: Double?,
     income: Double,
     expenses: Double,
-
-    initWithTransactions: Boolean = false,
-    treatTransfersAsIncomeExpense: Boolean = false,
+    choosePeriodModal: ChoosePeriodModalData?,
 
     history: ImmutableList<TransactionHistoryItem>,
 
+    onPreviousMonth: () -> Unit,
+    onNextMonth: () -> Unit,
+    onSetPeriod: (TimePeriod) -> Unit,
+    onEditAccount: (Account, Double) -> Unit,
+    onEditCategory: (Category) -> Unit,
+    onDelete: () -> Unit,
+    deleteModal1Visible: Boolean,
+    onDeleteModal1Visible: (Boolean) -> Unit,
+
+    initWithTransactions: Boolean = false,
+    treatTransfersAsIncomeExpense: Boolean = false,
     upcomingExpanded: Boolean = true,
     setUpcomingExpanded: (Boolean) -> Unit = {},
     upcomingIncome: Double = 0.0,
@@ -243,26 +247,16 @@ private fun BoxWithConstraintsScope.UI(
     overdueExpenses: Double = 0.0,
     overdue: ImmutableList<Transaction> = persistentListOf(),
 
-    onPreviousMonth: () -> Unit,
-    onNextMonth: () -> Unit,
-    onSetPeriod: (TimePeriod) -> Unit,
-    onEditAccount: (Account, Double) -> Unit,
-    onEditCategory: (Category) -> Unit,
-    onDelete: () -> Unit,
     onPayOrGet: (Transaction) -> Unit = {},
     onSkipTransaction: (Transaction) -> Unit = {},
-    onSkipAllTransactions: (List<Transaction>) -> Unit = {}
+    onSkipAllTransactions: (List<Transaction>) -> Unit = {},
+    onChoosePeriodModal: (ChoosePeriodModalData?) -> Unit
 ) {
     val ivyContext = ivyWalletCtx()
     val itemColor = (account?.color ?: category?.color)?.toComposeColor() ?: Gray
 
-    var deleteModal1Visible by remember { mutableStateOf(false) }
-    var deleteModal2Visible by remember { mutableStateOf(false) }
-    var deleteModal3Visible by remember { mutableStateOf(false) }
-    var skipAllModalVisible by remember { mutableStateOf(false) }
     var categoryModalData: CategoryModalData? by remember { mutableStateOf(null) }
     var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
-    var choosePeriodModal: ChoosePeriodModalData? by remember { mutableStateOf(null) }
 
     Column(
         modifier = Modifier
@@ -279,7 +273,6 @@ private fun BoxWithConstraintsScope.UI(
                     }
                 )
             }
-
     ) {
         val listState = rememberLazyListState()
         val density = LocalDensity.current
@@ -309,7 +302,7 @@ private fun BoxWithConstraintsScope.UI(
                     treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense,
 
                     onDelete = {
-                        deleteModal1Visible = true
+                        onDeleteModal1Visible(true)
                     },
                     onEdit = {
                         when {
@@ -362,32 +355,14 @@ private fun BoxWithConstraintsScope.UI(
                 )
             }
 
-            item {
-                // Rounded corners top effect
-                Box {
-                    Spacer(
-                        Modifier
-                            .height(32.dp)
-                            .fillMaxWidth()
-                            .background(itemColor) // itemColor is displayed below the clip
-                            .background(UI.colors.pure, UI.shapes.r1Top)
-                    )
-
-                    PeriodSelector(
-                        modifier = Modifier.padding(top = 16.dp),
-                        period = period,
-                        onPreviousMonth = { if (!initWithTransactions) onPreviousMonth() },
-                        onNextMonth = { if (!initWithTransactions) onNextMonth() },
-                        onShowChoosePeriodModal = {
-                            if (!initWithTransactions) {
-                                choosePeriodModal = ChoosePeriodModalData(
-                                    period = period
-                                )
-                            }
-                        }
-                    )
-                }
-            }
+            choosePeriodModal(
+                period = period,
+                itemColor = itemColor,
+                initWithTransactions = initWithTransactions,
+                onPreviousMonth = onPreviousMonth,
+                onNextMonth = onNextMonth,
+                onChoosePeriodModal = onChoosePeriodModal
+            )
 
             transactions(
                 baseData = AppBaseData(
@@ -422,7 +397,9 @@ private fun BoxWithConstraintsScope.UI(
 
                 onPayOrGet = onPayOrGet,
                 onSkipTransaction = onSkipTransaction,
-                onSkipAllTransactions = { skipAllModalVisible = true },
+                onSkipAllTransactions = {
+                    onSkipAllModalVisible(true)
+                },
                 emptyStateTitle = stringRes(R.string.no_transactions),
                 emptyStateText = stringRes(
                     R.string.no_transactions_for_period,
@@ -432,65 +409,21 @@ private fun BoxWithConstraintsScope.UI(
         }
     }
 
-    DeleteModal(
-        visible = deleteModal1Visible,
-        title = stringResource(R.string.confirm_deletion),
-        description = if (account != null) {
-            stringResource(R.string.account_confirm_deletion_description)
-        } else {
-            stringResource(R.string.category_confirm_deletion_description)
-        },
-        dismiss = { deleteModal1Visible = false }
-    ) {
-        deleteModal2Visible = true
-    }
-
-    DeleteModal(
-        visible = deleteModal2Visible,
-        title = stringResource(R.string.confirm_deletion),
-        description = if (account != null) {
-            stringResource(R.string.account_confirm_deletion_description2)
-        } else {
-            stringResource(R.string.category_confirm_deletion_description)
-        },
-        dismiss = {
-            deleteModal2Visible = false
-            deleteModal1Visible = false
-        }
-    ) {
-        deleteModal3Visible = true
-    }
-
-    DeleteConfirmationModal(
-        visible = deleteModal3Visible,
-        title = stringResource(id = R.string.confirm_deletion),
-        description = stringResource(
-            id = R.string.account_confirm_deletion_type_account_name,
-            account?.name ?: ""
-        ),
-        accountName = accountNameConfirmation,
-        onAccountNameChange = updateAccountNameConfirmation,
+    DeleteModals(
+        account = account,
+        category = category,
+        accountNameConfirmation = accountNameConfirmation,
+        updateAccountNameConfirmation = updateAccountNameConfirmation,
         enableDeletionButton = enableDeletionButton,
-        dismiss = {
-            updateAccountNameConfirmation("")
-            deleteModal3Visible = false
-            deleteModal2Visible = false
-            deleteModal1Visible = false
-        }
-    ) {
-        onDelete()
-        updateAccountNameConfirmation("")
-    }
-
-    DeleteModal(
-        visible = skipAllModalVisible,
-        title = stringResource(R.string.confirm_skip_all),
-        description = stringResource(R.string.confirm_skip_all_description),
-        dismiss = { skipAllModalVisible = false }
-    ) {
-        onSkipAllTransactions(overdue)
-        skipAllModalVisible = false
-    }
+        onDelete = onDelete,
+        skipAllModalVisible = skipAllModalVisible,
+        onSkipAllModalVisible = {
+            onSkipAllModalVisible(it)
+        },
+        onSkipAllTransactions = onSkipAllTransactions,
+        deleteModal1Visible = deleteModal1Visible,
+        setDeleteModal1Visible = onDeleteModal1Visible
+    )
 
     CategoryModal(
         modal = categoryModalData,
@@ -513,16 +446,124 @@ private fun BoxWithConstraintsScope.UI(
     ChoosePeriodModal(
         modal = choosePeriodModal,
         dismiss = {
-            choosePeriodModal = null
+            onChoosePeriodModal(null)
         }
     ) {
         onSetPeriod(it)
     }
 }
 
+private fun LazyListScope.choosePeriodModal(
+    period: TimePeriod,
+    itemColor: Color,
+    initWithTransactions: Boolean,
+    onPreviousMonth: () -> Unit,
+    onNextMonth: () -> Unit,
+    onChoosePeriodModal: (ChoosePeriodModalData?) -> Unit
+) {
+    item {
+        // Rounded corners top effect
+        Box {
+            Spacer(
+                Modifier
+                    .height(32.dp)
+                    .fillMaxWidth()
+                    .background(itemColor) // itemColor is displayed below the clip
+                    .background(UI.colors.pure, UI.shapes.r1Top)
+            )
+
+            PeriodSelector(
+                modifier = Modifier.padding(top = 16.dp),
+                period = period,
+                onPreviousMonth = { if (!initWithTransactions) onPreviousMonth() },
+                onNextMonth = { if (!initWithTransactions) onNextMonth() },
+                onShowChoosePeriodModal = {
+                    if (!initWithTransactions) {
+                        onChoosePeriodModal(
+                            ChoosePeriodModalData(
+                                period = period
+                            )
+                        )
+                    }
+                }
+            )
+        }
+    }
+}
+
+@Composable
+private fun BoxWithConstraintsScope.DeleteModals(
+    deleteModal1Visible: Boolean,
+    setDeleteModal1Visible: (Boolean) -> Unit,
+    account: Account?,
+    category: Category?,
+    accountNameConfirmation: TextFieldValue,
+    updateAccountNameConfirmation: (String) -> Unit,
+    enableDeletionButton: Boolean,
+    onDelete: () -> Unit,
+    skipAllModalVisible: Boolean,
+    onSkipAllModalVisible: (Boolean) -> Unit,
+    onSkipAllTransactions: (List<Transaction>) -> Unit,
+    overdue: ImmutableList<Transaction> = persistentListOf()
+) {
+    var deleteModal3Visible by remember { mutableStateOf(false) }
+
+    DeleteModal(
+        visible = deleteModal1Visible,
+        title = stringResource(R.string.confirm_deletion),
+        description = if (account != null) {
+            stringResource(R.string.account_confirm_deletion_description)
+        } else {
+            stringResource(R.string.category_confirm_deletion_description)
+        },
+        dismiss = {
+            setDeleteModal1Visible(false)
+        }
+    ) {
+        deleteModal3Visible = true
+    }
+
+    DeleteConfirmationModal(
+        visible = deleteModal3Visible,
+        title = stringResource(id = R.string.confirm_deletion),
+        description = if (account != null) {
+            stringResource(
+                id = R.string.account_confirm_deletion_type_account_name,
+                account.name
+            )
+        } else {
+            "Please type \"${category?.name ?: ""}\" in order to delete your category."
+        },
+        hint = if (account != null) stringResource(id = R.string.account_name) else "Category name",
+        accountName = accountNameConfirmation,
+        onAccountNameChange = updateAccountNameConfirmation,
+        enableDeletionButton = enableDeletionButton,
+        dismiss = {
+            updateAccountNameConfirmation("")
+            deleteModal3Visible = false
+            setDeleteModal1Visible(false)
+        }
+    ) {
+        onDelete()
+        updateAccountNameConfirmation("")
+    }
+
+    DeleteModal(
+        visible = skipAllModalVisible,
+        title = stringResource(R.string.confirm_skip_all),
+        description = stringResource(R.string.confirm_skip_all_description),
+        dismiss = {
+            onSkipAllModalVisible(false)
+        }
+    ) {
+        onSkipAllTransactions(overdue)
+        onSkipAllModalVisible(false)
+    }
+}
+
 @Composable
 private fun Header(
-    history: List<TransactionHistoryItem>,
+    history: ImmutableList<TransactionHistoryItem>,
     currency: String,
     baseCurrency: String,
     itemColor: Color,
@@ -532,14 +573,13 @@ private fun Header(
     balanceBaseCurrency: Double?,
     income: Double,
     expenses: Double,
-    treatTransfersAsIncomeExpense: Boolean = false,
-
     onEdit: () -> Unit,
     onDelete: () -> Unit,
 
     onBalanceClick: () -> Unit,
     showCategoryModal: () -> Unit,
     showAccountModal: () -> Unit,
+    treatTransfersAsIncomeExpense: Boolean = false,
 ) {
     val contrastColor = findContrastTextColor(itemColor)
 
@@ -560,11 +600,9 @@ private fun Header(
         Spacer(Modifier.height(24.dp))
 
         Item(
-            itemColor = itemColor,
             contrastColor = contrastColor,
             account = account,
             category = category,
-
             showAccountModal = showAccountModal,
             showCategoryModal = showCategoryModal
         )
@@ -663,7 +701,6 @@ private fun Header(
 
 @Composable
 private fun Item(
-    itemColor: Color,
     contrastColor: Color,
     account: Account?,
     category: Category?,
@@ -762,8 +799,8 @@ private fun Item(
 
 @Preview
 @Composable
-private fun Preview_empty() {
-    IvyWalletPreview {
+private fun BoxWithConstraintsScope.Preview_empty() {
+    IvyPreview {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
@@ -790,15 +827,21 @@ private fun Preview_empty() {
             onEditCategory = {},
             accountNameConfirmation = TextFieldValue(),
             updateAccountNameConfirmation = {},
-            enableDeletionButton = true
+            enableDeletionButton = true,
+            deleteModal1Visible = false,
+            onDeleteModal1Visible = {},
+            skipAllModalVisible = false,
+            onSkipAllModalVisible = {},
+            onChoosePeriodModal = {},
+            choosePeriodModal = null
         )
     }
 }
 
 @Preview
 @Composable
-private fun Preview_crypto() {
-    IvyWalletPreview {
+private fun BoxWithConstraintsScope.Preview_crypto() {
+    IvyPreview {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
@@ -830,15 +873,21 @@ private fun Preview_crypto() {
             onEditCategory = {},
             accountNameConfirmation = TextFieldValue(),
             updateAccountNameConfirmation = {},
-            enableDeletionButton = true
+            enableDeletionButton = true,
+            deleteModal1Visible = false,
+            onDeleteModal1Visible = {},
+            skipAllModalVisible = false,
+            onSkipAllModalVisible = {},
+            onChoosePeriodModal = {},
+            choosePeriodModal = null
         )
     }
 }
 
 @Preview
 @Composable
-private fun Preview_empty_upcoming() {
-    IvyWalletPreview {
+private fun BoxWithConstraintsScope.Preview_empty_upcoming() {
+    IvyPreview {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
@@ -864,11 +913,21 @@ private fun Preview_empty_upcoming() {
             onEditAccount = { _, _ -> },
             onEditCategory = {},
             upcoming = persistentListOf(
-                Transaction(UUID(1L, 2L), TransactionType.EXPENSE, BigDecimal.valueOf(10L))
+                Transaction(
+                    UUID(1L, 2L),
+                    TransactionType.EXPENSE,
+                    BigDecimal.valueOf(10L)
+                )
             ),
             accountNameConfirmation = TextFieldValue(),
             updateAccountNameConfirmation = {},
-            enableDeletionButton = true
+            enableDeletionButton = true,
+            deleteModal1Visible = false,
+            onDeleteModal1Visible = {},
+            skipAllModalVisible = false,
+            onSkipAllModalVisible = {},
+            onChoosePeriodModal = {},
+            choosePeriodModal = null
         )
     }
 }
