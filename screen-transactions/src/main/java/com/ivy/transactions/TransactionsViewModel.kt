@@ -25,8 +25,8 @@ import com.ivy.legacy.utils.dateNowUTC
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.selectEndTextFieldValue
-import com.ivy.navigation.ItemStatisticScreen
 import com.ivy.navigation.Navigation
+import com.ivy.navigation.TransactionsScreen
 import com.ivy.persistence.db.dao.read.AccountDao
 import com.ivy.persistence.db.dao.read.CategoryDao
 import com.ivy.persistence.db.dao.write.WriteAccountDao
@@ -648,7 +648,7 @@ class TransactionsViewModel @Inject constructor(
     }
 
     private fun setPeriod(
-        screen: ItemStatisticScreen,
+        screen: TransactionsScreen,
         period: TimePeriod
     ) {
         start(
@@ -662,7 +662,7 @@ class TransactionsViewModel @Inject constructor(
         skipAllModalVisible.value = visible
     }
 
-    private fun nextMonth(screen: ItemStatisticScreen) {
+    private fun nextMonth(screen: TransactionsScreen) {
         val month = period.value.month
         val year = period.value.year ?: dateNowUTC().year
         if (month != null) {
@@ -674,7 +674,7 @@ class TransactionsViewModel @Inject constructor(
         }
     }
 
-    private fun previousMonth(screen: ItemStatisticScreen) {
+    private fun previousMonth(screen: TransactionsScreen) {
         val month = period.value.month
         val year = period.value.year ?: dateNowUTC().year
         if (month != null) {
@@ -686,7 +686,7 @@ class TransactionsViewModel @Inject constructor(
         }
     }
 
-    private fun delete(screen: ItemStatisticScreen) {
+    private fun delete(screen: TransactionsScreen) {
         viewModelScope.launch {
             when {
                 screen.accountId != null -> {
@@ -734,7 +734,7 @@ class TransactionsViewModel @Inject constructor(
         }
     }
 
-    private fun editAccount(screen: ItemStatisticScreen, account: Account, newBalance: Double) {
+    private fun editAccount(screen: TransactionsScreen, account: Account, newBalance: Double) {
         viewModelScope.launch {
             accountCreator.editAccount(account, newBalance) {
                 start(
@@ -746,7 +746,7 @@ class TransactionsViewModel @Inject constructor(
         }
     }
 
-    private fun payOrGet(screen: ItemStatisticScreen, transaction: Transaction) {
+    private fun payOrGet(screen: TransactionsScreen, transaction: Transaction) {
         viewModelScope.launch {
             plannedPaymentsLogic.payOrGet(transaction = transaction) {
                 start(
@@ -757,7 +757,7 @@ class TransactionsViewModel @Inject constructor(
         }
     }
 
-    private fun skipTransaction(screen: ItemStatisticScreen, transaction: Transaction) {
+    private fun skipTransaction(screen: TransactionsScreen, transaction: Transaction) {
         viewModelScope.launch {
             plannedPaymentsLogic.payOrGet(
                 transaction = transaction,
@@ -771,7 +771,7 @@ class TransactionsViewModel @Inject constructor(
         }
     }
 
-    private fun skipTransactions(screen: ItemStatisticScreen, transactions: List<Transaction>) {
+    private fun skipTransactions(screen: TransactionsScreen, transactions: List<Transaction>) {
         viewModelScope.launch {
             plannedPaymentsLogic.payOrGet(
                 transactions = transactions,
@@ -792,7 +792,7 @@ class TransactionsViewModel @Inject constructor(
     }
 
     fun start(
-        screen: ItemStatisticScreen,
+        screen: TransactionsScreen,
         timePeriod: TimePeriod? = ivyContext.selectedPeriod,
         reset: Boolean = true
     ) {

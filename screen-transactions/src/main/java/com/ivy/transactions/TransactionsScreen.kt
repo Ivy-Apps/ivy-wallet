@@ -57,9 +57,9 @@ import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.setStatusBarDarkTextCompat
 import com.ivy.legacy.utils.thenIf
 import com.ivy.navigation.EditTransactionScreen
-import com.ivy.navigation.ItemStatisticScreen
 import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.PieChartStatisticScreen
+import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.persistence.model.TransactionType
@@ -89,7 +89,7 @@ import java.math.BigDecimal
 import java.util.UUID
 
 @Composable
-fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatisticScreen) {
+fun BoxWithConstraintsScope.TransactionsScreen(screen: TransactionsScreen) {
     val viewModel: TransactionsViewModel = screenScopedViewModel()
 
     val ivyContext = ivyWalletCtx()

@@ -34,26 +34,61 @@
             column="20"/>
     </issue>
 
-    <issue
-        id="VectorRaster"
+    <issue id="VectorRaster"
         message="Limit vector icons sizes to 200×200 to keep icon drawing fast; see https://developer.android.com/studio/write/vector-asset-studio#when for more"
-        errorLine1="    android:width=&quot;1080dp&quot;"
-        errorLine2="                   ~~~~~~">
-        <location
-            file="src/main/res/drawable/no_account_illustration_dark.xml"
-            line="3"
-            column="20"/>
+        errorLine1="    android:width=&quot;1080dp&quot;" errorLine2="                   ~~~~~~">
+        <location file="src/main/res/drawable/no_account_illustration_dark.xml" line="3"
+            column="20" />
     </issue>
 
-    <issue
-        id="PrivateResource"
+    <issue id="AndroidGradlePluginVersion"
+        message="A newer version of com.android.tools.build:gradle than 8.1.1 is available: 8.1.2"
+        errorLine1="android-gradle-plugin = { module = &quot;com.android.tools.build:gradle&quot;, version = &quot;8.1.1&quot; }"
+        errorLine2="                                                                               ~~~~~~~">
+        <location file="../gradle/libs.versions.toml" line="28" column="80" />
+    </issue>
+
+    <issue id="GradleDependency"
+        message="A newer version of androidx.compose.animation:animation than 1.5.1 is available: 1.5.2"
+        errorLine1="compose = &quot;1.5.1&quot;" errorLine2="          ~~~~~~~">
+        <location file="../gradle/libs.versions.toml" line="7" column="11" />
+    </issue>
+
+    <issue id="GradleDependency"
+        message="A newer version of androidx.compose.runtime:runtime than 1.5.1 is available: 1.5.2"
+        errorLine1="compose = &quot;1.5.1&quot;" errorLine2="          ~~~~~~~">
+        <location file="../gradle/libs.versions.toml" line="7" column="11" />
+    </issue>
+
+    <issue id="GradleDependency"
+        message="A newer version of androidx.compose.runtime:runtime-livedata than 1.5.1 is available: 1.5.2"
+        errorLine1="compose = &quot;1.5.1&quot;" errorLine2="          ~~~~~~~">
+        <location file="../gradle/libs.versions.toml" line="7" column="11" />
+    </issue>
+
+    <issue id="GradleDependency"
+        message="A newer version of androidx.compose.ui:ui than 1.5.1 is available: 1.5.2"
+        errorLine1="compose = &quot;1.5.1&quot;" errorLine2="          ~~~~~~~">
+        <location file="../gradle/libs.versions.toml" line="7" column="11" />
+    </issue>
+
+    <issue id="GradleDependency"
+        message="A newer version of androidx.compose.ui:ui-tooling than 1.5.1 is available: 1.5.2"
+        errorLine1="compose = &quot;1.5.1&quot;" errorLine2="          ~~~~~~~">
+        <location file="../gradle/libs.versions.toml" line="7" column="11" />
+    </issue>
+
+    <issue id="GradleDependency"
+        message="Upgrade `androidx.compose.foundation` for keyboard and mouse support"
+        errorLine1="compose = &quot;1.5.1&quot;" errorLine2="          ~~~~~~~">
+        <location file="../gradle/libs.versions.toml" line="7" column="11" />
+    </issue>
+
+    <issue id="PrivateResource"
         message="Overriding `@string/selected` which is marked as private in androidx.compose.ui:ui-android:1.5.1. If deliberate, use tools:override=&quot;true&quot;, otherwise pick a different name."
         errorLine1="    &lt;string name=&quot;selected&quot;>تم تحديده&lt;/string>"
         errorLine2="                  ~~~~~~~~">
-        <location
-            file="src/main/res/values-ar/strings.xml"
-            line="280"
-            column="19"/>
+        <location file="src/main/res/values-ar/strings.xml" line="280" column="19" />
     </issue>
 
     <issue
@@ -127,10 +162,7 @@
         message="Overriding `@string/selected` which is marked as private in androidx.compose.ui:ui-android:1.5.1. If deliberate, use tools:override=&quot;true&quot;, otherwise pick a different name."
         errorLine1="    &lt;string name=&quot;selected&quot;>Selected&lt;/string>"
         errorLine2="                  ~~~~~~~~">
-        <location
-            file="src/main/res/values/strings.xml"
-            line="282"
-            column="19"/>
+        <location file="src/main/res/values/strings.xml" line="281" column="19"/>
     </issue>
 
     <issue
@@ -1450,26 +1482,40 @@
             column="31"/>
     </issue>
 
-    <issue
-        id="AutoboxingStateCreation"
+    <issue id="AutoboxingStateCreation"
         message="Prefer `mutableIntStateOf` instead of `mutableStateOf`"
         errorLine1="        mutableStateOf(modal?.initialIntervalN ?: 1)"
         errorLine2="        ~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/RecurringRuleModal.kt"
-            line="88"
-            column="9"/>
+        <location file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/RecurringRuleModal.kt"
+            line="88" column="9" />
     </issue>
 
-    <issue
-        id="DisableBaselineAlignment"
+    <issue id="AutoboxingStateValueProperty"
+        message="Assigning `value` will cause an autoboxing operation. Use `doubleValue` to avoid unnecessary allocations."
+        errorLine1="            balance.value = ioThread {" errorLine2="                    ~~~~~">
+        <location file="src/main/java/com/ivy/transactions/TransactionsViewModel.kt" line="494"
+            column="21" />
+    </issue>
+
+    <issue id="AutoboxingStateValueProperty"
+        message="Assigning `value` will cause an autoboxing operation. Use `doubleValue` to avoid unnecessary allocations."
+        errorLine1="            income.value = ioThread {" errorLine2="                   ~~~~~">
+        <location file="src/main/java/com/ivy/transactions/TransactionsViewModel.kt" line="503"
+            column="20" />
+    </issue>
+
+    <issue id="AutoboxingStateValueProperty"
+        message="Assigning `value` will cause an autoboxing operation. Use `doubleValue` to avoid unnecessary allocations."
+        errorLine1="        upcomingExpenses.value = ioThread {"
+        errorLine2="                         ~~~~~">
+        <location file="src/main/java/com/ivy/transactions/TransactionsViewModel.kt" line="581"
+            column="26" />
+    </issue>
+
+    <issue id="DisableBaselineAlignment"
         message="Set `android:baselineAligned=&quot;false&quot;` on this element for better performance"
-        errorLine1="    &lt;LinearLayout"
-        errorLine2="     ~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/widget_add_transaction.xml"
-            line="12"
-            column="6"/>
+        errorLine1="    &lt;LinearLayout" errorLine2="     ~~~~~~~~~~~~">
+        <location file="src/main/res/layout/widget_add_transaction.xml" line="12" column="6" />
     </issue>
 
     <issue
@@ -8410,10 +8456,7 @@
         message="The resource `R.string.from_date` appears to be unused"
         errorLine1="    &lt;string name=&quot;from_date&quot;>From %1$s&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="144"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="143" column="13"/>
     </issue>
 
     <issue
@@ -8421,10 +8464,7 @@
         message="The resource `R.string.to_date` appears to be unused"
         errorLine1="    &lt;string name=&quot;to_date&quot;>To %1$s&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="145"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="144" column="13"/>
     </issue>
 
     <issue
@@ -8432,10 +8472,7 @@
         message="The resource `R.string.range` appears to be unused"
         errorLine1="    &lt;string name=&quot;range&quot;>Range&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="146"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="145" column="13"/>
     </issue>
 
     <issue
@@ -8443,10 +8480,7 @@
         message="The resource `R.string.google_error_try_again` appears to be unused"
         errorLine1="    &lt;string name=&quot;google_error_try_again&quot;>Error. Try again: %1$s&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="166"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="165" column="13"/>
     </issue>
 
     <issue
@@ -8454,10 +8488,7 @@
         message="The resource `R.string.google_signing_in` appears to be unused"
         errorLine1="    &lt;string name=&quot;google_signing_in&quot;>Signing in…&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="167"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="166" column="13"/>
     </issue>
 
     <issue
@@ -8465,10 +8496,7 @@
         message="The resource `R.string.google_signing_in_success` appears to be unused"
         errorLine1="    &lt;string name=&quot;google_signing_in_success&quot;>Success!&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="168"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="167" column="13"/>
     </issue>
 
     <issue
@@ -8476,10 +8504,7 @@
         message="The resource `R.string.login_with_google` appears to be unused"
         errorLine1="    &lt;string name=&quot;login_with_google&quot;>Login with Google&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="169"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="168" column="13"/>
     </issue>
 
     <issue
@@ -8487,10 +8512,7 @@
         message="The resource `R.string.or_enter_with_offline_account` appears to be unused"
         errorLine1="    &lt;string name=&quot;or_enter_with_offline_account&quot;>OR ENTER WITH OFFLINE ACCOUNT&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="173"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="172" column="13"/>
     </issue>
 
     <issue
@@ -8498,10 +8520,7 @@
         message="The resource `R.string.offline_warning` appears to be unused"
         errorLine1="    &lt;string name=&quot;offline_warning&quot;>Your data will be saved locally (only on your phone) and won\&apos;t be synced with the cloud. You risk losing it if you uninstall the app or change your device. You can always activate sync later if you decide to.&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="174"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="173" column="13"/>
     </issue>
 
     <issue
@@ -8509,10 +8528,7 @@
         message="The resource `R.string.logout` appears to be unused"
         errorLine1="    &lt;string name=&quot;logout&quot;>Logout&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="269"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="268" column="13"/>
     </issue>
 
     <issue
@@ -8520,10 +8536,7 @@
         message="The resource `R.string.login` appears to be unused"
         errorLine1="    &lt;string name=&quot;login&quot;>Login&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="270"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="269" column="13"/>
     </issue>
 
     <issue
@@ -8531,10 +8544,7 @@
         message="The resource `R.string.syncing` appears to be unused"
         errorLine1="    &lt;string name=&quot;syncing&quot;>Syncing…&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="271"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="270" column="13"/>
     </issue>
 
     <issue
@@ -8542,10 +8552,7 @@
         message="The resource `R.string.data_synced_to_cloud` appears to be unused"
         errorLine1="    &lt;string name=&quot;data_synced_to_cloud&quot;>Data synced to cloud&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="272"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="271" column="13"/>
     </issue>
 
     <issue
@@ -8553,10 +8560,7 @@
         message="The resource `R.string.tap_to_sync` appears to be unused"
         errorLine1="    &lt;string name=&quot;tap_to_sync&quot;>Tap to sync&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="273"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="272" column="13"/>
     </issue>
 
     <issue
@@ -8564,10 +8568,7 @@
         message="The resource `R.string.sync_failed` appears to be unused"
         errorLine1="    &lt;string name=&quot;sync_failed&quot;>Sync failed. Tap to sync&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="274"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="273" column="13"/>
     </issue>
 
     <issue
@@ -8575,10 +8576,7 @@
         message="The resource `R.string.create` appears to be unused"
         errorLine1="    &lt;string name=&quot;create&quot;>Create&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="309"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="308" column="13"/>
     </issue>
 
     <issue
@@ -8586,10 +8584,7 @@
         message="The resource `R.string.submit` appears to be unused"
         errorLine1="    &lt;string name=&quot;submit&quot;>Submit&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="334"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="333" column="13"/>
     </issue>
 
     <issue
@@ -8597,10 +8592,7 @@
         message="The resource `R.string.what_do_you_need` appears to be unused"
         errorLine1="    &lt;string name=&quot;what_do_you_need&quot;>What do you need?&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="335"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="334" column="13"/>
     </issue>
 
     <issue
@@ -8608,10 +8600,7 @@
         message="The resource `R.string.explain_it_in_one_sentence` appears to be unused"
         errorLine1="    &lt;string name=&quot;explain_it_in_one_sentence&quot;>Explain it in one sentence. (supports markdown)&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="336"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="335" column="13"/>
     </issue>
 
     <issue
@@ -8619,10 +8608,7 @@
         message="The resource `R.string.last_12_months` appears to be unused"
         errorLine1="    &lt;string name=&quot;last_12_months&quot;>Last 12 months&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="337"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="336" column="13"/>
     </issue>
 
     <issue
@@ -8630,10 +8616,7 @@
         message="The resource `R.string.last_6_months` appears to be unused"
         errorLine1="    &lt;string name=&quot;last_6_months&quot;>Last 6 months&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="338"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="337" column="13"/>
     </issue>
 
     <issue
@@ -8641,10 +8624,7 @@
         message="The resource `R.string.last_4_weeks` appears to be unused"
         errorLine1="    &lt;string name=&quot;last_4_weeks&quot;>Last 4 weeks&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="339"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="338" column="13"/>
     </issue>
 
     <issue
@@ -8652,10 +8632,7 @@
         message="The resource `R.string.last_7_days` appears to be unused"
         errorLine1="    &lt;string name=&quot;last_7_days&quot;>Last 7 days&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="340"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="339" column="13"/>
     </issue>
 
     <issue
@@ -8663,10 +8640,7 @@
         message="The resource `R.string.set_a_budget` appears to be unused"
         errorLine1="    &lt;string name=&quot;set_a_budget&quot;>Set a budget&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="384"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="383" column="13"/>
     </issue>
 
     <issue
@@ -8674,10 +8648,7 @@
         message="The resource `R.string.set_a_budget_description` appears to be unused"
         errorLine1="    &lt;string name=&quot;set_a_budget_description&quot;>Ivy Wallet not only helps you to passively track your expenses but also proactively create your financial future by setting budgets and sticking to them.&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="385"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="384" column="13"/>
     </issue>
 
     <issue
@@ -8685,10 +8656,7 @@
         message="The resource `R.string.expenses_piechart_description` appears to be unused"
         errorLine1="    &lt;string name=&quot;expenses_piechart_description&quot;>You can see your expenses structure by categories! Try it, tap the gray/black Expenses button just below your balance.&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="386"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="385" column="13"/>
     </issue>
 
     <issue
@@ -8696,10 +8664,7 @@
         message="The resource `R.string.make_a_report_description` appears to be unused"
         errorLine1="    &lt;string name=&quot;make_a_report_description&quot;>You can generate reports to get deep insights about your income and spending. Filter your transactions by type, time period, category, accounts, amount, keywords and more to gain better view on your finances.&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="392"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="391" column="13"/>
     </issue>
 
     <issue
@@ -8707,10 +8672,7 @@
         message="The resource `R.string.make_a_report` appears to be unused"
         errorLine1="    &lt;string name=&quot;make_a_report&quot;>Make a report&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="393"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="392" column="13"/>
     </issue>
 
     <issue
@@ -8718,10 +8680,7 @@
         message="The resource `R.string.we_need_your_help` appears to be unused"
         errorLine1="    &lt;string name=&quot;we_need_your_help&quot;>We need your help!&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="395"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="394" column="13"/>
     </issue>
 
     <issue
@@ -8729,10 +8688,7 @@
         message="The resource `R.string.we_need_your_help_description` appears to be unused"
         errorLine1="    &lt;string name=&quot;we_need_your_help_description&quot;>We\&apos;re just a designer and a developer working on the app after our 9–5 jobs. Currently, we invest a lot of time and money to generate only losses and exhaustion. If you want us to keep developing Ivy Wallet please share it with friends and family.\n\nP.S. Google PlayStore reviews also helps a lot!&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="396"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="395" column="13"/>
     </issue>
 
     <issue
@@ -8740,10 +8696,7 @@
         message="The resource `R.string.adjust_balance` appears to be unused"
         errorLine1="    &lt;string name=&quot;adjust_balance&quot;>Adjust balance&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="400"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="399" column="13"/>
     </issue>
 
     <issue
@@ -8751,10 +8704,7 @@
         message="The resource `R.string.switch_to_offline_mode` appears to be unused"
         errorLine1="    &lt;string name=&quot;switch_to_offline_mode&quot;>Switch to offline mode&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="436"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="435" column="13"/>
     </issue>
 
     <issue
@@ -8762,10 +8712,7 @@
         message="The resource `R.string.experimental` appears to be unused"
         errorLine1="    &lt;string name=&quot;experimental&quot;>Experimental&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="439"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="438" column="13"/>
     </issue>
 
     <issue
@@ -8773,10 +8720,7 @@
         message="The resource `R.string.experimental_settings` appears to be unused"
         errorLine1="    &lt;string name=&quot;experimental_settings&quot;>Experimental Settings&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="../ivy-resources/src/main/res/values/strings.xml"
-            line="440"
-            column="13"/>
+        <location file="../ivy-resources/src/main/res/values/strings.xml" line="439" column="13"/>
     </issue>
 
     <issue
@@ -11945,28 +11889,6 @@
 
     <issue
         id="ComposeParameterOrder"
-        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [period: TimePeriod, baseCurrency: String, currency: String, account: Account?, category: Category?, accountNameConfirmation: TextFieldValue, updateAccountNameConfirmation: (String) -> Unit, enableDeletionButton: Boolean, categories: ImmutableList&lt;Category>, accounts: ImmutableList&lt;Account>, balance: Double, balanceBaseCurrency: Double?, income: Double, expenses: Double, initWithTransactions: Boolean = false, treatTransfersAsIncomeExpense: Boolean = false, history: ImmutableList&lt;TransactionHistoryItem>, upcomingExpanded: Boolean = true, setUpcomingExpanded: (Boolean) -> Unit = {}, upcomingIncome: Double = 0.0, upcomingExpenses: Double = 0.0, upcoming: ImmutableList&lt;Transaction> = persistentListOf(), overdueExpanded: Boolean = true, setOverdueExpanded: (Boolean) -> Unit = {}, overdueIncome: Double = 0.0, overdueExpenses: Double = 0.0, overdue: ImmutableList&lt;Transaction> = persistentListOf(), onPreviousMonth: () -> Unit, onNextMonth: () -> Unit, onSetPeriod: (TimePeriod) -> Unit, onEditAccount: (Account, Double) -> Unit, onEditCategory: (Category) -> Unit, onDelete: () -> Unit, onPayOrGet: (Transaction) -> Unit = {}, onSkipTransaction: (Transaction) -> Unit = {}, onSkipAllTransactions: (List&lt;Transaction>) -> Unit = {}] but should be [period: TimePeriod, baseCurrency: String, currency: String, account: Account?, category: Category?, accountNameConfirmation: TextFieldValue, updateAccountNameConfirmation: (String) -> Unit, enableDeletionButton: Boolean, categories: ImmutableList&lt;Category>, accounts: ImmutableList&lt;Account>, balance: Double, balanceBaseCurrency: Double?, income: Double, expenses: Double, history: ImmutableList&lt;TransactionHistoryItem>, onPreviousMonth: () -> Unit, onNextMonth: () -> Unit, onSetPeriod: (TimePeriod) -> Unit, onEditAccount: (Account, Double) -> Unit, onEditCategory: (Category) -> Unit, onDelete: () -> Unit, initWithTransactions: Boolean = false, treatTransfersAsIncomeExpense: Boolean = false, upcomingExpanded: Boolean = true, setUpcomingExpanded: (Boolean) -> Unit = {}, upcomingIncome: Double = 0.0, upcomingExpenses: Double = 0.0, upcoming: ImmutableList&lt;Transaction> = persistentListOf(), overdueExpanded: Boolean = true, setOverdueExpanded: (Boolean) -> Unit = {}, overdueIncome: Double = 0.0, overdueExpenses: Double = 0.0, overdue: ImmutableList&lt;Transaction> = persistentListOf(), onPayOrGet: (Transaction) -> Unit = {}, onSkipTransaction: (Transaction) -> Unit = {}, onSkipAllTransactions: (List&lt;Transaction>) -> Unit = {}].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
-            file="src/main/java/com/ivy/transactions/ItemStatisticScreen.kt"
-            line="208"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeParameterOrder"
-        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [history: List&lt;TransactionHistoryItem>, currency: String, baseCurrency: String, itemColor: Color, account: Account?, category: Category?, balance: Double, balanceBaseCurrency: Double?, income: Double, expenses: Double, treatTransfersAsIncomeExpense: Boolean = false, onEdit: () -> Unit, onDelete: () -> Unit, onBalanceClick: () -> Unit, showCategoryModal: () -> Unit, showAccountModal: () -> Unit] but should be [history: List&lt;TransactionHistoryItem>, currency: String, baseCurrency: String, itemColor: Color, account: Account?, category: Category?, balance: Double, balanceBaseCurrency: Double?, income: Double, expenses: Double, onEdit: () -> Unit, onDelete: () -> Unit, onBalanceClick: () -> Unit, showCategoryModal: () -> Unit, treatTransfersAsIncomeExpense: Boolean = false, showAccountModal: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
-        errorLine1="@Composable"
-        errorLine2="^">
-        <location
-            file="src/main/java/com/ivy/transactions/ItemStatisticScreen.kt"
-            line="523"
-            column="1"/>
-    </issue>
-
-    <issue
-        id="ComposeParameterOrder"
         message="    Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;    Current params are: [modifier: Modifier = Modifier, value: TextFieldValue, textColor: Color = UI.colors.pureInverse, hint: String?, visualTransformation: VisualTransformation = VisualTransformation.None, keyboardOptions: KeyboardOptions = KeyboardOptions(&#xA;    autoCorrect = true,&#xA;    keyboardType = KeyboardType.Text,&#xA;    imeAction = ImeAction.Done,&#xA;    capitalization = KeyboardCapitalization.Sentences&#xA;), keyboardActions: KeyboardActions? = null, onValueChanged: (TextFieldValue) -> Unit] but should be [value: TextFieldValue, hint: String?, modifier: Modifier = Modifier, textColor: Color = UI.colors.pureInverse, visualTransformation: VisualTransformation = VisualTransformation.None, keyboardOptions: KeyboardOptions = KeyboardOptions(&#xA;    autoCorrect = true,&#xA;    keyboardType = KeyboardType.Text,&#xA;    imeAction = ImeAction.Done,&#xA;    capitalization = KeyboardCapitalization.Sentences&#xA;), keyboardActions: KeyboardActions? = null, onValueChanged: (TextFieldValue) -> Unit].&#xA;    See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
         errorLine1="@Deprecated(&quot;Old design system. Use `:ivy-design` and Material3&quot;)"
         errorLine2="^">
@@ -12798,17 +12720,6 @@
         <location
             file="src/main/java/com/ivy/legacy/ui/component/IncomeExpenseCards.kt"
             line="42"
-            column="14"/>
-    </issue>
-
-    <issue
-        id="ComposeUnstableCollections"
-        message="The Compose Compiler cannot infer the stability of a parameter if a List&lt;TransactionHistoryItem> is used in it, even if the item type is stable.&#xA;You should use Kotlinx Immutable Collections instead: `history: ImmutableList&lt;TransactionHistoryItem>` or create an `@Immutable` wrapper for this class: `@Immutable data class HistoryList(val items: List&lt;TransactionHistoryItem>)`&#xA;See https://slackhq.github.io/compose-lints/rules/#avoid-using-unstable-collections for more information."
-        errorLine1="    history: List&lt;TransactionHistoryItem>,"
-        errorLine2="             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/ivy/transactions/ItemStatisticScreen.kt"
-            line="525"
             column="14"/>
     </issue>
 

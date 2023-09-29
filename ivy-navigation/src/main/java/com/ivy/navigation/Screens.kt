@@ -34,7 +34,7 @@ data class EditTransactionScreen(
         get() = true
 }
 
-data class ItemStatisticScreen(
+data class TransactionsScreen(
     val accountId: UUID? = null,
     val categoryId: UUID? = null,
     val unspecifiedCategory: Boolean? = false,
