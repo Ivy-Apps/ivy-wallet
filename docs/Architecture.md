@@ -11,7 +11,7 @@ Solutions short and working, must be. Break the app, they must not.
 
 ## Screen: Compose UI + ComposeViewModel
 
-Separate, we do: **Compose UI** <> **Logic of Screen**. Why? Hmmm...
+Separate, the path of wisdom it is: **Compose UI** <> **Logic of Screen**. Why? Hmmm...
 
 1. **Performance of Jetpack Compose:** Less the UI thinks, faster it changes. Fewer changes when `UiState` primitive and `@Immutable`.
 2. **DI (The Way of Injecting):** Inject in composable functions, one cannot. Yet, in ViewModel with `@Inject constructor`, easy it is.
@@ -22,16 +22,16 @@ Separate, we do: **Compose UI** <> **Logic of Screen**. Why? Hmmm...
 
 ### Quick understanding, you seek?
 
-- **Screen (UI):** Dumb, it is. Shows `UiState` snapshot, sends `UiEvent`s to ViewModel. Uses the components of Material3 and Ivy.
-- **UiState:** A `data class`, often it is. Holds simple values. Optimized for Compose it must be, only `primitive` (String, Int, ...) and `@Immutable` things.
+- **Screen (UI):** Dumb, it is. Only draws `UiState`. When clicked sends `UiEvent`s to ViewModel. Uses UI components from Material3 and Ivy Design.
+- **UiState:** A `data class`, often it is. Holds only primitve and `@Immutable` values it should. Dumb Compose UI, plays well only with primitives.
 - **UiEvent:** User's doings, captured they are _(like button presses, text changes, checkbox states)._
-- **ViewModel:** Provides `UiState` and listens to `UiEvents`. Logic of screen it holds, and tasks it performs.
+- **ViewModel:** To the UI, `UiState` it offers. Ears open to `UiEvents`, it keeps. Logic of screen it holds, and tasks it performs. Compose runtime ViewModel's force is.
 
 ### In ViewModel, why Compose you ask?
 
 Reason, straightforward it is. More strength and simplicity, the Compose runtime has:
 
-- Complex Kotlin Flow chains, no need there is.
+- Complex Kotlin Flow chains and `combine`, no need there is.
 - Power of `LaunchedEffect`, `remember`, and all Compose gifts, you have.
 - Simpler and less tangled code, this gives.
 
