@@ -1,41 +1,41 @@
-# Ivy's Architecture
+# Ivy's Ways, These Are
 
-Ivy Wallet's architecture is simple - use the shortest solution possible that works and doesn't break the app. We don't follow strict rules, patterns or paradigms. Just do whatever makes the most sense.
+Solution short and working, must be. Break the app, it must not.
 
-Although, here are a few **principles that we like:**
+**Wisdom we follow:**
 
-- **80/20:** 20% of the code brings 80% of the user value
-- **Don't walk away from complexity, run!** If you can't explain it to a 5-year-old, delete it and start over.
-- **Don't overengineer.** Less is more. The best developers come up with the "dumbest" solutions. Be pragmatic.
-- **Build for today cuz tomorrow may never come.** Building for the future is the best way to fail in the present.
-
-Enough philosophy, just be yourself. Keep it simple and let's dive into the details.
+- **80/20 rule:** 20% code brings 80% feature value.
+- **Run, when complexity you see!** If explain to a youngling you cannot, start anew you must.
+- **Overengineer, you must not.** Less is more. Pragmatic be, with "dumb" solutions.
+- **For today, build.** Tomorrow, uncertain it is. Fail today by planning only for tomorrow, you might.
 
 ## Screen: Compose UI + ComposeViewModel
 
-We separate the Compose UI from the screen logic using a ViewModel. We do that because of the following benefits:
-1. **Jetpack Compose performance:** The fewer computations the Compose UI does, the faster it'll recompose. Also, Compose will recompose fewer times if its params are primitives or **@Immutable** data.
-2. **DI (Dependency Injection):** You can't inject dependencies using Hilt/Dagger/Anvil in a composable function but you can easily do so via `@Inject constructor` in the ViewModel.
-3. **Simpler code:** "dumb" UI that only draws a primitive UiState and pure business logic without UI/Android dependencies.
-4. **Bonus: Compose Previews:** When the `UiState` is a simple data class you can mock any arbitrary preview for all possible states. Otherwise, good luck previewing HTTP calls, etc.
+Separate, we do: **Compose UI** <> **Logic of Screen**. Why? Hmmm...
+
+1. **Performance of Jetpack Compose:** Less the UI thinks, faster it changes. Fewer changes when `UiState` primitive and `@Immutable`.
+2. **DI (The Way of Injecting):** Inject in composable functions, one cannot. Yet, in ViewModel with `@Inject constructor`, easy it is.
+3. **Code, simple it is:** UI dumb, only draws. Logic pure, without ties to the Android realm.
+4. **Compose Previews:** <<FILL THIS....>>
 
 ![screen-viewmodel](../assets/screen-vm.svg)
 
-**How it works? TL;DR;**
-- **Sceen (UI):** very dumb. Displays a snapshot of a **UiState** and sends user interaction as **UiEvent**s to the **ViewModel**. Uses Material3 components and reusable Ivy ones.
-- **UiState:** usually a `data class` with a bunch of primitive `val`s that are displayed in the UI. _Note: The `UiState` must be optimized for Compose and must contain only primitives and **@Immutable** structures so Compose can recompose efficiently._
-- **UiEvent:** a snapshot of a user interaction _(e.g. button click, entered text change, checkbox checked change, etc)_
-- **ViewModel:** produces the current `UiState` and handles all `UiEvents`. Encapsulates the screen's logic and does the CRUD/IO operations.
+### Quick understanding, you seek?
 
-**Compose in the ViewModel - Why?**
+- **Screen (UI):** Dumb, it is. Shows `UiState` snapshot, sends `UiEvent`s to ViewModel. Uses the components of Material3 and Ivy.
+- **UiState:** A `data class`, often it is. Holds simple values. Optimized for Compose it must be, only `primitive` (String, Int, ...) and `@Immutable` things.
+- **UiEvent:** User's doings, captured they are _(like button presses, text changes, checkbox states)._
+- **ViewModel:** Provides `UiState` and listens to `UiEvents`. Logic of screen it holds, and tasks it performs.
 
-The reason is very pragmatic - the Compose runtime API (e.g. Compose state, `remember`, effects) is simpler and more powerful:
+### In ViewModel, why Compose you ask?
 
-- No need to use complex `combine` and `flattenLatest` Kotlin Flow chains.
-- You have access to `LaunchedEffect`, `remember` and the entire Compose runtime.
-- The above leads to more simple and less nested code.
+Reason, straightforward it is. More strength and simplicity, the Compose runtime has:
 
-> Tip: In Ivy Wallet, inherit the `ComposeViewModel` base class and you're good to go.
+- Complex Kotlin Flow chains, no need there is.
+- Power of `LaunchedEffect`, `remember`, and all Compose gifts, you have.
+- Simpler and less tangled code, this gives.
+
+> **A tip for you:** In Ivy Wallet, the `ComposeViewModel` base inherit, and set you are.
 
 ## Architecture Overview
 

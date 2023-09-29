@@ -12,23 +12,24 @@ ivy-domain: ":ivy-domain" {
   "Core API: domain rules & business logic"
 }
 ivy-domain-ui: ":ivy-domain-ui" {
-  "UI components that has domain logic"
+  "UI components bundled with domain logic"
 }
 ivy-nav: ":ivy-navigation" {
-  "Definition (w/o implementation) for all screens in Ivy Wallet"
+  "Definition for all screens w/o implementation"
 }
 ivy-design: ":ivy-design" {
   "Ivy's design system"
 }
-screens: ":screen-something" {
+screens: ":screen/feature" {
   ":screen-home"
   ":screen-settings"
+  ":feature-google-drive"
   ":screen-abc"
-  ":screen-xyz"
+  ":feature-xyz"
 }
 app: ":app" {
-  "Ivy Wallet app's monolith shipped to the PlayStore"
-  "Wires the implementation of all Ivy Wallet screens"
+  "App monolith shipped to the PlayStore"
+  "Wires the implementation of all screens"
 }
 
 ivy-data -> ivy-base

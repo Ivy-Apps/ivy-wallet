@@ -1,13 +1,8 @@
 package com.ivy.domain.model
 
 import com.ivy.base.model.TransactionType
-import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.util.UUID
-
-sealed interface Transaction {
-
-}
 
 data class Transaction(
     val id: UUID,
