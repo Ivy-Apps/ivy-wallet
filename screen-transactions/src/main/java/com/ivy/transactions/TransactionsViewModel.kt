@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import arrow.core.toOption
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
+import com.ivy.base.model.TransactionType
 import com.ivy.base.util.stringRes
 import com.ivy.domain.ComposeViewModel
 import com.ivy.frp.then
@@ -33,7 +34,6 @@ import com.ivy.persistence.db.dao.write.WriteAccountDao
 import com.ivy.persistence.db.dao.write.WriteCategoryDao
 import com.ivy.persistence.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.persistence.db.dao.write.WriteTransactionDao
-import com.ivy.persistence.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.domain.action.account.AccTrnsAct
 import com.ivy.wallet.domain.action.account.AccountsAct
