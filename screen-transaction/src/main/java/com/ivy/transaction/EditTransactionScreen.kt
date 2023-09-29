@@ -30,15 +30,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
 import com.ivy.design.l0_system.Orange
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.utils.hideKeyboard
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.EditTransactionDisplayLoan
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.rootView
 import com.ivy.legacy.ui.component.edit.TransactionDateTime
@@ -49,6 +48,7 @@ import com.ivy.legacy.utils.timeNowLocal
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.navigation
+import com.ivy.navigation.screenScopedViewModel
 import com.ivy.persistence.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.CustomExchangeRateState
@@ -82,7 +82,7 @@ import kotlin.math.roundToInt
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransactionScreen) {
-    val viewModel: EditTransactionViewModel = viewModel()
+    val viewModel: EditTransactionViewModel = screenScopedViewModel()
 
     val transactionType by viewModel.transactionType.observeAsState(screen.type)
     val initialTitle by viewModel.initialTitle.collectAsState()
