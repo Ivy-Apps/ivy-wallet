@@ -87,7 +87,7 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransactionScreen)
     val viewModel: EditTransactionViewModel = screenScopedViewModel()
     val uiState = viewModel.uiState()
 
-    onScreenStart {
+    LaunchedEffect(Unit) {
         viewModel.start(screen)
     }
 

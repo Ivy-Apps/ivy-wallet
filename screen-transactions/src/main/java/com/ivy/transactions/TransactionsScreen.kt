@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,7 +54,6 @@ import com.ivy.legacy.ui.component.transaction.transactions
 import com.ivy.legacy.utils.balancePrefix
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.horizontalSwipeListener
-import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.setStatusBarDarkTextCompat
 import com.ivy.legacy.utils.thenIf
 import com.ivy.navigation.EditTransactionScreen
@@ -97,7 +97,7 @@ fun BoxWithConstraintsScope.TransactionsScreen(screen: TransactionsScreen) {
     val uiState = viewModel.uiState()
 
     val view = LocalView.current
-    onScreenStart {
+    LaunchedEffect(Unit) {
         viewModel.start(screen)
 
         nav.onBackPressed[screen] = {
