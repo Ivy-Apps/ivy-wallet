@@ -102,6 +102,44 @@ class EditTransactionViewModel @Inject constructor(
     private var title: String? = null
     private lateinit var baseUserCurrency: String
 
+    fun start(screen: EditTransactionScreen) {
+        viewModelScope.launch {
+            TestIdlingResource.increment()
+
+            editMode = screen.initialTransactionId != null
+
+            baseUserCurrency = baseCurrency()
+
+            val getAccounts = accountsAct(Unit)
+            if (getAccounts.isEmpty()) {
+                closeScreen()
+                return@launch
+            }
+            accounts.value = getAccounts
+
+            categories.value = categoriesAct(Unit)
+
+            reset()
+
+            loadedTransaction = screen.initialTransactionId?.let {
+                trnByIdAct(it)
+            } ?: Transaction(
+                accountId = defaultAccountId(
+                    screen = screen,
+                    accounts = getAccounts
+                ),
+                categoryId = screen.categoryId,
+                type = screen.type,
+                amount = BigDecimal.ZERO,
+                toAmount = BigDecimal.ZERO
+            )
+
+            display(loadedTransaction!!)
+
+            TestIdlingResource.decrement()
+        }
+    }
+
     @Composable
     override fun uiState(): EditTransactionState {
         return EditTransactionState(
@@ -214,81 +252,6 @@ class EditTransactionViewModel @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    fun start(screen: EditTransactionScreen) {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
-
-            editMode = screen.initialTransactionId != null
-
-            baseUserCurrency = baseCurrency()
-
-            val getAccounts = accountsAct(Unit)
-            if (getAccounts.isEmpty()) {
-                closeScreen()
-                return@launch
-            }
-            accounts.value = getAccounts
-
-            categories.value = categoriesAct(Unit)
-
-            reset()
-
-            loadedTransaction = screen.initialTransactionId?.let {
-                trnByIdAct(it)
-            } ?: Transaction(
-                accountId = defaultAccountId(
-                    screen = screen,
-                    accounts = getAccounts
-                ),
-                categoryId = screen.categoryId,
-                type = screen.type,
-                amount = BigDecimal.ZERO,
-                toAmount = BigDecimal.ZERO
-            )
-
-            display(loadedTransaction!!)
-
-            TestIdlingResource.decrement()
-        }
-    }
-
-    private suspend fun getDisplayLoanHelper(trans: Transaction): EditTransactionDisplayLoan {
-        if (trans.loanId == null) {
-            return EditTransactionDisplayLoan()
-        }
-
-        val loan =
-            ioThread { loanDao.findById(trans.loanId!!) } ?: return EditTransactionDisplayLoan()
-        val isLoanRecord = trans.loanRecordId != null
-
-        val loanWarningDescription = if (isLoanRecord) {
-            "Note: This transaction is associated with a Loan Record of Loan : ${loan.name}\n" +
-                    "You are trying to change the account associated with the loan record to an " +
-                    "account of different currency" +
-                    "\n The Loan Record will be re-calculated based on today's currency exchanges" +
-                    " rates"
-        } else {
-            "Note: You are trying to change the account associated with the loan: ${loan.name} " +
-                    "with an account of different currency, " +
-                    "\nAll the loan records will be re-calculated based on today's currency " +
-                    "exchanges rates "
-        }
-
-        val loanCaption =
-            if (isLoanRecord) {
-                "* This transaction is associated with a Loan Record of Loan : ${loan.name}"
-            } else {
-                "* This transaction is associated with Loan : ${loan.name}"
-            }
-
-        return EditTransactionDisplayLoan(
-            isLoan = true,
-            isLoanRecord = isLoanRecord,
-            loanCaption = loanCaption,
-            loanWarningDescription = loanWarningDescription
-        )
-    }
-
     private suspend fun defaultAccountId(
         screen: EditTransactionScreen,
         accounts: List<Account>,
@@ -351,11 +314,42 @@ class EditTransactionViewModel @Inject constructor(
         displayLoanHelper.value = getDisplayLoanHelper(trans = transaction)
     }
 
-    private suspend fun updateCurrency(account: Account) {
-        currency.value = account.currency ?: baseCurrency()
-    }
+    private suspend fun getDisplayLoanHelper(trans: Transaction): EditTransactionDisplayLoan {
+        if (trans.loanId == null) {
+            return EditTransactionDisplayLoan()
+        }
 
-    private suspend fun baseCurrency(): String = ioThread { settingsDao.findFirst().currency }
+        val loan =
+            ioThread { loanDao.findById(trans.loanId!!) } ?: return EditTransactionDisplayLoan()
+        val isLoanRecord = trans.loanRecordId != null
+
+        val loanWarningDescription = if (isLoanRecord) {
+            "Note: This transaction is associated with a Loan Record of Loan : ${loan.name}\n" +
+                    "You are trying to change the account associated with the loan record to an " +
+                    "account of different currency" +
+                    "\n The Loan Record will be re-calculated based on today's currency exchanges" +
+                    " rates"
+        } else {
+            "Note: You are trying to change the account associated with the loan: ${loan.name} " +
+                    "with an account of different currency, " +
+                    "\nAll the loan records will be re-calculated based on today's currency " +
+                    "exchanges rates "
+        }
+
+        val loanCaption =
+            if (isLoanRecord) {
+                "* This transaction is associated with a Loan Record of Loan : ${loan.name}"
+            } else {
+                "* This transaction is associated with Loan : ${loan.name}"
+            }
+
+        return EditTransactionDisplayLoan(
+            isLoan = true,
+            isLoanRecord = isLoanRecord,
+            loanCaption = loanCaption,
+            loanWarningDescription = loanWarningDescription
+        )
+    }
 
     fun onAmountChanged(newAmount: Double) {
         viewModelScope.launch {
@@ -380,22 +374,6 @@ class EditTransactionViewModel @Inject constructor(
         updateTitleSuggestions(newTitle)
     }
 
-    private fun updateTitleSuggestions(title: String? = loadedTransaction().title) {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
-
-            titleSuggestions.value = ioThread {
-                smartTitleSuggestionsLogic.suggest(
-                    title = title,
-                    categoryId = category.value?.id,
-                    accountId = account.value?.id
-                )
-            }
-
-            TestIdlingResource.decrement()
-        }
-    }
-
     fun onDescriptionChanged(newDescription: String?) {
         loadedTransaction = loadedTransaction().copy(
             description = newDescription
@@ -405,21 +383,8 @@ class EditTransactionViewModel @Inject constructor(
         saveIfEditMode()
     }
 
-    fun onCategoryChanged(newCategory: Category?) {
-        loadedTransaction = loadedTransaction().copy(
-            categoryId = newCategory?.id
-        )
-        category.value = newCategory
-
-        saveIfEditMode()
-
-        updateTitleSuggestions()
-    }
-
     fun onAccountChanged(newAccount: Account) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             loadedTransaction = loadedTransaction().copy(
                 accountId = newAccount.id
             )
@@ -439,9 +404,11 @@ class EditTransactionViewModel @Inject constructor(
             saveIfEditMode()
 
             updateTitleSuggestions()
-
-            TestIdlingResource.decrement()
         }
+    }
+
+    private suspend fun updateCurrency(account: Account) {
+        currency.value = account.currency ?: baseCurrency()
     }
 
     fun onToAccountChanged(newAccount: Account) {
@@ -485,8 +452,6 @@ class EditTransactionViewModel @Inject constructor(
 
     fun onPayPlannedPayment() {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             plannedPaymentsLogic.payOrGet(
                 transaction = loadedTransaction(),
                 syncTransaction = false
@@ -499,71 +464,68 @@ class EditTransactionViewModel @Inject constructor(
                     closeScreen = true
                 )
             }
-
-            TestIdlingResource.decrement()
         }
     }
 
     fun delete() {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             ioThread {
                 loadedTransaction?.let {
                     transactionWriter.flagDeleted(it.id)
                 }
                 closeScreen()
             }
-
-            TestIdlingResource.decrement()
         }
     }
 
     fun createCategory(data: CreateCategoryData) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             categoryCreator.createCategory(data) {
                 categories.value = categoriesAct(Unit)
 
                 // Select the newly created category
                 onCategoryChanged(it)
             }
+        }
+    }
 
-            TestIdlingResource.decrement()
+    fun onCategoryChanged(newCategory: Category?) {
+        loadedTransaction = loadedTransaction().copy(
+            categoryId = newCategory?.id
+        )
+        category.value = newCategory
+
+        saveIfEditMode()
+
+        updateTitleSuggestions()
+    }
+
+    private fun updateTitleSuggestions(title: String? = loadedTransaction().title) {
+        viewModelScope.launch {
+            titleSuggestions.value = ioThread {
+                smartTitleSuggestionsLogic.suggest(
+                    title = title,
+                    categoryId = category.value?.id,
+                    accountId = account.value?.id
+                )
+            }
         }
     }
 
     fun editCategory(updatedCategory: Category) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             categoryCreator.editCategory(updatedCategory) {
                 categories.value = categoriesAct(Unit)
             }
-
-            TestIdlingResource.decrement()
         }
     }
 
     fun createAccount(data: CreateAccountData) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             accountCreator.createAccount(data) {
                 eventBus.post(AccountUpdatedEvent)
                 accounts.value = accountsAct(Unit)
             }
-
-            TestIdlingResource.decrement()
-        }
-    }
-
-    private fun saveIfEditMode(closeScreen: Boolean = false) {
-        if (editMode) {
-            hasChanges.value = true
-
-            save(closeScreen)
         }
     }
 
@@ -573,11 +535,7 @@ class EditTransactionViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             saveInternal(closeScreen = closeScreen)
-
-            TestIdlingResource.decrement()
         }
     }
 
@@ -655,6 +613,8 @@ class EditTransactionViewModel @Inject constructor(
         )
     }
 
+    private suspend fun baseCurrency(): String = ioThread { settingsDao.findFirst().currency }
+
     private fun closeScreen() {
         if (nav.backStackEmpty()) {
             nav.resetBackStack()
@@ -687,6 +647,12 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     private fun loadedTransaction() = loadedTransaction ?: error("Loaded transaction is null")
+
+    fun updateExchangeRate(exRate: Double?) {
+        viewModelScope.launch {
+            updateCustomExchangeRateState(exchangeRate = exRate, resetRate = exRate == null)
+        }
+    }
 
     private suspend fun updateCustomExchangeRateState(
         toAccountValue: Account? = null,
@@ -740,9 +706,11 @@ class EditTransactionViewModel @Inject constructor(
         }
     }
 
-    fun updateExchangeRate(exRate: Double?) {
-        viewModelScope.launch {
-            updateCustomExchangeRateState(exchangeRate = exRate, resetRate = exRate == null)
+    private fun saveIfEditMode(closeScreen: Boolean = false) {
+        if (editMode) {
+            hasChanges.value = true
+
+            save(closeScreen)
         }
     }
 }
