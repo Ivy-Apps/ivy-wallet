@@ -61,10 +61,11 @@ fun BoxWithConstraintsScope.AmountModal(
     visible: Boolean,
     currency: String,
     initialAmount: Double?,
+    dismiss: () -> Unit,
+    showPlusMinus: Boolean = false,
     decimalCountMax: Int = 2,
     Header: (@Composable () -> Unit)? = null,
     amountSpacerTop: Dp = 64.dp,
-    dismiss: () -> Unit,
     onAmountChanged: (Double) -> Unit,
 ) {
     var amount by remember(id) {
@@ -117,6 +118,23 @@ fun BoxWithConstraintsScope.AmountModal(
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
+            }
+        },
+        SecondaryActions = {
+            if (showPlusMinus) {
+                KeypadCircleButton(
+                    text = "+/-",
+                    testTag = "plus_minus",
+                    onClick = {
+                        amount = if (amount.isEmpty()) {
+                            "-0"
+                        } else if (amount.first() == '-') {
+                            amount.substring(1)
+                        } else {
+                            "-$amount"
+                        }
+                    }
+                )
             }
         }
     ) {
@@ -205,7 +223,12 @@ fun AmountInput(
         forCalculator = false,
         onNumberPressed = {
             if (firstInput) {
-                setAmount(it)
+                if (amount == "-0") {
+                    setAmount("-$it")
+                }
+                else {
+                    setAmount(it)
+                }
                 firstInput = false
             } else {
                 val formattedAmount = formatInputAmount(
