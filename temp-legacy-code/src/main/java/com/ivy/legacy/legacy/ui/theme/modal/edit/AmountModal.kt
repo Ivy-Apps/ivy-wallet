@@ -33,7 +33,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
@@ -61,10 +63,11 @@ fun BoxWithConstraintsScope.AmountModal(
     visible: Boolean,
     currency: String,
     initialAmount: Double?,
+    dismiss: () -> Unit,
+    showPlusMinus: Boolean = false,
     decimalCountMax: Int = 2,
     Header: (@Composable () -> Unit)? = null,
     amountSpacerTop: Dp = 64.dp,
-    dismiss: () -> Unit,
     onAmountChanged: (Double) -> Unit,
 ) {
     var amount by remember(id) {
@@ -116,6 +119,29 @@ fun BoxWithConstraintsScope.AmountModal(
                     dismiss()
                 } catch (e: Exception) {
                     e.printStackTrace()
+                }
+            }
+        },
+        SecondaryActions = {
+            if (showPlusMinus) {
+                Row {
+                    Spacer(modifier = Modifier.width(34.dp))
+                    KeypadCircleButton(
+                        text = "+/-",
+                        testTag = "plus_minus",
+                        fontSize = 22.sp,
+                        btnSize = 52.dp,
+                        onClick = {
+                            when {
+                                amount.firstOrNull() == '-' -> {
+                                    amount = amount.drop(1)
+                                }
+                                amount.isNotEmpty() -> {
+                                    amount = "-$amount"
+                                }
+                            }
+                        }
+                    )
                 }
             }
         }
@@ -467,15 +493,18 @@ fun CircleNumberButton(
 @Composable
 fun KeypadCircleButton(
     text: String,
-    textColor: Color = UI.colors.pureInverse,
     testTag: String,
+    textColor: Color = UI.colors.pureInverse,
+    fontSize: TextUnit = 24.sp,
+    btnSize: Dp = 64.dp,
     onClick: () -> Unit
 ) {
     Text(
-        modifier = circleButtonModifier(onClick = onClick)
+        modifier = circleButtonModifier(size = btnSize, onClick = onClick)
             .padding(top = 10.dp)
             .testTag(testTag),
         text = text,
+        fontSize = fontSize,
         style = UI.typo.nH2.style(
             color = textColor,
             fontWeight = FontWeight.Bold
