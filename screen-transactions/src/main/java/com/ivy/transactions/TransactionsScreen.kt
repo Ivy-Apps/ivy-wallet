@@ -185,6 +185,10 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatisticScreen) {
         skipAllModalVisible = uiState.skipAllModalVisible,
         onSkipAllModalVisible = {
             viewModel.onEvent(TransactionsEvent.SetSkipAllModalVisible(it))
+        },
+        deleteModal1Visible = uiState.deleteModal1Visible,
+        onDeleteModal1Visible = {
+            viewModel.onEvent(TransactionsEvent.OnDeleteModal1Visible(it))
         }
     )
 }
@@ -220,6 +224,8 @@ private fun BoxWithConstraintsScope.UI(
     onEditAccount: (Account, Double) -> Unit,
     onEditCategory: (Category) -> Unit,
     onDelete: () -> Unit,
+    deleteModal1Visible: Boolean,
+    onDeleteModal1Visible: (Boolean) -> Unit,
 
     initWithTransactions: Boolean = false,
     treatTransfersAsIncomeExpense: Boolean = false,
@@ -290,7 +296,7 @@ private fun BoxWithConstraintsScope.UI(
                     treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense,
 
                     onDelete = {
-                        deleteModal1Visible = true
+                        onDeleteModal1Visible(true)
                     },
                     onEdit = {
                         when {
@@ -405,7 +411,9 @@ private fun BoxWithConstraintsScope.UI(
 
                 onPayOrGet = onPayOrGet,
                 onSkipTransaction = onSkipTransaction,
-                onSkipAllTransactions = { skipAllModalVisible = true },
+                onSkipAllTransactions = {
+                    onSkipAllModalVisible(true)
+                },
                 emptyStateTitle = stringRes(R.string.no_transactions),
                 emptyStateText = stringRes(
                     R.string.no_transactions_for_period,
@@ -426,7 +434,9 @@ private fun BoxWithConstraintsScope.UI(
         onSkipAllModalVisible = {
             onSkipAllModalVisible(it)
         },
-        onSkipAllTransactions = onSkipAllTransactions
+        onSkipAllTransactions = onSkipAllTransactions,
+        deleteModal1Visible = deleteModal1Visible,
+        setDeleteModal1Visible = onDeleteModal1Visible
     )
 
     CategoryModal(
@@ -459,6 +469,8 @@ private fun BoxWithConstraintsScope.UI(
 
 @Composable
 private fun BoxWithConstraintsScope.DeleteModals(
+    deleteModal1Visible: Boolean,
+    setDeleteModal1Visible: (Boolean) -> Unit,
     account: Account?,
     category: Category?,
     accountNameConfirmation: TextFieldValue,
@@ -470,7 +482,6 @@ private fun BoxWithConstraintsScope.DeleteModals(
     onSkipAllTransactions: (List<Transaction>) -> Unit,
     overdue: ImmutableList<Transaction> = persistentListOf()
 ) {
-    var deleteModal1Visible by remember { mutableStateOf(false) }
     var deleteModal3Visible by remember { mutableStateOf(false) }
 
     DeleteModal(
@@ -482,7 +493,7 @@ private fun BoxWithConstraintsScope.DeleteModals(
             stringResource(R.string.category_confirm_deletion_description)
         },
         dismiss = {
-            deleteModal1Visible = false
+            setDeleteModal1Visible(false)
         }
     ) {
         deleteModal3Visible = true
@@ -506,7 +517,7 @@ private fun BoxWithConstraintsScope.DeleteModals(
         dismiss = {
             updateAccountNameConfirmation("")
             deleteModal3Visible = false
-            deleteModal1Visible = false
+            setDeleteModal1Visible(false)
         }
     ) {
         onDelete()
@@ -792,7 +803,11 @@ private fun BoxWithConstraintsScope.Preview_empty() {
             onEditCategory = {},
             accountNameConfirmation = TextFieldValue(),
             updateAccountNameConfirmation = {},
-            enableDeletionButton = true
+            enableDeletionButton = true,
+            deleteModal1Visible = false,
+            onDeleteModal1Visible = {},
+            skipAllModalVisible = false,
+            onSkipAllModalVisible = {}
         )
     }
 }
@@ -832,7 +847,11 @@ private fun BoxWithConstraintsScope.Preview_crypto() {
             onEditCategory = {},
             accountNameConfirmation = TextFieldValue(),
             updateAccountNameConfirmation = {},
-            enableDeletionButton = true
+            enableDeletionButton = true,
+            deleteModal1Visible = false,
+            onDeleteModal1Visible = {},
+            skipAllModalVisible = false,
+            onSkipAllModalVisible = {}
         )
     }
 }
@@ -876,7 +895,11 @@ private fun BoxWithConstraintsScope.Preview_empty_upcoming() {
             ),
             accountNameConfirmation = TextFieldValue(),
             updateAccountNameConfirmation = {},
-            enableDeletionButton = true
+            enableDeletionButton = true,
+            deleteModal1Visible = false,
+            onDeleteModal1Visible = {},
+            skipAllModalVisible = false,
+            onSkipAllModalVisible = {}
         )
     }
 }

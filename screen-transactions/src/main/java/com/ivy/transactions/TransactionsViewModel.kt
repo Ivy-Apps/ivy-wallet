@@ -118,6 +118,7 @@ class TransactionsViewModel @Inject constructor(
     private val accountNameConfirmation = mutableStateOf(selectEndTextFieldValue(""))
     private val enableDeletionButton = mutableStateOf(false)
     private val skipAllModalVisible = mutableStateOf(false)
+    private val deleteModal1Visible = mutableStateOf(false)
 
     @Composable
     override fun uiState(): TransactionsState {
@@ -146,7 +147,8 @@ class TransactionsViewModel @Inject constructor(
             overdueExpenses = getOverdueExpenses(),
             accountNameConfirmation = getAccountNameConfirmation(),
             enableDeletionButton = getEnableDeletionButton(),
-            skipAllModalVisible = getSkipAllModalVisible()
+            skipAllModalVisible = getSkipAllModalVisible(),
+            deleteModal1Visible = getDeleteModal1Visible()
         )
     }
 
@@ -275,6 +277,11 @@ class TransactionsViewModel @Inject constructor(
         return skipAllModalVisible.value
     }
 
+    @Composable
+    private fun getDeleteModal1Visible(): Boolean {
+        return deleteModal1Visible.value
+    }
+
     override fun onEvent(event: TransactionsEvent) {
         when (event) {
             is TransactionsEvent.Delete -> delete(event.screen)
@@ -302,6 +309,7 @@ class TransactionsViewModel @Inject constructor(
             is TransactionsEvent.SetOverdueExpanded -> setOverdueExpanded(event.expanded)
             is TransactionsEvent.SetUpcomingExpanded -> setUpcomingExpanded(event.expanded)
             is TransactionsEvent.SetSkipAllModalVisible -> setSkipAllModalVisible(event.visible)
+            is TransactionsEvent.OnDeleteModal1Visible -> setDeleteModal1Visible(event.delete)
         }
     }
 
@@ -370,7 +378,7 @@ class TransactionsViewModel @Inject constructor(
             accountLogic.calculateUpcomingIncome(initialAccount, range)
         }
 
-        upcomingExpenses.value = ioThread {
+        upcomingExpenses.doubleValue = ioThread {
             accountLogic.calculateUpcomingExpenses(initialAccount, range)
         }
 
@@ -699,6 +707,10 @@ class TransactionsViewModel @Inject constructor(
 
             nav.back()
         }
+    }
+
+    private fun setDeleteModal1Visible(delete: Boolean) {
+        deleteModal1Visible.value = delete
     }
 
     private fun editCategory(updatedCategory: Category) {

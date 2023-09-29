@@ -42,4 +42,5 @@ sealed interface TransactionsEvent {
 
     data class UpdateAccountDeletionState(val confirmationText: String) : TransactionsEvent
     data class SetSkipAllModalVisible(val visible: Boolean) : TransactionsEvent
+    data class OnDeleteModal1Visible(val delete: Boolean) : TransactionsEvent
 }

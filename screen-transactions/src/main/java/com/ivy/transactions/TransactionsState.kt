@@ -35,5 +35,6 @@ data class TransactionsState(
     val overdueExpenses: Double,
     val accountNameConfirmation: TextFieldValue,
     val enableDeletionButton: Boolean,
-    val skipAllModalVisible: Boolean
+    val skipAllModalVisible: Boolean,
+    val deleteModal1Visible: Boolean
 )
