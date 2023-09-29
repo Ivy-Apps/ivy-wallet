@@ -1,7 +1,7 @@
 package com.ivy.legacy.datamodel
 
 import androidx.compose.runtime.Immutable
-import com.ivy.persistence.db.entity.AccountEntity
+import com.ivy.data.db.entity.AccountEntity
 import java.util.UUID
 
 @Deprecated("Legacy data model. Will be deleted")

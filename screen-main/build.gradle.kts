@@ -13,7 +13,7 @@ dependencies {
     implementation(projects.ivyDesign)
     implementation(projects.ivyNavigation)
     implementation(projects.ivyDomainUi)
-    implementation(projects.ivyPersistence)
+    implementation(projects.ivyData)
 
     implementation(projects.screenHome)
     implementation(projects.screenAccounts)

@@ -8,8 +8,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import com.ivy.persistence.datastore.DatastoreKeys
-import com.ivy.persistence.datastore.dataStore
+import com.ivy.data.datastore.DatastoreKeys
+import com.ivy.data.datastore.dataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

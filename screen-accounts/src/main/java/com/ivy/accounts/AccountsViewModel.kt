@@ -16,7 +16,7 @@ import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.ioThread
-import com.ivy.persistence.db.dao.write.WriteAccountDao
+import com.ivy.data.db.dao.write.WriteAccountDao
 import com.ivy.resources.R
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct

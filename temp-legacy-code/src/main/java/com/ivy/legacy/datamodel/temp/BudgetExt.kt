@@ -1,7 +1,7 @@
 package com.ivy.legacy.datamodel.temp
 
 import com.ivy.legacy.datamodel.Budget
-import com.ivy.persistence.db.entity.BudgetEntity
+import com.ivy.data.db.entity.BudgetEntity
 import java.util.UUID
 
 fun BudgetEntity.toDomain(): Budget = Budget(

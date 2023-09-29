@@ -154,7 +154,7 @@ dependencies {
     implementation(projects.screenHome)
     implementation(projects.screenContributors)
     implementation(projects.screenReleases)
-    implementation(projects.ivyPersistence)
+    implementation(projects.ivyData)
 
     implementation(libs.bundles.kotlin)
     implementation(libs.bundles.ktor)

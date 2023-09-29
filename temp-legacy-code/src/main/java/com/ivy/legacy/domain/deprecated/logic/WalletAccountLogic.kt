@@ -7,8 +7,8 @@ import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.utils.timeNowUTC
-import com.ivy.persistence.db.dao.read.TransactionDao
-import com.ivy.persistence.db.dao.write.WriteTransactionDao
+import com.ivy.data.db.dao.read.TransactionDao
+import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.base.model.TransactionType
 import java.time.LocalDateTime
 import javax.inject.Inject

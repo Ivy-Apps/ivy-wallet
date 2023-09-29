@@ -4,7 +4,7 @@ import com.ivy.base.legacy.Transaction
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenMap
 import com.ivy.legacy.datamodel.temp.toDomain
-import com.ivy.persistence.db.dao.read.TransactionDao
+import com.ivy.data.db.dao.read.TransactionDao
 import javax.inject.Inject
 
 class AllTrnsAct @Inject constructor(

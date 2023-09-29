@@ -13,10 +13,10 @@ import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.getDefaultFIATCurrency
 import com.ivy.legacy.utils.ioThread
 import com.ivy.loans.loan.data.DisplayLoan
-import com.ivy.persistence.db.dao.read.LoanRecordDao
-import com.ivy.persistence.db.dao.read.SettingsDao
-import com.ivy.persistence.db.dao.write.WriteLoanDao
-import com.ivy.persistence.model.LoanType
+import com.ivy.data.db.dao.read.LoanRecordDao
+import com.ivy.data.db.dao.read.SettingsDao
+import com.ivy.data.db.dao.write.WriteLoanDao
+import com.ivy.data.model.LoanType
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.loan.LoansAct
 import com.ivy.wallet.domain.deprecated.logic.LoanCreator

@@ -10,7 +10,7 @@ import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.readOnly
 import com.ivy.navigation.PieChartStatisticScreen
-import com.ivy.persistence.db.dao.read.SettingsDao
+import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.base.model.TransactionType
 import com.ivy.piechart.action.PieChartAct
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData

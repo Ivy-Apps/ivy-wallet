@@ -11,10 +11,10 @@ import com.ivy.legacy.utils.formatLocal
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.localDecimalSeparator
 import com.ivy.legacy.utils.writeToFile
-import com.ivy.persistence.db.dao.read.AccountDao
-import com.ivy.persistence.db.dao.read.CategoryDao
-import com.ivy.persistence.db.dao.read.SettingsDao
-import com.ivy.persistence.db.dao.read.TransactionDao
+import com.ivy.data.db.dao.read.AccountDao
+import com.ivy.data.db.dao.read.CategoryDao
+import com.ivy.data.db.dao.read.SettingsDao
+import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.base.model.TransactionType
 import org.apache.commons.text.StringEscapeUtils
 import java.util.UUID
