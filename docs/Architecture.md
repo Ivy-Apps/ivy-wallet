@@ -37,6 +37,16 @@ The reason is very pragmatic - the Compose runtime API (e.g. Compose state, `rem
 
 > Tip: In Ivy Wallet, inherit the `ComposeViewModel` base class and you're good to go.
 
+## Architecture Overview
+
+We follow the [offical Guide to app architecture by Google](https://developer.android.com/topic/architecture). Not because we want to be modern or fancy but because it makes sense. It's simple.
+
+### [Data Layer](https://developer.android.com/topic/architecture/data-layer)
+
+### [Domain Layer](https://developer.android.com/topic/architecture/domain-layer)
+
+### [UI Layer](https://developer.android.com/topic/architecture/ui-layer)
+
 ## Modularization: by screen/feature
 
 We split our app into multiple modules to reduce coupling (spaghetti code) and make the app build faster. Also, this allows multiple contributors to work on different features without merge conflicts.
@@ -51,7 +61,6 @@ Our modularization strategy is simple:
 - Each screen is in a separate `:screen-home`, `:screen-something` module.
 
 > Simplification: We have a few modules that are an exception to this strategy (for example widgets like `:widget-balance` and other shared modules) but the above strategy holds true in most cases.
-
 
 ### Creating a new module
 
@@ -73,14 +82,14 @@ To create a new module just run:
 
 ### Shared code modules
 
-These are the modules that you're allowed to use as a dependency in your own modules:
+These are the modules that you can use as a dependency in your screen/feature module:
 
-- `:ivy-base`: very lightweight low-level shared code that needs to be shared almost everywhere.
-- `:ivy-resources`: contains all Ivy Wallet's resources (e.g. strings, drawables). It's used to share string and drawable resources between different modules. _This resources monolithic approach makes it easier translating the app  (only one `strings.xml`) and protects us from duplicated resources. Also, it's simple._
-- `:ivy-design`: defines the Ivy design system (colors, typography and shapes) and provides a stylized Material3 (M3) theme. It also adds re-usable Ivy components that are missing in M3. _At some point may be extracted as a standalone open-source library._
-- `:ivy-persistence`: Encapsulated CRUD logic - currently Room DB and Datastore.
-- `:ivy-domain`: contains Ivy Wallet's data model, business logic and CRUD operations (Datastore, Room DB). Use it to interact or extend Ivy Wallet's domain.
-- `:ivy-navigation`: provides the definition (screen's startup params w/o implementation) of all Screen destinations in Ivy Wallet and implements a simple back-stack based custom `Navigation`. 
+- `:ivy-base`: code that needs to be shared everywhere.
+- `:ivy-resources`: contains all Ivy Wallet's resources - **strings** and **drawables**.
+- `:ivy-design`: Ivy's design system (colors, typography and shapes) and provides a stylized Material3 (M3) theme.
+- `:ivy-data`: [Data layer](https://developer.android.com/topic/architecture/data-layer). Encapsulates CRUD operations. Includes Room DB, Datastore, Networking.
+- `:ivy-domain`: [Domain layer](https://developer.android.com/topic/architecture/domain-layer). Contains Ivy Wallet's data model, business logic.
+- `:ivy-navigation`: provides the definition _(screen's startup params w/o implementation)_ of all Screen destinations in Ivy Wallet and implements a simple back-stack based custom `Navigation`. 
 - `:ivy-domain-ui`: Builds re-usable high-level UI components (for example `AccountModal` that also encapsulates the account CRUD logic) that enforce consistent Ivy UI/UX patterns for common operations (e.g. CRUD for accounts, categories, etc).
 
 > ⚠️ WARNING ⚠️: The above shared modules are under construction. We're also actively trying to get rid of legacy code that we partly encapsulated in the `:temp-legacy-code` and `:temp-old-design` modules.

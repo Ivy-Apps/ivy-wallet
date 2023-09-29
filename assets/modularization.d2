@@ -1,24 +1,24 @@
 ivy-res: ":ivy-resources" {
-  "Shared common resources"
-  "Contains all Ivy Wallet resources"
+  "Shared resources"
+  "strings and drawables"
 }
 ivy-base: ":ivy-base" {
-  "Low-level shared code"
+  "Code shared everywhere"
 }
-ivy-persistence: ":ivy-persistence" {
-  "CURD: Room DB + Datastore"
+ivy-data: ":ivy-data" {
+  "CRUD: Room DB, Datastore, HTTP"
 }
 ivy-domain: ":ivy-domain" {
-  "Core API: domain models + business logic"
+  "Core API: domain rules & business logic"
 }
 ivy-domain-ui: ":ivy-domain-ui" {
-  "Reusable Ivy Wallet high-level UI components"
+  "UI components that has domain logic"
 }
 ivy-nav: ":ivy-navigation" {
-  "Startup params for all Screen destinations in Ivy Wallet"
+  "Definition (w/o implementation) for all screens in Ivy Wallet"
 }
 ivy-design: ":ivy-design" {
-  "Ivy's design system (low-level)"
+  "Ivy's design system"
 }
 screens: ":screen-something" {
   ":screen-home"
@@ -31,8 +31,8 @@ app: ":app" {
   "Wires the implementation of all Ivy Wallet screens"
 }
 
-ivy-persistence -> ivy-base
-ivy-domain -> ivy-persistence
+ivy-data -> ivy-base
+ivy-domain -> ivy-data
 ivy-domain -> ivy-base
 
 ivy-design -> ivy-res
