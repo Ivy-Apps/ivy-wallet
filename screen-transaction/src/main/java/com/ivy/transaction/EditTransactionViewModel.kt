@@ -9,7 +9,6 @@ import com.ivy.base.util.refreshWidget
 import com.ivy.domain.ComposeViewModel
 import com.ivy.domain.event.AccountUpdatedEvent
 import com.ivy.domain.event.EventBus
-import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.data.EditTransactionDisplayLoan
 import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.datamodel.Account
@@ -104,8 +103,6 @@ class EditTransactionViewModel @Inject constructor(
 
     fun start(screen: EditTransactionScreen) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             editMode = screen.initialTransactionId != null
 
             baseUserCurrency = baseCurrency()
@@ -135,8 +132,6 @@ class EditTransactionViewModel @Inject constructor(
             )
 
             display(loadedTransaction!!)
-
-            TestIdlingResource.decrement()
         }
     }
 
