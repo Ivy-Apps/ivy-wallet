@@ -6,11 +6,19 @@ ivy-base: ":ivy-base" {
   "Code shared everywhere"
 }
 ivy-data: ":ivy-data" {
-  "Data Layer"
+  "Data Layer" {
+    style {
+      fill: white
+    }
+  }
   "CRUD: Room, DataStore, Network"
 }
 ivy-domain: ":ivy-domain" {
-  "Domain Layer"
+  "Domain Layer" {
+    style {
+      fill: white
+    }
+  }
   "Business logic & rules"
 }
 ivy-common-ui: ":ivy-common-ui" {
@@ -33,7 +41,11 @@ screens: ":screen/feature" {
 app: ":app" {
   "App monolith shipped to the PlayStore"
   "Wires the implementation of all screens"
-  "UI Layer"
+  "UI Layer" {
+    style {
+      fill: white
+    }
+  }
 }
 
 ivy-data -> ivy-base
