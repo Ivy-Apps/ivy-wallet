@@ -53,19 +53,17 @@ Follow [offical Guide to app architecture by Google](https://developer.android.c
 
 Foundation it is, where data originates and resides. Persistence with databases, or fetch from afar through network calls, it handles. Stable and reliable, it must be, for all above to trust. 
 
-Always two they are. `DataSource` a wrapped source of raw information it is, tapping in Room DB, DataStore or a Network API forces it does. And `Repository` data sources force it wields, for good CRUD and validation to do.
+In the Data Layer, a balance like the sith, there is. Always two there are, neither more nor less. `DataSource`, the bearer of raw tales, using the might of [Room DB](https://developer.android.com/training/data-storage/room), [DataStore](https://developer.android.com/topic/libraries/architecture/datastore), or Network API. Then `Repository`, wielding the power of data sources, for rightful **CRUD and validation**, it strives.
 
 ### [Domain Layer](https://developer.android.com/topic/architecture/domain-layer)
 
-Heart of the business logic, here it beats. Knowledge of UI or data sources, it has **not**. Pure and free from Android and persistence concerns, it remains. Transforms data into meaningful actions, and sets the rules the app lives by. 
-
-Ivy Wallet's balance computations here they are done. `Repository` it can only wield. The `DataSource` forbidden it is.
+Heart of the business logic, here it beats. Knowledge of UI or `DataSource`s, it has **not**. Only power of `Repository` it wields. Pure and free from Android and persistence concerns, it remains. Transforms data into meaningful actions, and sets the rules the app lives by. 
 
 ### [UI Layer](https://developer.android.com/topic/architecture/ui-layer)
 
 Face of the app, this is. Interactions with users, here they unfold. Displays data and listens to the user, it does. Lean it is, relying on lower layers for knowledge and truth. Its beauty, not in its brain, but in its looks and responsiveness. 
 
-Screens here they live, and they follow their path. Always two, no more, no less - Compose UI and `ComposeViewModel` they are.
+Here, screens find their destiny. Always in twos they emerge, no more, no less - **Compose UI** and `ComposeViewModel`, their names be. [MVI](https://staltz.com/unidirectional-user-interface-architectures.html) they do.
 
 ## Modularization: by screen/feature
 
