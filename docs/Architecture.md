@@ -79,7 +79,7 @@ Each screen, simple it stands. With more code it grows, supporting intricate tal
 
 ### Creating a new module
 
-To Birth a New Module... Invoke this chant in your terminal, you must:
+To birth a new module... Invoke this chant in your terminal, you must:
 ```
 ./scripts/create_module.sh screen-something
 ```
