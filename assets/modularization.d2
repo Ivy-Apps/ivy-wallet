@@ -12,7 +12,7 @@ ivy-data: ":ivy-data" {
       font-color: white
     }
   }
-  "CRUD: Room, DataStore, Network"
+  "CRUD: Repositories & DataSources"
 }
 ivy-domain: ":ivy-domain" {
   "Domain Layer" {
@@ -34,8 +34,13 @@ ivy-design: ":ivy-design" {
   "Ivy's design system"
 }
 screens: ":screen/feature" {
+  "UI Layer" {
+    style {
+      fill: blue
+      font-color: white
+    }
+  }
   ":screen-home"
-  ":screen-settings"
   ":feature-google-drive"
   ":screen-abc"
   ":feature-xyz"
@@ -43,12 +48,6 @@ screens: ":screen/feature" {
 app: ":app" {
   "App monolith shipped to the PlayStore"
   "Wires the implementation of all screens"
-  "UI Layer" {
-    style {
-      fill: blue
-      font-color: white
-    }
-  }
 }
 
 ivy-data -> ivy-base
