@@ -53,7 +53,7 @@ Follow [offical Guide to app architecture by Google](https://developer.android.c
 
 Foundation it is, where data originates and resides. Persistence with databases, or fetch from afar through network calls, it handles. Stable and reliable, it must be, for all above to trust. 
 
-In the Data Layer, a balance like the sith, there is. Always two there are, neither more nor less. `DataSource`, the bearer of raw tales, using the might of [Room DB](https://developer.android.com/training/data-storage/room), [DataStore](https://developer.android.com/topic/libraries/architecture/datastore), or Network API. Then `Repository`, wielding the power of data sources, for rightful **CRUD and validation**, it strives.
+In the Data Layer, a balance like the sith, there is. Always two there are, neither more nor less. `DataSource`, the bearer of raw data, using the might of [Room DB](https://developer.android.com/training/data-storage/room), [DataStore](https://developer.android.com/topic/libraries/architecture/datastore), or Network API. Then `Repository`, wielding the power of data sources, for rightful **CRUD and validation**, it strives.
 
 ### [Domain Layer](https://developer.android.com/topic/architecture/domain-layer)
 
