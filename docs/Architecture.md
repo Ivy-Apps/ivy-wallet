@@ -1,5 +1,8 @@
 # Ivy's Ways, These Are
 
+[![PRs welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Ivy-Apps/ivy-wallet/blob/main/CONTRIBUTING.md)
+[![GitHub Repo stars](https://img.shields.io/github/stars/Ivy-Apps/ivy-wallet?style=social)](https://github.com/Ivy-Apps/ivy-wallet/stargazers)
+
 Solutions short and working, must be. Break the app, they must not.
 
 **Wisdom we follow:**
@@ -15,23 +18,26 @@ Separation, the path of wisdom it is: **Compose UI** <> **Logic of Screen**. Why
 
 1. **Performance of Jetpack Compose:** Less the UI thinks (computes), faster it changes (recomposes). Fewer recompositions when `UiState` is primitive and `@Immutable`, app smoother runs.
 2. **DI (The Way of Injecting):** Inject in composable functions, one cannot. Yet, in ViewModel with `@Inject constructor`, easy it is.
-3. **Code, simple it is:** UI dumb, only draws. Logic pure, without knowing about UI doings.
-4. **Compose Previews:** Mock `UiState`, easy it becomes. Any screen state, preview you can. 
+3. **Code, simple it is:** UI dumb, only draws. Logic pure, not knowing about UI doings.
+4. **Compose Previews:** Mock `UiState`, easy it becomes. Any screen state, preview you can.
+5. **Testability:** ViewModel, easy to test it is - send `UiEvent`s, verify `UiState`. Simple. Hmmm... Compose UI, like celebrety is. Mocked `UiState` if you pass, [Paparazzi](https://github.com/cashapp/paparazzi) screenshot tests will pass.
 
 ![screen-viewmodel](../assets/screen-vm.svg)
 
 ### Quick understanding, you seek?
 
-- **Screen (UI):** Dumb, it is. Only draws `UiState`, thinks not. When clicked sends `UiEvent`s to ViewModel. Uses UI components from Material3 and Ivy Design.
+- **Compose UI:** Dumb, it is. Only draws `UiState`, thinks not. `UiEvent`s it screams when toucehd.
 - **UiState:** A `data class`, often it is. Holds only primitve and `@Immutable` values it should.
 - **UiEvent:** User's doings, captured they are _(like button presses, text changes)._
 - **ViewModel:** To the UI, `UiState` it offers. Ears open to `UiEvents`, it keeps. Logic of screen it holds, and tasks it performs. Compose runtime ViewModel's force is.
+
+> [Unidirectional Data Flow (UDF)](https://developer.android.com/jetpack/compose/architecture#udf) wisdom it teaches. [MVI (Model View Intent)](https://staltz.com/unidirectional-user-interface-architectures.html) it is called.
 
 ### In ViewModel, why Compose you ask?
 
 Reason, straightforward it is. More strength and simplicity, the Compose runtime has:
 
-- Complex Kotlin Flow chains and  `combine`, no need there is.
+- Complex Flow chains and  `combine`, no need there is.
 - Power of `LaunchedEffect`, `remember`, and all Compose gifts, you have.
 - Simpler and less tangled code, this gives.
 
@@ -94,7 +100,6 @@ Legacy code, we have - yes. Check the ["devexp" issues](https://github.com/Ivy-A
 
 ## Uncertain, you are?
 
-In the "Development" topic of our [Telegram community](https://t.me/+ETavgioAvWg4NThk), Ivy wisdom you should seek.
+In the "Development" topic of our [Telegram community](https://t.me/+ETavgioAvWg4NThk), wisdom you should seek.
 
 [![Telegram Group](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/+ETavgioAvWg4NThk)
-[![PRs welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Ivy-Apps/ivy-wallet/blob/main/CONTRIBUTING.md)
