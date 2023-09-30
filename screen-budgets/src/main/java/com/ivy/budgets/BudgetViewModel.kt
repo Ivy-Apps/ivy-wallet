@@ -9,7 +9,6 @@ import com.ivy.base.legacy.Transaction
 import com.ivy.budgets.model.DisplayBudget
 import com.ivy.domain.ComposeViewModel
 import com.ivy.frp.sumOfSuspend
-import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.data.model.FromToTimeRange
 import com.ivy.legacy.data.model.toCloseTimeRange
@@ -76,7 +75,7 @@ class BudgetViewModel @Inject constructor(
     }
 
     override fun onEvent(event: BudgetScreenEvent) {
-        when(event) {
+        when (event) {
             is BudgetScreenEvent.OnCreateBudget -> { createBudget(event.budgetData) }
             is BudgetScreenEvent.OnEditBudget -> { editBudget(event.budget) }
             is BudgetScreenEvent.OnDeleteBudget -> { deleteBudget(event.budget) }
@@ -121,10 +120,7 @@ class BudgetViewModel @Inject constructor(
 
     fun start() {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             categories.value = categoriesAct(Unit)
-
             val accounts = accountsAct(Unit)
             this.accounts.value = accounts
 
@@ -159,9 +155,7 @@ class BudgetViewModel @Inject constructor(
                         )
                     )
                 }.toImmutableList()
-            }!!
-
-            TestIdlingResource.decrement()
+            }
         }
     }
 
@@ -207,44 +201,30 @@ class BudgetViewModel @Inject constructor(
 
     fun createBudget(data: CreateBudgetData) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             budgetCreator.createBudget(data) {
                 start()
             }
-
-            TestIdlingResource.decrement()
         }
     }
 
     fun editBudget(budget: Budget) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             budgetCreator.editBudget(budget) {
                 start()
             }
-
-            TestIdlingResource.decrement()
         }
     }
 
     fun deleteBudget(budget: Budget) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             budgetCreator.deleteBudget(budget) {
                 start()
             }
-
-            TestIdlingResource.decrement()
         }
     }
 
     fun reorder(newOrder: List<DisplayBudget>) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             com.ivy.legacy.utils.ioThread {
                 newOrder.forEachIndexed { index, item ->
                     budgetWriter.save(
@@ -256,8 +236,6 @@ class BudgetViewModel @Inject constructor(
                 }
             }
             start()
-
-            TestIdlingResource.decrement()
         }
     }
 }
