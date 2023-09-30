@@ -13,6 +13,7 @@
 
 ## Jetpack Compose
 
+- [Thinking in Compose](https://developer.android.com/jetpack/compose/mental-model)
 - [Under the hood of Jetpack Compose](https://medium.com/androiddevelopers/under-the-hood-of-jetpack-compose-part-2-of-2-37b2c20c6cdd)
 
 ## FRP (Functional Reactive Programming)
