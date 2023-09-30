@@ -6,16 +6,19 @@ ivy-base: ":ivy-base" {
   "Code shared everywhere"
 }
 ivy-data: ":ivy-data" {
-  "CRUD: Room DB, DataStore, HTTP"
+  "Data Layer"
+  "CRUD: Room, DataStore, Network"
 }
 ivy-domain: ":ivy-domain" {
-  "Core API: domain rules & business logic"
+  "Domain Layer"
+  "Business logic & rules"
 }
 ivy-common-ui: ":ivy-common-ui" {
   "UI components bundled with domain logic"
 }
 ivy-nav: ":ivy-navigation" {
-  "Definition for all screens w/o implementation"
+  "Screen destinations"
+  "Navigation logic"
 }
 ivy-design: ":ivy-design" {
   "Ivy's design system"
@@ -30,6 +33,7 @@ screens: ":screen/feature" {
 app: ":app" {
   "App monolith shipped to the PlayStore"
   "Wires the implementation of all screens"
+  "UI Layer"
 }
 
 ivy-data -> ivy-base
