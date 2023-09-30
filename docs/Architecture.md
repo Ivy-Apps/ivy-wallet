@@ -1,7 +1,5 @@
 # Ivy's Ways, These Are
 
-## ⚠️ UNDER CONSTRUCTION ⚠️
-
 Solutions short and working, must be. Break the app, they must not.
 
 **Wisdom we follow:**
@@ -13,9 +11,9 @@ Solutions short and working, must be. Break the app, they must not.
 
 ## Screen: Compose UI + ComposeViewModel
 
-Separation, the path of wisdom it is: **Compose UI** <> from **Logic of Screen**. Why? Hmmm...
+Separation, the path of wisdom it is: **Compose UI** <> **Logic of Screen**. Why? Hmmm...
 
-1. **Performance of Jetpack Compose:** Less the UI thinks (computes), faster it changes (recomposes). Fewer changes when `UiState` is primitive and `@Immutable`.
+1. **Performance of Jetpack Compose:** Less the UI thinks (computes), faster it changes (recomposes). Fewer recompositions when `UiState` is primitive and `@Immutable`, app smoother runs.
 2. **DI (The Way of Injecting):** Inject in composable functions, one cannot. Yet, in ViewModel with `@Inject constructor`, easy it is.
 3. **Code, simple it is:** UI dumb, only draws. Logic pure, without knowing about UI doings.
 4. **Compose Previews:** Mock `UiState`, easy it becomes. Any screen state, preview you can. 
@@ -24,8 +22,8 @@ Separation, the path of wisdom it is: **Compose UI** <> from **Logic of Screen**
 
 ### Quick understanding, you seek?
 
-- **Screen (UI):** Dumb, it is. Only draws `UiState`. When clicked sends `UiEvent`s to ViewModel. Uses UI components from Material3 and Ivy Design.
-- **UiState:** A `data class`, often it is. Holds only primitve and `@Immutable` values it should. Dumb Compose UI, plays well only with primitives.
+- **Screen (UI):** Dumb, it is. Only draws `UiState`, thinks not. When clicked sends `UiEvent`s to ViewModel. Uses UI components from Material3 and Ivy Design.
+- **UiState:** A `data class`, often it is. Holds only primitve and `@Immutable` values it should.
 - **UiEvent:** User's doings, captured they are _(like button presses, text changes)._
 - **ViewModel:** To the UI, `UiState` it offers. Ears open to `UiEvents`, it keeps. Logic of screen it holds, and tasks it performs. Compose runtime ViewModel's force is.
 
@@ -49,7 +47,7 @@ Follow [offical Guide to app architecture by Google](https://developer.android.c
 
 Foundation it is, where data originates and resides. Persistence with databases, or fetch from afar through network calls, it handles. Stable and reliable, it must be, for all above to trust. 
 
-Two they are. `DataSource`: wrapped source of raw information like a Room DB, DataStore or a Network API, you see. And `Repository` data sources force user, for good CRUD to do.
+Always two they are. `DataSource` a wrapped source of raw information it is, tapping in Room DB, DataStore or a Network API forces it does. And `Repository` data sources force it wields, for good CRUD and validation to do.
 
 ### [Domain Layer](https://developer.android.com/topic/architecture/domain-layer)
 
