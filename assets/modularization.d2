@@ -6,23 +6,41 @@ ivy-base: ":ivy-base" {
   "Code shared everywhere"
 }
 ivy-data: ":ivy-data" {
-  "CRUD: Room DB, DataStore, HTTP"
+  "Data Layer" {
+    style {
+      fill: blue
+      font-color: white
+    }
+  }
+  "CRUD: Repositories & DataSources"
 }
 ivy-domain: ":ivy-domain" {
-  "Core API: domain rules & business logic"
+  "Domain Layer" {
+    style {
+      fill: blue
+      font-color: white
+    }
+  }
+  "Business logic & rules"
 }
 ivy-common-ui: ":ivy-common-ui" {
   "UI components bundled with domain logic"
 }
 ivy-nav: ":ivy-navigation" {
-  "Definition for all screens w/o implementation"
+  "Screen destinations"
+  "Navigation logic"
 }
 ivy-design: ":ivy-design" {
   "Ivy's design system"
 }
 screens: ":screen/feature" {
+  "UI Layer" {
+    style {
+      fill: blue
+      font-color: white
+    }
+  }
   ":screen-home"
-  ":screen-settings"
   ":feature-google-drive"
   ":screen-abc"
   ":feature-xyz"
