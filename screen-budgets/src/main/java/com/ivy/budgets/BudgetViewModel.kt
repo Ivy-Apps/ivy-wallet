@@ -76,6 +76,12 @@ class BudgetViewModel @Inject constructor(
     }
 
     override fun onEvent(event: BudgetScreenEvent) {
+        when(event) {
+            is BudgetScreenEvent.OnCreateBudget -> { createBudget(event.budgetData) }
+            is BudgetScreenEvent.OnEditBudget -> { editBudget(event.budget) }
+            is BudgetScreenEvent.OnDeleteBudget -> { deleteBudget(event.budget) }
+            is BudgetScreenEvent.OnReorder -> { reorder(event.newOrder) }
+        }
     }
 
     @Composable
@@ -117,31 +123,31 @@ class BudgetViewModel @Inject constructor(
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            _categories.value = categoriesAct(Unit)
+            categories.value = categoriesAct(Unit)
 
             val accounts = accountsAct(Unit)
-            _accounts.value = accounts
+            this.accounts.value = accounts
 
             val baseCurrency = baseCurrencyAct(Unit)
-            _baseCurrencyCode.value = baseCurrency
+            this.baseCurrency.value = baseCurrency
 
             val startDateOfMonth = ivyContext.initStartDayOfMonthInMemory(sharedPrefs = sharedPrefs)
             val timeRange = com.ivy.legacy.data.model.TimePeriod.currentMonth(
                 startDayOfMonth = startDateOfMonth
             ).toRange(startDateOfMonth = startDateOfMonth)
-            _timeRange.value = timeRange
+            this.timeRange.value = timeRange
 
             val budgets = budgetsAct(Unit)
 
-            _appBudgetMax.value = budgets
+            appBudgetMax.doubleValue = budgets
                 .filter { it.categoryIdsSerialized.isNullOrBlank() }
                 .maxOfOrNull { it.amount } ?: 0.0
 
-            _categoryBudgetsTotal.value = budgets
+            categoryBudgetsTotal.doubleValue = budgets
                 .filter { it.categoryIdsSerialized.isNotNullOrBlank() }
                 .sumOf { it.amount }
 
-            _budgets.value = com.ivy.legacy.utils.ioThread {
+            this.budgets.value = com.ivy.legacy.utils.ioThread {
                 budgets.map {
                     DisplayBudget(
                         budget = it,
@@ -175,9 +181,7 @@ class BudgetViewModel @Inject constructor(
             .sumOfSuspend {
                 when (it.type) {
                     TransactionType.INCOME -> {
-                        // decrement spent amount if it's not global budget
                         0.0 // ignore income
-//                        if (categoryFilter.isEmpty()) 0.0 else -amountBaseCurrency
                     }
 
                     TransactionType.EXPENSE -> {

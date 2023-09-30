@@ -12,6 +12,6 @@ sealed interface BudgetScreenEvent {
     ) : BudgetScreenEvent
 
     data class OnCreateBudget(val budgetData: CreateBudgetData) : BudgetScreenEvent
-    data class OnEditBudget(val budgetData: Budget) : BudgetScreenEvent
-    data class OnDeleteBudget(val budgetData: Budget) : BudgetScreenEvent
+    data class OnEditBudget(val budget: Budget) : BudgetScreenEvent
+    data class OnDeleteBudget(val budget: Budget) : BudgetScreenEvent
 }
