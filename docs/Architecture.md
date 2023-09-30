@@ -20,24 +20,24 @@ Separation, the path of wisdom it is: **Compose UI** <> **Logic of Screen**. Why
 2. **DI (The Way of Injecting):** Inject in composable functions, one cannot. Yet, in ViewModel with `@Inject constructor`, easy it is.
 3. **Code, simple it is:** UI dumb, only draws. Logic pure, not knowing about UI doings.
 4. **Compose Previews:** Mock `UiState`, easy it becomes. Any screen state, preview you can.
-5. **Testability:** ViewModel, easy to test it is - send `UiEvent`s, verify `UiState`. Simple. Hmmm... Compose UI, like celebrety is. Mocked `UiState` if you pass, [Paparazzi](https://github.com/cashapp/paparazzi) screenshot tests will pass.
+5. **Testability:** ViewModel, easy to test it is - send `UiEvent`s, verify `UiState`. Simple. Hmmm... Compose UI, like celebrety is. Mocked `UiState` if you pass, [Paparazzi](https://github.com/cashapp/paparazzi) screenshot tests pass will.
 
 ![screen-viewmodel](../assets/screen-vm.svg)
 
 ### Quick understanding, you seek?
 
-- **Compose UI:** Dumb, it is. Only draws `UiState`, thinks not. `UiEvent`s it screams when toucehd.
+- **Compose UI:** Dumb, it is. Only draws `UiState`, thinks not. `UiEvent`s it screams when touched.
 - **UiState:** A `data class`, often it is. Holds only primitve and `@Immutable` values it should.
 - **UiEvent:** User's doings, captured they are _(like button presses, text changes)._
-- **ViewModel:** To the UI, `UiState` it offers. Ears open to `UiEvents`, it keeps. Logic of screen it holds, and tasks it performs. Compose runtime ViewModel's force is.
+- **ViewModel:** To the UI, `UiState` it offers. Ears open to `UiEvents`, it keeps. Logic of screen it holds, and tasks it performs. Ancient Compose runtime's force it wields.
 
-> [Unidirectional Data Flow (UDF)](https://developer.android.com/jetpack/compose/architecture#udf) wisdom it teaches. [MVI (Model View Intent)](https://staltz.com/unidirectional-user-interface-architectures.html) it is called.
+> [Unidirectional Data Flow (UDF)](https://developer.android.com/jetpack/compose/architecture#udf) wisdom this teaches. [MVI (Model View Intent)](https://staltz.com/unidirectional-user-interface-architectures.html) it is called.
 
 ### In ViewModel, why Compose you ask?
 
 Reason, straightforward it is. More strength and simplicity, the Compose runtime has:
 
-- Complex Flow chains and  `combine`, no need there is.
+- Complex Flow chains and  `combine`, **no need** there is.
 - Power of `LaunchedEffect`, `remember`, and all Compose gifts, you have.
 - Simpler and less tangled code, this gives.
 
@@ -63,7 +63,7 @@ Heart of the business logic, here it beats. Knowledge of UI or `DataSource`s, it
 
 Face of the app, this is. Interactions with users, here they unfold. Displays data and listens to the user, it does. Lean it is, relying on lower layers for knowledge and truth. Its beauty, not in its brain, but in its looks and responsiveness. 
 
-Here, screens find their destiny. Always in twos they emerge, no more, no less - **Compose UI** and `ComposeViewModel`, their names be. [MVI](https://staltz.com/unidirectional-user-interface-architectures.html) they do.
+Here, screens find their destiny. Always in twos they emerge, no more, no less - **Compose UI** and `ComposeViewModel`, their names be. [MVI](https://staltz.com/unidirectional-user-interface-architectures.html) I have heard.
 
 ## Modularization: by screen/feature
 
