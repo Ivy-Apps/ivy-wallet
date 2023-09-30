@@ -14,20 +14,20 @@ Solutions short and working, must be. Break the app, they must not.
 
 ## Screen: Compose UI + ComposeViewModel
 
-Separation, the path of wisdom it is: **Compose UI** <> **Logic of Screen**. Why? Hmmm...
+Separation, the path of wisdom it is: **Compose UI ≠ Logic of Screen**. Why? Hmmm...
 
 1. **Performance of Jetpack Compose:** Less the UI thinks (computes), faster it changes (recomposes). Fewer recompositions when `UiState` is primitive and `@Immutable`, app smoother runs.
 2. **DI (The Way of Injecting):** Inject in composable functions, one cannot. Yet, in ViewModel with `@Inject constructor`, easy it is.
 3. **Code, simple it is:** UI dumb, only draws. Logic pure, not knowing about UI doings.
 4. **Compose Previews:** Mock `UiState`, easy it becomes. Any screen state, preview you can.
-5. **Testability:** ViewModel, easy to test it is - send `UiEvent`s, verify `UiState`. Simple. Hmmm... Compose UI, like celebrety is. Mocked `UiState` if you pass, [Paparazzi](https://github.com/cashapp/paparazzi) screenshot tests pass will.
+5. **Testability:** ViewModel, easy to test it is - send `UiEvent`s, verify `UiState`. Simple. Hmmm... Compose UI, like celebrity is. Mocked `UiState` if you pass, [Paparazzi](https://github.com/cashapp/paparazzi) screenshot tests pass will.
 
 ![screen-viewmodel](../assets/screen-vm.svg)
 
 ### Quick understanding, you seek?
 
 - **Compose UI:** Dumb, it is. Only draws `UiState`, thinks not. `UiEvent`s it screams when touched.
-- **UiState:** A `data class`, often it is. Holds only primitve and `@Immutable` values it should.
+- **UiState:** A `data class`, often it is. Holds only primitive and `@Immutable` values it should.
 - **UiEvent:** User's doings, captured they are _(like button presses, text changes)._
 - **ViewModel:** To the UI, `UiState` it offers. Ears open to `UiEvents`, it keeps. Logic of screen it holds, and tasks it performs. Ancient Compose runtime's force it wields.
 
