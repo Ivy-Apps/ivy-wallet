@@ -1,5 +1,12 @@
 # Blog Articles
 
+## Android Architecture
+
+- [Guide to app architecture by Google](https://developer.android.com/topic/architecture)
+- [Architecture: Data Layer](https://developer.android.com/topic/architecture/data-layer)
+- [Architecture: Domain Layer](https://developer.android.com/topic/architecture/domain-layer)
+- [Architecture: UI Layer](https://developer.android.com/topic/architecture/ui-layer)
+
 ## Software Development
 
 - [The Grug Brained Developer](https://grugbrain.dev/)
