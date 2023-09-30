@@ -8,16 +8,16 @@ Solutions short and working, must be. Break the app, they must not.
 
 - **80/20 rule:** From 20% code, 80% value.
 - **Complexity, a dark path it is.** Easy to start, difficult to undo. More layers, tempting they seem... Yet in simplicity, true power lies.
-- **Overengineer, you must not.** More, often is less. Clear and plain, solutions should stand.
-- **For today, build.** Tomorrow, uncertain it is. By looking too far ahead, stumble today, you could.
+- **Overengineer, you must not.** More... often is less. Clear and plain, solutions should stand.
+- **For today, you build.** Tomorrow, uncertain is. By looking too far ahead, stumble today, you might.
 
 ## Screen: Compose UI + ComposeViewModel
 
-Separate, the path of wisdom it is: **Compose UI** <> **Logic of Screen**. Why? Hmmm...
+Separation, the path of wisdom it is: **Compose UI** <> from **Logic of Screen**. Why? Hmmm...
 
-1. **Performance of Jetpack Compose:** Less the UI thinks, faster it changes. Fewer changes when `UiState` primitive and `@Immutable`.
+1. **Performance of Jetpack Compose:** Less the UI thinks (computes), faster it changes (recomposes). Fewer changes when `UiState` is primitive and `@Immutable`.
 2. **DI (The Way of Injecting):** Inject in composable functions, one cannot. Yet, in ViewModel with `@Inject constructor`, easy it is.
-3. **Code, simple it is:** UI dumb, only draws. Logic pure, without ties to the Android realm.
+3. **Code, simple it is:** UI dumb, only draws. Logic pure, without knowing about UI doings.
 4. **Compose Previews:** Mock `UiState`, easy it becomes. Any screen state, preview you can. 
 
 ![screen-viewmodel](../assets/screen-vm.svg)
@@ -26,14 +26,14 @@ Separate, the path of wisdom it is: **Compose UI** <> **Logic of Screen**. Why? 
 
 - **Screen (UI):** Dumb, it is. Only draws `UiState`. When clicked sends `UiEvent`s to ViewModel. Uses UI components from Material3 and Ivy Design.
 - **UiState:** A `data class`, often it is. Holds only primitve and `@Immutable` values it should. Dumb Compose UI, plays well only with primitives.
-- **UiEvent:** User's doings, captured they are _(like button presses, text changes, checkbox states)._
+- **UiEvent:** User's doings, captured they are _(like button presses, text changes)._
 - **ViewModel:** To the UI, `UiState` it offers. Ears open to `UiEvents`, it keeps. Logic of screen it holds, and tasks it performs. Compose runtime ViewModel's force is.
 
 ### In ViewModel, why Compose you ask?
 
 Reason, straightforward it is. More strength and simplicity, the Compose runtime has:
 
-- Complex Kotlin Flow chains and `combine`, no need there is.
+- Complex Kotlin Flow chains and  `combine`, no need there is.
 - Power of `LaunchedEffect`, `remember`, and all Compose gifts, you have.
 - Simpler and less tangled code, this gives.
 
@@ -47,15 +47,15 @@ Follow [offical Guide to app architecture by Google](https://developer.android.c
 
 ### [Data Layer](https://developer.android.com/topic/architecture/data-layer)
 
-Foundation it is, where data originates and resides. Persistence with databases, or fetch from afar through network calls, it handles. Stable and reliable, it must be, for all above to trust.
+Foundation it is, where data originates and resides. Persistence with databases, or fetch from afar through network calls, it handles. Stable and reliable, it must be, for all above to trust. **Repositories** and **DataSources** it has.
 
 ### [Domain Layer](https://developer.android.com/topic/architecture/domain-layer)
 
-Heart of the business logic, here it beats. Knowledge of UI or data sources, it has **not**. Pure and free from Android concerns, it remains. Transforms data into meaningful actions, and sets the rules the app lives by.
+Heart of the business logic, here it beats. Knowledge of UI or data sources, it has **not**. Pure and free from Android and persistence concerns, it remains. Transforms data into meaningful actions, and sets the rules the app lives by. Ivy Wallet's balance computations here are done.
 
 ### [UI Layer](https://developer.android.com/topic/architecture/ui-layer)
 
-Face of the app, this is. Interactions with users, here they unfold. Displays data and listens to the user, it does. Lean it is, relying on lower layers for knowledge and truth. Its beauty, not just skin-deep, but in its simplicity and responsiveness.
+Face of the app, this is. Interactions with users, here they unfold. Displays data and listens to the user, it does. Lean it is, relying on lower layers for knowledge and truth. Its beauty, not in its brain, but in its looks and responsiveness.
 
 ## Modularization: by screen/feature
 
