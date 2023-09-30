@@ -88,36 +88,15 @@ To Birth a New Module... Invoke this chant in your terminal, you must:
 
 > If crafting a screen, you must also inscribe its essence in `Screens.kt` (:ivy-navigation) and weave its spirit in `IvyNavGraph.kt` (:app).
 
-## Paradigm: pragmatic
+## Other wisdoms
 
-Ivy Wallet is a multi-paradigm project. Follow whatever paradigm that you prefer. We appreciate both OOP (Object Oriented Programming) and FP (Functional Programming) and use the best of both worlds.
+["The Grug Brained Developer"](https://grugbrain.dev/) article, read you should. Ancient engineering wisdom and entertainment, there loves.
 
-**Just avoid:**
-- Inheritance
-- Complex design patterns
+Legacy code, we have - yes. Check the ["devexp" issues](https://github.com/Ivy-Apps/ivy-wallet/labels/devexp) to bring balance in the code force, you should.
 
-That being said, we **lean more towards the FP world** because of its simplicity and safety. Ivy Wallet is built on top of [ArrowKt](https://arrow-kt.io/) so take advantage of it. 
+## Uncertain, you are?
 
-> Tip: Arrow's **Either<Left, Right>** is very useful for modeling operations that may result in either success (right) or error (left), for example, HTTP requests.
-
-## Clean code: NO 🚫
-
-I added it for a bit of controversy but IMO the term "Clean" has lost meaning and it often leads to unnecessary layers of abstractions => more complexity, lots of boilerplate, and worse performance. Keep it simple, be like **[Grug](https://grugbrain.dev/)**.
-
-> Tip: Read the ["The Grug Brained Developer"](https://grugbrain.dev/) article, it's fun and has some good wisdom in it.
-
-## Legacy code: we're full of it!
-
-Ivy Wallet is a hobby project from 2018. You can imagine that during the last 5 years, it accumulated a lot of legacy code. 😬 
-
-While this sucks... It's also a good opportunity to travel through time and see how the Android architecture evolved over the years. If you like modern technologies and want to help us out, feel free to **[check our "devexp" GitHub issues](https://github.com/Ivy-Apps/ivy-wallet/labels/devexp)** _(devexp meaning Developer's Experience)_ and to try to fix one.
-
-[![PRs welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Ivy-Apps/ivy-wallet/blob/main/CONTRIBUTING.md)
-
-> We need help migrating legacy code screens to `ComposeViewModel` and the MVI/MVVM pattern that you've just read in this doc.
-
-## Questions or feedback?
-
-Please, reach us on the "Development" topic of our private Telegram community.
+In the "Development" topic of our [Telegram community](https://t.me/+ETavgioAvWg4NThk), Ivy wisdom you should seek.
 
 [![Telegram Group](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/+ETavgioAvWg4NThk)
+[![PRs welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Ivy-Apps/ivy-wallet/blob/main/CONTRIBUTING.md)
