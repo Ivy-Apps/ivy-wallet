@@ -67,19 +67,17 @@ Here, screens find their destiny. Always in twos they emerge, no more, no less -
 
 ## Modularization: by screen/feature
 
-Split our app into many modules, we do. Reduce tangled paths (spaghetti code) and faster app builds, it aims. Furthermore, permits many hands to craft different features, free from merging conflicts.
+Split our app into many modules, we do. Tangled webs ([spaghetti code](https://en.wikipedia.org/wiki/Spaghetti_code), [coupling](https://en.wikipedia.org/wiki/Coupling_(computer_programming))) we avoid, swift builds we seek. Furthermore, permits many hands to craft yet, in peace they work, not clashing ([merge conflicts](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/addressing-merge-conflicts/about-merge-conflicts)).
 
-Each screen, simple it stands. With more code it grows, supporting intricate tales. Yet, disturb the rest, it does not. In harmony, the entire codebase remains.
+Each screen, like its own planet it is. Expanding it might, with tales of code and tales. But in its own orbit, it stays. The galaxy of code, peaceful and unshaken it remains.
 
 ![modularization-strategy](../assets/modularization.svg)
 
 **Simple, our modularization path is:**
 
 - Shared `:ivy-*` modules, a few we possess.
-- With these modules, shared wisdom in your screens you access.
-- Distinct, each screen/feature stands, like `:screen-home`, `:feature-something` they are.
-
-> Know this, young coder: Exceptions, a few modules have (widgets such as `:widget-balance`, for instance). Yet, the truth in the above strategy, mostly it remains.
+- With these modules, shared wisdom in your screens you harness.
+- Each screen/feature, its own realm it claims, like `:screen-home` or `:feature-something`.
 
 ### Creating a new module
 
@@ -88,16 +86,16 @@ To birth a new module... Invoke this chant in your terminal, you must:
 ./scripts/create_module.sh screen-something
 ```
 
-> If crafting a screen, you must also inscribe its essence in `Screens.kt` (:ivy-navigation) and weave its spirit in `IvyNavGraph.kt` (:app).
+> Crafting a screen, you are? Inscribe its essence, you must, in `Screens.kt` (:ivy-navigation). Weave its spirit, you shall, in `IvyNavGraph.kt` (:app).
 
-## Other wisdoms
+## Wisdoms from Far and Wide
 
-["The Grug Brained Developer"](https://grugbrain.dev/) article, read you should. Ancient engineering wisdom and entertainment, there loves.
+["The Grug Brained Developer"](https://grugbrain.dev/), seek this scroll, you must. Tales of old engineering and fun, within it rests.
 
-Legacy code, we have - yes. Check the ["devexp" issues](https://github.com/Ivy-Apps/ivy-wallet/labels/devexp) to bring balance in the code force, you should.
+Legacy code, surround us it does. To restore balance to the code force, visit ["devexp" issues](https://github.com/Ivy-Apps/ivy-wallet/labels/devexp) you must.
 
 ## Uncertain, you are?
 
-In the "Development" topic of our [Telegram community](https://t.me/+ETavgioAvWg4NThk), wisdom you should seek.
+Seek knowledge in the "Development" realm of our [Telegram sanctuary](https://t.me/+ETavgioAvWg4NThk), you must. There, answers await.
 
 [![Telegram Group](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/+ETavgioAvWg4NThk)
