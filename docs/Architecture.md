@@ -47,15 +47,21 @@ Follow [offical Guide to app architecture by Google](https://developer.android.c
 
 ### [Data Layer](https://developer.android.com/topic/architecture/data-layer)
 
-Foundation it is, where data originates and resides. Persistence with databases, or fetch from afar through network calls, it handles. Stable and reliable, it must be, for all above to trust. **Repositories** and **DataSources** it has.
+Foundation it is, where data originates and resides. Persistence with databases, or fetch from afar through network calls, it handles. Stable and reliable, it must be, for all above to trust. 
+
+Two they are. `DataSource`: wrapped source of raw information like a Room DB, DataStore or a Network API, you see. And `Repository` data sources force user, for good CRUD to do.
 
 ### [Domain Layer](https://developer.android.com/topic/architecture/domain-layer)
 
-Heart of the business logic, here it beats. Knowledge of UI or data sources, it has **not**. Pure and free from Android and persistence concerns, it remains. Transforms data into meaningful actions, and sets the rules the app lives by. Ivy Wallet's balance computations here are done.
+Heart of the business logic, here it beats. Knowledge of UI or data sources, it has **not**. Pure and free from Android and persistence concerns, it remains. Transforms data into meaningful actions, and sets the rules the app lives by. 
+
+Ivy Wallet's balance computations here they are done. `Repository` it can only wield. The `DataSource` forbidden it is.
 
 ### [UI Layer](https://developer.android.com/topic/architecture/ui-layer)
 
-Face of the app, this is. Interactions with users, here they unfold. Displays data and listens to the user, it does. Lean it is, relying on lower layers for knowledge and truth. Its beauty, not in its brain, but in its looks and responsiveness.
+Face of the app, this is. Interactions with users, here they unfold. Displays data and listens to the user, it does. Lean it is, relying on lower layers for knowledge and truth. Its beauty, not in its brain, but in its looks and responsiveness. 
+
+Screens here they live, and they follow their path. Always two, no more, no less - Compose UI and `ComposeViewModel` they are.
 
 ## Modularization: by screen/feature
 
@@ -81,45 +87,6 @@ To Birth a New Module... Invoke this chant in your terminal, you must:
 ```
 
 > If crafting a screen, you must also inscribe its essence in `Screens.kt` (:ivy-navigation) and weave its spirit in `IvyNavGraph.kt` (:app).
-
-### Modularization gotchas
-
-- Screens (`:screen-something`) **cannot** depend on other screens. They can only depend on `:ivy-*` shared code modules.
-- If you need to re-use code between screens, you need to move it to a shared code module like `:ivy-domain` or `ivy-common-ui`.
-- The `:ivy-navigation` does **not** contain screen's implementation but only the screen's definition. A screen definition is a `data class` / `data object` class that models the screen's startup params. This way different screens can start other screen without knowing about their implementation.
-- Only `:app` knows about the implementation of all screens. It maps each `Screen` definition from `:ivy-navigation` to the actual implementation in `IvyNavGraph.kt` (in `:app`).
-
-> Only `implementation("...")` dependencies are allowed. Usage of `api("...")` is banned for the sake of simplicity and performance. Motivation: No `api` usage 🚫 => no tricky Gradle problems to solve.
-
-### Shared code modules
-
-These are the modules that you can use as a dependency in your screen/feature module:
-
-- `:ivy-base`: code that needs to be shared everywhere.
-- `:ivy-resources`: contains all Ivy Wallet's resources - **strings** and **drawables**.
-- `:ivy-design`: Ivy's design system (colors, typography and shapes) and provides a stylized Material3 (M3) theme.
-- `:ivy-data`: [Data layer](https://developer.android.com/topic/architecture/data-layer). Encapsulates CRUD operations. Holds `DataSources` (Room DB, Datastore, Networking) and `Repositories` (validation and mapping logic).
-- `:ivy-domain`: [Domain layer](https://developer.android.com/topic/architecture/domain-layer). Contains Ivy Wallet's business logic.
-- `:ivy-navigation`: provides the definition _(screen's startup params w/o implementation)_ of all Screen destinations in Ivy Wallet and implements a simple back-stack based custom `Navigation`. 
-- `:ivy-common-ui`: Builds re-usable high-level UI components (for example `AccountModal` that also encapsulates the account CRUD logic) that enforce consistent Ivy UI/UX patterns for common operations (e.g. CRUD for accounts, categories, etc).
-
-> ⚠️ WARNING ⚠️: The above shared modules are under construction. We're also actively trying to get rid of legacy code that we partly encapsulated in the `:temp-legacy-code` and `:temp-old-design` modules.
-
-## Building Compose UI
-
-For majority of screens we don't have a Figma design. That's why you gotta get resourceful. 
-
-In a nutshell, we bet on [Material3 (Material You) Design](https://m3.material.io/) and follow the UI/UX best practices defined by Google.
-
-Here are a few principles to help you make a better Compose UI:
-
-- **Material3 components:** Use Material3 (M3) components with as little customzation as possible. _The M3 designers and creators are knowedgable people and they likely did better job than us._
-- **Ivy UI components:** We also got some re-usable UI components of our own that live in `:ivy-design` and `:ivy-common-ui`. Add those modules as a dependency and take advantage of them.
-- **Deprecation ban:** Do **not** use deprecated components.
-
-In terms of code quality, just follow and address the feedback provided from our CI checks powered by [Detekt](https://detekt.dev/) and [Slack's compose-lints](https://slackhq.github.io/compose-lints/).
-
-> 💡 The less you customize your UI components, the shorter the code. Also, this makes it easier for us to apply global styling and make the UI more consistent and more customizable to user's prefered theme, colors, fonts and shapes.
 
 ## Paradigm: pragmatic
 
