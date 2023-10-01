@@ -3,19 +3,16 @@ package com.ivy.transaction
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Category
-import com.ivy.core.datamodel.Transaction
-import com.ivy.core.db.entity.TransactionType
-import com.ivy.core.db.read.LoanDao
-import com.ivy.core.db.read.SettingsDao
-import com.ivy.core.db.write.TransactionWriter
-import com.ivy.core.event.AccountUpdatedEvent
-import com.ivy.core.event.EventBus
-import com.ivy.core.util.refreshWidget
+import com.ivy.base.legacy.Transaction
+import com.ivy.base.util.refreshWidget
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
+import com.ivy.domain.event.AccountUpdatedEvent
+import com.ivy.domain.event.EventBus
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.data.EditTransactionDisplayLoan
 import com.ivy.legacy.data.SharedPrefs
+import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.ioThread
@@ -25,6 +22,10 @@ import com.ivy.legacy.utils.uiThread
 import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
+import com.ivy.data.db.dao.read.LoanDao
+import com.ivy.data.db.dao.read.SettingsDao
+import com.ivy.data.db.dao.write.WriteTransactionDao
+import com.ivy.base.model.TransactionType
 import com.ivy.wallet.domain.action.account.AccountByIdAct
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
@@ -68,7 +69,7 @@ class EditTransactionViewModel @Inject constructor(
     private val categoryByIdAct: CategoryByIdAct,
     private val accountByIdAct: AccountByIdAct,
     private val eventBus: EventBus,
-    private val transactionWriter: TransactionWriter,
+    private val transactionWriter: WriteTransactionDao,
 ) : ViewModel() {
 
     private val _transactionType = MutableLiveData<TransactionType>()

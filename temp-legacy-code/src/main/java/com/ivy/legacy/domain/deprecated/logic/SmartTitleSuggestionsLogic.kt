@@ -1,9 +1,10 @@
 package com.ivy.wallet.domain.deprecated.logic
 
-import com.ivy.core.db.read.TransactionDao
-import com.ivy.core.datamodel.Transaction
+import com.ivy.base.legacy.Transaction
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.utils.capitalizeWords
 import com.ivy.legacy.utils.isNotNullOrBlank
+import com.ivy.data.db.dao.read.TransactionDao
 import java.util.*
 import javax.inject.Inject
 

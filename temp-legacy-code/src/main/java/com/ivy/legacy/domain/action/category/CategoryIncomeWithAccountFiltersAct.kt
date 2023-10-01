@@ -1,8 +1,8 @@
 package com.ivy.wallet.domain.action.category
 
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Category
-import com.ivy.core.datamodel.Transaction
+import com.ivy.base.legacy.Transaction
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.wallet.domain.action.transaction.CalcTrnsIncomeExpenseAct

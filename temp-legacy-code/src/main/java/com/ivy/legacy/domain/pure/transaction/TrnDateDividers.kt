@@ -2,16 +2,17 @@ package com.ivy.wallet.domain.pure.transaction
 
 import arrow.core.Option
 import arrow.core.toOption
-import com.ivy.core.db.read.AccountDao
-import com.ivy.core.db.read.SettingsDao
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Transaction
-import com.ivy.core.datamodel.TransactionHistoryItem
+import com.ivy.base.legacy.Transaction
+import com.ivy.base.legacy.TransactionHistoryItem
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
 import com.ivy.frp.then
 import com.ivy.legacy.utils.convertUTCtoLocal
 import com.ivy.legacy.utils.toEpochSeconds
+import com.ivy.data.db.dao.read.AccountDao
+import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.wallet.domain.data.TransactionHistoryDateDivider
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.pure.exchange.ExchangeData

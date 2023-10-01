@@ -21,7 +21,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,15 +38,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.navigation.navigation
+import com.ivy.legacy.datamodel.Category
 import com.ivy.navigation.CategoriesScreen
-import com.ivy.navigation.ItemStatisticScreen
+import com.ivy.navigation.TransactionsScreen
+import com.ivy.navigation.navigation
+import com.ivy.navigation.screenScopedViewModel
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.SortOrder
-import com.ivy.core.datamodel.Category
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Green
@@ -75,12 +74,8 @@ import java.util.UUID
 
 @Composable
 fun BoxWithConstraintsScope.CategoriesScreen(screen: CategoriesScreen) {
-    val viewModel: CategoriesViewModel = viewModel()
-    val state by viewModel.state().collectAsState()
-
-    com.ivy.legacy.utils.onScreenStart {
-        viewModel.start()
-    }
+    val viewModel: CategoriesViewModel = screenScopedViewModel()
+    val state = viewModel.uiState()
 
     UI(
         state = state,
@@ -149,7 +144,7 @@ private fun BoxWithConstraintsScope.UI(
                 }
             ) {
                 nav.navigateTo(
-                    ItemStatisticScreen(
+                    TransactionsScreen(
                         accountId = null,
                         categoryId = categoryData.category.id
                     )

@@ -8,8 +8,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.ivy.core.db.entity.TransactionType
 import com.ivy.navigation.navigation
+import com.ivy.base.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.components.CloseButton
 import com.ivy.wallet.ui.theme.components.DeleteButton
@@ -48,6 +48,7 @@ fun Toolbar(
 
                 Spacer(Modifier.width(12.dp))
             }
+
             TransactionType.EXPENSE -> {
                 IvyOutlinedButton(
                     text = stringResource(R.string.expense),
@@ -58,6 +59,7 @@ fun Toolbar(
 
                 Spacer(Modifier.width(12.dp))
             }
+
             else -> {
                 // show nothing
             }

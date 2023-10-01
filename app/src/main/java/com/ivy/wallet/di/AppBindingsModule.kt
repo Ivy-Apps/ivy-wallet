@@ -1,6 +1,6 @@
 package com.ivy.wallet.di
 
-import com.ivy.core.AppStarter
+import com.ivy.domain.AppStarter
 import com.ivy.wallet.IvyAppStarter
 import dagger.Binds
 import dagger.Module

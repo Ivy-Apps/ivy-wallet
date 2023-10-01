@@ -1,8 +1,10 @@
 package com.ivy.wallet.domain.data
 
 import android.icu.util.Currency
+import androidx.compose.runtime.Immutable
 import com.ivy.legacy.utils.getDefaultFIATCurrency
 
+@Immutable
 data class IvyCurrency(
     val code: String,
     val name: String,

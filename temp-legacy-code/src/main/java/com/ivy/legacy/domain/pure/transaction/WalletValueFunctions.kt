@@ -1,9 +1,9 @@
 package com.ivy.wallet.domain.pure.transaction
 
+import com.ivy.base.legacy.Transaction
+import com.ivy.legacy.datamodel.Account
 import com.ivy.frp.SideEffect
-import com.ivy.core.db.entity.TransactionType
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Transaction
+import com.ivy.base.model.TransactionType
 import com.ivy.wallet.domain.pure.exchange.ExchangeEffect
 import com.ivy.wallet.domain.pure.exchange.exchangeInBaseCurrency
 import java.math.BigDecimal
@@ -28,6 +28,7 @@ object WalletValueFunctions {
                 baseCurrency = arg.baseCurrency,
                 exchange = arg.exchange
             )
+
             else -> BigDecimal.ZERO
         }
     }
@@ -48,6 +49,7 @@ object WalletValueFunctions {
                     baseCurrency = arg.baseCurrency,
                     exchange = arg.exchange
                 )
+
             else -> BigDecimal.ZERO
         }
     }
@@ -63,6 +65,7 @@ object WalletValueFunctions {
                 baseCurrency = arg.baseCurrency,
                 exchange = arg.exchange
             )
+
             else -> BigDecimal.ZERO
         }
     }
@@ -79,6 +82,7 @@ object WalletValueFunctions {
                 baseCurrency = arg.baseCurrency,
                 exchange = arg.exchange
             )
+
             else -> BigDecimal.ZERO
         }
     }

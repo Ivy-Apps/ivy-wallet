@@ -26,23 +26,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.core.datamodel.Account
-import com.ivy.core.datamodel.Category
-import com.ivy.core.datamodel.Transaction
-import com.ivy.core.db.entity.TransactionType
+import com.ivy.base.legacy.Transaction
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IvyText
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.AppBaseData
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.utils.dateNowUTC
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.formatNicely
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.timeNowUTC
-import com.ivy.navigation.ItemStatisticScreen
+import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
+import com.ivy.base.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gradient
@@ -267,7 +267,7 @@ private fun TransactionHeaderRow(
                     defaultIcon = R.drawable.ic_custom_category_s
                 ) {
                     nav.navigateTo(
-                        ItemStatisticScreen(
+                        TransactionsScreen(
                             accountId = null,
                             categoryId = category.id
                         )
@@ -290,7 +290,7 @@ private fun TransactionHeaderRow(
             ) {
                 account?.let {
                     nav.navigateTo(
-                        ItemStatisticScreen(
+                        TransactionsScreen(
                             accountId = account.id,
                             categoryId = null
                         )

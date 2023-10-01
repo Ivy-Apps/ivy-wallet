@@ -1,8 +1,10 @@
 package com.ivy.piechart
 
-import com.ivy.core.datamodel.Category
-import com.ivy.core.datamodel.Transaction
+import androidx.compose.runtime.Immutable
+import com.ivy.base.legacy.Transaction
+import com.ivy.legacy.datamodel.Category
 
+@Immutable
 data class CategoryAmount(
     val category: Category?,
     val amount: Double,

@@ -1,6 +1,7 @@
 package com.ivy.legacy.domain.deprecated.logic.csv.model
 
 import androidx.annotation.DrawableRes
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import com.ivy.design.l0_system.Blue
 import com.ivy.design.l0_system.Green
@@ -13,6 +14,7 @@ import com.ivy.design.l0_system.White
 import com.ivy.design.l0_system.Yellow
 import com.ivy.resources.R
 
+@Immutable
 enum class ImportType {
     IVY,
     MONEY_MANAGER,

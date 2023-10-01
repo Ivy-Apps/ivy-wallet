@@ -1,37 +1,66 @@
 ivy-res: ":ivy-resources" {
-  "Shared common resources"
-  "Contains all Ivy Wallet resources"
+  "Shared resources"
+  "strings and drawables"
 }
-ivy-core: ":ivy-core" {
-  "Core API: domain logic + CRUD"
+ivy-base: ":ivy-base" {
+  "Code shared everywhere"
 }
-ivy-core-ui: ":ivy-core-ui" {
-  "Reusable Ivy Wallet high-level UI components"
+ivy-data: ":ivy-data" {
+  "Data Layer" {
+    style {
+      fill: blue
+      font-color: white
+    }
+  }
+  "CRUD: Repositories & DataSources"
+}
+ivy-domain: ":ivy-domain" {
+  "Domain Layer" {
+    style {
+      fill: blue
+      font-color: white
+    }
+  }
+  "Business logic & rules"
+}
+ivy-common-ui: ":ivy-common-ui" {
+  "UI components bundled with domain logic"
 }
 ivy-nav: ":ivy-navigation" {
-  "Startup params for all Screen destinations in Ivy Wallet"
+  "Screen destinations"
+  "Navigation logic"
 }
 ivy-design: ":ivy-design" {
-  "Ivy's design system (low-level)"
+  "Ivy's design system"
 }
-screens: ":screen-something" {
+screens: ":screen/feature" {
+  "UI Layer" {
+    style {
+      fill: blue
+      font-color: white
+    }
+  }
   ":screen-home"
-  ":screen-settings"
+  ":feature-google-drive"
   ":screen-abc"
-  ":screen-xyz"
+  ":feature-xyz"
 }
 app: ":app" {
-  "Ivy Wallet app's monolith shipped to the PlayStore"
-  "Wires the implementation of all Ivy Wallet screens"
+  "App monolith shipped to the PlayStore"
+  "Wires the implementation of all screens"
 }
 
+ivy-data -> ivy-base
+ivy-domain -> ivy-data
+ivy-domain -> ivy-base
+
 ivy-design -> ivy-res
-ivy-nav -> ivy-core
+ivy-nav -> ivy-domain
 ivy-nav -> ivy-design
 
-ivy-core-ui -> ivy-nav
+ivy-common-ui -> ivy-nav
 
-screens -> ivy-core-ui
+screens -> ivy-common-ui
 screens -> ivy-nav
 screens -> ivy-res
 

@@ -1,7 +1,7 @@
 package com.ivy.legacy.data
 
 import androidx.compose.runtime.Immutable
-import com.ivy.core.datamodel.Transaction
+import com.ivy.base.legacy.Transaction
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import kotlinx.collections.immutable.ImmutableList
 

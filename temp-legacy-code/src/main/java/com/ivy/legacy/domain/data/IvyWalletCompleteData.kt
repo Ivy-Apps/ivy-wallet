@@ -1,14 +1,14 @@
 package com.ivy.wallet.domain.data
 
 import androidx.annotation.Keep
-import com.ivy.core.db.entity.AccountEntity
-import com.ivy.core.db.entity.BudgetEntity
-import com.ivy.core.db.entity.CategoryEntity
-import com.ivy.core.db.entity.LoanEntity
-import com.ivy.core.db.entity.LoanRecordEntity
-import com.ivy.core.db.entity.PlannedPaymentRuleEntity
-import com.ivy.core.db.entity.SettingsEntity
-import com.ivy.core.db.entity.TransactionEntity
+import com.ivy.data.db.entity.AccountEntity
+import com.ivy.data.db.entity.BudgetEntity
+import com.ivy.data.db.entity.CategoryEntity
+import com.ivy.data.db.entity.LoanEntity
+import com.ivy.data.db.entity.LoanRecordEntity
+import com.ivy.data.db.entity.PlannedPaymentRuleEntity
+import com.ivy.data.db.entity.SettingsEntity
+import com.ivy.data.db.entity.TransactionEntity
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

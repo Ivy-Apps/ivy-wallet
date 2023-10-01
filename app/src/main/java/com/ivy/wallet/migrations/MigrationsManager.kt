@@ -3,7 +3,7 @@ package com.ivy.wallet.migrations
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
-import com.ivy.core.datastore.dataStore
+import com.ivy.data.datastore.dataStore
 import com.ivy.wallet.migrations.impl.DisableGitHubAutoBackupMigration
 import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext

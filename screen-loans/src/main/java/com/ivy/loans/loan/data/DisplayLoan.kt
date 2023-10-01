@@ -1,6 +1,6 @@
 package com.ivy.loans.loan.data
 
-import com.ivy.core.datamodel.Loan
+import com.ivy.legacy.datamodel.Loan
 import com.ivy.legacy.utils.getDefaultFIATCurrency
 import com.ivy.wallet.domain.data.Reorderable
 

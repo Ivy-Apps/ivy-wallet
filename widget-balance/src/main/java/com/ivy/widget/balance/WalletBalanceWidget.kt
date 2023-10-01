@@ -14,10 +14,10 @@ import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.currentState
 import androidx.glance.state.PreferencesGlanceStateDefinition
-import com.ivy.core.AppStarter
+import com.ivy.domain.AppStarter
 import com.ivy.legacy.data.SharedPrefs
-import com.ivy.core.db.entity.TransactionType
 import com.ivy.legacy.data.model.toCloseTimeRange
+import com.ivy.base.model.TransactionType
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.settings.SettingsAct
 import com.ivy.wallet.domain.action.wallet.CalcIncomeExpenseAct

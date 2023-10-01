@@ -1,6 +1,6 @@
 package com.ivy.accounts
 
-import com.ivy.core.datamodel.Account
+import com.ivy.legacy.datamodel.Account
 
 sealed interface AccountsEvent {
     data class OnReorder(val reorderedList: List<com.ivy.legacy.data.model.AccountData>) :

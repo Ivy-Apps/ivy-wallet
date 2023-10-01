@@ -27,7 +27,6 @@ import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.ExchangeRatesScreen
 import com.ivy.navigation.FeaturesScreen
 import com.ivy.navigation.ImportScreen
-import com.ivy.navigation.ItemStatisticScreen
 import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.LoansScreen
 import com.ivy.navigation.MainScreen
@@ -39,6 +38,7 @@ import com.ivy.navigation.ReportScreen
 import com.ivy.navigation.Screen
 import com.ivy.navigation.SearchScreen
 import com.ivy.navigation.SettingsScreen
+import com.ivy.navigation.TransactionsScreen
 import com.ivy.onboarding.OnboardingScreen
 import com.ivy.piechart.PieChartStatisticScreen
 import com.ivy.planned.edit.EditPlannedScreen
@@ -48,7 +48,7 @@ import com.ivy.reports.ReportScreen
 import com.ivy.search.SearchScreen
 import com.ivy.settings.SettingsScreen
 import com.ivy.transaction.EditTransactionScreen
-import com.ivy.transactions.ItemStatisticScreen
+import com.ivy.transactions.TransactionsScreen
 
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
@@ -63,7 +63,7 @@ fun BoxWithConstraintsScope.IvyNavGraph(screen: Screen?) {
         is OnboardingScreen -> OnboardingScreen(screen = screen)
         is ExchangeRatesScreen -> ExchangeRatesScreen()
         is EditTransactionScreen -> EditTransactionScreen(screen = screen)
-        is ItemStatisticScreen -> ItemStatisticScreen(screen = screen)
+        is TransactionsScreen -> TransactionsScreen(screen = screen)
         is PieChartStatisticScreen -> PieChartStatisticScreen(screen = screen)
         is CategoriesScreen -> CategoriesScreen(screen = screen)
         is SettingsScreen -> SettingsScreen()

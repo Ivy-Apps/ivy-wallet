@@ -49,7 +49,6 @@ ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 
 # Arrow
 arrowkt-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
-arrow-exact = { module = "io.arrow-kt:arrow-exact-jvm", version = "0.1.0" }
 
 # Testing
 mockk = { module = "io.mockk:mockk", version = "1.13.8" }
@@ -57,6 +56,7 @@ kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kote
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
 kotest-property-arrow = { module = "io.kotest.extensions:kotest-property-arrow", version.ref = "arrow" }
+kotest-assertions-arrow = { module = "io.kotest.extensions:kotest-assertions-arrow", version.ref = "arrow" }
 kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
@@ -134,7 +134,6 @@ kotlin = [
 ]
 arrow = [
     "arrowkt-core",
-    "arrow-exact"
 ]
 ktor = [
     "kotlinx-serialization-json",
@@ -150,6 +149,7 @@ testing = [
     "kotest-assertions",
     "kotest-property",
     "kotest-property-arrow",
+    "kotest-assertions-arrow",
     "kotest-datatest",
     "kotlin-coroutines-test",
     "mockk",

@@ -1,11 +1,11 @@
 package com.ivy.legacy
 
 import com.ivy.legacy.data.SharedPrefs
-import com.ivy.core.db.IvyRoomDatabase
 import com.ivy.legacy.utils.ioThread
 import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.OnboardingScreen
+import com.ivy.data.db.IvyRoomDatabase
 import javax.inject.Inject
 
 @Deprecated("Migrate to FP Style & Actions")

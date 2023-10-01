@@ -1,9 +1,6 @@
 package com.ivy.home.customerjourney
 
-import com.ivy.core.db.entity.TransactionType
-import com.ivy.core.db.read.PlannedPaymentRuleDao
-import com.ivy.core.db.read.TransactionDao
-import com.ivy.core.util.stringRes
+import com.ivy.base.util.stringRes
 import com.ivy.design.l0_system.Blue
 import com.ivy.design.l0_system.Blue3
 import com.ivy.design.l0_system.Gradient
@@ -19,11 +16,14 @@ import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.data.model.MainTab
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.PieChartStatisticScreen
+import com.ivy.data.db.dao.read.PlannedPaymentRuleDao
+import com.ivy.data.db.dao.read.TransactionDao
+import com.ivy.base.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.widget.transaction.AddTransactionWidgetCompact
 import javax.inject.Inject
 
-@Deprecated("Use FP style, look into `domain.fp` package")
+@Deprecated("Legacy code")
 class CustomerJourneyCardsProvider @Inject constructor(
     private val transactionDao: TransactionDao,
     private val plannedPaymentRuleDao: PlannedPaymentRuleDao,

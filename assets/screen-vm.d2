@@ -1,12 +1,12 @@
 direction: right
-ui: Screen {
-    a: "@Composable Screen(ViewModel)"
-    b: "@Composable Ui(UiState, (UiEvent) -> Unit)"
+ui: "Compose UI" {
+  "Draws UiState"
+  "Sends UiEvents"
 }
-vm: ViewModel {
-    "@Composable uiState(): UiState"
-    "fun onEvent(UiEvent)"
+vm: "ViewModel" {
+  "Provides UiState"
+  "Handles UiEvents"
 }
 
-vm -> ui: UiState
-ui -> vm: UiEvent
+ui <- vm: "UiState"
+ui -> vm: "UiEvent"
