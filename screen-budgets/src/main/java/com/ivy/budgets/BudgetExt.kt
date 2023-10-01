@@ -1,6 +1,6 @@
 package com.ivy.budgets
 
-import com.ivy.base.util.stringRes
+import com.ivy.base.legacy.stringRes
 import com.ivy.resources.R
 
 fun determineBudgetType(categoriesCount: Int): String {

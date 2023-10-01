@@ -1,4 +1,4 @@
-package com.ivy.base.util
+package com.ivy.base.legacy
 
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
@@ -6,8 +6,10 @@ import android.content.Context
 import android.content.Intent
 import androidx.annotation.StringRes
 
+@Deprecated("Legacy. Will be removed.")
 lateinit var appContext: Context
 
+@Deprecated("Legacy. Will be removed.")
 fun stringRes(
     @StringRes id: Int,
     vararg args: String
@@ -16,6 +18,7 @@ fun stringRes(
     return appContext.getString(id, *args)
 }
 
+@Deprecated("Legacy. Will be removed.")
 fun refreshWidget(widgetReceiver: Class<*>) {
     val updateIntent = Intent(appContext, widgetReceiver)
     updateIntent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE

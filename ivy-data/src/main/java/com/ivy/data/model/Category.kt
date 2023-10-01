@@ -1,8 +1,8 @@
-package com.ivy.domain.model
+package com.ivy.data.model
 
 import androidx.compose.ui.graphics.Color
-import com.ivy.domain.model.primitive.IconId
-import com.ivy.domain.model.primitive.NotBlankTrimmedString
+import com.ivy.data.model.primitive.IconId
+import com.ivy.data.model.primitive.NotBlankTrimmedString
 import java.util.UUID
 
 data class Category(

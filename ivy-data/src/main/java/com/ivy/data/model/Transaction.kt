@@ -1,4 +1,4 @@
-package com.ivy.domain.model
+package com.ivy.data.model
 
 import com.ivy.base.model.TransactionType
 import java.time.LocalDateTime

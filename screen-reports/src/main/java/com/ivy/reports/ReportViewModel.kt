@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.Transaction
-import com.ivy.base.util.stringRes
+import com.ivy.base.legacy.stringRes
 import com.ivy.domain.RootScreen
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category

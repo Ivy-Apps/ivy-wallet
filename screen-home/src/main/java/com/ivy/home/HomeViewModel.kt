@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
-import com.ivy.base.model.Theme
+import com.ivy.base.legacy.Theme
 import com.ivy.domain.ComposeViewModel
 import com.ivy.frp.fixUnit
 import com.ivy.frp.then

@@ -1,8 +1,8 @@
-package com.ivy.domain.model.primitive
+package com.ivy.data.model.primitive
 
 import arrow.core.raise.Raise
 import arrow.core.raise.ensure
-import com.ivy.domain.exact.Exact
+import com.ivy.base.exact.Exact
 
 @JvmInline
 value class NotBlankTrimmedString private constructor(val value: String) {
