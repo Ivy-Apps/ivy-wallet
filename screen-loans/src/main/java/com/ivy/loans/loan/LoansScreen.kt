@@ -66,7 +66,12 @@ import com.ivy.wallet.ui.theme.toComposeColor
 @Composable
 fun BoxWithConstraintsScope.LoansScreen(screen: LoansScreen) {
     val viewModel: LoanViewModel = viewModel()
-    val state  = viewModel.uiState()
+
+    val state by viewModel.state.collectAsState()
+
+    onScreenStart {
+        viewModel.start()
+    }
 
     UI(
         onEventHandler = viewModel::onEvent,

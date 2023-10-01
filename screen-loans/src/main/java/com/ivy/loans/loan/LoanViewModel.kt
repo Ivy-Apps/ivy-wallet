@@ -1,10 +1,7 @@
 package com.ivy.loans.loan
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.ComposeViewModel
 import com.ivy.core.datamodel.Account
 import com.ivy.core.datamodel.Loan
 import com.ivy.core.datamodel.LoanType
@@ -51,89 +48,48 @@ class LoanViewModel @Inject constructor(
     private val accountsAct: AccountsAct,
     private val eventBus: EventBus,
     private val loanWriter: LoanWriter,
-) : ComposeViewModel<LoanScreenState, LoanScreenEvent>() {
+) : ViewModel() {
 
-    private val baseCurrencyCode = mutableStateOf(getDefaultFIATCurrency().currencyCode)
-    private val loans = mutableStateOf<ImmutableList<DisplayLoan>>(persistentListOf())
-    private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
-    private val selectedAccount = mutableStateOf<Account?>(null)
-    private val loanModalData = mutableStateOf<LoanModalData?>(null)
-    private val reorderModalVisible = mutableStateOf(false)
+    private val _baseCurrencyCode = MutableStateFlow(getDefaultFIATCurrency().currencyCode)
+    val baseCurrencyCode = _baseCurrencyCode.asStateFlow()
+
+    private val _loans = MutableStateFlow<ImmutableList<DisplayLoan>>(persistentListOf())
+    val loans = _loans.asStateFlow()
+
+    private val _accounts = MutableStateFlow<ImmutableList<Account>>(persistentListOf())
+    val accounts = _accounts.asStateFlow()
+
+    private val _selectedAccount = MutableStateFlow<Account?>(null)
+    val selectedAccount = _selectedAccount.asStateFlow()
+
     private var defaultCurrencyCode = ""
-    private var totalOweAmount = 0.0
-    private var totalOwedAmount = 0.0
 
-    @Composable
-    override fun uiState(): LoanScreenState {
-        LaunchedEffect(Unit) {
-            start()
-        }
+    private val _state = MutableStateFlow(LoanScreenState())
+    val state: StateFlow<LoanScreenState> = _state
 
-        return LoanScreenState(
-            baseCurrency = defaultCurrencyCode,
-            loans = getLoanValue(),
-            accounts = getAccounts(),
-            selectedAccount = getSelectedAccount(),
-            loanModalData = getLoanModalData(),
-            reorderModalVisible = reorderModalVisible.value,
-            totalOweAmount = getTotalOweAmount(totalOweAmount, defaultCurrencyCode),
-            totalOwedAmount = getTotalOwedAmount(totalOwedAmount, defaultCurrencyCode)
-        )
-    }
-
-    override fun onEvent(event: LoanScreenEvent) {
-        when (event) {
-            is LoanScreenEvent.OnLoanCreate -> {
-                createLoan(event.createLoanData)
-            }
-
-            is LoanScreenEvent.OnAddLoan -> {
-                loanModalData.value = LoanModalData(
-                    loan = null,
-                    baseCurrency = baseCurrencyCode.value,
-                    selectedAccount = selectedAccount.value
-                )
-            }
-
-            is LoanScreenEvent.OnLoanModalDismiss -> {
-                loanModalData.value = null
-            }
-
-            is LoanScreenEvent.OnReOrderModalShow -> {
-                reorderModalVisible.value = event.show
-            }
-
-            is LoanScreenEvent.OnReordered -> {
-                reorder(event.reorderedList)
-            }
-
-            is LoanScreenEvent.OnCreateAccount -> {
-                createAccount(event.accountData)
-            }
-        }
-    }
-
-    private fun start() {
+    fun start() {
         viewModelScope.launch(Dispatchers.Default) {
             TestIdlingResource.increment()
 
             defaultCurrencyCode = ioThread {
                 settingsDao.findFirst().currency
             }.also {
-                baseCurrencyCode.value = it
+                _baseCurrencyCode.value = it
             }
 
             initialiseAccounts()
 
-            totalOweAmount = 0.0
-            totalOwedAmount = 0.0
-            loans.value = ioThread {
+            var totalOweAmount = 0.0
+            var totalOwedAmount = 0.0
+            var currCode = ""
+
+            _loans.value = ioThread {
                 loansAct(Unit)
                     .map { loan ->
                         val amountPaid = calculateAmountPaid(loan)
                         val loanAmount = loan.amount
                         val percentPaid = amountPaid / loanAmount
-                        val currCode = findCurrencyCode(accounts.value, loan.accountId)
+                        currCode = findCurrencyCode(accounts.value, loan.accountId)
 
                         when (loan.type) {
                             LoanType.BORROW -> totalOweAmount += (loanAmount - amountPaid)
@@ -157,20 +113,45 @@ class LoanViewModel @Inject constructor(
                         )
                     }.toImmutableList()
             }
+            _state.value = LoanScreenState(
+                baseCurrency = defaultCurrencyCode,
+                loans = _loans.value,
+                accounts = accounts.value,
+                selectedAccount = selectedAccount.value,
+                totalOweAmount = getTotalOweAmount(totalOweAmount, currCode),
+                totalOwedAmount = getTotalOwedAmount(totalOwedAmount, currCode)
+            )
+
             TestIdlingResource.decrement()
         }
     }
 
-    private suspend fun initialiseAccounts() {
-        val accountList = accountsAct(Unit)
-        accounts.value = accountList
-        selectedAccount.value = defaultAccountId(accountList)
-        selectedAccount.value?.let {
-            baseCurrencyCode.value = it.currency ?: defaultCurrencyCode
+    private fun getTotalOwedAmount(totalOwedAmount: Double, currCode: String): String {
+        return if (totalOwedAmount != 0.0) {
+            "${totalOwedAmount.format(currCode)} $currCode"
+        } else {
+            ""
         }
     }
 
-    private fun createLoan(data: CreateLoanData) {
+    private fun getTotalOweAmount(totalOweAmount: Double, currCode: String): String {
+        return if (totalOweAmount != 0.0) {
+            "${totalOweAmount.format(currCode)} $currCode"
+        } else {
+            ""
+        }
+    }
+
+    private suspend fun initialiseAccounts() {
+        val accounts = accountsAct(Unit)
+        _accounts.value = accounts
+        _selectedAccount.value = defaultAccountId(accounts)
+        _selectedAccount.value?.let {
+            _baseCurrencyCode.value = it.currency ?: defaultCurrencyCode
+        }
+    }
+
+    fun createLoan(data: CreateLoanData) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -186,7 +167,7 @@ class LoanViewModel @Inject constructor(
         }
     }
 
-    private fun reorder(newOrder: List<DisplayLoan>) {
+    fun reorder(newOrder: List<DisplayLoan>) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -201,17 +182,19 @@ class LoanViewModel @Inject constructor(
                 }
             }
             start()
+
             TestIdlingResource.decrement()
         }
     }
 
-    private fun createAccount(data: CreateAccountData) {
+    fun createAccount(data: CreateAccountData) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
             accountCreator.createAccount(data) {
                 eventBus.post(AccountUpdatedEvent)
-                accounts.value = accountsAct(Unit)
+                _accounts.value = accountsAct(Unit)
+                _state.value = state.value.copy(accounts = _accounts.value)
             }
 
             TestIdlingResource.decrement()
@@ -253,31 +236,66 @@ class LoanViewModel @Inject constructor(
         return amount
     }
 
-    @Composable
-    private fun getLoanValue() = loans.value
+    fun onEvent(event: LoanScreenEvent) {
+        viewModelScope.launch(Dispatchers.Default) {
+            when (event) {
+                is LoanScreenEvent.OnLoanCreate -> {
+                    createLoan(event.createLoanData)
+                }
 
-    @Composable
-    private fun getAccounts() = accounts.value
+                is LoanScreenEvent.OnAddLoan -> {
+                    _state.value = _state.value.copy(
+                        loanModalData = LoanModalData(
+                            loan = null,
+                            baseCurrency = baseCurrencyCode.value,
+                            selectedAccount = selectedAccount.value
+                        )
+                    )
+                }
 
-    @Composable
-    private fun getLoanModalData() = loanModalData.value
+                is LoanScreenEvent.OnLoanModalDismiss -> {
+                    _state.value = _state.value.copy(
+                        loanModalData = null
+                    )
+                }
 
-    private fun getTotalOwedAmount(totalOwedAmount: Double, currCode: String): String {
-        return if (totalOwedAmount != 0.0) {
-            "${totalOwedAmount.format(currCode)} $currCode"
-        } else {
-            ""
+                is LoanScreenEvent.OnReOrderModalShow -> {
+                    _state.value = _state.value.copy(
+                        reorderModalVisible = event.show
+                    )
+                }
+
+                is LoanScreenEvent.OnReordered -> {
+                    reorder(event.reorderedList)
+                    _state.value = _state.value.copy(
+                        loans = event.reorderedList
+                    )
+                }
+
+                is LoanScreenEvent.OnCreateAccount -> {
+                    createAccount(event.accountData)
+                }
+            }
         }
     }
+}
 
-    private fun getTotalOweAmount(totalOweAmount: Double, currCode: String): String {
-        return if (totalOweAmount != 0.0) {
-            "${totalOweAmount.format(currCode)} $currCode"
-        } else {
-            ""
-        }
-    }
+data class LoanScreenState(
+    val baseCurrency: String = "",
+    val loans: List<DisplayLoan> = emptyList(),
+    val accounts: List<Account> = emptyList(),
+    val selectedAccount: Account? = null,
+    val loanModalData: LoanModalData? = null,
+    val reorderModalVisible: Boolean = false,
+    val totalOweAmount: String = "",
+    val totalOwedAmount: String = ""
+)
 
-    @Composable
-    private fun getSelectedAccount() = selectedAccount.value
+sealed class LoanScreenEvent {
+    data class OnLoanCreate(val createLoanData: CreateLoanData) : LoanScreenEvent()
+    data class OnReordered(val reorderedList: List<DisplayLoan>) : LoanScreenEvent()
+    data class OnCreateAccount(val accountData: CreateAccountData) : LoanScreenEvent()
+    data class OnReOrderModalShow(val show: Boolean) : LoanScreenEvent()
+    object OnAddLoan : LoanScreenEvent()
+    object OnLoanModalDismiss : LoanScreenEvent()
 }
