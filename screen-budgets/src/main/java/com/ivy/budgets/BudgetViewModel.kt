@@ -118,21 +118,15 @@ class BudgetViewModel @Inject constructor(
         return appBudgetMax.doubleValue
     }
 
-    fun start() {
+    private fun start() {
         viewModelScope.launch {
             categories.value = categoriesAct(Unit)
             val accounts = accountsAct(Unit)
-            this.accounts.value = accounts
-
             val baseCurrency = baseCurrencyAct(Unit)
-            this.baseCurrency.value = baseCurrency
-
             val startDateOfMonth = ivyContext.initStartDayOfMonthInMemory(sharedPrefs = sharedPrefs)
             val timeRange = com.ivy.legacy.data.model.TimePeriod.currentMonth(
                 startDayOfMonth = startDateOfMonth
             ).toRange(startDateOfMonth = startDateOfMonth)
-            this.timeRange.value = timeRange
-
             val budgets = budgetsAct(Unit)
 
             appBudgetMax.doubleValue = budgets
@@ -143,7 +137,7 @@ class BudgetViewModel @Inject constructor(
                 .filter { it.categoryIdsSerialized.isNotNullOrBlank() }
                 .sumOf { it.amount }
 
-            this.budgets.value = com.ivy.legacy.utils.ioThread {
+            this@BudgetViewModel.budgets.value = com.ivy.legacy.utils.ioThread {
                 budgets.map {
                     DisplayBudget(
                         budget = it,
@@ -156,6 +150,9 @@ class BudgetViewModel @Inject constructor(
                     )
                 }.toImmutableList()
             }
+            this@BudgetViewModel.accounts.value = accounts
+            this@BudgetViewModel.baseCurrency.value = baseCurrency
+            this@BudgetViewModel.timeRange.value = timeRange
         }
     }
 
@@ -199,7 +196,7 @@ class BudgetViewModel @Inject constructor(
             }
     }
 
-    fun createBudget(data: CreateBudgetData) {
+    private fun createBudget(data: CreateBudgetData) {
         viewModelScope.launch {
             budgetCreator.createBudget(data) {
                 start()
@@ -207,7 +204,7 @@ class BudgetViewModel @Inject constructor(
         }
     }
 
-    fun editBudget(budget: Budget) {
+    private fun editBudget(budget: Budget) {
         viewModelScope.launch {
             budgetCreator.editBudget(budget) {
                 start()
@@ -215,7 +212,7 @@ class BudgetViewModel @Inject constructor(
         }
     }
 
-    fun deleteBudget(budget: Budget) {
+    private fun deleteBudget(budget: Budget) {
         viewModelScope.launch {
             budgetCreator.deleteBudget(budget) {
                 start()
@@ -223,7 +220,7 @@ class BudgetViewModel @Inject constructor(
         }
     }
 
-    fun reorder(newOrder: List<DisplayBudget>) {
+    private fun reorder(newOrder: List<DisplayBudget>) {
         viewModelScope.launch {
             com.ivy.legacy.utils.ioThread {
                 newOrder.forEachIndexed { index, item ->
