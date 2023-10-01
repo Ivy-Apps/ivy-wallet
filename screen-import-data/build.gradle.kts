@@ -18,4 +18,6 @@ dependencies {
     implementation(projects.screenOnboarding) // TODO: Fix that
 
     implementation(libs.bundles.opencsv)
+
+    testImplementation(projects.ivyTesting)
 }

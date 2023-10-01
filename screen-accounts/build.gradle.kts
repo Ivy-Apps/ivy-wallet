@@ -14,4 +14,6 @@ dependencies {
     implementation(projects.ivyNavigation)
     implementation(projects.tempLegacyCode)
     implementation(projects.ivyData)
+
+    testImplementation(projects.ivyTesting)
 }

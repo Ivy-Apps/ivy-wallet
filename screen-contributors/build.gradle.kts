@@ -16,5 +16,5 @@ dependencies {
 
     implementation(libs.bundles.ktor)
 
-    implementation(projects.ivyDesign)
+    testImplementation(projects.ivyTesting)
 }
