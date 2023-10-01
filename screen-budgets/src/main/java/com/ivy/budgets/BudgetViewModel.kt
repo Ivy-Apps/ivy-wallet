@@ -78,21 +78,6 @@ class BudgetViewModel @Inject constructor(
         )
     }
 
-    override fun onEvent(event: BudgetScreenEvent) {
-        when (event) {
-            is BudgetScreenEvent.OnCreateBudget -> { createBudget(event.budgetData) }
-            is BudgetScreenEvent.OnEditBudget -> { editBudget(event.budget) }
-            is BudgetScreenEvent.OnDeleteBudget -> { deleteBudget(event.budget) }
-            is BudgetScreenEvent.OnReorder -> { reorder(event.newOrder) }
-            is BudgetScreenEvent.OnReorderModalVisible -> {
-                reorderModalVisible.value = event.visible
-            }
-            is BudgetScreenEvent.OnBudgetModalData -> {
-                budgetModalData.value = event.budgetModalData
-            }
-        }
-    }
-
     @Composable
     private fun getBaseCurrency(): String {
         return baseCurrency.value
@@ -136,6 +121,21 @@ class BudgetViewModel @Inject constructor(
     @Composable
     private fun getBudgetModalData(): BudgetModalData? {
         return budgetModalData.value
+    }
+
+    override fun onEvent(event: BudgetScreenEvent) {
+        when (event) {
+            is BudgetScreenEvent.OnCreateBudget -> { createBudget(event.budgetData) }
+            is BudgetScreenEvent.OnEditBudget -> { editBudget(event.budget) }
+            is BudgetScreenEvent.OnDeleteBudget -> { deleteBudget(event.budget) }
+            is BudgetScreenEvent.OnReorder -> { reorder(event.newOrder) }
+            is BudgetScreenEvent.OnReorderModalVisible -> {
+                reorderModalVisible.value = event.visible
+            }
+            is BudgetScreenEvent.OnBudgetModalData -> {
+                budgetModalData.value = event.budgetModalData
+            }
+        }
     }
 
     private fun start() {
