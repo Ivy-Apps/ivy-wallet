@@ -6,6 +6,12 @@ import app.cash.turbine.test
 import com.ivy.domain.ComposeViewModel
 
 
+/**
+ * Runs a [ComposeViewModel] test simulation.
+ * Compose runtime effects are executed [RecompositionMode.Immediate].
+ * @param events pass the events that have occurred in your simulation
+ * @param verify assert what's the expected state after all the events
+ */
 fun <UiState, UiEvent> ComposeViewModel<UiState, UiEvent>.runTest(
     vararg events: UiEvent,
     verify: UiState.() -> Unit
