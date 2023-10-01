@@ -1,6 +1,5 @@
 package com.ivy.wallet.ui.theme.modal.edit
 
-import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Spacer
@@ -64,10 +63,15 @@ fun BoxWithConstraintsScope.CalculatorModal(
             ModalSet(
                 modifier = Modifier.testTag("calc_set")
             ) {
-                val result = calculate(context, expression)
+                val result = calculate(expression)
                 if (result != null) {
-                    onCalculation(result)
-                    dismiss()
+                    if (result < 0) {
+                        Toast.makeText(context, "Amount cannot be negative", Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
+                        onCalculation(result)
+                        dismiss()
+                    }
                 }
             }
         }
@@ -160,9 +164,15 @@ fun BoxWithConstraintsScope.CalculatorModal(
                     text = "=",
                     testTag = "key_="
                 ) {
-                    val result = calculate(context, expression)
+                    val result = calculate(expression)
                     if (result != null) {
-                        expression = result.format(currency)
+                        if (result < 0) {
+                            Toast.makeText(context, "Amount cannot be negative", Toast.LENGTH_SHORT)
+                                .show()
+                        } else {
+                            onCalculation(result)
+                            dismiss()
+                        }
                     }
                 }
             },
@@ -217,16 +227,11 @@ private fun formatExpression(expression: String, currency: String): String {
     return formattedExpression
 }
 
-private fun calculate(context: Context, expression: String): Double? {
+private fun calculate(expression: String): Double? {
     return try {
         // Keval doesn't support negative numbers, so we add a zero in front of the expression
         val modifiedExpression = if (expression.startsWith("-")) "0$expression" else expression
-        val result = Keval.eval(modifiedExpression.normalizeExpression())
-        if (result < 0) {
-            Toast.makeText(context, "Amount cannot be negative", Toast.LENGTH_SHORT).show()
-            return null
-        } else
-            return result
+        Keval.eval(modifiedExpression.normalizeExpression())
     } catch (e: Exception) {
         null
     }
