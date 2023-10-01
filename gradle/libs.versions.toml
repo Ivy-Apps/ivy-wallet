@@ -60,6 +60,8 @@ kotest-assertions-arrow = { module = "io.kotest.extensions:kotest-assertions-arr
 kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
+cashapp-molecule-plugin = { module = "app.cash.molecule:molecule-gradle-plugin", version = "1.2.1" }
+cashapp-turbine = { module = "app.cash.turbine:turbine", version = "1.0.0" }
 
 # Compose
 compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
@@ -153,7 +155,8 @@ testing = [
     "kotest-datatest",
     "kotlin-coroutines-test",
     "mockk",
-    "hilt-testing"
+    "hilt-testing",
+    "cashapp-turbine"
 ]
 compose = [
     "compose-animation",
