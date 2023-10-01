@@ -1,7 +1,7 @@
 package com.ivy.legacy.datamodel
 
 import androidx.compose.runtime.Immutable
-import com.ivy.persistence.db.entity.ExchangeRateEntity
+import com.ivy.data.db.entity.ExchangeRateEntity
 
 @Deprecated("Legacy data model. Will be deleted")
 @Immutable

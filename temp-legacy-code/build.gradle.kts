@@ -13,7 +13,7 @@ dependencies {
     implementation(projects.ivyResources)
     implementation(projects.tempOldDesign)
     implementation(projects.ivyNavigation)
-    implementation(projects.ivyPersistence)
+    implementation(projects.ivyData)
 
     implementation(libs.bundles.activity)
     implementation(libs.bundles.opencsv)

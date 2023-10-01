@@ -25,7 +25,7 @@ import com.ivy.legacy.forDisplay
 import com.ivy.legacy.utils.formatDateOnly
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.uppercaseLocal
-import com.ivy.persistence.model.IntervalType
+import com.ivy.data.model.IntervalType
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.components.AddPrimaryAttributeButton

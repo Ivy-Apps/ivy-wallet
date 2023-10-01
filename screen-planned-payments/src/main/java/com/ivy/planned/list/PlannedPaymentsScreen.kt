@@ -27,8 +27,8 @@ import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.PlannedPaymentsScreen
 import com.ivy.navigation.navigation
-import com.ivy.persistence.model.IntervalType
-import com.ivy.persistence.model.TransactionType
+import com.ivy.data.model.IntervalType
+import com.ivy.base.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Orange

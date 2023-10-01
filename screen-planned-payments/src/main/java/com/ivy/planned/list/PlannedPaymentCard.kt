@@ -24,12 +24,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
-import com.ivy.legacy.datamodel.PlannedPaymentRule
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
+import com.ivy.legacy.datamodel.PlannedPaymentRule
 import com.ivy.legacy.forDisplay
 import com.ivy.legacy.ui.component.transaction.TypeAmountCurrency
 import com.ivy.legacy.utils.formatDateOnly
@@ -37,10 +37,10 @@ import com.ivy.legacy.utils.formatDateOnlyWithYear
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.uppercaseLocal
-import com.ivy.navigation.ItemStatisticScreen
+import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
-import com.ivy.persistence.model.IntervalType
-import com.ivy.persistence.model.TransactionType
+import com.ivy.data.model.IntervalType
+import com.ivy.base.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gradient
@@ -160,7 +160,7 @@ private fun PlannedPaymentHeaderRow(
                     iconEdgePadding = 10.dp
                 ) {
                     nav.navigateTo(
-                        ItemStatisticScreen(
+                        TransactionsScreen(
                             accountId = null,
                             categoryId = category.id
                         )
@@ -185,7 +185,7 @@ private fun PlannedPaymentHeaderRow(
             ) {
                 account?.let {
                     nav.navigateTo(
-                        ItemStatisticScreen(
+                        TransactionsScreen(
                             accountId = account.id,
                             categoryId = null
                         )

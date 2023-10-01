@@ -1,7 +1,7 @@
 package com.ivy.base.legacy
 
 import androidx.compose.runtime.Immutable
-import com.ivy.persistence.model.TransactionType
+import com.ivy.base.model.TransactionType
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.util.UUID

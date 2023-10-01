@@ -1,7 +1,7 @@
 package com.ivy.legacy.datamodel.temp
 
 import com.ivy.legacy.datamodel.Settings
-import com.ivy.persistence.db.entity.SettingsEntity
+import com.ivy.data.db.entity.SettingsEntity
 
 fun SettingsEntity.toDomain(): Settings = Settings(
     theme = theme,

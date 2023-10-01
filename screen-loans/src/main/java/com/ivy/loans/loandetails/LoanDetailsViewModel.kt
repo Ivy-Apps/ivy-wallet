@@ -17,11 +17,11 @@ import com.ivy.legacy.utils.ioThread
 import com.ivy.loans.loan.data.DisplayLoanRecord
 import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.Navigation
-import com.ivy.persistence.db.dao.read.AccountDao
-import com.ivy.persistence.db.dao.read.LoanDao
-import com.ivy.persistence.db.dao.read.LoanRecordDao
-import com.ivy.persistence.db.dao.read.SettingsDao
-import com.ivy.persistence.db.dao.read.TransactionDao
+import com.ivy.data.db.dao.read.AccountDao
+import com.ivy.data.db.dao.read.LoanDao
+import com.ivy.data.db.dao.read.LoanRecordDao
+import com.ivy.data.db.dao.read.SettingsDao
+import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.loan.LoanByIdAct
 import com.ivy.wallet.domain.deprecated.logic.LoanCreator

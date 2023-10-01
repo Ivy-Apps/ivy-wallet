@@ -1,0 +1,23 @@
+data: "Data Layer" {
+  crud: "CRUD + Validation" {
+    ds: "DataSource"
+    r: "Repository"
+    r -> ds    
+  }
+}
+domain: "Domain Layer" {
+  "Business logic" {
+    "Uses repositories to do smart things"
+  }
+}
+ui: "UI Layer" {
+    "Screens" {
+      ui: "Compose UI"
+      vm: "ViewModel"
+      ui -> vm: "UiEvents"
+      vm -> ui: "UiState"
+    }
+}
+
+ui -> domain -> data
+ui -> data

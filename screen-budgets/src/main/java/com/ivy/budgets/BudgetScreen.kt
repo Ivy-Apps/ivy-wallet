@@ -83,15 +83,17 @@ private fun BoxWithConstraintsScope.UI(
                 displayBudget = item,
                 baseCurrency = state.baseCurrency
             ) {
-                onEvent(BudgetScreenEvent.OnBudgetModalData(
-                    BudgetModalData(
-                        budget = item.budget,
-                        baseCurrency = state.baseCurrency,
-                        categories = state.categories,
-                        accounts = state.accounts,
-                        autoFocusKeyboard = false
+                onEvent(
+                    BudgetScreenEvent.OnBudgetModalData(
+                        BudgetModalData(
+                            budget = item.budget,
+                            baseCurrency = state.baseCurrency,
+                            categories = state.categories,
+                            accounts = state.accounts,
+                            autoFocusKeyboard = false
+                        )
                     )
-                ))
+                )
             }
         }
 
@@ -112,14 +114,16 @@ private fun BoxWithConstraintsScope.UI(
     val nav = navigation()
     BudgetBottomBar(
         onAdd = {
-            onEvent(BudgetScreenEvent.OnBudgetModalData(
-                BudgetModalData(
-                    budget = null,
-                    baseCurrency = state.baseCurrency,
-                    categories = state.categories,
-                    accounts = state.accounts
+            onEvent(
+                BudgetScreenEvent.OnBudgetModalData(
+                    BudgetModalData(
+                        budget = null,
+                        baseCurrency = state.baseCurrency,
+                        categories = state.categories,
+                        accounts = state.accounts
+                    )
                 )
-            ))
+            )
         },
         onClose = {
             nav.back()
