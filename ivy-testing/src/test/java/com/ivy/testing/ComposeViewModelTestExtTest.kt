@@ -7,11 +7,8 @@ class ComposeViewModelTestExtTest : FreeSpec({
     "initial state, no events" {
         val viewModel = FakeViewModel()
 
-        viewModel.runTest(
-            events = {}
-        ) {
-            awaitItem().counter shouldBe 0
-            awaitItem().counter shouldBe 42
+        viewModel.runTest {
+            counter shouldBe 42
         }
     }
 
@@ -23,7 +20,33 @@ class ComposeViewModelTestExtTest : FreeSpec({
                 onEvent(FakeUiEvent.Increment)
             }
         ) {
-            expectMostRecentItem().counter shouldBe 43
+            counter shouldBe 43
+        }
+    }
+
+    "decrement event" {
+        val viewModel = FakeViewModel()
+
+        viewModel.runTest(
+            events = {
+                onEvent(FakeUiEvent.Decrement)
+            }
+        ) {
+            counter shouldBe 41
+        }
+    }
+
+    "1 decrement 2 increment event" {
+        val viewModel = FakeViewModel()
+
+        viewModel.runTest(
+            events = {
+                onEvent(FakeUiEvent.Decrement)
+                onEvent(FakeUiEvent.Increment)
+                onEvent(FakeUiEvent.Increment)
+            }
+        ) {
+            counter shouldBe 43
         }
     }
 })
