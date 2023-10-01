@@ -15,4 +15,6 @@ dependencies {
     implementation(projects.tempLegacyCode)
     implementation(projects.widgetBalance)
     implementation(projects.ivyData)
+
+    testImplementation(projects.ivyTesting)
 }
