@@ -5,14 +5,14 @@ import arrow.core.raise.ensure
 import com.ivy.base.exact.Exact
 
 @JvmInline
-value class IconId private constructor(val id: String) {
-    companion object : Exact<String, IconId> {
+value class IconAsset private constructor(val id: String) {
+    companion object : Exact<String, IconAsset> {
         override val name = "IconId"
 
-        override fun Raise<String>.spec(raw: String): IconId {
+        override fun Raise<String>.spec(raw: String): IconAsset {
             val notBlankTrimmed = NotBlankTrimmedString.from(raw).bind().value
             ensure(" " !in notBlankTrimmed) { "Cannot contain spaces" }
-            return IconId(notBlankTrimmed.lowercase())
+            return IconAsset(notBlankTrimmed.lowercase())
         }
 
     }

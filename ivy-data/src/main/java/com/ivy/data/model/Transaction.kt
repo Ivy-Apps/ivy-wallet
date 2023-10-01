@@ -4,17 +4,20 @@ import com.ivy.base.model.TransactionType
 import java.time.LocalDateTime
 import java.util.UUID
 
+@JvmInline
+value class TransactionId(val value: UUID)
+
 data class Transaction(
-    val id: UUID,
-    val accountId: UUID,
+    val id: TransactionId,
+    val accountId: AccountId,
     val type: TransactionType,
     val amount: Double,
-    val toAccountId: UUID?,
+    val toAccountId: AccountId?,
     val toAmount: Double,
     val title: String,
     val description: String,
     val dateTime: LocalDateTime,
-    val categoryId: UUID,
+    val categoryId: CategoryId?,
     val dueDate: LocalDateTime,
 
     val recurringRuleId: UUID,

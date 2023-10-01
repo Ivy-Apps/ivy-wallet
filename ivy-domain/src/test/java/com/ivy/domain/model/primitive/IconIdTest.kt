@@ -1,23 +1,23 @@
 package com.ivy.domain.model.primitive
 
-import com.ivy.data.model.primitive.IconId
+import com.ivy.data.model.primitive.IconAsset
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.booleans.shouldBeTrue
 
 class IconIdTest : FreeSpec({
     "fails for blank ids" {
-        IconId.from("").shouldBeLeft()
-        IconId.from(" ").shouldBeLeft()
-        IconId.from("   ").shouldBeLeft()
+        IconAsset.from("").shouldBeLeft()
+        IconAsset.from(" ").shouldBeLeft()
+        IconAsset.from("   ").shouldBeLeft()
     }
 
     "fails for icon ids containing spaces" {
-        IconId.from("icon 1").shouldBeLeft()
+        IconAsset.from("icon 1").shouldBeLeft()
     }
 
     "icon ids should be always lowercase and trimmed" {
-        IconId.from(" iCoN ")
+        IconAsset.from(" iCoN ")
             .isRight { it.id == "icon" }
             .shouldBeTrue()
     }
