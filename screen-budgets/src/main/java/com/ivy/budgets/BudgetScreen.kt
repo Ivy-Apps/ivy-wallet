@@ -39,6 +39,7 @@ import com.ivy.legacy.legacy.ui.theme.components.BudgetBattery
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.format
 import com.ivy.navigation.BudgetScreen
+import com.ivy.navigation.screenScopedViewModel
 import com.ivy.resources.R
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
 import com.ivy.wallet.ui.theme.Gray
@@ -49,50 +50,19 @@ import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 
 @Composable
 fun BoxWithConstraintsScope.BudgetScreen(screen: BudgetScreen) {
-    val viewModel: BudgetViewModel = viewModel()
-
-    val timeRange by viewModel.timeRange.collectAsState()
-    val baseCurrency by viewModel.baseCurrencyCode.collectAsState()
-    val categories by viewModel.categories.collectAsState()
-    val accounts by viewModel.accounts.collectAsState()
-    val budgets by viewModel.budgets.collectAsState()
-    val appBudgetMax by viewModel.appBudgetMax.collectAsState()
-    val categoryBudgetsTotal by viewModel.categoryBudgetsTotal.collectAsState()
-
-    com.ivy.legacy.utils.onScreenStart {
-        viewModel.start()
-    }
+    val viewModel: BudgetViewModel = screenScopedViewModel()
+    val uiState = viewModel.uiState()
 
     UI(
-        timeRange = timeRange,
-        baseCurrency = baseCurrency,
-        categories = categories,
-        accounts = accounts,
-        displayBudgets = budgets,
-        appBudgetMax = appBudgetMax,
-        categoryBudgetsTotal = categoryBudgetsTotal,
-
-        onCreateBudget = viewModel::createBudget,
-        onEditBudget = viewModel::editBudget,
-        onDeleteBudget = viewModel::deleteBudget,
-        onReorder = viewModel::reorder
+        state = uiState,
+        onEvent = viewModel::onEvent
     )
 }
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    timeRange: com.ivy.legacy.data.model.FromToTimeRange?,
-    baseCurrency: String,
-    categories: List<Category>,
-    accounts: List<Account>,
-    displayBudgets: List<DisplayBudget>,
-    appBudgetMax: Double,
-    categoryBudgetsTotal: Double,
-
-    onCreateBudget: (CreateBudgetData) -> Unit = {},
-    onEditBudget: (Budget) -> Unit = {},
-    onDeleteBudget: (Budget) -> Unit = {},
-    onReorder: (List<DisplayBudget>) -> Unit = {}
+    state: BudgetScreenState,
+    onEvent: (BudgetScreenEvent) -> Unit = {}
 ) {
     var reorderModalVisible by remember { mutableStateOf(false) }
     var budgetModalData: BudgetModalData? by remember { mutableStateOf(null) }
