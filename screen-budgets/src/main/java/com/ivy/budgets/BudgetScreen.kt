@@ -60,7 +60,6 @@ private fun BoxWithConstraintsScope.UI(
     state: BudgetScreenState,
     onEvent: (BudgetScreenEvent) -> Unit = {}
 ) {
-    var reorderModalVisible by remember { mutableStateOf(false) }
     var budgetModalData: BudgetModalData? by remember { mutableStateOf(null) }
 
     Column(
@@ -77,7 +76,7 @@ private fun BoxWithConstraintsScope.UI(
             appBudgetMax = state.appBudgetMax,
             categoryBudgetsTotal = state.categoryBudgetsTotal,
             setReorderModalVisible = {
-                reorderModalVisible = it
+                onEvent(BudgetScreenEvent.OnReorderModalVisible(it))
             }
         )
 
@@ -130,10 +129,10 @@ private fun BoxWithConstraintsScope.UI(
     )
 
     ReorderModalSingleType(
-        visible = reorderModalVisible,
+        visible = state.reorderModalVisible,
         initialItems = state.budgets,
         dismiss = {
-            reorderModalVisible = false
+            onEvent(BudgetScreenEvent.OnReorderModalVisible(false))
         },
         onReordered = { onEvent(BudgetScreenEvent.OnReorder(it)) }
     ) { _, item ->
