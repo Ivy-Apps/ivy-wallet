@@ -14,6 +14,5 @@ value class IconAsset private constructor(val id: String) {
             ensure(" " !in notBlankTrimmed) { "Cannot contain spaces" }
             return IconAsset(notBlankTrimmed.lowercase())
         }
-
     }
 }
