@@ -57,6 +57,7 @@ class BudgetViewModel @Inject constructor(
     private val categoryBudgetsTotal = mutableDoubleStateOf(0.0)
     private val appBudgetMax = mutableDoubleStateOf(0.0)
     private val reorderModalVisible = mutableStateOf(false)
+    private val budgetModalData = mutableStateOf<BudgetModalData?>(null)
 
     @Composable
     override fun uiState(): BudgetScreenState {
@@ -72,7 +73,8 @@ class BudgetViewModel @Inject constructor(
             categoryBudgetsTotal = getCategoryBudgetsTotal(),
             appBudgetMax = getAppBudgetMax(),
             timeRange = getTimeRange(),
-            reorderModalVisible = getReorderModalVisible()
+            reorderModalVisible = getReorderModalVisible(),
+            budgetModalData = getBudgetModalData()
         )
     }
 
@@ -84,6 +86,9 @@ class BudgetViewModel @Inject constructor(
             is BudgetScreenEvent.OnReorder -> { reorder(event.newOrder) }
             is BudgetScreenEvent.OnReorderModalVisible -> {
                 reorderModalVisible.value = event.visible
+            }
+            is BudgetScreenEvent.OnBudgetModalData -> {
+                budgetModalData.value = event.budgetModalData
             }
         }
     }
@@ -126,6 +131,11 @@ class BudgetViewModel @Inject constructor(
     @Composable
     private fun getAppBudgetMax(): Double {
         return appBudgetMax.doubleValue
+    }
+
+    @Composable
+    private fun getBudgetModalData(): BudgetModalData? {
+        return budgetModalData.value
     }
 
     private fun start() {

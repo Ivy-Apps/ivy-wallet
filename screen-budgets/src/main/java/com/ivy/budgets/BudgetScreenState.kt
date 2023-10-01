@@ -16,5 +16,6 @@ data class BudgetScreenState(
     val categoryBudgetsTotal: Double,
     val appBudgetMax: Double,
     val timeRange: FromToTimeRange?,
-    val reorderModalVisible: Boolean = false
+    val reorderModalVisible: Boolean,
+    val budgetModalData: BudgetModalData?
 )

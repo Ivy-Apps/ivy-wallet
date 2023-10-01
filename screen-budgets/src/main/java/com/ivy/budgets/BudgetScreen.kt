@@ -14,10 +14,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -60,8 +56,6 @@ private fun BoxWithConstraintsScope.UI(
     state: BudgetScreenState,
     onEvent: (BudgetScreenEvent) -> Unit = {}
 ) {
-    var budgetModalData: BudgetModalData? by remember { mutableStateOf(null) }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -89,13 +83,15 @@ private fun BoxWithConstraintsScope.UI(
                 displayBudget = item,
                 baseCurrency = state.baseCurrency
             ) {
-                budgetModalData = BudgetModalData(
-                    budget = item.budget,
-                    baseCurrency = state.baseCurrency,
-                    categories = state.categories,
-                    accounts = state.accounts,
-                    autoFocusKeyboard = false
-                )
+                onEvent(BudgetScreenEvent.OnBudgetModalData(
+                    BudgetModalData(
+                        budget = item.budget,
+                        baseCurrency = state.baseCurrency,
+                        categories = state.categories,
+                        accounts = state.accounts,
+                        autoFocusKeyboard = false
+                    )
+                ))
             }
         }
 
@@ -116,12 +112,14 @@ private fun BoxWithConstraintsScope.UI(
     val nav = navigation()
     BudgetBottomBar(
         onAdd = {
-            budgetModalData = BudgetModalData(
-                budget = null,
-                baseCurrency = state.baseCurrency,
-                categories = state.categories,
-                accounts = state.accounts
-            )
+            onEvent(BudgetScreenEvent.OnBudgetModalData(
+                BudgetModalData(
+                    budget = null,
+                    baseCurrency = state.baseCurrency,
+                    categories = state.categories,
+                    accounts = state.accounts
+                )
+            ))
         },
         onClose = {
             nav.back()
@@ -150,12 +148,12 @@ private fun BoxWithConstraintsScope.UI(
     }
 
     BudgetModal(
-        modal = budgetModalData,
+        modal = state.budgetModalData,
         onCreate = { onEvent(BudgetScreenEvent.OnCreateBudget(it)) },
         onEdit = { onEvent(BudgetScreenEvent.OnEditBudget(it)) },
         onDelete = { onEvent(BudgetScreenEvent.OnDeleteBudget(it)) },
         dismiss = {
-            budgetModalData = null
+            onEvent(BudgetScreenEvent.OnBudgetModalData(null))
         }
     )
 }
@@ -366,6 +364,8 @@ private fun Preview_Empty() {
                 budgets = persistentListOf(),
                 appBudgetMax = 5000.0,
                 categoryBudgetsTotal = 2400.0,
+                budgetModalData = null,
+                reorderModalVisible = false
             )
         )
     }
@@ -385,6 +385,8 @@ private fun Preview_Budgets() {
                 accounts = persistentListOf(),
                 appBudgetMax = 5000.0,
                 categoryBudgetsTotal = 0.0,
+                budgetModalData = null,
+                reorderModalVisible = false,
                 budgets = persistentListOf(
                     DisplayBudget(
                         budget = Budget(
