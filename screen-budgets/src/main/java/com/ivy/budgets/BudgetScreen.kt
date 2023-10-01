@@ -14,11 +14,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -27,11 +22,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.budgets.model.DisplayBudget
-import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Budget
-import com.ivy.legacy.datamodel.Category
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.navigation.navigation
@@ -39,64 +31,31 @@ import com.ivy.legacy.legacy.ui.theme.components.BudgetBattery
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.format
 import com.ivy.navigation.BudgetScreen
+import com.ivy.navigation.screenScopedViewModel
 import com.ivy.resources.R
-import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.ReorderButton
 import com.ivy.wallet.ui.theme.components.ReorderModalSingleType
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun BoxWithConstraintsScope.BudgetScreen(screen: BudgetScreen) {
-    val viewModel: BudgetViewModel = viewModel()
-
-    val timeRange by viewModel.timeRange.collectAsState()
-    val baseCurrency by viewModel.baseCurrencyCode.collectAsState()
-    val categories by viewModel.categories.collectAsState()
-    val accounts by viewModel.accounts.collectAsState()
-    val budgets by viewModel.budgets.collectAsState()
-    val appBudgetMax by viewModel.appBudgetMax.collectAsState()
-    val categoryBudgetsTotal by viewModel.categoryBudgetsTotal.collectAsState()
-
-    com.ivy.legacy.utils.onScreenStart {
-        viewModel.start()
-    }
+    val viewModel: BudgetViewModel = screenScopedViewModel()
+    val uiState = viewModel.uiState()
 
     UI(
-        timeRange = timeRange,
-        baseCurrency = baseCurrency,
-        categories = categories,
-        accounts = accounts,
-        displayBudgets = budgets,
-        appBudgetMax = appBudgetMax,
-        categoryBudgetsTotal = categoryBudgetsTotal,
-
-        onCreateBudget = viewModel::createBudget,
-        onEditBudget = viewModel::editBudget,
-        onDeleteBudget = viewModel::deleteBudget,
-        onReorder = viewModel::reorder
+        state = uiState,
+        onEvent = viewModel::onEvent
     )
 }
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    timeRange: com.ivy.legacy.data.model.FromToTimeRange?,
-    baseCurrency: String,
-    categories: List<Category>,
-    accounts: List<Account>,
-    displayBudgets: List<DisplayBudget>,
-    appBudgetMax: Double,
-    categoryBudgetsTotal: Double,
-
-    onCreateBudget: (CreateBudgetData) -> Unit = {},
-    onEditBudget: (Budget) -> Unit = {},
-    onDeleteBudget: (Budget) -> Unit = {},
-    onReorder: (List<DisplayBudget>) -> Unit = {}
+    state: BudgetScreenState,
+    onEvent: (BudgetScreenEvent) -> Unit = {}
 ) {
-    var reorderModalVisible by remember { mutableStateOf(false) }
-    var budgetModalData: BudgetModalData? by remember { mutableStateOf(null) }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -106,35 +65,39 @@ private fun BoxWithConstraintsScope.UI(
         Spacer(Modifier.height(32.dp))
 
         Toolbar(
-            timeRange = timeRange,
-            baseCurrency = baseCurrency,
-            appBudgetMax = appBudgetMax,
-            categoryBudgetsTotal = categoryBudgetsTotal,
+            timeRange = state.timeRange,
+            baseCurrency = state.baseCurrency,
+            appBudgetMax = state.appBudgetMax,
+            categoryBudgetsTotal = state.categoryBudgetsTotal,
             setReorderModalVisible = {
-                reorderModalVisible = it
+                onEvent(BudgetScreenEvent.OnReorderModalVisible(it))
             }
         )
 
         Spacer(Modifier.height(8.dp))
 
-        for (item in displayBudgets) {
+        for (item in state.budgets) {
             Spacer(Modifier.height(24.dp))
 
             BudgetItem(
                 displayBudget = item,
-                baseCurrency = baseCurrency
+                baseCurrency = state.baseCurrency
             ) {
-                budgetModalData = BudgetModalData(
-                    budget = item.budget,
-                    baseCurrency = baseCurrency,
-                    categories = categories,
-                    accounts = accounts,
-                    autoFocusKeyboard = false
+                onEvent(
+                    BudgetScreenEvent.OnBudgetModalData(
+                        BudgetModalData(
+                            budget = item.budget,
+                            baseCurrency = state.baseCurrency,
+                            categories = state.categories,
+                            accounts = state.accounts,
+                            autoFocusKeyboard = false
+                        )
+                    )
                 )
             }
         }
 
-        if (displayBudgets.isEmpty()) {
+        if (state.budgets.isEmpty()) {
             Spacer(Modifier.weight(1f))
 
             NoBudgetsEmptyState(
@@ -151,11 +114,15 @@ private fun BoxWithConstraintsScope.UI(
     val nav = navigation()
     BudgetBottomBar(
         onAdd = {
-            budgetModalData = BudgetModalData(
-                budget = null,
-                baseCurrency = baseCurrency,
-                categories = categories,
-                accounts = accounts
+            onEvent(
+                BudgetScreenEvent.OnBudgetModalData(
+                    BudgetModalData(
+                        budget = null,
+                        baseCurrency = state.baseCurrency,
+                        categories = state.categories,
+                        accounts = state.accounts
+                    )
+                )
             )
         },
         onClose = {
@@ -164,12 +131,12 @@ private fun BoxWithConstraintsScope.UI(
     )
 
     ReorderModalSingleType(
-        visible = reorderModalVisible,
-        initialItems = displayBudgets,
+        visible = state.reorderModalVisible,
+        initialItems = state.budgets,
         dismiss = {
-            reorderModalVisible = false
+            onEvent(BudgetScreenEvent.OnReorderModalVisible(false))
         },
-        onReordered = onReorder
+        onReordered = { onEvent(BudgetScreenEvent.OnReorder(it)) }
     ) { _, item ->
         Text(
             modifier = Modifier
@@ -185,12 +152,12 @@ private fun BoxWithConstraintsScope.UI(
     }
 
     BudgetModal(
-        modal = budgetModalData,
-        onCreate = onCreateBudget,
-        onEdit = onEditBudget,
-        onDelete = onDeleteBudget,
+        modal = state.budgetModalData,
+        onCreate = { onEvent(BudgetScreenEvent.OnCreateBudget(it)) },
+        onEdit = { onEvent(BudgetScreenEvent.OnEditBudget(it)) },
+        onDelete = { onEvent(BudgetScreenEvent.OnDeleteBudget(it)) },
         dismiss = {
-            budgetModalData = null
+            onEvent(BudgetScreenEvent.OnBudgetModalData(null))
         }
     )
 }
@@ -201,7 +168,6 @@ private fun Toolbar(
     baseCurrency: String,
     appBudgetMax: Double,
     categoryBudgetsTotal: Double,
-
     setReorderModalVisible: (Boolean) -> Unit
 ) {
     Row(
@@ -289,7 +255,6 @@ private fun Toolbar(
 private fun BudgetItem(
     displayBudget: DisplayBudget,
     baseCurrency: String,
-
     onClick: () -> Unit
 ) {
     Row(
@@ -347,9 +312,9 @@ private fun BudgetItem(
 
 @Composable
 private fun NoBudgetsEmptyState(
-    modifier: Modifier = Modifier,
     emptyStateTitle: String,
     emptyStateText: String,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -393,17 +358,19 @@ private fun NoBudgetsEmptyState(
 private fun Preview_Empty() {
     com.ivy.legacy.IvyWalletPreview {
         UI(
-            timeRange = com.ivy.legacy.data.model.TimePeriod.currentMonth(
-                startDayOfMonth = 1
-            ).toRange(1), // preview
-            baseCurrency = "BGN",
-            categories = emptyList(),
-            accounts = emptyList(),
-            displayBudgets = emptyList(),
-            appBudgetMax = 5000.0,
-            categoryBudgetsTotal = 2400.0,
-
-            onReorder = {}
+            state = BudgetScreenState(
+                timeRange = com.ivy.legacy.data.model.TimePeriod.currentMonth(
+                    startDayOfMonth = 1
+                ).toRange(1), // preview
+                baseCurrency = "BGN",
+                categories = persistentListOf(),
+                accounts = persistentListOf(),
+                budgets = persistentListOf(),
+                appBudgetMax = 5000.0,
+                categoryBudgetsTotal = 2400.0,
+                budgetModalData = null,
+                reorderModalVisible = false
+            )
         )
     }
 }
@@ -413,50 +380,50 @@ private fun Preview_Empty() {
 private fun Preview_Budgets() {
     com.ivy.legacy.IvyWalletPreview {
         UI(
-            timeRange = com.ivy.legacy.data.model.TimePeriod.currentMonth(
-                startDayOfMonth = 1
-            ).toRange(1), // preview
-            baseCurrency = "BGN",
-            categories = emptyList(),
-            accounts = emptyList(),
-            appBudgetMax = 5000.0,
-            categoryBudgetsTotal = 0.0,
-            displayBudgets = listOf(
-                DisplayBudget(
-                    budget = Budget(
-                        name = "Ivy Marketing",
-                        amount = 1000.0,
-                        accountIdsSerialized = null,
-                        categoryIdsSerialized = null,
-                        orderId = 0.0
+            state = BudgetScreenState(
+                timeRange = com.ivy.legacy.data.model.TimePeriod.currentMonth(
+                    startDayOfMonth = 1
+                ).toRange(1), // preview
+                baseCurrency = "BGN",
+                categories = persistentListOf(),
+                accounts = persistentListOf(),
+                appBudgetMax = 5000.0,
+                categoryBudgetsTotal = 0.0,
+                budgetModalData = null,
+                reorderModalVisible = false,
+                budgets = persistentListOf(
+                    DisplayBudget(
+                        budget = Budget(
+                            name = "Ivy Marketing",
+                            amount = 1000.0,
+                            accountIdsSerialized = null,
+                            categoryIdsSerialized = null,
+                            orderId = 0.0
+                        ),
+                        spentAmount = 260.0
                     ),
-                    spentAmount = 260.0
-                ),
-
-                DisplayBudget(
-                    budget = Budget(
-                        name = "Ivy Marketing 2",
-                        amount = 1000.0,
-                        accountIdsSerialized = null,
-                        categoryIdsSerialized = null,
-                        orderId = 0.0
+                    DisplayBudget(
+                        budget = Budget(
+                            name = "Ivy Marketing 2",
+                            amount = 1000.0,
+                            accountIdsSerialized = null,
+                            categoryIdsSerialized = null,
+                            orderId = 0.0
+                        ),
+                        spentAmount = 351.0
                     ),
-                    spentAmount = 351.0
-                ),
-
-                DisplayBudget(
-                    budget = Budget(
-                        name = "Baldr Products, Fidgets",
-                        amount = 750.0,
-                        accountIdsSerialized = null,
-                        categoryIdsSerialized = "cat1,cat2,cat3",
-                        orderId = 0.1
-                    ),
-                    spentAmount = 50.0
-                ),
-            ),
-
-            onReorder = {}
+                    DisplayBudget(
+                        budget = Budget(
+                            name = "Baldr Products, Fidgets",
+                            amount = 750.0,
+                            accountIdsSerialized = null,
+                            categoryIdsSerialized = "cat1,cat2,cat3",
+                            orderId = 0.1
+                        ),
+                        spentAmount = 50.0
+                    )
+                )
+            )
         )
     }
 }
