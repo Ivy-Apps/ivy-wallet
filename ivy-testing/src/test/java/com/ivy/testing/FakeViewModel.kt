@@ -36,5 +36,4 @@ class FakeViewModel : ComposeViewModel<FakeUiState, FakeUiEvent>() {
             FakeUiEvent.Increment -> counter++
         }
     }
-
 }

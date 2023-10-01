@@ -5,7 +5,6 @@ import app.cash.molecule.moleculeFlow
 import app.cash.turbine.test
 import com.ivy.domain.ComposeViewModel
 
-
 /**
  * Runs a [ComposeViewModel] test simulation.
  * Compose runtime effects are executed [RecompositionMode.Immediate].
