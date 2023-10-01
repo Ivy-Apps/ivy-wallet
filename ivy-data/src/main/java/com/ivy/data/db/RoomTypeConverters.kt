@@ -1,9 +1,9 @@
 package com.ivy.domain.db
 
 import androidx.room.TypeConverter
-import com.ivy.base.model.Theme
-import com.ivy.base.util.epochMilliToDateTime
-import com.ivy.base.util.toEpochMilli
+import com.ivy.base.legacy.Theme
+import com.ivy.base.legacy.epochMilliToDateTime
+import com.ivy.base.legacy.toEpochMilli
 import com.ivy.data.model.IntervalType
 import com.ivy.data.model.LoanType
 import com.ivy.base.model.TransactionType

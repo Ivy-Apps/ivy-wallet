@@ -2,7 +2,7 @@ package com.ivy.piechart.action
 
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.base.legacy.Transaction
-import com.ivy.base.util.stringRes
+import com.ivy.base.legacy.stringRes
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
 import com.ivy.design.l0_system.RedLight

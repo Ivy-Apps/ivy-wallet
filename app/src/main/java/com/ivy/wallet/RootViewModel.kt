@@ -4,8 +4,8 @@ import android.content.Intent
 import androidx.biometric.BiometricPrompt
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.base.model.Theme
-import com.ivy.base.util.stringRes
+import com.ivy.base.legacy.Theme
+import com.ivy.base.legacy.stringRes
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.SharedPrefs

@@ -1,8 +1,8 @@
 package com.ivy.base.kotlinxserilzation
 
 import androidx.annotation.Keep
-import com.ivy.base.util.epochMilliToDateTime
-import com.ivy.base.util.toEpochMilli
+import com.ivy.base.legacy.epochMilliToDateTime
+import com.ivy.base.legacy.toEpochMilli
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor

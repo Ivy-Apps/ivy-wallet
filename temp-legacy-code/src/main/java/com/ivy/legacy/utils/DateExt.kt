@@ -2,7 +2,7 @@ package com.ivy.legacy.utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import com.ivy.base.util.stringRes
+import com.ivy.base.legacy.stringRes
 import com.ivy.frp.Total
 import com.ivy.resources.R
 import java.time.LocalDate

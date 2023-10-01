@@ -37,7 +37,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.ivy.IvyNavGraph
-import com.ivy.base.util.toEpochMilli
+import com.ivy.base.legacy.toEpochMilli
 import com.ivy.domain.RootScreen
 import com.ivy.design.api.IvyUI
 import com.ivy.home.customerjourney.CustomerJourneyCardsProvider

@@ -1,6 +1,6 @@
 package com.ivy.design.api
 
-import com.ivy.base.model.Theme
+import com.ivy.base.legacy.Theme
 import com.ivy.design.IvyContext
 import com.ivy.design.l0_system.IvyColors
 import com.ivy.design.l0_system.IvyShapes

@@ -1,4 +1,4 @@
-package com.ivy.base.util
+package com.ivy.base.legacy
 
 import java.time.Instant
 import java.time.LocalDateTime
