@@ -4,8 +4,10 @@ import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 
 class ComposeViewModelTestExtTest : FreeSpec({
+    fun newViewModel() = FakeViewModel()
+
     "initial state, no events" {
-        val viewModel = FakeViewModel()
+        val viewModel = newViewModel()
 
         viewModel.runTest {
             counter shouldBe 42
@@ -13,38 +15,32 @@ class ComposeViewModelTestExtTest : FreeSpec({
     }
 
     "increment event" {
-        val viewModel = FakeViewModel()
+        val viewModel = newViewModel()
 
         viewModel.runTest(
-            events = {
-                onEvent(FakeUiEvent.Increment)
-            }
+            FakeUiEvent.Increment
         ) {
             counter shouldBe 43
         }
     }
 
     "decrement event" {
-        val viewModel = FakeViewModel()
+        val viewModel = newViewModel()
 
         viewModel.runTest(
-            events = {
-                onEvent(FakeUiEvent.Decrement)
-            }
+            FakeUiEvent.Decrement
         ) {
             counter shouldBe 41
         }
     }
 
     "1 decrement 2 increment event" {
-        val viewModel = FakeViewModel()
+        val viewModel = newViewModel()
 
         viewModel.runTest(
-            events = {
-                onEvent(FakeUiEvent.Decrement)
-                onEvent(FakeUiEvent.Increment)
-                onEvent(FakeUiEvent.Increment)
-            }
+            FakeUiEvent.Decrement,
+            FakeUiEvent.Increment,
+            FakeUiEvent.Increment,
         ) {
             counter shouldBe 43
         }

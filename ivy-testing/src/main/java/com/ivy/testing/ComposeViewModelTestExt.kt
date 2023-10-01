@@ -7,7 +7,7 @@ import com.ivy.domain.ComposeViewModel
 
 
 fun <UiState, UiEvent> ComposeViewModel<UiState, UiEvent>.runTest(
-    events: ComposeViewModel<UiState, UiEvent>.() -> Unit = {},
+    vararg events: UiEvent,
     verify: UiState.() -> Unit
 ) {
     val viewModel = this
@@ -15,7 +15,7 @@ fun <UiState, UiEvent> ComposeViewModel<UiState, UiEvent>.runTest(
         moleculeFlow(mode = RecompositionMode.Immediate) {
             viewModel.uiState()
         }.test {
-            viewModel.events()
+            events.onEach(viewModel::onEvent)
             verify(expectMostRecentItem())
             cancel()
         }
