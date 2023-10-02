@@ -1,10 +1,10 @@
 package com.ivy.transaction
 
 import androidx.compose.runtime.Immutable
+import com.ivy.base.model.TransactionType
 import com.ivy.legacy.data.EditTransactionDisplayLoan
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
-import com.ivy.persistence.model.TransactionType
 import com.ivy.wallet.domain.data.CustomExchangeRateState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableSet
