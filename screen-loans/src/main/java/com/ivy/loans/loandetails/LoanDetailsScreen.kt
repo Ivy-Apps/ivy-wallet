@@ -20,7 +20,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,7 +28,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -37,6 +35,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.base.model.TransactionType
+import com.ivy.data.model.LoanType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
@@ -51,25 +51,17 @@ import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.formatNicelyWithTime
 import com.ivy.legacy.utils.isNotNullOrBlank
-import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.setStatusBarDarkTextCompat
-import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.loans.loan.data.DisplayLoanRecord
 import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
-import com.ivy.data.model.LoanType
-import com.ivy.base.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IvyCurrency
-import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
-import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
-import com.ivy.wallet.domain.deprecated.logic.model.EditLoanRecordData
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.MediumBlack
 import com.ivy.wallet.ui.theme.MediumWhite
-import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.components.BalanceRow
 import com.ivy.wallet.ui.theme.components.ItemIconMDefaultIcon
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -86,71 +78,32 @@ import com.ivy.wallet.ui.theme.modal.LoanRecordModal
 import com.ivy.wallet.ui.theme.modal.LoanRecordModalData
 import com.ivy.wallet.ui.theme.modal.ProgressModal
 import com.ivy.wallet.ui.theme.toComposeColor
-import java.util.UUID
 
 @Composable
 fun BoxWithConstraintsScope.LoanDetailsScreen(screen: LoanDetailsScreen) {
     val viewModel: LoanDetailsViewModel = viewModel()
-
-    val baseCurrency by viewModel.baseCurrency.collectAsState()
-    val loan by viewModel.loan.collectAsState()
-    val displayLoanRecords by viewModel.displayLoanRecords.collectAsState()
-    val amountPaid by viewModel.amountPaid.collectAsState()
-    val loanAmountPaid by viewModel.loanAmountPaid.collectAsState()
-    val accounts by viewModel.accounts.collectAsState()
-    val selectedLoanAccount by viewModel.selectedLoanAccount.collectAsState()
-    val createLoanTransaction by viewModel.createLoanTransaction.collectAsState()
-
-    onScreenStart {
-        viewModel.start(screen = screen)
-    }
+    viewModel.screen = screen
+    val state = viewModel.uiState()
 
     UI(
-        baseCurrency = baseCurrency,
-        loan = loan,
-        displayLoanRecords = displayLoanRecords,
-        amountPaid = amountPaid,
-        loanAmountPaid = loanAmountPaid,
-        accounts = accounts,
-        selectedLoanAccount = selectedLoanAccount,
-        createLoanTransaction = createLoanTransaction,
-
-        onEditLoan = viewModel::editLoan,
-        onCreateLoanRecord = viewModel::createLoanRecord,
-        onEditLoanRecord = viewModel::editLoanRecord,
-        onDeleteLoanRecord = viewModel::deleteLoanRecord,
-        onDeleteLoan = viewModel::deleteLoan,
-        onCreateAccount = viewModel::createAccount
+        onEventHandler = viewModel::onEvent,
+        state = state
     )
 }
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    baseCurrency: String,
-    loan: Loan?,
-    displayLoanRecords: List<DisplayLoanRecord> = emptyList(),
-    amountPaid: Double,
-    loanAmountPaid: Double = 0.0,
-
-    accounts: List<Account> = emptyList(),
-    selectedLoanAccount: Account? = null,
-    createLoanTransaction: Boolean = false,
-
-    onCreateAccount: (CreateAccountData) -> Unit = {},
-    onEditLoan: (Loan, Boolean) -> Unit = { _, _ -> },
-    onCreateLoanRecord: (CreateLoanRecordData) -> Unit = {},
-    onEditLoanRecord: (EditLoanRecordData) -> Unit = {},
-    onDeleteLoanRecord: (LoanRecord) -> Unit = {},
-    onDeleteLoan: () -> Unit = {},
+    onEventHandler: (LoanDetailsScreenEvent) -> Unit = {},
+    state: LoanDetailsScreenState = LoanDetailsScreenState()
 ) {
-    val itemColor = loan?.color?.toComposeColor() ?: Gray
+    val itemColor = state.loan?.color?.toComposeColor() ?: Gray
 
     var deleteModalVisible by remember { mutableStateOf(false) }
     var loanModalData: LoanModalData? by remember { mutableStateOf(null) }
     var loanRecordModalData: LoanRecordModalData? by remember {
         mutableStateOf(null)
     }
-    var waitModalVisible by remember(loan) { mutableStateOf(false) }
+    var waitModalVisible by remember(state.loan) { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -169,42 +122,25 @@ private fun BoxWithConstraintsScope.UI(
             state = listState,
         ) {
             item {
-                if (loan != null) {
+                if (state.loan != null) {
                     Header(
-                        loan = loan,
-                        baseCurrency = baseCurrency,
-                        amountPaid = amountPaid,
-                        loanAmountPaid = loanAmountPaid,
+                        loan = state.loan,
+                        baseCurrency = state.baseCurrency,
+                        amountPaid = state.amountPaid,
+                        loanAmountPaid = state.loanAmountPaid,
                         itemColor = itemColor,
-                        selectedLoanAccount = selectedLoanAccount,
+                        selectedLoanAccount = state.selectedLoanAccount,
                         onAmountClick = {
-                            loanModalData = LoanModalData(
-                                loan = loan,
-                                baseCurrency = baseCurrency,
-                                autoFocusKeyboard = false,
-                                autoOpenAmountModal = true,
-                                selectedAccount = selectedLoanAccount,
-                                createLoanTransaction = createLoanTransaction
-                            )
+                            onEventHandler.invoke(LoanDetailsScreenEvent.OnAmountClick)
                         },
                         onDeleteLoan = {
                             deleteModalVisible = true
                         },
                         onEditLoan = {
-                            loanModalData = LoanModalData(
-                                loan = loan,
-                                baseCurrency = baseCurrency,
-                                autoFocusKeyboard = false,
-                                selectedAccount = selectedLoanAccount,
-                                createLoanTransaction = createLoanTransaction
-                            )
+                            onEventHandler.invoke(LoanDetailsScreenEvent.OnEditLoan)
                         },
                         onAddRecord = {
-                            loanRecordModalData = LoanRecordModalData(
-                                loanRecord = null,
-                                baseCurrency = baseCurrency,
-                                selectedAccount = selectedLoanAccount
-                            )
+                            onEventHandler.invoke(LoanDetailsScreenEvent.OnAddRecord)
                         }
                     )
                 }
@@ -221,26 +157,20 @@ private fun BoxWithConstraintsScope.UI(
                 )
             }
 
-            if (loan != null) {
+            if (state.loan != null) {
                 loanRecords(
-                    loan = loan,
-                    displayLoanRecords = displayLoanRecords,
+                    loan = state.loan,
+                    displayLoanRecords = state.displayLoanRecords,
                     onClick = { displayLoanRecord ->
-                        loanRecordModalData = LoanRecordModalData(
-                            loanRecord = displayLoanRecord.loanRecord,
-                            baseCurrency = displayLoanRecord.loanRecordCurrencyCode,
-                            selectedAccount = displayLoanRecord.account,
-                            createLoanRecordTransaction = displayLoanRecord.loanRecordTransaction,
-                            isLoanInterest = displayLoanRecord.loanRecord.interest,
-                            loanAccountCurrencyCode = displayLoanRecord.loanCurrencyCode
-                        )
+                        onEventHandler.invoke(LoanDetailsScreenEvent.OnRecordClick(displayLoanRecord))
                     }
                 )
             }
 
-            if (displayLoanRecords.isEmpty()) {
+            if (state.displayLoanRecords.isEmpty()) {
                 item {
                     NoLoanRecordsEmptyState()
+                    Spacer(Modifier.height(96.dp))
                 }
             }
 
@@ -256,12 +186,16 @@ private fun BoxWithConstraintsScope.UI(
         onCreateLoan = {
             // do nothing
         },
-        onEditLoan = onEditLoan,
+        onEditLoan = { loan, boolean ->
+            onEventHandler.invoke(LoanDetailsScreenEvent.OnEditLoan)
+        },
         dismiss = {
             loanModalData = null
         },
-        onCreateAccount = onCreateAccount,
-        accounts = accounts,
+        onCreateAccount = { createAccountData ->
+            onEventHandler.invoke(LoanDetailsScreenEvent.OnCreateAccount(createAccountData))
+        },
+        accounts = state.accounts,
         onPerformCalculations = {
             waitModalVisible = true
         }
@@ -269,14 +203,22 @@ private fun BoxWithConstraintsScope.UI(
 
     LoanRecordModal(
         modal = loanRecordModalData,
-        onCreate = onCreateLoanRecord,
-        onEdit = onEditLoanRecord,
-        onDelete = onDeleteLoanRecord,
-        accounts = accounts,
+        onCreate = {
+            onEventHandler.invoke(LoanDetailsScreenEvent.OnCreateLoanRecord(it))
+        },
+        onEdit = {
+            onEventHandler.invoke(LoanDetailsScreenEvent.OnEditLoanRecord(it))
+        },
+        onDelete = { loanRecord ->
+            onEventHandler.invoke(LoanDetailsScreenEvent.OnDeleteLoanRecord(loanRecord))
+        },
+        accounts = state.accounts,
         dismiss = {
             loanRecordModalData = null
         },
-        onCreateAccount = onCreateAccount
+        onCreateAccount = { createAccountData ->
+            onEventHandler.invoke(LoanDetailsScreenEvent.OnCreateAccount(createAccountData))
+        }
     )
 
     DeleteModal(
@@ -285,7 +227,7 @@ private fun BoxWithConstraintsScope.UI(
         description = stringResource(R.string.loan_confirm_deletion_description),
         dismiss = { deleteModalVisible = false }
     ) {
-        onDeleteLoan()
+        onEventHandler.invoke(LoanDetailsScreenEvent.OnDeleteLoan)
     }
 
     ProgressModal(
@@ -823,8 +765,6 @@ private fun NoLoanRecordsEmptyState() {
             )
         )
     }
-
-    Spacer(Modifier.height(96.dp))
 }
 
 @Preview
@@ -832,14 +772,14 @@ private fun NoLoanRecordsEmptyState() {
 private fun Preview_Empty() {
     IvyWalletPreview {
         UI(
-            baseCurrency = "BGN",
-            loan = Loan(
-                name = "Loan 1",
-                amount = 4023.54,
-                color = Red.toArgb(),
-                type = LoanType.LEND
-            ),
-            amountPaid = 0.0
+//            baseCurrency = "BGN",
+//            loan = Loan(
+//                name = "Loan 1",
+//                amount = 4023.54,
+//                color = Red.toArgb(),
+//                type = LoanType.LEND
+//            ),
+//            amountPaid = 0.0
         )
     }
 }
@@ -849,39 +789,39 @@ private fun Preview_Empty() {
 private fun Preview_Records() {
     IvyWalletPreview {
         UI(
-            baseCurrency = "BGN",
-            loan = Loan(
-                name = "Loan 1",
-                amount = 4023.54,
-                color = Red.toArgb(),
-                type = LoanType.LEND
-            ),
-            displayLoanRecords = listOf(
-                DisplayLoanRecord(
-                    LoanRecord(
-                        amount = 123.45,
-                        dateTime = timeNowUTC().minusDays(1),
-                        note = "Cash",
-                        loanId = UUID.randomUUID()
-                    )
-                ),
-                DisplayLoanRecord(
-                    LoanRecord(
-                        amount = 0.50,
-                        dateTime = timeNowUTC().minusYears(1),
-                        loanId = UUID.randomUUID()
-                    )
-                ),
-                DisplayLoanRecord(
-                    LoanRecord(
-                        amount = 1000.00,
-                        dateTime = timeNowUTC().minusMonths(1),
-                        note = "Revolut",
-                        loanId = UUID.randomUUID()
-                    )
-                ),
-            ),
-            amountPaid = 3821.00
+//            baseCurrency = "BGN",
+//            loan = Loan(
+//                name = "Loan 1",
+//                amount = 4023.54,
+//                color = Red.toArgb(),
+//                type = LoanType.LEND
+//            ),
+//            displayLoanRecords = listOf(
+//                DisplayLoanRecord(
+//                    LoanRecord(
+//                        amount = 123.45,
+//                        dateTime = timeNowUTC().minusDays(1),
+//                        note = "Cash",
+//                        loanId = UUID.randomUUID()
+//                    )
+//                ),
+//                DisplayLoanRecord(
+//                    LoanRecord(
+//                        amount = 0.50,
+//                        dateTime = timeNowUTC().minusYears(1),
+//                        loanId = UUID.randomUUID()
+//                    )
+//                ),
+//                DisplayLoanRecord(
+//                    LoanRecord(
+//                        amount = 1000.00,
+//                        dateTime = timeNowUTC().minusMonths(1),
+//                        note = "Revolut",
+//                        loanId = UUID.randomUUID()
+//                    )
+//                ),
+//            ),
+//            amountPaid = 3821.00
         )
     }
 }

@@ -1,27 +1,31 @@
 package com.ivy.loans.loandetails
 
-import androidx.lifecycle.ViewModel
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.Transaction
+import com.ivy.data.db.dao.read.AccountDao
+import com.ivy.data.db.dao.read.LoanDao
+import com.ivy.data.db.dao.read.LoanRecordDao
+import com.ivy.data.db.dao.read.SettingsDao
+import com.ivy.data.db.dao.read.TransactionDao
+import com.ivy.domain.ComposeViewModel
+import com.ivy.domain.event.AccountUpdatedEvent
+import com.ivy.domain.event.EventBus
+import com.ivy.frp.test.TestIdlingResource
+import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Loan
 import com.ivy.legacy.datamodel.LoanRecord
-import com.ivy.domain.event.AccountUpdatedEvent
-import com.ivy.domain.event.EventBus
 import com.ivy.legacy.datamodel.temp.toDomain
-import com.ivy.frp.test.TestIdlingResource
-import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.ioThread
 import com.ivy.loans.loan.data.DisplayLoanRecord
 import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.Navigation
-import com.ivy.data.db.dao.read.AccountDao
-import com.ivy.data.db.dao.read.LoanDao
-import com.ivy.data.db.dao.read.LoanRecordDao
-import com.ivy.data.db.dao.read.SettingsDao
-import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.loan.LoanByIdAct
 import com.ivy.wallet.domain.deprecated.logic.LoanCreator
@@ -30,12 +34,12 @@ import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LoanTransactionsLo
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
 import com.ivy.wallet.domain.deprecated.logic.model.EditLoanRecordData
+import com.ivy.wallet.ui.theme.modal.LoanModalData
+import com.ivy.wallet.ui.theme.modal.LoanRecordModalData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
@@ -56,38 +60,24 @@ class LoanDetailsViewModel @Inject constructor(
     private val accountsAct: AccountsAct,
     private val loanByIdAct: LoanByIdAct,
     private val eventBus: EventBus,
-) : ViewModel() {
+) : ComposeViewModel<LoanDetailsScreenState, LoanDetailsScreenEvent>() {
 
-    private val _baseCurrency = MutableStateFlow("")
-    val baseCurrency = _baseCurrency.asStateFlow()
-
-    private val _loan = MutableStateFlow<Loan?>(null)
-    val loan = _loan.asStateFlow()
-
-    private val _displayLoanRecords =
-        MutableStateFlow<ImmutableList<DisplayLoanRecord>>(persistentListOf())
-    val displayLoanRecords = _displayLoanRecords.asStateFlow()
-
-    private val _amountPaid = MutableStateFlow(0.0)
-    val amountPaid = _amountPaid.asStateFlow()
-
-    private val _accounts = MutableStateFlow<ImmutableList<Account>>(persistentListOf())
-    val accounts = _accounts.asStateFlow()
-
-    private val _loanInterestAmountPaid = MutableStateFlow(0.0)
-    val loanAmountPaid = _loanInterestAmountPaid.asStateFlow()
-
-    private val _selectedLoanAccount = MutableStateFlow<Account?>(null)
-    val selectedLoanAccount = _selectedLoanAccount.asStateFlow()
-
+    private val baseCurrency = mutableStateOf("")
+    private val loan = mutableStateOf<Loan?>(null)
+    private val displayLoanRecords =
+        mutableStateOf<ImmutableList<DisplayLoanRecord>>(persistentListOf())
+    private val amountPaid = mutableDoubleStateOf(0.0)
+    private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
+    private val loanInterestAmountPaid = mutableDoubleStateOf(0.0)
+    private val selectedLoanAccount = mutableStateOf<Account?>(null)
     private var associatedTransaction: Transaction? = null
-
-    private val _createLoanTransaction = MutableStateFlow(false)
-    val createLoanTransaction = _createLoanTransaction.asStateFlow()
-
+    private val createLoanTransaction = mutableStateOf(false)
     private var defaultCurrencyCode = ""
+    private val loanModalData = mutableStateOf<LoanModalData?>(null)
+    private val loanRecordModalData = mutableStateOf<LoanRecordModalData?>(null)
+    lateinit var screen: LoanDetailsScreen
 
-    fun start(screen: LoanDetailsScreen) {
+    private fun start() {
         load(loanId = screen.loanId)
     }
 
@@ -98,25 +88,25 @@ class LoanDetailsViewModel @Inject constructor(
             defaultCurrencyCode = ioThread {
                 settingsDao.findFirst().currency
             }.also {
-                _baseCurrency.value = it
+                baseCurrency.value = it
             }
 
-            _accounts.value = accountsAct(Unit)
+            accounts.value = accountsAct(Unit)
 
-            _loan.value = loanByIdAct(loanId)
+            loan.value = loanByIdAct(loanId)
 
             loan.value?.let { loan ->
-                _selectedLoanAccount.value = accounts.value.find {
+                selectedLoanAccount.value = accounts.value.find {
                     loan.accountId == it.id
                 }
 
-                _selectedLoanAccount.value?.let { acc ->
-                    _baseCurrency.value = acc.currency ?: defaultCurrencyCode
+                selectedLoanAccount.value?.let { acc ->
+                    baseCurrency.value = acc.currency ?: defaultCurrencyCode
                 }
             }
 
             computationThread {
-                _displayLoanRecords.value =
+                displayLoanRecords.value =
                     ioThread { loanRecordDao.findAllByLoanId(loanId = loanId) }.map {
                         val trans = ioThread {
                             transactionDao.findLoanRecordTransaction(
@@ -154,8 +144,8 @@ class LoanDetailsViewModel @Inject constructor(
                     }
                 }
 
-                _amountPaid.value = amtPaid
-                _loanInterestAmountPaid.value = loanInterestAmtPaid
+                amountPaid.doubleValue = amtPaid
+                loanInterestAmountPaid.doubleValue = loanInterestAmtPaid
             }
 
             associatedTransaction = ioThread {
@@ -163,9 +153,9 @@ class LoanDetailsViewModel @Inject constructor(
             }
 
             associatedTransaction?.let {
-                _createLoanTransaction.value = true
+                createLoanTransaction.value = true
             } ?: run {
-                _createLoanTransaction.value = false
+                createLoanTransaction.value = false
             }
 
             TestIdlingResource.decrement()
@@ -176,7 +166,7 @@ class LoanDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            _loan.value?.let {
+            this@LoanDetailsViewModel.loan.value?.let {
                 loanTransactionsLogic.Loan.recalculateLoanRecords(
                     oldLoanAccountId = it.accountId,
                     newLoanAccountId = loan.accountId,
@@ -198,7 +188,7 @@ class LoanDetailsViewModel @Inject constructor(
         }
     }
 
-    fun deleteLoan() {
+    private fun deleteLoan() {
         val loan = loan.value ?: return
 
         viewModelScope.launch {
@@ -215,7 +205,7 @@ class LoanDetailsViewModel @Inject constructor(
         }
     }
 
-    fun createLoanRecord(data: CreateLoanRecordData) {
+    private fun createLoanRecord(data: CreateLoanRecordData) {
         if (loan.value == null) return
         val loanId = loan.value?.id ?: return
         val localLoan = loan.value!!
@@ -249,12 +239,12 @@ class LoanDetailsViewModel @Inject constructor(
         }
     }
 
-    fun editLoanRecord(editLoanRecordData: EditLoanRecordData) {
+    private fun editLoanRecord(editLoanRecordData: EditLoanRecordData) {
         viewModelScope.launch {
             val loanRecord = editLoanRecordData.newLoanRecord
             TestIdlingResource.increment()
 
-            val localLoan: Loan = _loan.value ?: return@launch
+            val localLoan: Loan = loan.value ?: return@launch
 
             val convertedAmount =
                 loanTransactionsLogic.LoanRecord.calculateConvertedAmount(
@@ -281,7 +271,7 @@ class LoanDetailsViewModel @Inject constructor(
         }
     }
 
-    fun deleteLoanRecord(loanRecord: LoanRecord) {
+    private fun deleteLoanRecord(loanRecord: LoanRecord) {
         val loanId = loan.value?.id ?: return
 
         viewModelScope.launch {
@@ -298,16 +288,16 @@ class LoanDetailsViewModel @Inject constructor(
     }
 
     fun onLoanTransactionChecked(boolean: Boolean) {
-        _createLoanTransaction.value = boolean
+        createLoanTransaction.value = boolean
     }
 
-    fun createAccount(data: CreateAccountData) {
+    private fun createAccount(data: CreateAccountData) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
             accountCreator.createAccount(data) {
                 eventBus.post(AccountUpdatedEvent)
-                _accounts.value = accountsAct(Unit)
+                accounts.value = accountsAct(Unit)
             }
 
             TestIdlingResource.decrement()
@@ -321,6 +311,90 @@ class LoanDetailsViewModel @Inject constructor(
         return accountId?.let { uuid ->
             accounts.find { acc ->
                 acc.id == uuid
+            }
+        }
+    }
+
+    @Composable
+    override fun uiState(): LoanDetailsScreenState {
+        LaunchedEffect(Unit) {
+            start()
+        }
+
+        return LoanDetailsScreenState(
+            baseCurrency = baseCurrency.value,
+            loan = loan.value,
+            displayLoanRecords = displayLoanRecords.value,
+            amountPaid = amountPaid.doubleValue,
+            loanAmountPaid = loanInterestAmountPaid.doubleValue,
+            accounts = accounts.value,
+            selectedLoanAccount = selectedLoanAccount.value,
+            createLoanTransaction = createLoanTransaction.value,
+            loanModalData = loanModalData.value,
+            loanRecordModalData = loanRecordModalData.value
+        )
+    }
+
+    override fun onEvent(event: LoanDetailsScreenEvent) {
+        when (event) {
+            LoanDetailsScreenEvent.OnAmountClick -> {
+                loanModalData.value = LoanModalData(
+                    loan = loan.value,
+                    baseCurrency = baseCurrency.value,
+                    autoFocusKeyboard = false,
+                    autoOpenAmountModal = true,
+                    selectedAccount = selectedLoanAccount.value,
+                    createLoanTransaction = createLoanTransaction.value
+                )
+            }
+
+            LoanDetailsScreenEvent.OnEditLoan -> {
+                loanModalData.value = LoanModalData(
+                    loan = loan.value,
+                    baseCurrency = baseCurrency.value,
+                    autoFocusKeyboard = false,
+                    selectedAccount = selectedLoanAccount.value,
+                    createLoanTransaction = createLoanTransaction.value
+                )
+            }
+
+            LoanDetailsScreenEvent.OnAddRecord -> {
+                loanRecordModalData.value = LoanRecordModalData(
+                    loanRecord = null,
+                    baseCurrency = baseCurrency.value,
+                    selectedAccount = selectedLoanAccount.value
+                )
+            }
+
+            is LoanDetailsScreenEvent.OnRecordClick -> {
+                loanRecordModalData.value = LoanRecordModalData(
+                    loanRecord = event.displayLoanRecord.loanRecord,
+                    baseCurrency = event.displayLoanRecord.loanRecordCurrencyCode,
+                    selectedAccount = event.displayLoanRecord.account,
+                    createLoanRecordTransaction = event.displayLoanRecord.loanRecordTransaction,
+                    isLoanInterest = event.displayLoanRecord.loanRecord.interest,
+                    loanAccountCurrencyCode = event.displayLoanRecord.loanCurrencyCode
+                )
+            }
+
+            is LoanDetailsScreenEvent.OnCreateAccount -> {
+                createAccount(event.data)
+            }
+
+            is LoanDetailsScreenEvent.OnCreateLoanRecord -> {
+                createLoanRecord(event.loanRecordData)
+            }
+
+            LoanDetailsScreenEvent.OnDeleteLoan -> {
+                deleteLoan()
+            }
+
+            is LoanDetailsScreenEvent.OnEditLoanRecord -> {
+                editLoanRecord(event.loanRecordData)
+            }
+
+            is LoanDetailsScreenEvent.OnDeleteLoanRecord -> {
+                deleteLoanRecord(event.loanRecord)
             }
         }
     }
