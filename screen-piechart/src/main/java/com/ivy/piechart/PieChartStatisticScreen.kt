@@ -39,6 +39,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.base.model.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.datamodel.Category
@@ -50,7 +51,6 @@ import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
-import com.ivy.base.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Gray
@@ -105,7 +105,8 @@ private fun BoxWithConstraintsScope.UI(
     val expanded = lazyState.firstVisibleItemIndex < 1
     val percentExpanded by animateFloatAsState(
         targetValue = if (expanded) 1f else 0f,
-        animationSpec = com.ivy.legacy.utils.springBounce()
+        animationSpec = com.ivy.legacy.utils.springBounce(),
+        label = ""
     )
 
     LazyColumn(
@@ -245,7 +246,6 @@ private fun Header(
 
     currency: String,
     amount: Double,
-    showCloseButtonOnly: Boolean = false,
 
     onShowMonthModal: () -> Unit,
     onSelectNextMonth: () -> Unit,
@@ -253,6 +253,7 @@ private fun Header(
 
     onClose: () -> Unit,
     onAdd: (TransactionType) -> Unit,
+    showCloseButtonOnly: Boolean = false
 ) {
     Row(
         modifier = Modifier
