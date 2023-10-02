@@ -6,78 +6,42 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
-import com.ivy.legacy.datamodel.PlannedPaymentRule
+import com.ivy.base.model.TransactionType
+import com.ivy.data.model.IntervalType
 import com.ivy.design.l0_system.Purple
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
-import com.ivy.legacy.utils.onScreenStart
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
+import com.ivy.legacy.datamodel.PlannedPaymentRule
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.PlannedPaymentsScreen
 import com.ivy.navigation.navigation
-import com.ivy.data.model.IntervalType
-import com.ivy.base.model.TransactionType
+import com.ivy.navigation.screenScopedViewModel
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Orange
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun BoxWithConstraintsScope.PlannedPaymentsScreen(screen: PlannedPaymentsScreen) {
-    val viewModel: PlannedPaymentsViewModel = viewModel()
+    val viewModel: PlannedPaymentsViewModel = screenScopedViewModel()
+    val uiState = viewModel.uiState()
 
-    val currency by viewModel.currency.observeAsState("")
-    val categories by viewModel.categories.observeAsState(emptyList())
-    val accounts by viewModel.accounts.observeAsState(emptyList())
-    val oneTime by viewModel.oneTime.observeAsState(emptyList())
-    val oneTimeIncome by viewModel.oneTimeIncome.observeAsState(0.0)
-    val oneTimeExpenses by viewModel.oneTimeExpenses.observeAsState(0.0)
-    val recurring by viewModel.recurring.observeAsState(emptyList())
-    val recurringIncome by viewModel.recurringIncome.observeAsState(0.0)
-    val recurringExpenses by viewModel.recurringExpenses.observeAsState(0.0)
-
-    onScreenStart {
-        viewModel.start(screen)
-    }
-
-    UI(
-        currency = currency,
-        categories = categories,
-        accounts = accounts,
-        oneTime = oneTime,
-        oneTimeIncome = oneTimeIncome,
-        oneTimeExpenses = oneTimeExpenses,
-        recurring = recurring,
-        recurringIncome = recurringIncome,
-        recurringExpenses = recurringExpenses
-    )
+    UI(uiState)
 }
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    currency: String,
-
-    categories: List<Category>,
-    accounts: List<Account>,
-
-    oneTime: List<PlannedPaymentRule>,
-    oneTimeIncome: Double,
-    oneTimeExpenses: Double,
-
-    recurring: List<PlannedPaymentRule>,
-    recurringIncome: Double,
-    recurringExpenses: Double
+    state: PlannedPaymentsScreenState
 ) {
     PlannedPaymentsLazyColumn(
         Header = {
@@ -95,15 +59,15 @@ private fun BoxWithConstraintsScope.UI(
             Spacer(Modifier.height(24.dp))
         },
 
-        currency = currency,
-        categories = categories,
-        accounts = accounts,
-        oneTime = oneTime,
-        oneTimeIncome = oneTimeIncome,
-        oneTimeExpenses = oneTimeExpenses,
-        recurring = recurring,
-        recurringIncome = recurringIncome,
-        recurringExpenses = recurringExpenses
+        currency = state.currency,
+        categories = state.categories,
+        accounts = state.accounts,
+        oneTime = state.oneTimePlannedPayment,
+        oneTimeIncome = state.oneTimeIncome,
+        oneTimeExpenses = state.oneTimeExpenses,
+        recurring = state.recurringPlannedPayment,
+        recurringIncome = state.recurringIncome,
+        recurringExpenses = state.recurringExpenses
     )
 
     val nav = navigation()
@@ -131,40 +95,41 @@ private fun Preview() {
         val shisha = Category(name = "Shisha", color = Orange.toArgb())
 
         UI(
-            currency = "BGN",
-            accounts = listOf(account),
-            categories = listOf(food, shisha),
-
-            oneTime = listOf(
-                PlannedPaymentRule(
-                    accountId = account.id,
-                    title = "Lidl pazar",
-                    categoryId = food.id,
-                    amount = 250.75,
-                    startDate = timeNowUTC().plusDays(5),
-                    oneTime = true,
-                    intervalType = null,
-                    intervalN = null,
-                    type = TransactionType.EXPENSE
-                )
-            ),
-            oneTimeExpenses = 250.75,
-            oneTimeIncome = 0.0,
-            recurring = listOf(
-                PlannedPaymentRule(
-                    accountId = account.id,
-                    title = "Tabu",
-                    categoryId = shisha.id,
-                    amount = 1025.5,
-                    startDate = timeNowUTC().plusDays(5),
-                    oneTime = false,
-                    intervalType = IntervalType.MONTH,
-                    intervalN = 1,
-                    type = TransactionType.EXPENSE
-                )
-            ),
-            recurringExpenses = 1025.5,
-            recurringIncome = 0.0
+            PlannedPaymentsScreenState(
+                currency = "BGN",
+                accounts = persistentListOf(account),
+                categories = persistentListOf(food, shisha),
+                oneTimePlannedPayment = persistentListOf(
+                    PlannedPaymentRule(
+                        accountId = account.id,
+                        title = "Lidl pazar",
+                        categoryId = food.id,
+                        amount = 250.75,
+                        startDate = timeNowUTC().plusDays(5),
+                        oneTime = true,
+                        intervalType = null,
+                        intervalN = null,
+                        type = TransactionType.EXPENSE
+                    )
+                ),
+                oneTimeExpenses = 250.75,
+                oneTimeIncome = 0.0,
+                recurringPlannedPayment = persistentListOf(
+                    PlannedPaymentRule(
+                        accountId = account.id,
+                        title = "Tabu",
+                        categoryId = shisha.id,
+                        amount = 1025.5,
+                        startDate = timeNowUTC().plusDays(5),
+                        oneTime = false,
+                        intervalType = IntervalType.MONTH,
+                        intervalN = 1,
+                        type = TransactionType.EXPENSE
+                    )
+                ),
+                recurringExpenses = 1025.5,
+                recurringIncome = 0.0
+            )
         )
     }
 }
