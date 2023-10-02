@@ -75,7 +75,9 @@ import com.ivy.wallet.ui.theme.modal.edit.CategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import com.ivy.wallet.ui.theme.modal.edit.ChooseCategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.DescriptionModal
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.util.UUID
 import kotlin.math.roundToInt
 
@@ -139,7 +141,8 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransactionScreen)
         onAccountChanged = viewModel::onAccountChanged,
         onToAccountChanged = viewModel::onToAccountChanged,
         onDueDateChanged = viewModel::onDueDateChanged,
-        onSetDateTime = viewModel::onSetDateTime,
+        onSetDate = viewModel::onSetDate,
+        onSetTime = viewModel::onSetTime,
         onSetTransactionType = viewModel::onSetTransactionType,
 
         onCreateCategory = viewModel::createCategory,
@@ -173,15 +176,10 @@ private fun BoxWithConstraintsScope.UI(
     toAccount: Account?,
     dueDate: LocalDateTime?,
     amount: Double,
-    loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(),
-    backgroundProcessing: Boolean = false,
-    customExchangeRateState: CustomExchangeRateState,
 
+    customExchangeRateState: CustomExchangeRateState,
     categories: List<Category>,
     accounts: List<Account>,
-
-    hasChanges: Boolean = false,
-
     onTitleChanged: (String?) -> Unit,
     onDescriptionChanged: (String?) -> Unit,
     onAmountChanged: (Double) -> Unit,
@@ -189,7 +187,8 @@ private fun BoxWithConstraintsScope.UI(
     onAccountChanged: (Account) -> Unit,
     onToAccountChanged: (Account) -> Unit,
     onDueDateChanged: (LocalDateTime?) -> Unit,
-    onSetDateTime: (LocalDateTime) -> Unit,
+    onSetDate: (LocalDate) -> Unit,
+    onSetTime: (LocalTime) -> Unit,
     onSetTransactionType: (TransactionType) -> Unit,
 
     onCreateCategory: (CreateCategoryData) -> Unit,
@@ -199,8 +198,13 @@ private fun BoxWithConstraintsScope.UI(
     onSetHasChanges: (hasChanges: Boolean) -> Unit,
     onDelete: () -> Unit,
     onCreateAccount: (CreateAccountData) -> Unit,
-    onExchangeRateChanged: (Double?) -> Unit = { }
-) {
+
+    onExchangeRateChanged: (Double?) -> Unit = { },
+    loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(),
+    backgroundProcessing: Boolean = false,
+    hasChanges: Boolean = false,
+
+    ) {
     var chooseCategoryModalVisible by remember { mutableStateOf(false) }
     var categoryModalData: CategoryModalData? by remember { mutableStateOf(null) }
     var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
@@ -339,15 +343,19 @@ private fun BoxWithConstraintsScope.UI(
         TransactionDateTime(
             dateTime = dateTime,
             dueDateTime = dueDate,
-        ) {
-            ivyContext.datePicker(
-                initialDate = dateTime?.convertUTCtoLocal()?.toLocalDate(),
-            ) { date ->
+            onEditDate = {
+                ivyContext.datePicker(
+                    initialDate = dateTime?.convertUTCtoLocal()?.toLocalDate()
+                ) { date ->
+                    onSetDate((date))
+                }
+            },
+            onEditTime = {
                 ivyContext.timePicker { time ->
-                    onSetDateTime(getTrueDate(date, time))
+                    onSetTime(time)
                 }
             }
-        }
+        )
 
         if (transactionType == TransactionType.TRANSFER && customExchangeRateState.showCard) {
             Spacer(Modifier.height(12.dp))
@@ -633,7 +641,8 @@ private fun Preview() {
             onSetHasChanges = {},
             onDelete = {},
             onCreateAccount = { },
-            onSetDateTime = {},
+            onSetDate = {},
+            onSetTime = {},
             onSetTransactionType = {}
         )
     }

@@ -231,6 +231,8 @@ class EditTransactionViewModel @Inject constructor(
         _transactionType.value = transaction.type
         _initialTitle.value = transaction.title
         _dateTime.value = transaction.dateTime
+        _date.value = transaction.date
+        _time.value = transaction.time
         _description.value = transaction.description
         _dueDate.value = transaction.dueDate
         val selectedAccount = accountByIdAct(transaction.accountId)!!
@@ -375,6 +377,23 @@ class EditTransactionViewModel @Inject constructor(
         _dueDate.value = newDueDate
 
         saveIfEditMode()
+    }
+
+    fun onSetDate(newDate : LocalDate){
+        loadedTransaction = loadedTransaction().copy(
+            date = newDate
+        )
+        _date.value = newDate
+        onSetDateTime(getTrueDate(loadedTransaction?.date?: dateNowLocal(),(dateTime.value?.toLocalTime() ?: timeUTC()),true))
+
+    }
+
+    fun onSetTime(newTime : LocalTime){
+        loadedTransaction = loadedTransaction().copy(
+            time = newTime
+        )
+        _time.value = newTime
+        onSetDateTime(getTrueDate(dateTime.value?.toLocalDate()?: dateNowLocal(),loadedTransaction?.time?: timeUTC(),true))
     }
 
     fun onSetDateTime(newDateTime: LocalDateTime) {

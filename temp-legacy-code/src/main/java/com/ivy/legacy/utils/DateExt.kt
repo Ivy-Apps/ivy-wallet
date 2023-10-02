@@ -14,10 +14,16 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
-fun timeNowLocal() = LocalDateTime.now()
+fun timeNowLocal(): LocalDateTime = LocalDateTime.now()
+
+fun dateNowLocal(): LocalDate = LocalDate.now()
 
 @Total
 fun timeNowUTC(): LocalDateTime = LocalDateTime.now(ZoneOffset.UTC)
+
+@Total
+fun timeUTC(): LocalTime = LocalTime.now(ZoneOffset.UTC)
+
 
 @Total
 fun dateNowUTC(): LocalDate = LocalDate.now(ZoneOffset.UTC)
@@ -120,6 +126,8 @@ fun LocalDateTime.formatLocalTime(): String {
 }
 
 fun LocalDate.formatDateOnly(): String = this.formatLocal("MMM. dd", ZoneOffset.systemDefault())
+
+fun LocalDateTime.formatTimeOnly(): String = this.format(DateTimeFormatter.ofPattern("HH:mm"))
 
 fun LocalDate.formatDateOnlyWithYear(): String =
     this.formatLocal("dd MMM, yyyy", ZoneOffset.systemDefault())
