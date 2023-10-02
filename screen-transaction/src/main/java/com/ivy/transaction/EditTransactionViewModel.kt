@@ -288,7 +288,8 @@ class EditTransactionViewModel @Inject constructor(
                 accounts.find {
                     it.id == lastSelectedId
                 }
-            } != null) {
+            } != null
+        ) {
             // use last selected account
             return lastSelectedId
         }
