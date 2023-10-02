@@ -14,9 +14,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -30,15 +28,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
+import com.ivy.base.model.TransactionType
 import com.ivy.design.l0_system.Orange
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.utils.hideKeyboard
-import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.EditTransactionDisplayLoan
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.rootView
 import com.ivy.legacy.ui.component.edit.TransactionDateTime
@@ -48,8 +45,9 @@ import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.timeNowLocal
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.EditTransactionScreen
+import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.navigation
-import com.ivy.base.model.TransactionType
+import com.ivy.navigation.screenScopedViewModel
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.CustomExchangeRateState
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
@@ -75,6 +73,10 @@ import com.ivy.wallet.ui.theme.modal.edit.CategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import com.ivy.wallet.ui.theme.modal.edit.ChooseCategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.DescriptionModal
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.ImmutableSet
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.persistentSetOf
 import java.time.LocalDateTime
 import java.util.UUID
 import kotlin.math.roundToInt
@@ -82,29 +84,10 @@ import kotlin.math.roundToInt
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransactionScreen) {
-    val viewModel: EditTransactionViewModel = viewModel()
+    val viewModel: EditTransactionViewModel = screenScopedViewModel()
+    val uiState = viewModel.uiState()
 
-    val transactionType by viewModel.transactionType.observeAsState(screen.type)
-    val initialTitle by viewModel.initialTitle.collectAsState()
-    val titleSuggestions by viewModel.titleSuggestions.collectAsState()
-    val currency by viewModel.currency.collectAsState()
-    val description by viewModel.description.collectAsState()
-    val dateTime by viewModel.dateTime.collectAsState()
-    val category by viewModel.category.collectAsState()
-    val account by viewModel.account.collectAsState()
-    val toAccount by viewModel.toAccount.collectAsState()
-    val dueDate by viewModel.dueDate.collectAsState()
-    val amount by viewModel.amount.collectAsState()
-    val loanData by viewModel.displayLoanHelper.collectAsState()
-    val backgroundProcessing by viewModel.backgroundProcessingStarted.collectAsState()
-    val customExchangeRateState by viewModel.customExchangeRateState.collectAsState()
-
-    val categories by viewModel.categories.collectAsState(emptyList())
-    val accounts by viewModel.accounts.collectAsState(emptyList())
-
-    val hasChanges by viewModel.hasChanges.collectAsState(false)
-
-    onScreenStart {
+    LaunchedEffect(Unit) {
         viewModel.start(screen)
     }
 
@@ -112,48 +95,78 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransactionScreen)
 
     UI(
         screen = screen,
-        transactionType = transactionType,
-        baseCurrency = currency,
-        initialTitle = initialTitle,
-        titleSuggestions = titleSuggestions,
-        description = description,
-        dateTime = dateTime,
-        category = category,
-        account = account,
-        toAccount = toAccount,
-        dueDate = dueDate,
-        amount = amount,
-        loanData = loanData,
-        backgroundProcessing = backgroundProcessing,
-        customExchangeRateState = customExchangeRateState,
+        transactionType = uiState.transactionType,
+        baseCurrency = uiState.currency,
+        initialTitle = uiState.initialTitle,
+        titleSuggestions = uiState.titleSuggestions,
+        description = uiState.description,
+        dateTime = uiState.dateTime,
+        category = uiState.category,
+        account = uiState.account,
+        toAccount = uiState.toAccount,
+        dueDate = uiState.dueDate,
+        amount = uiState.amount,
+        loanData = uiState.displayLoanHelper,
+        backgroundProcessing = uiState.backgroundProcessingStarted,
+        customExchangeRateState = uiState.customExchangeRateState,
 
-        categories = categories,
-        accounts = accounts,
+        categories = uiState.categories,
+        accounts = uiState.accounts,
 
-        hasChanges = hasChanges,
+        hasChanges = uiState.hasChanges,
 
-        onTitleChanged = viewModel::onTitleChanged,
-        onDescriptionChanged = viewModel::onDescriptionChanged,
-        onAmountChanged = viewModel::onAmountChanged,
-        onCategoryChanged = viewModel::onCategoryChanged,
-        onAccountChanged = viewModel::onAccountChanged,
-        onToAccountChanged = viewModel::onToAccountChanged,
-        onDueDateChanged = viewModel::onDueDateChanged,
-        onSetDateTime = viewModel::onSetDateTime,
-        onSetTransactionType = viewModel::onSetTransactionType,
+        onTitleChanged = {
+            viewModel.onEvent(EditTransactionEvent.OnTitleChanged(it))
+        },
+        onDescriptionChanged = {
+            viewModel.onEvent(EditTransactionEvent.OnDescriptionChanged(it))
+        },
+        onAmountChanged = {
+            viewModel.onEvent(EditTransactionEvent.OnAmountChanged(it))
+        },
+        onCategoryChanged = {
+            viewModel.onEvent(EditTransactionEvent.OnCategoryChanged(it))
+        },
+        onAccountChanged = {
+            viewModel.onEvent(EditTransactionEvent.OnAccountChanged(it))
+        },
+        onToAccountChanged = {
+            viewModel.onEvent(EditTransactionEvent.OnToAccountChanged(it))
+        },
+        onDueDateChanged = {
+            viewModel.onEvent(EditTransactionEvent.OnDueDateChanged(it))
+        },
+        onSetDateTime = {
+            viewModel.onEvent(EditTransactionEvent.OnSetDateTime(it))
+        },
+        onSetTransactionType = {
+            viewModel.onEvent(EditTransactionEvent.OnSetTransactionType(it))
+        },
 
-        onCreateCategory = viewModel::createCategory,
-        onEditCategory = viewModel::editCategory,
-        onPayPlannedPayment = viewModel::onPayPlannedPayment,
+        onCreateCategory = {
+            viewModel.onEvent(EditTransactionEvent.CreateCategory(it))
+        },
+        onEditCategory = {
+            viewModel.onEvent(EditTransactionEvent.EditCategory(it))
+        },
+        onPayPlannedPayment = {
+            viewModel.onEvent(EditTransactionEvent.OnPayPlannedPayment)
+        },
         onSave = {
             view.hideKeyboard()
-            viewModel.save()
+            viewModel.onEvent(EditTransactionEvent.Save(it))
         },
-        onSetHasChanges = viewModel::setHasChanges,
-        onDelete = viewModel::delete,
-        onCreateAccount = viewModel::createAccount,
+        onSetHasChanges = {
+            viewModel.onEvent(EditTransactionEvent.SetHasChanges(it))
+        },
+        onDelete = {
+            viewModel.onEvent(EditTransactionEvent.Delete)
+        },
+        onCreateAccount = {
+            viewModel.onEvent(EditTransactionEvent.CreateAccount(it))
+        },
         onExchangeRateChanged = {
-            viewModel.updateExchangeRate(exRate = it)
+            viewModel.onEvent(EditTransactionEvent.UpdateExchangeRate(it))
         }
     )
 }
@@ -165,7 +178,7 @@ private fun BoxWithConstraintsScope.UI(
     transactionType: TransactionType,
     baseCurrency: String,
     initialTitle: String?,
-    titleSuggestions: Set<String>,
+    titleSuggestions: ImmutableSet<String>,
     description: String?,
     category: Category?,
     dateTime: LocalDateTime?,
@@ -173,14 +186,9 @@ private fun BoxWithConstraintsScope.UI(
     toAccount: Account?,
     dueDate: LocalDateTime?,
     amount: Double,
-    loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(),
-    backgroundProcessing: Boolean = false,
     customExchangeRateState: CustomExchangeRateState,
-
-    categories: List<Category>,
-    accounts: List<Account>,
-
-    hasChanges: Boolean = false,
+    categories: ImmutableList<Category>,
+    accounts: ImmutableList<Account>,
 
     onTitleChanged: (String?) -> Unit,
     onDescriptionChanged: (String?) -> Unit,
@@ -199,6 +207,10 @@ private fun BoxWithConstraintsScope.UI(
     onSetHasChanges: (hasChanges: Boolean) -> Unit,
     onDelete: () -> Unit,
     onCreateAccount: (CreateAccountData) -> Unit,
+
+    loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(),
+    backgroundProcessing: Boolean = false,
+    hasChanges: Boolean = false,
     onExchangeRateChanged: (Double?) -> Unit = { }
 ) {
     var chooseCategoryModalVisible by remember { mutableStateOf(false) }
@@ -598,12 +610,12 @@ private fun shouldFocusAmount(amount: Double) = amount == 0.0
 @ExperimentalFoundationApi
 @Preview
 @Composable
-private fun Preview() {
-    IvyWalletPreview {
+private fun BoxWithConstraintsScope.Preview() {
+    IvyPreview {
         UI(
             screen = EditTransactionScreen(null, TransactionType.EXPENSE),
             initialTitle = "",
-            titleSuggestions = emptySet(),
+            titleSuggestions = persistentSetOf(),
             baseCurrency = "BGN",
             dateTime = timeNowLocal(),
             description = null,
@@ -615,8 +627,8 @@ private fun Preview() {
             transactionType = TransactionType.INCOME,
             customExchangeRateState = CustomExchangeRateState(),
 
-            categories = emptyList(),
-            accounts = emptyList(),
+            categories = persistentListOf(),
+            accounts = persistentListOf(),
 
             onDueDateChanged = {},
             onCategoryChanged = {},
