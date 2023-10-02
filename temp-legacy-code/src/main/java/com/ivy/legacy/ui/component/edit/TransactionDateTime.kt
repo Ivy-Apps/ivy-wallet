@@ -39,7 +39,7 @@ fun TransactionDateTime(
     modifier: Modifier = Modifier
 ) {
     if (dueDateTime == null || dateTime != null) {
-        Spacer(Modifier.height(12.dp))
+        Spacer(modifier.height(12.dp))
 
         Row(
             modifier = Modifier

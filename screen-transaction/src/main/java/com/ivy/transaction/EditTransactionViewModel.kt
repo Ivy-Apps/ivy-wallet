@@ -169,8 +169,7 @@ class EditTransactionViewModel @Inject constructor(
                 trnByIdAct(it)
             } ?: Transaction(
                 accountId = defaultAccountId(
-                    screen = screen,
-                    accounts = accounts
+                    screen = screen, accounts = accounts
                 ),
                 categoryId = screen.categoryId,
                 type = screen.type,
@@ -194,21 +193,16 @@ class EditTransactionViewModel @Inject constructor(
         val isLoanRecord = trans.loanRecordId != null
 
         val loanWarningDescription = if (isLoanRecord) {
-            "Note: This transaction is associated with a Loan Record of Loan : ${loan.name}\n" +
-                    "You are trying to change the account associated with the loan record to an account of different currency" +
-                    "\n The Loan Record will be re-calculated based on today's currency exchanges rates"
+            "Note: This transaction is associated with a Loan Record of Loan : ${loan.name}\n" + "You are trying to change the account associated with the loan record to an account of different currency" + "\n The Loan Record will be re-calculated based on today's currency exchanges rates"
         } else {
-            "Note: You are trying to change the account associated with the loan: ${loan.name} with an account " +
-                    "of different currency, " +
-                    "\nAll the loan records will be re-calculated based on today's currency exchanges rates "
+            "Note: You are trying to change the account associated with the loan: ${loan.name} with an account " + "of different currency, " + "\nAll the loan records will be re-calculated based on today's currency exchanges rates "
         }
 
-        val loanCaption =
-            if (isLoanRecord) {
-                "* This transaction is associated with a Loan Record of Loan : ${loan.name}"
-            } else {
-                "* This transaction is associated with Loan : ${loan.name}"
-            }
+        val loanCaption = if (isLoanRecord) {
+            "* This transaction is associated with a Loan Record of Loan : ${loan.name}"
+        } else {
+            "* This transaction is associated with Loan : ${loan.name}"
+        }
 
         return EditTransactionDisplayLoan(
             isLoan = true,
@@ -238,7 +232,6 @@ class EditTransactionViewModel @Inject constructor(
 
     private suspend fun display(transaction: Transaction) {
         this.title = transaction.title
-
         _transactionType.value = transaction.type
         _initialTitle.value = transaction.title
         _dateTime.value = transaction.dateTime
@@ -311,9 +304,7 @@ class EditTransactionViewModel @Inject constructor(
 
             _titleSuggestions.value = ioThread {
                 smartTitleSuggestionsLogic.suggest(
-                    title = title,
-                    categoryId = category.value?.id,
-                    accountId = account.value?.id
+                    title = title, categoryId = category.value?.id, accountId = account.value?.id
                 )
             }
 
@@ -390,21 +381,32 @@ class EditTransactionViewModel @Inject constructor(
         saveIfEditMode()
     }
 
-    fun onSetDate(newDate : LocalDate){
+    fun onSetDate(newDate: LocalDate) {
         loadedTransaction = loadedTransaction().copy(
             date = newDate
         )
         _date.value = newDate
-        onSetDateTime(getTrueDate(loadedTransaction?.date?: dateNowLocal(),(dateTime.value?.toLocalTime() ?: timeUTC()),true))
-
+        onSetDateTime(
+            getTrueDate(
+                loadedTransaction?.date ?: dateNowLocal(),
+                (dateTime.value?.toLocalTime() ?: timeUTC()),
+                true
+            )
+        )
     }
 
-    fun onSetTime(newTime : LocalTime){
+    fun onSetTime(newTime: LocalTime) {
         loadedTransaction = loadedTransaction().copy(
             time = newTime
         )
         _time.value = newTime
-        onSetDateTime(getTrueDate(dateTime.value?.toLocalDate()?: dateNowLocal(),loadedTransaction?.time?: timeUTC(),true))
+        onSetDateTime(
+            getTrueDate(
+                dateTime.value?.toLocalDate() ?: dateNowLocal(),
+                loadedTransaction?.time ?: timeUTC(),
+                true
+            )
+        )
     }
 
     fun onSetDateTime(newDateTime: LocalDateTime) {
@@ -430,8 +432,7 @@ class EditTransactionViewModel @Inject constructor(
             TestIdlingResource.increment()
 
             plannedPaymentsLogic.payOrGet(
-                transaction = loadedTransaction(),
-                syncTransaction = false
+                transaction = loadedTransaction(), syncTransaction = false
             ) { paidTransaction ->
                 loadedTransaction = paidTransaction
                 _dueDate.value = paidTransaction.dueDate
@@ -539,12 +540,13 @@ class EditTransactionViewModel @Inject constructor(
                     type = transactionType.value ?: error("no transaction type"),
                     dueDate = dueDate.value,
                     dateTime = when {
-                        loadedTransaction().dateTime == null &&
-                                dueDate.value == null -> {
+                        loadedTransaction().dateTime == null && dueDate.value == null -> {
                             timeNowUTC()
                         }
 
-                        else -> loadedTransaction().dateTime
+                        else -> {
+                            loadedTransaction().dateTime
+                        }
                     },
                     categoryId = category.value?.id,
                     isSynced = false
@@ -650,9 +652,7 @@ class EditTransactionViewModel @Inject constructor(
             }
 
             val exRate = exchangeRate
-                ?: if (customExchangeRateState.value.showCard && toAccCurrencyCode == customExchangeRateState.value.toCurrencyCode &&
-                    fromAccCurrencyCode == customExchangeRateState.value.fromCurrencyCode && !resetRate
-                ) {
+                ?: if (customExchangeRateState.value.showCard && toAccCurrencyCode == customExchangeRateState.value.toCurrencyCode && fromAccCurrencyCode == customExchangeRateState.value.fromCurrencyCode && !resetRate) {
                     customExchangeRateState.value.exchangeRate
                 } else {
                     exchangeRatesLogic.convertAmount(
