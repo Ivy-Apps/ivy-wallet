@@ -1,4 +1,4 @@
-package com.ivy.domain.model.primitive
+package com.ivy.data.model.primitive
 
 import com.ivy.data.model.primitive.AssetCode
 import io.kotest.assertions.arrow.core.shouldBeLeft
