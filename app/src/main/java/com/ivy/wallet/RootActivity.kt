@@ -1,7 +1,6 @@
 package com.ivy.wallet
 
 import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.appwidget.AppWidgetManager
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
@@ -10,7 +9,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.DocumentsContract
-import android.text.format.DateFormat
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.compose.setContent
@@ -35,6 +33,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.ivy.IvyNavGraph
 import com.ivy.base.legacy.toEpochMilli
@@ -184,17 +184,20 @@ class RootActivity : AppCompatActivity(), RootScreen {
     private fun setupTimePicker() {
         ivyContext.onShowTimePicker = { onTimePicked ->
             val nowLocal = timeNowLocal()
-            val picker = TimePickerDialog(
-                this,
-                { _, hourOfDay, minute ->
-                    onTimePicked(
-                        LocalTime.of(hourOfDay, minute)
-                            .convertLocalToUTC().withSecond(0)
-                    )
-                },
-                nowLocal.hour, nowLocal.minute, DateFormat.is24HourFormat(this)
-            )
-            picker.show()
+            val picker =
+                MaterialTimePicker.Builder()
+                    .setTimeFormat(TimeFormat.CLOCK_12H)
+                    .setHour(12)
+                    .setMinute(10)
+                    .setTitleText("Select Appointment time")
+                    .build()
+            picker.show(supportFragmentManager, "Tag")
+            picker.addOnPositiveButtonClickListener {
+                onTimePicked(
+                    LocalTime.of(picker.hour, picker.minute)
+                        .convertLocalToUTC().withSecond(0)
+                )
+            }
         }
     }
 
