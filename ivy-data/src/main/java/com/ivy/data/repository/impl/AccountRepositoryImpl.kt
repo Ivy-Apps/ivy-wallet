@@ -52,15 +52,15 @@ class AccountRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun flagDeleted(id: UUID) {
+    override suspend fun flagDeleted(id: AccountId) {
         withContext(Dispatchers.IO) {
-            dataSource.flagDeleted(id)
+            dataSource.flagDeleted(id.value)
         }
     }
 
-    override suspend fun deleteById(id: UUID) {
+    override suspend fun deleteById(id: AccountId) {
         withContext(Dispatchers.IO) {
-            dataSource.deleteById(id)
+            dataSource.deleteById(id.value)
         }
     }
 

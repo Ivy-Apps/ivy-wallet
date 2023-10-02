@@ -11,7 +11,7 @@ interface AccountRepository {
 
     suspend fun save(value: Account)
     suspend fun saveMany(values: List<Account>)
-    suspend fun flagDeleted(id: UUID)
-    suspend fun deleteById(id: UUID)
+    suspend fun flagDeleted(id: AccountId)
+    suspend fun deleteById(id: AccountId)
     suspend fun deleteAll()
 }
