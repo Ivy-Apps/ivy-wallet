@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.Transaction
-import com.ivy.base.util.refreshWidget
+import com.ivy.base.legacy.refreshWidget
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
 import com.ivy.domain.event.AccountUpdatedEvent

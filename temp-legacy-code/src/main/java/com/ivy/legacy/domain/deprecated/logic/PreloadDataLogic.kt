@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.base.util.stringRes
+import com.ivy.base.legacy.stringRes
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
 import com.ivy.design.l0_system.*

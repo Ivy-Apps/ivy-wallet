@@ -20,4 +20,6 @@ dependencies {
 
     implementation(projects.tempOldDesign)
     implementation(projects.tempLegacyCode)
+
+    testImplementation(projects.ivyTesting)
 }

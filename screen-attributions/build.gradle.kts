@@ -13,4 +13,6 @@ dependencies {
     implementation(projects.ivyNavigation)
     implementation(projects.ivyCommonUi)
     implementation(projects.ivyDesign)
+
+    testImplementation(projects.ivyTesting)
 }

@@ -3,7 +3,7 @@ package com.ivy.design
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import com.ivy.base.model.Theme
+import com.ivy.base.legacy.Theme
 
 @Deprecated("Legacy code. Don't use it, please.")
 abstract class IvyContext {

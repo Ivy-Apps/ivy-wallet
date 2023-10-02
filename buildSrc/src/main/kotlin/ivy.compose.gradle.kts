@@ -1,5 +1,6 @@
 plugins {
     id("ivy.module")
+    id("app.cash.molecule")
 }
 
 android {
@@ -16,6 +17,12 @@ android {
         disable += "MissingTranslation"
         disable += "ComposeViewModelInjection"
         abortOnError = false
+    }
+
+    testOptions {
+        unitTests {
+            isReturnDefaultValues = true
+        }
     }
 }
 

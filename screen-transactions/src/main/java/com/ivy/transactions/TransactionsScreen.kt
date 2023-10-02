@@ -36,9 +36,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
-import com.ivy.base.model.Theme
+import com.ivy.base.legacy.Theme
 import com.ivy.base.model.TransactionType
-import com.ivy.base.util.stringRes
+import com.ivy.base.legacy.stringRes
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.Constants

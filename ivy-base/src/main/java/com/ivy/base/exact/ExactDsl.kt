@@ -1,4 +1,4 @@
-package com.ivy.domain.exact
+package com.ivy.base.exact
 
 import arrow.core.Either
 import arrow.core.raise.Raise
