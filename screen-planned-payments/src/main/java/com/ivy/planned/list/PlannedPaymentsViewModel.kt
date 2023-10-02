@@ -27,7 +27,7 @@ class PlannedPaymentsViewModel @Inject constructor(
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
     private val categoriesAct: CategoriesAct,
     private val accountsAct: AccountsAct
-) : ComposeViewModel<PlannedPaymentsState, Unit>() {
+) : ComposeViewModel<PlannedPaymentsScreenState, PlannedPaymentsScreenEvent>() {
 
     private val currency = mutableStateOf("")
     private val categories = mutableStateOf<ImmutableList<Category>>(persistentListOf())
@@ -44,12 +44,12 @@ class PlannedPaymentsViewModel @Inject constructor(
     private val isRecurringPaymentsExpanded = mutableStateOf(true)
 
     @Composable
-    override fun uiState(): PlannedPaymentsState {
+    override fun uiState(): PlannedPaymentsScreenState {
         LaunchedEffect(Unit) {
             start()
         }
 
-        return PlannedPaymentsState(
+        return PlannedPaymentsScreenState(
             currency = getCurrency(),
             categories = getCategories(),
             accounts = getAccounts(),
@@ -119,11 +119,11 @@ class PlannedPaymentsViewModel @Inject constructor(
         return isOneTimePaymentsExpanded.value
     }
 
-    override fun onEvent(event: Unit) {
+    override fun onEvent(event: PlannedPaymentsScreenEvent) {
         // no op
     }
 
-    fun start() {
+    private fun start() {
         viewModelScope.launch {
             val settings = ioThread { settingsDao.findFirst() }
             currency.value = settings.currency

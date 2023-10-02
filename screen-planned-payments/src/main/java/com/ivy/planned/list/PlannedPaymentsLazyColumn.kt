@@ -42,23 +42,23 @@ import kotlin.math.absoluteValue
 @Composable
 fun PlannedPaymentsLazyColumn(
     Header: @Composable () -> Unit,
-
     currency: String,
     categories: List<Category>,
     accounts: List<Account>,
-    listState: LazyListState = rememberLazyListState(),
-
     oneTime: List<PlannedPaymentRule>,
     oneTimeIncome: Double,
     oneTimeExpenses: Double,
-
     recurring: List<PlannedPaymentRule>,
     recurringIncome: Double,
     recurringExpenses: Double,
+    oneTimeExpanded: Boolean,
+    recurringExpanded: Boolean,
+    setOneTimeExpanded: (Boolean) -> Unit,
+    setRecurringExpanded: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+    listState: LazyListState = rememberLazyListState()
 ) {
     val nav = navigation()
-    var oneTimeExpanded by remember { mutableStateOf(true) }
-    var recurringExpanded by remember { mutableStateOf(true) }
 
     LazyColumn(
         modifier = Modifier
@@ -81,17 +81,13 @@ fun PlannedPaymentsLazyColumn(
             oneTimeIncome = oneTimeIncome,
             oneTimeExpenses = oneTimeExpenses,
             oneTimeExpanded = oneTimeExpanded,
-            setOneTimeExpanded = {
-                oneTimeExpanded = it
-            },
+            setOneTimeExpanded = setOneTimeExpanded,
 
             recurring = recurring,
             recurringIncome = recurringIncome,
             recurringExpenses = recurringExpenses,
             recurringExpanded = recurringExpanded,
-            setRecurringExpanded = {
-                recurringExpanded = it
-            }
+            setRecurringExpanded = setRecurringExpanded
         )
     }
 }

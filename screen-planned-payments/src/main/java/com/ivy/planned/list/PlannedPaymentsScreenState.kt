@@ -7,7 +7,7 @@ import kotlinx.collections.immutable.ImmutableList
 import javax.annotation.concurrent.Immutable
 
 @Immutable
-data class PlannedPaymentsState(
+data class PlannedPaymentsScreenState(
     val currency: String,
     val categories: ImmutableList<Category>,
     val accounts: ImmutableList<Account>,

@@ -36,12 +36,16 @@ fun BoxWithConstraintsScope.PlannedPaymentsScreen(screen: PlannedPaymentsScreen)
     val viewModel: PlannedPaymentsViewModel = screenScopedViewModel()
     val uiState = viewModel.uiState()
 
-    UI(uiState)
+    UI(
+        state = uiState,
+        onEvent = viewModel::onEvent
+    )
 }
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    state: PlannedPaymentsState
+    state: PlannedPaymentsScreenState,
+    onEvent: (PlannedPaymentsScreenEvent) -> Unit = {}
 ) {
     PlannedPaymentsLazyColumn(
         Header = {
@@ -58,7 +62,23 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(24.dp))
         },
-        state = state
+        currency = state.currency,
+        categories = state.categories,
+        accounts = state.accounts,
+        oneTime = state.oneTimePlannedPayment,
+        oneTimeIncome = state.oneTimeIncome,
+        oneTimeExpenses = state.oneTimeExpenses,
+        recurring = state.recurringPlannedPayment,
+        recurringIncome = state.recurringIncome,
+        recurringExpenses = state.recurringExpenses,
+        oneTimeExpanded = state.isOneTimePaymentsExpanded,
+        recurringExpanded = state.isRecurringPaymentsExpanded,
+        setOneTimeExpanded = {
+            onEvent(PlannedPaymentsScreenEvent.OnOneTimePaymentsExpanded(it))
+        },
+        setRecurringExpanded = {
+            onEvent(PlannedPaymentsScreenEvent.OnRecurringPaymentsExpanded(it))
+        }
     )
 
     val nav = navigation()
@@ -86,7 +106,7 @@ private fun Preview() {
         val shisha = Category(name = "Shisha", color = Orange.toArgb())
 
         UI(
-            PlannedPaymentsState(
+            PlannedPaymentsScreenState(
                 currency = "BGN",
                 accounts = persistentListOf(account),
                 categories = persistentListOf(food, shisha),
@@ -119,7 +139,9 @@ private fun Preview() {
                     )
                 ),
                 recurringExpenses = 1025.5,
-                recurringIncome = 0.0
+                recurringIncome = 0.0,
+                isOneTimePaymentsExpanded = true,
+                isRecurringPaymentsExpanded = true
             )
         )
     }
