@@ -1,8 +1,8 @@
 package com.ivy.transaction
 
+import com.ivy.base.model.TransactionType
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
-import com.ivy.persistence.model.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import java.time.LocalDateTime
