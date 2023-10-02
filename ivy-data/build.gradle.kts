@@ -11,4 +11,5 @@ dependencies {
     implementation(projects.ivyBase)
 
     implementation(libs.datastore)
+    implementation(libs.bundles.ktor)
 }

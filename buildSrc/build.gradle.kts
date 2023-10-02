@@ -22,6 +22,7 @@ dependencies {
     implementation(libs.detekt.gradle.plugin)
     implementation(libs.kotlinx.serialization.plugin)
     implementation(libs.ksp.plugin)
+    implementation(libs.cashapp.molecule.plugin)
 
 
     // Make version catalog available in precompiled scripts

@@ -3,7 +3,7 @@ package com.ivy.onboarding.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.base.model.Theme
+import com.ivy.base.legacy.Theme
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.datamodel.Settings

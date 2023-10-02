@@ -1,7 +1,7 @@
-package com.ivy.domain.model.primitive
+package com.ivy.data.model.primitive
 
 import arrow.core.raise.Raise
-import com.ivy.domain.exact.Exact
+import com.ivy.base.exact.Exact
 
 @JvmInline
 value class AssetCode private constructor(val code: String) {

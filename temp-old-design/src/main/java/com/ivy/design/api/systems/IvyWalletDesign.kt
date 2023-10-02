@@ -8,7 +8,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ivy.base.model.Theme
+import com.ivy.base.legacy.Theme
 import com.ivy.design.api.IvyDesign
 import com.ivy.design.l0_system.*
 import com.ivy.resources.R

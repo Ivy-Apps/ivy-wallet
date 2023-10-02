@@ -1,6 +1,6 @@
 package com.ivy.home.customerjourney
 
-import com.ivy.base.util.stringRes
+import com.ivy.base.legacy.stringRes
 import com.ivy.design.l0_system.Blue
 import com.ivy.design.l0_system.Blue3
 import com.ivy.design.l0_system.Gradient

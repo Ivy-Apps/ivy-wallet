@@ -7,8 +7,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
-import com.ivy.base.model.Theme
-import com.ivy.base.util.refreshWidget
+import com.ivy.base.legacy.Theme
+import com.ivy.base.legacy.refreshWidget
 import com.ivy.domain.ComposeViewModel
 import com.ivy.domain.RootScreen
 import com.ivy.frp.monad.Res

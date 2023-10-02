@@ -16,4 +16,6 @@ dependencies {
     implementation(projects.ivyData)
 
     implementation(projects.widgetAddTransaction)
+
+    testImplementation(projects.ivyTesting)
 }
