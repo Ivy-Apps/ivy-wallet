@@ -2,6 +2,7 @@ package com.ivy.data.model
 
 import androidx.compose.ui.graphics.Color
 import com.ivy.data.model.common.Reorderable
+import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.sync.Syncable
@@ -15,7 +16,7 @@ value class CategoryId(override val value: UUID) : UniqueId
 data class Category(
     override val id: CategoryId,
     val name: NotBlankTrimmedString,
-    val color: Color,
+    val color: ColorInt,
     val icon: IconAsset?,
     override val orderNum: Double,
     override val lastUpdated: Instant,
