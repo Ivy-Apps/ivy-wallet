@@ -5,7 +5,9 @@ import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 
 sealed interface EditTransactionEvent {
     data class OnAmountChanged(val newAmount: Double) : EditTransactionEvent
@@ -16,6 +18,8 @@ sealed interface EditTransactionEvent {
     data class OnToAccountChanged(val newAccount: Account) : EditTransactionEvent
     data class OnDueDateChanged(val newDueDate: LocalDateTime?) : EditTransactionEvent
     data class OnSetDateTime(val newDateTime: LocalDateTime) : EditTransactionEvent
+    data class OnSetDate(val newDate: LocalDate) : EditTransactionEvent
+    data class OnSetTime(val newTime: LocalTime) : EditTransactionEvent
     data class OnSetTransactionType(val newTransactionType: TransactionType) : EditTransactionEvent
     data object OnPayPlannedPayment : EditTransactionEvent
     data object Delete : EditTransactionEvent

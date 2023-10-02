@@ -40,7 +40,6 @@ import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.rootView
 import com.ivy.legacy.ui.component.edit.TransactionDateTime
 import com.ivy.legacy.utils.convertUTCtoLocal
-import com.ivy.legacy.utils.getTrueDate
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.timeNowLocal
 import com.ivy.navigation.EditPlannedScreen
@@ -95,8 +94,7 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransactionScreen)
 
     val view = rootView()
 
-    UI(
-        screen = screen,
+    UI(screen = screen,
         transactionType = uiState.transactionType,
         baseCurrency = uiState.currency,
         initialTitle = uiState.initialTitle,
@@ -116,17 +114,12 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransactionScreen)
         accounts = uiState.accounts,
 
         hasChanges = uiState.hasChanges,
-
-        onTitleChanged = viewModel::onTitleChanged,
-        onDescriptionChanged = viewModel::onDescriptionChanged,
-        onAmountChanged = viewModel::onAmountChanged,
-        onCategoryChanged = viewModel::onCategoryChanged,
-        onAccountChanged = viewModel::onAccountChanged,
-        onToAccountChanged = viewModel::onToAccountChanged,
-        onDueDateChanged = viewModel::onDueDateChanged,
-        onSetDate = viewModel::onSetDate,
-        onSetTime = viewModel::onSetTime,
-        onSetTransactionType = viewModel::onSetTransactionType,
+        onSetDate = {
+            viewModel.onEvent(EditTransactionEvent.OnSetDate(it))
+        },
+        onSetTime = {
+            viewModel.onEvent(EditTransactionEvent.OnSetTime(it))
+        },
         onTitleChanged = {
             viewModel.onEvent(EditTransactionEvent.OnTitleChanged(it))
         },
@@ -148,13 +141,9 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransactionScreen)
         onDueDateChanged = {
             viewModel.onEvent(EditTransactionEvent.OnDueDateChanged(it))
         },
-        onSetDateTime = {
-            viewModel.onEvent(EditTransactionEvent.OnSetDateTime(it))
-        },
         onSetTransactionType = {
             viewModel.onEvent(EditTransactionEvent.OnSetTransactionType(it))
         },
-
         onCreateCategory = {
             viewModel.onEvent(EditTransactionEvent.CreateCategory(it))
         },
@@ -179,8 +168,7 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransactionScreen)
         },
         onExchangeRateChanged = {
             viewModel.onEvent(EditTransactionEvent.UpdateExchangeRate(it))
-        }
-    )
+        })
 }
 
 @ExperimentalFoundationApi
@@ -220,10 +208,6 @@ private fun BoxWithConstraintsScope.UI(
     onSetHasChanges: (hasChanges: Boolean) -> Unit,
     onDelete: () -> Unit,
     onCreateAccount: (CreateAccountData) -> Unit,
-
-loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(),
-    backgroundProcessing: Boolean = false,
-    hasChanges: Boolean = false,
     onExchangeRateChanged: (Double?) -> Unit = { },
     loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(),
     backgroundProcessing: Boolean = false,
@@ -288,13 +272,11 @@ loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(),
             },
             onChangeTransactionTypeModal = {
                 changeTransactionTypeModalVisible = true
-            }
-        )
+            })
 
         Spacer(Modifier.height(32.dp))
 
-        Title(
-            type = transactionType,
+        Title(type = transactionType,
             titleFocus = titleFocus,
             initialTransactionId = screen.initialTransactionId,
 
@@ -316,8 +298,7 @@ loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(),
                         onSave(true)
                     }
                 }
-            }
-        )
+            })
 
         if (loanData.loanCaption != null) {
             Spacer(modifier = Modifier.height(8.dp))
@@ -326,8 +307,7 @@ loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(),
                 modifier = Modifier.padding(horizontal = 24.dp),
                 text = loanData.loanCaption!!,
                 style = UI.typo.nB2.style(
-                    color = UI.colors.mediumInverse,
-                    fontWeight = FontWeight.Normal
+                    color = UI.colors.mediumInverse, fontWeight = FontWeight.Normal
                 )
             )
         }
@@ -335,12 +315,9 @@ loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(),
         if (transactionType != TransactionType.TRANSFER) {
             Spacer(Modifier.height(32.dp))
 
-            Category(
-                category = category,
-                onChooseCategory = {
-                    chooseCategoryModalVisible = true
-                }
-            )
+            Category(category = category, onChooseCategory = {
+                chooseCategoryModalVisible = true
+            })
         }
 
         Spacer(Modifier.height(32.dp))
@@ -359,33 +336,25 @@ loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(),
             Spacer(Modifier.height(12.dp))
         }
 
-        Description(
-            description = description,
+        Description(description = description,
             onAddDescription = { descriptionModalVisible = true },
-            onEditDescription = { descriptionModalVisible = true }
-        )
+            onEditDescription = { descriptionModalVisible = true })
 
-        TransactionDateTime(
-            dateTime = dateTime,
-            dueDateTime = dueDate,
-            onEditDate = {
-                ivyContext.datePicker(
-                    initialDate = dateTime?.convertUTCtoLocal()?.toLocalDate()
-                ) { date ->
-                    onSetDate((date))
-                }
-            },
-            onEditTime = {
-                ivyContext.timePicker { time ->
-                    onSetTime(time)
-                }
+        TransactionDateTime(dateTime = dateTime, dueDateTime = dueDate, onEditDate = {
+            ivyContext.datePicker(
+                initialDate = dateTime?.convertUTCtoLocal()?.toLocalDate()
+            ) { date ->
+                onSetDate((date))
             }
-        )
+        }, onEditTime = {
+            ivyContext.timePicker { time ->
+                onSetTime(time)
+            }
+        })
 
         if (transactionType == TransactionType.TRANSFER && customExchangeRateState.showCard) {
             Spacer(Modifier.height(12.dp))
-            CustomExchangeRateCard(
-                fromCurrencyCode = baseCurrency,
+            CustomExchangeRateCard(fromCurrencyCode = baseCurrency,
                 toCurrencyCode = customExchangeRateState.toCurrencyCode ?: baseCurrency,
                 exchangeRate = customExchangeRateState.exchangeRate,
                 onRefresh = {
@@ -394,8 +363,7 @@ loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(),
                 },
                 modifier = Modifier.onGloballyPositioned { coordinates ->
                     customExchangeRatePosition = coordinates.positionInParent().y * 0.3f
-                }
-            ) {
+                }) {
                 exchangeRateAmountModalShown = true
             }
         }
@@ -404,8 +372,7 @@ loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(),
             Spacer(Modifier.height(12.dp))
 
             val nav = navigation()
-            AddPrimaryAttributeButton(
-                icon = R.drawable.ic_planned_payments,
+            AddPrimaryAttributeButton(icon = R.drawable.ic_planned_payments,
                 text = stringResource(R.string.add_planned_date_payment),
                 onClick = {
                     nav.back()
@@ -420,8 +387,7 @@ loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(),
                             description = description,
                         )
                     )
-                }
-            )
+                })
         }
 
         Spacer(Modifier.height(600.dp)) // scroll hack
@@ -433,8 +399,7 @@ loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(),
         }
     }
 
-    EditBottomSheet(
-        initialTransactionId = screen.initialTransactionId,
+    EditBottomSheet(initialTransactionId = screen.initialTransactionId,
         type = transactionType,
         accounts = accounts,
         selectedAccount = account,
@@ -507,16 +472,12 @@ loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(),
         onToAccountChanged = onToAccountChanged,
         onAddNewAccount = {
             accountModalData = AccountModalData(
-                account = null,
-                baseCurrency = baseCurrency,
-                balance = 0.0
+                account = null, baseCurrency = baseCurrency, balance = 0.0
             )
-        }
-    )
+        })
 
     // Modals
-    ChooseCategoryModal(
-        visible = chooseCategoryModalVisible,
+    ChooseCategoryModal(visible = chooseCategoryModalVisible,
         initialCategory = category,
         categories = categories,
         showCategoryModal = { categoryModalData = CategoryModalData(it) },
@@ -530,69 +491,53 @@ loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(),
         },
         dismiss = {
             chooseCategoryModalVisible = false
-        }
-    )
+        })
 
-    CategoryModal(
-        modal = categoryModalData,
-        onCreateCategory = { createData ->
-            onCreateCategory(createData)
-            chooseCategoryModalVisible = false
-        },
-        onEditCategory = onEditCategory,
-        dismiss = {
-            categoryModalData = null
-        }
-    )
+    CategoryModal(modal = categoryModalData, onCreateCategory = { createData ->
+        onCreateCategory(createData)
+        chooseCategoryModalVisible = false
+    }, onEditCategory = onEditCategory, dismiss = {
+        categoryModalData = null
+    })
 
-    AccountModal(
-        modal = accountModalData,
+    AccountModal(modal = accountModalData,
         onCreateAccount = onCreateAccount,
         onEditAccount = { _, _ -> },
         dismiss = {
             accountModalData = null
-        }
-    )
+        })
 
-    DescriptionModal(
-        visible = descriptionModalVisible,
+    DescriptionModal(visible = descriptionModalVisible,
         description = description,
         onDescriptionChanged = onDescriptionChanged,
         dismiss = {
             descriptionModalVisible = false
-        }
-    )
+        })
 
-    DeleteModal(
-        visible = deleteTrnModalVisible,
+    DeleteModal(visible = deleteTrnModalVisible,
         title = stringResource(R.string.confirm_deletion),
         description = stringResource(R.string.transaction_confirm_deletion_description),
-        dismiss = { deleteTrnModalVisible = false }
-    ) {
+        dismiss = { deleteTrnModalVisible = false }) {
         onDelete()
     }
 
-    ChangeTransactionTypeModal(
-        visible = changeTransactionTypeModalVisible,
+    ChangeTransactionTypeModal(visible = changeTransactionTypeModalVisible,
         includeTransferType = true,
         initialType = transactionType,
         dismiss = {
             changeTransactionTypeModalVisible = false
-        }
-    ) {
+        }) {
         onSetTransactionType(it)
     }
 
-    DeleteModal(
-        visible = accountChangeModal,
+    DeleteModal(visible = accountChangeModal,
         title = stringResource(R.string.confirm_account_change),
         description = stringResource(R.string.confirm_account_change_description),
         buttonText = stringResource(R.string.confirm),
         iconStart = R.drawable.ic_agreed,
         dismiss = {
             accountChangeModal = false
-        }
-    ) {
+        }) {
         selectedAcc?.let { onAccountChanged(it) }
         accountChangeModal = false
     }
@@ -603,8 +548,7 @@ loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(),
         visible = waitModalVisible
     )
 
-    AmountModal(
-        id = amountModalId,
+    AmountModal(id = amountModalId,
         visible = exchangeRateAmountModalShown,
         currency = "",
         initialAmount = customExchangeRateState.exchangeRate,
@@ -612,18 +556,15 @@ loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(),
         decimalCountMax = 4,
         onAmountChanged = {
             onExchangeRateChanged(it)
-        }
-    )
+        })
 }
 
 private fun shouldFocusCategory(
-    category: Category?,
-    type: TransactionType
+    category: Category?, type: TransactionType
 ): Boolean = category == null && type != TransactionType.TRANSFER
 
 private fun shouldFocusTitle(
-    titleTextFieldValue: TextFieldValue,
-    type: TransactionType
+    titleTextFieldValue: TextFieldValue, type: TransactionType
 ): Boolean = titleTextFieldValue.text.isBlank() && type != TransactionType.TRANSFER
 
 private fun shouldFocusAmount(amount: Double) = amount == 0.0
@@ -633,8 +574,7 @@ private fun shouldFocusAmount(amount: Double) = amount == 0.0
 @Composable
 private fun BoxWithConstraintsScope.Preview() {
     IvyPreview {
-        UI(
-            screen = EditTransactionScreen(null, TransactionType.EXPENSE),
+        UI(screen = EditTransactionScreen(null, TransactionType.EXPENSE),
             initialTitle = "",
             titleSuggestions = persistentSetOf(),
             baseCurrency = "BGN",
@@ -668,7 +608,6 @@ private fun BoxWithConstraintsScope.Preview() {
             onCreateAccount = { },
             onSetDate = {},
             onSetTime = {},
-            onSetTransactionType = {}
-        )
+            onSetTransactionType = {})
     }
 }
