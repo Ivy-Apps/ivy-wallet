@@ -42,6 +42,7 @@ import com.ivy.legacy.humanReadableType
 import com.ivy.legacy.utils.getDefaultFIATCurrency
 import com.ivy.loans.loan.data.DisplayLoan
 import com.ivy.navigation.LoanDetailsScreen
+import com.ivy.navigation.LoansScreen
 import com.ivy.navigation.Screen
 import com.ivy.navigation.navigation
 import com.ivy.resources.R
@@ -61,7 +62,7 @@ import com.ivy.wallet.ui.theme.modal.LoanModal
 import com.ivy.wallet.ui.theme.toComposeColor
 
 @Composable
-fun BoxWithConstraintsScope.LoansScreen(screen: Screen) {
+fun BoxWithConstraintsScope.LoansScreen(screen: LoansScreen) {
     val viewModel: LoanViewModel = viewModel()
     val state = viewModel.uiState()
     UI(
