@@ -41,7 +41,7 @@ fun BoxWithConstraintsScope.PlannedPaymentsScreen(screen: PlannedPaymentsScreen)
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    state: PlannedPaymentsScreenState
+    state: PlannedPaymentsState
 ) {
     PlannedPaymentsLazyColumn(
         Header = {
@@ -58,16 +58,7 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(24.dp))
         },
-
-        currency = state.currency,
-        categories = state.categories,
-        accounts = state.accounts,
-        oneTime = state.oneTimePlannedPayment,
-        oneTimeIncome = state.oneTimeIncome,
-        oneTimeExpenses = state.oneTimeExpenses,
-        recurring = state.recurringPlannedPayment,
-        recurringIncome = state.recurringIncome,
-        recurringExpenses = state.recurringExpenses
+        state = state
     )
 
     val nav = navigation()
@@ -95,7 +86,7 @@ private fun Preview() {
         val shisha = Category(name = "Shisha", color = Orange.toArgb())
 
         UI(
-            PlannedPaymentsScreenState(
+            PlannedPaymentsState(
                 currency = "BGN",
                 accounts = persistentListOf(account),
                 categories = persistentListOf(food, shisha),

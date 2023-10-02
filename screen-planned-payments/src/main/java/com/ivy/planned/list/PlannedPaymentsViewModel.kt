@@ -27,7 +27,7 @@ class PlannedPaymentsViewModel @Inject constructor(
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
     private val categoriesAct: CategoriesAct,
     private val accountsAct: AccountsAct
-) : ComposeViewModel<PlannedPaymentsScreenState, Unit>() {
+) : ComposeViewModel<PlannedPaymentsState, Unit>() {
 
     private val currency = mutableStateOf("")
     private val categories = mutableStateOf<ImmutableList<Category>>(persistentListOf())
@@ -40,14 +40,16 @@ class PlannedPaymentsViewModel @Inject constructor(
     private val oneTimeExpenses = mutableDoubleStateOf(0.0)
     private val recurringIncome = mutableDoubleStateOf(0.0)
     private val recurringExpenses = mutableDoubleStateOf(0.0)
+    private val isOneTimePaymentsExpanded = mutableStateOf(true)
+    private val isRecurringPaymentsExpanded = mutableStateOf(true)
 
     @Composable
-    override fun uiState(): PlannedPaymentsScreenState {
+    override fun uiState(): PlannedPaymentsState {
         LaunchedEffect(Unit) {
             start()
         }
 
-        return PlannedPaymentsScreenState(
+        return PlannedPaymentsState(
             currency = getCurrency(),
             categories = getCategories(),
             accounts = getAccounts(),
@@ -56,7 +58,9 @@ class PlannedPaymentsViewModel @Inject constructor(
             recurringExpenses = getRecurringExpenses(),
             recurringIncome = getRecurringIncome(),
             recurringPlannedPayment = getRecurringPlannedPayment(),
-            oneTimePlannedPayment = getOneTimePlannedPayment()
+            oneTimePlannedPayment = getOneTimePlannedPayment(),
+            isOneTimePaymentsExpanded = getOneTimePaymentsExpanded(),
+            isRecurringPaymentsExpanded = getRecurringPaymentsExpanded()
         )
     }
 
@@ -103,6 +107,16 @@ class PlannedPaymentsViewModel @Inject constructor(
     @Composable
     private fun getRecurringIncome(): Double {
         return recurringIncome.doubleValue
+    }
+
+    @Composable
+    private fun getRecurringPaymentsExpanded(): Boolean {
+        return isRecurringPaymentsExpanded.value
+    }
+
+    @Composable
+    private fun getOneTimePaymentsExpanded(): Boolean {
+        return isOneTimePaymentsExpanded.value
     }
 
     override fun onEvent(event: Unit) {
