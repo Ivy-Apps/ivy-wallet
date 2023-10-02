@@ -1,6 +1,5 @@
 package com.ivy.data.model
 
-import androidx.compose.ui.graphics.Color
 import com.ivy.data.model.common.Reorderable
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset

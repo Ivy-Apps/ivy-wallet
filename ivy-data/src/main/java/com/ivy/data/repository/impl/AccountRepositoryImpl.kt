@@ -69,5 +69,4 @@ class AccountRepositoryImpl @Inject constructor(
             dataSource.deleteAll()
         }
     }
-
 }
