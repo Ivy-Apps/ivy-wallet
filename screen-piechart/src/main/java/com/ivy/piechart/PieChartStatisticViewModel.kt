@@ -1,10 +1,11 @@
 package com.ivy.piechart
 
+import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.dao.read.SettingsDao
-import com.ivy.frp.viewmodel.FRPViewModel
+import com.ivy.domain.ComposeViewModel
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.data.model.TimePeriod
@@ -16,7 +17,6 @@ import com.ivy.piechart.action.PieChartAct
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,15 +30,7 @@ class PieChartStatisticViewModel @Inject constructor(
     private val ivyContext: IvyWalletCtx,
     private val pieChartAct: PieChartAct,
     private val sharedPrefs: SharedPrefs
-) : FRPViewModel<PieChartStatisticState, Nothing>() {
-
-    override val _state: MutableStateFlow<PieChartStatisticState> = MutableStateFlow(
-        PieChartStatisticState()
-    )
-
-    override suspend fun handleEvent(event: Nothing): suspend () -> PieChartStatisticState {
-        TODO("Not yet implemented")
-    }
+) : ComposeViewModel<PieChartStatisticState, PieChartStatisticEvent>() {
 
     private val _treatTransfersAsIncomeExpense = MutableStateFlow(false)
     private val treatTransfersAsIncomeExpense = _treatTransfersAsIncomeExpense.readOnly()
@@ -56,6 +48,11 @@ class PieChartStatisticViewModel @Inject constructor(
                 treatTransfersAsIncomeExpense = screen.treatTransfersAsIncomeExpense
             )
         }
+    }
+
+    @Composable
+    override fun uiState(): PieChartStatisticState {
+        TODO("Not yet implemented")
     }
 
     private suspend fun startInternally(
@@ -203,7 +200,7 @@ class PieChartStatisticViewModel @Inject constructor(
         }
     }
 
-    fun onEvent(event: PieChartStatisticEvent) {
+    override fun onEvent(event: PieChartStatisticEvent) {
         viewModelScope.launch(Dispatchers.Default) {
             when (event) {
                 is PieChartStatisticEvent.OnSelectNextMonth -> nextMonth()
@@ -214,31 +211,4 @@ class PieChartStatisticViewModel @Inject constructor(
             }
         }
     }
-}
-
-data class PieChartStatisticState(
-    val transactionType: TransactionType = TransactionType.INCOME,
-    val period: TimePeriod = TimePeriod(),
-    val baseCurrency: String = "",
-    val totalAmount: Double = 0.0,
-    val categoryAmounts: ImmutableList<CategoryAmount> = persistentListOf(),
-    val selectedCategory: SelectedCategory? = null,
-    val accountIdFilterList: ImmutableList<UUID> = persistentListOf(),
-    val showCloseButtonOnly: Boolean = false,
-    val filterExcluded: Boolean = false,
-    val transactions: ImmutableList<Transaction> = persistentListOf(),
-    val choosePeriodModal: ChoosePeriodModalData? = null
-)
-
-sealed class PieChartStatisticEvent {
-    object OnSelectNextMonth : PieChartStatisticEvent()
-
-    object OnSelectPreviousMonth : PieChartStatisticEvent()
-
-    data class OnSetPeriod(val timePeriod: TimePeriod) : PieChartStatisticEvent()
-
-    data class OnCategoryClicked(val category: Category?) :
-        PieChartStatisticEvent()
-
-    data class OnShowMonthModal(val timePeriod: TimePeriod?) : PieChartStatisticEvent()
 }
