@@ -64,18 +64,73 @@ class PieChartStatisticViewModel @Inject constructor(
     @Composable
     override fun uiState(): PieChartStatisticState {
         return PieChartStatisticState(
-            transactionType =,
-            period =,
-            baseCurrency =,
-            totalAmount =,
-            categoryAmounts =,
-            selectedCategory =,
-            accountIdFilterList =,
-            showCloseButtonOnly =,
-            filterExcluded =,
-            transactions =,
+            transactionType = getTransactionType(),
+            period = getPeriod(),
+            baseCurrency = getBaseCurrency(),
+            totalAmount = getTotalAmount(),
+            categoryAmounts = getCategoryAmounts(),
+            selectedCategory = getSelectedCategory(),
+            accountIdFilterList = getAccountIdFilterList(),
+            showCloseButtonOnly = getShowCloseButtonOnly(),
+            filterExcluded = getFilterExcluded(),
+            transactions = getTransactions(),
             choosePeriodModal =
         )
+    }
+
+    @Composable
+    private fun getTransactionType(): TransactionType {
+        return transactionType.value
+    }
+
+    @Composable
+    private fun getPeriod(): TimePeriod {
+        return period.value
+    }
+
+    @Composable
+    private fun getBaseCurrency(): String {
+        return baseCurrency.value
+    }
+
+    @Composable
+    private fun getTotalAmount(): Double {
+        return totalAmount.doubleValue
+    }
+
+    @Composable
+    private fun getCategoryAmounts(): ImmutableList<CategoryAmount> {
+        return categoryAmounts.value
+    }
+
+    @Composable
+    private fun getSelectedCategory(): SelectedCategory? {
+        return selectedCategory.value
+    }
+
+    @Composable
+    private fun getAccountIdFilterList(): ImmutableList<UUID> {
+        return accountIdFilterList.value
+    }
+
+    @Composable
+    private fun getShowCloseButtonOnly(): Boolean {
+        return showCloseButtonOnly.value
+    }
+
+    @Composable
+    private fun getFilterExcluded(): Boolean {
+        return filterExcluded.value
+    }
+
+    @Composable
+    private fun getTransactions(): ImmutableList<Transaction> {
+        return transactions.value
+    }
+
+    @Composable
+    private fun getChoosePeriodModal(): ChoosePeriodModalData? {
+        return choosePeriodModal.value
     }
 
     private suspend fun startInternally(
