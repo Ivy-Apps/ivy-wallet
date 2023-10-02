@@ -20,8 +20,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,18 +33,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.legacy.datamodel.Loan
+import com.ivy.data.model.LoanType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.datamodel.Loan
 import com.ivy.legacy.humanReadableType
 import com.ivy.legacy.utils.getDefaultFIATCurrency
-import com.ivy.legacy.utils.onScreenStart
 import com.ivy.loans.loan.data.DisplayLoan
 import com.ivy.navigation.LoanDetailsScreen
-import com.ivy.navigation.LoansScreen
 import com.ivy.navigation.navigation
-import com.ivy.data.model.LoanType
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gray
@@ -64,7 +60,7 @@ import com.ivy.wallet.ui.theme.modal.LoanModal
 import com.ivy.wallet.ui.theme.toComposeColor
 
 @Composable
-fun BoxWithConstraintsScope.LoansScreen(screen: LoansScreen) {
+fun BoxWithConstraintsScope.LoansScreen() {
     val viewModel: LoanViewModel = viewModel()
     val state = viewModel.uiState()
     UI(
@@ -356,9 +352,9 @@ private fun ColumnScope.LoanInfo(
 
 @Composable
 private fun NoLoansEmptyState(
-    modifier: Modifier = Modifier,
     emptyStateTitle: String,
     emptyStateText: String,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
