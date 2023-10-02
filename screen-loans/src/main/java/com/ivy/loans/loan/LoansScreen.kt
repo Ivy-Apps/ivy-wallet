@@ -43,7 +43,6 @@ import com.ivy.legacy.utils.getDefaultFIATCurrency
 import com.ivy.loans.loan.data.DisplayLoan
 import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.LoansScreen
-import com.ivy.navigation.Screen
 import com.ivy.navigation.navigation
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Blue
