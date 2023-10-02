@@ -26,6 +26,9 @@ import com.ivy.data.db.dao.read.LoanDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.base.model.TransactionType
+import com.ivy.legacy.utils.dateNowLocal
+import com.ivy.legacy.utils.getTrueDate
+import com.ivy.legacy.utils.timeUTC
 import com.ivy.wallet.domain.action.account.AccountByIdAct
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
@@ -47,7 +50,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.util.UUID
 import javax.inject.Inject
 
@@ -92,6 +97,12 @@ class EditTransactionViewModel @Inject constructor(
 
     private val _dueDate = MutableStateFlow<LocalDateTime?>(null)
     val dueDate = _dueDate.readOnly()
+
+    private val _date = MutableStateFlow<LocalDate?>(null)
+    val date = _date.readOnly()
+
+    private val _time = MutableStateFlow<LocalTime?>(null)
+    val time = _time.readOnly()
 
     private val _accounts = MutableStateFlow<ImmutableList<Account>>(persistentListOf())
     val accounts = _accounts.readOnly()
