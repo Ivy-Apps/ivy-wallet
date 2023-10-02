@@ -1,12 +1,12 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.base.util.stringRes
+import com.ivy.base.legacy.stringRes
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
 import com.ivy.design.l0_system.*
-import com.ivy.persistence.db.dao.write.WriteAccountDao
-import com.ivy.persistence.db.dao.write.WriteCategoryDao
+import com.ivy.data.db.dao.write.WriteAccountDao
+import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.resources.R
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData

@@ -1,21 +1,24 @@
 package com.ivy.budgets
 
-import androidx.lifecycle.ViewModel
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.Transaction
 import com.ivy.budgets.model.DisplayBudget
+import com.ivy.domain.ComposeViewModel
 import com.ivy.frp.sumOfSuspend
-import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.data.SharedPrefs
+import com.ivy.legacy.data.model.FromToTimeRange
 import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Budget
 import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.domain.deprecated.logic.BudgetCreator
 import com.ivy.legacy.utils.isNotNullOrBlank
-import com.ivy.legacy.utils.readOnly
-import com.ivy.persistence.db.dao.write.WriteBudgetDao
-import com.ivy.persistence.model.TransactionType
+import com.ivy.data.db.dao.write.WriteBudgetDao
+import com.ivy.base.model.TransactionType
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.budget.BudgetsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
@@ -29,7 +32,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -45,59 +47,117 @@ class BudgetViewModel @Inject constructor(
     private val baseCurrencyAct: BaseCurrencyAct,
     private val historyTrnsAct: HistoryTrnsAct,
     private val exchangeAct: ExchangeAct
-) : ViewModel() {
+) : ComposeViewModel<BudgetScreenState, BudgetScreenEvent>() {
 
-    private val _timeRange = MutableStateFlow(ivyContext.selectedPeriod.toRange(1))
-    val timeRange = _timeRange.readOnly()
+    private val baseCurrency = mutableStateOf("")
+    private val timeRange = mutableStateOf<FromToTimeRange?>(null)
+    private val budgets = mutableStateOf<ImmutableList<DisplayBudget>>(persistentListOf())
+    private val categories = mutableStateOf<ImmutableList<Category>>(persistentListOf())
+    private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
+    private val categoryBudgetsTotal = mutableDoubleStateOf(0.0)
+    private val appBudgetMax = mutableDoubleStateOf(0.0)
+    private val reorderModalVisible = mutableStateOf(false)
+    private val budgetModalData = mutableStateOf<BudgetModalData?>(null)
 
-    private val _baseCurrencyCode =
-        MutableStateFlow(com.ivy.legacy.utils.getDefaultFIATCurrency().currencyCode)
-    val baseCurrencyCode = _baseCurrencyCode.readOnly()
+    @Composable
+    override fun uiState(): BudgetScreenState {
+        LaunchedEffect(Unit) {
+            start()
+        }
 
-    private val _budgets = MutableStateFlow<ImmutableList<DisplayBudget>>(persistentListOf())
-    val budgets = _budgets.readOnly()
+        return BudgetScreenState(
+            baseCurrency = getBaseCurrency(),
+            categories = getCategories(),
+            accounts = getAccounts(),
+            budgets = getBudgets(),
+            categoryBudgetsTotal = getCategoryBudgetsTotal(),
+            appBudgetMax = getAppBudgetMax(),
+            timeRange = getTimeRange(),
+            reorderModalVisible = getReorderModalVisible(),
+            budgetModalData = getBudgetModalData()
+        )
+    }
 
-    private val _categories = MutableStateFlow<ImmutableList<Category>>(persistentListOf())
-    val categories = _categories.readOnly()
+    @Composable
+    private fun getBaseCurrency(): String {
+        return baseCurrency.value
+    }
 
-    private val _accounts = MutableStateFlow<ImmutableList<Account>>(persistentListOf())
-    val accounts = _accounts.readOnly()
+    @Composable
+    private fun getTimeRange(): FromToTimeRange? {
+        return timeRange.value
+    }
 
-    private val _categoryBudgetsTotal = MutableStateFlow(0.0)
-    val categoryBudgetsTotal = _categoryBudgetsTotal.readOnly()
+    @Composable
+    private fun getCategories(): ImmutableList<Category> {
+        return categories.value
+    }
 
-    private val _appBudgetMax = MutableStateFlow(0.0)
-    val appBudgetMax = _appBudgetMax.readOnly()
+    @Composable
+    private fun getAccounts(): ImmutableList<Account> {
+        return accounts.value
+    }
 
-    fun start() {
+    @Composable
+    private fun getBudgets(): ImmutableList<DisplayBudget> {
+        return budgets.value
+    }
+
+    @Composable
+    private fun getReorderModalVisible(): Boolean {
+        return reorderModalVisible.value
+    }
+
+    @Composable
+    private fun getCategoryBudgetsTotal(): Double {
+        return categoryBudgetsTotal.doubleValue
+    }
+
+    @Composable
+    private fun getAppBudgetMax(): Double {
+        return appBudgetMax.doubleValue
+    }
+
+    @Composable
+    private fun getBudgetModalData(): BudgetModalData? {
+        return budgetModalData.value
+    }
+
+    override fun onEvent(event: BudgetScreenEvent) {
+        when (event) {
+            is BudgetScreenEvent.OnCreateBudget -> { createBudget(event.budgetData) }
+            is BudgetScreenEvent.OnEditBudget -> { editBudget(event.budget) }
+            is BudgetScreenEvent.OnDeleteBudget -> { deleteBudget(event.budget) }
+            is BudgetScreenEvent.OnReorder -> { reorder(event.newOrder) }
+            is BudgetScreenEvent.OnReorderModalVisible -> {
+                reorderModalVisible.value = event.visible
+            }
+            is BudgetScreenEvent.OnBudgetModalData -> {
+                budgetModalData.value = event.budgetModalData
+            }
+        }
+    }
+
+    private fun start() {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
-            _categories.value = categoriesAct(Unit)
-
+            categories.value = categoriesAct(Unit)
             val accounts = accountsAct(Unit)
-            _accounts.value = accounts
-
             val baseCurrency = baseCurrencyAct(Unit)
-            _baseCurrencyCode.value = baseCurrency
-
             val startDateOfMonth = ivyContext.initStartDayOfMonthInMemory(sharedPrefs = sharedPrefs)
             val timeRange = com.ivy.legacy.data.model.TimePeriod.currentMonth(
                 startDayOfMonth = startDateOfMonth
             ).toRange(startDateOfMonth = startDateOfMonth)
-            _timeRange.value = timeRange
-
             val budgets = budgetsAct(Unit)
 
-            _appBudgetMax.value = budgets
+            appBudgetMax.doubleValue = budgets
                 .filter { it.categoryIdsSerialized.isNullOrBlank() }
                 .maxOfOrNull { it.amount } ?: 0.0
 
-            _categoryBudgetsTotal.value = budgets
+            categoryBudgetsTotal.doubleValue = budgets
                 .filter { it.categoryIdsSerialized.isNotNullOrBlank() }
                 .sumOf { it.amount }
 
-            _budgets.value = com.ivy.legacy.utils.ioThread {
+            this@BudgetViewModel.budgets.value = com.ivy.legacy.utils.ioThread {
                 budgets.map {
                     DisplayBudget(
                         budget = it,
@@ -109,9 +169,10 @@ class BudgetViewModel @Inject constructor(
                         )
                     )
                 }.toImmutableList()
-            }!!
-
-            TestIdlingResource.decrement()
+            }
+            this@BudgetViewModel.accounts.value = accounts
+            this@BudgetViewModel.baseCurrency.value = baseCurrency
+            this@BudgetViewModel.timeRange.value = timeRange
         }
     }
 
@@ -131,9 +192,7 @@ class BudgetViewModel @Inject constructor(
             .sumOfSuspend {
                 when (it.type) {
                     TransactionType.INCOME -> {
-                        // decrement spent amount if it's not global budget
                         0.0 // ignore income
-//                        if (categoryFilter.isEmpty()) 0.0 else -amountBaseCurrency
                     }
 
                     TransactionType.EXPENSE -> {
@@ -157,46 +216,32 @@ class BudgetViewModel @Inject constructor(
             }
     }
 
-    fun createBudget(data: CreateBudgetData) {
+    private fun createBudget(data: CreateBudgetData) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             budgetCreator.createBudget(data) {
                 start()
             }
-
-            TestIdlingResource.decrement()
         }
     }
 
-    fun editBudget(budget: Budget) {
+    private fun editBudget(budget: Budget) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             budgetCreator.editBudget(budget) {
                 start()
             }
-
-            TestIdlingResource.decrement()
         }
     }
 
-    fun deleteBudget(budget: Budget) {
+    private fun deleteBudget(budget: Budget) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             budgetCreator.deleteBudget(budget) {
                 start()
             }
-
-            TestIdlingResource.decrement()
         }
     }
 
-    fun reorder(newOrder: List<DisplayBudget>) {
+    private fun reorder(newOrder: List<DisplayBudget>) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             com.ivy.legacy.utils.ioThread {
                 newOrder.forEachIndexed { index, item ->
                     budgetWriter.save(
@@ -208,8 +253,6 @@ class BudgetViewModel @Inject constructor(
                 }
             }
             start()
-
-            TestIdlingResource.decrement()
         }
     }
 }

@@ -2,7 +2,7 @@ package com.ivy.piechart.action
 
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.base.legacy.Transaction
-import com.ivy.base.util.stringRes
+import com.ivy.base.legacy.stringRes
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
 import com.ivy.design.l0_system.RedLight
@@ -12,7 +12,7 @@ import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenFilter
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.then
-import com.ivy.persistence.model.TransactionType
+import com.ivy.base.model.TransactionType
 import com.ivy.piechart.CategoryAmount
 import com.ivy.resources.R
 import com.ivy.wallet.domain.action.account.AccountsAct

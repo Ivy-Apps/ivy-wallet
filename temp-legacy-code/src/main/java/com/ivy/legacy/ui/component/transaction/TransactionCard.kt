@@ -42,7 +42,7 @@ import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
-import com.ivy.persistence.model.TransactionType
+import com.ivy.base.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gradient

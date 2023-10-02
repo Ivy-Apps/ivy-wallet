@@ -1,8 +1,8 @@
 package com.ivy.legacy.datamodel
 
 import androidx.compose.runtime.Immutable
-import com.ivy.persistence.db.entity.LoanEntity
-import com.ivy.persistence.model.LoanType
+import com.ivy.data.db.entity.LoanEntity
+import com.ivy.data.model.LoanType
 import java.util.UUID
 
 @Deprecated("Legacy data model. Will be deleted")

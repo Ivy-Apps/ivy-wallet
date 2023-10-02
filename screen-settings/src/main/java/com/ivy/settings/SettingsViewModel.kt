@@ -7,8 +7,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
-import com.ivy.base.model.Theme
-import com.ivy.base.util.refreshWidget
+import com.ivy.base.legacy.Theme
+import com.ivy.base.legacy.refreshWidget
 import com.ivy.domain.ComposeViewModel
 import com.ivy.domain.RootScreen
 import com.ivy.frp.monad.Res
@@ -22,8 +22,8 @@ import com.ivy.legacy.utils.formatNicelyWithTime
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.uiThread
-import com.ivy.persistence.db.dao.read.SettingsDao
-import com.ivy.persistence.db.dao.write.WriteSettingsDao
+import com.ivy.data.db.dao.read.SettingsDao
+import com.ivy.data.db.dao.write.WriteSettingsDao
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.action.global.UpdateStartDayOfMonthAct
 import com.ivy.wallet.domain.action.settings.SettingsAct

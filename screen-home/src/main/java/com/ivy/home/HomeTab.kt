@@ -27,8 +27,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
-import com.ivy.base.model.Theme
-import com.ivy.base.util.stringRes
+import com.ivy.base.legacy.Theme
+import com.ivy.base.legacy.stringRes
 import com.ivy.frp.forward
 import com.ivy.frp.then2
 import com.ivy.home.Constants.SWIPE_HORIZONTAL_THRESHOLD

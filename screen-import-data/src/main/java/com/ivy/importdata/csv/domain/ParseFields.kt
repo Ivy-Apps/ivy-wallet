@@ -4,7 +4,7 @@ import com.ivy.importdata.csv.CSVRow
 import com.ivy.importdata.csv.ColumnMapping
 import com.ivy.importdata.csv.DateMetadata
 import com.ivy.importdata.csv.TrnTypeMetadata
-import com.ivy.persistence.model.TransactionType
+import com.ivy.base.model.TransactionType
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.time.LocalDateTime

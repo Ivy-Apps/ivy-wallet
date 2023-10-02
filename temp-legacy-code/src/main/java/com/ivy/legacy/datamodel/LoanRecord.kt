@@ -1,7 +1,7 @@
 package com.ivy.legacy.datamodel
 
 import androidx.compose.runtime.Immutable
-import com.ivy.persistence.db.entity.LoanRecordEntity
+import com.ivy.data.db.entity.LoanRecordEntity
 import java.time.LocalDateTime
 import java.util.UUID
 

@@ -11,8 +11,8 @@ import com.ivy.frp.SideEffect
 import com.ivy.frp.then
 import com.ivy.legacy.utils.convertUTCtoLocal
 import com.ivy.legacy.utils.toEpochSeconds
-import com.ivy.persistence.db.dao.read.AccountDao
-import com.ivy.persistence.db.dao.read.SettingsDao
+import com.ivy.data.db.dao.read.AccountDao
+import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.wallet.domain.data.TransactionHistoryDateDivider
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.pure.exchange.ExchangeData

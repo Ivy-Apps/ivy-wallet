@@ -43,7 +43,7 @@ import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.utils.capitalizeLocal
 import com.ivy.legacy.utils.springBounce
-import com.ivy.persistence.model.TransactionType
+import com.ivy.base.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Green

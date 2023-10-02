@@ -1,4 +1,4 @@
-package com.ivy.persistence.model
+package com.ivy.base.model
 
 import androidx.annotation.Keep
 import androidx.compose.runtime.Immutable

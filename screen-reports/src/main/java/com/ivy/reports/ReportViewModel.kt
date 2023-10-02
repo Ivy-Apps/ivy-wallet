@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.Transaction
-import com.ivy.base.util.stringRes
+import com.ivy.base.legacy.stringRes
 import com.ivy.domain.RootScreen
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
@@ -21,8 +21,8 @@ import com.ivy.legacy.utils.scopedIOThread
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.toLowerCaseLocal
 import com.ivy.legacy.utils.uiThread
-import com.ivy.persistence.db.dao.read.TransactionDao
-import com.ivy.persistence.model.TransactionType
+import com.ivy.data.db.dao.read.TransactionDao
+import com.ivy.base.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct

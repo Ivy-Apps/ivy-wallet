@@ -4,7 +4,7 @@ kotlin-coroutines = "1.7.3"
 ktor = "2.3.4"
 arrow = "1.2.1"
 kotest = "5.7.2"
-compose = "1.5.1"
+compose = "1.5.2"
 # https://developer.android.com/jetpack/androidx/releases/compose-kotlin
 compose-compiler = "1.5.3" # It's used! Use compatible with Kotlin one
 compose-material3 = "1.1.2"
@@ -25,7 +25,7 @@ version-code = "150"
 detekt = "1.23.1" # https://detekt.dev/docs/gettingstarted/gradle/
 
 [libraries]
-android-gradle-plugin = { module = "com.android.tools.build:gradle", version = "8.1.1" }
+android-gradle-plugin = { module = "com.android.tools.build:gradle", version = "8.1.2" }
 
 # Kotlin
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -49,7 +49,6 @@ ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 
 # Arrow
 arrowkt-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
-arrow-exact = { module = "io.arrow-kt:arrow-exact-jvm", version = "0.1.0" }
 
 # Testing
 mockk = { module = "io.mockk:mockk", version = "1.13.8" }
@@ -57,9 +56,12 @@ kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kote
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
 kotest-property-arrow = { module = "io.kotest.extensions:kotest-property-arrow", version.ref = "arrow" }
+kotest-assertions-arrow = { module = "io.kotest.extensions:kotest-assertions-arrow", version.ref = "arrow" }
 kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
+cashapp-molecule-plugin = { module = "app.cash.molecule:molecule-gradle-plugin", version = "1.2.1" }
+cashapp-turbine = { module = "app.cash.turbine:turbine", version = "1.0.0" }
 
 # Compose
 compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
@@ -134,7 +136,6 @@ kotlin = [
 ]
 arrow = [
     "arrowkt-core",
-    "arrow-exact"
 ]
 ktor = [
     "kotlinx-serialization-json",
@@ -150,10 +151,12 @@ testing = [
     "kotest-assertions",
     "kotest-property",
     "kotest-property-arrow",
+    "kotest-assertions-arrow",
     "kotest-datatest",
     "kotlin-coroutines-test",
     "mockk",
-    "hilt-testing"
+    "hilt-testing",
+    "cashapp-turbine"
 ]
 compose = [
     "compose-animation",
@@ -199,4 +202,4 @@ opencsv = [
 ]
 
 [plugins]
-gradleWrapperUpgrade = { id = "org.gradle.wrapper-upgrade", version = "0.11.3" }
+gradleWrapperUpgrade = { id = "org.gradle.wrapper-upgrade", version = "0.11.4" }

@@ -6,12 +6,12 @@ import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.ivy.base.util.stringRes
+import com.ivy.base.legacy.stringRes
 import com.ivy.domain.AppStarter
 import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.utils.atEndOfDay
 import com.ivy.legacy.utils.dateNowUTC
-import com.ivy.persistence.db.dao.read.TransactionDao
+import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.resources.R
 import com.ivy.wallet.android.notification.IvyNotificationChannel
 import com.ivy.wallet.android.notification.NotificationService

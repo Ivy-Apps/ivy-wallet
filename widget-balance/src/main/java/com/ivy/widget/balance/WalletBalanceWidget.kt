@@ -17,7 +17,7 @@ import androidx.glance.state.PreferencesGlanceStateDefinition
 import com.ivy.domain.AppStarter
 import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.data.model.toCloseTimeRange
-import com.ivy.persistence.model.TransactionType
+import com.ivy.base.model.TransactionType
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.settings.SettingsAct
 import com.ivy.wallet.domain.action.wallet.CalcIncomeExpenseAct
