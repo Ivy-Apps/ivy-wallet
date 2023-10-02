@@ -2,7 +2,6 @@ package com.ivy.data.repository
 
 import com.ivy.data.model.Account
 import com.ivy.data.model.AccountId
-import java.util.UUID
 
 interface AccountRepository {
     suspend fun findById(id: AccountId): Account?

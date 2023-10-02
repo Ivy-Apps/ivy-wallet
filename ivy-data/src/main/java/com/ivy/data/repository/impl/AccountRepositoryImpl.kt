@@ -7,7 +7,6 @@ import com.ivy.data.repository.mapper.AccountMapper
 import com.ivy.data.source.LocalAccountDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.UUID
 import javax.inject.Inject
 
 class AccountRepositoryImpl @Inject constructor(
