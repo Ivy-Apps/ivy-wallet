@@ -20,8 +20,11 @@ import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.computationThread
+import com.ivy.legacy.utils.dateNowLocal
+import com.ivy.legacy.utils.getTrueDate
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeNowUTC
+import com.ivy.legacy.utils.timeUTC
 import com.ivy.legacy.utils.uiThread
 import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.MainScreen
@@ -46,9 +49,12 @@ import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.collections.immutable.toPersistentSet
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.util.UUID
 import javax.inject.Inject
 
@@ -80,6 +86,8 @@ class EditTransactionViewModel @Inject constructor(
     private val description = mutableStateOf<String?>(null)
     private val dateTime = mutableStateOf<LocalDateTime?>(null)
     private val dueDate = mutableStateOf<LocalDateTime?>(null)
+    private val date = MutableStateFlow<LocalDate?>(null)
+    private val time = MutableStateFlow<LocalTime?>(null)
     private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
     private val categories = mutableStateOf<ImmutableList<Category>>(persistentListOf())
     private val account = mutableStateOf<Account?>(null)
@@ -261,6 +269,8 @@ class EditTransactionViewModel @Inject constructor(
             is EditTransactionEvent.OnDueDateChanged -> onDueDateChanged(event.newDueDate)
             EditTransactionEvent.OnPayPlannedPayment -> onPayPlannedPayment()
             is EditTransactionEvent.OnSetDateTime -> onSetDateTime(event.newDateTime)
+            is EditTransactionEvent.OnSetDate -> onSetDate(event.newDate)
+            is EditTransactionEvent.OnSetTime -> onSetTime(event.newTime)
             is EditTransactionEvent.OnSetTransactionType ->
                 onSetTransactionType(event.newTransactionType)
 
@@ -462,12 +472,39 @@ class EditTransactionViewModel @Inject constructor(
         saveIfEditMode()
     }
 
+    fun onSetDate(newDate: LocalDate) {
+        loadedTransaction = loadedTransaction().copy(
+            date = newDate
+        )
+        date.value = newDate
+        onSetDateTime(
+            getTrueDate(
+                loadedTransaction?.date ?: dateNowLocal(),
+                (dateTime.value?.toLocalTime() ?: timeUTC()),
+                true
+            )
+        )
+    }
+
+    fun onSetTime(newTime: LocalTime) {
+        loadedTransaction = loadedTransaction().copy(
+            time = newTime
+        )
+        time.value = newTime
+        onSetDateTime(
+            getTrueDate(
+                dateTime.value?.toLocalDate() ?: dateNowLocal(),
+                loadedTransaction?.time ?: timeUTC(),
+                true
+            )
+        )
+    }
+
     private fun onSetTransactionType(newTransactionType: TransactionType) {
         loadedTransaction = loadedTransaction().copy(
             type = newTransactionType
         )
         transactionType.value = newTransactionType
-
         saveIfEditMode()
     }
 
