@@ -19,11 +19,25 @@ class AccountMapper @Inject constructor() {
             name = NotBlankTrimmedString.from(name).bind(),
             asset = AssetCode.from(currency ?: "").bind(),
             color = ColorInt(color),
-            icon = icon?.let { IconAsset.from(it).bind() },
+            icon = icon?.let { IconAsset.from(it).getOrNull() },
             includeInBalance = includeInBalance,
             orderNum = orderNum,
-            lastUpdated = Instant.EPOCH, // TODO: Implement that
+            lastUpdated = Instant.EPOCH, // TODO: Wire this
             removed = isDeleted,
+        )
+    }
+
+    fun Account.toEntity(): AccountEntity {
+        return AccountEntity(
+            name = name.value,
+            currency = asset.code,
+            color = color.value,
+            icon = icon?.id,
+            orderNum = orderNum,
+            includeInBalance = includeInBalance,
+            isDeleted = removed,
+            id = id.value,
+            isSynced = true, // TODO: Delete this
         )
     }
 }
