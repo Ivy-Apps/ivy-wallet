@@ -74,7 +74,7 @@ class PieChartStatisticViewModel @Inject constructor(
             showCloseButtonOnly = getShowCloseButtonOnly(),
             filterExcluded = getFilterExcluded(),
             transactions = getTransactions(),
-            choosePeriodModal =
+            choosePeriodModal = getChoosePeriodModal()
         )
     }
 
@@ -147,146 +147,144 @@ class PieChartStatisticViewModel @Inject constructor(
     }
 
     private suspend fun initialise(
-        period: TimePeriod,
+        periodValue: TimePeriod,
         type: TransactionType,
-        accountIdFilterList: ImmutableList<UUID>,
-        filterExclude: Boolean,
-        transactions: ImmutableList<Transaction>
+        accountIdFilterListValue: ImmutableList<UUID>,
+        filterExcludedValue: Boolean,
+        transactionsValue: ImmutableList<Transaction>
     ) {
         val settings = ioThread { settingsDao.findFirst() }
         val baseCurrency = settings.currency
 
-        updateState {
-            it.copy(
-                period = period,
-                transactionType = type,
+        period.value = periodValue
+        transactionType.value = type
+        accountIdFilterList.value = accountIdFilterListValue
+        filterExcluded.value = filterExcludedValue
+        transactions.value = transactionsValue
+        showCloseButtonOnly = transactionsValue.isNotEmpty(),
+        baseCurrency = baseCurrency
+
+    }
+}
+
+private suspend fun load(
+    period: TimePeriod
+) {
+    val type = stateVal().transactionType
+    val accountIdFilterList = stateVal().accountIdFilterList
+    val transactions = stateVal().transactions
+    val baseCurrency = stateVal().baseCurrency
+    val range = period.toRange(ivyContext.startDayOfMonth)
+
+    val treatTransferAsIncExp =
+        sharedPrefs.getBoolean(
+            SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE,
+            false
+        ) && accountIdFilterList.isNotEmpty() && treatTransfersAsIncomeExpense.value
+
+    val pieChartActOutput = ioThread {
+        pieChartAct(
+            PieChartAct.Input(
+                baseCurrency = baseCurrency,
+                range = range,
+                type = type,
                 accountIdFilterList = accountIdFilterList,
-                filterExcluded = filterExclude,
-                transactions = transactions,
-                showCloseButtonOnly = transactions.isNotEmpty(),
-                baseCurrency = baseCurrency
+                treatTransferAsIncExp = treatTransferAsIncExp,
+                existingTransactions = transactions,
+                showAccountTransfersCategory = accountIdFilterList.isNotEmpty()
             )
-        }
-    }
-
-    private suspend fun load(
-        period: TimePeriod
-    ) {
-        val type = stateVal().transactionType
-        val accountIdFilterList = stateVal().accountIdFilterList
-        val transactions = stateVal().transactions
-        val baseCurrency = stateVal().baseCurrency
-        val range = period.toRange(ivyContext.startDayOfMonth)
-
-        val treatTransferAsIncExp =
-            sharedPrefs.getBoolean(
-                SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE,
-                false
-            ) && accountIdFilterList.isNotEmpty() && treatTransfersAsIncomeExpense.value
-
-        val pieChartActOutput = ioThread {
-            pieChartAct(
-                PieChartAct.Input(
-                    baseCurrency = baseCurrency,
-                    range = range,
-                    type = type,
-                    accountIdFilterList = accountIdFilterList,
-                    treatTransferAsIncExp = treatTransferAsIncExp,
-                    existingTransactions = transactions,
-                    showAccountTransfersCategory = accountIdFilterList.isNotEmpty()
-                )
-            )
-        }
-
-        val totalAmount = pieChartActOutput.totalAmount
-        val categoryAmounts = pieChartActOutput.categoryAmounts
-
-        updateState {
-            it.copy(
-                period = period,
-                totalAmount = totalAmount,
-                categoryAmounts = categoryAmounts,
-                selectedCategory = null
-            )
-        }
-    }
-
-    private suspend fun onSetPeriod(period: TimePeriod) {
-        ivyContext.updateSelectedPeriodInMemory(period)
-        load(
-            period = period
         )
     }
 
-    private suspend fun nextMonth() {
-        val month = stateVal().period.month
-        val year = stateVal().period.year ?: com.ivy.legacy.utils.dateNowUTC().year
-        if (month != null) {
-            load(
-                period = month.incrementMonthPeriod(ivyContext, 1L, year)
-            )
-        }
+    val totalAmount = pieChartActOutput.totalAmount
+    val categoryAmounts = pieChartActOutput.categoryAmounts
+
+    updateState {
+        it.copy(
+            period = period,
+            totalAmount = totalAmount,
+            categoryAmounts = categoryAmounts,
+            selectedCategory = null
+        )
+    }
+}
+
+private suspend fun onSetPeriod(period: TimePeriod) {
+    ivyContext.updateSelectedPeriodInMemory(period)
+    load(
+        period = period
+    )
+}
+
+private suspend fun nextMonth() {
+    val month = stateVal().period.month
+    val year = stateVal().period.year ?: com.ivy.legacy.utils.dateNowUTC().year
+    if (month != null) {
+        load(
+            period = month.incrementMonthPeriod(ivyContext, 1L, year)
+        )
+    }
+}
+
+private suspend fun previousMonth() {
+    val month = stateVal().period.month
+    val year = stateVal().period.year ?: com.ivy.legacy.utils.dateNowUTC().year
+    if (month != null) {
+        load(
+            period = month.incrementMonthPeriod(ivyContext, -1L, year)
+        )
+    }
+}
+
+private suspend fun configureMonthModal(timePeriod: TimePeriod?) {
+    val choosePeriodModalData = if (timePeriod != null) {
+        ChoosePeriodModalData(period = timePeriod)
+    } else {
+        null
     }
 
-    private suspend fun previousMonth() {
-        val month = stateVal().period.month
-        val year = stateVal().period.year ?: com.ivy.legacy.utils.dateNowUTC().year
-        if (month != null) {
-            load(
-                period = month.incrementMonthPeriod(ivyContext, -1L, year)
-            )
-        }
+    updateState {
+        it.copy(choosePeriodModal = choosePeriodModalData)
+    }
+}
+
+private suspend fun onCategoryClicked(clickedCategory: Category?) {
+    val selectedCategory = if (clickedCategory == stateVal().selectedCategory?.category) {
+        null
+    } else {
+        SelectedCategory(category = clickedCategory)
     }
 
-    private suspend fun configureMonthModal(timePeriod: TimePeriod?) {
-        val choosePeriodModalData = if (timePeriod != null) {
-            ChoosePeriodModalData(period = timePeriod)
-        } else {
-            null
-        }
-
-        updateState {
-            it.copy(choosePeriodModal = choosePeriodModalData)
-        }
-    }
-
-    private suspend fun onCategoryClicked(clickedCategory: Category?) {
-        val selectedCategory = if (clickedCategory == stateVal().selectedCategory?.category) {
-            null
-        } else {
-            SelectedCategory(category = clickedCategory)
-        }
-
-        val existingCategoryAmounts = stateVal().categoryAmounts
-        val newCategoryAmounts = if (selectedCategory != null) {
-            existingCategoryAmounts
-                .sortedByDescending { it.amount }
-                .sortedByDescending {
-                    selectedCategory.category == it.category
-                }
-        } else {
-            existingCategoryAmounts.sortedByDescending {
-                it.amount
+    val existingCategoryAmounts = stateVal().categoryAmounts
+    val newCategoryAmounts = if (selectedCategory != null) {
+        existingCategoryAmounts
+            .sortedByDescending { it.amount }
+            .sortedByDescending {
+                selectedCategory.category == it.category
             }
-        }.toImmutableList()
+    } else {
+        existingCategoryAmounts.sortedByDescending {
+            it.amount
+        }
+    }.toImmutableList()
 
-        updateState {
-            it.copy(
-                selectedCategory = selectedCategory,
-                categoryAmounts = newCategoryAmounts
-            )
+    updateState {
+        it.copy(
+            selectedCategory = selectedCategory,
+            categoryAmounts = newCategoryAmounts
+        )
+    }
+}
+
+override fun onEvent(event: PieChartStatisticEvent) {
+    viewModelScope.launch(Dispatchers.Default) {
+        when (event) {
+            is PieChartStatisticEvent.OnSelectNextMonth -> nextMonth()
+            is PieChartStatisticEvent.OnSelectPreviousMonth -> previousMonth()
+            is PieChartStatisticEvent.OnSetPeriod -> onSetPeriod(event.timePeriod)
+            is PieChartStatisticEvent.OnShowMonthModal -> configureMonthModal(event.timePeriod)
+            is PieChartStatisticEvent.OnCategoryClicked -> onCategoryClicked(event.category)
         }
     }
-
-    override fun onEvent(event: PieChartStatisticEvent) {
-        viewModelScope.launch(Dispatchers.Default) {
-            when (event) {
-                is PieChartStatisticEvent.OnSelectNextMonth -> nextMonth()
-                is PieChartStatisticEvent.OnSelectPreviousMonth -> previousMonth()
-                is PieChartStatisticEvent.OnSetPeriod -> onSetPeriod(event.timePeriod)
-                is PieChartStatisticEvent.OnShowMonthModal -> configureMonthModal(event.timePeriod)
-                is PieChartStatisticEvent.OnCategoryClicked -> onCategoryClicked(event.category)
-            }
-        }
-    }
+}
 }
