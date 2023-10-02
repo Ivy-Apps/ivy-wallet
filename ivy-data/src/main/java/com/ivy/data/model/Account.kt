@@ -1,8 +1,8 @@
 package com.ivy.data.model
 
-import androidx.compose.ui.graphics.Color
 import com.ivy.data.model.common.Reorderable
 import com.ivy.data.model.primitive.AssetCode
+import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.sync.Syncable
@@ -17,7 +17,7 @@ data class Account(
     override val id: AccountId,
     val name: NotBlankTrimmedString,
     val asset: AssetCode,
-    val color: Color,
+    val color: ColorInt,
     val icon: IconAsset?,
     val includeInBalance: Boolean,
     override val orderNum: Double,

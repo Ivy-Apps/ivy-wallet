@@ -7,7 +7,7 @@ import com.ivy.base.exact.Exact
 @JvmInline
 value class PositiveDouble private constructor(val value: Double) {
     companion object : Exact<Double, PositiveDouble> {
-        override val name = "PositiveDouble"
+        override val exactName = "PositiveDouble"
 
         override fun Raise<String>.spec(raw: Double): PositiveDouble {
             ensure(raw > 0.0) {

@@ -1,6 +1,5 @@
-package com.ivy.domain.model.primitive
+package com.ivy.data.model.primitive
 
-import com.ivy.data.model.primitive.IconAsset
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.booleans.shouldBeTrue
