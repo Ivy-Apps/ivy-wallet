@@ -397,15 +397,12 @@ private fun CategoryHeader(
         BalanceRow(
             modifier = Modifier.align(Alignment.CenterHorizontally),
 
-            decimalPaddingTop = 4.dp,
             textColor = contrastColor,
             currency = currency,
             balance = categoryData.monthlyBalance,
 
             integerFontSize = 30.sp,
-            decimalFontSize = 18.sp,
             currencyFontSize = 30.sp,
-
             currencyUpfront = false,
             balanceAmountPrefix = com.ivy.legacy.utils.balancePrefix(
                 income = categoryData.monthlyIncome,

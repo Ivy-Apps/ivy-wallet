@@ -693,12 +693,10 @@ private fun Amount(
                 currency = currency,
                 balance = amount,
 
-                decimalPaddingTop = currencyPaddingTop.dp,
-                spacerDecimal = spacerInteger.dp,
+
                 spacerCurrency = 8.dp,
 
                 integerFontSize = integerFontSize.sp,
-                decimalFontSize = 18.sp,
                 currencyFontSize = currencyFontSize.sp,
 
                 currencyUpfront = false
