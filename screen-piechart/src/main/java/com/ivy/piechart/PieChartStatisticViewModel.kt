@@ -52,7 +52,19 @@ class PieChartStatisticViewModel @Inject constructor(
 
     @Composable
     override fun uiState(): PieChartStatisticState {
-        TODO("Not yet implemented")
+        return PieChartStatisticState(
+            transactionType = TransactionType.INCOME,
+            period = TimePeriod(),
+            baseCurrency = "",
+            totalAmount = 0.0,
+            categoryAmounts = persistentListOf(),
+            selectedCategory = null,
+            accountIdFilterList = persistentListOf(),
+            showCloseButtonOnly = false,
+            filterExcluded = false,
+            transactions = persistentListOf(),
+            choosePeriodModal = null
+        )
     }
 
     private suspend fun startInternally(

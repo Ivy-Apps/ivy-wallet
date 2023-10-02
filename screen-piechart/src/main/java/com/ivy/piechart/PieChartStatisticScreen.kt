@@ -22,7 +22,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,7 +37,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.model.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -51,6 +49,7 @@ import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
+import com.ivy.navigation.screenScopedViewModel
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Gray
@@ -81,15 +80,15 @@ import kotlinx.collections.immutable.persistentListOf
 fun BoxWithConstraintsScope.PieChartStatisticScreen(
     screen: PieChartStatisticScreen
 ) {
-    val viewModel: PieChartStatisticViewModel = viewModel()
-    val state by viewModel.state().collectAsState()
+    val viewModel: PieChartStatisticViewModel = screenScopedViewModel()
+    val uiState = viewModel.uiState()
 
     com.ivy.legacy.utils.onScreenStart {
         viewModel.start(screen)
     }
 
     UI(
-        state = state,
+        state = uiState,
         onEventHandler = viewModel::onEvent
     )
 }
@@ -106,7 +105,7 @@ private fun BoxWithConstraintsScope.UI(
     val percentExpanded by animateFloatAsState(
         targetValue = if (expanded) 1f else 0f,
         animationSpec = com.ivy.legacy.utils.springBounce(),
-        label = ""
+        label = "percent expanded"
     )
 
     LazyColumn(
