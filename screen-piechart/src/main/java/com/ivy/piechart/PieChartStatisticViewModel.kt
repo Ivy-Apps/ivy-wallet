@@ -1,6 +1,8 @@
 package com.ivy.piechart
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.model.TransactionType
@@ -11,15 +13,14 @@ import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.utils.ioThread
-import com.ivy.legacy.utils.readOnly
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.piechart.action.PieChartAct
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
@@ -32,8 +33,18 @@ class PieChartStatisticViewModel @Inject constructor(
     private val sharedPrefs: SharedPrefs
 ) : ComposeViewModel<PieChartStatisticState, PieChartStatisticEvent>() {
 
-    private val _treatTransfersAsIncomeExpense = MutableStateFlow(false)
-    private val treatTransfersAsIncomeExpense = _treatTransfersAsIncomeExpense.readOnly()
+    private val treatTransfersAsIncomeExpense = mutableStateOf(false)
+    private val transactionType = mutableStateOf(TransactionType.INCOME)
+    private val period = mutableStateOf(TimePeriod())
+    private val baseCurrency = mutableStateOf("")
+    private val totalAmount = mutableDoubleStateOf(0.0)
+    private val categoryAmounts = mutableStateOf(persistentListOf<CategoryAmount>())
+    private val selectedCategory = mutableStateOf<SelectedCategory?>(null)
+    private val accountIdFilterList = mutableStateOf<ImmutableList<UUID>>(persistentListOf())
+    private val showCloseButtonOnly = mutableStateOf(false)
+    private val filterExcluded = mutableStateOf(false)
+    private val transactions = mutableStateOf<ImmutableList<Transaction>>(persistentListOf())
+    private val choosePeriodModal = mutableStateOf<ChoosePeriodModalData?>(null)
 
     fun start(
         screen: PieChartStatisticScreen
@@ -45,7 +56,7 @@ class PieChartStatisticViewModel @Inject constructor(
                 accountIdFilterList = screen.accountList,
                 filterExclude = screen.filterExcluded,
                 transactions = screen.transactions,
-                treatTransfersAsIncomeExpense = screen.treatTransfersAsIncomeExpense
+                transfersAsIncomeExpenseValue = screen.treatTransfersAsIncomeExpense
             )
         }
     }
@@ -53,17 +64,17 @@ class PieChartStatisticViewModel @Inject constructor(
     @Composable
     override fun uiState(): PieChartStatisticState {
         return PieChartStatisticState(
-            transactionType = TransactionType.INCOME,
-            period = TimePeriod(),
-            baseCurrency = "",
-            totalAmount = 0.0,
-            categoryAmounts = persistentListOf(),
-            selectedCategory = null,
-            accountIdFilterList = persistentListOf(),
-            showCloseButtonOnly = false,
-            filterExcluded = false,
-            transactions = persistentListOf(),
-            choosePeriodModal = null
+            transactionType =,
+            period =,
+            baseCurrency =,
+            totalAmount =,
+            categoryAmounts =,
+            selectedCategory =,
+            accountIdFilterList =,
+            showCloseButtonOnly =,
+            filterExcluded =,
+            transactions =,
+            choosePeriodModal =
         )
     }
 
@@ -73,10 +84,10 @@ class PieChartStatisticViewModel @Inject constructor(
         accountIdFilterList: ImmutableList<UUID>,
         filterExclude: Boolean,
         transactions: ImmutableList<Transaction>,
-        treatTransfersAsIncomeExpense: Boolean
+        transfersAsIncomeExpenseValue: Boolean
     ) {
         initialise(period, type, accountIdFilterList, filterExclude, transactions)
-        _treatTransfersAsIncomeExpense.value = treatTransfersAsIncomeExpense
+        treatTransfersAsIncomeExpense.value = transfersAsIncomeExpenseValue
         load(period = period)
     }
 
