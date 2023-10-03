@@ -37,18 +37,19 @@ import com.ivy.navigation.navigation
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.IvyIcon
+import kotlinx.collections.immutable.ImmutableList
 import kotlin.math.absoluteValue
 
 @Composable
 fun PlannedPaymentsLazyColumn(
     Header: @Composable () -> Unit,
     currency: String,
-    categories: List<Category>,
-    accounts: List<Account>,
-    oneTime: List<PlannedPaymentRule>,
+    categories: ImmutableList<Category>,
+    accounts: ImmutableList<Account>,
+    oneTime: ImmutableList<PlannedPaymentRule>,
     oneTimeIncome: Double,
     oneTimeExpenses: Double,
-    recurring: List<PlannedPaymentRule>,
+    recurring: ImmutableList<PlannedPaymentRule>,
     recurringIncome: Double,
     recurringExpenses: Double,
     oneTimeExpanded: Boolean,
@@ -95,17 +96,17 @@ fun PlannedPaymentsLazyColumn(
 private fun LazyListScope.plannedPaymentItems(
     nav: Navigation,
     currency: String,
-    categories: List<Category>,
-    accounts: List<Account>,
+    categories: ImmutableList<Category>,
+    accounts: ImmutableList<Account>,
     listState: LazyListState,
 
-    oneTime: List<PlannedPaymentRule>,
+    oneTime: ImmutableList<PlannedPaymentRule>,
     oneTimeIncome: Double,
     oneTimeExpenses: Double,
     oneTimeExpanded: Boolean,
     setOneTimeExpanded: (Boolean) -> Unit,
 
-    recurring: List<PlannedPaymentRule>,
+    recurring: ImmutableList<PlannedPaymentRule>,
     recurringIncome: Double,
     recurringExpenses: Double,
     recurringExpanded: Boolean,
