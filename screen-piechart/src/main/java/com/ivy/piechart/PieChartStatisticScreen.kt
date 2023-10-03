@@ -119,10 +119,8 @@ private fun BoxWithConstraintsScope.UI(
                 transactionType = state.transactionType,
                 period = state.period,
                 percentExpanded = percentExpanded,
-
                 currency = state.baseCurrency,
                 amount = state.totalAmount,
-
                 onShowMonthModal = {
                     onEventHandler.invoke(PieChartStatisticEvent.OnShowMonthModal(state.period))
                 },
@@ -133,7 +131,6 @@ private fun BoxWithConstraintsScope.UI(
                     onEventHandler.invoke(PieChartStatisticEvent.OnSelectPreviousMonth)
                 },
                 showCloseButtonOnly = state.showCloseButtonOnly,
-
                 onClose = {
                     nav.back()
                 },
@@ -156,13 +153,9 @@ private fun BoxWithConstraintsScope.UI(
                     .padding(start = 32.dp)
                     .testTag("piechart_title"),
                 text = if (state.transactionType == TransactionType.EXPENSE) {
-                    stringResource(
-                        R.string.expenses
-                    )
+                    stringResource(R.string.expenses)
                 } else {
-                    stringResource(
-                        R.string.income
-                    )
+                    stringResource(R.string.income)
                 },
                 style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold
