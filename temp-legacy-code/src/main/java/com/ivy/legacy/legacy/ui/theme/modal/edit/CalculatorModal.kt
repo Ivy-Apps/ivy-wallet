@@ -120,7 +120,7 @@ fun BoxWithConstraintsScope.CalculatorModal(
                 Spacer(Modifier.width(16.dp))
 
                 KeypadCircleButton(
-                    text = "/",
+                    text = "÷",
                     testTag = "key_/"
                 ) {
                     expression += "/"
@@ -128,7 +128,7 @@ fun BoxWithConstraintsScope.CalculatorModal(
             },
             FirstRowExtra = {
                 KeypadCircleButton(
-                    text = "*",
+                    text = "x",
                     testTag = "key_*"
                 ) {
                     expression += "*"
