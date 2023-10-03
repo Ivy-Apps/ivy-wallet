@@ -1,7 +1,5 @@
 package com.ivy.wallet
 
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.appwidget.AppWidgetManager
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
@@ -10,7 +8,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.DocumentsContract
-import android.text.format.DateFormat
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.compose.setContent
@@ -35,11 +32,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.ivy.IvyNavGraph
-import com.ivy.base.legacy.toEpochMilli
 import com.ivy.domain.RootScreen
 import com.ivy.design.api.IvyUI
 import com.ivy.home.customerjourney.CustomerJourneyCardsProvider
@@ -156,29 +153,31 @@ class RootActivity : AppCompatActivity(), RootScreen {
                                         maxDate,
                                         initialDate,
                                         onDatePicked ->
-            val picker = DatePickerDialog(this)
+            val datePicker =
+                MaterialDatePicker.Builder.datePicker()
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .build()
+            datePicker.show(supportFragmentManager, "datePicker")
+            datePicker.addOnPositiveButtonClickListener {
+                onDatePicked(LocalDate.ofEpochDay(it / 86400000))
+            }
 
             if (minDate != null) {
-                picker.datePicker.minDate = minDate.atTime(12, 0).toEpochMilli()
+                datePicker.addOnCancelListener {
+                    onDatePicked(minDate)
+                }
             }
 
             if (maxDate != null) {
-                picker.datePicker.maxDate = maxDate.atTime(12, 0).toEpochMilli()
+                datePicker.addOnCancelListener {
+                    onDatePicked(maxDate)
+                }
             }
-
-            picker.setOnDateSetListener { _, year, month, dayOfMonth ->
-                Timber.i("Date picked: $year year $month month day $dayOfMonth")
-                onDatePicked(LocalDate.of(year, month + 1, dayOfMonth))
-            }
-            picker.show()
 
             if (initialDate != null) {
-                picker.updateDate(
-                    initialDate.year,
-                    // month-1 because LocalDate start from 1 and date picker starts from 0
-                    initialDate.monthValue - 1,
-                    initialDate.dayOfMonth
-                )
+                datePicker.addOnCancelListener {
+                    onDatePicked(initialDate)
+                }
             }
         }
     }
