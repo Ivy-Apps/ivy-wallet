@@ -35,6 +35,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.ivy.IvyNavGraph
 import com.ivy.base.legacy.toEpochMilli
@@ -184,17 +186,16 @@ class RootActivity : AppCompatActivity(), RootScreen {
     private fun setupTimePicker() {
         ivyContext.onShowTimePicker = { onTimePicked ->
             val nowLocal = timeNowLocal()
-            val picker = TimePickerDialog(
-                this,
-                { _, hourOfDay, minute ->
-                    onTimePicked(
-                        LocalTime.of(hourOfDay, minute)
-                            .convertLocalToUTC().withSecond(0)
-                    )
-                },
-                nowLocal.hour, nowLocal.minute, DateFormat.is24HourFormat(this)
-            )
-            picker.show()
+            val picker =
+                MaterialTimePicker.Builder()
+                    .setTimeFormat(TimeFormat.CLOCK_12H)
+                    .setHour(nowLocal.hour)
+                    .setMinute(nowLocal.minute)
+                    .build()
+            picker.show(supportFragmentManager, "timePicker")
+            picker.addOnPositiveButtonClickListener {
+                onTimePicked(LocalTime.of(picker.hour, picker.minute).convertLocalToUTC().withSecond(0))
+            }
         }
     }
 

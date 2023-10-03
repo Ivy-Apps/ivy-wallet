@@ -125,6 +125,7 @@ slack-lint-compose = { module = "com.slack.lint.compose:compose-lint-checks", ve
 
 # KSP
 ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version = "1.9.10-1.0.13" }
+material = { group = "com.google.android.material", name = "material", version = "1.9.0" }
 
 [bundles]
 kotlin = [
