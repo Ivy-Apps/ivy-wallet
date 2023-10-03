@@ -203,10 +203,10 @@ class PieChartStatisticViewModel @Inject constructor(
         selectedCategory.value = null
     }
 
-    private suspend fun onSetPeriod(period: TimePeriod) {
-        ivyContext.updateSelectedPeriodInMemory(period)
+    private suspend fun onSetPeriod(periodValue: TimePeriod) {
+        ivyContext.updateSelectedPeriodInMemory(periodValue)
         load(
-            period = period
+            periodValue = periodValue
         )
     }
 
@@ -215,7 +215,7 @@ class PieChartStatisticViewModel @Inject constructor(
         val year = period.value.year ?: com.ivy.legacy.utils.dateNowUTC().year
         if (month != null) {
             load(
-                period = month.incrementMonthPeriod(ivyContext, 1L, year)
+                periodValue = month.incrementMonthPeriod(ivyContext, 1L, year)
             )
         }
     }
@@ -225,7 +225,7 @@ class PieChartStatisticViewModel @Inject constructor(
         val year = period.value.year ?: com.ivy.legacy.utils.dateNowUTC().year
         if (month != null) {
             load(
-                period = month.incrementMonthPeriod(ivyContext, -1L, year)
+                periodValue = month.incrementMonthPeriod(ivyContext, -1L, year)
             )
         }
     }
