@@ -161,17 +161,17 @@ class PieChartStatisticViewModel @Inject constructor(
         accountIdFilterList.value = accountIdFilterListValue
         filterExcluded.value = filterExcludedValue
         transactions.value = transactionsValue
-        showCloseButtonOnly.value = transactionsValue.isNotEmpty(),
+        showCloseButtonOnly.value = transactionsValue.isNotEmpty()
         baseCurrency.value = baseCurrencyValue
     }
 
     private suspend fun load(
         periodValue: TimePeriod
     ) {
-        val type = stateVal().transactionType
-        val accountIdFilterList = stateVal().accountIdFilterList
-        val transactions = stateVal().transactions
-        val baseCurrency = stateVal().baseCurrency
+        val type = transactionType.value
+        val accountIdFilterList = accountIdFilterList.value
+        val transactions = transactions.value
+        val baseCurrency = baseCurrency.value
         val range = periodValue.toRange(ivyContext.startDayOfMonth)
 
         val treatTransferAsIncExp =
@@ -211,8 +211,8 @@ class PieChartStatisticViewModel @Inject constructor(
     }
 
     private suspend fun nextMonth() {
-        val month = stateVal().period.month
-        val year = stateVal().period.year ?: com.ivy.legacy.utils.dateNowUTC().year
+        val month = period.value.month
+        val year = period.value.year ?: com.ivy.legacy.utils.dateNowUTC().year
         if (month != null) {
             load(
                 period = month.incrementMonthPeriod(ivyContext, 1L, year)
@@ -221,8 +221,8 @@ class PieChartStatisticViewModel @Inject constructor(
     }
 
     private suspend fun previousMonth() {
-        val month = stateVal().period.month
-        val year = stateVal().period.year ?: com.ivy.legacy.utils.dateNowUTC().year
+        val month = period.value.month
+        val year = period.value.year ?: com.ivy.legacy.utils.dateNowUTC().year
         if (month != null) {
             load(
                 period = month.incrementMonthPeriod(ivyContext, -1L, year)
@@ -241,13 +241,13 @@ class PieChartStatisticViewModel @Inject constructor(
     }
 
     private suspend fun onCategoryClicked(clickedCategory: Category?) {
-        val selectedCategoryValue = if (clickedCategory == stateVal().selectedCategory?.category) {
+        val selectedCategoryValue = if (clickedCategory == selectedCategory.value?.category) {
             null
         } else {
             SelectedCategory(category = clickedCategory)
         }
 
-        val existingCategoryAmounts = stateVal().categoryAmounts
+        val existingCategoryAmounts = categoryAmounts.value
         val newCategoryAmounts = if (selectedCategoryValue != null) {
             existingCategoryAmounts
                 .sortedByDescending { it.amount }
