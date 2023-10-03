@@ -22,7 +22,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,7 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.base.model.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.datamodel.Category
@@ -50,7 +50,7 @@ import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
-import com.ivy.base.model.TransactionType
+import com.ivy.navigation.screenScopedViewModel
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Gray
@@ -81,31 +81,32 @@ import kotlinx.collections.immutable.persistentListOf
 fun BoxWithConstraintsScope.PieChartStatisticScreen(
     screen: PieChartStatisticScreen
 ) {
-    val viewModel: PieChartStatisticViewModel = viewModel()
-    val state by viewModel.state().collectAsState()
+    val viewModel: PieChartStatisticViewModel = screenScopedViewModel()
+    val uiState = viewModel.uiState()
 
-    com.ivy.legacy.utils.onScreenStart {
-        viewModel.start(screen)
+    LaunchedEffect(Unit) {
+        viewModel.onEvent(PieChartStatisticEvent.OnStart(screen))
     }
 
     UI(
-        state = state,
-        onEventHandler = viewModel::onEvent
+        state = uiState,
+        onEvent = viewModel::onEvent
     )
 }
 
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    state: PieChartStatisticState = PieChartStatisticState(),
-    onEventHandler: (PieChartStatisticEvent) -> Unit = {}
+    state: PieChartStatisticState,
+    onEvent: (PieChartStatisticEvent) -> Unit = {}
 ) {
     val nav = navigation()
     val lazyState = rememberLazyListState()
     val expanded = lazyState.firstVisibleItemIndex < 1
     val percentExpanded by animateFloatAsState(
         targetValue = if (expanded) 1f else 0f,
-        animationSpec = com.ivy.legacy.utils.springBounce()
+        animationSpec = com.ivy.legacy.utils.springBounce(),
+        label = "percent expanded"
     )
 
     LazyColumn(
@@ -119,21 +120,18 @@ private fun BoxWithConstraintsScope.UI(
                 transactionType = state.transactionType,
                 period = state.period,
                 percentExpanded = percentExpanded,
-
                 currency = state.baseCurrency,
                 amount = state.totalAmount,
-
                 onShowMonthModal = {
-                    onEventHandler.invoke(PieChartStatisticEvent.OnShowMonthModal(state.period))
+                    onEvent(PieChartStatisticEvent.OnShowMonthModal(state.period))
                 },
                 onSelectNextMonth = {
-                    onEventHandler.invoke(PieChartStatisticEvent.OnSelectNextMonth)
+                    onEvent(PieChartStatisticEvent.OnSelectNextMonth)
                 },
                 onSelectPreviousMonth = {
-                    onEventHandler.invoke(PieChartStatisticEvent.OnSelectPreviousMonth)
+                    onEvent(PieChartStatisticEvent.OnSelectPreviousMonth)
                 },
                 showCloseButtonOnly = state.showCloseButtonOnly,
-
                 onClose = {
                     nav.back()
                 },
@@ -156,13 +154,9 @@ private fun BoxWithConstraintsScope.UI(
                     .padding(start = 32.dp)
                     .testTag("piechart_title"),
                 text = if (state.transactionType == TransactionType.EXPENSE) {
-                    stringResource(
-                        R.string.expenses
-                    )
+                    stringResource(R.string.expenses)
                 } else {
-                    stringResource(
-                        R.string.income
-                    )
+                    stringResource(R.string.income)
                 },
                 style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold
@@ -189,7 +183,7 @@ private fun BoxWithConstraintsScope.UI(
                 categoryAmounts = state.categoryAmounts,
                 selectedCategory = state.selectedCategory,
                 onCategoryClicked = { clickedCategory ->
-                    onEventHandler.invoke(PieChartStatisticEvent.OnCategoryClicked(clickedCategory))
+                    onEvent(PieChartStatisticEvent.OnCategoryClicked(clickedCategory))
                 }
             )
 
@@ -230,10 +224,10 @@ private fun BoxWithConstraintsScope.UI(
     ChoosePeriodModal(
         modal = state.choosePeriodModal,
         dismiss = {
-            onEventHandler.invoke(PieChartStatisticEvent.OnShowMonthModal(null))
+            onEvent(PieChartStatisticEvent.OnShowMonthModal(null))
         }
     ) {
-        onEventHandler.invoke(PieChartStatisticEvent.OnSetPeriod(it))
+        onEvent(PieChartStatisticEvent.OnSetPeriod(it))
     }
 }
 
@@ -245,7 +239,6 @@ private fun Header(
 
     currency: String,
     amount: Double,
-    showCloseButtonOnly: Boolean = false,
 
     onShowMonthModal: () -> Unit,
     onSelectNextMonth: () -> Unit,
@@ -253,6 +246,7 @@ private fun Header(
 
     onClose: () -> Unit,
     onAdd: (TransactionType) -> Unit,
+    showCloseButtonOnly: Boolean = false
 ) {
     Row(
         modifier = Modifier
@@ -507,7 +501,12 @@ private fun Preview_Expense() {
                     amount = 2.0
                 ),
             ),
-            selectedCategory = null
+            selectedCategory = null,
+            accountIdFilterList = persistentListOf(),
+            choosePeriodModal = null,
+            filterExcluded = false,
+            showCloseButtonOnly = false,
+            transactions = persistentListOf()
         )
 
         UI(state = state)
@@ -561,7 +560,12 @@ private fun Preview_Income() {
                     amount = 2.0
                 ),
             ),
-            selectedCategory = null
+            selectedCategory = null,
+            accountIdFilterList = persistentListOf(),
+            choosePeriodModal = null,
+            filterExcluded = false,
+            showCloseButtonOnly = false,
+            transactions = persistentListOf()
         )
 
         UI(state = state)
