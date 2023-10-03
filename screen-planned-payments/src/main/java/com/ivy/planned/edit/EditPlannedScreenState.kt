@@ -11,7 +11,7 @@ import javax.annotation.concurrent.Immutable
 @Immutable
 data class EditPlannedScreenState(
     val currency: String,
-    val transactionType: TransactionType,
+    val transactionType: TransactionType?,
     val startDate: LocalDateTime?,
     val intervalN: Int?,
     val intervalType: IntervalType?,
@@ -20,7 +20,7 @@ data class EditPlannedScreenState(
     val description: String?,
     val categories: ImmutableList<Category>,
     val accounts: ImmutableList<Account>,
-    val account: Account,
-    val category: Category,
-    val amount: Double
+    val account: Account?,
+    val category: Category?,
+    val amount: Double?
 )
