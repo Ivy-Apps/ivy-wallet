@@ -184,17 +184,14 @@ class RootActivity : AppCompatActivity(), RootScreen {
     private fun setupTimePicker() {
         ivyContext.onShowTimePicker = { onTimePicked ->
             val nowLocal = timeNowLocal()
-            val picker = TimePickerDialog(
-                this,
-                { _, hourOfDay, minute ->
-                    onTimePicked(
-                        LocalTime.of(hourOfDay, minute)
-                            .convertLocalToUTC().withSecond(0)
-                    )
-                },
-                nowLocal.hour, nowLocal.minute, DateFormat.is24HourFormat(this)
-            )
-            picker.show()
+            val picker =
+                MaterialDatePicker.Builder.datePicker()
+                    .setTitleText("Select date")
+                    .build()
+            picker.show(supportFragmentManager, "Change Tag");
+            picker.addOnPositiveButtonClickListener {
+                onDatePicked(picker.selection)
+            }
         }
     }
 
