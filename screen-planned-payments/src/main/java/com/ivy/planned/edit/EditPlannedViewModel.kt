@@ -1,6 +1,7 @@
 package com.ivy.planned.edit
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.model.TransactionType
@@ -53,7 +54,7 @@ class EditPlannedViewModel @Inject constructor(
     private val transactionWriter: WriteTransactionDao,
 ) : ComposeViewModel<EditPlannedScreenState, EditPlannedScreenEvent>() {
 
-    private val transactionType = mutableStateOf<TransactionType?>(null)
+    private val transactionType = mutableStateOf(TransactionType.INCOME)
     private val startDate = mutableStateOf<LocalDateTime?>(null)
     private val intervalN = mutableStateOf<Int?>(null)
     private val intervalType = mutableStateOf<IntervalType?>(null)
@@ -62,7 +63,7 @@ class EditPlannedViewModel @Inject constructor(
     private val description = mutableStateOf<String?>(null)
     private val account = mutableStateOf<Account?>(null)
     private val category = mutableStateOf<Category?>(null)
-    private val amount = mutableStateOf<Double?>(null)
+    private val amount = mutableDoubleStateOf(0.0)
     private val currency = mutableStateOf("")
     private val categories = mutableStateOf<ImmutableList<Category>>(persistentListOf())
     private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
@@ -108,7 +109,7 @@ class EditPlannedViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getTransactionType(): TransactionType? {
+    private fun getTransactionType(): TransactionType {
         return transactionType.value
     }
 
@@ -153,8 +154,8 @@ class EditPlannedViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getAmount(): Double? {
-        return amount.value
+    private fun getAmount(): Double {
+        return amount.doubleValue
     }
 
     override fun onEvent(event: EditPlannedScreenEvent) {

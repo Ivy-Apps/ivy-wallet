@@ -11,8 +11,8 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -24,17 +24,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.base.model.TransactionType
+import com.ivy.data.model.IntervalType
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
-import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.navigation.EditPlannedScreen
-import com.ivy.data.model.IntervalType
-import com.ivy.base.model.TransactionType
+import com.ivy.navigation.screenScopedViewModel
 import com.ivy.resources.R
-import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
-import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.edit.core.Category
 import com.ivy.wallet.ui.edit.core.Description
 import com.ivy.wallet.ui.edit.core.EditBottomSheet
@@ -52,62 +50,22 @@ import com.ivy.wallet.ui.theme.modal.edit.CategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import com.ivy.wallet.ui.theme.modal.edit.ChooseCategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.DescriptionModal
+import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalDateTime
 
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.EditPlannedScreen(screen: EditPlannedScreen) {
-    val viewModel: EditPlannedViewModel = viewModel()
-
-    val startDate by viewModel.startDate.observeAsState()
-    val intervalN by viewModel.intervalN.observeAsState()
-    val intervalType by viewModel.intervalType.observeAsState()
-    val oneTime by viewModel.oneTime.observeAsState(false)
-
-    val transactionType by viewModel.transactionType.observeAsState(screen.type)
-    val initialTitle by viewModel.initialTitle.observeAsState()
-    val currency by viewModel.currency.observeAsState("")
-    val description by viewModel.description.observeAsState()
-    val category by viewModel.category.observeAsState()
-    val account by viewModel.account.observeAsState()
-    val amount by viewModel.amount.observeAsState(0.0)
-
-    val categories by viewModel.categories.observeAsState(emptyList())
-    val accounts by viewModel.accounts.observeAsState(emptyList())
-
-    onScreenStart {
+    val viewModel: EditPlannedViewModel = screenScopedViewModel()
+    val uiState = viewModel.uiState()
+    LaunchedEffect(Unit) {
         viewModel.start(screen)
     }
 
     UI(
         screen = screen,
-        startDate = startDate,
-        intervalN = intervalN,
-        intervalType = intervalType,
-        oneTime = oneTime,
-        type = transactionType,
-        currency = currency,
-        initialTitle = initialTitle,
-        description = description,
-        category = category,
-        account = account,
-        amount = amount,
-
-        categories = categories,
-        accounts = accounts,
-
-        onRuleChanged = viewModel::onRuleChanged,
-        onTitleChanged = viewModel::onTitleChanged,
-        onDescriptionChanged = viewModel::onDescriptionChanged,
-        onAmountChanged = viewModel::onAmountChanged,
-        onCategoryChanged = viewModel::onCategoryChanged,
-        onAccountChanged = viewModel::onAccountChanged,
-        onSetTransactionType = viewModel::onSetTransactionType,
-
-        onCreateCategory = viewModel::createCategory,
-        onSave = viewModel::save,
-        onDelete = viewModel::delete,
-        onCreateAccount = viewModel::createAccount
+        state = uiState,
+        onEvent = viewModel::onEvent
     )
 }
 
@@ -120,35 +78,8 @@ fun BoxWithConstraintsScope.EditPlannedScreen(screen: EditPlannedScreen) {
 @Composable
 private fun BoxWithConstraintsScope.UI(
     screen: EditPlannedScreen,
-
-    startDate: LocalDateTime?,
-    intervalN: Int?,
-    intervalType: IntervalType?,
-    oneTime: Boolean,
-
-    type: TransactionType,
-    currency: String,
-    initialTitle: String?,
-    description: String?,
-    category: Category?,
-    account: Account?,
-    amount: Double,
-
-    categories: List<Category>,
-    accounts: List<Account>,
-
-    onRuleChanged: (LocalDateTime, oneTime: Boolean, Int?, IntervalType?) -> Unit,
-    onTitleChanged: (String?) -> Unit,
-    onDescriptionChanged: (String?) -> Unit,
-    onAmountChanged: (Double) -> Unit,
-    onCategoryChanged: (Category?) -> Unit,
-    onAccountChanged: (Account) -> Unit,
-    onSetTransactionType: (TransactionType) -> Unit,
-
-    onCreateCategory: (CreateCategoryData) -> Unit = {},
-    onSave: () -> Unit,
-    onDelete: () -> Unit,
-    onCreateAccount: (CreateAccountData) -> Unit = {},
+    state: EditPlannedScreenState,
+    onEvent: (EditPlannedScreenEvent) -> Unit
 ) {
     var chooseCategoryModalVisible by remember { mutableStateOf(false) }
     var categoryModalData: CategoryModalData? by remember { mutableStateOf(null) }
@@ -159,10 +90,10 @@ private fun BoxWithConstraintsScope.UI(
     var amountModalShown by remember { mutableStateOf(false) }
     var recurringRuleModal: RecurringRuleModalData? by remember { mutableStateOf(null) }
 
-    var titleTextFieldValue by remember(initialTitle) {
+    var titleTextFieldValue by remember(state.initialTitle) {
         mutableStateOf(
             TextFieldValue(
-                initialTitle ?: ""
+                state.initialTitle ?: ""
             )
         )
     }
@@ -178,7 +109,7 @@ private fun BoxWithConstraintsScope.UI(
         Spacer(Modifier.height(16.dp))
 
         Toolbar(
-            type = type,
+            type = state.transactionType,
             initialTransactionId = screen.plannedPaymentRuleId,
             onDeleteTrnModal = {
                 deleteTrnModalVisible = true
@@ -191,7 +122,7 @@ private fun BoxWithConstraintsScope.UI(
         Spacer(Modifier.height(32.dp))
 
         Title(
-            type = type,
+            type = state.transactionType,
             titleFocus = titleFocus,
             initialTransactionId = screen.plannedPaymentRuleId,
 
@@ -201,30 +132,35 @@ private fun BoxWithConstraintsScope.UI(
             },
             suggestions = emptySet(), // DO NOT display title suggestions for "Planned Payments"
 
-            onTitleChanged = onTitleChanged,
+            onTitleChanged = { onEvent(EditPlannedScreenEvent.OnTitleChanged(it)) },
             onNext = {
                 when {
-                    shouldFocusRecurring(startDate, intervalN, intervalType, oneTime) -> {
+                    shouldFocusRecurring(
+                        state.startDate,
+                        state.intervalN,
+                        state.intervalType,
+                        state.oneTime
+                    ) -> {
                         recurringRuleModal = RecurringRuleModalData(
-                            initialStartDate = startDate,
-                            initialIntervalN = intervalN,
-                            initialIntervalType = intervalType,
-                            initialOneTime = oneTime
+                            initialStartDate = state.startDate,
+                            initialIntervalN = state.intervalN,
+                            initialIntervalType = state.intervalType,
+                            initialOneTime = state.oneTime
                         )
                     }
 
                     else -> {
-                        onSave()
+                        onEvent(EditPlannedScreenEvent.OnSave())
                     }
                 }
             }
         )
 
-        if (type != TransactionType.TRANSFER) {
+        if (state.transactionType != TransactionType.TRANSFER) {
             Spacer(Modifier.height(32.dp))
 
             Category(
-                category = category,
+                category = state.category,
                 onChooseCategory = {
                     chooseCategoryModalVisible = true
                 }
@@ -234,16 +170,16 @@ private fun BoxWithConstraintsScope.UI(
         Spacer(Modifier.height(32.dp))
 
         RecurringRule(
-            startDate = startDate,
-            intervalN = intervalN,
-            intervalType = intervalType,
-            oneTime = oneTime,
+            startDate = state.startDate,
+            intervalN = state.intervalN,
+            intervalType = state.intervalType,
+            oneTime = state.oneTime,
             onShowRecurringRuleModal = {
                 recurringRuleModal = RecurringRuleModalData(
-                    initialStartDate = startDate,
-                    initialIntervalN = intervalN,
-                    initialIntervalType = intervalType,
-                    initialOneTime = oneTime
+                    initialStartDate = state.startDate,
+                    initialIntervalN = state.intervalN,
+                    initialIntervalType = state.intervalType,
+                    initialOneTime = state.oneTime
                 )
             }
         )
@@ -251,7 +187,7 @@ private fun BoxWithConstraintsScope.UI(
         Spacer(Modifier.height(12.dp))
 
         Description(
-            description = description,
+            description = state.description,
             onAddDescription = { descriptionModalVisible = true },
             onEditDescription = { descriptionModalVisible = true }
         )
@@ -265,10 +201,10 @@ private fun BoxWithConstraintsScope.UI(
             if (screen.mandatoryFilled()) {
                 // Flow Convert (Amount, Account, Category)
                 recurringRuleModal = RecurringRuleModalData(
-                    initialStartDate = startDate,
-                    initialIntervalN = intervalN,
-                    initialIntervalType = intervalType,
-                    initialOneTime = oneTime
+                    initialStartDate = state.startDate,
+                    initialIntervalN = state.intervalN,
+                    initialIntervalType = state.intervalType,
+                    initialOneTime = state.oneTime
                 )
             } else {
                 // Flow Empty
@@ -279,18 +215,18 @@ private fun BoxWithConstraintsScope.UI(
 
     EditBottomSheet(
         initialTransactionId = screen.plannedPaymentRuleId,
-        type = type,
-        accounts = accounts,
-        selectedAccount = account,
+        type = state.transactionType,
+        accounts = state.accounts,
+        selectedAccount = state.account,
         toAccount = null,
-        amount = amount,
-        currency = currency,
+        amount = state.amount,
+        currency = state.currency,
 
         ActionButton = {
             ModalSet(
                 modifier = Modifier.testTag("editPlannedScreen_set")
             ) {
-                onSave()
+                onEvent(EditPlannedScreenEvent.OnSave())
             }
         },
 
@@ -300,32 +236,37 @@ private fun BoxWithConstraintsScope.UI(
         },
 
         onAmountChanged = {
-            onAmountChanged(it)
+            onEvent(EditPlannedScreenEvent.OnAmountChanged(it))
             when {
-                shouldFocusCategory(category, type) -> {
+                shouldFocusCategory(state.category, state.transactionType) -> {
                     chooseCategoryModalVisible = true
                 }
 
-                shouldFocusRecurring(startDate, intervalN, intervalType, oneTime) -> {
+                shouldFocusRecurring(
+                    state.startDate,
+                    state.intervalN,
+                    state.intervalType,
+                    state.oneTime
+                ) -> {
                     recurringRuleModal = RecurringRuleModalData(
-                        initialStartDate = startDate,
-                        initialIntervalN = intervalN,
-                        initialIntervalType = intervalType,
-                        initialOneTime = oneTime
+                        initialStartDate = state.startDate,
+                        initialIntervalN = state.intervalN,
+                        initialIntervalType = state.intervalType,
+                        initialOneTime = state.oneTime
                     )
                 }
 
-                shouldFocusTitle(titleTextFieldValue, type) -> {
+                shouldFocusTitle(titleTextFieldValue, state.transactionType) -> {
                     titleFocus.requestFocus()
                 }
             }
         },
-        onSelectedAccountChanged = onAccountChanged,
+        onSelectedAccountChanged = { onEvent(EditPlannedScreenEvent.OnAccountChanged(it)) },
         onToAccountChanged = { },
         onAddNewAccount = {
             accountModalData = AccountModalData(
                 account = null,
-                baseCurrency = currency,
+                baseCurrency = state.currency,
                 balance = 0.0
             )
         }
@@ -334,17 +275,16 @@ private fun BoxWithConstraintsScope.UI(
     // Modals
     ChooseCategoryModal(
         visible = chooseCategoryModalVisible,
-        initialCategory = category,
-        categories = categories,
+        initialCategory = state.category,
+        categories = state.categories,
         showCategoryModal = { categoryModalData = CategoryModalData(it) },
         onCategoryChanged = {
-            onCategoryChanged(it)
-
+            onEvent(EditPlannedScreenEvent.OnCategoryChanged(it))
             recurringRuleModal = RecurringRuleModalData(
-                initialStartDate = startDate,
-                initialIntervalN = intervalN,
-                initialIntervalType = intervalType,
-                initialOneTime = oneTime
+                initialStartDate = state.startDate,
+                initialIntervalN = state.intervalN,
+                initialIntervalType = state.intervalType,
+                initialOneTime = state.oneTime
             )
         },
         dismiss = {
@@ -354,7 +294,7 @@ private fun BoxWithConstraintsScope.UI(
 
     CategoryModal(
         modal = categoryModalData,
-        onCreateCategory = onCreateCategory,
+        onCreateCategory = { onEvent(EditPlannedScreenEvent.OnCreateCategory(it)) },
         onEditCategory = { },
         dismiss = {
             categoryModalData = null
@@ -363,7 +303,7 @@ private fun BoxWithConstraintsScope.UI(
 
     AccountModal(
         modal = accountModalData,
-        onCreateAccount = onCreateAccount,
+        onCreateAccount = { onEvent(EditPlannedScreenEvent.OnCreateAccount(it)) },
         onEditAccount = { _, _ -> },
         dismiss = {
             accountModalData = null
@@ -372,8 +312,8 @@ private fun BoxWithConstraintsScope.UI(
 
     DescriptionModal(
         visible = descriptionModalVisible,
-        description = description,
-        onDescriptionChanged = onDescriptionChanged,
+        description = state.description,
+        onDescriptionChanged = { onEvent(EditPlannedScreenEvent.OnDescriptionChanged(it)) },
         dismiss = {
             descriptionModalVisible = false
         }
@@ -385,20 +325,20 @@ private fun BoxWithConstraintsScope.UI(
         description = stringResource(R.string.planned_payment_confirm_deletion_description),
         dismiss = { deleteTrnModalVisible = false }
     ) {
-        onDelete()
+        onEvent(EditPlannedScreenEvent.OnDelete)
     }
 
     ChangeTransactionTypeModal(
         title = stringResource(R.string.set_payment_type),
         visible = changeTransactionTypeModalVisible,
         includeTransferType = false,
-        initialType = type,
+        initialType = state.transactionType,
         dismiss = {
             changeTransactionTypeModalVisible = false
         }
     ) {
-        onSetTransactionType(it)
-        if (shouldFocusAmount(amount)) {
+        onEvent(EditPlannedScreenEvent.OnSetTransactionType(it))
+        if (shouldFocusAmount(state.amount)) {
             amountModalShown = true
         }
     }
@@ -406,14 +346,21 @@ private fun BoxWithConstraintsScope.UI(
     RecurringRuleModal(
         modal = recurringRuleModal,
         onRuleChanged = { newStartDate, newOneTime, newIntervalN, newIntervalType ->
-            onRuleChanged(newStartDate, newOneTime, newIntervalN, newIntervalType)
+            onEvent(
+                EditPlannedScreenEvent.OnRuleChanged(
+                    newStartDate,
+                    newOneTime,
+                    newIntervalN,
+                    newIntervalType
+                )
+            )
 
             when {
-                shouldFocusCategory(category, type) -> {
+                shouldFocusCategory(state.category, state.transactionType) -> {
                     chooseCategoryModalVisible = true
                 }
 
-                shouldFocusTitle(titleTextFieldValue, type) -> {
+                shouldFocusTitle(titleTextFieldValue, state.transactionType) -> {
                     titleFocus.requestFocus()
                 }
             }
@@ -457,33 +404,21 @@ private fun Preview() {
     IvyWalletPreview {
         UI(
             screen = EditPlannedScreen(null, TransactionType.EXPENSE),
-            oneTime = false,
-            startDate = null,
-            intervalN = null,
-            intervalType = null,
-            initialTitle = "",
-            currency = "BGN",
-            description = null,
-            category = null,
-            account = Account(name = "phyre", Orange.toArgb()),
-            amount = 0.0,
-            type = TransactionType.INCOME,
-
-            categories = emptyList(),
-            accounts = emptyList(),
-
-            onRuleChanged = { _, _, _, _ -> },
-            onCategoryChanged = {},
-            onAccountChanged = {},
-            onDescriptionChanged = {},
-            onTitleChanged = {},
-            onAmountChanged = {},
-
-            onCreateCategory = { },
-            onSave = {},
-            onDelete = {},
-            onCreateAccount = { },
-            onSetTransactionType = {}
-        )
+            EditPlannedScreenState(
+                oneTime = false,
+                startDate = null,
+                intervalN = null,
+                intervalType = null,
+                initialTitle = "",
+                currency = "BGN",
+                description = null,
+                category = null,
+                account = Account(name = "phyre", Orange.toArgb()),
+                amount = 0.0,
+                transactionType = TransactionType.INCOME,
+                categories = persistentListOf(),
+                accounts = persistentListOf(),
+            )
+        ) {}
     }
 }
