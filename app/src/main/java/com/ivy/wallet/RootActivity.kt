@@ -148,6 +148,10 @@ class RootActivity : AppCompatActivity(), RootScreen {
         }
     }
 
+    private companion object {
+        private const val MILLISECONDS_IN_DAY = 24 * 60 * 60 * 1000
+    }
+
     private fun setupDatePicker() {
         ivyContext.onShowDatePicker = { minDate,
                                         maxDate,
@@ -159,7 +163,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
                 .build()
             datePicker.show(supportFragmentManager, "datePicker")
             datePicker.addOnPositiveButtonClickListener {
-                onDatePicked(LocalDate.ofEpochDay(it / 86400000))
+                onDatePicked(LocalDate.ofEpochDay(it / MILLISECONDS_IN_DAY))
             }
 
             if (minDate != null) {
