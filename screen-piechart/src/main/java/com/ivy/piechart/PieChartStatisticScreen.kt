@@ -89,7 +89,7 @@ fun BoxWithConstraintsScope.PieChartStatisticScreen(
 
     UI(
         state = uiState,
-        onEventHandler = viewModel::onEvent
+        onEvent = viewModel::onEvent
     )
 }
 
@@ -97,7 +97,7 @@ fun BoxWithConstraintsScope.PieChartStatisticScreen(
 @Composable
 private fun BoxWithConstraintsScope.UI(
     state: PieChartStatisticState,
-    onEventHandler: (PieChartStatisticEvent) -> Unit = {}
+    onEvent: (PieChartStatisticEvent) -> Unit = {}
 ) {
     val nav = navigation()
     val lazyState = rememberLazyListState()
@@ -122,13 +122,13 @@ private fun BoxWithConstraintsScope.UI(
                 currency = state.baseCurrency,
                 amount = state.totalAmount,
                 onShowMonthModal = {
-                    onEventHandler.invoke(PieChartStatisticEvent.OnShowMonthModal(state.period))
+                    onEvent(PieChartStatisticEvent.OnShowMonthModal(state.period))
                 },
                 onSelectNextMonth = {
-                    onEventHandler.invoke(PieChartStatisticEvent.OnSelectNextMonth)
+                    onEvent(PieChartStatisticEvent.OnSelectNextMonth)
                 },
                 onSelectPreviousMonth = {
-                    onEventHandler.invoke(PieChartStatisticEvent.OnSelectPreviousMonth)
+                    onEvent(PieChartStatisticEvent.OnSelectPreviousMonth)
                 },
                 showCloseButtonOnly = state.showCloseButtonOnly,
                 onClose = {
@@ -182,7 +182,7 @@ private fun BoxWithConstraintsScope.UI(
                 categoryAmounts = state.categoryAmounts,
                 selectedCategory = state.selectedCategory,
                 onCategoryClicked = { clickedCategory ->
-                    onEventHandler.invoke(PieChartStatisticEvent.OnCategoryClicked(clickedCategory))
+                    onEvent(PieChartStatisticEvent.OnCategoryClicked(clickedCategory))
                 }
             )
 
@@ -223,10 +223,10 @@ private fun BoxWithConstraintsScope.UI(
     ChoosePeriodModal(
         modal = state.choosePeriodModal,
         dismiss = {
-            onEventHandler.invoke(PieChartStatisticEvent.OnShowMonthModal(null))
+            onEvent(PieChartStatisticEvent.OnShowMonthModal(null))
         }
     ) {
-        onEventHandler.invoke(PieChartStatisticEvent.OnSetPeriod(it))
+        onEvent(PieChartStatisticEvent.OnSetPeriod(it))
     }
 }
 
