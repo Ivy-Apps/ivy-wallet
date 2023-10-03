@@ -150,51 +150,36 @@ class RootActivity : AppCompatActivity(), RootScreen {
     }
 
     private fun setupDatePicker() {
-        ivyContext.onShowDatePicker = { minDate,
-                                        maxDate,
-                                        initialDate,
+        ivyContext.onShowDatePicker = {
                                         onDatePicked ->
-            val picker = DatePickerDialog(this)
-
-            if (minDate != null) {
-                picker.datePicker.minDate = minDate.atTime(12, 0).toEpochMilli()
-            }
-
-            if (maxDate != null) {
-                picker.datePicker.maxDate = maxDate.atTime(12, 0).toEpochMilli()
-            }
-
-            picker.setOnDateSetListener { _, year, month, dayOfMonth ->
-                Timber.i("Date picked: $year year $month month day $dayOfMonth")
-                onDatePicked(LocalDate.of(year, month + 1, dayOfMonth))
-            }
-            picker.show()
-
-            if (initialDate != null) {
-                picker.updateDate(
-                    initialDate.year,
-                    // month-1 because LocalDate start from 1 and date picker starts from 0
-                    initialDate.monthValue - 1,
-                    initialDate.dayOfMonth
-                )
-            }
+            val picker =
+                MaterialDatePicker.Builder.datePicker()
+                    .setTitleText("Select date")
+                    .build()
+            picker.show(supportFragmentManager, "Change Tag");
+            picker.addOnPositiveButtonClickListener {
+                onDatePicked(picker.selection)
         }
     }
 
     private fun setupTimePicker() {
         ivyContext.onShowTimePicker = { onTimePicked ->
             val nowLocal = timeNowLocal()
-            val picker = TimePickerDialog(
-                this,
-                { _, hourOfDay, minute ->
-                    onTimePicked(
-                        LocalTime.of(hourOfDay, minute)
-                            .convertLocalToUTC().withSecond(0)
-                    )
-                },
-                nowLocal.hour, nowLocal.minute, DateFormat.is24HourFormat(this)
-            )
-            picker.show()
+            val picker =
+                MaterialTimePicker.Builder()
+                    .setTimeFormat(TimeFormat.CLOCK_12H)
+                    .setHour(12)
+                    .setMinute(10)
+                    .setTitleText("Select Appointment time")
+                    .build()
+
+            picker.show(supportFragmentManager, "Change Tag");
+            picker.addOnPositiveButtonClickListener{
+                onTimePicked(
+                    LocalTime.of(picker.hour, picker.minute)
+                        .convertLocalToUTC().withSecond(0)
+                )
+            }
         }
     }
 
