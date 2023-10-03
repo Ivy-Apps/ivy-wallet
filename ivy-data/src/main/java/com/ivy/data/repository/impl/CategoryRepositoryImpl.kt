@@ -29,9 +29,9 @@ class CategoryRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun findMaxOrderNum(): Double? {
+    override suspend fun findMaxOrderNum(): Double {
         return withContext(Dispatchers.IO) {
-            dataSource.findMaxOrderNum()
+            dataSource.findMaxOrderNum() ?: 0.0
         }
     }
 
