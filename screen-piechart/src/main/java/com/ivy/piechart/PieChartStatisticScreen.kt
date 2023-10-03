@@ -96,7 +96,7 @@ fun BoxWithConstraintsScope.PieChartStatisticScreen(
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    state: PieChartStatisticState = PieChartStatisticState(),
+    state: PieChartStatisticState,
     onEventHandler: (PieChartStatisticEvent) -> Unit = {}
 ) {
     val nav = navigation()
@@ -507,7 +507,12 @@ private fun Preview_Expense() {
                     amount = 2.0
                 ),
             ),
-            selectedCategory = null
+            selectedCategory = null,
+            accountIdFilterList = persistentListOf(),
+            choosePeriodModal = null,
+            filterExcluded = false,
+            showCloseButtonOnly = false,
+            transactions = persistentListOf()
         )
 
         UI(state = state)
@@ -561,7 +566,12 @@ private fun Preview_Income() {
                     amount = 2.0
                 ),
             ),
-            selectedCategory = null
+            selectedCategory = null,
+            accountIdFilterList = persistentListOf(),
+            choosePeriodModal = null,
+            filterExcluded = false,
+            showCloseButtonOnly = false,
+            transactions = persistentListOf()
         )
 
         UI(state = state)
