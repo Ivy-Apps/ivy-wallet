@@ -123,7 +123,7 @@ fun BoxWithConstraintsScope.CalculatorModal(
                     text = "÷",
                     testTag = "key_/"
                 ) {
-                    expression += "/"
+                    expression += "÷"
                 }
             },
             FirstRowExtra = {
@@ -131,7 +131,7 @@ fun BoxWithConstraintsScope.CalculatorModal(
                     text = "x",
                     testTag = "key_*"
                 ) {
-                    expression += "*"
+                    expression += "x"
                 }
             },
             SecondRowExtra = {
@@ -189,7 +189,7 @@ private fun formatExpression(expression: String, currency: String): String {
     var formattedExpression = expression
 
     expression
-        .split("(", ")", "/", "*", "-", "+")
+        .split("(", ")", "÷", "x", "-", "+")
         .ifEmpty {
             // handle only number expression formatting
             listOf(expression)
