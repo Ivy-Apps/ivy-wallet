@@ -23,31 +23,49 @@ class CategoryRepositoryImpl @Inject constructor(
 
     override suspend fun findById(id: CategoryId): Category? {
         return withContext(Dispatchers.IO) {
-
+            dataSource.findById(id.value)?.let {
+                with(mapper) { it.toDomain() }.getOrNull()
+            }
         }
     }
 
     override suspend fun findMaxOrderNum(): Double? {
-        TODO("Not yet implemented")
+        return withContext(Dispatchers.IO) {
+            dataSource.findMaxOrderNum()
+        }
     }
 
     override suspend fun save(value: Category) {
-        TODO("Not yet implemented")
+        return withContext(Dispatchers.IO) {
+            dataSource.save(
+                with(mapper) { value.toEntity() }
+            )
+        }
     }
 
     override suspend fun saveMany(values: List<Category>) {
-        TODO("Not yet implemented")
+        withContext(Dispatchers.IO) {
+            dataSource.saveMany(
+                values.map { with(mapper) { it.toEntity() } }
+            )
+        }
     }
 
     override suspend fun deleteById(id: CategoryId) {
-        TODO("Not yet implemented")
+        withContext(Dispatchers.IO) {
+            dataSource.deleteById(id.value)
+        }
     }
 
     override suspend fun flagDeleted(id: CategoryId) {
-        TODO("Not yet implemented")
+        withContext(Dispatchers.IO) {
+            dataSource.flagDeleted(id.value)
+        }
     }
 
     override suspend fun deleteAll() {
-        TODO("Not yet implemented")
+        withContext(Dispatchers.IO) {
+            dataSource.deleteAll()
+        }
     }
 }
