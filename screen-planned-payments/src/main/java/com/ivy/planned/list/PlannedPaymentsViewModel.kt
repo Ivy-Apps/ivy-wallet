@@ -120,7 +120,14 @@ class PlannedPaymentsViewModel @Inject constructor(
     }
 
     override fun onEvent(event: PlannedPaymentsScreenEvent) {
-        // no op
+        when (event) {
+            is PlannedPaymentsScreenEvent.OnOneTimePaymentsExpanded -> {
+                isOneTimePaymentsExpanded.value = event.isExpanded
+            }
+            is PlannedPaymentsScreenEvent.OnRecurringPaymentsExpanded -> {
+                isRecurringPaymentsExpanded.value = event.isExpanded
+            }
+        }
     }
 
     private fun start() {
