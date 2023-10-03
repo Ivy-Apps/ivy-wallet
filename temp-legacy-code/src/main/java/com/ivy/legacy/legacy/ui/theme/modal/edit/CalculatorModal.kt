@@ -120,18 +120,18 @@ fun BoxWithConstraintsScope.CalculatorModal(
                 Spacer(Modifier.width(16.dp))
 
                 KeypadCircleButton(
-                    text = "/",
+                    text = "\u00F7",
                     testTag = "key_/"
                 ) {
-                    expression += "/"
+                    expression += "\u00F7"
                 }
             },
             FirstRowExtra = {
                 KeypadCircleButton(
-                    text = "*",
+                    text = "\u00d7",
                     testTag = "key_*"
                 ) {
-                    expression += "*"
+                    expression += "\u00d7"
                 }
             },
             SecondRowExtra = {
@@ -189,7 +189,7 @@ private fun formatExpression(expression: String, currency: String): String {
     var formattedExpression = expression
 
     expression
-        .split("(", ")", "/", "*", "-", "+")
+        .split("(", ")", "\u00F7", "\u00d7", "-", "+")
         .ifEmpty {
             // handle only number expression formatting
             listOf(expression)
