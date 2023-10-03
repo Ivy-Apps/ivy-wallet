@@ -46,21 +46,6 @@ class PieChartStatisticViewModel @Inject constructor(
     private val transactions = mutableStateOf<ImmutableList<Transaction>>(persistentListOf())
     private val choosePeriodModal = mutableStateOf<ChoosePeriodModalData?>(null)
 
-    fun start(
-        screen: PieChartStatisticScreen
-    ) {
-        viewModelScope.launch(Dispatchers.Default) {
-            startInternally(
-                period = ivyContext.selectedPeriod,
-                type = screen.type,
-                accountIdFilterList = screen.accountList,
-                filterExclude = screen.filterExcluded,
-                transactions = screen.transactions,
-                transfersAsIncomeExpenseValue = screen.treatTransfersAsIncomeExpense
-            )
-        }
-    }
-
     @Composable
     override fun uiState(): PieChartStatisticState {
         return PieChartStatisticState(
@@ -131,6 +116,34 @@ class PieChartStatisticViewModel @Inject constructor(
     @Composable
     private fun getChoosePeriodModal(): ChoosePeriodModalData? {
         return choosePeriodModal.value
+    }
+
+    override fun onEvent(event: PieChartStatisticEvent) {
+        viewModelScope.launch(Dispatchers.Default) {
+            when (event) {
+                is PieChartStatisticEvent.OnSelectNextMonth -> nextMonth()
+                is PieChartStatisticEvent.OnSelectPreviousMonth -> previousMonth()
+                is PieChartStatisticEvent.OnSetPeriod -> onSetPeriod(event.timePeriod)
+                is PieChartStatisticEvent.OnShowMonthModal -> configureMonthModal(event.timePeriod)
+                is PieChartStatisticEvent.OnCategoryClicked -> onCategoryClicked(event.category)
+                is PieChartStatisticEvent.OnStart -> start(event.screen)
+            }
+        }
+    }
+
+    private fun start(
+        screen: PieChartStatisticScreen
+    ) {
+        viewModelScope.launch(Dispatchers.Default) {
+            startInternally(
+                period = ivyContext.selectedPeriod,
+                type = screen.type,
+                accountIdFilterList = screen.accountList,
+                filterExclude = screen.filterExcluded,
+                transactions = screen.transactions,
+                transfersAsIncomeExpenseValue = screen.treatTransfersAsIncomeExpense
+            )
+        }
     }
 
     private suspend fun startInternally(
@@ -262,17 +275,5 @@ class PieChartStatisticViewModel @Inject constructor(
 
         selectedCategory.value = selectedCategoryValue
         categoryAmounts.value = newCategoryAmounts
-    }
-
-    override fun onEvent(event: PieChartStatisticEvent) {
-        viewModelScope.launch(Dispatchers.Default) {
-            when (event) {
-                is PieChartStatisticEvent.OnSelectNextMonth -> nextMonth()
-                is PieChartStatisticEvent.OnSelectPreviousMonth -> previousMonth()
-                is PieChartStatisticEvent.OnSetPeriod -> onSetPeriod(event.timePeriod)
-                is PieChartStatisticEvent.OnShowMonthModal -> configureMonthModal(event.timePeriod)
-                is PieChartStatisticEvent.OnCategoryClicked -> onCategoryClicked(event.category)
-            }
-        }
     }
 }
