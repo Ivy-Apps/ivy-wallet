@@ -213,8 +213,8 @@ class HomeViewModel @Inject constructor(
                 is HomeEvent.SkipPlanned -> skipPlanned(event.transaction)
                 is HomeEvent.SkipAllPlanned -> skipAllPlanned(event.transactions)
                 is HomeEvent.SetPeriod -> setPeriod(event.period)
-                HomeEvent.SelectNextMonth -> nextMonth()
-                HomeEvent.SelectPreviousMonth -> previousMonth()
+                HomeEvent.SelectNextMonth -> onSelectNextMonth()
+                HomeEvent.SelectPreviousMonth -> onSelectPreviousMonth()
                 is HomeEvent.SetUpcomingExpanded -> setUpcomingExpanded(event.expanded)
                 is HomeEvent.SetOverdueExpanded -> setOverdueExpanded(event.expanded)
                 is HomeEvent.SetBuffer -> setBuffer(event.buffer).fixUnit()
@@ -460,23 +460,21 @@ class HomeViewModel @Inject constructor(
         reload()
     }
 
-    private suspend fun nextMonth() = suspend {
+    private suspend fun onSelectNextMonth() {
         val month = period.value.month
         val year = period.value.year ?: dateNowUTC().year
-        month?.incrementMonthPeriod(ivyContext, 1L, year = year)
-    } then {
-        if (it != null) {
-            reload(it)
+        val period = month?.incrementMonthPeriod(ivyContext, 1L, year = year)
+        if (period != null) {
+            setPeriod(period)
         }
     }
 
-    private suspend fun previousMonth() = suspend {
+    private suspend fun onSelectPreviousMonth() {
         val month = period.value.month
         val year = period.value.year ?: dateNowUTC().year
-        month?.incrementMonthPeriod(ivyContext, -1L, year = year)
-    } then {
-        if (it != null) {
-            reload(it)
+        val period = month?.incrementMonthPeriod(ivyContext, -1L, year = year)
+        if (period != null) {
+            setPeriod(period)
         }
     }
 
