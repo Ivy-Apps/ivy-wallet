@@ -75,6 +75,8 @@ class LoanDetailsViewModel @Inject constructor(
     private var defaultCurrencyCode = ""
     private val loanModalData = mutableStateOf<LoanModalData?>(null)
     private val loanRecordModalData = mutableStateOf<LoanRecordModalData?>(null)
+    private val waitModalVisible = mutableStateOf(false)
+    private val isDeleteModalVisible = mutableStateOf(false)
     lateinit var screen: LoanDetailsScreen
 
     private fun start() {
@@ -331,7 +333,8 @@ class LoanDetailsViewModel @Inject constructor(
             selectedLoanAccount = selectedLoanAccount.value,
             createLoanTransaction = createLoanTransaction.value,
             loanModalData = loanModalData.value,
-            loanRecordModalData = loanRecordModalData.value
+            loanRecordModalData = loanRecordModalData.value,
+            waitModalVisible = waitModalVisible.value
         )
     }
 
@@ -348,7 +351,7 @@ class LoanDetailsViewModel @Inject constructor(
                 )
             }
 
-            LoanDetailsScreenEvent.OnEditLoan -> {
+            LoanDetailsScreenEvent.OnEditLoanClick -> {
                 loanModalData.value = LoanModalData(
                     loan = loan.value,
                     baseCurrency = baseCurrency.value,
@@ -395,6 +398,26 @@ class LoanDetailsViewModel @Inject constructor(
 
             is LoanDetailsScreenEvent.OnDeleteLoanRecord -> {
                 deleteLoanRecord(event.loanRecord)
+            }
+
+            is LoanDetailsScreenEvent.OnEditLoan -> {
+                editLoan(event.loan, event.createLoanTransaction)
+            }
+
+            LoanDetailsScreenEvent.OnDismiss -> {
+                loanModalData.value = null
+            }
+
+            LoanDetailsScreenEvent.PerformCalculation -> {
+                waitModalVisible.value = true
+            }
+
+            LoanDetailsScreenEvent.OnLoadRecordDismiss -> {
+                loanRecordModalData.value = null
+            }
+
+            is LoanDetailsScreenEvent.OnDismissDeleteLoan -> {
+                isDeleteModalVisible.value = event.isDeleteModalVisible
             }
         }
     }

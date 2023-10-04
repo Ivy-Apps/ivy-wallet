@@ -99,11 +99,6 @@ private fun BoxWithConstraintsScope.UI(
     val itemColor = state.loan?.color?.toComposeColor() ?: Gray
 
     var deleteModalVisible by remember { mutableStateOf(false) }
-    var loanModalData: LoanModalData? by remember { mutableStateOf(null) }
-    var loanRecordModalData: LoanRecordModalData? by remember {
-        mutableStateOf(null)
-    }
-    var waitModalVisible by remember(state.loan) { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -134,10 +129,14 @@ private fun BoxWithConstraintsScope.UI(
                             onEventHandler.invoke(LoanDetailsScreenEvent.OnAmountClick)
                         },
                         onDeleteLoan = {
-                            deleteModalVisible = true
+                            onEventHandler.invoke(
+                                LoanDetailsScreenEvent.OnDismissDeleteLoan(
+                                    isDeleteModalVisible = true
+                                )
+                            )
                         },
                         onEditLoan = {
-                            onEventHandler.invoke(LoanDetailsScreenEvent.OnEditLoan)
+                            onEventHandler.invoke(LoanDetailsScreenEvent.OnEditLoanClick)
                         },
                         onAddRecord = {
                             onEventHandler.invoke(LoanDetailsScreenEvent.OnAddRecord)
@@ -182,27 +181,27 @@ private fun BoxWithConstraintsScope.UI(
     }
 
     LoanModal(
-        modal = loanModalData,
+        modal = state.loanModalData,
         onCreateLoan = {
             // do nothing
         },
-        onEditLoan = { loan, boolean ->
-            onEventHandler.invoke(LoanDetailsScreenEvent.OnEditLoan)
+        onEditLoan = { loan, createLoanTransaction ->
+            onEventHandler.invoke(LoanDetailsScreenEvent.OnEditLoan(loan, createLoanTransaction))
         },
         dismiss = {
-            loanModalData = null
+            onEventHandler.invoke(LoanDetailsScreenEvent.OnDismiss)
         },
         onCreateAccount = { createAccountData ->
             onEventHandler.invoke(LoanDetailsScreenEvent.OnCreateAccount(createAccountData))
         },
         accounts = state.accounts,
         onPerformCalculations = {
-            waitModalVisible = true
+            onEventHandler.invoke(LoanDetailsScreenEvent.PerformCalculation)
         }
     )
 
     LoanRecordModal(
-        modal = loanRecordModalData,
+        modal = state.loanRecordModalData,
         onCreate = {
             onEventHandler.invoke(LoanDetailsScreenEvent.OnCreateLoanRecord(it))
         },
@@ -214,7 +213,7 @@ private fun BoxWithConstraintsScope.UI(
         },
         accounts = state.accounts,
         dismiss = {
-            loanRecordModalData = null
+            onEventHandler.invoke(LoanDetailsScreenEvent.OnLoadRecordDismiss)
         },
         onCreateAccount = { createAccountData ->
             onEventHandler.invoke(LoanDetailsScreenEvent.OnCreateAccount(createAccountData))
@@ -225,7 +224,9 @@ private fun BoxWithConstraintsScope.UI(
         visible = deleteModalVisible,
         title = stringResource(R.string.confirm_deletion),
         description = stringResource(R.string.loan_confirm_deletion_description),
-        dismiss = { deleteModalVisible = false }
+        dismiss = {
+            onEventHandler.invoke(LoanDetailsScreenEvent.OnDismissDeleteLoan(isDeleteModalVisible = false))
+        }
     ) {
         onEventHandler.invoke(LoanDetailsScreenEvent.OnDeleteLoan)
     }
@@ -233,7 +234,7 @@ private fun BoxWithConstraintsScope.UI(
     ProgressModal(
         title = stringResource(R.string.confirm_account_change),
         description = stringResource(R.string.confirm_account_loan_change),
-        visible = waitModalVisible
+        visible = state.waitModalVisible
     )
 }
 
