@@ -50,7 +50,7 @@ Check **[Ivy Wallet Issues](https://github.com/Ivy-Apps/ivy-wallet/issues)**.
 
 ## Troubleshooting CI failures
 
-If you see any of the PR checks failing (❌) go to [Actions](https://github.com/Ivy-Apps/ivy-wallet/actions) and find it there. Or simply click "Details" next to the failed check and explore the logs to see why the it has failed.
+If you see any of the PR checks failing (❌) go to [Actions](https://github.com/Ivy-Apps/ivy-wallet/actions) and find it there. Or simply click "Details" next to the failed check and explore the logs to see why it has failed.
 
 ### Detekt
 [Detekt](https://detekt.dev/) is a static code analyzer for Kotlin that we use to enforce code readibility and good practices.
