@@ -18,7 +18,7 @@ import java.util.UUID
 class CategoryRepositoryImplTest : FreeSpec({
     val dataSource = mockk<LocalCategoryDataSource>()
 
-    fun repository(): CategoryRepository = CategoryRepositoryImpl(
+    fun newRepository(): CategoryRepository = CategoryRepositoryImpl(
         mapper = CategoryMapper(),
         dataSource = dataSource
     )
@@ -26,7 +26,7 @@ class CategoryRepositoryImplTest : FreeSpec({
     "find all not deleted" - {
         "empty list" {
             // given
-            val repository = repository()
+            val repository = newRepository()
             coEvery { dataSource.findAll(false) } returns emptyList()
 
             // when
@@ -38,7 +38,7 @@ class CategoryRepositoryImplTest : FreeSpec({
 
         "valid and invalid categories" {
             // given
-            val repository = repository()
+            val repository = newRepository()
             val id1 = UUID.randomUUID()
             val id3 = UUID.randomUUID()
             coEvery { dataSource.findAll(false) } returns listOf(
@@ -95,6 +95,71 @@ class CategoryRepositoryImplTest : FreeSpec({
                     id = CategoryId(id3)
                 )
             )
+        }
+    }
+
+    "find by id" - {
+        "null CategoryEntity" {
+            // given
+            val repository = newRepository()
+            val id = UUID.randomUUID()
+            coEvery { dataSource.findById(id) } returns null
+
+            // when
+            val category = repository.findById(CategoryId(id))
+
+            // then
+            category shouldBe null
+        }
+
+        "valid CategoryEntity" {
+            // given
+            val repository = newRepository()
+            val id = UUID.randomUUID()
+            coEvery { dataSource.findById(id) } returns CategoryEntity(
+                name = "Home",
+                color = 42,
+                icon = null,
+                orderNum = 0.0,
+                isSynced = true,
+                isDeleted = false,
+                id = id
+            )
+
+            // when
+            val category = repository.findById(CategoryId(id))
+
+            // then
+            category shouldBe Category(
+                name = NotBlankTrimmedString("Home"),
+                color = ColorInt(42),
+                icon = null,
+                orderNum = 0.0,
+                removed = false,
+                lastUpdated = Instant.EPOCH,
+                id = CategoryId(id)
+            )
+        }
+
+        "invalid CategoryEntity" {
+            // given
+            val repository = newRepository()
+            val id = UUID.randomUUID()
+            coEvery { dataSource.findById(id) } returns CategoryEntity(
+                name = "",
+                color = 42,
+                icon = null,
+                orderNum = 1.0,
+                isSynced = true,
+                isDeleted = false,
+                id = UUID.randomUUID()
+            )
+
+            // when
+            val category = repository.findById(CategoryId(id))
+
+            // then
+            category shouldBe null
         }
     }
 })
