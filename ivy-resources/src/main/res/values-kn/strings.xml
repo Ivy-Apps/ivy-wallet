@@ -206,7 +206,7 @@
     <string name="enter_account_balance">ಖಾತೆಯ ಮೊತ್ತವನ್ನು ನಮೂದಿಸಿ</string>
     <string name="choose_currency">ಕರೆನ್ಸಿ ಆಯ್ಕೆಮಾಡಿ</string>
     <string name="calculator">ಗಣಕ ಯ೦ತ್ರ</string>
-    <string name="calculator_empty_expression">ಗುಣಾಕಾರ (+-/*=)</string>
+    <string name="calculator_empty_expression">ಗುಣಾಕಾರ (+-÷x=)</string>
     <string name="edit_category">ವರ್ಗವನ್ನು ಎಡಿಟ್ ಮಾಡಿ</string>
     <string name="create_category">ವರ್ಗವನ್ನು ರಚಿಸಿ</string>
     <string name="category_name">ವರ್ಗದ ಹೆಸರು</string>
