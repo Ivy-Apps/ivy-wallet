@@ -162,4 +162,30 @@ class CategoryRepositoryImplTest : FreeSpec({
             category shouldBe null
         }
     }
+
+    "find max order num" - {
+        "null from the source" {
+            // given
+            val repository = newRepository()
+            coEvery { dataSource.findMaxOrderNum() } returns null
+
+            // when
+            val num = repository.findMaxOrderNum()
+
+            // then
+            num shouldBe 0.0
+        }
+
+        "number from the source" {
+            // given
+            val repository = newRepository()
+            coEvery { dataSource.findMaxOrderNum() } returns 15.0
+
+            // when
+            val num = repository.findMaxOrderNum()
+
+            // then
+            num shouldBe 15.0
+        }
+    }
 })
