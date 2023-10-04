@@ -46,7 +46,7 @@ Check **[Ivy Wallet Issues](https://github.com/Ivy-Apps/ivy-wallet/issues)**.
 
 > Replace `ISSUE_NUMBER` with your issue number (for example Closes #1234). If you've done that correctly, you'll see the issue title linked when previewing your PR description.
 
-## Troubleshotting CI failures
+## Troubleshooting CI failures
 
 If you see any of the PR checks failing (❌) go to [Actions](https://github.com/Ivy-Apps/ivy-wallet/actions) and find it there. Or simply click "Details" next to the failed check and explore the logs to see why the it has failed.
 
