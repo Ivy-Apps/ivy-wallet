@@ -15,7 +15,6 @@ import com.ivy.data.model.IntervalType
 import com.ivy.domain.ComposeViewModel
 import com.ivy.domain.event.AccountUpdatedEvent
 import com.ivy.domain.event.EventBus
-import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.datamodel.PlannedPaymentRule
@@ -71,8 +70,7 @@ class EditPlannedViewModel @Inject constructor(
 
     private var loadedRule: PlannedPaymentRule? = null
     private var editMode = false
-
-    var title: String? = null
+    private var title: String? = null
 
     @Composable
     override fun uiState(): EditPlannedScreenState {
@@ -159,7 +157,48 @@ class EditPlannedViewModel @Inject constructor(
     }
 
     override fun onEvent(event: EditPlannedScreenEvent) {
-        TODO("Not yet implemented")
+        when (event) {
+            is EditPlannedScreenEvent.OnSave -> {
+                save()
+            }
+            is EditPlannedScreenEvent.OnDelete -> {
+                delete()
+            }
+            is EditPlannedScreenEvent.OnSetTransactionType -> {
+                updateTransactionType(event.newTransactionType)
+            }
+            is EditPlannedScreenEvent.OnDescriptionChanged -> {
+                updateDescription(event.newDescription)
+            }
+
+            is EditPlannedScreenEvent.OnCreateAccount -> {
+                createAccount(event.data)
+            }
+
+            is EditPlannedScreenEvent.OnCreateCategory -> {
+                createCategory(event.data)
+            }
+
+            is EditPlannedScreenEvent.OnAccountChanged -> {
+                updateAccount(event.newAccount)
+            }
+
+            is EditPlannedScreenEvent.OnAmountChanged -> {
+                updateAmount(event.newAmount)
+            }
+
+            is EditPlannedScreenEvent.OnTitleChanged -> {
+                updateTitle(event.newTitle)
+            }
+
+            is EditPlannedScreenEvent.OnRuleChanged -> {
+                updateRule(event.startDate, event.oneTime, event.intervalN, event.intervalType)
+            }
+
+            is EditPlannedScreenEvent.OnCategoryChanged -> {
+                updateCategory(event.newCategory)
+            }
+        }
     }
 
     fun start(screen: EditPlannedScreen) {
@@ -210,7 +249,7 @@ class EditPlannedViewModel @Inject constructor(
         category.value = rule.categoryId?.let {
             ioThread { categoryDao.findById(rule.categoryId!!)?.toDomain() }
         }
-        amount.value = rule.amount
+        amount.doubleValue = rule.amount
 
         updateCurrency(account = selectedAccount)
     }
@@ -221,7 +260,7 @@ class EditPlannedViewModel @Inject constructor(
 
     private suspend fun baseCurrency(): String = ioThread { settingsDao.findFirst().currency }
 
-    fun onRuleChanged(
+    private fun updateRule(
         startDate: LocalDateTime,
         oneTime: Boolean,
         intervalN: Int?,
@@ -241,16 +280,16 @@ class EditPlannedViewModel @Inject constructor(
         saveIfEditMode()
     }
 
-    fun onAmountChanged(newAmount: Double) {
+    private fun updateAmount(newAmount: Double) {
         loadedRule = loadedRule().copy(
             amount = newAmount
         )
-        this@EditPlannedViewModel.amount.value = newAmount
+        this@EditPlannedViewModel.amount.doubleValue = newAmount
 
         saveIfEditMode()
     }
 
-    fun onTitleChanged(newTitle: String?) {
+    private fun updateTitle(newTitle: String?) {
         loadedRule = loadedRule().copy(
             title = newTitle
         )
@@ -259,7 +298,7 @@ class EditPlannedViewModel @Inject constructor(
         saveIfEditMode()
     }
 
-    fun onDescriptionChanged(newDescription: String?) {
+    private fun updateDescription(newDescription: String?) {
         loadedRule = loadedRule().copy(
             description = newDescription
         )
@@ -268,7 +307,7 @@ class EditPlannedViewModel @Inject constructor(
         saveIfEditMode()
     }
 
-    fun onCategoryChanged(newCategory: Category?) {
+    private fun updateCategory(newCategory: Category?) {
         loadedRule = loadedRule().copy(
             categoryId = newCategory?.id
         )
@@ -277,7 +316,7 @@ class EditPlannedViewModel @Inject constructor(
         saveIfEditMode()
     }
 
-    fun onAccountChanged(newAccount: Account) {
+    private fun updateAccount(newAccount: Account) {
         loadedRule = loadedRule().copy(
             accountId = newAccount.id
         )
@@ -290,7 +329,7 @@ class EditPlannedViewModel @Inject constructor(
         saveIfEditMode()
     }
 
-    fun onSetTransactionType(newTransactionType: TransactionType) {
+    private fun updateTransactionType(newTransactionType: TransactionType) {
         loadedRule = loadedRule().copy(
             type = newTransactionType
         )
@@ -305,14 +344,12 @@ class EditPlannedViewModel @Inject constructor(
         }
     }
 
-    fun save(closeScreen: Boolean = true) {
+    private fun save(closeScreen: Boolean = true) {
         if (!validate()) {
             return
         }
 
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             try {
                 ioThread {
                     loadedRule = loadedRule().copy(
@@ -324,7 +361,7 @@ class EditPlannedViewModel @Inject constructor(
                         accountId = account.value?.id ?: error("no accountId"),
                         title = title?.trim(),
                         description = description.value?.trim(),
-                        amount = amount.value ?: error("no amount"),
+                        amount = amount.doubleValue ?: error("no amount"),
 
                         isSynced = false
                     )
@@ -347,7 +384,7 @@ class EditPlannedViewModel @Inject constructor(
             return false
         }
 
-        if (amount.value == 0.0) {
+        if (amount.doubleValue == 0.0) {
             return false
         }
 
@@ -365,7 +402,7 @@ class EditPlannedViewModel @Inject constructor(
                 intervalType.value != null
     }
 
-    fun delete() {
+    private fun delete() {
         viewModelScope.launch {
             ioThread {
                 loadedRule?.let {
@@ -379,17 +416,17 @@ class EditPlannedViewModel @Inject constructor(
         }
     }
 
-    fun createCategory(data: CreateCategoryData) {
+    private fun createCategory(data: CreateCategoryData) {
         viewModelScope.launch {
             categoryCreator.createCategory(data) {
                 categories.value = categoriesAct(Unit)
 
-                onCategoryChanged(it)
+                updateCategory(it)
             }
         }
     }
 
-    fun createAccount(data: CreateAccountData) {
+    private fun createAccount(data: CreateAccountData) {
         viewModelScope.launch {
             accountCreator.createAccount(data) {
                 eventBus.post(AccountUpdatedEvent)
