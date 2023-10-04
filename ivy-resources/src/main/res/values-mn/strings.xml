@@ -206,7 +206,7 @@
     <string name="enter_account_balance">Дансны үлдэгдэл оруулна уу</string>
     <string name="choose_currency">Тэмдэгт сонгох</string>
     <string name="calculator">Тооны машин</string>
-    <string name="calculator_empty_expression">Тооцоо (+-/*=)</string>
+    <string name="calculator_empty_expression">Тооцоо (+-÷x=)</string>
     <string name="edit_category">Ангилал өөрчлөх</string>
     <string name="create_category">Шинэ ангилал үүсгэх</string>
     <string name="category_name">Ангиллын нэр</string>
