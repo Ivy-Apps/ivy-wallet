@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.theme.modal.edit
 
+import android.util.Log
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -215,7 +216,15 @@ private fun formatExpression(expression: String, currency: String): String {
 private fun calculate(expression: String): Double? {
     return try {
         // Keval doesn't support negative numbers, so we add a zero in front of the expression
-        val modifiedExpression = if (expression.startsWith("-")) "0$expression" else expression
+        var tempExpression = ""
+        for(exp in expression) {
+            when (exp) {
+                '÷' -> tempExpression += '/'
+                'x' -> tempExpression += '*'
+                else -> tempExpression += exp
+            }
+        }
+        val modifiedExpression = if (expression.startsWith("-")) "0$tempExpression" else tempExpression
         Keval.eval(modifiedExpression.normalizeExpression())
     } catch (e: Exception) {
         null
