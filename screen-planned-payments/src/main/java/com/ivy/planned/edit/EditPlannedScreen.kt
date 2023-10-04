@@ -81,7 +81,6 @@ private fun BoxWithConstraintsScope.UI(
     state: EditPlannedScreenState,
     onEvent: (EditPlannedScreenEvent) -> Unit
 ) {
-    var chooseCategoryModalVisible by remember { mutableStateOf(false) }
     var categoryModalData: CategoryModalData? by remember { mutableStateOf(null) }
     var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
     var descriptionModalVisible by remember { mutableStateOf(false) }
@@ -162,7 +161,7 @@ private fun BoxWithConstraintsScope.UI(
             Category(
                 category = state.category,
                 onChooseCategory = {
-                    chooseCategoryModalVisible = true
+                    onEvent(EditPlannedScreenEvent.OnCategoryModalVisible(true))
                 }
             )
         }
@@ -239,7 +238,7 @@ private fun BoxWithConstraintsScope.UI(
             onEvent(EditPlannedScreenEvent.OnAmountChanged(it))
             when {
                 shouldFocusCategory(state.category, state.transactionType) -> {
-                    chooseCategoryModalVisible = true
+                    onEvent(EditPlannedScreenEvent.OnCategoryModalVisible(true))
                 }
 
                 shouldFocusRecurring(
@@ -274,7 +273,7 @@ private fun BoxWithConstraintsScope.UI(
 
     // Modals
     ChooseCategoryModal(
-        visible = chooseCategoryModalVisible,
+        visible = state.categoryModalVisible,
         initialCategory = state.category,
         categories = state.categories,
         showCategoryModal = { categoryModalData = CategoryModalData(it) },
@@ -288,7 +287,7 @@ private fun BoxWithConstraintsScope.UI(
             )
         },
         dismiss = {
-            chooseCategoryModalVisible = false
+            onEvent(EditPlannedScreenEvent.OnCategoryModalVisible(false))
         }
     )
 
@@ -357,7 +356,7 @@ private fun BoxWithConstraintsScope.UI(
 
             when {
                 shouldFocusCategory(state.category, state.transactionType) -> {
-                    chooseCategoryModalVisible = true
+                    onEvent(EditPlannedScreenEvent.OnCategoryModalVisible(true))
                 }
 
                 shouldFocusTitle(titleTextFieldValue, state.transactionType) -> {
@@ -418,6 +417,7 @@ private fun Preview() {
                 transactionType = TransactionType.INCOME,
                 categories = persistentListOf(),
                 accounts = persistentListOf(),
+                categoryModalVisible = false
             )
         ) {}
     }

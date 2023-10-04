@@ -66,6 +66,7 @@ class EditPlannedViewModel @Inject constructor(
     private val currency = mutableStateOf("")
     private val categories = mutableStateOf<ImmutableList<Category>>(persistentListOf())
     private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
+    private val categoryModalVisible = mutableStateOf(false)
 
 
     private var loadedRule: PlannedPaymentRule? = null
@@ -87,7 +88,8 @@ class EditPlannedViewModel @Inject constructor(
             amount = getAmount(),
             initialTitle = getInitialTitle(),
             description = getDescription(),
-            intervalType = getIntervalType()
+            intervalType = getIntervalType(),
+            categoryModalVisible = getCategoryModalVisibility()
         )
     }
 
@@ -156,6 +158,11 @@ class EditPlannedViewModel @Inject constructor(
         return amount.doubleValue
     }
 
+    @Composable
+    private fun getCategoryModalVisibility(): Boolean {
+        return categoryModalVisible.value
+    }
+
     override fun onEvent(event: EditPlannedScreenEvent) {
         when (event) {
             is EditPlannedScreenEvent.OnSave -> {
@@ -170,33 +177,29 @@ class EditPlannedViewModel @Inject constructor(
             is EditPlannedScreenEvent.OnDescriptionChanged -> {
                 updateDescription(event.newDescription)
             }
-
             is EditPlannedScreenEvent.OnCreateAccount -> {
                 createAccount(event.data)
             }
-
             is EditPlannedScreenEvent.OnCreateCategory -> {
                 createCategory(event.data)
             }
-
             is EditPlannedScreenEvent.OnAccountChanged -> {
                 updateAccount(event.newAccount)
             }
-
             is EditPlannedScreenEvent.OnAmountChanged -> {
                 updateAmount(event.newAmount)
             }
-
             is EditPlannedScreenEvent.OnTitleChanged -> {
                 updateTitle(event.newTitle)
             }
-
             is EditPlannedScreenEvent.OnRuleChanged -> {
                 updateRule(event.startDate, event.oneTime, event.intervalN, event.intervalType)
             }
-
             is EditPlannedScreenEvent.OnCategoryChanged -> {
                 updateCategory(event.newCategory)
+            }
+            is EditPlannedScreenEvent.OnCategoryModalVisible -> {
+                categoryModalVisible.value = event.visible
             }
         }
     }
