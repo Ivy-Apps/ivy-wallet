@@ -81,8 +81,6 @@ private fun BoxWithConstraintsScope.UI(
     state: EditPlannedScreenState,
     onEvent: (EditPlannedScreenEvent) -> Unit
 ) {
-    var descriptionModalVisible by remember { mutableStateOf(false) }
-    var deleteTrnModalVisible by remember { mutableStateOf(false) }
     var changeTransactionTypeModalVisible by remember { mutableStateOf(false) }
     var amountModalShown by remember { mutableStateOf(false) }
     var recurringRuleModal: RecurringRuleModalData? by remember { mutableStateOf(null) }
@@ -109,7 +107,7 @@ private fun BoxWithConstraintsScope.UI(
             type = state.transactionType,
             initialTransactionId = screen.plannedPaymentRuleId,
             onDeleteTrnModal = {
-                deleteTrnModalVisible = true
+                onEvent(EditPlannedScreenEvent.OnDeleteTransactionModalVisible(true))
             },
             onChangeTransactionTypeModal = {
                 changeTransactionTypeModalVisible = true
@@ -185,8 +183,8 @@ private fun BoxWithConstraintsScope.UI(
 
         Description(
             description = state.description,
-            onAddDescription = { descriptionModalVisible = true },
-            onEditDescription = { descriptionModalVisible = true }
+            onAddDescription = { onEvent(EditPlannedScreenEvent.OnDescriptionModalVisible(true)) },
+            onEditDescription = { onEvent(EditPlannedScreenEvent.OnDescriptionModalVisible(true)) }
         )
 
         Spacer(Modifier.height(600.dp)) // scroll hack
@@ -318,19 +316,19 @@ private fun BoxWithConstraintsScope.UI(
     )
 
     DescriptionModal(
-        visible = descriptionModalVisible,
+        visible = state.descriptionModalVisible,
         description = state.description,
         onDescriptionChanged = { onEvent(EditPlannedScreenEvent.OnDescriptionChanged(it)) },
         dismiss = {
-            descriptionModalVisible = false
+            onEvent(EditPlannedScreenEvent.OnDescriptionModalVisible(false))
         }
     )
 
     DeleteModal(
-        visible = deleteTrnModalVisible,
+        visible = state.deleteTransactionModalVisible,
         title = stringResource(R.string.confirm_deletion),
         description = stringResource(R.string.planned_payment_confirm_deletion_description),
-        dismiss = { deleteTrnModalVisible = false }
+        dismiss = { onEvent(EditPlannedScreenEvent.OnDeleteTransactionModalVisible(false)) }
     ) {
         onEvent(EditPlannedScreenEvent.OnDelete)
     }
@@ -427,7 +425,9 @@ private fun Preview() {
                 accounts = persistentListOf(),
                 categoryModalVisible = false,
                 categoryModalData = null,
-                accountModalData = null
+                accountModalData = null,
+                descriptionModalVisible = false,
+                deleteTransactionModalVisible = false
             )
         ) {}
     }

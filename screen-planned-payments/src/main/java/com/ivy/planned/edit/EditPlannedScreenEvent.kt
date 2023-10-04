@@ -31,6 +31,8 @@ sealed interface EditPlannedScreenEvent {
     data class OnCreateCategory(val data: CreateCategoryData) : EditPlannedScreenEvent
     data class OnCreateAccount(val data: CreateAccountData) : EditPlannedScreenEvent
     data class OnCategoryModalVisible(val visible: Boolean) : EditPlannedScreenEvent
+    data class OnDescriptionModalVisible(val visible: Boolean) : EditPlannedScreenEvent
+    data class OnDeleteTransactionModalVisible(val visible: Boolean) : EditPlannedScreenEvent
     data class OnCategoryModalDataChanged(val categoryModalData: CategoryModalData?) :
         EditPlannedScreenEvent
 

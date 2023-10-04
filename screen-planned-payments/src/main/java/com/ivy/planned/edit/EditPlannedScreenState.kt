@@ -26,6 +26,8 @@ data class EditPlannedScreenState(
     val category: Category?,
     val amount: Double,
     val categoryModalVisible: Boolean,
+    val descriptionModalVisible: Boolean,
+    val deleteTransactionModalVisible: Boolean,
     val categoryModalData: CategoryModalData?,
     val accountModalData: AccountModalData?,
 )

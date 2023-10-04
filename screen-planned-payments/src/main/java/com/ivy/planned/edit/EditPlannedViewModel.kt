@@ -69,6 +69,8 @@ class EditPlannedViewModel @Inject constructor(
     private val categories = mutableStateOf<ImmutableList<Category>>(persistentListOf())
     private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
     private val categoryModalVisible = mutableStateOf(false)
+    private val descriptionModalVisible = mutableStateOf(false)
+    private val deleteTransactionModalVisible = mutableStateOf(false)
     private val categoryModalData = mutableStateOf<CategoryModalData?>(null)
     private val accountModalData = mutableStateOf<AccountModalData?>(null)
 
@@ -95,6 +97,8 @@ class EditPlannedViewModel @Inject constructor(
             categoryModalVisible = getCategoryModalVisibility(),
             categoryModalData = getCategoryModalData(),
             accountModalData = getAccountModalData(),
+            deleteTransactionModalVisible = getDeleteTransactionModalVisibility(),
+            descriptionModalVisible = getDescriptionModalVisibility()
         )
     }
 
@@ -169,6 +173,16 @@ class EditPlannedViewModel @Inject constructor(
     }
 
     @Composable
+    private fun getDescriptionModalVisibility(): Boolean {
+        return descriptionModalVisible.value
+    }
+
+    @Composable
+    private fun getDeleteTransactionModalVisibility(): Boolean {
+        return deleteTransactionModalVisible.value
+    }
+
+    @Composable
     private fun getCategoryModalData(): CategoryModalData? {
         return categoryModalData.value
     }
@@ -221,6 +235,12 @@ class EditPlannedViewModel @Inject constructor(
             }
             is EditPlannedScreenEvent.OnAccountModalDataChanged -> {
                 accountModalData.value = event.accountModalData
+            }
+            is EditPlannedScreenEvent.OnDescriptionModalVisible -> {
+                descriptionModalVisible.value = event.visible
+            }
+            is EditPlannedScreenEvent.OnDeleteTransactionModalVisible -> {
+                deleteTransactionModalVisible.value = event.visible
             }
         }
     }
