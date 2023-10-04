@@ -4,6 +4,8 @@ import com.ivy.base.model.TransactionType
 import com.ivy.data.model.IntervalType
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
+import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
+import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import kotlinx.collections.immutable.ImmutableList
 import java.time.LocalDateTime
 import javax.annotation.concurrent.Immutable
@@ -23,5 +25,7 @@ data class EditPlannedScreenState(
     val account: Account?,
     val category: Category?,
     val amount: Double,
-    val categoryModalVisible: Boolean
+    val categoryModalVisible: Boolean,
+    val categoryModalData: CategoryModalData?,
+    val accountModalData: AccountModalData?,
 )

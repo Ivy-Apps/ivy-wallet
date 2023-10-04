@@ -6,6 +6,8 @@ import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
+import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
+import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import java.time.LocalDateTime
 
 sealed interface EditPlannedScreenEvent {
@@ -23,9 +25,15 @@ sealed interface EditPlannedScreenEvent {
     data class OnAccountChanged(val newAccount: Account) : EditPlannedScreenEvent
     data class OnSetTransactionType(val newTransactionType: TransactionType) :
         EditPlannedScreenEvent
+
     data class OnSave(val closeScreen: Boolean = true) : EditPlannedScreenEvent
     data object OnDelete : EditPlannedScreenEvent
     data class OnCreateCategory(val data: CreateCategoryData) : EditPlannedScreenEvent
     data class OnCreateAccount(val data: CreateAccountData) : EditPlannedScreenEvent
     data class OnCategoryModalVisible(val visible: Boolean) : EditPlannedScreenEvent
+    data class OnCategoryModalDataChanged(val categoryModalData: CategoryModalData?) :
+        EditPlannedScreenEvent
+
+    data class OnAccountModalDataChanged(val accountModalData: AccountModalData?) :
+        EditPlannedScreenEvent
 }

@@ -81,8 +81,6 @@ private fun BoxWithConstraintsScope.UI(
     state: EditPlannedScreenState,
     onEvent: (EditPlannedScreenEvent) -> Unit
 ) {
-    var categoryModalData: CategoryModalData? by remember { mutableStateOf(null) }
-    var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
     var descriptionModalVisible by remember { mutableStateOf(false) }
     var deleteTrnModalVisible by remember { mutableStateOf(false) }
     var changeTransactionTypeModalVisible by remember { mutableStateOf(false) }
@@ -263,10 +261,14 @@ private fun BoxWithConstraintsScope.UI(
         onSelectedAccountChanged = { onEvent(EditPlannedScreenEvent.OnAccountChanged(it)) },
         onToAccountChanged = { },
         onAddNewAccount = {
-            accountModalData = AccountModalData(
-                account = null,
-                baseCurrency = state.currency,
-                balance = 0.0
+            onEvent(
+                EditPlannedScreenEvent.OnAccountModalDataChanged(
+                    AccountModalData(
+                        account = null,
+                        baseCurrency = state.currency,
+                        balance = 0.0
+                    )
+                )
             )
         }
     )
@@ -276,7 +278,13 @@ private fun BoxWithConstraintsScope.UI(
         visible = state.categoryModalVisible,
         initialCategory = state.category,
         categories = state.categories,
-        showCategoryModal = { categoryModalData = CategoryModalData(it) },
+        showCategoryModal = {
+            onEvent(
+                EditPlannedScreenEvent.OnCategoryModalDataChanged(
+                    CategoryModalData(it)
+                )
+            )
+        },
         onCategoryChanged = {
             onEvent(EditPlannedScreenEvent.OnCategoryChanged(it))
             recurringRuleModal = RecurringRuleModalData(
@@ -292,20 +300,20 @@ private fun BoxWithConstraintsScope.UI(
     )
 
     CategoryModal(
-        modal = categoryModalData,
+        modal = state.categoryModalData,
         onCreateCategory = { onEvent(EditPlannedScreenEvent.OnCreateCategory(it)) },
         onEditCategory = { },
         dismiss = {
-            categoryModalData = null
+            onEvent(EditPlannedScreenEvent.OnCategoryModalDataChanged(null))
         }
     )
 
     AccountModal(
-        modal = accountModalData,
+        modal = state.accountModalData,
         onCreateAccount = { onEvent(EditPlannedScreenEvent.OnCreateAccount(it)) },
         onEditAccount = { _, _ -> },
         dismiss = {
-            accountModalData = null
+            onEvent(EditPlannedScreenEvent.OnAccountModalDataChanged(null))
         }
     )
 
@@ -417,7 +425,9 @@ private fun Preview() {
                 transactionType = TransactionType.INCOME,
                 categories = persistentListOf(),
                 accounts = persistentListOf(),
-                categoryModalVisible = false
+                categoryModalVisible = false,
+                categoryModalData = null,
+                accountModalData = null
             )
         ) {}
     }

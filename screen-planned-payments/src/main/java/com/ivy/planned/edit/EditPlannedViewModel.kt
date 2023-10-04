@@ -29,6 +29,8 @@ import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsGenerator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
+import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
+import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -67,7 +69,8 @@ class EditPlannedViewModel @Inject constructor(
     private val categories = mutableStateOf<ImmutableList<Category>>(persistentListOf())
     private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
     private val categoryModalVisible = mutableStateOf(false)
-
+    private val categoryModalData = mutableStateOf<CategoryModalData?>(null)
+    private val accountModalData = mutableStateOf<AccountModalData?>(null)
 
     private var loadedRule: PlannedPaymentRule? = null
     private var editMode = false
@@ -89,7 +92,9 @@ class EditPlannedViewModel @Inject constructor(
             initialTitle = getInitialTitle(),
             description = getDescription(),
             intervalType = getIntervalType(),
-            categoryModalVisible = getCategoryModalVisibility()
+            categoryModalVisible = getCategoryModalVisibility(),
+            categoryModalData = getCategoryModalData(),
+            accountModalData = getAccountModalData(),
         )
     }
 
@@ -163,6 +168,16 @@ class EditPlannedViewModel @Inject constructor(
         return categoryModalVisible.value
     }
 
+    @Composable
+    private fun getCategoryModalData(): CategoryModalData? {
+        return categoryModalData.value
+    }
+
+    @Composable
+    private fun getAccountModalData(): AccountModalData? {
+        return accountModalData.value
+    }
+
     override fun onEvent(event: EditPlannedScreenEvent) {
         when (event) {
             is EditPlannedScreenEvent.OnSave -> {
@@ -200,6 +215,12 @@ class EditPlannedViewModel @Inject constructor(
             }
             is EditPlannedScreenEvent.OnCategoryModalVisible -> {
                 categoryModalVisible.value = event.visible
+            }
+            is EditPlannedScreenEvent.OnCategoryModalDataChanged -> {
+                categoryModalData.value = event.categoryModalData
+            }
+            is EditPlannedScreenEvent.OnAccountModalDataChanged -> {
+                accountModalData.value = event.accountModalData
             }
         }
     }
