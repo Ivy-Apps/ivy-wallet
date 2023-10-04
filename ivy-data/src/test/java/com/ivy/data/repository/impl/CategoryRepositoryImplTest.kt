@@ -11,7 +11,10 @@ import com.ivy.data.source.LocalCategoryDataSource
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.runs
 import java.time.Instant
 import java.util.UUID
 
@@ -186,6 +189,40 @@ class CategoryRepositoryImplTest : FreeSpec({
 
             // then
             num shouldBe 15.0
+        }
+    }
+
+    "save" {
+        // given
+        val repository = newRepository()
+        val id = UUID.randomUUID()
+        val category = Category(
+            name = NotBlankTrimmedString("Home"),
+            color = ColorInt(42),
+            icon = null,
+            orderNum = 3.0,
+            removed = false,
+            lastUpdated = Instant.EPOCH,
+            id = CategoryId(id)
+        )
+        coEvery { dataSource.save(any()) } just runs
+
+        // when
+        repository.save(category)
+
+        // then
+        coVerify(exactly = 1) {
+            dataSource.save(
+                CategoryEntity(
+                    name = "Home",
+                    color = 42,
+                    icon = null,
+                    orderNum = 3.0,
+                    isSynced = true,
+                    isDeleted = false,
+                    id = id
+                )
+            )
         }
     }
 })
