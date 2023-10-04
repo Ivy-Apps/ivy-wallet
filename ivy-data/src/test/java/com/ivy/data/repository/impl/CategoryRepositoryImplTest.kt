@@ -225,4 +225,82 @@ class CategoryRepositoryImplTest : FreeSpec({
             )
         }
     }
+
+    "save many" {
+        // given
+        val repository = newRepository()
+        val id1 = UUID.randomUUID()
+        val id2 = UUID.randomUUID()
+        val id3 = UUID.randomUUID()
+        val categories = listOf(
+            Category(
+                name = NotBlankTrimmedString("Home"),
+                color = ColorInt(42),
+                icon = null,
+                orderNum = 3.0,
+                removed = false,
+                lastUpdated = Instant.EPOCH,
+                id = CategoryId(id1)
+            ),
+            Category(
+                name = NotBlankTrimmedString("Fun"),
+                color = ColorInt(42),
+                icon = null,
+                orderNum = 4.0,
+                removed = false,
+                lastUpdated = Instant.EPOCH,
+                id = CategoryId(id2)
+            ),
+            Category(
+                name = NotBlankTrimmedString("Health"),
+                color = ColorInt(42),
+                icon = null,
+                orderNum = 5.0,
+                removed = false,
+                lastUpdated = Instant.EPOCH,
+                id = CategoryId(id3)
+            )
+        )
+        coEvery { dataSource.saveMany(any()) } just runs
+
+        // when
+        repository.saveMany(categories)
+
+        // then
+        coVerify(exactly = 1) {
+            dataSource.saveMany(
+                listOf(
+                    CategoryEntity(
+                        name = "Home",
+                        color = 42,
+                        icon = null,
+                        orderNum = 3.0,
+                        isSynced = true,
+                        isDeleted = false,
+                        id = id1
+                    ),
+
+                    CategoryEntity(
+                        name = "Fun",
+                        color = 42,
+                        icon = null,
+                        orderNum = 4.0,
+                        isSynced = true,
+                        isDeleted = false,
+                        id = id2
+                    ),
+
+                    CategoryEntity(
+                        name = "Health",
+                        color = 42,
+                        icon = null,
+                        orderNum = 5.0,
+                        isSynced = true,
+                        isDeleted = false,
+                        id = id3
+                    )
+                )
+            )
+        }
+    }
 })
