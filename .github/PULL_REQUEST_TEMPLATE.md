@@ -1,20 +1,18 @@
 ## Pull Request (PR) Checklist
 Please check if your pull request fulfills the following requirements:
 - [ ] The PR is submitted to the `main` branch.
-- [ ] I've read the [Contribution Guidelines](https://github.com/Ivy-Apps/ivy-wallet/blob/main/CONTRIBUTING.md).
+- [ ] I've read the [Contribution Guidelines](https://github.com/Ivy-Apps/ivy-wallet/blob/main/CONTRIBUTING.md) and my PR doesn't break the Contributing Rules.
 - [ ] I've read the [Architecture Guidelines](https://github.com/Ivy-Apps/ivy-wallet/blob/main/docs/Architecture.md).
-- [ ] My code builds and is tested on a real Android device.
 - [ ] I confirm that I've run the code locally and everything works as expected.
+- [ ] I've attached a **screen recoding** proving that my changes work. _(tip: drag & drop the video to the PR description)_
 
 ## What's changed?
 <!--
 Tip: you can attach screenshots using a markdown table.
 
-Screenshot 1 | Screenshot 2
+Before | After
 ---|---
-copy-paste screenshot 1 | copy-paste 2
-
-Describe things in a short and straightforward manner.
+image1 | image2
 -->
 
 Describe with a few bullets **what's new:**
@@ -33,7 +31,6 @@ _💡 Tip: Please, attach screenshots and screen recordings. It helps a lot!_
 - b
 - c
 
-
 **In what cases your code won't work?**
 
 - a
@@ -45,6 +42,8 @@ _💡 Tip: Please, attach screenshots and screen recordings. It helps a lot!_
 
 Check **[Ivy Wallet Issues](https://github.com/Ivy-Apps/ivy-wallet/issues)**.
 
-- Closes #{ISSUE_NUMBER}
+- Closes #ISSUE_NUMBER
 
-_Replace `{ISSUE_NUMBER}` with the id/number of the issue that you've fixed._
+> Replace `ISSUE_NUMBER` with your issue number (for example Closes #1234). If you've done that correctly, you'll see the issue title linked when previewing your PR description.
+
+## Troubleshotting CI failures
