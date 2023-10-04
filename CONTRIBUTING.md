@@ -22,11 +22,11 @@ What do you want to work on? [Choose an issue](https://github.com/Ivy-Apps/ivy-w
 
 1. Work only on **["approved"](https://github.com/Ivy-Apps/ivy-wallet/labels/approved)** issues.
 2. For unapproved issues, mention **@ILIYANGERMANOV**.
-3. Can't find your issue? **[Create one](https://github.com/Ivy-Apps/ivy-wallet/issues/new/choose)**.
-4. Don't work on assigned issues. Ask the assignee first.
+3. Want to work on something else? **[Create a new issue](https://github.com/Ivy-Apps/ivy-wallet/issues/new/choose)**.
+4. Do **not** work on assigned issues. Ask the assignee first.
 5. Only one issue per contributor at a time.
 
-> **Reminder:** If you take an issue, finish it promptly or unassign yourself.
+> **Reminder:** If you take an issue, you're blocking others from working on it. Finish it fast or unassign yourself.
 
 ## 3. Create a feature branch in your fork
 
