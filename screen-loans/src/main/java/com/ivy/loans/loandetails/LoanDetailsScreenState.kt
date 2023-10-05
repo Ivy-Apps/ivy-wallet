@@ -17,5 +17,6 @@ data class LoanDetailsScreenState(
     val createLoanTransaction: Boolean = false,
     val loanModalData: LoanModalData? = null,
     val loanRecordModalData: LoanRecordModalData? = null,
-    val waitModalVisible: Boolean = false
+    val waitModalVisible: Boolean = false,
+    val isDeleteModalVisible: Boolean = false
 )

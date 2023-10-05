@@ -20,10 +20,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -53,6 +49,10 @@ import com.ivy.legacy.utils.formatNicelyWithTime
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.setStatusBarDarkTextCompat
 import com.ivy.loans.loan.data.DisplayLoanRecord
+import com.ivy.loans.loandetails.events.DeleteLoanModalState
+import com.ivy.loans.loandetails.events.LoanDetailsScreenEvent
+import com.ivy.loans.loandetails.events.LoanModalState
+import com.ivy.loans.loandetails.events.LoanRecordModalState
 import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
@@ -73,9 +73,7 @@ import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.isDarkColor
 import com.ivy.wallet.ui.theme.modal.DeleteModal
 import com.ivy.wallet.ui.theme.modal.LoanModal
-import com.ivy.wallet.ui.theme.modal.LoanModalData
 import com.ivy.wallet.ui.theme.modal.LoanRecordModal
-import com.ivy.wallet.ui.theme.modal.LoanRecordModalData
 import com.ivy.wallet.ui.theme.modal.ProgressModal
 import com.ivy.wallet.ui.theme.toComposeColor
 
@@ -97,8 +95,6 @@ private fun BoxWithConstraintsScope.UI(
     state: LoanDetailsScreenState = LoanDetailsScreenState()
 ) {
     val itemColor = state.loan?.color?.toComposeColor() ?: Gray
-
-    var deleteModalVisible by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -130,7 +126,7 @@ private fun BoxWithConstraintsScope.UI(
                         },
                         onDeleteLoan = {
                             onEventHandler.invoke(
-                                LoanDetailsScreenEvent.OnDismissDeleteLoan(
+                                DeleteLoanModalState.OnDismissDeleteLoan(
                                     isDeleteModalVisible = true
                                 )
                             )
@@ -161,7 +157,11 @@ private fun BoxWithConstraintsScope.UI(
                     loan = state.loan,
                     displayLoanRecords = state.displayLoanRecords,
                     onClick = { displayLoanRecord ->
-                        onEventHandler.invoke(LoanDetailsScreenEvent.OnRecordClick(displayLoanRecord))
+                        onEventHandler.invoke(
+                            LoanRecordModalState.OnClickLoanRecord(
+                                displayLoanRecord
+                            )
+                        )
                     }
                 )
             }
@@ -186,34 +186,34 @@ private fun BoxWithConstraintsScope.UI(
             // do nothing
         },
         onEditLoan = { loan, createLoanTransaction ->
-            onEventHandler.invoke(LoanDetailsScreenEvent.OnEditLoan(loan, createLoanTransaction))
+            onEventHandler.invoke(LoanModalState.OnEditLoanModal(loan, createLoanTransaction))
         },
         dismiss = {
-            onEventHandler.invoke(LoanDetailsScreenEvent.OnDismiss)
+            onEventHandler.invoke(LoanModalState.OnDismissLoanModal)
         },
         onCreateAccount = { createAccountData ->
             onEventHandler.invoke(LoanDetailsScreenEvent.OnCreateAccount(createAccountData))
         },
         accounts = state.accounts,
         onPerformCalculations = {
-            onEventHandler.invoke(LoanDetailsScreenEvent.PerformCalculation)
+            onEventHandler.invoke(LoanModalState.PerformCalculation)
         }
     )
 
     LoanRecordModal(
         modal = state.loanRecordModalData,
         onCreate = {
-            onEventHandler.invoke(LoanDetailsScreenEvent.OnCreateLoanRecord(it))
+            onEventHandler.invoke(LoanRecordModalState.OnCreateLoanRecord(it))
         },
         onEdit = {
-            onEventHandler.invoke(LoanDetailsScreenEvent.OnEditLoanRecord(it))
+            onEventHandler.invoke(LoanRecordModalState.OnEditLoanRecord(it))
         },
         onDelete = { loanRecord ->
-            onEventHandler.invoke(LoanDetailsScreenEvent.OnDeleteLoanRecord(loanRecord))
+            onEventHandler.invoke(LoanRecordModalState.OnDeleteLoanRecord(loanRecord))
         },
         accounts = state.accounts,
         dismiss = {
-            onEventHandler.invoke(LoanDetailsScreenEvent.OnLoadRecordDismiss)
+            onEventHandler.invoke(LoanRecordModalState.OnDismissLoanRecord)
         },
         onCreateAccount = { createAccountData ->
             onEventHandler.invoke(LoanDetailsScreenEvent.OnCreateAccount(createAccountData))
@@ -221,14 +221,14 @@ private fun BoxWithConstraintsScope.UI(
     )
 
     DeleteModal(
-        visible = deleteModalVisible,
+        visible = state.isDeleteModalVisible,
         title = stringResource(R.string.confirm_deletion),
         description = stringResource(R.string.loan_confirm_deletion_description),
         dismiss = {
-            onEventHandler.invoke(LoanDetailsScreenEvent.OnDismissDeleteLoan(isDeleteModalVisible = false))
+            onEventHandler.invoke(DeleteLoanModalState.OnDismissDeleteLoan(isDeleteModalVisible = false))
         }
     ) {
-        onEventHandler.invoke(LoanDetailsScreenEvent.OnDeleteLoan)
+        onEventHandler.invoke(DeleteLoanModalState.OnDeleteLoan)
     }
 
     ProgressModal(
