@@ -11,6 +11,7 @@ import java.time.Instant
 import java.util.UUID
 
 class FakeAccountRepositoryTest : FreeSpec({
+    val accountMap = mutableMapOf<AccountId, Account>()
     fun newRepository() = FakeAccountRepository()
 
     "find by id" - {
@@ -142,5 +143,28 @@ class FakeAccountRepositoryTest : FreeSpec({
             // then
             res shouldBe 0.0
         }
+    }
+
+    "save" {
+        // given
+        val repository = newRepository()
+        val id = AccountId(UUID.randomUUID())
+        val account = Account(
+            id = id,
+            name = NotBlankTrimmedString("Bank"),
+            asset = AssetCode("BGN"),
+            color = ColorInt(1),
+            icon = null,
+            includeInBalance = true,
+            orderNum = 0.0,
+            lastUpdated = Instant.EPOCH,
+            removed = false
+        )
+
+        // when
+        repository.save(account)
+
+        // then
+        accountMap[id] = account
     }
 })
