@@ -285,4 +285,70 @@ class AccountRepositoryImplTest : FreeSpec({
             )
         }
     }
+
+    "save many" {
+        // given
+        val repository = newRepository()
+        val account1Id = AccountId(UUID.randomUUID())
+        val account2Id = AccountId(UUID.randomUUID())
+        coEvery { dataSource.saveMany(any()) } just runs
+
+        // when
+        repository.saveMany(
+            listOf(
+                Account(
+                    id = account1Id,
+                    name = NotBlankTrimmedString("Bank"),
+                    asset = AssetCode("BGN"),
+                    color = ColorInt(1),
+                    icon = null,
+                    includeInBalance = true,
+                    orderNum = 1.0,
+                    lastUpdated = Instant.EPOCH,
+                    removed = false
+                ),
+                Account(
+                    id = account2Id,
+                    name = NotBlankTrimmedString("Cash"),
+                    asset = AssetCode("BGN"),
+                    color = ColorInt(2),
+                    icon = null,
+                    includeInBalance = true,
+                    orderNum = 2.0,
+                    lastUpdated = Instant.EPOCH,
+                    removed = false
+                )
+            )
+        )
+
+        // then
+        coVerify(exactly = 1) {
+            dataSource.saveMany(
+                listOf(
+                    AccountEntity(
+                        name = "Bank",
+                        currency = "BGN",
+                        color = 1,
+                        icon = null,
+                        orderNum = 1.0,
+                        includeInBalance = true,
+                        isSynced = true,
+                        isDeleted = false,
+                        id = account1Id.value
+                    ),
+                    AccountEntity(
+                        name = "Cash",
+                        currency = "BGN",
+                        color = 2,
+                        icon = null,
+                        orderNum = 2.0,
+                        includeInBalance = true,
+                        isSynced = true,
+                        isDeleted = false,
+                        id = account2Id.value
+                    )
+                )
+            )
+        }
+    }
 })
