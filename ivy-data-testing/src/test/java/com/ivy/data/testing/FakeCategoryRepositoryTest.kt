@@ -319,6 +319,54 @@ class FakeCategoryRepositoryTest : FreeSpec({
         res shouldBe categories
     }
 
+    "flag deleted" - {
+        "existing id" {
+            // given
+            val repository = newRepository()
+            val id = CategoryId(UUID.randomUUID())
+            val category = Category(
+                name = NotBlankTrimmedString("Home"),
+                color = ColorInt(42),
+                icon = null,
+                orderNum = 1.0,
+                removed = false,
+                lastUpdated = Instant.EPOCH,
+                id = id
+            )
+
+            // when
+            repository.save(category)
+            repository.flagDeleted(id)
+            val res = repository.findById(id)
+
+            // then
+            res shouldBe category.copy(removed = true)
+        }
+
+        "not existing id" {
+            // given
+            val repository = newRepository()
+            val id = CategoryId(UUID.randomUUID())
+            val category = Category(
+                name = NotBlankTrimmedString("Home"),
+                color = ColorInt(42),
+                icon = null,
+                orderNum = 1.0,
+                removed = false,
+                lastUpdated = Instant.EPOCH,
+                id = id
+            )
+
+            // when
+            repository.save(category)
+            repository.flagDeleted(CategoryId(UUID.randomUUID()))
+            val res = repository.findById(id)
+
+            // then
+            res shouldBe category
+        }
+    }
+
     "delete by id" {
         // given
         val repository = newRepository()
@@ -362,9 +410,5 @@ class FakeCategoryRepositoryTest : FreeSpec({
                 id = id1
             )
         )
-    }
-
-    "flag deleted" {
-
     }
 })
