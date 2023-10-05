@@ -398,7 +398,7 @@
     <string name="enter_account_balance">खाता शेष दर्ज करें</string>
     <string name="choose_currency">करेंसी चुनिये</string>
     <string name="calculator">कैलकुलेटर</string>
-    <string name="calculator_empty_expression">गणना (+-/*=)</string>
+    <string name="calculator_empty_expression">गणना (+-÷x=)</string>
     <string name="edit_category">श्रेणी एडिट करें</string>
     <string name="create_category">श्रेणी बनाएं</string>
     <string name="category_name">श्रेणी का नाम</string>
