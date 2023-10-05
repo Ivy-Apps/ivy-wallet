@@ -47,7 +47,7 @@ class AccountRepositoryImplTest : FreeSpec({
                 currency = "BGN",
                 color = 1,
                 icon = null,
-                orderNum = 0.0,
+                orderNum = 1.0,
                 includeInBalance = true,
                 isSynced = true,
                 isDeleted = false,
@@ -65,7 +65,7 @@ class AccountRepositoryImplTest : FreeSpec({
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
-                orderNum = 0.0,
+                orderNum = 1.0,
                 lastUpdated = Instant.EPOCH,
                 removed = false
             )
@@ -80,7 +80,7 @@ class AccountRepositoryImplTest : FreeSpec({
                 currency = "BGN",
                 color = 1,
                 icon = null,
-                orderNum = 0.0,
+                orderNum = 2.0,
                 includeInBalance = true,
                 isSynced = true,
                 isDeleted = false,
@@ -92,6 +92,84 @@ class AccountRepositoryImplTest : FreeSpec({
 
             // then
             res shouldBe null
+        }
+    }
+
+    "find all not deleted" - {
+        "empty list" {
+            // given
+            val repository = newRepository()
+            coEvery { dataSource.findAll(false) } returns emptyList()
+
+            // when
+            val res = repository.findAll(false)
+
+            // then
+            res shouldBe emptyList()
+        }
+
+        "list of valid accounts" {
+            // given
+            val repository = newRepository()
+            val account1Id = AccountId(UUID.randomUUID())
+            val account2Id = AccountId(UUID.randomUUID())
+            coEvery { dataSource.findAll(false) } returns listOf(
+                AccountEntity(
+                    name = "Bank",
+                    currency = "BGN",
+                    color = 1,
+                    icon = null,
+                    orderNum = 1.0,
+                    includeInBalance = true,
+                    isSynced = true,
+                    isDeleted = false,
+                    id = account1Id.value
+                ),
+                AccountEntity(
+                    name = "Cash",
+                    currency = "BGN",
+                    color = 2,
+                    icon = null,
+                    orderNum = 2.0,
+                    includeInBalance = true,
+                    isSynced = true,
+                    isDeleted = false,
+                    id = account2Id.value
+                )
+            )
+
+            // when
+            val res = repository.findAll(false)
+
+            // then
+            res shouldBe listOf(
+                Account(
+                    id = account1Id,
+                    name = NotBlankTrimmedString("Bank"),
+                    asset = AssetCode("BGN"),
+                    color = ColorInt(1),
+                    icon = null,
+                    includeInBalance = true,
+                    orderNum = 1.0,
+                    lastUpdated = Instant.EPOCH,
+                    removed = false
+                ),
+                Account(
+                    id = account2Id,
+                    name = NotBlankTrimmedString("Cash"),
+                    asset = AssetCode("BGN"),
+                    color = ColorInt(2),
+                    icon = null,
+                    includeInBalance = true,
+                    orderNum = 2.0,
+                    lastUpdated = Instant.EPOCH,
+                    removed = false
+                )
+            )
+        }
+
+        "list with valid and invalid accounts" {
+
         }
     }
 
