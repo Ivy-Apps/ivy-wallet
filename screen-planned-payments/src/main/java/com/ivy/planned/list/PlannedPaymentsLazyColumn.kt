@@ -15,10 +15,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -56,7 +52,6 @@ fun PlannedPaymentsLazyColumn(
     recurringExpanded: Boolean,
     setOneTimeExpanded: (Boolean) -> Unit,
     setRecurringExpanded: (Boolean) -> Unit,
-    modifier: Modifier = Modifier,
     listState: LazyListState = rememberLazyListState()
 ) {
     val nav = navigation()

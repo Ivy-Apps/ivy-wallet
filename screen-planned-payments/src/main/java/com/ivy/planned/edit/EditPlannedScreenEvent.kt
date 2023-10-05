@@ -6,6 +6,7 @@ import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
+import com.ivy.wallet.ui.theme.modal.RecurringRuleModalData
 import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import java.time.LocalDateTime
@@ -33,7 +34,12 @@ sealed interface EditPlannedScreenEvent {
     data class OnCategoryModalVisible(val visible: Boolean) : EditPlannedScreenEvent
     data class OnDescriptionModalVisible(val visible: Boolean) : EditPlannedScreenEvent
     data class OnDeleteTransactionModalVisible(val visible: Boolean) : EditPlannedScreenEvent
+    data class OnAmountModalVisible(val visible: Boolean) : EditPlannedScreenEvent
+    data class OnTransactionTypeModalVisible(val visible: Boolean) : EditPlannedScreenEvent
     data class OnCategoryModalDataChanged(val categoryModalData: CategoryModalData?) :
+        EditPlannedScreenEvent
+
+    data class OnRecurringRuleModalDataChanged(val recurringRuleModalData: RecurringRuleModalData?) :
         EditPlannedScreenEvent
 
     data class OnAccountModalDataChanged(val accountModalData: AccountModalData?) :

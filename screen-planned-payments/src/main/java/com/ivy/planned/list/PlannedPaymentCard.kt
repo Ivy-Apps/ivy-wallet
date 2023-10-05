@@ -61,7 +61,6 @@ fun LazyItemScope.PlannedPaymentCard(
     categories: ImmutableList<Category>,
     accounts: ImmutableList<Account>,
     plannedPayment: PlannedPaymentRule,
-    modifier: Modifier = Modifier,
     onClick: (PlannedPaymentRule) -> Unit,
 ) {
     Spacer(Modifier.height(12.dp))

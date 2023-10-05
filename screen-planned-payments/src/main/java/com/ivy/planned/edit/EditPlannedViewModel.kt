@@ -29,6 +29,7 @@ import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsGenerator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
+import com.ivy.wallet.ui.theme.modal.RecurringRuleModalData
 import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -71,6 +72,9 @@ class EditPlannedViewModel @Inject constructor(
     private val categoryModalVisible = mutableStateOf(false)
     private val descriptionModalVisible = mutableStateOf(false)
     private val deleteTransactionModalVisible = mutableStateOf(false)
+    private val transactionTypeModalVisible = mutableStateOf(false)
+    private val amountModalVisible = mutableStateOf(false)
+    private val recurringRuleModalData = mutableStateOf<RecurringRuleModalData?>(null)
     private val categoryModalData = mutableStateOf<CategoryModalData?>(null)
     private val accountModalData = mutableStateOf<AccountModalData?>(null)
 
@@ -98,7 +102,10 @@ class EditPlannedViewModel @Inject constructor(
             categoryModalData = getCategoryModalData(),
             accountModalData = getAccountModalData(),
             deleteTransactionModalVisible = getDeleteTransactionModalVisibility(),
-            descriptionModalVisible = getDescriptionModalVisibility()
+            descriptionModalVisible = getDescriptionModalVisibility(),
+            amountModalVisible = getAmountModalVisibility(),
+            transactionTypeModalVisible = getTransactionTypeModalVisibility(),
+            recurringRuleModalData = getRecurringRuleModalData()
         )
     }
 
@@ -183,6 +190,16 @@ class EditPlannedViewModel @Inject constructor(
     }
 
     @Composable
+    private fun getTransactionTypeModalVisibility(): Boolean {
+        return transactionTypeModalVisible.value
+    }
+
+    @Composable
+    private fun getAmountModalVisibility(): Boolean {
+        return amountModalVisible.value
+    }
+
+    @Composable
     private fun getCategoryModalData(): CategoryModalData? {
         return categoryModalData.value
     }
@@ -190,6 +207,11 @@ class EditPlannedViewModel @Inject constructor(
     @Composable
     private fun getAccountModalData(): AccountModalData? {
         return accountModalData.value
+    }
+
+    @Composable
+    private fun getRecurringRuleModalData(): RecurringRuleModalData? {
+        return recurringRuleModalData.value
     }
 
     override fun onEvent(event: EditPlannedScreenEvent) {
@@ -239,8 +261,17 @@ class EditPlannedViewModel @Inject constructor(
             is EditPlannedScreenEvent.OnDescriptionModalVisible -> {
                 descriptionModalVisible.value = event.visible
             }
+            is EditPlannedScreenEvent.OnTransactionTypeModalVisible -> {
+                transactionTypeModalVisible.value = event.visible
+            }
+            is EditPlannedScreenEvent.OnAmountModalVisible -> {
+                amountModalVisible.value = event.visible
+            }
             is EditPlannedScreenEvent.OnDeleteTransactionModalVisible -> {
                 deleteTransactionModalVisible.value = event.visible
+            }
+            is EditPlannedScreenEvent.OnRecurringRuleModalDataChanged -> {
+                recurringRuleModalData.value = event.recurringRuleModalData
             }
         }
     }

@@ -81,14 +81,10 @@ private fun BoxWithConstraintsScope.UI(
     state: EditPlannedScreenState,
     onEvent: (EditPlannedScreenEvent) -> Unit
 ) {
-    var changeTransactionTypeModalVisible by remember { mutableStateOf(false) }
-    var amountModalShown by remember { mutableStateOf(false) }
-    var recurringRuleModal: RecurringRuleModalData? by remember { mutableStateOf(null) }
-
     var titleTextFieldValue by remember(state.initialTitle) {
         mutableStateOf(
             TextFieldValue(
-                state.initialTitle ?: ""
+                state.initialTitle.orEmpty()
             )
         )
     }
@@ -110,7 +106,7 @@ private fun BoxWithConstraintsScope.UI(
                 onEvent(EditPlannedScreenEvent.OnDeleteTransactionModalVisible(true))
             },
             onChangeTransactionTypeModal = {
-                changeTransactionTypeModalVisible = true
+                onEvent(EditPlannedScreenEvent.OnTransactionTypeModalVisible(true))
             }
         )
 
@@ -136,11 +132,15 @@ private fun BoxWithConstraintsScope.UI(
                         state.intervalType,
                         state.oneTime
                     ) -> {
-                        recurringRuleModal = RecurringRuleModalData(
-                            initialStartDate = state.startDate,
-                            initialIntervalN = state.intervalN,
-                            initialIntervalType = state.intervalType,
-                            initialOneTime = state.oneTime
+                        onEvent(
+                            EditPlannedScreenEvent.OnRecurringRuleModalDataChanged(
+                                RecurringRuleModalData(
+                                    initialStartDate = state.startDate,
+                                    initialIntervalN = state.intervalN,
+                                    initialIntervalType = state.intervalType,
+                                    initialOneTime = state.oneTime
+                                )
+                            )
                         )
                     }
 
@@ -170,11 +170,15 @@ private fun BoxWithConstraintsScope.UI(
             intervalType = state.intervalType,
             oneTime = state.oneTime,
             onShowRecurringRuleModal = {
-                recurringRuleModal = RecurringRuleModalData(
-                    initialStartDate = state.startDate,
-                    initialIntervalN = state.intervalN,
-                    initialIntervalType = state.intervalType,
-                    initialOneTime = state.oneTime
+                onEvent(
+                    EditPlannedScreenEvent.OnRecurringRuleModalDataChanged(
+                        RecurringRuleModalData(
+                            initialStartDate = state.startDate,
+                            initialIntervalN = state.intervalN,
+                            initialIntervalType = state.intervalType,
+                            initialOneTime = state.oneTime
+                        )
+                    )
                 )
             }
         )
@@ -195,15 +199,19 @@ private fun BoxWithConstraintsScope.UI(
             // Create mode
             if (screen.mandatoryFilled()) {
                 // Flow Convert (Amount, Account, Category)
-                recurringRuleModal = RecurringRuleModalData(
-                    initialStartDate = state.startDate,
-                    initialIntervalN = state.intervalN,
-                    initialIntervalType = state.intervalType,
-                    initialOneTime = state.oneTime
+                onEvent(
+                    EditPlannedScreenEvent.OnRecurringRuleModalDataChanged(
+                        RecurringRuleModalData(
+                            initialStartDate = state.startDate,
+                            initialIntervalN = state.intervalN,
+                            initialIntervalType = state.intervalType,
+                            initialOneTime = state.oneTime
+                        )
+                    )
                 )
             } else {
                 // Flow Empty
-                changeTransactionTypeModalVisible = true
+                onEvent(EditPlannedScreenEvent.OnTransactionTypeModalVisible(true))
             }
         }
     }
@@ -225,9 +233,9 @@ private fun BoxWithConstraintsScope.UI(
             }
         },
 
-        amountModalShown = amountModalShown,
+        amountModalShown = state.amountModalVisible,
         setAmountModalShown = {
-            amountModalShown = it
+            onEvent(EditPlannedScreenEvent.OnAmountModalVisible(it))
         },
 
         onAmountChanged = {
@@ -243,11 +251,15 @@ private fun BoxWithConstraintsScope.UI(
                     state.intervalType,
                     state.oneTime
                 ) -> {
-                    recurringRuleModal = RecurringRuleModalData(
-                        initialStartDate = state.startDate,
-                        initialIntervalN = state.intervalN,
-                        initialIntervalType = state.intervalType,
-                        initialOneTime = state.oneTime
+                    onEvent(
+                        EditPlannedScreenEvent.OnRecurringRuleModalDataChanged(
+                            RecurringRuleModalData(
+                                initialStartDate = state.startDate,
+                                initialIntervalN = state.intervalN,
+                                initialIntervalType = state.intervalType,
+                                initialOneTime = state.oneTime
+                            )
+                        )
                     )
                 }
 
@@ -285,11 +297,15 @@ private fun BoxWithConstraintsScope.UI(
         },
         onCategoryChanged = {
             onEvent(EditPlannedScreenEvent.OnCategoryChanged(it))
-            recurringRuleModal = RecurringRuleModalData(
-                initialStartDate = state.startDate,
-                initialIntervalN = state.intervalN,
-                initialIntervalType = state.intervalType,
-                initialOneTime = state.oneTime
+            onEvent(
+                EditPlannedScreenEvent.OnRecurringRuleModalDataChanged(
+                    RecurringRuleModalData(
+                        initialStartDate = state.startDate,
+                        initialIntervalN = state.intervalN,
+                        initialIntervalType = state.intervalType,
+                        initialOneTime = state.oneTime
+                    )
+                )
             )
         },
         dismiss = {
@@ -335,21 +351,21 @@ private fun BoxWithConstraintsScope.UI(
 
     ChangeTransactionTypeModal(
         title = stringResource(R.string.set_payment_type),
-        visible = changeTransactionTypeModalVisible,
+        visible = state.transactionTypeModalVisible,
         includeTransferType = false,
         initialType = state.transactionType,
         dismiss = {
-            changeTransactionTypeModalVisible = false
+            onEvent(EditPlannedScreenEvent.OnTransactionTypeModalVisible(false))
         }
     ) {
         onEvent(EditPlannedScreenEvent.OnSetTransactionType(it))
         if (shouldFocusAmount(state.amount)) {
-            amountModalShown = true
+            onEvent(EditPlannedScreenEvent.OnTransactionTypeModalVisible(true))
         }
     }
 
     RecurringRuleModal(
-        modal = recurringRuleModal,
+        modal = state.recurringRuleModalData,
         onRuleChanged = { newStartDate, newOneTime, newIntervalN, newIntervalType ->
             onEvent(
                 EditPlannedScreenEvent.OnRuleChanged(
@@ -371,7 +387,7 @@ private fun BoxWithConstraintsScope.UI(
             }
         },
         dismiss = {
-            recurringRuleModal = null
+            onEvent(EditPlannedScreenEvent.OnRecurringRuleModalDataChanged(null))
         }
     )
 }
@@ -427,7 +443,10 @@ private fun Preview() {
                 categoryModalData = null,
                 accountModalData = null,
                 descriptionModalVisible = false,
-                deleteTransactionModalVisible = false
+                deleteTransactionModalVisible = false,
+                recurringRuleModalData = null,
+                transactionTypeModalVisible = false,
+                amountModalVisible = false
             )
         ) {}
     }
