@@ -48,10 +48,10 @@ fun CircleButton(
     Icon(
         modifier = modifier
             .clip(CircleShape)
-            .clickable(onClick = onClick)
             .background(backgroundColor, CircleShape)
             .border(2.dp, borderColor, CircleShape)
-            .padding(6.dp), // enlarge click area
+            .padding(6.dp)
+            .clickable(onClick = onClick), // enlarge click area
         painter = painterResource(id = icon),
         contentDescription = contentDescription,
         tint = tint ?: Color.Unspecified
@@ -72,9 +72,9 @@ fun CircleButtonFilled(
     Icon(
         modifier = modifier
             .clip(CircleShape)
-            .clickable(onClick = onClick)
             .background(backgroundColor, CircleShape)
-            .padding(clickAreaPadding), // enlarge click area
+            .padding(clickAreaPadding)
+            .clickable(onClick = onClick), // enlarge click area
         painter = painterResource(id = icon),
         contentDescription = contentDescription,
         tint = tint ?: Color.Unspecified
@@ -95,9 +95,9 @@ fun CircleButtonFilledGradient(
     Icon(
         modifier = modifier
             .clip(CircleShape)
-            .clickable(onClick = onClick)
             .background(backgroundGradient.asHorizontalBrush(), CircleShape)
-            .padding(iconPadding), // enlarge click area
+            .padding(iconPadding)
+            .clickable(onClick = onClick), // enlarge click area
 
         painter = painterResource(id = icon),
         contentDescription = contentDescription,
