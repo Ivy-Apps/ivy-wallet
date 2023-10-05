@@ -197,28 +197,65 @@ class FakeAccountRepositoryTest : FreeSpec({
         }
     }
 
-    "save" {
-        // given
-        val repository = newRepository()
-        val id = AccountId(UUID.randomUUID())
-        val account = Account(
-            id = id,
-            name = NotBlankTrimmedString("Bank"),
-            asset = AssetCode("BGN"),
-            color = ColorInt(1),
-            icon = null,
-            includeInBalance = true,
-            orderNum = 0.0,
-            lastUpdated = Instant.EPOCH,
-            removed = false
-        )
+    "save" - {
+        "create new" {
+            // given
+            val repository = newRepository()
+            val id = AccountId(UUID.randomUUID())
+            val account = Account(
+                id = id,
+                name = NotBlankTrimmedString("Bank"),
+                asset = AssetCode("BGN"),
+                color = ColorInt(1),
+                icon = null,
+                includeInBalance = true,
+                orderNum = 0.0,
+                lastUpdated = Instant.EPOCH,
+                removed = false
+            )
 
-        // when
-        repository.save(account)
-        val res = repository.findById(account.id)
+            // when
+            repository.save(account)
+            val res = repository.findById(account.id)
 
-        // then
-        res shouldBe account
+            // then
+            res shouldBe account
+        }
+
+        "update existing" {
+            // given
+            val repository = newRepository()
+            val id = AccountId(UUID.randomUUID())
+            val account = Account(
+                id = id,
+                name = NotBlankTrimmedString("Bank"),
+                asset = AssetCode("BGN"),
+                color = ColorInt(1),
+                icon = null,
+                includeInBalance = true,
+                orderNum = 0.0,
+                lastUpdated = Instant.EPOCH,
+                removed = false
+            )
+
+            // when
+            repository.save(account)
+            repository.save(account.copy(name = NotBlankTrimmedString("Cash")))
+            val res = repository.findById(id)
+
+            // then
+            res shouldBe Account(
+                id = id,
+                name = NotBlankTrimmedString("Cash"),
+                asset = AssetCode("BGN"),
+                color = ColorInt(1),
+                icon = null,
+                includeInBalance = true,
+                orderNum = 0.0,
+                lastUpdated = Instant.EPOCH,
+                removed = false
+            )
+        }
     }
 
     "save many" {
