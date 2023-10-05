@@ -404,14 +404,16 @@ class FakeAccountRepositoryTest : FreeSpec({
                     includeInBalance = true,
                     orderNum = 2.0,
                     lastUpdated = Instant.EPOCH,
-                    removed = false
+                    removed = true
                 )
             )
         )
         repository.deleteAll()
-        val res = repository.findAll(false)
+        val notDeleted = repository.findAll(false)
+        val deleted = repository.findAll(true)
 
         // then
-        res shouldBe emptyList()
+        notDeleted shouldBe emptyList()
+        deleted shouldBe emptyList()
     }
 })
