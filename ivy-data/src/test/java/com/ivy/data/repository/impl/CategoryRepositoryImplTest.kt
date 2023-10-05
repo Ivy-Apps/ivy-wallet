@@ -308,7 +308,6 @@ class CategoryRepositoryImplTest : FreeSpec({
         // given
         val repository = newRepository()
         val categoryId = CategoryId(UUID.randomUUID())
-
         coEvery { dataSource.deleteById(any()) } just runs
 
         // when
@@ -317,6 +316,21 @@ class CategoryRepositoryImplTest : FreeSpec({
         // then
         coVerify(exactly = 1) {
             dataSource.deleteById(categoryId.value)
+        }
+    }
+
+    "flag deleted" {
+        // given
+        val repository = newRepository()
+        val categoryId = CategoryId(UUID.randomUUID())
+        coEvery { dataSource.flagDeleted(any()) } just runs
+
+        // when
+        repository.flagDeleted(categoryId)
+
+        // then
+        coVerify(exactly = 1) {
+            dataSource.flagDeleted(categoryId.value)
         }
     }
 })
