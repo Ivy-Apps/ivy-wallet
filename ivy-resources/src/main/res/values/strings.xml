@@ -207,7 +207,7 @@
     <string name="enter_account_balance">Enter account balance</string>
     <string name="choose_currency">Choose currency</string>
     <string name="calculator">Calculator</string>
-    <string name="calculator_empty_expression">Calculation (+-/*=)</string>
+    <string name="calculator_empty_expression">Calculation (+-÷x=)</string>
     <string name="edit_category">Edit category</string>
     <string name="create_category">Create category</string>
     <string name="category_name">Category name</string>
