@@ -1,8 +1,9 @@
 package com.ivy.data.model.primitive
 
 import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.core.spec.style.FreeSpec
-import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.shouldBe
 
 class IconIdTest : FreeSpec({
     "fails for blank ids" {
@@ -16,8 +17,13 @@ class IconIdTest : FreeSpec({
     }
 
     "icon ids should be always lowercase and trimmed" {
-        IconAsset.from(" iCoN ")
-            .isRight { it.id == "icon" }
-            .shouldBeTrue()
+        // given
+        val rawInput = " iCoN "
+
+        // when
+        val res = IconAsset.from(rawInput)
+
+        // then
+        res.shouldBeRight() shouldBe IconAsset("icon")
     }
 })
