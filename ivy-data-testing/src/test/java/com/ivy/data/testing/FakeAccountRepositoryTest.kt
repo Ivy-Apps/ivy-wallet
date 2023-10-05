@@ -207,4 +207,18 @@ class FakeAccountRepositoryTest : FreeSpec({
             repository.save(it)
         }
     }
+
+    "flag deleted" {
+        // given
+        val repository = newRepository()
+        val id = AccountId(UUID.randomUUID())
+
+        // when
+        repository.flagDeleted(id)
+
+        // then
+        accountMap.computeIfPresent(id) { _, acc ->
+            acc.copy(removed = true)
+        }
+    }
 })
