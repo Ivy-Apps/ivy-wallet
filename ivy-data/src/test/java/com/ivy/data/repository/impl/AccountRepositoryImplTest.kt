@@ -351,4 +351,19 @@ class AccountRepositoryImplTest : FreeSpec({
             )
         }
     }
+
+    "flag deleted" {
+        // given
+        val repository = newRepository()
+        val accountId = AccountId(UUID.randomUUID())
+        coEvery { dataSource.flagDeleted(any()) } just runs
+
+        // when
+        repository.flagDeleted(accountId)
+
+        // then
+        coVerify(exactly = 1) {
+            dataSource.flagDeleted(accountId.value)
+        }
+    }
 })
