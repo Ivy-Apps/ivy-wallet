@@ -65,4 +65,75 @@ class FakeCategoryRepositoryTest : FreeSpec({
 
         }
     }
+
+    "find by id" - {
+        "existing id" {
+            // given
+            val repository = newRepository()
+            val id1 = CategoryId(UUID.randomUUID())
+            val id2 = CategoryId(UUID.randomUUID())
+            val category2 = Category(
+                name = NotBlankTrimmedString("Fun"),
+                color = ColorInt(42),
+                icon = null,
+                orderNum = 2.0,
+                removed = true,
+                lastUpdated = Instant.EPOCH,
+                id = id2
+            )
+            val categories = listOf(
+                Category(
+                    name = NotBlankTrimmedString("Home"),
+                    color = ColorInt(42),
+                    icon = null,
+                    orderNum = 1.0,
+                    removed = false,
+                    lastUpdated = Instant.EPOCH,
+                    id = id1
+                ),
+                category2
+            )
+
+            // when
+            repository.saveMany(categories)
+            val res = repository.findById(id2)
+
+            // then
+            res shouldBe category2
+        }
+
+        "not existing id" {
+            // given
+            val repository = newRepository()
+            val id1 = CategoryId(UUID.randomUUID())
+            val id2 = CategoryId(UUID.randomUUID())
+            val categories = listOf(
+                Category(
+                    name = NotBlankTrimmedString("Home"),
+                    color = ColorInt(42),
+                    icon = null,
+                    orderNum = 1.0,
+                    removed = false,
+                    lastUpdated = Instant.EPOCH,
+                    id = id1
+                ),
+                Category(
+                    name = NotBlankTrimmedString("Fun"),
+                    color = ColorInt(42),
+                    icon = null,
+                    orderNum = 2.0,
+                    removed = true,
+                    lastUpdated = Instant.EPOCH,
+                    id = id2
+                )
+            )
+
+            // when
+            repository.saveMany(categories)
+            val res = repository.findById(CategoryId(UUID.randomUUID()))
+
+            // then
+            res shouldBe null
+        }
+    }
 })
