@@ -12,7 +12,10 @@ import com.ivy.data.source.LocalAccountDataSource
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.runs
 import java.time.Instant
 import java.util.UUID
 
@@ -169,7 +172,52 @@ class AccountRepositoryImplTest : FreeSpec({
         }
 
         "list with valid and invalid accounts" {
+            // given
+            val repository = newRepository()
+            val account1Id = AccountId(UUID.randomUUID())
+            val account2Id = AccountId(UUID.randomUUID())
+            coEvery { dataSource.findAll(false) } returns listOf(
+                AccountEntity(
+                    name = "Bank",
+                    currency = "BGN",
+                    color = 1,
+                    icon = null,
+                    orderNum = 1.0,
+                    includeInBalance = true,
+                    isSynced = true,
+                    isDeleted = false,
+                    id = account1Id.value
+                ),
+                AccountEntity(
+                    name = "  ",
+                    currency = "BGN",
+                    color = 2,
+                    icon = null,
+                    orderNum = 2.0,
+                    includeInBalance = true,
+                    isSynced = true,
+                    isDeleted = false,
+                    id = account2Id.value
+                )
+            )
 
+            // when
+            val res = repository.findAll(false)
+
+            // then
+            res shouldBe listOf(
+                Account(
+                    id = account1Id,
+                    name = NotBlankTrimmedString("Bank"),
+                    asset = AssetCode("BGN"),
+                    color = ColorInt(1),
+                    icon = null,
+                    includeInBalance = true,
+                    orderNum = 1.0,
+                    lastUpdated = Instant.EPOCH,
+                    removed = false
+                )
+            )
         }
     }
 
@@ -196,6 +244,45 @@ class AccountRepositoryImplTest : FreeSpec({
 
             // then
             orderNum shouldBe 42.0
+        }
+    }
+
+    "save" {
+        // given
+        val repository = newRepository()
+        val accountId = AccountId(UUID.randomUUID())
+        coEvery { dataSource.save(any()) } just runs
+
+        // when
+        repository.save(
+            Account(
+                id = accountId,
+                name = NotBlankTrimmedString("Bank"),
+                asset = AssetCode("BGN"),
+                color = ColorInt(1),
+                icon = null,
+                includeInBalance = true,
+                orderNum = 1.0,
+                lastUpdated = Instant.EPOCH,
+                removed = false
+            )
+        )
+
+        // then
+        coVerify(exactly = 1) {
+            dataSource.save(
+                AccountEntity(
+                    name = "Bank",
+                    currency = "BGN",
+                    color = 1,
+                    icon = null,
+                    orderNum = 1.0,
+                    includeInBalance = true,
+                    isSynced = true,
+                    isDeleted = false,
+                    id = accountId.value
+                )
+            )
         }
     }
 })
