@@ -167,4 +167,44 @@ class FakeAccountRepositoryTest : FreeSpec({
         // then
         accountMap[id] = account
     }
+
+    "save many" {
+        // given
+        val repository = newRepository()
+        val id1 = AccountId(UUID.randomUUID())
+        val id2 = AccountId(UUID.randomUUID())
+        val accounts = listOf(
+            Account(
+                id = id1,
+                name = NotBlankTrimmedString("Bank"),
+                asset = AssetCode("BGN"),
+                color = ColorInt(1),
+                icon = null,
+                includeInBalance = true,
+                orderNum = 1.0,
+                lastUpdated = Instant.EPOCH,
+                removed = false
+            ),
+
+            Account(
+                id = id2,
+                name = NotBlankTrimmedString("Cash"),
+                asset = AssetCode("BGN"),
+                color = ColorInt(1),
+                icon = null,
+                includeInBalance = true,
+                orderNum = 2.0,
+                lastUpdated = Instant.EPOCH,
+                removed = false
+            )
+        )
+
+        // when
+        repository.saveMany(accounts)
+
+        // then
+        accounts.forEach {
+            repository.save(it)
+        }
+    }
 })
