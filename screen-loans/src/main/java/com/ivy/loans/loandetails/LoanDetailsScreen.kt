@@ -24,6 +24,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Red
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -48,6 +50,7 @@ import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.formatNicelyWithTime
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.setStatusBarDarkTextCompat
+import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.loans.loan.data.DisplayLoanRecord
 import com.ivy.loans.loandetails.events.DeleteLoanModalState
 import com.ivy.loans.loandetails.events.LoanDetailsScreenEvent
@@ -76,6 +79,7 @@ import com.ivy.wallet.ui.theme.modal.LoanModal
 import com.ivy.wallet.ui.theme.modal.LoanRecordModal
 import com.ivy.wallet.ui.theme.modal.ProgressModal
 import com.ivy.wallet.ui.theme.toComposeColor
+import java.util.UUID
 
 @Composable
 fun BoxWithConstraintsScope.LoanDetailsScreen(screen: LoanDetailsScreen) {
@@ -84,8 +88,7 @@ fun BoxWithConstraintsScope.LoanDetailsScreen(screen: LoanDetailsScreen) {
     val state = viewModel.uiState()
 
     UI(
-        onEventHandler = viewModel::onEvent,
-        state = state
+        onEventHandler = viewModel::onEvent, state = state
     )
 }
 
@@ -114,8 +117,7 @@ private fun BoxWithConstraintsScope.UI(
         ) {
             item {
                 if (state.loan != null) {
-                    Header(
-                        loan = state.loan,
+                    Header(loan = state.loan,
                         baseCurrency = state.baseCurrency,
                         amountPaid = state.amountPaid,
                         loanAmountPaid = state.loanAmountPaid,
@@ -136,8 +138,7 @@ private fun BoxWithConstraintsScope.UI(
                         },
                         onAddRecord = {
                             onEventHandler.invoke(LoanDetailsScreenEvent.OnAddRecord)
-                        }
-                    )
+                        })
                 }
             }
 
@@ -153,8 +154,7 @@ private fun BoxWithConstraintsScope.UI(
             }
 
             if (state.loan != null) {
-                loanRecords(
-                    loan = state.loan,
+                loanRecords(loan = state.loan,
                     displayLoanRecords = state.displayLoanRecords,
                     onClick = { displayLoanRecord ->
                         onEventHandler.invoke(
@@ -162,8 +162,7 @@ private fun BoxWithConstraintsScope.UI(
                                 displayLoanRecord
                             )
                         )
-                    }
-                )
+                    })
             }
 
             if (state.displayLoanRecords.isEmpty()) {
@@ -180,54 +179,36 @@ private fun BoxWithConstraintsScope.UI(
         }
     }
 
-    LoanModal(
-        modal = state.loanModalData,
-        onCreateLoan = {
-            // do nothing
-        },
-        onEditLoan = { loan, createLoanTransaction ->
-            onEventHandler.invoke(LoanModalState.OnEditLoanModal(loan, createLoanTransaction))
-        },
-        dismiss = {
-            onEventHandler.invoke(LoanModalState.OnDismissLoanModal)
-        },
-        onCreateAccount = { createAccountData ->
-            onEventHandler.invoke(LoanDetailsScreenEvent.OnCreateAccount(createAccountData))
-        },
-        accounts = state.accounts,
-        onPerformCalculations = {
-            onEventHandler.invoke(LoanModalState.PerformCalculation)
-        }
-    )
+    LoanModal(modal = state.loanModalData, onCreateLoan = {
+        // do nothing
+    }, onEditLoan = { loan, createLoanTransaction ->
+        onEventHandler.invoke(LoanModalState.OnEditLoanModal(loan, createLoanTransaction))
+    }, dismiss = {
+        onEventHandler.invoke(LoanModalState.OnDismissLoanModal)
+    }, onCreateAccount = { createAccountData ->
+        onEventHandler.invoke(LoanDetailsScreenEvent.OnCreateAccount(createAccountData))
+    }, accounts = state.accounts, onPerformCalculations = {
+        onEventHandler.invoke(LoanModalState.PerformCalculation)
+    })
 
-    LoanRecordModal(
-        modal = state.loanRecordModalData,
-        onCreate = {
-            onEventHandler.invoke(LoanRecordModalState.OnCreateLoanRecord(it))
-        },
-        onEdit = {
-            onEventHandler.invoke(LoanRecordModalState.OnEditLoanRecord(it))
-        },
-        onDelete = { loanRecord ->
-            onEventHandler.invoke(LoanRecordModalState.OnDeleteLoanRecord(loanRecord))
-        },
-        accounts = state.accounts,
-        dismiss = {
-            onEventHandler.invoke(LoanRecordModalState.OnDismissLoanRecord)
-        },
-        onCreateAccount = { createAccountData ->
-            onEventHandler.invoke(LoanDetailsScreenEvent.OnCreateAccount(createAccountData))
-        }
-    )
+    LoanRecordModal(modal = state.loanRecordModalData, onCreate = {
+        onEventHandler.invoke(LoanRecordModalState.OnCreateLoanRecord(it))
+    }, onEdit = {
+        onEventHandler.invoke(LoanRecordModalState.OnEditLoanRecord(it))
+    }, onDelete = { loanRecord ->
+        onEventHandler.invoke(LoanRecordModalState.OnDeleteLoanRecord(loanRecord))
+    }, accounts = state.accounts, dismiss = {
+        onEventHandler.invoke(LoanRecordModalState.OnDismissLoanRecord)
+    }, onCreateAccount = { createAccountData ->
+        onEventHandler.invoke(LoanDetailsScreenEvent.OnCreateAccount(createAccountData))
+    })
 
-    DeleteModal(
-        visible = state.isDeleteModalVisible,
+    DeleteModal(visible = state.isDeleteModalVisible,
         title = stringResource(R.string.confirm_deletion),
         description = stringResource(R.string.loan_confirm_deletion_description),
         dismiss = {
             onEventHandler.invoke(DeleteLoanModalState.OnDismissDeleteLoan(isDeleteModalVisible = false))
-        }
-    ) {
+        }) {
         onEventHandler.invoke(DeleteLoanModalState.OnDeleteLoan)
     }
 
@@ -263,9 +244,7 @@ private fun Header(
         Spacer(Modifier.height(20.dp))
 
         ItemStatisticToolbar(
-            contrastColor = contrastColor,
-            onEdit = onEditLoan,
-            onDelete = onDeleteLoan
+            contrastColor = contrastColor, onEdit = onEditLoan, onDelete = onDeleteLoan
         )
 
         Spacer(Modifier.height(24.dp))
@@ -316,23 +295,17 @@ private fun LoanItem(
             .padding(start = 22.dp)
             .clickableNoIndication {
                 onClick()
-            },
-        verticalAlignment = Alignment.CenterVertically
+            }, verticalAlignment = Alignment.CenterVertically
     ) {
         ItemIconMDefaultIcon(
-            iconName = loan.icon,
-            defaultIcon = R.drawable.ic_custom_loan_m,
-            tint = contrastColor
+            iconName = loan.icon, defaultIcon = R.drawable.ic_custom_loan_m, tint = contrastColor
         )
 
         Spacer(Modifier.width(8.dp))
 
         Text(
-            modifier = Modifier.testTag("loan_name"),
-            text = loan.name,
-            style = UI.typo.b1.style(
-                color = contrastColor,
-                fontWeight = FontWeight.ExtraBold
+            modifier = Modifier.testTag("loan_name"), text = loan.name, style = UI.typo.b1.style(
+                color = contrastColor, fontWeight = FontWeight.ExtraBold
             )
         )
 
@@ -376,8 +349,7 @@ private fun LoanInfoCard(
             .fillMaxWidth()
             .padding(horizontal = 24.dp)
             .drawColoredShadow(
-                color = backgroundColor,
-                alpha = 0.1f
+                color = backgroundColor, alpha = 0.1f
             )
             .background(backgroundColor, UI.shapes.r2),
     ) {
@@ -390,8 +362,7 @@ private fun LoanInfoCard(
                 modifier = Modifier.padding(top = 8.dp, start = 24.dp),
                 text = stringResource(R.string.paid),
                 style = UI.typo.c.style(
-                    color = contrastColor,
-                    fontWeight = FontWeight.ExtraBold
+                    color = contrastColor, fontWeight = FontWeight.ExtraBold
                 )
             )
             if (selectedLoanAccount != null) {
@@ -406,16 +377,14 @@ private fun LoanInfoCard(
                         defaultIcon = R.drawable.ic_custom_account_s
                     ),
                     textStyle = UI.typo.c.style(
-                        color = contrastColor,
-                        fontWeight = FontWeight.ExtraBold
+                        color = contrastColor, fontWeight = FontWeight.ExtraBold
                     ),
                     padding = 8.dp,
                     iconEdgePadding = 10.dp
                 ) {
                     nav.navigateTo(
                         TransactionsScreen(
-                            accountId = selectedLoanAccount.id,
-                            categoryId = null
+                            accountId = selectedLoanAccount.id, categoryId = null
                         )
                     )
                 }
@@ -433,16 +402,14 @@ private fun LoanInfoCard(
                 .testTag("amount_paid"),
             text = "${amountPaid.format(baseCurrency)} / ${loan.amount.format(baseCurrency)}",
             style = UI.typo.nB1.style(
-                color = contrastColor,
-                fontWeight = FontWeight.ExtraBold
+                color = contrastColor, fontWeight = FontWeight.ExtraBold
             )
         )
         Text(
             modifier = Modifier.padding(horizontal = 24.dp),
             text = IvyCurrency.fromCode(baseCurrency)?.name ?: "",
             style = UI.typo.b2.style(
-                color = contrastColor,
-                fontWeight = FontWeight.Normal
+                color = contrastColor, fontWeight = FontWeight.Normal
             )
         )
 
@@ -456,28 +423,20 @@ private fun LoanInfoCard(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                modifier = Modifier
-                    .testTag("percent_paid"),
+                modifier = Modifier.testTag("percent_paid"),
                 text = "${percentPaid.times(100).format(2)}%",
                 style = UI.typo.nB1.style(
-                    color = contrastColor,
-                    fontWeight = FontWeight.ExtraBold
+                    color = contrastColor, fontWeight = FontWeight.ExtraBold
                 )
             )
 
             Spacer(Modifier.width(8.dp))
 
             Text(
-                modifier = Modifier
-                    .testTag("left_to_pay"),
-                text = stringResource(
-                    R.string.left_to_pay,
-                    leftToPay.format(baseCurrency),
-                    baseCurrency
-                ),
-                style = UI.typo.nB2.style(
-                    color = Gray,
-                    fontWeight = FontWeight.ExtraBold
+                modifier = Modifier.testTag("left_to_pay"), text = stringResource(
+                    R.string.left_to_pay, leftToPay.format(baseCurrency), baseCurrency
+                ), style = UI.typo.nB2.style(
+                    color = Gray, fontWeight = FontWeight.ExtraBold
                 )
             )
         }
@@ -506,8 +465,7 @@ private fun LoanInfoCard(
                 modifier = Modifier.padding(horizontal = 24.dp),
                 text = stringResource(R.string.loan_interest),
                 style = UI.typo.c.style(
-                    color = contrastColor,
-                    fontWeight = FontWeight.ExtraBold
+                    color = contrastColor, fontWeight = FontWeight.ExtraBold
                 )
             )
 
@@ -520,28 +478,20 @@ private fun LoanInfoCard(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    modifier = Modifier
-                        .testTag("loan_interest_percent_paid"),
+                    modifier = Modifier.testTag("loan_interest_percent_paid"),
                     text = "${loanPercentPaid.times(100).format(2)}%",
                     style = UI.typo.nB1.style(
-                        color = contrastColor,
-                        fontWeight = FontWeight.ExtraBold
+                        color = contrastColor, fontWeight = FontWeight.ExtraBold
                     )
                 )
 
                 Spacer(Modifier.width(8.dp))
 
                 Text(
-                    modifier = Modifier
-                        .testTag("interest_paid"),
-                    text = stringResource(
-                        R.string.interest_paid,
-                        loanAmountPaid.format(baseCurrency),
-                        baseCurrency
-                    ),
-                    style = UI.typo.nB2.style(
-                        color = Gray,
-                        fontWeight = FontWeight.ExtraBold
+                    modifier = Modifier.testTag("interest_paid"), text = stringResource(
+                        R.string.interest_paid, loanAmountPaid.format(baseCurrency), baseCurrency
+                    ), style = UI.typo.nB2.style(
+                        color = Gray, fontWeight = FontWeight.ExtraBold
                     )
                 )
             }
@@ -569,8 +519,7 @@ private fun LoanInfoCard(
             shadowAlpha = 0.1f,
             backgroundGradient = Gradient.solid(contrastColor),
             textStyle = UI.typo.b2.style(
-                color = findContrastTextColor(contrastColor),
-                fontWeight = FontWeight.Bold
+                color = findContrastTextColor(contrastColor), fontWeight = FontWeight.Bold
             ),
             wrapContentMode = false
         ) {
@@ -614,17 +563,15 @@ private fun LoanRecordItem(
     onClick: () -> Unit
 ) {
     val nav = navigation()
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .clip(UI.shapes.r4)
-            .clickable {
-                onClick()
-            }
-            .background(UI.colors.medium, UI.shapes.r4)
-            .testTag("loan_record_item")
-    ) {
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 16.dp)
+        .clip(UI.shapes.r4)
+        .clickable {
+            onClick()
+        }
+        .background(UI.colors.medium, UI.shapes.r4)
+        .testTag("loan_record_item")) {
         if (account != null || loanRecord.interest) {
             Row(Modifier.padding(16.dp)) {
                 if (account != null) {
@@ -634,20 +581,17 @@ private fun LoanRecordItem(
                         iconTint = UI.colors.pureInverse,
                         text = account.name,
                         iconStart = getCustomIconIdS(
-                            iconName = account.icon,
-                            defaultIcon = R.drawable.ic_custom_account_s
+                            iconName = account.icon, defaultIcon = R.drawable.ic_custom_account_s
                         ),
                         textStyle = UI.typo.c.style(
-                            color = UI.colors.pureInverse,
-                            fontWeight = FontWeight.ExtraBold
+                            color = UI.colors.pureInverse, fontWeight = FontWeight.ExtraBold
                         ),
                         padding = 8.dp,
                         iconEdgePadding = 10.dp
                     ) {
                         nav.navigateTo(
                             TransactionsScreen(
-                                accountId = account.id,
-                                categoryId = null
+                                accountId = account.id, categoryId = null
                             )
                         )
                     }
@@ -665,12 +609,10 @@ private fun LoanRecordItem(
                         iconTint = textIconColor,
                         text = stringResource(R.string.interest),
                         iconStart = getCustomIconIdS(
-                            iconName = "currency",
-                            defaultIcon = R.drawable.ic_currency
+                            iconName = "currency", defaultIcon = R.drawable.ic_currency
                         ),
                         textStyle = UI.typo.c.style(
-                            color = textIconColor,
-                            fontWeight = FontWeight.ExtraBold
+                            color = textIconColor, fontWeight = FontWeight.ExtraBold
                         ),
                         padding = 8.dp,
                         iconEdgePadding = 10.dp
@@ -689,8 +631,7 @@ private fun LoanRecordItem(
                 noWeekDay = false
             ).uppercase(),
             style = UI.typo.nC.style(
-                color = Gray,
-                fontWeight = FontWeight.Bold
+                color = Gray, fontWeight = FontWeight.Bold
             )
         )
 
@@ -699,8 +640,7 @@ private fun LoanRecordItem(
                 modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
                 text = loanRecord.note!!,
                 style = UI.typo.b1.style(
-                    fontWeight = FontWeight.ExtraBold,
-                    color = UI.colors.pureInverse
+                    fontWeight = FontWeight.ExtraBold, color = UI.colors.pureInverse
                 )
             )
         }
@@ -721,8 +661,7 @@ private fun LoanRecordItem(
                 modifier = Modifier.padding(start = 68.dp),
                 text = loanRecord.convertedAmount!!.format(baseCurrency) + " $loanBaseCurrency",
                 style = UI.typo.nB2.style(
-                    color = Gray,
-                    fontWeight = FontWeight.Normal
+                    color = Gray, fontWeight = FontWeight.Normal
                 )
             )
         }
@@ -734,23 +673,19 @@ private fun LoanRecordItem(
 @Composable
 private fun NoLoanRecordsEmptyState() {
     Column(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(Modifier.height(32.dp))
 
         IvyIcon(
-            icon = R.drawable.ic_notransactions,
-            tint = Gray
+            icon = R.drawable.ic_notransactions, tint = Gray
         )
 
         Spacer(Modifier.height(24.dp))
 
         Text(
-            text = stringResource(R.string.no_records),
-            style = UI.typo.b1.style(
-                color = Gray,
-                fontWeight = FontWeight.ExtraBold
+            text = stringResource(R.string.no_records), style = UI.typo.b1.style(
+                color = Gray, fontWeight = FontWeight.ExtraBold
             )
         )
 
@@ -760,9 +695,7 @@ private fun NoLoanRecordsEmptyState() {
             modifier = Modifier.padding(horizontal = 32.dp),
             text = stringResource(R.string.no_records_for_the_loan),
             style = UI.typo.b2.style(
-                color = Gray,
-                fontWeight = FontWeight.Medium,
-                textAlign = TextAlign.Center
+                color = Gray, fontWeight = FontWeight.Medium, textAlign = TextAlign.Center
             )
         )
     }
@@ -773,14 +706,7 @@ private fun NoLoanRecordsEmptyState() {
 private fun Preview_Empty() {
     IvyWalletPreview {
         UI(
-//            baseCurrency = "BGN",
-//            loan = Loan(
-//                name = "Loan 1",
-//                amount = 4023.54,
-//                color = Red.toArgb(),
-//                type = LoanType.LEND
-//            ),
-//            amountPaid = 0.0
+            {}, LoanDetailsScreenState()
         )
     }
 }
@@ -790,39 +716,39 @@ private fun Preview_Empty() {
 private fun Preview_Records() {
     IvyWalletPreview {
         UI(
-//            baseCurrency = "BGN",
-//            loan = Loan(
-//                name = "Loan 1",
-//                amount = 4023.54,
-//                color = Red.toArgb(),
-//                type = LoanType.LEND
-//            ),
-//            displayLoanRecords = listOf(
-//                DisplayLoanRecord(
-//                    LoanRecord(
-//                        amount = 123.45,
-//                        dateTime = timeNowUTC().minusDays(1),
-//                        note = "Cash",
-//                        loanId = UUID.randomUUID()
-//                    )
-//                ),
-//                DisplayLoanRecord(
-//                    LoanRecord(
-//                        amount = 0.50,
-//                        dateTime = timeNowUTC().minusYears(1),
-//                        loanId = UUID.randomUUID()
-//                    )
-//                ),
-//                DisplayLoanRecord(
-//                    LoanRecord(
-//                        amount = 1000.00,
-//                        dateTime = timeNowUTC().minusMonths(1),
-//                        note = "Revolut",
-//                        loanId = UUID.randomUUID()
-//                    )
-//                ),
-//            ),
-//            amountPaid = 3821.00
+            {}, LoanDetailsScreenState(
+                baseCurrency = "BGN", loan = Loan(
+                    name = "Loan 1", amount = 4023.54, color = Red.toArgb(), type = LoanType.LEND
+                ), displayLoanRecords = listOf(
+                    DisplayLoanRecord(
+                        LoanRecord(
+                            amount = 123.45,
+                            dateTime = timeNowUTC().minusDays(1),
+                            note = "Cash",
+                            loanId = UUID.randomUUID()
+                        )
+                    ),
+                    DisplayLoanRecord(
+                        LoanRecord(
+                            amount = 0.50,
+                            dateTime = timeNowUTC().minusYears(1),
+                            loanId = UUID.randomUUID()
+                        )
+                    ),
+                    DisplayLoanRecord(
+                        LoanRecord(
+                            amount = 1000.00,
+                            dateTime = timeNowUTC().minusMonths(1),
+                            note = "Revolut",
+                            loanId = UUID.randomUUID()
+                        )
+                    ),
+                ), amountPaid = 3821.00
+            )
         )
     }
 }
+
+
+
+
