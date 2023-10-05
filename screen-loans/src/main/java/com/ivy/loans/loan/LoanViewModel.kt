@@ -78,6 +78,60 @@ class LoanViewModel @Inject constructor(
         )
     }
 
+    @Composable
+    private fun getReorderModalVisible() = reorderModalVisible.value
+
+    @Composable
+    private fun getLoanModalData() = loanModalData.value
+
+    @Composable
+    private fun getLoans(): ImmutableList<DisplayLoan> {
+        return loans.value
+    }
+
+    @Composable
+    private fun getBaseCurrencyCode(): String {
+        return baseCurrencyCode.value
+    }
+
+    @Composable
+    private fun getSelectedAccount() = selectedAccount.value
+
+    @Composable
+    private fun getAccounts() = accounts.value
+
+    override fun onEvent(event: LoanScreenEvent) {
+        when (event) {
+            is LoanScreenEvent.OnLoanCreate -> {
+                createLoan(event.createLoanData)
+            }
+
+            is LoanScreenEvent.OnAddLoan -> {
+                loanModalData.value = LoanModalData(
+                    loan = null,
+                    baseCurrency = baseCurrencyCode.value,
+                    selectedAccount = selectedAccount.value
+                )
+            }
+
+            is LoanScreenEvent.OnLoanModalDismiss -> {
+                loanModalData.value = null
+            }
+
+            is LoanScreenEvent.OnReOrderModalShow -> {
+                reorderModalVisible.value = event.show
+            }
+
+            is LoanScreenEvent.OnReordered -> {
+                reorder(event.reorderedList)
+            }
+
+            is LoanScreenEvent.OnCreateAccount -> {
+                createAccount(event.accountData)
+            }
+        }
+    }
+
     private fun start() {
         viewModelScope.launch(Dispatchers.Default) {
             TestIdlingResource.increment()
@@ -235,58 +289,4 @@ class LoanViewModel @Inject constructor(
 
         return amount
     }
-
-    override fun onEvent(event: LoanScreenEvent) {
-        when (event) {
-            is LoanScreenEvent.OnLoanCreate -> {
-                createLoan(event.createLoanData)
-            }
-
-            is LoanScreenEvent.OnAddLoan -> {
-                loanModalData.value = LoanModalData(
-                    loan = null,
-                    baseCurrency = baseCurrencyCode.value,
-                    selectedAccount = selectedAccount.value
-                )
-            }
-
-            is LoanScreenEvent.OnLoanModalDismiss -> {
-                loanModalData.value = null
-            }
-
-            is LoanScreenEvent.OnReOrderModalShow -> {
-                reorderModalVisible.value = event.show
-            }
-
-            is LoanScreenEvent.OnReordered -> {
-                reorder(event.reorderedList)
-            }
-
-            is LoanScreenEvent.OnCreateAccount -> {
-                createAccount(event.accountData)
-            }
-        }
-    }
-
-    @Composable
-    private fun getReorderModalVisible() = reorderModalVisible.value
-
-    @Composable
-    private fun getLoanModalData() = loanModalData.value
-
-    @Composable
-    private fun getLoans(): List<DisplayLoan> {
-        return loans.value
-    }
-
-    @Composable
-    private fun getBaseCurrencyCode(): String {
-        return baseCurrencyCode.value
-    }
-
-    @Composable
-    private fun getSelectedAccount() = selectedAccount.value
-
-    @Composable
-    private fun getAccounts() = accounts.value
 }

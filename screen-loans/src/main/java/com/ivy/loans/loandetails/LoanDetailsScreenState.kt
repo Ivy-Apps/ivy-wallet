@@ -5,18 +5,19 @@ import com.ivy.legacy.datamodel.Loan
 import com.ivy.loans.loan.data.DisplayLoanRecord
 import com.ivy.wallet.ui.theme.modal.LoanModalData
 import com.ivy.wallet.ui.theme.modal.LoanRecordModalData
+import kotlinx.collections.immutable.ImmutableList
 
 data class LoanDetailsScreenState(
-    val baseCurrency: String = "",
-    val loan: Loan? = null,
-    val displayLoanRecords: List<DisplayLoanRecord> = emptyList(),
-    val amountPaid: Double = 0.0,
-    val loanAmountPaid: Double = 0.0,
-    val accounts: List<Account> = emptyList(),
-    val selectedLoanAccount: Account? = null,
-    val createLoanTransaction: Boolean = false,
-    val loanModalData: LoanModalData? = null,
-    val loanRecordModalData: LoanRecordModalData? = null,
-    val waitModalVisible: Boolean = false,
-    val isDeleteModalVisible: Boolean = false
+    val baseCurrency: String,
+    val loan: Loan?,
+    val displayLoanRecords: ImmutableList<DisplayLoanRecord>,
+    val amountPaid: Double,
+    val loanAmountPaid: Double,
+    val accounts: ImmutableList<Account>,
+    val selectedLoanAccount: Account?,
+    val createLoanTransaction: Boolean,
+    val loanModalData: LoanModalData?,
+    val loanRecordModalData: LoanRecordModalData?,
+    val waitModalVisible: Boolean,
+    val isDeleteModalVisible: Boolean
 )

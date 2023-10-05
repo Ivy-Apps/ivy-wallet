@@ -83,6 +83,141 @@ class LoanDetailsViewModel @Inject constructor(
     private val isDeleteModalVisible = mutableStateOf(false)
     lateinit var screen: LoanDetailsScreen
 
+    @Composable
+    override fun uiState(): LoanDetailsScreenState {
+        LaunchedEffect(Unit) {
+            start()
+        }
+
+        return LoanDetailsScreenState(
+            baseCurrency = baseCurrency.value,
+            loan = loan.value,
+            displayLoanRecords = displayLoanRecords.value,
+            amountPaid = amountPaid.doubleValue,
+            loanAmountPaid = loanInterestAmountPaid.doubleValue,
+            accounts = accounts.value,
+            selectedLoanAccount = selectedLoanAccount.value,
+            createLoanTransaction = createLoanTransaction.value,
+            loanModalData = loanModalData.value,
+            loanRecordModalData = loanRecordModalData.value,
+            waitModalVisible = waitModalVisible.value,
+            isDeleteModalVisible = isDeleteModalVisible.value
+        )
+    }
+
+    override fun onEvent(event: LoanDetailsScreenEvent) {
+        when (event) {
+            is LoanRecordModalEvent -> handleLoanRecordModalEvents(event)
+            is LoanModalEvent -> handleLoanModalEvents(event)
+            is DeleteLoanModalEvent -> handleDeleteLoanModalEvents(event)
+            is LoanDetailsScreenEvent -> handleLoanDetailsScreenEvents(event)
+        }
+    }
+
+    private fun handleLoanRecordModalEvents(event: LoanDetailsScreenEvent) {
+        when (event) {
+            is LoanRecordModalEvent.OnClickLoanRecord -> {
+                loanRecordModalData.value = LoanRecordModalData(
+                    loanRecord = event.displayLoanRecord.loanRecord,
+                    baseCurrency = event.displayLoanRecord.loanRecordCurrencyCode,
+                    selectedAccount = event.displayLoanRecord.account,
+                    createLoanRecordTransaction = event.displayLoanRecord.loanRecordTransaction,
+                    isLoanInterest = event.displayLoanRecord.loanRecord.interest,
+                    loanAccountCurrencyCode = event.displayLoanRecord.loanCurrencyCode
+                )
+            }
+
+            is LoanRecordModalEvent.OnCreateLoanRecord -> {
+                createLoanRecord(event.loanRecordData)
+            }
+
+            is LoanRecordModalEvent.OnDeleteLoanRecord -> {
+                deleteLoanRecord(event.loanRecord)
+            }
+
+            LoanRecordModalEvent.OnDismissLoanRecord -> {
+                loanRecordModalData.value = null
+            }
+
+            is LoanRecordModalEvent.OnEditLoanRecord -> {
+                editLoanRecord(event.loanRecordData)
+            }
+
+            else -> {}
+        }
+    }
+
+    private fun handleLoanModalEvents(event: LoanDetailsScreenEvent) {
+        when (event) {
+            LoanModalEvent.OnDismissLoanModal -> {
+                loanModalData.value = null
+            }
+
+            is LoanModalEvent.OnEditLoanModal -> {
+                editLoan(event.loan, event.createLoanTransaction)
+            }
+
+            LoanModalEvent.PerformCalculation -> {
+                waitModalVisible.value = true
+            }
+
+            else -> {}
+        }
+    }
+
+    private fun handleDeleteLoanModalEvents(event: LoanDetailsScreenEvent) {
+        when (event) {
+            DeleteLoanModalEvent.OnDeleteLoan -> {
+                deleteLoan()
+                isDeleteModalVisible.value = false
+            }
+
+            is DeleteLoanModalEvent.OnDismissDeleteLoan -> {
+                isDeleteModalVisible.value = event.isDeleteModalVisible
+            }
+
+            else -> {}
+        }
+    }
+
+    private fun handleLoanDetailsScreenEvents(event: LoanDetailsScreenEvent) {
+        when (event) {
+            LoanDetailsScreenEvent.OnAmountClick -> {
+                loanModalData.value = LoanModalData(
+                    loan = loan.value,
+                    baseCurrency = baseCurrency.value,
+                    autoFocusKeyboard = false,
+                    autoOpenAmountModal = true,
+                    selectedAccount = selectedLoanAccount.value,
+                    createLoanTransaction = createLoanTransaction.value
+                )
+            }
+
+            LoanDetailsScreenEvent.OnEditLoanClick -> {
+                loanModalData.value = LoanModalData(
+                    loan = loan.value,
+                    baseCurrency = baseCurrency.value,
+                    autoFocusKeyboard = false,
+                    selectedAccount = selectedLoanAccount.value,
+                    createLoanTransaction = createLoanTransaction.value
+                )
+            }
+
+            LoanDetailsScreenEvent.OnAddRecord -> {
+                loanRecordModalData.value = LoanRecordModalData(
+                    loanRecord = null,
+                    baseCurrency = baseCurrency.value,
+                    selectedAccount = selectedLoanAccount.value
+                )
+            }
+
+            is LoanDetailsScreenEvent.OnCreateAccount -> {
+                createAccount(event.data)
+            }
+
+            else -> {}
+        }
+    }
     private fun start() {
         load(loanId = screen.loanId)
     }
@@ -317,142 +452,6 @@ class LoanDetailsViewModel @Inject constructor(
             accounts.find { acc ->
                 acc.id == uuid
             }
-        }
-    }
-
-    @Composable
-    override fun uiState(): LoanDetailsScreenState {
-        LaunchedEffect(Unit) {
-            start()
-        }
-
-        return LoanDetailsScreenState(
-            baseCurrency = baseCurrency.value,
-            loan = loan.value,
-            displayLoanRecords = displayLoanRecords.value,
-            amountPaid = amountPaid.doubleValue,
-            loanAmountPaid = loanInterestAmountPaid.doubleValue,
-            accounts = accounts.value,
-            selectedLoanAccount = selectedLoanAccount.value,
-            createLoanTransaction = createLoanTransaction.value,
-            loanModalData = loanModalData.value,
-            loanRecordModalData = loanRecordModalData.value,
-            waitModalVisible = waitModalVisible.value,
-            isDeleteModalVisible = isDeleteModalVisible.value
-        )
-    }
-
-    override fun onEvent(event: LoanDetailsScreenEvent) {
-        when (event) {
-            is LoanRecordModalEvent -> handleLoanRecordModalEvents(event)
-            is LoanModalEvent -> handleLoanModalEvents(event)
-            is DeleteLoanModalEvent -> handleDeleteLoanModalEvents(event)
-            is LoanDetailsScreenEvent -> handleLoanDetailsScreenEvents(event)
-        }
-    }
-
-    private fun handleLoanRecordModalEvents(event: LoanDetailsScreenEvent) {
-        when (event) {
-            is LoanRecordModalEvent.OnClickLoanRecord -> {
-                loanRecordModalData.value = LoanRecordModalData(
-                    loanRecord = event.displayLoanRecord.loanRecord,
-                    baseCurrency = event.displayLoanRecord.loanRecordCurrencyCode,
-                    selectedAccount = event.displayLoanRecord.account,
-                    createLoanRecordTransaction = event.displayLoanRecord.loanRecordTransaction,
-                    isLoanInterest = event.displayLoanRecord.loanRecord.interest,
-                    loanAccountCurrencyCode = event.displayLoanRecord.loanCurrencyCode
-                )
-            }
-
-            is LoanRecordModalEvent.OnCreateLoanRecord -> {
-                createLoanRecord(event.loanRecordData)
-            }
-
-            is LoanRecordModalEvent.OnDeleteLoanRecord -> {
-                deleteLoanRecord(event.loanRecord)
-            }
-
-            LoanRecordModalEvent.OnDismissLoanRecord -> {
-                loanRecordModalData.value = null
-            }
-
-            is LoanRecordModalEvent.OnEditLoanRecord -> {
-                editLoanRecord(event.loanRecordData)
-            }
-
-            else -> {}
-        }
-    }
-
-    private fun handleLoanModalEvents(event: LoanDetailsScreenEvent) {
-        when (event) {
-            LoanModalEvent.OnDismissLoanModal -> {
-                loanModalData.value = null
-            }
-
-            is LoanModalEvent.OnEditLoanModal -> {
-                editLoan(event.loan, event.createLoanTransaction)
-            }
-
-            LoanModalEvent.PerformCalculation -> {
-                waitModalVisible.value = true
-            }
-
-            else -> {}
-        }
-    }
-
-    private fun handleDeleteLoanModalEvents(event: LoanDetailsScreenEvent) {
-        when (event) {
-            DeleteLoanModalEvent.OnDeleteLoan -> {
-                deleteLoan()
-                isDeleteModalVisible.value = false
-            }
-
-            is DeleteLoanModalEvent.OnDismissDeleteLoan -> {
-                isDeleteModalVisible.value = event.isDeleteModalVisible
-            }
-
-            else -> {}
-        }
-    }
-
-    private fun handleLoanDetailsScreenEvents(event: LoanDetailsScreenEvent) {
-        when (event) {
-            LoanDetailsScreenEvent.OnAmountClick -> {
-                loanModalData.value = LoanModalData(
-                    loan = loan.value,
-                    baseCurrency = baseCurrency.value,
-                    autoFocusKeyboard = false,
-                    autoOpenAmountModal = true,
-                    selectedAccount = selectedLoanAccount.value,
-                    createLoanTransaction = createLoanTransaction.value
-                )
-            }
-
-            LoanDetailsScreenEvent.OnEditLoanClick -> {
-                loanModalData.value = LoanModalData(
-                    loan = loan.value,
-                    baseCurrency = baseCurrency.value,
-                    autoFocusKeyboard = false,
-                    selectedAccount = selectedLoanAccount.value,
-                    createLoanTransaction = createLoanTransaction.value
-                )
-            }
-
-            LoanDetailsScreenEvent.OnAddRecord -> {
-                loanRecordModalData.value = LoanRecordModalData(
-                    loanRecord = null,
-                    baseCurrency = baseCurrency.value,
-                    selectedAccount = selectedLoanAccount.value
-                )
-            }
-
-            is LoanDetailsScreenEvent.OnCreateAccount -> {
-                createAccount(event.data)
-            }
-
-            else -> {}
         }
     }
 }

@@ -79,6 +79,7 @@ import com.ivy.wallet.ui.theme.modal.LoanModal
 import com.ivy.wallet.ui.theme.modal.LoanRecordModal
 import com.ivy.wallet.ui.theme.modal.ProgressModal
 import com.ivy.wallet.ui.theme.toComposeColor
+import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
 @Composable
@@ -88,15 +89,15 @@ fun BoxWithConstraintsScope.LoanDetailsScreen(screen: LoanDetailsScreen) {
     val state = viewModel.uiState()
 
     UI(
-        onEventHandler = viewModel::onEvent,
-        state = state
+        state = state,
+        onEventHandler = viewModel::onEvent
     )
 }
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
+    state: LoanDetailsScreenState,
     onEventHandler: (LoanDetailsScreenEvent) -> Unit = {},
-    state: LoanDetailsScreenState = LoanDetailsScreenState()
 ) {
     val itemColor = state.loan?.color?.toComposeColor() ?: Gray
 
@@ -754,18 +755,6 @@ private fun NoLoanRecordsEmptyState() {
 private fun Preview_Empty() {
     IvyWalletPreview {
         UI(
-            {},
-            LoanDetailsScreenState()
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun Preview_Records() {
-    IvyWalletPreview {
-        UI(
-            {},
             LoanDetailsScreenState(
                 baseCurrency = "BGN",
                 loan = Loan(
@@ -774,7 +763,35 @@ private fun Preview_Records() {
                     color = Red.toArgb(),
                     type = LoanType.LEND
                 ),
-                displayLoanRecords = listOf(
+                displayLoanRecords = persistentListOf(),
+                amountPaid = 3821.00,
+                loanAmountPaid = 100.0,
+                accounts = persistentListOf(),
+                selectedLoanAccount = null,
+                createLoanTransaction = false,
+                isDeleteModalVisible = false,
+                loanModalData = null,
+                loanRecordModalData = null,
+                waitModalVisible = false
+            )
+        ) {}
+    }
+}
+
+@Preview
+@Composable
+private fun Preview_Records() {
+    IvyWalletPreview {
+        UI(
+            LoanDetailsScreenState(
+                baseCurrency = "BGN",
+                loan = Loan(
+                    name = "Loan 1",
+                    amount = 4023.54,
+                    color = Red.toArgb(),
+                    type = LoanType.LEND
+                ),
+                displayLoanRecords = persistentListOf(
                     DisplayLoanRecord(
                         LoanRecord(
                             amount = 123.45,
@@ -799,8 +816,16 @@ private fun Preview_Records() {
                         )
                     ),
                 ),
-                amountPaid = 3821.00
+                amountPaid = 3821.00,
+                loanAmountPaid = 100.0,
+                accounts = persistentListOf(),
+                selectedLoanAccount = null,
+                createLoanTransaction = false,
+                isDeleteModalVisible = false,
+                loanModalData = null,
+                loanRecordModalData = null,
+                waitModalVisible = false
             )
-        )
+        ) {}
     }
 }
