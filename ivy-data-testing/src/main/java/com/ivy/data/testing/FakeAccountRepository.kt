@@ -5,24 +5,24 @@ import com.ivy.data.model.AccountId
 import com.ivy.data.repository.AccountRepository
 
 class FakeAccountRepository : AccountRepository {
-    private val accounts = mutableMapOf<AccountId, Account>()
+    private val accountsMap = mutableMapOf<AccountId, Account>()
 
     override suspend fun findById(id: AccountId): Account? {
-        return accounts[id]
+        return accountsMap[id]
     }
 
     override suspend fun findAll(deleted: Boolean): List<Account> {
-        return accounts.values
-            .filter { !it.removed }
+        return accountsMap.values
+            .filter { it.removed == deleted }
             .sortedBy { it.orderNum }
     }
 
     override suspend fun findMaxOrderNum(): Double {
-        return accounts.values.firstOrNull()?.orderNum ?: 0.0
+        return accountsMap.values.firstOrNull()?.orderNum ?: 0.0
     }
 
     override suspend fun save(value: Account) {
-        accounts[value.id] = value
+        accountsMap[value.id] = value
     }
 
     override suspend fun saveMany(values: List<Account>) {
@@ -32,16 +32,16 @@ class FakeAccountRepository : AccountRepository {
     }
 
     override suspend fun flagDeleted(id: AccountId) {
-        accounts.computeIfPresent(id) { _, acc ->
+        accountsMap.computeIfPresent(id) { _, acc ->
             acc.copy(removed = true)
         }
     }
 
     override suspend fun deleteById(id: AccountId) {
-        accounts.remove(id)
+        accountsMap.remove(id)
     }
 
     override suspend fun deleteAll() {
-        accounts.clear()
+        accountsMap.clear()
     }
 }

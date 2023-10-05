@@ -52,22 +52,35 @@ class FakeAccountRepositoryTest : FreeSpec({
         }
     }
 
-    "find all not deleted" - {
-        "accounts" {
+    "find all" - {
+        "accounts not deleted" {
             // given
             val repository = newRepository()
-            val id = AccountId(UUID.randomUUID())
+            val id1 = AccountId(UUID.randomUUID())
+            val id2 = AccountId(UUID.randomUUID())
+            val account1 = Account(
+                id = id1,
+                name = NotBlankTrimmedString("Bank"),
+                asset = AssetCode("BGN"),
+                color = ColorInt(1),
+                icon = null,
+                includeInBalance = true,
+                orderNum = 1.0,
+                lastUpdated = Instant.EPOCH,
+                removed = false
+            )
             val accounts = listOf(
+                account1,
                 Account(
-                    id = id,
-                    name = NotBlankTrimmedString("Bank"),
+                    id = id2,
+                    name = NotBlankTrimmedString("Cash"),
                     asset = AssetCode("BGN"),
                     color = ColorInt(1),
                     icon = null,
                     includeInBalance = true,
-                    orderNum = 1.0,
+                    orderNum = 2.0,
                     lastUpdated = Instant.EPOCH,
-                    removed = false
+                    removed = true
                 )
             )
 
@@ -76,7 +89,7 @@ class FakeAccountRepositoryTest : FreeSpec({
             val res = repository.findAll(false)
 
             // then
-            res shouldBe accounts
+            res shouldBe listOf(account1)
         }
 
         "empty list" {
