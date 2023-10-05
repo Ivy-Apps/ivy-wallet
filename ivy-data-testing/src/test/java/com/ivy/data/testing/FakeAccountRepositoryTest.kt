@@ -57,6 +57,7 @@ class FakeAccountRepositoryTest : FreeSpec({
             val repository = newRepository()
             val id1 = AccountId(UUID.randomUUID())
             val id2 = AccountId(UUID.randomUUID())
+            val id3 = AccountId(UUID.randomUUID())
             val account1 = Account(
                 id = id1,
                 name = NotBlankTrimmedString("Bank"),
@@ -80,16 +81,39 @@ class FakeAccountRepositoryTest : FreeSpec({
                     orderNum = 2.0,
                     lastUpdated = Instant.EPOCH,
                     removed = true
+                ),
+                Account(
+                    id = id3,
+                    name = NotBlankTrimmedString("Bank 2"),
+                    asset = AssetCode("BGN"),
+                    color = ColorInt(1),
+                    icon = null,
+                    includeInBalance = true,
+                    orderNum = 3.0,
+                    lastUpdated = Instant.EPOCH,
+                    removed = false
                 )
             )
-
 
             // when
             repository.saveMany(accounts.sortedByDescending { it.orderNum })
             val res = repository.findAll(false)
 
             // then
-            res shouldBe listOf(account1)
+            res shouldBe listOf(
+                account1,
+                Account(
+                    id = id3,
+                    name = NotBlankTrimmedString("Bank 2"),
+                    asset = AssetCode("BGN"),
+                    color = ColorInt(1),
+                    icon = null,
+                    includeInBalance = true,
+                    orderNum = 3.0,
+                    lastUpdated = Instant.EPOCH,
+                    removed = false
+                )
+            )
         }
 
         "deleted accounts" {
