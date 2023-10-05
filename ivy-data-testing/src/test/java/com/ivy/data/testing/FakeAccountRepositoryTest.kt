@@ -83,8 +83,9 @@ class FakeAccountRepositoryTest : FreeSpec({
                 )
             )
 
+
             // when
-            repository.saveMany(accounts)
+            repository.saveMany(accounts.sortedByDescending { it.orderNum })
             val res = repository.findAll(false)
 
             // then
