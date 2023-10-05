@@ -235,26 +235,54 @@ class FakeCategoryRepositoryTest : FreeSpec({
         }
     }
 
-    "save" {
-        // given
-        val repository = newRepository()
-        val id = CategoryId(UUID.randomUUID())
-        val category = Category(
-            name = NotBlankTrimmedString("Home"),
-            color = ColorInt(42),
-            icon = null,
-            orderNum = 1.0,
-            removed = false,
-            lastUpdated = Instant.EPOCH,
-            id = id
-        )
+    "save" - {
+        "create new" {
+            // given
+            val repository = newRepository()
+            val id = CategoryId(UUID.randomUUID())
+            val category = Category(
+                name = NotBlankTrimmedString("Home"),
+                color = ColorInt(42),
+                icon = null,
+                orderNum = 1.0,
+                removed = false,
+                lastUpdated = Instant.EPOCH,
+                id = id
+            )
 
-        // when
-        repository.save(category)
-        val res = repository.findById(id)
+            // when
+            repository.save(category)
+            val res = repository.findById(id)
 
-        // then
-        res shouldBe category
+            // then
+            res shouldBe category
+        }
+
+        "update existing" {
+            // given
+            val repository = newRepository()
+            val id = CategoryId(UUID.randomUUID())
+            val category = Category(
+                name = NotBlankTrimmedString("Home"),
+                color = ColorInt(42),
+                icon = null,
+                orderNum = 1.0,
+                removed = false,
+                lastUpdated = Instant.EPOCH,
+                id = id
+            )
+            val updated = category.copy(
+                name = NotBlankTrimmedString("My Home")
+            )
+
+            // when
+            repository.save(category)
+            repository.save(updated)
+            val res = repository.findAll(deleted = false)
+
+            // then
+            res shouldBe listOf(updated)
+        }
     }
 
     "save many" {
@@ -334,5 +362,9 @@ class FakeCategoryRepositoryTest : FreeSpec({
                 id = id1
             )
         )
+    }
+
+    "flag deleted" {
+
     }
 })

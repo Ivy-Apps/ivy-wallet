@@ -22,7 +22,10 @@ class FakeCategoryRepository : CategoryRepository {
     }
 
     override suspend fun save(value: Category) {
-        if (!categories.contains(value)) {
+        if (findById(value.id) == null) {
+            categories.add(value)
+        } else {
+            deleteById(value.id)
             categories.add(value)
         }
     }
@@ -38,7 +41,9 @@ class FakeCategoryRepository : CategoryRepository {
     }
 
     override suspend fun flagDeleted(id: CategoryId) {
-        // TODO()
+        val category = categories.find { it.id == id } ?: return
+        categories.remove(category)
+        categories.add(category.copy(removed = true))
     }
 
     override suspend fun deleteAll() {
