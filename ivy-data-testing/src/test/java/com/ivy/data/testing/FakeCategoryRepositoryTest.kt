@@ -411,4 +411,41 @@ class FakeCategoryRepositoryTest : FreeSpec({
             )
         )
     }
+
+    "delete all" {
+        // given
+        val repository = newRepository()
+        val id1 = CategoryId(UUID.randomUUID())
+        val id2 = CategoryId(UUID.randomUUID())
+        val categories = listOf(
+            Category(
+                name = NotBlankTrimmedString("Home"),
+                color = ColorInt(42),
+                icon = null,
+                orderNum = 1.0,
+                removed = false,
+                lastUpdated = Instant.EPOCH,
+                id = id1
+            ),
+            Category(
+                name = NotBlankTrimmedString("Fun"),
+                color = ColorInt(42),
+                icon = null,
+                orderNum = 2.0,
+                removed = true,
+                lastUpdated = Instant.EPOCH,
+                id = id2
+            )
+        )
+
+        // when
+        repository.saveMany(categories)
+        repository.deleteAll()
+        val notDeleted = repository.findAll(false)
+        val deleted = repository.findAll(true)
+
+        // then
+        notDeleted shouldBe emptyList()
+        deleted shouldBe emptyList()
+    }
 })
