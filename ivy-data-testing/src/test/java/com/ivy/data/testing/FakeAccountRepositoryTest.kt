@@ -11,12 +11,12 @@ import java.time.Instant
 import java.util.UUID
 
 class FakeAccountRepositoryTest : FreeSpec({
-    val newRepository = FakeAccountRepository()
+    fun newRepository() = FakeAccountRepository()
 
     "find by id" - {
-        "valid id" {
+        "existing id" {
             // given
-            val repository = newRepository
+            val repository = newRepository()
             val id = AccountId(UUID.randomUUID())
             val account = Account(
                 id = id,
@@ -38,9 +38,9 @@ class FakeAccountRepositoryTest : FreeSpec({
             res shouldBe account
         }
 
-        "invalid id" {
+        "not existing id" {
             // given
-            val repository = newRepository
+            val repository = newRepository()
             val id = AccountId(UUID.randomUUID())
 
             // when
@@ -48,6 +48,47 @@ class FakeAccountRepositoryTest : FreeSpec({
 
             // then
             res shouldBe null
+        }
+    }
+
+    "find all not deleted" - {
+        "accounts" {
+            // given
+            val repository = newRepository()
+            val id = AccountId(UUID.randomUUID())
+            val accounts = listOf(
+                Account(
+                    id = id,
+                    name = NotBlankTrimmedString("Bank"),
+                    asset = AssetCode("BGN"),
+                    color = ColorInt(1),
+                    icon = null,
+                    includeInBalance = true,
+                    orderNum = 1.0,
+                    lastUpdated = Instant.EPOCH,
+                    removed = false
+                )
+            )
+
+            // when
+            repository.saveMany(accounts)
+            val res = repository.findAll(false)
+
+            // then
+            res shouldBe accounts
+        }
+
+        "empty list" {
+            // given
+            val repository = newRepository()
+            val accounts = emptyList<Account>()
+
+            // when
+            repository.saveMany(accounts)
+            val res = repository.findAll(false)
+
+            // then
+            res shouldBe emptyList()
         }
     }
 })
