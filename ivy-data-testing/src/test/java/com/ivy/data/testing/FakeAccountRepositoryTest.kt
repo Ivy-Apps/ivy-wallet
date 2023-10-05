@@ -252,7 +252,8 @@ class FakeAccountRepositoryTest : FreeSpec({
         )
 
         // when
-        val res = repository.saveMany(accounts)
+        repository.saveMany(accounts)
+        val res = repository.findAll(false)
 
         // then
         res shouldBe accounts
@@ -262,12 +263,27 @@ class FakeAccountRepositoryTest : FreeSpec({
         // given
         val repository = newRepository()
         val id = AccountId(UUID.randomUUID())
+        val account = Account(
+            id = id,
+            name = NotBlankTrimmedString("Bank"),
+            asset = AssetCode("BGN"),
+            color = ColorInt(1),
+            icon = null,
+            includeInBalance = true,
+            orderNum = 1.0,
+            lastUpdated = Instant.EPOCH,
+            removed = false
+        )
 
         // when
-        val res = repository.flagDeleted(id)
+        repository.save(account)
+        repository.flagDeleted(id)
+        val notDeleted = repository.findAll(false)
+        val deleted = repository.findAll(true)
 
         // then
-        res shouldBe id
+        notDeleted shouldBe emptyList()
+        deleted shouldBe listOf(account.copy(removed = true))
     }
 
     "delete by id" {
@@ -289,17 +305,47 @@ class FakeAccountRepositoryTest : FreeSpec({
         )
 
         // when
-        val res = repository.deleteById(id)
+        repository.saveMany(accounts)
+        repository.deleteById(id)
+        val res = repository.findAll(false)
 
         // then
-        res shouldBe id
+        res shouldBe emptyList()
     }
 
     "delete all" {
         // given
         val repository = newRepository()
+        val id1 = AccountId(UUID.randomUUID())
+        val id2 = AccountId(UUID.randomUUID())
 
         // when
+        repository.saveMany(
+            listOf(
+                Account(
+                    id = id1,
+                    name = NotBlankTrimmedString("Bank"),
+                    asset = AssetCode("BGN"),
+                    color = ColorInt(1),
+                    icon = null,
+                    includeInBalance = true,
+                    orderNum = 1.0,
+                    lastUpdated = Instant.EPOCH,
+                    removed = false
+                ),
+                Account(
+                    id = id2,
+                    name = NotBlankTrimmedString("Cash"),
+                    asset = AssetCode("BGN"),
+                    color = ColorInt(1),
+                    icon = null,
+                    includeInBalance = true,
+                    orderNum = 2.0,
+                    lastUpdated = Instant.EPOCH,
+                    removed = false
+                )
+            )
+        )
         repository.deleteAll()
         val res = repository.findAll(false)
 
