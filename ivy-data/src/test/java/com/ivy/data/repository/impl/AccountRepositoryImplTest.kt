@@ -1,5 +1,11 @@
 package com.ivy.data.repository.impl
 
+import com.ivy.data.db.entity.AccountEntity
+import com.ivy.data.model.Account
+import com.ivy.data.model.AccountId
+import com.ivy.data.model.primitive.AssetCode
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.mapper.AccountMapper
 import com.ivy.data.source.LocalAccountDataSource
@@ -7,6 +13,8 @@ import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.mockk
+import java.time.Instant
+import java.util.UUID
 
 class AccountRepositoryImplTest : FreeSpec({
     val dataSource = mockk<LocalAccountDataSource>()
@@ -15,6 +23,77 @@ class AccountRepositoryImplTest : FreeSpec({
         mapper = AccountMapper(),
         dataSource = dataSource
     )
+
+    "find by id" - {
+        "null AccountEntity" {
+            // given
+            val repository = newRepository()
+            val accountId = AccountId(UUID.randomUUID())
+            coEvery { dataSource.findById(accountId.value) } returns null
+
+            // when
+            val res = repository.findById(accountId)
+
+            // then
+            res shouldBe null
+        }
+
+        "valid AccountEntity" {
+            // given
+            val repository = newRepository()
+            val accountId = AccountId(UUID.randomUUID())
+            coEvery { dataSource.findById(accountId.value) } returns AccountEntity(
+                name = "Bank",
+                currency = "BGN",
+                color = 1,
+                icon = null,
+                orderNum = 0.0,
+                includeInBalance = true,
+                isSynced = true,
+                isDeleted = false,
+                id = accountId.value
+            )
+
+            // when
+            val res = repository.findById(accountId)
+
+            // then
+            res shouldBe Account(
+                id = accountId,
+                name = NotBlankTrimmedString("Bank"),
+                asset = AssetCode("BGN"),
+                color = ColorInt(1),
+                icon = null,
+                includeInBalance = true,
+                orderNum = 0.0,
+                lastUpdated = Instant.EPOCH,
+                removed = false
+            )
+        }
+
+        "invalid AccountEntity" {
+            // given
+            val repository = newRepository()
+            val accountId = AccountId(UUID.randomUUID())
+            coEvery { dataSource.findById(accountId.value) } returns AccountEntity(
+                name = " ",
+                currency = "BGN",
+                color = 1,
+                icon = null,
+                orderNum = 0.0,
+                includeInBalance = true,
+                isSynced = true,
+                isDeleted = false,
+                id = accountId.value
+            )
+
+            // when
+            val res = repository.findById(accountId)
+
+            // then
+            res shouldBe null
+        }
+    }
 
     "finds max order num" - {
         "no accounts" {
