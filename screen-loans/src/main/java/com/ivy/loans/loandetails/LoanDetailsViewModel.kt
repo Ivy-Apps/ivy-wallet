@@ -24,10 +24,10 @@ import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.ioThread
 import com.ivy.loans.loan.data.DisplayLoanRecord
-import com.ivy.loans.loandetails.events.DeleteLoanModalState
+import com.ivy.loans.loandetails.events.DeleteLoanModalEvent
 import com.ivy.loans.loandetails.events.LoanDetailsScreenEvent
-import com.ivy.loans.loandetails.events.LoanModalState
-import com.ivy.loans.loandetails.events.LoanRecordModalState
+import com.ivy.loans.loandetails.events.LoanModalEvent
+import com.ivy.loans.loandetails.events.LoanRecordModalEvent
 import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.Navigation
 import com.ivy.wallet.domain.action.account.AccountsAct
@@ -221,19 +221,23 @@ class LoanDetailsViewModel @Inject constructor(
 
             val modifiedData = data.copy(
                 convertedAmount = loanTransactionsLogic.LoanRecord.calculateConvertedAmount(
-                    data = data, loanAccountId = localLoan.accountId
+                    data = data,
+                    loanAccountId = localLoan.accountId
                 )
             )
 
             val loanRecordUUID = loanRecordCreator.create(
-                loanId = loanId, data = modifiedData
+                loanId = loanId,
+                data = modifiedData
             ) {
                 load(loanId = loanId)
             }
 
             loanRecordUUID?.let {
                 loanTransactionsLogic.LoanRecord.createAssociatedLoanRecordTransaction(
-                    data = modifiedData, loan = localLoan, loanRecordId = it
+                    data = modifiedData,
+                    loan = localLoan,
+                    loanRecordId = it
                 )
             }
 
@@ -340,6 +344,81 @@ class LoanDetailsViewModel @Inject constructor(
 
     override fun onEvent(event: LoanDetailsScreenEvent) {
         when (event) {
+            is LoanRecordModalEvent -> handleLoanRecordModalEvents(event)
+            is LoanModalEvent -> handleLoanModalEvents(event)
+            is DeleteLoanModalEvent -> handleDeleteLoanModalEvents(event)
+            is LoanDetailsScreenEvent -> handleLoanDetailsScreenEvents(event)
+        }
+    }
+
+    private fun handleLoanRecordModalEvents(event: LoanDetailsScreenEvent) {
+        when (event) {
+            is LoanRecordModalEvent.OnClickLoanRecord -> {
+                loanRecordModalData.value = LoanRecordModalData(
+                    loanRecord = event.displayLoanRecord.loanRecord,
+                    baseCurrency = event.displayLoanRecord.loanRecordCurrencyCode,
+                    selectedAccount = event.displayLoanRecord.account,
+                    createLoanRecordTransaction = event.displayLoanRecord.loanRecordTransaction,
+                    isLoanInterest = event.displayLoanRecord.loanRecord.interest,
+                    loanAccountCurrencyCode = event.displayLoanRecord.loanCurrencyCode
+                )
+            }
+
+            is LoanRecordModalEvent.OnCreateLoanRecord -> {
+                createLoanRecord(event.loanRecordData)
+            }
+
+            is LoanRecordModalEvent.OnDeleteLoanRecord -> {
+                deleteLoanRecord(event.loanRecord)
+            }
+
+            LoanRecordModalEvent.OnDismissLoanRecord -> {
+                loanRecordModalData.value = null
+            }
+
+            is LoanRecordModalEvent.OnEditLoanRecord -> {
+                editLoanRecord(event.loanRecordData)
+            }
+
+            else -> {}
+        }
+    }
+
+    private fun handleLoanModalEvents(event: LoanDetailsScreenEvent) {
+        when (event) {
+            LoanModalEvent.OnDismissLoanModal -> {
+                loanModalData.value = null
+            }
+
+            is LoanModalEvent.OnEditLoanModal -> {
+                editLoan(event.loan, event.createLoanTransaction)
+            }
+
+            LoanModalEvent.PerformCalculation -> {
+                waitModalVisible.value = true
+            }
+
+            else -> {}
+        }
+    }
+
+    private fun handleDeleteLoanModalEvents(event: LoanDetailsScreenEvent) {
+        when (event) {
+            DeleteLoanModalEvent.OnDeleteLoan -> {
+                deleteLoan()
+                isDeleteModalVisible.value = false
+            }
+
+            is DeleteLoanModalEvent.OnDismissDeleteLoan -> {
+                isDeleteModalVisible.value = event.isDeleteModalVisible
+            }
+
+            else -> {}
+        }
+    }
+
+    private fun handleLoanDetailsScreenEvents(event: LoanDetailsScreenEvent) {
+        when (event) {
             LoanDetailsScreenEvent.OnAmountClick -> {
                 loanModalData.value = LoanModalData(
                     loan = loan.value,
@@ -373,53 +452,7 @@ class LoanDetailsViewModel @Inject constructor(
                 createAccount(event.data)
             }
 
-            DeleteLoanModalState.OnDeleteLoan -> {
-                deleteLoan()
-                isDeleteModalVisible.value = false
-            }
-
-            is DeleteLoanModalState.OnDismissDeleteLoan -> {
-                isDeleteModalVisible.value = event.isDeleteModalVisible
-            }
-
-            LoanModalState.OnDismissLoanModal -> {
-                loanModalData.value = null
-            }
-
-            is LoanModalState.OnEditLoanModal -> {
-                editLoan(event.loan, event.createLoanTransaction)
-            }
-
-            LoanModalState.PerformCalculation -> {
-                waitModalVisible.value = true
-            }
-
-            is LoanRecordModalState.OnClickLoanRecord -> {
-                loanRecordModalData.value = LoanRecordModalData(
-                    loanRecord = event.displayLoanRecord.loanRecord,
-                    baseCurrency = event.displayLoanRecord.loanRecordCurrencyCode,
-                    selectedAccount = event.displayLoanRecord.account,
-                    createLoanRecordTransaction = event.displayLoanRecord.loanRecordTransaction,
-                    isLoanInterest = event.displayLoanRecord.loanRecord.interest,
-                    loanAccountCurrencyCode = event.displayLoanRecord.loanCurrencyCode
-                )
-            }
-
-            is LoanRecordModalState.OnCreateLoanRecord -> {
-                createLoanRecord(event.loanRecordData)
-            }
-
-            is LoanRecordModalState.OnDeleteLoanRecord -> {
-                deleteLoanRecord(event.loanRecord)
-            }
-
-            LoanRecordModalState.OnDismissLoanRecord -> {
-                loanRecordModalData.value = null
-            }
-
-            is LoanRecordModalState.OnEditLoanRecord -> {
-                editLoanRecord(event.loanRecordData)
-            }
+            else -> {}
         }
     }
 }
