@@ -303,4 +303,20 @@ class CategoryRepositoryImplTest : FreeSpec({
             )
         }
     }
+
+    "delete by id" {
+        // given
+        val repository = newRepository()
+        val categoryId = CategoryId(UUID.randomUUID())
+
+        coEvery { dataSource.deleteById(any()) } just runs
+
+        // when
+        repository.deleteById(categoryId)
+
+        // then
+        coVerify(exactly = 1) {
+            dataSource.deleteById(categoryId.value)
+        }
+    }
 })
