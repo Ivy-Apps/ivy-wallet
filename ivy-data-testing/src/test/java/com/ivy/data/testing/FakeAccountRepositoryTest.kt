@@ -233,4 +233,15 @@ class FakeAccountRepositoryTest : FreeSpec({
         // then
         accountMap.remove(id)
     }
+
+    "delete all" {
+        // given
+        val repository = newRepository()
+
+        // when
+        repository.deleteAll()
+
+        // then
+        accountMap.clear()
+    }
 })
