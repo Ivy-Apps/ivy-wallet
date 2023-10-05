@@ -185,4 +185,26 @@ class FakeCategoryRepositoryTest : FreeSpec({
             res shouldBe (0.0)
         }
     }
+
+    "save" {
+        // given
+        val repository = newRepository()
+        val id = CategoryId(UUID.randomUUID())
+        val category = Category(
+            name = NotBlankTrimmedString("Home"),
+            color = ColorInt(42),
+            icon = null,
+            orderNum = 1.0,
+            removed = false,
+            lastUpdated = Instant.EPOCH,
+            id = id
+        )
+
+        // when
+        repository.save(category)
+        val res = repository.findById(id)
+
+        // then
+        res shouldBe category
+    }
 })
