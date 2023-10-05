@@ -221,4 +221,16 @@ class FakeAccountRepositoryTest : FreeSpec({
             acc.copy(removed = true)
         }
     }
+
+    "delete by id" {
+        // given
+        val repository = newRepository()
+        val id = AccountId(UUID.randomUUID())
+
+        // when
+        repository.deleteById(id)
+
+        // then
+        accountMap.remove(id)
+    }
 })
