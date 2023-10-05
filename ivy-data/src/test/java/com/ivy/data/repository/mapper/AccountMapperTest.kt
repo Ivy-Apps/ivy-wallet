@@ -67,7 +67,7 @@ class AccountMapperTest : FreeSpec({
             val result = with(mapper) { entity.toDomain() }
 
             // then
-            result.getOrNull() shouldBe Account(
+            result.shouldBeRight() shouldBe Account(
                 id = AccountId(entity.id),
                 name = NotBlankTrimmedString("Test"),
                 asset = AssetCode("USD"),

@@ -62,7 +62,7 @@ class CategoryMapperTest : FreeSpec({
             val res = with(mapper) { categoryEntity.toDomain() }
 
             // then
-            res.getOrNull() shouldBe Category(
+            res.shouldBeRight() shouldBe Category(
                 name = NotBlankTrimmedString("Home"),
                 color = ColorInt(42),
                 icon = null,
