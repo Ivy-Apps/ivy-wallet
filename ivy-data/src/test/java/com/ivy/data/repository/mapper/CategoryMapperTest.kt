@@ -20,7 +20,7 @@ class CategoryMapperTest : FreeSpec({
             name = NotBlankTrimmedString("Home"),
             color = ColorInt(42),
             icon = null,
-            orderNum = 0.0,
+            orderNum = 1.0,
             removed = false,
             lastUpdated = Instant.EPOCH,
             id = categoryId
@@ -34,10 +34,41 @@ class CategoryMapperTest : FreeSpec({
             name = "Home",
             color = 42,
             icon = null,
-            orderNum = 0.0,
+            orderNum = 1.0,
             isSynced = true,
             isDeleted = false,
             id = categoryId.value
         )
+    }
+
+    "maps CategoryEntity to domain" - {
+        // given
+        val categoryId = CategoryId(UUID.randomUUID())
+        val mapper = CategoryMapper()
+        val categoryEntity = CategoryEntity(
+            name = "Home",
+            color = 42,
+            icon = null,
+            orderNum = 1.0,
+            isSynced = true,
+            isDeleted = false,
+            id = categoryId.value
+        )
+
+        "success" {
+            // when
+            val res = with(mapper) { categoryEntity.toDomain() }
+
+            // then
+            res.getOrNull() shouldBe Category(
+                name = NotBlankTrimmedString("Home"),
+                color = ColorInt(42),
+                icon = null,
+                orderNum = 1.0,
+                removed = false,
+                lastUpdated = Instant.EPOCH,
+                id = categoryId
+            )
+        }
     }
 })
