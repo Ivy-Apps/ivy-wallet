@@ -206,7 +206,7 @@
     <string name="enter_account_balance">ادخل رصيد الحساب</string>
     <string name="choose_currency">اختر العملة</string>
     <string name="calculator">الحاسبة</string>
-    <string name="calculator_empty_expression">العملية الحسابية (+-/*=)</string>
+    <string name="calculator_empty_expression">العملية الحسابية (+-÷x=)</string>
     <string name="edit_category">تعديل الفئة</string>
     <string name="create_category">انشاء فئى</string>
     <string name="category_name">اسم الفئة</string>

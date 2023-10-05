@@ -501,7 +501,7 @@ fun KeypadCircleButton(
 ) {
     Text(
         modifier = circleButtonModifier(size = btnSize, onClick = onClick)
-            .padding(top = 10.dp)
+            .padding(top = 13.dp)
             .testTag(testTag),
         text = text,
         fontSize = fontSize,
