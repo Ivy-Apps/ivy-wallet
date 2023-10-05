@@ -381,4 +381,18 @@ class AccountRepositoryImplTest : FreeSpec({
             dataSource.deleteById(accountId.value)
         }
     }
+
+    "delete all" {
+        // given
+        val repository = newRepository()
+        coEvery { dataSource.deleteAll() } just runs
+
+        // when
+        repository.deleteAll()
+
+        // then
+        coVerify(exactly = 1) {
+            dataSource.deleteAll()
+        }
+    }
 })
