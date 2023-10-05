@@ -18,7 +18,7 @@ class FakeAccountRepository : AccountRepository {
     }
 
     override suspend fun findMaxOrderNum(): Double {
-        return accountsMap.values.firstOrNull()?.orderNum ?: 0.0
+        return accountsMap.values.maxOfOrNull { it.orderNum } ?: 0.0
     }
 
     override suspend fun save(value: Account) {

@@ -11,7 +11,6 @@ import java.time.Instant
 import java.util.UUID
 
 class FakeAccountRepositoryTest : FreeSpec({
-    val accountMap = mutableMapOf<AccountId, Account>()
     fun newRepository() = FakeAccountRepository()
 
     "find by id" - {
@@ -53,7 +52,7 @@ class FakeAccountRepositoryTest : FreeSpec({
     }
 
     "find all" - {
-        "accounts not deleted" {
+        "not deleted accounts" {
             // given
             val repository = newRepository()
             val id1 = AccountId(UUID.randomUUID())
@@ -92,6 +91,45 @@ class FakeAccountRepositoryTest : FreeSpec({
             res shouldBe listOf(account1)
         }
 
+        "deleted accounts" {
+            // given
+            val repository = newRepository()
+            val id1 = AccountId(UUID.randomUUID())
+            val id2 = AccountId(UUID.randomUUID())
+            val account2 = Account(
+                id = id2,
+                name = NotBlankTrimmedString("Cash"),
+                asset = AssetCode("BGN"),
+                color = ColorInt(1),
+                icon = null,
+                includeInBalance = true,
+                orderNum = 2.0,
+                lastUpdated = Instant.EPOCH,
+                removed = true
+            )
+            val accounts = listOf(
+                Account(
+                    id = id1,
+                    name = NotBlankTrimmedString("Bank"),
+                    asset = AssetCode("BGN"),
+                    color = ColorInt(1),
+                    icon = null,
+                    includeInBalance = true,
+                    orderNum = 1.0,
+                    lastUpdated = Instant.EPOCH,
+                    removed = false
+                ),
+                account2
+            )
+
+            // when
+            repository.saveMany(accounts)
+            val res = repository.findAll(true)
+
+            // then
+            res shouldBe listOf(account2)
+        }
+
         "empty list" {
             // given
             val repository = newRepository()
@@ -110,10 +148,11 @@ class FakeAccountRepositoryTest : FreeSpec({
         "of accounts" {
             // given
             val repository = newRepository()
-            val id = AccountId(UUID.randomUUID())
+            val id1 = AccountId(UUID.randomUUID())
+            val id2 = AccountId(UUID.randomUUID())
             val accounts = listOf(
                 Account(
-                    id = id,
+                    id = id1,
                     name = NotBlankTrimmedString("Bank"),
                     asset = AssetCode("BGN"),
                     color = ColorInt(1),
@@ -124,7 +163,7 @@ class FakeAccountRepositoryTest : FreeSpec({
                     removed = false
                 ),
                 Account(
-                    id = id,
+                    id = id2,
                     name = NotBlankTrimmedString("Cash"),
                     asset = AssetCode("BGN"),
                     color = ColorInt(1),
@@ -176,9 +215,10 @@ class FakeAccountRepositoryTest : FreeSpec({
 
         // when
         repository.save(account)
+        val res = repository.findById(account.id)
 
         // then
-        accountMap[id] = account
+        res shouldBe account
     }
 
     "save many" {
@@ -198,7 +238,6 @@ class FakeAccountRepositoryTest : FreeSpec({
                 lastUpdated = Instant.EPOCH,
                 removed = false
             ),
-
             Account(
                 id = id2,
                 name = NotBlankTrimmedString("Cash"),
@@ -213,12 +252,10 @@ class FakeAccountRepositoryTest : FreeSpec({
         )
 
         // when
-        repository.saveMany(accounts)
+        val res = repository.saveMany(accounts)
 
         // then
-        accounts.forEach {
-            repository.save(it)
-        }
+        res shouldBe accounts
     }
 
     "flag deleted" {
@@ -227,24 +264,35 @@ class FakeAccountRepositoryTest : FreeSpec({
         val id = AccountId(UUID.randomUUID())
 
         // when
-        repository.flagDeleted(id)
+        val res = repository.flagDeleted(id)
 
         // then
-        accountMap.computeIfPresent(id) { _, acc ->
-            acc.copy(removed = true)
-        }
+        res shouldBe id
     }
 
     "delete by id" {
         // given
         val repository = newRepository()
         val id = AccountId(UUID.randomUUID())
+        val accounts = listOf(
+            Account(
+                id = id,
+                name = NotBlankTrimmedString("Bank"),
+                asset = AssetCode("BGN"),
+                color = ColorInt(1),
+                icon = null,
+                includeInBalance = true,
+                orderNum = 1.0,
+                lastUpdated = Instant.EPOCH,
+                removed = false
+            )
+        )
 
         // when
-        repository.deleteById(id)
+        val res = repository.deleteById(id)
 
         // then
-        accountMap.remove(id)
+        res shouldBe id
     }
 
     "delete all" {
@@ -253,8 +301,9 @@ class FakeAccountRepositoryTest : FreeSpec({
 
         // when
         repository.deleteAll()
+        val res = repository.findAll(false)
 
         // then
-        accountMap.clear()
+        res shouldBe emptyList()
     }
 })
