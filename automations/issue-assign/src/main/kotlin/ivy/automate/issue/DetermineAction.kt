@@ -32,18 +32,17 @@ sealed interface Action {
 context(GitHubService, KtorClientScope)
 suspend fun determineAction(args: Args): Either<String, Action> = either {
     val issueNumber = args.issueId
-
     val intention = checkCommentsForIntention(issueNumber).bind()
         ?: return@either Action.DoNothing(issueNumber)
 
     when (intention) {
-        is CommentIntention.TakeIssue -> intention.handle(issueNumber).bind()
+        is CommentIntention.TakeIssue -> intention.toAction(issueNumber).bind()
         CommentIntention.Unknown -> Action.DoNothing(issueNumber)
     }
 }
 
 context(GitHubService, KtorClientScope)
-private suspend fun CommentIntention.TakeIssue.handle(
+private suspend fun CommentIntention.TakeIssue.toAction(
     issueNumber: GitHubIssueNumber,
 ): Either<String, Action> = either {
     val assignee = checkIfIssueIsAssigned(issueNumber).bind()
@@ -68,7 +67,7 @@ private suspend fun checkCommentsForIntention(
         .bind()
 
     val lastComment = comments.lastOrNull {
-        it.author.username.value != Constants.BOT_USERNAME
+        it.author.username.value != Constants.IVY_BOT_USERNAME
     } ?: return@either null
 
     analyzeCommentIntention(lastComment)
