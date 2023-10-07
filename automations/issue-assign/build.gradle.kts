@@ -4,7 +4,7 @@ plugins {
 }
 
 application {
-    mainClass = "ivy.automate.issue.MainKt"
+    mainClass = "ivy.automate.issue.IssueAssignMainKt"
 }
 
 dependencies {
