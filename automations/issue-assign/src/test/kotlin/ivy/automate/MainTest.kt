@@ -13,9 +13,4 @@ class MainTest : FreeSpec({
     "test 2" {
         testFun(false).shouldBeLeft() shouldBe "err"
     }
-
-    "test 3" {
-        1 shouldBe 2
-    }
-
 })
