@@ -11,6 +11,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "IvyWallet"
+include("automations:issue-assign")
 include(":app")
 include(":ivy-base")
 include(":ivy-common-ui")
