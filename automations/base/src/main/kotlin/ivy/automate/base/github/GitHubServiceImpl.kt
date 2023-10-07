@@ -14,6 +14,13 @@ class GitHubServiceImpl : GitHubService {
     }
 
     context(KtorClientScope)
+    override suspend fun fetchIssue(
+        issueNumber: GitHubIssueNumber
+    ): Either<Throwable, IssueDto> = catchIO {
+        ktorClient.get("$API_ISSUES/${issueNumber.value}").body()
+    }
+
+    context(KtorClientScope)
     override suspend fun fetchLabels(
         issueNumber: GitHubIssueNumber
     ): Either<Throwable, List<LabelDto>> = catchIO {
@@ -27,6 +34,11 @@ class GitHubServiceImpl : GitHubService {
         ktorClient.get("$API_ISSUES/${issueNumber.value}/comments").body()
     }
 }
+
+@Serializable
+data class IssueDto(
+    val assignee: UserDto?
+)
 
 @Serializable
 data class LabelDto(
