@@ -8,9 +8,6 @@ import ivy.automate.base.IvyDsl
 import ivy.automate.base.github.model.GitHubIssueNumber
 import ivy.automate.base.github.model.GitHubPAT
 
-const val ARG_GITHUB_PAT = "gitHubPAT"
-const val ARG_ISSUE_ID = "issueId"
-
 data class Args(
     val pat: GitHubPAT,
     val issueId: GitHubIssueNumber
@@ -19,8 +16,8 @@ data class Args(
 fun parseArgs(argsList: List<String>): Either<String, Args> = either {
     val args = argsList.parseAsMap()
 
-    val gitHubPAT = args.ensureArgument(ARG_GITHUB_PAT)
-    val issueId = args.ensureArgument(ARG_ISSUE_ID)
+    val gitHubPAT = args.ensureArgument(Constants.ARG_GITHUB_PAT)
+    val issueId = args.ensureArgument(Constants.ARG_ISSUE_ID)
 
     Args(
         pat = GitHubPAT.from(gitHubPAT).bind(),

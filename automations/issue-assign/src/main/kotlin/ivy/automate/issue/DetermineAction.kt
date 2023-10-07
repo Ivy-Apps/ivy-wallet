@@ -7,8 +7,6 @@ import ivy.automate.base.github.model.GitHubIssueNumber
 import ivy.automate.base.github.model.GitHubUser
 import ivy.automate.base.ktor.KtorClientScope
 
-const val BOT_USERNAME = "ivywallet"
-
 sealed interface Action {
     val issueNumber: GitHubIssueNumber
 
@@ -69,8 +67,9 @@ private suspend fun checkCommentsForIntention(
         .mapLeft { "Failed to fetch comments: $it." }
         .bind()
 
-    val lastComment = comments.lastOrNull { it.author.username.value != BOT_USERNAME }
-        ?: return@either null
+    val lastComment = comments.lastOrNull {
+        it.author.username.value != Constants.BOT_USERNAME
+    } ?: return@either null
 
     analyzeCommentIntention(lastComment)
 }
