@@ -1,4 +1,4 @@
-package ivy.automate.base.github
+package ivy.automate.base.github.model
 
 import arrow.core.raise.Raise
 import arrow.core.raise.ensure

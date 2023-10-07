@@ -3,7 +3,7 @@ package ivy.automate.issue
 import arrow.core.Either
 import arrow.core.raise.either
 import arrow.core.raise.ensureNotNull
-import ivy.automate.base.github.GitHubIssueNumber
+import ivy.automate.base.github.model.GitHubIssueNumber
 
 const val ARG_ISSUE_ID = "issueId"
 

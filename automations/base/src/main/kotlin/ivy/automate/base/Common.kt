@@ -4,6 +4,9 @@ import arrow.core.Either
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+@DslMarker
+annotation class IvyDsl
+
 suspend fun <A> catchIO(
     block: suspend () -> A
 ): Either<Throwable, A> = Either.catch {
@@ -12,4 +15,3 @@ suspend fun <A> catchIO(
     }
 }
 
-class IvyError(msg: String) : Exception(msg)
