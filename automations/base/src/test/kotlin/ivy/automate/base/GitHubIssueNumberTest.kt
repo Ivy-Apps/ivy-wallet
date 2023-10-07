@@ -3,6 +3,7 @@ package ivy.automate.base
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.core.spec.style.FreeSpec
+import io.kotest.matchers.shouldBe
 import ivy.automate.base.github.GitHubIssueNumber
 
 class GitHubIssueNumberTest : FreeSpec({
@@ -17,6 +18,13 @@ class GitHubIssueNumberTest : FreeSpec({
     }
 
     "valid" {
-        GitHubIssueNumber.from("2763").shouldBeRight()
+        // given
+        val id = "2763"
+
+        // when
+        val res = GitHubIssueNumber.from("2763")
+
+        // then
+        res.shouldBeRight().value shouldBe "2763"
     }
 })

@@ -9,14 +9,27 @@ interface GitHubService {
         issueNumber: GitHubIssueNumber
     ): Either<Throwable, IssueDto>
 
-
     context(KtorClientScope)
-    suspend fun fetchLabels(
+    suspend fun fetchIssueLabels(
         issueNumber: GitHubIssueNumber
     ): Either<Throwable, List<LabelDto>>
 
     context(KtorClientScope)
-    suspend fun fetchComments(
+    suspend fun fetchIssueComments(
         issueNumber: GitHubIssueNumber
     ): Either<Throwable, List<CommentDto>>
+
+    context(KtorClientScope)
+    suspend fun commentIssue(
+        pat: GitHubPAT,
+        issueNumber: GitHubIssueNumber,
+        text: String
+    ): Either<Throwable, Unit>
+
+    context(KtorClientScope)
+    suspend fun assignIssue(
+        pat: GitHubPAT,
+        issueNumber: GitHubIssueNumber,
+        assignee: String
+    ): Either<Throwable, Unit>
 }

@@ -45,7 +45,7 @@ private suspend fun execute(argsList: List<String>): Either<String, String> = ei
         return@either "Issue #${issueNumber.value} is not approved."
     }
 
-    val comments = fetchComments(issueNumber)
+    val comments = fetchIssueComments(issueNumber)
         .mapLeft { "Failed to fetch comments: $it." }
         .bind()
     comments.joinToString("\n")
@@ -66,7 +66,7 @@ context(GitHubService, KtorClientScope)
 private suspend fun checkIssueApproved(
     issueNumber: GitHubIssueNumber
 ): Either<String, Boolean> = either {
-    val labels = fetchLabels(issueNumber)
+    val labels = fetchIssueLabels(issueNumber)
         .mapLeft { "Failed to fetch labels: $it." }
         .bind()
 

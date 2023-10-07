@@ -11,7 +11,7 @@ value class GitHubIssueNumber private constructor(val value: String) {
 
         override fun Raise<String>.spec(raw: String): GitHubIssueNumber {
             ensure(raw.isNotBlank()) { "Cannot be blank" }
-            ensure(raw.all { it.isDigit() }) { "Must contain only digits" }
+            ensure(raw.trim().all { it.isDigit() }) { "Must contain only digits" }
             return GitHubIssueNumber(raw.trim())
         }
 
