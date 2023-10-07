@@ -1,5 +1,16 @@
 package ivy.automate.base.github
 
-interface GitHubService {
+import arrow.core.Either
+import ivy.automate.base.ktor.KtorClientScope
 
+interface GitHubService {
+    context(KtorClientScope)
+    suspend fun fetchLabels(
+        issueNumber: GitHubIssueNumber
+    ): Either<Throwable, List<LabelDto>>
+
+    context(KtorClientScope)
+    suspend fun fetchComments(
+        issueNumber: GitHubIssueNumber
+    ): Either<Throwable, List<CommentDto>>
 }

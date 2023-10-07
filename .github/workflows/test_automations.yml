@@ -29,5 +29,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Test the "issue-assign" automation
+      - name: Test the ":automations:base"
+        run: ./gradlew :automations:base:test
+
+      - name: Test the ":automations:issue-assign"
         run: ./gradlew :automations:issue-assign:test

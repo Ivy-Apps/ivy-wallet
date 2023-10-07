@@ -3,12 +3,12 @@ package ivy.automate.issue
 import arrow.core.Either
 import arrow.core.raise.either
 import arrow.core.raise.ensureNotNull
-import ivy.automate.base.github.GitHubID
+import ivy.automate.base.github.GitHubIssueNumber
 
 const val ARG_ISSUE_ID = "issueId"
 
 data class Args(
-    val issueId: GitHubID
+    val issueId: GitHubIssueNumber
 )
 
 fun parseArgs(args: List<String>): Either<String, Args> = either {
@@ -20,7 +20,7 @@ fun parseArgs(args: List<String>): Either<String, Args> = either {
     }
 
     Args(
-        issueId = GitHubID.from(issueId).bind(),
+        issueId = GitHubIssueNumber.from(issueId).bind(),
     )
 }
 

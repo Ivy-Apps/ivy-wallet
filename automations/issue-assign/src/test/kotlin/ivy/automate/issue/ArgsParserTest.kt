@@ -4,7 +4,7 @@ import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import ivy.automate.base.github.GitHubID
+import ivy.automate.base.github.GitHubIssueNumber
 
 class ArgsParserTest : FreeSpec({
     "no args" {
@@ -37,6 +37,6 @@ class ArgsParserTest : FreeSpec({
         val res = parseArgs(args)
 
         // then
-        res.shouldBeRight().issueId shouldBe GitHubID("123")
+        res.shouldBeRight().issueId shouldBe GitHubIssueNumber("123")
     }
 })
