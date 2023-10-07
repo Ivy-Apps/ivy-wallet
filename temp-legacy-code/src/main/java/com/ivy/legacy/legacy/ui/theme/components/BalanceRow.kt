@@ -67,28 +67,48 @@ fun BalanceRowMini(
     currencyUpfront: Boolean = true,
     shortenBigNumbers: Boolean = false,
     hiddenMode: Boolean = false,
-    overflow:Boolean=false
+    overflow: Boolean = false
 ) {
-    BalanceRow(
-        modifier = modifier,
+    if(overflow) {
+        BalanceColumn(
+            modifier = modifier,
 
-        decimalPaddingTop = 6.dp,
-        textColor = textColor,
-        currency = currency,
-        balance = balance,
-        hiddenMode = hiddenMode,
-        spacerCurrency = 8.dp,
-        spacerDecimal = 4.dp,
-        currencyFontSize = 20.sp,
-        integerFontSize = 22.sp,
-        decimalFontSize = 7.sp,
+            decimalPaddingTop = 6.dp,
+            textColor = textColor,
+            currency = currency,
+            balance = balance,
+            hiddenMode = hiddenMode,
+            spacerCurrency = 8.dp,
+            spacerDecimal = 4.dp,
+            currencyFontSize = 20.sp,
+            integerFontSize = 22.sp,
+            decimalFontSize = 7.sp,
 
-        balanceAmountPrefix = balanceAmountPrefix,
-        currencyUpfront = currencyUpfront,
-        shortenBigNumbers = shortenBigNumbers,
-        overflow=overflow
+            balanceAmountPrefix = balanceAmountPrefix,
+            currencyUpfront = currencyUpfront,
+            shortenBigNumbers = shortenBigNumbers,
+        )
+    }
+    else {
+        BalanceRow(
+            modifier = modifier,
 
-    )
+            decimalPaddingTop = 6.dp,
+            textColor = textColor,
+            currency = currency,
+            balance = balance,
+            hiddenMode = hiddenMode,
+            spacerCurrency = 8.dp,
+            spacerDecimal = 4.dp,
+            currencyFontSize = 20.sp,
+            integerFontSize = 22.sp,
+            decimalFontSize = 7.sp,
+
+            balanceAmountPrefix = balanceAmountPrefix,
+            currencyUpfront = currencyUpfront,
+            shortenBigNumbers = shortenBigNumbers,
+        )
+    }
 }
 
 @Composable
@@ -109,9 +129,7 @@ fun BalanceRow(
     currencyUpfront: Boolean = true,
     balanceAmountPrefix: String? = null,
     shortenBigNumbers: Boolean = false,
-    overflow: Boolean=false
 ) {
-    if (overflow == false) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
@@ -185,84 +203,96 @@ fun BalanceRow(
         }
     }
 }
-else{
-        Column(
-            modifier = modifier,
-            verticalArrangement = Arrangement.Center
-        ) {
-            val shortAmount = shortenBigNumbers && shouldShortAmount(balance)
+@Composable
+fun BalanceColumn(
+    modifier: Modifier = Modifier,
+    currency: String,
+    balance: Double,
+    hiddenMode: Boolean = false,
 
-            if (currencyUpfront) {
-                Currency(
-                    currency = currency,
-                    textColor = textColor,
-                    currencyFontSize = currencyFontSize
-                )
+    textColor: Color = UI.colors.pureInverse,
+    decimalPaddingTop: Dp = 12.dp,
+    spacerCurrency: Dp = 12.dp,
+    spacerDecimal: Dp = 8.dp,
+    currencyFontSize: TextUnit? = null,
+    integerFontSize: TextUnit? = null,
+    decimalFontSize: TextUnit? = null,
 
-                Spacer(Modifier.width(spacerCurrency))
-            }
+    currencyUpfront: Boolean = true,
+    balanceAmountPrefix: String? = null,
+    shortenBigNumbers: Boolean = false,
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center
+    ) {
+        val shortAmount = shortenBigNumbers && shouldShortAmount(balance)
 
-            val integerPartFormatted = if (shortAmount) {
-                shortenAmount(balance)
-            } else {
-                integerPartFormatted(balance)
-            }
-            Row(
+        if (currencyUpfront) {
+            Currency(
+                currency = currency,
+                textColor = textColor,
+                currencyFontSize = currencyFontSize
+            )
 
-            ) {
+            Spacer(Modifier.width(spacerCurrency))
+        }
+
+        val integerPartFormatted = if (shortAmount) {
+            shortenAmount(balance)
+        } else {
+            integerPartFormatted(balance)
+        }
+        Row() {
+            Text(
+                text = when {
+                    hiddenMode -> "****"
+                    balanceAmountPrefix != null -> "$balanceAmountPrefix$integerPartFormatted"
+                    else -> integerPartFormatted
+                },
+                style = if (integerFontSize == null) {
+                    UI.typo.nH1.style(
+                        fontWeight = FontWeight.ExtraBold,
+                        color = textColor
+                    )
+                } else {
+                    UI.typo.nH1.style(
+                        fontWeight = FontWeight.ExtraBold,
+                        color = textColor
+                    ).copy(fontSize = integerFontSize)
+                }
+            )
+
+            if (!shortAmount) {
+                Spacer(Modifier.width(spacerDecimal))
+
                 Text(
-                    text = when {
-                        hiddenMode -> "****"
-                        balanceAmountPrefix != null -> "$balanceAmountPrefix$integerPartFormatted"
-                        else -> integerPartFormatted
-                    },
-                    style = if (integerFontSize == null) {
-                        UI.typo.nH1.style(
-                            fontWeight = FontWeight.ExtraBold,
+                    modifier = Modifier
+                        .align(Alignment.Top)
+                        .padding(top = decimalPaddingTop),
+                    text = if (hiddenMode) "" else decimalPartFormatted(currency, balance),
+                    style = if (decimalFontSize == null) {
+                        UI.typo.nB1.style(
+                            fontWeight = FontWeight.Bold,
                             color = textColor
                         )
                     } else {
-                        UI.typo.nH1.style(
-                            fontWeight = FontWeight.ExtraBold,
+                        UI.typo.nB1.style(
+                            fontWeight = FontWeight.Bold,
                             color = textColor
-                        ).copy(fontSize = integerFontSize)
+                        ).copy(fontSize = decimalFontSize)
                     }
                 )
-
-                if (!shortAmount) {
-                    Spacer(Modifier.width(spacerDecimal))
-
-                    Text(
-                        modifier = Modifier
-                            .align(Alignment.Top)
-                            .padding(top = decimalPaddingTop),
-                        text = if (hiddenMode) "" else decimalPartFormatted(currency, balance),
-                        style = if (decimalFontSize == null) {
-                            UI.typo.nB1.style(
-                                fontWeight = FontWeight.Bold,
-                                color = textColor
-                            )
-                        } else {
-                            UI.typo.nB1.style(
-                                fontWeight = FontWeight.Bold,
-                                color = textColor
-                            ).copy(fontSize = decimalFontSize)
-                        }
-                    )
-                }
-
             }
+        }
+        if (!currencyUpfront) {
+            Spacer(Modifier.width(spacerCurrency))
 
-
-            if (!currencyUpfront) {
-                Spacer(Modifier.width(spacerCurrency))
-
-                Currency(
-                    currency = currency,
-                    textColor = textColor,
-                    currencyFontSize = currencyFontSize
-                )
-            }
+            Currency(
+                currency = currency,
+                textColor = textColor,
+                currencyFontSize = currencyFontSize
+            )
         }
     }
 }
