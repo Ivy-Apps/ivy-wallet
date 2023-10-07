@@ -157,10 +157,12 @@ private fun HeaderStickyRow(
 
             // Balance mini row
             if (percentExpanded < 1f) {
+                val overflowLengthOfBalance = 7
+                val overflowLengthOfMonthRange = 12
                 val lengthOfCurrencyAndBalance = (currency + balance.toString()).length
                 var overflow = false
                 var lengthOfMonthRange = period.toDisplayShort(ivyWalletCtx().startDayOfMonth).length
-                if (lengthOfCurrencyAndBalance >= 7 && lengthOfMonthRange >= 12) {
+                if (lengthOfCurrencyAndBalance >= overflowLengthOfBalance && lengthOfMonthRange >= overflowLengthOfMonthRange) {
                     overflow = true
                 }
 
