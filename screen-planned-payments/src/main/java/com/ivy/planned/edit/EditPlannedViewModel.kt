@@ -278,6 +278,7 @@ class EditPlannedViewModel @Inject constructor(
 
     fun start(screen: EditPlannedScreen) {
         viewModelScope.launch {
+            transactionType.value = screen.type
             editMode = screen.plannedPaymentRuleId != null
 
             val accounts = accountsAct(Unit)

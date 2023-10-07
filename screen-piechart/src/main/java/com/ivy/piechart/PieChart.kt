@@ -20,11 +20,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.ivy.base.legacy.toEpochMilli
-import com.ivy.legacy.datamodel.Category
+import com.ivy.base.model.TransactionType
 import com.ivy.design.l0_system.UI
+import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.timeNowUTC
-import com.ivy.base.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -40,11 +40,11 @@ fun PieChart(
     type: TransactionType,
     categoryAmounts: List<CategoryAmount>,
     selectedCategory: SelectedCategory?,
-
+    modifier: Modifier = Modifier,
     onCategoryClicked: (Category?) -> Unit = {}
 ) {
     Box(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
         AndroidView(

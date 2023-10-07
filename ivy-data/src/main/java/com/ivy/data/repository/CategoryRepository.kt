@@ -1,10 +1,15 @@
 package com.ivy.data.repository
 
-import com.ivy.data.source.CategoryDataSource
-import javax.inject.Inject
+import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
 
-class CategoryRepository @Inject constructor(
-    private val dataSource: CategoryDataSource
-) {
-    // TODO: Implement
+interface CategoryRepository {
+    suspend fun findAll(deleted: Boolean): List<Category>
+    suspend fun findById(id: CategoryId): Category?
+    suspend fun findMaxOrderNum(): Double
+    suspend fun save(value: Category)
+    suspend fun saveMany(values: List<Category>)
+    suspend fun deleteById(id: CategoryId)
+    suspend fun flagDeleted(id: CategoryId)
+    suspend fun deleteAll()
 }

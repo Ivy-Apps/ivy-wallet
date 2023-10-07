@@ -1,9 +1,9 @@
-package com.ivy.domain.model.primitive
+package com.ivy.data.model.primitive
 
-import com.ivy.data.model.primitive.AssetCode
 import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.core.spec.style.FreeSpec
-import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.shouldBe
 
 class AssetCodeTest : FreeSpec({
     "fails for blank asset codes" {
@@ -13,8 +13,13 @@ class AssetCodeTest : FreeSpec({
     }
 
     "asset codes should be always uppercase and trimmed" {
-        AssetCode.from(" usd ")
-            .isRight { it.code == "USD" }
-            .shouldBeTrue()
+        // given
+        val rawInput = " usd "
+
+        // when
+        val res = AssetCode.from(rawInput)
+
+        // then
+        res.shouldBeRight() shouldBe AssetCode("USD")
     }
 })
