@@ -472,7 +472,9 @@ private fun BoxWithConstraintsScope.UI(
         onToAccountChanged = onToAccountChanged,
         onAddNewAccount = {
             accountModalData = AccountModalData(
-                account = null, baseCurrency = baseCurrency, balance = 0.0
+                account = null,
+                baseCurrency = baseCurrency,
+                balance = 0.0
             )
         })
 

@@ -120,7 +120,8 @@ class SettingsViewModel @Inject constructor(
 
     private fun initializeShowNotifications() {
         showNotifications.value = sharedPrefs.getBoolean(
-            SharedPrefs.SHOW_NOTIFICATIONS, true
+            SharedPrefs.SHOW_NOTIFICATIONS,
+            true
         )
     }
 

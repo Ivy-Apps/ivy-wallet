@@ -22,7 +22,7 @@ version-code = "150"
 
 
 # Linters
-detekt = "1.23.1" # https://detekt.dev/docs/gettingstarted/gradle/
+detekt = "1.23.0" # https://detekt.dev/docs/gettingstarted/gradle/
 
 [libraries]
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version = "8.1.2" }
