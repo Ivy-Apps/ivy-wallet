@@ -8,6 +8,10 @@ kotlin {
     }
 }
 
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}
+
 dependencies {
     implementation(libs.bundles.arrow)
     implementation(libs.bundles.kotlin)

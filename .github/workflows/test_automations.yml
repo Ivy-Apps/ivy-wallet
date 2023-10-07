@@ -1,4 +1,4 @@
-name: Unit tests
+name: Automations tests
 
 # Controls when the workflow will run
 on:
@@ -41,6 +41,6 @@ jobs:
       #---------------------------------------------------
 
       #Test
-      - name: Run unit tests
-        run: ./gradlew testDebugUnitTest
+      - name: Test the "issue-assign" automation
+        run: ./gradlew :automations:issue-assign:test
       #------------------------------------------------------------------
