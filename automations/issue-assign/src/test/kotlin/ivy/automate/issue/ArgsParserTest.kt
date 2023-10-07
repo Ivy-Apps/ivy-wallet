@@ -6,6 +6,8 @@ import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import ivy.automate.base.github.model.GitHubIssueNumber
 import ivy.automate.base.github.model.GitHubPAT
+import ivy.automate.issue.Constants.ARG_GITHUB_PAT
+import ivy.automate.issue.Constants.ARG_ISSUE_NUMBER
 
 class ArgsParserTest : FreeSpec({
     "invalid" - {
@@ -22,7 +24,7 @@ class ArgsParserTest : FreeSpec({
 
         "random args" {
             // given
-            val args = listOf("dfdf", "sdgdf")
+            val args = listOf("hello", "world")
 
             // when
             val res = parseArgs(args)
@@ -33,7 +35,7 @@ class ArgsParserTest : FreeSpec({
 
         "missing issueId" {
             // given
-            val args = listOf("issueId=123")
+            val args = listOf("$ARG_GITHUB_PAT=abc")
 
             // when
             val res = parseArgs(args)
@@ -44,7 +46,7 @@ class ArgsParserTest : FreeSpec({
 
         "missing gitHubPAT" {
             // given
-            val args = listOf("gitHubPAT=okay")
+            val args = listOf("$ARG_ISSUE_NUMBER=1234")
 
             // when
             val res = parseArgs(args)
@@ -55,7 +57,7 @@ class ArgsParserTest : FreeSpec({
 
         "blank arguments" {
             // given
-            val args = listOf("issueId=", "gitHubPAT=")
+            val args = listOf("$ARG_ISSUE_NUMBER=", "$ARG_GITHUB_PAT=")
 
             // when
             val res = parseArgs(args)
@@ -67,7 +69,7 @@ class ArgsParserTest : FreeSpec({
 
     "valid args" {
         // given
-        val args = listOf("issueId=123", "gitHubPAT=abc")
+        val args = listOf("$ARG_ISSUE_NUMBER=123", "$ARG_GITHUB_PAT=abc")
 
         // when
         val res = parseArgs(args)
@@ -75,7 +77,7 @@ class ArgsParserTest : FreeSpec({
         // then
         res.shouldBeRight() shouldBe Args(
             pat = GitHubPAT("abc"),
-            issueId = GitHubIssueNumber("123")
+            issueNumber = GitHubIssueNumber("123")
         )
     }
 })

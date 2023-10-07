@@ -32,14 +32,9 @@ context(GitHubService, KtorClientScope)
 private suspend fun execute(argsArr: Array<String>): Either<String, String> = either {
     val args = parseArgs(argsArr.toList()).bind()
     when (val action = determineAction(args).bind()) {
-        is Action.AlreadyTaken -> action.execute().bind()
-        is Action.AssignIssue -> TODO()
-        is Action.DoNothing -> "Nothing to do."
-        is Action.NotApproved -> TODO()
+        is Action.AlreadyTaken -> action.execute(args).bind()
+        is Action.AssignIssue -> action.execute(args).bind()
+        is Action.NotApproved -> action.execute(args).bind()
+        is Action.DoNothing -> "Do nothing."
     }
-}
-
-context(GitHubService, KtorClientScope)
-private suspend fun Action.AlreadyTaken.execute(): Either<String, String> {
-    TODO()
 }

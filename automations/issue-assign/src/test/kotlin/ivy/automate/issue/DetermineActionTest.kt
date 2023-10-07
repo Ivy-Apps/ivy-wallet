@@ -28,7 +28,7 @@ class DetermineActionTest : FreeSpec({
     val issueNumber = GitHubIssueNumber("1234")
     val args = Args(
         pat = GitHubPAT("pat"),
-        issueId = issueNumber
+        issueNumber = issueNumber
     )
     val gitHubService = mockk<GitHubService>()
 

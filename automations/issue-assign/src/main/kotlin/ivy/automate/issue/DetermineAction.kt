@@ -31,7 +31,7 @@ sealed interface Action {
 
 context(GitHubService, KtorClientScope)
 suspend fun determineAction(args: Args): Either<String, Action> = either {
-    val issueNumber = args.issueId
+    val issueNumber = args.issueNumber
     val intention = checkCommentsForIntention(issueNumber).bind()
         ?: return@either Action.DoNothing(issueNumber)
 
