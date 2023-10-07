@@ -69,7 +69,7 @@ fun BalanceRowMini(
     hiddenMode: Boolean = false,
     overflow: Boolean = false
 ) {
-    if(overflow) {
+    if (overflow) {
         BalanceColumn(
             modifier = modifier,
 
@@ -88,8 +88,7 @@ fun BalanceRowMini(
             currencyUpfront = currencyUpfront,
             shortenBigNumbers = shortenBigNumbers,
         )
-    }
-    else {
+    } else {
         BalanceRow(
             modifier = modifier,
 
@@ -128,7 +127,7 @@ fun BalanceRow(
 
     currencyUpfront: Boolean = true,
     balanceAmountPrefix: String? = null,
-    shortenBigNumbers: Boolean = false,
+    shortenBigNumbers: Boolean = false
 ) {
     Row(
         modifier = modifier,
@@ -203,13 +202,18 @@ fun BalanceRow(
         }
     }
 }
+
 @Composable
 fun BalanceColumn(
-    modifier: Modifier = Modifier,
+    // Params without defaults
     currency: String,
     balance: Double,
-    hiddenMode: Boolean = false,
 
+    // Modifiers
+    modifier: Modifier = Modifier,
+
+    // Params with defaults
+    hiddenMode: Boolean = false,
     textColor: Color = UI.colors.pureInverse,
     decimalPaddingTop: Dp = 12.dp,
     spacerCurrency: Dp = 12.dp,
@@ -217,10 +221,9 @@ fun BalanceColumn(
     currencyFontSize: TextUnit? = null,
     integerFontSize: TextUnit? = null,
     decimalFontSize: TextUnit? = null,
-
     currencyUpfront: Boolean = true,
     balanceAmountPrefix: String? = null,
-    shortenBigNumbers: Boolean = false,
+    shortenBigNumbers: Boolean = false
 ) {
     Column(
         modifier = modifier,
@@ -243,7 +246,7 @@ fun BalanceColumn(
         } else {
             integerPartFormatted(balance)
         }
-        Row() {
+        Row {
             Text(
                 text = when {
                     hiddenMode -> "****"
@@ -296,7 +299,6 @@ fun BalanceColumn(
         }
     }
 }
-
 
 @Composable
 private fun Currency(
