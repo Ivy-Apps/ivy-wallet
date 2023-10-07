@@ -162,7 +162,8 @@ private fun HeaderStickyRow(
                 val lengthOfCurrencyAndBalance = (currency + balance.toString()).length
                 var overflow = false
                 var lengthOfMonthRange = period.toDisplayShort(ivyWalletCtx().startDayOfMonth).length
-                if (lengthOfCurrencyAndBalance >= overflowLengthOfBalance && lengthOfMonthRange >= overflowLengthOfMonthRange) {
+                if (lengthOfCurrencyAndBalance >= overflowLengthOfBalance
+                    && lengthOfMonthRange >= overflowLengthOfMonthRange) {
                     overflow = true
                 }
 
