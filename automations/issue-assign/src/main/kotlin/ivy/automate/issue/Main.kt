@@ -29,12 +29,8 @@ fun testFun(ok: Boolean): Either<String, Int> {
     }
 }
 
-fun main() = runBlocking {
+fun main(args: Array<String>) = runBlocking {
     ktorClientScope {
-        val response = withContext(Dispatchers.IO) {
-            ktorClient.get("https://www.google.com/")
-                .body<String>()
-        }
-        println(response)
+        println("Args: ${args.toList()}")
     }
 }
