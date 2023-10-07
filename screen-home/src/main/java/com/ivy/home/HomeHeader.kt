@@ -18,7 +18,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -160,12 +162,12 @@ private fun HeaderStickyRow(
                 val overflowLengthOfBalance = 7
                 val overflowLengthOfMonthRange = 12
                 val lengthOfCurrencyAndBalance = (currency + balance.toString()).length
-                var overflow = false
                 var lengthOfMonthRange = period.toDisplayShort(ivyWalletCtx().startDayOfMonth).length
-                if (lengthOfCurrencyAndBalance >= overflowLengthOfBalance &&
-                    lengthOfMonthRange >= overflowLengthOfMonthRange
-                    ) {
-                    overflow = true
+                val overflow by remember(lengthOfCurrencyAndBalance, lengthOfMonthRange) {
+                    derivedStateOf {
+                        lengthOfCurrencyAndBalance >= overflowLengthOfBalance &&
+                                lengthOfMonthRange >= overflowLengthOfMonthRange
+                    }
                 }
 
                 BalanceRowMini(
