@@ -21,6 +21,6 @@ class GitHubUsernameTest : FreeSpec({
         val res = GitHubUsername.from(rawUsername)
 
         // then
-        res.shouldBeRight() shouldBe "ILIYANGERMANOV"
+        res.shouldBeRight().value shouldBe "ILIYANGERMANOV"
     }
 })

@@ -21,6 +21,6 @@ class GitHubLabelNameTest : FreeSpec({
         val res = GitHubLabelName.from(rawLabel)
 
         // then
-        res.shouldBeRight() shouldBe "devxp"
+        res.shouldBeRight().value shouldBe "devexp"
     }
 })
