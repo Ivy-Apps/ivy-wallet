@@ -351,7 +351,6 @@
     <ID>ComposableParamOrder:EditBottomSheet.kt$AccountsRow</ID>
     <ID>ComposableParamOrder:EditBottomSheet.kt$Amount</ID>
     <ID>ComposableParamOrder:EditBottomSheet.kt$EditBottomSheet</ID>
-    <ID>ComposableParamOrder:EditPlannedScreen.kt$UI</ID>
     <ID>ComposableParamOrder:FilterOverlay.kt$TypeFilterCheckbox</ID>
     <ID>ComposableParamOrder:IconButton.kt$IconButton</ID>
     <ID>ComposableParamOrder:ImportInstructions.kt$InstructionButton</ID>
@@ -385,18 +384,15 @@
     <ID>ComposableParamOrder:IvyText.kt$IvyText</ID>
     <ID>ComposableParamOrder:IvyTitleTextField.kt$IvyTitleTextField</ID>
     <ID>ComposableParamOrder:LoanDetailsScreen.kt$Header</ID>
-    <ID>ComposableParamOrder:LoanDetailsScreen.kt$UI</ID>
     <ID>ComposableParamOrder:LoanModal.kt$AccountsRow</ID>
     <ID>ComposableParamOrder:LoanModal.kt$LoanModal</ID>
     <ID>ComposableParamOrder:LoanRecordModal.kt$AccountsRow</ID>
     <ID>ComposableParamOrder:LoanRecordModal.kt$LoanRecordModal</ID>
-    <ID>ComposableParamOrder:LoansScreen.kt$NoLoansEmptyState</ID>
     <ID>ComposableParamOrder:MonthPickerModal.kt$MonthPickerModal</ID>
     <ID>ComposableParamOrder:OnboardingComponents.kt$OnboardingButton</ID>
     <ID>ComposableParamOrder:OnboardingProgressSlider.kt$OnboardingProgressSlider</ID>
     <ID>ComposableParamOrder:PeriodSelector.kt$PeriodSelector</ID>
     <ID>ComposableParamOrder:PlannedPaymentsBottomBar.kt$PlannedPaymentsBottomBar</ID>
-    <ID>ComposableParamOrder:PlannedPaymentsLazyColumn.kt$PlannedPaymentsLazyColumn</ID>
     <ID>ComposableParamOrder:Preview.kt$IvyPreview</ID>
     <ID>ComposableParamOrder:PrimaryAttributeColumn.kt$PrimaryAttributeColumn</ID>
     <ID>ComposableParamOrder:ProgressBar.kt$ProgressBar</ID>
@@ -426,6 +422,7 @@
     <ID>CyclomaticComplexMethod:AccountModal.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun BoxWithConstraintsScope.AccountModal( modal: AccountModalData?, onCreateAccount: (CreateAccountData) -&gt; Unit, onEditAccount: (Account, balance: Double) -&gt; Unit, dismiss: () -&gt; Unit, )</ID>
     <ID>CyclomaticComplexMethod:BudgetBattery.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun BudgetBattery( modifier: Modifier = Modifier, currency: String, expenses: Double, budget: Double, backgroundNotFilled: Color = UI.colors.pure, onClick: (() -&gt; Unit)? = null, )</ID>
     <ID>CyclomaticComplexMethod:CSVViewModel.kt$CSVViewModel$private suspend fun handleEvent(event: CSVEvent)</ID>
+    <ID>CyclomaticComplexMethod:EditPlannedViewModel.kt$EditPlannedViewModel$override fun onEvent(event: EditPlannedScreenEvent)</ID>
     <ID>CyclomaticComplexMethod:EditTransactionScreen.kt$@ExperimentalFoundationApi @Composable private fun BoxWithConstraintsScope.UI( screen: EditTransactionScreen, transactionType: TransactionType, baseCurrency: String, initialTitle: String?, titleSuggestions: ImmutableSet&lt;String&gt;, description: String?, category: Category?, dateTime: LocalDateTime?, account: Account?, toAccount: Account?, dueDate: LocalDateTime?, amount: Double, customExchangeRateState: CustomExchangeRateState, categories: ImmutableList&lt;Category&gt;, accounts: ImmutableList&lt;Account&gt;, onTitleChanged: (String?) -&gt; Unit, onDescriptionChanged: (String?) -&gt; Unit, onAmountChanged: (Double) -&gt; Unit, onCategoryChanged: (Category?) -&gt; Unit, onAccountChanged: (Account) -&gt; Unit, onToAccountChanged: (Account) -&gt; Unit, onDueDateChanged: (LocalDateTime?) -&gt; Unit, onSetDate: (LocalDate) -&gt; Unit, onSetTime: (LocalTime) -&gt; Unit, onSetTransactionType: (TransactionType) -&gt; Unit, onCreateCategory: (CreateCategoryData) -&gt; Unit, onEditCategory: (Category) -&gt; Unit, onPayPlannedPayment: () -&gt; Unit, onSave: (closeScreen: Boolean) -&gt; Unit, onSetHasChanges: (hasChanges: Boolean) -&gt; Unit, onDelete: () -&gt; Unit, onCreateAccount: (CreateAccountData) -&gt; Unit, onExchangeRateChanged: (Double?) -&gt; Unit = { }, loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(), backgroundProcessing: Boolean = false, hasChanges: Boolean = false, )</ID>
     <ID>CyclomaticComplexMethod:EditTransactionViewModel.kt$EditTransactionViewModel$override fun onEvent(event: EditTransactionEvent)</ID>
     <ID>CyclomaticComplexMethod:ExportCSVLogic.kt$ExportCSVLogic$private fun Transaction.toCSV( baseCurrency: String, accountMap: Map&lt;UUID, Account&gt;, categoryMap: Map&lt;UUID, Category&gt; ): String</ID>
@@ -2186,12 +2183,11 @@
     <ID>LongMethod:CalculatorModal.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun BoxWithConstraintsScope.CalculatorModal( id: UUID = UUID.randomUUID(), initialAmount: Double?, visible: Boolean, currency: String, dismiss: () -&gt; Unit, onCalculation: (Double) -&gt; Unit )</ID>
     <ID>LongMethod:ChooseIconModal.kt$fun ivyIcons(): List&lt;Any&gt;</ID>
     <ID>LongMethod:EditBottomSheet.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun BoxWithConstraintsScope.EditBottomSheet( initialTransactionId: UUID?, type: TransactionType, accounts: List&lt;Account&gt;, selectedAccount: Account?, toAccount: Account?, amount: Double, currency: String, convertedAmount: Double? = null, convertedAmountCurrencyCode: String? = null, amountModalShown: Boolean, setAmountModalShown: (Boolean) -&gt; Unit, ActionButton: @Composable () -&gt; Unit, onAmountChanged: (Double) -&gt; Unit, onSelectedAccountChanged: (Account) -&gt; Unit, onToAccountChanged: (Account) -&gt; Unit, onAddNewAccount: () -&gt; Unit )</ID>
-    <ID>LongMethod:EditPlannedScreen.kt$@ExperimentalFoundationApi @Composable private fun BoxWithConstraintsScope.UI( screen: EditPlannedScreen, startDate: LocalDateTime?, intervalN: Int?, intervalType: IntervalType?, oneTime: Boolean, type: TransactionType, currency: String, initialTitle: String?, description: String?, category: Category?, account: Account?, amount: Double, categories: List&lt;Category&gt;, accounts: List&lt;Account&gt;, onRuleChanged: (LocalDateTime, oneTime: Boolean, Int?, IntervalType?) -&gt; Unit, onTitleChanged: (String?) -&gt; Unit, onDescriptionChanged: (String?) -&gt; Unit, onAmountChanged: (Double) -&gt; Unit, onCategoryChanged: (Category?) -&gt; Unit, onAccountChanged: (Account) -&gt; Unit, onSetTransactionType: (TransactionType) -&gt; Unit, onCreateCategory: (CreateCategoryData) -&gt; Unit = {}, onSave: () -&gt; Unit, onDelete: () -&gt; Unit, onCreateAccount: (CreateAccountData) -&gt; Unit = {}, )</ID>
+    <ID>LongMethod:EditPlannedScreen.kt$@ExperimentalFoundationApi @Composable private fun BoxWithConstraintsScope.UI( screen: EditPlannedScreen, state: EditPlannedScreenState, onEvent: (EditPlannedScreenEvent) -&gt; Unit )</ID>
     <ID>LongMethod:EditTransactionScreen.kt$@ExperimentalFoundationApi @Composable private fun BoxWithConstraintsScope.UI( screen: EditTransactionScreen, transactionType: TransactionType, baseCurrency: String, initialTitle: String?, titleSuggestions: ImmutableSet&lt;String&gt;, description: String?, category: Category?, dateTime: LocalDateTime?, account: Account?, toAccount: Account?, dueDate: LocalDateTime?, amount: Double, customExchangeRateState: CustomExchangeRateState, categories: ImmutableList&lt;Category&gt;, accounts: ImmutableList&lt;Account&gt;, onTitleChanged: (String?) -&gt; Unit, onDescriptionChanged: (String?) -&gt; Unit, onAmountChanged: (Double) -&gt; Unit, onCategoryChanged: (Category?) -&gt; Unit, onAccountChanged: (Account) -&gt; Unit, onToAccountChanged: (Account) -&gt; Unit, onDueDateChanged: (LocalDateTime?) -&gt; Unit, onSetDate: (LocalDate) -&gt; Unit, onSetTime: (LocalTime) -&gt; Unit, onSetTransactionType: (TransactionType) -&gt; Unit, onCreateCategory: (CreateCategoryData) -&gt; Unit, onEditCategory: (Category) -&gt; Unit, onPayPlannedPayment: () -&gt; Unit, onSave: (closeScreen: Boolean) -&gt; Unit, onSetHasChanges: (hasChanges: Boolean) -&gt; Unit, onDelete: () -&gt; Unit, onCreateAccount: (CreateAccountData) -&gt; Unit, onExchangeRateChanged: (Double?) -&gt; Unit = { }, loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(), backgroundProcessing: Boolean = false, hasChanges: Boolean = false, )</ID>
     <ID>LongMethod:FilterOverlay.kt$@Composable fun BoxWithConstraintsScope.FilterOverlay( visible: Boolean, baseCurrency: String, accounts: List&lt;Account&gt;, categories: List&lt;Category&gt;, filter: ReportFilter?, onClose: () -&gt; Unit, onSetFilter: (ReportFilter?) -&gt; Unit )</ID>
     <ID>LongMethod:HomeTab.kt$@ExperimentalAnimationApi @ExperimentalFoundationApi @Composable private fun BoxWithConstraintsScope.UI( uiState: HomeState, onEvent: (HomeEvent) -&gt; Unit )</ID>
     <ID>LongMethod:ImportResultUI.kt$@Composable fun ImportResultUI( result: ImportResult, launchedFromOnboarding: Boolean, isManualCsvImport: Boolean = false, onTryAgain: (() -&gt; Unit)? = null, onFinish: () -&gt; Unit )</ID>
-    <ID>LongMethod:LoanDetailsScreen.kt$@Composable private fun BoxWithConstraintsScope.UI( baseCurrency: String, loan: Loan?, displayLoanRecords: List&lt;DisplayLoanRecord&gt; = emptyList(), amountPaid: Double, loanAmountPaid: Double = 0.0, accounts: List&lt;Account&gt; = emptyList(), selectedLoanAccount: Account? = null, createLoanTransaction: Boolean = false, onCreateAccount: (CreateAccountData) -&gt; Unit = {}, onEditLoan: (Loan, Boolean) -&gt; Unit = { _, _ -&gt; }, onCreateLoanRecord: (CreateLoanRecordData) -&gt; Unit = {}, onEditLoanRecord: (EditLoanRecordData) -&gt; Unit = {}, onDeleteLoanRecord: (LoanRecord) -&gt; Unit = {}, onDeleteLoan: () -&gt; Unit = {}, )</ID>
     <ID>LongMethod:LoanDetailsScreen.kt$@Composable private fun LoanInfoCard( loan: Loan, baseCurrency: String, amountPaid: Double, loanAmountPaid: Double = 0.0, selectedLoanAccount: Account? = null, onAddRecord: () -&gt; Unit )</ID>
     <ID>LongMethod:LoanModal.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun BoxWithConstraintsScope.LoanModal( accounts: List&lt;Account&gt; = emptyList(), onCreateAccount: (CreateAccountData) -&gt; Unit = {}, modal: LoanModalData?, onCreateLoan: (CreateLoanData) -&gt; Unit, onEditLoan: (Loan, Boolean) -&gt; Unit, onPerformCalculations: () -&gt; Unit = {}, dismiss: () -&gt; Unit, )</ID>
     <ID>LongMethod:LoanRecordModal.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun BoxWithConstraintsScope.LoanRecordModal( modal: LoanRecordModalData?, accounts: List&lt;Account&gt; = emptyList(), onCreateAccount: (CreateAccountData) -&gt; Unit = {}, onCreate: (CreateLoanRecordData) -&gt; Unit, onEdit: (EditLoanRecordData) -&gt; Unit, onDelete: (LoanRecord) -&gt; Unit, dismiss: () -&gt; Unit )</ID>
@@ -2203,10 +2199,10 @@
     <ID>LongMethod:TransactionCard.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun TransactionCard( baseData: AppBaseData, transaction: Transaction, onPayOrGet: (Transaction) -&gt; Unit, onSkipTransaction: (Transaction) -&gt; Unit = {}, onClick: (Transaction) -&gt; Unit, )</ID>
     <ID>LongMethod:TransactionsScreen.kt$@Composable private fun BoxWithConstraintsScope.UI( period: TimePeriod, baseCurrency: String, currency: String, skipAllModalVisible: Boolean, onSkipAllModalVisible: (Boolean) -&gt; Unit, account: Account?, category: Category?, accountNameConfirmation: TextFieldValue, updateAccountNameConfirmation: (String) -&gt; Unit, enableDeletionButton: Boolean, categories: ImmutableList&lt;Category&gt;, accounts: ImmutableList&lt;Account&gt;, balance: Double, balanceBaseCurrency: Double?, income: Double, expenses: Double, choosePeriodModal: ChoosePeriodModalData?, history: ImmutableList&lt;TransactionHistoryItem&gt;, onPreviousMonth: () -&gt; Unit, onNextMonth: () -&gt; Unit, onSetPeriod: (TimePeriod) -&gt; Unit, onEditAccount: (Account, Double) -&gt; Unit, onEditCategory: (Category) -&gt; Unit, onDelete: () -&gt; Unit, deleteModal1Visible: Boolean, onDeleteModal1Visible: (Boolean) -&gt; Unit, initWithTransactions: Boolean = false, treatTransfersAsIncomeExpense: Boolean = false, upcomingExpanded: Boolean = true, setUpcomingExpanded: (Boolean) -&gt; Unit = {}, upcomingIncome: Double = 0.0, upcomingExpenses: Double = 0.0, upcoming: ImmutableList&lt;Transaction&gt; = persistentListOf(), overdueExpanded: Boolean = true, setOverdueExpanded: (Boolean) -&gt; Unit = {}, overdueIncome: Double = 0.0, overdueExpenses: Double = 0.0, overdue: ImmutableList&lt;Transaction&gt; = persistentListOf(), onPayOrGet: (Transaction) -&gt; Unit = {}, onSkipTransaction: (Transaction) -&gt; Unit = {}, onSkipAllTransactions: (List&lt;Transaction&gt;) -&gt; Unit = {}, onChoosePeriodModal: (ChoosePeriodModalData?) -&gt; Unit )</ID>
     <ID>LongParameterList:EditBottomSheet.kt$( initialTransactionId: UUID?, type: TransactionType, accounts: List&lt;Account&gt;, selectedAccount: Account?, toAccount: Account?, amount: Double, currency: String, convertedAmount: Double? = null, convertedAmountCurrencyCode: String? = null, amountModalShown: Boolean, setAmountModalShown: (Boolean) -&gt; Unit, ActionButton: @Composable () -&gt; Unit, onAmountChanged: (Double) -&gt; Unit, onSelectedAccountChanged: (Account) -&gt; Unit, onToAccountChanged: (Account) -&gt; Unit, onAddNewAccount: () -&gt; Unit )</ID>
-    <ID>LongParameterList:EditPlannedScreen.kt$( screen: EditPlannedScreen, startDate: LocalDateTime?, intervalN: Int?, intervalType: IntervalType?, oneTime: Boolean, type: TransactionType, currency: String, initialTitle: String?, description: String?, category: Category?, account: Account?, amount: Double, categories: List&lt;Category&gt;, accounts: List&lt;Account&gt;, onRuleChanged: (LocalDateTime, oneTime: Boolean, Int?, IntervalType?) -&gt; Unit, onTitleChanged: (String?) -&gt; Unit, onDescriptionChanged: (String?) -&gt; Unit, onAmountChanged: (Double) -&gt; Unit, onCategoryChanged: (Category?) -&gt; Unit, onAccountChanged: (Account) -&gt; Unit, onSetTransactionType: (TransactionType) -&gt; Unit, onCreateCategory: (CreateCategoryData) -&gt; Unit = {}, onSave: () -&gt; Unit, onDelete: () -&gt; Unit, onCreateAccount: (CreateAccountData) -&gt; Unit = {}, )</ID>
     <ID>LongParameterList:EditTransactionScreen.kt$( screen: EditTransactionScreen, transactionType: TransactionType, baseCurrency: String, initialTitle: String?, titleSuggestions: ImmutableSet&lt;String&gt;, description: String?, category: Category?, dateTime: LocalDateTime?, account: Account?, toAccount: Account?, dueDate: LocalDateTime?, amount: Double, customExchangeRateState: CustomExchangeRateState, categories: ImmutableList&lt;Category&gt;, accounts: ImmutableList&lt;Account&gt;, onTitleChanged: (String?) -&gt; Unit, onDescriptionChanged: (String?) -&gt; Unit, onAmountChanged: (Double) -&gt; Unit, onCategoryChanged: (Category?) -&gt; Unit, onAccountChanged: (Account) -&gt; Unit, onToAccountChanged: (Account) -&gt; Unit, onDueDateChanged: (LocalDateTime?) -&gt; Unit, onSetDate: (LocalDate) -&gt; Unit, onSetTime: (LocalTime) -&gt; Unit, onSetTransactionType: (TransactionType) -&gt; Unit, onCreateCategory: (CreateCategoryData) -&gt; Unit, onEditCategory: (Category) -&gt; Unit, onPayPlannedPayment: () -&gt; Unit, onSave: (closeScreen: Boolean) -&gt; Unit, onSetHasChanges: (hasChanges: Boolean) -&gt; Unit, onDelete: () -&gt; Unit, onCreateAccount: (CreateAccountData) -&gt; Unit, onExchangeRateChanged: (Double?) -&gt; Unit = { }, loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(), backgroundProcessing: Boolean = false, hasChanges: Boolean = false, )</ID>
     <ID>LongParameterList:HomeTab.kt$( hideBalance: Boolean, onSetExpanded: (Boolean) -&gt; Unit, listState: LazyListState, period: TimePeriod, baseData: AppBaseData, upcoming: DueSection, overdue: DueSection, balance: BigDecimal, stats: IncomeExpensePair, history: ImmutableList&lt;TransactionHistoryItem&gt;, customerJourneyCards: ImmutableList&lt;CustomerJourneyCardModel&gt;, setUpcomingExpanded: (Boolean) -&gt; Unit, setOverdueExpanded: (Boolean) -&gt; Unit, onOpenMoreMenu: () -&gt; Unit, onBalanceClick: () -&gt; Unit, onPayOrGet: (Transaction) -&gt; Unit, onDismiss: (CustomerJourneyCardModel) -&gt; Unit, onHiddenBalanceClick: () -&gt; Unit, onSkipTransaction: (Transaction) -&gt; Unit, onSkipAllTransactions: (List&lt;Transaction&gt;) -&gt; Unit, modifier: Modifier = Modifier )</ID>
-    <ID>LongParameterList:PlannedPaymentsLazyColumn.kt$( nav: Navigation, currency: String, categories: List&lt;Category&gt;, accounts: List&lt;Account&gt;, listState: LazyListState, oneTime: List&lt;PlannedPaymentRule&gt;, oneTimeIncome: Double, oneTimeExpenses: Double, oneTimeExpanded: Boolean, setOneTimeExpanded: (Boolean) -&gt; Unit, recurring: List&lt;PlannedPaymentRule&gt;, recurringIncome: Double, recurringExpenses: Double, recurringExpanded: Boolean, setRecurringExpanded: (Boolean) -&gt; Unit )</ID>
+    <ID>LongParameterList:PlannedPaymentsLazyColumn.kt$( Header: @Composable () -&gt; Unit, currency: String, categories: ImmutableList&lt;Category&gt;, accounts: ImmutableList&lt;Account&gt;, oneTime: ImmutableList&lt;PlannedPaymentRule&gt;, oneTimeIncome: Double, oneTimeExpenses: Double, recurring: ImmutableList&lt;PlannedPaymentRule&gt;, recurringIncome: Double, recurringExpenses: Double, oneTimeExpanded: Boolean, recurringExpanded: Boolean, setOneTimeExpanded: (Boolean) -&gt; Unit, setRecurringExpanded: (Boolean) -&gt; Unit, listState: LazyListState = rememberLazyListState() )</ID>
+    <ID>LongParameterList:PlannedPaymentsLazyColumn.kt$( nav: Navigation, currency: String, categories: ImmutableList&lt;Category&gt;, accounts: ImmutableList&lt;Account&gt;, listState: LazyListState, oneTime: ImmutableList&lt;PlannedPaymentRule&gt;, oneTimeIncome: Double, oneTimeExpenses: Double, oneTimeExpanded: Boolean, setOneTimeExpanded: (Boolean) -&gt; Unit, recurring: ImmutableList&lt;PlannedPaymentRule&gt;, recurringIncome: Double, recurringExpenses: Double, recurringExpanded: Boolean, setRecurringExpanded: (Boolean) -&gt; Unit )</ID>
     <ID>LongParameterList:TransactionsScreen.kt$( history: ImmutableList&lt;TransactionHistoryItem&gt;, currency: String, baseCurrency: String, itemColor: Color, account: Account?, category: Category?, balance: Double, balanceBaseCurrency: Double?, income: Double, expenses: Double, onEdit: () -&gt; Unit, onDelete: () -&gt; Unit, onBalanceClick: () -&gt; Unit, showCategoryModal: () -&gt; Unit, showAccountModal: () -&gt; Unit, treatTransfersAsIncomeExpense: Boolean = false, )</ID>
     <ID>LongParameterList:TransactionsScreen.kt$( period: TimePeriod, baseCurrency: String, currency: String, skipAllModalVisible: Boolean, onSkipAllModalVisible: (Boolean) -&gt; Unit, account: Account?, category: Category?, accountNameConfirmation: TextFieldValue, updateAccountNameConfirmation: (String) -&gt; Unit, enableDeletionButton: Boolean, categories: ImmutableList&lt;Category&gt;, accounts: ImmutableList&lt;Account&gt;, balance: Double, balanceBaseCurrency: Double?, income: Double, expenses: Double, choosePeriodModal: ChoosePeriodModalData?, history: ImmutableList&lt;TransactionHistoryItem&gt;, onPreviousMonth: () -&gt; Unit, onNextMonth: () -&gt; Unit, onSetPeriod: (TimePeriod) -&gt; Unit, onEditAccount: (Account, Double) -&gt; Unit, onEditCategory: (Category) -&gt; Unit, onDelete: () -&gt; Unit, deleteModal1Visible: Boolean, onDeleteModal1Visible: (Boolean) -&gt; Unit, initWithTransactions: Boolean = false, treatTransfersAsIncomeExpense: Boolean = false, upcomingExpanded: Boolean = true, setUpcomingExpanded: (Boolean) -&gt; Unit = {}, upcomingIncome: Double = 0.0, upcomingExpenses: Double = 0.0, upcoming: ImmutableList&lt;Transaction&gt; = persistentListOf(), overdueExpanded: Boolean = true, setOverdueExpanded: (Boolean) -&gt; Unit = {}, overdueIncome: Double = 0.0, overdueExpenses: Double = 0.0, overdue: ImmutableList&lt;Transaction&gt; = persistentListOf(), onPayOrGet: (Transaction) -&gt; Unit = {}, onSkipTransaction: (Transaction) -&gt; Unit = {}, onSkipAllTransactions: (List&lt;Transaction&gt;) -&gt; Unit = {}, onChoosePeriodModal: (ChoosePeriodModalData?) -&gt; Unit )</ID>
     <ID>LoopWithTooManyJumpStatements:PieChart.kt$PieChartView$for</ID>
@@ -2389,7 +2385,6 @@
     <ID>MagicNumber:RecurringRuleModal.kt$12</ID>
     <ID>MagicNumber:RecurringRuleModal.kt$200</ID>
     <ID>MagicNumber:ReportScreen.kt$1000f</ID>
-    <ID>MagicNumber:RootActivity.kt$RootActivity$12</ID>
     <ID>MagicNumber:RootViewModel.kt$RootViewModel$1000</ID>
     <ID>MagicNumber:SortOrder.kt$SortOrder.ALPHABETICAL$3</ID>
     <ID>MagicNumber:TransactionCard.kt$5</ID>
@@ -3985,7 +3980,6 @@
     <ID>MultipleEmitters:IvyColorPicker.kt$ColorItem</ID>
     <ID>MultipleEmitters:IvyWalletSteps.kt$IvyWalletSteps</ID>
     <ID>MultipleEmitters:ListItem.kt$ListItem</ID>
-    <ID>MultipleEmitters:LoanDetailsScreen.kt$NoLoanRecordsEmptyState</ID>
     <ID>MultipleEmitters:LoanModal.kt$Account</ID>
     <ID>MultipleEmitters:LoanModal.kt$AddAccount</ID>
     <ID>MultipleEmitters:LoanRecordModal.kt$Account</ID>
@@ -6636,7 +6630,7 @@
     <ID>PackageName:LintChecksConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._a1588e88f4386ac825f08e3b91ce74c2</ID>
     <ID>PackageName:LintPublishConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
     <ID>PackageName:LintPublishConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._a1588e88f4386ac825f08e3b91ce74c2</ID>
-    <ID>PackageName:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._07de3d89478b8d28fb877fe6c1fefb79</ID>
+    <ID>PackageName:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._4203d1e97b7366e3c54f243461bfae1d</ID>
     <ID>PackageName:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
     <ID>PackageName:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._a1588e88f4386ac825f08e3b91ce74c2</ID>
     <ID>PackageName:ReleaseApiConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
@@ -7388,7 +7382,7 @@
     <ID>PackageNaming:LintChecksConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._a1588e88f4386ac825f08e3b91ce74c2</ID>
     <ID>PackageNaming:LintPublishConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
     <ID>PackageNaming:LintPublishConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._a1588e88f4386ac825f08e3b91ce74c2</ID>
-    <ID>PackageNaming:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._07de3d89478b8d28fb877fe6c1fefb79</ID>
+    <ID>PackageNaming:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._4203d1e97b7366e3c54f243461bfae1d</ID>
     <ID>PackageNaming:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
     <ID>PackageNaming:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._a1588e88f4386ac825f08e3b91ce74c2</ID>
     <ID>PackageNaming:ReleaseApiConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
@@ -8296,15 +8290,11 @@
     <ID>UnstableCollections:ChooseCategoryModal.kt$List&lt;Category&gt;</ID>
     <ID>UnstableCollections:ChooseIconModal.kt$List&lt;String&gt;</ID>
     <ID>UnstableCollections:EditBottomSheet.kt$List&lt;Account&gt;</ID>
-    <ID>UnstableCollections:EditPlannedScreen.kt$List&lt;Account&gt;</ID>
-    <ID>UnstableCollections:EditPlannedScreen.kt$List&lt;Category&gt;</ID>
     <ID>UnstableCollections:FilterOverlay.kt$List&lt;Account&gt;</ID>
     <ID>UnstableCollections:FilterOverlay.kt$List&lt;Category&gt;</ID>
     <ID>UnstableCollections:IncomeExpenseCards.kt$List&lt;TransactionHistoryItem&gt;</ID>
     <ID>UnstableCollections:IvyLineChart.kt$List&lt;Function&gt;</ID>
     <ID>UnstableCollections:IvyLineChart.kt$List&lt;Value&gt;</ID>
-    <ID>UnstableCollections:LoanDetailsScreen.kt$List&lt;Account&gt;</ID>
-    <ID>UnstableCollections:LoanDetailsScreen.kt$List&lt;DisplayLoanRecord&gt;</ID>
     <ID>UnstableCollections:LoanModal.kt$List&lt;Account&gt;</ID>
     <ID>UnstableCollections:LoanRecordModal.kt$List&lt;Account&gt;</ID>
     <ID>UnstableCollections:OnboardingAccounts.kt$List&lt;AccountBalance&gt;</ID>
@@ -8316,14 +8306,6 @@
     <ID>UnstableCollections:OnboardingScreen.kt$List&lt;CreateAccountData&gt;</ID>
     <ID>UnstableCollections:OnboardingScreen.kt$List&lt;CreateCategoryData&gt;</ID>
     <ID>UnstableCollections:PieChart.kt$List&lt;CategoryAmount&gt;</ID>
-    <ID>UnstableCollections:PlannedPaymentCard.kt$List&lt;Account&gt;</ID>
-    <ID>UnstableCollections:PlannedPaymentCard.kt$List&lt;Category&gt;</ID>
-    <ID>UnstableCollections:PlannedPaymentsLazyColumn.kt$List&lt;Account&gt;</ID>
-    <ID>UnstableCollections:PlannedPaymentsLazyColumn.kt$List&lt;Category&gt;</ID>
-    <ID>UnstableCollections:PlannedPaymentsLazyColumn.kt$List&lt;PlannedPaymentRule&gt;</ID>
-    <ID>UnstableCollections:PlannedPaymentsScreen.kt$List&lt;Account&gt;</ID>
-    <ID>UnstableCollections:PlannedPaymentsScreen.kt$List&lt;Category&gt;</ID>
-    <ID>UnstableCollections:PlannedPaymentsScreen.kt$List&lt;PlannedPaymentRule&gt;</ID>
     <ID>UnstableCollections:ReorderModal.kt$List&lt;Any&gt;</ID>
     <ID>UnstableCollections:ReorderModal.kt$List&lt;T&gt;</ID>
     <ID>UnstableCollections:Suggestions.kt$List&lt;Any&gt;</ID>
@@ -8347,8 +8329,6 @@
     <ID>UnusedParameter:IvyLineChart.kt$cellSize: Float</ID>
     <ID>UnusedParameter:IvyLineChart.kt$chartWidth: Float</ID>
     <ID>UnusedParameter:IvyLineChart.kt$offsetRight: Float</ID>
-    <ID>UnusedParameter:LoanDetailsScreen.kt$baseCurrency: String = ""</ID>
-    <ID>UnusedParameter:LoanDetailsScreen.kt$loanRecords: List&lt;LoanRecord&gt; = emptyList()</ID>
     <ID>UnusedParameter:LoansScreen.kt$screen: LoansScreen</ID>
     <ID>UnusedParameter:MainScreen.kt$screen: MainScreen</ID>
     <ID>UnusedParameter:OnboardingSplashLogin.kt$onLoginWithGoogle: () -&gt; Unit</ID>
@@ -8357,7 +8337,7 @@
     <ID>UnusedParameter:ParseFields.kt$metadata: Unit</ID>
     <ID>UnusedParameter:PlannedPaymentsLazyColumn.kt$listState: LazyListState</ID>
     <ID>UnusedParameter:PlannedPaymentsLogic.kt$PlannedPaymentsLogic$syncTransaction: Boolean = true</ID>
-    <ID>UnusedParameter:PlannedPaymentsViewModel.kt$PlannedPaymentsViewModel$screen: PlannedPaymentsScreen</ID>
+    <ID>UnusedParameter:PlannedPaymentsScreen.kt$screen: PlannedPaymentsScreen</ID>
     <ID>UnusedParameter:ReportScreen.kt$screen: ReportScreen</ID>
     <ID>UnusedParameter:SearchScreen.kt$screen: SearchScreen</ID>
     <ID>UnusedParameter:Shapes.kt$modifier: Modifier = Modifier</ID>
@@ -8366,11 +8346,7 @@
     <ID>UnusedPrivateMember:Migration109to110_PlannedPayments.kt$Migration109to110_PlannedPayments$private fun SupportSQLiteDatabase.addSyncColumns(tableName: String)</ID>
     <ID>UnusedPrivateMember:OnboardingSplashLogin.kt$@Composable private fun LoginWithGoogleExplanation()</ID>
     <ID>UnusedPrivateMember:SettingsScreen.kt$@Composable private fun AccountCardButton( @DrawableRes icon: Int, text: String, onClick: () -&gt; Unit )</ID>
-    <ID>UnusedPrivateProperty:AccountDataSource.kt$AccountDataSource$private val accountDao: AccountDao</ID>
-    <ID>UnusedPrivateProperty:AccountDataSource.kt$AccountDataSource$private val writeAccountDao: WriteAccountDao</ID>
     <ID>UnusedPrivateProperty:AccountModal.kt$val context = LocalContext.current</ID>
-    <ID>UnusedPrivateProperty:AccountRepository.kt$AccountRepository$private val dataSource: AccountDataSource</ID>
-    <ID>UnusedPrivateProperty:CategoryRepository.kt$CategoryRepository$private val dataSource: CategoryDataSource</ID>
     <ID>UnusedPrivateProperty:DateExt.kt$val seconds = TimeUnit.MILLISECONDS.toSeconds(timeLeftAfterCalculations)</ID>
     <ID>UnusedPrivateProperty:HomeMoreMenu.kt$val context = LocalContext.current</ID>
     <ID>UnusedPrivateProperty:IvyLineChart.kt$val marginFromX = 4.dp.toPx()</ID>
@@ -8378,10 +8354,7 @@
     <ID>UnusedPrivateProperty:LoanDetailsViewModel.kt$LoanDetailsViewModel$private val ivyContext: IvyWalletCtx</ID>
     <ID>UnusedPrivateProperty:LoanDetailsViewModel.kt$LoanDetailsViewModel$private val loanDao: LoanDao</ID>
     <ID>UnusedPrivateProperty:OnboardingPrivacyTC.kt$val context = LocalContext.current</ID>
-    <ID>UnusedPrivateProperty:PlannedPaymentsViewModel.kt$PlannedPaymentsViewModel$private val accountDao: AccountDao</ID>
-    <ID>UnusedPrivateProperty:PlannedPaymentsViewModel.kt$PlannedPaymentsViewModel$private val categoryDao: CategoryDao</ID>
     <ID>UnusedPrivateProperty:TransactionReminderLogic.kt$TransactionReminderLogic.Companion$private const val UNIQUE_WORK_NAME_V1 = "transaction_reminder_work"</ID>
-    <ID>UnusedPrivateProperty:TransactionRepository.kt$TransactionRepository$private val dataSource: TransactionDataSource</ID>
     <ID>UseCheckOrError:IvyContext.kt$IvyContext$throw IllegalStateException("screenHeight not initialized")</ID>
     <ID>UseCheckOrError:IvyContext.kt$IvyContext$throw IllegalStateException("screenWidth not initialized")</ID>
     <ID>UseCheckOrError:SharedPrefs.kt$SharedPrefs$throw IllegalStateException("SharePrefs key '$key' cannot be null")</ID>
