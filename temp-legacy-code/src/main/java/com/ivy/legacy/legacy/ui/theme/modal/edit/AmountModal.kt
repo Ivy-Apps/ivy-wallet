@@ -328,8 +328,7 @@ fun AmountKeyboard(
         horizontalArrangement = Arrangement.SpaceBetween
 
     ) {
-
-        val weightModifier = Modifier
+         Modifier
             .weight(1f)
             .fillMaxWidth()
 
@@ -370,7 +369,7 @@ fun AmountKeyboard(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        val weightModifier = Modifier
+        Modifier
             .weight(1f)
             .fillMaxWidth()
         CircleNumberButton(
@@ -410,7 +409,7 @@ fun AmountKeyboard(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        val weightModifier = Modifier
+        Modifier
             .weight(1f)
             .fillMaxWidth()
         CircleNumberButton(
@@ -450,7 +449,7 @@ fun AmountKeyboard(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        val weightModifier = Modifier
+        Modifier
             .weight(1f)
             .fillMaxWidth()
         KeypadCircleButton(
