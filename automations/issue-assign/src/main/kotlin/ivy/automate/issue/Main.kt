@@ -5,7 +5,6 @@ import arrow.core.raise.either
 import ivy.automate.base.IvyError
 import ivy.automate.base.github.GitHubService
 import ivy.automate.base.github.GitHubServiceImpl
-import ivy.automate.base.ktor.KtorClientScope
 import ivy.automate.base.ktor.ktorClientScope
 import kotlinx.coroutines.runBlocking
 
@@ -16,7 +15,9 @@ data class Context(
 fun main(args: Array<String>): Unit = runBlocking {
     ktorClientScope {
         val context = Context(
-            gitHubService = GitHubServiceImpl(),
+            gitHubService = GitHubServiceImpl(
+                ktorClient = ktorClient,
+            ),
         )
         with(context) {
             val result = execute(args).fold(
@@ -28,7 +29,7 @@ fun main(args: Array<String>): Unit = runBlocking {
     }
 }
 
-context(GitHubService, KtorClientScope)
+context(GitHubService)
 private suspend fun execute(argsArr: Array<String>): Either<String, String> = either {
     val args = parseArgs(argsArr.toList()).bind()
     when (val action = determineAction(args).bind()) {
