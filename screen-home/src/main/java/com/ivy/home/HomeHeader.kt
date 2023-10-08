@@ -59,6 +59,8 @@ import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 import kotlin.math.absoluteValue
+private const val overflowLengthOfBalance = 7
+private const val overflowLengthOfMonthRange = 12
 
 @ExperimentalAnimationApi
 @Composable
@@ -159,8 +161,7 @@ private fun HeaderStickyRow(
 
             // Balance mini row
             if (percentExpanded < 1f) {
-                val overflowLengthOfBalance = 7
-                val overflowLengthOfMonthRange = 12
+
                 val lengthOfCurrencyAndBalance = (currency + balance.toString()).length
                 var lengthOfMonthRange = period.toDisplayShort(ivyWalletCtx().startDayOfMonth).length
                 val overflow by remember(lengthOfCurrencyAndBalance, lengthOfMonthRange) {
