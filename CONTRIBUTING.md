@@ -17,14 +17,18 @@ What do you want to work on? [Choose an issue](https://github.com/Ivy-Apps/ivy-w
 1. Browse **[Ivy Wallet Issues](https://github.com/Ivy-Apps/ivy-wallet/issues)**.
 2. Choose an issue that you understand and like.
 3. Comment **`"I'm on it"`** on the issue to let other contributors know that you're working on it.
+```
+I'm on it
+```
+
+> Comment exactly **"I'm on it"** otherwise the automation for assigning issues won't work.
 
 ### Contributing Rules:
 
-1. Work only on **["approved"](https://github.com/Ivy-Apps/ivy-wallet/labels/approved)** issues.
-2. For unapproved issues, mention **@ILIYANGERMANOV**.
-3. Want to work on something else? **[Create a new issue](https://github.com/Ivy-Apps/ivy-wallet/issues/new/choose)**.
-4. Do **not** work on assigned issues. Ask the assignee first.
-5. Only one issue per contributor at a time.
+1. Comment `I'm on it` to take an issue.
+2. Want to work on not in issues? Just **[create a new issue](https://github.com/Ivy-Apps/ivy-wallet/issues/new/choose)**.
+3. Do **not** work on assigned issues. Ask the assignee first.
+4. Only one issue per contributor at a time.
 
 > **Reminder:** If you take an issue, you're blocking others from working on it. Finish it fast or unassign yourself.
 
