@@ -1,0 +1,36 @@
+name: Automations tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GIT
+        uses: actions/checkout@v4
+
+      - name: Setup Java SDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '18'
+
+      - name: Enable Gradle Wrapper caching (optimization)
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Test the ":automations:base"
+        run: ./gradlew :automations:base:test
+
+      - name: Test the ":automations:issue-assign"
+        run: ./gradlew :automations:issue-assign:test

@@ -59,7 +59,6 @@ kotest-property-arrow = { module = "io.kotest.extensions:kotest-property-arrow",
 kotest-assertions-arrow = { module = "io.kotest.extensions:kotest-assertions-arrow", version.ref = "arrow" }
 kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
-hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
 cashapp-molecule-plugin = { module = "app.cash.molecule:molecule-gradle-plugin", version = "1.2.1" }
 cashapp-turbine = { module = "app.cash.turbine:turbine", version = "1.0.0" }
 
@@ -108,6 +107,9 @@ androidx-work = { module = "androidx.work:work-runtime-ktx", version.ref = "andr
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "androidx-work" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version = "1.3.1" }
 
+# Material
+material = { module = "com.google.android.material:material", version = "1.9.0" }
+
 # Logging
 timber = { module = "com.jakewharton.timber:timber", version = "5.0.1" }
 
@@ -130,9 +132,11 @@ ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.
 kotlin = [
     "kotlin-stdlib",
     "kotlin-coroutines-core",
+    "kotlinx-collections-immutable"
+]
+kotlin-android = [
     "kotlin-coroutines-android",
     "kotlin-coroutines-googleplay-temp",
-    "kotlinx-collections-immutable"
 ]
 arrow = [
     "arrowkt-core",
@@ -155,7 +159,6 @@ testing = [
     "kotest-datatest",
     "kotlin-coroutines-test",
     "mockk",
-    "hilt-testing",
     "cashapp-turbine"
 ]
 compose = [

@@ -160,7 +160,7 @@ fun BoxWithConstraintsScope.AmountModal(
             currency = currency
         )
 
-        Spacer(Modifier.height(56.dp))
+        Spacer(Modifier.height(10.dp))
 
         AmountInput(
             currency = currency,
@@ -322,9 +322,11 @@ fun AmountKeyboard(
     }
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.SpaceEvenly
+
     ) {
         CircleNumberButton(
             forCalculator = forCalculator,
@@ -355,12 +357,13 @@ fun AmountKeyboard(
         }
     }
 
-    Spacer(Modifier.height(16.dp))
+    Spacer(Modifier.height(8.dp))
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         CircleNumberButton(
             forCalculator = forCalculator,
@@ -391,12 +394,13 @@ fun AmountKeyboard(
         }
     }
 
-    Spacer(Modifier.height(16.dp))
+    Spacer(Modifier.height(8.dp))
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         CircleNumberButton(
             forCalculator = forCalculator,
@@ -405,7 +409,6 @@ fun AmountKeyboard(
         )
 
         Spacer(Modifier.width(16.dp))
-
         CircleNumberButton(
             forCalculator = forCalculator,
             value = "2",
@@ -413,7 +416,6 @@ fun AmountKeyboard(
         )
 
         Spacer(Modifier.width(16.dp))
-
         CircleNumberButton(
             forCalculator = forCalculator,
             value = "3",
@@ -422,17 +424,17 @@ fun AmountKeyboard(
 
         if (ThirdRowExtra != null) {
             Spacer(modifier = Modifier.width(16.dp))
-
             ThirdRowExtra.invoke(this)
         }
     }
 
-    Spacer(Modifier.height(16.dp))
+    Spacer(Modifier.height(8.dp))
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         KeypadCircleButton(
             text = localDecimalSeparator(),
@@ -457,7 +459,7 @@ fun AmountKeyboard(
 
         IvyIcon(
             modifier = circleButtonModifier(onClick = onBackspace)
-                .padding(all = 16.dp)
+                .padding(all = 24.dp)
                 .testTag("key_del"),
             icon = R.drawable.ic_backspace,
             tint = Red
@@ -465,7 +467,6 @@ fun AmountKeyboard(
 
         if (FourthRowExtra != null) {
             Spacer(modifier = Modifier.width(16.dp))
-
             FourthRowExtra.invoke(this)
         }
     }
@@ -495,13 +496,13 @@ fun KeypadCircleButton(
     text: String,
     testTag: String,
     textColor: Color = UI.colors.pureInverse,
-    fontSize: TextUnit = 24.sp,
-    btnSize: Dp = 64.dp,
+    fontSize: TextUnit = 32.sp,
+    btnSize: Dp = 80.dp,
     onClick: () -> Unit
 ) {
     Text(
         modifier = circleButtonModifier(size = btnSize, onClick = onClick)
-            .padding(top = 10.dp)
+            .padding(top = 18.dp)
             .testTag(testTag),
         text = text,
         fontSize = fontSize,
@@ -517,7 +518,7 @@ fun KeypadCircleButton(
 @SuppressLint("ComposableModifierFactory", "ModifierFactoryExtensionFunction")
 @Composable
 private fun circleButtonModifier(
-    size: Dp = 64.dp,
+    size: Dp = 80.dp,
     onClick: () -> Unit
 ): Modifier {
     return Modifier

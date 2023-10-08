@@ -157,6 +157,7 @@ dependencies {
     implementation(projects.widgetBalance)
 
     implementation(libs.bundles.kotlin)
+    implementation(libs.bundles.kotlin.android)
     implementation(libs.bundles.ktor)
     implementation(libs.bundles.arrow)
     implementation(libs.bundles.compose)
@@ -168,6 +169,7 @@ dependencies {
     implementation(libs.androidx.biometrics)
 
     implementation(libs.bundles.hilt)
+    implementation(libs.material)
     ksp(libs.hilt.compiler)
 
     implementation(libs.bundles.room)

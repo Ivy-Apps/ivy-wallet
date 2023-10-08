@@ -26,9 +26,9 @@ private fun ivyLightColorScheme(): ColorScheme = ColorScheme(
     onSecondary = IvyColors.White,
     secondaryContainer = IvyColors.Green.light,
     onSecondaryContainer = IvyColors.White,
-    tertiary = IvyColors.Blue.primary,
+    tertiary = IvyColors.Green.primary,
     onTertiary = IvyColors.White,
-    tertiaryContainer = IvyColors.Blue.light,
+    tertiaryContainer = IvyColors.Green.light,
     onTertiaryContainer = IvyColors.White,
 
     error = IvyColors.Red.primary,
@@ -61,9 +61,9 @@ private fun ivyDarkColorScheme(): ColorScheme = ColorScheme(
     onSecondary = IvyColors.White,
     secondaryContainer = IvyColors.Green.light,
     onSecondaryContainer = IvyColors.White,
-    tertiary = IvyColors.Blue.primary,
+    tertiary = IvyColors.Green.primary,
     onTertiary = IvyColors.White,
-    tertiaryContainer = IvyColors.Blue.light,
+    tertiaryContainer = IvyColors.Green.light,
     onTertiaryContainer = IvyColors.White,
 
     error = IvyColors.Red.primary,

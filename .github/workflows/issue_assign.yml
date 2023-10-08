@@ -1,0 +1,31 @@
+name: Issue Comment Action
+
+on:
+  issue_comment:
+    types: [ created ]
+
+jobs:
+  handle-comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java SDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '18'
+
+      - name: Enable Gradle Wrapper caching (optimization)
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Execute "Issue Assign" automation
+        run: ./gradlew :automations:issue-assign:run --args='issueNumber=${{ github.event.issue.number }} gitHubPAT=${{ secrets.IVYWALLET_BOT_GITHUB_PAT_2 }}'
