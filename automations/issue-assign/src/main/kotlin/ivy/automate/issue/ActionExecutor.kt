@@ -4,9 +4,8 @@ import arrow.core.Either
 import arrow.core.raise.either
 import ivy.automate.base.github.GitHubService
 import ivy.automate.base.github.model.NotBlankTrimmedString
-import ivy.automate.base.ktor.KtorClientScope
 
-context(GitHubService, KtorClientScope)
+context(GitHubService)
 suspend fun Action.AlreadyTaken.execute(
     args: Args
 ): Either<String, String> = either {
@@ -21,7 +20,7 @@ suspend fun Action.AlreadyTaken.execute(
     commentText
 }
 
-context(GitHubService, KtorClientScope)
+context(GitHubService)
 suspend fun Action.NotApproved.execute(
     args: Args
 ): Either<String, String> = either {
@@ -34,7 +33,7 @@ suspend fun Action.NotApproved.execute(
     commentText
 }
 
-context(GitHubService, KtorClientScope)
+context(GitHubService)
 suspend fun Action.AssignIssue.execute(
     args: Args
 ): Either<String, String> = either {
@@ -56,7 +55,7 @@ suspend fun Action.AssignIssue.execute(
     commentText
 }
 
-context(GitHubService, KtorClientScope)
+context(GitHubService)
 private suspend fun comment(
     args: Args,
     text: String
@@ -67,5 +66,5 @@ private suspend fun comment(
         text = NotBlankTrimmedString(text)
     ).mapLeft {
         "Failed to comment: $it"
-    }
+    }.bind()
 }
