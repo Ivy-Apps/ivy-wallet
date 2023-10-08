@@ -325,13 +325,9 @@ fun AmountKeyboard(
         modifier = Modifier.fillMaxWidth()
             .padding(start = 16.dp, end = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceEvenly
 
     ) {
-         Modifier
-            .weight(1f)
-            .fillMaxWidth()
-
         CircleNumberButton(
             forCalculator = forCalculator,
             value = "7",
@@ -367,11 +363,8 @@ fun AmountKeyboard(
         modifier = Modifier.fillMaxWidth()
             .padding(start = 16.dp, end = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        Modifier
-            .weight(1f)
-            .fillMaxWidth()
         CircleNumberButton(
             forCalculator = forCalculator,
             value = "4",
@@ -407,11 +400,8 @@ fun AmountKeyboard(
         modifier = Modifier.fillMaxWidth()
             .padding(start = 16.dp, end = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        Modifier
-            .weight(1f)
-            .fillMaxWidth()
         CircleNumberButton(
             forCalculator = forCalculator,
             value = "1",
@@ -419,7 +409,6 @@ fun AmountKeyboard(
         )
 
         Spacer(Modifier.width(16.dp))
-
         CircleNumberButton(
             forCalculator = forCalculator,
             value = "2",
@@ -427,7 +416,6 @@ fun AmountKeyboard(
         )
 
         Spacer(Modifier.width(16.dp))
-
         CircleNumberButton(
             forCalculator = forCalculator,
             value = "3",
@@ -436,7 +424,6 @@ fun AmountKeyboard(
 
         if (ThirdRowExtra != null) {
             Spacer(modifier = Modifier.width(16.dp))
-
             ThirdRowExtra.invoke(this)
         }
     }
@@ -447,11 +434,8 @@ fun AmountKeyboard(
         modifier = Modifier.fillMaxWidth()
             .padding(start = 16.dp, end = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        Modifier
-            .weight(1f)
-            .fillMaxWidth()
         KeypadCircleButton(
             text = localDecimalSeparator(),
             testTag = if (forCalculator) {
@@ -475,7 +459,7 @@ fun AmountKeyboard(
 
         IvyIcon(
             modifier = circleButtonModifier(onClick = onBackspace)
-                .padding(all = 28.dp)
+                .padding(all = 24.dp)
                 .testTag("key_del"),
             icon = R.drawable.ic_backspace,
             tint = Red
@@ -483,7 +467,6 @@ fun AmountKeyboard(
 
         if (FourthRowExtra != null) {
             Spacer(modifier = Modifier.width(16.dp))
-
             FourthRowExtra.invoke(this)
         }
     }
@@ -514,12 +497,12 @@ fun KeypadCircleButton(
     testTag: String,
     textColor: Color = UI.colors.pureInverse,
     fontSize: TextUnit = 32.sp,
-    btnSize: Dp = 92.dp,
+    btnSize: Dp = 80.dp,
     onClick: () -> Unit
 ) {
     Text(
         modifier = circleButtonModifier(size = btnSize, onClick = onClick)
-            .padding(top = 25.dp)
+            .padding(top = 18.dp)
             .testTag(testTag),
         text = text,
         fontSize = fontSize,
@@ -535,7 +518,7 @@ fun KeypadCircleButton(
 @SuppressLint("ComposableModifierFactory", "ModifierFactoryExtensionFunction")
 @Composable
 private fun circleButtonModifier(
-    size: Dp = 96.dp,
+    size: Dp = 80.dp,
     onClick: () -> Unit
 ): Modifier {
     return Modifier
