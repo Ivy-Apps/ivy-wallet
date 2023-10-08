@@ -157,6 +157,7 @@ dependencies {
     implementation(projects.widgetBalance)
 
     implementation(libs.bundles.kotlin)
+    implementation(libs.bundles.kotlin.android)
     implementation(libs.bundles.ktor)
     implementation(libs.bundles.arrow)
     implementation(libs.bundles.compose)
