@@ -3,6 +3,17 @@ package ivy.automate.issue
 import ivy.automate.base.github.model.GitHubComment
 import ivy.automate.base.github.model.GitHubUser
 
+val TakeIssueIntentionPhrases = listOf(
+    "im on it",
+    "want to contribute",
+    "work on this",
+    "contribute on this",
+    "assign to me",
+    "assign this issue to me",
+    "assign this to me",
+    "give it a try"
+)
+
 sealed interface CommentIntention {
     data class TakeIssue(
         val user: GitHubUser
@@ -15,12 +26,9 @@ fun analyzeCommentIntention(comment: GitHubComment): CommentIntention {
     val commentText = comment.text.lowercase()
         .replace("'", "")
 
-    fun keyphrase(phrase: String): Boolean {
-        return phrase in commentText
-    }
 
     return when {
-        keyphrase("im on it")
+        TakeIssueIntentionPhrases.any { it in commentText }
         -> CommentIntention.TakeIssue(comment.author)
 
         else -> CommentIntention.Unknown
