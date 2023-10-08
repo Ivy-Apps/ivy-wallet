@@ -34,6 +34,7 @@ class CommentAnalyzerTest : FreeSpec({
             row("Im on it", CommentIntention.TakeIssue(user)),
             row("im on it", CommentIntention.TakeIssue(user)),
             row("want to contribute", CommentIntention.TakeIssue(user)),
+            row("I'm new to GitHub, can I work on this?", CommentIntention.TakeIssue(user)),
             row(
                 "I would like to work on this.",
                 CommentIntention.TakeIssue(user)
