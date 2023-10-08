@@ -22,11 +22,6 @@ tasks.withType<Detekt> {
     val filesToCheck: List<String>? = System.getProperty("detekt.filesToCheck")
         ?.split(",")
         ?.filter { it.isNotBlank() }
-    if (filesToCheck != null) {
-        println("Formatting: $filesToCheck")
-    } else {
-        println("Formatting all files...")
-    }
     setSource(filesToCheck ?: projectDir)
 
     reports {
