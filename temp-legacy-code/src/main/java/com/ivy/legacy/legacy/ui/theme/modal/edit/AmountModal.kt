@@ -160,7 +160,7 @@ fun BoxWithConstraintsScope.AmountModal(
             currency = currency
         )
 
-        Spacer(Modifier.height(56.dp))
+        Spacer(Modifier.height(10.dp))
 
         AmountInput(
             currency = currency,
@@ -322,10 +322,17 @@ fun AmountKeyboard(
     }
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.SpaceBetween
+
     ) {
+
+        val weightModifier = Modifier
+            .weight(1f)
+            .fillMaxWidth()
+
         CircleNumberButton(
             forCalculator = forCalculator,
             value = "7",
@@ -355,13 +362,17 @@ fun AmountKeyboard(
         }
     }
 
-    Spacer(Modifier.height(16.dp))
+    Spacer(Modifier.height(8.dp))
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
+        val weightModifier = Modifier
+            .weight(1f)
+            .fillMaxWidth()
         CircleNumberButton(
             forCalculator = forCalculator,
             value = "4",
@@ -391,13 +402,17 @@ fun AmountKeyboard(
         }
     }
 
-    Spacer(Modifier.height(16.dp))
+    Spacer(Modifier.height(8.dp))
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
+        val weightModifier = Modifier
+            .weight(1f)
+            .fillMaxWidth()
         CircleNumberButton(
             forCalculator = forCalculator,
             value = "1",
@@ -427,13 +442,17 @@ fun AmountKeyboard(
         }
     }
 
-    Spacer(Modifier.height(16.dp))
+    Spacer(Modifier.height(8.dp))
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
+        val weightModifier = Modifier
+            .weight(1f)
+            .fillMaxWidth()
         KeypadCircleButton(
             text = localDecimalSeparator(),
             testTag = if (forCalculator) {
@@ -457,7 +476,7 @@ fun AmountKeyboard(
 
         IvyIcon(
             modifier = circleButtonModifier(onClick = onBackspace)
-                .padding(all = 16.dp)
+                .padding(all = 28.dp)
                 .testTag("key_del"),
             icon = R.drawable.ic_backspace,
             tint = Red
@@ -495,13 +514,13 @@ fun KeypadCircleButton(
     text: String,
     testTag: String,
     textColor: Color = UI.colors.pureInverse,
-    fontSize: TextUnit = 24.sp,
-    btnSize: Dp = 64.dp,
+    fontSize: TextUnit = 32.sp,
+    btnSize: Dp = 92.dp,
     onClick: () -> Unit
 ) {
     Text(
         modifier = circleButtonModifier(size = btnSize, onClick = onClick)
-            .padding(top = 13.dp)
+            .padding(top = 25.dp)
             .testTag(testTag),
         text = text,
         fontSize = fontSize,
@@ -517,7 +536,7 @@ fun KeypadCircleButton(
 @SuppressLint("ComposableModifierFactory", "ModifierFactoryExtensionFunction")
 @Composable
 private fun circleButtonModifier(
-    size: Dp = 64.dp,
+    size: Dp = 96.dp,
     onClick: () -> Unit
 ): Modifier {
     return Modifier
