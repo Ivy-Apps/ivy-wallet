@@ -1,6 +1,7 @@
 package ivy.automate.issue
 
 import arrow.core.Either
+import arrow.core.raise.Raise
 import arrow.core.raise.either
 import ivy.automate.base.github.GitHubService
 import ivy.automate.base.github.model.NotBlankTrimmedString
@@ -16,7 +17,7 @@ suspend fun Action.AlreadyTaken.execute(
         val issuesUrl = "https://github.com/Ivy-Apps/ivy-wallet/issues"
         append(" Please, [pick another one]($issuesUrl).")
     }
-    comment(args, commentText).bind()
+    comment(args, commentText)
     commentText
 }
 
@@ -29,7 +30,7 @@ suspend fun Action.NotApproved.execute(
         append(" this issue is not approved, yet.")
         append(" @${Constants.IVY_ADMIN} must approve it first.")
     }
-    comment(args, commentText).bind()
+    comment(args, commentText)
     commentText
 }
 
@@ -51,15 +52,15 @@ suspend fun Action.AssignIssue.execute(
         append(" If you don't want to work on it now, please unassign yourself")
         append(" so other contributors can take it.")
     }
-    comment(args, commentText).bind()
+    comment(args, commentText)
     commentText
 }
 
-context(GitHubService)
+context(Raise<String>, GitHubService)
 private suspend fun comment(
     args: Args,
     text: String
-): Either<String, Unit> = either {
+) {
     commentIssue(
         pat = args.pat,
         issueNumber = args.issueNumber,
