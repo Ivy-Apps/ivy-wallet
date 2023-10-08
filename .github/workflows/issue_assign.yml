@@ -1,16 +1,14 @@
-name: Unit tests
+name: Issue Comment Action
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
+  issue_comment:
+    types: [ created ]
 
 jobs:
-  test:
+  handle-comment:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout GIT
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Java SDK
@@ -29,5 +27,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Run unit tests
-        run: ./gradlew testDebugUnitTest
+      - name: Execute "Issue Assign" automation
+        run: ./gradlew :automations:issue-assign:run --args='issueNumber=${{ github.event.issue.number }} gitHubPAT=$GIT_HUB_PAT'
+        env:
+          GIT_HUB_PAT: ${{ secrets.IVYWALLET_BOT_GITHUB_PAT_2 }}
