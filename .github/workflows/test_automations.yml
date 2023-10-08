@@ -1,4 +1,4 @@
-name: Unit tests
+name: Automations tests
 
 on:
   push:
@@ -29,5 +29,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Run unit tests
-        run: ./gradlew testDebugUnitTest
+      - name: Test the ":automations:base"
+        run: ./gradlew :automations:base:test
+
+      - name: Test the ":automations:issue-assign"
+        run: ./gradlew :automations:issue-assign:test

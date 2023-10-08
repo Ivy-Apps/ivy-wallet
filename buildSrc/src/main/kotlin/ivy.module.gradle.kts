@@ -42,6 +42,7 @@ android {
 dependencies {
     implementation(libs.bundles.arrow)
     implementation(libs.bundles.kotlin)
+    implementation(catalog.bundle("kotlin-android"))
     implementation(libs.timber)
 
     implementation(libs.bundles.hilt)
