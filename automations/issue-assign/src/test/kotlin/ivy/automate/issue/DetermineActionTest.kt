@@ -215,7 +215,9 @@ class DetermineActionTest : FreeSpec({
                 coEvery {
                     gitHubService.fetchIssueComments(issueNumber)
                 } returns listOf(
-                    GitHubComment(ivyBot, "I'm on it")
+                    GitHubComment(user1, "I'm on it"),
+                    GitHubComment(user2, "I'm on it"),
+                    GitHubComment(ivyBot, "Okay, I'm on it"),
                 ).right()
                 coEvery {
                     gitHubService.fetchIssue(issueNumber)
