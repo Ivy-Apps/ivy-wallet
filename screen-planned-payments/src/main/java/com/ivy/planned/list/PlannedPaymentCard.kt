@@ -51,13 +51,15 @@ import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.getCustomIconIdS
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.toComposeColor
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalDateTime
 
 @Composable
 fun LazyItemScope.PlannedPaymentCard(
     baseCurrency: String,
-    categories: List<Category>,
-    accounts: List<Account>,
+    categories: ImmutableList<Category>,
+    accounts: ImmutableList<Account>,
     plannedPayment: PlannedPaymentRule,
     onClick: (PlannedPaymentRule) -> Unit,
 ) {
@@ -124,8 +126,8 @@ fun LazyItemScope.PlannedPaymentCard(
 @Composable
 private fun PlannedPaymentHeaderRow(
     plannedPayment: PlannedPaymentRule,
-    categories: List<Category>,
-    accounts: List<Account>
+    categories: ImmutableList<Category>,
+    accounts: ImmutableList<Account>
 ) {
     val nav = navigation()
 
@@ -267,8 +269,8 @@ private fun Preview_oneTime() {
 
                 PlannedPaymentCard(
                     baseCurrency = "BGN",
-                    categories = listOf(food),
-                    accounts = listOf(cash),
+                    categories = persistentListOf(food),
+                    accounts = persistentListOf(cash),
                     plannedPayment = PlannedPaymentRule(
                         accountId = cash.id,
                         title = "Lidl pazar",
@@ -280,8 +282,7 @@ private fun Preview_oneTime() {
                         intervalN = null,
                         type = TransactionType.EXPENSE
                     )
-                ) {
-                }
+                ) {}
             }
         }
     }
@@ -300,8 +301,8 @@ private fun Preview_recurring() {
 
                 PlannedPaymentCard(
                     baseCurrency = "BGN",
-                    categories = listOf(shisha),
-                    accounts = listOf(account),
+                    categories = persistentListOf(shisha),
+                    accounts = persistentListOf(account),
                     plannedPayment = PlannedPaymentRule(
                         accountId = account.id,
                         title = "Tabu",
@@ -313,8 +314,7 @@ private fun Preview_recurring() {
                         intervalN = 1,
                         type = TransactionType.EXPENSE
                     )
-                ) {
-                }
+                ) {}
             }
         }
     }
@@ -333,8 +333,8 @@ private fun Preview_recurringError() {
 
                 PlannedPaymentCard(
                     baseCurrency = "BGN",
-                    categories = listOf(shisha),
-                    accounts = listOf(account),
+                    categories = persistentListOf(shisha),
+                    accounts = persistentListOf(account),
                     plannedPayment = PlannedPaymentRule(
                         accountId = account.id,
                         title = "Tabu",
@@ -345,9 +345,8 @@ private fun Preview_recurringError() {
                         intervalType = null,
                         intervalN = null,
                         type = TransactionType.EXPENSE
-                    )
-                ) {
-                }
+                    ),
+                ) {}
             }
         }
     }
