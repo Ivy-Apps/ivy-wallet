@@ -60,8 +60,8 @@ import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 import kotlin.math.absoluteValue
 
-private const val OVERFLOW_LENGTH_OF_BALANCE = 7
-private const val OVERFLOW_LENGTH_OF_MONTHRANGE = 12
+private const val OverflowLengthOfBalance = 7
+private const val OverflowLengthOfMontthRange = 12
 
 @ExperimentalAnimationApi
 @Composable
@@ -166,8 +166,8 @@ private fun HeaderStickyRow(
                 var lengthOfMonthRange = period.toDisplayShort(ivyWalletCtx().startDayOfMonth).length
                 val overflow by remember(lengthOfCurrencyAndBalance, lengthOfMonthRange) {
                     derivedStateOf {
-                        lengthOfCurrencyAndBalance >= OVERFLOW_LENGTH_OF_BALANCE &&
-                                lengthOfMonthRange >= OVERFLOW_LENGTH_OF_MONTHRANGE
+                        lengthOfCurrencyAndBalance >= OverflowLengthOfBalance &&
+                                lengthOfMonthRange >= OverflowLengthOfMontthRange
                     }
                 }
 
