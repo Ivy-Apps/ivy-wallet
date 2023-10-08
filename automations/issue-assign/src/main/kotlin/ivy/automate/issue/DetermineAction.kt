@@ -67,9 +67,11 @@ private suspend fun checkCommentsForIntention(
         .mapLeft { "Failed to fetch comments: $it." }
         .bind()
 
-    val lastComment = comments.lastOrNull {
-        it.author.username.value != Constants.IVY_BOT_USERNAME
-    } ?: return@either null
+    val lastComment = comments.lastOrNull() ?: return@either null
+    if (lastComment.author.username.value == Constants.IVY_BOT_USERNAME) {
+        // Do nothing for Ivy BOT comments
+        return@either null
+    }
 
     analyzeCommentIntention(lastComment)
 }
