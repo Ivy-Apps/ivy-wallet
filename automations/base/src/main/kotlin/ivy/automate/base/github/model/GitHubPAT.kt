@@ -13,6 +13,5 @@ value class GitHubPAT private constructor(val value: String) {
             ensure(raw.isNotBlank()) { "Cannot be blank" }
             return GitHubPAT(raw.trim())
         }
-
     }
 }

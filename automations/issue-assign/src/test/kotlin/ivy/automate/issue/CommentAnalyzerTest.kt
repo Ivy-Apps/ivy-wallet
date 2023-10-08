@@ -43,6 +43,5 @@ class CommentAnalyzerTest : FreeSpec({
             // then
             intention shouldBe expectedIntention
         }
-
     }
 })

@@ -14,6 +14,5 @@ value class GitHubIssueNumber private constructor(val value: String) {
             ensure(raw.trim().all { it.isDigit() }) { "Must contain only digits" }
             return GitHubIssueNumber(raw.trim())
         }
-
     }
 }

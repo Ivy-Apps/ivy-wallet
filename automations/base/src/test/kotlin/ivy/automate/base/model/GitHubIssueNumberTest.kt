@@ -22,7 +22,7 @@ class GitHubIssueNumberTest : FreeSpec({
         val id = "2763"
 
         // when
-        val res = GitHubIssueNumber.from("2763")
+        val res = GitHubIssueNumber.from(id)
 
         // then
         res.shouldBeRight().value shouldBe "2763"

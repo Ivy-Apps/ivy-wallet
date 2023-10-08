@@ -13,6 +13,5 @@ value class NotBlankTrimmedString private constructor(val value: String) {
             ensure(raw.isNotBlank()) { "Cannot be blank " }
             return NotBlankTrimmedString(raw.trim())
         }
-
     }
 }

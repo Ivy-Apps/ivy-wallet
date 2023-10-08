@@ -43,7 +43,6 @@ class DetermineActionTest : FreeSpec({
 
     fun label(name: String) = GitHubLabel(GitHubLabelName(name))
 
-
     "unhappy path" - {
         testScope {
             "fails to fetch comments" {
