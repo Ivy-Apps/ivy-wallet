@@ -216,63 +216,36 @@ class EditPlannedViewModel @Inject constructor(
 
     override fun onEvent(event: EditPlannedScreenEvent) {
         when (event) {
-            is EditPlannedScreenEvent.OnSave -> {
-                save()
-            }
-            is EditPlannedScreenEvent.OnDelete -> {
-                delete()
-            }
-            is EditPlannedScreenEvent.OnSetTransactionType -> {
+            is EditPlannedScreenEvent.OnSave -> save()
+            is EditPlannedScreenEvent.OnDelete -> delete()
+            is EditPlannedScreenEvent.OnSetTransactionType ->
                 updateTransactionType(event.newTransactionType)
-            }
-            is EditPlannedScreenEvent.OnDescriptionChanged -> {
+            is EditPlannedScreenEvent.OnDescriptionChanged ->
                 updateDescription(event.newDescription)
-            }
-            is EditPlannedScreenEvent.OnCreateAccount -> {
-                createAccount(event.data)
-            }
-            is EditPlannedScreenEvent.OnCreateCategory -> {
-                createCategory(event.data)
-            }
-            is EditPlannedScreenEvent.OnAccountChanged -> {
-                updateAccount(event.newAccount)
-            }
-            is EditPlannedScreenEvent.OnAmountChanged -> {
-                updateAmount(event.newAmount)
-            }
-            is EditPlannedScreenEvent.OnTitleChanged -> {
-                updateTitle(event.newTitle)
-            }
-            is EditPlannedScreenEvent.OnRuleChanged -> {
+            is EditPlannedScreenEvent.OnCreateAccount -> createAccount(event.data)
+            is EditPlannedScreenEvent.OnCreateCategory -> createCategory(event.data)
+            is EditPlannedScreenEvent.OnAccountChanged -> updateAccount(event.newAccount)
+            is EditPlannedScreenEvent.OnAmountChanged -> updateAmount(event.newAmount)
+            is EditPlannedScreenEvent.OnTitleChanged -> updateTitle(event.newTitle)
+            is EditPlannedScreenEvent.OnRuleChanged ->
                 updateRule(event.startDate, event.oneTime, event.intervalN, event.intervalType)
-            }
-            is EditPlannedScreenEvent.OnCategoryChanged -> {
-                updateCategory(event.newCategory)
-            }
-            is EditPlannedScreenEvent.OnCategoryModalVisible -> {
+            is EditPlannedScreenEvent.OnCategoryChanged -> updateCategory(event.newCategory)
+            is EditPlannedScreenEvent.OnCategoryModalVisible ->
                 categoryModalVisible.value = event.visible
-            }
-            is EditPlannedScreenEvent.OnCategoryModalDataChanged -> {
+            is EditPlannedScreenEvent.OnCategoryModalDataChanged ->
                 categoryModalData.value = event.categoryModalData
-            }
-            is EditPlannedScreenEvent.OnAccountModalDataChanged -> {
+            is EditPlannedScreenEvent.OnAccountModalDataChanged ->
                 accountModalData.value = event.accountModalData
-            }
-            is EditPlannedScreenEvent.OnDescriptionModalVisible -> {
+            is EditPlannedScreenEvent.OnDescriptionModalVisible ->
                 descriptionModalVisible.value = event.visible
-            }
-            is EditPlannedScreenEvent.OnTransactionTypeModalVisible -> {
+            is EditPlannedScreenEvent.OnTransactionTypeModalVisible ->
                 transactionTypeModalVisible.value = event.visible
-            }
-            is EditPlannedScreenEvent.OnAmountModalVisible -> {
+            is EditPlannedScreenEvent.OnAmountModalVisible ->
                 amountModalVisible.value = event.visible
-            }
-            is EditPlannedScreenEvent.OnDeleteTransactionModalVisible -> {
+            is EditPlannedScreenEvent.OnDeleteTransactionModalVisible ->
                 deleteTransactionModalVisible.value = event.visible
-            }
-            is EditPlannedScreenEvent.OnRecurringRuleModalDataChanged -> {
+            is EditPlannedScreenEvent.OnRecurringRuleModalDataChanged ->
                 recurringRuleModalData.value = event.recurringRuleModalData
-            }
         }
     }
 
