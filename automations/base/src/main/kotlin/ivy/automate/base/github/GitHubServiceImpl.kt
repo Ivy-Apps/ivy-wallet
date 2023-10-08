@@ -24,7 +24,6 @@ import ivy.automate.base.github.model.GitHubPAT
 import ivy.automate.base.github.model.GitHubUser
 import ivy.automate.base.github.model.GitHubUsername
 import ivy.automate.base.github.model.NotBlankTrimmedString
-import ivy.automate.base.ktor.KtorClientScope
 import kotlinx.serialization.Serializable
 
 class GitHubServiceImpl(

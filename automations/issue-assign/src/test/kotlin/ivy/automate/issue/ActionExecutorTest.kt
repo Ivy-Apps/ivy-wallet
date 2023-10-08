@@ -26,7 +26,6 @@ class ActionExecutorTest : FreeSpec({
         issueNumber = issueNumber,
     )
 
-
     val readContributingMsg = """
         Also, make sure to read our [Contribution Guidelines](${Constants.CONTRIBUTING_URL}).
     """.trimIndent()

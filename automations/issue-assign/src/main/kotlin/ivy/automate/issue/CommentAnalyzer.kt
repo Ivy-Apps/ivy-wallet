@@ -26,7 +26,6 @@ fun analyzeCommentIntention(comment: GitHubComment): CommentIntention {
     val commentText = comment.text.lowercase()
         .replace("'", "")
 
-
     return when {
         TakeIssueIntentionPhrases.any { it in commentText }
         -> CommentIntention.TakeIssue(comment.author)

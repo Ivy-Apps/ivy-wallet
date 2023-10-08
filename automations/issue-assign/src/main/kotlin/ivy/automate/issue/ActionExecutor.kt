@@ -5,7 +5,6 @@ import arrow.core.raise.Raise
 import arrow.core.raise.either
 import ivy.automate.base.github.GitHubService
 import ivy.automate.base.github.model.GitHubUser
-import ivy.automate.base.github.model.GitHubUsername
 import ivy.automate.base.github.model.NotBlankTrimmedString
 
 context(GitHubService)

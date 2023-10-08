@@ -5,7 +5,6 @@ import arrow.core.raise.either
 import ivy.automate.base.IvyError
 import ivy.automate.base.github.GitHubService
 import ivy.automate.base.github.GitHubServiceImpl
-import ivy.automate.base.ktor.KtorClientScope
 import ivy.automate.base.ktor.ktorClientScope
 import kotlinx.coroutines.runBlocking
 
