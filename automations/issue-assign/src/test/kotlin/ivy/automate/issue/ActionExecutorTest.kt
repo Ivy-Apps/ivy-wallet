@@ -25,7 +25,6 @@ class ActionExecutorTest : FreeSpec({
         pat = pat,
         issueNumber = issueNumber,
     )
-    val gitHubService = mockk<GitHubService>()
 
 
     val readContributingMsg = """
@@ -35,6 +34,7 @@ class ActionExecutorTest : FreeSpec({
     "unhappy path" - {
         "AlreadyTaken - comment failure" {
             // given
+            val gitHubService = mockk<GitHubService>()
             val action = Action.AlreadyTaken(
                 assignee = user1,
                 issueNumber = issueNumber,
@@ -53,6 +53,7 @@ class ActionExecutorTest : FreeSpec({
 
         "NotApproved - comment failure" {
             // given
+            val gitHubService = mockk<GitHubService>()
             val action = Action.NotApproved(
                 issueNumber = issueNumber,
                 user = user2
@@ -70,6 +71,7 @@ class ActionExecutorTest : FreeSpec({
 
         "AssignIssue - comment failure" {
             // given
+            val gitHubService = mockk<GitHubService>()
             val action = Action.AssignIssue(
                 issueNumber = issueNumber,
                 user = user2
@@ -90,6 +92,7 @@ class ActionExecutorTest : FreeSpec({
 
         "AssignIssue - assign failure" {
             // given
+            val gitHubService = mockk<GitHubService>()
             val action = Action.AssignIssue(
                 issueNumber = issueNumber,
                 user = user2
@@ -112,6 +115,7 @@ class ActionExecutorTest : FreeSpec({
     "happy path" - {
         "AlreadyTaken" {
             // given
+            val gitHubService = mockk<GitHubService>()
             val action = Action.AlreadyTaken(
                 assignee = user1,
                 issueNumber = issueNumber,
@@ -144,6 +148,7 @@ class ActionExecutorTest : FreeSpec({
 
         "NotApproved" {
             // given
+            val gitHubService = mockk<GitHubService>()
             val action = Action.NotApproved(
                 issueNumber = issueNumber,
                 user = user1
@@ -174,6 +179,7 @@ class ActionExecutorTest : FreeSpec({
 
         "AssignIssue" {
             // given
+            val gitHubService = mockk<GitHubService>()
             val action = Action.AssignIssue(
                 issueNumber = issueNumber,
                 user = user1
