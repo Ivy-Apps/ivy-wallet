@@ -59,10 +59,10 @@ fun BalanceRowMedium(
 
 @Composable
 fun BalanceRowMini(
-    modifier: Modifier = Modifier,
-    textColor: Color = UI.colors.pureInverse,
     currency: String,
     balance: Double,
+    modifier: Modifier = Modifier,
+    textColor: Color = UI.colors.pureInverse,
     balanceAmountPrefix: String? = null,
     currencyUpfront: Boolean = true,
     shortenBigNumbers: Boolean = false,

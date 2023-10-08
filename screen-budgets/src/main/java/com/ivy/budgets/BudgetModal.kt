@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -47,7 +46,6 @@ import com.ivy.wallet.ui.theme.modal.ModalDelete
 import com.ivy.wallet.ui.theme.modal.ModalTitle
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import com.ivy.wallet.ui.theme.toComposeColor
-import kotlinx.collections.immutable.ImmutableList
 import java.util.UUID
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
