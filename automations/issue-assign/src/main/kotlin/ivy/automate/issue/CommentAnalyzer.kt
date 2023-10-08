@@ -11,7 +11,8 @@ val TakeIssueIntentionPhrases = listOf(
     "assign to me",
     "assign this issue to me",
     "assign this to me",
-    "give it a try"
+    "give it a try",
+    "i take this"
 )
 
 sealed interface CommentIntention {

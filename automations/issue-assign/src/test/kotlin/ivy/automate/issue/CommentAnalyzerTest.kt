@@ -60,7 +60,11 @@ class CommentAnalyzerTest : FreeSpec({
                         "I think i will require some help in it from your side, " +
                         "so please bear with me.\n",
                 CommentIntention.TakeIssue(user)
-            )
+            ),
+            row(
+                "Can I take this one?",
+                CommentIntention.TakeIssue(user)
+            ),
         ) { (text, expectedIntention) ->
             // given
             val comment = newComment(text)
