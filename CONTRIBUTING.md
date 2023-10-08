@@ -16,12 +16,9 @@ What do you want to work on? [Choose an issue](https://github.com/Ivy-Apps/ivy-w
 
 1. Browse **[Ivy Wallet Issues](https://github.com/Ivy-Apps/ivy-wallet/issues)**.
 2. Choose an issue that you understand and like.
-3. Comment **`"I'm on it"`** on the issue to let other contributors know that you're working on it.
-```
-I'm on it
-```
+3. Comment **"I'm on it"** on the issue to let other contributors know that you're working on it.
 
-> Comment exactly **"I'm on it"** otherwise the automation for assigning issues won't work.
+> Comment exactly `I'm on it` otherwise the automation for assigning issues won't work.
 
 ### Contributing Rules:
 
