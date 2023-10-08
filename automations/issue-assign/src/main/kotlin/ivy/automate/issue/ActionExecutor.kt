@@ -11,7 +11,8 @@ suspend fun Action.AlreadyTaken.execute(
     args: Args
 ): Either<String, String> = either {
     val commentText = buildString {
-        append("Issue #${args.issueNumber} is already taken by @${assignee.username.value}.")
+        append("⚠️ This issue is already taken by @${assignee.username.value}.")
+        append(" **Do not start working on it!**")
         val issuesUrl = "https://github.com/Ivy-Apps/ivy-wallet/issues"
         append(" Please, [pick another one]($issuesUrl).")
     }
@@ -24,8 +25,8 @@ suspend fun Action.NotApproved.execute(
     args: Args
 ): Either<String, String> = either {
     val commentText = buildString {
-        append("Issue #${args.issueNumber} is not approved. ")
-        append("@${Constants.IVY_ADMIN} must approve it first.")
+        append("⚠️ This issue is not approved, yet.")
+        append(" @${Constants.IVY_ADMIN} must approve it first.")
     }
     comment(args, commentText).bind()
     commentText
@@ -44,9 +45,10 @@ suspend fun Action.AssignIssue.execute(
     }.bind()
 
     val commentText = buildString {
-        append("Thank you for your interest @${user.username.value}!")
-        append(" Assigned to you. You should work on it now ✅")
-        append(" If you don't want to work on it, please unassign yourself.")
+        append("Thank you for your interest @${user.username.value}! \uD83C\uDF89")
+        append(" Assigned to you. You can work on it now ✅")
+        append(" If you don't want to work on it now, please unassign yourself")
+        append(" so other contributors can take it.")
     }
     comment(args, commentText).bind()
     commentText

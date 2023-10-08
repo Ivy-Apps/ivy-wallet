@@ -173,7 +173,7 @@ class DetermineActionTest : FreeSpec({
                 val action = determineAction(args)
 
                 // then
-                action.shouldBeRight() shouldBe Action.AlreadyTaken(issueNumber, user1)
+                action.shouldBeRight() shouldBe Action.AlreadyTaken(user2, issueNumber, user1)
             }
 
             "NotApproved" {
@@ -194,7 +194,7 @@ class DetermineActionTest : FreeSpec({
                 val action = determineAction(args)
 
                 // then
-                action.shouldBeRight() shouldBe Action.NotApproved(issueNumber)
+                action.shouldBeRight() shouldBe Action.NotApproved(user1, issueNumber)
             }
 
             "DoNothing - empty comments" {

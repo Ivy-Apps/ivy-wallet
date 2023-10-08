@@ -20,10 +20,12 @@ sealed interface Action {
     ) : Action
 
     data class NotApproved(
+        val user: GitHubUser,
         override val issueNumber: GitHubIssueNumber
     ) : Action
 
     data class AlreadyTaken(
+        val user: GitHubUser,
         override val issueNumber: GitHubIssueNumber,
         val assignee: GitHubUser,
     ) : Action
@@ -47,12 +49,12 @@ private suspend fun CommentIntention.TakeIssue.toAction(
 ): Either<String, Action> = either {
     val assignee = checkIfIssueIsAssigned(issueNumber).bind()
     if (assignee != null) {
-        return@either Action.AlreadyTaken(issueNumber, assignee)
+        return@either Action.AlreadyTaken(user, issueNumber, assignee)
     }
 
     val approved = checkLabelsForApproved(issueNumber).bind()
     if (!approved) {
-        return@either Action.NotApproved(issueNumber)
+        return@either Action.NotApproved(user, issueNumber)
     }
 
     Action.AssignIssue(issueNumber, user)
