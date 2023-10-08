@@ -360,7 +360,7 @@ private fun BoxWithConstraintsScope.UI(
     ) {
         onEvent(EditPlannedScreenEvent.OnSetTransactionType(it))
         if (shouldFocusAmount(state.amount)) {
-            onEvent(EditPlannedScreenEvent.OnTransactionTypeModalVisible(true))
+            onEvent(EditPlannedScreenEvent.OnAmountModalVisible(true))
         }
     }
 

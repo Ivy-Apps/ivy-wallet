@@ -480,6 +480,7 @@ class EditPlannedViewModel @Inject constructor(
 
     private fun delete() {
         viewModelScope.launch {
+            deleteTransactionModalVisible.value = false
             ioThread {
                 loadedRule?.let {
                     plannedPaymentRuleWriter.flagDeleted(it.id)
