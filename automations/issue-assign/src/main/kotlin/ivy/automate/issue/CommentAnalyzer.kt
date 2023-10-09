@@ -5,14 +5,7 @@ import ivy.automate.base.github.model.GitHubUser
 
 val TakeIssueIntentionPhrases = listOf(
     "im on it",
-    "want to contribute",
-    "work on this",
-    "contribute on this",
-    "assign to me",
-    "assign this issue to me",
-    "assign this to me",
-    "give it a try",
-    "i take this"
+    "i am on it",
 )
 
 sealed interface CommentIntention {
