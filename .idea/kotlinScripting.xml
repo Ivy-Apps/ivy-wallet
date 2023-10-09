@@ -3,7 +3,6 @@
   <component name="KotlinScriptingSettings">
     <scriptDefinition className="org.jetbrains.kotlin.scripting.resolve.KotlinScriptDefinitionFromAnnotatedTemplate" definitionName="KotlinBuildScript">
       <order>2147483647</order>
-      <autoReloadConfigurations>true</autoReloadConfigurations>
     </scriptDefinition>
   </component>
 </project>
