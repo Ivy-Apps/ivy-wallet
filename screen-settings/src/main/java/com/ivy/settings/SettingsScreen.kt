@@ -75,6 +75,7 @@ import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.modal.ChooseStartDateOfMonthModal
 import com.ivy.wallet.ui.theme.modal.CurrencyModal
 import com.ivy.wallet.ui.theme.modal.DeleteModal
+import com.ivy.wallet.ui.theme.modal.DeleteModalWithBackup
 import com.ivy.wallet.ui.theme.modal.NameModal
 import com.ivy.wallet.ui.theme.modal.ProgressModal
 
@@ -106,6 +107,9 @@ fun BoxWithConstraintsScope.SettingsScreen() {
         },
         onBackupData = {
             viewModel.onEvent(SettingsEvent.BackupData(rootScreen))
+        },
+        onBackupDataBeforeDelete = {
+            viewModel.onEvent(SettingsEvent.BackupBeforeDeleteAllUserData(rootScreen))
         },
         onExportToCSV = {
             viewModel.onEvent(SettingsEvent.ExportToCsv(rootScreen))
@@ -157,6 +161,7 @@ private fun BoxWithConstraintsScope.UI(
     onSetHideCurrentBalance: (Boolean) -> Unit = {},
     onSetStartDateOfMonth: (Int) -> Unit = {},
     onDeleteAllUserData: () -> Unit = {},
+    onBackupDataBeforeDelete: () -> Unit = {},
     onDeleteCloudUserData: () -> Unit = {},
 
     ) {
@@ -166,6 +171,7 @@ private fun BoxWithConstraintsScope.UI(
     var deleteCloudDataModalVisible by remember { mutableStateOf(false) }
     var deleteAllDataModalVisible by remember { mutableStateOf(false) }
     var deleteAllDataModalFinalVisible by remember { mutableStateOf(false) }
+    var deleteAllDataModalFinalVisibleWithBackup by remember { mutableStateOf(false) }
     val nav = navigation()
 
     LazyColumn(
@@ -502,6 +508,19 @@ private fun BoxWithConstraintsScope.UI(
         }
     )
 
+    DeleteModalWithBackup(
+        title = stringResource(id = R.string.backup_data),
+        description = stringResource(id = R.string.save_user_data_before_delete),
+        visible = deleteAllDataModalFinalVisibleWithBackup,
+        dismiss = {
+            deleteAllDataModalFinalVisibleWithBackup = false
+            onDeleteAllUserData()
+        },
+        onDelete = {
+            onBackupDataBeforeDelete()
+        }
+    )
+
     DeleteModal(
         title = stringResource(
             R.string.confirm_all_userd_data_deletion,
@@ -511,7 +530,8 @@ private fun BoxWithConstraintsScope.UI(
         visible = deleteAllDataModalFinalVisible,
         dismiss = { deleteAllDataModalFinalVisible = false },
         onDelete = {
-            onDeleteAllUserData()
+            deleteAllDataModalFinalVisible = false
+            deleteAllDataModalFinalVisibleWithBackup = true
         }
     )
 

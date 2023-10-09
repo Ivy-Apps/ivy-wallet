@@ -63,6 +63,7 @@ class SettingsViewModel @Inject constructor(
     private val treatTransfersAsIncomeExpense = mutableStateOf(false)
     private val startDateOfMonth = mutableIntStateOf(1)
     private val progressState = mutableStateOf(false)
+    private var backupBeforeDeleteAllUserData = false
 
     @Composable
     override fun uiState(): SettingsState {
@@ -189,6 +190,7 @@ class SettingsViewModel @Inject constructor(
             is SettingsEvent.SetName -> setName(event.newName)
             is SettingsEvent.ExportToCsv -> exportToCSV(event.rootScreen)
             is SettingsEvent.BackupData -> exportToZip(event.rootScreen)
+            is SettingsEvent.BackupBeforeDeleteAllUserData -> backupBeforeDeleteAllUserData(event.rootScreen)
             SettingsEvent.SwitchTheme -> switchTheme()
             is SettingsEvent.SetLockApp -> setLockApp(event.lockApp)
             is SettingsEvent.SetShowNotifications -> setShowNotifications(event.showNotifications)
@@ -273,6 +275,11 @@ class SettingsViewModel @Inject constructor(
 
                 sharedPrefs.putBoolean(SharedPrefs.DATA_BACKUP_COMPLETED, true)
                 ivyContext.dataBackupCompleted = true
+
+                if (backupBeforeDeleteAllUserData) {
+                    deleteAllUserData()
+                    backupBeforeDeleteAllUserData = false
+                }
 
                 uiThread {
                     rootScreen.shareZipFile(
@@ -370,5 +377,9 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             logoutLogic.logout()
         }
+    }
+    private fun backupBeforeDeleteAllUserData(rootScreen: RootScreen) {
+        exportToZip(rootScreen)
+        backupBeforeDeleteAllUserData = true
     }
 }

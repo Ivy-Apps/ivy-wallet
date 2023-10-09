@@ -7,6 +7,7 @@ sealed interface SettingsEvent {
     data class SetName(val newName: String) : SettingsEvent
     data class ExportToCsv(val rootScreen: RootScreen) : SettingsEvent
     data class BackupData(val rootScreen: RootScreen) : SettingsEvent
+    data class BackupBeforeDeleteAllUserData(val rootScreen: RootScreen) : SettingsEvent
     data object SwitchTheme : SettingsEvent
     data class SetLockApp(val lockApp: Boolean) : SettingsEvent
     data class SetShowNotifications(val showNotifications: Boolean) : SettingsEvent

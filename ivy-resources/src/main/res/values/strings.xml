@@ -323,6 +323,8 @@
     <string name="recalculate_amount_with_today_exchange_rates">Recalculate Amount with today\'s Currency exchange Rates</string>
     <string name="enter_record_amount_uppercase">ENTER RECORD AMOUNT</string>
     <string name="record_deletion_warning">Are you sure that you want to delete "%1$s" record?</string>
+    <string name="save_user_data_before_delete">Back up your data, or else it will be lost permanently and can\'t be recovered.</string>
+    <string name="delete_and_backup">Backup and Delete</string>
     <string name="account_change_warning">"Note: You are trying to change the account associated with the loan record with an account of different currency\nThe amount will be re-calculated based on today's exchanges rates "</string>
     <string name="edit_name">Edit name</string>
     <string name="plan_for">Plan for</string>

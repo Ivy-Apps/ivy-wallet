@@ -81,6 +81,56 @@ fun BoxWithConstraintsScope.DeleteModal(
 }
 
 @Composable
+fun BoxWithConstraintsScope.DeleteModalWithBackup(
+    id: UUID = UUID.randomUUID(),
+    title: String,
+    description: String,
+    visible: Boolean,
+    buttonText: String = stringResource(id = R.string.delete_and_backup),
+    iconStart: Int = R.drawable.ic_vue_security_shield,
+    dismiss: () -> Unit,
+    onDelete: () -> Unit,
+) {
+    IvyModal(
+        id = id,
+        visible = visible,
+        dismiss = dismiss,
+        PrimaryAction = {
+            ModalNegativeButton(
+                text = buttonText,
+                iconStart = iconStart
+            ) {
+                onDelete()
+            }
+        }
+    ) {
+        Spacer(Modifier.height(32.dp))
+
+        Text(
+            modifier = Modifier.padding(horizontal = 32.dp),
+            text = title,
+            style = UI.typo.b1.style(
+                color = Red,
+                fontWeight = FontWeight.ExtraBold
+            )
+        )
+
+        Spacer(Modifier.height(24.dp))
+
+        Text(
+            modifier = Modifier.padding(horizontal = 32.dp),
+            text = description,
+            style = UI.typo.b2.style(
+                color = UI.colors.pureInverse,
+                fontWeight = FontWeight.Medium
+            )
+        )
+
+        Spacer(Modifier.height(48.dp))
+    }
+}
+
+@Composable
 fun BoxWithConstraintsScope.DeleteConfirmationModal(
     id: UUID = UUID.randomUUID(),
     title: String,
