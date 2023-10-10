@@ -16,14 +16,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -87,7 +85,26 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.math.BigDecimal
 import java.util.UUID
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 
+
+
+@Composable
+fun MyTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    BasicTextField(
+        value = value,
+        onValueChange = onValueChange,
+        singleLine = true,
+        modifier = modifier
+    )
+}
 @Composable
 fun BoxWithConstraintsScope.TransactionsScreen(screen: TransactionsScreen) {
     val viewModel: TransactionsViewModel = screenScopedViewModel()
@@ -523,21 +540,90 @@ private fun BoxWithConstraintsScope.DeleteModals(
         deleteModal3Visible = true
     }
 
+
+    var accountNameConfirmation by remember { mutableStateOf(TextFieldValue("")) }
+//
+//    DeleteConfirmationModal(
+//        visible = deleteModal3Visible,
+//        title = stringResource(id = R.string.confirm_deletion),
+//        description = if (account != null) {
+//            stringResource(
+//                id = R.string.account_confirm_deletion_type_account_name,
+//                account.name)
+//
+//        } else {
+//            "Please type \"${category?.name ?: ""}\" in order to delete your category."
+//
+//               },
+//        hint = if (account != null) stringResource(id = R.string.account_name) else "Category name",
+//        accountName = accountNameConfirmation,
+//        onAccountNameChange = updateAccountNameConfirmation,
+//        enableDeletionButton = enableDeletionButton,
+//        dismiss = {
+//            updateAccountNameConfirmation("")
+//            deleteModal3Visible = false
+//            setDeleteModal1Visible(false)
+//        }
+//    ) {
+//        onDelete()
+//        updateAccountNameConfirmation("")
+//    }
+    // Assuming your initial declaration for accountNameConfirmation
+    //var accountNameConfirmation by remember { mutableStateOf(TextFieldValue("")) }
+
+    // Updated updateAccountNameConfirmation function
+    // Updated updateAccountNameConfirmation function
+    fun updateAccountNameConfirmation(newText: String) {
+        val updatedText =  newText
+        accountNameConfirmation = TextFieldValue(text = updatedText)
+    }
+
+
+
+    // Updated onAccountNameChange function
+    fun onAccountNameChange(newText: String) {
+        updateAccountNameConfirmation(newText)
+    }
+
+// Example usage of DeleteConfirmationModal
+//    DeleteConfirmationModal(
+//        visible = deleteModal3Visible,
+//        title = stringResource(id = R.string.confirm_deletion),
+//        description = if (account != null) {
+//            stringResource(id = R.string.account_confirm_deletion_type_account_name)
+//        } else {
+//            "Please type \"${category?.name ?: ""}\" in order to delete your category."
+//        },
+//        hint = if (account != null) stringResource(id = R.string.account_name) else "Category name",
+//        accountName = accountNameConfirmation,
+//        onAccountNameChange = { newText ->
+//            onAccountNameChange(newText)
+//        },
+//        enableDeletionButton = accountNameConfirmation.text == "cash",
+//        dismiss = {
+//            updateAccountNameConfirmation("")
+//            deleteModal3Visible = false
+//            setDeleteModal1Visible(false)
+//        }
+//    ) {
+//        onDelete()
+//        updateAccountNameConfirmation("")
+//    }
+
     DeleteConfirmationModal(
         visible = deleteModal3Visible,
         title = stringResource(id = R.string.confirm_deletion),
         description = if (account != null) {
-            stringResource(
-                id = R.string.account_confirm_deletion_type_account_name,
-                account.name
-            )
+            stringResource(id = R.string.account_confirm_deletion_type_account_name)
         } else {
             "Please type \"${category?.name ?: ""}\" in order to delete your category."
         },
         hint = if (account != null) stringResource(id = R.string.account_name) else "Category name",
         accountName = accountNameConfirmation,
-        onAccountNameChange = updateAccountNameConfirmation,
-        enableDeletionButton = enableDeletionButton,
+        onAccountNameChange = { newText ->
+            onAccountNameChange(newText) // No need to change this function
+        },
+        enableDeletionButton = accountNameConfirmation.text == "cash",
         dismiss = {
             updateAccountNameConfirmation("")
             deleteModal3Visible = false
@@ -545,7 +631,7 @@ private fun BoxWithConstraintsScope.DeleteModals(
         }
     ) {
         onDelete()
-        updateAccountNameConfirmation("")
+        updateAccountNameConfirmation("") // No need to change this function
     }
 
     DeleteModal(
