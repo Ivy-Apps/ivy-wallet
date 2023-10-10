@@ -14,6 +14,7 @@ dependencies {
     implementation(projects.ivyNavigation)
     implementation(projects.tempLegacyCode)
     implementation(projects.ivyData)
+    implementation(projects.ivyCommonUi)
 
     implementation(projects.widgetAddTransaction)
 
