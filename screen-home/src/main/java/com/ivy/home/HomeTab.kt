@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,6 +28,7 @@ import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.stringRes
+import com.ivy.common.ui.rememberScrollPositionListState
 import com.ivy.frp.forward
 import com.ivy.frp.then2
 import com.ivy.home.Constants.SWIPE_HORIZONTAL_THRESHOLD
@@ -112,7 +112,8 @@ private fun BoxWithConstraintsScope.UI(
                 }
             )
     ) {
-        val listState = rememberLazyListState(
+        val listState = rememberScrollPositionListState(
+            key = "home_lazy_column",
             initialFirstVisibleItemIndex = ivyContext.transactionsListState
                 ?.firstVisibleItemIndex ?: 0,
             initialFirstVisibleItemScrollOffset = ivyContext.transactionsListState
