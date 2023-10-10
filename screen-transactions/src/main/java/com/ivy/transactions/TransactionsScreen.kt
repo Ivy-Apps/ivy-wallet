@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -40,6 +39,7 @@ import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.legacy.Theme
 import com.ivy.base.model.TransactionType
 import com.ivy.base.legacy.stringRes
+import com.ivy.common.ui.rememberScrollPositionListState
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.Constants
@@ -274,7 +274,9 @@ private fun BoxWithConstraintsScope.UI(
                 )
             }
     ) {
-        val listState = rememberLazyListState()
+        val listState = rememberScrollPositionListState(
+            key = "item_stats_lazy_column"
+        )
         val density = LocalDensity.current
 
         LazyColumn(
