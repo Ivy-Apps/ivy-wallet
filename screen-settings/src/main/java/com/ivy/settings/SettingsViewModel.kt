@@ -14,8 +14,6 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.ivy.base.model.Theme
-import com.ivy.base.util.refreshWidget
 import com.ivy.domain.ComposeViewModel
 import com.ivy.domain.RootScreen
 import com.ivy.frp.monad.Res
