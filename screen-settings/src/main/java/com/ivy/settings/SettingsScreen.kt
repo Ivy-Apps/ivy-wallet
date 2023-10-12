@@ -1,5 +1,6 @@
 package com.ivy.settings
 
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -23,11 +24,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -37,11 +40,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.ivy.base.model.Theme
+import com.ivy.base.util.stringRes
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IconScale
 import com.ivy.design.l1_buildingBlocks.IvyIconScaled
+import com.ivy.design.system.dialog.IvyAlertDialog
+import com.ivy.googledrive.google_auth.GoogleSignInActivityLauncher
+import com.ivy.googledrive.google_auth.GoogleAuthService
+import com.ivy.googledrive.google_auth.SignInIntentResult
 import com.ivy.legacy.Constants
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.rootScreen
@@ -131,6 +140,12 @@ fun BoxWithConstraintsScope.SettingsScreen() {
         onDeleteCloudUserData = {
             viewModel.onEvent(SettingsEvent.DeleteCloudUserData)
         },
+        setupBackupStrategyRequest = {
+            viewModel.onEvent(SettingsEvent.SetupBackupStrategy)
+        },
+        deleteDriveBackup = {
+            viewModel.onEvent(SettingsEvent.DeleteDriveBackup)
+        }
     )
 }
 
@@ -140,6 +155,8 @@ private fun BoxWithConstraintsScope.UI(
     currencyCode: String,
     theme: Theme,
     onSwitchTheme: () -> Unit,
+    setupBackupStrategyRequest: () -> Unit,
+    deleteDriveBackup: () -> Unit,
     lockApp: Boolean,
     nameLocalAccount: String?,
     onSetCurrency: (String) -> Unit,
@@ -158,8 +175,7 @@ private fun BoxWithConstraintsScope.UI(
     onSetStartDateOfMonth: (Int) -> Unit = {},
     onDeleteAllUserData: () -> Unit = {},
     onDeleteCloudUserData: () -> Unit = {},
-
-    ) {
+) {
     var currencyModalVisible by remember { mutableStateOf(false) }
     var nameModalVisible by remember { mutableStateOf(false) }
     var chooseStartDateOfMonthVisible by remember { mutableStateOf(false) }
@@ -167,6 +183,9 @@ private fun BoxWithConstraintsScope.UI(
     var deleteAllDataModalVisible by remember { mutableStateOf(false) }
     var deleteAllDataModalFinalVisible by remember { mutableStateOf(false) }
     val nav = navigation()
+    var driveEmail by rememberSaveable { mutableStateOf("") }
+    var isDriveBackupDialogVisible by rememberSaveable { mutableStateOf(false) }
+    var isDriveDeletionDialogVisible by rememberSaveable { mutableStateOf(false) }
 
     LazyColumn(
         modifier = Modifier
@@ -246,6 +265,34 @@ private fun BoxWithConstraintsScope.UI(
             ) {
                 onBackupData()
             }
+
+            Spacer(Modifier.height(12.dp))
+
+            val context = LocalContext.current
+            val googleAuthService = remember {
+                GoogleAuthService(context)
+            }
+            GoogleDriveBackup(
+                googleAuthService = googleAuthService,
+                onResult = {
+                    isDriveBackupDialogVisible = true
+                    driveEmail = it.email ?: "unknown"
+                    setupBackupStrategyRequest()
+                },
+                onUserAlreadySignedIn = {
+                    isDriveDeletionDialogVisible = true
+                    driveEmail = it.email ?: "unknown"
+                },
+                onError = {
+                    Toast.makeText(
+                        context,
+                        stringRes(
+                            R.string.google_error_try_again,
+                        ),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            )
 
             Spacer(Modifier.height(12.dp))
 
@@ -463,6 +510,30 @@ private fun BoxWithConstraintsScope.UI(
         }
     }
 
+    IvyAlertDialog(
+        isVisible = isDriveBackupDialogVisible,
+        title = stringResource(id = R.string.google_drive_backup),
+        text = stringResource(id = R.string.google_drive_backup_ready, driveEmail),
+        confirmButtonText = stringResource(id = R.string.confirm),
+        dismissButtonText = null,
+        onConfirmButtonClick = { isDriveBackupDialogVisible = false },
+        onDismissRequest = { isDriveBackupDialogVisible = false }
+    )
+
+    IvyAlertDialog(
+        isVisible = isDriveDeletionDialogVisible,
+        title = stringResource(id = R.string.google_drive_backup),
+        text = stringResource(id = R.string.google_drive_backup_ready, driveEmail),
+        confirmButtonText = stringResource(id = R.string.confirm),
+        dismissButtonText = stringResource(id = R.string.delete),
+        onConfirmButtonClick = { isDriveDeletionDialogVisible = false },
+        onDismissButtonClick = {
+            deleteDriveBackup()
+            isDriveDeletionDialogVisible = false
+        },
+        onDismissRequest = { isDriveDeletionDialogVisible = false }
+    )
+
     CurrencyModal(
         title = stringResource(R.string.set_currency),
         initialCurrency = IvyCurrency.fromCode(currencyCode),
@@ -534,6 +605,38 @@ private fun BoxWithConstraintsScope.UI(
         description = stringResource(R.string.exporting_data_description),
         visible = progressState
     )
+}
+
+@Composable
+fun GoogleDriveBackup(
+    googleAuthService: GoogleAuthService,
+    onResult: (GoogleSignInAccount) -> Unit,
+    onUserAlreadySignedIn: (GoogleSignInAccount) -> Unit,
+    onError: (Exception?) -> Unit
+) {
+    GoogleSignInActivityLauncher(
+        onResult = onResult,
+        onError = onError,
+        onCancel = { /*Do nothing*/ }
+    ) { launcher ->
+        SettingsDefaultButton(
+            icon = R.drawable.ic_vue_brands_drive,
+            text = stringResource(id = R.string.google_drive_backup),
+            iconPadding = 6.dp
+        ) {
+            val googleSignInResult = googleAuthService.getSignInIntent()
+            when (googleSignInResult) {
+                is SignInIntentResult.NewUserSigning -> {
+                    launcher.launch(googleSignInResult.loginIntent)
+                }
+
+                is SignInIntentResult.UserAlreadySignedIn -> {
+                    onUserAlreadySignedIn(googleSignInResult.googleAccount)
+                }
+            }
+        }
+    }
+
 }
 
 @Composable
@@ -1141,6 +1244,8 @@ private fun Preview() {
             lockApp = false,
             currencyCode = "BGN",
             onSetCurrency = {},
+            setupBackupStrategyRequest = {},
+            deleteDriveBackup = {}
         )
     }
 }

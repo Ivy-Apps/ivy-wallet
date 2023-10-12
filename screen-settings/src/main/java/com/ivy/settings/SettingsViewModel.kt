@@ -7,6 +7,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequest
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.ivy.base.model.Theme
 import com.ivy.base.util.refreshWidget
 import com.ivy.domain.ComposeViewModel
@@ -24,6 +29,9 @@ import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.uiThread
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
+import com.ivy.googledrive.backup.BackupWorker
+import com.ivy.googledrive.backup.DriveBackupConstants.WORKER_TAG
+import com.ivy.googledrive.google_auth.GoogleAuthService
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.action.global.UpdateStartDayOfMonthAct
 import com.ivy.wallet.domain.action.settings.SettingsAct
@@ -33,7 +41,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.Duration
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.hours
 
 @SuppressLint("StaticFieldLeak")
 @HiltViewModel
@@ -52,6 +63,8 @@ class SettingsViewModel @Inject constructor(
     private val settingsAct: SettingsAct,
     private val updateSettingsAct: UpdateSettingsAct,
     private val settingsWriter: WriteSettingsDao,
+    private val workManager: WorkManager,
+    private val googleAuthService: GoogleAuthService
 ) : ComposeViewModel<SettingsState, SettingsEvent>() {
 
     private val currencyCode = mutableStateOf("")
@@ -204,7 +217,38 @@ class SettingsViewModel @Inject constructor(
 
             SettingsEvent.DeleteCloudUserData -> deleteCloudUserData()
             SettingsEvent.DeleteAllUserData -> deleteAllUserData()
+
+            is SettingsEvent.SetupBackupStrategy -> setupBackupStrategy()
+            is SettingsEvent.DeleteDriveBackup -> deleteDriveBackup()
         }
+    }
+
+    private fun setupBackupStrategy() {
+        val backupConstrains =
+            Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
+        val backupWorker = PeriodicWorkRequestBuilder<BackupWorker>(
+            12L, TimeUnit.HOURS
+        ).setConstraints(backupConstrains)
+            .addTag(WORKER_TAG)
+            .build()
+        workManager.enqueue(backupWorker)
+    }
+
+    private fun deleteDriveBackup() {
+        // TODO: Handle the state
+        googleAuthService.signOut(
+            onLoading = {
+
+            },
+            onSuccess = {
+
+            },
+            onError = {
+
+            }
+        )
+        workManager.cancelAllWorkByTag(WORKER_TAG)
     }
 
     private fun setCurrency(newCurrency: String) {
@@ -364,6 +408,7 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             logout()
         }
+        deleteDriveBackup()
     }
 
     private fun logout() {

@@ -15,4 +15,7 @@ dependencies {
     implementation(projects.tempLegacyCode)
     implementation(projects.widgetBalance)
     implementation(projects.ivyData)
+    implementation(projects.googleDrive)
+    implementation(projects.ivyDesign)
+
 }

@@ -96,6 +96,10 @@ google-play-core = { module = "com.google.android.play:core", version = "1.10.3"
 google-play-core-ktx = { module = "com.google.android.play:core-ktx", version = "1.8.1" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version = "18.4.3" }
 firebase-crashlytics-gradle-plugin = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.9" }
+google-services-drive = {module = "com.google.apis:google-api-services-drive", version = "v3-rev136-1.25.0"}
+google-http-gson = {module = "com.google.http-client:google-http-client-gson", version = "1.26.0"}
+google-http-android = {module = "com.google.api-client:google-api-client-android", version = "1.26.0"}
+google-guava = {module = "com.google.guava:guava", version = "28.1-android"}
 
 # AndroidX
 androidx-security = { module = "androidx.security:security-crypto", version = "1.0.0" }

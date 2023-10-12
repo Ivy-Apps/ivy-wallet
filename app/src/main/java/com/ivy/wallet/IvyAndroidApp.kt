@@ -1,9 +1,14 @@
 package com.ivy.wallet
 
 import android.app.Application
-import androidx.hilt.work.HiltWorkerFactory
+import android.content.Context
 import androidx.work.Configuration
+import androidx.work.ListenableWorker
+import androidx.work.WorkerFactory
+import androidx.work.WorkerParameters
 import com.ivy.base.util.appContext
+import com.ivy.googledrive.backup.BackupWorker
+import com.ivy.legacy.domain.deprecated.logic.zip.BackupLogic
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import timber.log.Timber.DebugTree
@@ -15,7 +20,7 @@ import javax.inject.Inject
 @HiltAndroidApp
 class IvyAndroidApp : Application(), Configuration.Provider {
     @Inject
-    lateinit var workerFactory: HiltWorkerFactory
+    lateinit var workerFactory: CustomWorkerFactory
 
     override fun getWorkManagerConfiguration(): Configuration {
         return Configuration.Builder()
@@ -32,3 +37,25 @@ class IvyAndroidApp : Application(), Configuration.Provider {
         }
     }
 }
+
+// This solves Could not instantiat worker issue
+class CustomWorkerFactory @Inject constructor(
+    private val backupLogic: BackupLogic
+) : WorkerFactory() {
+    override fun createWorker(
+        appContext: Context,
+        workerClassName: String,
+        workerParameters: WorkerParameters
+    ): ListenableWorker? {
+        return when (workerClassName) {
+            BackupWorker::class.java.name -> BackupWorker(
+                appContext,
+                workerParameters,
+                backupLogic
+            )
+            else -> null // Return null, so that the base class can delegate to the default WorkerFactory.
+
+        }
+    }
+}
+
