@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.refreshWidget
@@ -77,6 +79,8 @@ class SettingsViewModel @Inject constructor(
     private val startDateOfMonth = mutableIntStateOf(1)
     private val progressState = mutableStateOf(false)
 
+    var isDriveEnabled by mutableStateOf(false)
+
     @Composable
     override fun uiState(): SettingsState {
         LaunchedEffect(Unit) {
@@ -105,6 +109,10 @@ class SettingsViewModel @Inject constructor(
         initializeHideCurrentBalance()
         initializeTransfersAsIncomeExpense()
         initializeStartDateOfMonth()
+        initializeDriveStatus()
+    }
+    private fun initializeDriveStatus(){
+        isDriveEnabled = googleAuthService.checkForLinkedAccount()
     }
 
     private suspend fun initializeCurrency() {
@@ -220,6 +228,9 @@ class SettingsViewModel @Inject constructor(
 
             is SettingsEvent.SetupBackupStrategy -> setupBackupStrategy()
             is SettingsEvent.DeleteDriveBackup -> deleteDriveBackup()
+            is SettingsEvent.UpdateDriveStatus -> {
+                isDriveEnabled = event.isEnabled
+            }
         }
     }
 
@@ -236,13 +247,12 @@ class SettingsViewModel @Inject constructor(
     }
 
     private fun deleteDriveBackup() {
-        // TODO: Handle the state
         googleAuthService.signOut(
             onLoading = {
 
             },
             onSuccess = {
-
+                isDriveEnabled = false
             },
             onError = {
 

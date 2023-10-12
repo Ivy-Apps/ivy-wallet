@@ -48,4 +48,8 @@ class GoogleAuthService(private val context: Context) {
                 onLoading(false)
             }
     }
+
+    fun checkForLinkedAccount(): Boolean {
+        return GoogleSignIn.getLastSignedInAccount(context) != null
+    }
 }

@@ -441,5 +441,5 @@
     <string name="google_drive_backup">Google Drive Backup</string>
     <string name="google_drive_backup_ready">Your data will automatically be backed up each 12 hours on this email %s</string>
     <string name="backup_notification_title">Ivy wallet backup</string>
-    <string name="backup_notification_text">Backing up your Ivy wallet data...</string>
+    <string name="enabled">Enabled</string>
 </resources>

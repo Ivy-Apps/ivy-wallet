@@ -56,6 +56,7 @@ import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.rootScreen
 import com.ivy.legacy.utils.OpResult
 import com.ivy.legacy.utils.drawColoredShadow
+import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.thenIf
 import com.ivy.navigation.AttributionsScreen
 import com.ivy.navigation.ContributorsScreen
@@ -107,6 +108,7 @@ fun BoxWithConstraintsScope.SettingsScreen() {
         treatTransfersAsIncomeExpense = uiState.treatTransfersAsIncomeExpense,
         nameLocalAccount = uiState.name,
         startDateOfMonth = uiState.startDateOfMonth.toInt(),
+        isDriveEnabled = viewModel.isDriveEnabled,
         onSetCurrency = {
             viewModel.onEvent(SettingsEvent.SetCurrency(it))
         },
@@ -145,6 +147,9 @@ fun BoxWithConstraintsScope.SettingsScreen() {
         },
         deleteDriveBackup = {
             viewModel.onEvent(SettingsEvent.DeleteDriveBackup)
+        },
+        onUpdateDriveStatus = {
+            viewModel.onEvent(SettingsEvent.UpdateDriveStatus(it))
         }
     )
 }
@@ -159,7 +164,9 @@ private fun BoxWithConstraintsScope.UI(
     deleteDriveBackup: () -> Unit,
     lockApp: Boolean,
     nameLocalAccount: String?,
+    onUpdateDriveStatus:(Boolean) -> Unit,
     onSetCurrency: (String) -> Unit,
+    isDriveEnabled: Boolean,
     startDateOfMonth: Int = 1,
     showNotifications: Boolean = true,
     hideCurrentBalance: Boolean = false,
@@ -183,9 +190,9 @@ private fun BoxWithConstraintsScope.UI(
     var deleteAllDataModalVisible by remember { mutableStateOf(false) }
     var deleteAllDataModalFinalVisible by remember { mutableStateOf(false) }
     val nav = navigation()
-    var driveEmail by rememberSaveable { mutableStateOf("") }
     var isDriveBackupDialogVisible by rememberSaveable { mutableStateOf(false) }
     var isDriveDeletionDialogVisible by rememberSaveable { mutableStateOf(false) }
+    var driveEmail by rememberSaveable { mutableStateOf("") }
 
     LazyColumn(
         modifier = Modifier
@@ -273,14 +280,17 @@ private fun BoxWithConstraintsScope.UI(
                 GoogleAuthService(context)
             }
             GoogleDriveBackup(
+                isBackupEnabled = isDriveEnabled,
                 googleAuthService = googleAuthService,
                 onResult = {
                     isDriveBackupDialogVisible = true
                     driveEmail = it.email ?: "unknown"
+                    onUpdateDriveStatus(true)
                     setupBackupStrategyRequest()
                 },
                 onUserAlreadySignedIn = {
                     isDriveDeletionDialogVisible = true
+                    onUpdateDriveStatus(true)
                     driveEmail = it.email ?: "unknown"
                 },
                 onError = {
@@ -609,6 +619,7 @@ private fun BoxWithConstraintsScope.UI(
 
 @Composable
 fun GoogleDriveBackup(
+    isBackupEnabled: Boolean,
     googleAuthService: GoogleAuthService,
     onResult: (GoogleSignInAccount) -> Unit,
     onUserAlreadySignedIn: (GoogleSignInAccount) -> Unit,
@@ -622,6 +633,8 @@ fun GoogleDriveBackup(
         SettingsDefaultButton(
             icon = R.drawable.ic_vue_brands_drive,
             text = stringResource(id = R.string.google_drive_backup),
+            description = if (isBackupEnabled) "✔\uFE0F ${stringResource(id = R.string.enabled)}" else null,
+            descriptionColor = Green,
             iconPadding = 6.dp
         ) {
             val googleSignInResult = googleAuthService.getSignInIntent()
@@ -999,6 +1012,7 @@ private fun SettingsPrimaryButton(
     textColor: Color = White,
     iconPadding: Dp = 0.dp,
     description: String? = null,
+    descriptionColor: Color = Gray,
     onClick: () -> Unit
 ) {
     SettingsButtonRow(
@@ -1034,7 +1048,7 @@ private fun SettingsPrimaryButton(
                     modifier = Modifier.padding(end = 8.dp),
                     text = description,
                     style = UI.typo.nB2.style(
-                        color = Gray,
+                        color = descriptionColor,
                         fontWeight = FontWeight.Normal
                     ).copy(fontSize = 14.sp)
                 )
@@ -1218,6 +1232,7 @@ private fun SettingsDefaultButton(
     text: String,
     iconPadding: Dp = 0.dp,
     description: String? = null,
+    descriptionColor: Color = Gray,
     onClick: () -> Unit,
 ) {
     SettingsPrimaryButton(
@@ -1226,7 +1241,8 @@ private fun SettingsDefaultButton(
         backgroundGradient = Gradient.solid(UI.colors.medium),
         textColor = UI.colors.pureInverse,
         iconPadding = iconPadding,
-        description = description
+        description = description,
+        descriptionColor = descriptionColor
     ) {
         onClick()
     }
@@ -1245,7 +1261,9 @@ private fun Preview() {
             currencyCode = "BGN",
             onSetCurrency = {},
             setupBackupStrategyRequest = {},
-            deleteDriveBackup = {}
+            deleteDriveBackup = {},
+            isDriveEnabled = false,
+            onUpdateDriveStatus = {}
         )
     }
 }

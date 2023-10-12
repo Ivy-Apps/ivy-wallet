@@ -20,4 +20,5 @@ sealed interface SettingsEvent {
 
     data object SetupBackupStrategy : SettingsEvent
     data object DeleteDriveBackup : SettingsEvent
+    data class UpdateDriveStatus(val isEnabled: Boolean): SettingsEvent
 }

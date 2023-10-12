@@ -11,5 +11,5 @@ data class SettingsState(
     val hideCurrentBalance: Boolean,
     val treatTransfersAsIncomeExpense: Boolean,
     val startDateOfMonth: String,
-    val progressState: Boolean
+    val progressState: Boolean,
 )

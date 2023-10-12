@@ -9,7 +9,7 @@ import java.io.File
 import javax.inject.Inject
 
 
-class GoogleDriveServiceImpl @Inject constructor(
+class GoogleDriveServiceImpl(
     private val drive: Drive,
 ) : GoogleDriveService {
 
