@@ -96,6 +96,8 @@
     <ID>ArgumentListWrapping:ImplementationConfigurationAccessors.kt$( this, "implementation", dependencyNotation, dependencyConfiguration )</ID>
     <ID>ArgumentListWrapping:ImplementationDependenciesMetadataConfigurationAccessors.kt$( this, "implementationDependenciesMetadata", dependencyNotation, dependencyConfiguration )</ID>
     <ID>ArgumentListWrapping:IntransitiveDependenciesMetadataConfigurationAccessors.kt$( this, "intransitiveDependenciesMetadata", dependencyNotation, dependencyConfiguration )</ID>
+    <ID>ArgumentListWrapping:IvyAlertDialog.kt$( isVisible = true, title = "Alert Dialog", text = "Are you sure that you want to delete this?", confirmButtonText = "Yes", dismissButtonText = "No", onConfirmButtonClick = { /*TODO*/ }, onDismissButtonClick = { /*TODO*/ })</ID>
+    <ID>ArgumentListWrapping:IvyAlertDialog.kt$( isVisible = true, title = "Alert Dialog", text = "Are you sure that you want to delete this?", confirmButtonText = "Yes", dismissButtonText = null, onConfirmButtonClick = { /*TODO*/ }, onDismissButtonClick = { /*TODO*/ })</ID>
     <ID>ArgumentListWrapping:KotlinBuildToolsApiClasspathConfigurationAccessors.kt$( this, "kotlinBuildToolsApiClasspath", dependencyNotation, dependencyConfiguration )</ID>
     <ID>ArgumentListWrapping:KotlinCompilerClasspathConfigurationAccessors.kt$( this, "kotlinCompilerClasspath", dependencyNotation, dependencyConfiguration )</ID>
     <ID>ArgumentListWrapping:KotlinCompilerPluginClasspathConfigurationAccessors.kt$( this, "kotlinCompilerPluginClasspath", dependencyNotation, dependencyConfiguration )</ID>
@@ -126,6 +128,7 @@
     <ID>ArgumentListWrapping:ReleaseRuntimeOnlyConfigurationAccessors.kt$( this, "releaseRuntimeOnly", dependencyNotation, dependencyConfiguration )</ID>
     <ID>ArgumentListWrapping:ReleaseWearAppConfigurationAccessors.kt$( this, "releaseWearApp", dependencyNotation, dependencyConfiguration )</ID>
     <ID>ArgumentListWrapping:RuntimeOnlyConfigurationAccessors.kt$( this, "runtimeOnly", dependencyNotation, dependencyConfiguration )</ID>
+    <ID>ArgumentListWrapping:SettingsViewModel.kt$SettingsViewModel$( 12L, TimeUnit.HOURS )</ID>
     <ID>ArgumentListWrapping:TestAnnotationProcessorConfigurationAccessors.kt$( this, "testAnnotationProcessor", dependencyNotation, dependencyConfiguration )</ID>
     <ID>ArgumentListWrapping:TestApiConfigurationAccessors.kt$( this, "testApi", dependencyNotation, dependencyConfiguration )</ID>
     <ID>ArgumentListWrapping:TestApiDependenciesMetadataConfigurationAccessors.kt$( this, "testApiDependenciesMetadata", dependencyNotation, dependencyConfiguration )</ID>
@@ -427,6 +430,7 @@
     <ID>CyclomaticComplexMethod:MainBottomBar.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun BoxWithConstraintsScope.BottomBar( tab: MainTab, selectTab: (MainTab) -&gt; Unit, onAddIncome: () -&gt; Unit, onAddExpense: () -&gt; Unit, onAddTransfer: () -&gt; Unit, onAddPlannedPayment: () -&gt; Unit, showAddAccountModal: () -&gt; Unit, )</ID>
     <ID>CyclomaticComplexMethod:ParseFields.kt$fun parseTransactionType( value: String, metadata: TrnTypeMetadata ): TransactionType?</ID>
     <ID>CyclomaticComplexMethod:ReportViewModel.kt$ReportViewModel$private suspend fun filterTransactions( baseCurrency: String, accounts: List&lt;Account&gt;, filter: ReportFilter, ): ImmutableList&lt;Transaction&gt;</ID>
+    <ID>CyclomaticComplexMethod:SettingsViewModel.kt$SettingsViewModel$override fun onEvent(event: SettingsEvent)</ID>
     <ID>CyclomaticComplexMethod:TransactionCard.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun TransactionCard( baseData: AppBaseData, transaction: Transaction, onPayOrGet: (Transaction) -&gt; Unit, onSkipTransaction: (Transaction) -&gt; Unit = {}, onClick: (Transaction) -&gt; Unit, )</ID>
     <ID>CyclomaticComplexMethod:TransactionsViewModel.kt$TransactionsViewModel$override fun onEvent(event: TransactionsEvent)</ID>
     <ID>EmptyCatchBlock:CSVImporter.kt$CSVImporter${ }</ID>
@@ -2187,7 +2191,7 @@
     <ID>LongMethod:OnboardingSplashLogin.kt$@Composable fun BoxWithConstraintsScope.OnboardingSplashLogin( onboardingState: OnboardingState, opGoogleSignIn: OpResult&lt;Unit&gt;?, onLoginWithGoogle: () -&gt; Unit, onSkip: () -&gt; Unit, )</ID>
     <ID>LongMethod:PieChartStatisticScreen.kt$@ExperimentalFoundationApi @Composable private fun BoxWithConstraintsScope.UI( state: PieChartStatisticState = PieChartStatisticState(), onEventHandler: (PieChartStatisticEvent) -&gt; Unit = {} )</ID>
     <ID>LongMethod:ReportScreen.kt$@ExperimentalFoundationApi @Composable private fun BoxWithConstraintsScope.UI( state: ReportScreenState = ReportScreenState(), onEventHandler: (ReportScreenEvent) -&gt; Unit = {} )</ID>
-    <ID>LongMethod:SettingsScreen.kt$@ExperimentalFoundationApi @Composable private fun BoxWithConstraintsScope.UI( currencyCode: String, theme: Theme, onSwitchTheme: () -&gt; Unit, lockApp: Boolean, nameLocalAccount: String?, onSetCurrency: (String) -&gt; Unit, startDateOfMonth: Int = 1, showNotifications: Boolean = true, hideCurrentBalance: Boolean = false, progressState: Boolean = false, treatTransfersAsIncomeExpense: Boolean = false, onSetName: (String) -&gt; Unit = {}, onBackupData: () -&gt; Unit = {}, onExportToCSV: () -&gt; Unit = {}, onSetLockApp: (Boolean) -&gt; Unit = {}, onSetShowNotifications: (Boolean) -&gt; Unit = {}, onSetTreatTransfersAsIncExp: (Boolean) -&gt; Unit = {}, onSetHideCurrentBalance: (Boolean) -&gt; Unit = {}, onSetStartDateOfMonth: (Int) -&gt; Unit = {}, onDeleteAllUserData: () -&gt; Unit = {}, onDeleteCloudUserData: () -&gt; Unit = {}, )</ID>
+    <ID>LongMethod:SettingsScreen.kt$@ExperimentalFoundationApi @Composable private fun BoxWithConstraintsScope.UI( currencyCode: String, theme: Theme, onSwitchTheme: () -&gt; Unit, setupBackupStrategyRequest: () -&gt; Unit, deleteDriveBackup: () -&gt; Unit, lockApp: Boolean, nameLocalAccount: String?, onSetCurrency: (String) -&gt; Unit, startDateOfMonth: Int = 1, showNotifications: Boolean = true, hideCurrentBalance: Boolean = false, progressState: Boolean = false, treatTransfersAsIncomeExpense: Boolean = false, onSetName: (String) -&gt; Unit = {}, onBackupData: () -&gt; Unit = {}, onExportToCSV: () -&gt; Unit = {}, onSetLockApp: (Boolean) -&gt; Unit = {}, onSetShowNotifications: (Boolean) -&gt; Unit = {}, onSetTreatTransfersAsIncExp: (Boolean) -&gt; Unit = {}, onSetHideCurrentBalance: (Boolean) -&gt; Unit = {}, onSetStartDateOfMonth: (Int) -&gt; Unit = {}, onDeleteAllUserData: () -&gt; Unit = {}, onDeleteCloudUserData: () -&gt; Unit = {}, )</ID>
     <ID>LongMethod:TransactionCard.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun TransactionCard( baseData: AppBaseData, transaction: Transaction, onPayOrGet: (Transaction) -&gt; Unit, onSkipTransaction: (Transaction) -&gt; Unit = {}, onClick: (Transaction) -&gt; Unit, )</ID>
     <ID>LongMethod:TransactionsScreen.kt$@Composable private fun BoxWithConstraintsScope.UI( period: TimePeriod, baseCurrency: String, currency: String, skipAllModalVisible: Boolean, onSkipAllModalVisible: (Boolean) -&gt; Unit, account: Account?, category: Category?, accountNameConfirmation: TextFieldValue, updateAccountNameConfirmation: (String) -&gt; Unit, enableDeletionButton: Boolean, categories: ImmutableList&lt;Category&gt;, accounts: ImmutableList&lt;Account&gt;, balance: Double, balanceBaseCurrency: Double?, income: Double, expenses: Double, choosePeriodModal: ChoosePeriodModalData?, history: ImmutableList&lt;TransactionHistoryItem&gt;, onPreviousMonth: () -&gt; Unit, onNextMonth: () -&gt; Unit, onSetPeriod: (TimePeriod) -&gt; Unit, onEditAccount: (Account, Double) -&gt; Unit, onEditCategory: (Category) -&gt; Unit, onDelete: () -&gt; Unit, deleteModal1Visible: Boolean, onDeleteModal1Visible: (Boolean) -&gt; Unit, initWithTransactions: Boolean = false, treatTransfersAsIncomeExpense: Boolean = false, upcomingExpanded: Boolean = true, setUpcomingExpanded: (Boolean) -&gt; Unit = {}, upcomingIncome: Double = 0.0, upcomingExpenses: Double = 0.0, upcoming: ImmutableList&lt;Transaction&gt; = persistentListOf(), overdueExpanded: Boolean = true, setOverdueExpanded: (Boolean) -&gt; Unit = {}, overdueIncome: Double = 0.0, overdueExpenses: Double = 0.0, overdue: ImmutableList&lt;Transaction&gt; = persistentListOf(), onPayOrGet: (Transaction) -&gt; Unit = {}, onSkipTransaction: (Transaction) -&gt; Unit = {}, onSkipAllTransactions: (List&lt;Transaction&gt;) -&gt; Unit = {}, onChoosePeriodModal: (ChoosePeriodModalData?) -&gt; Unit )</ID>
     <ID>LongParameterList:EditBottomSheet.kt$( initialTransactionId: UUID?, type: TransactionType, accounts: List&lt;Account&gt;, selectedAccount: Account?, toAccount: Account?, amount: Double, currency: String, convertedAmount: Double? = null, convertedAmountCurrencyCode: String? = null, amountModalShown: Boolean, setAmountModalShown: (Boolean) -&gt; Unit, ActionButton: @Composable () -&gt; Unit, onAmountChanged: (Double) -&gt; Unit, onSelectedAccountChanged: (Account) -&gt; Unit, onToAccountChanged: (Account) -&gt; Unit, onAddNewAccount: () -&gt; Unit )</ID>
@@ -2208,6 +2212,7 @@
     <ID>MagicNumber:BackupLogic.kt$BackupLogic$0.7</ID>
     <ID>MagicNumber:BackupLogic.kt$BackupLogic$0.8</ID>
     <ID>MagicNumber:BackupLogic.kt$BackupLogic$0.9</ID>
+    <ID>MagicNumber:BackupWorker.kt$BackupWorker$5</ID>
     <ID>MagicNumber:BalanceScreen.kt$200f</ID>
     <ID>MagicNumber:BalanceScreen.kt$45f</ID>
     <ID>MagicNumber:BudgetBattery.kt$0.30</ID>
@@ -2379,6 +2384,7 @@
     <ID>MagicNumber:ReportScreen.kt$1000f</ID>
     <ID>MagicNumber:RootActivity.kt$RootActivity$12</ID>
     <ID>MagicNumber:RootViewModel.kt$RootViewModel$1000</ID>
+    <ID>MagicNumber:SettingsViewModel.kt$SettingsViewModel$12L</ID>
     <ID>MagicNumber:SortOrder.kt$SortOrder.ALPHABETICAL$3</ID>
     <ID>MagicNumber:TransactionCard.kt$5</ID>
     <ID>MagicNumber:TransactionReminderLogic.kt$TransactionReminderLogic$20</ID>
@@ -2710,6 +2716,8 @@
     <ID>MaxLineLength:ApiConfigurationAccessors.kt$fun</ID>
     <ID>MaxLineLength:ApiDependenciesMetadataConfigurationAccessors.kt$fun</ID>
     <ID>MaxLineLength:ArchivesConfigurationAccessors.kt$fun</ID>
+    <ID>MaxLineLength:BackupWorker.kt$BackupWorker$// The reason of why i did not use hilt to inject this repo in the constructor is because i want to get the drive instance during</ID>
+    <ID>MaxLineLength:BackupWorker.kt$BackupWorker$// The runtime, if we use hilt to inject this in the constructor the drive instance will be null when the user links his google account</ID>
     <ID>MaxLineLength:CompileOnlyConfigurationAccessors.kt$fun</ID>
     <ID>MaxLineLength:CompileOnlyDependenciesMetadataConfigurationAccessors.kt$fun</ID>
     <ID>MaxLineLength:CompileOnlyDependenciesMetadataConfigurationAccessors.kt$this</ID>
@@ -2732,6 +2740,7 @@
     <ID>MaxLineLength:DefaultConfigurationAccessors.kt$fun</ID>
     <ID>MaxLineLength:DetektConfigurationAccessors.kt$fun</ID>
     <ID>MaxLineLength:DetektPluginsConfigurationAccessors.kt$fun</ID>
+    <ID>MaxLineLength:DriveBackupRepositoryImpl.kt$DriveBackupRepositoryImpl$// Note : If the user puts the Ivy folder in the trash (on google drive), this function will consider that the file is still existed</ID>
     <ID>MaxLineLength:EditTransactionViewModel.kt$EditTransactionViewModel$"You are trying to change the account associated with the loan record to an account of different currency"</ID>
     <ID>MaxLineLength:EditTransactionViewModel.kt$EditTransactionViewModel$?:</ID>
     <ID>MaxLineLength:FortuneCitySteps.kt$articleUrl = "https://fourdesire.helpshift.com/hc/en/5-fortune-city/faq/242-can-i-export-my-fortune-city-records/"</ID>
@@ -3987,8 +3996,19 @@
     <ID>MultipleEmitters:TransactionSectionDivider.kt$SectionDivider</ID>
     <ID>NestedBlockDepth:AccValueFunctions.kt$AccountValueFunctions$fun balance( transaction: Transaction, accountId: UUID ): BigDecimal</ID>
     <ID>NoBlankLineBeforeRbrace:AssetCode.kt$AssetCode.Companion$ </ID>
+    <ID>NoBlankLineBeforeRbrace:DriveBackupConstants.kt$DriveBackupConstants$ </ID>
+    <ID>NoBlankLineBeforeRbrace:DriveBackupRepository.kt$DriveBackupRepository$ </ID>
+    <ID>NoBlankLineBeforeRbrace:DriveMimeType.kt$DriveMimeType$ </ID>
+    <ID>NoBlankLineBeforeRbrace:GoogleDriveModule.kt$GoogleDriveModule$ </ID>
+    <ID>NoBlankLineBeforeRbrace:GoogleDriveService.kt$GoogleDriveService$ </ID>
     <ID>NoBlankLineBeforeRbrace:IconId.kt$IconId.Companion$ </ID>
+    <ID>NoBlankLineBeforeRbrace:IvyAlertDialog.kt$ </ID>
+    <ID>NoBlankLineBeforeRbrace:IvyAndroidApp.kt$CustomWorkerFactory$ </ID>
     <ID>NoBlankLineBeforeRbrace:PositiveDouble.kt$PositiveDouble.Companion$ </ID>
+    <ID>NoBlankLineBeforeRbrace:SettingsScreen.kt$ </ID>
+    <ID>NoBlankLineBeforeRbrace:SettingsViewModel.kt$SettingsViewModel$ </ID>
+    <ID>NoBlankLineBeforeRbrace:SignInIntentResult.kt$SignInIntentResult$ </ID>
+    <ID>NoBlankLineBeforeRbrace:build.gradle.kts$ </ID>
     <ID>NoConsecutiveBlankLines:Accessors11xxvwy0y6zsdmgi5tg7sgrcq.kt$ </ID>
     <ID>NoConsecutiveBlankLines:Accessors12l04gyw3iri7cbpx1tj9yrz6.kt$ </ID>
     <ID>NoConsecutiveBlankLines:Accessors15c80wxji7qdhvcsteytc58m6.kt$ </ID>
@@ -4268,9 +4288,12 @@
     <ID>NoConsecutiveBlankLines:DefaultConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:DetektConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:DetektPluginsConfigurationAccessors.kt$ </ID>
+    <ID>NoConsecutiveBlankLines:GoogleDriveServiceImpl.kt$ </ID>
+    <ID>NoConsecutiveBlankLines:GoogleDriveServiceImpl.kt$GoogleDriveServiceImpl$ </ID>
     <ID>NoConsecutiveBlankLines:ImplementationConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:ImplementationDependenciesMetadataConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:IntransitiveDependenciesMetadataConfigurationAccessors.kt$ </ID>
+    <ID>NoConsecutiveBlankLines:IvyAndroidApp.kt$ </ID>
     <ID>NoConsecutiveBlankLines:IvyColors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:Keyboard.kt$ </ID>
     <ID>NoConsecutiveBlankLines:KotlinBuildToolsApiClasspathConfigurationAccessors.kt$ </ID>
@@ -4371,6 +4394,8 @@
     <ID>NoConsecutiveBlankLines:Transaction.kt$Transaction$ </ID>
     <ID>NoConsecutiveBlankLines:WearAppConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:build.gradle.kts$ </ID>
+    <ID>NoEmptyFirstLineInMethodBlock:IvyAlertDialog.kt$ </ID>
+    <ID>NoEmptyFirstLineInMethodBlock:SettingsViewModel.kt$SettingsViewModel$ </ID>
     <ID>NoMultipleSpaces:AndroidApisConfigurationAccessors.kt$ </ID>
     <ID>NoMultipleSpaces:AndroidJdkImageConfigurationAccessors.kt$ </ID>
     <ID>NoMultipleSpaces:AndroidTestAnnotationProcessorConfigurationAccessors.kt$ </ID>
@@ -4801,6 +4826,12 @@
     <ID>NoUnusedImports:DefaultConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db.DefaultConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:DetektConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._6b1cdd1e881959619ea23cf7941079a9.DetektConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:DetektPluginsConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._6b1cdd1e881959619ea23cf7941079a9.DetektPluginsConfigurationAccessors.kt</ID>
+    <ID>NoUnusedImports:DriveBackupConstants.kt$com.ivy.googledrive.backup.DriveBackupConstants.kt</ID>
+    <ID>NoUnusedImports:DriveBackupRepository.kt$com.ivy.googledrive.backup.DriveBackupRepository.kt</ID>
+    <ID>NoUnusedImports:DriveBackupRepositoryImpl.kt$com.ivy.googledrive.backup.DriveBackupRepositoryImpl.kt</ID>
+    <ID>NoUnusedImports:GoogleDriveModule.kt$com.ivy.googledrive.di.GoogleDriveModule.kt</ID>
+    <ID>NoUnusedImports:GoogleDriveService.kt$com.ivy.googledrive.google_drive.GoogleDriveService.kt</ID>
+    <ID>NoUnusedImports:GoogleDriveServiceImpl.kt$com.ivy.googledrive.google_drive.GoogleDriveServiceImpl.kt</ID>
     <ID>NoUnusedImports:ImplementationConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db.ImplementationConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:ImplementationDependenciesMetadataConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db.ImplementationDependenciesMetadataConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:IntransitiveDependenciesMetadataConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db.IntransitiveDependenciesMetadataConfigurationAccessors.kt</ID>
@@ -4837,6 +4868,7 @@
     <ID>NoUnusedImports:ReleaseRuntimeOnlyConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db.ReleaseRuntimeOnlyConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:ReleaseWearAppConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db.ReleaseWearAppConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:RuntimeOnlyConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db.RuntimeOnlyConfigurationAccessors.kt</ID>
+    <ID>NoUnusedImports:SettingsViewModel.kt$com.ivy.settings.SettingsViewModel.kt</ID>
     <ID>NoUnusedImports:TestAnnotationProcessorConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db.TestAnnotationProcessorConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:TestApiConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db.TestApiConfigurationAccessors.kt</ID>
     <ID>NoUnusedImports:TestApiDependenciesMetadataConfigurationAccessors.kt$gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db.TestApiDependenciesMetadataConfigurationAccessors.kt</ID>
@@ -5939,6 +5971,11 @@
     <ID>PackageName:DetektConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._6b1cdd1e881959619ea23cf7941079a9</ID>
     <ID>PackageName:DetektPluginsConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._6b1cdd1e881959619ea23cf7941079a9</ID>
     <ID>PackageName:Dividers.kt$package com.ivy.design.l1_buildingBlocks</ID>
+    <ID>PackageName:DriveMimeType.kt$package com.ivy.googledrive.google_drive</ID>
+    <ID>PackageName:GoogleAuthService.kt$package com.ivy.googledrive.google_auth</ID>
+    <ID>PackageName:GoogleDriveService.kt$package com.ivy.googledrive.google_drive</ID>
+    <ID>PackageName:GoogleDriveServiceImpl.kt$package com.ivy.googledrive.google_drive</ID>
+    <ID>PackageName:GoogleSignInActivityLauncher.kt$package com.ivy.googledrive.google_auth</ID>
     <ID>PackageName:IconButton.kt$package com.ivy.design.l2_components</ID>
     <ID>PackageName:ImplementationConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
     <ID>PackageName:ImplementationDependenciesMetadataConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
@@ -5970,7 +6007,7 @@
     <ID>PackageName:KspTestReleaseConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
     <ID>PackageName:LintChecksConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
     <ID>PackageName:LintPublishConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
-    <ID>PackageName:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._ec79472f60e0484b7a08dac5c5453e98</ID>
+    <ID>PackageName:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._ada5ccef0742bb93b6c81b0dbb396e4b</ID>
     <ID>PackageName:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
     <ID>PackageName:ReleaseApiConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
     <ID>PackageName:ReleaseApiDependenciesMetadataConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
@@ -5984,6 +6021,7 @@
     <ID>PackageName:RuntimeOnlyConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
     <ID>PackageName:ScreenTitle.kt$package com.ivy.design.l3_ivyComponents</ID>
     <ID>PackageName:Shapes.kt$package com.ivy.design.l1_buildingBlocks</ID>
+    <ID>PackageName:SignInIntentResult.kt$package com.ivy.googledrive.google_auth</ID>
     <ID>PackageName:Spacers.kt$package com.ivy.design.l1_buildingBlocks</ID>
     <ID>PackageName:Switch.kt$package com.ivy.design.l2_components</ID>
     <ID>PackageName:TestAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
@@ -6332,6 +6370,11 @@
     <ID>PackageNaming:DetektConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._6b1cdd1e881959619ea23cf7941079a9</ID>
     <ID>PackageNaming:DetektPluginsConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._6b1cdd1e881959619ea23cf7941079a9</ID>
     <ID>PackageNaming:Dividers.kt$package com.ivy.design.l1_buildingBlocks</ID>
+    <ID>PackageNaming:DriveMimeType.kt$package com.ivy.googledrive.google_drive</ID>
+    <ID>PackageNaming:GoogleAuthService.kt$package com.ivy.googledrive.google_auth</ID>
+    <ID>PackageNaming:GoogleDriveService.kt$package com.ivy.googledrive.google_drive</ID>
+    <ID>PackageNaming:GoogleDriveServiceImpl.kt$package com.ivy.googledrive.google_drive</ID>
+    <ID>PackageNaming:GoogleSignInActivityLauncher.kt$package com.ivy.googledrive.google_auth</ID>
     <ID>PackageNaming:IconButton.kt$package com.ivy.design.l2_components</ID>
     <ID>PackageNaming:ImplementationConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
     <ID>PackageNaming:ImplementationDependenciesMetadataConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
@@ -6363,7 +6406,7 @@
     <ID>PackageNaming:KspTestReleaseConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
     <ID>PackageNaming:LintChecksConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
     <ID>PackageNaming:LintPublishConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
-    <ID>PackageNaming:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._ec79472f60e0484b7a08dac5c5453e98</ID>
+    <ID>PackageNaming:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._ada5ccef0742bb93b6c81b0dbb396e4b</ID>
     <ID>PackageNaming:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
     <ID>PackageNaming:ReleaseApiConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
     <ID>PackageNaming:ReleaseApiDependenciesMetadataConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
@@ -6377,6 +6420,7 @@
     <ID>PackageNaming:RuntimeOnlyConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
     <ID>PackageNaming:ScreenTitle.kt$package com.ivy.design.l3_ivyComponents</ID>
     <ID>PackageNaming:Shapes.kt$package com.ivy.design.l1_buildingBlocks</ID>
+    <ID>PackageNaming:SignInIntentResult.kt$package com.ivy.googledrive.google_auth</ID>
     <ID>PackageNaming:Spacers.kt$package com.ivy.design.l1_buildingBlocks</ID>
     <ID>PackageNaming:Switch.kt$package com.ivy.design.l2_components</ID>
     <ID>PackageNaming:TestAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._7358b228c777673f552d03f9fcb098db</ID>
@@ -6649,6 +6693,9 @@
     <ID>ParameterListWrapping:TestRuntimeOnlyConfigurationAccessors.kt$(constraintNotation: Any, block: DependencyConstraint.() -&gt; Unit)</ID>
     <ID>ParameterListWrapping:TestWearAppConfigurationAccessors.kt$(constraintNotation: Any, block: DependencyConstraint.() -&gt; Unit)</ID>
     <ID>ParameterListWrapping:WearAppConfigurationAccessors.kt$(constraintNotation: Any, block: DependencyConstraint.() -&gt; Unit)</ID>
+    <ID>PreviewPublic:IvyAlertDialog.kt$IvyAlertDialogPreviewLight</ID>
+    <ID>PreviewPublic:IvyAlertDialog.kt$IvyAlertDialogPreviewNight</ID>
+    <ID>PrintStackTrace:BackupWorker.kt$BackupWorker$e</ID>
     <ID>PrintStackTrace:Budget.kt$Budget$e</ID>
     <ID>PrintStackTrace:BudgetCreator.kt$BudgetCreator$e</ID>
     <ID>PrintStackTrace:BudgetExt.kt$e</ID>
@@ -6787,6 +6834,7 @@
     <ID>SpacingBetweenDeclarationsWithAnnotations:IvyColors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") val Red3Light = Color(0xFFFFCCE6)</ID>
     <ID>SpacingBetweenDeclarationsWithAnnotations:IvyModal.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") const val DURATION_MODAL_ANIM = 200</ID>
     <ID>SpreadOperator:UiText.kt$UiText$(resId, *args)</ID>
+    <ID>TooGenericExceptionThrown:DriveBackupRepositoryImpl.kt$DriveBackupRepositoryImpl$throw Exception("Cannot create a folder")</ID>
     <ID>TopLevelPropertyNaming:Accessors11xxvwy0y6zsdmgi5tg7sgrcq.kt$/** * Provides the existing [androidTestAnnotationProcessor][org.gradle.api.artifacts.Configuration] element. */ internal val org.gradle.api.NamedDomainObjectContainer&lt;org.gradle.api.artifacts.Configuration&gt;.`androidTestAnnotationProcessor`: NamedDomainObjectProvider&lt;org.gradle.api.artifacts.Configuration&gt; get() = named&lt;org.gradle.api.artifacts.Configuration&gt;("androidTestAnnotationProcessor")</ID>
     <ID>TopLevelPropertyNaming:Accessors12l04gyw3iri7cbpx1tj9yrz6.kt$/** * Provides the existing [release][org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet] element. */ internal val org.gradle.api.NamedDomainObjectContainer&lt;org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet&gt;.`release`: NamedDomainObjectProvider&lt;org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet&gt; get() = named&lt;org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet&gt;("release")</ID>
     <ID>TopLevelPropertyNaming:Accessors15c80wxji7qdhvcsteytc58m6.kt$/** * Provides the existing [testCompileOnly][org.gradle.api.artifacts.Configuration] element. */ internal val org.gradle.api.NamedDomainObjectContainer&lt;org.gradle.api.artifacts.Configuration&gt;.`testCompileOnly`: NamedDomainObjectProvider&lt;org.gradle.api.artifacts.Configuration&gt; get() = named&lt;org.gradle.api.artifacts.Configuration&gt;("testCompileOnly")</ID>
@@ -8039,5 +8087,6 @@
     <ID>WildcardImport:WearAppConfigurationAccessors.kt$import org.gradle.kotlin.dsl.*</ID>
     <ID>WildcardImport:WearAppConfigurationAccessors.kt$import org.gradle.kotlin.dsl.accessors.runtime.*</ID>
     <ID>WildcardImport:ZipUtils.kt$import java.io.*</ID>
+    <ID>Wrapping:IvyAlertDialog.kt$(</ID>
   </CurrentIssues>
 </SmellBaseline>
