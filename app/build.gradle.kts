@@ -25,6 +25,11 @@ android {
     androidResources {
         generateLocaleConfig = true
     }
+    packaging {
+        resources {
+            excludes += "META-INF/DEPENDENCIES"
+        }
+    }
 
     signingConfigs {
         getByName("debug") {
@@ -155,6 +160,7 @@ dependencies {
     implementation(projects.tempOldDesign)
     implementation(projects.widgetAddTransaction)
     implementation(projects.widgetBalance)
+    implementation(projects.googleDrive)
 
     implementation(libs.bundles.kotlin)
     implementation(libs.bundles.kotlin.android)
