@@ -287,7 +287,7 @@ private fun AccountHeader(
                 .clickableNoIndication {
                     onBalanceClick()
                 },
-            decimalPaddingTop = 1.dp,
+            decimalPaddingTop = 7.dp,
             spacerDecimal = 3.dp,
             textColor = contrastColor,
             currency = currency,
