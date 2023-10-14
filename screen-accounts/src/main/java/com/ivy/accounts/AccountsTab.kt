@@ -131,7 +131,7 @@ private fun BoxWithConstraintsScope.UI(
         }
 
         items(state.accountsData) {
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(8.dp))
             AccountCard(
                 baseCurrency = state.baseCurrency,
                 accountData = it,
@@ -222,7 +222,7 @@ private fun AccountCard(
             expenses = accountData.monthlyExpenses
         )
 
-        Spacer(Modifier.height(12.dp))
+        Spacer(Modifier.height(2.dp))
     }
 }
 
@@ -241,7 +241,7 @@ private fun AccountHeader(
             .fillMaxWidth()
             .background(account.color.toComposeColor(), UI.shapes.r4Top)
     ) {
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(2.dp))
 
         Row(
             verticalAlignment = Alignment.CenterVertically
@@ -279,7 +279,7 @@ private fun AccountHeader(
             }
         }
 
-        Spacer(Modifier.height(4.dp))
+        Spacer(Modifier.height(2.dp))
 
         BalanceRow(
             modifier = Modifier
@@ -288,7 +288,7 @@ private fun AccountHeader(
                     onBalanceClick()
                 },
             decimalPaddingTop = 7.dp,
-            spacerDecimal = 6.dp,
+            spacerDecimal = 3.dp,
             textColor = contrastColor,
             currency = currency,
             balance = accountData.balance,
@@ -315,7 +315,7 @@ private fun AccountHeader(
             )
         }
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(2.dp))
     }
 }
 
