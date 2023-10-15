@@ -30,7 +30,7 @@ class PaymentTileService: TileService() {
         super.onClick()
 
         try{
-            val i = Intent(applicationContext, EditTransactionScreen(initialTransactionId = null, type = TransactionType.EXPENSE)::class.java)
+            val i = Intent(applicationContext, RootActivity::class.java)
             i.flags=Intent.FLAG_ACTIVITY_NEW_TASK
             startActivityAndCollapse(i)
         }
