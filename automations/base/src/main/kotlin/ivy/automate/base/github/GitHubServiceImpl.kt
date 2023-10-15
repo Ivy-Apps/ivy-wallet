@@ -2,6 +2,7 @@ package ivy.automate.base.github
 
 import arrow.core.Either
 import arrow.core.raise.either
+import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.header
@@ -23,15 +24,15 @@ import ivy.automate.base.github.model.GitHubPAT
 import ivy.automate.base.github.model.GitHubUser
 import ivy.automate.base.github.model.GitHubUsername
 import ivy.automate.base.github.model.NotBlankTrimmedString
-import ivy.automate.base.ktor.KtorClientScope
 import kotlinx.serialization.Serializable
 
-class GitHubServiceImpl : GitHubService {
+class GitHubServiceImpl(
+    private val ktorClient: HttpClient,
+) : GitHubService {
     companion object {
         private const val BASE_URL = "https://api.github.com/repos/Ivy-Apps/ivy-wallet"
     }
 
-    context(KtorClientScope)
     override suspend fun fetchIssue(
         issueNumber: GitHubIssueNumber
     ): Either<Throwable, GitHubIssue> = catchIO {
@@ -41,7 +42,6 @@ class GitHubServiceImpl : GitHubService {
         )
     }
 
-    context(KtorClientScope)
     override suspend fun fetchIssueLabels(
         issueNumber: GitHubIssueNumber
     ): Either<Throwable, List<GitHubLabel>> = catchIO {
@@ -54,7 +54,6 @@ class GitHubServiceImpl : GitHubService {
         }
     }
 
-    context(KtorClientScope)
     override suspend fun fetchIssueComments(
         issueNumber: GitHubIssueNumber
     ): Either<Throwable, List<GitHubComment>> = catchIO {
@@ -68,7 +67,6 @@ class GitHubServiceImpl : GitHubService {
         }
     }
 
-    context(KtorClientScope)
     override suspend fun commentIssue(
         pat: GitHubPAT,
         issueNumber: GitHubIssueNumber,
@@ -82,7 +80,6 @@ class GitHubServiceImpl : GitHubService {
         response.requireSuccess()
     }
 
-    context(KtorClientScope)
     override suspend fun assignIssue(
         pat: GitHubPAT,
         issueNumber: GitHubIssueNumber,

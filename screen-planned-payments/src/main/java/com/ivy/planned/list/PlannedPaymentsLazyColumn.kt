@@ -15,10 +15,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -37,28 +33,28 @@ import com.ivy.navigation.navigation
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.IvyIcon
+import kotlinx.collections.immutable.ImmutableList
 import kotlin.math.absoluteValue
 
 @Composable
 fun PlannedPaymentsLazyColumn(
     Header: @Composable () -> Unit,
-
     currency: String,
-    categories: List<Category>,
-    accounts: List<Account>,
-    listState: LazyListState = rememberLazyListState(),
-
-    oneTime: List<PlannedPaymentRule>,
+    categories: ImmutableList<Category>,
+    accounts: ImmutableList<Account>,
+    oneTime: ImmutableList<PlannedPaymentRule>,
     oneTimeIncome: Double,
     oneTimeExpenses: Double,
-
-    recurring: List<PlannedPaymentRule>,
+    recurring: ImmutableList<PlannedPaymentRule>,
     recurringIncome: Double,
     recurringExpenses: Double,
+    oneTimeExpanded: Boolean,
+    recurringExpanded: Boolean,
+    setOneTimeExpanded: (Boolean) -> Unit,
+    setRecurringExpanded: (Boolean) -> Unit,
+    listState: LazyListState = rememberLazyListState()
 ) {
     val nav = navigation()
-    var oneTimeExpanded by remember { mutableStateOf(true) }
-    var recurringExpanded by remember { mutableStateOf(true) }
 
     LazyColumn(
         modifier = Modifier
@@ -81,17 +77,13 @@ fun PlannedPaymentsLazyColumn(
             oneTimeIncome = oneTimeIncome,
             oneTimeExpenses = oneTimeExpenses,
             oneTimeExpanded = oneTimeExpanded,
-            setOneTimeExpanded = {
-                oneTimeExpanded = it
-            },
+            setOneTimeExpanded = setOneTimeExpanded,
 
             recurring = recurring,
             recurringIncome = recurringIncome,
             recurringExpenses = recurringExpenses,
             recurringExpanded = recurringExpanded,
-            setRecurringExpanded = {
-                recurringExpanded = it
-            }
+            setRecurringExpanded = setRecurringExpanded
         )
     }
 }
@@ -99,17 +91,17 @@ fun PlannedPaymentsLazyColumn(
 private fun LazyListScope.plannedPaymentItems(
     nav: Navigation,
     currency: String,
-    categories: List<Category>,
-    accounts: List<Account>,
+    categories: ImmutableList<Category>,
+    accounts: ImmutableList<Account>,
     listState: LazyListState,
 
-    oneTime: List<PlannedPaymentRule>,
+    oneTime: ImmutableList<PlannedPaymentRule>,
     oneTimeIncome: Double,
     oneTimeExpenses: Double,
     oneTimeExpanded: Boolean,
     setOneTimeExpanded: (Boolean) -> Unit,
 
-    recurring: List<PlannedPaymentRule>,
+    recurring: ImmutableList<PlannedPaymentRule>,
     recurringIncome: Double,
     recurringExpenses: Double,
     recurringExpanded: Boolean,

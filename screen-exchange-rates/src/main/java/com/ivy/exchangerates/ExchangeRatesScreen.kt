@@ -12,7 +12,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,7 +22,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.legacy.IvyWalletPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.White
 import com.ivy.design.l0_system.style
@@ -31,19 +29,20 @@ import com.ivy.design.l1_buildingBlocks.ColumnRoot
 import com.ivy.design.l1_buildingBlocks.DividerW
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
-import com.ivy.legacy.ui.SearchInput
 import com.ivy.exchangerates.component.RateItem
 import com.ivy.exchangerates.data.RateUi
 import com.ivy.exchangerates.modal.AddRateModal
-import com.ivy.wallet.ui.theme.modal.edit.AmountModal
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.ui.SearchInput
 import com.ivy.legacy.utils.selectEndTextFieldValue
+import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
 @Composable
 fun BoxWithConstraintsScope.ExchangeRatesScreen() {
     val viewModel: ExchangeRatesViewModel = viewModel()
-    val state by viewModel.state.collectAsState()
+    val state = viewModel.uiState()
 
     UI(
         state = state,

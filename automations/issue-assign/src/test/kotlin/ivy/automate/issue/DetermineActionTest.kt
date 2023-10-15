@@ -7,7 +7,6 @@ import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import ivy.automate.base.github.GitHubService
 import ivy.automate.base.github.model.GitHubComment
@@ -18,7 +17,6 @@ import ivy.automate.base.github.model.GitHubLabelName
 import ivy.automate.base.github.model.GitHubPAT
 import ivy.automate.base.github.model.GitHubUser
 import ivy.automate.base.github.model.GitHubUsername
-import ivy.automate.base.ktor.KtorClientScope
 
 class DetermineActionTest : FreeSpec({
     val user1 = GitHubUser(GitHubUsername("user1"))
@@ -33,12 +31,9 @@ class DetermineActionTest : FreeSpec({
     val gitHubService = mockk<GitHubService>()
 
     suspend fun testScope(
-        block: suspend context(KtorClientScope, GitHubService) () -> Unit
+        block: suspend context(GitHubService) () -> Unit
     ) {
-        block(
-            mockk { every { ktorClient } returns mockk(relaxed = true) },
-            gitHubService
-        )
+        block(gitHubService)
     }
 
     fun label(name: String) = GitHubLabel(GitHubLabelName(name))
@@ -220,7 +215,9 @@ class DetermineActionTest : FreeSpec({
                 coEvery {
                     gitHubService.fetchIssueComments(issueNumber)
                 } returns listOf(
-                    GitHubComment(ivyBot, "I'm on it")
+                    GitHubComment(user1, "I'm on it"),
+                    GitHubComment(user2, "I'm on it"),
+                    GitHubComment(ivyBot, "Okay, I'm on it"),
                 ).right()
                 coEvery {
                     gitHubService.fetchIssue(issueNumber)
@@ -241,7 +238,7 @@ class DetermineActionTest : FreeSpec({
                 coEvery {
                     gitHubService.fetchIssueComments(issueNumber)
                 } returns listOf(
-                    GitHubComment(user1, "I'm new to GitHub, can I work on this?")
+                    GitHubComment(user1, "Random comment")
                 ).right()
                 coEvery {
                     gitHubService.fetchIssue(issueNumber)
