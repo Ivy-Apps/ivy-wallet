@@ -18,7 +18,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -57,6 +59,9 @@ import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 import kotlin.math.absoluteValue
+
+private const val OverflowLengthOfBalance = 7
+private const val OverflowLengthOfMontthRange = 12
 
 @ExperimentalAnimationApi
 @Composable
@@ -157,6 +162,15 @@ private fun HeaderStickyRow(
 
             // Balance mini row
             if (percentExpanded < 1f) {
+                val lengthOfCurrencyAndBalance = (currency + balance.toString()).length
+                var lengthOfMonthRange = period.toDisplayShort(ivyWalletCtx().startDayOfMonth).length
+                val overflow by remember(lengthOfCurrencyAndBalance, lengthOfMonthRange) {
+                    derivedStateOf {
+                        lengthOfCurrencyAndBalance >= OverflowLengthOfBalance &&
+                                lengthOfMonthRange >= OverflowLengthOfMontthRange
+                    }
+                }
+
                 BalanceRowMini(
                     modifier = Modifier
                         .alpha(alpha = 1f - percentExpanded)
@@ -170,7 +184,9 @@ private fun HeaderStickyRow(
                     currency = currency,
                     balance = balance,
                     shortenBigNumbers = true,
-                    hiddenMode = hideBalance
+                    hiddenMode = hideBalance,
+                    overflow = overflow
+
                 )
             }
         }

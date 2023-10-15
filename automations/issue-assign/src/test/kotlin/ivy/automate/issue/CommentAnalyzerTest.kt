@@ -33,6 +33,44 @@ class CommentAnalyzerTest : FreeSpec({
             row("I'm on it", CommentIntention.TakeIssue(user)),
             row("Im on it", CommentIntention.TakeIssue(user)),
             row("im on it", CommentIntention.TakeIssue(user)),
+            row("I am on it", CommentIntention.TakeIssue(user)),
+            row(
+                "yeah i am on it, also i wanted to ask " +
+                        "what resources should i use learn android",
+                CommentIntention.TakeIssue(user)
+            ),
+            row("want to contribute", CommentIntention.Unknown),
+            row("I'm new to GitHub, can I work on this?", CommentIntention.Unknown),
+            row(
+                "I would like to work on this.",
+                CommentIntention.Unknown
+            ),
+            row(
+                "Hi,\nI would like to work on this issue",
+                CommentIntention.Unknown
+            ),
+            row(
+                "I'm interested to contribute on this feature.",
+                CommentIntention.Unknown
+            ),
+            row(
+                "Sure, let me give it a try. Will keep posted here.",
+                CommentIntention.Unknown
+            ),
+            row(
+                "Hey @ILIYANGERMANOV , I want to work on this issue. Please assign it to me.\n",
+                CommentIntention.Unknown
+            ),
+            row(
+                "Hi @ILIYANGERMANOV, Assign this issue to me." +
+                        "I think i will require some help in it from your side, " +
+                        "so please bear with me.\n",
+                CommentIntention.Unknown
+            ),
+            row(
+                "Can I take this one?",
+                CommentIntention.Unknown
+            ),
         ) { (text, expectedIntention) ->
             // given
             val comment = newComment(text)

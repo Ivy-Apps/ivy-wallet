@@ -5,7 +5,6 @@ import arrow.core.raise.either
 import ivy.automate.base.github.GitHubService
 import ivy.automate.base.github.model.GitHubIssueNumber
 import ivy.automate.base.github.model.GitHubUser
-import ivy.automate.base.ktor.KtorClientScope
 
 sealed interface Action {
     val issueNumber: GitHubIssueNumber
@@ -31,7 +30,7 @@ sealed interface Action {
     ) : Action
 }
 
-context(GitHubService, KtorClientScope)
+context(GitHubService)
 suspend fun determineAction(args: Args): Either<String, Action> = either {
     val issueNumber = args.issueNumber
     val intention = checkCommentsForIntention(issueNumber).bind()
@@ -43,7 +42,7 @@ suspend fun determineAction(args: Args): Either<String, Action> = either {
     }
 }
 
-context(GitHubService, KtorClientScope)
+context(GitHubService)
 private suspend fun CommentIntention.TakeIssue.toAction(
     issueNumber: GitHubIssueNumber,
 ): Either<String, Action> = either {
@@ -60,7 +59,7 @@ private suspend fun CommentIntention.TakeIssue.toAction(
     Action.AssignIssue(issueNumber, user)
 }
 
-context(GitHubService, KtorClientScope)
+context(GitHubService)
 private suspend fun checkCommentsForIntention(
     issueNumber: GitHubIssueNumber
 ): Either<String, CommentIntention?> = either {
@@ -68,14 +67,16 @@ private suspend fun checkCommentsForIntention(
         .mapLeft { "Failed to fetch comments: $it." }
         .bind()
 
-    val lastComment = comments.lastOrNull {
-        it.author.username.value != Constants.IVY_BOT_USERNAME
-    } ?: return@either null
+    val lastComment = comments.lastOrNull() ?: return@either null
+    if (lastComment.author.username.value == Constants.IVY_BOT_USERNAME) {
+        // Do nothing for Ivy BOT comments
+        return@either null
+    }
 
     analyzeCommentIntention(lastComment)
 }
 
-context(GitHubService, KtorClientScope)
+context(GitHubService)
 private suspend fun checkIfIssueIsAssigned(
     issueNumber: GitHubIssueNumber
 ): Either<String, GitHubUser?> = either {
@@ -86,7 +87,7 @@ private suspend fun checkIfIssueIsAssigned(
     issueInfo.assignee
 }
 
-context(GitHubService, KtorClientScope)
+context(GitHubService)
 private suspend fun checkLabelsForApproved(
     issueNumber: GitHubIssueNumber
 ): Either<String, Boolean> = either {

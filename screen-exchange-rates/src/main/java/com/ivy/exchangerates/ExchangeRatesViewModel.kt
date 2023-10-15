@@ -1,22 +1,23 @@
 package com.ivy.exchangerates
 
-import androidx.lifecycle.ViewModel
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
-import com.ivy.exchangerates.data.RateUi
-import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.data.db.dao.read.ExchangeRatesDao
 import com.ivy.data.db.dao.write.WriteExchangeRatesDao
 import com.ivy.data.db.entity.ExchangeRateEntity
+import com.ivy.domain.ComposeViewModel
+import com.ivy.exchangerates.data.RateUi
+import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -27,39 +28,10 @@ class ExchangeRatesViewModel @Inject constructor(
     private val baseCurrencyAct: BaseCurrencyAct,
     private val syncExchangeRatesAct: SyncExchangeRatesAct,
     private val exchangeRatesWriter: WriteExchangeRatesDao,
-) : ViewModel() {
+) : ComposeViewModel<RatesState, RatesEvent>() {
     private val searchQuery = MutableStateFlow("")
-
-    val state = combine(
-        exchangeRatesDao.findAll(),
-        searchQuery
-    ) { rates, query ->
-        if (query.isNotBlank()) {
-            rates.filter {
-                it.currency.contains(query, true)
-            }
-        } else {
-            rates
-        }
-    }.map { rates ->
-        // filter not base currency
-        val baseCurrency = baseCurrencyAct(Unit)
-        rates.filter { it.baseCurrency == baseCurrency }
-    }.map { rates ->
-        RatesState(
-            baseCurrency = baseCurrencyAct(Unit),
-            manual = rates.filter { it.manualOverride }.map(::toUi).toImmutableList(),
-            automatic = rates.filter { !it.manualOverride }.map(::toUi).toImmutableList()
-        )
-    }.stateIn(
-        viewModelScope,
-        SharingStarted.Eagerly,
-        RatesState(
-            baseCurrency = "",
-            manual = persistentListOf(),
-            automatic = persistentListOf()
-        )
-    )
+    private val rates = mutableStateOf<List<ExchangeRateEntity>>(persistentListOf())
+    private val baseCurrency = mutableStateOf("")
 
     private fun toUi(entity: ExchangeRateEntity) = RateUi(
         from = entity.baseCurrency,
@@ -67,8 +39,47 @@ class ExchangeRatesViewModel @Inject constructor(
         rate = entity.rate
     )
 
+    @Composable
+    override fun uiState(): RatesState {
+        LaunchedEffect(Unit) {
+            onStart()
+        }
+
+        return RatesState(
+            baseCurrency = baseCurrency.value,
+            manual = rates.value.filter { it.manualOverride }.map(::toUi).toImmutableList(),
+            automatic = rates.value.filter { !it.manualOverride }.map(::toUi).toImmutableList()
+        )
+    }
+
+    private fun onStart() {
+        viewModelScope.launch(Dispatchers.Default) {
+            startInternally()
+        }
+    }
+
+    private suspend fun startInternally() {
+        baseCurrency.value = baseCurrencyAct(Unit)
+        combine(
+            exchangeRatesDao.findAll(),
+            searchQuery
+        ) { rates, query ->
+            if (query.isNotBlank()) {
+                rates.filter {
+                    it.currency.contains(query, true)
+                }
+            } else {
+                rates
+            }
+        }.map { rates ->
+            rates.filter { it.baseCurrency == baseCurrency.value }
+        }.collect {
+            rates.value = it
+        }
+    }
+
     // region Event Handling
-    fun onEvent(event: RatesEvent) {
+    override fun onEvent(event: RatesEvent) {
         viewModelScope.launch {
             when (event) {
                 is RatesEvent.RemoveOverride -> handleRemoveOverride(event)
