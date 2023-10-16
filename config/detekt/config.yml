@@ -106,7 +106,7 @@ complexity:
     ignoreOverloaded: false
   CyclomaticComplexMethod:
     active: true
-    threshold: 15
+    threshold: 20
     ignoreSingleWhenExpression: false
     ignoreSimpleWhenEntries: false
     ignoreNestingFunctions: false
@@ -313,7 +313,7 @@ naming:
   ConstructorParameterNaming:
     active: true
     parameterPattern: '[a-z][A-Za-z0-9]*'
-    privateParameterPattern: '[a-z][A-Za-z0-9]*'
+    privateParameterPattern: '_?[a-z][A-Za-z0-9]*'
     excludeClassPattern: '$^'
   EnumNaming:
     active: true

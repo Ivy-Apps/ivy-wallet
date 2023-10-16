@@ -1,12 +1,13 @@
 package com.ivy.onboarding.viewmodel
 
 import androidx.compose.runtime.MutableState
-import androidx.lifecycle.MutableLiveData
-import com.ivy.legacy.datamodel.Category
-import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.data.db.dao.read.AccountDao
+import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.legacy.LogoutLogic
 import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.data.model.AccountBalance
+import com.ivy.legacy.datamodel.Category
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.legacy.utils.OpResult
 import com.ivy.legacy.utils.ioThread
@@ -15,8 +16,6 @@ import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.OnboardingScreen
 import com.ivy.onboarding.OnboardingState
-import com.ivy.data.db.dao.read.AccountDao
-import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.deprecated.logic.PreloadDataLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData

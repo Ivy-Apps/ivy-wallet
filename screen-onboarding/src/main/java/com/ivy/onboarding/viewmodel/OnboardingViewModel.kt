@@ -71,23 +71,12 @@ class OnboardingViewModel @Inject constructor(
     val state: State<OnboardingState> = _state
 
     private val _currency = mutableStateOf(IvyCurrency.getDefault())
-//    val currency = _currency.asLiveData()
-
     private val _opGoogleSignIn = mutableStateOf<OpResult<Unit>?>(null)
-//    val opGoogleSignIn = _opGoogleSignIn.asLiveData()
-
     private val _accounts = mutableStateOf(listOf<AccountBalance>().toImmutableList())
-//    val accounts = _accounts.asLiveData()
-
     private val _accountSuggestions = mutableStateOf(listOf<CreateAccountData>().toImmutableList())
-//    val accountSuggestions = _accountSuggestions.asLiveData()
-
     private val _categories = mutableStateOf(listOf<Category>().toImmutableList())
-//    val categories = _categories.asLiveData()
-
     private val _categorySuggestions =
         mutableStateOf(listOf<CreateCategoryData>().toImmutableList())
-//    val categorySuggestions = _categorySuggestions.asLiveData()
 
     @Composable
     override fun uiState(): OnboardingDetailState {
@@ -275,7 +264,6 @@ class OnboardingViewModel @Inject constructor(
 
     // --------------------- Accounts ---------------------------------------------------------------
     private suspend fun editAccount(account: Account, newBalance: Double) {
-
         TestIdlingResource.increment()
 
         accountCreator.editAccount(account, newBalance) {
@@ -283,7 +271,6 @@ class OnboardingViewModel @Inject constructor(
         }
 
         TestIdlingResource.decrement()
-
     }
 
     private suspend fun createAccount(data: CreateAccountData) {

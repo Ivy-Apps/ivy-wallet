@@ -5,10 +5,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.model.AccountBalance
 import com.ivy.navigation.OnboardingScreen
 import com.ivy.onboarding.steps.OnboardingAccounts
@@ -18,7 +15,6 @@ import com.ivy.onboarding.steps.OnboardingSplashLogin
 import com.ivy.onboarding.steps.OnboardingType
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
 import com.ivy.wallet.domain.data.IvyCurrency
-import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
@@ -178,10 +174,10 @@ private fun BoxWithConstraintsScope.UI(
     }
 }
 
-//@ExperimentalFoundationApi
-//@Preview
-//@Composable
-//private fun PreviewOnboarding() {
+// @ExperimentalFoundationApi
+// @Preview
+// @Composable
+// private fun PreviewOnboarding() {
 //    IvyWalletPreview {
 //        UI(
 //            accountSuggestions = listOf(),
@@ -193,10 +189,10 @@ private fun BoxWithConstraintsScope.UI(
 //            onboardingState = OnboardingState.SPLASH,
 //            currency = IvyCurrency.getDefault(),
 //            opGoogleSignIn = null,
-////
-////            onLoginWithGoogle = {},
-////            onSkip = {},
-////            onSetCurrency = {},
+//
+//            onLoginWithGoogle = {},
+//            onSkip = {},
+//            onSetCurrency = {},
 //        )
 //    }
-//}
+// }
