@@ -1,5 +1,6 @@
 package com.ivy.onboarding.viewmodel
 
+import androidx.compose.runtime.MutableState
 import androidx.lifecycle.MutableLiveData
 import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.datamodel.temp.toDomain
@@ -28,12 +29,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class OnboardingRouter(
-    private val _opGoogleSignIn: MutableLiveData<OpResult<Unit>?>,
-    private val _state: MutableLiveData<OnboardingState>,
-    private val _accounts: MutableLiveData<ImmutableList<AccountBalance>>,
-    private val _accountSuggestions: MutableLiveData<ImmutableList<CreateAccountData>>,
-    private val _categories: MutableLiveData<ImmutableList<Category>>,
-    private val _categorySuggestions: MutableLiveData<ImmutableList<CreateCategoryData>>,
+    private val _opGoogleSignIn: MutableState<OpResult<Unit>?>,
+    private val _state: MutableState<OnboardingState>,
+    private val _accounts: MutableState<ImmutableList<AccountBalance>>,
+    private val _accountSuggestions: MutableState<ImmutableList<CreateAccountData>>,
+    private val _categories: MutableState<ImmutableList<Category>>,
+    private val _categorySuggestions: MutableState<ImmutableList<CreateCategoryData>>,
 
     private val nav: Navigation,
     private val accountDao: AccountDao,

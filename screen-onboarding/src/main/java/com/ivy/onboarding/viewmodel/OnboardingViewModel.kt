@@ -1,30 +1,33 @@
 package com.ivy.onboarding.viewmodel
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.Theme
-import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
-import com.ivy.legacy.datamodel.Settings
+import com.ivy.data.db.dao.read.AccountDao
+import com.ivy.data.db.dao.read.CategoryDao
+import com.ivy.data.db.dao.read.SettingsDao
+import com.ivy.data.db.dao.write.WriteSettingsDao
+import com.ivy.domain.ComposeViewModel
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.LogoutLogic
 import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.data.model.AccountBalance
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
+import com.ivy.legacy.datamodel.Settings
 import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.OpResult
-import com.ivy.legacy.utils.asLiveData
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.sendToCrashlytics
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.OnboardingScreen
+import com.ivy.onboarding.OnboardingDetailState
+import com.ivy.onboarding.OnboardingEvent
 import com.ivy.onboarding.OnboardingState
-import com.ivy.data.db.dao.read.AccountDao
-import com.ivy.data.db.dao.read.CategoryDao
-import com.ivy.data.db.dao.read.SettingsDao
-import com.ivy.data.db.dao.write.WriteSettingsDao
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.data.IvyCurrency
@@ -62,28 +65,41 @@ class OnboardingViewModel @Inject constructor(
     transactionReminderLogic: TransactionReminderLogic,
     preloadDataLogic: PreloadDataLogic,
     logoutLogic: LogoutLogic,
-) : ViewModel() {
+) : ComposeViewModel<OnboardingDetailState, OnboardingEvent>() {
 
-    private val _state = MutableLiveData(OnboardingState.SPLASH)
-    val state = _state.asLiveData()
+    private val _state = mutableStateOf(OnboardingState.SPLASH)
+    val state: State<OnboardingState> = _state
 
-    private val _currency = MutableLiveData<IvyCurrency>()
-    val currency = _currency.asLiveData()
+    private val _currency = mutableStateOf(IvyCurrency.getDefault())
+//    val currency = _currency.asLiveData()
 
-    private val _opGoogleSignIn = MutableLiveData<OpResult<Unit>?>()
-    val opGoogleSignIn = _opGoogleSignIn.asLiveData()
+    private val _opGoogleSignIn = mutableStateOf<OpResult<Unit>?>(null)
+//    val opGoogleSignIn = _opGoogleSignIn.asLiveData()
 
-    private val _accounts = MutableLiveData<ImmutableList<AccountBalance>>()
-    val accounts = _accounts.asLiveData()
+    private val _accounts = mutableStateOf(listOf<AccountBalance>().toImmutableList())
+//    val accounts = _accounts.asLiveData()
 
-    private val _accountSuggestions = MutableLiveData<ImmutableList<CreateAccountData>>()
-    val accountSuggestions = _accountSuggestions.asLiveData()
+    private val _accountSuggestions = mutableStateOf(listOf<CreateAccountData>().toImmutableList())
+//    val accountSuggestions = _accountSuggestions.asLiveData()
 
-    private val _categories = MutableLiveData<ImmutableList<Category>>()
-    val categories = _categories.asLiveData()
+    private val _categories = mutableStateOf(listOf<Category>().toImmutableList())
+//    val categories = _categories.asLiveData()
 
-    private val _categorySuggestions = MutableLiveData<ImmutableList<CreateCategoryData>>()
-    val categorySuggestions = _categorySuggestions.asLiveData()
+    private val _categorySuggestions =
+        mutableStateOf(listOf<CreateCategoryData>().toImmutableList())
+//    val categorySuggestions = _categorySuggestions.asLiveData()
+
+    @Composable
+    override fun uiState(): OnboardingDetailState {
+        return OnboardingDetailState(
+            currency = _currency.value,
+            opGoogleSignIn = _opGoogleSignIn.value,
+            accounts = _accounts.value,
+            accountSuggestions = _accountSuggestions.value,
+            categories = _categories.value,
+            categorySuggestions = _categorySuggestions.value
+        )
+    }
 
     private val router = OnboardingRouter(
         _state = _state,
@@ -145,8 +161,30 @@ class OnboardingViewModel @Inject constructor(
         }
     }
 
+    override fun onEvent(event: OnboardingEvent) {
+        viewModelScope.launch {
+            when (event) {
+                is OnboardingEvent.createAccount -> createAccount(event.data)
+                is OnboardingEvent.createCategory -> createCategory(event.data)
+                is OnboardingEvent.editAccount -> editAccount(event.account, event.newBalance)
+                is OnboardingEvent.editCategory -> editCategory(event.updatedCategory)
+                is OnboardingEvent.importFinished -> importFinished(event.success)
+                OnboardingEvent.importSkip -> importSkip()
+                OnboardingEvent.loginOfflineAccount -> loginOfflineAccount()
+                OnboardingEvent.loginWithGoogle -> loginWithGoogle()
+                OnboardingEvent.onAddAccountsDone -> onAddAccountsDone()
+                OnboardingEvent.onAddAccountsSkip -> onAddAccountsSkip()
+                OnboardingEvent.onAddCategoriesDone -> onAddCategoriesDone()
+                OnboardingEvent.onAddCategoriesSkip -> onAddCategoriesSkip()
+                is OnboardingEvent.setBaseCurrency -> setBaseCurrency(event.baseCurrency)
+                OnboardingEvent.startFresh -> startFresh()
+                OnboardingEvent.startImport -> startImport()
+            }
+        }
+    }
+
     // Step 1 ---------------------------------------------------------------------------------------
-    fun loginWithGoogle() {
+    private suspend fun loginWithGoogle() {
         ivyContext.googleSignIn { idToken ->
             if (idToken != null) {
                 _opGoogleSignIn.value = OpResult.loading()
@@ -182,17 +220,15 @@ class OnboardingViewModel @Inject constructor(
         TestIdlingResource.decrement()
     }
 
-    fun loginOfflineAccount() {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
-            router.offlineAccountNext()
-            TestIdlingResource.decrement()
-        }
+    private suspend fun loginOfflineAccount() {
+        TestIdlingResource.increment()
+        router.offlineAccountNext()
+        TestIdlingResource.decrement()
     }
     // Step 1 ---------------------------------------------------------------------------------------
 
     // Step 2 ---------------------------------------------------------------------------------------
-    fun startImport() {
+    private fun startImport() {
         router.startImport()
     }
 
@@ -204,24 +240,22 @@ class OnboardingViewModel @Inject constructor(
         router.importFinished(success)
     }
 
-    fun startFresh() {
+    private fun startFresh() {
         router.startFresh()
     }
     // Step 2 ---------------------------------------------------------------------------------------
 
-    fun setBaseCurrency(baseCurrency: IvyCurrency) {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
+    private suspend fun setBaseCurrency(baseCurrency: IvyCurrency) {
+        TestIdlingResource.increment()
 
-            updateBaseCurrency(baseCurrency)
+        updateBaseCurrency(baseCurrency)
 
-            router.setBaseCurrencyNext(
-                baseCurrency = baseCurrency,
-                accountsWithBalance = { accountsWithBalance() }
-            )
+        router.setBaseCurrencyNext(
+            baseCurrency = baseCurrency,
+            accountsWithBalance = { accountsWithBalance() }
+        )
 
-            TestIdlingResource.decrement()
-        }
+        TestIdlingResource.decrement()
     }
 
     private suspend fun updateBaseCurrency(baseCurrency: IvyCurrency) {
@@ -240,28 +274,26 @@ class OnboardingViewModel @Inject constructor(
     }
 
     // --------------------- Accounts ---------------------------------------------------------------
-    fun editAccount(account: Account, newBalance: Double) {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
+    private suspend fun editAccount(account: Account, newBalance: Double) {
 
-            accountCreator.editAccount(account, newBalance) {
-                _accounts.value = accountsWithBalance()
-            }
+        TestIdlingResource.increment()
 
-            TestIdlingResource.decrement()
+        accountCreator.editAccount(account, newBalance) {
+            _accounts.value = accountsWithBalance()
         }
+
+        TestIdlingResource.decrement()
+
     }
 
-    fun createAccount(data: CreateAccountData) {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
+    private suspend fun createAccount(data: CreateAccountData) {
+        TestIdlingResource.increment()
 
-            accountCreator.createAccount(data) {
-                _accounts.value = accountsWithBalance()
-            }
-
-            TestIdlingResource.decrement()
+        accountCreator.createAccount(data) {
+            _accounts.value = accountsWithBalance()
         }
+
+        TestIdlingResource.decrement()
     }
 
     private suspend fun accountsWithBalance(): ImmutableList<AccountBalance> = ioThread {
@@ -274,70 +306,58 @@ class OnboardingViewModel @Inject constructor(
             }.toImmutableList()
     }
 
-    fun onAddAccountsDone() {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
+    private suspend fun onAddAccountsDone() {
+        TestIdlingResource.increment()
 
-            router.accountsNext()
+        router.accountsNext()
 
-            TestIdlingResource.decrement()
-        }
+        TestIdlingResource.decrement()
     }
 
-    fun onAddAccountsSkip() {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
+    private suspend fun onAddAccountsSkip() {
+        TestIdlingResource.increment()
 
-            router.accountsSkip()
+        router.accountsSkip()
 
-            TestIdlingResource.decrement()
-        }
+        TestIdlingResource.decrement()
     }
     // --------------------- Accounts ---------------------------------------------------------------
 
     // ---------------------------- Categories ------------------------------------------------------
-    fun editCategory(updatedCategory: Category) {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
+    private suspend fun editCategory(updatedCategory: Category) {
+        TestIdlingResource.increment()
 
-            categoryCreator.editCategory(updatedCategory) {
-                _categories.value = categoriesAct(Unit)!!
-            }
+        categoryCreator.editCategory(updatedCategory) {
+            _categories.value = categoriesAct(Unit)!!
+        }
+
+        TestIdlingResource.decrement()
+    }
+
+    private suspend fun createCategory(data: CreateCategoryData) {
+        TestIdlingResource.increment()
+
+        categoryCreator.createCategory(data) {
+            _categories.value = categoriesAct(Unit)!!
 
             TestIdlingResource.decrement()
         }
     }
 
-    fun createCategory(data: CreateCategoryData) {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
+    private suspend fun onAddCategoriesDone() {
+        TestIdlingResource.increment()
 
-            categoryCreator.createCategory(data) {
-                _categories.value = categoriesAct(Unit)!!
-            }
+        router.categoriesNext(baseCurrency = _currency.value)
 
-            TestIdlingResource.decrement()
-        }
+        TestIdlingResource.decrement()
     }
 
-    fun onAddCategoriesDone() {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
+    private suspend fun onAddCategoriesSkip() {
+        TestIdlingResource.increment()
 
-            router.categoriesNext(baseCurrency = currency.value)
+        router.categoriesSkip(baseCurrency = _currency.value)
 
-            TestIdlingResource.decrement()
-        }
-    }
-
-    fun onAddCategoriesSkip() {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
-
-            router.categoriesSkip(baseCurrency = currency.value)
-
-            TestIdlingResource.decrement()
-        }
+        TestIdlingResource.decrement()
     }
     // ---------------------------- Categories ------------------------------------------------------
 }

@@ -24,21 +24,24 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.legacy.utils.OpResult
 import com.ivy.legacy.utils.onScreenStart
+import kotlinx.collections.immutable.ImmutableList
 
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.OnboardingScreen(screen: OnboardingScreen) {
     val viewModel: OnboardingViewModel = viewModel()
 
-    val state by viewModel.state.observeAsState(OnboardingState.SPLASH)
-    val currency by viewModel.currency.observeAsState(IvyCurrency.getDefault())
-    val opGoogleSign by viewModel.opGoogleSignIn.observeAsState()
+    val state by viewModel.state
+    val uiState = viewModel.uiState()
 
-    val accountSuggestions by viewModel.accountSuggestions.observeAsState(emptyList())
-    val accounts by viewModel.accounts.observeAsState(listOf())
-
-    val categorySuggestions by viewModel.categorySuggestions.observeAsState(emptyList())
-    val categories by viewModel.categories.observeAsState(emptyList())
+//    val currency by viewModel.currency.observeAsState(IvyCurrency.getDefault())
+//    val opGoogleSign by viewModel.opGoogleSignIn.observeAsState()
+//
+//    val accountSuggestions by viewModel.accountSuggestions.observeAsState(emptyList())
+//    val accounts by viewModel.accounts.observeAsState(listOf())
+//
+//    val categorySuggestions by viewModel.categorySuggestions.observeAsState(emptyList())
+//    val categories by viewModel.categories.observeAsState(emptyList())
 
     val isSystemDarkTheme = isSystemInDarkTheme()
     onScreenStart {
@@ -50,32 +53,34 @@ fun BoxWithConstraintsScope.OnboardingScreen(screen: OnboardingScreen) {
 
     UI(
         onboardingState = state,
-        currency = currency,
-        opGoogleSignIn = opGoogleSign,
+        currency = uiState.currency,
+        opGoogleSignIn = uiState.opGoogleSignIn,
 
-        accountSuggestions = accountSuggestions,
-        accounts = accounts,
+        accountSuggestions = uiState.accountSuggestions,
+        accounts = uiState.accounts,
 
-        categorySuggestions = categorySuggestions,
-        categories = categories,
+        categorySuggestions = uiState.categorySuggestions,
+        categories = uiState.categories,
 
-        onLoginWithGoogle = viewModel::loginWithGoogle,
-        onSkip = viewModel::loginOfflineAccount,
+        onEvent = viewModel::onEvent
 
-        onStartImport = viewModel::startImport,
-        onStartFresh = viewModel::startFresh,
-
-        onSetCurrency = viewModel::setBaseCurrency,
-
-        onCreateAccount = viewModel::createAccount,
-        onEditAccount = viewModel::editAccount,
-        onAddAccountsDone = viewModel::onAddAccountsDone,
-        onAddAccountsSkip = viewModel::onAddAccountsSkip,
-
-        onCreateCategory = viewModel::createCategory,
-        onEditCategory = viewModel::editCategory,
-        onAddCategoryDone = viewModel::onAddCategoriesDone,
-        onAddCategorySkip = viewModel::onAddCategoriesSkip
+//        onLoginWithGoogle = viewModel::loginWithGoogle,
+//        onSkip = viewModel::loginOfflineAccount,
+//
+//        onStartImport = viewModel::startImport,
+//        onStartFresh = viewModel::startFresh,
+//
+//        onSetCurrency = viewModel::setBaseCurrency,
+//
+//        onCreateAccount = viewModel::createAccount,
+//        onEditAccount = viewModel::editAccount,
+//        onAddAccountsDone = viewModel::onAddAccountsDone,
+//        onAddAccountsSkip = viewModel::onAddAccountsSkip,
+//
+//        onCreateCategory = viewModel::createCategory,
+//        onEditCategory = viewModel::editCategory,
+//        onAddCategoryDone = viewModel::onAddCategoriesDone,
+//        onAddCategorySkip = viewModel::onAddCategoriesSkip
     )
 }
 
@@ -86,29 +91,31 @@ private fun BoxWithConstraintsScope.UI(
     currency: IvyCurrency,
     opGoogleSignIn: OpResult<Unit>?,
 
-    accountSuggestions: List<CreateAccountData>,
-    accounts: List<AccountBalance>,
+    accountSuggestions: ImmutableList<CreateAccountData>,
+    accounts: ImmutableList<AccountBalance>,
 
-    categorySuggestions: List<CreateCategoryData>,
-    categories: List<Category>,
+    categorySuggestions: ImmutableList<CreateCategoryData>,
+    categories: ImmutableList<Category>,
 
-    onLoginWithGoogle: () -> Unit = {},
-    onSkip: () -> Unit = {},
+//    onLoginWithGoogle: () -> Unit = {},
+//    onSkip: () -> Unit = {},
+//
+//    onStartImport: () -> Unit = {},
+//    onStartFresh: () -> Unit = {},
+//
+//    onSetCurrency: (IvyCurrency) -> Unit = {},
+//
+//    onCreateAccount: (CreateAccountData) -> Unit = { },
+//    onEditAccount: (Account, Double) -> Unit = { _, _ -> },
+//    onAddAccountsDone: () -> Unit = {},
+//    onAddAccountsSkip: () -> Unit = {},
+//
+//    onCreateCategory: (CreateCategoryData) -> Unit = {},
+//    onEditCategory: (Category) -> Unit = {},
+//    onAddCategoryDone: () -> Unit = {},
+//    onAddCategorySkip: () -> Unit = {},
 
-    onStartImport: () -> Unit = {},
-    onStartFresh: () -> Unit = {},
-
-    onSetCurrency: (IvyCurrency) -> Unit = {},
-
-    onCreateAccount: (CreateAccountData) -> Unit = { },
-    onEditAccount: (Account, Double) -> Unit = { _, _ -> },
-    onAddAccountsDone: () -> Unit = {},
-    onAddAccountsSkip: () -> Unit = {},
-
-    onCreateCategory: (CreateCategoryData) -> Unit = {},
-    onEditCategory: (Category) -> Unit = {},
-    onAddCategoryDone: () -> Unit = {},
-    onAddCategorySkip: () -> Unit = {},
+    onEvent: (OnboardingEvent) -> Unit = {}
 ) {
     when (onboardingState) {
         OnboardingState.SPLASH, OnboardingState.LOGIN -> {
@@ -116,22 +123,22 @@ private fun BoxWithConstraintsScope.UI(
                 onboardingState = onboardingState,
                 opGoogleSignIn = opGoogleSignIn,
 
-                onLoginWithGoogle = onLoginWithGoogle,
-                onSkip = onSkip
+                onLoginWithGoogle = { onEvent(OnboardingEvent.loginWithGoogle) },
+                onSkip = { onEvent(OnboardingEvent.loginOfflineAccount) }
             )
         }
 
         OnboardingState.CHOOSE_PATH -> {
             OnboardingType(
-                onStartImport = onStartImport,
-                onStartFresh = onStartFresh
+                onStartImport = { onEvent(OnboardingEvent.startImport) },
+                onStartFresh = { onEvent(OnboardingEvent.startFresh) }
             )
         }
 
         OnboardingState.CURRENCY -> {
             OnboardingSetCurrency(
                 preselectedCurrency = currency,
-                onSetCurrency = onSetCurrency
+                onSetCurrency = { onEvent(OnboardingEvent.setBaseCurrency(it)) }
             )
         }
 
@@ -141,11 +148,18 @@ private fun BoxWithConstraintsScope.UI(
                 suggestions = accountSuggestions,
                 accounts = accounts,
 
-                onCreateAccount = onCreateAccount,
-                onEditAccount = onEditAccount,
+                onCreateAccount = { onEvent(OnboardingEvent.createAccount(it)) },
+                onEditAccount = { account, newBalance ->
+                    onEvent(
+                        OnboardingEvent.editAccount(
+                            account,
+                            newBalance
+                        )
+                    )
+                },
 
-                onDone = onAddAccountsDone,
-                onSkip = onAddAccountsSkip
+                onDone = { onEvent(OnboardingEvent.onAddAccountsDone) },
+                onSkip = { onEvent(OnboardingEvent.onAddAccountsSkip) }
             )
         }
 
@@ -154,35 +168,35 @@ private fun BoxWithConstraintsScope.UI(
                 suggestions = categorySuggestions,
                 categories = categories,
 
-                onCreateCategory = onCreateCategory,
-                onEditCategory = onEditCategory,
+                onCreateCategory = { onEvent(OnboardingEvent.createCategory(it)) },
+                onEditCategory = { onEvent(OnboardingEvent.editCategory(it)) },
 
-                onDone = onAddCategoryDone,
-                onSkip = onAddCategorySkip
+                onDone = { onEvent(OnboardingEvent.onAddCategoriesDone) },
+                onSkip = { onEvent(OnboardingEvent.onAddCategoriesSkip) }
             )
         }
     }
 }
 
-@ExperimentalFoundationApi
-@Preview
-@Composable
-private fun PreviewOnboarding() {
-    IvyWalletPreview {
-        UI(
-            accountSuggestions = listOf(),
-            accounts = listOf(),
-
-            categorySuggestions = listOf(),
-            categories = listOf(),
-
-            onboardingState = OnboardingState.SPLASH,
-            currency = IvyCurrency.getDefault(),
-            opGoogleSignIn = null,
-
-            onLoginWithGoogle = {},
-            onSkip = {},
-            onSetCurrency = {},
-        )
-    }
-}
+//@ExperimentalFoundationApi
+//@Preview
+//@Composable
+//private fun PreviewOnboarding() {
+//    IvyWalletPreview {
+//        UI(
+//            accountSuggestions = listOf(),
+//            accounts = listOf(),
+//
+//            categorySuggestions = listOf(),
+//            categories = listOf(),
+//
+//            onboardingState = OnboardingState.SPLASH,
+//            currency = IvyCurrency.getDefault(),
+//            opGoogleSignIn = null,
+////
+////            onLoginWithGoogle = {},
+////            onSkip = {},
+////            onSetCurrency = {},
+//        )
+//    }
+//}
