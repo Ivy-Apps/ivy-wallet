@@ -1,11 +1,13 @@
 package com.ivy.onboarding.viewmodel
 
-import androidx.lifecycle.MutableLiveData
-import com.ivy.legacy.datamodel.Category
-import com.ivy.legacy.datamodel.temp.toDomain
+import androidx.compose.runtime.MutableState
+import com.ivy.data.db.dao.read.AccountDao
+import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.legacy.LogoutLogic
 import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.data.model.AccountBalance
+import com.ivy.legacy.datamodel.Category
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.legacy.utils.OpResult
 import com.ivy.legacy.utils.ioThread
@@ -14,8 +16,6 @@ import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.OnboardingScreen
 import com.ivy.onboarding.OnboardingState
-import com.ivy.data.db.dao.read.AccountDao
-import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.deprecated.logic.PreloadDataLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
@@ -28,12 +28,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class OnboardingRouter(
-    private val _opGoogleSignIn: MutableLiveData<OpResult<Unit>?>,
-    private val _state: MutableLiveData<OnboardingState>,
-    private val _accounts: MutableLiveData<ImmutableList<AccountBalance>>,
-    private val _accountSuggestions: MutableLiveData<ImmutableList<CreateAccountData>>,
-    private val _categories: MutableLiveData<ImmutableList<Category>>,
-    private val _categorySuggestions: MutableLiveData<ImmutableList<CreateCategoryData>>,
+    private val opGoogleSignIn: MutableState<OpResult<Unit>?>,
+    private val state: MutableState<OnboardingState>,
+    private val accounts: MutableState<ImmutableList<AccountBalance>>,
+    private val accountSuggestions: MutableState<ImmutableList<CreateAccountData>>,
+    private val categories: MutableState<ImmutableList<Category>>,
+    private val categorySuggestions: MutableState<ImmutableList<CreateCategoryData>>,
 
     private val nav: Navigation,
     private val accountDao: AccountDao,
@@ -53,7 +53,7 @@ class OnboardingRouter(
         restartOnboarding: () -> Unit
     ) {
         nav.onBackPressed[screen] = {
-            when (_state.value) {
+            when (state.value) {
                 OnboardingState.SPLASH -> {
                     // do nothing, consume back
                     true
@@ -65,7 +65,7 @@ class OnboardingRouter(
                 }
 
                 OnboardingState.CHOOSE_PATH -> {
-                    _state.value = OnboardingState.LOGIN
+                    state.value = OnboardingState.LOGIN
                     true
                 }
 
@@ -76,22 +76,22 @@ class OnboardingRouter(
                             logoutLogic.logout()
                             isLoginCache = false
                             restartOnboarding()
-                            _state.value = OnboardingState.LOGIN
+                            state.value = OnboardingState.LOGIN
                         }
                     } else {
                         // fresh user
-                        _state.value = OnboardingState.CHOOSE_PATH
+                        state.value = OnboardingState.CHOOSE_PATH
                     }
                     true
                 }
 
                 OnboardingState.ACCOUNTS -> {
-                    _state.value = OnboardingState.CURRENCY
+                    state.value = OnboardingState.CURRENCY
                     true
                 }
 
                 OnboardingState.CATEGORIES -> {
-                    _state.value = OnboardingState.ACCOUNTS
+                    state.value = OnboardingState.ACCOUNTS
                     true
                 }
 
@@ -105,10 +105,10 @@ class OnboardingRouter(
 
     // ------------------------------------- Step 0 - Splash ----------------------------------------
     suspend fun splashNext() {
-        if (_state.value == OnboardingState.SPLASH) {
+        if (state.value == OnboardingState.SPLASH) {
             delay(1000)
 
-            _state.value = OnboardingState.LOGIN
+            state.value = OnboardingState.LOGIN
         }
     }
     // ------------------------------------- Step 0 -------------------------------------------------
@@ -117,10 +117,10 @@ class OnboardingRouter(
     suspend fun googleLoginNext() {
         if (isLogin()) {
             // Route logged user
-            _state.value = OnboardingState.CURRENCY
+            state.value = OnboardingState.CURRENCY
         } else {
             // Route new user
-            _state.value = OnboardingState.CHOOSE_PATH
+            state.value = OnboardingState.CHOOSE_PATH
         }
     }
 
@@ -130,7 +130,7 @@ class OnboardingRouter(
     }
 
     suspend fun offlineAccountNext() {
-        _state.value = OnboardingState.CHOOSE_PATH
+        state.value = OnboardingState.CHOOSE_PATH
     }
     // ------------------------------------- Step 1 -------------------------------------------------
 
@@ -144,17 +144,17 @@ class OnboardingRouter(
     }
 
     fun importSkip() {
-        _state.value = OnboardingState.CURRENCY
+        state.value = OnboardingState.CURRENCY
     }
 
     fun importFinished(success: Boolean) {
         if (success) {
-            _state.value = OnboardingState.CURRENCY
+            state.value = OnboardingState.CURRENCY
         }
     }
 
     fun startFresh() {
-        _state.value = OnboardingState.CURRENCY
+        state.value = OnboardingState.CURRENCY
     }
     // ------------------------------------- Step 2 -------------------------------------------------
 
@@ -208,19 +208,19 @@ class OnboardingRouter(
         accountsWithBalance: suspend () -> ImmutableList<AccountBalance>,
     ) {
         val accounts = accountsWithBalance()
-        _accounts.value = accounts
+        this.accounts.value = accounts
 
-        _accountSuggestions.value =
+        accountSuggestions.value =
             preloadDataLogic.accountSuggestions(baseCurrency.code)
-        _state.value = OnboardingState.ACCOUNTS
+        state.value = OnboardingState.ACCOUNTS
     }
 
     private suspend fun routeToCategories() {
-        _categories.value =
+        categories.value =
             ioThread { categoryDao.findAll().map { it.toDomain() }.toImmutableList() }!!
-        _categorySuggestions.value = preloadDataLogic.categorySuggestions()
+        categorySuggestions.value = preloadDataLogic.categorySuggestions()
 
-        _state.value = OnboardingState.CATEGORIES
+        state.value = OnboardingState.CATEGORIES
     }
 
     private suspend fun completeOnboarding(
@@ -245,8 +245,8 @@ class OnboardingRouter(
     }
 
     private fun resetState() {
-        _state.value = OnboardingState.SPLASH
-        _opGoogleSignIn.value = null
+        state.value = OnboardingState.SPLASH
+        opGoogleSignIn.value = null
     }
 
     private fun navigateOutOfOnboarding() {
