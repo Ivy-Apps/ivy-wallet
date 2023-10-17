@@ -10,7 +10,6 @@ import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
 import com.ivy.domain.ComposeViewModel
-import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.LogoutLogic
 import com.ivy.legacy.data.SharedPrefs
@@ -82,7 +81,6 @@ class OnboardingViewModel @Inject constructor(
     override fun uiState(): OnboardingDetailState {
         return OnboardingDetailState(
             currency = _currency.value,
-            opGoogleSignIn = _opGoogleSignIn.value,
             accounts = _accounts.value,
             accountSuggestions = _accountSuggestions.value,
             categories = _categories.value,
@@ -91,12 +89,12 @@ class OnboardingViewModel @Inject constructor(
     }
 
     private val router = OnboardingRouter(
-        _state = _state,
-        _opGoogleSignIn = _opGoogleSignIn,
-        _accounts = _accounts,
-        _accountSuggestions = _accountSuggestions,
-        _categories = _categories,
-        _categorySuggestions = _categorySuggestions,
+        state = _state,
+        opGoogleSignIn = _opGoogleSignIn,
+        accounts = _accounts,
+        accountSuggestions = _accountSuggestions,
+        categories = _categories,
+        categorySuggestions = _categorySuggestions,
 
         nav = nav,
         accountDao = accountDao,
@@ -110,8 +108,6 @@ class OnboardingViewModel @Inject constructor(
 
     fun start(screen: OnboardingScreen, isSystemDarkMode: Boolean) {
         viewModelScope.launch {
-            TestIdlingResource.increment()
-
             initiateSettings(isSystemDarkMode)
 
             router.initBackHandling(
@@ -123,8 +119,6 @@ class OnboardingViewModel @Inject constructor(
             )
 
             router.splashNext()
-
-            TestIdlingResource.decrement()
         }
     }
 
@@ -133,8 +127,6 @@ class OnboardingViewModel @Inject constructor(
         _currency.value = defaultCurrency
 
         ioThread {
-            TestIdlingResource.increment()
-
             if (settingsDao.findAll().isEmpty()) {
                 settingsWriter.save(
                     Settings(
@@ -145,29 +137,27 @@ class OnboardingViewModel @Inject constructor(
                     ).toEntity()
                 )
             }
-
-            TestIdlingResource.decrement()
         }
     }
 
     override fun onEvent(event: OnboardingEvent) {
         viewModelScope.launch {
             when (event) {
-                is OnboardingEvent.createAccount -> createAccount(event.data)
-                is OnboardingEvent.createCategory -> createCategory(event.data)
-                is OnboardingEvent.editAccount -> editAccount(event.account, event.newBalance)
-                is OnboardingEvent.editCategory -> editCategory(event.updatedCategory)
-                is OnboardingEvent.importFinished -> importFinished(event.success)
-                OnboardingEvent.importSkip -> importSkip()
-                OnboardingEvent.loginOfflineAccount -> loginOfflineAccount()
-                OnboardingEvent.loginWithGoogle -> loginWithGoogle()
-                OnboardingEvent.onAddAccountsDone -> onAddAccountsDone()
-                OnboardingEvent.onAddAccountsSkip -> onAddAccountsSkip()
-                OnboardingEvent.onAddCategoriesDone -> onAddCategoriesDone()
-                OnboardingEvent.onAddCategoriesSkip -> onAddCategoriesSkip()
-                is OnboardingEvent.setBaseCurrency -> setBaseCurrency(event.baseCurrency)
-                OnboardingEvent.startFresh -> startFresh()
-                OnboardingEvent.startImport -> startImport()
+                is OnboardingEvent.CreateAccount -> createAccount(event.data)
+                is OnboardingEvent.CreateCategory -> createCategory(event.data)
+                is OnboardingEvent.EditAccount -> editAccount(event.account, event.newBalance)
+                is OnboardingEvent.EditCategory -> editCategory(event.updatedCategory)
+                is OnboardingEvent.ImportFinished -> importFinished(event.success)
+                OnboardingEvent.ImportSkip -> importSkip()
+                OnboardingEvent.LoginOfflineAccount -> loginOfflineAccount()
+                OnboardingEvent.LoginWithGoogle -> loginWithGoogle()
+                OnboardingEvent.OnAddAccountsDone -> onAddAccountsDone()
+                OnboardingEvent.OnAddAccountsSkip -> onAddAccountsSkip()
+                OnboardingEvent.OnAddCategoriesDone -> onAddCategoriesDone()
+                OnboardingEvent.OnAddCategoriesSkip -> onAddCategoriesSkip()
+                is OnboardingEvent.SetBaseCurrency -> setBaseCurrency(event.baseCurrency)
+                OnboardingEvent.StartFresh -> startFresh()
+                OnboardingEvent.StartImport -> startImport()
             }
         }
     }
@@ -178,13 +168,8 @@ class OnboardingViewModel @Inject constructor(
             if (idToken != null) {
                 _opGoogleSignIn.value = OpResult.loading()
                 viewModelScope.launch {
-                    TestIdlingResource.increment()
-
                     try {
-                        loginWithGoogleOnServer(idToken)
-
                         router.googleLoginNext()
-
                         _opGoogleSignIn.value = null // reset login with Google operation state
                     } catch (e: Exception) {
                         e.sendToCrashlytics("GOOGLE_SIGN_IN ERROR: generic exception when logging with GOOGLE")
@@ -192,8 +177,6 @@ class OnboardingViewModel @Inject constructor(
                         Timber.e("Login with Google failed on Ivy server - ${e.message}")
                         _opGoogleSignIn.value = OpResult.failure(e)
                     }
-
-                    TestIdlingResource.decrement()
                 }
             } else {
                 sendToCrashlytics("GOOGLE_SIGN_IN ERROR: idToken is null!!")
@@ -203,16 +186,8 @@ class OnboardingViewModel @Inject constructor(
         }
     }
 
-    private suspend fun loginWithGoogleOnServer(idToken: String) {
-        TestIdlingResource.increment()
-
-        TestIdlingResource.decrement()
-    }
-
     private suspend fun loginOfflineAccount() {
-        TestIdlingResource.increment()
         router.offlineAccountNext()
-        TestIdlingResource.decrement()
     }
     // Step 1 ---------------------------------------------------------------------------------------
 
@@ -235,52 +210,35 @@ class OnboardingViewModel @Inject constructor(
     // Step 2 ---------------------------------------------------------------------------------------
 
     private suspend fun setBaseCurrency(baseCurrency: IvyCurrency) {
-        TestIdlingResource.increment()
-
         updateBaseCurrency(baseCurrency)
-
         router.setBaseCurrencyNext(
             baseCurrency = baseCurrency,
             accountsWithBalance = { accountsWithBalance() }
         )
-
-        TestIdlingResource.decrement()
     }
 
     private suspend fun updateBaseCurrency(baseCurrency: IvyCurrency) {
         ioThread {
-            TestIdlingResource.increment()
-
             settingsWriter.save(
                 settingsDao.findFirst().copy(
                     currency = baseCurrency.code
                 )
             )
-
-            TestIdlingResource.decrement()
         }
         _currency.value = baseCurrency
     }
 
     // --------------------- Accounts ---------------------------------------------------------------
     private suspend fun editAccount(account: Account, newBalance: Double) {
-        TestIdlingResource.increment()
-
         accountCreator.editAccount(account, newBalance) {
             _accounts.value = accountsWithBalance()
         }
-
-        TestIdlingResource.decrement()
     }
 
     private suspend fun createAccount(data: CreateAccountData) {
-        TestIdlingResource.increment()
-
         accountCreator.createAccount(data) {
             _accounts.value = accountsWithBalance()
         }
-
-        TestIdlingResource.decrement()
     }
 
     private suspend fun accountsWithBalance(): ImmutableList<AccountBalance> = ioThread {
@@ -294,57 +252,33 @@ class OnboardingViewModel @Inject constructor(
     }
 
     private suspend fun onAddAccountsDone() {
-        TestIdlingResource.increment()
-
         router.accountsNext()
-
-        TestIdlingResource.decrement()
     }
 
     private suspend fun onAddAccountsSkip() {
-        TestIdlingResource.increment()
-
         router.accountsSkip()
-
-        TestIdlingResource.decrement()
     }
     // --------------------- Accounts ---------------------------------------------------------------
 
     // ---------------------------- Categories ------------------------------------------------------
     private suspend fun editCategory(updatedCategory: Category) {
-        TestIdlingResource.increment()
-
         categoryCreator.editCategory(updatedCategory) {
             _categories.value = categoriesAct(Unit)!!
         }
-
-        TestIdlingResource.decrement()
     }
 
     private suspend fun createCategory(data: CreateCategoryData) {
-        TestIdlingResource.increment()
-
         categoryCreator.createCategory(data) {
             _categories.value = categoriesAct(Unit)!!
-
-            TestIdlingResource.decrement()
         }
     }
 
     private suspend fun onAddCategoriesDone() {
-        TestIdlingResource.increment()
-
         router.categoriesNext(baseCurrency = _currency.value)
-
-        TestIdlingResource.decrement()
     }
 
     private suspend fun onAddCategoriesSkip() {
-        TestIdlingResource.increment()
-
         router.categoriesSkip(baseCurrency = _currency.value)
-
-        TestIdlingResource.decrement()
     }
     // ---------------------------- Categories ------------------------------------------------------
 }

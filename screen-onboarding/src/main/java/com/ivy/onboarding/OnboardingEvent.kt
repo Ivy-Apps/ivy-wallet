@@ -8,19 +8,19 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 
 sealed interface OnboardingEvent {
 
-    data object loginWithGoogle : OnboardingEvent
-    data object loginOfflineAccount : OnboardingEvent
-    data object startImport : OnboardingEvent
-    data object importSkip : OnboardingEvent
-    data class importFinished(val success: Boolean) : OnboardingEvent
-    data object startFresh : OnboardingEvent
-    data class setBaseCurrency(val baseCurrency: IvyCurrency) : OnboardingEvent
-    data class editAccount(val account: Account, val newBalance: Double) : OnboardingEvent
-    data class createAccount(val data: CreateAccountData) : OnboardingEvent
-    data object onAddAccountsDone : OnboardingEvent
-    data object onAddAccountsSkip : OnboardingEvent
-    data class editCategory(val updatedCategory: Category) : OnboardingEvent
-    data class createCategory(val data: CreateCategoryData) : OnboardingEvent
-    data object onAddCategoriesDone : OnboardingEvent
-    data object onAddCategoriesSkip : OnboardingEvent
+    data object LoginWithGoogle : OnboardingEvent
+    data object LoginOfflineAccount : OnboardingEvent
+    data object StartImport : OnboardingEvent
+    data object ImportSkip : OnboardingEvent
+    data class ImportFinished(val success: Boolean) : OnboardingEvent
+    data object StartFresh : OnboardingEvent
+    data class SetBaseCurrency(val baseCurrency: IvyCurrency) : OnboardingEvent
+    data class EditAccount(val account: Account, val newBalance: Double) : OnboardingEvent
+    data class CreateAccount(val data: CreateAccountData) : OnboardingEvent
+    data object OnAddAccountsDone : OnboardingEvent
+    data object OnAddAccountsSkip : OnboardingEvent
+    data class EditCategory(val updatedCategory: Category) : OnboardingEvent
+    data class CreateCategory(val data: CreateCategoryData) : OnboardingEvent
+    data object OnAddCategoriesDone : OnboardingEvent
+    data object OnAddCategoriesSkip : OnboardingEvent
 }
