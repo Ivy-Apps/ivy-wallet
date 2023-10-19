@@ -206,3 +206,4 @@ opencsv = [
 
 [plugins]
 gradleWrapperUpgrade = { id = "org.gradle.wrapper-upgrade", version = "0.11.4" }
+koverPlugin = { id = "org.jetbrains.kotlinx.kover", version = "0.7.4" }

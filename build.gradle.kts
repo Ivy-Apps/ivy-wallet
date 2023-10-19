@@ -6,6 +6,28 @@ plugins {
     id("ivy.detekt")
 
     alias(libs.plugins.gradleWrapperUpgrade)
+
+    alias(libs.plugins.koverPlugin)
+}
+
+subprojects {
+    apply(plugin = "org.jetbrains.kotlinx.kover")
+    koverReport {
+        // filters for all report types of all build variants
+        filters {
+            excludes {
+                classes(
+                    "*Activity",
+                    "*Activity\$*",
+                    "*.BuildConfig",
+                    "dagger.hilt.*",
+                    "hilt_aggregated_deps.*",
+                    "*.Hilt_*"
+                )
+                annotatedBy("@Composable")
+            }
+        }
+    }
 }
 
 wrapperUpgrade {
