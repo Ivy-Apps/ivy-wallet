@@ -251,7 +251,13 @@ private fun BoxWithConstraintsScope.UI(
                     onEventHandler.invoke(ReportScreenEvent.OnPayOrGet(transaction = it))
                 },
                 emptyStateTitle = stringRes(R.string.no_transactions),
-                emptyStateText = stringRes(R.string.no_transactions_for_your_filter)
+                emptyStateText = stringRes(R.string.no_transactions_for_your_filter),
+                onSkipTransaction = {
+                    onEventHandler.invoke(ReportScreenEvent.SkipTransaction(transaction = it))
+                },
+                onSkipAllTransactions = {
+                    onEventHandler.invoke(ReportScreenEvent.SkipTransactions(transactions = it))
+                }
             )
         } else {
             item {

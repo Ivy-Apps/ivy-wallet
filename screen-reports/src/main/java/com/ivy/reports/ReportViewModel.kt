@@ -126,6 +126,8 @@ class ReportViewModel @Inject constructor(
                 is ReportScreenEvent.OnFilter -> setFilter(event.filter)
                 is ReportScreenEvent.OnExport -> export(event.context)
                 is ReportScreenEvent.OnPayOrGet -> payOrGet(event.transaction)
+                is ReportScreenEvent.SkipTransaction -> skipTransaction(event.transaction)
+                is ReportScreenEvent.SkipTransactions -> skipTransactions(event.transactions)
                 is ReportScreenEvent.OnOverdueExpanded -> setOverdueExpanded(event.overdueExpanded)
                 is ReportScreenEvent.OnUpcomingExpanded -> setUpcomingExpanded(event.upcomingExpanded)
                 is ReportScreenEvent.OnFilterOverlayVisible -> setFilterOverlayVisible(event.filterOverlayVisible)
@@ -404,6 +406,7 @@ class ReportViewModel @Inject constructor(
         uiThread {
             plannedPaymentsLogic.payOrGet(transaction = transaction) {
                 start()
+                setFilter(filter.value)
             }
         }
     }
@@ -418,5 +421,29 @@ class ReportViewModel @Inject constructor(
             expenses.doubleValue = historyIncomeExpense.value.expense.toDouble() +
                     if (transfersAsIncExp) historyIncomeExpense.value.transferExpense.toDouble() else 0.0
                 treatTransfersAsIncExp.value = transfersAsIncExp
+    }
+
+    private suspend fun skipTransaction(transaction: Transaction) {
+        uiThread {
+            plannedPaymentsLogic.payOrGet(
+                transaction = transaction,
+                skipTransaction = true
+            ) {
+                start()
+                setFilter(filter.value)
+            }
+        }
+    }
+
+    private suspend fun skipTransactions(transactions: List<Transaction>) {
+        uiThread {
+            plannedPaymentsLogic.payOrGet(
+                transactions = transactions,
+                skipTransaction = true
+            ) {
+                start()
+                setFilter(filter.value)
+            }
+        }
     }
 }
