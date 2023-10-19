@@ -186,3 +186,46 @@ dependencies {
 
     lintChecks(libs.slack.lint.compose)
 }
+
+dependencies {
+    koverReport {
+        defaults {
+            mergeWith("debug")
+            html {
+                onCheck = false
+                setReportDir(layout.buildDirectory.dir("artifacts/reports/kover/coverageResults"))
+            }
+        }
+    }
+
+    kover(projects.ivyBase)
+    kover(projects.ivyData)
+    kover(projects.ivyDomain)
+    kover(projects.ivyNavigation)
+    kover(projects.ivyResources)
+    kover(projects.ivyWidgetBase)
+    kover(projects.screenAttributions)
+    kover(projects.screenBalance)
+    kover(projects.screenBudgets)
+    kover(projects.screenCategories)
+    kover(projects.screenContributors)
+    kover(projects.screenExchangeRates)
+    kover(projects.screenFeatures)
+    kover(projects.screenHome)
+    kover(projects.screenImportData)
+    kover(projects.screenLoans)
+    kover(projects.screenMain)
+    kover(projects.screenOnboarding)
+    kover(projects.screenPiechart)
+    kover(projects.screenPlannedPayments)
+    kover(projects.screenReleases)
+    kover(projects.screenReports)
+    kover(projects.screenSearch)
+    kover(projects.screenSettings)
+    kover(projects.screenTransaction)
+    kover(projects.screenTransactions)
+    kover(projects.tempLegacyCode)
+    kover(projects.tempOldDesign)
+    kover(projects.widgetAddTransaction)
+    kover(projects.widgetBalance)
+}
