@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,7 +34,6 @@ import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.utils.format
-import com.ivy.legacy.utils.onScreenStart
 import com.ivy.navigation.BalanceScreen
 import com.ivy.navigation.navigation
 import com.ivy.resources.R
@@ -52,46 +50,21 @@ import com.ivy.wallet.ui.theme.wallet.PeriodSelector
 
 val FAB_BUTTON_SIZE = 56.dp
 
-
 @Composable
 fun BoxWithConstraintsScope.BalanceScreen(screen: BalanceScreen) {
     val viewModel: BalanceViewModel = viewModel()
-
-    val period by viewModel.period.collectAsState()
-    val baseCurrencyCode by viewModel.baseCurrencyCode.collectAsState()
-    val currentBalance by viewModel.currentBalance.collectAsState()
-    val plannedPaymentsAmount by viewModel.plannedPaymentsAmount.collectAsState()
-    val balanceAfterPlannedPayments by viewModel.balanceAfterPlannedPayments.collectAsState()
-
-    onScreenStart {
-        viewModel.start()
-    }
+    val uiState = viewModel.uiState()
 
     UI(
-        period = period,
-        baseCurrencyCode = baseCurrencyCode,
-        currentBalance = currentBalance,
-        plannedPaymentsAmount = plannedPaymentsAmount,
-        balanceAfterPlannedPayments = balanceAfterPlannedPayments,
-
-        onSetPeriod = viewModel::setPeriod,
-        onPreviousMonth = viewModel::previousMonth,
-        onNextMonth = viewModel::nextMonth
+        state = uiState,
+        onEvent = viewModel::onEvent
     )
 }
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    period: TimePeriod,
-
-    baseCurrencyCode: String,
-    currentBalance: Double,
-    plannedPaymentsAmount: Double,
-    balanceAfterPlannedPayments: Double,
-
-    onSetPeriod: (TimePeriod) -> Unit = {},
-    onPreviousMonth: () -> Unit = {},
-    onNextMonth: () -> Unit = {}
+    state: BalanceState,
+    onEvent: (BalanceEvent) -> Unit = {}
 ) {
     var choosePeriodModal: ChoosePeriodModalData? by remember { mutableStateOf(null) }
 
@@ -104,12 +77,12 @@ private fun BoxWithConstraintsScope.UI(
         Spacer(Modifier.height(20.dp))
 
         PeriodSelector(
-            period = period,
-            onPreviousMonth = onPreviousMonth,
-            onNextMonth = onNextMonth,
+            period = state.period,
+            onPreviousMonth = { onEvent(BalanceEvent.OnPreviousMonth) },
+            onNextMonth = { onEvent(BalanceEvent.OnNextMonth) },
             onShowChoosePeriodModal = {
                 choosePeriodModal = ChoosePeriodModalData(
-                    period = period
+                    period = state.period
                 )
             }
         )
@@ -117,8 +90,8 @@ private fun BoxWithConstraintsScope.UI(
         Spacer(Modifier.height(32.dp))
 
         CurrentBalance(
-            currency = baseCurrencyCode,
-            currentBalance = currentBalance
+            currency = state.baseCurrencyCode,
+            currentBalance = state.currentBalance
         )
 
         Spacer(Modifier.height(32.dp))
@@ -131,10 +104,10 @@ private fun BoxWithConstraintsScope.UI(
         Spacer(Modifier.height(40.dp))
 
         BalanceAfterPlannedPayments(
-            currency = baseCurrencyCode,
-            currentBalance = currentBalance,
-            plannedPaymentsAmount = plannedPaymentsAmount,
-            balanceAfterPlannedPayments = balanceAfterPlannedPayments
+            currency = state.baseCurrencyCode,
+            currentBalance = state.currentBalance,
+            plannedPaymentsAmount = state.plannedPaymentsAmount,
+            balanceAfterPlannedPayments = state.balanceAfterPlannedPayments
         )
 
         Spacer(Modifier.weight(1f))
@@ -150,7 +123,7 @@ private fun BoxWithConstraintsScope.UI(
             choosePeriodModal = null
         }
     ) {
-        onSetPeriod(it)
+        onEvent(BalanceEvent.OnSetPeriod(it))
     }
 }
 
@@ -269,15 +242,15 @@ private fun ColumnScope.CloseButton() {
 private fun Preview() {
     IvyWalletPreview {
         UI(
-            period = TimePeriod.currentMonth(
-                startDayOfMonth = 1
-            ), // preview
-            baseCurrencyCode = "BGN",
-            currentBalance = 9326.55,
-            balanceAfterPlannedPayments = 8426.0,
-            plannedPaymentsAmount = -900.55,
-
-            onSetPeriod = {}
+            state = BalanceState(
+                period = TimePeriod.currentMonth(
+                    startDayOfMonth = 1
+                ),
+                baseCurrencyCode = "BGN",
+                currentBalance = 9326.55,
+                balanceAfterPlannedPayments = 8426.0,
+                plannedPaymentsAmount = -900.55,
+            )
         )
     }
 }
