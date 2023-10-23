@@ -3,6 +3,7 @@ package com.ivy.legacy.utils
 import com.ivy.wallet.domain.data.IvyCurrency
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.log10
 import kotlin.math.truncate
@@ -131,7 +132,7 @@ fun shouldShortAmount(amount: Double): Boolean {
 }
 
 fun formatInt(number: Int): String {
-    return DecimalFormat("#,###,###,###").format(number)
+    return DecimalFormat("#,###,###,###", DecimalFormatSymbols(Locale.US)).format(number)
 }
 
 fun decimalPartFormatted(currency: String, value: Double): String {
@@ -196,8 +197,8 @@ fun formatInputAmount(
 }
 
 /**
- toInt on numbers in the range (-1.0, 0.0) (exclusive of boundaries) will produce a positive int 0
- So, this function append negative sign in that case
+toInt on numbers in the range (-1.0, 0.0) (exclusive of boundaries) will produce a positive int 0
+So, this function append negative sign in that case
  */
 fun integerPartFormatted(value: Double): String {
     val preciseValue = value.toBigDecimal()
