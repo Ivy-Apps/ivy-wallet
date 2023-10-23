@@ -326,7 +326,7 @@ private fun FromToRange(
                 null
             } else {
                 timeRange?.copy(
-                    to = to
+                    to = to?.plusDays(1)?.minusNanos(1)
                 ) ?: com.ivy.legacy.data.model.FromToTimeRange(
                     from = null,
                     to = to
