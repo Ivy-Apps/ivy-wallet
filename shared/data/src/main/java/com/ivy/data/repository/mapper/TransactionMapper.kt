@@ -25,15 +25,15 @@ class TransactionMapper @Inject constructor() {
 
     fun TransactionEntity.toDomain(
         accountAssetCode: AssetCode?,
-        fromAccountAssetCode: AssetCode? = null
+        toAccountAssetCode: AssetCode? = null
     ): Either<String, Transaction> =
         either {
             when (this@toDomain.type) {
                 TransactionType.INCOME -> toIncomeModel(accountAssetCode).bind()
                 TransactionType.EXPENSE -> toExpenseModel(accountAssetCode).bind()
                 TransactionType.TRANSFER -> toTransferModel(
-                    fromAccountAssetCode = fromAccountAssetCode,
-                    toAccountAssetCode = accountAssetCode
+                    fromAccountAssetCode = accountAssetCode,
+                    toAccountAssetCode = toAccountAssetCode
                 ).bind()
             }
         }
