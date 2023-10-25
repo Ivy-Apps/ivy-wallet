@@ -1,6 +1,5 @@
 package com.ivy.data.repository
 
-import com.ivy.base.model.TransactionType
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.Expense
@@ -17,31 +16,17 @@ interface TransactionRepository {
 
     suspend fun findAll_LIMIT_1(): List<Transaction>
 
-    suspend fun findAllByType(type: TransactionType): List<Transaction>
-
     suspend fun findAllIncome(): List<Income>
 
     suspend fun findAllExpense(): List<Expense>
 
     suspend fun findAllTransfer(): List<Transfer>
 
-    suspend fun findAllByTypeAndAccount(
-        type: TransactionType,
-        accountId: AccountId
-    ): List<Transaction>
-
     suspend fun findAllIncomeByAccount(accountId: AccountId): List<Income>
 
     suspend fun findAllExpenseByAccount(accountId: AccountId): List<Expense>
 
     suspend fun findAllTransferByAccount(accountId: AccountId): List<Transfer>
-
-    suspend fun findAllByTypeAndAccountBetween(
-        type: TransactionType,
-        accountId: AccountId,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
-    ): List<Transaction>
 
     suspend fun findAllIncomeByAccountBetween(
         accountId: AccountId,
@@ -96,14 +81,6 @@ interface TransactionRepository {
         endDate: LocalDateTime
     ): List<Transaction>
 
-
-    suspend fun findAllByCategoryAndTypeAndBetween(
-        categoryId: CategoryId,
-        type: TransactionType,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
-    ): List<Transaction>
-
     suspend fun findAllIncomeByCategoryAndBetween(
         categoryId: CategoryId,
         startDate: LocalDateTime,
@@ -121,12 +98,6 @@ interface TransactionRepository {
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Transfer>
-
-    suspend fun findAllUnspecifiedAndTypeAndBetween(
-        type: TransactionType,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
-    ): List<Transaction>
 
     suspend fun findAllUnspecifiedIncomeAndBetween(
         startDate: LocalDateTime,
@@ -177,13 +148,6 @@ interface TransactionRepository {
 
 
     suspend fun findAllByRecurringRuleId(recurringRuleId: UUID): List<Transaction>
-
-
-    suspend fun findAllBetweenAndType(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime,
-        type: TransactionType
-    ): List<Transaction>
 
     suspend fun findAllIncomeBetween(
         startDate: LocalDateTime,
@@ -257,7 +221,9 @@ interface TransactionRepository {
     ): List<Transaction>
 
     suspend fun save(accountId: AccountId, value: Transaction)
+
     suspend fun saveMany(accountId: AccountId, value: List<Transaction>)
+
     suspend fun flagDeleted(id: TransactionId)
     suspend fun flagDeletedByRecurringRuleIdAndNoDateTime(recurringRuleId: UUID)
 

@@ -42,15 +42,6 @@ class TransactionRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun findAllByType(type: TransactionType): List<Transaction> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllByType(type).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
-            }
-        }
-    }
-
     override suspend fun findAllIncome(): List<Income> {
         return withContext(Dispatchers.IO) {
             dataSource.findAllByType(TransactionType.INCOME).mapNotNull {
@@ -74,18 +65,6 @@ class TransactionRepositoryImpl @Inject constructor(
             dataSource.findAllByType(TransactionType.TRANSFER).mapNotNull {
                 val accountAssetCode = getAssetCodeForAccount(it.accountId)
                 with(mapper) { it.toDomain(accountAssetCode) }.getOrNull() as? Transfer
-            }
-        }
-    }
-
-    override suspend fun findAllByTypeAndAccount(
-        type: TransactionType,
-        accountId: AccountId
-    ): List<Transaction> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllByTypeAndAccount(type, accountId.value).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
             }
         }
     }
@@ -115,21 +94,6 @@ class TransactionRepositoryImpl @Inject constructor(
                 .mapNotNull {
                     val accountAssetCode = getAssetCodeForAccount(it.accountId)
                     with(mapper) { it.toDomain(accountAssetCode) }.getOrNull() as? Transfer
-                }
-        }
-    }
-
-    override suspend fun findAllByTypeAndAccountBetween(
-        type: TransactionType,
-        accountId: AccountId,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
-    ): List<Transaction> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllByTypeAndAccountBetween(type, accountId.value, startDate, endDate)
-                .mapNotNull {
-                    val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                    with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
                 }
         }
     }
@@ -268,25 +232,6 @@ class TransactionRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun findAllByCategoryAndTypeAndBetween(
-        categoryId: CategoryId,
-        type: TransactionType,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
-    ): List<Transaction> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllByCategoryAndTypeAndBetween(
-                categoryId = categoryId.value,
-                type = type,
-                startDate = startDate,
-                endDate = endDate
-            ).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
-            }
-        }
-    }
-
     override suspend fun findAllIncomeByCategoryAndBetween(
         categoryId: CategoryId,
         startDate: LocalDateTime,
@@ -337,19 +282,6 @@ class TransactionRepositoryImpl @Inject constructor(
             ).mapNotNull {
                 val accountAssetCode = getAssetCodeForAccount(it.accountId)
                 with(mapper) { it.toDomain(accountAssetCode) }.getOrNull() as? Transfer
-            }
-        }
-    }
-
-    override suspend fun findAllUnspecifiedAndTypeAndBetween(
-        type: TransactionType,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
-    ): List<Transaction> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllUnspecifiedAndTypeAndBetween(type, startDate, endDate).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
             }
         }
     }
@@ -471,19 +403,6 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun findAllByRecurringRuleId(recurringRuleId: UUID): List<Transaction> {
         return withContext(Dispatchers.IO) {
             dataSource.findAllByRecurringRuleId(recurringRuleId).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
-            }
-        }
-    }
-
-    override suspend fun findAllBetweenAndType(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime,
-        type: TransactionType
-    ): List<Transaction> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllBetweenAndType(startDate, endDate, type).mapNotNull {
                 val accountAssetCode = getAssetCodeForAccount(it.accountId)
                 with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
             }
