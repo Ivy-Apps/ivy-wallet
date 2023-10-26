@@ -17,8 +17,7 @@ import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.primitive.PositiveDouble
 import java.time.Instant
-import java.time.LocalDateTime
-import java.util.UUID
+import java.time.ZoneId
 import javax.inject.Inject
 
 class TransactionMapper @Inject constructor() {
@@ -52,17 +51,17 @@ class TransactionMapper @Inject constructor() {
             type = TransactionType.EXPENSE,
             amount = value.amount.value,
             toAccountId = null,
-            toAmount = null,
+            toAmount = value.amount.value,
             title = title?.value,
             description = description?.value,
-            dateTime = LocalDateTime.from(time),
+            dateTime = time.atZone(ZoneId.systemDefault()).toLocalDateTime(),
             categoryId = category?.value,
             dueDate = null,
             recurringRuleId = metadata.recurringRuleId,
             attachmentUrl = null,
             loanId = metadata.loanId,
             loanRecordId = metadata.loanRecordId,
-            isSynced = true,
+            isSynced = false,
             isDeleted = removed,
             id = id.value
         )
@@ -74,17 +73,17 @@ class TransactionMapper @Inject constructor() {
             type = TransactionType.INCOME,
             amount = value.amount.value,
             toAccountId = null,
-            toAmount = null,
+            toAmount = value.amount.value,
             title = title?.value,
             description = description?.value,
-            dateTime = LocalDateTime.from(time),
+            dateTime = time.atZone(ZoneId.systemDefault()).toLocalDateTime(),
             categoryId = category?.value,
             dueDate = null,
             recurringRuleId = metadata.recurringRuleId,
             attachmentUrl = null,
             loanId = metadata.loanId,
             loanRecordId = metadata.loanRecordId,
-            isSynced = true,
+            isSynced = false,
             isDeleted = removed,
             id = id.value
         )
@@ -99,14 +98,14 @@ class TransactionMapper @Inject constructor() {
             toAmount = toValue.amount.value,
             title = title?.value,
             description = description?.value,
-            dateTime = LocalDateTime.from(time),
+            dateTime = time.atZone(ZoneId.systemDefault()).toLocalDateTime(),
             categoryId = category?.value,
             dueDate = null,
             recurringRuleId = metadata.recurringRuleId,
             attachmentUrl = null,
             loanId = metadata.loanId,
             loanRecordId = metadata.loanRecordId,
-            isSynced = true,
+            isSynced = false,
             isDeleted = removed,
             id = id.value
         )
@@ -114,48 +113,58 @@ class TransactionMapper @Inject constructor() {
 
     private fun TransactionEntity.toIncomeModel(accountAssetCode: AssetCode?): Either<String, Income> {
         return either {
+            val zoneId = ZoneId.systemDefault()
+            val metadata = TransactionMetadata(
+                recurringRuleId = recurringRuleId,
+                loanId = loanId,
+                loanRecordId = loanRecordId
+            )
+
+            val value = Value(
+                amount = PositiveDouble(amount),
+                asset = accountAssetCode ?: AssetCode.from("").bind()
+            )
+
             Income(
                 id = TransactionId(id),
-                title = title?.let { NotBlankTrimmedString(it) },
-                description = description?.let { NotBlankTrimmedString(it) },
+                title = title?.let { NotBlankTrimmedString.from(it).bind() },
+                description = description?.let { NotBlankTrimmedString.from(it).bind() },
                 category = categoryId?.let { CategoryId(it) },
-                time = Instant.from(dateTime),
-                settled = false,
-                metadata = TransactionMetadata(
-                    recurringRuleId = recurringRuleId ?: UUID.randomUUID(),
-                    loanId = loanId,
-                    loanRecordId = loanRecordId ?: UUID.randomUUID()
-                ),
-                lastUpdated = Instant.from(dateTime),
+                time = dateTime?.atZone(zoneId)?.toInstant() ?: Instant.now(),
+                settled = true,
+                metadata = metadata,
+                lastUpdated = dateTime?.atZone(zoneId)?.toInstant() ?: Instant.now(),
                 removed = isDeleted,
-                value = Value(
-                    amount = PositiveDouble(amount),
-                    asset = accountAssetCode ?: AssetCode.from("").bind()
-                )
+                value = value
             )
         }
     }
 
     private fun TransactionEntity.toExpenseModel(accountAssetCode: AssetCode?): Either<String, Expense> {
         return either {
+            val zoneId = ZoneId.systemDefault()
+            val metadata = TransactionMetadata(
+                recurringRuleId = recurringRuleId,
+                loanId = loanId,
+                loanRecordId = loanRecordId
+            )
+
+            val value = Value(
+                amount = PositiveDouble(amount),
+                asset = accountAssetCode ?: AssetCode.from("").bind()
+            )
+
             Expense(
                 id = TransactionId(id),
-                title = title?.let { NotBlankTrimmedString(it) },
-                description = description?.let { NotBlankTrimmedString(it) },
+                title = title?.let { NotBlankTrimmedString.from(it).bind() },
+                description = description?.let { NotBlankTrimmedString.from(it).bind() },
                 category = categoryId?.let { CategoryId(it) },
-                time = Instant.from(dateTime),
-                settled = false,
-                metadata = TransactionMetadata(
-                    recurringRuleId = recurringRuleId ?: UUID.randomUUID(),
-                    loanId = loanId,
-                    loanRecordId = loanRecordId ?: UUID.randomUUID()
-                ),
-                lastUpdated = Instant.from(dateTime),
+                time = dateTime?.atZone(zoneId)?.toInstant() ?: Instant.now(),
+                settled = true,
+                metadata = metadata,
+                lastUpdated = dateTime?.atZone(zoneId)?.toInstant() ?: Instant.now(),
                 removed = isDeleted,
-                value = Value(
-                    amount = PositiveDouble(amount),
-                    asset = accountAssetCode ?: AssetCode.from("").bind()
-                )
+                value = value
             )
         }
     }
@@ -165,30 +174,37 @@ class TransactionMapper @Inject constructor() {
         toAccountAssetCode: AssetCode?
     ): Either<String, Transfer> {
         return either {
+            val zoneId = ZoneId.systemDefault()
+            val metadata = TransactionMetadata(
+                recurringRuleId = recurringRuleId,
+                loanId = loanId,
+                loanRecordId = loanRecordId
+            )
+
+            val fromValue = Value(
+                amount = PositiveDouble(amount),
+                asset = fromAccountAssetCode ?: AssetCode.from("").bind()
+            )
+
+            val toValue = Value(
+                amount = PositiveDouble(amount),
+                asset = toAccountAssetCode ?: AssetCode.from("").bind()
+            )
+
             Transfer(
                 id = TransactionId(id),
-                title = title?.let { NotBlankTrimmedString(it) },
-                description = description?.let { NotBlankTrimmedString(it) },
+                title = title?.let { NotBlankTrimmedString.from(it).bind() },
+                description = description?.let { NotBlankTrimmedString.from(it).bind() },
                 category = categoryId?.let { CategoryId(it) },
-                time = Instant.from(dateTime),
-                settled = false,
-                metadata = TransactionMetadata(
-                    recurringRuleId = recurringRuleId ?: UUID.randomUUID(),
-                    loanId = loanId,
-                    loanRecordId = loanRecordId ?: UUID.randomUUID()
-                ),
-                lastUpdated = Instant.from(dateTime),
+                time = dateTime?.atZone(zoneId)?.toInstant() ?: Instant.now(),
+                settled = true,
+                metadata = metadata,
+                lastUpdated = dateTime?.atZone(zoneId)?.toInstant() ?: Instant.now(),
                 removed = isDeleted,
                 fromAccount = AccountId(accountId),
-                fromValue = Value(
-                    amount = PositiveDouble(amount),
-                    asset = fromAccountAssetCode ?: AssetCode.from("").bind()
-                ),
+                fromValue = fromValue,
                 toAccount = AccountId(toAccountId!!),
-                toValue = Value(
-                    amount = PositiveDouble(toAmount!!),
-                    asset = toAccountAssetCode ?: AssetCode.from("").bind()
-                )
+                toValue = toValue
             )
         }
     }
