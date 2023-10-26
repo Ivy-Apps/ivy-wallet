@@ -48,7 +48,7 @@ interface TransactionRepository {
 
     suspend fun findAllTransfersToAccount(
         toAccountId: AccountId,
-    ): List<Transaction>
+    ): List<Transfer>
 
     suspend fun findAllTransfersToAccountBetween(
         toAccountId: AccountId,

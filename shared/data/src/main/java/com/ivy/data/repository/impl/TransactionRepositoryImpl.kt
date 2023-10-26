@@ -154,11 +154,11 @@ class TransactionRepositoryImpl @Inject constructor(
 
     override suspend fun findAllTransfersToAccount(
         toAccountId: AccountId
-    ): List<Transaction> {
+    ): List<Transfer> {
         return withContext(Dispatchers.IO) {
             dataSource.findAllTransfersToAccount(toAccountId.value).mapNotNull {
                 val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
+                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull() as? Transfer
             }
         }
     }
