@@ -95,7 +95,7 @@ google-services-plugin = { module = "com.google.gms:google-services", version = 
 google-playservices-auth = { module = "com.google.android.gms:play-services-auth", version = "20.7.0" }
 google-play-core = { module = "com.google.android.play:core", version = "1.10.3" }
 google-play-core-ktx = { module = "com.google.android.play:core-ktx", version = "1.8.1" }
-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version = "18.5.0" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version = "18.5.1" }
 firebase-crashlytics-gradle-plugin = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.9" }
 
 # AndroidX
@@ -122,7 +122,7 @@ opencsv-apache-commons = { module = "org.apache.commons:commons-lang3", version 
 detekt-gradle-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 detekt-ruleset-compiler = { module = "com.braisgabin.detekt:kotlin-compiler-wrapper", version = "0.0.4" }
 detekt-ruleset-ktlint = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
-detekt-ruleset-compose = { module = "io.nlopez.compose.rules:detekt", version = "0.3.0" }
+detekt-ruleset-compose = { module = "io.nlopez.compose.rules:detekt", version = "0.3.2" }
 slack-lint-compose = { module = "com.slack.lint.compose:compose-lint-checks", version = "1.2.0" }
 
 # KSP
