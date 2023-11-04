@@ -26,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.android.datatransport.BuildConfig
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -161,10 +162,19 @@ class RootActivity : AppCompatActivity(), RootScreen {
                 MaterialDatePicker.Builder.datePicker()
                 .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                 .build()
-            datePicker.show(supportFragmentManager, "datePicker")
+            datePicker.show(supportFragmentManager, "DatePicker");
             datePicker.addOnPositiveButtonClickListener {
                 onDatePicked(LocalDate.ofEpochDay(it / MILLISECONDS_IN_DAY))
             }
+//            datePicker.addOnNegativeButtonClickListener {
+//                onDatePicked(LocalDate.ofEpochDay(it / MILLISECONDS_IN_DAY))
+//            }
+//            datePicker.addOnCancelListener {
+//                onDatePicked(LocalDate.ofEpochDay(it / MILLISECONDS_IN_DAY))
+//            }
+//            datePicker.addOnDismissListener {
+//                onDatePicked(LocalDate.ofEpochDay(it / MILLISECONDS_IN_DAY))
+//            }
 
             if (minDate != null) {
                 datePicker.addOnCancelListener {
@@ -189,15 +199,24 @@ class RootActivity : AppCompatActivity(), RootScreen {
     private fun setupTimePicker() {
         ivyContext.onShowTimePicker = { onTimePicked ->
             val nowLocal = timeNowLocal()
-            val picker =
-                MaterialTimePicker.Builder()
-                    .setTimeFormat(TimeFormat.CLOCK_12H)
-                    .setHour(nowLocal.hour)
-                    .setMinute(nowLocal.minute)
-                    .build()
-            picker.show(supportFragmentManager, "timePicker")
+            val picker = MaterialTimePicker.Builder()
+                .setTimeFormat(TimeFormat.CLOCK_12H)
+                .setHour(12)
+                .setMinute(10)
+                .setTitleText("Select Appointment time")
+                .build()
+            picker.show(supportFragmentManager , "Tag")
             picker.addOnPositiveButtonClickListener {
                 onTimePicked(LocalTime.of(picker.hour, picker.minute).convertLocalToUTC().withSecond(0))
+            }
+            picker.addOnNegativeButtonClickListener {
+                onTimePicked(LocalTime.of(picker.hour , picker.minute).convertLocalToUTC().withSecond(0))
+            }
+            picker.addOnCancelListener {
+                onTimePicked(LocalTime.of(picker.hour , picker.minute).convertLocalToUTC().withSecond(0))
+            }
+            picker.addOnDismissListener {
+                onTimePicked(LocalTime.of(picker.hour , picker.minute).convertLocalToUTC().withSecond(0))
             }
         }
     }
@@ -458,3 +477,4 @@ class RootActivity : AppCompatActivity(), RootScreen {
         appWidgetManager.requestPinAppWidget(addTransactionWidget, null, null)
     }
 }
+
