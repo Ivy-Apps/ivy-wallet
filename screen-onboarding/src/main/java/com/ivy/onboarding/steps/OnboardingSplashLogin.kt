@@ -43,19 +43,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.legacy.Constants
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.ivyWalletCtx
-import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.style
-import com.ivy.onboarding.OnboardingState
-import com.ivy.resources.R
-import com.ivy.wallet.ui.theme.Gradient
-import com.ivy.wallet.ui.theme.Gray
-import com.ivy.wallet.ui.theme.Green
-import com.ivy.wallet.ui.theme.components.IvyIcon
-import com.ivy.legacy.utils.OpResult
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.lerp
@@ -64,14 +57,17 @@ import com.ivy.legacy.utils.springBounceSlow
 import com.ivy.legacy.utils.thenIf
 import com.ivy.legacy.utils.toDensityDp
 import com.ivy.legacy.utils.toDensityPx
+import com.ivy.onboarding.OnboardingState
+import com.ivy.resources.R
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.Green
+import com.ivy.wallet.ui.theme.components.IvyIcon
 import kotlin.math.roundToInt
 
 @Composable
 fun BoxWithConstraintsScope.OnboardingSplashLogin(
     onboardingState: OnboardingState,
-    opGoogleSignIn: OpResult<Unit>?,
-
-    onLoginWithGoogle: () -> Unit,
     onSkip: () -> Unit,
 ) {
     var internalSwitch by remember { mutableStateOf(true) }
@@ -234,9 +230,6 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
 
         LoginSection(
             percentTransition = percentTransition,
-
-            opGoogleSignIn = opGoogleSignIn,
-            onLoginWithGoogle = onLoginWithGoogle,
             onSkip = onSkip
         )
     }
@@ -264,9 +257,6 @@ private fun Modifier.animateXCenterToLeft(
 @Composable
 private fun LoginSection(
     percentTransition: Float,
-    opGoogleSignIn: OpResult<Unit>?,
-
-    onLoginWithGoogle: () -> Unit,
     onSkip: () -> Unit
 ) {
     if (percentTransition > 0.01f) {
@@ -482,8 +472,6 @@ private fun Preview() {
     IvyWalletPreview {
         OnboardingSplashLogin(
             onboardingState = OnboardingState.SPLASH,
-            opGoogleSignIn = null,
-            onLoginWithGoogle = {},
             onSkip = {}
         )
     }

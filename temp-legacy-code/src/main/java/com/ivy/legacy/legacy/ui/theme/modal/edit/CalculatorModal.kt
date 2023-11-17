@@ -120,18 +120,18 @@ fun BoxWithConstraintsScope.CalculatorModal(
                 Spacer(Modifier.width(16.dp))
 
                 KeypadCircleButton(
-                    text = "/",
+                    text = "÷",
                     testTag = "key_/"
                 ) {
-                    expression += "/"
+                    expression += "÷"
                 }
             },
             FirstRowExtra = {
                 KeypadCircleButton(
-                    text = "*",
+                    text = "x",
                     testTag = "key_*"
                 ) {
-                    expression += "*"
+                    expression += "x"
                 }
             },
             SecondRowExtra = {
@@ -189,7 +189,7 @@ private fun formatExpression(expression: String, currency: String): String {
     var formattedExpression = expression
 
     expression
-        .split("(", ")", "/", "*", "-", "+")
+        .split("(", ")", "÷", "x", "-", "+")
         .ifEmpty {
             // handle only number expression formatting
             listOf(expression)
@@ -214,7 +214,18 @@ private fun formatExpression(expression: String, currency: String): String {
 
 private fun calculate(expression: String): Double? {
     return try {
-        Keval.eval(expression.normalizeExpression())
+        // Keval doesn't support negative numbers, so we add a zero in front of the expression
+        val expression = buildString {
+            for (char in expression) {
+                when (char) {
+                    '÷' -> this.append('/')
+                    'x' -> this.append('*')
+                    else -> this.append(char)
+                }
+            }
+        }
+        val modifiedExpression = if (expression.startsWith("-")) "0$expression" else expression
+        Keval.eval(modifiedExpression.normalizeExpression())
     } catch (e: Exception) {
         null
     }

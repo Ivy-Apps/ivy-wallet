@@ -15,8 +15,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
@@ -28,23 +26,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.base.util.stringRes
-import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
+import com.ivy.base.legacy.stringRes
+import com.ivy.base.model.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.AppBaseData
 import com.ivy.legacy.data.DueSection
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.ui.component.IncomeExpensesCards
 import com.ivy.legacy.ui.component.transaction.TransactionsDividerLine
 import com.ivy.legacy.ui.component.transaction.transactions
 import com.ivy.legacy.utils.clickableNoIndication
-import com.ivy.legacy.utils.onScreenStart
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.navigation.ReportScreen
 import com.ivy.navigation.navigation
-import com.ivy.persistence.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.ui.theme.Gray
@@ -72,11 +69,7 @@ fun BoxWithConstraintsScope.ReportScreen(
     screen: ReportScreen
 ) {
     val viewModel: ReportViewModel = viewModel()
-    val state by viewModel.state().collectAsState()
-
-    onScreenStart {
-        viewModel.start()
-    }
+    val state = viewModel.uiState()
 
     UI(
         state = state,
@@ -258,7 +251,13 @@ private fun BoxWithConstraintsScope.UI(
                     onEventHandler.invoke(ReportScreenEvent.OnPayOrGet(transaction = it))
                 },
                 emptyStateTitle = stringRes(R.string.no_transactions),
-                emptyStateText = stringRes(R.string.no_transactions_for_your_filter)
+                emptyStateText = stringRes(R.string.no_transactions_for_your_filter),
+                onSkipTransaction = {
+                    onEventHandler.invoke(ReportScreenEvent.SkipTransaction(transaction = it))
+                },
+                onSkipAllTransactions = {
+                    onEventHandler.invoke(ReportScreenEvent.SkipTransactions(transactions = it))
+                }
             )
         } else {
             item {

@@ -13,7 +13,10 @@ dependencies {
     implementation(projects.tempOldDesign)
     implementation(projects.ivyNavigation)
     implementation(projects.tempLegacyCode)
-    implementation(projects.ivyPersistence)
+    implementation(projects.ivyData)
+    implementation(projects.ivyCommonUi)
 
     implementation(projects.widgetAddTransaction)
+
+    testImplementation(projects.ivyTesting)
 }

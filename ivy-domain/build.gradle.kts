@@ -8,8 +8,7 @@ android {
 
 dependencies {
     implementation(projects.ivyBase)
-    implementation(projects.ivyPersistence)
+    implementation(projects.ivyData)
 
-    implementation(libs.datastore)
-    implementation(libs.bundles.ktor)
+    implementation(libs.datastore) // TODO: Will be removed
 }

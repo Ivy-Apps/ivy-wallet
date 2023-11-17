@@ -206,7 +206,7 @@
     <string name="enter_account_balance">Ingrese el saldo de la cuenta</string>
     <string name="choose_currency">Elegir Moneda</string>
     <string name="calculator">Calculadora</string>
-    <string name="calculator_empty_expression">Cálculo (+-/*=)</string>
+    <string name="calculator_empty_expression">Cálculo (+-÷x=)</string>
     <string name="edit_category">Editar categoría</string>
     <string name="create_category">Crear categoría</string>
     <string name="category_name">Nombre de la categoría</string>

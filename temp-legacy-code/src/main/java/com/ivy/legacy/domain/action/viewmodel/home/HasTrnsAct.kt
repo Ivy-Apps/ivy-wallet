@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.action.viewmodel.home
 
 import com.ivy.frp.action.FPAction
-import com.ivy.persistence.db.dao.read.TransactionDao
+import com.ivy.data.db.dao.read.TransactionDao
 import javax.inject.Inject
 
 class HasTrnsAct @Inject constructor(

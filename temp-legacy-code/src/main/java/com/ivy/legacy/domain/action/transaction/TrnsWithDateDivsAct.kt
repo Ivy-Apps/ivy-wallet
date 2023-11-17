@@ -5,7 +5,7 @@ import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.legacy.datamodel.temp.toDomain
-import com.ivy.persistence.db.dao.read.AccountDao
+import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.wallet.domain.action.exchange.ExchangeAct
 import com.ivy.wallet.domain.action.exchange.actInput
 import com.ivy.wallet.domain.pure.transaction.transactionsWithDateDividers

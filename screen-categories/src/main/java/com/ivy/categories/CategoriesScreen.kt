@@ -38,16 +38,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.navigation.navigation
+import com.ivy.legacy.datamodel.Category
 import com.ivy.navigation.CategoriesScreen
-import com.ivy.navigation.ItemStatisticScreen
+import com.ivy.navigation.TransactionsScreen
+import com.ivy.navigation.navigation
+import com.ivy.navigation.screenScopedViewModel
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.SortOrder
-import com.ivy.legacy.datamodel.Category
-import com.ivy.navigation.screenScopedViewModel
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Green
@@ -145,7 +144,7 @@ private fun BoxWithConstraintsScope.UI(
                 }
             ) {
                 nav.navigateTo(
-                    ItemStatisticScreen(
+                    TransactionsScreen(
                         accountId = null,
                         categoryId = categoryData.category.id
                     )

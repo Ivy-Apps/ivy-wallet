@@ -1,8 +1,8 @@
 package com.ivy.legacy.datamodel.temp
 
 import com.ivy.legacy.datamodel.Loan
-import com.ivy.persistence.db.entity.LoanEntity
-import com.ivy.persistence.model.LoanType
+import com.ivy.data.db.entity.LoanEntity
+import com.ivy.data.model.LoanType
 
 fun LoanEntity.toDomain(): Loan = Loan(
     name = name,

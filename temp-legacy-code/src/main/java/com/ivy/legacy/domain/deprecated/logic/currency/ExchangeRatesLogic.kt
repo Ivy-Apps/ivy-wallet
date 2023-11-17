@@ -4,9 +4,9 @@ import com.ivy.base.legacy.Transaction
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.PlannedPaymentRule
 import com.ivy.legacy.datamodel.temp.toDomain
-import com.ivy.persistence.db.dao.read.AccountDao
-import com.ivy.persistence.db.dao.read.ExchangeRatesDao
-import com.ivy.persistence.db.dao.read.SettingsDao
+import com.ivy.data.db.dao.read.AccountDao
+import com.ivy.data.db.dao.read.ExchangeRatesDao
+import com.ivy.data.db.dao.read.SettingsDao
 import java.util.UUID
 import javax.inject.Inject
 

@@ -29,13 +29,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ivy.legacy.datamodel.Account
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.horizontalSwipeListener
-import com.ivy.navigation.ItemStatisticScreen
 import com.ivy.navigation.IvyPreview
+import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.resources.R
@@ -137,7 +137,7 @@ private fun BoxWithConstraintsScope.UI(
                 accountData = it,
                 onBalanceClick = {
                     nav.navigateTo(
-                        ItemStatisticScreen(
+                        TransactionsScreen(
                             accountId = it.account.id,
                             categoryId = null
                         )
@@ -145,7 +145,7 @@ private fun BoxWithConstraintsScope.UI(
                 }
             ) {
                 nav.navigateTo(
-                    ItemStatisticScreen(
+                    TransactionsScreen(
                         accountId = it.account.id,
                         categoryId = null
                     )

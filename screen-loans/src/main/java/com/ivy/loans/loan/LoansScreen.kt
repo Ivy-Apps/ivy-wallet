@@ -20,8 +20,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,18 +33,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.legacy.datamodel.Loan
+import com.ivy.data.model.LoanType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.datamodel.Loan
 import com.ivy.legacy.humanReadableType
 import com.ivy.legacy.utils.getDefaultFIATCurrency
-import com.ivy.legacy.utils.onScreenStart
 import com.ivy.loans.loan.data.DisplayLoan
 import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.LoansScreen
 import com.ivy.navigation.navigation
-import com.ivy.persistence.model.LoanType
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gray
@@ -61,28 +58,24 @@ import com.ivy.wallet.ui.theme.components.ReorderModalSingleType
 import com.ivy.wallet.ui.theme.dynamicContrast
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.modal.LoanModal
+import com.ivy.wallet.ui.theme.modal.LoanModalData
 import com.ivy.wallet.ui.theme.toComposeColor
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun BoxWithConstraintsScope.LoansScreen(screen: LoansScreen) {
     val viewModel: LoanViewModel = viewModel()
-
-    val state by viewModel.state.collectAsState()
-
-    onScreenStart {
-        viewModel.start()
-    }
-
+    val state = viewModel.uiState()
     UI(
-        onEventHandler = viewModel::onEvent,
-        state = state
+        state = state,
+        onEventHandler = viewModel::onEvent
     )
 }
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
+    state: LoanScreenState,
     onEventHandler: (LoanScreenEvent) -> Unit = {},
-    state: LoanScreenState = LoanScreenState()
 ) {
     val nav = navigation()
 
@@ -359,9 +352,9 @@ private fun ColumnScope.LoanInfo(
 
 @Composable
 private fun NoLoansEmptyState(
-    modifier: Modifier = Modifier,
     emptyStateTitle: String,
     emptyStateText: String,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -404,7 +397,8 @@ private fun NoLoansEmptyState(
 @Composable
 private fun Preview() {
     val state = LoanScreenState(
-        loans = listOf(
+        baseCurrency = "BGN",
+        loans = persistentListOf(
             DisplayLoan(
                 loan = Loan(
                     name = "Loan 1",
@@ -439,12 +433,16 @@ private fun Preview() {
                 percentPaid = 0.8
             ),
         ),
+        accounts = persistentListOf(),
         totalOweAmount = "1000.00 INR",
-        totalOwedAmount = "1500.0 INR"
+        totalOwedAmount = "1500.0 INR",
+        loanModalData = LoanModalData(loan = null, baseCurrency = "INR"),
+        reorderModalVisible = false,
+        selectedAccount = null
     )
     IvyWalletPreview {
         UI(
             state = state
-        )
+        ) {}
     }
 }

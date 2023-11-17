@@ -206,7 +206,7 @@
     <string name="enter_account_balance">Введите баланс счёта</string>
     <string name="choose_currency">Выберите валюту</string>
     <string name="calculator">Калькулятор</string>
-    <string name="calculator_empty_expression">Подсчёт (+-/*=)</string>
+    <string name="calculator_empty_expression">Подсчёт (+-÷x=)</string>
     <string name="edit_category">Редактировать категорию</string>
     <string name="create_category">Создать категорию</string>
     <string name="category_name">Название категории</string>

@@ -16,19 +16,22 @@ What do you want to work on? [Choose an issue](https://github.com/Ivy-Apps/ivy-w
 
 1. Browse **[Ivy Wallet Issues](https://github.com/Ivy-Apps/ivy-wallet/issues)**.
 2. Choose an issue that you understand and like.
-3. Comment `"I'm on it"` on the issue to let other contributors know that you're working on it.
+3. Comment **`I'm on it`** on the issue to let other contributors know that you're working on it.
 
-### Rules:
+> ⚠️ Comment exactly `I'm on it` to take an assign, otherwise the automation for assigning issues won't work.
 
-1. Only issues with a green `"approved"` label are ready for development.
-2. If the issue that you like doesn't have the `"approved"` label, just tag @ILIYANGERMANOV and ask for an approval.
-3. If what you're looking for isn't in [issues](https://github.com/Ivy-Apps/ivy-wallet/issues), just **[create a new issue](https://github.com/Ivy-Apps/ivy-wallet/issues/new/choose)** and tag @ILIYANGERMANOV for approval. We're open to new ideas!
-4. If someone else has commented **"I'm on it"** or the issue is already assigned, do **NOT** start working on it! Instead tag the person and ask them if you can take it.
-5. You can have only 1 (one) opened issue assigned at your name.
+### Contributing Rules:
+
+1. Comment `I'm on it` to take an issue.
+2. Want to work on not in issues? Just **[create a new issue](https://github.com/Ivy-Apps/ivy-wallet/issues/new/choose)**.
+3. Do **not** work on assigned issues. Ask the assignee first.
+4. Only one issue per contributor at a time.
+
+> **Reminder:** If you take an issue, you're blocking others from working on it. Finish it fast or unassign yourself.
 
 ## 3. Create a feature branch in your fork
 
-Once you've decided on what you want to work, it's time to create a feature branch in your forked ivy-wallet repository.
+For your issue, make a feature branch in your forked ivy-wallet repo.
 
 ### Create a new branch
 
@@ -55,7 +58,7 @@ Make sure to read the **[Architecture Guidelines 🏗️](docs/Architecture.md)*
 
 - Make sure that you don't break anything with your changes.
 - Keep it simple.
-- **"Don't walk away from complexity, run!"**
+- "Don't walk away from complexity, run!"
 
 **❓ Ask yourself:**
 

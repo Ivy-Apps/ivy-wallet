@@ -11,13 +11,15 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "IvyWallet"
+include("automations:base")
+include("automations:issue-assign")
 include(":app")
 include(":ivy-base")
+include(":ivy-common-ui")
+include(":ivy-data")
 include(":ivy-design")
 include(":ivy-domain")
-include(":ivy-domain-ui")
 include(":ivy-navigation")
-include(":ivy-persistence")
 include(":ivy-resources")
 include(":ivy-testing")
 include(":ivy-widget-base")
@@ -46,3 +48,4 @@ include(":temp-legacy-code")
 include(":temp-old-design")
 include(":widget-add-transaction")
 include(":widget-balance")
+include(":ivy-data-testing")

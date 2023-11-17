@@ -1,9 +1,11 @@
 package com.ivy.base.legacy
 
 import androidx.compose.runtime.Immutable
-import com.ivy.persistence.model.TransactionType
+import com.ivy.base.model.TransactionType
 import java.math.BigDecimal
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.util.UUID
 
 @Deprecated("Legacy data model. Will be deleted")
@@ -20,7 +22,8 @@ data class Transaction(
     val dateTime: LocalDateTime? = null,
     val categoryId: UUID? = null,
     val dueDate: LocalDateTime? = null,
-
+    val date: LocalDate? = null,
+    val time: LocalTime? = null,
     val recurringRuleId: UUID? = null,
 
     val attachmentUrl: String? = null,

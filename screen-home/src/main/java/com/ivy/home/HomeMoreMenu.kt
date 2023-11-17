@@ -46,11 +46,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.ivy.base.model.Theme
+import com.ivy.base.legacy.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.Constants
-import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.rootScreen
 import com.ivy.legacy.utils.clickableNoIndication
@@ -65,6 +64,7 @@ import com.ivy.legacy.utils.toDensityPx
 import com.ivy.legacy.utils.verticalSwipeListener
 import com.ivy.navigation.BudgetScreen
 import com.ivy.navigation.CategoriesScreen
+import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.LoansScreen
 import com.ivy.navigation.PlannedPaymentsScreen
 import com.ivy.navigation.ReportScreen
@@ -96,17 +96,20 @@ fun BoxWithConstraintsScope.MoreMenu(
     setExpanded: (Boolean) -> Unit,
     onSwitchTheme: () -> Unit,
     onBufferClick: () -> Unit,
-    onCurrencyClick: () -> Unit
+    onCurrencyClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val ivyContext = ivyWalletCtx()
 
     val percentExpanded by animateFloatAsState(
         targetValue = if (expanded) 1f else 0f,
-        animationSpec = springBounce()
+        animationSpec = springBounce(),
+        label = ""
     )
     val iconRotation by animateFloatAsState(
         targetValue = if (expanded) -180f else 0f,
-        animationSpec = springBounce()
+        animationSpec = springBounce(),
+        label = ""
     )
 
     val buttonSizePx = 40.dp.toDensityPx()
@@ -125,7 +128,7 @@ fun BoxWithConstraintsScope.MoreMenu(
     val colorMedium = UI.colors.medium
     if (percentExpanded > 0.01f) {
         Canvas(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .clickableNoIndication {
                     // do nothing
@@ -155,7 +158,7 @@ fun BoxWithConstraintsScope.MoreMenu(
 
     if (percentExpanded > 0.01f) {
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .statusBarsPadding()
                 .navigationBarsPadding()
                 .fillMaxSize()
@@ -399,88 +402,89 @@ private fun QuickAccess(
     theme: Theme,
     onSwitchTheme: () -> Unit
 ) {
-    val nav = navigation()
+    Column {
+        val nav = navigation()
 
-    Text(
-        modifier = Modifier.padding(start = 24.dp),
-        text = stringResource(R.string.quick_access)
-    )
+        Text(
+            modifier = Modifier.padding(start = 24.dp),
+            text = stringResource(R.string.quick_access)
+        )
 
-    Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(16.dp))
 
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Start,
-        verticalAlignment = Alignment.Top
-    ) {
-        Spacer(Modifier.weight(1f))
-
-        MoreMenuButton(
-            icon = R.drawable.home_more_menu_settings,
-            label = stringResource(R.string.settings)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.Top
         ) {
-            nav.navigateTo(SettingsScreen)
-        }
+            Spacer(Modifier.weight(1f))
 
-        Spacer(Modifier.weight(1f))
-
-        MoreMenuButton(
-            icon = R.drawable.home_more_menu_categories,
-            label = stringResource(R.string.categories)
-        ) {
-            nav.navigateTo(CategoriesScreen)
-        }
-
-        Spacer(Modifier.weight(1f))
-
-        MoreMenuButton(
-            icon = when (theme) {
-                Theme.LIGHT -> R.drawable.home_more_menu_light_mode
-                Theme.DARK -> R.drawable.home_more_menu_dark_mode
-                Theme.AUTO -> R.drawable.home_more_menu_auto_mode
-            },
-            label = when (theme) {
-                Theme.LIGHT -> stringResource(R.string.light_mode)
-                Theme.DARK -> stringResource(R.string.dark_mode)
-                Theme.AUTO -> stringResource(R.string.auto_mode)
-            },
-            backgroundColor = when (theme) {
-                Theme.LIGHT -> UI.colors.pure
-                Theme.DARK -> UI.colors.pureInverse
-                Theme.AUTO -> UI.colors.pure
-            },
-            tint = when (theme) {
-                Theme.LIGHT -> UI.colors.pureInverse
-                Theme.DARK -> UI.colors.pure
-                Theme.AUTO -> UI.colors.pureInverse
+            MoreMenuButton(
+                icon = R.drawable.home_more_menu_settings,
+                label = stringResource(R.string.settings)
+            ) {
+                nav.navigateTo(SettingsScreen)
             }
-        ) {
-            onSwitchTheme()
+
+            Spacer(Modifier.weight(1f))
+
+            MoreMenuButton(
+                icon = R.drawable.home_more_menu_categories,
+                label = stringResource(R.string.categories)
+            ) {
+                nav.navigateTo(CategoriesScreen)
+            }
+
+            Spacer(Modifier.weight(1f))
+
+            MoreMenuButton(
+                icon = when (theme) {
+                    Theme.LIGHT -> R.drawable.home_more_menu_light_mode
+                    Theme.DARK -> R.drawable.home_more_menu_dark_mode
+                    Theme.AUTO -> R.drawable.home_more_menu_auto_mode
+                },
+                label = when (theme) {
+                    Theme.LIGHT -> stringResource(R.string.light_mode)
+                    Theme.DARK -> stringResource(R.string.dark_mode)
+                    Theme.AUTO -> stringResource(R.string.auto_mode)
+                },
+                backgroundColor = when (theme) {
+                    Theme.LIGHT -> UI.colors.pure
+                    Theme.DARK -> UI.colors.pureInverse
+                    Theme.AUTO -> UI.colors.pure
+                },
+                tint = when (theme) {
+                    Theme.LIGHT -> UI.colors.pureInverse
+                    Theme.DARK -> UI.colors.pure
+                    Theme.AUTO -> UI.colors.pureInverse
+                }
+            ) {
+                onSwitchTheme()
+            }
+
+            Spacer(Modifier.weight(1f))
+
+            MoreMenuButton(
+                icon = R.drawable.home_more_menu_planned_payments,
+                label = stringResource(R.string.planned_payments)
+            ) {
+                nav.navigateTo(PlannedPaymentsScreen)
+            }
+
+            Spacer(Modifier.weight(1f))
         }
 
-        Spacer(Modifier.weight(1f))
+        Spacer(Modifier.height(16.dp))
 
-        MoreMenuButton(
-            icon = R.drawable.home_more_menu_planned_payments,
-            label = stringResource(R.string.planned_payments)
+        // Second Row
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.Top
         ) {
-            nav.navigateTo(PlannedPaymentsScreen)
-        }
+            Spacer(Modifier.weight(1f))
 
-        Spacer(Modifier.weight(1f))
-    }
-
-    Spacer(Modifier.height(16.dp))
-
-    // Second Row
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Start,
-        verticalAlignment = Alignment.Top
-    ) {
-        Spacer(Modifier.weight(1f))
-
-        val context = LocalContext.current
+            val context = LocalContext.current
 //        MoreMenuButton(
 //            icon = R.drawable.home_more_menu_reports,
 //            label = "Charts"
@@ -488,42 +492,43 @@ private fun QuickAccess(
 //            ivyContext.navigateTo(Screen.Charts)
 //        }
 
-        val rootScreen = rootScreen()
-        MoreMenuButton(
-            icon = R.drawable.home_more_menu_share,
-            label = stringResource(R.string.share_ivy)
-        ) {
-            rootScreen.shareIvyWallet()
+            val rootScreen = rootScreen()
+            MoreMenuButton(
+                icon = R.drawable.home_more_menu_share,
+                label = stringResource(R.string.share_ivy)
+            ) {
+                rootScreen.shareIvyWallet()
+            }
+
+            Spacer(Modifier.weight(1f))
+
+            MoreMenuButton(
+                icon = R.drawable.home_more_menu_reports,
+                label = stringResource(R.string.reports),
+            ) {
+                nav.navigateTo(ReportScreen)
+            }
+
+            Spacer(Modifier.weight(1f))
+
+            MoreMenuButton(
+                icon = R.drawable.home_more_menu_budgets,
+                label = stringResource(R.string.budgets),
+            ) {
+                nav.navigateTo(BudgetScreen)
+            }
+
+            Spacer(Modifier.weight(1f))
+
+            MoreMenuButton(
+                icon = R.drawable.home_more_menu_loans,
+                label = stringResource(R.string.loans),
+            ) {
+                nav.navigateTo(LoansScreen)
+            }
+
+            Spacer(Modifier.weight(1f))
         }
-
-        Spacer(Modifier.weight(1f))
-
-        MoreMenuButton(
-            icon = R.drawable.home_more_menu_reports,
-            label = stringResource(R.string.reports),
-        ) {
-            nav.navigateTo(ReportScreen)
-        }
-
-        Spacer(Modifier.weight(1f))
-
-        MoreMenuButton(
-            icon = R.drawable.home_more_menu_budgets,
-            label = stringResource(R.string.budgets),
-        ) {
-            nav.navigateTo(BudgetScreen)
-        }
-
-        Spacer(Modifier.weight(1f))
-
-        MoreMenuButton(
-            icon = R.drawable.home_more_menu_loans,
-            label = stringResource(R.string.loans),
-        ) {
-            nav.navigateTo(LoansScreen)
-        }
-
-        Spacer(Modifier.weight(1f))
     }
 }
 
@@ -569,8 +574,8 @@ private fun MoreMenuButton(
 
 @Preview
 @Composable
-private fun Preview_Expanded() {
-    IvyWalletPreview {
+private fun BoxWithConstraintsScope.Preview_Expanded() {
+    IvyPreview {
         MoreMenu(
             expanded = true,
             balance = 7523.43,
@@ -579,17 +584,17 @@ private fun Preview_Expanded() {
             theme = Theme.LIGHT,
             setExpanded = {
             },
-            onSwitchTheme = { },
-            onBufferClick = { }
-        ) {
-        }
+            onSwitchTheme = {},
+            onBufferClick = {},
+            onCurrencyClick = {}
+        )
     }
 }
 
 @Preview
 @Composable
-private fun Preview() {
-    IvyWalletPreview {
+private fun BoxWithConstraintsScope.Preview() {
+    IvyPreview {
         var expanded by remember { mutableStateOf(false) }
 
         MoreMenu(
@@ -601,9 +606,9 @@ private fun Preview() {
             setExpanded = {
                 expanded = it
             },
-            onSwitchTheme = { },
-            onBufferClick = { }
-        ) {
-        }
+            onSwitchTheme = {},
+            onBufferClick = {},
+            onCurrencyClick = {}
+        )
     }
 }

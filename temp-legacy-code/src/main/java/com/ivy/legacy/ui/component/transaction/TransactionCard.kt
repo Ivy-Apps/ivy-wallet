@@ -40,9 +40,9 @@ import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.formatNicely
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.timeNowUTC
-import com.ivy.navigation.ItemStatisticScreen
+import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
-import com.ivy.persistence.model.TransactionType
+import com.ivy.base.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gradient
@@ -267,7 +267,7 @@ private fun TransactionHeaderRow(
                     defaultIcon = R.drawable.ic_custom_category_s
                 ) {
                     nav.navigateTo(
-                        ItemStatisticScreen(
+                        TransactionsScreen(
                             accountId = null,
                             categoryId = category.id
                         )
@@ -290,7 +290,7 @@ private fun TransactionHeaderRow(
             ) {
                 account?.let {
                     nav.navigateTo(
-                        ItemStatisticScreen(
+                        TransactionsScreen(
                             accountId = account.id,
                             categoryId = null
                         )

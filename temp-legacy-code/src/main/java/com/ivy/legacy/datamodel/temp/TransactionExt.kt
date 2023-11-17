@@ -1,7 +1,7 @@
 package com.ivy.legacy.datamodel.temp
 
 import com.ivy.base.legacy.Transaction
-import com.ivy.persistence.db.entity.TransactionEntity
+import com.ivy.data.db.entity.TransactionEntity
 
 fun TransactionEntity.toDomain(): Transaction = Transaction(
     accountId = accountId,

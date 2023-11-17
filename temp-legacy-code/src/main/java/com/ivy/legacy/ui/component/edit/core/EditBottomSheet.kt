@@ -62,7 +62,7 @@ import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.springBounce
 import com.ivy.legacy.utils.thenIf
 import com.ivy.legacy.utils.verticalSwipeListener
-import com.ivy.persistence.model.TransactionType
+import com.ivy.base.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Green

@@ -33,7 +33,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
@@ -61,10 +63,11 @@ fun BoxWithConstraintsScope.AmountModal(
     visible: Boolean,
     currency: String,
     initialAmount: Double?,
+    dismiss: () -> Unit,
+    showPlusMinus: Boolean = false,
     decimalCountMax: Int = 2,
     Header: (@Composable () -> Unit)? = null,
     amountSpacerTop: Dp = 64.dp,
-    dismiss: () -> Unit,
     onAmountChanged: (Double) -> Unit,
 ) {
     var amount by remember(id) {
@@ -118,6 +121,29 @@ fun BoxWithConstraintsScope.AmountModal(
                     e.printStackTrace()
                 }
             }
+        },
+        SecondaryActions = {
+            if (showPlusMinus) {
+                Row {
+                    Spacer(modifier = Modifier.width(34.dp))
+                    KeypadCircleButton(
+                        text = "+/-",
+                        testTag = "plus_minus",
+                        fontSize = 22.sp,
+                        btnSize = 52.dp,
+                        onClick = {
+                            when {
+                                amount.firstOrNull() == '-' -> {
+                                    amount = amount.drop(1)
+                                }
+                                amount.isNotEmpty() -> {
+                                    amount = "-$amount"
+                                }
+                            }
+                        }
+                    )
+                }
+            }
         }
     ) {
         Header?.invoke()
@@ -134,7 +160,7 @@ fun BoxWithConstraintsScope.AmountModal(
             currency = currency
         )
 
-        Spacer(Modifier.height(56.dp))
+        Spacer(Modifier.height(10.dp))
 
         AmountInput(
             currency = currency,
@@ -296,9 +322,11 @@ fun AmountKeyboard(
     }
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.SpaceEvenly
+
     ) {
         CircleNumberButton(
             forCalculator = forCalculator,
@@ -329,12 +357,13 @@ fun AmountKeyboard(
         }
     }
 
-    Spacer(Modifier.height(16.dp))
+    Spacer(Modifier.height(8.dp))
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         CircleNumberButton(
             forCalculator = forCalculator,
@@ -365,12 +394,13 @@ fun AmountKeyboard(
         }
     }
 
-    Spacer(Modifier.height(16.dp))
+    Spacer(Modifier.height(8.dp))
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         CircleNumberButton(
             forCalculator = forCalculator,
@@ -379,7 +409,6 @@ fun AmountKeyboard(
         )
 
         Spacer(Modifier.width(16.dp))
-
         CircleNumberButton(
             forCalculator = forCalculator,
             value = "2",
@@ -387,7 +416,6 @@ fun AmountKeyboard(
         )
 
         Spacer(Modifier.width(16.dp))
-
         CircleNumberButton(
             forCalculator = forCalculator,
             value = "3",
@@ -396,17 +424,17 @@ fun AmountKeyboard(
 
         if (ThirdRowExtra != null) {
             Spacer(modifier = Modifier.width(16.dp))
-
             ThirdRowExtra.invoke(this)
         }
     }
 
-    Spacer(Modifier.height(16.dp))
+    Spacer(Modifier.height(8.dp))
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         KeypadCircleButton(
             text = localDecimalSeparator(),
@@ -431,7 +459,7 @@ fun AmountKeyboard(
 
         IvyIcon(
             modifier = circleButtonModifier(onClick = onBackspace)
-                .padding(all = 16.dp)
+                .padding(all = 24.dp)
                 .testTag("key_del"),
             icon = R.drawable.ic_backspace,
             tint = Red
@@ -439,7 +467,6 @@ fun AmountKeyboard(
 
         if (FourthRowExtra != null) {
             Spacer(modifier = Modifier.width(16.dp))
-
             FourthRowExtra.invoke(this)
         }
     }
@@ -467,15 +494,18 @@ fun CircleNumberButton(
 @Composable
 fun KeypadCircleButton(
     text: String,
-    textColor: Color = UI.colors.pureInverse,
     testTag: String,
+    textColor: Color = UI.colors.pureInverse,
+    fontSize: TextUnit = 32.sp,
+    btnSize: Dp = 80.dp,
     onClick: () -> Unit
 ) {
     Text(
-        modifier = circleButtonModifier(onClick = onClick)
-            .padding(top = 10.dp)
+        modifier = circleButtonModifier(size = btnSize, onClick = onClick)
+            .padding(top = 18.dp)
             .testTag(testTag),
         text = text,
+        fontSize = fontSize,
         style = UI.typo.nH2.style(
             color = textColor,
             fontWeight = FontWeight.Bold
@@ -488,7 +518,7 @@ fun KeypadCircleButton(
 @SuppressLint("ComposableModifierFactory", "ModifierFactoryExtensionFunction")
 @Composable
 private fun circleButtonModifier(
-    size: Dp = 64.dp,
+    size: Dp = 80.dp,
     onClick: () -> Unit
 ): Modifier {
     return Modifier
