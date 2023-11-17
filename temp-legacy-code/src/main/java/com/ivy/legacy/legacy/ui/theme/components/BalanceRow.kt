@@ -17,18 +17,17 @@ import androidx.compose.ui.unit.sp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletComponentPreview
-import com.ivy.legacy.utils.decimalPartFormatted
-import com.ivy.legacy.utils.integerPartFormatted
+import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.shortenAmount
 import com.ivy.legacy.utils.shouldShortAmount
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BalanceRowMedium(
-    modifier: Modifier = Modifier,
-    textColor: Color = UI.colors.pureInverse,
     currency: String,
     balance: Double,
+    modifier: Modifier = Modifier,
+    textColor: Color = UI.colors.pureInverse,
     balanceAmountPrefix: String? = null,
     currencyUpfront: Boolean = true,
     shortenBigNumbers: Boolean = false,
@@ -53,10 +52,10 @@ fun BalanceRowMedium(
 
 @Composable
 fun BalanceRowMini(
-    modifier: Modifier = Modifier,
-    textColor: Color = UI.colors.pureInverse,
     currency: String,
     balance: Double,
+    modifier: Modifier = Modifier,
+    textColor: Color = UI.colors.pureInverse,
     balanceAmountPrefix: String? = null,
     currencyUpfront: Boolean = true,
     shortenBigNumbers: Boolean = false,
@@ -81,16 +80,14 @@ fun BalanceRowMini(
 
 @Composable
 fun BalanceRow(
-    modifier: Modifier = Modifier,
     currency: String,
     balance: Double,
-    hiddenMode: Boolean = false,
-
+    modifier: Modifier = Modifier,
     textColor: Color = UI.colors.pureInverse,
+    hiddenMode: Boolean = false,
     spacerCurrency: Dp = 12.dp,
     currencyFontSize: TextUnit? = null,
     balanceFontSize: TextUnit? = null,
-
     currencyUpfront: Boolean = true,
     balanceAmountPrefix: String? = null,
     shortenBigNumbers: Boolean = false,
@@ -114,7 +111,7 @@ fun BalanceRow(
         val integerPartFormatted = if (shortAmount) {
             shortenAmount(balance)
         } else {
-            integerPartFormatted(balance)
+            balance.format(currency)
         }
         Text(
             text = when {
@@ -134,24 +131,6 @@ fun BalanceRow(
                 ).copy(fontSize = balanceFontSize)
             }
         )
-
-        if (!shortAmount) {
-
-            Text(
-                text = if (hiddenMode) "" else decimalPartFormatted(currency, balance),
-                style = if (balanceFontSize == null) {
-                    UI.typo.nH1.style(
-                        fontWeight = FontWeight.ExtraBold,
-                        color = textColor
-                    )
-                } else {
-                    UI.typo.nH1.style(
-                        fontWeight = FontWeight.ExtraBold,
-                        color = textColor
-                    ).copy(fontSize = balanceFontSize)
-                }
-            )
-        }
 
         if (!currencyUpfront) {
             Spacer(Modifier.width(spacerCurrency))
@@ -194,8 +173,9 @@ private fun Preview_Default() {
         BalanceRow(
             textColor = UI.colors.pureInverse,
             currency = "BGN",
-            balance = 3520.60,
-            balanceAmountPrefix = null
+            balance = 3520000.60,
+            balanceAmountPrefix = null,
+            shortenBigNumbers = true
         )
     }
 }
@@ -221,7 +201,8 @@ private fun Preview_Mini() {
             textColor = UI.colors.pureInverse,
             currency = "BGN",
             balance = 3520.60,
-            balanceAmountPrefix = null
+            balanceAmountPrefix = null,
+            shortenBigNumbers = true
         )
     }
 }
