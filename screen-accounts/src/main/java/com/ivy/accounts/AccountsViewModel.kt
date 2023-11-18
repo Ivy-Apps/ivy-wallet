@@ -159,8 +159,7 @@ class AccountsViewModel @Inject constructor(
 
         val totalBalanceIncludingExcluded = calcWalletBalanceAct(
             CalcWalletBalanceAct.Input(
-                baseCurrency = baseCurrencyCode,
-                withExcluded = true
+                baseCurrency = baseCurrencyCode
             )
         ).toDouble()
 
