@@ -47,8 +47,8 @@ class AccountsViewModel @Inject constructor(
 ) : ComposeViewModel<AccountsState, AccountsEvent>() {
     private val baseCurrency = mutableStateOf("")
     private val accountsData = mutableStateOf(listOf<AccountData>())
-    private val totalBalanceWithExcluded = mutableStateOf("")
-    private val totalBalanceWithExcludedText = mutableStateOf("")
+    private val totalBalanceWithoutExcluded = mutableStateOf("")
+    private val totalBalanceWithoutExcludedText = mutableStateOf("")
     private val reorderVisible = mutableStateOf(false)
 
     init {
@@ -86,12 +86,12 @@ class AccountsViewModel @Inject constructor(
 
     @Composable
     private fun getTotalBalanceWithExcluded(): String {
-        return totalBalanceWithExcluded.value
+        return totalBalanceWithoutExcluded.value
     }
 
     @Composable
     private fun getTotalBalanceWithExcludedText(): String {
-        return totalBalanceWithExcludedText.value
+        return totalBalanceWithoutExcludedText.value
     }
 
     @Composable
@@ -157,20 +157,19 @@ class AccountsViewModel @Inject constructor(
             )
         )
 
-        val totalBalanceIncludingExcluded = calcWalletBalanceAct(
+        val totalBalanceWithoutExcludedAccounts = calcWalletBalanceAct(
             CalcWalletBalanceAct.Input(
-                baseCurrency = baseCurrencyCode,
-                withExcluded = true
+                baseCurrency = baseCurrencyCode
             )
         ).toDouble()
 
         baseCurrency.value = baseCurrencyCode
         accountsData.value = accountsDataList
-        totalBalanceWithExcluded.value = totalBalanceIncludingExcluded.toString()
-        totalBalanceWithExcludedText.value = context.getString(
+        totalBalanceWithoutExcluded.value = totalBalanceWithoutExcludedAccounts.toString()
+        totalBalanceWithoutExcludedText.value = context.getString(
             R.string.total,
             baseCurrencyCode,
-            totalBalanceIncludingExcluded.format(
+            totalBalanceWithoutExcludedAccounts.format(
                 baseCurrencyCode
             )
         )
