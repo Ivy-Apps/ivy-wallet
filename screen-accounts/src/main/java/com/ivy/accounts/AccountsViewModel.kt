@@ -47,6 +47,8 @@ class AccountsViewModel @Inject constructor(
 ) : ComposeViewModel<AccountsState, AccountsEvent>() {
     private val baseCurrency = mutableStateOf("")
     private val accountsData = mutableStateOf(listOf<AccountData>())
+    private val totalBalanceWithExcluded = mutableStateOf("")
+    private val totalBalanceWithExcludedText = mutableStateOf("")
     private val totalBalanceWithoutExcluded = mutableStateOf("")
     private val totalBalanceWithoutExcludedText = mutableStateOf("")
     private val reorderVisible = mutableStateOf(false)
@@ -70,6 +72,8 @@ class AccountsViewModel @Inject constructor(
             accountsData = getAccountsData(),
             totalBalanceWithExcluded = getTotalBalanceWithExcluded(),
             totalBalanceWithExcludedText = getTotalBalanceWithExcludedText(),
+            totalBalanceWithoutExcluded = getTotalBalanceWithoutExcluded(),
+            totalBalanceWithoutExcludedText = getTotalBalanceWithoutExcludedText(),
             reorderVisible = getReorderVisible()
         )
     }
@@ -86,11 +90,21 @@ class AccountsViewModel @Inject constructor(
 
     @Composable
     private fun getTotalBalanceWithExcluded(): String {
-        return totalBalanceWithoutExcluded.value
+        return totalBalanceWithExcluded.value
     }
 
     @Composable
     private fun getTotalBalanceWithExcludedText(): String {
+        return totalBalanceWithExcludedText.value
+    }
+
+    @Composable
+    private fun getTotalBalanceWithoutExcluded(): String {
+        return totalBalanceWithoutExcluded.value
+    }
+
+    @Composable
+    private fun getTotalBalanceWithoutExcludedText(): String {
         return totalBalanceWithoutExcludedText.value
     }
 
@@ -157,6 +171,13 @@ class AccountsViewModel @Inject constructor(
             )
         )
 
+        val totalBalanceWithExcludedAccounts = calcWalletBalanceAct(
+            CalcWalletBalanceAct.Input(
+                baseCurrency = baseCurrencyCode,
+                withExcluded = true
+            )
+        ).toDouble()
+
         val totalBalanceWithoutExcludedAccounts = calcWalletBalanceAct(
             CalcWalletBalanceAct.Input(
                 baseCurrency = baseCurrencyCode
@@ -165,9 +186,17 @@ class AccountsViewModel @Inject constructor(
 
         baseCurrency.value = baseCurrencyCode
         accountsData.value = accountsDataList
+        totalBalanceWithExcludedText.value = totalBalanceWithExcludedAccounts.toString()
+        totalBalanceWithExcludedText.value = context.getString(
+            R.string.total,
+            baseCurrencyCode,
+            totalBalanceWithExcludedAccounts.format(
+                baseCurrencyCode
+            )
+        )
         totalBalanceWithoutExcluded.value = totalBalanceWithoutExcludedAccounts.toString()
         totalBalanceWithoutExcludedText.value = context.getString(
-            R.string.total,
+            R.string.total_exclusive,
             baseCurrencyCode,
             totalBalanceWithoutExcludedAccounts.format(
                 baseCurrencyCode
