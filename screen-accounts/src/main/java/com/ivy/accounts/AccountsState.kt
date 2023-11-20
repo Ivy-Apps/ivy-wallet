@@ -8,7 +8,7 @@ import kotlinx.collections.immutable.ImmutableList
 data class AccountsState(
     val baseCurrency: String,
     val accountsData: ImmutableList<AccountData>,
-    val totalBalanceWithExcluded:String,
+    val totalBalanceWithExcluded: String,
     val totalBalanceWithExcludedText: String,
     val totalBalanceWithoutExcluded: String,
     val totalBalanceWithoutExcludedText: String,
