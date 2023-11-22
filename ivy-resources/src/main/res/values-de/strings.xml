@@ -48,7 +48,7 @@
     <string name="export_data">Daten exportieren</string>
     <string name="upload_csv_zip_file">CSV-/ZIP-Datei hochladen</string>
     <string name="export_to_file">In Datei exportieren</string>
-    <string name="export_to_file_description">Zeichensatz: UTF-8 Dezimalseparrator: Dezimalpunkt \'.\' Trennzeichen: Komma \',\'</string>
+    <string name="export_to_file_description">Zeichensatz: UTF-8\nDezimalseparrator: Dezimalpunkt \'.\'\nTrennzeichen: Komma \',\'</string>
     <string name="export_excel_file">Excel-Datei exportieren</string>
     <string name="convert_xls_to_csv">XLS in CSV konvertieren</string>
     <string name="convert_xls_to_csv_description">!WICHTIG: Wenn die exportierte Datei keine .xls Endung besitzt, füge sie manuell hinzu indem du die Datei umbenennst.</string>
