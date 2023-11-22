@@ -296,7 +296,7 @@ private fun BoxWithConstraintsScope.UI(
 
             SettingsDefaultButton(
                 icon = R.drawable.ic_currency,
-                text = "Exchange rates"
+                text = stringResource(id = R.string.exchange_rate)
             ) {
                 nav.navigateTo(ExchangeRatesScreen)
             }
@@ -640,7 +640,7 @@ private fun ContactSupport() {
 private fun Releases(nav: Navigation) {
     SettingsDefaultButton(
         icon = R.drawable.ic_vue_money_tag,
-        text = "Releases",
+        text = stringResource(com.ivy.settings.R.string.releases),
         iconPadding = 10.dp
     ) {
         nav.navigateTo(ReleasesScreen)
