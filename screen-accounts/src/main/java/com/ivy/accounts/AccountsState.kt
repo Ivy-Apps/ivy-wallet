@@ -10,5 +10,7 @@ data class AccountsState(
     val accountsData: ImmutableList<AccountData>,
     val totalBalanceWithExcluded: String,
     val totalBalanceWithExcludedText: String,
+    val totalBalanceWithoutExcluded: String,
+    val totalBalanceWithoutExcludedText: String,
     val reorderVisible: Boolean
 )

@@ -114,6 +114,14 @@ private fun BoxWithConstraintsScope.UI(
                             fontWeight = FontWeight.Bold
                         )
                     )
+
+                    Text(
+                        text = state.totalBalanceWithoutExcludedText,
+                        style = UI.typo.nC.style(
+                            color = Gray,
+                            fontWeight = FontWeight.Bold
+                        )
+                    )
                 }
 
                 Spacer(Modifier.weight(1f))
@@ -367,6 +375,8 @@ private fun PreviewAccountsTab() {
             ),
             totalBalanceWithExcluded = "25.54",
             totalBalanceWithExcludedText = "BGN 25.54",
+            totalBalanceWithoutExcluded = "25.54",
+            totalBalanceWithoutExcludedText = "BGN 25.54",
             reorderVisible = false
         )
     }

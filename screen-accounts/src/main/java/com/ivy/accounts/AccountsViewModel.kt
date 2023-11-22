@@ -49,6 +49,8 @@ class AccountsViewModel @Inject constructor(
     private val accountsData = mutableStateOf(listOf<AccountData>())
     private val totalBalanceWithExcluded = mutableStateOf("")
     private val totalBalanceWithExcludedText = mutableStateOf("")
+    private val totalBalanceWithoutExcluded = mutableStateOf("")
+    private val totalBalanceWithoutExcludedText = mutableStateOf("")
     private val reorderVisible = mutableStateOf(false)
 
     init {
@@ -70,6 +72,8 @@ class AccountsViewModel @Inject constructor(
             accountsData = getAccountsData(),
             totalBalanceWithExcluded = getTotalBalanceWithExcluded(),
             totalBalanceWithExcludedText = getTotalBalanceWithExcludedText(),
+            totalBalanceWithoutExcluded = getTotalBalanceWithoutExcluded(),
+            totalBalanceWithoutExcludedText = getTotalBalanceWithoutExcludedText(),
             reorderVisible = getReorderVisible()
         )
     }
@@ -92,6 +96,16 @@ class AccountsViewModel @Inject constructor(
     @Composable
     private fun getTotalBalanceWithExcludedText(): String {
         return totalBalanceWithExcludedText.value
+    }
+
+    @Composable
+    private fun getTotalBalanceWithoutExcluded(): String {
+        return totalBalanceWithoutExcluded.value
+    }
+
+    @Composable
+    private fun getTotalBalanceWithoutExcludedText(): String {
+        return totalBalanceWithoutExcludedText.value
     }
 
     @Composable
@@ -157,20 +171,34 @@ class AccountsViewModel @Inject constructor(
             )
         )
 
-        val totalBalanceIncludingExcluded = calcWalletBalanceAct(
+        val totalBalanceWithExcludedAccounts = calcWalletBalanceAct(
             CalcWalletBalanceAct.Input(
                 baseCurrency = baseCurrencyCode,
                 withExcluded = true
             )
         ).toDouble()
 
+        val totalBalanceWithoutExcludedAccounts = calcWalletBalanceAct(
+            CalcWalletBalanceAct.Input(
+                baseCurrency = baseCurrencyCode
+            )
+        ).toDouble()
+
         baseCurrency.value = baseCurrencyCode
         accountsData.value = accountsDataList
-        totalBalanceWithExcluded.value = totalBalanceIncludingExcluded.toString()
+        totalBalanceWithExcludedText.value = totalBalanceWithExcludedAccounts.toString()
         totalBalanceWithExcludedText.value = context.getString(
             R.string.total,
             baseCurrencyCode,
-            totalBalanceIncludingExcluded.format(
+            totalBalanceWithExcludedAccounts.format(
+                baseCurrencyCode
+            )
+        )
+        totalBalanceWithoutExcluded.value = totalBalanceWithoutExcludedAccounts.toString()
+        totalBalanceWithoutExcludedText.value = context.getString(
+            R.string.total_exclusive,
+            baseCurrencyCode,
+            totalBalanceWithoutExcludedAccounts.format(
                 baseCurrencyCode
             )
         )
