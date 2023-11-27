@@ -72,9 +72,12 @@ private fun SearchUi(
             }
         )
 
-        LaunchedEffect(uiState.transactions) {
+        LaunchedEffect(searchQueryTextFieldValue) {
             // scroll to top when transactions are changed
             listState.animateScrollToItem(index = 0, scrollOffset = 0)
+
+            // Retain the search query state when navigating back
+            onEvent(SearchEvent.Search(searchQueryTextFieldValue.text))
         }
 
         Spacer(Modifier.height(16.dp))
@@ -82,7 +85,6 @@ private fun SearchUi(
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = listState
-
         ) {
             transactions(
                 baseData = AppBaseData(
@@ -114,12 +116,11 @@ private fun SearchUi(
                 )
 
                 Spacer(Modifier.height(keyboardShownInsetDp))
-                // add keyboard height margin at bototm so the list can scroll to bottom
+                // add keyboard height margin at the bottom so the list can scroll to the bottom
             }
         }
     }
 }
-
 
 @Preview
 @Composable
