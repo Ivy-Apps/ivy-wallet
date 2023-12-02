@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.domain.ComposeViewModel
+import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.utils.getDefaultFIATCurrency
@@ -28,7 +29,8 @@ class SearchViewModel @Inject constructor(
     private val accountsAct: AccountsAct,
     private val categoriesAct: CategoriesAct,
     private val baseCurrencyAct: BaseCurrencyAct,
-    private val allTrnsAct: AllTrnsAct
+    private val allTrnsAct: AllTrnsAct,
+    private val sharedPrefs: SharedPrefs,
 ) : ComposeViewModel<SearchState, SearchEvent>() {
 
     private val transactions =
@@ -39,15 +41,18 @@ class SearchViewModel @Inject constructor(
 
     @Composable
     override fun uiState(): SearchState {
+        val prevSearchString = retrieveSearchHistory()
+
         LaunchedEffect(Unit) {
-            search("")
+            search(prevSearchString ?: "")
         }
 
         return SearchState(
             transactions = transactions.value,
             baseCurrency = baseCurrency.value,
             accounts = accounts.value,
-            categories = categories.value
+            categories = categories.value,
+            prevSearch = prevSearchString ?: "",
         )
     }
 
@@ -59,6 +64,9 @@ class SearchViewModel @Inject constructor(
 
     private fun search(query: String) {
         val normalizedQuery = query.lowercase().trim()
+
+
+        sharedPrefs.putString(SharedPrefs.SEARCH_SCREEN_REMEMBER, normalizedQuery);
 
         viewModelScope.launch {
             val queryResult = ioThread {
@@ -84,5 +92,14 @@ class SearchViewModel @Inject constructor(
 
     private fun String?.matchesQuery(query: String): Boolean {
         return this?.lowercase()?.trim()?.contains(query) == true
+    }
+
+
+    private fun retrieveSearchHistory(): String? {
+        try {
+            return sharedPrefs.getString(SharedPrefs.SEARCH_SCREEN_REMEMBER, null)
+        } catch (e: IllegalStateException) {
+            return null
+        }
     }
 }

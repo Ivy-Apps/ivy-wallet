@@ -8,6 +8,7 @@ import kotlinx.collections.immutable.ImmutableList
 data class SearchState(
     val transactions: ImmutableList<TransactionHistoryItem>,
     val baseCurrency: String,
+    val prevSearch: String,
     val accounts: ImmutableList<Account>,
     val categories: ImmutableList<Category>
 )

@@ -60,7 +60,7 @@ private fun SearchUi(
         val listState = rememberLazyListState()
 
         var searchQueryTextFieldValue by remember {
-            mutableStateOf(selectEndTextFieldValue(""))
+            mutableStateOf(selectEndTextFieldValue(uiState.prevSearch))
         }
 
         SearchInput(
@@ -129,6 +129,7 @@ private fun Preview() {
             uiState = SearchState(
                 transactions = persistentListOf(),
                 baseCurrency = "",
+                prevSearch = "",
                 accounts = persistentListOf(),
                 categories = persistentListOf()
             ),

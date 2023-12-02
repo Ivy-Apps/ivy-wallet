@@ -33,6 +33,7 @@ class SharedPrefs @Inject constructor(
         // ----------------------------- Others -----------------------------------------------
         const val CATEGORY_SORT_ORDER = "categorySortOrder"
         const val DATA_BACKUP_COMPLETED = "data_backup_completed"
+        const val SEARCH_SCREEN_REMEMBER = "search_screen_remember"
     }
 
     private val preferences = appContext.getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
