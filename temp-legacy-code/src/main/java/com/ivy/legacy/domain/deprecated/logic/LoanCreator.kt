@@ -1,10 +1,10 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.legacy.datamodel.Loan
-import com.ivy.legacy.utils.ioThread
 import com.ivy.data.db.dao.read.LoanDao
 import com.ivy.data.db.dao.write.WriteLoanDao
+import com.ivy.legacy.datamodel.Loan
+import com.ivy.legacy.utils.ioThread
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanData
 import com.ivy.wallet.domain.pure.util.nextOrderNum
 import java.util.UUID

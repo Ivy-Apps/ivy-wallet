@@ -13,9 +13,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.ivy.design.l0_system.UI
+import com.ivy.legacy.utils.thenIf
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Transparent
-import com.ivy.legacy.utils.thenIf
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable

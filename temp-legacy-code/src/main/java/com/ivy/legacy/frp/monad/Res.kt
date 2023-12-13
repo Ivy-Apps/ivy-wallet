@@ -4,7 +4,6 @@ import com.ivy.frp.action.Action
 import com.ivy.frp.asParamTo
 import com.ivy.frp.thenInvokeAfter
 
-
 @Deprecated("Legacy code. Use Arrow's Either")
 sealed class Res<out E, out T> {
     data class Ok<out T>(val data: T) : Res<Nothing, T>()
@@ -60,7 +59,6 @@ inline infix fun <E, T, E2> (suspend () -> Res<E, T>).mapError(
     }
 }
 // ------------------ mapError --------------------------------------
-
 
 // ------------------ mapSuccess --------------------------------------
 @Deprecated("Legacy code. Don't use it, please.")

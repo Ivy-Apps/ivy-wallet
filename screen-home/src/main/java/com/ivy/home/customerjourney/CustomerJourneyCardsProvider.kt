@@ -1,6 +1,9 @@
 package com.ivy.home.customerjourney
 
 import com.ivy.base.legacy.stringRes
+import com.ivy.base.model.TransactionType
+import com.ivy.data.db.dao.read.PlannedPaymentRuleDao
+import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.design.l0_system.Blue
 import com.ivy.design.l0_system.Blue3
 import com.ivy.design.l0_system.Gradient
@@ -16,9 +19,6 @@ import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.data.model.MainTab
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.PieChartStatisticScreen
-import com.ivy.data.db.dao.read.PlannedPaymentRuleDao
-import com.ivy.data.db.dao.read.TransactionDao
-import com.ivy.base.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.widget.transaction.AddTransactionWidgetCompact
 import javax.inject.Inject
@@ -127,7 +127,7 @@ class CustomerJourneyCardsProvider @Inject constructor(
             },
             title = stringRes(R.string.did_you_know),
             description = "You can see a PieChart for your expenses!" +
-                    " Click the Expense card on the top of the dashboard.",
+                " Click the Expense card on the top of the dashboard.",
             cta = stringRes(R.string.expenses_piechart),
             ctaIcon = R.drawable.ic_custom_bills_s,
             background = Gradient.solid(Red),
@@ -223,7 +223,7 @@ class CustomerJourneyCardsProvider @Inject constructor(
                 trnCount >= 28
             },
             description = "It looks like that you're enjoying Ivy Wallet! " +
-                    "If you haven't yet, feel free join our invite-only Ivy Telegram Community and make our app better :)",
+                "If you haven't yet, feel free join our invite-only Ivy Telegram Community and make our app better :)",
             title = "Ivy Community",
             cta = "Join now",
             ctaIcon = R.drawable.ic_telegram_24dp,

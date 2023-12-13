@@ -2,14 +2,14 @@ package com.ivy.wallet.domain.deprecated.logic
 
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
+import com.ivy.base.model.TransactionType
+import com.ivy.data.db.dao.read.AccountDao
+import com.ivy.data.db.dao.read.SettingsDao
+import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.legacy.data.model.filterOverdue
 import com.ivy.legacy.data.model.filterUpcoming
 import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.datamodel.temp.toDomain
-import com.ivy.data.db.dao.read.AccountDao
-import com.ivy.data.db.dao.read.SettingsDao
-import com.ivy.data.db.dao.read.TransactionDao
-import com.ivy.base.model.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.sumInBaseCurrency
 import com.ivy.wallet.domain.pure.transaction.withDateDividers

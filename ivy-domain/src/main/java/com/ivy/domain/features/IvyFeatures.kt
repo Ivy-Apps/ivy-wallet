@@ -14,7 +14,7 @@ class IvyFeatures @Inject constructor() : Features {
         key = "compact_transaction",
         name = "Compact transactions",
         description = "Smaller transactions cards" +
-                " so you can fit more on your screen."
+            " so you can fit more on your screen."
     )
 
     override val allFeatures: List<BoolFeature>

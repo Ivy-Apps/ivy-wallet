@@ -17,6 +17,7 @@ import com.ivy.legacy.utils.densityScope
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 val White = Color(0xFFFAFAFA)
+
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 val Black = Color(0xFF111114)
 
@@ -35,12 +36,14 @@ val Orange = Color(0xFFF29F30)
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 val Red = Color(0xFFFF4060)
+
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 val Red3 = Color(0xFFFF4CA6)
 
 // Light
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 val IvyLight = Color(0xFFD5CCFF)
+
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 val GreenLight = Color(0xFFAAF2E0)
 
@@ -49,12 +52,14 @@ val OrangeLight = Color(0xFFFFDEB3)
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 val RedLight = Color(0xFFFFCCD5)
+
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 val Red3Light = Color(0xFFFFCCE6)
 
 // Dark
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 val IvyDark = Color(0xFF352680)
+
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 val Purple1Dark = Color(0xFF622680)
 
@@ -67,8 +72,10 @@ val OrangeDark = Color(0xFF734B17)
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 val MediumBlack = Color(0xFF2B2C2D)
+
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 val Gray = Color(0xFF939199)
+
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 val MediumWhite = Color(0xFFEFEEF0)
 
@@ -77,10 +84,13 @@ val Transparent = Color(0x00000000)
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 val GradientRed = Gradient(Red, Color(0xFFFF99AB))
+
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 val GradientGreen = Gradient(Green, Color(0xFF49F2C8))
+
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 val GradientOrangeRevert = Gradient(Color(0xFFF2CD9E), Orange)
+
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 val GradientIvy = Gradient(Ivy, Color(0xFFAA99FF))
 

@@ -33,13 +33,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.legacy.datamodel.Account
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.navigation.navigation
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.model.AccountBalance
+import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.utils.toLowerCaseLocal
+import com.ivy.navigation.navigation
 import com.ivy.onboarding.components.OnboardingProgressSlider
 import com.ivy.onboarding.components.OnboardingToolbar
 import com.ivy.onboarding.components.Suggestions

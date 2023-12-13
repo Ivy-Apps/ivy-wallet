@@ -71,13 +71,18 @@ fun AmountCurrencyB1(
     currency: String,
     amountFontWeight: FontWeight = FontWeight.Bold,
     textColor: Color = UI.colors.pureInverse,
-    shortenBigNumbers: Boolean = false
+    shortenBigNumbers: Boolean = false,
+    hideIncome: Boolean = false
 ) {
     val shortAmount = shortenBigNumbers && shouldShortAmount(amount)
-
+    val text = if (hideIncome) {
+        "****"
+    } else {
+        if (shortAmount) shortenAmount(amount) else amount.format(currency)
+    }
     Text(
         modifier = Modifier.testTag("amount_currency_b1"),
-        text = if (shortAmount) shortenAmount(amount) else amount.format(currency),
+        text = text,
         style = UI.typo.nB1.style(
             fontWeight = amountFontWeight,
             color = textColor

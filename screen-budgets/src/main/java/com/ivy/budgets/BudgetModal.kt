@@ -23,13 +23,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
+import com.ivy.domain.legacy.ui.theme.components.ListItem
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Budget
 import com.ivy.legacy.datamodel.Category
-import com.ivy.domain.legacy.ui.theme.components.ListItem
-import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.style
-import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.legacy.ui.theme.modal.ModalNameInput
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.selectEndTextFieldValue
@@ -126,9 +126,13 @@ fun BoxWithConstraintsScope.BudgetModal(
             verticalAlignment = Alignment.CenterVertically
         ) {
             ModalTitle(
-                text = if (modal?.budget != null) stringResource(
-                    R.string.edit_budget
-                ) else stringResource(R.string.create_budget)
+                text = if (modal?.budget != null) {
+                    stringResource(
+                        R.string.edit_budget
+                    )
+                } else {
+                    stringResource(R.string.create_budget)
+                }
             )
 
             if (initialBudget != null) {

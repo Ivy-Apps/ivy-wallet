@@ -446,9 +446,9 @@ class EditPlannedViewModel @Inject constructor(
 
     private fun validateRecurring(): Boolean {
         return startDate.value != null &&
-                intervalN.value != null &&
-                intervalN.value!! > 0 &&
-                intervalType.value != null
+            intervalN.value != null &&
+            intervalN.value!! > 0 &&
+            intervalType.value != null
     }
 
     private fun delete() {

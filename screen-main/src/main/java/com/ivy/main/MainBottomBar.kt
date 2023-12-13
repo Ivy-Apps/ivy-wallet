@@ -162,7 +162,7 @@ fun BoxWithConstraintsScope.BottomBar(
     // ------------------------------------ BUTTONS--------------------------------------------------
     val fabStartX = ivyContext.screenWidth / 2 - FAB_BUTTON_SIZE.toDensityPx() / 2
     val fabStartY = ivyContext.screenHeight - navigationBarInset() -
-            30.dp.toDensityPx() - FAB_BUTTON_SIZE.toDensityPx()
+        30.dp.toDensityPx() - FAB_BUTTON_SIZE.toDensityPx()
 
     TransactionButtons(
         buttonsShownPercent = buttonsShownPercent,
@@ -211,21 +211,21 @@ fun BoxWithConstraintsScope.BottomBar(
 
                             when {
                                 abs(dragOffset.x) < horizontalThreshold &&
-                                        dragOffset.y < -verticalThreshold -> {
+                                    dragOffset.y < -verticalThreshold -> {
                                     // swipe up
                                     dragOffset = Offset.Zero // prevent double open of the screen
                                     onAddExpense()
                                 }
 
                                 dragOffset.x < -horizontalThreshold &&
-                                        dragOffset.y < -verticalThreshold -> {
+                                    dragOffset.y < -verticalThreshold -> {
                                     // swipe up left
                                     dragOffset = Offset.Zero // prevent double open of the screen
                                     onAddIncome()
                                 }
 
                                 dragOffset.x > horizontalThreshold &&
-                                        dragOffset.y < -verticalThreshold -> {
+                                    dragOffset.y < -verticalThreshold -> {
                                     // swipe up right
                                     dragOffset = Offset.Zero // prevent double open of the screen
                                     onAddTransfer()

@@ -224,7 +224,7 @@ fun AmountInput(
     decimalCountMax: Int = 2,
     setAmount: (String) -> Unit,
 
-    ) {
+) {
     var firstInput by remember { mutableStateOf(true) }
 
     AmountKeyboard(

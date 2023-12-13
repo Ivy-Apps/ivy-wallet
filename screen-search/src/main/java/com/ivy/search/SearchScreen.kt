@@ -120,7 +120,6 @@ private fun SearchUi(
     }
 }
 
-
 @Preview
 @Composable
 private fun Preview() {

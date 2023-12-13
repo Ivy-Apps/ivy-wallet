@@ -14,4 +14,3 @@ suspend fun <A> catchIO(
         block()
     }
 }
-

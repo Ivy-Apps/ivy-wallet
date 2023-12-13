@@ -15,7 +15,6 @@ annotation class Total(val sideEffect: String = "")
 @MustBeDocumented
 annotation class Partial(val inCaseOf: String = "")
 
-
 @Target(AnnotationTarget.VALUE_PARAMETER)
 @Retention(AnnotationRetention.SOURCE)
 @MustBeDocumented

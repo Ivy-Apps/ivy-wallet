@@ -59,6 +59,7 @@ import kotlin.math.roundToInt
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 private const val DURATION_BACKGROUND_BLUR_ANIM = 400
+
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 const val DURATION_MODAL_ANIM = 200
 

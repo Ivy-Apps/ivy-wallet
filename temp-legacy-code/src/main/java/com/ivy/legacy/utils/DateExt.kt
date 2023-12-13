@@ -24,7 +24,6 @@ fun timeNowUTC(): LocalDateTime = LocalDateTime.now(ZoneOffset.UTC)
 @Total
 fun timeUTC(): LocalTime = LocalTime.now(ZoneOffset.UTC)
 
-
 @Total
 fun dateNowUTC(): LocalDate = LocalDate.now(ZoneOffset.UTC)
 

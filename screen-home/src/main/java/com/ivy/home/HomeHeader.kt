@@ -31,6 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.ivy.base.model.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.data.model.TimePeriod
@@ -46,7 +47,6 @@ import com.ivy.legacy.utils.thenIf
 import com.ivy.legacy.utils.verticalSwipeListener
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.navigation.navigation
-import com.ivy.base.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
@@ -101,7 +101,7 @@ internal fun HomeHeader(
             onBalanceClick = onBalanceClick,
             onHiddenBalanceClick = onHiddenBalanceClick,
             onSelectNextMonth = onSelectNextMonth,
-            onSelectPreviousMonth = onSelectPreviousMonth
+            onSelectPreviousMonth = onSelectPreviousMonth,
         )
 
         Spacer(Modifier.height(16.dp))
@@ -167,7 +167,7 @@ private fun HeaderStickyRow(
                 val overflow by remember(lengthOfCurrencyAndBalance, lengthOfMonthRange) {
                     derivedStateOf {
                         lengthOfCurrencyAndBalance >= OverflowLengthOfBalance &&
-                                lengthOfMonthRange >= OverflowLengthOfMontthRange
+                            lengthOfMonthRange >= OverflowLengthOfMontthRange
                     }
                 }
 
@@ -222,6 +222,8 @@ fun CashFlowInfo(
     monthlyIncome: Double,
     monthlyExpenses: Double,
     hideBalance: Boolean,
+    hideIncome: Boolean,
+    onHiddenIncomeClick: () -> Unit,
     onOpenMoreMenu: () -> Unit,
     onBalanceClick: () -> Unit,
     percentExpanded: Float,
@@ -261,6 +263,8 @@ fun CashFlowInfo(
             currency = currency,
             monthlyIncome = monthlyIncome,
             monthlyExpenses = monthlyExpenses,
+            hideIncome = hideIncome,
+            onHiddenIncomeClick = onHiddenIncomeClick
         )
 
         val cashflow = monthlyIncome - monthlyExpenses
@@ -295,6 +299,8 @@ private fun IncomeExpenses(
     currency: String,
     monthlyIncome: Double,
     monthlyExpenses: Double,
+    hideIncome: Boolean,
+    onHiddenIncomeClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -313,12 +319,17 @@ private fun IncomeExpenses(
             currency = currency,
             amount = monthlyIncome,
             testTag = "home_card_income",
+            hideIncome = hideIncome
         ) {
-            nav.navigateTo(
-                PieChartStatisticScreen(
-                    type = TransactionType.INCOME,
-                ),
-            )
+            if (hideIncome) {
+                onHiddenIncomeClick()
+            } else {
+                nav.navigateTo(
+                    PieChartStatisticScreen(
+                        type = TransactionType.INCOME,
+                    ),
+                )
+            }
         }
 
         Spacer(Modifier.width(12.dp))
@@ -354,6 +365,7 @@ private fun RowScope.HeaderCard(
     currency: String,
     amount: Double,
     testTag: String,
+    hideIncome: Boolean = false,
     onClick: () -> Unit,
 ) {
     Column(
@@ -406,6 +418,7 @@ private fun RowScope.HeaderCard(
                 amount = amount,
                 currency = currency,
                 textColor = textColor,
+                hideIncome = hideIncome,
                 shortenBigNumbers = true,
             )
 

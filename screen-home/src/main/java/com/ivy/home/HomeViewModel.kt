@@ -4,9 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
-import com.ivy.base.legacy.Theme
 import com.ivy.domain.ComposeViewModel
 import com.ivy.frp.fixUnit
 import com.ivy.frp.then
@@ -24,6 +24,7 @@ import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Settings
 import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.legacy.domain.action.settings.UpdateSettingsAct
+import com.ivy.legacy.domain.action.viewmodel.home.ShouldHideIncomeAct
 import com.ivy.legacy.utils.dateNowUTC
 import com.ivy.legacy.utils.ioThread
 import com.ivy.navigation.BalanceScreen
@@ -73,6 +74,7 @@ class HomeViewModel @Inject constructor(
     private val hasTrnsAct: HasTrnsAct,
     private val startDayOfMonthAct: StartDayOfMonthAct,
     private val shouldHideBalanceAct: ShouldHideBalanceAct,
+    private val shouldHideIncomeAct: ShouldHideIncomeAct,
     private val updateSettingsAct: UpdateSettingsAct,
     private val updateAccCacheAct: UpdateAccCacheAct,
     private val updateCategoriesCacheAct: UpdateCategoriesCacheAct,
@@ -114,6 +116,7 @@ class HomeViewModel @Inject constructor(
     private val customerJourneyCards =
         mutableStateOf<ImmutableList<CustomerJourneyCardModel>>(persistentListOf())
     private val hideBalance = mutableStateOf(false)
+    private val hideIncome = mutableStateOf(false)
     private val expanded = mutableStateOf(true)
 
     @Composable
@@ -135,7 +138,8 @@ class HomeViewModel @Inject constructor(
             overdue = getOverdue(),
             customerJourneyCards = getCustomerJourneyCards(),
             hideBalance = getHideBalance(),
-            expanded = getExpanded()
+            expanded = getExpanded(),
+            hideIncome = getHideIncome()
         )
     }
 
@@ -204,11 +208,17 @@ class HomeViewModel @Inject constructor(
         return expanded.value
     }
 
+    @Composable
+    private fun getHideIncome(): Boolean {
+        return hideIncome.value
+    }
+
     override fun onEvent(event: HomeEvent) {
         viewModelScope.launch {
             when (event) {
                 HomeEvent.BalanceClick -> onBalanceClick()
                 HomeEvent.HiddenBalanceClick -> onHiddenBalanceClick()
+                HomeEvent.HiddenIncomeClick -> onHiddenIncomeClick()
                 is HomeEvent.PayOrGetPlanned -> payOrGetPlanned(event.transaction)
                 is HomeEvent.SkipPlanned -> skipPlanned(event.transaction)
                 is HomeEvent.SkipAllPlanned -> skipAllPlanned(event.transactions)
@@ -241,19 +251,21 @@ class HomeViewModel @Inject constructor(
     ) = suspend {
         val settings = settingsAct(Unit)
         val hideBalance = shouldHideBalanceAct(Unit)
+        val hideIncome = shouldHideIncomeAct(Unit)
 
         theme.value = settings.theme
         name.value = settings.name
         period.value = timePeriod
         this.hideBalance.value = hideBalance
+        this.hideIncome.value = hideIncome
 
         // This method is used to restore the theme when user imports locally backed up data
         ivyContext.switchTheme(theme = settings.theme)
 
         Pair(settings, period.value.toRange(ivyContext.startDayOfMonth).toCloseTimeRange())
     } then ::loadAppBaseData then ::loadIncomeExpenseBalance then
-            ::loadBuffer then ::loadTrnHistory then
-            ::loadDueTrns thenInvokeAfter ::loadCustomerJourney
+        ::loadBuffer then ::loadTrnHistory then
+        ::loadDueTrns thenInvokeAfter ::loadCustomerJourney
 
     private suspend fun loadAppBaseData(
         input: Pair<Settings, ClosedTimeRange>
@@ -385,6 +397,15 @@ class HomeViewModel @Inject constructor(
         delay(5000)
 
         hideBalance.value = true
+    }
+
+    private suspend fun onHiddenIncomeClick() {
+        hideIncome.value = false
+
+        // Showing Balance fow 5s
+        delay(5000)
+
+        hideIncome.value = true
     }
 
     private fun switchTheme() = settingsAct then {

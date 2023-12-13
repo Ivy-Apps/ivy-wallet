@@ -5,12 +5,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.Transaction
+import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.domain.ComposeViewModel
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.thenInvokeAfter
 import com.ivy.legacy.data.SharedPrefs
 import com.ivy.legacy.datamodel.Account
-import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.category.CategoryIncomeWithAccountFiltersAct
@@ -122,7 +122,7 @@ class CategoriesViewModel @Inject constructor(
                 TrnsWithRangeAndAccFiltersAct.Input(
                     range = range,
                     accountIdFilterSet = suspend { allAccounts } thenMap { it.id }
-                            thenInvokeAfter { it.toHashSet() }
+                        thenInvokeAfter { it.toHashSet() }
                 )
             )
 

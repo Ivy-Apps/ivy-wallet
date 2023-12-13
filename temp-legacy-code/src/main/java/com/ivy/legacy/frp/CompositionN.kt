@@ -2,7 +2,7 @@ package com.ivy.frp
 
 import com.ivy.frp.action.Action
 
-//TODO: Implement properly
+// TODO: Implement properly
 
 @Deprecated("Legacy code. Don't use it, please.")
 infix fun <A, B, C, D> ((A, B) -> C).then(f: (C) -> D): (A, B) -> D = { a, b ->

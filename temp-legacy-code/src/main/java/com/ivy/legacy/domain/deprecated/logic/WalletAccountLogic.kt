@@ -1,15 +1,15 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import com.ivy.base.legacy.Transaction
+import com.ivy.base.model.TransactionType
+import com.ivy.data.db.dao.read.TransactionDao
+import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.legacy.data.model.filterOverdue
 import com.ivy.legacy.data.model.filterUpcoming
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.utils.timeNowUTC
-import com.ivy.data.db.dao.read.TransactionDao
-import com.ivy.data.db.dao.write.WriteTransactionDao
-import com.ivy.base.model.TransactionType
 import java.time.LocalDateTime
 import javax.inject.Inject
 import kotlin.math.abs
@@ -131,7 +131,7 @@ class WalletAccountLogic @Inject constructor(
     ): List<Transaction> {
         return this.filter {
             it.dateTime != null &&
-                    (before == null || it.dateTime!!.isBefore(before))
+                (before == null || it.dateTime!!.isBefore(before))
         }
     }
 

@@ -37,8 +37,8 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.ivy.IvyNavGraph
-import com.ivy.domain.RootScreen
 import com.ivy.design.api.IvyUI
+import com.ivy.domain.RootScreen
 import com.ivy.home.customerjourney.CustomerJourneyCardsProvider
 import com.ivy.legacy.Constants
 import com.ivy.legacy.IvyWalletCtx
@@ -154,13 +154,13 @@ class RootActivity : AppCompatActivity(), RootScreen {
 
     private fun setupDatePicker() {
         ivyContext.onShowDatePicker = { minDate,
-                                        maxDate,
-                                        initialDate,
-                                        onDatePicked ->
+                maxDate,
+                initialDate,
+                onDatePicked ->
             val datePicker =
                 MaterialDatePicker.Builder.datePicker()
-                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                .build()
+                    .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                    .build()
             datePicker.show(supportFragmentManager, "datePicker")
             datePicker.addOnPositiveButtonClickListener {
                 onDatePicked(LocalDate.ofEpochDay(it / MILLISECONDS_IN_DAY))
@@ -338,7 +338,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
             )
             .setAllowedAuthenticators(
                 BiometricManager.Authenticators.BIOMETRIC_WEAK or
-                        BiometricManager.Authenticators.DEVICE_CREDENTIAL
+                    BiometricManager.Authenticators.DEVICE_CREDENTIAL
             )
             .setConfirmationRequired(false)
             .build()

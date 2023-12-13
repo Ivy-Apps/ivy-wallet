@@ -33,15 +33,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.legacy.IvyWalletPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.datamodel.Category
+import com.ivy.legacy.utils.toLowerCaseLocal
 import com.ivy.navigation.navigation
 import com.ivy.onboarding.components.OnboardingProgressSlider
 import com.ivy.onboarding.components.OnboardingToolbar
 import com.ivy.onboarding.components.Suggestions
 import com.ivy.resources.R
-import com.ivy.legacy.datamodel.Category
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Green
@@ -59,7 +60,6 @@ import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import com.ivy.wallet.ui.theme.toComposeColor
-import com.ivy.legacy.utils.toLowerCaseLocal
 
 @ExperimentalFoundationApi
 @Composable

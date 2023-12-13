@@ -15,9 +15,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.wallet.ui.theme.components.BalanceRow
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
-import com.ivy.legacy.utils.clickableNoIndication
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable

@@ -23,14 +23,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.budgets.model.DisplayBudget
-import com.ivy.legacy.datamodel.Budget
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.navigation.navigation
+import com.ivy.legacy.datamodel.Budget
 import com.ivy.legacy.legacy.ui.theme.components.BudgetBattery
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.format
 import com.ivy.navigation.BudgetScreen
+import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gray

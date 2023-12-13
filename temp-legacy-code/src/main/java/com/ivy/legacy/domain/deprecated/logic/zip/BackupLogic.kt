@@ -3,10 +3,6 @@ package com.ivy.legacy.domain.deprecated.logic.zip
 import android.content.Context
 import android.net.Uri
 import androidx.core.net.toUri
-import com.ivy.legacy.data.SharedPrefs
-import com.ivy.legacy.utils.ioThread
-import com.ivy.legacy.utils.readFile
-import com.ivy.legacy.utils.scopedIOThread
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.BudgetDao
 import com.ivy.data.db.dao.read.CategoryDao
@@ -23,6 +19,10 @@ import com.ivy.data.db.dao.write.WriteLoanRecordDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
+import com.ivy.legacy.data.SharedPrefs
+import com.ivy.legacy.utils.ioThread
+import com.ivy.legacy.utils.readFile
+import com.ivy.legacy.utils.scopedIOThread
 import com.ivy.wallet.domain.data.IvyWalletCompleteData
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import com.ivy.wallet.domain.deprecated.logic.zip.unzip
@@ -267,9 +267,9 @@ class BackupLogic @Inject constructor(
             sharedPrefs.putBoolean(
                 SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE,
                 (
-                        completeData.sharedPrefs[SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE]
-                            ?: "false"
-                        ).toBoolean()
+                    completeData.sharedPrefs[SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE]
+                        ?: "false"
+                    ).toBoolean()
             )
 
             plannedPayments.await()

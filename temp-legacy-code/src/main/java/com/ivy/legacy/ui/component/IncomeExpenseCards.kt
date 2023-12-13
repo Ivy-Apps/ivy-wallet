@@ -21,11 +21,11 @@ import androidx.compose.ui.unit.dp
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.legacy.stringRes
+import com.ivy.base.model.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.format
-import com.ivy.base.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.ui.theme.Gradient

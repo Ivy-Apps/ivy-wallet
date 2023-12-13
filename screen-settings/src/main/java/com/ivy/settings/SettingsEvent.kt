@@ -11,6 +11,7 @@ sealed interface SettingsEvent {
     data class SetLockApp(val lockApp: Boolean) : SettingsEvent
     data class SetShowNotifications(val showNotifications: Boolean) : SettingsEvent
     data class SetHideCurrentBalance(val hideCurrentBalance: Boolean) : SettingsEvent
+    data class SetHideIncome(val hideIncome: Boolean) : SettingsEvent
     data class SetTransfersAsIncomeExpense(val treatTransfersAsIncomeExpense: Boolean) :
         SettingsEvent
 

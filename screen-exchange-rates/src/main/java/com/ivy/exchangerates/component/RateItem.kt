@@ -12,14 +12,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerWeight
 import com.ivy.exchangerates.data.RateUi
-import com.ivy.wallet.ui.theme.components.DeleteButton
+import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.legacy.utils.format
+import com.ivy.wallet.ui.theme.components.DeleteButton
 
 @Composable
 fun RateItem(

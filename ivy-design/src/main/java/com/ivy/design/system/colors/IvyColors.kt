@@ -77,4 +77,3 @@ object IvyColors {
         extraDark = Color(0xFF521433),
     )
 }
-

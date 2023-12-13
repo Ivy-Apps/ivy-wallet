@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.legacy.Transaction
+import com.ivy.base.model.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IvyText
@@ -42,7 +43,6 @@ import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
-import com.ivy.base.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gradient

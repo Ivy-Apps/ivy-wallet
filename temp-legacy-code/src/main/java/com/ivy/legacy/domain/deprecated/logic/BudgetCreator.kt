@@ -1,9 +1,9 @@
 package com.ivy.legacy.domain.deprecated.logic
 
-import com.ivy.legacy.datamodel.Budget
-import com.ivy.legacy.utils.ioThread
 import com.ivy.data.db.dao.read.BudgetDao
 import com.ivy.data.db.dao.write.WriteBudgetDao
+import com.ivy.legacy.datamodel.Budget
+import com.ivy.legacy.utils.ioThread
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
 import com.ivy.wallet.domain.pure.util.nextOrderNum
 import javax.inject.Inject

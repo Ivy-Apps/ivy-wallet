@@ -158,7 +158,7 @@ fun BoxWithConstraintsScope.DeleteConfirmationModal(
             onAccountNameChange(newValue.text)
         }
 
-        LaunchedEffect(key1 = true){
+        LaunchedEffect(key1 = true) {
             delay(50)
             focusRequester.requestFocus()
         }

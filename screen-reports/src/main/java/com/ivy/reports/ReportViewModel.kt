@@ -150,7 +150,7 @@ class ReportViewModel @Inject constructor(
     private suspend fun setFilter(reportFilter: ReportFilter?) {
         scopedIOThread { scope ->
             if (reportFilter == null) {
-                //clear filter
+                // clear filter
                 filter.value = null
                 return@scopedIOThread
             }
@@ -189,10 +189,10 @@ class ReportViewModel @Inject constructor(
             )
 
             val tempIncome = historyIncomeExpense.value.income.toDouble() +
-                    if (treatTransfersAsIncExp.value) historyIncomeExpense.value.transferIncome.toDouble() else 0.0
+                if (treatTransfersAsIncExp.value) historyIncomeExpense.value.transferIncome.toDouble() else 0.0
 
             val tempExpenses = historyIncomeExpense.value.expense.toDouble() +
-                    if (treatTransfersAsIncExp.value) historyIncomeExpense.value.transferExpense.toDouble() else 0.0
+                if (treatTransfersAsIncExp.value) historyIncomeExpense.value.transferExpense.toDouble() else 0.0
 
             val tempBalance = calculateBalance(historyIncomeExpense.value).toDouble()
 
@@ -200,7 +200,7 @@ class ReportViewModel @Inject constructor(
 
             val timeNowUTC = timeNowUTC()
 
-            //Upcoming
+            // Upcoming
             val upcomingTransactionsList = transactionsList
                 .filter {
                     it.dueDate != null && it.dueDate!!.isAfter(timeNowUTC)
@@ -215,7 +215,7 @@ class ReportViewModel @Inject constructor(
                     baseCurrency = baseCurrency
                 )
             )
-            //Overdue
+            // Overdue
             val overdue = transactionsList.filter {
                 it.dueDate != null && it.dueDate!!.isBefore(timeNowUTC)
             }.sortedByDescending {
@@ -263,31 +263,31 @@ class ReportViewModel @Inject constructor(
             .findAll()
             .map { it.toDomain() }
             .filter {
-                //Filter by Transaction Type
+                // Filter by Transaction Type
                 filter.trnTypes.contains(it.type)
             }
             .filter {
-                //Filter by Time Period
+                // Filter by Time Period
 
                 filterRange ?: return@filter false
 
                 (it.dateTime != null && filterRange.includes(it.dateTime!!)) ||
-                        (it.dueDate != null && filterRange.includes(it.dueDate!!))
+                    (it.dueDate != null && filterRange.includes(it.dueDate!!))
             }
             .filter { trn ->
-                //Filter by Accounts
+                // Filter by Accounts
 
-                filterAccountIds.contains(trn.accountId) || //Transfers Out
-                        (trn.toAccountId != null && filterAccountIds.contains(trn.toAccountId)) //Transfers In
+                filterAccountIds.contains(trn.accountId) || // Transfers Out
+                    (trn.toAccountId != null && filterAccountIds.contains(trn.toAccountId)) // Transfers In
             }
             .filter { trn ->
-                //Filter by Categories
+                // Filter by Categories
 
                 filterCategoryIds.contains(trn.categoryId) || (trn.type == TransactionType.TRANSFER)
             }
             .filterSuspend {
-                //Filter by Amount
-                //!NOTE: Amount must be converted to baseCurrency amount
+                // Filter by Amount
+                // !NOTE: Amount must be converted to baseCurrency amount
 
                 val trnAmountBaseCurrency = exchangeAct(
                     ExchangeAct.Input(
@@ -300,10 +300,10 @@ class ReportViewModel @Inject constructor(
                 ).orZero().toDouble()
 
                 (filter.minAmount == null || trnAmountBaseCurrency >= filter.minAmount) &&
-                        (filter.maxAmount == null || trnAmountBaseCurrency <= filter.maxAmount)
+                    (filter.maxAmount == null || trnAmountBaseCurrency <= filter.maxAmount)
             }
             .filter {
-                //Filter by Included Keywords
+                // Filter by Included Keywords
 
                 val includeKeywords = filter.includeKeywords
                 if (includeKeywords.isEmpty()) return@filter true
@@ -327,7 +327,7 @@ class ReportViewModel @Inject constructor(
                 false
             }
             .filter {
-                //Filter by Excluded Keywords
+                // Filter by Excluded Keywords
 
                 val excludedKeywords = filter.excludeKeywords
                 if (excludedKeywords.isEmpty()) return@filter true
@@ -416,11 +416,11 @@ class ReportViewModel @Inject constructor(
     }
 
     private fun onTreatTransfersAsIncomeExpense(transfersAsIncExp: Boolean) {
-            income.doubleValue = historyIncomeExpense.value.income.toDouble() +
-                    if (transfersAsIncExp) historyIncomeExpense.value.transferIncome.toDouble() else 0.0
-            expenses.doubleValue = historyIncomeExpense.value.expense.toDouble() +
-                    if (transfersAsIncExp) historyIncomeExpense.value.transferExpense.toDouble() else 0.0
-                treatTransfersAsIncExp.value = transfersAsIncExp
+        income.doubleValue = historyIncomeExpense.value.income.toDouble() +
+            if (transfersAsIncExp) historyIncomeExpense.value.transferIncome.toDouble() else 0.0
+        expenses.doubleValue = historyIncomeExpense.value.expense.toDouble() +
+            if (transfersAsIncExp) historyIncomeExpense.value.transferExpense.toDouble() else 0.0
+        treatTransfersAsIncExp.value = transfersAsIncExp
     }
 
     private suspend fun skipTransaction(transaction: Transaction) {

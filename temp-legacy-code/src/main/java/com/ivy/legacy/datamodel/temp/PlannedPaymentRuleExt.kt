@@ -1,7 +1,7 @@
 package com.ivy.legacy.datamodel.temp
 
-import com.ivy.legacy.datamodel.PlannedPaymentRule
 import com.ivy.data.db.entity.PlannedPaymentRuleEntity
+import com.ivy.legacy.datamodel.PlannedPaymentRule
 
 fun PlannedPaymentRuleEntity.toDomain(): PlannedPaymentRule = PlannedPaymentRule(
     startDate = startDate,

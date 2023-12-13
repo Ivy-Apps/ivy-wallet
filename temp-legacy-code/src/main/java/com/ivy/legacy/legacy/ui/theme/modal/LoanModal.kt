@@ -34,19 +34,19 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Loan
-import com.ivy.domain.legacy.ui.IvyColorPicker
+import com.ivy.data.model.LoanType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.domain.legacy.ui.IvyColorPicker
 import com.ivy.frp.test.TestingContext
 import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Loan
 import com.ivy.legacy.utils.getDefaultFIATCurrency
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.selectEndTextFieldValue
 import com.ivy.legacy.utils.thenIf
-import com.ivy.data.model.LoanType
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
@@ -140,9 +140,9 @@ fun BoxWithConstraintsScope.LoanModal(
             ) {
                 accountChangeModal =
                     loan != null && modal.selectedAccount != null && currencyCode != (
-                            modal.selectedAccount.currency
-                                ?: modal.baseCurrency
-                            )
+                        modal.selectedAccount.currency
+                            ?: modal.baseCurrency
+                        )
 
                 if (!accountChangeModal) {
                     save(

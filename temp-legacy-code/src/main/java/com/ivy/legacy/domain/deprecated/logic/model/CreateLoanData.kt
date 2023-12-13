@@ -1,8 +1,8 @@
 package com.ivy.wallet.domain.deprecated.logic.model
 
 import androidx.compose.ui.graphics.Color
-import com.ivy.legacy.datamodel.Account
 import com.ivy.data.model.LoanType
+import com.ivy.legacy.datamodel.Account
 
 data class CreateLoanData(
     val name: String,

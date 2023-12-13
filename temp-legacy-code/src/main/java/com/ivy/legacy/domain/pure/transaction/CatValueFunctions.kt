@@ -3,9 +3,9 @@ package com.ivy.wallet.domain.pure.transaction
 import arrow.core.Option
 import arrow.core.toOption
 import com.ivy.base.legacy.Transaction
-import com.ivy.legacy.datamodel.Account
-import com.ivy.frp.SideEffect
 import com.ivy.base.model.TransactionType
+import com.ivy.frp.SideEffect
+import com.ivy.legacy.datamodel.Account
 import java.math.BigDecimal
 import java.util.UUID
 

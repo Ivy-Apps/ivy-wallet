@@ -5,15 +5,10 @@ import android.app.Activity
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.compose.animation.core.AnimationSpec
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnLayout
-
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun View.showKeyboard() {

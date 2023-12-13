@@ -36,7 +36,7 @@ class CommentAnalyzerTest : FreeSpec({
             row("I am on it", CommentIntention.TakeIssue(user)),
             row(
                 "yeah i am on it, also i wanted to ask " +
-                        "what resources should i use learn android",
+                    "what resources should i use learn android",
                 CommentIntention.TakeIssue(user)
             ),
             row("want to contribute", CommentIntention.Unknown),
@@ -63,8 +63,8 @@ class CommentAnalyzerTest : FreeSpec({
             ),
             row(
                 "Hi @ILIYANGERMANOV, Assign this issue to me." +
-                        "I think i will require some help in it from your side, " +
-                        "so please bear with me.\n",
+                    "I think i will require some help in it from your side, " +
+                    "so please bear with me.\n",
                 CommentIntention.Unknown
             ),
             row(

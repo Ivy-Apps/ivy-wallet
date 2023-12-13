@@ -1,8 +1,8 @@
 package com.ivy.home
 
 import com.ivy.base.legacy.Transaction
-import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.home.customerjourney.CustomerJourneyCardModel
+import com.ivy.legacy.data.model.TimePeriod
 
 sealed interface HomeEvent {
     data class SetUpcomingExpanded(val expanded: Boolean) : HomeEvent
@@ -10,6 +10,7 @@ sealed interface HomeEvent {
 
     data object BalanceClick : HomeEvent
     data object HiddenBalanceClick : HomeEvent
+    data object HiddenIncomeClick : HomeEvent
     data class SetExpanded(val expanded: Boolean) : HomeEvent
 
     data object SwitchTheme : HomeEvent

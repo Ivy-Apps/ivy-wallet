@@ -24,9 +24,9 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
-import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.stringRes
 import com.ivy.common.ui.rememberScrollPositionListState
 import com.ivy.frp.forward
@@ -149,6 +149,7 @@ private fun BoxWithConstraintsScope.UI(
 
         HomeLazyColumn(
             hideBalance = uiState.hideBalance,
+            hideIncome = uiState.hideIncome,
             onSetExpanded = {
                 onEvent(HomeEvent.SetExpanded(it))
             },
@@ -161,6 +162,9 @@ private fun BoxWithConstraintsScope.UI(
             },
             onHiddenBalanceClick = {
                 onEvent(HomeEvent.HiddenBalanceClick)
+            },
+            onHiddenIncomeClick = {
+                onEvent(HomeEvent.HiddenIncomeClick)
             },
 
             period = uiState.period,
@@ -268,6 +272,7 @@ private fun BoxWithConstraintsScope.UI(
 @Composable
 fun HomeLazyColumn(
     hideBalance: Boolean,
+    hideIncome: Boolean,
     onSetExpanded: (Boolean) -> Unit,
     listState: LazyListState,
     period: TimePeriod,
@@ -291,6 +296,7 @@ fun HomeLazyColumn(
     onPayOrGet: (Transaction) -> Unit,
     onDismiss: (CustomerJourneyCardModel) -> Unit,
     onHiddenBalanceClick: () -> Unit,
+    onHiddenIncomeClick: () -> Unit,
     onSkipTransaction: (Transaction) -> Unit,
     onSkipAllTransactions: (List<Transaction>) -> Unit,
     modifier: Modifier = Modifier
@@ -330,7 +336,9 @@ fun HomeLazyColumn(
                 onOpenMoreMenu = onOpenMoreMenu,
                 onBalanceClick = onBalanceClick,
                 onHiddenBalanceClick = onHiddenBalanceClick,
-                percentExpanded = 1f
+                percentExpanded = 1f,
+                hideIncome = hideIncome,
+                onHiddenIncomeClick = onHiddenIncomeClick
             )
         }
         item {
@@ -400,6 +408,7 @@ private fun BoxWithConstraintsScope.PreviewHomeTab() {
                 ),
                 period = ivyWalletCtx().selectedPeriod,
                 hideBalance = false,
+                hideIncome = false,
                 expanded = false
             ),
             onEvent = {}

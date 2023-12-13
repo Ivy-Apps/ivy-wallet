@@ -9,9 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.Dp
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
@@ -39,7 +37,6 @@ fun Modifier.thenWhen(
     this.logic() ?: this
 }
 
-
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun Modifier.clickableNoIndication(
     onClick: () -> Unit
@@ -65,7 +62,6 @@ fun onEvent(
         onDispose { cleanUp() }
     }
 }
-
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable

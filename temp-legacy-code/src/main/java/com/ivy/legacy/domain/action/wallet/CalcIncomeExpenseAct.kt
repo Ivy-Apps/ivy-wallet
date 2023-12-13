@@ -5,9 +5,9 @@ import arrow.core.toOption
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.then
+import com.ivy.legacy.datamodel.Account
 import com.ivy.wallet.domain.action.account.AccTrnsAct
 import com.ivy.wallet.domain.action.exchange.ExchangeAct
-import com.ivy.legacy.datamodel.Account
 import com.ivy.wallet.domain.pure.account.filterExcluded
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
