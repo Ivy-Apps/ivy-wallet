@@ -19,7 +19,7 @@ interface WriteTransactionDao {
 
     @Query(
         "UPDATE transactions SET isDeleted = 1, isSynced = 0 WHERE" +
-                " recurringRuleId = :recurringRuleId AND dateTime IS NULL"
+            " recurringRuleId = :recurringRuleId AND dateTime IS NULL"
     )
     suspend fun flagDeletedByRecurringRuleIdAndNoDateTime(recurringRuleId: UUID)
 

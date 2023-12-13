@@ -33,20 +33,20 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.legacy.IvyWalletPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.resources.R
-import com.ivy.wallet.ui.theme.GradientIvy
-import com.ivy.wallet.ui.theme.White
-import com.ivy.wallet.ui.theme.components.IvyOutlinedTextField
-import com.ivy.wallet.ui.theme.components.OnboardingButton
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.utils.addKeyboardListener
 import com.ivy.legacy.utils.densityScope
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.keyboardOnlyWindowInsets
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.springBounceSlow
+import com.ivy.resources.R
+import com.ivy.wallet.ui.theme.GradientIvy
+import com.ivy.wallet.ui.theme.White
+import com.ivy.wallet.ui.theme.components.IvyOutlinedTextField
+import com.ivy.wallet.ui.theme.components.OnboardingButton
 
 @Composable
 fun OnboardingSetName(

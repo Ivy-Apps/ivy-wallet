@@ -4,9 +4,9 @@ import androidx.room.TypeConverter
 import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.epochMilliToDateTime
 import com.ivy.base.legacy.toEpochMilli
+import com.ivy.base.model.TransactionType
 import com.ivy.data.model.IntervalType
 import com.ivy.data.model.LoanType
-import com.ivy.base.model.TransactionType
 import java.time.LocalDateTime
 import java.util.*
 

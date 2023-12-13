@@ -1,6 +1,8 @@
 package com.ivy.wallet.domain.deprecated.logic.loantrasactions
 
 import com.ivy.base.legacy.Transaction
+import com.ivy.base.model.TransactionType
+import com.ivy.data.model.LoanType
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Loan
 import com.ivy.legacy.datamodel.LoanRecord
@@ -8,8 +10,6 @@ import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.domain.deprecated.logic.loantrasactions.LoanTransactionsCore
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.scopedIOThread
-import com.ivy.data.model.LoanType
-import com.ivy.base.model.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanData
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll

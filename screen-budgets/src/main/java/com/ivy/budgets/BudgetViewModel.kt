@@ -6,7 +6,9 @@ import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.Transaction
+import com.ivy.base.model.TransactionType
 import com.ivy.budgets.model.DisplayBudget
+import com.ivy.data.db.dao.write.WriteBudgetDao
 import com.ivy.domain.ComposeViewModel
 import com.ivy.frp.sumOfSuspend
 import com.ivy.legacy.data.SharedPrefs
@@ -17,8 +19,6 @@ import com.ivy.legacy.datamodel.Budget
 import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.domain.deprecated.logic.BudgetCreator
 import com.ivy.legacy.utils.isNotNullOrBlank
-import com.ivy.data.db.dao.write.WriteBudgetDao
-import com.ivy.base.model.TransactionType
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.budget.BudgetsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct

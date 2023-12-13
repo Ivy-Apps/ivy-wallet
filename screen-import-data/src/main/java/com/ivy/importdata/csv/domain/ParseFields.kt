@@ -1,10 +1,10 @@
 package com.ivy.importdata.csv.domain
 
+import com.ivy.base.model.TransactionType
 import com.ivy.importdata.csv.CSVRow
 import com.ivy.importdata.csv.ColumnMapping
 import com.ivy.importdata.csv.DateMetadata
 import com.ivy.importdata.csv.TrnTypeMetadata
-import com.ivy.base.model.TransactionType
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.time.LocalDateTime
@@ -62,7 +62,7 @@ fun parseTransactionType(
 ): TransactionType? {
     fun String.tryMeta(metaContains: String): Boolean {
         return metaContains.isNotBlank() &&
-                this.contains(metaContains.trim(), ignoreCase = true)
+            this.contains(metaContains.trim(), ignoreCase = true)
     }
 
     return tryParse {

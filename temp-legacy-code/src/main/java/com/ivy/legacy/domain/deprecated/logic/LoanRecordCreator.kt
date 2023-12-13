@@ -1,8 +1,8 @@
 package com.ivy.wallet.domain.deprecated.logic
 
+import com.ivy.data.db.dao.write.WriteLoanRecordDao
 import com.ivy.legacy.datamodel.LoanRecord
 import com.ivy.legacy.utils.ioThread
-import com.ivy.data.db.dao.write.WriteLoanRecordDao
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
 import java.util.UUID
 import javax.inject.Inject

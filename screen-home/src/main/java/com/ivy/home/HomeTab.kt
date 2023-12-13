@@ -24,9 +24,9 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
-import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.stringRes
 import com.ivy.common.ui.rememberScrollPositionListState
 import com.ivy.frp.forward
@@ -141,9 +141,6 @@ private fun BoxWithConstraintsScope.UI(
             },
             onSelectNextMonth = {
                 onEvent(HomeEvent.SelectNextMonth)
-            },
-            onHiddenIncomeClick = {
-                onEvent(HomeEvent.HiddenIncomeClick)
             },
             onSelectPreviousMonth = {
                 onEvent(HomeEvent.SelectPreviousMonth)

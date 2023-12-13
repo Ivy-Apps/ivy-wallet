@@ -18,6 +18,5 @@ value class PositiveDouble private constructor(val value: Double) {
             }
             return PositiveDouble(raw)
         }
-
     }
 }

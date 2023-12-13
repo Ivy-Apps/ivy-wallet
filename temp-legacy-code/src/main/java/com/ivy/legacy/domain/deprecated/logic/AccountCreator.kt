@@ -1,10 +1,10 @@
 package com.ivy.legacy.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.utils.ioThread
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.write.WriteAccountDao
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.utils.ioThread
 import com.ivy.wallet.domain.deprecated.logic.WalletAccountLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.pure.util.nextOrderNum
@@ -22,7 +22,6 @@ class AccountCreator @Inject constructor(
     ) {
         val name = data.name
         if (name.isBlank()) return
-
 
         ioThread {
             val account = Account(

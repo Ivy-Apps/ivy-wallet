@@ -2,35 +2,35 @@ package com.ivy.frp
 
 import com.ivy.frp.action.Action
 
-//Cases:
-//A
-//() -> B
-//(A) -> B
-//suspend () -> B
-//suspend (A) -> B
-//Action<A,B>
+// Cases:
+// A
+// () -> B
+// (A) -> B
+// suspend () -> B
+// suspend (A) -> B
+// Action<A,B>
 
-//Eligible 2nd position
-//(A) -> B
-//suspend (A) -> B
-//Action<A,B>
+// Eligible 2nd position
+// (A) -> B
+// suspend (A) -> B
+// Action<A,B>
 
-//~ 18 possible combinations
-//Note: Non-suspend variants are skipped because or ambiguity errors
+// ~ 18 possible combinations
+// Note: Non-suspend variants are skipped because or ambiguity errors
 
 // -------------------------- A ------------------------------------
-//A => (A) -> B
-//inline infix fun <A, B> A.asParamTo(crossinline f: (A) -> B): () -> B = {
+// A => (A) -> B
+// inline infix fun <A, B> A.asParamTo(crossinline f: (A) -> B): () -> B = {
 //    f(this)
-//}
+// }
 
-//A => suspend (A) -> B
+// A => suspend (A) -> B
 @Deprecated("Legacy code. Don't use it, please.")
 inline infix fun <A, B> A.asParamTo(crossinline f: suspend (A) -> B): suspend () -> B = {
     f(this)
 }
 
-//A => Action<A,B>
+// A => Action<A,B>
 @Deprecated("Legacy code. Don't use it, please.")
 infix fun <A, B> A.asParamTo(act: Action<A, B>): suspend () -> B = {
     act(this)
@@ -38,21 +38,21 @@ infix fun <A, B> A.asParamTo(act: Action<A, B>): suspend () -> B = {
 // -------------------------- A ------------------------------------
 
 // -------------------------- () -> B ------------------------------------
-////() -> B => (B) -> C
-//inline infix fun <B, C> (() -> B).then(crossinline f: (B) -> C): () -> C = {
+// //() -> B => (B) -> C
+// inline infix fun <B, C> (() -> B).then(crossinline f: (B) -> C): () -> C = {
 //    val b = this()
 //    f(b)
-//}
-//Error: Ambiguity
+// }
+// Error: Ambiguity
 
-//() -> B => suspend (B) -> C
+// () -> B => suspend (B) -> C
 @Deprecated("Legacy code. Don't use it, please.")
 inline infix fun <B, C> (() -> B).then(crossinline f: suspend (B) -> C): suspend () -> C = {
     val b = this()
     f(b)
 }
 
-//() -> B => Action<A,B>
+// () -> B => Action<A,B>
 @Deprecated("Legacy code. Don't use it, please.")
 infix fun <B, C> (() -> B).then(act: Action<B, C>): suspend () -> C = {
     val b = this()
@@ -61,14 +61,14 @@ infix fun <B, C> (() -> B).then(act: Action<B, C>): suspend () -> C = {
 // -------------------------- () -> B ------------------------------------
 
 // -------------------------- (A) -> C ------------------------------------
-//(A) -> B => (B) -> C
-//inline infix fun <A, B, C> ((A) -> B).then(crossinline f: (B) -> C): (A) -> C = { a ->
+// (A) -> B => (B) -> C
+// inline infix fun <A, B, C> ((A) -> B).then(crossinline f: (B) -> C): (A) -> C = { a ->
 //    val b = this(a)
 //    f(b)
-//}
-//ERROR: Ambiguity
+// }
+// ERROR: Ambiguity
 
-//(A) -> B => suspend (B) -> C
+// (A) -> B => suspend (B) -> C
 @Deprecated("Legacy code. Don't use it, please.")
 inline infix fun <A, B, C> ((A) -> B).then(crossinline f: suspend (B) -> C): suspend (A) -> C =
     { a ->
@@ -76,30 +76,30 @@ inline infix fun <A, B, C> ((A) -> B).then(crossinline f: suspend (B) -> C): sus
         f(b)
     }
 
-//(A) -> B => Action<B,C>
-//infix fun <A, B, C> ((A) -> B).then(act: Action<B, C>): suspend (A) -> C = { a ->
+// (A) -> B => Action<B,C>
+// infix fun <A, B, C> ((A) -> B).then(act: Action<B, C>): suspend (A) -> C = { a ->
 //    val b = this(a)
 //    act(b)
-//}
-//ERROR: Ambiguity
+// }
+// ERROR: Ambiguity
 // -------------------------- (A) -> C ------------------------------------
 
 // -------------------------- suspend () -> B ------------------------------------
-//suspend () -> B => (B) -> C
-//infix fun <B, C> (suspend () -> B).then(f: (B) -> C): suspend () -> C = {
+// suspend () -> B => (B) -> C
+// infix fun <B, C> (suspend () -> B).then(f: (B) -> C): suspend () -> C = {
 //    val b = this()
 //    f(b)
-//}
-//Same as: infix fun <A, B, C> ((A) -> B).then(f: (B) -> C): (A) -> C
+// }
+// Same as: infix fun <A, B, C> ((A) -> B).then(f: (B) -> C): (A) -> C
 
-//suspend () -> B => suspend (B) -> C
+// suspend () -> B => suspend (B) -> C
 @Deprecated("Legacy code. Don't use it, please.")
 inline infix fun <B, C> (suspend () -> B).then(crossinline f: suspend (B) -> C): suspend () -> C = {
     val b = this()
     f(b)
 }
 
-//suspend () -> B => Action<A,B>
+// suspend () -> B => Action<A,B>
 @Deprecated("Legacy code. Don't use it, please.")
 infix fun <B, C> (suspend () -> B).then(act: Action<B, C>): suspend () -> C = {
     val b = this()
@@ -108,15 +108,15 @@ infix fun <B, C> (suspend () -> B).then(act: Action<B, C>): suspend () -> C = {
 // -------------------------- suspend () -> B ------------------------------------
 
 // -------------------------- suspend (A) -> B ------------------------------------
-//suspend (A) -> B => (B) -> C
-//inline infix fun <A, B, C> (suspend (A) -> B).then(crossinline f: (B) -> C): suspend (A) -> C =
+// suspend (A) -> B => (B) -> C
+// inline infix fun <A, B, C> (suspend (A) -> B).then(crossinline f: (B) -> C): suspend (A) -> C =
 //    { a ->
 //        val b = this(a)
 //        f(b)
 //    }
 // ERROR: Ambiguity
 
-//suspend (A) -> B => suspend (B) -> C
+// suspend (A) -> B => suspend (B) -> C
 @Deprecated("Legacy code. Don't use it, please.")
 inline infix fun <A, B, C> (suspend (A) -> B).then(
     crossinline f: suspend (B) -> C
@@ -126,7 +126,7 @@ inline infix fun <A, B, C> (suspend (A) -> B).then(
         f(b)
     }
 
-//(A) -> B => Action<B,C>
+// (A) -> B => Action<B,C>
 @Deprecated("Legacy code. Don't use it, please.")
 infix fun <A, B, C> (suspend (A) -> B).then(act: Action<B, C>): suspend (A) -> C = { a ->
     val b = this(a)
@@ -135,14 +135,14 @@ infix fun <A, B, C> (suspend (A) -> B).then(act: Action<B, C>): suspend (A) -> C
 // -------------------------- suspend (A) -> B ------------------------------------
 
 // -------------------------- Action<A,B> ------------------------------------
-//Action<A,B> => (B) -> C
-//inline infix fun <A, B, C> (Action<A, B>).then(crossinline f: (B) -> C): suspend (A) -> C = { a ->
+// Action<A,B> => (B) -> C
+// inline infix fun <A, B, C> (Action<A, B>).then(crossinline f: (B) -> C): suspend (A) -> C = { a ->
 //    val b = this(a)
 //    f(b)
-//}
-//ERROR: Ambiguity
+// }
+// ERROR: Ambiguity
 
-//Action<A,B> => suspend (B) -> C
+// Action<A,B> => suspend (B) -> C
 @Deprecated("Legacy code. Don't use it, please.")
 inline infix fun <A, B, C> (Action<A, B>).then(crossinline f: suspend (B) -> C): suspend (A) -> C =
     { a ->
@@ -150,7 +150,7 @@ inline infix fun <A, B, C> (Action<A, B>).then(crossinline f: suspend (B) -> C):
         f(b)
     }
 
-//Action<A,B> => Action<B,C>
+// Action<A,B> => Action<B,C>
 @Deprecated("Legacy code. Don't use it, please.")
 infix fun <A, B, C> (Action<A, B>).then(act: Action<B, C>): suspend (A) -> C = { a ->
     val b = this(a)
@@ -158,62 +158,62 @@ infix fun <A, B, C> (Action<A, B>).then(act: Action<B, C>): suspend (A) -> C = {
 }
 // -------------------------- Action<A,B> ------------------------------------
 
-//================================= thenInvokeAfter ==========================================
-//First part:
-//() -> B
-//(A) -> B
-//suspend () -> B
-//suspend (A) -> B
-//Action<A,B>
+// ================================= thenInvokeAfter ==========================================
+// First part:
+// () -> B
+// (A) -> B
+// suspend () -> B
+// suspend (A) -> B
+// Action<A,B>
 
-//Second part:
-//(A) -> B
-//suspend (A) -> B
-//Action<A,B>
+// Second part:
+// (A) -> B
+// suspend (A) -> B
+// Action<A,B>
 
-//--------------------------- () -> B -----------------------------
-//() -> B => (B) -> C
-//inline infix fun <B, C> (() -> B).thenInvokeAfter(crossinline f: (B) -> C): C {
+// --------------------------- () -> B -----------------------------
+// () -> B => (B) -> C
+// inline infix fun <B, C> (() -> B).thenInvokeAfter(crossinline f: (B) -> C): C {
 //    val b = this@thenInvokeAfter()
 //    return f(b)
-//}
-//ERROR: Ambiguity
+// }
+// ERROR: Ambiguity
 
-//() -> B => suspend (B) -> C
+// () -> B => suspend (B) -> C
 @Deprecated("Legacy code. Don't use it, please.")
 suspend inline infix fun <B, C> (() -> B).thenInvokeAfter(crossinline f: suspend (B) -> C): C {
     val b = this@thenInvokeAfter()
     return f(b)
 }
 
-//() -> B => Action<B,C>
+// () -> B => Action<B,C>
 @Deprecated("Legacy code. Don't use it, please.")
 suspend infix fun <B, C> (() -> B).thenInvokeAfter(act: Action<B, C>): C {
     val b = this@thenInvokeAfter()
     return act(b)
 }
-//--------------------------- () -> B -----------------------------
+// --------------------------- () -> B -----------------------------
 
-//--------------------------- (A) -> B -----------------------------
-//(A) -> B => (B) -> C
-//infix fun <A, B, C> ((A) -> B).thenInvokeAfter(f: (B) -> C): C { "a ->" -- cannot have this
+// --------------------------- (A) -> B -----------------------------
+// (A) -> B => (B) -> C
+// infix fun <A, B, C> ((A) -> B).thenInvokeAfter(f: (B) -> C): C { "a ->" -- cannot have this
 //    val b = this@thenInvokeAfter()
 //    return f(b)
-//}
-//INVALID BECAUSE "A" parameter will turn the function into lambda
+// }
+// INVALID BECAUSE "A" parameter will turn the function into lambda
 
-//(A) -> B => suspend (B) -> C
-//(A) -> B => Action<B,C>
-//--------------------------- (A) -> B -----------------------------
+// (A) -> B => suspend (B) -> C
+// (A) -> B => Action<B,C>
+// --------------------------- (A) -> B -----------------------------
 
-//--------------------------- suspend () -> B -----------------------------
-//suspend () -> B => (B) -> C
-//suspend infix fun <B, C> (suspend () -> B).thenInvokeAfter(f: (B) -> C): C {
+// --------------------------- suspend () -> B -----------------------------
+// suspend () -> B => (B) -> C
+// suspend infix fun <B, C> (suspend () -> B).thenInvokeAfter(f: (B) -> C): C {
 //    val b = this@thenInvokeAfter()
 //    return f(b)
-//}
+// }
 
-//() -> B => suspend (B) -> C
+// () -> B => suspend (B) -> C
 @Deprecated("Legacy code. Don't use it, please.")
 suspend inline infix fun <B, C> (suspend () -> B).thenInvokeAfter(
     crossinline f: suspend (B) -> C
@@ -222,26 +222,26 @@ suspend inline infix fun <B, C> (suspend () -> B).thenInvokeAfter(
     return f(b)
 }
 
-//suspend () -> B => Action<B,C>
+// suspend () -> B => Action<B,C>
 @Deprecated("Legacy code. Don't use it, please.")
 suspend infix fun <B, C> (suspend () -> B).thenInvokeAfter(act: Action<B, C>): C {
     val b = this@thenInvokeAfter()
     return act(b)
 }
-//--------------------------- suspend () -> B -----------------------------
+// --------------------------- suspend () -> B -----------------------------
 
-//--------------------------- suspend (A) -> B -----------------------------
-//INVALID BECAUSE NO "A"
-//suspend (A) -> B => (B) -> C
-//suspend(A) -> B => suspend (B) -> C
-//suspend (A) -> B => Action<B,C>
-//--------------------------- suspend (A) -> B -----------------------------
+// --------------------------- suspend (A) -> B -----------------------------
+// INVALID BECAUSE NO "A"
+// suspend (A) -> B => (B) -> C
+// suspend(A) -> B => suspend (B) -> C
+// suspend (A) -> B => Action<B,C>
+// --------------------------- suspend (A) -> B -----------------------------
 
-//--------------------------- Action<Unit,B> -----------------------------
-//Action<Unit,B> => (B) -> C
-//Error: Ambiguity
+// --------------------------- Action<Unit,B> -----------------------------
+// Action<Unit,B> => (B) -> C
+// Error: Ambiguity
 
-//Action<Unit,B> => suspend (B) -> C
+// Action<Unit,B> => suspend (B) -> C
 @Deprecated("Legacy code. Don't use it, please.")
 suspend inline infix fun <B, C> (Action<Unit, B>).thenInvokeAfter(
     crossinline f: suspend (B) -> C
@@ -250,16 +250,15 @@ suspend inline infix fun <B, C> (Action<Unit, B>).thenInvokeAfter(
     return f(b)
 }
 
-//Action<A,B> => Action<B,C>
+// Action<A,B> => Action<B,C>
 @Deprecated("Legacy code. Don't use it, please.")
 suspend infix fun <B, C> (Action<Unit, B>).thenInvokeAfter(act: Action<B, C>): C {
     val b = this@thenInvokeAfter(Unit)
     return act(b)
 }
-//--------------------------- Action<A,B> -----------------------------
+// --------------------------- Action<A,B> -----------------------------
 
-//===============================  thenInvokeAfter =============================================
-
+// ===============================  thenInvokeAfter =============================================
 
 // ---------------------------------- .fixUnit() -------------------------------------------
 @Deprecated("Legacy code. Don't use it, please.")

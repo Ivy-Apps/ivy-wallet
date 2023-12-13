@@ -23,18 +23,18 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.data.model.IntervalType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.resources.R
 import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.legacy.forDisplay
-import com.ivy.wallet.ui.theme.Gradient
-import com.ivy.wallet.ui.theme.GradientIvy
-import com.ivy.wallet.ui.theme.White
 import com.ivy.legacy.utils.capitalizeLocal
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.selectEndTextFieldValue
-import com.ivy.data.model.IntervalType
+import com.ivy.resources.R
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.GradientIvy
+import com.ivy.wallet.ui.theme.White
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable

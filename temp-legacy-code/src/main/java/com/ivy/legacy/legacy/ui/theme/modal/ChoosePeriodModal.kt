@@ -30,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.data.model.IntervalType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
@@ -44,7 +45,6 @@ import com.ivy.legacy.utils.dateNowUTC
 import com.ivy.legacy.utils.formatDateOnlyWithYear
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.timeNowUTC
-import com.ivy.data.model.IntervalType
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientIvy
@@ -381,9 +381,13 @@ private fun IntervalFromToDate(
                 .padding(
                     vertical = 16.dp,
                 ),
-            text = if (border == IntervalBorder.FROM) stringResource(R.string.from) else stringResource(
-                R.string.to
-            ),
+            text = if (border == IntervalBorder.FROM) {
+                stringResource(R.string.from)
+            } else {
+                stringResource(
+                    R.string.to
+                )
+            },
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.ExtraBold,
                 color = if (dateTime != null) Green else UI.colors.pureInverse
@@ -490,7 +494,7 @@ private fun AllTime(
     onSelected: (com.ivy.legacy.data.model.FromToTimeRange?) -> Unit,
 ) {
     val active = timeRange != null && timeRange.from == null &&
-            timeRange.to != null && timeRange.to!!.isAfter(timeNowUTC())
+        timeRange.to != null && timeRange.to!!.isAfter(timeNowUTC())
 
     Text(
         modifier = Modifier

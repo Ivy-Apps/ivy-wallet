@@ -591,7 +591,7 @@ private fun Preview() {
                     monthlyIncome = 400.0
                 ),
 
-                )
+            )
         )
         UI(state = state)
     }

@@ -180,7 +180,7 @@ fun formatInputAmount(
     val amountDouble = newlyEnteredNumberString.amountToDoubleOrNull()
 
     val decimalCountOkay = IvyCurrency.fromCode(currency)?.isCrypto == true ||
-            decimalCount <= decimalCountMax
+        decimalCount <= decimalCountMax
     if (amountDouble != null && decimalCountOkay) {
         val intPart = truncate(amountDouble).toInt()
         val decimalPartFormatted = if (decimalPartString != null) {

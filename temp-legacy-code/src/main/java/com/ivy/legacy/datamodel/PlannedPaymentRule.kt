@@ -1,9 +1,9 @@
 package com.ivy.legacy.datamodel
 
 import androidx.compose.runtime.Immutable
+import com.ivy.base.model.TransactionType
 import com.ivy.data.db.entity.PlannedPaymentRuleEntity
 import com.ivy.data.model.IntervalType
-import com.ivy.base.model.TransactionType
 import java.time.LocalDateTime
 import java.util.UUID
 

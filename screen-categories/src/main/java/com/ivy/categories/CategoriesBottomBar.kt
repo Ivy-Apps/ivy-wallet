@@ -8,8 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.ivy.resources.R
 import com.ivy.legacy.IvyWalletPreview
+import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.components.BackBottomBar
 import com.ivy.wallet.ui.theme.components.IvyButton

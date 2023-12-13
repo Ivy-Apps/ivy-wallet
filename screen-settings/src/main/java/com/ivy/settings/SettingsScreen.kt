@@ -165,7 +165,7 @@ private fun BoxWithConstraintsScope.UI(
     onDeleteAllUserData: () -> Unit = {},
     onDeleteCloudUserData: () -> Unit = {},
 
-    ) {
+) {
     var currencyModalVisible by remember { mutableStateOf(false) }
     var nameModalVisible by remember { mutableStateOf(false) }
     var chooseStartDateOfMonthVisible by remember { mutableStateOf(false) }
@@ -806,7 +806,6 @@ private fun AccountCard(
         Spacer(Modifier.height(24.dp))
     }
 }
-
 
 @Composable
 private fun AccountCardLocalAccount(

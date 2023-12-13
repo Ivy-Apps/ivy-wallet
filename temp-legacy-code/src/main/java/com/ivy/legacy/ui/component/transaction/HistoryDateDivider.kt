@@ -17,13 +17,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.resources.R
 import com.ivy.legacy.IvyWalletComponentPreview
-import com.ivy.wallet.ui.theme.Gray
-import com.ivy.wallet.ui.theme.Green
 import com.ivy.legacy.utils.dateNowUTC
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.formatLocal
+import com.ivy.resources.R
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.Green
 import java.time.LocalDate
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")

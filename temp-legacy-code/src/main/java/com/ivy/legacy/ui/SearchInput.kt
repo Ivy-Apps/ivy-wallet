@@ -19,10 +19,10 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.Gray
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.IvyIcon
-import com.ivy.resources.R
-import com.ivy.wallet.ui.theme.components.IvyBasicTextField
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.selectEndTextFieldValue
+import com.ivy.resources.R
+import com.ivy.wallet.ui.theme.components.IvyBasicTextField
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable

@@ -1,10 +1,10 @@
 package com.ivy.wallet.domain.action.category
 
 import com.ivy.base.legacy.Transaction
-import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
 import com.ivy.wallet.domain.action.transaction.CalcTrnsIncomeExpenseAct
 import com.ivy.wallet.domain.pure.data.IncomeExpenseTransferPair
 import javax.inject.Inject

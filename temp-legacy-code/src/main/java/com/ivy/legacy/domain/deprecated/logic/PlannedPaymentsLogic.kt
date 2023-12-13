@@ -1,12 +1,7 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import com.ivy.base.legacy.Transaction
-import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.PlannedPaymentRule
-import com.ivy.legacy.datamodel.temp.toDomain
-import com.ivy.legacy.datamodel.toEntity
-import com.ivy.legacy.utils.ioThread
-import com.ivy.legacy.utils.timeNowUTC
+import com.ivy.base.model.TransactionType
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.PlannedPaymentRuleDao
 import com.ivy.data.db.dao.read.SettingsDao
@@ -14,7 +9,12 @@ import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.IntervalType
-import com.ivy.base.model.TransactionType
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.PlannedPaymentRule
+import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.datamodel.toEntity
+import com.ivy.legacy.utils.ioThread
+import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.sumByDoublePlannedInBaseCurrency
 import javax.inject.Inject
@@ -129,13 +129,13 @@ class PlannedPaymentsLogic @Inject constructor(
 
         return when (plannedPayment.intervalType) {
             IntervalType.DAY -> {
-                val monthDiff = 1 / AVG_DAYS_IN_MONTH //0.03%
+                val monthDiff = 1 / AVG_DAYS_IN_MONTH // 0.03%
 
                 (amountBaseCurrency / monthDiff) / intervalN
             }
 
             IntervalType.WEEK -> {
-                val monthDiff = 7 / AVG_DAYS_IN_MONTH //0.22%
+                val monthDiff = 7 / AVG_DAYS_IN_MONTH // 0.22%
 
                 (amountBaseCurrency / monthDiff) / intervalN
             }
@@ -179,9 +179,8 @@ class PlannedPaymentsLogic @Inject constructor(
                 transactionWriter.save(paidTransaction.toEntity())
             }
 
-
             if (plannedPaymentRule != null && plannedPaymentRule.oneTime) {
-                //delete paid oneTime planned payment rules
+                // delete paid oneTime planned payment rules
                 plannedPaymentRuleWriter.flagDeleted(plannedPaymentRule.id)
             }
         }
@@ -229,7 +228,7 @@ class PlannedPaymentsLogic @Inject constructor(
 
             plannedPaymentRules.forEach { plannedPaymentRule ->
                 if (plannedPaymentRule != null && plannedPaymentRule.oneTime) {
-                    //delete paid oneTime planned payment rules
+                    // delete paid oneTime planned payment rules
                     plannedPaymentRuleWriter.flagDeleted(plannedPaymentRule.id)
                 }
             }

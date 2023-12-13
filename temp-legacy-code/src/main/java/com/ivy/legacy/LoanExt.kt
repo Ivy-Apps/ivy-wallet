@@ -1,8 +1,8 @@
 package com.ivy.legacy
 
 import com.ivy.base.legacy.stringRes
-import com.ivy.legacy.datamodel.Loan
 import com.ivy.data.model.LoanType
+import com.ivy.legacy.datamodel.Loan
 import com.ivy.resources.R
 
 fun Loan.humanReadableType(): String {

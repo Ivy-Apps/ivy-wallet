@@ -72,11 +72,11 @@ import com.ivy.wallet.ui.theme.modal.edit.CategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import com.ivy.wallet.ui.theme.modal.edit.ChooseCategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.DescriptionModal
-import java.time.LocalDate
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentSetOf
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.util.UUID
@@ -94,7 +94,8 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransactionScreen)
 
     val view = rootView()
 
-    UI(screen = screen,
+    UI(
+        screen = screen,
         transactionType = uiState.transactionType,
         baseCurrency = uiState.currency,
         initialTitle = uiState.initialTitle,
@@ -168,7 +169,8 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransactionScreen)
         },
         onExchangeRateChanged = {
             viewModel.onEvent(EditTransactionEvent.UpdateExchangeRate(it))
-        })
+        }
+    )
 }
 
 @ExperimentalFoundationApi
@@ -213,7 +215,7 @@ private fun BoxWithConstraintsScope.UI(
     backgroundProcessing: Boolean = false,
     hasChanges: Boolean = false,
 
-    ) {
+) {
     var chooseCategoryModalVisible by remember { mutableStateOf(false) }
     var categoryModalData: CategoryModalData? by remember { mutableStateOf(null) }
     var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
@@ -272,11 +274,13 @@ private fun BoxWithConstraintsScope.UI(
             },
             onChangeTransactionTypeModal = {
                 changeTransactionTypeModalVisible = true
-            })
+            }
+        )
 
         Spacer(Modifier.height(32.dp))
 
-        Title(type = transactionType,
+        Title(
+            type = transactionType,
             titleFocus = titleFocus,
             initialTransactionId = screen.initialTransactionId,
 
@@ -298,7 +302,8 @@ private fun BoxWithConstraintsScope.UI(
                         onSave(true)
                     }
                 }
-            })
+            }
+        )
 
         if (loanData.loanCaption != null) {
             Spacer(modifier = Modifier.height(8.dp))
@@ -307,7 +312,8 @@ private fun BoxWithConstraintsScope.UI(
                 modifier = Modifier.padding(horizontal = 24.dp),
                 text = loanData.loanCaption!!,
                 style = UI.typo.nB2.style(
-                    color = UI.colors.mediumInverse, fontWeight = FontWeight.Normal
+                    color = UI.colors.mediumInverse,
+                    fontWeight = FontWeight.Normal
                 )
             )
         }
@@ -336,9 +342,11 @@ private fun BoxWithConstraintsScope.UI(
             Spacer(Modifier.height(12.dp))
         }
 
-        Description(description = description,
+        Description(
+            description = description,
             onAddDescription = { descriptionModalVisible = true },
-            onEditDescription = { descriptionModalVisible = true })
+            onEditDescription = { descriptionModalVisible = true }
+        )
 
         TransactionDateTime(dateTime = dateTime, dueDateTime = dueDate, onEditDate = {
             ivyContext.datePicker(
@@ -354,7 +362,8 @@ private fun BoxWithConstraintsScope.UI(
 
         if (transactionType == TransactionType.TRANSFER && customExchangeRateState.showCard) {
             Spacer(Modifier.height(12.dp))
-            CustomExchangeRateCard(fromCurrencyCode = baseCurrency,
+            CustomExchangeRateCard(
+                fromCurrencyCode = baseCurrency,
                 toCurrencyCode = customExchangeRateState.toCurrencyCode ?: baseCurrency,
                 exchangeRate = customExchangeRateState.exchangeRate,
                 onRefresh = {
@@ -363,7 +372,8 @@ private fun BoxWithConstraintsScope.UI(
                 },
                 modifier = Modifier.onGloballyPositioned { coordinates ->
                     customExchangeRatePosition = coordinates.positionInParent().y * 0.3f
-                }) {
+                }
+            ) {
                 exchangeRateAmountModalShown = true
             }
         }
@@ -372,7 +382,8 @@ private fun BoxWithConstraintsScope.UI(
             Spacer(Modifier.height(12.dp))
 
             val nav = navigation()
-            AddPrimaryAttributeButton(icon = R.drawable.ic_planned_payments,
+            AddPrimaryAttributeButton(
+                icon = R.drawable.ic_planned_payments,
                 text = stringResource(R.string.add_planned_date_payment),
                 onClick = {
                     nav.back()
@@ -387,7 +398,8 @@ private fun BoxWithConstraintsScope.UI(
                             description = description,
                         )
                     )
-                })
+                }
+            )
         }
 
         Spacer(Modifier.height(600.dp)) // scroll hack
@@ -399,7 +411,8 @@ private fun BoxWithConstraintsScope.UI(
         }
     }
 
-    EditBottomSheet(initialTransactionId = screen.initialTransactionId,
+    EditBottomSheet(
+        initialTransactionId = screen.initialTransactionId,
         type = transactionType,
         accounts = accounts,
         selectedAccount = account,
@@ -474,10 +487,12 @@ private fun BoxWithConstraintsScope.UI(
             accountModalData = AccountModalData(
                 account = null, baseCurrency = baseCurrency, balance = 0.0
             )
-        })
+        }
+    )
 
     // Modals
-    ChooseCategoryModal(visible = chooseCategoryModalVisible,
+    ChooseCategoryModal(
+        visible = chooseCategoryModalVisible,
         initialCategory = category,
         categories = categories,
         showCategoryModal = { categoryModalData = CategoryModalData(it) },
@@ -491,7 +506,8 @@ private fun BoxWithConstraintsScope.UI(
         },
         dismiss = {
             chooseCategoryModalVisible = false
-        })
+        }
+    )
 
     CategoryModal(modal = categoryModalData, onCreateCategory = { createData ->
         onCreateCategory(createData)
@@ -500,44 +516,54 @@ private fun BoxWithConstraintsScope.UI(
         categoryModalData = null
     })
 
-    AccountModal(modal = accountModalData,
+    AccountModal(
+        modal = accountModalData,
         onCreateAccount = onCreateAccount,
         onEditAccount = { _, _ -> },
         dismiss = {
             accountModalData = null
-        })
+        }
+    )
 
-    DescriptionModal(visible = descriptionModalVisible,
+    DescriptionModal(
+        visible = descriptionModalVisible,
         description = description,
         onDescriptionChanged = onDescriptionChanged,
         dismiss = {
             descriptionModalVisible = false
-        })
+        }
+    )
 
-    DeleteModal(visible = deleteTrnModalVisible,
+    DeleteModal(
+        visible = deleteTrnModalVisible,
         title = stringResource(R.string.confirm_deletion),
         description = stringResource(R.string.transaction_confirm_deletion_description),
-        dismiss = { deleteTrnModalVisible = false }) {
+        dismiss = { deleteTrnModalVisible = false }
+    ) {
         onDelete()
     }
 
-    ChangeTransactionTypeModal(visible = changeTransactionTypeModalVisible,
+    ChangeTransactionTypeModal(
+        visible = changeTransactionTypeModalVisible,
         includeTransferType = true,
         initialType = transactionType,
         dismiss = {
             changeTransactionTypeModalVisible = false
-        }) {
+        }
+    ) {
         onSetTransactionType(it)
     }
 
-    DeleteModal(visible = accountChangeModal,
+    DeleteModal(
+        visible = accountChangeModal,
         title = stringResource(R.string.confirm_account_change),
         description = stringResource(R.string.confirm_account_change_description),
         buttonText = stringResource(R.string.confirm),
         iconStart = R.drawable.ic_agreed,
         dismiss = {
             accountChangeModal = false
-        }) {
+        }
+    ) {
         selectedAcc?.let { onAccountChanged(it) }
         accountChangeModal = false
     }
@@ -548,7 +574,8 @@ private fun BoxWithConstraintsScope.UI(
         visible = waitModalVisible
     )
 
-    AmountModal(id = amountModalId,
+    AmountModal(
+        id = amountModalId,
         visible = exchangeRateAmountModalShown,
         currency = "",
         initialAmount = customExchangeRateState.exchangeRate,
@@ -556,15 +583,18 @@ private fun BoxWithConstraintsScope.UI(
         decimalCountMax = 4,
         onAmountChanged = {
             onExchangeRateChanged(it)
-        })
+        }
+    )
 }
 
 private fun shouldFocusCategory(
-    category: Category?, type: TransactionType
+    category: Category?,
+    type: TransactionType
 ): Boolean = category == null && type != TransactionType.TRANSFER
 
 private fun shouldFocusTitle(
-    titleTextFieldValue: TextFieldValue, type: TransactionType
+    titleTextFieldValue: TextFieldValue,
+    type: TransactionType
 ): Boolean = titleTextFieldValue.text.isBlank() && type != TransactionType.TRANSFER
 
 private fun shouldFocusAmount(amount: Double) = amount == 0.0
@@ -574,7 +604,8 @@ private fun shouldFocusAmount(amount: Double) = amount == 0.0
 @Composable
 private fun BoxWithConstraintsScope.Preview() {
     IvyPreview {
-        UI(screen = EditTransactionScreen(null, TransactionType.EXPENSE),
+        UI(
+            screen = EditTransactionScreen(null, TransactionType.EXPENSE),
             initialTitle = "",
             titleSuggestions = persistentSetOf(),
             baseCurrency = "BGN",
@@ -608,6 +639,7 @@ private fun BoxWithConstraintsScope.Preview() {
             onCreateAccount = { },
             onSetDate = {},
             onSetTime = {},
-            onSetTransactionType = {})
+            onSetTransactionType = {}
+        )
     }
 }

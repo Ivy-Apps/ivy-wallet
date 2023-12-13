@@ -1,11 +1,11 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import com.ivy.base.legacy.Transaction
+import com.ivy.data.db.dao.read.TransactionDao
+import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.legacy.datamodel.PlannedPaymentRule
 import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.incrementDate
-import com.ivy.data.db.dao.read.TransactionDao
-import com.ivy.data.db.dao.write.WriteTransactionDao
 import java.time.LocalDateTime
 import javax.inject.Inject
 

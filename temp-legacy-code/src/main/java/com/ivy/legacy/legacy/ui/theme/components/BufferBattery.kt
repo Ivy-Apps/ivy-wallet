@@ -24,15 +24,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.resources.R
 import com.ivy.legacy.IvyWalletComponentPreview
+import com.ivy.legacy.utils.thenIf
+import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB2Row
-import com.ivy.legacy.utils.thenIf
 import kotlin.math.abs
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")

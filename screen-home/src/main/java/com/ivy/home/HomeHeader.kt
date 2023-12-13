@@ -31,6 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.ivy.base.model.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.data.model.TimePeriod
@@ -46,8 +47,6 @@ import com.ivy.legacy.utils.thenIf
 import com.ivy.legacy.utils.verticalSwipeListener
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.navigation.navigation
-import com.ivy.base.model.TransactionType
-import com.ivy.design.utils.onEvent
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
@@ -77,7 +76,6 @@ internal fun HomeHeader(
     onSelectNextMonth: () -> Unit,
     hideBalance: Boolean,
     onHiddenBalanceClick: () -> Unit,
-    onHiddenIncomeClick: () -> Unit,
     onSelectPreviousMonth: () -> Unit,
 ) {
     Column {
@@ -104,7 +102,6 @@ internal fun HomeHeader(
             onHiddenBalanceClick = onHiddenBalanceClick,
             onSelectNextMonth = onSelectNextMonth,
             onSelectPreviousMonth = onSelectPreviousMonth,
-            onHiddenIncomeClick = onHiddenIncomeClick
         )
 
         Spacer(Modifier.height(16.dp))
@@ -130,7 +127,6 @@ private fun HeaderStickyRow(
     onSelectNextMonth: () -> Unit,
     hideBalance: Boolean,
     onHiddenBalanceClick: () -> Unit,
-    onHiddenIncomeClick: () -> Unit,
     onSelectPreviousMonth: () -> Unit,
 ) {
     Row(
@@ -171,7 +167,7 @@ private fun HeaderStickyRow(
                 val overflow by remember(lengthOfCurrencyAndBalance, lengthOfMonthRange) {
                     derivedStateOf {
                         lengthOfCurrencyAndBalance >= OverflowLengthOfBalance &&
-                                lengthOfMonthRange >= OverflowLengthOfMontthRange
+                            lengthOfMonthRange >= OverflowLengthOfMontthRange
                     }
                 }
 

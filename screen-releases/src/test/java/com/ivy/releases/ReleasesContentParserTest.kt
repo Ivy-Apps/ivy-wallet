@@ -9,8 +9,8 @@ class ReleasesContentParserTest : FreeSpec({
 
     "toCommitsList" - {
         val commits = "- c9a985eb Add `GitHubWorkerMigration` and bump version to \"4.4.2\" " +
-                "(142)\n - e6e001e8 Update dev-request.yml\n - 2d397ca1 Update bug_report.yml\n " +
-                "- 2c386031 Update and rename dev-contributor-request.yml to dev-request.yml"
+            "(142)\n - e6e001e8 Update dev-request.yml\n - 2d397ca1 Update bug_report.yml\n " +
+            "- 2c386031 Update and rename dev-contributor-request.yml to dev-request.yml"
 
         "with null commits input" {
             releasesContentParser.toCommitsList(null) shouldBe persistentListOf()

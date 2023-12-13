@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.stringRes
+import com.ivy.base.model.TransactionType
+import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.SharedPrefs
@@ -15,8 +17,6 @@ import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.OnboardingScreen
-import com.ivy.data.db.dao.read.SettingsDao
-import com.ivy.base.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
 import com.ivy.wallet.migrations.MigrationsManager

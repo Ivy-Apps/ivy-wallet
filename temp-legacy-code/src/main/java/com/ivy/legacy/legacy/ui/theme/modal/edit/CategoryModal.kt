@@ -35,8 +35,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.domain.legacy.ui.IvyColorPicker
 import com.ivy.legacy.IvyWalletPreview
-import com.ivy.resources.R
 import com.ivy.legacy.datamodel.Category
+import com.ivy.legacy.utils.hideKeyboard
+import com.ivy.legacy.utils.isNotNullOrBlank
+import com.ivy.legacy.utils.onScreenStart
+import com.ivy.legacy.utils.selectEndTextFieldValue
+import com.ivy.resources.R
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.components.ItemIconMDefaultIcon
@@ -46,10 +50,6 @@ import com.ivy.wallet.ui.theme.modal.ChooseIconModal
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalAddSave
 import com.ivy.wallet.ui.theme.modal.ModalTitle
-import com.ivy.legacy.utils.hideKeyboard
-import com.ivy.legacy.utils.isNotNullOrBlank
-import com.ivy.legacy.utils.onScreenStart
-import com.ivy.legacy.utils.selectEndTextFieldValue
 import java.util.UUID
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")

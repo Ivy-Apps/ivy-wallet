@@ -264,8 +264,8 @@ class HomeViewModel @Inject constructor(
 
         Pair(settings, period.value.toRange(ivyContext.startDayOfMonth).toCloseTimeRange())
     } then ::loadAppBaseData then ::loadIncomeExpenseBalance then
-            ::loadBuffer then ::loadTrnHistory then
-            ::loadDueTrns thenInvokeAfter ::loadCustomerJourney
+        ::loadBuffer then ::loadTrnHistory then
+        ::loadDueTrns thenInvokeAfter ::loadCustomerJourney
 
     private suspend fun loadAppBaseData(
         input: Pair<Settings, ClosedTimeRange>

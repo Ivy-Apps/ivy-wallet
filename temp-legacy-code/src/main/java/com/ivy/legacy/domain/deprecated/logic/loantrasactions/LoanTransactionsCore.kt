@@ -3,17 +3,7 @@ package com.ivy.legacy.domain.deprecated.logic.loantrasactions
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.stringRes
-import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
-import com.ivy.legacy.datamodel.Loan
-import com.ivy.legacy.datamodel.LoanRecord
-import com.ivy.legacy.datamodel.temp.toDomain
-import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
-import com.ivy.legacy.IvyWalletCtx
-import com.ivy.legacy.datamodel.toEntity
-import com.ivy.legacy.utils.computationThread
-import com.ivy.legacy.utils.ioThread
-import com.ivy.legacy.utils.timeNowUTC
+import com.ivy.base.model.TransactionType
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.data.db.dao.read.LoanDao
@@ -25,7 +15,17 @@ import com.ivy.data.db.dao.write.WriteLoanDao
 import com.ivy.data.db.dao.write.WriteLoanRecordDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.LoanType
-import com.ivy.base.model.TransactionType
+import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
+import com.ivy.legacy.IvyWalletCtx
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.Category
+import com.ivy.legacy.datamodel.Loan
+import com.ivy.legacy.datamodel.LoanRecord
+import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.datamodel.toEntity
+import com.ivy.legacy.utils.computationThread
+import com.ivy.legacy.utils.ioThread
+import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.resources.R
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import kotlinx.coroutines.CoroutineScope
@@ -261,7 +261,7 @@ class LoanTransactionsCore @Inject constructor(
                 }
 
                 reCalculateLoanAmount || loanRecordCurrenciesChanged ||
-                        oldLonRecordConvertedAmount == null -> {
+                    oldLonRecordConvertedAmount == null -> {
                     ioThread {
                         exchangeRatesLogic.convertAmount(
                             baseCurrency = baseCurrency(),

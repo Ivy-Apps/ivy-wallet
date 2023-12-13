@@ -3,6 +3,7 @@ package com.ivy.main
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.domain.event.AccountUpdatedEvent
 import com.ivy.domain.event.EventBus
 import com.ivy.frp.test.TestIdlingResource
@@ -15,7 +16,6 @@ import com.ivy.legacy.utils.asLiveData
 import com.ivy.legacy.utils.ioThread
 import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
-import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

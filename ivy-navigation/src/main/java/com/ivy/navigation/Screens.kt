@@ -68,7 +68,7 @@ data class EditPlannedScreen(
 
     fun mandatoryFilled(): Boolean {
         return amount != null && amount > 0.0 &&
-                accountId != null
+            accountId != null
     }
 }
 

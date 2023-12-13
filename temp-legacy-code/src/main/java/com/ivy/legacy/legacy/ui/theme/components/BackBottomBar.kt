@@ -10,10 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.ivy.resources.R
-import com.ivy.wallet.ui.theme.gradientCutBackgroundTop
 import com.ivy.legacy.utils.navigationBarInset
 import com.ivy.legacy.utils.toDensityDp
+import com.ivy.resources.R
+import com.ivy.wallet.ui.theme.gradientCutBackgroundTop
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable

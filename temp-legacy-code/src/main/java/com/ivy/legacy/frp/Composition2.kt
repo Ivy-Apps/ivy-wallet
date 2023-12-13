@@ -8,13 +8,13 @@ import arrow.core.Some
  * Non suspend function composition. !EXPERIMENTAL!
  */
 
-//Cases:
-//A
-//() -> B
-//(A) -> B
+// Cases:
+// A
+// () -> B
+// (A) -> B
 
-//Eligible 2nd position
-//(A) -> B
+// Eligible 2nd position
+// (A) -> B
 
 // --------- A (asParamTo2) -------------------------
 @Deprecated("Legacy code. Don't use it, please.")
@@ -23,19 +23,18 @@ inline infix fun <A, B> A.asParamTo2(crossinline f: (A) -> B): () -> B = {
 }
 // --------- A (asParamTo2) -------------------------
 
-//() -> B => (B) -> C
+// () -> B => (B) -> C
 @Deprecated("Legacy code. Don't use it, please.")
 inline infix fun <B, C> (() -> B).then2(crossinline f: (B) -> C): () -> C = {
     f(this())
 }
 
-//(A) -> B => (B) -> C
+// (A) -> B => (B) -> C
 @Deprecated("Legacy code. Don't use it, please.")
 inline infix fun <A, B, C> ((A) -> B).then2(crossinline f: (B) -> C): (A) -> C = { a ->
     val b = this(a)
     f(b)
 }
-
 
 @Deprecated("Legacy code. Don't use it, please.")
 inline infix fun <A, B, C> ((A) -> Option<B>).thenMaybe2(crossinline f: (B) -> C): (A) -> Option<C> =

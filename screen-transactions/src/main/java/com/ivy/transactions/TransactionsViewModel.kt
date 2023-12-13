@@ -9,8 +9,14 @@ import androidx.lifecycle.viewModelScope
 import arrow.core.toOption
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
-import com.ivy.base.model.TransactionType
 import com.ivy.base.legacy.stringRes
+import com.ivy.base.model.TransactionType
+import com.ivy.data.db.dao.read.AccountDao
+import com.ivy.data.db.dao.read.CategoryDao
+import com.ivy.data.db.dao.write.WriteAccountDao
+import com.ivy.data.db.dao.write.WriteCategoryDao
+import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
+import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.domain.ComposeViewModel
 import com.ivy.frp.then
 import com.ivy.legacy.IvyWalletCtx
@@ -28,12 +34,6 @@ import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.selectEndTextFieldValue
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.TransactionsScreen
-import com.ivy.data.db.dao.read.AccountDao
-import com.ivy.data.db.dao.read.CategoryDao
-import com.ivy.data.db.dao.write.WriteAccountDao
-import com.ivy.data.db.dao.write.WriteCategoryDao
-import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
-import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.resources.R
 import com.ivy.wallet.domain.action.account.AccTrnsAct
 import com.ivy.wallet.domain.action.account.AccountsAct
@@ -367,15 +367,15 @@ class TransactionsViewModel @Inject constructor(
         expenses.doubleValue = incomeExpensePair.expense.toDouble()
 
         history.value = (
-                accTrnsAct then {
-                    trnsWithDateDivsAct(
-                        TrnsWithDateDivsAct.Input(
-                            baseCurrency = baseCurrency.value,
-                            transactions = it
-                        )
+            accTrnsAct then {
+                trnsWithDateDivsAct(
+                    TrnsWithDateDivsAct.Input(
+                        baseCurrency = baseCurrency.value,
+                        transactions = it
                     )
-                }
-                )(
+                )
+            }
+            )(
             AccTrnsAct.Input(
                 accountId = initialAccount.id,
                 range = range.toCloseTimeRange()
@@ -609,10 +609,10 @@ class TransactionsViewModel @Inject constructor(
         val accountFilterIdSet = accountFilterList.toHashSet()
         val trans = transactions.filter {
             it.categoryId == null && (
-                    accountFilterIdSet.contains(it.accountId) || accountFilterIdSet.contains(
-                        it.toAccountId
-                    )
-                    ) && it.type == TransactionType.TRANSFER
+                accountFilterIdSet.contains(it.accountId) || accountFilterIdSet.contains(
+                    it.toAccountId
+                )
+                ) && it.type == TransactionType.TRANSFER
         }
 
         val historyIncomeExpense = calcTrnsIncomeExpenseAct(
@@ -788,7 +788,7 @@ class TransactionsViewModel @Inject constructor(
     private fun updateAccountDeletionState(confirmationText: String) {
         accountNameConfirmation.value = selectEndTextFieldValue(confirmationText)
         enableDeletionButton.value = account.value?.name == confirmationText ||
-                category.value?.name == confirmationText
+            category.value?.name == confirmationText
     }
 
     fun start(
@@ -824,7 +824,7 @@ class TransactionsViewModel @Inject constructor(
                 // unspecifiedCategory==false is explicitly checked to accommodate for a temp
                 // AccountTransfers Category during Reports Screen
                 screen.categoryId != null && screen.transactions.isNotEmpty() &&
-                        screen.unspecifiedCategory == false -> {
+                    screen.unspecifiedCategory == false -> {
                     initForCategoryWithTransactions(
                         screen.categoryId!!,
                         screen.accountIdFilterList,

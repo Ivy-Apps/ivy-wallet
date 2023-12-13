@@ -29,12 +29,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.LoanRecord
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.test.TestingContext
 import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.LoanRecord
 import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.legacy.ui.theme.modal.ModalNameInput
 import com.ivy.legacy.utils.convertUTCtoLocal
@@ -133,7 +133,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             ) {
                 accountChangeConformationModal =
                     initialRecord != null && modal.selectedAccount != null &&
-                            modal.baseCurrency != currencyCode && currencyCode != modal.loanAccountCurrencyCode
+                    modal.baseCurrency != currencyCode && currencyCode != modal.loanAccountCurrencyCode
 
                 if (!accountChangeConformationModal) {
                     save(

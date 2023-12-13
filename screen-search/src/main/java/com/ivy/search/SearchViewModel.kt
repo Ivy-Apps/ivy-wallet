@@ -65,7 +65,7 @@ class SearchViewModel @Inject constructor(
                 val filteredTransactions = allTrnsAct(Unit)
                     .filter { transaction ->
                         transaction.title.matchesQuery(normalizedQuery) ||
-                                transaction.description.matchesQuery(normalizedQuery)
+                            transaction.description.matchesQuery(normalizedQuery)
                     }
                 trnsWithDateDivsAct(
                     TrnsWithDateDivsAct.Input(

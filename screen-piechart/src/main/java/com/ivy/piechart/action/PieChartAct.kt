@@ -201,20 +201,20 @@ class PieChartAct @Inject constructor(
         return when (type) {
             TransactionType.INCOME -> {
                 incExpQuad.income +
-                        if (treatTransferAsIncExp) {
-                            incExpQuad.transferIncome
-                        } else {
-                            BigDecimal.ZERO
-                        }
+                    if (treatTransferAsIncExp) {
+                        incExpQuad.transferIncome
+                    } else {
+                        BigDecimal.ZERO
+                    }
             }
 
             TransactionType.EXPENSE -> {
                 incExpQuad.expense +
-                        if (treatTransferAsIncExp) {
-                            incExpQuad.transferExpense
-                        } else {
-                            BigDecimal.ZERO
-                        }
+                    if (treatTransferAsIncExp) {
+                        incExpQuad.transferExpense
+                    } else {
+                        BigDecimal.ZERO
+                    }
             }
 
             else -> BigDecimal.ZERO

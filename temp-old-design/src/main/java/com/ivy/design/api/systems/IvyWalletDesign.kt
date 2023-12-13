@@ -161,10 +161,14 @@ abstract class IvyWalletDesign : IvyDesign {
                 override val isLight = false
             }
 
-            Theme.AUTO -> if (isDarkModeEnabled) colors(Theme.DARK, true) else colors(
-                Theme.LIGHT,
-                false
-            )
+            Theme.AUTO -> if (isDarkModeEnabled) {
+                colors(Theme.DARK, true)
+            } else {
+                colors(
+                    Theme.LIGHT,
+                    false
+                )
+            }
         }
     }
 

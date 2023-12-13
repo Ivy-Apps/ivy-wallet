@@ -14,7 +14,6 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.GradientGreen
-import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.GradientRed
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IvyButton

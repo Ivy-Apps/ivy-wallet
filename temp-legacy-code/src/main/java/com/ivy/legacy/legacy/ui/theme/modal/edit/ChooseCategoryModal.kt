@@ -28,11 +28,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.legacy.IvyWalletPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.resources.R
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.datamodel.Category
+import com.ivy.legacy.utils.drawColoredShadow
+import com.ivy.legacy.utils.hideKeyboard
+import com.ivy.legacy.utils.onScreenStart
+import com.ivy.legacy.utils.thenIf
+import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.Orange
@@ -46,10 +50,6 @@ import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalSkip
 import com.ivy.wallet.ui.theme.modal.ModalTitle
 import com.ivy.wallet.ui.theme.toComposeColor
-import com.ivy.legacy.utils.drawColoredShadow
-import com.ivy.legacy.utils.hideKeyboard
-import com.ivy.legacy.utils.onScreenStart
-import com.ivy.legacy.utils.thenIf
 import java.util.UUID
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")

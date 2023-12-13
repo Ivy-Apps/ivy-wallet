@@ -45,20 +45,20 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.resources.R
-import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.legacy.IvyWalletComponentPreview
-import com.ivy.wallet.ui.theme.GradientGreen
-import com.ivy.wallet.ui.theme.GradientIvy
-import com.ivy.wallet.ui.theme.Ivy
-import com.ivy.wallet.ui.theme.White
-import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_ANIM
 import com.ivy.legacy.utils.addKeyboardListener
 import com.ivy.legacy.utils.densityScope
 import com.ivy.legacy.utils.hideKeyboard
 import com.ivy.legacy.utils.keyboardOnlyWindowInsets
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.toLowerCaseLocal
+import com.ivy.resources.R
+import com.ivy.wallet.domain.data.IvyCurrency
+import com.ivy.wallet.ui.theme.GradientGreen
+import com.ivy.wallet.ui.theme.GradientIvy
+import com.ivy.wallet.ui.theme.Ivy
+import com.ivy.wallet.ui.theme.White
+import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_ANIM
 import java.util.Locale
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")

@@ -20,20 +20,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.legacy.IvyWalletPreview
-import com.ivy.legacy.data.model.Month.Companion.monthsList
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.resources.R
-import com.ivy.wallet.ui.theme.Gradient
-import com.ivy.wallet.ui.theme.Ivy
-import com.ivy.wallet.ui.theme.components.WrapContentRow
-import com.ivy.wallet.ui.theme.findContrastTextColor
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.data.model.Month.Companion.monthsList
 import com.ivy.legacy.utils.dateNowUTC
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.hideKeyboard
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.thenIf
+import com.ivy.resources.R
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.Ivy
+import com.ivy.wallet.ui.theme.components.WrapContentRow
+import com.ivy.wallet.ui.theme.findContrastTextColor
 import java.time.LocalDate
 import java.util.UUID
 

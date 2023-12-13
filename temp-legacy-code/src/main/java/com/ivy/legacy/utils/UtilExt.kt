@@ -20,8 +20,8 @@ fun numberBetween(min: Double, max: Double): Double {
 
 fun getDefaultFIATCurrency(): Currency =
     Currency.getInstance(Locale.getDefault()) ?: Currency.getInstance("USD")
-    ?: Currency.getInstance("usd") ?: Currency.getAvailableCurrencies().firstOrNull()
-    ?: Currency.getInstance("EUR")
+        ?: Currency.getInstance("usd") ?: Currency.getAvailableCurrencies().firstOrNull()
+        ?: Currency.getInstance("EUR")
 
 fun String.toUpperCaseLocal() = this.uppercase(Locale.getDefault())
 

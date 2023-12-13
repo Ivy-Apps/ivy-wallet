@@ -356,15 +356,15 @@ class EditTransactionViewModel @Inject constructor(
 
         val loanWarningDescription = if (isLoanRecord) {
             "Note: This transaction is associated with a Loan Record of Loan : ${loan.name}\n" +
-                    "You are trying to change the account associated with the loan record to an " +
-                    "account of different currency" +
-                    "\n The Loan Record will be re-calculated based on today's currency exchanges" +
-                    " rates"
+                "You are trying to change the account associated with the loan record to an " +
+                "account of different currency" +
+                "\n The Loan Record will be re-calculated based on today's currency exchanges" +
+                " rates"
         } else {
             "Note: You are trying to change the account associated with the loan: ${loan.name} " +
-                    "with an account of different currency, " +
-                    "\nAll the loan records will be re-calculated based on today's currency " +
-                    "exchanges rates "
+                "with an account of different currency, " +
+                "\nAll the loan records will be re-calculated based on today's currency " +
+                "exchanges rates "
         }
 
         val loanCaption =
@@ -614,7 +614,7 @@ class EditTransactionViewModel @Inject constructor(
                     dueDate = dueDate.value,
                     dateTime = when {
                         loadedTransaction().dateTime == null &&
-                                dueDate.value == null -> {
+                            dueDate.value == null -> {
                             timeNowUTC()
                         }
 

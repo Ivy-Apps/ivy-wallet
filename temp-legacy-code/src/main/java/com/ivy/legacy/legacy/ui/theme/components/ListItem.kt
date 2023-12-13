@@ -18,9 +18,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.legacy.utils.thenIf
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.findContrastTextColor
-import com.ivy.legacy.utils.thenIf
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable

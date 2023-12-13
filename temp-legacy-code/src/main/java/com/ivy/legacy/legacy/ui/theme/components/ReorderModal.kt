@@ -24,13 +24,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.legacy.utils.numberBetween
+import com.ivy.legacy.utils.swap
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.Reorderable
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.modal.IvyModal
-import com.ivy.legacy.utils.numberBetween
-import com.ivy.legacy.utils.swap
 import java.util.*
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")

@@ -1,8 +1,8 @@
 package com.ivy.wallet.domain.action.viewmodel.home
 
-import com.ivy.legacy.datamodel.Account
 import com.ivy.frp.action.FPAction
 import com.ivy.legacy.IvyWalletCtx
+import com.ivy.legacy.datamodel.Account
 import javax.inject.Inject
 
 class UpdateAccCacheAct @Inject constructor(

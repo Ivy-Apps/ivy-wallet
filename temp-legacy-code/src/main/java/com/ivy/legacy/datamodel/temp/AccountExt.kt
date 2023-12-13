@@ -1,7 +1,7 @@
 package com.ivy.legacy.datamodel.temp
 
-import com.ivy.legacy.datamodel.Account
 import com.ivy.data.db.entity.AccountEntity
+import com.ivy.legacy.datamodel.Account
 
 fun AccountEntity.toDomain(): Account = Account(
     name = name,
