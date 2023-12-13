@@ -243,6 +243,8 @@
     <string name="show_notifications">Show notifications</string>
     <string name="hide_balance">Hide balance</string>
     <string name="hide_balance_description">Click on the hidden balance to show the balance for 5s</string>
+    <string name="hide_income">Hide income</string>
+    <string name="hide_income_description">Click on the hidden income to show the balance for 5s</string>
     <string name="other">Other</string>
     <string name="rate_us_on_google_play">Rate us on Google Play</string>
     <string name="share_ivy_wallet">Share Ivy Wallet</string>

@@ -94,6 +94,7 @@ fun BoxWithConstraintsScope.SettingsScreen() {
         lockApp = uiState.lockApp,
         showNotifications = uiState.showNotifications,
         hideCurrentBalance = uiState.hideCurrentBalance,
+        hideIncome = uiState.hideIncome,
         progressState = uiState.progressState,
         treatTransfersAsIncomeExpense = uiState.treatTransfersAsIncomeExpense,
         nameLocalAccount = uiState.name,
@@ -118,6 +119,9 @@ fun BoxWithConstraintsScope.SettingsScreen() {
         },
         onSetHideCurrentBalance = {
             viewModel.onEvent(SettingsEvent.SetHideCurrentBalance(it))
+        },
+        onSetHideIncome = {
+            viewModel.onEvent(SettingsEvent.SetHideIncome(it))
         },
         onSetStartDateOfMonth = {
             viewModel.onEvent(SettingsEvent.SetStartDateOfMonth(it))
@@ -146,6 +150,7 @@ private fun BoxWithConstraintsScope.UI(
     startDateOfMonth: Int = 1,
     showNotifications: Boolean = true,
     hideCurrentBalance: Boolean = false,
+    hideIncome: Boolean = false,
     progressState: Boolean = false,
     treatTransfersAsIncomeExpense: Boolean = false,
     onSetName: (String) -> Unit = {},
@@ -155,6 +160,7 @@ private fun BoxWithConstraintsScope.UI(
     onSetShowNotifications: (Boolean) -> Unit = {},
     onSetTreatTransfersAsIncExp: (Boolean) -> Unit = {},
     onSetHideCurrentBalance: (Boolean) -> Unit = {},
+    onSetHideIncome: (Boolean) -> Unit = {},
     onSetStartDateOfMonth: (Int) -> Unit = {},
     onDeleteAllUserData: () -> Unit = {},
     onDeleteCloudUserData: () -> Unit = {},
@@ -326,6 +332,16 @@ private fun BoxWithConstraintsScope.UI(
                 onSetLockApp = onSetHideCurrentBalance,
                 text = stringResource(R.string.hide_balance),
                 description = stringResource(R.string.hide_balance_description),
+                icon = R.drawable.ic_hide_m
+            )
+
+            Spacer(Modifier.height(12.dp))
+
+            AppSwitch(
+                lockApp = hideIncome,
+                onSetLockApp = onSetHideIncome,
+                text = stringResource(R.string.hide_income),
+                description = stringResource(R.string.hide_income_description),
                 icon = R.drawable.ic_hide_m
             )
 

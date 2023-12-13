@@ -60,6 +60,7 @@ class SettingsViewModel @Inject constructor(
     private val lockApp = mutableStateOf(false)
     private val showNotifications = mutableStateOf(true)
     private val hideCurrentBalance = mutableStateOf(false)
+    private val hideIncome = mutableStateOf(false)
     private val treatTransfersAsIncomeExpense = mutableStateOf(false)
     private val startDateOfMonth = mutableIntStateOf(1)
     private val progressState = mutableStateOf(false)
@@ -79,7 +80,8 @@ class SettingsViewModel @Inject constructor(
             hideCurrentBalance = getHideCurrentBalance(),
             treatTransfersAsIncomeExpense = getTreatTransfersAsIncomeExpense(),
             startDateOfMonth = getStartDateOfMonth(),
-            progressState = getProgressState()
+            progressState = getProgressState(),
+            hideIncome = getHideIncome()
         )
     }
 
@@ -90,6 +92,7 @@ class SettingsViewModel @Inject constructor(
         initializeLockApp()
         initializeShowNotifications()
         initializeHideCurrentBalance()
+        initializeHideIncome()
         initializeTransfersAsIncomeExpense()
         initializeStartDateOfMonth()
     }
@@ -127,6 +130,11 @@ class SettingsViewModel @Inject constructor(
     private fun initializeHideCurrentBalance() {
         hideCurrentBalance.value =
             sharedPrefs.getBoolean(SharedPrefs.HIDE_CURRENT_BALANCE, false)
+    }
+
+    private fun initializeHideIncome() {
+        hideIncome.value =
+            sharedPrefs.getBoolean(SharedPrefs.HIDE_INCOME, false)
     }
 
     private fun initializeTransfersAsIncomeExpense() {
@@ -169,6 +177,11 @@ class SettingsViewModel @Inject constructor(
     }
 
     @Composable
+    private fun getHideIncome(): Boolean {
+        return hideIncome.value
+    }
+
+    @Composable
     private fun getTreatTransfersAsIncomeExpense(): Boolean {
         return treatTransfersAsIncomeExpense.value
     }
@@ -194,6 +207,10 @@ class SettingsViewModel @Inject constructor(
             is SettingsEvent.SetShowNotifications -> setShowNotifications(event.showNotifications)
             is SettingsEvent.SetHideCurrentBalance -> setHideCurrentBalance(
                 event.hideCurrentBalance
+            )
+
+            is SettingsEvent.SetHideIncome -> setHideIncome(
+                event.hideIncome
             )
 
             is SettingsEvent.SetTransfersAsIncomeExpense -> setTransfersAsIncomeExpense(
@@ -323,6 +340,14 @@ class SettingsViewModel @Inject constructor(
 
         viewModelScope.launch {
             sharedPrefs.putBoolean(SharedPrefs.HIDE_CURRENT_BALANCE, hideBalance)
+        }
+    }
+
+    private fun setHideIncome(isHideIncome: Boolean) {
+        hideIncome.value = isHideIncome
+
+        viewModelScope.launch {
+            sharedPrefs.putBoolean(SharedPrefs.HIDE_INCOME, isHideIncome)
         }
     }
 

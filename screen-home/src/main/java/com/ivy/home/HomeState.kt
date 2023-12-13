@@ -32,5 +32,6 @@ data class HomeState(
 
     val customerJourneyCards: ImmutableList<CustomerJourneyCardModel>,
     val hideBalance: Boolean,
+    val hideIncome: Boolean,
     val expanded: Boolean
 )

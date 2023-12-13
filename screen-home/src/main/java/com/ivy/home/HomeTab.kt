@@ -142,6 +142,9 @@ private fun BoxWithConstraintsScope.UI(
             onSelectNextMonth = {
                 onEvent(HomeEvent.SelectNextMonth)
             },
+            onHiddenIncomeClick = {
+                onEvent(HomeEvent.HiddenIncomeClick)
+            },
             onSelectPreviousMonth = {
                 onEvent(HomeEvent.SelectPreviousMonth)
             }
@@ -149,6 +152,7 @@ private fun BoxWithConstraintsScope.UI(
 
         HomeLazyColumn(
             hideBalance = uiState.hideBalance,
+            hideIncome = uiState.hideIncome,
             onSetExpanded = {
                 onEvent(HomeEvent.SetExpanded(it))
             },
@@ -161,6 +165,9 @@ private fun BoxWithConstraintsScope.UI(
             },
             onHiddenBalanceClick = {
                 onEvent(HomeEvent.HiddenBalanceClick)
+            },
+            onHiddenIncomeClick = {
+                onEvent(HomeEvent.HiddenIncomeClick)
             },
 
             period = uiState.period,
@@ -268,6 +275,7 @@ private fun BoxWithConstraintsScope.UI(
 @Composable
 fun HomeLazyColumn(
     hideBalance: Boolean,
+    hideIncome: Boolean,
     onSetExpanded: (Boolean) -> Unit,
     listState: LazyListState,
     period: TimePeriod,
@@ -291,6 +299,7 @@ fun HomeLazyColumn(
     onPayOrGet: (Transaction) -> Unit,
     onDismiss: (CustomerJourneyCardModel) -> Unit,
     onHiddenBalanceClick: () -> Unit,
+    onHiddenIncomeClick: () -> Unit,
     onSkipTransaction: (Transaction) -> Unit,
     onSkipAllTransactions: (List<Transaction>) -> Unit,
     modifier: Modifier = Modifier
@@ -330,7 +339,9 @@ fun HomeLazyColumn(
                 onOpenMoreMenu = onOpenMoreMenu,
                 onBalanceClick = onBalanceClick,
                 onHiddenBalanceClick = onHiddenBalanceClick,
-                percentExpanded = 1f
+                percentExpanded = 1f,
+                hideIncome = hideIncome,
+                onHiddenIncomeClick = onHiddenIncomeClick
             )
         }
         item {
@@ -400,6 +411,7 @@ private fun BoxWithConstraintsScope.PreviewHomeTab() {
                 ),
                 period = ivyWalletCtx().selectedPeriod,
                 hideBalance = false,
+                hideIncome = false,
                 expanded = false
             ),
             onEvent = {}

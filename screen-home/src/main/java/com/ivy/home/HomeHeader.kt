@@ -47,6 +47,7 @@ import com.ivy.legacy.utils.verticalSwipeListener
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.navigation.navigation
 import com.ivy.base.model.TransactionType
+import com.ivy.design.utils.onEvent
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
@@ -76,6 +77,7 @@ internal fun HomeHeader(
     onSelectNextMonth: () -> Unit,
     hideBalance: Boolean,
     onHiddenBalanceClick: () -> Unit,
+    onHiddenIncomeClick: () -> Unit,
     onSelectPreviousMonth: () -> Unit,
 ) {
     Column {
@@ -101,7 +103,8 @@ internal fun HomeHeader(
             onBalanceClick = onBalanceClick,
             onHiddenBalanceClick = onHiddenBalanceClick,
             onSelectNextMonth = onSelectNextMonth,
-            onSelectPreviousMonth = onSelectPreviousMonth
+            onSelectPreviousMonth = onSelectPreviousMonth,
+            onHiddenIncomeClick = onHiddenIncomeClick
         )
 
         Spacer(Modifier.height(16.dp))
@@ -127,6 +130,7 @@ private fun HeaderStickyRow(
     onSelectNextMonth: () -> Unit,
     hideBalance: Boolean,
     onHiddenBalanceClick: () -> Unit,
+    onHiddenIncomeClick: () -> Unit,
     onSelectPreviousMonth: () -> Unit,
 ) {
     Row(
@@ -222,6 +226,8 @@ fun CashFlowInfo(
     monthlyIncome: Double,
     monthlyExpenses: Double,
     hideBalance: Boolean,
+    hideIncome: Boolean,
+    onHiddenIncomeClick: () -> Unit,
     onOpenMoreMenu: () -> Unit,
     onBalanceClick: () -> Unit,
     percentExpanded: Float,
@@ -261,6 +267,8 @@ fun CashFlowInfo(
             currency = currency,
             monthlyIncome = monthlyIncome,
             monthlyExpenses = monthlyExpenses,
+            hideIncome = hideIncome,
+            onHiddenIncomeClick = onHiddenIncomeClick
         )
 
         val cashflow = monthlyIncome - monthlyExpenses
@@ -295,6 +303,8 @@ private fun IncomeExpenses(
     currency: String,
     monthlyIncome: Double,
     monthlyExpenses: Double,
+    hideIncome: Boolean,
+    onHiddenIncomeClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -313,12 +323,17 @@ private fun IncomeExpenses(
             currency = currency,
             amount = monthlyIncome,
             testTag = "home_card_income",
+            hideIncome = hideIncome
         ) {
-            nav.navigateTo(
-                PieChartStatisticScreen(
-                    type = TransactionType.INCOME,
-                ),
-            )
+            if (hideIncome) {
+                onHiddenIncomeClick()
+            } else {
+                nav.navigateTo(
+                    PieChartStatisticScreen(
+                        type = TransactionType.INCOME,
+                    ),
+                )
+            }
         }
 
         Spacer(Modifier.width(12.dp))
@@ -354,6 +369,7 @@ private fun RowScope.HeaderCard(
     currency: String,
     amount: Double,
     testTag: String,
+    hideIncome: Boolean = false,
     onClick: () -> Unit,
 ) {
     Column(
@@ -406,6 +422,7 @@ private fun RowScope.HeaderCard(
                 amount = amount,
                 currency = currency,
                 textColor = textColor,
+                hideIncome = hideIncome,
                 shortenBigNumbers = true,
             )
 

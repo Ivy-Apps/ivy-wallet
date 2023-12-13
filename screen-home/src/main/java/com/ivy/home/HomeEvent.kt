@@ -10,6 +10,7 @@ sealed interface HomeEvent {
 
     data object BalanceClick : HomeEvent
     data object HiddenBalanceClick : HomeEvent
+    data object HiddenIncomeClick : HomeEvent
     data class SetExpanded(val expanded: Boolean) : HomeEvent
 
     data object SwitchTheme : HomeEvent
