@@ -180,8 +180,7 @@ private fun ColumnScope.BalanceAfterPlannedPayments(
             currency = currency,
             balance = balanceAfterPlannedPayments,
 
-            integerFontSize = 30.sp,
-            decimalFontSize = 18.sp,
+            balanceFontSize = 30.sp,
             currencyFontSize = 18.sp,
 
             currencyUpfront = false

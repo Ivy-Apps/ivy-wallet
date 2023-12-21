@@ -223,11 +223,6 @@ private fun CategoryCard(
     onLongClick: () -> Unit,
     onClick: () -> Unit
 ) {
-    val category = categoryData.category
-    val contrastColor = findContrastTextColor(category.color.toComposeColor())
-
-    Spacer(Modifier.height(16.dp))
-
     Column(
         modifier = Modifier
             .padding(horizontal = 16.dp)
@@ -238,14 +233,18 @@ private fun CategoryCard(
                 onClick = onClick
             )
     ) {
+        // Emitting content
+        Spacer(Modifier.height(16.dp))
+
         CategoryHeader(
             categoryData = categoryData,
             currency = currency,
-            contrastColor = contrastColor
+            contrastColor = findContrastTextColor(categoryData.category.color.toComposeColor())
         )
 
         Spacer(Modifier.height(12.dp))
 
+        // Emitting content
         AddedSpent(
             currency = currency,
             monthlyIncome = categoryData.monthlyIncome,
@@ -256,17 +255,19 @@ private fun CategoryCard(
     }
 }
 
+
 @Composable
 fun AddedSpent(
-    modifier: Modifier = Modifier,
-    textColor: Color = UI.colors.pureInverse,
-    dividerColor: Color = UI.colors.medium,
     monthlyIncome: Double,
     monthlyExpenses: Double,
     currency: String,
+    modifier: Modifier = Modifier,
+    textColor: Color = UI.colors.pureInverse,
+    dividerColor: Color = UI.colors.medium,
     center: Boolean = true,
     dividerSpacer: Dp? = null,
-) {
+
+    ) {
     Row(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -396,13 +397,11 @@ private fun CategoryHeader(
         BalanceRow(
             modifier = Modifier.align(Alignment.CenterHorizontally),
 
-            decimalPaddingTop = 4.dp,
             textColor = contrastColor,
             currency = currency,
             balance = categoryData.monthlyBalance,
 
-            integerFontSize = 30.sp,
-            decimalFontSize = 18.sp,
+            balanceFontSize = 30.sp,
             currencyFontSize = 30.sp,
 
             currencyUpfront = false,
@@ -418,13 +417,14 @@ private fun CategoryHeader(
 
 @Composable
 fun BoxWithConstraintsScope.SortModal(
-    title: String = stringResource(R.string.sort_by),
     items: List<SortOrder>,
     visible: Boolean,
     initialType: SortOrder,
-    id: UUID = UUID.randomUUID(),
     dismiss: () -> Unit,
-    onSortOrderChanged: (SortOrder) -> Unit
+    onSortOrderChanged: (SortOrder) -> Unit,
+    modifier: Modifier = Modifier,
+    title: String = stringResource(R.string.sort_by),
+    id: UUID = UUID.randomUUID()
 ) {
     var sortOrder by remember(initialType) {
         mutableStateOf(initialType)
@@ -443,7 +443,7 @@ fun BoxWithConstraintsScope.SortModal(
             ModalSet {
                 applyChange()
             }
-        }
+        },
     ) {
         Spacer(Modifier.height(32.dp))
 
@@ -469,6 +469,8 @@ fun BoxWithConstraintsScope.SortModal(
         }
     }
 }
+
+
 
 @Composable
 private fun SelectTypeButton(
