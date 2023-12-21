@@ -43,12 +43,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ivy.base.model.TransactionType
+import com.ivy.legacy.datamodel.Account
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.test.TestingContext
 import com.ivy.legacy.IvyWalletPreview
-import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.utils.addKeyboardListener
 import com.ivy.legacy.utils.clickableNoIndication
@@ -63,6 +62,7 @@ import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.springBounce
 import com.ivy.legacy.utils.thenIf
 import com.ivy.legacy.utils.verticalSwipeListener
+import com.ivy.base.model.TransactionType
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Green
@@ -90,6 +90,7 @@ import kotlin.math.roundToInt
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 const val SWIPE_UP_EXPANDED_THRESHOLD = 200
 
+@Suppress("LongMethod", "LongParameterList", "UnusedParameter")
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.EditBottomSheet(
@@ -100,17 +101,16 @@ fun BoxWithConstraintsScope.EditBottomSheet(
     toAccount: Account?,
     amount: Double,
     currency: String,
-    convertedAmount: Double? = null,
-    convertedAmountCurrencyCode: String? = null,
-
     amountModalShown: Boolean,
     setAmountModalShown: (Boolean) -> Unit,
     ActionButton: @Composable () -> Unit,
-
     onAmountChanged: (Double) -> Unit,
     onSelectedAccountChanged: (Account) -> Unit,
     onToAccountChanged: (Account) -> Unit,
-    onAddNewAccount: () -> Unit
+    onAddNewAccount: () -> Unit,
+    modifier: Modifier = Modifier, // Modifier comes after other parameters
+    convertedAmount: Double? = null,
+    convertedAmountCurrencyCode: String? = null,
 ) {
     val rootView = LocalView.current
     var keyboardShown by remember { mutableStateOf(false) }
@@ -512,12 +512,12 @@ private fun SheetHeader(
 
 @Composable
 private fun AccountsRow(
-    modifier: Modifier = Modifier,
     accounts: List<Account>,
     selectedAccount: Account?,
-    childrenTestTag: String? = null,
     onSelectedAccountChanged: (Account) -> Unit,
-    onAddNewAccount: () -> Unit
+    modifier: Modifier = Modifier,
+    childrenTestTag: String? = null,
+    onAddNewAccount: () -> Unit,
 ) {
     val lazyState = rememberLazyListState()
 
@@ -588,7 +588,8 @@ private fun Account(
                 background(accountColor, UI.shapes.rFull)
             }
             .clickable(onClick = onClick)
-            .testTag(testTag),
+            .testTag(testTag)
+            .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(12.dp))
@@ -612,8 +613,6 @@ private fun Account(
 
         Spacer(Modifier.width(24.dp))
     }
-
-    Spacer(Modifier.width(8.dp))
 }
 
 @Composable
@@ -624,7 +623,8 @@ private fun AddAccount(
         modifier = Modifier
             .clip(UI.shapes.rFull)
             .border(2.dp, UI.colors.medium, UI.shapes.rFull)
-            .clickable(onClick = onClick),
+            .clickable(onClick = onClick)
+            .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(12.dp))
@@ -647,8 +647,6 @@ private fun AddAccount(
 
         Spacer(Modifier.width(24.dp))
     }
-
-    Spacer(Modifier.width(8.dp))
 }
 
 @Composable
@@ -659,18 +657,17 @@ private fun Amount(
     percentExpanded: Float,
     label: String,
     account: Account?,
-    showConvertedAmountText: String? = null,
     onShowAmountModal: () -> Unit,
-    onAccountMiniClick: () -> Unit,
+    showConvertedAmountText: String? = null,
+    onAccountMiniClick: () -> Unit
+
 ) {
     Row(
         modifier = Modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         val percentCollapsed = 1f - percentExpanded
-        val integerFontSize = lerp(40, 30, percentCollapsed)
-        val spacerInteger = lerp(4, 0, percentCollapsed)
-        val currencyPaddingTop = lerp(8, 4, percentCollapsed)
+        val balanceFontSize = lerp(40, 30, percentCollapsed)
         val currencyFontSize = lerp(30, 18, percentCollapsed)
 
         Spacer(Modifier.width(32.dp))
@@ -693,12 +690,9 @@ private fun Amount(
                 currency = currency,
                 balance = amount,
 
-                decimalPaddingTop = currencyPaddingTop.dp,
-                spacerDecimal = spacerInteger.dp,
                 spacerCurrency = 8.dp,
 
-                integerFontSize = integerFontSize.sp,
-                decimalFontSize = 18.sp,
+                balanceFontSize = balanceFontSize.sp,
                 currencyFontSize = currencyFontSize.sp,
 
                 currencyUpfront = false

@@ -19,16 +19,18 @@ import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.wallet.ui.theme.components.BalanceRow
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
 
+@Suppress("UnusedParameter")
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun ModalAmountSection(
     label: String,
     currency: String,
     amount: Double,
+    modifier: Modifier = Modifier,
     Header: (@Composable () -> Unit)? = null,
     amountPaddingTop: Dp = 48.dp,
     amountPaddingBottom: Dp = 48.dp,
-    showAmountModal: () -> Unit,
+    showAmountModal: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -60,12 +62,9 @@ fun ModalAmountSection(
             currency = currency,
             balance = amount,
 
-            decimalPaddingTop = 8.dp,
-            spacerDecimal = 4.dp,
             spacerCurrency = 8.dp,
 
-            integerFontSize = 40.sp,
-            decimalFontSize = 18.sp,
+            balanceFontSize = 40.sp,
             currencyFontSize = 30.sp,
 
             currencyUpfront = false

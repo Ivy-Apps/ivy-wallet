@@ -295,14 +295,11 @@ private fun AccountHeader(
                 .clickableNoIndication {
                     onBalanceClick()
                 },
-            decimalPaddingTop = 7.dp,
-            spacerDecimal = 6.dp,
             textColor = contrastColor,
             currency = currency,
             balance = accountData.balance,
 
-            integerFontSize = 30.sp,
-            decimalFontSize = 18.sp,
+            balanceFontSize = 30.sp,
             currencyFontSize = 30.sp,
 
             currencyUpfront = false

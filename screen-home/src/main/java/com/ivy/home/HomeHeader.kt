@@ -184,8 +184,7 @@ private fun HeaderStickyRow(
                     currency = currency,
                     balance = balance,
                     shortenBigNumbers = true,
-                    hiddenMode = hideBalance,
-                    overflow = overflow
+                    hiddenMode = hideBalance
 
                 )
             }
