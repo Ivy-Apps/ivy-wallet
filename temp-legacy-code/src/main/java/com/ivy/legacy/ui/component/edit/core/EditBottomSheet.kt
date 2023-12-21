@@ -90,6 +90,7 @@ import kotlin.math.roundToInt
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 const val SWIPE_UP_EXPANDED_THRESHOLD = 200
 
+@Suppress("LongMethod")
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.EditBottomSheet(
@@ -667,8 +668,6 @@ private fun Amount(
     ) {
         val percentCollapsed = 1f - percentExpanded
         val balanceFontSize = lerp(40, 30, percentCollapsed)
-        val spacerInteger = lerp(4, 0, percentCollapsed)
-        val currencyPaddingTop = lerp(8, 4, percentCollapsed)
         val currencyFontSize = lerp(30, 18, percentCollapsed)
 
         Spacer(Modifier.width(32.dp))
