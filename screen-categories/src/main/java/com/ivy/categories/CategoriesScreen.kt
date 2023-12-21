@@ -255,7 +255,6 @@ private fun CategoryCard(
     }
 }
 
-
 @Composable
 fun AddedSpent(
     monthlyIncome: Double,
@@ -469,8 +468,6 @@ fun BoxWithConstraintsScope.SortModal(
         }
     }
 }
-
-
 
 @Composable
 private fun SelectTypeButton(

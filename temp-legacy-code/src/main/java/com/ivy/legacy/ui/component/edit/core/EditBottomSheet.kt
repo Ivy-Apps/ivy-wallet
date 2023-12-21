@@ -648,8 +648,6 @@ private fun AddAccount(
     }
 }
 
-
-
 @Composable
 private fun Amount(
     type: TransactionType,
