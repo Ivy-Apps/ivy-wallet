@@ -414,6 +414,7 @@ private fun CategoryHeader(
     }
 }
 
+@Suppress("UnusedParameter")
 @Composable
 fun BoxWithConstraintsScope.SortModal(
     items: List<SortOrder>,
