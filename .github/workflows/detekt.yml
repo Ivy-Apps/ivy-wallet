@@ -34,7 +34,7 @@ jobs:
 
       - name: Upload Detekt Release report to GitHub
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: detekt-report.html
           path: build/reports/detekt/detekt.html
