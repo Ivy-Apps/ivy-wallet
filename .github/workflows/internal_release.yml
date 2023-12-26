@@ -90,7 +90,7 @@ jobs:
         run: bundle exec fastlane lint_release
 
       - name: Upload Lint Release report to GitHub
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: lint-release-report.html
           path: app/build/reports/lint-results-release.html
@@ -102,7 +102,7 @@ jobs:
       #    script: bundle exec fastlane ui_tests
 
       #- name: Upload Android Tests report to GitHub
-      #  uses: actions/upload-artifact@v3
+      #  uses: actions/upload-artifact@v4
       #  with:
       #    name: android-tests-report
       #    path: app/build/reports/androidTests/connected
@@ -117,7 +117,7 @@ jobs:
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
 
       - name: Upload App Bundle to GitHub
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: app-release.aab
           path: app/build/outputs/bundle/release/app-release.aab
