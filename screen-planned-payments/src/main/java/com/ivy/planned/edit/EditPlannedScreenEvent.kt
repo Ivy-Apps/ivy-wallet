@@ -29,6 +29,7 @@ sealed interface EditPlannedScreenEvent {
 
     data class OnSave(val closeScreen: Boolean = true) : EditPlannedScreenEvent
     data object OnDelete : EditPlannedScreenEvent
+    data class OnEditCategory(val updatedCategory: Category) : EditPlannedScreenEvent
     data class OnCreateCategory(val data: CreateCategoryData) : EditPlannedScreenEvent
     data class OnCreateAccount(val data: CreateAccountData) : EditPlannedScreenEvent
     data class OnCategoryModalVisible(val visible: Boolean) : EditPlannedScreenEvent
