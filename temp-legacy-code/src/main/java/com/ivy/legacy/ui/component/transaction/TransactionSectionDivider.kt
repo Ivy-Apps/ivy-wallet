@@ -56,7 +56,7 @@ fun SectionDivider(
         verticalAlignment = Alignment.CenterVertically
     ) {
         val expandIconRotation by animateFloatAsState(
-            targetValue = if (expanded) 0f else -180f,
+            targetValue = if (expanded) -180f else 0f,
             animationSpec = springBounce()
         )
 
