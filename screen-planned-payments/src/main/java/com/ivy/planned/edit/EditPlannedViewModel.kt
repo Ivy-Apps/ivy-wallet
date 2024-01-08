@@ -230,6 +230,7 @@ class EditPlannedViewModel @Inject constructor(
             is EditPlannedScreenEvent.OnRuleChanged ->
                 updateRule(event.startDate, event.oneTime, event.intervalN, event.intervalType)
             is EditPlannedScreenEvent.OnCategoryChanged -> updateCategory(event.newCategory)
+            is EditPlannedScreenEvent.OnEditCategory -> editCategory(event.updatedCategory)
             is EditPlannedScreenEvent.OnCategoryModalVisible ->
                 categoryModalVisible.value = event.visible
             is EditPlannedScreenEvent.OnCategoryModalDataChanged ->
@@ -472,6 +473,14 @@ class EditPlannedViewModel @Inject constructor(
                 categories.value = categoriesAct(Unit)
 
                 updateCategory(it)
+            }
+        }
+    }
+
+    private fun editCategory(updatedCategory: Category) {
+        viewModelScope.launch {
+            categoryCreator.editCategory(updatedCategory) {
+                categories.value = categoriesAct(Unit)
             }
         }
     }
