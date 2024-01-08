@@ -5,7 +5,6 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.os.Build
 import android.service.quicksettings.TileService
-import timber.log.Timber
 
 class PaymentTileService : TileService() {
     // Called when the user adds your tile.
@@ -37,13 +36,14 @@ class PaymentTileService : TileService() {
 
     @SuppressLint("StartActivityAndCollapseDeprecated")
     private fun startRootActivity() {
-        val i = Intent(applicationContext, RootActivity::class.java)
-        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        val intent = Intent(applicationContext, RootActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            val pi = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_IMMUTABLE)
+            val pi = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
             startActivityAndCollapse(pi)
         } else {
-            startActivityAndCollapse(i)
+            startActivityAndCollapse(intent)
         }
     }
 }
