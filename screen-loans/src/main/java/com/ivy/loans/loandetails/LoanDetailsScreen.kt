@@ -42,12 +42,17 @@ import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Loan
 import com.ivy.legacy.datamodel.LoanRecord
 import com.ivy.legacy.humanReadableType
+import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.ui.component.ItemStatisticToolbar
 import com.ivy.legacy.ui.component.transaction.TypeAmountCurrency
 import com.ivy.legacy.utils.clickableNoIndication
+import com.ivy.legacy.utils.convertUTCtoLocal
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.format
+import com.ivy.legacy.utils.formatLocalTime
+import com.ivy.legacy.utils.formatNicely
 import com.ivy.legacy.utils.formatNicelyWithTime
+import com.ivy.legacy.utils.getTrueDate
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.setStatusBarDarkTextCompat
 import com.ivy.legacy.utils.timeNowUTC
@@ -69,6 +74,7 @@ import com.ivy.wallet.ui.theme.components.BalanceRow
 import com.ivy.wallet.ui.theme.components.ItemIconMDefaultIcon
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
+import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
 import com.ivy.wallet.ui.theme.components.ProgressBar
 import com.ivy.wallet.ui.theme.components.getCustomIconIdS
 import com.ivy.wallet.ui.theme.dynamicContrast
@@ -80,6 +86,7 @@ import com.ivy.wallet.ui.theme.modal.LoanRecordModal
 import com.ivy.wallet.ui.theme.modal.ProgressModal
 import com.ivy.wallet.ui.theme.toComposeColor
 import kotlinx.collections.immutable.persistentListOf
+import java.time.LocalDateTime
 import java.util.UUID
 
 @Composable
@@ -316,26 +323,38 @@ private fun LoanItem(
 
         Spacer(Modifier.width(8.dp))
 
-        Text(
-            modifier = Modifier.testTag("loan_name"),
-            text = loan.name,
-            style = UI.typo.b1.style(
-                color = contrastColor,
-                fontWeight = FontWeight.ExtraBold
-            )
-        )
+        Column {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    modifier = Modifier.testTag("loan_name"),
+                    text = loan.name,
+                    style = UI.typo.b1.style(
+                        color = contrastColor,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                )
 
-        Spacer(Modifier.width(8.dp))
+                Spacer(Modifier.width(8.dp))
 
-        Text(
-            modifier = Modifier
-                .align(Alignment.Bottom)
-                .padding(bottom = 12.dp),
-            text = loan.humanReadableType(),
-            style = UI.typo.c.style(
-                color = loan.color.toComposeColor().dynamicContrast()
+                Text(
+                    text = loan.humanReadableType(),
+                    style = UI.typo.c.style(
+                        color = loan.color.toComposeColor().dynamicContrast()
+                    )
+                )
+            }
+
+            Text(
+                text = loan.dateTime.formatNicely(
+                    noWeekDay = false
+                ).uppercase(),
+                style = UI.typo.nC.style(
+                    color = contrastColor
+                )
             )
-        )
+        }
     }
 }
 
@@ -761,7 +780,8 @@ private fun Preview_Empty() {
                     name = "Loan 1",
                     amount = 4023.54,
                     color = Red.toArgb(),
-                    type = LoanType.LEND
+                    type = LoanType.LEND,
+                    dateTime = LocalDateTime.now()
                 ),
                 displayLoanRecords = persistentListOf(),
                 amountPaid = 3821.00,
@@ -789,7 +809,8 @@ private fun Preview_Records() {
                     name = "Loan 1",
                     amount = 4023.54,
                     color = Red.toArgb(),
-                    type = LoanType.LEND
+                    type = LoanType.LEND,
+                    dateTime = LocalDateTime.now()
                 ),
                 displayLoanRecords = persistentListOf(
                     DisplayLoanRecord(

@@ -42,11 +42,13 @@ import com.ivy.frp.test.TestingContext
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Loan
+import com.ivy.legacy.legacy.ui.theme.components.DateTimeRow
 import com.ivy.legacy.utils.getDefaultFIATCurrency
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.selectEndTextFieldValue
 import com.ivy.legacy.utils.thenIf
+import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
@@ -65,6 +67,7 @@ import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import com.ivy.wallet.ui.theme.modal.edit.IconNameRow
 import com.ivy.wallet.ui.theme.toComposeColor
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import java.util.UUID
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
@@ -93,6 +96,9 @@ fun BoxWithConstraintsScope.LoanModal(
     val loan = modal?.loan
     var nameTextFieldValue by remember(modal) {
         mutableStateOf(selectEndTextFieldValue(loan?.name))
+    }
+    var dateTime by remember(modal) {
+        mutableStateOf(modal?.loan?.dateTime ?: timeNowUTC())
     }
     var type by remember(modal) {
         mutableStateOf(modal?.loan?.type ?: LoanType.BORROW)
@@ -148,6 +154,7 @@ fun BoxWithConstraintsScope.LoanModal(
                     save(
                         loan = loan,
                         nameTextFieldValue = nameTextFieldValue,
+                        dateTime = dateTime,
                         type = type,
                         color = color,
                         icon = icon,
@@ -189,6 +196,15 @@ fun BoxWithConstraintsScope.LoanModal(
             setNameTextFieldValue = { nameTextFieldValue = it },
             showChooseIconModal = {
                 chooseIconModalVisible = true
+            }
+        )
+
+        Spacer(Modifier.height(24.dp))
+
+        DateTimeRow(
+            dateTime = dateTime,
+            onSetDateTime = {
+                dateTime = it
             }
         )
 
@@ -316,6 +332,7 @@ fun BoxWithConstraintsScope.LoanModal(
         save(
             loan = loan,
             nameTextFieldValue = nameTextFieldValue,
+            dateTime = dateTime,
             type = type,
             color = color,
             icon = icon,
@@ -547,6 +564,7 @@ private fun RowScope.SelectorButton(
 private fun save(
     loan: Loan?,
     nameTextFieldValue: TextFieldValue,
+    dateTime: LocalDateTime,
     type: LoanType,
     color: Color,
     icon: String?,
@@ -562,6 +580,7 @@ private fun save(
         onEditLoan(
             loan.copy(
                 name = nameTextFieldValue.text.trim(),
+                dateTime = dateTime,
                 type = type,
                 amount = amount,
                 color = color.toArgb(),
@@ -579,7 +598,8 @@ private fun save(
                 color = color,
                 icon = icon,
                 account = selectedAccount,
-                createLoanTransaction = createLoanTransaction
+                createLoanTransaction = createLoanTransaction,
+                dateTime = dateTime
             )
         )
     }

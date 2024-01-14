@@ -14,7 +14,8 @@ fun LoanEntity.toDomain(): Loan = Loan(
     accountId = accountId,
     isSynced = isSynced,
     isDeleted = isDeleted,
-    id = id
+    id = id,
+    dateTime = dateTime
 )
 
 fun LoanEntity.humanReadableType(): String {
