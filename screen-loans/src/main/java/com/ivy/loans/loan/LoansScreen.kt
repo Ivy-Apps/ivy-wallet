@@ -40,7 +40,6 @@ import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.datamodel.Loan
 import com.ivy.legacy.humanReadableType
 import com.ivy.legacy.utils.getDefaultFIATCurrency
-import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.loans.loan.data.DisplayLoan
 import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.LoansScreen

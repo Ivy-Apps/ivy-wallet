@@ -42,17 +42,13 @@ import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Loan
 import com.ivy.legacy.datamodel.LoanRecord
 import com.ivy.legacy.humanReadableType
-import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.ui.component.ItemStatisticToolbar
 import com.ivy.legacy.ui.component.transaction.TypeAmountCurrency
 import com.ivy.legacy.utils.clickableNoIndication
-import com.ivy.legacy.utils.convertUTCtoLocal
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.format
-import com.ivy.legacy.utils.formatLocalTime
 import com.ivy.legacy.utils.formatNicely
 import com.ivy.legacy.utils.formatNicelyWithTime
-import com.ivy.legacy.utils.getTrueDate
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.setStatusBarDarkTextCompat
 import com.ivy.legacy.utils.timeNowUTC
@@ -74,7 +70,6 @@ import com.ivy.wallet.ui.theme.components.BalanceRow
 import com.ivy.wallet.ui.theme.components.ItemIconMDefaultIcon
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
-import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
 import com.ivy.wallet.ui.theme.components.ProgressBar
 import com.ivy.wallet.ui.theme.components.getCustomIconIdS
 import com.ivy.wallet.ui.theme.dynamicContrast

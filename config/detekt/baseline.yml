@@ -247,6 +247,7 @@
     <ID>ClassNaming:Migration119to120_LoanTransactions.kt$Migration119to120_LoanTransactions : Migration</ID>
     <ID>ClassNaming:Migration120to121_DropWishlistItem.kt$Migration120to121_DropWishlistItem : Migration</ID>
     <ID>ClassNaming:Migration122to123_ExchangeRates.kt$Migration122to123_ExchangeRates : Migration</ID>
+    <ID>ClassNaming:Migration123to124_LoanIncludeDateTime.kt$Migration123to124_LoanIncludeDateTime : Migration</ID>
     <ID>CommentSpacing:Composition.kt$//() -&gt; B</ID>
     <ID>CommentSpacing:Composition.kt$//() -&gt; B =&gt; (B) -&gt; C</ID>
     <ID>CommentSpacing:Composition.kt$//() -&gt; B =&gt; Action&lt;A,B&gt;</ID>
@@ -2478,6 +2479,8 @@
     <ID>MagicNumber:Migration106to107_Wishlist.kt$Migration106to107_Wishlist$107</ID>
     <ID>MagicNumber:Migration107to108_Sync.kt$Migration107to108_Sync$107</ID>
     <ID>MagicNumber:Migration107to108_Sync.kt$Migration107to108_Sync$108</ID>
+    <ID>MagicNumber:Migration123to124_LoanIncludeDateTime.kt$Migration123to124_LoanIncludeDateTime$123</ID>
+    <ID>MagicNumber:Migration123to124_LoanIncludeDateTime.kt$Migration123to124_LoanIncludeDateTime$124</ID>
     <ID>MagicNumber:Migration108to109_Users.kt$Migration108to109_Users$108</ID>
     <ID>MagicNumber:Migration108to109_Users.kt$Migration108to109_Users$109</ID>
     <ID>MagicNumber:Migration109to110_PlannedPayments.kt$Migration109to110_PlannedPayments$109</ID>
