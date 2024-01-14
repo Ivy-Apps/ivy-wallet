@@ -32,6 +32,7 @@ import com.ivy.data.db.entity.PlannedPaymentRuleEntity
 import com.ivy.data.db.entity.SettingsEntity
 import com.ivy.data.db.entity.TransactionEntity
 import com.ivy.data.db.entity.UserEntity
+import com.ivy.data.db.migration.Migration123to124_LoanIncludeDateTime
 import com.ivy.domain.db.RoomTypeConverters
 import com.ivy.domain.db.migration.Migration105to106_TrnRecurringRules
 import com.ivy.domain.db.migration.Migration106to107_Wishlist
@@ -65,7 +66,7 @@ import com.ivy.domain.db.migration.Migration122to123_ExchangeRates
             spec = IvyRoomDatabase.DeleteSEMigration::class
         )
     ],
-    version = 123,
+    version = 124,
     exportSchema = true
 )
 @TypeConverters(RoomTypeConverters::class)
@@ -118,7 +119,8 @@ abstract class IvyRoomDatabase : RoomDatabase() {
                     Migration118to119_Loans(),
                     Migration119to120_LoanTransactions(),
                     Migration120to121_DropWishlistItem(),
-                    Migration122to123_ExchangeRates()
+                    Migration122to123_ExchangeRates(),
+                    Migration123to124_LoanIncludeDateTime()
                 )
                 .build()
         }

@@ -3,6 +3,7 @@ package com.ivy.legacy.datamodel
 import androidx.compose.runtime.Immutable
 import com.ivy.data.db.entity.LoanEntity
 import com.ivy.data.model.LoanType
+import java.time.LocalDateTime
 import java.util.UUID
 
 @Deprecated("Legacy data model. Will be deleted")
@@ -18,6 +19,7 @@ data class Loan(
 
     val isSynced: Boolean = false,
     val isDeleted: Boolean = false,
+    val dateTime: LocalDateTime,
 
     val id: UUID = UUID.randomUUID()
 ) {
@@ -31,6 +33,7 @@ data class Loan(
         accountId = accountId,
         isSynced = isSynced,
         isDeleted = isDeleted,
-        id = id
+        id = id,
+        dateTime = dateTime
     )
 }
