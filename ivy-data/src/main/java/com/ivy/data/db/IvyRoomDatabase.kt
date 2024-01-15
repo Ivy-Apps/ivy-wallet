@@ -11,6 +11,8 @@ import com.ivy.data.db.dao.read.LoanDao
 import com.ivy.data.db.dao.read.LoanRecordDao
 import com.ivy.data.db.dao.read.PlannedPaymentRuleDao
 import com.ivy.data.db.dao.read.SettingsDao
+import com.ivy.data.db.dao.read.TagDao
+import com.ivy.data.db.dao.read.TagTransactionDao
 import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.data.db.dao.read.UserDao
 import com.ivy.data.db.dao.write.WriteAccountDao
@@ -21,6 +23,8 @@ import com.ivy.data.db.dao.write.WriteLoanDao
 import com.ivy.data.db.dao.write.WriteLoanRecordDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
+import com.ivy.data.db.dao.write.WriteTagDao
+import com.ivy.data.db.dao.write.WriteTagTransactionDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.db.entity.AccountEntity
 import com.ivy.data.db.entity.BudgetEntity
@@ -85,6 +89,8 @@ abstract class IvyRoomDatabase : RoomDatabase() {
     abstract val exchangeRatesDao: ExchangeRatesDao
     abstract val loanDao: LoanDao
     abstract val loanRecordDao: LoanRecordDao
+    abstract val tagDao : TagDao
+    abstract val tagTransactionDao : TagTransactionDao
 
     abstract val writeAccountDao: WriteAccountDao
     abstract val writeTransactionDao: WriteTransactionDao
@@ -95,6 +101,8 @@ abstract class IvyRoomDatabase : RoomDatabase() {
     abstract val writeExchangeRatesDao: WriteExchangeRatesDao
     abstract val writeLoanDao: WriteLoanDao
     abstract val writeLoanRecordDao: WriteLoanRecordDao
+    abstract val writeTagDao : WriteTagDao
+    abstract val writeTagTransactionDao : WriteTagTransactionDao
 
     companion object {
         const val DB_NAME = "ivywallet.db"
@@ -146,6 +154,8 @@ abstract class IvyRoomDatabase : RoomDatabase() {
         writeLoanDao.deleteAll()
         writeLoanRecordDao.deleteAll()
         writeExchangeRatesDao.deleteALl()
+        writeTagDao.deleteAll()
+        writeTransactionDao.deleteAll()
     }
 
     @DeleteColumn(tableName = "accounts", columnName = "seAccountId")
