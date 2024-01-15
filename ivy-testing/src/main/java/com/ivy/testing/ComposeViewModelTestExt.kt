@@ -4,6 +4,10 @@ import app.cash.molecule.RecompositionMode
 import app.cash.molecule.moleculeFlow
 import app.cash.turbine.test
 import com.ivy.domain.ComposeViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
 
 /**
  * Runs a [ComposeViewModel] test simulation.
@@ -11,18 +15,24 @@ import com.ivy.domain.ComposeViewModel
  * @param events pass the events that have occurred in your simulation
  * @param verify assert what's the expected state after all the events
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 fun <UiState, UiEvent> ComposeViewModel<UiState, UiEvent>.runTest(
-    vararg events: UiEvent,
+    events: List<UiEvent> = emptyList(),
     verify: UiState.() -> Unit
 ) {
-    val viewModel = this
-    kotlinx.coroutines.test.runTest {
-        moleculeFlow(mode = RecompositionMode.Immediate) {
-            viewModel.uiState()
-        }.test {
-            events.onEach(viewModel::onEvent)
-            verify(expectMostRecentItem())
-            cancel()
+    try {
+        Dispatchers.setMain(Dispatchers.Unconfined)
+        val viewModel = this
+        kotlinx.coroutines.test.runTest {
+            moleculeFlow(mode = RecompositionMode.Immediate) {
+                viewModel.uiState()
+            }.test {
+                events.onEach(viewModel::onEvent)
+                verify(expectMostRecentItem())
+                cancel()
+            }
         }
+    } finally {
+        Dispatchers.resetMain()
     }
 }
