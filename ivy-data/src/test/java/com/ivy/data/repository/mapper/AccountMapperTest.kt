@@ -112,5 +112,16 @@ class AccountMapperTest : FreeSpec({
             // then
             result.shouldBeRight()
         }
+
+        "invalid icon is okay" {
+            // given
+            val invalidIconEntity = entity.copy(icon = "invalid icon")
+
+            // when
+            val result = with(mapper) { invalidIconEntity.toDomain() }
+
+            // then
+            result.shouldBeRight()
+        }
     }
 })

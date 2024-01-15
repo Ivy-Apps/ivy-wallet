@@ -94,5 +94,16 @@ class CategoryMapperTest : FreeSpec({
             // then
             res.shouldBeRight()
         }
+
+        "invalid icon is okay" {
+            // given
+            val invalidIconEntity = categoryEntity.copy(icon = "invalid icon")
+
+            // when
+            val result = with(mapper) { invalidIconEntity.toDomain() }
+
+            // then
+            result.shouldBeRight()
+        }
     }
 })
