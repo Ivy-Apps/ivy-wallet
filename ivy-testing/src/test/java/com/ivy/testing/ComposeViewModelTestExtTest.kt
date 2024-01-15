@@ -18,7 +18,7 @@ class ComposeViewModelTestExtTest : FreeSpec({
         val viewModel = newViewModel()
 
         viewModel.runTest(
-            FakeUiEvent.Increment
+            events = listOf(FakeUiEvent.Increment)
         ) {
             counter shouldBe 43
         }
@@ -28,7 +28,7 @@ class ComposeViewModelTestExtTest : FreeSpec({
         val viewModel = newViewModel()
 
         viewModel.runTest(
-            FakeUiEvent.Decrement
+            events = listOf(FakeUiEvent.Decrement)
         ) {
             counter shouldBe 41
         }
@@ -38,9 +38,11 @@ class ComposeViewModelTestExtTest : FreeSpec({
         val viewModel = newViewModel()
 
         viewModel.runTest(
-            FakeUiEvent.Decrement,
-            FakeUiEvent.Increment,
-            FakeUiEvent.Increment,
+            events = listOf(
+                FakeUiEvent.Decrement,
+                FakeUiEvent.Increment,
+                FakeUiEvent.Increment,
+            )
         ) {
             counter shouldBe 43
         }
