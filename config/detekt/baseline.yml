@@ -324,7 +324,7 @@
     <ID>CompositionLocalAllowlist:IvyTheme.kt$LocalIvyShapes</ID>
     <ID>CompositionLocalAllowlist:IvyTheme.kt$LocalIvyTypography</ID>
     <ID>CompositionLocalAllowlist:IvyUI.kt$LocalIvyContext</ID>
-    <ID>CompositionLocalAllowlist:NavigationRoot.kt$localNavigation</ID>
+    <ID>CompositionLocalAllowlist:NavigationRoot.kt$LocalNavigation</ID>
     <ID>ConstructorParameterNaming:LoanTransactionsLogic.kt$LoanTransactionsLogic$val Loan: LTLoanMapper</ID>
     <ID>ConstructorParameterNaming:LoanTransactionsLogic.kt$LoanTransactionsLogic$val LoanRecord: LTLoanRecordMapper</ID>
     <ID>ConstructorParameterNaming:ReorderModal.kt$Adapter$private val ItemContent: @Composable RowScope.(Int, Any) -&gt; Unit</ID>
