@@ -4,9 +4,10 @@ kotlin-coroutines = "1.7.3"
 ktor = "2.3.7"
 arrow = "1.2.1"
 kotest = "5.8.0"
+# https://developer.android.com/jetpack/androidx/releases/compose
 compose = "1.5.4"
 # https://developer.android.com/jetpack/androidx/releases/compose-kotlin
-compose-compiler = "1.5.3" # It's used! Use compatible with Kotlin one
+compose-compiler = "1.5.8" # It's used! Use compatible with Kotlin one
 compose-material3 = "1.1.2"
 glance = "1.0.0"
 hilt = "2.50"
