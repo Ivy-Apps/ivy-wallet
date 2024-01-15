@@ -81,7 +81,6 @@ android {
             )
 
             matchingFallbacks.add("release")
-            matchingFallbacks.add("debug")
 
             isDebuggable = true
             isDefault = false
