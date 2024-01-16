@@ -6,15 +6,15 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 class Migration124to125_LoanEditDateTime : Migration(124, 125) {
     companion object {
         private const val LOANS_TABLE = "loans"
-        private const val LOANS_NEW_TABLE = "loans_new"
+        private const val LOANS_TEMP_TABLE = "loans_temp"
     }
 
     override fun migrate(db: SupportSQLiteDatabase) {
         db.execSQL(
-            "CREATE TABLE `${LOANS_NEW_TABLE}` (`name` TEXT NOT NULL, `amount` REAL NOT NULL, `type` TEXT NOT NULL, `color` INTEGER NOT NULL, `icon` TEXT, `orderNum` REAL NOT NULL, `accountId` TEXT, `isSynced` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `dateTime` INTEGER, `id` TEXT NOT NULL, PRIMARY KEY(`id`))"
+            "CREATE TABLE `${LOANS_TEMP_TABLE}` (`name` TEXT NOT NULL, `amount` REAL NOT NULL, `type` TEXT NOT NULL, `color` INTEGER NOT NULL, `icon` TEXT, `orderNum` REAL NOT NULL, `accountId` TEXT, `isSynced` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `dateTime` INTEGER, `id` TEXT NOT NULL, PRIMARY KEY(`id`))"
         )
-        db.execSQL("INSERT INTO `${LOANS_NEW_TABLE}` SELECT * FROM `${LOANS_TABLE}`")
+        db.execSQL("INSERT INTO `${LOANS_TEMP_TABLE}` SELECT * FROM `${LOANS_TABLE}`")
         db.execSQL("DROP TABLE `${LOANS_TABLE}`")
-        db.execSQL("ALTER TABLE `${LOANS_NEW_TABLE}` RENAME TO `${LOANS_TABLE}`")
+        db.execSQL("ALTER TABLE `${LOANS_TEMP_TABLE}` RENAME TO `${LOANS_TABLE}`")
     }
 }
