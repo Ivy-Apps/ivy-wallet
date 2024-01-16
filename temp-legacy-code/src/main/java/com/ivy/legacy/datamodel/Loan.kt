@@ -19,7 +19,7 @@ data class Loan(
 
     val isSynced: Boolean = false,
     val isDeleted: Boolean = false,
-    val dateTime: LocalDateTime,
+    val dateTime: LocalDateTime? = null,
 
     val id: UUID = UUID.randomUUID()
 ) {

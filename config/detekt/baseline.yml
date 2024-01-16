@@ -236,6 +236,7 @@
     <ID>ClassNaming:Migration120to121_DropWishlistItem.kt$Migration120to121_DropWishlistItem : Migration</ID>
     <ID>ClassNaming:Migration122to123_ExchangeRates.kt$Migration122to123_ExchangeRates : Migration</ID>
     <ID>ClassNaming:Migration123to124_LoanIncludeDateTime.kt$Migration123to124_LoanIncludeDateTime : Migration</ID>
+    <ID>ClassNaming:Migration124to125_LoanEditDateTime.kt$Migration124to125_LoanEditDateTime : Migration</ID>
     <ID>ComplexCondition:EditTransactionViewModel.kt$EditTransactionViewModel$customExchangeRateState.value.showCard &amp;&amp; toAccCurrencyCode == customExchangeRateState.value.toCurrencyCode &amp;&amp; fromAccCurrencyCode == customExchangeRateState.value.fromCurrencyCode &amp;&amp; !resetRate</ID>
     <ID>ComplexCondition:Transactions.kt$(upcoming == null || upcoming.trns.isEmpty()) &amp;&amp; (overdue == null || overdue.trns.isEmpty()) &amp;&amp; history.isEmpty()</ID>
     <ID>ComposableNaming:Compose.kt$onEvent</ID>
@@ -2375,6 +2376,8 @@
     <ID>MagicNumber:Migration122to123_ExchangeRates.kt$Migration122to123_ExchangeRates$123</ID>
     <ID>MagicNumber:Migration123to124_LoanIncludeDateTime.kt$Migration123to124_LoanIncludeDateTime$123</ID>
     <ID>MagicNumber:Migration123to124_LoanIncludeDateTime.kt$Migration123to124_LoanIncludeDateTime$124</ID>
+    <ID>MagicNumber:Migration124to125_LoanEditDateTime.kt$Migration124to125_LoanEditDateTime$124</ID>
+    <ID>MagicNumber:Migration124to125_LoanEditDateTime.kt$Migration124to125_LoanEditDateTime$125</ID>
     <ID>MagicNumber:MigrationsManager.kt$MigrationsManager$2_000L</ID>
     <ID>MagicNumber:Month.kt$Month.Companion$10</ID>
     <ID>MagicNumber:Month.kt$Month.Companion$11</ID>
@@ -2866,6 +2869,7 @@
     <ID>MaxLineLength:Migration117to118_Budgets.kt$Migration117to118_Budgets$"CREATE TABLE IF NOT EXISTS `$tableName` (`name` TEXT NOT NULL, `amount` REAL NOT NULL, `categoryIdsSerialized` TEXT, `accountIdsSerialized` TEXT, `isSynced` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `orderId` REAL NOT NULL, `id` TEXT NOT NULL, PRIMARY KEY(`id`))"</ID>
     <ID>MaxLineLength:Migration118to119_Loans.kt$Migration118to119_Loans$"CREATE TABLE IF NOT EXISTS `$LOANS_TABLE` (`name` TEXT NOT NULL, `amount` REAL NOT NULL, `type` TEXT NOT NULL, `color` INTEGER NOT NULL, `icon` TEXT, `orderNum` REAL NOT NULL, `isSynced` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `id` TEXT NOT NULL, PRIMARY KEY(`id`))"</ID>
     <ID>MaxLineLength:Migration118to119_Loans.kt$Migration118to119_Loans$"CREATE TABLE IF NOT EXISTS `$LOAN_RECORDS_TABLE` (`loanId` TEXT NOT NULL, `amount` REAL NOT NULL, `note` TEXT, `dateTime` INTEGER NOT NULL, `isSynced` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `id` TEXT NOT NULL, PRIMARY KEY(`id`))"</ID>
+    <ID>MaxLineLength:Migration124to125_LoanEditDateTime.kt$Migration124to125_LoanEditDateTime$"CREATE TABLE `${LOANS_TEMP_TABLE}` (`name` TEXT NOT NULL, `amount` REAL NOT NULL, `type` TEXT NOT NULL, `color` INTEGER NOT NULL, `icon` TEXT, `orderNum` REAL NOT NULL, `accountId` TEXT, `isSynced` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `dateTime` INTEGER, `id` TEXT NOT NULL, PRIMARY KEY(`id`))"</ID>
     <ID>MaxLineLength:PieChartAct.kt$PieChartAct$if</ID>
     <ID>MaxLineLength:PlannedPaymentRuleDao.kt$PlannedPaymentRuleDao$"SELECT * FROM planned_payment_rules WHERE isDeleted = 0 AND oneTime = :oneTime ORDER BY amount DESC, startDate ASC"</ID>
     <ID>MaxLineLength:PluginSpecBuilders.kt$* The `com.android.internal.asset-pack-bundle` plugin implemented by [com.android.build.gradle.internal.plugins.AssetPackBundlePlugin].</ID>
@@ -3436,6 +3440,7 @@
     <ID>MaximumLineLength:Migration112to113_ExchangeRates.kt$Migration112to113_ExchangeRates$ </ID>
     <ID>MaximumLineLength:Migration117to118_Budgets.kt$Migration117to118_Budgets$ </ID>
     <ID>MaximumLineLength:Migration118to119_Loans.kt$Migration118to119_Loans$ </ID>
+    <ID>MaximumLineLength:Migration124to125_LoanEditDateTime.kt$Migration124to125_LoanEditDateTime$ </ID>
     <ID>MaximumLineLength:PieChartAct.kt$PieChartAct$ </ID>
     <ID>MaximumLineLength:PlannedPaymentRuleDao.kt$PlannedPaymentRuleDao$ </ID>
     <ID>MaximumLineLength:PrimaryAttributeColumn.kt$ </ID>
