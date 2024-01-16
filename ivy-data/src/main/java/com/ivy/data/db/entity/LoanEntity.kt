@@ -37,7 +37,7 @@ data class LoanEntity(
     val isDeleted: Boolean = false,
     @SerialName("dateTime")
     @Serializable(with = KSerializerLocalDateTime::class)
-    val dateTime: LocalDateTime,
+    val dateTime: LocalDateTime? = null,
 
     @PrimaryKey
     @SerialName("id")

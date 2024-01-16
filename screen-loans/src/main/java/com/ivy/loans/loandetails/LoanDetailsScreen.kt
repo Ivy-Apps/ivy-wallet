@@ -341,14 +341,16 @@ private fun LoanItem(
                 )
             }
 
-            Text(
-                text = loan.dateTime.formatNicely(
-                    noWeekDay = false
-                ).uppercase(),
-                style = UI.typo.nC.style(
-                    color = contrastColor
+            loan.dateTime?.let {
+                Text(
+                    text = it.formatNicely(
+                        noWeekDay = false
+                    ).uppercase(),
+                    style = UI.typo.nC.style(
+                        color = contrastColor
+                    )
                 )
-            )
+            }
         }
     }
 }
