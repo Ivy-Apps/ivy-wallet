@@ -33,6 +33,7 @@ import com.ivy.data.db.entity.SettingsEntity
 import com.ivy.data.db.entity.TransactionEntity
 import com.ivy.data.db.entity.UserEntity
 import com.ivy.data.db.migration.Migration123to124_LoanIncludeDateTime
+import com.ivy.data.db.migration.Migration124to125_LoanEditDateTime
 import com.ivy.domain.db.RoomTypeConverters
 import com.ivy.domain.db.migration.Migration105to106_TrnRecurringRules
 import com.ivy.domain.db.migration.Migration106to107_Wishlist
@@ -66,7 +67,7 @@ import com.ivy.domain.db.migration.Migration122to123_ExchangeRates
             spec = IvyRoomDatabase.DeleteSEMigration::class
         )
     ],
-    version = 124,
+    version = 125,
     exportSchema = true
 )
 @TypeConverters(RoomTypeConverters::class)
@@ -120,7 +121,8 @@ abstract class IvyRoomDatabase : RoomDatabase() {
                     Migration119to120_LoanTransactions(),
                     Migration120to121_DropWishlistItem(),
                     Migration122to123_ExchangeRates(),
-                    Migration123to124_LoanIncludeDateTime()
+                    Migration123to124_LoanIncludeDateTime(),
+                    Migration124to125_LoanEditDateTime()
                 )
                 .build()
         }
