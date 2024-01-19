@@ -115,7 +115,7 @@ fun BalanceRow(
         }
         Text(
                 text = when {
-                    hiddenMode -> "****"
+                    hiddenMode -> "*"
                     balanceAmountPrefix != null -> "$balanceAmountPrefix$integerPartFormatted"
                     else -> integerPartFormatted
                 },
