@@ -76,7 +76,7 @@ fun AmountCurrencyB1(
 ) {
     val shortAmount = shortenBigNumbers && shouldShortAmount(amount)
     val text = if (hideIncome) {
-        "****"
+        "*"
     } else {
         if (shortAmount) shortenAmount(amount) else amount.format(currency)
     }
