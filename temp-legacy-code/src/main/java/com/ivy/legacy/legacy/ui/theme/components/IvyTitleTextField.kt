@@ -74,6 +74,7 @@ fun ColumnScope.IvyTitleTextField(
         val view = LocalView.current
         BasicTextField(
             modifier = Modifier
+                .fillMaxWidth()
                 .testTag("input_field"),
             value = value,
             onValueChange = onValueChanged,
