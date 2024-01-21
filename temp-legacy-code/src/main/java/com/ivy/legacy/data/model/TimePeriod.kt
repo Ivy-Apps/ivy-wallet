@@ -12,7 +12,7 @@ import com.ivy.legacy.utils.withDayOfMonthSafe
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-private const val MONTH_NAME_ABBREVIATION_LENGTH = 3
+private const val MonthNameAbbreviationLength = 3
 
 @Immutable
 data class TimePeriod(
@@ -171,7 +171,7 @@ data class TimePeriod(
         val year = year
         return if (year != null && dateNowUTC().year != year) {
             // not this year
-            "${month.name.substring(0, MONTH_NAME_ABBREVIATION_LENGTH)}, $year"
+            "${month.name.substring(0, MonthNameAbbreviationLength)}, $year"
         } else {
             // this year
             month.name
