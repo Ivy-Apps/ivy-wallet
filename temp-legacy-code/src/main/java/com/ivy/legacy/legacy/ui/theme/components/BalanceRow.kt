@@ -1,7 +1,10 @@
 package com.ivy.wallet.ui.theme.components
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,145 +27,179 @@ import com.ivy.legacy.utils.shouldShortAmount
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BalanceRowMedium(
-        currency: String,
-        balance: Double,
-        modifier: Modifier = Modifier,
-        textColor: Color = UI.colors.pureInverse,
-        balanceAmountPrefix: String? = null,
-        currencyUpfront: Boolean = true,
-        shortenBigNumbers: Boolean = false,
-        hiddenMode: Boolean = false,
+    currency: String,
+    balance: Double,
+    modifier: Modifier = Modifier,
+    textColor: Color = UI.colors.pureInverse,
+    balanceAmountPrefix: String? = null,
+    currencyUpfront: Boolean = true,
+    shortenBigNumbers: Boolean = false,
+    hiddenMode: Boolean = false,
 ) {
     BalanceRow(
-            modifier = modifier,
+        modifier = modifier,
 
-            textColor = textColor,
-            currency = currency,
-            balance = balance,
-            hiddenMode = hiddenMode,
-            spacerCurrency = 12.dp,
-            currencyFontSize = 24.sp,
-            balanceFontSize = 26.sp,
+        textColor = textColor,
+        currency = currency,
+        balance = balance,
+        hiddenMode = hiddenMode,
+        spacerCurrency = 12.dp,
+        currencyFontSize = 24.sp,
+        balanceFontSize = 26.sp,
 
-            balanceAmountPrefix = balanceAmountPrefix,
-            currencyUpfront = currencyUpfront,
-            shortenBigNumbers = shortenBigNumbers
+        balanceAmountPrefix = balanceAmountPrefix,
+        currencyUpfront = currencyUpfront,
+        shortenBigNumbers = shortenBigNumbers
     )
 }
 
 @Composable
 fun BalanceRowMini(
-        currency: String,
-        balance: Double,
-        modifier: Modifier = Modifier,
-        textColor: Color = UI.colors.pureInverse,
-        balanceAmountPrefix: String? = null,
-        currencyUpfront: Boolean = true,
-        shortenBigNumbers: Boolean = false,
-        hiddenMode: Boolean = false,
+    currency: String,
+    balance: Double,
+    modifier: Modifier = Modifier,
+    textColor: Color = UI.colors.pureInverse,
+    balanceAmountPrefix: String? = null,
+    currencyUpfront: Boolean = true,
+    shortenBigNumbers: Boolean = false,
+    hiddenMode: Boolean = false,
+    doubleRowDisplay: Boolean = false,
 ) {
     BalanceRow(
-            modifier = modifier,
+        modifier = modifier,
 
-            textColor = textColor,
-            currency = currency,
-            balance = balance,
-            hiddenMode = hiddenMode,
-            spacerCurrency = 8.dp,
-            currencyFontSize = 20.sp,
-            balanceFontSize = 22.sp,
+        textColor = textColor,
+        currency = currency,
+        balance = balance,
+        hiddenMode = hiddenMode,
+        spacerCurrency = 8.dp,
+        currencyFontSize = 20.sp,
+        balanceFontSize = 22.sp,
 
-            balanceAmountPrefix = balanceAmountPrefix,
-            currencyUpfront = currencyUpfront,
-            shortenBigNumbers = shortenBigNumbers
+        balanceAmountPrefix = balanceAmountPrefix,
+        currencyUpfront = currencyUpfront,
+        shortenBigNumbers = shortenBigNumbers,
+        doubleRowDisplay = doubleRowDisplay
     )
 }
 
 @Composable
 fun BalanceRow(
-        currency: String,
-        balance: Double,
-        modifier: Modifier = Modifier,
-        textColor: Color = UI.colors.pureInverse,
-        hiddenMode: Boolean = false,
-        spacerCurrency: Dp = 12.dp,
-        currencyFontSize: TextUnit? = null,
-        balanceFontSize: TextUnit? = null,
-        currencyUpfront: Boolean = true,
-        balanceAmountPrefix: String? = null,
-        shortenBigNumbers: Boolean = false,
+    currency: String,
+    balance: Double,
+    modifier: Modifier = Modifier,
+    textColor: Color = UI.colors.pureInverse,
+    hiddenMode: Boolean = false,
+    spacerCurrency: Dp = 12.dp,
+    currencyFontSize: TextUnit? = null,
+    balanceFontSize: TextUnit? = null,
+    currencyUpfront: Boolean = true,
+    balanceAmountPrefix: String? = null,
+    shortenBigNumbers: Boolean = false,
+    doubleRowDisplay: Boolean = false,
 ) {
-    Row(
-            modifier = modifier,
-            verticalAlignment = Alignment.CenterVertically
+    val shortAmount = shortenBigNumbers && shouldShortAmount(balance)
+    val integerPartFormatted = if (shortAmount) {
+        shortenAmount(balance)
+    } else {
+        balance.format(currency)
+    }
+
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center
     ) {
-        val shortAmount = shortenBigNumbers && shouldShortAmount(balance)
-
-        if (currencyUpfront) {
-            Currency(
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            if (currencyUpfront || doubleRowDisplay) {
+                Currency(
                     currency = currency,
                     textColor = textColor,
                     currencyFontSize = currencyFontSize
-            )
+                )
+                Spacer(Modifier.width(spacerCurrency))
+            }
 
-            Spacer(Modifier.width(spacerCurrency))
-        }
-
-        val integerPartFormatted = if (shortAmount) {
-            shortenAmount(balance)
-        } else {
-            balance.format(currency)
-        }
-        Text(
-                text = when {
-                    hiddenMode -> "*"
-                    balanceAmountPrefix != null -> "$balanceAmountPrefix$integerPartFormatted"
-                    else -> integerPartFormatted
-                },
-                style = if (balanceFontSize == null) {
-                    UI.typo.nH1.style(
+            if (!doubleRowDisplay) {
+                Text(
+                    text = when {
+                        hiddenMode -> "****"
+                        balanceAmountPrefix != null -> "$balanceAmountPrefix$integerPartFormatted"
+                        else -> integerPartFormatted
+                    },
+                    style = if (balanceFontSize == null) {
+                        UI.typo.nH1.style(
                             fontWeight = FontWeight.ExtraBold,
                             color = textColor
-                    )
-                } else {
-                    UI.typo.nH1.style(
+                        )
+                    } else {
+                        UI.typo.nH1.style(
                             fontWeight = FontWeight.ExtraBold,
                             color = textColor
-                    ).copy(fontSize = balanceFontSize)
-                }
-        )
+                        ).copy(fontSize = balanceFontSize)
+                    }
+                )
+            }
 
-        if (!currencyUpfront) {
-            Spacer(Modifier.width(spacerCurrency))
-
-            Currency(
+            if (!currencyUpfront && !doubleRowDisplay) {
+                Spacer(Modifier.width(spacerCurrency))
+                Currency(
                     currency = currency,
                     textColor = textColor,
                     currencyFontSize = currencyFontSize
-            )
+                )
+            }
+        }
+
+        if (doubleRowDisplay) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = when {
+                        hiddenMode -> "****"
+                        balanceAmountPrefix != null -> "$balanceAmountPrefix$integerPartFormatted"
+                        else -> integerPartFormatted
+                    },
+                    style = if (balanceFontSize == null) {
+                        UI.typo.nH1.style(
+                            fontWeight = FontWeight.ExtraBold,
+                            color = textColor
+                        )
+                    } else {
+                        UI.typo.nH1.style(
+                            fontWeight = FontWeight.ExtraBold,
+                            color = textColor
+                        ).copy(fontSize = balanceFontSize)
+                    }
+                )
+            }
         }
     }
 }
 
 @Composable
 private fun Currency(
-        currency: String,
-        currencyFontSize: TextUnit?,
-        textColor: Color,
+    currency: String,
+    currencyFontSize: TextUnit?,
+    textColor: Color,
 ) {
     Text(
-            text = currency,
-            style = if (currencyFontSize == null) {
-                UI.typo.h1.style(
-                        fontWeight = FontWeight.Light,
-                        color = textColor
-                )
-            } else {
-                UI.typo.h1.style(
-                        fontWeight = FontWeight.Light,
-                        color = textColor
-                ).copy(fontSize = currencyFontSize)
-            }
+        text = currency,
+        style = if (currencyFontSize == null) {
+            UI.typo.h1.style(
+                fontWeight = FontWeight.Light,
+                color = textColor
+            )
+        } else {
+            UI.typo.h1.style(
+                fontWeight = FontWeight.Light,
+                color = textColor
+            ).copy(fontSize = currencyFontSize)
+        }
     )
 }
 
@@ -171,11 +208,11 @@ private fun Currency(
 private fun Preview_Default() {
     IvyWalletComponentPreview {
         BalanceRow(
-                textColor = UI.colors.pureInverse,
-                currency = "BGN",
-                balance = 3520000.60,
-                balanceAmountPrefix = null,
-                shortenBigNumbers = true
+            textColor = UI.colors.pureInverse,
+            currency = "BGN",
+            balance = 3520000.60,
+            balanceAmountPrefix = null,
+            shortenBigNumbers = true
         )
     }
 }
@@ -185,10 +222,10 @@ private fun Preview_Default() {
 private fun Preview_Medium() {
     IvyWalletComponentPreview {
         BalanceRowMedium(
-                textColor = UI.colors.pureInverse,
-                currency = "BGN",
-                balance = 3520.60,
-                balanceAmountPrefix = null
+            textColor = UI.colors.pureInverse,
+            currency = "BGN",
+            balance = 3520.60,
+            balanceAmountPrefix = null
         )
     }
 }
@@ -198,11 +235,11 @@ private fun Preview_Medium() {
 private fun Preview_Mini() {
     IvyWalletComponentPreview {
         BalanceRowMini(
-                textColor = UI.colors.pureInverse,
-                currency = "BGN",
-                balance = 3520.60,
-                balanceAmountPrefix = null,
-                shortenBigNumbers = true
+            textColor = UI.colors.pureInverse,
+            currency = "BGN",
+            balance = 3520.60,
+            balanceAmountPrefix = null,
+            shortenBigNumbers = true
         )
     }
 }
