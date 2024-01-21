@@ -169,7 +169,7 @@ data class TimePeriod(
         val year = year
         return if (year != null && dateNowUTC().year != year) {
             // not this year
-            "${month.name}, $year"
+            "${month.name.substring(0, 3)}, $year"
         } else {
             // this year
             month.name
