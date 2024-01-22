@@ -5,7 +5,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.platform.LocalDensity
@@ -57,9 +59,11 @@ fun onEvent(
     cleanUp: () -> Unit = {},
     logic: () -> Unit
 ) {
+    val latestLogic by rememberUpdatedState(logic)
+    val latestCleanup by rememberUpdatedState(cleanUp)
     DisposableEffect(eventKey) {
-        logic()
-        onDispose { cleanUp() }
+        latestLogic()
+        onDispose { latestCleanup() }
     }
 }
 
