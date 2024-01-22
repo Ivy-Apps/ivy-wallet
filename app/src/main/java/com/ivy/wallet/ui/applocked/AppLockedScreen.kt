@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -82,6 +84,11 @@ fun BoxWithConstraintsScope.AppLockedScreen(
 
         Spacer(Modifier.height(24.dp))
 
+        val latestOnContinueWithoutAuthentication by rememberUpdatedState(
+            newValue = onContinueWithoutAuthentication
+        )
+        val latestOnShowOSBiometricsModal by rememberUpdatedState(onShowOSBiometricsModal)
+
         val context = LocalContext.current
         IvyButton(
             modifier = Modifier
@@ -97,8 +104,8 @@ fun BoxWithConstraintsScope.AppLockedScreen(
         ) {
             osAuthentication(
                 context = context,
-                onShowOSBiometricsModal = onShowOSBiometricsModal,
-                onContinueWithoutAuthentication = onContinueWithoutAuthentication
+                onShowOSBiometricsModal = latestOnShowOSBiometricsModal,
+                onContinueWithoutAuthentication = latestOnContinueWithoutAuthentication
             )
         }
         Spacer(Modifier.height(24.dp))
@@ -107,8 +114,8 @@ fun BoxWithConstraintsScope.AppLockedScreen(
         LaunchedEffect(true) {
             osAuthentication(
                 context = context,
-                onShowOSBiometricsModal = onShowOSBiometricsModal,
-                onContinueWithoutAuthentication = onContinueWithoutAuthentication
+                onShowOSBiometricsModal = latestOnShowOSBiometricsModal,
+                onContinueWithoutAuthentication = latestOnContinueWithoutAuthentication
             )
         }
     }
