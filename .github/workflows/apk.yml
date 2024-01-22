@@ -20,7 +20,7 @@ jobs:
           java-version: '18'
 
       - name: Enable Gradle Wrapper caching (optmization)
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
