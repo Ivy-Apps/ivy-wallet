@@ -136,6 +136,7 @@ private fun BoxWithConstraintsScope.UI(
         }
 
         items(state.categories, key = { it.category.id }) { categoryData ->
+            Spacer(Modifier.height(16.dp))
             CategoryCard(
                 currency = state.baseCurrency,
                 categoryData = categoryData,
@@ -233,9 +234,6 @@ private fun CategoryCard(
                 onClick = onClick
             )
     ) {
-        // Emitting content
-        Spacer(Modifier.height(16.dp))
-
         CategoryHeader(
             categoryData = categoryData,
             currency = currency,
