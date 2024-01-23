@@ -35,13 +35,9 @@ import com.ivy.frp.test.TestingContext
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.LoanRecord
-import com.ivy.legacy.ivyWalletCtx
+import com.ivy.legacy.legacy.ui.theme.components.DateTimeRow
 import com.ivy.legacy.legacy.ui.theme.modal.ModalNameInput
-import com.ivy.legacy.utils.convertUTCtoLocal
-import com.ivy.legacy.utils.formatLocalTime
-import com.ivy.legacy.utils.formatNicely
 import com.ivy.legacy.utils.getDefaultFIATCurrency
-import com.ivy.legacy.utils.getTrueDate
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.selectEndTextFieldValue
 import com.ivy.legacy.utils.thenIf
@@ -53,7 +49,6 @@ import com.ivy.wallet.domain.deprecated.logic.model.EditLoanRecordData
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.components.IvyCheckboxWithText
 import com.ivy.wallet.ui.theme.components.IvyIcon
-import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.modal.edit.AccountModal
 import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
@@ -351,45 +346,6 @@ fun BoxWithConstraintsScope.LoanRecordModal(
         )
 
         accountChangeConformationModal = false
-    }
-}
-
-@Composable
-private fun DateTimeRow(
-    dateTime: LocalDateTime,
-    onSetDateTime: (LocalDateTime) -> Unit
-) {
-    val ivyContext = ivyWalletCtx()
-
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Spacer(Modifier.width(24.dp))
-
-        IvyOutlinedButton(
-            text = dateTime.formatNicely(),
-            iconStart = R.drawable.ic_date
-        ) {
-            ivyContext.datePicker(
-                initialDate = dateTime.convertUTCtoLocal().toLocalDate()
-            ) {
-                onSetDateTime(getTrueDate(it, dateTime.toLocalTime()))
-            }
-        }
-
-        Spacer(Modifier.weight(1f))
-
-        IvyOutlinedButton(
-            text = dateTime.formatLocalTime(),
-            iconStart = R.drawable.ic_date
-        ) {
-            ivyContext.timePicker {
-                onSetDateTime(getTrueDate(dateTime.convertUTCtoLocal().toLocalDate(), it))
-            }
-        }
-
-        Spacer(Modifier.width(24.dp))
     }
 }
 

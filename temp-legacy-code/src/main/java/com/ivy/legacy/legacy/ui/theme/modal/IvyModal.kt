@@ -25,6 +25,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -214,6 +215,7 @@ fun AddModalBackHandling(
     visible: Boolean,
     action: () -> Unit
 ) {
+    val latestAction by rememberUpdatedState(action)
     val nav = navigation()
     DisposableEffect(visible) {
         if (visible) {
@@ -225,7 +227,7 @@ fun AddModalBackHandling(
                         id = modalId,
                         onBackPressed = {
                             if (visible) {
-                                action()
+                                latestAction()
                                 true
                             } else {
                                 false

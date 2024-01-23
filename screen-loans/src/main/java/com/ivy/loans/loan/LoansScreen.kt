@@ -61,6 +61,7 @@ import com.ivy.wallet.ui.theme.modal.LoanModal
 import com.ivy.wallet.ui.theme.modal.LoanModalData
 import com.ivy.wallet.ui.theme.toComposeColor
 import kotlinx.collections.immutable.persistentListOf
+import java.time.LocalDateTime
 
 @Composable
 fun BoxWithConstraintsScope.LoansScreen(screen: LoansScreen) {
@@ -405,7 +406,8 @@ private fun Preview() {
                     icon = "rocket",
                     color = Red.toArgb(),
                     amount = 5000.0,
-                    type = LoanType.BORROW
+                    type = LoanType.BORROW,
+                    dateTime = LocalDateTime.now()
                 ),
                 amountPaid = 0.0,
                 percentPaid = 0.4
@@ -416,7 +418,8 @@ private fun Preview() {
                     icon = "atom",
                     color = Orange.toArgb(),
                     amount = 252.36,
-                    type = LoanType.BORROW
+                    type = LoanType.BORROW,
+                    dateTime = LocalDateTime.now()
                 ),
                 amountPaid = 124.23,
                 percentPaid = 0.2
@@ -427,7 +430,8 @@ private fun Preview() {
                     icon = "bank",
                     color = Blue.toArgb(),
                     amount = 7000.0,
-                    type = LoanType.LEND
+                    type = LoanType.LEND,
+                    dateTime = LocalDateTime.now()
                 ),
                 amountPaid = 8000.0,
                 percentPaid = 0.8

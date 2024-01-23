@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 
 @SuppressLint("ComposeCompositionLocalUsage")
-private val localNavigation = compositionLocalOf<Navigation> { error("No LocalNavigation") }
+private val LocalNavigation = compositionLocalOf<Navigation> { error("No LocalNavigation") }
 
 @Composable
 fun NavigationRoot(
@@ -18,7 +18,7 @@ fun NavigationRoot(
     navGraph: @Composable (screen: Screen?) -> Unit
 ) {
     CompositionLocalProvider(
-        localNavigation provides navigation,
+        LocalNavigation provides navigation,
     ) {
         val viewModelStore = LocalViewModelStoreOwner.current
         DisposableEffect(navigation.currentScreen) {
@@ -35,7 +35,7 @@ fun NavigationRoot(
 
 @Composable
 fun navigation(): Navigation {
-    return localNavigation.current
+    return LocalNavigation.current
 }
 
 /**

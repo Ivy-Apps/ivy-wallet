@@ -80,9 +80,11 @@ fun onScreenStart(
     cleanUp: () -> Unit = {},
     start: () -> Unit
 ) {
+    val latestStart by rememberUpdatedState(start)
+    val latestCleanup by rememberUpdatedState(cleanUp)
     DisposableEffect(navigation().currentScreen) {
-        start()
-        onDispose { cleanUp() }
+        latestStart()
+        onDispose { latestCleanup() }
     }
 }
 

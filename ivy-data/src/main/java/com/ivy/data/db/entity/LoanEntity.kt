@@ -3,10 +3,12 @@ package com.ivy.data.db.entity
 import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.ivy.base.kotlinxserilzation.KSerializerLocalDateTime
 import com.ivy.base.kotlinxserilzation.KSerializerUUID
 import com.ivy.data.model.LoanType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.time.LocalDateTime
 import java.util.*
 
 @Keep
@@ -33,6 +35,9 @@ data class LoanEntity(
     val isSynced: Boolean = false,
     @SerialName("isDeleted")
     val isDeleted: Boolean = false,
+    @SerialName("dateTime")
+    @Serializable(with = KSerializerLocalDateTime::class)
+    val dateTime: LocalDateTime? = null,
 
     @PrimaryKey
     @SerialName("id")
