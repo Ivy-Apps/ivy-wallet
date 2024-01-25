@@ -7,6 +7,7 @@ import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.readFile
 import com.ivy.base.legacy.unzip
 import com.ivy.base.legacy.zip
+import com.ivy.base.threading.DispatchersProvider
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.BudgetDao
 import com.ivy.data.db.dao.read.CategoryDao
@@ -56,6 +57,7 @@ class BackupLogic @Inject constructor(
     @ApplicationContext
     private val context: Context,
     private val json: Json,
+    private val dispatchersProvider: DispatchersProvider,
 ) {
     suspend fun exportToFile(
         zipFileUri: Uri
@@ -78,7 +80,7 @@ class BackupLogic @Inject constructor(
     }
 
     suspend fun generateJsonBackup(): String {
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatchersProvider.io) {
             val accounts = async { accountDao.findAll() }
             val budgets = async { budgetDao.findAll() }
             val categories = async { categoryDao.findAll() }
@@ -126,7 +128,7 @@ class BackupLogic @Inject constructor(
     suspend fun import(
         backupFileUri: Uri,
         onProgress: suspend (progressPercent: Double) -> Unit
-    ): ImportResult = withContext(Dispatchers.IO) {
+    ): ImportResult = withContext(dispatchersProvider.io) {
         return@withContext try {
             val jsonString = try {
                 val folderName = "backup" + System.currentTimeMillis()
@@ -215,7 +217,7 @@ class BackupLogic @Inject constructor(
         completeData: IvyWalletCompleteData,
         onProgress: suspend (progressPercent: Double) -> Unit = {}
     ) {
-        withContext(Dispatchers.IO) {
+        withContext(dispatchersProvider.io) {
             transactionWriter.saveMany(completeData.transactions)
             onProgress(0.6)
 
@@ -283,7 +285,7 @@ class BackupLogic @Inject constructor(
     private suspend fun getReplacementPairs(
         completeData: IvyWalletCompleteData
     ): List<Pair<UUID, UUID>> {
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatchersProvider.io) {
             val existingAccountsList = accountDao.findAll()
             val existingCategoryList = categoryDao.findAll()
 
