@@ -2,19 +2,17 @@ package com.ivy.base.legacy
 
 import android.content.Context
 import android.net.Uri
-import java.io.*
+import java.io.BufferedInputStream
+import java.io.BufferedOutputStream
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 
 private const val MODE_WRITE = "w"
 private const val MODE_READ = "r"
-
-fun zip(zipFile: File, files: List<File>) {
-    ZipOutputStream(BufferedOutputStream(FileOutputStream(zipFile))).use { outStream ->
-        zip(outStream, files)
-    }
-}
 
 fun zip(context: Context, zipFile: Uri, files: List<File>) {
     context.contentResolver.openFileDescriptor(zipFile, MODE_WRITE).use { descriptor ->
@@ -53,52 +51,46 @@ private fun zip(
     }
 }
 
-fun unzip(zipFile: File, location: File) {
-    ZipInputStream(BufferedInputStream(FileInputStream(zipFile))).use { inStream ->
-        unzip(inStream, location)
-    }
-}
-
 fun unzip(context: Context, zipFile: Uri, location: File) {
     context.contentResolver.openFileDescriptor(zipFile, MODE_READ).use { descriptor ->
         descriptor?.fileDescriptor?.let {
-            ZipInputStream(BufferedInputStream(FileInputStream(it))).use { inStream ->
-                unzip(inStream, location)
-            }
+            unzip(FileInputStream(it), location)
         }
     }
 }
 
-private fun unzip(inStream: ZipInputStream, location: File) {
-    if (location.exists() && !location.isDirectory) {
-        throw IllegalStateException("Location file must be directory or not exist")
-    }
-
-    if (!location.isDirectory) location.mkdirs()
-
-    val locationPath = location.absolutePath.let {
-        if (!it.endsWith(File.separator)) {
-            "$it${File.separator}"
-        } else {
-            it
+fun unzip(fileInputStream: FileInputStream, location: File) {
+    ZipInputStream(BufferedInputStream(fileInputStream)).use { zipInputStream ->
+        if (location.exists() && !location.isDirectory) {
+            throw IllegalStateException("Location file must be directory or not exist")
         }
-    }
 
-    var zipEntry: ZipEntry?
-    var unzipFile: File
-    var unzipParentDir: File?
+        if (!location.isDirectory) location.mkdirs()
 
-    while (inStream.nextEntry.also { zipEntry = it } != null) {
-        unzipFile = File(locationPath + zipEntry!!.name)
-        if (zipEntry!!.isDirectory) {
-            if (!unzipFile.isDirectory) unzipFile.mkdirs()
-        } else {
-            unzipParentDir = unzipFile.parentFile
-            if (unzipParentDir != null && !unzipParentDir.isDirectory) {
-                unzipParentDir.mkdirs()
+        val locationPath = location.absolutePath.let {
+            if (!it.endsWith(File.separator)) {
+                "$it${File.separator}"
+            } else {
+                it
             }
-            BufferedOutputStream(FileOutputStream(unzipFile)).use { outStream ->
-                inStream.copyTo(outStream)
+        }
+
+        var zipEntry: ZipEntry?
+        var unzipFile: File
+        var unzipParentDir: File?
+
+        while (zipInputStream.nextEntry.also { zipEntry = it } != null) {
+            unzipFile = File(locationPath + zipEntry!!.name)
+            if (zipEntry!!.isDirectory) {
+                if (!unzipFile.isDirectory) unzipFile.mkdirs()
+            } else {
+                unzipParentDir = unzipFile.parentFile
+                if (unzipParentDir != null && !unzipParentDir.isDirectory) {
+                    unzipParentDir.mkdirs()
+                }
+                BufferedOutputStream(FileOutputStream(unzipFile)).use { outStream ->
+                    zipInputStream.copyTo(outStream)
+                }
             }
         }
     }

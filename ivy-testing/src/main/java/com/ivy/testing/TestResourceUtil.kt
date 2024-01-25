@@ -1,13 +1,23 @@
 package com.ivy.testing
 
-import android.net.Uri
+import java.io.File
+import java.io.FileInputStream
 
-fun testResourceUri(resPath: String): Uri {
+fun testResourceInputStream(resPath: String): FileInputStream {
+    try {
+        val file = testResource(resPath)
+        return FileInputStream(file)
+    } catch (e: Exception) {
+        throw TestResourceLoadException(resPath, e)
+    }
+}
+
+fun testResource(resPath: String): File {
     try {
         val classLoader = Thread.currentThread().contextClassLoader
         val fileUrl = classLoader!!.getResource(resPath)
             ?: throw TestResourceLoadException(resPath, message = "The fileUrl is null!")
-        return Uri.parse(fileUrl.toString())
+        return File(fileUrl.path)
     } catch (e: Exception) {
         throw TestResourceLoadException(resPath, e)
     }

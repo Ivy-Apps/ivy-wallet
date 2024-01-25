@@ -1,7 +1,7 @@
 package com.ivy.data.backup
 
 import com.ivy.testing.TestDispatchersProvider
-import com.ivy.testing.testResourceUri
+import com.ivy.testing.testResource
 import io.kotest.core.spec.style.FreeSpec
 import io.mockk.mockk
 
@@ -31,7 +31,7 @@ class BackupDataUseCaseTest : FreeSpec({
 
     fun backupZipTestCase(backupVersion: String) {
         // given
-        val backupZipUri = testResourceUri("backups/$backupVersion.zip")
+        val backupZipUri = testResource("backups/$backupVersion.zip")
     }
 
     "imports backup from 4.5.0 (150)" {
