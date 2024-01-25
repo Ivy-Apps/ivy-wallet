@@ -21,7 +21,7 @@ import com.ivy.legacy.utils.format
 import com.ivy.navigation.CSVScreen
 import com.ivy.navigation.navigation
 import com.ivy.resources.R
-import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
+import com.ivy.data.backup.ImportResult
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green

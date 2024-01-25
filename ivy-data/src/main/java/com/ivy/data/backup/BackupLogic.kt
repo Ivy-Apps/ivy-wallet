@@ -1,8 +1,12 @@
-package com.ivy.legacy.domain.deprecated.logic.zip
+package com.ivy.data.backup
 
 import android.content.Context
 import android.net.Uri
 import androidx.core.net.toUri
+import com.ivy.base.legacy.SharedPrefs
+import com.ivy.base.legacy.readFile
+import com.ivy.base.legacy.unzip
+import com.ivy.base.legacy.zip
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.BudgetDao
 import com.ivy.data.db.dao.read.CategoryDao
@@ -19,17 +23,11 @@ import com.ivy.data.db.dao.write.WriteLoanRecordDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
-import com.ivy.legacy.data.SharedPrefs
-import com.ivy.legacy.utils.ioThread
-import com.ivy.legacy.utils.readFile
-import com.ivy.legacy.utils.scopedIOThread
-import com.ivy.wallet.domain.data.IvyWalletCompleteData
-import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
-import com.ivy.wallet.domain.deprecated.logic.zip.unzip
-import com.ivy.wallet.domain.deprecated.logic.zip.zip
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import timber.log.Timber
@@ -80,17 +78,17 @@ class BackupLogic @Inject constructor(
     }
 
     suspend fun generateJsonBackup(): String {
-        return scopedIOThread {
-            val accounts = it.async { accountDao.findAll() }
-            val budgets = it.async { budgetDao.findAll() }
-            val categories = it.async { categoryDao.findAll() }
-            val loanRecords = it.async { loanRecordDao.findAll() }
-            val loans = it.async { loanDao.findAll() }
+        return withContext(Dispatchers.IO) {
+            val accounts = async { accountDao.findAll() }
+            val budgets = async { budgetDao.findAll() }
+            val categories = async { categoryDao.findAll() }
+            val loanRecords = async { loanRecordDao.findAll() }
+            val loans = async { loanDao.findAll() }
             val plannedPaymentRules =
-                it.async { plannedPaymentRuleDao.findAll() }
-            val settings = it.async { settingsDao.findAll() }
-            val transactions = it.async { transactionDao.findAll() }
-            val sharedPrefs = it.async { getSharedPrefsData() }
+                async { plannedPaymentRuleDao.findAll() }
+            val settings = async { settingsDao.findAll() }
+            val transactions = async { transactionDao.findAll() }
+            val sharedPrefs = async { getSharedPrefsData() }
 
             val completeData = IvyWalletCompleteData(
                 accounts = accounts.await(),
@@ -128,49 +126,47 @@ class BackupLogic @Inject constructor(
     suspend fun import(
         backupFileUri: Uri,
         onProgress: suspend (progressPercent: Double) -> Unit
-    ): ImportResult {
-        return ioThread {
-            return@ioThread try {
-                val jsonString = try {
-                    val folderName = "backup" + System.currentTimeMillis()
-                    val cacheFolderPath = File(context.cacheDir, folderName)
+    ): ImportResult = withContext(Dispatchers.IO) {
+        return@withContext try {
+            val jsonString = try {
+                val folderName = "backup" + System.currentTimeMillis()
+                val cacheFolderPath = File(context.cacheDir, folderName)
 
-                    unzip(context, backupFileUri, cacheFolderPath)
+                unzip(context, backupFileUri, cacheFolderPath)
 
-                    val filesArray = cacheFolderPath.listFiles()
+                val filesArray = cacheFolderPath.listFiles()
 
-                    onProgress(0.05)
+                onProgress(0.05)
 
-                    if (filesArray == null || filesArray.isEmpty()) {
-                        error("Couldn't unzip")
-                    }
+                if (filesArray == null || filesArray.isEmpty()) {
+                    error("Couldn't unzip")
+                }
 
-                    val filesList = filesArray.toList().filter {
-                        hasJsonExtension(it)
-                    }
+                val filesList = filesArray.toList().filter {
+                    hasJsonExtension(it)
+                }
 
-                    onProgress(0.1)
+                onProgress(0.1)
 
-                    if (filesList.size != 1) {
-                        error("Didn't unzip exactly one file.")
-                    }
+                if (filesList.size != 1) {
+                    error("Didn't unzip exactly one file.")
+                }
 
-                    readFile(context, filesList[0].toUri(), Charsets.UTF_16)
-                } catch (e: Exception) {
-                    readFile(context, backupFileUri, Charsets.UTF_16)
-                } ?: ""
-
-                importJson(jsonString, onProgress, clearCacheDir = true)
+                readFile(context, filesList[0].toUri(), Charsets.UTF_16)
             } catch (e: Exception) {
-                Timber.e("Import error: $e")
-                ImportResult(
-                    rowsFound = 0,
-                    transactionsImported = 0,
-                    accountsImported = 0,
-                    categoriesImported = 0,
-                    failedRows = persistentListOf()
-                )
-            }
+                readFile(context, backupFileUri, Charsets.UTF_16)
+            } ?: ""
+
+            importJson(jsonString, onProgress, clearCacheDir = true)
+        } catch (e: Exception) {
+            Timber.e("Import error: $e")
+            ImportResult(
+                rowsFound = 0,
+                transactionsImported = 0,
+                accountsImported = 0,
+                categoriesImported = 0,
+                failedRows = persistentListOf()
+            )
         }
     }
 
@@ -219,23 +215,23 @@ class BackupLogic @Inject constructor(
         completeData: IvyWalletCompleteData,
         onProgress: suspend (progressPercent: Double) -> Unit = {}
     ) {
-        scopedIOThread {
+        withContext(Dispatchers.IO) {
             transactionWriter.saveMany(completeData.transactions)
             onProgress(0.6)
 
-            val accounts = it.async { accountWriter.saveMany(completeData.accounts) }
-            val budgets = it.async { budgetWriter.saveMany(completeData.budgets) }
+            val accounts = async { accountWriter.saveMany(completeData.accounts) }
+            val budgets = async { budgetWriter.saveMany(completeData.budgets) }
             val categories =
-                it.async { categoryWriter.saveMany(completeData.categories) }
+                async { categoryWriter.saveMany(completeData.categories) }
             accounts.await()
             budgets.await()
             categories.await()
 
             onProgress(0.7)
 
-            val loans = it.async { loanWriter.saveMany(completeData.loans) }
+            val loans = async { loanWriter.saveMany(completeData.loans) }
             val loanRecords =
-                it.async { loanRecordWriter.saveMany(completeData.loanRecords) }
+                async { loanRecordWriter.saveMany(completeData.loanRecords) }
 
             loans.await()
             loanRecords.await()
@@ -243,8 +239,8 @@ class BackupLogic @Inject constructor(
             onProgress(0.8)
 
             val plannedPayments =
-                it.async { plannedPaymentRuleWriter.saveMany(completeData.plannedPaymentRules) }
-            val settings = it.async {
+                async { plannedPaymentRuleWriter.saveMany(completeData.plannedPaymentRules) }
+            val settings = async {
                 settingsWriter.deleteAll()
                 settingsWriter.saveMany(completeData.settings)
             }
@@ -267,9 +263,9 @@ class BackupLogic @Inject constructor(
             sharedPrefs.putBoolean(
                 SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE,
                 (
-                    completeData.sharedPrefs[SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE]
-                        ?: "false"
-                    ).toBoolean()
+                        completeData.sharedPrefs[SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE]
+                            ?: "false"
+                        ).toBoolean()
             )
 
             plannedPayments.await()
@@ -287,7 +283,7 @@ class BackupLogic @Inject constructor(
     private suspend fun getReplacementPairs(
         completeData: IvyWalletCompleteData
     ): List<Pair<UUID, UUID>> {
-        return scopedIOThread { scope ->
+        return withContext(Dispatchers.IO) {
             val existingAccountsList = accountDao.findAll()
             val existingCategoryList = categoryDao.findAll()
 
@@ -295,13 +291,13 @@ class BackupLogic @Inject constructor(
             val backupCategoryList = completeData.categories
 
             if (existingAccountsList.isEmpty() && existingCategoryList.isEmpty()) {
-                return@scopedIOThread emptyList()
+                return@withContext emptyList()
             }
 
             val sumAccountList = existingAccountsList + backupAccountsList
             val sumCategoriesList = existingCategoryList + backupCategoryList
 
-            val accountsReplace = scope.async {
+            val accountsReplace = async {
                 sumAccountList.groupBy { it.name }.filter { it.value.size == 2 }.map {
                     val accountsZero = it.value[0]
                     val accountsFirst = it.value[1]
@@ -314,7 +310,7 @@ class BackupLogic @Inject constructor(
                 }
             }
 
-            val categoriesReplace = scope.async {
+            val categoriesReplace = async {
                 sumCategoriesList.groupBy { it.name }.filter { it.value.size == 2 }.map {
                     val categoryZero = it.value[0]
                     val categoryFirst = it.value[1]
@@ -327,7 +323,7 @@ class BackupLogic @Inject constructor(
                 }
             }
 
-            return@scopedIOThread accountsReplace.await() + categoriesReplace.await()
+            accountsReplace.await() + categoriesReplace.await()
         }
     }
 

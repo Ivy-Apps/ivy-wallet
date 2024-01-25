@@ -20,8 +20,8 @@ import com.ivy.legacy.utils.convertLocalToUTC
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.toLowerCaseLocal
 import com.ivy.wallet.domain.data.IvyCurrency
-import com.ivy.wallet.domain.deprecated.logic.csv.model.CSVRow
-import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
+import com.ivy.data.backup.CSVRow
+import com.ivy.data.backup.ImportResult
 import com.ivy.wallet.domain.deprecated.logic.csv.model.RowMapping
 import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.opencsv.CSVReaderBuilder

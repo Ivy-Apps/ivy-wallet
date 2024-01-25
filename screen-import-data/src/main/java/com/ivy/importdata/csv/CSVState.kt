@@ -1,6 +1,6 @@
 package com.ivy.importdata.csv
 
-import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
+import com.ivy.data.backup.ImportResult
 import kotlinx.collections.immutable.ImmutableList
 
 data class CSVState(

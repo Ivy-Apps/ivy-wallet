@@ -1,4 +1,4 @@
-package com.ivy.wallet.domain.deprecated.logic.zip
+package com.ivy.base.legacy
 
 import android.content.Context
 import android.net.Uri

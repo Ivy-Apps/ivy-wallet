@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.deprecated.logic.csv
 
 import android.content.Context
 import android.net.Uri
-import com.ivy.legacy.utils.readFile
+import com.ivy.base.legacy.readFile
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.nio.charset.Charset
 import javax.inject.Inject

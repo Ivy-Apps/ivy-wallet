@@ -15,7 +15,7 @@ import com.ivy.importdata.csvimport.flow.instructions.ImportInstructions
 import com.ivy.legacy.domain.deprecated.logic.csv.model.ImportType
 import com.ivy.navigation.ImportScreen
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
-import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
+import com.ivy.data.backup.ImportResult
 
 @OptIn(ExperimentalStdlibApi::class)
 @ExperimentalFoundationApi

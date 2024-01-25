@@ -15,7 +15,7 @@ import com.ivy.design.l0_system.Red
 import com.ivy.design.l0_system.Red3
 import com.ivy.legacy.Constants
 import com.ivy.legacy.IvyWalletCtx
-import com.ivy.legacy.data.SharedPrefs
+import com.ivy.base.legacy.SharedPrefs
 import com.ivy.legacy.data.model.MainTab
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.PieChartStatisticScreen

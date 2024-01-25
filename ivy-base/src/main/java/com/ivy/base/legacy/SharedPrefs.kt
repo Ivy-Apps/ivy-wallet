@@ -1,4 +1,4 @@
-package com.ivy.legacy.data
+package com.ivy.base.legacy
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext

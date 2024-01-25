@@ -20,7 +20,7 @@ import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.domain.ComposeViewModel
 import com.ivy.frp.then
 import com.ivy.legacy.IvyWalletCtx
-import com.ivy.legacy.data.SharedPrefs
+import com.ivy.base.legacy.SharedPrefs
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.legacy.datamodel.Account

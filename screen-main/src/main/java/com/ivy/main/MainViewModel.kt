@@ -8,7 +8,7 @@ import com.ivy.domain.event.AccountUpdatedEvent
 import com.ivy.domain.event.EventBus
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.IvyWalletCtx
-import com.ivy.legacy.data.SharedPrefs
+import com.ivy.base.legacy.SharedPrefs
 import com.ivy.legacy.data.model.MainTab
 import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator

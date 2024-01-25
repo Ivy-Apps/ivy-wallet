@@ -9,7 +9,7 @@ import com.ivy.base.model.TransactionType
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.domain.ComposeViewModel
 import com.ivy.legacy.IvyWalletCtx
-import com.ivy.legacy.data.SharedPrefs
+import com.ivy.base.legacy.SharedPrefs
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.utils.ioThread
