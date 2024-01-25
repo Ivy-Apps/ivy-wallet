@@ -9,7 +9,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.mockk
 
 class BackupDataUseCaseTest : FreeSpec({
-    fun newBackupDataUsecase(): BackupDataUseCase = BackupDataUseCase(
+    fun newBackupDataUseCase(): BackupDataUseCase = BackupDataUseCase(
         accountDao = mockk(relaxed = true),
         budgetDao = mockk(relaxed = true),
         categoryDao = mockk(relaxed = true),
@@ -34,12 +34,12 @@ class BackupDataUseCaseTest : FreeSpec({
 
     suspend fun backupTestCase(backupVersion: String) {
         // given
-        val useCase = newBackupDataUsecase()
+        val backupDataUseCase = newBackupDataUseCase()
         val backupJson = testResource("backups/$backupVersion.json")
             .readText(Charsets.UTF_16)
 
         // when
-        val result = useCase.importJson(backupJson, onProgress = {})
+        val result = backupDataUseCase.importJson(backupJson, onProgress = {})
 
         // then
         result.accountsImported shouldBeGreaterThan 0
@@ -50,5 +50,13 @@ class BackupDataUseCaseTest : FreeSpec({
 
     "imports backup from 4.5.0 (150)" {
         backupTestCase("450-150")
+    }
+
+    "exports and imports a backup" {
+        // given
+        val backupDataUseCase = newBackupDataUseCase()
+
+        // when
+        backupDataUseCase.generateJsonBackup()
     }
 })
