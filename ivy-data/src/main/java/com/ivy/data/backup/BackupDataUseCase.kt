@@ -35,6 +35,7 @@ import java.io.File
 import java.util.UUID
 import javax.inject.Inject
 
+// TODO: Legacy code, needs improvements
 class BackupDataUseCase @Inject constructor(
     private val accountDao: AccountDao,
     private val budgetDao: BudgetDao,
