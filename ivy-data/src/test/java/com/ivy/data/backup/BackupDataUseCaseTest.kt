@@ -1,12 +1,15 @@
 package com.ivy.data.backup
 
+import com.ivy.base.di.KotlinxSerializationModule
 import com.ivy.testing.TestDispatchersProvider
 import com.ivy.testing.testResource
 import io.kotest.core.spec.style.FreeSpec
+import io.kotest.matchers.ints.shouldBeGreaterThan
+import io.kotest.matchers.shouldBe
 import io.mockk.mockk
 
 class BackupDataUseCaseTest : FreeSpec({
-    fun newBackupLogic(): BackupLogic = BackupLogic(
+    fun newBackupDataUsecase(): BackupDataUseCase = BackupDataUseCase(
         accountDao = mockk(relaxed = true),
         budgetDao = mockk(relaxed = true),
         categoryDao = mockk(relaxed = true),
@@ -25,16 +28,27 @@ class BackupDataUseCaseTest : FreeSpec({
         loanRecordWriter = mockk(relaxed = true),
         plannedPaymentRuleWriter = mockk(relaxed = true),
         context = mockk(relaxed = true),
-        json = mockk(relaxed = true),
+        json = KotlinxSerializationModule.provideJson(),
         dispatchersProvider = TestDispatchersProvider,
     )
 
-    fun backupZipTestCase(backupVersion: String) {
+    suspend fun backupTestCase(backupVersion: String) {
         // given
-        val backupZipUri = testResource("backups/$backupVersion.zip")
+        val useCase = newBackupDataUsecase()
+        val backupJson = testResource("backups/$backupVersion.json")
+            .readText(Charsets.UTF_16)
+
+        // when
+        val result = useCase.importJson(backupJson, onProgress = {})
+
+        // then
+        result.accountsImported shouldBeGreaterThan 0
+        result.transactionsImported shouldBeGreaterThan 0
+        result.categoriesImported shouldBeGreaterThan 0
+        result.failedRows.size shouldBe 0
     }
 
     "imports backup from 4.5.0 (150)" {
-        backupZipTestCase("450-150")
+        backupTestCase("450-150")
     }
 })

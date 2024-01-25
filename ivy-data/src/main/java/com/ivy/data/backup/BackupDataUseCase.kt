@@ -26,7 +26,6 @@ import com.ivy.data.db.dao.write.WriteSettingsDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.encodeToString
@@ -36,7 +35,7 @@ import java.io.File
 import java.util.UUID
 import javax.inject.Inject
 
-class BackupLogic @Inject constructor(
+class BackupDataUseCase @Inject constructor(
     private val accountDao: AccountDao,
     private val budgetDao: BudgetDao,
     private val categoryDao: CategoryDao,
