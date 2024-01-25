@@ -19,8 +19,8 @@ import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.utils.toLowerCaseLocal
 import com.ivy.wallet.domain.data.IvyCurrency
-import com.ivy.wallet.domain.deprecated.logic.csv.model.CSVRow
-import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
+import com.ivy.data.backup.CSVRow
+import com.ivy.data.backup.ImportResult
 import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.IvyDark

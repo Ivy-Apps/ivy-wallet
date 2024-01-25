@@ -12,4 +12,6 @@ dependencies {
 
     implementation(libs.datastore)
     implementation(libs.bundles.ktor)
+
+    testImplementation(projects.ivyTesting)
 }

@@ -8,16 +8,16 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.domain.deprecated.logic.csv.CSVImporter
 import com.ivy.legacy.domain.deprecated.logic.csv.model.ImportType
-import com.ivy.legacy.domain.deprecated.logic.zip.BackupLogic
+import com.ivy.data.backup.BackupDataUseCase
 import com.ivy.legacy.utils.asLiveData
-import com.ivy.legacy.utils.getFileName
+import com.ivy.base.legacy.getFileName
 import com.ivy.navigation.ImportScreen
 import com.ivy.navigation.Navigation
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVMapper
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVNormalizer
 import com.ivy.wallet.domain.deprecated.logic.csv.IvyFileReader
-import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
+import com.ivy.data.backup.ImportResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
@@ -33,7 +33,7 @@ class ImportViewModel @Inject constructor(
     private val csvNormalizer: CSVNormalizer,
     private val csvMapper: CSVMapper,
     private val csvImporter: CSVImporter,
-    private val backupLogic: BackupLogic
+    private val backupDataUseCase: BackupDataUseCase
 ) : ViewModel() {
     private val _importStep = MutableLiveData<ImportStep>()
     val importStep = _importStep.asLiveData()
@@ -84,7 +84,7 @@ class ImportViewModel @Inject constructor(
                 _importResult.value = if (hasCSVExtension(context, fileUri)) {
                     restoreCSVFile(fileUri = fileUri, importType = importType)
                 } else {
-                    backupLogic.import(
+                    backupDataUseCase.import(
                         backupFileUri = fileUri
                     ) { progressPercent ->
                         com.ivy.legacy.utils.uiThread {

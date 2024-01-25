@@ -1,4 +1,4 @@
-package com.ivy.wallet.domain.data
+package com.ivy.data.backup
 
 import androidx.annotation.Keep
 import com.ivy.data.db.entity.AccountEntity

@@ -12,7 +12,7 @@ import com.ivy.data.db.dao.write.WriteSettingsDao
 import com.ivy.domain.ComposeViewModel
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.LogoutLogic
-import com.ivy.legacy.data.SharedPrefs
+import com.ivy.base.legacy.SharedPrefs
 import com.ivy.legacy.data.model.AccountBalance
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category

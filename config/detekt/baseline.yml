@@ -2052,7 +2052,6 @@
     <ID>InvalidPackageDeclaration:BufferModal.kt$package com.ivy.wallet.ui.theme.modal</ID>
     <ID>InvalidPackageDeclaration:CSVMapper.kt$package com.ivy.wallet.domain.deprecated.logic.csv</ID>
     <ID>InvalidPackageDeclaration:CSVNormalizer.kt$package com.ivy.wallet.domain.deprecated.logic.csv</ID>
-    <ID>InvalidPackageDeclaration:CSVRow.kt$package com.ivy.wallet.domain.deprecated.logic.csv.model</ID>
     <ID>InvalidPackageDeclaration:CalcAccBalanceAct.kt$package com.ivy.wallet.domain.action.account</ID>
     <ID>InvalidPackageDeclaration:CalcAccIncomeExpenseAct.kt$package com.ivy.wallet.domain.action.account</ID>
     <ID>InvalidPackageDeclaration:CalcBufferDiffAct.kt$package com.ivy.wallet.domain.action.settings</ID>
@@ -2112,7 +2111,6 @@
     <ID>InvalidPackageDeclaration:HasTrnsAct.kt$package com.ivy.wallet.domain.action.viewmodel.home</ID>
     <ID>InvalidPackageDeclaration:HistoryTrnsAct.kt$package com.ivy.wallet.domain.action.transaction</ID>
     <ID>InvalidPackageDeclaration:HistoryWithDateDivsAct.kt$package com.ivy.wallet.domain.action.transaction</ID>
-    <ID>InvalidPackageDeclaration:ImportResult.kt$package com.ivy.wallet.domain.deprecated.logic.csv.model</ID>
     <ID>InvalidPackageDeclaration:IncomeExpensePair.kt$package com.ivy.wallet.domain.pure.data</ID>
     <ID>InvalidPackageDeclaration:IncomeExpenseTransferPair.kt$package com.ivy.wallet.domain.pure.data</ID>
     <ID>InvalidPackageDeclaration:IntervalPickerRow.kt$package com.ivy.wallet.ui.theme.components</ID>
@@ -2148,7 +2146,6 @@
     <ID>InvalidPackageDeclaration:IvySwitch.kt$package com.ivy.wallet.ui.theme.components</ID>
     <ID>InvalidPackageDeclaration:IvyTitleTextField.kt$package com.ivy.wallet.ui.theme.components</ID>
     <ID>InvalidPackageDeclaration:IvyToolbar.kt$package com.ivy.wallet.ui.theme.components</ID>
-    <ID>InvalidPackageDeclaration:IvyWalletCompleteData.kt$package com.ivy.wallet.domain.data</ID>
     <ID>InvalidPackageDeclaration:LTLoanMapper.kt$package com.ivy.wallet.domain.deprecated.logic.loantrasactions</ID>
     <ID>InvalidPackageDeclaration:LTLoanRecordMapper.kt$package com.ivy.wallet.domain.deprecated.logic.loantrasactions</ID>
     <ID>InvalidPackageDeclaration:ListItem.kt$package com.ivy.domain.legacy.ui.theme.components</ID>
@@ -2226,7 +2223,6 @@
     <ID>InvalidPackageDeclaration:WalletValueFunctions.kt$package com.ivy.wallet.domain.pure.transaction</ID>
     <ID>InvalidPackageDeclaration:WidgetBase.kt$package com.ivy.widgets</ID>
     <ID>InvalidPackageDeclaration:WrapContentRow.kt$package com.ivy.wallet.ui.theme.components</ID>
-    <ID>InvalidPackageDeclaration:ZipUtils.kt$package com.ivy.wallet.domain.deprecated.logic.zip</ID>
     <ID>LargeClass:TransactionsViewModel.kt$TransactionsViewModel : ComposeViewModel</ID>
     <ID>LongMethod:AccountModal.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun BoxWithConstraintsScope.AccountModal( modal: AccountModalData?, onCreateAccount: (CreateAccountData) -&gt; Unit, onEditAccount: (Account, balance: Double) -&gt; Unit, dismiss: () -&gt; Unit, )</ID>
     <ID>LongMethod:ChooseIconModal.kt$fun ivyIcons(): List&lt;Any&gt;</ID>
@@ -2252,13 +2248,13 @@
     <ID>MagicNumber:AmountFormatting.kt$0.009</ID>
     <ID>MagicNumber:AmountFormatting.kt$9</ID>
     <ID>MagicNumber:BackBottomBar.kt$180f</ID>
-    <ID>MagicNumber:BackupLogic.kt$BackupLogic$0.05</ID>
-    <ID>MagicNumber:BackupLogic.kt$BackupLogic$0.1</ID>
-    <ID>MagicNumber:BackupLogic.kt$BackupLogic$0.4</ID>
-    <ID>MagicNumber:BackupLogic.kt$BackupLogic$0.6</ID>
-    <ID>MagicNumber:BackupLogic.kt$BackupLogic$0.7</ID>
-    <ID>MagicNumber:BackupLogic.kt$BackupLogic$0.8</ID>
-    <ID>MagicNumber:BackupLogic.kt$BackupLogic$0.9</ID>
+    <ID>MagicNumber:BackupDataUseCase.kt$BackupDataUseCase$0.05</ID>
+    <ID>MagicNumber:BackupDataUseCase.kt$BackupDataUseCase$0.1</ID>
+    <ID>MagicNumber:BackupDataUseCase.kt$BackupDataUseCase$0.4</ID>
+    <ID>MagicNumber:BackupDataUseCase.kt$BackupDataUseCase$0.6</ID>
+    <ID>MagicNumber:BackupDataUseCase.kt$BackupDataUseCase$0.7</ID>
+    <ID>MagicNumber:BackupDataUseCase.kt$BackupDataUseCase$0.8</ID>
+    <ID>MagicNumber:BackupDataUseCase.kt$BackupDataUseCase$0.9</ID>
     <ID>MagicNumber:BalanceScreen.kt$200f</ID>
     <ID>MagicNumber:BalanceScreen.kt$45f</ID>
     <ID>MagicNumber:BudgetBattery.kt$0.30</ID>
@@ -4193,6 +4189,7 @@
     <ID>MultipleEmitters:TransactionCard.kt$TransactionCard</ID>
     <ID>MultipleEmitters:TransactionSectionDivider.kt$SectionDivider</ID>
     <ID>NestedBlockDepth:AccValueFunctions.kt$AccountValueFunctions$fun balance( transaction: Transaction, accountId: UUID ): BigDecimal</ID>
+    <ID>NestedBlockDepth:ZipUtils.kt$fun unzip(fileInputStream: FileInputStream, location: File)</ID>
     <ID>NoConsecutiveBlankLines:Accessors11xxvwy0y6zsdmgi5tg7sgrcq.kt$ </ID>
     <ID>NoConsecutiveBlankLines:Accessors12l04gyw3iri7cbpx1tj9yrz6.kt$ </ID>
     <ID>NoConsecutiveBlankLines:Accessors14w8c0izd80vth0z04l852wsa.kt$ </ID>
@@ -6503,7 +6500,6 @@
     <ID>NoWildcardImports:TestWearAppConfigurationAccessors.kt$import org.gradle.kotlin.dsl.accessors.runtime.*</ID>
     <ID>NoWildcardImports:WearAppConfigurationAccessors.kt$import org.gradle.kotlin.dsl.*</ID>
     <ID>NoWildcardImports:WearAppConfigurationAccessors.kt$import org.gradle.kotlin.dsl.accessors.runtime.*</ID>
-    <ID>NoWildcardImports:ZipUtils.kt$import java.io.*</ID>
     <ID>ObjectPropertyNaming:SharedPrefs.kt$SharedPrefs.Companion$// -------------------------------- Customer Journey ---------------------------------------- const val _CARD_DISMISSED = "_cj_dismissed"</ID>
     <ID>PackageName:Accessors11xxvwy0y6zsdmgi5tg7sgrcq.kt$package gradle.kotlin.dsl.accessors._0f6c96550b20caec005f95558bbb0634</ID>
     <ID>PackageName:Accessors11xxvwy0y6zsdmgi5tg7sgrcq.kt$package gradle.kotlin.dsl.accessors._c23ff688c05f8d96905906a4ad831734</ID>
@@ -7224,7 +7220,7 @@
     <ID>PackageName:LintPublishConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._0f6c96550b20caec005f95558bbb0634</ID>
     <ID>PackageName:LintPublishConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._c23ff688c05f8d96905906a4ad831734</ID>
     <ID>PackageName:MainSourceElementsConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._a568f78b412045bc377fc4283b656e34</ID>
-    <ID>PackageName:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._f742c7982bbe112818a1fb0e0a817df7</ID>
+    <ID>PackageName:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._54f12867c8a0450996200fb4ad43a3e9</ID>
     <ID>PackageName:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._0f6c96550b20caec005f95558bbb0634</ID>
     <ID>PackageName:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._c23ff688c05f8d96905906a4ad831734</ID>
     <ID>PackageName:ReleaseApiConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._0f6c96550b20caec005f95558bbb0634</ID>
@@ -8110,7 +8106,7 @@
     <ID>PackageNaming:LintPublishConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._0f6c96550b20caec005f95558bbb0634</ID>
     <ID>PackageNaming:LintPublishConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._c23ff688c05f8d96905906a4ad831734</ID>
     <ID>PackageNaming:MainSourceElementsConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._a568f78b412045bc377fc4283b656e34</ID>
-    <ID>PackageNaming:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._f742c7982bbe112818a1fb0e0a817df7</ID>
+    <ID>PackageNaming:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._54f12867c8a0450996200fb4ad43a3e9</ID>
     <ID>PackageNaming:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._0f6c96550b20caec005f95558bbb0634</ID>
     <ID>PackageNaming:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._c23ff688c05f8d96905906a4ad831734</ID>
     <ID>PackageNaming:ReleaseApiConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._0f6c96550b20caec005f95558bbb0634</ID>
@@ -9975,6 +9971,5 @@
     <ID>WildcardImport:TestWearAppConfigurationAccessors.kt$import org.gradle.kotlin.dsl.accessors.runtime.*</ID>
     <ID>WildcardImport:WearAppConfigurationAccessors.kt$import org.gradle.kotlin.dsl.*</ID>
     <ID>WildcardImport:WearAppConfigurationAccessors.kt$import org.gradle.kotlin.dsl.accessors.runtime.*</ID>
-    <ID>WildcardImport:ZipUtils.kt$import java.io.*</ID>
   </CurrentIssues>
 </SmellBaseline>

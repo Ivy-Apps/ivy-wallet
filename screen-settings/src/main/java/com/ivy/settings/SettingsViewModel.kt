@@ -16,10 +16,10 @@ import com.ivy.domain.RootScreen
 import com.ivy.frp.monad.Res
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.LogoutLogic
-import com.ivy.legacy.data.SharedPrefs
+import com.ivy.base.legacy.SharedPrefs
 import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.legacy.domain.action.settings.UpdateSettingsAct
-import com.ivy.legacy.domain.deprecated.logic.zip.BackupLogic
+import com.ivy.data.backup.BackupDataUseCase
 import com.ivy.legacy.utils.formatNicelyWithTime
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeNowUTC
@@ -45,7 +45,7 @@ class SettingsViewModel @Inject constructor(
     private val exportCSVLogic: ExportCSVLogic,
     private val logoutLogic: LogoutLogic,
     private val sharedPrefs: SharedPrefs,
-    private val backupLogic: BackupLogic,
+    private val backupDataUseCase: BackupDataUseCase,
     private val startDayOfMonthAct: StartDayOfMonthAct,
     private val updateStartDayOfMonthAct: UpdateStartDayOfMonthAct,
     private val syncExchangeRatesAct: SyncExchangeRatesAct,
@@ -285,7 +285,7 @@ class SettingsViewModel @Inject constructor(
         ) { fileUri ->
             viewModelScope.launch(Dispatchers.IO) {
                 progressState.value = true
-                backupLogic.exportToFile(zipFileUri = fileUri)
+                backupDataUseCase.exportToFile(zipFileUri = fileUri)
                 progressState.value = false
 
                 sharedPrefs.putBoolean(SharedPrefs.DATA_BACKUP_COMPLETED, true)

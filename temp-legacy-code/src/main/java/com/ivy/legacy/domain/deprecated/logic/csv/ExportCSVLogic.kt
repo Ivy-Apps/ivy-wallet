@@ -15,7 +15,7 @@ import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.formatLocal
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.localDecimalSeparator
-import com.ivy.legacy.utils.writeToFile
+import com.ivy.base.legacy.writeToFile
 import org.apache.commons.text.StringEscapeUtils
 import java.util.UUID
 import javax.inject.Inject

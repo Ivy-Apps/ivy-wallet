@@ -9,7 +9,7 @@ import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.domain.ComposeViewModel
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.thenInvokeAfter
-import com.ivy.legacy.data.SharedPrefs
+import com.ivy.base.legacy.SharedPrefs
 import com.ivy.legacy.datamodel.Account
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct

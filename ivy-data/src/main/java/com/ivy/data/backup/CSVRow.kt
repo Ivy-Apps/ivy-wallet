@@ -1,4 +1,4 @@
-package com.ivy.wallet.domain.deprecated.logic.csv.model
+package com.ivy.data.backup
 
 data class CSVRow(
     val index: Int,
