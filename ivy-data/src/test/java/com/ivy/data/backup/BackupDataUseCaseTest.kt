@@ -31,7 +31,7 @@ class BackupDataUseCaseTest : FreeSpec({
 
     fun backupZipTestCase(backupVersion: String) {
         // given
-        val backupZipUri = testResourceUri("/backups/$backupVersion.zip")
+        val backupZipUri = testResourceUri("backups/$backupVersion.zip")
     }
 
     "imports backup from 4.5.0 (150)" {
