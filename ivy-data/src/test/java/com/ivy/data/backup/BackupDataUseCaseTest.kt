@@ -52,34 +52,35 @@ class BackupDataUseCaseTest : FreeSpec({
 
     suspend fun backupTestCase(backupVersion: String) {
         // given
-        val backupDataUseCase = newBackupDataUseCase()
-        val backupJson = testResource("backups/$backupVersion.json")
+        val originalBackupUseCase = newBackupDataUseCase()
+        val backupJsonData = testResource("backups/$backupVersion.json")
             .readText(Charsets.UTF_16)
 
         // when
-        val importRes = backupDataUseCase.importJson(backupJson, onProgress = {})
+        val importedDataRes = originalBackupUseCase.importJson(backupJsonData, onProgress = {})
 
         // then
-        importRes.accountsImported shouldBeGreaterThan 0
-        importRes.transactionsImported shouldBeGreaterThan 0
-        importRes.categoriesImported shouldBeGreaterThan 0
-        importRes.failedRows.size shouldBe 0
+        importedDataRes.accountsImported shouldBeGreaterThan 0
+        importedDataRes.transactionsImported shouldBeGreaterThan 0
+        importedDataRes.categoriesImported shouldBeGreaterThan 0
+        importedDataRes.failedRows.size shouldBe 0
 
-        // also
-        val exportedJson = backupDataUseCase.generateJsonBackup()
-        val exportImportRes2 = backupDataUseCase.importJson(exportedJson, onProgress = {})
-        exportImportRes2 shouldBe importRes
-    }
-
-    "backups compatibility with 4.5.0 (150)" {
-        backupTestCase("450-150")
-    }
-
-    "exports and imports a backup" {
+        // Also - exporting and re-importing the data should work
         // given
-        val backupDataUseCase = newBackupDataUseCase()
+        val exportedJson = originalBackupUseCase.generateJsonBackup()
+        val freshBackupUseCase = newBackupDataUseCase()
 
         // when
-        backupDataUseCase.generateJsonBackup()
+        val reImportedDataRes = freshBackupUseCase.importJson(exportedJson, onProgress = {})
+
+        // then
+        reImportedDataRes shouldBe importedDataRes
+
+        // Finally, exporting again should yield the same result
+        freshBackupUseCase.generateJsonBackup() shouldBe exportedJson
+    }
+
+    "backup compatibility with 4.5.0 (150)" {
+        backupTestCase("450-150")
     }
 })
