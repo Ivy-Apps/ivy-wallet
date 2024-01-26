@@ -3,13 +3,15 @@ package ivy.automate.issue
 import arrow.core.Either
 import arrow.core.raise.Raise
 import arrow.core.raise.either
+import ivy.automate.base.Constants
+import ivy.automate.base.github.GitHubIssueArgs
 import ivy.automate.base.github.GitHubService
 import ivy.automate.base.github.model.GitHubUser
 import ivy.automate.base.github.model.NotBlankTrimmedString
 
 context(GitHubService)
 suspend fun Action.AlreadyTaken.execute(
-    args: Args
+    args: GitHubIssueArgs
 ): Either<String, String> = either {
     val commentText = buildString {
         warn(user)
@@ -24,7 +26,7 @@ suspend fun Action.AlreadyTaken.execute(
 
 context(GitHubService)
 suspend fun Action.NotApproved.execute(
-    args: Args
+    args: GitHubIssueArgs
 ): Either<String, String> = either {
     val commentText = buildString {
         warn(user)
@@ -38,7 +40,7 @@ suspend fun Action.NotApproved.execute(
 
 context(GitHubService)
 suspend fun Action.AssignIssue.execute(
-    args: Args
+    args: GitHubIssueArgs
 ): Either<String, String> = either {
     assignIssue(
         pat = args.pat,
@@ -61,7 +63,7 @@ suspend fun Action.AssignIssue.execute(
 
 context(Raise<String>, GitHubService)
 private suspend fun comment(
-    args: Args,
+    args: GitHubIssueArgs,
     text: String
 ) {
     commentIssue(

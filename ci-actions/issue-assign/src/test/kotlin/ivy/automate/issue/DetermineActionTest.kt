@@ -8,6 +8,8 @@ import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.mockk
+import ivy.automate.base.Constants
+import ivy.automate.base.github.GitHubIssueArgs
 import ivy.automate.base.github.GitHubService
 import ivy.automate.base.github.model.GitHubComment
 import ivy.automate.base.github.model.GitHubIssue
@@ -24,7 +26,7 @@ class DetermineActionTest : FreeSpec({
     val ivyBot = GitHubUser(GitHubUsername(Constants.IVY_BOT_USERNAME))
 
     val issueNumber = GitHubIssueNumber("1234")
-    val args = Args(
+    val args = GitHubIssueArgs(
         pat = GitHubPAT("pat"),
         issueNumber = issueNumber
     )

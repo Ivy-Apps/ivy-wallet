@@ -34,3 +34,6 @@ jobs:
 
       - name: Test the CI "issue-assign" action
         run: ./gradlew :ci-actions:issue-assign:test
+
+      - name: Test the CI "issue-create-comment" action
+        run: ./gradlew :ci-actions:issue-create-comment:test

@@ -1,15 +1,16 @@
-package ivy.automate.issue
+package ivy.automate.base.github
 
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
+import ivy.automate.base.github.GitHubIssueArgs
 import ivy.automate.base.github.model.GitHubIssueNumber
 import ivy.automate.base.github.model.GitHubPAT
-import ivy.automate.issue.Constants.ARG_GITHUB_PAT
-import ivy.automate.issue.Constants.ARG_ISSUE_NUMBER
+import ivy.automate.base.Constants.ARG_GITHUB_PAT
+import ivy.automate.base.Constants.ARG_ISSUE_NUMBER
 
-class ArgsParserTest : FreeSpec({
+class GitHubIssueArgsParseTest : FreeSpec({
     "invalid" - {
         "no args" {
             // given
@@ -75,7 +76,7 @@ class ArgsParserTest : FreeSpec({
         val res = parseArgs(args)
 
         // then
-        res.shouldBeRight() shouldBe Args(
+        res.shouldBeRight() shouldBe GitHubIssueArgs(
             pat = GitHubPAT("abc"),
             issueNumber = GitHubIssueNumber("123")
         )

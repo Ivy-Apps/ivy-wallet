@@ -1,10 +1,13 @@
-package ivy.automate.issue
+package ivy.automate.issue.create
 
 import arrow.core.Either
+import arrow.core.raise.Raise
 import arrow.core.raise.either
 import ivy.automate.base.IvyError
+import ivy.automate.base.github.GitHubIssueArgs
 import ivy.automate.base.github.GitHubService
 import ivy.automate.base.github.GitHubServiceImpl
+import ivy.automate.base.github.model.NotBlankTrimmedString
 import ivy.automate.base.github.parseArgs
 import ivy.automate.base.ktor.ktorClientScope
 import kotlinx.coroutines.runBlocking
@@ -33,10 +36,23 @@ fun main(args: Array<String>): Unit = runBlocking {
 context(GitHubService)
 private suspend fun execute(argsArr: Array<String>): Either<String, String> = either {
     val args = parseArgs(argsArr.toList()).bind()
-    when (val action = determineAction(args).bind()) {
-        is Action.AlreadyTaken -> action.execute(args).bind()
-        is Action.AssignIssue -> action.execute(args).bind()
-        is Action.NotApproved -> action.execute(args).bind()
-        is Action.DoNothing -> "Do nothing."
-    }
+    comment(args, text = buildString {
+
+    })
+}
+
+context(Raise<String>, GitHubService)
+private suspend fun comment(
+    args: GitHubIssueArgs,
+    text: String
+): String {
+    return commentIssue(
+        pat = args.pat,
+        issueNumber = args.issueNumber,
+        text = NotBlankTrimmedString(text)
+    ).mapLeft {
+        "Failed to comment: $it"
+    }.map {
+        "Commented on Issue #${args.issueNumber.value}."
+    }.bind()
 }

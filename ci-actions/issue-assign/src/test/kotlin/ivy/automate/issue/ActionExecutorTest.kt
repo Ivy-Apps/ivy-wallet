@@ -9,6 +9,8 @@ import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import ivy.automate.base.Constants
+import ivy.automate.base.github.GitHubIssueArgs
 import ivy.automate.base.github.GitHubService
 import ivy.automate.base.github.model.GitHubIssueNumber
 import ivy.automate.base.github.model.GitHubPAT
@@ -21,7 +23,7 @@ class ActionExecutorTest : FreeSpec({
     val user2 = GitHubUser(GitHubUsername("user2"))
     val pat = GitHubPAT("pat")
     val issueNumber = GitHubIssueNumber("1234")
-    val args = Args(
+    val args = GitHubIssueArgs(
         pat = pat,
         issueNumber = issueNumber,
     )

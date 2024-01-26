@@ -1,4 +1,4 @@
-package ivy.automate.issue
+package ivy.automate.base
 
 object Constants {
     const val IVY_ADMIN = "ILIYANGERMANOV"

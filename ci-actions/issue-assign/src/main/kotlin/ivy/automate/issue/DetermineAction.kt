@@ -2,6 +2,8 @@ package ivy.automate.issue
 
 import arrow.core.Either
 import arrow.core.raise.either
+import ivy.automate.base.Constants
+import ivy.automate.base.github.GitHubIssueArgs
 import ivy.automate.base.github.GitHubService
 import ivy.automate.base.github.model.GitHubIssueNumber
 import ivy.automate.base.github.model.GitHubUser
@@ -31,7 +33,7 @@ sealed interface Action {
 }
 
 context(GitHubService)
-suspend fun determineAction(args: Args): Either<String, Action> = either {
+suspend fun determineAction(args: GitHubIssueArgs): Either<String, Action> = either {
     val issueNumber = args.issueNumber
     val intention = checkCommentsForIntention(issueNumber).bind()
         ?: return@either Action.DoNothing(issueNumber)
