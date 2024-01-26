@@ -49,7 +49,7 @@ class DetermineActionTest : FreeSpec({
                 } returns Exception("API error").left()
                 coEvery {
                     gitHubService.fetchIssue(issueNumber)
-                } returns GitHubIssue(assignee = null).right()
+                } returns GitHubIssue(creator = user1, assignee = null).right()
                 coEvery {
                     gitHubService.fetchIssueLabels(issueNumber)
                 } returns listOf(label("approved")).right()
@@ -91,7 +91,7 @@ class DetermineActionTest : FreeSpec({
                 ).right()
                 coEvery {
                     gitHubService.fetchIssue(issueNumber)
-                } returns GitHubIssue(assignee = null).right()
+                } returns GitHubIssue(creator = user1, assignee = null).right()
                 coEvery {
                     gitHubService.fetchIssueLabels(issueNumber)
                 } returns Exception("API error").left()
@@ -116,7 +116,7 @@ class DetermineActionTest : FreeSpec({
                 ).right()
                 coEvery {
                     gitHubService.fetchIssue(issueNumber)
-                } returns GitHubIssue(assignee = null).right()
+                } returns GitHubIssue(creator = user1, assignee = null).right()
                 coEvery {
                     gitHubService.fetchIssueLabels(issueNumber)
                 } returns listOf(label("approved")).right()
@@ -139,7 +139,7 @@ class DetermineActionTest : FreeSpec({
                 ).right()
                 coEvery {
                     gitHubService.fetchIssue(issueNumber)
-                } returns GitHubIssue(assignee = null).right()
+                } returns GitHubIssue(creator = user1, assignee = null).right()
                 coEvery {
                     gitHubService.fetchIssueLabels(issueNumber)
                 } returns listOf(label("approved")).right()
@@ -160,7 +160,7 @@ class DetermineActionTest : FreeSpec({
                 ).right()
                 coEvery {
                     gitHubService.fetchIssue(issueNumber)
-                } returns GitHubIssue(assignee = user1).right()
+                } returns GitHubIssue(creator = user1, assignee = user1).right()
                 coEvery {
                     gitHubService.fetchIssueLabels(issueNumber)
                 } returns listOf(label("approved")).right()
@@ -181,7 +181,7 @@ class DetermineActionTest : FreeSpec({
                 ).right()
                 coEvery {
                     gitHubService.fetchIssue(issueNumber)
-                } returns GitHubIssue(assignee = null).right()
+                } returns GitHubIssue(creator = user1, assignee = null).right()
                 coEvery {
                     gitHubService.fetchIssueLabels(issueNumber)
                 } returns listOf(label("feature")).right()
@@ -200,7 +200,7 @@ class DetermineActionTest : FreeSpec({
                 } returns emptyList<GitHubComment>().right()
                 coEvery {
                     gitHubService.fetchIssue(issueNumber)
-                } returns GitHubIssue(assignee = null).right()
+                } returns GitHubIssue(creator = user1, assignee = null).right()
                 coEvery {
                     gitHubService.fetchIssueLabels(issueNumber)
                 } returns listOf(label("approved")).right()
@@ -223,7 +223,7 @@ class DetermineActionTest : FreeSpec({
                 ).right()
                 coEvery {
                     gitHubService.fetchIssue(issueNumber)
-                } returns GitHubIssue(assignee = null).right()
+                } returns GitHubIssue(creator = user1, assignee = null).right()
                 coEvery {
                     gitHubService.fetchIssueLabels(issueNumber)
                 } returns listOf(label("approved")).right()
@@ -244,7 +244,7 @@ class DetermineActionTest : FreeSpec({
                 ).right()
                 coEvery {
                     gitHubService.fetchIssue(issueNumber)
-                } returns GitHubIssue(assignee = null).right()
+                } returns GitHubIssue(creator = user1, assignee = null).right()
                 coEvery {
                     gitHubService.fetchIssueLabels(issueNumber)
                 } returns listOf(label("approved")).right()

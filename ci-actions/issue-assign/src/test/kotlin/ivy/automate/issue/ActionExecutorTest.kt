@@ -203,7 +203,7 @@ class ActionExecutorTest : FreeSpec({
                 Thank you for your interest @user1! 🎉
                 Issue #1234 is assigned to you. You can work on it! ✅
                 
-                _If you don't want to work on it now, please unassign yourself so other contributors can take it._
+                _If you don't want to work on it now, please un-assign yourself so other contributors can take it._
                 
                 $readContributingMsg
             """.trimIndent()

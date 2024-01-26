@@ -53,7 +53,7 @@ suspend fun Action.AssignIssue.execute(
     val commentText = buildString {
         append("Thank you for your interest @${user.username.value}! \uD83C\uDF89")
         append("\nIssue #${issueNumber.value} is assigned to you. You can work on it! ✅")
-        append("\n\n_If you don't want to work on it now, please unassign yourself")
+        append("\n\n_If you don't want to work on it now, please un-assign yourself")
         append(" so other contributors can take it._")
         readContributingMd()
     }

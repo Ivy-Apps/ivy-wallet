@@ -3,10 +3,13 @@ package ivy.automate.issue.create
 import arrow.core.Either
 import arrow.core.raise.Raise
 import arrow.core.raise.either
+import ivy.automate.base.Constants
 import ivy.automate.base.IvyError
 import ivy.automate.base.github.GitHubIssueArgs
 import ivy.automate.base.github.GitHubService
 import ivy.automate.base.github.GitHubServiceImpl
+import ivy.automate.base.github.model.GitHubIssue
+import ivy.automate.base.github.model.GitHubIssueNumber
 import ivy.automate.base.github.model.NotBlankTrimmedString
 import ivy.automate.base.github.parseArgs
 import ivy.automate.base.ktor.ktorClientScope
@@ -36,9 +39,23 @@ fun main(args: Array<String>): Unit = runBlocking {
 context(GitHubService)
 private suspend fun execute(argsArr: Array<String>): Either<String, String> = either {
     val args = parseArgs(argsArr.toList()).bind()
-    comment(args, text = buildString {
 
-    })
+    val issue = fetchIssue(args.issueNumber).mapLeft {
+        "Failed to fetch Issue #${args.issueNumber.value}"
+    }.bind()
+    comment(args, commentText(args.issueNumber, issue))
+}
+
+fun commentText(
+    issueNumber: GitHubIssueNumber,
+    issue: GitHubIssue
+): String = buildString {
+    append("Thank you @${issue.creator.username.value} for raising Issue #${issueNumber.value}! \uD83D\uDE80")
+    append("\n")
+    val guidelinesUrl = "**[Contribution Guidelines](${Constants.CONTRIBUTING_URL}) \uD83D\uDCDA**"
+    append("What's next? Read our $guidelinesUrl.")
+    append("\n\n")
+    append("_Tagging @${Constants.IVY_ADMIN} for review & approval \uD83D\uDC40_")
 }
 
 context(Raise<String>, GitHubService)
@@ -53,6 +70,6 @@ private suspend fun comment(
     ).mapLeft {
         "Failed to comment: $it"
     }.map {
-        "Commented on Issue #${args.issueNumber.value}."
+        "Commented on Issue #${args.issueNumber.value}"
     }.bind()
 }
