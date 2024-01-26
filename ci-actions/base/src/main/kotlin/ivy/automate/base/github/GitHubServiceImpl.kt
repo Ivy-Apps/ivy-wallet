@@ -38,6 +38,7 @@ class GitHubServiceImpl(
     ): Either<Throwable, GitHubIssue> = catchIO {
         val issueDto = ktorClient.get(issueUrl(issueNumber)).body<IssueDto>()
         GitHubIssue(
+            number = issueNumber,
             creator = issueDto.user.toDomain().getOrThrow(),
             assignee = issueDto.assignee?.toDomain()?.getOrThrow()
         )

@@ -10,11 +10,14 @@ import ivy.automate.issue.create.commentText
 class CommentTextTest : FreeSpec({
     "the comment text should look good" {
         // given
-        val issueNumber = GitHubIssueNumber("223")
-        val issue = GitHubIssue(GitHubUser(GitHubUsername("user1")), null)
+        val issue = GitHubIssue(
+            number = GitHubIssueNumber(value = "223"),
+            creator = GitHubUser(GitHubUsername("user1")),
+            assignee = null
+        )
 
         // when
-        val commentText = commentText(issueNumber, issue)
+        val commentText = commentText(issue)
 
         // then
         commentText shouldBe """

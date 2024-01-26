@@ -38,7 +38,16 @@ class DetermineActionTest : FreeSpec({
         block(gitHubService)
     }
 
-    fun label(name: String) = GitHubLabel(GitHubLabelName(name))
+    fun newLabel(name: String) = GitHubLabel(GitHubLabelName(name))
+    fun newIssue(
+        number: GitHubIssueNumber = issueNumber,
+        creator: GitHubUser = user1,
+        assignee: GitHubUser? = null,
+    ) = GitHubIssue(
+        number = number,
+        creator = creator,
+        assignee = assignee,
+    )
 
     "unhappy path" - {
         testScope {
@@ -49,10 +58,10 @@ class DetermineActionTest : FreeSpec({
                 } returns Exception("API error").left()
                 coEvery {
                     gitHubService.fetchIssue(issueNumber)
-                } returns GitHubIssue(creator = user1, assignee = null).right()
+                } returns newIssue().right()
                 coEvery {
                     gitHubService.fetchIssueLabels(issueNumber)
-                } returns listOf(label("approved")).right()
+                } returns listOf(newLabel("approved")).right()
 
                 // when
                 val action = determineAction(args)
@@ -73,7 +82,7 @@ class DetermineActionTest : FreeSpec({
                 } returns Exception("API error").left()
                 coEvery {
                     gitHubService.fetchIssueLabels(issueNumber)
-                } returns listOf(label("approved")).right()
+                } returns listOf(newLabel("approved")).right()
 
                 // when
                 val action = determineAction(args)
@@ -91,7 +100,7 @@ class DetermineActionTest : FreeSpec({
                 ).right()
                 coEvery {
                     gitHubService.fetchIssue(issueNumber)
-                } returns GitHubIssue(creator = user1, assignee = null).right()
+                } returns newIssue().right()
                 coEvery {
                     gitHubService.fetchIssueLabels(issueNumber)
                 } returns Exception("API error").left()
@@ -116,10 +125,10 @@ class DetermineActionTest : FreeSpec({
                 ).right()
                 coEvery {
                     gitHubService.fetchIssue(issueNumber)
-                } returns GitHubIssue(creator = user1, assignee = null).right()
+                } returns newIssue().right()
                 coEvery {
                     gitHubService.fetchIssueLabels(issueNumber)
-                } returns listOf(label("approved")).right()
+                } returns listOf(newLabel("approved")).right()
 
                 // when
                 val action = determineAction(args)
@@ -139,10 +148,10 @@ class DetermineActionTest : FreeSpec({
                 ).right()
                 coEvery {
                     gitHubService.fetchIssue(issueNumber)
-                } returns GitHubIssue(creator = user1, assignee = null).right()
+                } returns newIssue().right()
                 coEvery {
                     gitHubService.fetchIssueLabels(issueNumber)
-                } returns listOf(label("approved")).right()
+                } returns listOf(newLabel("approved")).right()
 
                 // when
                 val action = determineAction(args)
@@ -160,10 +169,10 @@ class DetermineActionTest : FreeSpec({
                 ).right()
                 coEvery {
                     gitHubService.fetchIssue(issueNumber)
-                } returns GitHubIssue(creator = user1, assignee = user1).right()
+                } returns newIssue(assignee = user1).right()
                 coEvery {
                     gitHubService.fetchIssueLabels(issueNumber)
-                } returns listOf(label("approved")).right()
+                } returns listOf(newLabel("approved")).right()
 
                 // when
                 val action = determineAction(args)
@@ -181,10 +190,10 @@ class DetermineActionTest : FreeSpec({
                 ).right()
                 coEvery {
                     gitHubService.fetchIssue(issueNumber)
-                } returns GitHubIssue(creator = user1, assignee = null).right()
+                } returns newIssue().right()
                 coEvery {
                     gitHubService.fetchIssueLabels(issueNumber)
-                } returns listOf(label("feature")).right()
+                } returns listOf(newLabel("feature")).right()
 
                 // when
                 val action = determineAction(args)
@@ -200,10 +209,10 @@ class DetermineActionTest : FreeSpec({
                 } returns emptyList<GitHubComment>().right()
                 coEvery {
                     gitHubService.fetchIssue(issueNumber)
-                } returns GitHubIssue(creator = user1, assignee = null).right()
+                } returns newIssue().right()
                 coEvery {
                     gitHubService.fetchIssueLabels(issueNumber)
-                } returns listOf(label("approved")).right()
+                } returns listOf(newLabel("approved")).right()
 
                 // when
                 val action = determineAction(args)
@@ -223,10 +232,10 @@ class DetermineActionTest : FreeSpec({
                 ).right()
                 coEvery {
                     gitHubService.fetchIssue(issueNumber)
-                } returns GitHubIssue(creator = user1, assignee = null).right()
+                } returns newIssue().right()
                 coEvery {
                     gitHubService.fetchIssueLabels(issueNumber)
-                } returns listOf(label("approved")).right()
+                } returns listOf(newLabel("approved")).right()
 
                 // when
                 val action = determineAction(args)
@@ -244,10 +253,10 @@ class DetermineActionTest : FreeSpec({
                 ).right()
                 coEvery {
                     gitHubService.fetchIssue(issueNumber)
-                } returns GitHubIssue(creator = user1, assignee = null).right()
+                } returns newIssue().right()
                 coEvery {
                     gitHubService.fetchIssueLabels(issueNumber)
-                } returns listOf(label("approved")).right()
+                } returns listOf(newLabel("approved")).right()
 
                 // when
                 val action = determineAction(args)
