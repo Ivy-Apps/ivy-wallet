@@ -4,13 +4,12 @@ import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import ivy.automate.base.github.GitHubIssueArgs
-import ivy.automate.base.github.model.GitHubIssueNumber
-import ivy.automate.base.github.model.GitHubPAT
 import ivy.automate.base.Constants.ARG_GITHUB_PAT
 import ivy.automate.base.Constants.ARG_ISSUE_NUMBER
+import ivy.automate.base.github.model.GitHubIssueNumber
+import ivy.automate.base.github.model.GitHubPAT
 
-class GitHubIssueArgsParseTest : FreeSpec({
+class GitHubIssueArgsTest : FreeSpec({
     "invalid" - {
         "no args" {
             // given
