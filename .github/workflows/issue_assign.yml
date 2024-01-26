@@ -28,4 +28,4 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Execute "Issue Assign" automation
-        run: ./gradlew :automations:issue-assign:run --args='issueNumber=${{ github.event.issue.number }} gitHubPAT=${{ secrets.IVYWALLET_BOT_GITHUB_PAT_2 }}'
+        run: ./gradlew :ci-actions:issue-assign:run --args='issueNumber=${{ github.event.issue.number }} gitHubPAT=${{ secrets.IVYWALLET_BOT_GITHUB_PAT_2 }}'

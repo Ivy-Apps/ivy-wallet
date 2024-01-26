@@ -1,4 +1,4 @@
-name: Automations tests
+name: CI Actions tests
 
 on:
   push:
@@ -29,8 +29,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Test the ":automations:base"
-        run: ./gradlew :automations:base:test
+      - name: Test the CI actions "base"
+        run: ./gradlew :ci-actions:base:test
 
-      - name: Test the ":automations:issue-assign"
-        run: ./gradlew :automations:issue-assign:test
+      - name: Test the CI "issue-assign" action
+        run: ./gradlew :ci-actions:issue-assign:test

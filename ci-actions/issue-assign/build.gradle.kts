@@ -8,5 +8,5 @@ application {
 }
 
 dependencies {
-    implementation(projects.automations.base)
+    implementation(projects.ciActions.base)
 }
