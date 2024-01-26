@@ -1,14 +1,16 @@
-name: Issue Comment Action
+name: CI Actions tests
 
 on:
-  issue_comment:
-    types: [ created ]
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
-  handle-comment:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout GIT
         uses: actions/checkout@v4
 
       - name: Setup Java SDK
@@ -27,5 +29,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Execute the "Issue Assign" automation
-        run: ./gradlew :ci-actions:issue-assign:run --args='issueNumber=${{ github.event.issue.number }} gitHubPAT=${{ secrets.IVYWALLET_BOT_GITHUB_PAT_2 }}'
+      - name: Test the CI actions "base"
+        run: ./gradlew :ci-actions:base:test
+
+      - name: Test the CI "issue-assign" action
+        run: ./gradlew :ci-actions:issue-assign:test
+
+      - name: Test the CI "issue-create-comment" action
+        run: ./gradlew :ci-actions:issue-create-comment:test

@@ -1,11 +1,11 @@
-name: Issue Comment Action
+name: Issue Created Action
 
 on:
-  issue_comment:
-    types: [ created ]
+  issues:
+    types: [ opened ]
 
 jobs:
-  handle-comment:
+  handle-issue:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -27,5 +27,5 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Execute the "Issue Assign" automation
-        run: ./gradlew :ci-actions:issue-assign:run --args='issueNumber=${{ github.event.issue.number }} gitHubPAT=${{ secrets.IVYWALLET_BOT_GITHUB_PAT_2 }}'
+      - name: Execute the "Issue Created" automation
+        run: ./gradlew :ci-actions:issue-create-comment:run --args='issueNumber=${{ github.event.issue.number }} gitHubPAT=${{ secrets.IVYWALLET_BOT_GITHUB_PAT_2 }}'
