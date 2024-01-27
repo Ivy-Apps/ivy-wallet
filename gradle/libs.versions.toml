@@ -85,12 +85,14 @@ glance = { module = "androidx.glance:glance", version.ref = "glance" }
 glance-appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "glance" }
 glance-material3 = { module = "androidx.glance:glance-material3", version.ref = "glance" }
 
-# Local persistence
-datastore = { module = "androidx.datastore:datastore-preferences", version = "1.0.0" }
+# Room
+room-plugin = {module="androidx.room:androidx.room.gradle.plugin", version.ref = "room"}
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-testing = { module = "androidx.room:room-testing", version.ref = "room" }
+
+datastore = { module = "androidx.datastore:datastore-preferences", version = "1.0.0" }
 
 # Hilt
 hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }

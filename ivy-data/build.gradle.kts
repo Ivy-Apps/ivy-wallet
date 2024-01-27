@@ -17,6 +17,5 @@ dependencies {
     implementation(libs.bundles.ktor)
 
     androidTestImplementation(libs.bundles.integration.testing)
-    androidTestImplementation(libs.room.testing)
     testImplementation(projects.ivyTesting)
 }
