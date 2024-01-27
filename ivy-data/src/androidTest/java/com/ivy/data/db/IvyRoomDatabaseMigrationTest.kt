@@ -26,7 +26,7 @@ class IvyRoomDatabaseMigrationTest {
     @Throws(IOException::class)
     fun migrateAll() {
         // Create earliest version of the database.
-        helper.createDatabase(TEST_DB, 1).apply {
+        helper.createDatabase(TEST_DB, 101).apply {
             close()
         }
 
