@@ -5,3 +5,7 @@ plugins {
 android {
     namespace = "com.ivy.resources"
 }
+
+dependencies {
+    implementation(libs.material)
+}
