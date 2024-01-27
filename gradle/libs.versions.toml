@@ -14,6 +14,7 @@ hilt = "2.50"
 room = "2.6.1"
 androidx-work = "2.9.0"
 kotlinx-collections = "0.3.7"
+androidx-test = "1.4.0"
 
 # Android
 min-sdk = "28"
@@ -63,6 +64,11 @@ kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-te
 cashapp-molecule-plugin = { module = "app.cash.molecule:molecule-gradle-plugin", version = "1.3.2" }
 cashapp-turbine = { module = "app.cash.turbine:turbine", version = "1.0.0" }
 
+# Integartion (Android) testing
+androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test" }
+androidx-test-core = { module = "androidx.test:core-ktx", version.ref = "androidx-test" }
+androidx-test-ext = { module = "androidx.test.ext:junit-ktx", version = "1.1.5" }
+
 # Compose
 compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
@@ -84,6 +90,7 @@ datastore = { module = "androidx.datastore:datastore-preferences", version = "1.
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-testing = { module = "androidx.room:room-testing", version.ref = "room" }
 
 # Hilt
 hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
@@ -161,6 +168,12 @@ testing = [
     "kotlin-coroutines-test",
     "mockk",
     "cashapp-turbine"
+]
+integration-testing = [
+    "kotest-assertions",
+    "androidx-test-core",
+    "androidx-test-runner",
+    "androidx-test-ext"
 ]
 compose = [
     "compose-animation",
