@@ -30,20 +30,16 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Build Android code
-        run: ./gradlew assembleDebug ivy-data:assembleAndroidTest
+        run: ./gradlew ivy-data:assembleDebug ivy-data:assembleAndroidTest
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v2
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
 
-      - name: Create and start emulator
+      - name: Run android tests on Emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
           script: ./gradlew ivy-data:connectedDebugAndroidTest
-          target: default
-          arch: x86_64
-          profile: Nexus 6
-          disable-animations: true
-          disable-spellchecker: true
-          disable-android-watchers: true
-          disable-adb-kill-server: true
