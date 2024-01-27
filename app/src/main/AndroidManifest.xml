@@ -94,6 +94,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/wallet_balance_widget_info" />
         </receiver>
+
         <service
             android:name=".PaymentTileService"
             android:exported="true"

@@ -4,7 +4,10 @@ plugins {
 }
 
 android {
-    namespace = "com.ivy.persistence"
+    namespace = "com.ivy.data"
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
 }
 
 dependencies {
@@ -13,5 +16,6 @@ dependencies {
     implementation(libs.datastore)
     implementation(libs.bundles.ktor)
 
+    androidTestImplementation(libs.bundles.integration.testing)
     testImplementation(projects.ivyTesting)
 }

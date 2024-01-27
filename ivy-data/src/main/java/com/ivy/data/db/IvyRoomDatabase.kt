@@ -96,6 +96,29 @@ abstract class IvyRoomDatabase : RoomDatabase() {
     companion object {
         const val DB_NAME = "ivywallet.db"
 
+        fun migrations() = arrayOf(
+            Migration105to106_TrnRecurringRules(),
+            Migration106to107_Wishlist(),
+            Migration107to108_Sync(),
+            Migration108to109_Users(),
+            Migration109to110_PlannedPayments(),
+            Migration110to111_PlannedPaymentRule(),
+            Migration111to112_User_testUser(),
+            Migration112to113_ExchangeRates(),
+            Migration113to114_Multi_Currency(),
+            Migration114to115_Category_Account_Icons(),
+            Migration115to116_Account_Include_In_Balance(),
+            Migration116to117_SalteEdgeIntgration(),
+            Migration117to118_Budgets(),
+            Migration118to119_Loans(),
+            Migration119to120_LoanTransactions(),
+            Migration120to121_DropWishlistItem(),
+            Migration122to123_ExchangeRates(),
+            Migration123to124_LoanIncludeDateTime(),
+            Migration124to125_LoanEditDateTime()
+        )
+
+        @Suppress("SpreadOperator")
         fun create(applicationContext: Context): IvyRoomDatabase {
             return Room
                 .databaseBuilder(
@@ -103,27 +126,7 @@ abstract class IvyRoomDatabase : RoomDatabase() {
                     IvyRoomDatabase::class.java,
                     DB_NAME
                 )
-                .addMigrations(
-                    Migration105to106_TrnRecurringRules(),
-                    Migration106to107_Wishlist(),
-                    Migration107to108_Sync(),
-                    Migration108to109_Users(),
-                    Migration109to110_PlannedPayments(),
-                    Migration110to111_PlannedPaymentRule(),
-                    Migration111to112_User_testUser(),
-                    Migration112to113_ExchangeRates(),
-                    Migration113to114_Multi_Currency(),
-                    Migration114to115_Category_Account_Icons(),
-                    Migration115to116_Account_Include_In_Balance(),
-                    Migration116to117_SalteEdgeIntgration(),
-                    Migration117to118_Budgets(),
-                    Migration118to119_Loans(),
-                    Migration119to120_LoanTransactions(),
-                    Migration120to121_DropWishlistItem(),
-                    Migration122to123_ExchangeRates(),
-                    Migration123to124_LoanIncludeDateTime(),
-                    Migration124to125_LoanEditDateTime()
-                )
+                .addMigrations(*migrations())
                 .build()
         }
     }

@@ -23,6 +23,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.plugin)
     implementation(libs.ksp.plugin)
     implementation(libs.cashapp.molecule.plugin)
+    implementation(libs.room.plugin)
 
     // Make version catalog available in precompiled scripts
     // https://github.com/gradle/gradle/issues/15383#issuecomment-1567461389
