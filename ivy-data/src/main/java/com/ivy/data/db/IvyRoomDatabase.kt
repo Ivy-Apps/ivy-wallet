@@ -118,6 +118,7 @@ abstract class IvyRoomDatabase : RoomDatabase() {
             Migration124to125_LoanEditDateTime()
         )
 
+        @Suppress("SpreadOperator")
         fun create(applicationContext: Context): IvyRoomDatabase {
             return Room
                 .databaseBuilder(

@@ -49,7 +49,6 @@ class IvyRoomDatabaseMigrationTest {
                 bindLong(8, 1)
                 bindLong(9, 0)
                 bindString(10, UUID.randomUUID().toString())
-
             }
             preparedStatement.executeInsert()
             close()
