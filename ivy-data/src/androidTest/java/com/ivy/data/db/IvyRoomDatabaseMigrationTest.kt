@@ -12,7 +12,6 @@ import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
 class IvyRoomDatabaseMigrationTest {
-    private val TEST_DB = "migration-test"
 
     @get:Rule
     val helper: MigrationTestHelper = MigrationTestHelper(
@@ -25,19 +24,24 @@ class IvyRoomDatabaseMigrationTest {
     @Test
     @Throws(IOException::class)
     fun migrateAll() {
-        // Create earliest version of the database.
-        helper.createDatabase(TEST_DB, 101).apply {
+        // Create earliest version of the database:
+        // for Ivy Wallet versions below 106 are broken :/
+        helper.createDatabase(TestDb, 106).apply {
             close()
         }
 
-        // Open latest version of the database. Room validates the schema
-        // once all migrations execute.
+        // Open latest version of the database.
+        // Room validates and executes all migrations.
         Room.databaseBuilder(
             InstrumentationRegistry.getInstrumentation().targetContext,
             IvyRoomDatabase::class.java,
-            TEST_DB
+            TestDb
         ).addMigrations(*IvyRoomDatabase.migrations()).build().apply {
             openHelper.writableDatabase.close()
         }
+    }
+
+    companion object {
+        private const val TestDb = "migration-test"
     }
 }
