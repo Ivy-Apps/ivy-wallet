@@ -29,10 +29,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Build Android code
+      - name: Build Ivy Wallet's code
         run: ./gradlew ivy-data:assembleDebug ivy-data:assembleAndroidTest
 
-      - name: Enable KVM
+      - name: Enable KVM (emulator optimization)
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
