@@ -30,7 +30,7 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Build Android code
-        run: ./gradlew assembleDebug assembleAndroidTest
+        run: ./gradlew assembleDebug ivy-data:assembleAndroidTest
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v2
@@ -39,7 +39,7 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          script: ./gradlew connectedDebugAndroidTest
+          script: ./gradlew ivy-data:connectedDebugAndroidTest
           target: default
           arch: x86_64
           profile: Nexus 6
