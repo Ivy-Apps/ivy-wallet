@@ -16,5 +16,4 @@ android {
 
 dependencies {
     androidTestImplementation(libs.bundles.integration.testing)
-    androidTestImplementation(project(":ivy-testing"))
 }

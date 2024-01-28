@@ -2,6 +2,7 @@ package com.ivy.data.backup
 
 import android.content.Context
 import android.net.Uri
+import androidx.core.net.toUri
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -95,24 +96,32 @@ class BackupDataUseCaseAndroidTest {
     private suspend fun exportsAndImportsTestCase(version: String) {
         // given
         val backupUri = copyTestResourceToInternalStorage("backups/$version.zip")
+        // preload data
         useCase.importBackupFile(backupUri, onProgress = {}).shouldBeSuccessful()
+        val exportedFileUri = tempAndroidFile("exported", ".zip").toUri()
 
         // then
+        useCase.exportToFile(exportedFileUri)
+        val reImportRes = useCase.importBackupFile(backupUri, onProgress = {})
+
+        // then
+        reImportRes.shouldBeSuccessful()
     }
 
     private fun copyTestResourceToInternalStorage(resPath: String): Uri {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val assetManager = context.assets
         val inputStream = assetManager.open(resPath)
-        val outputFile = File.createTempFile(
-            "temp",
-            resPath.split(".").last(),
-            context.filesDir
-        )
+        val outputFile = tempAndroidFile("temp-backup", resPath.split(".").last())
         outputFile.outputStream().use { fileOut ->
             fileOut.write(inputStream.readBytes())
         }
         return Uri.fromFile(outputFile)
+    }
+
+    private fun tempAndroidFile(prefix: String, suffix: String): File {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        return File.createTempFile(prefix, suffix, context.filesDir)
     }
 
     private fun ImportResult.shouldBeSuccessful() {
