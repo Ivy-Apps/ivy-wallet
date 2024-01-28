@@ -1,5 +1,6 @@
 package com.ivy.testing
 
+import android.net.Uri
 import java.io.File
 import java.io.FileInputStream
 
@@ -9,6 +10,14 @@ fun testResourceInputStream(resPath: String): FileInputStream {
         return FileInputStream(file)
     } catch (e: Exception) {
         throw TestResourceLoadException(resPath, e)
+    }
+}
+
+fun testResourceUri(resPath: String): Uri {
+    return try {
+        Uri.fromFile(testResource(resPath))
+    } catch (e: Exception) {
+        throw TestResourceLoadException(resPath, e, message = "Couldn't parse Uri.")
     }
 }
 

@@ -84,7 +84,7 @@ class ImportViewModel @Inject constructor(
                 _importResult.value = if (hasCSVExtension(context, fileUri)) {
                     restoreCSVFile(fileUri = fileUri, importType = importType)
                 } else {
-                    backupDataUseCase.import(
+                    backupDataUseCase.importBackupFile(
                         backupFileUri = fileUri
                     ) { progressPercent ->
                         com.ivy.legacy.utils.uiThread {

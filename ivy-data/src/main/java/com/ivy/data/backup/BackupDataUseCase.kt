@@ -125,7 +125,7 @@ class BackupDataUseCase @Inject constructor(
         return hashmap
     }
 
-    suspend fun import(
+    suspend fun importBackupFile(
         backupFileUri: Uri,
         onProgress: suspend (progressPercent: Double) -> Unit
     ): ImportResult = withContext(dispatchersProvider.io) {

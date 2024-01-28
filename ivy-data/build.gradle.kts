@@ -1,13 +1,11 @@
 plugins {
     id("ivy.feature")
     id("ivy.room")
+    id("ivy.integration.testing")
 }
 
 android {
     namespace = "com.ivy.data"
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
 }
 
 dependencies {
@@ -16,6 +14,5 @@ dependencies {
     implementation(libs.datastore)
     implementation(libs.bundles.ktor)
 
-    androidTestImplementation(libs.bundles.integration.testing)
     testImplementation(projects.ivyTesting)
 }
