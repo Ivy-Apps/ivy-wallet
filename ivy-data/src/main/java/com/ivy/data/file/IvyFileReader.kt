@@ -22,7 +22,6 @@ class IvyFileReader @Inject constructor(
     ): Either<Failure, String> {
         return try {
             val contentResolver = appContext.contentResolver
-
             var fileContent: String? = null
 
             contentResolver.openFileDescriptor(uri, "r")?.use {
@@ -34,13 +33,13 @@ class IvyFileReader @Inject constructor(
                 }
             }
 
-            Either.Right(fileContent ?: "")
+            Either.Right(fileContent!!)
         } catch (e: FileNotFoundException) {
             e.printStackTrace()
-            Either.Left(Failure.FileNotFound(uri))
-        } catch (e: IOException) {
+            Either.Left(Failure.FileNotFound(e))
+        } catch (e: Exception) {
             e.printStackTrace()
-            Either.Left(Failure.IO)
+            Either.Left(Failure.IO(e))
         }
     }
 
@@ -61,7 +60,9 @@ class IvyFileReader @Inject constructor(
     }
 
     sealed interface Failure {
-        data class FileNotFound(val uri: Uri) : Failure
-        data object IO : Failure
+        val e: Throwable
+
+        data class FileNotFound(override val e: Throwable) : Failure
+        data class IO(override val e: Throwable) : Failure
     }
 }
