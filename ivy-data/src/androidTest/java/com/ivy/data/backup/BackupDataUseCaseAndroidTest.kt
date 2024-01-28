@@ -70,6 +70,10 @@ class BackupDataUseCaseAndroidTest {
     private suspend fun backupTestCase(version: String) {
         importBackupZipTestCase(version)
         importBackupJsonTestCase(version)
+
+        // close and re-open the db to ensure fresh data
+        closeDb()
+        createDb()
         exportsAndImportsTestCase(version)
     }
 
