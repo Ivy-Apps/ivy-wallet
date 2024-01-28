@@ -1,16 +1,6 @@
 package com.ivy.testing
 
 import java.io.File
-import java.io.FileInputStream
-
-fun testResourceInputStream(resPath: String): FileInputStream {
-    try {
-        val file = testResource(resPath)
-        return FileInputStream(file)
-    } catch (e: Exception) {
-        throw TestResourceLoadException(resPath, e)
-    }
-}
 
 fun testResource(resPath: String): File {
     try {

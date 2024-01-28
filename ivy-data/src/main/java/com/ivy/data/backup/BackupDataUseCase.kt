@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.Uri
 import androidx.core.net.toUri
 import com.ivy.base.legacy.SharedPrefs
-import com.ivy.base.legacy.readFile
 import com.ivy.base.legacy.unzip
 import com.ivy.base.legacy.zip
 import com.ivy.base.threading.DispatchersProvider
@@ -24,6 +23,7 @@ import com.ivy.data.db.dao.write.WriteLoanRecordDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
+import com.ivy.data.file.IvyFileReader
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.async
@@ -58,6 +58,7 @@ class BackupDataUseCase @Inject constructor(
     private val context: Context,
     private val json: Json,
     private val dispatchersProvider: DispatchersProvider,
+    private val fileReader: IvyFileReader,
 ) {
     suspend fun exportToFile(
         zipFileUri: Uri
@@ -125,38 +126,15 @@ class BackupDataUseCase @Inject constructor(
         return hashmap
     }
 
-    suspend fun import(
+    suspend fun importBackupFile(
         backupFileUri: Uri,
         onProgress: suspend (progressPercent: Double) -> Unit
     ): ImportResult = withContext(dispatchersProvider.io) {
         return@withContext try {
             val jsonString = try {
-                val folderName = "backup" + System.currentTimeMillis()
-                val cacheFolderPath = File(context.cacheDir, folderName)
-
-                unzip(context, backupFileUri, cacheFolderPath)
-
-                val filesArray = cacheFolderPath.listFiles()
-
-                onProgress(0.05)
-
-                if (filesArray == null || filesArray.isEmpty()) {
-                    error("Couldn't unzip")
-                }
-
-                val filesList = filesArray.toList().filter {
-                    hasJsonExtension(it)
-                }
-
-                onProgress(0.1)
-
-                if (filesList.size != 1) {
-                    error("Didn't unzip exactly one file.")
-                }
-
-                readFile(context, filesList[0].toUri(), Charsets.UTF_16)
+                extractAndReadBackupZip(backupFileUri, onProgress)
             } catch (e: Exception) {
-                readFile(context, backupFileUri, Charsets.UTF_16)
+                fileReader.read(backupFileUri, Charsets.UTF_16).getOrNull()
             } ?: ""
 
             importJson(jsonString, onProgress, clearCacheDir = true)
@@ -170,6 +148,36 @@ class BackupDataUseCase @Inject constructor(
                 failedRows = persistentListOf()
             )
         }
+    }
+
+    private suspend fun extractAndReadBackupZip(
+        backupFileUri: Uri,
+        onProgress: suspend (progressPercent: Double) -> Unit
+    ): String? {
+        val folderName = "backup" + System.currentTimeMillis()
+        val cacheFolderPath = File(context.cacheDir, folderName)
+
+        unzip(context, backupFileUri, cacheFolderPath)
+
+        val filesArray = cacheFolderPath.listFiles()
+
+        onProgress(0.05)
+
+        if (filesArray == null || filesArray.isEmpty()) {
+            error("Couldn't unzip")
+        }
+
+        val filesList = filesArray.toList().filter {
+            hasJsonExtension(it)
+        }
+
+        onProgress(0.1)
+
+        if (filesList.size != 1) {
+            error("Didn't unzip exactly one file.")
+        }
+
+        return fileReader.read(filesList[0].toUri(), Charsets.UTF_16).getOrNull()
     }
 
     suspend fun importJson(
