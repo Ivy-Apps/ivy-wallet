@@ -1,7 +1,6 @@
 package com.ivy.testing
 
 import java.io.File
-import java.io.FileInputStream
 
 fun testResource(resPath: String): File {
     try {

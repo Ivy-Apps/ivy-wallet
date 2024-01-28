@@ -35,10 +35,8 @@ class IvyFileReader @Inject constructor(
 
             Either.Right(fileContent!!)
         } catch (e: FileNotFoundException) {
-            e.printStackTrace()
             Either.Left(Failure.FileNotFound(e))
         } catch (e: Exception) {
-            e.printStackTrace()
             Either.Left(Failure.IO(e))
         }
     }

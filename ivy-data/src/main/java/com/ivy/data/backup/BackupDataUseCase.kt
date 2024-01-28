@@ -180,7 +180,6 @@ class BackupDataUseCase @Inject constructor(
         return fileReader.read(filesList[0].toUri(), Charsets.UTF_16).getOrNull()
     }
 
-
     suspend fun importJson(
         jsonString: String,
         onProgress: suspend (Double) -> Unit = {},
