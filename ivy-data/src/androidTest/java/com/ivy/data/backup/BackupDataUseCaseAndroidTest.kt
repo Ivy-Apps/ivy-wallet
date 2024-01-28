@@ -1,6 +1,7 @@
 package com.ivy.data.backup
 
 import android.content.Context
+import android.net.Uri
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -9,7 +10,6 @@ import com.ivy.base.di.KotlinxSerializationModule
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.data.db.IvyRoomDatabase
 import com.ivy.testing.TestDispatchersProvider
-import com.ivy.testing.testResourceUri
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.ints.shouldBeGreaterThan
 import kotlinx.coroutines.runBlocking
@@ -17,6 +17,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.io.File
 
 @RunWith(AndroidJUnit4::class)
 class BackupDataUseCaseAndroidTest {
@@ -71,7 +72,7 @@ class BackupDataUseCaseAndroidTest {
 
     private suspend fun importBackupZipTestCase(version: String) {
         // given
-        val backupUri = testResourceUri("backups/$version.zip")
+        val backupUri = copyTestResourceToInternalStorage("backups/$version.zip")
 
         // when
         val res = useCase.importBackupFile(backupUri, onProgress = {})
@@ -82,7 +83,7 @@ class BackupDataUseCaseAndroidTest {
 
     private suspend fun importBackupJsonTestCase(version: String) {
         // given
-        val backupUri = testResourceUri("backups/$version.json")
+        val backupUri = copyTestResourceToInternalStorage("backups/$version.json")
 
         // when
         val res = useCase.importBackupFile(backupUri, onProgress = {})
@@ -93,10 +94,25 @@ class BackupDataUseCaseAndroidTest {
 
     private suspend fun exportsAndImportsTestCase(version: String) {
         // given
-        val backupUri = testResourceUri("backups/$version.zip")
+        val backupUri = copyTestResourceToInternalStorage("backups/$version.zip")
         useCase.importBackupFile(backupUri, onProgress = {}).shouldBeSuccessful()
 
         // then
+    }
+
+    private fun copyTestResourceToInternalStorage(resPath: String): Uri {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val assetManager = context.assets
+        val inputStream = assetManager.open(resPath)
+        val outputFile = File.createTempFile(
+            "temp",
+            resPath.split(".").last(),
+            context.filesDir
+        )
+        outputFile.outputStream().use { fileOut ->
+            fileOut.write(inputStream.readBytes())
+        }
+        return Uri.fromFile(outputFile)
     }
 
     private fun ImportResult.shouldBeSuccessful() {
