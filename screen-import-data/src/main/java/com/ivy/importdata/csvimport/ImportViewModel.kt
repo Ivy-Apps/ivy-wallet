@@ -16,7 +16,7 @@ import com.ivy.navigation.Navigation
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVMapper
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVNormalizer
-import com.ivy.wallet.domain.deprecated.logic.csv.IvyFileReader
+import com.ivy.data.file.IvyFileReader
 import com.ivy.data.backup.ImportResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
@@ -110,8 +110,8 @@ class ImportViewModel @Inject constructor(
                     ImportType.IVY -> Charsets.UTF_16
                     else -> Charsets.UTF_8
                 }
-            )
-            if (rawCSV == null || rawCSV.isBlank()) {
+            ).getOrNull()
+            if (rawCSV.isNullOrBlank()) {
                 return@ioThread ImportResult(
                     rowsFound = 0,
                     transactionsImported = 0,

@@ -10,6 +10,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.ivy.base.di.KotlinxSerializationModule
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.data.db.IvyRoomDatabase
+import com.ivy.data.file.IvyFileReader
 import com.ivy.testing.TestDispatchersProvider
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.ints.shouldBeGreaterThan
@@ -51,7 +52,8 @@ class BackupDataUseCaseAndroidTest {
             plannedPaymentRuleWriter = db.writePlannedPaymentRuleDao,
             context = appContext,
             json = KotlinxSerializationModule.provideJson(),
-            dispatchersProvider = TestDispatchersProvider
+            dispatchersProvider = TestDispatchersProvider,
+            fileReader = IvyFileReader(appContext)
         )
     }
 

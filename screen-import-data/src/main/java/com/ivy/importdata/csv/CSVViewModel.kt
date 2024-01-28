@@ -23,7 +23,7 @@ import com.ivy.importdata.csv.domain.parseToAccount
 import com.ivy.importdata.csv.domain.parseToAccountCurrency
 import com.ivy.importdata.csv.domain.parseTransactionType
 import com.ivy.navigation.Navigation
-import com.ivy.wallet.domain.deprecated.logic.csv.IvyFileReader
+import com.ivy.data.file.IvyFileReader
 import com.opencsv.CSVReaderBuilder
 import com.opencsv.validators.LineValidator
 import com.opencsv.validators.RowValidator
@@ -463,7 +463,7 @@ class CSVViewModel @Inject constructor(
         charset: Charset = Charsets.UTF_8
     ): List<CSVRow>? {
         return try {
-            val fileContent = fileReader.read(uri, charset) ?: return null
+            val fileContent = fileReader.read(uri, charset).getOrNull() ?: return null
             parseCSV(fileContent, normalizeCSV).takeIf { it.isNotEmpty() }
         } catch (e: Exception) {
             if (charset != Charsets.UTF_16) {
