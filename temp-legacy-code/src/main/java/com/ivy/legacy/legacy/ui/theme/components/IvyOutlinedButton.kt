@@ -23,8 +23,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.utils.thenIf
 import com.ivy.legacy.IvyWalletComponentPreview
-import com.ivy.legacy.utils.thenIf
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Green
 
@@ -43,12 +43,18 @@ fun IvyOutlinedButton(
     padding: Dp = 12.dp,
     onClick: () -> Unit,
 ) {
+    val pure = UI.colors.pure
+    val rFull = UI.shapes.rFull
     Row(
-        modifier = modifier.clip(UI.shapes.rFull).clickable(
-            onClick = onClick,
-        ).defaultMinSize(minWidth, minHeight).border(2.dp, borderColor, UI.shapes.rFull)
+        modifier = modifier
+            .clip(UI.shapes.rFull)
+            .clickable(
+                onClick = onClick,
+            )
+            .defaultMinSize(minWidth, minHeight)
+            .border(2.dp, borderColor, UI.shapes.rFull)
             .thenIf(solidBackground) {
-                background(UI.colors.pure, UI.shapes.rFull)
+                background(pure, rFull)
             },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
@@ -90,12 +96,19 @@ fun IvyOutlinedButtonFillMaxWidth(
     padding: Dp = 16.dp,
     onClick: () -> Unit,
 ) {
+    val pure = UI.colors.pure
+    val rFull = UI.shapes.rFull
     Row(
-        modifier = modifier.fillMaxWidth().clip(UI.shapes.rFull).clickable(
-            onClick = onClick,
-        ).border(2.dp, borderColor, UI.shapes.rFull).thenIf(solidBackground) {
-            background(UI.colors.pure, UI.shapes.rFull)
-        },
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(UI.shapes.rFull)
+            .clickable(
+                onClick = onClick,
+            )
+            .border(2.dp, borderColor, UI.shapes.rFull)
+            .thenIf(solidBackground) {
+                background(pure, rFull)
+            },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (iconStart != null) {

@@ -39,6 +39,7 @@ import com.ivy.legacy.ui.component.IncomeExpensesCards
 import com.ivy.legacy.ui.component.transaction.TransactionsDividerLine
 import com.ivy.legacy.ui.component.transaction.transactions
 import com.ivy.legacy.utils.clickableNoIndication
+import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.navigation.ReportScreen
 import com.ivy.navigation.navigation
@@ -92,7 +93,7 @@ private fun BoxWithConstraintsScope.UI(
                 .fillMaxSize()
                 .zIndex(1000f)
                 .background(pureBlur())
-                .clickableNoIndication {
+                .clickableNoIndication(rememberInteractionSource()) {
                     // consume clicks
                 },
             contentAlignment = Alignment.Center

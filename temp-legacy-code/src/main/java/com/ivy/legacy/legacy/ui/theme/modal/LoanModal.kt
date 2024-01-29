@@ -47,7 +47,7 @@ import com.ivy.legacy.utils.getDefaultFIATCurrency
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.selectEndTextFieldValue
-import com.ivy.legacy.utils.thenIf
+import com.ivy.design.utils.thenIf
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.resources.R
 import com.ivy.wallet.domain.data.IvyCurrency
@@ -416,14 +416,17 @@ private fun Account(
     val textColor =
         if (selected) findContrastTextColor(accountColor) else UI.colors.pureInverse
 
+    val medium = UI.colors.medium
+    val rFull = UI.shapes.rFull
+
     Row(
         modifier = Modifier
             .clip(UI.shapes.rFull)
             .thenIf(!selected) {
-                border(2.dp, UI.colors.medium, UI.shapes.rFull)
+                border(2.dp, medium, rFull)
             }
             .thenIf(selected) {
-                background(accountColor, UI.shapes.rFull)
+                background(accountColor, rFull)
             }
             .clickable(onClick = onClick)
             .testTag(testTag),
@@ -540,6 +543,7 @@ private fun RowScope.SelectorButton(
     label: String,
     onClick: () -> Unit
 ) {
+    val rFull = UI.shapes.rFull
     Text(
         modifier = Modifier
             .weight(1f)
@@ -549,7 +553,7 @@ private fun RowScope.SelectorButton(
             }
             .padding(vertical = 8.dp)
             .thenIf(selected) {
-                background(GradientIvy.asHorizontalBrush(), UI.shapes.rFull)
+                background(GradientIvy.asHorizontalBrush(), rFull)
             }
             .padding(vertical = 8.dp),
         text = label,

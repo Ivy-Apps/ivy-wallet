@@ -24,6 +24,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.format
+import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.legacy.utils.springBounce
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Orange
@@ -50,7 +51,7 @@ fun SectionDivider(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickableNoIndication {
+            .clickableNoIndication(rememberInteractionSource()) {
                 setExpanded(!expanded)
             },
         verticalAlignment = Alignment.CenterVertically

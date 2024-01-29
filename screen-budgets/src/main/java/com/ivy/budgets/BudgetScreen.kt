@@ -29,6 +29,7 @@ import com.ivy.legacy.datamodel.Budget
 import com.ivy.legacy.legacy.ui.theme.components.BudgetBattery
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.format
+import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.navigation.BudgetScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
@@ -260,7 +261,7 @@ private fun BudgetItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickableNoIndication {
+            .clickableNoIndication(rememberInteractionSource()) {
                 onClick()
             },
         verticalAlignment = Alignment.CenterVertically

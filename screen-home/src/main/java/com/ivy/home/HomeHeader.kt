@@ -44,7 +44,8 @@ import com.ivy.legacy.utils.horizontalSwipeListener
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.rememberSwipeListenerState
 import com.ivy.legacy.utils.springBounce
-import com.ivy.legacy.utils.thenIf
+import com.ivy.design.utils.thenIf
+import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.legacy.utils.verticalSwipeListener
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.navigation.navigation
@@ -175,7 +176,7 @@ private fun HeaderStickyRow(
                 BalanceRowMini(
                     modifier = Modifier
                         .alpha(alpha = 1f - percentExpanded)
-                        .clickableNoIndication {
+                        .clickableNoIndication(rememberInteractionSource()) {
                             if (hideBalance) {
                                 onHiddenBalanceClick()
                             } else {
@@ -245,7 +246,7 @@ fun CashFlowInfo(
         BalanceRow(
             modifier = Modifier
                 .padding(horizontal = 20.dp)
-                .clickableNoIndication {
+                .clickableNoIndication(rememberInteractionSource()) {
                     if (hideBalance) {
                         onHiddenBalanceClick()
                     } else {

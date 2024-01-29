@@ -9,11 +9,11 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
 import com.ivy.design.l0_system.UI
-import com.ivy.legacy.utils.densityScope
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 val White = Color(0xFFFAFAFA)
@@ -96,15 +96,17 @@ val GradientIvy = Gradient(Ivy, Color(0xFFAA99FF))
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun Modifier.gradientCutBackgroundTop(
+    pure: Color,
+    density: Density,
     endY: Dp = 32.dp
-) = composed {
-    background(
+): Modifier {
+    return background(
         brush = Brush.verticalGradient(
             colors = listOf(
                 Transparent,
-                UI.colors.pure,
+                pure,
             ),
-            endY = densityScope {
+            endY = with(density) {
                 endY.toPx()
             }
         )
@@ -113,12 +115,13 @@ fun Modifier.gradientCutBackgroundTop(
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun Modifier.gradientCutBackgroundBottom(
+    pure: Color,
     paddingBottom: Dp,
-) = composed {
-    background(
+): Modifier {
+    return background(
         brush = Brush.verticalGradient(
             colors = listOf(
-                UI.colors.pure,
+                pure,
                 Transparent
             ),
         )
@@ -196,14 +199,17 @@ fun Color.dynamicContrast(): Color {
                 darken()
             }
         }
+
         pickedColor.s <= 0.5f && pickedColor.v >= 0.8f -> {
             // Light
             darken()
         }
+
         pickedColor.s >= 0.1f && pickedColor.v <= 0.6f -> {
             // Dark
             lighten()
         }
+
         else -> {
             if (isDarkColor(this)) {
                 lighten()

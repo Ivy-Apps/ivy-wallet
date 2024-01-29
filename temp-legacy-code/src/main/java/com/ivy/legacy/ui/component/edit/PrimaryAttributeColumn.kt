@@ -24,6 +24,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.legacy.utils.clickableNoIndication
+import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.components.IvyIcon
 
@@ -42,7 +43,7 @@ fun PrimaryAttributeColumn(
             .fillMaxWidth()
             .clip(UI.shapes.r4)
             .border(2.dp, UI.colors.medium, UI.shapes.r4)
-            .clickableNoIndication(onClick = onClick),
+            .clickableNoIndication(rememberInteractionSource() , onClick = onClick),
     ) {
         Spacer(modifier = Modifier.height(12.dp))
 

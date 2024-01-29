@@ -47,7 +47,7 @@ import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.rootScreen
 import com.ivy.legacy.utils.OpResult
 import com.ivy.legacy.utils.drawColoredShadow
-import com.ivy.legacy.utils.thenIf
+import com.ivy.design.utils.thenIf
 import com.ivy.navigation.AttributionsScreen
 import com.ivy.navigation.ContributorsScreen
 import com.ivy.navigation.ExchangeRatesScreen

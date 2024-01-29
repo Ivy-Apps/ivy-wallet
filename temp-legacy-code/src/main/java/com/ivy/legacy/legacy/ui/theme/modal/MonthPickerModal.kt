@@ -28,7 +28,7 @@ import com.ivy.legacy.utils.dateNowUTC
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.hideKeyboard
 import com.ivy.legacy.utils.onScreenStart
-import com.ivy.legacy.utils.thenIf
+import com.ivy.design.utils.thenIf
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Ivy
@@ -116,6 +116,9 @@ private fun MonthButton(
 ) {
     val monthColor = Ivy
 
+    val medium = UI.colors.medium
+    val rFull = UI.shapes.rFull
+
     Text(
         modifier = Modifier
             .thenIf(selected) {
@@ -124,14 +127,14 @@ private fun MonthButton(
             .clip(UI.shapes.rFull)
             .clickable(onClick = onClick)
             .thenIf(!selected) {
-                border(2.dp, UI.colors.medium, UI.shapes.rFull)
+                border(2.dp, medium, rFull)
             }
             .thenIf(selected) {
                 background(
                     brush = Gradient
                         .solid(monthColor)
                         .asHorizontalBrush(),
-                    UI.shapes.rFull
+                    rFull
                 )
             }
             .padding(horizontal = 40.dp, vertical = 12.dp),

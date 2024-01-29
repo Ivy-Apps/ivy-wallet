@@ -65,15 +65,6 @@ fun <T> densityScope(densityScope: @Composable Density.() -> T): T {
 }
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
-fun Modifier.thenIf(condition: Boolean, thanModifier: @Composable Modifier.() -> Modifier): Modifier = composed {
-    if (condition) {
-        this.thanModifier()
-    } else {
-        this
-    }
-}
-
-@Deprecated("Old design system. Use `:ivy-design` and Material3")
 @SuppressLint("ComposableNaming")
 @Composable
 fun onScreenStart(
@@ -88,17 +79,22 @@ fun onScreenStart(
     }
 }
 
+@Composable
+fun rememberInteractionSource(): MutableInteractionSource = remember { MutableInteractionSource() }
+
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
-fun Modifier.consumeClicks() = clickableNoIndication {
-    // consume click
-}
+fun Modifier.consumeClicks(interactionSource: MutableInteractionSource) =
+    clickableNoIndication(interactionSource) {
+        // consume click
+    }
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun Modifier.clickableNoIndication(
+    interactionSource: MutableInteractionSource,
     onClick: () -> Unit
-): Modifier = composed {
-    this.clickable(
-        interactionSource = remember { MutableInteractionSource() },
+): Modifier {
+    return this.clickable(
+        interactionSource = interactionSource,
         onClick = onClick,
         role = null,
         indication = null

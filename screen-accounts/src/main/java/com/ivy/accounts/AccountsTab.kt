@@ -34,6 +34,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.horizontalSwipeListener
+import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.legacy.utils.rememberSwipeListenerState
 import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.TransactionsScreen
@@ -294,7 +295,7 @@ private fun AccountHeader(
         BalanceRow(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .clickableNoIndication {
+                .clickableNoIndication(rememberInteractionSource()) {
                     onBalanceClick()
                 },
             textColor = contrastColor,
@@ -311,7 +312,7 @@ private fun AccountHeader(
             BalanceRowMini(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .clickableNoIndication {
+                    .clickableNoIndication(rememberInteractionSource()) {
                         onBalanceClick()
                     }
                     .testTag("baseCurrencyEquivalent"),

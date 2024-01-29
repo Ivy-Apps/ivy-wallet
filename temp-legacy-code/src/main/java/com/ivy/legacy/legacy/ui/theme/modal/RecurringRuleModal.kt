@@ -45,7 +45,8 @@ import com.ivy.legacy.utils.formatDateWeekDayLong
 import com.ivy.legacy.utils.formatNicely
 import com.ivy.legacy.utils.hideKeyboard
 import com.ivy.legacy.utils.onScreenStart
-import com.ivy.legacy.utils.thenIf
+import com.ivy.design.utils.thenIf
+import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gradient
@@ -207,6 +208,8 @@ private fun RowScope.TimesSelectorButton(
     label: String,
     onClick: () -> Unit
 ) {
+    val rFull = UI.shapes.rFull
+
     Text(
         modifier = Modifier
             .weight(1f)
@@ -216,7 +219,7 @@ private fun RowScope.TimesSelectorButton(
             }
             .padding(vertical = 8.dp)
             .thenIf(selected) {
-                background(GradientIvy.asHorizontalBrush(), UI.shapes.rFull)
+                background(GradientIvy.asHorizontalBrush(), rFull)
             }
             .padding(vertical = 8.dp),
         text = label,
@@ -331,7 +334,7 @@ private fun DateRow(
         val ivyContext = ivyWalletCtx()
 
         Column(
-            modifier = Modifier.clickableNoIndication {
+            modifier = Modifier.clickableNoIndication(rememberInteractionSource()) {
                 ivyContext.pickDate(dateTime.toLocalDate(), onDatePicked)
             }
         ) {

@@ -40,7 +40,7 @@ import com.ivy.design.l0_system.colorAs
 import com.ivy.importdata.csvimport.flow.ImportProcessing
 import com.ivy.importdata.csvimport.flow.ImportResultUI
 import com.ivy.legacy.ivyWalletCtx
-import com.ivy.legacy.utils.thenIf
+import com.ivy.design.utils.thenIf
 import com.ivy.navigation.CSVScreen
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
 import kotlin.math.abs
@@ -211,12 +211,13 @@ private fun CSVCell(
     header: Boolean,
     even: Boolean
 ) {
+    val medium = UI.colors.medium
     Text(
         modifier = Modifier
             .width(140.dp)
             .border(1.dp, UI.colors.pureInverse)
             .thenIf(even) {
-                this.background(UI.colors.medium)
+                this.background(medium)
             }
             .padding(all = 4.dp),
         text = text.ifEmpty { " " },

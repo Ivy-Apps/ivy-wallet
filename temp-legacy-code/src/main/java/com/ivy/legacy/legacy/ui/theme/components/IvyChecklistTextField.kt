@@ -31,6 +31,7 @@ import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.hideKeyboard
 import com.ivy.legacy.utils.isNotNullOrBlank
+import com.ivy.legacy.utils.rememberInteractionSource
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
@@ -70,7 +71,7 @@ fun IvyChecklistTextField(
         if (isEmpty && hint.isNotNullOrBlank()) {
             Text(
                 modifier = textModifier
-                    .clickableNoIndication {
+                    .clickableNoIndication(rememberInteractionSource()) {
                         inputFieldFocus.requestFocus()
                     }
                     .padding(vertical = paddingVertical),
@@ -88,7 +89,7 @@ fun IvyChecklistTextField(
         BasicTextField(
             modifier = textModifier
                 .focusRequester(inputFieldFocus)
-                .clickableNoIndication {
+                .clickableNoIndication(rememberInteractionSource()) {
                     inputFieldFocus.requestFocus()
                 }
                 .padding(vertical = paddingVertical),

@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,6 +40,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.ivy.design.l0_system.UI
+import com.ivy.design.utils.rememberInteractionSource
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.utils.addKeyboardListener
@@ -48,7 +50,7 @@ import com.ivy.legacy.utils.hideKeyboard
 import com.ivy.legacy.utils.keyboardOnlyWindowInsets
 import com.ivy.legacy.utils.navigationBarInsets
 import com.ivy.legacy.utils.onScreenStart
-import com.ivy.legacy.utils.thenIf
+import com.ivy.design.utils.thenIf
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.navigation
 import com.ivy.wallet.ui.theme.components.ActionsRow
@@ -150,7 +152,7 @@ fun BoxScope.IvyModal(
                 .statusBarsPadding()
                 .padding(top = 24.dp)
                 .background(UI.colors.pure, UI.shapes.r2Top)
-                .consumeClicks()
+                .consumeClicks(rememberInteractionSource())
                 .thenIf(scrollState != null) {
                     verticalScroll(scrollState!!)
                 }
@@ -289,6 +291,8 @@ fun ModalActionsRow(
                     }
                 }
                 .gradientCutBackgroundTop(
+                    pure = UI.colors.pure,
+                    density = LocalDensity.current,
                     endY = 16.dp
                 )
                 .padding(top = 8.dp, bottom = 12.dp)

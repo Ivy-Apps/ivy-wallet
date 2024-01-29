@@ -8,8 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
 import com.ivy.legacy.utils.navigationBarInset
 import com.ivy.legacy.utils.toDensityDp
 import com.ivy.resources.R
@@ -22,10 +24,11 @@ fun BoxWithConstraintsScope.BackBottomBar(
     onBack: () -> Unit,
     PrimaryAction: @Composable () -> Unit,
 ) {
+    val density = LocalDensity.current
     ActionsRow(
         modifier = Modifier
             .align(Alignment.BottomCenter)
-            .gradientCutBackgroundTop()
+            .gradientCutBackgroundTop(UI.colors.pure, density)
             .padding(bottom = bottomInset)
             .padding(bottom = 16.dp)
     ) {

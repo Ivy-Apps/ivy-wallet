@@ -22,6 +22,7 @@ import com.ivy.design.l1_buildingBlocks.IvyIcon
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.utils.IvyComponentPreview
 import com.ivy.design.utils.clickableNoIndication
+import com.ivy.design.utils.rememberInteractionSource
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
@@ -59,7 +60,7 @@ fun CheckboxWithText(
 ) {
     Row(
         modifier = modifier
-            .clickableNoIndication {
+            .clickableNoIndication(rememberInteractionSource()) {
                 onCheckedChange(!checked)
             },
         verticalAlignment = Alignment.CenterVertically

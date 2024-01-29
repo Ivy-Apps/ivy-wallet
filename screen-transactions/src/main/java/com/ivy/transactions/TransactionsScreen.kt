@@ -57,7 +57,8 @@ import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.horizontalSwipeListener
 import com.ivy.legacy.utils.rememberSwipeListenerState
 import com.ivy.legacy.utils.setStatusBarDarkTextCompat
-import com.ivy.legacy.utils.thenIf
+import com.ivy.design.utils.thenIf
+import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.PieChartStatisticScreen
@@ -259,6 +260,7 @@ private fun BoxWithConstraintsScope.UI(
     var categoryModalData: CategoryModalData? by remember { mutableStateOf(null) }
     var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
 
+    val swipeListenerState = rememberSwipeListenerState()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -266,7 +268,7 @@ private fun BoxWithConstraintsScope.UI(
             .thenIf(!initWithTransactions) {
                 horizontalSwipeListener(
                     sensitivity = 150,
-                    state = rememberSwipeListenerState(),
+                    state = swipeListenerState,
                     onSwipeLeft = {
                         onNextMonth()
                     },
@@ -615,7 +617,7 @@ private fun Header(
             modifier = Modifier
                 .padding(start = 32.dp)
                 .testTag("balance")
-                .clickableNoIndication {
+                .clickableNoIndication(rememberInteractionSource()) {
                     onBalanceClick()
                 },
             textColor = contrastColor,
@@ -635,7 +637,7 @@ private fun Header(
             BalanceRowMedium(
                 modifier = Modifier
                     .padding(start = 32.dp)
-                    .clickableNoIndication {
+                    .clickableNoIndication(rememberInteractionSource()) {
                         onBalanceClick()
                     },
                 textColor = itemColor.dynamicContrast(),
@@ -715,7 +717,7 @@ private fun Item(
     Row(
         modifier = Modifier
             .padding(start = 22.dp)
-            .clickableNoIndication {
+            .clickableNoIndication(rememberInteractionSource()) {
                 when {
                     account != null -> {
                         showAccountModal()

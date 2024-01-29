@@ -9,7 +9,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 
@@ -39,12 +38,16 @@ fun Modifier.thenWhen(
     return this.logic() ?: this
 }
 
+@Composable
+fun rememberInteractionSource(): MutableInteractionSource = remember { MutableInteractionSource() }
+
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun Modifier.clickableNoIndication(
+    interactionSource: MutableInteractionSource,
     onClick: () -> Unit
-): Modifier = composed {
-    this.clickable(
-        interactionSource = remember { MutableInteractionSource() },
+): Modifier {
+    return this.clickable(
+        interactionSource = interactionSource,
         onClick = onClick,
         role = null,
         indication = null

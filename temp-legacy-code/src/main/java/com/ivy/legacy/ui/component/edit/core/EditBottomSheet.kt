@@ -60,9 +60,10 @@ import com.ivy.legacy.utils.lerp
 import com.ivy.legacy.utils.navigationBarInsets
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.springBounce
-import com.ivy.legacy.utils.thenIf
+import com.ivy.design.utils.thenIf
 import com.ivy.legacy.utils.verticalSwipeListener
 import com.ivy.base.model.TransactionType
+import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.legacy.utils.rememberSwipeListenerState
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gradient
@@ -183,7 +184,7 @@ fun BoxWithConstraintsScope.EditBottomSheet(
                     internalExpanded = false
                 }
             )
-            .consumeClicks()
+            .consumeClicks(rememberInteractionSource())
     ) {
         // Accounts label
         val label = when (type) {
@@ -384,7 +385,7 @@ private fun TransferRowMini(
                 }
             }
             .alpha(percentCollapsed)
-            .clickableNoIndication {
+            .clickableNoIndication(rememberInteractionSource()) {
                 onSetExpanded()
             },
         verticalAlignment = Alignment.CenterVertically
@@ -580,14 +581,17 @@ private fun Account(
     val textColor =
         if (selected) findContrastTextColor(accountColor) else UI.colors.pureInverse
 
+    val medium = UI.colors.medium
+    val rFull = UI.shapes.rFull
+
     Row(
         modifier = Modifier
             .clip(UI.shapes.rFull)
             .thenIf(!selected) {
-                border(2.dp, UI.colors.medium, UI.shapes.rFull)
+                border(2.dp, medium, rFull)
             }
             .thenIf(selected) {
-                background(accountColor, UI.shapes.rFull)
+                background(accountColor, rFull)
             }
             .clickable(onClick = onClick)
             .testTag(testTag)
@@ -685,7 +689,7 @@ private fun Amount(
         Column {
             BalanceRow(
                 modifier = Modifier
-                    .clickableNoIndication {
+                    .clickableNoIndication(rememberInteractionSource()) {
                         onShowAmountModal()
                     }
                     .testTag("edit_amount_balance_row"),
@@ -748,6 +752,7 @@ private fun LabelAccountMini(
             }
             .alpha(1f - percentExpanded)
             .clickableNoIndication(
+                interactionSource = rememberInteractionSource(),
                 onClick = onClick
             ),
         horizontalAlignment = Alignment.CenterHorizontally

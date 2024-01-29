@@ -30,12 +30,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.utils.thenIf
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.hideKeyboard
 import com.ivy.legacy.utils.onScreenStart
-import com.ivy.legacy.utils.thenIf
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Ivy
@@ -187,6 +187,8 @@ private fun CategoryButton(
 ) {
     val categoryColor = category.color.toComposeColor()
 
+    val rFull = UI.shapes.rFull
+
     Row(
         modifier = Modifier
             .thenIf(selected) {
@@ -203,7 +205,7 @@ private fun CategoryButton(
                 shape = UI.shapes.rFull
             )
             .thenIf(selected) {
-                background(categoryColor, UI.shapes.rFull)
+                background(categoryColor, rFull)
             }
             .testTag("choose_category_button"),
         verticalAlignment = Alignment.CenterVertically
