@@ -1111,3 +1111,5 @@ Compose:
 IvyExplicit:
   DataClassFunctions:
     active: true
+  DataClassDefaultValues:
+    active: true
