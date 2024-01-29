@@ -22,11 +22,5 @@ data class TagTransactionEntity(
     @SerialName("isSynced")
     val isSynced: Boolean = false,
     @SerialName("isDeleted")
-    val isDeleted: Boolean = false,
-
-    //Optional bit manipulation fields to support future features
-    @SerialName("featureBit")
-    val featureBit:Int,
-    @SerialName("featureBitValue")
-    val featureBitValue:String? = null
+    val isDeleted: Boolean = false
 )

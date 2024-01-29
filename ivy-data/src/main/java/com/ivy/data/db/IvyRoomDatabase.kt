@@ -30,6 +30,8 @@ import com.ivy.data.db.entity.LoanEntity
 import com.ivy.data.db.entity.LoanRecordEntity
 import com.ivy.data.db.entity.PlannedPaymentRuleEntity
 import com.ivy.data.db.entity.SettingsEntity
+import com.ivy.data.db.entity.TagEntity
+import com.ivy.data.db.entity.TagTransactionEntity
 import com.ivy.data.db.entity.TransactionEntity
 import com.ivy.data.db.entity.UserEntity
 import com.ivy.data.db.migration.Migration123to124_LoanIncludeDateTime
@@ -52,13 +54,14 @@ import com.ivy.domain.db.migration.Migration118to119_Loans
 import com.ivy.domain.db.migration.Migration119to120_LoanTransactions
 import com.ivy.domain.db.migration.Migration120to121_DropWishlistItem
 import com.ivy.domain.db.migration.Migration122to123_ExchangeRates
+import com.ivy.domain.db.migration.Migration125to126_Tags
 
 @Database(
     entities = [
         AccountEntity::class, TransactionEntity::class, CategoryEntity::class,
         SettingsEntity::class, PlannedPaymentRuleEntity::class,
         UserEntity::class, ExchangeRateEntity::class, BudgetEntity::class,
-        LoanEntity::class, LoanRecordEntity::class
+        LoanEntity::class, LoanRecordEntity::class,TagEntity::class,TagTransactionEntity::class
     ],
     autoMigrations = [
         AutoMigration(
@@ -67,7 +70,7 @@ import com.ivy.domain.db.migration.Migration122to123_ExchangeRates
             spec = IvyRoomDatabase.DeleteSEMigration::class
         )
     ],
-    version = 125,
+    version = 126,
     exportSchema = true
 )
 @TypeConverters(RoomTypeConverters::class)
@@ -115,7 +118,8 @@ abstract class IvyRoomDatabase : RoomDatabase() {
             Migration120to121_DropWishlistItem(),
             Migration122to123_ExchangeRates(),
             Migration123to124_LoanIncludeDateTime(),
-            Migration124to125_LoanEditDateTime()
+            Migration124to125_LoanEditDateTime(),
+            Migration125to126_Tags()
         )
 
         @Suppress("SpreadOperator")
