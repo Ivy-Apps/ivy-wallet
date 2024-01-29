@@ -27,7 +27,7 @@ fun IvyToolbar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .gradientCutBackgroundBottom(UI.colors.pure,paddingBottom = paddingBottom)
+            .gradientCutBackgroundBottom(UI.colors.pure, paddingBottom = paddingBottom)
             .padding(top = paddingTop),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -41,6 +41,7 @@ fun IvyToolbar(
                     onBack()
                 }
             }
+
             BackButtonType.CLOSE -> {
                 CloseButton(
                     modifier = Modifier.testTag("toolbar_close")
