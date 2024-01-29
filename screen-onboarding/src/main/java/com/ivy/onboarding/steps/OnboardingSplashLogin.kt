@@ -54,7 +54,8 @@ import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.lerp
 import com.ivy.legacy.utils.openUrl
 import com.ivy.legacy.utils.springBounceSlow
-import com.ivy.legacy.utils.thenIf
+import com.ivy.design.utils.thenIf
+import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.legacy.utils.toDensityDp
 import com.ivy.legacy.utils.toDensityPx
 import com.ivy.onboarding.OnboardingState
@@ -170,7 +171,7 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
                         )
                     }
                 }
-                .clickableNoIndication {
+                .clickableNoIndication(rememberInteractionSource()) {
                     internalSwitch = !internalSwitch
                 },
             painter = painterResource(id = R.drawable.ivy_wallet_logo),

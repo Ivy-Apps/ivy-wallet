@@ -48,7 +48,8 @@ import com.ivy.legacy.utils.densityScope
 import com.ivy.legacy.utils.lerp
 import com.ivy.legacy.utils.navigationBarInset
 import com.ivy.legacy.utils.springBounceFast
-import com.ivy.legacy.utils.thenIf
+import com.ivy.design.utils.thenIf
+import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.legacy.utils.toDensityDp
 import com.ivy.legacy.utils.toDensityPx
 import com.ivy.resources.R
@@ -120,7 +121,7 @@ fun BoxWithConstraintsScope.BottomBar(
             .background(pureBlur())
             .alpha(1f - buttonsShownPercent)
             .navigationBarsPadding()
-            .clickableNoIndication {
+            .clickableNoIndication(rememberInteractionSource()) {
                 // consume click
             },
         verticalAlignment = Alignment.CenterVertically
@@ -152,7 +153,7 @@ fun BoxWithConstraintsScope.BottomBar(
                 .fillMaxSize()
                 .offset(y = expandedBackgroundOffset)
                 .background(UI.colors.pure.copy(alpha = 0.95f))
-                .clickableNoIndication {
+                .clickableNoIndication(rememberInteractionSource()) {
                     // consume click, do nothing
                 }
                 .zIndex(100f)
@@ -211,21 +212,21 @@ fun BoxWithConstraintsScope.BottomBar(
 
                             when {
                                 abs(dragOffset.x) < horizontalThreshold &&
-                                    dragOffset.y < -verticalThreshold -> {
+                                        dragOffset.y < -verticalThreshold -> {
                                     // swipe up
                                     dragOffset = Offset.Zero // prevent double open of the screen
                                     onAddExpense()
                                 }
 
                                 dragOffset.x < -horizontalThreshold &&
-                                    dragOffset.y < -verticalThreshold -> {
+                                        dragOffset.y < -verticalThreshold -> {
                                     // swipe up left
                                     dragOffset = Offset.Zero // prevent double open of the screen
                                     onAddIncome()
                                 }
 
                                 dragOffset.x > horizontalThreshold &&
-                                    dragOffset.y < -verticalThreshold -> {
+                                        dragOffset.y < -verticalThreshold -> {
                                     // swipe up right
                                     dragOffset = Offset.Zero // prevent double open of the screen
                                     onAddTransfer()
@@ -399,7 +400,7 @@ private fun AddIncomeButton(
                 }
             }
             .alpha(buttonsShownPercent)
-            .clickableNoIndication {
+            .clickableNoIndication(rememberInteractionSource()) {
                 onAddIncome()
             }
             .zIndex(200f),
@@ -429,7 +430,7 @@ private fun AddIncomeButton(
                 }
             }
             .zIndex(199f)
-            .clickableNoIndication {
+            .clickableNoIndication(rememberInteractionSource()) {
                 onAddIncome()
             }
     )
@@ -485,7 +486,7 @@ private fun AddExpenseButton(
                 }
             }
             .alpha(buttonsShownPercent)
-            .clickableNoIndication {
+            .clickableNoIndication(rememberInteractionSource()) {
                 onAddExpense()
             }
             .zIndex(200f),
@@ -515,7 +516,7 @@ private fun AddExpenseButton(
                 }
             }
             .zIndex(199f)
-            .clickableNoIndication {
+            .clickableNoIndication(rememberInteractionSource()) {
                 onAddExpense()
             }
     )
@@ -571,7 +572,7 @@ private fun AddTransferButton(
                 }
             }
             .alpha(buttonsShownPercent)
-            .clickableNoIndication {
+            .clickableNoIndication(rememberInteractionSource()) {
                 onAddTransfer()
             }
             .zIndex(200f),
@@ -601,7 +602,7 @@ private fun AddTransferButton(
                 }
             }
             .zIndex(199f)
-            .clickableNoIndication {
+            .clickableNoIndication(rememberInteractionSource()) {
                 onAddTransfer()
             }
     )

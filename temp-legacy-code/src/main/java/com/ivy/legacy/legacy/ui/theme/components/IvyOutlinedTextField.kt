@@ -28,7 +28,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.legacy.utils.isNotNullOrBlank
-import com.ivy.legacy.utils.thenIf
+import com.ivy.design.utils.thenIf
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
@@ -48,7 +48,7 @@ fun IvyOutlinedTextField(
     onValueChanged: (TextFieldValue) -> Unit
 ) {
     val isEmpty = value.text.isBlank()
-
+    val rFull = UI.shapes.rFull
     Box(
         modifier = modifier
             .clip(UI.shapes.rFull)
@@ -58,7 +58,7 @@ fun IvyOutlinedTextField(
                 shape = UI.shapes.rFull
             )
             .thenIf(validateInput(value)) {
-                background(backgroundColor.copy(alpha = 0.1f), UI.shapes.rFull)
+                background(backgroundColor.copy(alpha = 0.1f), rFull)
             },
         contentAlignment = Alignment.Center
     ) {

@@ -31,6 +31,7 @@ import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.rootView
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.onScreenStart
+import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.legacy.utils.selectEndTextFieldValue
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.components.IvyDescriptionTextField
@@ -128,7 +129,7 @@ fun BoxWithConstraintsScope.DescriptionModal(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(24.dp)
-                .clickableNoIndication {
+                .clickableNoIndication(rememberInteractionSource()) {
                     focus.requestFocus()
                 }
         )

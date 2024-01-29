@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,7 +38,7 @@ fun BoxWithConstraintsScope.PieChartStatisticBottomBar(
     ActionsRow(
         modifier = modifier
             .align(Alignment.BottomCenter)
-            .gradientCutBackgroundTop()
+            .gradientCutBackgroundTop(UI.colors.pure, LocalDensity.current)
             .padding(bottom = bottomInset)
             .padding(bottom = 16.dp)
     ) {

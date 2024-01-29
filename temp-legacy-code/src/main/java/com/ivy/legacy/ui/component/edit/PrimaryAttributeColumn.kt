@@ -24,6 +24,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.legacy.utils.clickableNoIndication
+import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.components.IvyIcon
 
@@ -42,7 +43,7 @@ fun PrimaryAttributeColumn(
             .fillMaxWidth()
             .clip(UI.shapes.r4)
             .border(2.dp, UI.colors.medium, UI.shapes.r4)
-            .clickableNoIndication(onClick = onClick),
+            .clickableNoIndication(rememberInteractionSource(), onClick = onClick),
     ) {
         Spacer(modifier = Modifier.height(12.dp))
 
@@ -83,13 +84,13 @@ private fun PreviewPrimaryAttributeColumn() {
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp),
                 text = "This mode is not recommended for production use,\n" +
-                    "as no stability/compatibility guarantees are given on\n" +
-                    "compiler or generated code. Use it at your own risk!\n" +
-                    "\n" +
-                    "\n" +
-                    "Deprecated Gradle features were used in this build, making it incompatible with Gradle 8.0.\n" +
-                    "Use '--warning-mode all' to show the individual deprecation warnings.\n" +
-                    "See https://docs.gradle.org/7.0-rc-1/userguide/command_line_interface.html#sec:command_line_warnings",
+                        "as no stability/compatibility guarantees are given on\n" +
+                        "compiler or generated code. Use it at your own risk!\n" +
+                        "\n" +
+                        "\n" +
+                        "Deprecated Gradle features were used in this build, making it incompatible with Gradle 8.0.\n" +
+                        "Use '--warning-mode all' to show the individual deprecation warnings.\n" +
+                        "See https://docs.gradle.org/7.0-rc-1/userguide/command_line_interface.html#sec:command_line_warnings",
                 style = UI.typo.b2.style(
                     color = UI.colors.pureInverse,
                     fontWeight = FontWeight.Medium

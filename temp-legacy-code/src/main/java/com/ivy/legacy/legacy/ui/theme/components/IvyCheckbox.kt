@@ -22,6 +22,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.legacy.utils.clickableNoIndication
+import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.resources.R
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
@@ -58,7 +59,7 @@ fun IvyCheckboxWithText(
 ) {
     Row(
         modifier = modifier
-            .clickableNoIndication {
+            .clickableNoIndication(rememberInteractionSource()) {
                 onCheckedChange(!checked)
             },
         verticalAlignment = Alignment.CenterVertically

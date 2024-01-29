@@ -42,8 +42,10 @@ import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.horizontalSwipeListener
 import com.ivy.legacy.utils.isNotNullOrBlank
+import com.ivy.legacy.utils.rememberSwipeListenerState
 import com.ivy.legacy.utils.springBounce
-import com.ivy.legacy.utils.thenIf
+import com.ivy.design.utils.thenIf
+import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.legacy.utils.verticalSwipeListener
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.navigation.navigation
@@ -174,7 +176,7 @@ private fun HeaderStickyRow(
                 BalanceRowMini(
                     modifier = Modifier
                         .alpha(alpha = 1f - percentExpanded)
-                        .clickableNoIndication {
+                        .clickableNoIndication(rememberInteractionSource()) {
                             if (hideBalance) {
                                 onHiddenBalanceClick()
                             } else {
@@ -194,6 +196,7 @@ private fun HeaderStickyRow(
         IvyOutlinedButton(
             modifier = Modifier.horizontalSwipeListener(
                 sensitivity = 75,
+                state = rememberSwipeListenerState(),
                 onSwipeLeft = {
                     onSelectNextMonth()
                 },
@@ -234,6 +237,7 @@ fun CashFlowInfo(
         modifier = modifier
             .verticalSwipeListener(
                 sensitivity = Constants.SWIPE_DOWN_THRESHOLD_OPEN_MORE_MENU,
+                state = rememberSwipeListenerState(),
                 onSwipeDown = {
                     onOpenMoreMenu()
                 },
@@ -242,7 +246,7 @@ fun CashFlowInfo(
         BalanceRow(
             modifier = Modifier
                 .padding(horizontal = 20.dp)
-                .clickableNoIndication {
+                .clickableNoIndication(rememberInteractionSource()) {
                     if (hideBalance) {
                         onHiddenBalanceClick()
                     } else {

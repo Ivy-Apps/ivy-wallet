@@ -9,7 +9,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 
@@ -22,11 +21,11 @@ fun <T> densityScope(densityScope: @Composable Density.() -> T): T {
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun Modifier.thenIf(
     condition: Boolean,
-    otherModifier: @Composable Modifier.() -> Modifier
-): Modifier = composed {
+    otherModifier: Modifier.() -> Modifier
+): Modifier {
     // Cannot use Modifier#then() because it stacks the previous modifiers multiple times
-    if (condition) {
-        this.otherModifier()
+    return if (condition) {
+        this.then(otherModifier())
     } else {
         this
     }
@@ -34,17 +33,21 @@ fun Modifier.thenIf(
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun Modifier.thenWhen(
-    logic: @Composable Modifier.() -> Modifier?
-): Modifier = composed {
-    this.logic() ?: this
+    logic: Modifier.() -> Modifier?
+): Modifier {
+    return this.logic() ?: this
 }
+
+@Composable
+fun rememberInteractionSource(): MutableInteractionSource = remember { MutableInteractionSource() }
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun Modifier.clickableNoIndication(
+    interactionSource: MutableInteractionSource,
     onClick: () -> Unit
-): Modifier = composed {
-    this.clickable(
-        interactionSource = remember { MutableInteractionSource() },
+): Modifier {
+    return this.clickable(
+        interactionSource = interactionSource,
         onClick = onClick,
         role = null,
         indication = null

@@ -50,6 +50,7 @@ import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.formatNicely
 import com.ivy.legacy.utils.formatNicelyWithTime
 import com.ivy.legacy.utils.isNotNullOrBlank
+import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.legacy.utils.setStatusBarDarkTextCompat
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.loans.loan.data.DisplayLoanRecord
@@ -272,7 +273,7 @@ private fun Header(
             modifier = Modifier
                 .padding(start = 32.dp)
                 .testTag("loan_amount")
-                .clickableNoIndication {
+                .clickableNoIndication(rememberInteractionSource()) {
                     onAmountClick()
                 },
             textColor = contrastColor,
@@ -305,7 +306,7 @@ private fun LoanItem(
     Row(
         modifier = Modifier
             .padding(start = 22.dp)
-            .clickableNoIndication {
+            .clickableNoIndication(rememberInteractionSource()) {
                 onClick()
             },
         verticalAlignment = Alignment.CenterVertically

@@ -49,6 +49,7 @@ import androidx.compose.ui.zIndex
 import com.ivy.base.legacy.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.utils.thenIf
 import com.ivy.legacy.Constants
 import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.rootScreen
@@ -57,9 +58,10 @@ import com.ivy.legacy.utils.colorLerp
 import com.ivy.legacy.utils.lerp
 import com.ivy.legacy.utils.navigationBarInset
 import com.ivy.legacy.utils.openUrl
+import com.ivy.legacy.utils.rememberInteractionSource
+import com.ivy.legacy.utils.rememberSwipeListenerState
 import com.ivy.legacy.utils.springBounce
 import com.ivy.legacy.utils.statusBarInset
-import com.ivy.legacy.utils.thenIf
 import com.ivy.legacy.utils.toDensityPx
 import com.ivy.legacy.utils.verticalSwipeListener
 import com.ivy.navigation.BudgetScreen
@@ -130,7 +132,7 @@ fun BoxWithConstraintsScope.MoreMenu(
         Canvas(
             modifier = modifier
                 .fillMaxSize()
-                .clickableNoIndication {
+                .clickableNoIndication(rememberInteractionSource()) {
                     // do nothing
                 }
                 .zIndex(500f)
@@ -167,6 +169,7 @@ fun BoxWithConstraintsScope.MoreMenu(
                 .zIndex(510f)
                 .verticalSwipeListener(
                     sensitivity = SWIPE_UP_THRESHOLD_CLOSE_MORE_MENU,
+                    state = rememberSwipeListenerState(),
                     onSwipeUp = {
                         setExpanded(false)
                     }
@@ -358,7 +361,7 @@ private fun ColumnScope.Buffer(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickableNoIndication {
+            .clickableNoIndication(rememberInteractionSource()) {
                 onBufferClick()
             }
             .testTag("savings_goal_row"),
@@ -559,7 +562,7 @@ private fun MoreMenuButton(
         Text(
             modifier = Modifier
                 .defaultMinSize(minWidth = 92.dp)
-                .clickableNoIndication {
+                .clickableNoIndication(rememberInteractionSource()) {
                     onClick()
                 },
             text = label,

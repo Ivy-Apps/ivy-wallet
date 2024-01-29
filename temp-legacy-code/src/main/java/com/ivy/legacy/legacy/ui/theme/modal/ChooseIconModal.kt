@@ -36,7 +36,7 @@ import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.utils.hideKeyboard
 import com.ivy.legacy.utils.onScreenStart
-import com.ivy.legacy.utils.thenIf
+import com.ivy.design.utils.thenIf
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.components.ItemIconS
