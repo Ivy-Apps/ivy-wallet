@@ -1107,3 +1107,7 @@ Compose:
     active: true
   ViewModelInjection:
     active: false
+
+IvyExplicit:
+  DataClassFunctions:
+    active: true
