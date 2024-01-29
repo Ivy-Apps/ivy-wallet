@@ -339,6 +339,307 @@
     <ID>CyclomaticComplexMethod:LoanModal.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun BoxWithConstraintsScope.LoanModal( accounts: List&lt;Account&gt; = emptyList(), onCreateAccount: (CreateAccountData) -&gt; Unit = {}, modal: LoanModalData?, onCreateLoan: (CreateLoanData) -&gt; Unit, onEditLoan: (Loan, Boolean) -&gt; Unit, onPerformCalculations: () -&gt; Unit = {}, dismiss: () -&gt; Unit, )</ID>
     <ID>CyclomaticComplexMethod:LoanRecordModal.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun BoxWithConstraintsScope.LoanRecordModal( modal: LoanRecordModalData?, accounts: List&lt;Account&gt; = emptyList(), onCreateAccount: (CreateAccountData) -&gt; Unit = {}, onCreate: (CreateLoanRecordData) -&gt; Unit, onEdit: (EditLoanRecordData) -&gt; Unit, onDelete: (LoanRecord) -&gt; Unit, dismiss: () -&gt; Unit )</ID>
     <ID>CyclomaticComplexMethod:ReportViewModel.kt$ReportViewModel$private suspend fun filterTransactions( baseCurrency: String, accounts: List&lt;Account&gt;, filter: ReportFilter, ): ImmutableList&lt;Transaction&gt;</ID>
+    <ID>DataClassDefaultValues:Account.kt$Account$val currency: String? = null</ID>
+    <ID>DataClassDefaultValues:Account.kt$Account$val icon: String? = null</ID>
+    <ID>DataClassDefaultValues:Account.kt$Account$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassDefaultValues:Account.kt$Account$val includeInBalance: Boolean = true</ID>
+    <ID>DataClassDefaultValues:Account.kt$Account$val isDeleted: Boolean = false</ID>
+    <ID>DataClassDefaultValues:Account.kt$Account$val isSynced: Boolean = false</ID>
+    <ID>DataClassDefaultValues:Account.kt$Account$val orderNum: Double = 0.0</ID>
+    <ID>DataClassDefaultValues:AccountDataAct.kt$AccountDataAct.Input$val includeTransfersInCalc: Boolean = false</ID>
+    <ID>DataClassDefaultValues:AccountEntity.kt$AccountEntity$@PrimaryKey @SerialName("id") @Serializable(with = KSerializerUUID::class) val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassDefaultValues:AccountEntity.kt$AccountEntity$@SerialName("currency") val currency: String? = null</ID>
+    <ID>DataClassDefaultValues:AccountEntity.kt$AccountEntity$@SerialName("icon") val icon: String? = null</ID>
+    <ID>DataClassDefaultValues:AccountEntity.kt$AccountEntity$@SerialName("includeInBalance") val includeInBalance: Boolean = true</ID>
+    <ID>DataClassDefaultValues:AccountEntity.kt$AccountEntity$@SerialName("isDeleted") val isDeleted: Boolean = false</ID>
+    <ID>DataClassDefaultValues:AccountEntity.kt$AccountEntity$@SerialName("isSynced") val isSynced: Boolean = false</ID>
+    <ID>DataClassDefaultValues:AccountEntity.kt$AccountEntity$@SerialName("orderNum") val orderNum: Double = 0.0</ID>
+    <ID>DataClassDefaultValues:AccountModal.kt$AccountModalData$val adjustBalanceMode: Boolean = false</ID>
+    <ID>DataClassDefaultValues:AccountModal.kt$AccountModalData$val autoFocusKeyboard: Boolean = true</ID>
+    <ID>DataClassDefaultValues:AccountModal.kt$AccountModalData$val forceNonZeroBalance: Boolean = false</ID>
+    <ID>DataClassDefaultValues:AccountModal.kt$AccountModalData$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassDefaultValues:Background.kt$Background.Outlined$val width: Dp = 1.dp</ID>
+    <ID>DataClassDefaultValues:Budget.kt$Budget$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassDefaultValues:Budget.kt$Budget$val isDeleted: Boolean = false</ID>
+    <ID>DataClassDefaultValues:Budget.kt$Budget$val isSynced: Boolean = false</ID>
+    <ID>DataClassDefaultValues:BudgetEntity.kt$BudgetEntity$@PrimaryKey @SerialName("id") @Serializable(with = KSerializerUUID::class) val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassDefaultValues:BudgetEntity.kt$BudgetEntity$@SerialName("isDeleted") val isDeleted: Boolean = false</ID>
+    <ID>DataClassDefaultValues:BudgetEntity.kt$BudgetEntity$@SerialName("isSynced") val isSynced: Boolean = false</ID>
+    <ID>DataClassDefaultValues:BudgetModal.kt$BudgetModalData$val autoFocusKeyboard: Boolean = true</ID>
+    <ID>DataClassDefaultValues:BudgetModal.kt$BudgetModalData$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassDefaultValues:BufferModal.kt$BufferModalData$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassDefaultValues:CalcAccBalanceAct.kt$CalcAccBalanceAct.Input$val range: ClosedTimeRange = ClosedTimeRange.allTimeIvy()</ID>
+    <ID>DataClassDefaultValues:CalcAccIncomeExpenseAct.kt$CalcAccIncomeExpenseAct.Input$val includeTransfersInCalc: Boolean = false</ID>
+    <ID>DataClassDefaultValues:CalcAccIncomeExpenseAct.kt$CalcAccIncomeExpenseAct.Input$val range: ClosedTimeRange = ClosedTimeRange.allTimeIvy()</ID>
+    <ID>DataClassDefaultValues:CalcWalletBalanceAct.kt$CalcWalletBalanceAct.Input$val balanceCurrency: String = baseCurrency</ID>
+    <ID>DataClassDefaultValues:CalcWalletBalanceAct.kt$CalcWalletBalanceAct.Input$val range: ClosedTimeRange = ClosedTimeRange.allTimeIvy()</ID>
+    <ID>DataClassDefaultValues:CalcWalletBalanceAct.kt$CalcWalletBalanceAct.Input$val withExcluded: Boolean = false</ID>
+    <ID>DataClassDefaultValues:CategoriesScreenEvent.kt$CategoriesScreenEvent.OnReorder$val sortOrder: SortOrder = SortOrder.DEFAULT</ID>
+    <ID>DataClassDefaultValues:CategoriesScreenState.kt$CategoriesScreenState$val baseCurrency: String = ""</ID>
+    <ID>DataClassDefaultValues:CategoriesScreenState.kt$CategoriesScreenState$val categories: ImmutableList&lt;CategoryData&gt; = persistentListOf()</ID>
+    <ID>DataClassDefaultValues:CategoriesScreenState.kt$CategoriesScreenState$val categoryModalData: CategoryModalData? = null</ID>
+    <ID>DataClassDefaultValues:CategoriesScreenState.kt$CategoriesScreenState$val reorderModalVisible: Boolean = false</ID>
+    <ID>DataClassDefaultValues:CategoriesScreenState.kt$CategoriesScreenState$val sortModalVisible: Boolean = false</ID>
+    <ID>DataClassDefaultValues:CategoriesScreenState.kt$CategoriesScreenState$val sortOrder: SortOrder = SortOrder.DEFAULT</ID>
+    <ID>DataClassDefaultValues:CategoriesScreenState.kt$CategoriesScreenState$val sortOrderItems: ImmutableList&lt;SortOrder&gt; = SortOrder.values().toList().toImmutableList()</ID>
+    <ID>DataClassDefaultValues:Category.kt$Category$val icon: String? = null</ID>
+    <ID>DataClassDefaultValues:Category.kt$Category$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassDefaultValues:Category.kt$Category$val isDeleted: Boolean = false</ID>
+    <ID>DataClassDefaultValues:Category.kt$Category$val isSynced: Boolean = false</ID>
+    <ID>DataClassDefaultValues:Category.kt$Category$val orderNum: Double = 0.0</ID>
+    <ID>DataClassDefaultValues:CategoryAmount.kt$CategoryAmount$val associatedTransactions: List&lt;Transaction&gt; = emptyList()</ID>
+    <ID>DataClassDefaultValues:CategoryAmount.kt$CategoryAmount$val isCategoryUnspecified: Boolean = false</ID>
+    <ID>DataClassDefaultValues:CategoryEntity.kt$CategoryEntity$@PrimaryKey @SerialName("id") @Serializable(with = KSerializerUUID::class) val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassDefaultValues:CategoryEntity.kt$CategoryEntity$@SerialName("icon") val icon: String? = null</ID>
+    <ID>DataClassDefaultValues:CategoryEntity.kt$CategoryEntity$@SerialName("isDeleted") val isDeleted: Boolean = false</ID>
+    <ID>DataClassDefaultValues:CategoryEntity.kt$CategoryEntity$@SerialName("isSynced") val isSynced: Boolean = false</ID>
+    <ID>DataClassDefaultValues:CategoryEntity.kt$CategoryEntity$@SerialName("orderNum") val orderNum: Double = 0.0</ID>
+    <ID>DataClassDefaultValues:CategoryModal.kt$CategoryModalData$val autoFocusKeyboard: Boolean = true</ID>
+    <ID>DataClassDefaultValues:CategoryModal.kt$CategoryModalData$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassDefaultValues:ChoosePeriodModal.kt$ChoosePeriodModalData$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassDefaultValues:CreateAccountData.kt$CreateAccountData$val includeBalance: Boolean = true</ID>
+    <ID>DataClassDefaultValues:CreateLoanData.kt$CreateLoanData$val account: Account? = null</ID>
+    <ID>DataClassDefaultValues:CreateLoanData.kt$CreateLoanData$val createLoanTransaction: Boolean = false</ID>
+    <ID>DataClassDefaultValues:CreateLoanRecordData.kt$CreateLoanRecordData$val account: Account? = null</ID>
+    <ID>DataClassDefaultValues:CreateLoanRecordData.kt$CreateLoanRecordData$val convertedAmount: Double? = null</ID>
+    <ID>DataClassDefaultValues:CreateLoanRecordData.kt$CreateLoanRecordData$val createLoanRecordTransaction: Boolean = false</ID>
+    <ID>DataClassDefaultValues:CreateLoanRecordData.kt$CreateLoanRecordData$val interest: Boolean = false</ID>
+    <ID>DataClassDefaultValues:CustomExchangeRateState.kt$CustomExchangeRateState$val convertedAmount: Double? = null</ID>
+    <ID>DataClassDefaultValues:CustomExchangeRateState.kt$CustomExchangeRateState$val exchangeRate: Double = 1.0</ID>
+    <ID>DataClassDefaultValues:CustomExchangeRateState.kt$CustomExchangeRateState$val fromCurrencyCode: String? = null</ID>
+    <ID>DataClassDefaultValues:CustomExchangeRateState.kt$CustomExchangeRateState$val showCard: Boolean = false</ID>
+    <ID>DataClassDefaultValues:CustomExchangeRateState.kt$CustomExchangeRateState$val toCurrencyCode: String? = null</ID>
+    <ID>DataClassDefaultValues:CustomerJourneyCardModel.kt$CustomerJourneyCardModel$val hasDismiss: Boolean = true</ID>
+    <ID>DataClassDefaultValues:DisplayLoan.kt$DisplayLoan$val currencyCode: String? = getDefaultFIATCurrency().currencyCode</ID>
+    <ID>DataClassDefaultValues:DisplayLoan.kt$DisplayLoan$val formattedDisplayText: String = ""</ID>
+    <ID>DataClassDefaultValues:DisplayLoan.kt$DisplayLoan$val percentPaid: Double = 0.0</ID>
+    <ID>DataClassDefaultValues:DisplayLoanRecord.kt$DisplayLoanRecord$val account: Account? = null</ID>
+    <ID>DataClassDefaultValues:DisplayLoanRecord.kt$DisplayLoanRecord$val loanCurrencyCode: String = ""</ID>
+    <ID>DataClassDefaultValues:DisplayLoanRecord.kt$DisplayLoanRecord$val loanRecordCurrencyCode: String = ""</ID>
+    <ID>DataClassDefaultValues:DisplayLoanRecord.kt$DisplayLoanRecord$val loanRecordTransaction: Boolean = false</ID>
+    <ID>DataClassDefaultValues:EditLoanRecordData.kt$EditLoanRecordData$val createLoanRecordTransaction: Boolean = false</ID>
+    <ID>DataClassDefaultValues:EditLoanRecordData.kt$EditLoanRecordData$val reCalculateLoanAmount: Boolean = false</ID>
+    <ID>DataClassDefaultValues:EditPlannedScreenEvent.kt$EditPlannedScreenEvent.OnSave$val closeScreen: Boolean = true</ID>
+    <ID>DataClassDefaultValues:EditTransactionDisplayLoan.kt$EditTransactionDisplayLoan$val isLoan: Boolean = false</ID>
+    <ID>DataClassDefaultValues:EditTransactionDisplayLoan.kt$EditTransactionDisplayLoan$val isLoanRecord: Boolean = false</ID>
+    <ID>DataClassDefaultValues:EditTransactionDisplayLoan.kt$EditTransactionDisplayLoan$val loanCaption: String? = null</ID>
+    <ID>DataClassDefaultValues:EditTransactionDisplayLoan.kt$EditTransactionDisplayLoan$val loanWarningDescription: String = ""</ID>
+    <ID>DataClassDefaultValues:Exchange.kt$ExchangeData$val toCurrency: String = baseCurrency</ID>
+    <ID>DataClassDefaultValues:ExchangeRateEntity.kt$ExchangeRateEntity$@SerialName("manualOverride") val manualOverride: Boolean = false</ID>
+    <ID>DataClassDefaultValues:IvyLineChart.kt$Function$val colorDown: Color? = null</ID>
+    <ID>DataClassDefaultValues:IvyWalletCompleteData.kt$IvyWalletCompleteData$@SerialName("accounts") val accounts: List&lt;AccountEntity&gt; = emptyList()</ID>
+    <ID>DataClassDefaultValues:IvyWalletCompleteData.kt$IvyWalletCompleteData$@SerialName("budgets") val budgets: List&lt;BudgetEntity&gt; = emptyList()</ID>
+    <ID>DataClassDefaultValues:IvyWalletCompleteData.kt$IvyWalletCompleteData$@SerialName("categories") val categories: List&lt;CategoryEntity&gt; = emptyList()</ID>
+    <ID>DataClassDefaultValues:IvyWalletCompleteData.kt$IvyWalletCompleteData$@SerialName("loanRecords") val loanRecords: List&lt;LoanRecordEntity&gt; = emptyList()</ID>
+    <ID>DataClassDefaultValues:IvyWalletCompleteData.kt$IvyWalletCompleteData$@SerialName("loans") val loans: List&lt;LoanEntity&gt; = emptyList()</ID>
+    <ID>DataClassDefaultValues:IvyWalletCompleteData.kt$IvyWalletCompleteData$@SerialName("plannedPaymentRules") val plannedPaymentRules: List&lt;PlannedPaymentRuleEntity&gt; = emptyList()</ID>
+    <ID>DataClassDefaultValues:IvyWalletCompleteData.kt$IvyWalletCompleteData$@SerialName("settings") val settings: List&lt;SettingsEntity&gt; = emptyList()</ID>
+    <ID>DataClassDefaultValues:IvyWalletCompleteData.kt$IvyWalletCompleteData$@SerialName("sharedPrefs") val sharedPrefs: HashMap&lt;String, String&gt; = HashMap()</ID>
+    <ID>DataClassDefaultValues:IvyWalletCompleteData.kt$IvyWalletCompleteData$@SerialName("transactions") val transactions: List&lt;TransactionEntity&gt; = emptyList()</ID>
+    <ID>DataClassDefaultValues:Loan.kt$Loan$val accountId: UUID? = null</ID>
+    <ID>DataClassDefaultValues:Loan.kt$Loan$val color: Int = 0</ID>
+    <ID>DataClassDefaultValues:Loan.kt$Loan$val dateTime: LocalDateTime? = null</ID>
+    <ID>DataClassDefaultValues:Loan.kt$Loan$val icon: String? = null</ID>
+    <ID>DataClassDefaultValues:Loan.kt$Loan$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassDefaultValues:Loan.kt$Loan$val isDeleted: Boolean = false</ID>
+    <ID>DataClassDefaultValues:Loan.kt$Loan$val isSynced: Boolean = false</ID>
+    <ID>DataClassDefaultValues:Loan.kt$Loan$val orderNum: Double = 0.0</ID>
+    <ID>DataClassDefaultValues:LoanEntity.kt$LoanEntity$@PrimaryKey @SerialName("id") @Serializable(with = KSerializerUUID::class) val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassDefaultValues:LoanEntity.kt$LoanEntity$@SerialName("accountId") @Serializable(with = KSerializerUUID::class) val accountId: UUID? = null</ID>
+    <ID>DataClassDefaultValues:LoanEntity.kt$LoanEntity$@SerialName("color") val color: Int = 0</ID>
+    <ID>DataClassDefaultValues:LoanEntity.kt$LoanEntity$@SerialName("dateTime") @Serializable(with = KSerializerLocalDateTime::class) val dateTime: LocalDateTime? = null</ID>
+    <ID>DataClassDefaultValues:LoanEntity.kt$LoanEntity$@SerialName("icon") val icon: String? = null</ID>
+    <ID>DataClassDefaultValues:LoanEntity.kt$LoanEntity$@SerialName("isDeleted") val isDeleted: Boolean = false</ID>
+    <ID>DataClassDefaultValues:LoanEntity.kt$LoanEntity$@SerialName("isSynced") val isSynced: Boolean = false</ID>
+    <ID>DataClassDefaultValues:LoanEntity.kt$LoanEntity$@SerialName("orderNum") val orderNum: Double = 0.0</ID>
+    <ID>DataClassDefaultValues:LoanModal.kt$LoanModalData$val autoFocusKeyboard: Boolean = true</ID>
+    <ID>DataClassDefaultValues:LoanModal.kt$LoanModalData$val autoOpenAmountModal: Boolean = false</ID>
+    <ID>DataClassDefaultValues:LoanModal.kt$LoanModalData$val createLoanTransaction: Boolean = false</ID>
+    <ID>DataClassDefaultValues:LoanModal.kt$LoanModalData$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassDefaultValues:LoanModal.kt$LoanModalData$val selectedAccount: Account? = null</ID>
+    <ID>DataClassDefaultValues:LoanRecord.kt$LoanRecord$val accountId: UUID? = null</ID>
+    <ID>DataClassDefaultValues:LoanRecord.kt$LoanRecord$val convertedAmount: Double? = null</ID>
+    <ID>DataClassDefaultValues:LoanRecord.kt$LoanRecord$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassDefaultValues:LoanRecord.kt$LoanRecord$val interest: Boolean = false</ID>
+    <ID>DataClassDefaultValues:LoanRecord.kt$LoanRecord$val isDeleted: Boolean = false</ID>
+    <ID>DataClassDefaultValues:LoanRecord.kt$LoanRecord$val isSynced: Boolean = false</ID>
+    <ID>DataClassDefaultValues:LoanRecord.kt$LoanRecord$val note: String? = null</ID>
+    <ID>DataClassDefaultValues:LoanRecordEntity.kt$LoanRecordEntity$@PrimaryKey @SerialName("id") @Serializable(with = KSerializerUUID::class) val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassDefaultValues:LoanRecordEntity.kt$LoanRecordEntity$@SerialName("accountId") @Serializable(with = KSerializerUUID::class) val accountId: UUID? = null</ID>
+    <ID>DataClassDefaultValues:LoanRecordEntity.kt$LoanRecordEntity$@SerialName("convertedAmount") val convertedAmount: Double? = null</ID>
+    <ID>DataClassDefaultValues:LoanRecordEntity.kt$LoanRecordEntity$@SerialName("interest") val interest: Boolean = false</ID>
+    <ID>DataClassDefaultValues:LoanRecordEntity.kt$LoanRecordEntity$@SerialName("isDeleted") val isDeleted: Boolean = false</ID>
+    <ID>DataClassDefaultValues:LoanRecordEntity.kt$LoanRecordEntity$@SerialName("isSynced") val isSynced: Boolean = false</ID>
+    <ID>DataClassDefaultValues:LoanRecordEntity.kt$LoanRecordEntity$@SerialName("note") val note: String? = null</ID>
+    <ID>DataClassDefaultValues:LoanRecordModal.kt$LoanRecordModalData$val createLoanRecordTransaction: Boolean = false</ID>
+    <ID>DataClassDefaultValues:LoanRecordModal.kt$LoanRecordModalData$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassDefaultValues:LoanRecordModal.kt$LoanRecordModalData$val isLoanInterest: Boolean = false</ID>
+    <ID>DataClassDefaultValues:LoanRecordModal.kt$LoanRecordModalData$val loanAccountCurrencyCode: String? = null</ID>
+    <ID>DataClassDefaultValues:LoanRecordModal.kt$LoanRecordModalData$val selectedAccount: Account? = null</ID>
+    <ID>DataClassDefaultValues:PieChartAct.kt$PieChartAct.Input$val existingTransactions: List&lt;Transaction&gt; = emptyList()</ID>
+    <ID>DataClassDefaultValues:PieChartAct.kt$PieChartAct.Input$val showAccountTransfersCategory: Boolean = treatTransferAsIncExp</ID>
+    <ID>DataClassDefaultValues:PieChartAct.kt$PieChartAct.Input$val treatTransferAsIncExp: Boolean = false</ID>
+    <ID>DataClassDefaultValues:PlannedPaymentRule.kt$PlannedPaymentRule$val amount: Double = 0.0</ID>
+    <ID>DataClassDefaultValues:PlannedPaymentRule.kt$PlannedPaymentRule$val categoryId: UUID? = null</ID>
+    <ID>DataClassDefaultValues:PlannedPaymentRule.kt$PlannedPaymentRule$val description: String? = null</ID>
+    <ID>DataClassDefaultValues:PlannedPaymentRule.kt$PlannedPaymentRule$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassDefaultValues:PlannedPaymentRule.kt$PlannedPaymentRule$val isDeleted: Boolean = false</ID>
+    <ID>DataClassDefaultValues:PlannedPaymentRule.kt$PlannedPaymentRule$val isSynced: Boolean = false</ID>
+    <ID>DataClassDefaultValues:PlannedPaymentRule.kt$PlannedPaymentRule$val title: String? = null</ID>
+    <ID>DataClassDefaultValues:PlannedPaymentRuleEntity.kt$PlannedPaymentRuleEntity$@PrimaryKey @SerialName("id") @Serializable(with = KSerializerUUID::class) val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassDefaultValues:PlannedPaymentRuleEntity.kt$PlannedPaymentRuleEntity$@SerialName("amount") val amount: Double = 0.0</ID>
+    <ID>DataClassDefaultValues:PlannedPaymentRuleEntity.kt$PlannedPaymentRuleEntity$@SerialName("categoryId") @Serializable(with = KSerializerUUID::class) val categoryId: UUID? = null</ID>
+    <ID>DataClassDefaultValues:PlannedPaymentRuleEntity.kt$PlannedPaymentRuleEntity$@SerialName("description") val description: String? = null</ID>
+    <ID>DataClassDefaultValues:PlannedPaymentRuleEntity.kt$PlannedPaymentRuleEntity$@SerialName("isDeleted") val isDeleted: Boolean = false</ID>
+    <ID>DataClassDefaultValues:PlannedPaymentRuleEntity.kt$PlannedPaymentRuleEntity$@SerialName("isSynced") val isSynced: Boolean = false</ID>
+    <ID>DataClassDefaultValues:PlannedPaymentRuleEntity.kt$PlannedPaymentRuleEntity$@SerialName("title") val title: String? = null</ID>
+    <ID>DataClassDefaultValues:RecurringRuleModal.kt$RecurringRuleModalData$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassDefaultValues:RecurringRuleModal.kt$RecurringRuleModalData$val initialOneTime: Boolean = false</ID>
+    <ID>DataClassDefaultValues:RememberScrollPosition.kt$KeyParams$val params: String = ""</ID>
+    <ID>DataClassDefaultValues:ReportFilter.kt$ReportFilter$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassDefaultValues:ReportScreenState.kt$ReportScreenState$val accountIdFilters: ImmutableList&lt;UUID&gt; = persistentListOf()</ID>
+    <ID>DataClassDefaultValues:ReportScreenState.kt$ReportScreenState$val accounts: ImmutableList&lt;Account&gt; = persistentListOf()</ID>
+    <ID>DataClassDefaultValues:ReportScreenState.kt$ReportScreenState$val balance: Double = 0.0</ID>
+    <ID>DataClassDefaultValues:ReportScreenState.kt$ReportScreenState$val baseCurrency: String = ""</ID>
+    <ID>DataClassDefaultValues:ReportScreenState.kt$ReportScreenState$val categories: ImmutableList&lt;Category&gt; = persistentListOf()</ID>
+    <ID>DataClassDefaultValues:ReportScreenState.kt$ReportScreenState$val expenses: Double = 0.0</ID>
+    <ID>DataClassDefaultValues:ReportScreenState.kt$ReportScreenState$val filter: ReportFilter? = null</ID>
+    <ID>DataClassDefaultValues:ReportScreenState.kt$ReportScreenState$val filterOverlayVisible: Boolean = false</ID>
+    <ID>DataClassDefaultValues:ReportScreenState.kt$ReportScreenState$val history: ImmutableList&lt;TransactionHistoryItem&gt; = persistentListOf()</ID>
+    <ID>DataClassDefaultValues:ReportScreenState.kt$ReportScreenState$val income: Double = 0.0</ID>
+    <ID>DataClassDefaultValues:ReportScreenState.kt$ReportScreenState$val loading: Boolean = false</ID>
+    <ID>DataClassDefaultValues:ReportScreenState.kt$ReportScreenState$val overdueExpanded: Boolean = false</ID>
+    <ID>DataClassDefaultValues:ReportScreenState.kt$ReportScreenState$val overdueExpenses: Double = 0.0</ID>
+    <ID>DataClassDefaultValues:ReportScreenState.kt$ReportScreenState$val overdueIncome: Double = 0.0</ID>
+    <ID>DataClassDefaultValues:ReportScreenState.kt$ReportScreenState$val overdueTransactions: ImmutableList&lt;Transaction&gt; = persistentListOf()</ID>
+    <ID>DataClassDefaultValues:ReportScreenState.kt$ReportScreenState$val showTransfersAsIncExpCheckbox: Boolean = false</ID>
+    <ID>DataClassDefaultValues:ReportScreenState.kt$ReportScreenState$val transactions: ImmutableList&lt;Transaction&gt; = persistentListOf()</ID>
+    <ID>DataClassDefaultValues:ReportScreenState.kt$ReportScreenState$val treatTransfersAsIncExp: Boolean = false</ID>
+    <ID>DataClassDefaultValues:ReportScreenState.kt$ReportScreenState$val upcomingExpanded: Boolean = false</ID>
+    <ID>DataClassDefaultValues:ReportScreenState.kt$ReportScreenState$val upcomingExpenses: Double = 0.0</ID>
+    <ID>DataClassDefaultValues:ReportScreenState.kt$ReportScreenState$val upcomingIncome: Double = 0.0</ID>
+    <ID>DataClassDefaultValues:ReportScreenState.kt$ReportScreenState$val upcomingTransactions: ImmutableList&lt;Transaction&gt; = persistentListOf()</ID>
+    <ID>DataClassDefaultValues:RowMapping.kt$RowMapping$/** * @param transaction - the final mapped transaction * @param category - category object because Transaction#categoryId but no Category * @param csvAmount - the original amount from the CSV file (can be negative, too) */ val transformTransaction: (Transaction, Category?, csvAmount: Double) -&gt; Transaction = { transaction, _, _ -&gt; transaction }</ID>
+    <ID>DataClassDefaultValues:RowMapping.kt$RowMapping$val accountColor: Int? = null</ID>
+    <ID>DataClassDefaultValues:RowMapping.kt$RowMapping$val accountCurrency: Int? = null</ID>
+    <ID>DataClassDefaultValues:RowMapping.kt$RowMapping$val accountIcon: Int? = null</ID>
+    <ID>DataClassDefaultValues:RowMapping.kt$RowMapping$val accountOrderNum: Int? = null</ID>
+    <ID>DataClassDefaultValues:RowMapping.kt$RowMapping$val categoryColor: Int? = null</ID>
+    <ID>DataClassDefaultValues:RowMapping.kt$RowMapping$val categoryIcon: Int? = null</ID>
+    <ID>DataClassDefaultValues:RowMapping.kt$RowMapping$val categoryOrderNum: Int? = null</ID>
+    <ID>DataClassDefaultValues:RowMapping.kt$RowMapping$val dateOnlyFormat: String? = null</ID>
+    <ID>DataClassDefaultValues:RowMapping.kt$RowMapping$val dateTimeFormat: String? = null</ID>
+    <ID>DataClassDefaultValues:RowMapping.kt$RowMapping$val defaultTypeToExpense: Boolean = false</ID>
+    <ID>DataClassDefaultValues:RowMapping.kt$RowMapping$val description: Int? = null</ID>
+    <ID>DataClassDefaultValues:RowMapping.kt$RowMapping$val dueDate: Int? = null</ID>
+    <ID>DataClassDefaultValues:RowMapping.kt$RowMapping$val id: Int? = null</ID>
+    <ID>DataClassDefaultValues:RowMapping.kt$RowMapping$val joinTransactions: (List&lt;Transaction&gt;) -&gt; JoinResult = { transactions -&gt; JoinResult(transactions = transactions, mergedCount = 0) }</ID>
+    <ID>DataClassDefaultValues:RowMapping.kt$RowMapping$val timeOnly: Int? = null</ID>
+    <ID>DataClassDefaultValues:RowMapping.kt$RowMapping$val toAccount: Int? = null</ID>
+    <ID>DataClassDefaultValues:RowMapping.kt$RowMapping$val toAccountColor: Int? = null</ID>
+    <ID>DataClassDefaultValues:RowMapping.kt$RowMapping$val toAccountCurrency: Int? = null</ID>
+    <ID>DataClassDefaultValues:RowMapping.kt$RowMapping$val toAccountIcon: Int? = null</ID>
+    <ID>DataClassDefaultValues:RowMapping.kt$RowMapping$val toAccountOrderNum: Int? = null</ID>
+    <ID>DataClassDefaultValues:RowMapping.kt$RowMapping$val toAmount: Int? = null</ID>
+    <ID>DataClassDefaultValues:RowMapping.kt$RowMapping$val transferAmount: Int? = null</ID>
+    <ID>DataClassDefaultValues:RowMapping.kt$RowMapping$val type: Int? = null</ID>
+    <ID>DataClassDefaultValues:Screens.kt$EditPlannedScreen$val accountId: UUID? = null</ID>
+    <ID>DataClassDefaultValues:Screens.kt$EditPlannedScreen$val amount: Double? = null</ID>
+    <ID>DataClassDefaultValues:Screens.kt$EditPlannedScreen$val categoryId: UUID? = null</ID>
+    <ID>DataClassDefaultValues:Screens.kt$EditPlannedScreen$val description: String? = null</ID>
+    <ID>DataClassDefaultValues:Screens.kt$EditPlannedScreen$val title: String? = null</ID>
+    <ID>DataClassDefaultValues:Screens.kt$EditTransactionScreen$val accountId: UUID? = null</ID>
+    <ID>DataClassDefaultValues:Screens.kt$EditTransactionScreen$val categoryId: UUID? = null</ID>
+    <ID>DataClassDefaultValues:Screens.kt$PieChartStatisticScreen$val accountList: ImmutableList&lt;UUID&gt; = persistentListOf()</ID>
+    <ID>DataClassDefaultValues:Screens.kt$PieChartStatisticScreen$val filterExcluded: Boolean = true</ID>
+    <ID>DataClassDefaultValues:Screens.kt$PieChartStatisticScreen$val transactions: ImmutableList&lt;Transaction&gt; = persistentListOf()</ID>
+    <ID>DataClassDefaultValues:Screens.kt$PieChartStatisticScreen$val treatTransfersAsIncomeExpense: Boolean = false</ID>
+    <ID>DataClassDefaultValues:Screens.kt$TransactionsScreen$val accountId: UUID? = null</ID>
+    <ID>DataClassDefaultValues:Screens.kt$TransactionsScreen$val accountIdFilterList: List&lt;UUID&gt; = persistentListOf()</ID>
+    <ID>DataClassDefaultValues:Screens.kt$TransactionsScreen$val categoryId: UUID? = null</ID>
+    <ID>DataClassDefaultValues:Screens.kt$TransactionsScreen$val transactionType: TransactionType? = null</ID>
+    <ID>DataClassDefaultValues:Screens.kt$TransactionsScreen$val transactions: List&lt;Transaction&gt; = persistentListOf()</ID>
+    <ID>DataClassDefaultValues:Screens.kt$TransactionsScreen$val unspecifiedCategory: Boolean? = false</ID>
+    <ID>DataClassDefaultValues:Settings.kt$Settings$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassDefaultValues:SettingsEntity.kt$SettingsEntity$@PrimaryKey @SerialName("id") @Serializable(with = KSerializerUUID::class) val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassDefaultValues:SettingsEntity.kt$SettingsEntity$@SerialName("isDeleted") val isDeleted: Boolean = false</ID>
+    <ID>DataClassDefaultValues:SettingsEntity.kt$SettingsEntity$@SerialName("isSynced") val isSynced: Boolean = false</ID>
+    <ID>DataClassDefaultValues:TimePeriod.kt$TimePeriod$val fromToRange: FromToTimeRange? = null</ID>
+    <ID>DataClassDefaultValues:TimePeriod.kt$TimePeriod$val lastNRange: LastNTimeRange? = null</ID>
+    <ID>DataClassDefaultValues:TimePeriod.kt$TimePeriod$val month: Month? = null</ID>
+    <ID>DataClassDefaultValues:TimePeriod.kt$TimePeriod$val year: Int? = null</ID>
+    <ID>DataClassDefaultValues:Transaction.kt$Transaction$val attachmentUrl: String? = null</ID>
+    <ID>DataClassDefaultValues:Transaction.kt$Transaction$val categoryId: UUID? = null</ID>
+    <ID>DataClassDefaultValues:Transaction.kt$Transaction$val date: LocalDate? = null</ID>
+    <ID>DataClassDefaultValues:Transaction.kt$Transaction$val dateTime: LocalDateTime? = null</ID>
+    <ID>DataClassDefaultValues:Transaction.kt$Transaction$val description: String? = null</ID>
+    <ID>DataClassDefaultValues:Transaction.kt$Transaction$val dueDate: LocalDateTime? = null</ID>
+    <ID>DataClassDefaultValues:Transaction.kt$Transaction$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassDefaultValues:Transaction.kt$Transaction$val isDeleted: Boolean = false</ID>
+    <ID>DataClassDefaultValues:Transaction.kt$Transaction$val isSynced: Boolean = false</ID>
+    <ID>DataClassDefaultValues:Transaction.kt$Transaction$val loanId: UUID? = null</ID>
+    <ID>DataClassDefaultValues:Transaction.kt$Transaction$val loanRecordId: UUID? = null</ID>
+    <ID>DataClassDefaultValues:Transaction.kt$Transaction$val recurringRuleId: UUID? = null</ID>
+    <ID>DataClassDefaultValues:Transaction.kt$Transaction$val time: LocalTime? = null</ID>
+    <ID>DataClassDefaultValues:Transaction.kt$Transaction$val title: String? = null</ID>
+    <ID>DataClassDefaultValues:Transaction.kt$Transaction$val toAccountId: UUID? = null</ID>
+    <ID>DataClassDefaultValues:Transaction.kt$Transaction$val toAmount: BigDecimal = amount</ID>
+    <ID>DataClassDefaultValues:Transaction.kt$TransactionMetadata$val loanId: UUID? = null</ID>
+    <ID>DataClassDefaultValues:TransactionEntity.kt$TransactionEntity$@PrimaryKey @SerialName("id") @Serializable(with = KSerializerUUID::class) val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassDefaultValues:TransactionEntity.kt$TransactionEntity$@SerialName("attachmentUrl") val attachmentUrl: String? = null</ID>
+    <ID>DataClassDefaultValues:TransactionEntity.kt$TransactionEntity$@SerialName("categoryId") @Serializable(with = KSerializerUUID::class) val categoryId: UUID? = null</ID>
+    <ID>DataClassDefaultValues:TransactionEntity.kt$TransactionEntity$@SerialName("dateTime") @Serializable(with = KSerializerLocalDateTime::class) val dateTime: LocalDateTime? = null</ID>
+    <ID>DataClassDefaultValues:TransactionEntity.kt$TransactionEntity$@SerialName("description") val description: String? = null</ID>
+    <ID>DataClassDefaultValues:TransactionEntity.kt$TransactionEntity$@SerialName("dueDate") @Serializable(with = KSerializerLocalDateTime::class) val dueDate: LocalDateTime? = null</ID>
+    <ID>DataClassDefaultValues:TransactionEntity.kt$TransactionEntity$@SerialName("isDeleted") val isDeleted: Boolean = false</ID>
+    <ID>DataClassDefaultValues:TransactionEntity.kt$TransactionEntity$@SerialName("isSynced") val isSynced: Boolean = false</ID>
+    <ID>DataClassDefaultValues:TransactionEntity.kt$TransactionEntity$@SerialName("loanId") @Serializable(with = KSerializerUUID::class) val loanId: UUID? = null</ID>
+    <ID>DataClassDefaultValues:TransactionEntity.kt$TransactionEntity$@SerialName("loanRecordId") @Serializable(with = KSerializerUUID::class) val loanRecordId: UUID? = null</ID>
+    <ID>DataClassDefaultValues:TransactionEntity.kt$TransactionEntity$@SerialName("recurringRuleId") @Serializable(with = KSerializerUUID::class) val recurringRuleId: UUID? = null</ID>
+    <ID>DataClassDefaultValues:TransactionEntity.kt$TransactionEntity$@SerialName("title") val title: String? = null</ID>
+    <ID>DataClassDefaultValues:TransactionEntity.kt$TransactionEntity$@SerialName("toAccountId") @Serializable(with = KSerializerUUID::class) val toAccountId: UUID? = null</ID>
+    <ID>DataClassDefaultValues:TransactionEntity.kt$TransactionEntity$@SerialName("toAmount") val toAmount: Double? = null</ID>
+    <ID>DataClassDefaultValues:UserEntity.kt$UserEntity$@SerialName("testUser") @ColumnInfo(name = "testUser") val testUser: Boolean = false</ID>
+    <ID>DataClassFunctions:Account.kt$Account$fun toEntity(): AccountEntity</ID>
+    <ID>DataClassFunctions:Budget.kt$Budget$fun parseAccountIds(): List&lt;UUID&gt;</ID>
+    <ID>DataClassFunctions:Budget.kt$Budget$fun parseCategoryIds(): List&lt;UUID&gt;</ID>
+    <ID>DataClassFunctions:Budget.kt$Budget$fun toEntity(): BudgetEntity</ID>
+    <ID>DataClassFunctions:Budget.kt$Budget$fun validate(): Boolean</ID>
+    <ID>DataClassFunctions:Budget.kt$Budget$private fun parseIdsString(idsString: String?): List&lt;UUID&gt;</ID>
+    <ID>DataClassFunctions:Category.kt$Category$fun toEntity(): CategoryEntity</ID>
+    <ID>DataClassFunctions:ChoosePeriodModal.kt$MonthYear$fun forDisplay( currentYear: Int ): String</ID>
+    <ID>DataClassFunctions:ClosedTimeRange.kt$ClosedTimeRange$fun toFromToRange(): com.ivy.legacy.data.model.FromToTimeRange</ID>
+    <ID>DataClassFunctions:Colors.kt$Gradient$@Deprecated("Old design system. Use `:ivy-design` and Material3") fun asHorizontalBrush()</ID>
+    <ID>DataClassFunctions:ExchangeRate.kt$ExchangeRate$fun toEntity(): ExchangeRateEntity</ID>
+    <ID>DataClassFunctions:FromToTimeRange.kt$FromToTimeRange$fun from(): LocalDateTime</ID>
+    <ID>DataClassFunctions:FromToTimeRange.kt$FromToTimeRange$fun includes(dateTime: LocalDateTime): Boolean</ID>
+    <ID>DataClassFunctions:FromToTimeRange.kt$FromToTimeRange$fun overdueTo(): LocalDateTime</ID>
+    <ID>DataClassFunctions:FromToTimeRange.kt$FromToTimeRange$fun to(): LocalDateTime</ID>
+    <ID>DataClassFunctions:FromToTimeRange.kt$FromToTimeRange$fun toDisplay(): String</ID>
+    <ID>DataClassFunctions:FromToTimeRange.kt$FromToTimeRange$fun upcomingFrom(): LocalDateTime</ID>
+    <ID>DataClassFunctions:IvyColors.kt$Gradient$@Deprecated("Old design system. Use `:ivy-design` and Material3") fun asHorizontalBrush()</ID>
+    <ID>DataClassFunctions:IvyColors.kt$Gradient$@Deprecated("Old design system. Use `:ivy-design` and Material3") fun asVerticalBrush()</ID>
+    <ID>DataClassFunctions:IvyLineChart.kt$Function$fun determineLineColor(valueStart: Double, valueEnd: Double): Color</ID>
+    <ID>DataClassFunctions:LastNTimeRange.kt$LastNTimeRange$fun forDisplay(): String</ID>
+    <ID>DataClassFunctions:LastNTimeRange.kt$LastNTimeRange$fun fromDate(): LocalDateTime</ID>
+    <ID>DataClassFunctions:Loan.kt$Loan$fun toEntity(): LoanEntity</ID>
+    <ID>DataClassFunctions:LoanRecord.kt$LoanRecord$fun toEntity(): LoanRecordEntity</ID>
+    <ID>DataClassFunctions:LoanTransactionsLogic.kt$LoanTransactionsLogic$suspend fun updateAssociatedLoanData( transaction: Transaction?, onBackgroundProcessingStart: suspend () -&gt; Unit = {}, onBackgroundProcessingEnd: suspend () -&gt; Unit = {}, accountsChanged: Boolean = true )</ID>
+    <ID>DataClassFunctions:Month.kt$Month$fun incrementMonthPeriod( ivyContext: IvyWalletCtx, increment: Long, year: Int ): TimePeriod</ID>
+    <ID>DataClassFunctions:Month.kt$Month$fun toDate(): LocalDate</ID>
+    <ID>DataClassFunctions:Month.kt$Month$fun toTimePeriod(): TimePeriod</ID>
+    <ID>DataClassFunctions:OpResult.kt$OpResult.Failure$fun error()</ID>
+    <ID>DataClassFunctions:PieChart.kt$PieChartView.Zone$fun contains(angle: Double): Boolean</ID>
+    <ID>DataClassFunctions:PlannedPaymentRule.kt$PlannedPaymentRule$fun toEntity(): PlannedPaymentRuleEntity</ID>
+    <ID>DataClassFunctions:ReportFilter.kt$ReportFilter$fun validate(): Boolean</ID>
+    <ID>DataClassFunctions:Screens.kt$EditPlannedScreen$fun mandatoryFilled(): Boolean</ID>
+    <ID>DataClassFunctions:Settings.kt$Settings$fun toEntity(): SettingsEntity</ID>
+    <ID>DataClassFunctions:TimePeriod.kt$TimePeriod$fun isValid(): Boolean</ID>
+    <ID>DataClassFunctions:TimePeriod.kt$TimePeriod$fun toDisplayLong( startDateOfMonth: Int ): String</ID>
+    <ID>DataClassFunctions:TimePeriod.kt$TimePeriod$fun toDisplayShort( startDateOfMonth: Int ): String</ID>
+    <ID>DataClassFunctions:TimePeriod.kt$TimePeriod$fun toRange( startDateOfMonth: Int ): FromToTimeRange</ID>
+    <ID>DataClassFunctions:TimePeriod.kt$TimePeriod$private fun customStartDayOfMonthPeriodRange( date: LocalDate, startDateOfMonth: Int ): Pair&lt;LocalDateTime, LocalDateTime&gt;</ID>
+    <ID>DataClassFunctions:TimePeriod.kt$TimePeriod$private fun displayMonthStartingOn1st(month: Month): String</ID>
     <ID>EmptyCatchBlock:CSVImporter.kt$CSVImporter${ }</ID>
     <ID>EmptyCatchBlock:IntervalPickerRow.kt${ }</ID>
     <ID>EmptyFunctionBlock:TestIdlingResource.kt$TestIdlingResource${ }</ID>
@@ -7870,7 +8171,7 @@
     <ID>PackageName:LintPublishConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._c23ff688c05f8d96905906a4ad831734</ID>
     <ID>PackageName:LintPublishConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d2d1dfc15d0c2a9463dd9442318702f0</ID>
     <ID>PackageName:MainSourceElementsConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._a568f78b412045bc377fc4283b656e34</ID>
-    <ID>PackageName:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._b4100bcd63ccfc05d7f849bd22b0d58e</ID>
+    <ID>PackageName:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._a669e1c7a9000378ba07e80ceb7ea46c</ID>
     <ID>PackageName:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._0f6c96550b20caec005f95558bbb0634</ID>
     <ID>PackageName:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._c23ff688c05f8d96905906a4ad831734</ID>
     <ID>PackageName:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d2d1dfc15d0c2a9463dd9442318702f0</ID>
@@ -9116,7 +9417,7 @@
     <ID>PackageNaming:LintPublishConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._c23ff688c05f8d96905906a4ad831734</ID>
     <ID>PackageNaming:LintPublishConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d2d1dfc15d0c2a9463dd9442318702f0</ID>
     <ID>PackageNaming:MainSourceElementsConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._a568f78b412045bc377fc4283b656e34</ID>
-    <ID>PackageNaming:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._b4100bcd63ccfc05d7f849bd22b0d58e</ID>
+    <ID>PackageNaming:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._a669e1c7a9000378ba07e80ceb7ea46c</ID>
     <ID>PackageNaming:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._0f6c96550b20caec005f95558bbb0634</ID>
     <ID>PackageNaming:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._c23ff688c05f8d96905906a4ad831734</ID>
     <ID>PackageNaming:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d2d1dfc15d0c2a9463dd9442318702f0</ID>
