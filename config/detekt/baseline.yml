@@ -339,6 +339,54 @@
     <ID>CyclomaticComplexMethod:LoanModal.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun BoxWithConstraintsScope.LoanModal( accounts: List&lt;Account&gt; = emptyList(), onCreateAccount: (CreateAccountData) -&gt; Unit = {}, modal: LoanModalData?, onCreateLoan: (CreateLoanData) -&gt; Unit, onEditLoan: (Loan, Boolean) -&gt; Unit, onPerformCalculations: () -&gt; Unit = {}, dismiss: () -&gt; Unit, )</ID>
     <ID>CyclomaticComplexMethod:LoanRecordModal.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun BoxWithConstraintsScope.LoanRecordModal( modal: LoanRecordModalData?, accounts: List&lt;Account&gt; = emptyList(), onCreateAccount: (CreateAccountData) -&gt; Unit = {}, onCreate: (CreateLoanRecordData) -&gt; Unit, onEdit: (EditLoanRecordData) -&gt; Unit, onDelete: (LoanRecord) -&gt; Unit, dismiss: () -&gt; Unit )</ID>
     <ID>CyclomaticComplexMethod:ReportViewModel.kt$ReportViewModel$private suspend fun filterTransactions( baseCurrency: String, accounts: List&lt;Account&gt;, filter: ReportFilter, ): ImmutableList&lt;Transaction&gt;</ID>
+    <ID>DataClassFunctions:Account.kt$Account$fun toEntity(): AccountEntity</ID>
+    <ID>DataClassFunctions:AccountData.kt$AccountData$override fun getItemOrderNum()</ID>
+    <ID>DataClassFunctions:AccountData.kt$AccountData$override fun withNewOrderNum(newOrderNum: Double)</ID>
+    <ID>DataClassFunctions:Budget.kt$Budget$fun parseAccountIds(): List&lt;UUID&gt;</ID>
+    <ID>DataClassFunctions:Budget.kt$Budget$fun parseCategoryIds(): List&lt;UUID&gt;</ID>
+    <ID>DataClassFunctions:Budget.kt$Budget$fun toEntity(): BudgetEntity</ID>
+    <ID>DataClassFunctions:Budget.kt$Budget$fun validate(): Boolean</ID>
+    <ID>DataClassFunctions:Budget.kt$Budget$private fun parseIdsString(idsString: String?): List&lt;UUID&gt;</ID>
+    <ID>DataClassFunctions:Category.kt$Category$fun toEntity(): CategoryEntity</ID>
+    <ID>DataClassFunctions:CategoryData.kt$CategoryData$override fun getItemOrderNum()</ID>
+    <ID>DataClassFunctions:CategoryData.kt$CategoryData$override fun withNewOrderNum(newOrderNum: Double)</ID>
+    <ID>DataClassFunctions:ChoosePeriodModal.kt$MonthYear$fun forDisplay( currentYear: Int ): String</ID>
+    <ID>DataClassFunctions:ClosedTimeRange.kt$ClosedTimeRange$fun toFromToRange(): com.ivy.legacy.data.model.FromToTimeRange</ID>
+    <ID>DataClassFunctions:Colors.kt$Gradient$@Deprecated("Old design system. Use `:ivy-design` and Material3") fun asHorizontalBrush()</ID>
+    <ID>DataClassFunctions:DisplayBudget.kt$DisplayBudget$override fun getItemOrderNum(): Double</ID>
+    <ID>DataClassFunctions:DisplayBudget.kt$DisplayBudget$override fun withNewOrderNum(newOrderNum: Double): Reorderable</ID>
+    <ID>DataClassFunctions:DisplayLoan.kt$DisplayLoan$override fun getItemOrderNum(): Double</ID>
+    <ID>DataClassFunctions:DisplayLoan.kt$DisplayLoan$override fun withNewOrderNum(newOrderNum: Double): Reorderable</ID>
+    <ID>DataClassFunctions:ExchangeRate.kt$ExchangeRate$fun toEntity(): ExchangeRateEntity</ID>
+    <ID>DataClassFunctions:FromToTimeRange.kt$FromToTimeRange$fun from(): LocalDateTime</ID>
+    <ID>DataClassFunctions:FromToTimeRange.kt$FromToTimeRange$fun includes(dateTime: LocalDateTime): Boolean</ID>
+    <ID>DataClassFunctions:FromToTimeRange.kt$FromToTimeRange$fun overdueTo(): LocalDateTime</ID>
+    <ID>DataClassFunctions:FromToTimeRange.kt$FromToTimeRange$fun to(): LocalDateTime</ID>
+    <ID>DataClassFunctions:FromToTimeRange.kt$FromToTimeRange$fun toDisplay(): String</ID>
+    <ID>DataClassFunctions:FromToTimeRange.kt$FromToTimeRange$fun upcomingFrom(): LocalDateTime</ID>
+    <ID>DataClassFunctions:IvyColors.kt$Gradient$@Deprecated("Old design system. Use `:ivy-design` and Material3") fun asHorizontalBrush()</ID>
+    <ID>DataClassFunctions:IvyColors.kt$Gradient$@Deprecated("Old design system. Use `:ivy-design` and Material3") fun asVerticalBrush()</ID>
+    <ID>DataClassFunctions:IvyLineChart.kt$Function$fun determineLineColor(valueStart: Double, valueEnd: Double): Color</ID>
+    <ID>DataClassFunctions:LastNTimeRange.kt$LastNTimeRange$fun forDisplay(): String</ID>
+    <ID>DataClassFunctions:LastNTimeRange.kt$LastNTimeRange$fun fromDate(): LocalDateTime</ID>
+    <ID>DataClassFunctions:Loan.kt$Loan$fun toEntity(): LoanEntity</ID>
+    <ID>DataClassFunctions:LoanRecord.kt$LoanRecord$fun toEntity(): LoanRecordEntity</ID>
+    <ID>DataClassFunctions:LoanTransactionsLogic.kt$LoanTransactionsLogic$suspend fun updateAssociatedLoanData( transaction: Transaction?, onBackgroundProcessingStart: suspend () -&gt; Unit = {}, onBackgroundProcessingEnd: suspend () -&gt; Unit = {}, accountsChanged: Boolean = true )</ID>
+    <ID>DataClassFunctions:Month.kt$Month$fun incrementMonthPeriod( ivyContext: IvyWalletCtx, increment: Long, year: Int ): TimePeriod</ID>
+    <ID>DataClassFunctions:Month.kt$Month$fun toDate(): LocalDate</ID>
+    <ID>DataClassFunctions:Month.kt$Month$fun toTimePeriod(): TimePeriod</ID>
+    <ID>DataClassFunctions:OpResult.kt$OpResult.Failure$fun error()</ID>
+    <ID>DataClassFunctions:PieChart.kt$PieChartView.Zone$fun contains(angle: Double): Boolean</ID>
+    <ID>DataClassFunctions:PlannedPaymentRule.kt$PlannedPaymentRule$fun toEntity(): PlannedPaymentRuleEntity</ID>
+    <ID>DataClassFunctions:ReportFilter.kt$ReportFilter$fun validate(): Boolean</ID>
+    <ID>DataClassFunctions:Screens.kt$EditPlannedScreen$fun mandatoryFilled(): Boolean</ID>
+    <ID>DataClassFunctions:Settings.kt$Settings$fun toEntity(): SettingsEntity</ID>
+    <ID>DataClassFunctions:TimePeriod.kt$TimePeriod$fun isValid(): Boolean</ID>
+    <ID>DataClassFunctions:TimePeriod.kt$TimePeriod$fun toDisplayLong( startDateOfMonth: Int ): String</ID>
+    <ID>DataClassFunctions:TimePeriod.kt$TimePeriod$fun toDisplayShort( startDateOfMonth: Int ): String</ID>
+    <ID>DataClassFunctions:TimePeriod.kt$TimePeriod$fun toRange( startDateOfMonth: Int ): FromToTimeRange</ID>
+    <ID>DataClassFunctions:TimePeriod.kt$TimePeriod$private fun customStartDayOfMonthPeriodRange( date: LocalDate, startDateOfMonth: Int ): Pair&lt;LocalDateTime, LocalDateTime&gt;</ID>
+    <ID>DataClassFunctions:TimePeriod.kt$TimePeriod$private fun displayMonthStartingOn1st(month: Month): String</ID>
     <ID>EmptyCatchBlock:CSVImporter.kt$CSVImporter${ }</ID>
     <ID>EmptyCatchBlock:IntervalPickerRow.kt${ }</ID>
     <ID>EmptyFunctionBlock:TestIdlingResource.kt$TestIdlingResource${ }</ID>
@@ -7870,7 +7918,7 @@
     <ID>PackageName:LintPublishConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._c23ff688c05f8d96905906a4ad831734</ID>
     <ID>PackageName:LintPublishConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d2d1dfc15d0c2a9463dd9442318702f0</ID>
     <ID>PackageName:MainSourceElementsConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._a568f78b412045bc377fc4283b656e34</ID>
-    <ID>PackageName:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._b4100bcd63ccfc05d7f849bd22b0d58e</ID>
+    <ID>PackageName:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._a669e1c7a9000378ba07e80ceb7ea46c</ID>
     <ID>PackageName:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._0f6c96550b20caec005f95558bbb0634</ID>
     <ID>PackageName:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._c23ff688c05f8d96905906a4ad831734</ID>
     <ID>PackageName:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d2d1dfc15d0c2a9463dd9442318702f0</ID>
@@ -9116,7 +9164,7 @@
     <ID>PackageNaming:LintPublishConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._c23ff688c05f8d96905906a4ad831734</ID>
     <ID>PackageNaming:LintPublishConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d2d1dfc15d0c2a9463dd9442318702f0</ID>
     <ID>PackageNaming:MainSourceElementsConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._a568f78b412045bc377fc4283b656e34</ID>
-    <ID>PackageNaming:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._b4100bcd63ccfc05d7f849bd22b0d58e</ID>
+    <ID>PackageNaming:PluginSpecBuilders.kt$package gradle.kotlin.dsl.plugins._a669e1c7a9000378ba07e80ceb7ea46c</ID>
     <ID>PackageNaming:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._0f6c96550b20caec005f95558bbb0634</ID>
     <ID>PackageNaming:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._c23ff688c05f8d96905906a4ad831734</ID>
     <ID>PackageNaming:ReleaseAnnotationProcessorConfigurationAccessors.kt$package gradle.kotlin.dsl.accessors._d2d1dfc15d0c2a9463dd9442318702f0</ID>
