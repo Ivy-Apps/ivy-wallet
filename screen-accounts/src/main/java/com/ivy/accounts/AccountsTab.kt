@@ -34,6 +34,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.horizontalSwipeListener
+import com.ivy.legacy.utils.rememberSwipeListenerState
 import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
@@ -80,6 +81,7 @@ private fun BoxWithConstraintsScope.UI(
             .navigationBarsPadding()
             .horizontalSwipeListener(
                 sensitivity = 200,
+                state = rememberSwipeListenerState(),
                 onSwipeLeft = {
                     ivyContext.selectMainTab(com.ivy.legacy.data.model.MainTab.HOME)
                 },

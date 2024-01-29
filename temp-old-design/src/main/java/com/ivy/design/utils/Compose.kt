@@ -22,11 +22,11 @@ fun <T> densityScope(densityScope: @Composable Density.() -> T): T {
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun Modifier.thenIf(
     condition: Boolean,
-    otherModifier: @Composable Modifier.() -> Modifier
-): Modifier = composed {
+    otherModifier: Modifier.() -> Modifier
+): Modifier {
     // Cannot use Modifier#then() because it stacks the previous modifiers multiple times
-    if (condition) {
-        this.otherModifier()
+    return if (condition) {
+        this.then(otherModifier())
     } else {
         this
     }
@@ -34,9 +34,9 @@ fun Modifier.thenIf(
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun Modifier.thenWhen(
-    logic: @Composable Modifier.() -> Modifier?
-): Modifier = composed {
-    this.logic() ?: this
+    logic: Modifier.() -> Modifier?
+): Modifier {
+    return this.logic() ?: this
 }
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")

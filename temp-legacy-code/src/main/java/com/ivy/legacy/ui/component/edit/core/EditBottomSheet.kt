@@ -63,6 +63,7 @@ import com.ivy.legacy.utils.springBounce
 import com.ivy.legacy.utils.thenIf
 import com.ivy.legacy.utils.verticalSwipeListener
 import com.ivy.base.model.TransactionType
+import com.ivy.legacy.utils.rememberSwipeListenerState
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Green
@@ -173,6 +174,7 @@ fun BoxWithConstraintsScope.EditBottomSheet(
             .background(UI.colors.pure, UI.shapes.r2Top)
             .verticalSwipeListener(
                 sensitivity = SWIPE_UP_EXPANDED_THRESHOLD,
+                state = rememberSwipeListenerState(),
                 onSwipeUp = {
                     hideKeyboard(rootView)
                     internalExpanded = true

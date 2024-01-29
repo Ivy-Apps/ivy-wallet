@@ -43,6 +43,7 @@ import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.ui.component.transaction.TransactionsDividerLine
 import com.ivy.legacy.ui.component.transaction.transactions
 import com.ivy.legacy.utils.horizontalSwipeListener
+import com.ivy.legacy.utils.rememberSwipeListenerState
 import com.ivy.legacy.utils.verticalSwipeListener
 import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.screenScopedViewModel
@@ -98,12 +99,14 @@ private fun BoxWithConstraintsScope.UI(
             .systemBarsPadding()
             .verticalSwipeListener(
                 sensitivity = Constants.SWIPE_DOWN_THRESHOLD_OPEN_MORE_MENU,
+                state = rememberSwipeListenerState(),
                 onSwipeDown = {
                     setMoreMenuExpanded(true)
                 }
             )
             .horizontalSwipeListener(
                 sensitivity = SWIPE_HORIZONTAL_THRESHOLD,
+                state = rememberSwipeListenerState(),
                 onSwipeLeft = {
                     ivyContext.selectMainTab(MainTab.ACCOUNTS)
                 },

@@ -55,6 +55,7 @@ import com.ivy.legacy.ui.component.transaction.transactions
 import com.ivy.legacy.utils.balancePrefix
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.horizontalSwipeListener
+import com.ivy.legacy.utils.rememberSwipeListenerState
 import com.ivy.legacy.utils.setStatusBarDarkTextCompat
 import com.ivy.legacy.utils.thenIf
 import com.ivy.navigation.EditTransactionScreen
@@ -265,6 +266,7 @@ private fun BoxWithConstraintsScope.UI(
             .thenIf(!initWithTransactions) {
                 horizontalSwipeListener(
                     sensitivity = 150,
+                    state = rememberSwipeListenerState(),
                     onSwipeLeft = {
                         onNextMonth()
                     },

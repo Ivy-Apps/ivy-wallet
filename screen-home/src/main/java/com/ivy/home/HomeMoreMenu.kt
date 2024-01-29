@@ -57,6 +57,7 @@ import com.ivy.legacy.utils.colorLerp
 import com.ivy.legacy.utils.lerp
 import com.ivy.legacy.utils.navigationBarInset
 import com.ivy.legacy.utils.openUrl
+import com.ivy.legacy.utils.rememberSwipeListenerState
 import com.ivy.legacy.utils.springBounce
 import com.ivy.legacy.utils.statusBarInset
 import com.ivy.legacy.utils.thenIf
@@ -167,6 +168,7 @@ fun BoxWithConstraintsScope.MoreMenu(
                 .zIndex(510f)
                 .verticalSwipeListener(
                     sensitivity = SWIPE_UP_THRESHOLD_CLOSE_MORE_MENU,
+                    state = rememberSwipeListenerState(),
                     onSwipeUp = {
                         setExpanded(false)
                     }
