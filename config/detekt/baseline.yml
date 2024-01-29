@@ -340,23 +340,15 @@
     <ID>CyclomaticComplexMethod:LoanRecordModal.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun BoxWithConstraintsScope.LoanRecordModal( modal: LoanRecordModalData?, accounts: List&lt;Account&gt; = emptyList(), onCreateAccount: (CreateAccountData) -&gt; Unit = {}, onCreate: (CreateLoanRecordData) -&gt; Unit, onEdit: (EditLoanRecordData) -&gt; Unit, onDelete: (LoanRecord) -&gt; Unit, dismiss: () -&gt; Unit )</ID>
     <ID>CyclomaticComplexMethod:ReportViewModel.kt$ReportViewModel$private suspend fun filterTransactions( baseCurrency: String, accounts: List&lt;Account&gt;, filter: ReportFilter, ): ImmutableList&lt;Transaction&gt;</ID>
     <ID>DataClassFunctions:Account.kt$Account$fun toEntity(): AccountEntity</ID>
-    <ID>DataClassFunctions:AccountData.kt$AccountData$override fun getItemOrderNum()</ID>
-    <ID>DataClassFunctions:AccountData.kt$AccountData$override fun withNewOrderNum(newOrderNum: Double)</ID>
     <ID>DataClassFunctions:Budget.kt$Budget$fun parseAccountIds(): List&lt;UUID&gt;</ID>
     <ID>DataClassFunctions:Budget.kt$Budget$fun parseCategoryIds(): List&lt;UUID&gt;</ID>
     <ID>DataClassFunctions:Budget.kt$Budget$fun toEntity(): BudgetEntity</ID>
     <ID>DataClassFunctions:Budget.kt$Budget$fun validate(): Boolean</ID>
     <ID>DataClassFunctions:Budget.kt$Budget$private fun parseIdsString(idsString: String?): List&lt;UUID&gt;</ID>
     <ID>DataClassFunctions:Category.kt$Category$fun toEntity(): CategoryEntity</ID>
-    <ID>DataClassFunctions:CategoryData.kt$CategoryData$override fun getItemOrderNum()</ID>
-    <ID>DataClassFunctions:CategoryData.kt$CategoryData$override fun withNewOrderNum(newOrderNum: Double)</ID>
     <ID>DataClassFunctions:ChoosePeriodModal.kt$MonthYear$fun forDisplay( currentYear: Int ): String</ID>
     <ID>DataClassFunctions:ClosedTimeRange.kt$ClosedTimeRange$fun toFromToRange(): com.ivy.legacy.data.model.FromToTimeRange</ID>
     <ID>DataClassFunctions:Colors.kt$Gradient$@Deprecated("Old design system. Use `:ivy-design` and Material3") fun asHorizontalBrush()</ID>
-    <ID>DataClassFunctions:DisplayBudget.kt$DisplayBudget$override fun getItemOrderNum(): Double</ID>
-    <ID>DataClassFunctions:DisplayBudget.kt$DisplayBudget$override fun withNewOrderNum(newOrderNum: Double): Reorderable</ID>
-    <ID>DataClassFunctions:DisplayLoan.kt$DisplayLoan$override fun getItemOrderNum(): Double</ID>
-    <ID>DataClassFunctions:DisplayLoan.kt$DisplayLoan$override fun withNewOrderNum(newOrderNum: Double): Reorderable</ID>
     <ID>DataClassFunctions:ExchangeRate.kt$ExchangeRate$fun toEntity(): ExchangeRateEntity</ID>
     <ID>DataClassFunctions:FromToTimeRange.kt$FromToTimeRange$fun from(): LocalDateTime</ID>
     <ID>DataClassFunctions:FromToTimeRange.kt$FromToTimeRange$fun includes(dateTime: LocalDateTime): Boolean</ID>
