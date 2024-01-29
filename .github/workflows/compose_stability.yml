@@ -1,0 +1,33 @@
+name: Composables stability
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  compose_stability:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GIT
+        uses: actions/checkout@v4
+
+      - name: Setup Java SDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'adopt'
+          java-version: '18'
+
+      - name: Enable Gradle Wrapper caching (optimization)
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Compose stability report
+        run: ./gradlew assembleDemo -PcomposeCompilerReports=true -PcomposeCompilerMetrics=true
