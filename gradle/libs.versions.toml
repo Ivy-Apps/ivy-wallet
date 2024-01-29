@@ -5,7 +5,7 @@ ktor = "2.3.7"
 arrow = "1.2.1"
 kotest = "5.8.0"
 # https://developer.android.com/jetpack/androidx/releases/compose
-compose = "1.5.4"
+compose = "1.6.0"
 # https://developer.android.com/jetpack/androidx/releases/compose-kotlin
 compose-compiler = "1.5.8" # It's used! Use compatible with Kotlin one
 compose-material3 = "1.1.2"
@@ -14,7 +14,7 @@ hilt = "2.50"
 room = "2.6.1"
 androidx-work = "2.9.0"
 kotlinx-collections = "0.3.7"
-androidx-test = "1.4.0"
+androidx-test = "1.5.0"
 
 # Android
 min-sdk = "28"
@@ -27,7 +27,7 @@ version-code = "150"
 detekt = "1.23.4" # https://detekt.dev/docs/gettingstarted/gradle/
 
 [libraries]
-android-gradle-plugin = { module = "com.android.tools.build:gradle", version = "8.2.1" }
+android-gradle-plugin = { module = "com.android.tools.build:gradle", version = "8.2.2" }
 
 # Kotlin
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -132,8 +132,8 @@ opencsv-apache-commons = { module = "org.apache.commons:commons-lang3", version 
 detekt-gradle-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 detekt-ruleset-compiler = { module = "com.braisgabin.detekt:kotlin-compiler-wrapper", version = "0.0.4" }
 detekt-ruleset-ktlint = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
-detekt-ruleset-compose = { module = "io.nlopez.compose.rules:detekt", version = "0.3.10" }
-slack-lint-compose = { module = "com.slack.lint.compose:compose-lint-checks", version = "1.2.0" }
+detekt-ruleset-compose = { module = "io.nlopez.compose.rules:detekt", version = "0.3.11" }
+slack-lint-compose = { module = "com.slack.lint.compose:compose-lint-checks", version = "1.3.1" }
 
 # KSP
 ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version = "1.9.22-1.0.17" }
