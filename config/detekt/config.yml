@@ -1113,3 +1113,5 @@ IvyExplicit:
     active: true
   DataClassDefaultValues:
     active: true
+  DataClassTypedIDs:
+    active: true
