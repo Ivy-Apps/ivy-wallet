@@ -640,6 +640,53 @@
     <ID>DataClassFunctions:TimePeriod.kt$TimePeriod$fun toRange( startDateOfMonth: Int ): FromToTimeRange</ID>
     <ID>DataClassFunctions:TimePeriod.kt$TimePeriod$private fun customStartDayOfMonthPeriodRange( date: LocalDate, startDateOfMonth: Int ): Pair&lt;LocalDateTime, LocalDateTime&gt;</ID>
     <ID>DataClassFunctions:TimePeriod.kt$TimePeriod$private fun displayMonthStartingOn1st(month: Month): String</ID>
+    <ID>DataClassTypedIDs:Account.kt$Account$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassTypedIDs:AccountModal.kt$AccountModalData$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassTypedIDs:Budget.kt$Budget$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassTypedIDs:Budget.kt$Budget$val orderId: Double</ID>
+    <ID>DataClassTypedIDs:BudgetModal.kt$BudgetModalData$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassTypedIDs:BufferModal.kt$BufferModalData$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassTypedIDs:CatValueFunctions.kt$CategoryValueFunctions.Argument$val categoryId: UUID?</ID>
+    <ID>DataClassTypedIDs:Category.kt$Category$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassTypedIDs:CategoryModal.kt$CategoryModalData$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassTypedIDs:CategoryTrnsBetweenAct.kt$CategoryTrnsBetweenAct.Input$val categoryId: UUID</ID>
+    <ID>DataClassTypedIDs:ChoosePeriodModal.kt$ChoosePeriodModalData$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassTypedIDs:CustomerJourneyCardModel.kt$CustomerJourneyCardModel$val id: String</ID>
+    <ID>DataClassTypedIDs:ItemIcon.kt$IconInfo$@DrawableRes val iconId: Int</ID>
+    <ID>DataClassTypedIDs:Loan.kt$Loan$val accountId: UUID? = null</ID>
+    <ID>DataClassTypedIDs:Loan.kt$Loan$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassTypedIDs:LoanModal.kt$LoanModalData$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassTypedIDs:LoanRecord.kt$LoanRecord$val accountId: UUID? = null</ID>
+    <ID>DataClassTypedIDs:LoanRecord.kt$LoanRecord$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassTypedIDs:LoanRecord.kt$LoanRecord$val loanId: UUID</ID>
+    <ID>DataClassTypedIDs:LoanRecordModal.kt$LoanRecordModalData$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassTypedIDs:Navigation.kt$Navigation.ModalBackHandler$val id: UUID</ID>
+    <ID>DataClassTypedIDs:PlannedPaymentRule.kt$PlannedPaymentRule$val accountId: UUID</ID>
+    <ID>DataClassTypedIDs:PlannedPaymentRule.kt$PlannedPaymentRule$val categoryId: UUID? = null</ID>
+    <ID>DataClassTypedIDs:PlannedPaymentRule.kt$PlannedPaymentRule$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassTypedIDs:RecurringRuleModal.kt$RecurringRuleModalData$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassTypedIDs:ReportFilter.kt$ReportFilter$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassTypedIDs:RowMapping.kt$RowMapping$val id: Int? = null</ID>
+    <ID>DataClassTypedIDs:Screens.kt$EditPlannedScreen$val accountId: UUID? = null</ID>
+    <ID>DataClassTypedIDs:Screens.kt$EditPlannedScreen$val categoryId: UUID? = null</ID>
+    <ID>DataClassTypedIDs:Screens.kt$EditPlannedScreen$val plannedPaymentRuleId: UUID?</ID>
+    <ID>DataClassTypedIDs:Screens.kt$EditTransactionScreen$val accountId: UUID? = null</ID>
+    <ID>DataClassTypedIDs:Screens.kt$EditTransactionScreen$val categoryId: UUID? = null</ID>
+    <ID>DataClassTypedIDs:Screens.kt$EditTransactionScreen$val initialTransactionId: UUID?</ID>
+    <ID>DataClassTypedIDs:Screens.kt$LoanDetailsScreen$val loanId: UUID</ID>
+    <ID>DataClassTypedIDs:Screens.kt$TransactionsScreen$val accountId: UUID? = null</ID>
+    <ID>DataClassTypedIDs:Screens.kt$TransactionsScreen$val categoryId: UUID? = null</ID>
+    <ID>DataClassTypedIDs:Settings.kt$Settings$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassTypedIDs:Transaction.kt$Transaction$val accountId: UUID</ID>
+    <ID>DataClassTypedIDs:Transaction.kt$Transaction$val categoryId: UUID? = null</ID>
+    <ID>DataClassTypedIDs:Transaction.kt$Transaction$val id: UUID = UUID.randomUUID()</ID>
+    <ID>DataClassTypedIDs:Transaction.kt$Transaction$val loanId: UUID? = null</ID>
+    <ID>DataClassTypedIDs:Transaction.kt$Transaction$val loanRecordId: UUID? = null</ID>
+    <ID>DataClassTypedIDs:Transaction.kt$Transaction$val recurringRuleId: UUID? = null</ID>
+    <ID>DataClassTypedIDs:Transaction.kt$Transaction$val toAccountId: UUID? = null</ID>
+    <ID>DataClassTypedIDs:Transaction.kt$TransactionMetadata$val loanId: UUID? = null</ID>
+    <ID>DataClassTypedIDs:Transaction.kt$TransactionMetadata$val loanRecordId: UUID</ID>
+    <ID>DataClassTypedIDs:Transaction.kt$TransactionMetadata$val recurringRuleId: UUID</ID>
     <ID>EmptyCatchBlock:CSVImporter.kt$CSVImporter${ }</ID>
     <ID>EmptyCatchBlock:IntervalPickerRow.kt${ }</ID>
     <ID>EmptyFunctionBlock:TestIdlingResource.kt$TestIdlingResource${ }</ID>
