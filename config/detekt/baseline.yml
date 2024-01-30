@@ -4957,6 +4957,117 @@
     <ID>NoConsecutiveBlankLines:TestRuntimeOnlyConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:TestWearAppConfigurationAccessors.kt$ </ID>
     <ID>NoConsecutiveBlankLines:WearAppConfigurationAccessors.kt$ </ID>
+    <ID>NoImplicitFunctionReturnType:AccountData.kt$AccountData$override fun getItemOrderNum()</ID>
+    <ID>NoImplicitFunctionReturnType:AccountData.kt$AccountData$override fun withNewOrderNum(newOrderNum: Double)</ID>
+    <ID>NoImplicitFunctionReturnType:AmountFormatting.kt$fun Double.format(digits: Int)</ID>
+    <ID>NoImplicitFunctionReturnType:AmountFormatting.kt$fun Long.length()</ID>
+    <ID>NoImplicitFunctionReturnType:Animation.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") fun &lt;T&gt; springBounce( stiffness: Float = 500f, )</ID>
+    <ID>NoImplicitFunctionReturnType:BackupDataUseCaseAndroidTest.kt$BackupDataUseCaseAndroidTest$@Test fun backup450_150()</ID>
+    <ID>NoImplicitFunctionReturnType:CSVMapper.kt$CSVMapper$@ExperimentalStdlibApi fun mapping(type: ImportType, headerRow: String?)</ID>
+    <ID>NoImplicitFunctionReturnType:CSVMapper.kt$CSVMapper$@ExperimentalStdlibApi private fun financisto()</ID>
+    <ID>NoImplicitFunctionReturnType:CSVMapper.kt$CSVMapper$private fun blueCoins()</ID>
+    <ID>NoImplicitFunctionReturnType:CSVMapper.kt$CSVMapper$private fun fortuneCity()</ID>
+    <ID>NoImplicitFunctionReturnType:CSVMapper.kt$CSVMapper$private fun ivyMappingV1()</ID>
+    <ID>NoImplicitFunctionReturnType:CSVMapper.kt$CSVMapper$private fun ivyMappingV2()</ID>
+    <ID>NoImplicitFunctionReturnType:CSVMapper.kt$CSVMapper$private fun ktwMoneyManager()</ID>
+    <ID>NoImplicitFunctionReturnType:CSVMapper.kt$CSVMapper$private fun monefy()</ID>
+    <ID>NoImplicitFunctionReturnType:CSVMapper.kt$CSVMapper$private fun moneyManager()</ID>
+    <ID>NoImplicitFunctionReturnType:CSVMapper.kt$CSVMapper$private fun oneMoney()</ID>
+    <ID>NoImplicitFunctionReturnType:CSVMapper.kt$CSVMapper$private fun spendee()</ID>
+    <ID>NoImplicitFunctionReturnType:CSVMapper.kt$CSVMapper$private fun walletByBudgetBakers()</ID>
+    <ID>NoImplicitFunctionReturnType:CategoryData.kt$CategoryData$override fun getItemOrderNum()</ID>
+    <ID>NoImplicitFunctionReturnType:CategoryData.kt$CategoryData$override fun withNewOrderNum(newOrderNum: Double)</ID>
+    <ID>NoImplicitFunctionReturnType:CategoryTrnsBetweenAct.kt$fun actInput( categoryId: UUID, between: ClosedTimeRange )</ID>
+    <ID>NoImplicitFunctionReturnType:Colors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") fun Int.toComposeColor()</ID>
+    <ID>NoImplicitFunctionReturnType:Colors.kt$Gradient$@Deprecated("Old design system. Use `:ivy-design` and Material3") fun asHorizontalBrush()</ID>
+    <ID>NoImplicitFunctionReturnType:Colors.kt$Gradient.Companion$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun black()</ID>
+    <ID>NoImplicitFunctionReturnType:Colors.kt$Gradient.Companion$@Deprecated("Old design system. Use `:ivy-design` and Material3") fun from(startColor: Int, endColor: Int?)</ID>
+    <ID>NoImplicitFunctionReturnType:Colors.kt$Gradient.Companion$@Deprecated("Old design system. Use `:ivy-design` and Material3") fun solid(color: Color)</ID>
+    <ID>NoImplicitFunctionReturnType:Compose.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun Int.toDensityDp()</ID>
+    <ID>NoImplicitFunctionReturnType:ComposeExt.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun Dp.toDensityPx()</ID>
+    <ID>NoImplicitFunctionReturnType:ComposeExt.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun Float.toDensityDp()</ID>
+    <ID>NoImplicitFunctionReturnType:ComposeExt.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun Int.toDensityDp()</ID>
+    <ID>NoImplicitFunctionReturnType:ComposeExt.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") fun Modifier.consumeClicks(interactionSource: MutableInteractionSource)</ID>
+    <ID>NoImplicitFunctionReturnType:ComposeExt.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") fun Modifier.drawColoredShadow( color: Color, alpha: Float = 0.15f, borderRadius: Dp = 0.dp, shadowRadius: Dp = 16.dp, offsetX: Dp = 0.dp, offsetY: Dp = 8.dp )</ID>
+    <ID>NoImplicitFunctionReturnType:ComposeExt.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") fun selectEndTextFieldValue(text: String?)</ID>
+    <ID>NoImplicitFunctionReturnType:CustomerJourneyCardsProvider.kt$CustomerJourneyCardsProvider.Companion$fun addPlannedPaymentCard()</ID>
+    <ID>NoImplicitFunctionReturnType:CustomerJourneyCardsProvider.kt$CustomerJourneyCardsProvider.Companion$fun adjustBalanceCard()</ID>
+    <ID>NoImplicitFunctionReturnType:CustomerJourneyCardsProvider.kt$CustomerJourneyCardsProvider.Companion$fun didYouKnow_expensesPieChart()</ID>
+    <ID>NoImplicitFunctionReturnType:CustomerJourneyCardsProvider.kt$CustomerJourneyCardsProvider.Companion$fun didYouKnow_pinAddTransactionWidgetCard()</ID>
+    <ID>NoImplicitFunctionReturnType:CustomerJourneyCardsProvider.kt$CustomerJourneyCardsProvider.Companion$fun ivyWalletIsOpenSource()</ID>
+    <ID>NoImplicitFunctionReturnType:CustomerJourneyCardsProvider.kt$CustomerJourneyCardsProvider.Companion$fun joinIvyTelegramCard()</ID>
+    <ID>NoImplicitFunctionReturnType:CustomerJourneyCardsProvider.kt$CustomerJourneyCardsProvider.Companion$fun joinTelegram2()</ID>
+    <ID>NoImplicitFunctionReturnType:CustomerJourneyCardsProvider.kt$CustomerJourneyCardsProvider.Companion$fun rateUsCard()</ID>
+    <ID>NoImplicitFunctionReturnType:CustomerJourneyCardsProvider.kt$CustomerJourneyCardsProvider.Companion$fun rateUsCard_2()</ID>
+    <ID>NoImplicitFunctionReturnType:CustomerJourneyCardsProvider.kt$CustomerJourneyCardsProvider.Companion$fun shareIvyWalletCard()</ID>
+    <ID>NoImplicitFunctionReturnType:DateExt.kt$fun LocalDateTime.millis()</ID>
+    <ID>NoImplicitFunctionReturnType:DateExt.kt$fun LocalDateTime.toEpochSeconds()</ID>
+    <ID>NoImplicitFunctionReturnType:DateExt.kt$fun endOfDayNowUTC()</ID>
+    <ID>NoImplicitFunctionReturnType:DateExt.kt$fun startOfDayNowUTC()</ID>
+    <ID>NoImplicitFunctionReturnType:EditPlannedScreen.kt$private fun shouldFocusAmount(amount: Double)</ID>
+    <ID>NoImplicitFunctionReturnType:EditPlannedViewModel.kt$EditPlannedViewModel$private fun loadedRule()</ID>
+    <ID>NoImplicitFunctionReturnType:EditTransactionScreen.kt$private fun shouldFocusAmount(amount: Double)</ID>
+    <ID>NoImplicitFunctionReturnType:EditTransactionViewModel.kt$EditTransactionViewModel$private fun loadedTransaction()</ID>
+    <ID>NoImplicitFunctionReturnType:ExchangeRatesViewModel.kt$ExchangeRatesViewModel$private fun toUi(entity: ExchangeRateEntity)</ID>
+    <ID>NoImplicitFunctionReturnType:HomeViewModel.kt$HomeViewModel$private fun switchTheme()</ID>
+    <ID>NoImplicitFunctionReturnType:HomeViewModel.kt$HomeViewModel$private suspend fun dismissCustomerJourneyCard(card: CustomerJourneyCardModel)</ID>
+    <ID>NoImplicitFunctionReturnType:HomeViewModel.kt$HomeViewModel$private suspend fun reload( timePeriod: TimePeriod = ivyContext.selectedPeriod )</ID>
+    <ID>NoImplicitFunctionReturnType:HomeViewModel.kt$HomeViewModel$private suspend fun setBuffer(newBuffer: Double)</ID>
+    <ID>NoImplicitFunctionReturnType:HomeViewModel.kt$HomeViewModel$private suspend fun setCurrency(newCurrency: String)</ID>
+    <ID>NoImplicitFunctionReturnType:IvyAnimation.kt$fun &lt;T&gt; springBounce( stiffness: Float = 500f, )</ID>
+    <ID>NoImplicitFunctionReturnType:IvyAnimation.kt$fun &lt;T&gt; springBounceFast()</ID>
+    <ID>NoImplicitFunctionReturnType:IvyAnimation.kt$fun &lt;T&gt; springBounceMedium()</ID>
+    <ID>NoImplicitFunctionReturnType:IvyAnimation.kt$fun &lt;T&gt; springBounceSlow()</ID>
+    <ID>NoImplicitFunctionReturnType:IvyAnimation.kt$fun &lt;T&gt; springBounceVerySlow()</ID>
+    <ID>NoImplicitFunctionReturnType:IvyColors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun gradientExpenses()</ID>
+    <ID>NoImplicitFunctionReturnType:IvyColors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun mediumBlur()</ID>
+    <ID>NoImplicitFunctionReturnType:IvyColors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun pureBlur()</ID>
+    <ID>NoImplicitFunctionReturnType:IvyColors.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") fun Int.toComposeColor()</ID>
+    <ID>NoImplicitFunctionReturnType:IvyColors.kt$Gradient$@Deprecated("Old design system. Use `:ivy-design` and Material3") fun asHorizontalBrush()</ID>
+    <ID>NoImplicitFunctionReturnType:IvyColors.kt$Gradient$@Deprecated("Old design system. Use `:ivy-design` and Material3") fun asVerticalBrush()</ID>
+    <ID>NoImplicitFunctionReturnType:IvyColors.kt$Gradient.Companion$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun black()</ID>
+    <ID>NoImplicitFunctionReturnType:IvyColors.kt$Gradient.Companion$@Deprecated("Old design system. Use `:ivy-design` and Material3") fun from(gradient: com.ivy.design.l0_system.Gradient)</ID>
+    <ID>NoImplicitFunctionReturnType:IvyColors.kt$Gradient.Companion$@Deprecated("Old design system. Use `:ivy-design` and Material3") fun from(startColor: Int, endColor: Int?)</ID>
+    <ID>NoImplicitFunctionReturnType:IvyColors.kt$Gradient.Companion$@Deprecated("Old design system. Use `:ivy-design` and Material3") fun solid(color: Color)</ID>
+    <ID>NoImplicitFunctionReturnType:IvyModal.kt$@Composable fun modalPreviewActionRowHeight()</ID>
+    <ID>NoImplicitFunctionReturnType:IvyRoomDatabase.kt$IvyRoomDatabase.Companion$fun migrations()</ID>
+    <ID>NoImplicitFunctionReturnType:LoanTransactionsCore.kt$LoanTransactionsCore$suspend fun fetchAccounts()</ID>
+    <ID>NoImplicitFunctionReturnType:LoanTransactionsCore.kt$LoanTransactionsCore$suspend fun fetchAllLoanRecords(loanId: UUID)</ID>
+    <ID>NoImplicitFunctionReturnType:LoanTransactionsCore.kt$LoanTransactionsCore$suspend fun fetchLoan(loanId: UUID)</ID>
+    <ID>NoImplicitFunctionReturnType:LoanTransactionsCore.kt$LoanTransactionsCore$suspend fun fetchLoanRecord(loanRecordId: UUID)</ID>
+    <ID>NoImplicitFunctionReturnType:LoanTransactionsCore.kt$LoanTransactionsCore$suspend fun saveLoan(loan: Loan)</ID>
+    <ID>NoImplicitFunctionReturnType:LoanTransactionsCore.kt$LoanTransactionsCore$suspend fun saveLoanRecords(loanRecord: LoanRecord)</ID>
+    <ID>NoImplicitFunctionReturnType:LoanTransactionsCore.kt$LoanTransactionsCore$suspend fun saveLoanRecords(loanRecords: List&lt;LoanRecord&gt;)</ID>
+    <ID>NoImplicitFunctionReturnType:LoanViewModel.kt$LoanViewModel$@Composable private fun getAccounts()</ID>
+    <ID>NoImplicitFunctionReturnType:LoanViewModel.kt$LoanViewModel$@Composable private fun getLoanModalData()</ID>
+    <ID>NoImplicitFunctionReturnType:LoanViewModel.kt$LoanViewModel$@Composable private fun getReorderModalVisible()</ID>
+    <ID>NoImplicitFunctionReturnType:LoanViewModel.kt$LoanViewModel$@Composable private fun getSelectedAccount()</ID>
+    <ID>NoImplicitFunctionReturnType:Navigation.kt$Navigation$fun backStackEmpty()</ID>
+    <ID>NoImplicitFunctionReturnType:OpResult.kt$OpResult.Companion$fun &lt;T&gt; success(data: T)</ID>
+    <ID>NoImplicitFunctionReturnType:OpResult.kt$OpResult.Companion$fun failure(e: Exception)</ID>
+    <ID>NoImplicitFunctionReturnType:OpResult.kt$OpResult.Companion$fun faliure(errMsg: String)</ID>
+    <ID>NoImplicitFunctionReturnType:OpResult.kt$OpResult.Companion$fun loading()</ID>
+    <ID>NoImplicitFunctionReturnType:OpResult.kt$OpResult.Failure$fun error()</ID>
+    <ID>NoImplicitFunctionReturnType:PreloadDataLogic.kt$PreloadDataLogic$private fun preloadCategoriesCreateData()</ID>
+    <ID>NoImplicitFunctionReturnType:ReorderModal.kt$@Suppress("UNCHECKED_CAST") private fun &lt;T : Reorderable&gt; RecyclerView.adapter()</ID>
+    <ID>NoImplicitFunctionReturnType:ReorderModal.kt$Adapter$override fun getItemCount()</ID>
+    <ID>NoImplicitFunctionReturnType:ReportFilter.kt$ReportFilter.Companion$fun emptyFilter( baseCurrency: String )</ID>
+    <ID>NoImplicitFunctionReturnType:RoomTypeConverters.kt$RoomTypeConverters$@TypeConverter fun parseLoanType(value: String?)</ID>
+    <ID>NoImplicitFunctionReturnType:RoomTypeConverters.kt$RoomTypeConverters$@TypeConverter fun parseRecurringIntervalType(value: String?)</ID>
+    <ID>NoImplicitFunctionReturnType:RoomTypeConverters.kt$RoomTypeConverters$@TypeConverter fun parseTheme(value: String?)</ID>
+    <ID>NoImplicitFunctionReturnType:RoomTypeConverters.kt$RoomTypeConverters$@TypeConverter fun parseTransactionType(value: String?)</ID>
+    <ID>NoImplicitFunctionReturnType:RoomTypeConverters.kt$RoomTypeConverters$@TypeConverter fun parseUUID(id: String?)</ID>
+    <ID>NoImplicitFunctionReturnType:RoomTypeConverters.kt$RoomTypeConverters$@TypeConverter fun saveLoanType(value: LoanType?)</ID>
+    <ID>NoImplicitFunctionReturnType:RoomTypeConverters.kt$RoomTypeConverters$@TypeConverter fun saveRecurringIntervalType(value: IntervalType?)</ID>
+    <ID>NoImplicitFunctionReturnType:RoomTypeConverters.kt$RoomTypeConverters$@TypeConverter fun saveTheme(value: Theme?)</ID>
+    <ID>NoImplicitFunctionReturnType:RoomTypeConverters.kt$RoomTypeConverters$@TypeConverter fun saveTransactionType(value: TransactionType?)</ID>
+    <ID>NoImplicitFunctionReturnType:RoomTypeConverters.kt$RoomTypeConverters$@TypeConverter fun saveUUID(id: UUID?)</ID>
+    <ID>NoImplicitFunctionReturnType:SyncExchangeRatesAct.kt$SyncExchangeRatesAct$override suspend fun Input.willDo()</ID>
+    <ID>NoImplicitFunctionReturnType:TransactionReminderWorker.kt$TransactionReminderWorker$override suspend fun doWork()</ID>
+    <ID>NoImplicitFunctionReturnType:TypographyExt.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") @Composable fun TextStyle.style( color: Color = UI.colors.pureInverse, fontWeight: FontWeight = FontWeight.Bold, textAlign: TextAlign = TextAlign.Start )</ID>
+    <ID>NoImplicitFunctionReturnType:TypographyExt.kt$@Deprecated("Old design system. Use `:ivy-design` and Material3") fun TextStyle.colorAs(color: Color)</ID>
+    <ID>NoImplicitFunctionReturnType:UtilExt.kt$fun String.toLowerCaseLocal()</ID>
+    <ID>NoImplicitFunctionReturnType:UtilExt.kt$fun String.toUpperCaseLocal()</ID>
     <ID>NoMultipleSpaces:AndroidApisConfigurationAccessors.kt$ </ID>
     <ID>NoMultipleSpaces:AndroidJdkImageConfigurationAccessors.kt$ </ID>
     <ID>NoMultipleSpaces:AndroidTestAnnotationProcessorConfigurationAccessors.kt$ </ID>

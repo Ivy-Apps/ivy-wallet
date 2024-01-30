@@ -1115,3 +1115,5 @@ IvyExplicit:
     active: true
   DataClassTypedIDs:
     active: true
+  NoImplicitFunctionReturnType:
+    active: true
