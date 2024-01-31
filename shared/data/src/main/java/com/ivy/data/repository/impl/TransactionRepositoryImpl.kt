@@ -27,8 +27,11 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun findAll(): List<Transaction> {
         return withContext(Dispatchers.IO) {
             dataSource.findAll().mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
             }
         }
     }
@@ -36,8 +39,11 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun findAll_LIMIT_1(): List<Transaction> {
         return withContext(Dispatchers.IO) {
             dataSource.findAll_LIMIT_1().mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
             }
         }
     }
@@ -45,8 +51,11 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun findAllIncome(): List<Income> {
         return withContext(Dispatchers.IO) {
             dataSource.findAllByType(TransactionType.INCOME).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull() as? Income
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull() as? Income
             }
         }
     }
@@ -54,8 +63,11 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun findAllExpense(): List<Expense> {
         return withContext(Dispatchers.IO) {
             dataSource.findAllByType(TransactionType.EXPENSE).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull() as? Expense
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull() as? Expense
             }
         }
     }
@@ -63,8 +75,11 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun findAllTransfer(): List<Transfer> {
         return withContext(Dispatchers.IO) {
             dataSource.findAllByType(TransactionType.TRANSFER).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull() as? Transfer
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull() as? Transfer
             }
         }
     }
@@ -72,8 +87,11 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun findAllIncomeByAccount(accountId: AccountId): List<Income> {
         return withContext(Dispatchers.IO) {
             dataSource.findAllByTypeAndAccount(TransactionType.INCOME, accountId.value).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull() as? Income
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull() as? Income
             }
         }
     }
@@ -82,8 +100,11 @@ class TransactionRepositoryImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             dataSource.findAllByTypeAndAccount(TransactionType.EXPENSE, accountId.value)
                 .mapNotNull {
-                    val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                    with(mapper) { it.toDomain(accountAssetCode) }.getOrNull() as? Expense
+                    val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                    with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull() as? Expense
                 }
         }
     }
@@ -92,8 +113,11 @@ class TransactionRepositoryImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             dataSource.findAllByTypeAndAccount(TransactionType.TRANSFER, accountId.value)
                 .mapNotNull {
-                    val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                    with(mapper) { it.toDomain(accountAssetCode) }.getOrNull() as? Transfer
+                    val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                    with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull() as? Transfer
                 }
         }
     }
@@ -110,8 +134,11 @@ class TransactionRepositoryImpl @Inject constructor(
                 startDate = startDate,
                 endDate = endDate
             ).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull() as? Income
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull() as? Income
             }
         }
     }
@@ -128,8 +155,11 @@ class TransactionRepositoryImpl @Inject constructor(
                 startDate = startDate,
                 endDate = endDate
             ).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull() as? Expense
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull() as? Expense
             }
         }
     }
@@ -146,8 +176,11 @@ class TransactionRepositoryImpl @Inject constructor(
                 startDate = startDate,
                 endDate = endDate
             ).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull() as? Transfer
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull() as? Transfer
             }
         }
     }
@@ -157,8 +190,11 @@ class TransactionRepositoryImpl @Inject constructor(
     ): List<Transfer> {
         return withContext(Dispatchers.IO) {
             dataSource.findAllTransfersToAccount(toAccountId.value).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull() as? Transfer
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull() as? Transfer
             }
         }
     }
@@ -175,8 +211,11 @@ class TransactionRepositoryImpl @Inject constructor(
                 endDate = endDate,
                 type = TransactionType.TRANSFER
             ).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull() as? Transfer
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull() as? Transfer
             }
         }
     }
@@ -187,8 +226,11 @@ class TransactionRepositoryImpl @Inject constructor(
     ): List<Transaction> {
         return withContext(Dispatchers.IO) {
             dataSource.findAllBetween(startDate, endDate).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
             }
         }
     }
@@ -200,8 +242,11 @@ class TransactionRepositoryImpl @Inject constructor(
     ): List<Transaction> {
         return withContext(Dispatchers.IO) {
             dataSource.findAllByAccountAndBetween(accountId.value, startDate, endDate).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
             }
         }
     }
@@ -214,8 +259,11 @@ class TransactionRepositoryImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             dataSource.findAllByCategoryAndBetween(categoryId.value, startDate, endDate)
                 .mapNotNull {
-                    val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                    with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
+                    val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                    with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
                 }
         }
     }
@@ -226,8 +274,11 @@ class TransactionRepositoryImpl @Inject constructor(
     ): List<Transaction> {
         return withContext(Dispatchers.IO) {
             dataSource.findAllUnspecifiedAndBetween(startDate, endDate).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
             }
         }
     }
@@ -244,8 +295,11 @@ class TransactionRepositoryImpl @Inject constructor(
                 startDate = startDate,
                 endDate = endDate
             ).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull() as? Income
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull() as? Income
             }
         }
     }
@@ -262,8 +316,11 @@ class TransactionRepositoryImpl @Inject constructor(
                 startDate = startDate,
                 endDate = endDate
             ).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull() as? Expense
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull() as? Expense
             }
         }
     }
@@ -280,8 +337,11 @@ class TransactionRepositoryImpl @Inject constructor(
                 startDate = startDate,
                 endDate = endDate
             ).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull() as? Transfer
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull() as? Transfer
             }
         }
     }
@@ -296,8 +356,11 @@ class TransactionRepositoryImpl @Inject constructor(
                 startDate = startDate,
                 endDate = endDate
             ).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull() as? Income
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull() as? Income
             }
         }
     }
@@ -312,8 +375,11 @@ class TransactionRepositoryImpl @Inject constructor(
                 startDate = startDate,
                 endDate = endDate
             ).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull() as? Expense
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull() as? Expense
             }
         }
     }
@@ -328,8 +394,11 @@ class TransactionRepositoryImpl @Inject constructor(
                 startDate = startDate,
                 endDate = endDate
             ).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull() as? Transfer
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull() as? Transfer
             }
         }
     }
@@ -342,8 +411,11 @@ class TransactionRepositoryImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             dataSource.findAllToAccountAndBetween(toAccountId.value, startDate, endDate)
                 .mapNotNull {
-                    val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                    with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
+                    val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                    with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
                 }
         }
     }
@@ -354,8 +426,11 @@ class TransactionRepositoryImpl @Inject constructor(
     ): List<Transaction> {
         return withContext(Dispatchers.IO) {
             dataSource.findAllDueToBetween(startDate, endDate).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
             }
         }
     }
@@ -368,8 +443,11 @@ class TransactionRepositoryImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             dataSource.findAllDueToBetweenByCategory(startDate, endDate, categoryId.value)
                 .mapNotNull {
-                    val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                    with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
+                    val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                    with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
                 }
         }
     }
@@ -380,8 +458,11 @@ class TransactionRepositoryImpl @Inject constructor(
     ): List<Transaction> {
         return withContext(Dispatchers.IO) {
             dataSource.findAllDueToBetweenByCategoryUnspecified(startDate, endDate).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
             }
         }
     }
@@ -394,8 +475,11 @@ class TransactionRepositoryImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             dataSource.findAllDueToBetweenByAccount(startDate, endDate, accountId.value)
                 .mapNotNull {
-                    val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                    with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
+                    val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                    with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
                 }
         }
     }
@@ -403,8 +487,11 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun findAllByRecurringRuleId(recurringRuleId: UUID): List<Transaction> {
         return withContext(Dispatchers.IO) {
             dataSource.findAllByRecurringRuleId(recurringRuleId).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
             }
         }
     }
@@ -416,8 +503,11 @@ class TransactionRepositoryImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             dataSource.findAllBetweenAndType(startDate, endDate, TransactionType.INCOME)
                 .mapNotNull {
-                    val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                    with(mapper) { it.toDomain(accountAssetCode) }.getOrNull() as? Income
+                    val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                    with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull() as? Income
                 }
         }
     }
@@ -429,8 +519,11 @@ class TransactionRepositoryImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             dataSource.findAllBetweenAndType(startDate, endDate, TransactionType.EXPENSE)
                 .mapNotNull {
-                    val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                    with(mapper) { it.toDomain(accountAssetCode) }.getOrNull() as? Expense
+                    val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                    with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull() as? Expense
                 }
         }
     }
@@ -442,8 +535,11 @@ class TransactionRepositoryImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             dataSource.findAllBetweenAndType(startDate, endDate, TransactionType.TRANSFER)
                 .mapNotNull {
-                    val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                    with(mapper) { it.toDomain(accountAssetCode) }.getOrNull() as? Transfer
+                    val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                    with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull() as? Transfer
                 }
         }
     }
@@ -456,8 +552,11 @@ class TransactionRepositoryImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             dataSource.findAllBetweenAndRecurringRuleId(startDate, endDate, recurringRuleId)
                 .mapNotNull {
-                    val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                    with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
+                    val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                    with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
                 }
         }
     }
@@ -465,8 +564,11 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun findById(id: TransactionId): Transaction? {
         return withContext(Dispatchers.IO) {
             dataSource.findById(id.value)?.let {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
             }
         }
     }
@@ -477,8 +579,11 @@ class TransactionRepositoryImpl @Inject constructor(
     ): List<Transaction> {
         return withContext(Dispatchers.IO) {
             dataSource.findByIsSyncedAndIsDeleted(synced, deleted).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
             }
         }
     }
@@ -492,8 +597,11 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun findAllByTitleMatchingPattern(pattern: String): List<Transaction> {
         return withContext(Dispatchers.IO) {
             dataSource.findAllByTitleMatchingPattern(pattern).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
             }
         }
     }
@@ -507,8 +615,11 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun findAllByCategory(categoryId: CategoryId): List<Transaction> {
         return withContext(Dispatchers.IO) {
             dataSource.findAllByCategory(categoryId.value).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
             }
         }
     }
@@ -525,8 +636,11 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun findAllByAccount(accountId: AccountId): List<Transaction> {
         return withContext(Dispatchers.IO) {
             dataSource.findAllByAccount(accountId.value).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
             }
         }
     }
@@ -543,8 +657,11 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun findLoanTransaction(loanId: UUID): Transaction? {
         return withContext(Dispatchers.IO) {
             dataSource.findLoanTransaction(loanId)?.let {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
             }
         }
     }
@@ -552,8 +669,11 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun findLoanRecordTransaction(loanRecordId: UUID): Transaction? {
         return withContext(Dispatchers.IO) {
             dataSource.findLoanRecordTransaction(loanRecordId)?.let {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
             }
         }
     }
@@ -561,8 +681,11 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun findAllByLoanId(loanId: UUID): List<Transaction> {
         return withContext(Dispatchers.IO) {
             dataSource.findAllByLoanId(loanId).mapNotNull {
-                val accountAssetCode = getAssetCodeForAccount(it.accountId)
-                with(mapper) { it.toDomain(accountAssetCode) }.getOrNull()
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
             }
         }
     }
@@ -622,8 +745,17 @@ class TransactionRepositoryImpl @Inject constructor(
         }
     }
 
-    private suspend fun getAssetCodeForAccount(accountId: UUID): AssetCode? {
+    private suspend fun getAssetCodes(
+        accountId: UUID,
+        toAccountId: UUID?
+    ): Pair<AssetCode?, AssetCode?> {
+        val assetCode = getAssetCodeForAccount(accountId)
+        val toAssetCode = getAssetCodeForAccount(toAccountId)
+        return Pair(assetCode, toAssetCode)
+    }
 
+    private suspend fun getAssetCodeForAccount(accountId: UUID?): AssetCode? {
+        accountId ?: return null
         return accountRepository.findById(AccountId(accountId))?.asset
     }
 }
