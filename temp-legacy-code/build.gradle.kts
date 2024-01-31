@@ -15,6 +15,8 @@ dependencies {
     implementation(projects.ivyNavigation)
     implementation(projects.ivyData)
 
+    implementation(projects.ivyDesign)
+
     implementation(libs.bundles.activity)
     implementation(libs.bundles.opencsv)
     implementation(libs.bundles.firebase)

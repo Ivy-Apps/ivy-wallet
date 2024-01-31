@@ -42,7 +42,7 @@ import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.BalanceRow
-import com.ivy.wallet.ui.theme.components.IvyCircleButton
+import com.ivy.legacy.legacy.ui.theme.components.IvyCircleButton
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModal
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData

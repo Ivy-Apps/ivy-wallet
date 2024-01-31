@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.theme.components
+package com.ivy.legacy.legacy.ui.theme.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
@@ -21,6 +21,7 @@ import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.GradientRed
 import com.ivy.wallet.ui.theme.White
+import com.ivy.wallet.ui.theme.components.IvyIcon
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable

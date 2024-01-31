@@ -54,7 +54,7 @@ import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IntervalPickerRow
-import com.ivy.wallet.ui.theme.components.IvyCircleButton
+import com.ivy.legacy.legacy.ui.theme.components.IvyCircleButton
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

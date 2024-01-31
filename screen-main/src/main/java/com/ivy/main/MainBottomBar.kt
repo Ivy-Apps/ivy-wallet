@@ -1,5 +1,6 @@
 package com.ivy.main
 
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -59,12 +60,14 @@ import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.White
-import com.ivy.wallet.ui.theme.components.IvyCircleButton
+import com.ivy.legacy.legacy.ui.theme.components.IvyCircleButton
+import com.ivy.wallet.ui.theme.GradientRed
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
 import com.ivy.wallet.ui.theme.gradientExpenses
 import com.ivy.wallet.ui.theme.modal.AddModalBackHandling
 import com.ivy.wallet.ui.theme.pureBlur
+import timber.log.Timber
 import java.util.UUID
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -180,16 +183,26 @@ fun BoxWithConstraintsScope.BottomBar(
     var dragOffset by remember {
         mutableStateOf(Offset.Zero)
     }
-    // + & x button
+
+    val fabStartXOffset = FAB_BUTTON_SIZE.toDensityPx()
+    val fabStartYOffset = navigationBarInset() + FAB_BUTTON_SIZE.toDensityPx()
+
+//    // + & x button
     IvyCircleButton(
         modifier = Modifier
             .layout { measurable, constraints ->
+
+                val maxWidthAllowedByParent = constraints.maxWidth
+                val maxHeightAllowedByParent = constraints.maxHeight
+
                 val placeable = measurable.measure(constraints)
                 layout(placeable.width, placeable.height) {
-                    placeable.place(
-                        x = fabStartX.roundToInt(),
-                        y = fabStartY.roundToInt()
-                    )
+                    placeable.placeRelative(
+
+                        x = (maxWidthAllowedByParent / 2 - fabStartXOffset / 2).roundToInt(),
+                        y = (maxHeightAllowedByParent - fabStartYOffset).roundToInt()
+
+                        )
                 }
             }
             .size(FAB_BUTTON_SIZE)
