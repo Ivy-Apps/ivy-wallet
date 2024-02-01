@@ -144,7 +144,7 @@ fun BoxWithConstraintsScope.BottomBar(
             icon = R.drawable.ic_accounts,
             name = stringResource(R.string.accounts),
             selected = tab == MainTab.ACCOUNTS,
-            selectedColor = Green
+            selectedColor = Green,
         ) {
             selectTab(MainTab.ACCOUNTS)
         }
@@ -164,9 +164,10 @@ fun BoxWithConstraintsScope.BottomBar(
     }
 
     // ------------------------------------ BUTTONS--------------------------------------------------
+
     val fabStartX = ivyContext.screenWidth / 2 - FAB_BUTTON_SIZE.toDensityPx() / 2
     val fabStartY = ivyContext.screenHeight - navigationBarInset() -
-        30.dp.toDensityPx() - FAB_BUTTON_SIZE.toDensityPx()
+            30.dp.toDensityPx() - FAB_BUTTON_SIZE.toDensityPx()
 
     TransactionButtons(
         buttonsShownPercent = buttonsShownPercent,
@@ -186,30 +187,38 @@ fun BoxWithConstraintsScope.BottomBar(
 
     val fabStartXOffset = FAB_BUTTON_SIZE.toDensityPx()
     val fabStartYOffset = navigationBarInset() + FAB_BUTTON_SIZE.toDensityPx()
-
+    val addIvyCircleModifier = Modifier
 //    // + & x button
     IvyCircleButton(
-        modifier = Modifier
+        modifier = addIvyCircleModifier
             .layout { measurable, constraints ->
 
                 val maxWidthAllowedByParent = constraints.maxWidth
                 val maxHeightAllowedByParent = constraints.maxHeight
+                Timber.d("maxHeightAllowedByParent $maxHeightAllowedByParent")
+                Timber.d("maxWidthAllowedByParent $maxWidthAllowedByParent")
 
-                val placeable = measurable.measure(constraints)
+                val placeable = measurable.measure(
+                    constraints = constraints
+                )
                 layout(placeable.width, placeable.height) {
-                    placeable.placeRelative(
+                    placeable.place(
+//                        x = fabStartX.roundToInt(),
+//                        y = fabStartY.roundToInt()
 
                         x = (maxWidthAllowedByParent / 2 - fabStartXOffset / 2).roundToInt(),
                         y = (maxHeightAllowedByParent - fabStartYOffset).roundToInt()
 
-                        )
+                    )
                 }
             }
             .size(FAB_BUTTON_SIZE)
             .rotate(fabRotation)
             .zIndex(200f)
             .thenIf(tab == MainTab.HOME) {
-                pointerInput(Unit) {
+                /** Here We are getting some other instance of modifier not the one we are working with
+                thats why i saved the reference of the modifier we were working with and used its pointerInput() **/
+                addIvyCircleModifier.pointerInput(Unit) {
                     detectDragGestures(
                         onDragCancel = {
                             dragOffset = Offset.Zero
