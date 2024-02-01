@@ -121,7 +121,7 @@ class TransactionMapper @Inject constructor() {
             )
 
             val value = Value(
-                amount = PositiveDouble(amount),
+                amount = PositiveDouble.from(amount).bind(),
                 asset = accountAssetCode ?: AssetCode.from("").bind()
             )
 
@@ -150,7 +150,7 @@ class TransactionMapper @Inject constructor() {
             )
 
             val value = Value(
-                amount = PositiveDouble(amount),
+                amount = PositiveDouble.from(amount).bind(),
                 asset = accountAssetCode ?: AssetCode.from("").bind()
             )
 
@@ -182,12 +182,12 @@ class TransactionMapper @Inject constructor() {
             )
 
             val fromValue = Value(
-                amount = PositiveDouble(amount),
+                amount = PositiveDouble.from(amount).bind(),
                 asset = fromAccountAssetCode ?: AssetCode.from("").bind()
             )
 
             val toValue = Value(
-                amount = PositiveDouble(amount),
+                amount = PositiveDouble.from(amount).bind(),
                 asset = toAccountAssetCode ?: AssetCode.from("").bind()
             )
 
