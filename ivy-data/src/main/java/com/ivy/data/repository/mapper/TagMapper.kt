@@ -6,9 +6,6 @@ import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.primitive.TagId
-import java.time.Instant
-import java.time.ZoneId
-import java.time.ZoneOffset
 import javax.inject.Inject
 
 class TagMapper @Inject constructor() {
@@ -27,7 +24,7 @@ class TagMapper @Inject constructor() {
         )
     }
 
-    fun Tag.toEntity() : TagEntity {
+    fun Tag.toEntity(): TagEntity {
         return TagEntity(
             id = this.id.value,
             name = this.name.value,

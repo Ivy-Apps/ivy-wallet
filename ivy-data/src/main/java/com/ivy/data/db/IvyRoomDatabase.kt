@@ -65,7 +65,7 @@ import com.ivy.domain.db.migration.Migration125to126_Tags
         AccountEntity::class, TransactionEntity::class, CategoryEntity::class,
         SettingsEntity::class, PlannedPaymentRuleEntity::class,
         UserEntity::class, ExchangeRateEntity::class, BudgetEntity::class,
-        LoanEntity::class, LoanRecordEntity::class,TagEntity::class,TagAssociationEntity::class
+        LoanEntity::class, LoanRecordEntity::class, TagEntity::class, TagAssociationEntity::class
     ],
     autoMigrations = [
         AutoMigration(
@@ -89,8 +89,8 @@ abstract class IvyRoomDatabase : RoomDatabase() {
     abstract val exchangeRatesDao: ExchangeRatesDao
     abstract val loanDao: LoanDao
     abstract val loanRecordDao: LoanRecordDao
-    abstract val tagDao : TagDao
-    abstract val tagAssociationDao : TagAssociationDao
+    abstract val tagDao: TagDao
+    abstract val tagAssociationDao: TagAssociationDao
 
     abstract val writeAccountDao: WriteAccountDao
     abstract val writeTransactionDao: WriteTransactionDao
@@ -101,8 +101,8 @@ abstract class IvyRoomDatabase : RoomDatabase() {
     abstract val writeExchangeRatesDao: WriteExchangeRatesDao
     abstract val writeLoanDao: WriteLoanDao
     abstract val writeLoanRecordDao: WriteLoanRecordDao
-    abstract val writeTagDao : WriteTagDao
-    abstract val writeTagAssociationDao : WriteTagAssociationDao
+    abstract val writeTagDao: WriteTagDao
+    abstract val writeTagAssociationDao: WriteTagAssociationDao
 
     companion object {
         const val DB_NAME = "ivywallet.db"
