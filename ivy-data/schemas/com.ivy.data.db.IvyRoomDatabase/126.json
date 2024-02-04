@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 126,
-    "identityHash": "cc70ed0af03f6967f1b1a2117def240c",
+    "identityHash": "712907ba120b6227af4b79fca7ff41db",
     "entities": [
       {
         "tableName": "accounts",
@@ -711,7 +711,7 @@
       },
       {
         "tableName": "tags",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT, `color` INTEGER NOT NULL, `icon` TEXT, `orderNum` REAL NOT NULL, `isSynced` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `dateTime` INTEGER, `featureBit` INTEGER NOT NULL, `featureBitValue` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT, `color` INTEGER NOT NULL, `icon` TEXT, `orderNum` REAL NOT NULL, `isDeleted` INTEGER NOT NULL, `dateTime` INTEGER NOT NULL, `lastSyncedTime` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -750,12 +750,6 @@
             "notNull": true
           },
           {
-            "fieldPath": "isSynced",
-            "columnName": "isSynced",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
             "fieldPath": "isDeleted",
             "columnName": "isDeleted",
             "affinity": "INTEGER",
@@ -765,19 +759,13 @@
             "fieldPath": "dateTime",
             "columnName": "dateTime",
             "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
-            "fieldPath": "featureBit",
-            "columnName": "featureBit",
-            "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "featureBitValue",
-            "columnName": "featureBitValue",
-            "affinity": "TEXT",
-            "notNull": false
+            "fieldPath": "lastSyncedTime",
+            "columnName": "lastSyncedTime",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -790,8 +778,8 @@
         "foreignKeys": []
       },
       {
-        "tableName": "tags_transaction",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tagId` TEXT NOT NULL, `associatedId` TEXT NOT NULL, `isSynced` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, PRIMARY KEY(`tagId`, `associatedId`))",
+        "tableName": "tags_association",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tagId` TEXT NOT NULL, `associatedId` TEXT NOT NULL, `lastSyncedTime` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, PRIMARY KEY(`tagId`, `associatedId`))",
         "fields": [
           {
             "fieldPath": "tagId",
@@ -806,8 +794,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "isSynced",
-            "columnName": "isSynced",
+            "fieldPath": "lastSyncedTime",
+            "columnName": "lastSyncedTime",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -832,7 +820,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'cc70ed0af03f6967f1b1a2117def240c')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '712907ba120b6227af4b79fca7ff41db')"
     ]
   }
 }
