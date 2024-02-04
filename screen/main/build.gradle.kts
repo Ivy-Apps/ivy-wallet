@@ -7,19 +7,19 @@ android {
 }
 
 dependencies {
-    implementation(projects.ivyBase)
-    implementation(projects.ivyDomain)
-    implementation(projects.ivyResources)
-    implementation(projects.ivyDesign)
-    implementation(projects.ivyNavigation)
-    implementation(projects.ivyCommonUi)
-    implementation(projects.ivyData)
+    implementation(projects.shared.base)
+    implementation(projects.shared.domain)
+    implementation(projects.shared.resources)
+    implementation(projects.shared.designSystem)
+    implementation(projects.shared.navigation)
+    implementation(projects.shared.commonUi)
+    implementation(projects.shared.data)
 
-    implementation(projects.screenHome)
-    implementation(projects.screenAccounts)
+    implementation(projects.screen.home)
+    implementation(projects.screen.accounts)
 
-    implementation(projects.tempOldDesign)
-    implementation(projects.tempLegacyCode)
+    implementation(projects.temp.oldDesign)
+    implementation(projects.temp.legacyCode)
 
-    testImplementation(projects.ivyTesting)
+    testImplementation(projects.shared.testing)
 }

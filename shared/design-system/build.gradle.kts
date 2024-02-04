@@ -7,5 +7,5 @@ android {
 }
 
 dependencies {
-    implementation(projects.ivyResources)
+    implementation(projects.shared.resources)
 }

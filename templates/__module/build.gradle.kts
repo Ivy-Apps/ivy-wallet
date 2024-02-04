@@ -7,12 +7,12 @@ android {
 }
 
 dependencies {
-    implementation(projects.ivyBase)
-    implementation(projects.ivyResources)
-    implementation(projects.ivyDesign)
-    implementation(projects.ivyDomain)
-    implementation(projects.ivyNavigation)
-    implementation(projects.ivyCommonUi)
+    implementation(projects.shared.base)
+    implementation(projects.shared.resources)
+    implementation(projects.shared.designSystem)
+    implementation(projects.shared.domain)
+    implementation(projects.shared.navigation)
+    implementation(projects.shared.commonUi)
 
-    testImplementation(projects.ivyTesting)
+    testImplementation(projects.shared.testing)
 }

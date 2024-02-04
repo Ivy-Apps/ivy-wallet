@@ -9,12 +9,12 @@ android {
 }
 
 dependencies {
-    implementation(projects.ivyBase)
+    implementation(projects.shared.base)
 
     implementation(libs.datastore)
     implementation(libs.bundles.ktor)
 
     androidTestImplementation(libs.bundles.integration.testing)
-    androidTestImplementation(projects.ivyTesting)
-    testImplementation(projects.ivyTesting)
+    androidTestImplementation(projects.shared.testing)
+    testImplementation(projects.shared.testing)
 }

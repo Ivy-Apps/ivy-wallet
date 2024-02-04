@@ -7,8 +7,8 @@ android {
 }
 
 dependencies {
-    implementation(projects.ivyBase)
-    implementation(projects.ivyData)
+    implementation(projects.shared.base)
+    implementation(projects.shared.data)
 
     implementation(libs.datastore) // TODO: Will be removed
 }

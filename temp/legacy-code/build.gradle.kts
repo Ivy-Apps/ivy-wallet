@@ -8,12 +8,12 @@ android {
 }
 
 dependencies {
-    implementation(projects.ivyBase)
-    implementation(projects.ivyDomain)
-    implementation(projects.ivyResources)
-    implementation(projects.tempOldDesign)
-    implementation(projects.ivyNavigation)
-    implementation(projects.ivyData)
+    implementation(projects.shared.base)
+    implementation(projects.shared.domain)
+    implementation(projects.shared.resources)
+    implementation(projects.temp.oldDesign)
+    implementation(projects.shared.navigation)
+    implementation(projects.shared.data)
 
     implementation(libs.bundles.activity)
     implementation(libs.bundles.opencsv)

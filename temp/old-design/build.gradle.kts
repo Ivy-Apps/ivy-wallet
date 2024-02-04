@@ -7,8 +7,8 @@ android {
 }
 
 dependencies {
-    implementation(projects.ivyBase)
-    implementation(projects.ivyResources)
-    implementation(projects.ivyDesign)
-    implementation(projects.ivyDomain)
+    implementation(projects.shared.base)
+    implementation(projects.shared.resources)
+    implementation(projects.shared.designSystem)
+    implementation(projects.shared.domain)
 }
