@@ -187,7 +187,8 @@ class TransactionMapper @Inject constructor() {
             )
 
             val toValue = Value(
-                amount = PositiveDouble.from(amount).bind(),
+                amount = toAmount?.let { PositiveDouble.from(it).bind() }
+                    ?: raise("toAmount cannot be null for transfers"),
                 asset = toAccountAssetCode ?: AssetCode.from("").bind()
             )
 
