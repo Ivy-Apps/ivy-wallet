@@ -2,11 +2,9 @@
 
 ## 1. Fork the repo
 
-You can do that by cliking this badge: 👉 [![Fork Ivy Wallet](https://img.shields.io/github/forks/Ivy-Apps/ivy-wallet?logo=github&style=social)](https://github.com/Ivy-Apps/ivy-wallet/fork) 👈
+You can do that by clicking this badge: 👉 [![Fork Ivy Wallet](https://img.shields.io/github/forks/Ivy-Apps/ivy-wallet?logo=github&style=social)](https://github.com/Ivy-Apps/ivy-wallet/fork) 👈
 
 **[How To Fork Guide by GitHub](https://docs.github.com/en/get-started/quickstart/fork-a-repo)**
-
-**Important:** After you've cloned your Ivy Wallet fork make sure to initialize the project using [the initialization instructions in the README](./README.md#initialize-the-project).
 
 ## 2. Pick an issue
 
