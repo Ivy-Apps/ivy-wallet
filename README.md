@@ -48,16 +48,6 @@ Ivy Wallet lacks features but its biggest advantage is its UI/UX, simplicity, an
 
 Instructions in [CONTRIBUTING.md](./CONTRIBUTING.md).
 
-**2. Make the initialization script executable:**
-```
-chmod +x scripts/init.sh
-```
-
-**3. Initialize the project:**
-```
-./scripts/init.sh
-```
-
 ### Need help?
 
 Jour our Telegram community and drop a message in the "Development" topic.
