@@ -124,6 +124,10 @@ android {
 }
 
 dependencies {
+    implementation(projects.shared.base)
+    implementation(projects.shared.data)
+    implementation(projects.shared.domain)
+    implementation(projects.shared.navigation)
     implementation(projects.screen.attributions)
     implementation(projects.screen.balance)
     implementation(projects.screen.budgets)
