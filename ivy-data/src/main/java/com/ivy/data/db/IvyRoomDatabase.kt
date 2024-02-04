@@ -11,6 +11,8 @@ import com.ivy.data.db.dao.read.LoanDao
 import com.ivy.data.db.dao.read.LoanRecordDao
 import com.ivy.data.db.dao.read.PlannedPaymentRuleDao
 import com.ivy.data.db.dao.read.SettingsDao
+import com.ivy.data.db.dao.read.TagDao
+import com.ivy.data.db.dao.read.TagAssociationDao
 import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.data.db.dao.read.UserDao
 import com.ivy.data.db.dao.write.WriteAccountDao
@@ -21,6 +23,8 @@ import com.ivy.data.db.dao.write.WriteLoanDao
 import com.ivy.data.db.dao.write.WriteLoanRecordDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
+import com.ivy.data.db.dao.write.WriteTagDao
+import com.ivy.data.db.dao.write.WriteTagAssociationDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.db.entity.AccountEntity
 import com.ivy.data.db.entity.BudgetEntity
@@ -30,6 +34,8 @@ import com.ivy.data.db.entity.LoanEntity
 import com.ivy.data.db.entity.LoanRecordEntity
 import com.ivy.data.db.entity.PlannedPaymentRuleEntity
 import com.ivy.data.db.entity.SettingsEntity
+import com.ivy.data.db.entity.TagEntity
+import com.ivy.data.db.entity.TagAssociationEntity
 import com.ivy.data.db.entity.TransactionEntity
 import com.ivy.data.db.entity.UserEntity
 import com.ivy.data.db.migration.Migration123to124_LoanIncludeDateTime
@@ -52,13 +58,14 @@ import com.ivy.domain.db.migration.Migration118to119_Loans
 import com.ivy.domain.db.migration.Migration119to120_LoanTransactions
 import com.ivy.domain.db.migration.Migration120to121_DropWishlistItem
 import com.ivy.domain.db.migration.Migration122to123_ExchangeRates
+import com.ivy.domain.db.migration.Migration125to126_Tags
 
 @Database(
     entities = [
         AccountEntity::class, TransactionEntity::class, CategoryEntity::class,
         SettingsEntity::class, PlannedPaymentRuleEntity::class,
         UserEntity::class, ExchangeRateEntity::class, BudgetEntity::class,
-        LoanEntity::class, LoanRecordEntity::class
+        LoanEntity::class, LoanRecordEntity::class, TagEntity::class, TagAssociationEntity::class
     ],
     autoMigrations = [
         AutoMigration(
@@ -67,7 +74,7 @@ import com.ivy.domain.db.migration.Migration122to123_ExchangeRates
             spec = IvyRoomDatabase.DeleteSEMigration::class
         )
     ],
-    version = 125,
+    version = 126,
     exportSchema = true
 )
 @TypeConverters(RoomTypeConverters::class)
@@ -82,6 +89,8 @@ abstract class IvyRoomDatabase : RoomDatabase() {
     abstract val exchangeRatesDao: ExchangeRatesDao
     abstract val loanDao: LoanDao
     abstract val loanRecordDao: LoanRecordDao
+    abstract val tagDao: TagDao
+    abstract val tagAssociationDao: TagAssociationDao
 
     abstract val writeAccountDao: WriteAccountDao
     abstract val writeTransactionDao: WriteTransactionDao
@@ -92,6 +101,8 @@ abstract class IvyRoomDatabase : RoomDatabase() {
     abstract val writeExchangeRatesDao: WriteExchangeRatesDao
     abstract val writeLoanDao: WriteLoanDao
     abstract val writeLoanRecordDao: WriteLoanRecordDao
+    abstract val writeTagDao: WriteTagDao
+    abstract val writeTagAssociationDao: WriteTagAssociationDao
 
     companion object {
         const val DB_NAME = "ivywallet.db"
@@ -115,7 +126,8 @@ abstract class IvyRoomDatabase : RoomDatabase() {
             Migration120to121_DropWishlistItem(),
             Migration122to123_ExchangeRates(),
             Migration123to124_LoanIncludeDateTime(),
-            Migration124to125_LoanEditDateTime()
+            Migration124to125_LoanEditDateTime(),
+            Migration125to126_Tags()
         )
 
         @Suppress("SpreadOperator")
@@ -142,6 +154,8 @@ abstract class IvyRoomDatabase : RoomDatabase() {
         writeLoanDao.deleteAll()
         writeLoanRecordDao.deleteAll()
         writeExchangeRatesDao.deleteALl()
+        writeTagDao.deleteAll()
+        writeTransactionDao.deleteAll()
     }
 
     @DeleteColumn(tableName = "accounts", columnName = "seAccountId")

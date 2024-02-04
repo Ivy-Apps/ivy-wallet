@@ -7,6 +7,7 @@ import com.ivy.base.legacy.toEpochMilli
 import com.ivy.base.model.TransactionType
 import com.ivy.data.model.IntervalType
 import com.ivy.data.model.LoanType
+import java.time.Instant
 import java.time.LocalDateTime
 import java.util.*
 
@@ -48,4 +49,10 @@ class RoomTypeConverters {
 
     @TypeConverter
     fun parseLoanType(value: String?) = value?.let { LoanType.valueOf(it) }
+
+    @TypeConverter
+    fun saveInstant(value: Instant): Long = value.toEpochMilli()
+
+    @TypeConverter
+    fun parseInstant(value: Long): Instant = Instant.ofEpochMilli(value)
 }
