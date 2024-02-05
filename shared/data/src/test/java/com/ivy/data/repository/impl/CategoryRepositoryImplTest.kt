@@ -1,5 +1,7 @@
 package com.ivy.data.repository.impl
 
+import com.ivy.data.db.dao.read.CategoryDao
+import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.data.db.entity.CategoryEntity
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
@@ -7,7 +9,7 @@ import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.repository.mapper.CategoryMapper
-import com.ivy.data.source.LocalCategoryDataSource
+import com.ivy.testing.TestDispatchersProvider
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
@@ -19,18 +21,21 @@ import java.time.Instant
 import java.util.UUID
 
 class CategoryRepositoryImplTest : FreeSpec({
-    val dataSource = mockk<LocalCategoryDataSource>()
+    val categoryDao = mockk<CategoryDao>()
+    val writeCategoryDao = mockk<WriteCategoryDao>()
 
     fun newRepository(): CategoryRepository = CategoryRepositoryImpl(
         mapper = CategoryMapper(),
-        dataSource = dataSource
+        categoryDao = categoryDao,
+        writeCategoryDao = writeCategoryDao,
+        dispatchersProvider = TestDispatchersProvider,
     )
 
     "find all not deleted" - {
         "empty list" {
             // given
             val repository = newRepository()
-            coEvery { dataSource.findAll(false) } returns emptyList()
+            coEvery { categoryDao.findAll(false) } returns emptyList()
 
             // when
             val res = repository.findAll(false)
@@ -44,7 +49,7 @@ class CategoryRepositoryImplTest : FreeSpec({
             val repository = newRepository()
             val id1 = UUID.randomUUID()
             val id3 = UUID.randomUUID()
-            coEvery { dataSource.findAll(false) } returns listOf(
+            coEvery { categoryDao.findAll(false) } returns listOf(
                 CategoryEntity(
                     name = "Home",
                     color = 42,
@@ -106,7 +111,7 @@ class CategoryRepositoryImplTest : FreeSpec({
             // given
             val repository = newRepository()
             val id = UUID.randomUUID()
-            coEvery { dataSource.findById(id) } returns null
+            coEvery { categoryDao.findById(id) } returns null
 
             // when
             val category = repository.findById(CategoryId(id))
@@ -119,7 +124,7 @@ class CategoryRepositoryImplTest : FreeSpec({
             // given
             val repository = newRepository()
             val id = UUID.randomUUID()
-            coEvery { dataSource.findById(id) } returns CategoryEntity(
+            coEvery { categoryDao.findById(id) } returns CategoryEntity(
                 name = "Home",
                 color = 42,
                 icon = null,
@@ -148,7 +153,7 @@ class CategoryRepositoryImplTest : FreeSpec({
             // given
             val repository = newRepository()
             val id = UUID.randomUUID()
-            coEvery { dataSource.findById(id) } returns CategoryEntity(
+            coEvery { categoryDao.findById(id) } returns CategoryEntity(
                 name = "",
                 color = 42,
                 icon = null,
@@ -170,7 +175,7 @@ class CategoryRepositoryImplTest : FreeSpec({
         "null from the source" {
             // given
             val repository = newRepository()
-            coEvery { dataSource.findMaxOrderNum() } returns null
+            coEvery { categoryDao.findMaxOrderNum() } returns null
 
             // when
             val num = repository.findMaxOrderNum()
@@ -182,7 +187,7 @@ class CategoryRepositoryImplTest : FreeSpec({
         "number from the source" {
             // given
             val repository = newRepository()
-            coEvery { dataSource.findMaxOrderNum() } returns 15.0
+            coEvery { categoryDao.findMaxOrderNum() } returns 15.0
 
             // when
             val num = repository.findMaxOrderNum()
@@ -205,14 +210,14 @@ class CategoryRepositoryImplTest : FreeSpec({
             lastUpdated = Instant.EPOCH,
             id = CategoryId(id)
         )
-        coEvery { dataSource.save(any()) } just runs
+        coEvery { writeCategoryDao.save(any()) } just runs
 
         // when
         repository.save(category)
 
         // then
         coVerify(exactly = 1) {
-            dataSource.save(
+            writeCategoryDao.save(
                 CategoryEntity(
                     name = "Home",
                     color = 42,
@@ -261,14 +266,14 @@ class CategoryRepositoryImplTest : FreeSpec({
                 id = CategoryId(id3)
             )
         )
-        coEvery { dataSource.saveMany(any()) } just runs
+        coEvery { writeCategoryDao.saveMany(any()) } just runs
 
         // when
         repository.saveMany(categories)
 
         // then
         coVerify(exactly = 1) {
-            dataSource.saveMany(
+            writeCategoryDao.saveMany(
                 listOf(
                     CategoryEntity(
                         name = "Home",
@@ -308,14 +313,14 @@ class CategoryRepositoryImplTest : FreeSpec({
         // given
         val repository = newRepository()
         val categoryId = CategoryId(UUID.randomUUID())
-        coEvery { dataSource.deleteById(any()) } just runs
+        coEvery { writeCategoryDao.deleteById(any()) } just runs
 
         // when
         repository.deleteById(categoryId)
 
         // then
         coVerify(exactly = 1) {
-            dataSource.deleteById(categoryId.value)
+            writeCategoryDao.deleteById(categoryId.value)
         }
     }
 
@@ -323,28 +328,28 @@ class CategoryRepositoryImplTest : FreeSpec({
         // given
         val repository = newRepository()
         val categoryId = CategoryId(UUID.randomUUID())
-        coEvery { dataSource.flagDeleted(any()) } just runs
+        coEvery { writeCategoryDao.flagDeleted(any()) } just runs
 
         // when
         repository.flagDeleted(categoryId)
 
         // then
         coVerify(exactly = 1) {
-            dataSource.flagDeleted(categoryId.value)
+            writeCategoryDao.flagDeleted(categoryId.value)
         }
     }
 
     "delete all" {
         // given
         val repository = newRepository()
-        coEvery { dataSource.deleteAll() } just runs
+        coEvery { writeCategoryDao.deleteAll() } just runs
 
         // when
         repository.deleteAll()
 
         // then
         coVerify(exactly = 1) {
-            dataSource.deleteAll()
+            writeCategoryDao.deleteAll()
         }
     }
 })

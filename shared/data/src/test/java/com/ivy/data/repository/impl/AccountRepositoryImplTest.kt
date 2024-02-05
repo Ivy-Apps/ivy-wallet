@@ -1,5 +1,7 @@
 package com.ivy.data.repository.impl
 
+import com.ivy.data.db.dao.read.AccountDao
+import com.ivy.data.db.dao.write.WriteAccountDao
 import com.ivy.data.db.entity.AccountEntity
 import com.ivy.data.model.Account
 import com.ivy.data.model.AccountId
@@ -8,7 +10,7 @@ import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.mapper.AccountMapper
-import com.ivy.data.source.LocalAccountDataSource
+import com.ivy.testing.TestDispatchersProvider
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
@@ -20,11 +22,14 @@ import java.time.Instant
 import java.util.UUID
 
 class AccountRepositoryImplTest : FreeSpec({
-    val dataSource = mockk<LocalAccountDataSource>()
+    val accountDao = mockk<AccountDao>()
+    val writeAccountDao = mockk<WriteAccountDao>()
 
     fun newRepository(): AccountRepository = AccountRepositoryImpl(
         mapper = AccountMapper(),
-        dataSource = dataSource
+        accountDao = accountDao,
+        writeAccountDao = writeAccountDao,
+        dispatchersProvider = TestDispatchersProvider,
     )
 
     "find by id" - {
@@ -32,7 +37,7 @@ class AccountRepositoryImplTest : FreeSpec({
             // given
             val repository = newRepository()
             val accountId = AccountId(UUID.randomUUID())
-            coEvery { dataSource.findById(accountId.value) } returns null
+            coEvery { accountDao.findById(accountId.value) } returns null
 
             // when
             val res = repository.findById(accountId)
@@ -45,7 +50,7 @@ class AccountRepositoryImplTest : FreeSpec({
             // given
             val repository = newRepository()
             val accountId = AccountId(UUID.randomUUID())
-            coEvery { dataSource.findById(accountId.value) } returns AccountEntity(
+            coEvery { accountDao.findById(accountId.value) } returns AccountEntity(
                 name = "Bank",
                 currency = "BGN",
                 color = 1,
@@ -78,7 +83,7 @@ class AccountRepositoryImplTest : FreeSpec({
             // given
             val repository = newRepository()
             val accountId = AccountId(UUID.randomUUID())
-            coEvery { dataSource.findById(accountId.value) } returns AccountEntity(
+            coEvery { accountDao.findById(accountId.value) } returns AccountEntity(
                 name = " ",
                 currency = "BGN",
                 color = 1,
@@ -102,7 +107,7 @@ class AccountRepositoryImplTest : FreeSpec({
         "empty list" {
             // given
             val repository = newRepository()
-            coEvery { dataSource.findAll(false) } returns emptyList()
+            coEvery { accountDao.findAll(false) } returns emptyList()
 
             // when
             val res = repository.findAll(false)
@@ -116,7 +121,7 @@ class AccountRepositoryImplTest : FreeSpec({
             val repository = newRepository()
             val account1Id = AccountId(UUID.randomUUID())
             val account2Id = AccountId(UUID.randomUUID())
-            coEvery { dataSource.findAll(false) } returns listOf(
+            coEvery { accountDao.findAll(false) } returns listOf(
                 AccountEntity(
                     name = "Bank",
                     currency = "BGN",
@@ -176,7 +181,7 @@ class AccountRepositoryImplTest : FreeSpec({
             val repository = newRepository()
             val account1Id = AccountId(UUID.randomUUID())
             val account2Id = AccountId(UUID.randomUUID())
-            coEvery { dataSource.findAll(false) } returns listOf(
+            coEvery { accountDao.findAll(false) } returns listOf(
                 AccountEntity(
                     name = "Bank",
                     currency = "BGN",
@@ -224,7 +229,7 @@ class AccountRepositoryImplTest : FreeSpec({
     "finds max order num" - {
         "no accounts" {
             // given
-            coEvery { dataSource.findMaxOrderNum() } returns null
+            coEvery { accountDao.findMaxOrderNum() } returns null
             val repository = newRepository()
 
             // when
@@ -236,7 +241,7 @@ class AccountRepositoryImplTest : FreeSpec({
 
         "existing account" {
             // given
-            coEvery { dataSource.findMaxOrderNum() } returns 42.0
+            coEvery { accountDao.findMaxOrderNum() } returns 42.0
             val repository = newRepository()
 
             // when
@@ -251,7 +256,7 @@ class AccountRepositoryImplTest : FreeSpec({
         // given
         val repository = newRepository()
         val accountId = AccountId(UUID.randomUUID())
-        coEvery { dataSource.save(any()) } just runs
+        coEvery { writeAccountDao.save(any()) } just runs
 
         // when
         repository.save(
@@ -270,7 +275,7 @@ class AccountRepositoryImplTest : FreeSpec({
 
         // then
         coVerify(exactly = 1) {
-            dataSource.save(
+            writeAccountDao.save(
                 AccountEntity(
                     name = "Bank",
                     currency = "BGN",
@@ -291,7 +296,7 @@ class AccountRepositoryImplTest : FreeSpec({
         val repository = newRepository()
         val account1Id = AccountId(UUID.randomUUID())
         val account2Id = AccountId(UUID.randomUUID())
-        coEvery { dataSource.saveMany(any()) } just runs
+        coEvery { writeAccountDao.saveMany(any()) } just runs
 
         // when
         repository.saveMany(
@@ -323,7 +328,7 @@ class AccountRepositoryImplTest : FreeSpec({
 
         // then
         coVerify(exactly = 1) {
-            dataSource.saveMany(
+            writeAccountDao.saveMany(
                 listOf(
                     AccountEntity(
                         name = "Bank",
@@ -356,14 +361,14 @@ class AccountRepositoryImplTest : FreeSpec({
         // given
         val repository = newRepository()
         val accountId = AccountId(UUID.randomUUID())
-        coEvery { dataSource.flagDeleted(any()) } just runs
+        coEvery { writeAccountDao.flagDeleted(any()) } just runs
 
         // when
         repository.flagDeleted(accountId)
 
         // then
         coVerify(exactly = 1) {
-            dataSource.flagDeleted(accountId.value)
+            writeAccountDao.flagDeleted(accountId.value)
         }
     }
 
@@ -371,28 +376,28 @@ class AccountRepositoryImplTest : FreeSpec({
         // given
         val repository = newRepository()
         val accountId = AccountId(UUID.randomUUID())
-        coEvery { dataSource.deleteById(any()) } just runs
+        coEvery { writeAccountDao.deleteById(any()) } just runs
 
         // when
         repository.deleteById(accountId)
 
         // then
         coVerify(exactly = 1) {
-            dataSource.deleteById(accountId.value)
+            writeAccountDao.deleteById(accountId.value)
         }
     }
 
     "delete all" {
         // given
         val repository = newRepository()
-        coEvery { dataSource.deleteAll() } just runs
+        coEvery { writeAccountDao.deleteAll() } just runs
 
         // when
         repository.deleteAll()
 
         // then
         coVerify(exactly = 1) {
-            dataSource.deleteAll()
+            writeAccountDao.deleteAll()
         }
     }
 })

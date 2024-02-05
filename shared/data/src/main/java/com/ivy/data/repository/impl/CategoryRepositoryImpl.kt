@@ -1,71 +1,74 @@
 package com.ivy.data.repository.impl
 
+import com.ivy.base.threading.DispatchersProvider
+import com.ivy.data.db.dao.read.CategoryDao
+import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.repository.mapper.CategoryMapper
-import com.ivy.data.source.LocalCategoryDataSource
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CategoryRepositoryImpl @Inject constructor(
     private val mapper: CategoryMapper,
-    private val dataSource: LocalCategoryDataSource
+    private val writeCategoryDao: WriteCategoryDao,
+    private val categoryDao: CategoryDao,
+    private val dispatchersProvider: DispatchersProvider,
 ) : CategoryRepository {
     override suspend fun findAll(deleted: Boolean): List<Category> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAll(deleted).mapNotNull {
+        return withContext(dispatchersProvider.io) {
+            categoryDao.findAll(deleted).mapNotNull {
                 with(mapper) { it.toDomain() }.getOrNull()
             }
         }
     }
 
     override suspend fun findById(id: CategoryId): Category? {
-        return withContext(Dispatchers.IO) {
-            dataSource.findById(id.value)?.let {
+        return withContext(dispatchersProvider.io) {
+            categoryDao.findById(id.value)?.let {
                 with(mapper) { it.toDomain() }.getOrNull()
             }
         }
     }
 
     override suspend fun findMaxOrderNum(): Double {
-        return withContext(Dispatchers.IO) {
-            dataSource.findMaxOrderNum() ?: 0.0
+        return withContext(dispatchersProvider.io) {
+            categoryDao.findMaxOrderNum() ?: 0.0
         }
     }
 
     override suspend fun save(value: Category) {
-        return withContext(Dispatchers.IO) {
-            dataSource.save(
+        return withContext(dispatchersProvider.io) {
+            writeCategoryDao.save(
                 with(mapper) { value.toEntity() }
             )
         }
     }
 
     override suspend fun saveMany(values: List<Category>) {
-        withContext(Dispatchers.IO) {
-            dataSource.saveMany(
+        withContext(dispatchersProvider.io) {
+            writeCategoryDao.saveMany(
                 values.map { with(mapper) { it.toEntity() } }
             )
         }
     }
 
     override suspend fun deleteById(id: CategoryId) {
-        withContext(Dispatchers.IO) {
-            dataSource.deleteById(id.value)
+        withContext(dispatchersProvider.io) {
+            writeCategoryDao.deleteById(id.value)
         }
     }
 
     override suspend fun flagDeleted(id: CategoryId) {
-        withContext(Dispatchers.IO) {
-            dataSource.flagDeleted(id.value)
+        withContext(dispatchersProvider.io) {
+            writeCategoryDao.flagDeleted(id.value)
         }
     }
 
     override suspend fun deleteAll() {
-        withContext(Dispatchers.IO) {
-            dataSource.deleteAll()
+        withContext(dispatchersProvider.io) {
+            writeCategoryDao.deleteAll()
         }
     }
 }

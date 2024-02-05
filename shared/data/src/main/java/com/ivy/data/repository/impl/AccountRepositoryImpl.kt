@@ -1,71 +1,74 @@
 package com.ivy.data.repository.impl
 
+import com.ivy.base.threading.DispatchersProvider
+import com.ivy.data.db.dao.read.AccountDao
+import com.ivy.data.db.dao.write.WriteAccountDao
 import com.ivy.data.model.Account
 import com.ivy.data.model.AccountId
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.mapper.AccountMapper
-import com.ivy.data.source.LocalAccountDataSource
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class AccountRepositoryImpl @Inject constructor(
     private val mapper: AccountMapper,
-    private val dataSource: LocalAccountDataSource
+    private val accountDao: AccountDao,
+    private val writeAccountDao: WriteAccountDao,
+    private val dispatchersProvider: DispatchersProvider,
 ) : AccountRepository {
     override suspend fun findById(id: AccountId): Account? {
-        return withContext(Dispatchers.IO) {
-            dataSource.findById(id.value)?.let {
+        return withContext(dispatchersProvider.io) {
+            accountDao.findById(id.value)?.let {
                 with(mapper) { it.toDomain() }.getOrNull()
             }
         }
     }
 
     override suspend fun findAll(deleted: Boolean): List<Account> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAll(deleted).mapNotNull {
+        return withContext(dispatchersProvider.io) {
+            accountDao.findAll(deleted).mapNotNull {
                 with(mapper) { it.toDomain() }.getOrNull()
             }
         }
     }
 
     override suspend fun findMaxOrderNum(): Double {
-        return withContext(Dispatchers.IO) {
-            dataSource.findMaxOrderNum() ?: 0.0
+        return withContext(dispatchersProvider.io) {
+            accountDao.findMaxOrderNum() ?: 0.0
         }
     }
 
     override suspend fun save(value: Account) {
-        withContext(Dispatchers.IO) {
-            dataSource.save(
+        withContext(dispatchersProvider.io) {
+            writeAccountDao.save(
                 with(mapper) { value.toEntity() }
             )
         }
     }
 
     override suspend fun saveMany(values: List<Account>) {
-        withContext(Dispatchers.IO) {
-            dataSource.saveMany(
+        withContext(dispatchersProvider.io) {
+            writeAccountDao.saveMany(
                 values.map { with(mapper) { it.toEntity() } }
             )
         }
     }
 
     override suspend fun flagDeleted(id: AccountId) {
-        withContext(Dispatchers.IO) {
-            dataSource.flagDeleted(id.value)
+        withContext(dispatchersProvider.io) {
+            writeAccountDao.flagDeleted(id.value)
         }
     }
 
     override suspend fun deleteById(id: AccountId) {
-        withContext(Dispatchers.IO) {
-            dataSource.deleteById(id.value)
+        withContext(dispatchersProvider.io) {
+            writeAccountDao.deleteById(id.value)
         }
     }
 
     override suspend fun deleteAll() {
-        withContext(Dispatchers.IO) {
-            dataSource.deleteAll()
+        withContext(dispatchersProvider.io) {
+            writeAccountDao.deleteAll()
         }
     }
 }
