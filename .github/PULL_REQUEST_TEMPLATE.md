@@ -48,4 +48,4 @@ Check **[Ivy Wallet Issues](https://github.com/Ivy-Apps/ivy-wallet/issues)**.
 
 ## Troubleshooting CI failures ❌
 
-GitHub Actions failing? Read our [CI Troubleshooting guide](https://github.com/Ivy-Apps/ivy-wallet/blob/docs/CI-Troubleshooting.md).
+GitHub Actions failing? Read our [CI Troubleshooting guide](https://github.com/Ivy-Apps/ivy-wallet/blob/main/docs/CI-Troubleshooting.md).
