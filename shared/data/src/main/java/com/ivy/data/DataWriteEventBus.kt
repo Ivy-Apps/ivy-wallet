@@ -30,5 +30,5 @@ sealed interface DataWriteEvent {
 
 sealed interface DeleteOperation<out Id : UniqueId> {
     data object All : DeleteOperation<Nothing>
-    data class Just<Id: UniqueId>(val ids: List<Id>): DeleteOperation<Id>
+    data class Just<Id : UniqueId>(val ids: List<Id>) : DeleteOperation<Id>
 }
