@@ -13,7 +13,7 @@ Please check if your pull request fulfills the following requirements:
 Tip: you can attach screenshots using a markdown table.
 
 Before | After
----|---
+--|--
 image1 | image2
 -->
 
@@ -30,14 +30,11 @@ Describe with a few bullets **what's new:**
 
 - a
 - b
-- c
 
 **In what cases your code won't work?**
 
 - a
 - b
-- c
-
 
 ## Does this PR closes any GitHub Issues?
 
@@ -45,7 +42,7 @@ Check **[Ivy Wallet Issues](https://github.com/Ivy-Apps/ivy-wallet/issues)**.
 
 - Closes #ISSUE_NUMBER
 
-> Replace `ISSUE_NUMBER` with your issue number. If you've done that correctly, you'll see the issue title linked when previewing your PR description.
+> Replace `ISSUE_NUMBER` with the number of the GitHub issue that this PR is fixing. If you've done that correctly, you'll see the issue title linked when previewing your PR description.
 
 > **!Note:** Do not link the PR id/number. Link the PR of the [GitHub Issue](https://github.com/Ivy-Apps/ivy-wallet/issues).
 
