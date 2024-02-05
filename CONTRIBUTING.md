@@ -16,11 +16,11 @@ What do you want to work on? [Choose an issue](https://github.com/Ivy-Apps/ivy-w
 2. Choose an issue that you understand and like.
 3. Comment **`I'm on it`** on the issue so GitHub Actions can automatically assign it to you.
 
-> ⚠️ Comment exactly `I'm on it` to take an assign, otherwise the CI automation won't assign it to you.
+> ⚠️ Comment exactly **`"I'm on it"`** to take an issue, otherwise the CI automation won't work.
 
 ### Contributing Rules:
 
-1. Comment `I'm on it` to take an issue.
+1. Comment **"I'm on it"** to take an issue.
 2. Want to work on something else? Just **[create a new issue](https://github.com/Ivy-Apps/ivy-wallet/issues/new/choose)**.
 3. Do **not** work on already assigned issues. Ask the assignee first.
 4. Only one issue per contributor at a time.
