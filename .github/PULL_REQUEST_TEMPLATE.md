@@ -44,8 +44,8 @@ Check **[Ivy Wallet Issues](https://github.com/Ivy-Apps/ivy-wallet/issues)**.
 
 > Replace `ISSUE_NUMBER` with the number of the GitHub issue that this PR is fixing. If you've done that correctly, you'll see the issue title linked when previewing your PR description.
 
-> **!Note:** Do not link the PR id/number. Link the PR of the [GitHub Issue](https://github.com/Ivy-Apps/ivy-wallet/issues).
+> **!Note:** Do **not** link the PR number. Link the number/id of the GitHub Issue from [issues](https://github.com/Ivy-Apps/ivy-wallet/issues).
 
-## Troubleshooting CI failures
+## Troubleshooting CI failures ❌
 
-GitHub Actions failing? ❌ Read our [CI Troubleshotting guide](https://github.com/Ivy-Apps/ivy-wallet/blob/docs/CI-Troubleshooting.md).
+GitHub Actions failing? Read our [CI Troubleshooting guide](https://github.com/Ivy-Apps/ivy-wallet/blob/docs/CI-Troubleshooting.md).
