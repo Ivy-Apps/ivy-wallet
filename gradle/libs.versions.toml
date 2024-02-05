@@ -1,7 +1,7 @@
 [versions]
 kotlin = "1.9.22"
 kotlin-coroutines = "1.7.3"
-ktor = "2.3.7"
+ktor = "2.3.8"
 arrow = "1.2.1"
 kotest = "5.8.0"
 # https://developer.android.com/jetpack/androidx/releases/compose
@@ -24,7 +24,7 @@ version-code = "150"
 
 
 # Linters
-detekt = "1.23.4" # https://detekt.dev/docs/gettingstarted/gradle/
+detekt = "1.23.5" # https://detekt.dev/docs/gettingstarted/gradle/
 
 [libraries]
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version = "8.2.2" }
