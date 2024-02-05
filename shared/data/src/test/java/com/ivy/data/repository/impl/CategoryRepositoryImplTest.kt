@@ -1,5 +1,8 @@
 package com.ivy.data.repository.impl
 
+import com.ivy.data.DataWriteEvent
+import com.ivy.data.DataWriteEventBus
+import com.ivy.data.DeleteOperation
 import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.data.db.entity.CategoryEntity
@@ -23,12 +26,14 @@ import java.util.UUID
 class CategoryRepositoryImplTest : FreeSpec({
     val categoryDao = mockk<CategoryDao>()
     val writeCategoryDao = mockk<WriteCategoryDao>()
+    val writeEventBus = mockk<DataWriteEventBus>(relaxed = true)
 
     fun newRepository(): CategoryRepository = CategoryRepositoryImpl(
         mapper = CategoryMapper(),
         categoryDao = categoryDao,
         writeCategoryDao = writeCategoryDao,
         dispatchersProvider = TestDispatchersProvider,
+        writeEventBus = writeEventBus
     )
 
     "find all not deleted" - {
@@ -229,6 +234,9 @@ class CategoryRepositoryImplTest : FreeSpec({
                 )
             )
         }
+        coVerify(exactly = 1) {
+            writeEventBus.post(DataWriteEvent.SaveCategories(listOf(category)))
+        }
     }
 
     "save many" {
@@ -307,6 +315,9 @@ class CategoryRepositoryImplTest : FreeSpec({
                 )
             )
         }
+        coVerify(exactly = 1) {
+            writeEventBus.post(DataWriteEvent.SaveCategories(categories))
+        }
     }
 
     "delete by id" {
@@ -322,20 +333,12 @@ class CategoryRepositoryImplTest : FreeSpec({
         coVerify(exactly = 1) {
             writeCategoryDao.deleteById(categoryId.value)
         }
-    }
-
-    "flag deleted" {
-        // given
-        val repository = newRepository()
-        val categoryId = CategoryId(UUID.randomUUID())
-        coEvery { writeCategoryDao.flagDeleted(any()) } just runs
-
-        // when
-        repository.flagDeleted(categoryId)
-
-        // then
         coVerify(exactly = 1) {
-            writeCategoryDao.flagDeleted(categoryId.value)
+            writeEventBus.post(
+                DataWriteEvent.DeleteCategories(
+                    DeleteOperation.Just(listOf(categoryId))
+                )
+            )
         }
     }
 
@@ -350,6 +353,9 @@ class CategoryRepositoryImplTest : FreeSpec({
         // then
         coVerify(exactly = 1) {
             writeCategoryDao.deleteAll()
+        }
+        coVerify(exactly = 1) {
+            writeEventBus.post(DataWriteEvent.DeleteCategories(DeleteOperation.All))
         }
     }
 })

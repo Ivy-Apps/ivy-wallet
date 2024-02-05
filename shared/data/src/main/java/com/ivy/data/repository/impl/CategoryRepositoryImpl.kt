@@ -1,6 +1,9 @@
 package com.ivy.data.repository.impl
 
 import com.ivy.base.threading.DispatchersProvider
+import com.ivy.data.DataWriteEvent
+import com.ivy.data.DataWriteEventBus
+import com.ivy.data.DeleteOperation
 import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.data.model.Category
@@ -15,6 +18,7 @@ class CategoryRepositoryImpl @Inject constructor(
     private val writeCategoryDao: WriteCategoryDao,
     private val categoryDao: CategoryDao,
     private val dispatchersProvider: DispatchersProvider,
+    private val writeEventBus: DataWriteEventBus,
 ) : CategoryRepository {
     override suspend fun findAll(deleted: Boolean): List<Category> {
         return withContext(dispatchersProvider.io) {
@@ -43,6 +47,7 @@ class CategoryRepositoryImpl @Inject constructor(
             writeCategoryDao.save(
                 with(mapper) { value.toEntity() }
             )
+            writeEventBus.post(DataWriteEvent.SaveCategories(listOf(value)))
         }
     }
 
@@ -51,24 +56,25 @@ class CategoryRepositoryImpl @Inject constructor(
             writeCategoryDao.saveMany(
                 values.map { with(mapper) { it.toEntity() } }
             )
+            writeEventBus.post(DataWriteEvent.SaveCategories(values))
         }
     }
 
     override suspend fun deleteById(id: CategoryId) {
         withContext(dispatchersProvider.io) {
             writeCategoryDao.deleteById(id.value)
-        }
-    }
-
-    override suspend fun flagDeleted(id: CategoryId) {
-        withContext(dispatchersProvider.io) {
-            writeCategoryDao.flagDeleted(id.value)
+            writeEventBus.post(
+                DataWriteEvent.DeleteCategories(
+                    DeleteOperation.Just(listOf(id))
+                )
+            )
         }
     }
 
     override suspend fun deleteAll() {
         withContext(dispatchersProvider.io) {
             writeCategoryDao.deleteAll()
+            writeEventBus.post(DataWriteEvent.DeleteCategories(DeleteOperation.All))
         }
     }
 }

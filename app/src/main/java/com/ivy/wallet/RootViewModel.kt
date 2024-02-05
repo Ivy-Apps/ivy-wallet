@@ -4,13 +4,14 @@ import android.content.Intent
 import androidx.biometric.BiometricPrompt
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
+import com.ivy.data.InMemoryDataStore
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.IvyWalletCtx
-import com.ivy.base.legacy.SharedPrefs
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.readOnly
 import com.ivy.navigation.EditTransactionScreen
@@ -39,6 +40,7 @@ class RootViewModel @Inject constructor(
     private val sharedPrefs: SharedPrefs,
     private val transactionReminderLogic: TransactionReminderLogic,
     private val migrationsManager: MigrationsManager,
+    private val inMemoryDataStore: InMemoryDataStore,
 ) : ViewModel() {
 
     companion object {
@@ -51,6 +53,11 @@ class RootViewModel @Inject constructor(
 
     private val _appLocked = MutableStateFlow<Boolean?>(null)
     val appLocked = _appLocked.readOnly()
+
+    init {
+        // TODO: Consider delaying this to improve cold start
+        inMemoryDataStore.init(viewModelScope)
+    }
 
     fun start(systemDarkMode: Boolean, intent: Intent) {
         viewModelScope.launch {

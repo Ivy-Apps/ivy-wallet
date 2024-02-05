@@ -1,5 +1,8 @@
 package com.ivy.data.repository.impl
 
+import com.ivy.data.DataWriteEvent
+import com.ivy.data.DataWriteEventBus
+import com.ivy.data.DeleteOperation
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.write.WriteAccountDao
 import com.ivy.data.db.entity.AccountEntity
@@ -24,12 +27,14 @@ import java.util.UUID
 class AccountRepositoryImplTest : FreeSpec({
     val accountDao = mockk<AccountDao>()
     val writeAccountDao = mockk<WriteAccountDao>()
+    val writeEventBus = mockk<DataWriteEventBus>(relaxed = true)
 
     fun newRepository(): AccountRepository = AccountRepositoryImpl(
         mapper = AccountMapper(),
         accountDao = accountDao,
         writeAccountDao = writeAccountDao,
         dispatchersProvider = TestDispatchersProvider,
+        writeEventBus = writeEventBus,
     )
 
     "find by id" - {
@@ -257,21 +262,20 @@ class AccountRepositoryImplTest : FreeSpec({
         val repository = newRepository()
         val accountId = AccountId(UUID.randomUUID())
         coEvery { writeAccountDao.save(any()) } just runs
+        val account = Account(
+            id = accountId,
+            name = NotBlankTrimmedString("Bank"),
+            asset = AssetCode("BGN"),
+            color = ColorInt(1),
+            icon = null,
+            includeInBalance = true,
+            orderNum = 1.0,
+            lastUpdated = Instant.EPOCH,
+            removed = false
+        )
 
         // when
-        repository.save(
-            Account(
-                id = accountId,
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("BGN"),
-                color = ColorInt(1),
-                icon = null,
-                includeInBalance = true,
-                orderNum = 1.0,
-                lastUpdated = Instant.EPOCH,
-                removed = false
-            )
-        )
+        repository.save(account)
 
         // then
         coVerify(exactly = 1) {
@@ -289,6 +293,9 @@ class AccountRepositoryImplTest : FreeSpec({
                 )
             )
         }
+        coVerify(exactly = 1) {
+            writeEventBus.post(DataWriteEvent.SaveAccounts(listOf(account)))
+        }
     }
 
     "save many" {
@@ -297,34 +304,33 @@ class AccountRepositoryImplTest : FreeSpec({
         val account1Id = AccountId(UUID.randomUUID())
         val account2Id = AccountId(UUID.randomUUID())
         coEvery { writeAccountDao.saveMany(any()) } just runs
-
-        // when
-        repository.saveMany(
-            listOf(
-                Account(
-                    id = account1Id,
-                    name = NotBlankTrimmedString("Bank"),
-                    asset = AssetCode("BGN"),
-                    color = ColorInt(1),
-                    icon = null,
-                    includeInBalance = true,
-                    orderNum = 1.0,
-                    lastUpdated = Instant.EPOCH,
-                    removed = false
-                ),
-                Account(
-                    id = account2Id,
-                    name = NotBlankTrimmedString("Cash"),
-                    asset = AssetCode("BGN"),
-                    color = ColorInt(2),
-                    icon = null,
-                    includeInBalance = true,
-                    orderNum = 2.0,
-                    lastUpdated = Instant.EPOCH,
-                    removed = false
-                )
+        val accounts = listOf(
+            Account(
+                id = account1Id,
+                name = NotBlankTrimmedString("Bank"),
+                asset = AssetCode("BGN"),
+                color = ColorInt(1),
+                icon = null,
+                includeInBalance = true,
+                orderNum = 1.0,
+                lastUpdated = Instant.EPOCH,
+                removed = false
+            ),
+            Account(
+                id = account2Id,
+                name = NotBlankTrimmedString("Cash"),
+                asset = AssetCode("BGN"),
+                color = ColorInt(2),
+                icon = null,
+                includeInBalance = true,
+                orderNum = 2.0,
+                lastUpdated = Instant.EPOCH,
+                removed = false
             )
         )
+
+        // when
+        repository.saveMany(accounts)
 
         // then
         coVerify(exactly = 1) {
@@ -355,20 +361,8 @@ class AccountRepositoryImplTest : FreeSpec({
                 )
             )
         }
-    }
-
-    "flag deleted" {
-        // given
-        val repository = newRepository()
-        val accountId = AccountId(UUID.randomUUID())
-        coEvery { writeAccountDao.flagDeleted(any()) } just runs
-
-        // when
-        repository.flagDeleted(accountId)
-
-        // then
         coVerify(exactly = 1) {
-            writeAccountDao.flagDeleted(accountId.value)
+            writeEventBus.post(DataWriteEvent.SaveAccounts(accounts))
         }
     }
 
@@ -385,6 +379,13 @@ class AccountRepositoryImplTest : FreeSpec({
         coVerify(exactly = 1) {
             writeAccountDao.deleteById(accountId.value)
         }
+        coVerify(exactly = 1) {
+            writeEventBus.post(
+                DataWriteEvent.DeleteAccounts(
+                    DeleteOperation.Just(listOf(accountId))
+                )
+            )
+        }
     }
 
     "delete all" {
@@ -398,6 +399,9 @@ class AccountRepositoryImplTest : FreeSpec({
         // then
         coVerify(exactly = 1) {
             writeAccountDao.deleteAll()
+        }
+        coVerify(exactly = 1) {
+            writeEventBus.post(DataWriteEvent.DeleteAccounts(DeleteOperation.All))
         }
     }
 })

@@ -1,6 +1,9 @@
 package com.ivy.data.repository.impl
 
 import com.ivy.base.threading.DispatchersProvider
+import com.ivy.data.DataWriteEvent
+import com.ivy.data.DataWriteEventBus
+import com.ivy.data.DeleteOperation
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.write.WriteAccountDao
 import com.ivy.data.model.Account
@@ -15,6 +18,7 @@ class AccountRepositoryImpl @Inject constructor(
     private val accountDao: AccountDao,
     private val writeAccountDao: WriteAccountDao,
     private val dispatchersProvider: DispatchersProvider,
+    private val writeEventBus: DataWriteEventBus,
 ) : AccountRepository {
     override suspend fun findById(id: AccountId): Account? {
         return withContext(dispatchersProvider.io) {
@@ -43,6 +47,7 @@ class AccountRepositoryImpl @Inject constructor(
             writeAccountDao.save(
                 with(mapper) { value.toEntity() }
             )
+            writeEventBus.post(DataWriteEvent.SaveAccounts(listOf(value)))
         }
     }
 
@@ -51,24 +56,23 @@ class AccountRepositoryImpl @Inject constructor(
             writeAccountDao.saveMany(
                 values.map { with(mapper) { it.toEntity() } }
             )
-        }
-    }
-
-    override suspend fun flagDeleted(id: AccountId) {
-        withContext(dispatchersProvider.io) {
-            writeAccountDao.flagDeleted(id.value)
+            writeEventBus.post(DataWriteEvent.SaveAccounts(values))
         }
     }
 
     override suspend fun deleteById(id: AccountId) {
         withContext(dispatchersProvider.io) {
             writeAccountDao.deleteById(id.value)
+            writeEventBus.post(
+                DataWriteEvent.DeleteAccounts(DeleteOperation.Just(listOf(id)))
+            )
         }
     }
 
     override suspend fun deleteAll() {
         withContext(dispatchersProvider.io) {
             writeAccountDao.deleteAll()
+            writeEventBus.post(DataWriteEvent.DeleteAccounts(DeleteOperation.All))
         }
     }
 }
