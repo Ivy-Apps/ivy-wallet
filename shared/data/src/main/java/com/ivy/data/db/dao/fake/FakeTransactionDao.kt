@@ -1,25 +1,36 @@
-package com.ivy.data.backup.fake
+package com.ivy.data.db.dao.fake
 
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.db.entity.TransactionEntity
+import org.jetbrains.annotations.VisibleForTesting
 import java.time.LocalDateTime
 import java.util.UUID
 
-class FakeBackupTransactionDao : TransactionDao, WriteTransactionDao {
+@VisibleForTesting
+class FakeTransactionDao : TransactionDao, WriteTransactionDao {
     private val items = mutableListOf<TransactionEntity>()
 
+    // SELECT * FROM transactions WHERE isDeleted = 0 ORDER BY dateTime DESC, dueDate ASC"
     override suspend fun findAll(): List<TransactionEntity> {
         return items
+            .filter { !it.isDeleted }
+            .sortedWith(
+                compareByDescending<TransactionEntity> { it.dateTime }
+                    .then(compareBy { it.dueDate })
+            )
     }
 
+    // SELECT * FROM transactions WHERE isDeleted = 0 LIMIT 1
     override suspend fun findAll_LIMIT_1(): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return findAll().take(1)
     }
 
+    // SELECT * FROM transactions WHERE isDeleted = 0 AND type = :type ORDER BY dateTime DESC
     override suspend fun findAllByType(type: TransactionType): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return items.filter { !it.isDeleted && it.type == type }
+            .sortedByDescending { it.dateTime }
     }
 
     override suspend fun findAllByTypeAndAccount(

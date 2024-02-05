@@ -1,14 +1,14 @@
 package com.ivy.data.backup
 
 import com.ivy.base.di.KotlinxSerializationModule
-import com.ivy.data.backup.fake.FakeBackupAccountDao
-import com.ivy.data.backup.fake.FakeBackupBudgetDao
-import com.ivy.data.backup.fake.FakeBackupCategoryDao
-import com.ivy.data.backup.fake.FakeBackupLoanDao
-import com.ivy.data.backup.fake.FakeBackupLoanRecordDao
-import com.ivy.data.backup.fake.FakeBackupPlannedPaymentDao
-import com.ivy.data.backup.fake.FakeBackupSettingsDao
-import com.ivy.data.backup.fake.FakeBackupTransactionDao
+import com.ivy.data.db.dao.fake.FakeAccountDao
+import com.ivy.data.db.dao.fake.FakeBudgetDao
+import com.ivy.data.db.dao.fake.FakeCategoryDao
+import com.ivy.data.db.dao.fake.FakeLoanDao
+import com.ivy.data.db.dao.fake.FakeLoanRecordDao
+import com.ivy.data.db.dao.fake.FakePlannedPaymentDao
+import com.ivy.data.db.dao.fake.FakeSettingsDao
+import com.ivy.data.db.dao.fake.FakeTransactionDao
 import com.ivy.testing.TestDispatchersProvider
 import com.ivy.testing.testResource
 import io.kotest.core.spec.style.FreeSpec
@@ -18,14 +18,14 @@ import io.mockk.mockk
 
 class BackupDataUseCaseTest : FreeSpec({
     fun newBackupDataUseCase(
-        backupAccountDao: FakeBackupAccountDao = FakeBackupAccountDao(),
-        backupCategoryDao: FakeBackupCategoryDao = FakeBackupCategoryDao(),
-        backupTransactionDao: FakeBackupTransactionDao = FakeBackupTransactionDao(),
-        backupPlannedPaymentDao: FakeBackupPlannedPaymentDao = FakeBackupPlannedPaymentDao(),
-        backupBudgetDao: FakeBackupBudgetDao = FakeBackupBudgetDao(),
-        backupSettingsDao: FakeBackupSettingsDao = FakeBackupSettingsDao(),
-        backupLoanDao: FakeBackupLoanDao = FakeBackupLoanDao(),
-        backupLoanRecordDao: FakeBackupLoanRecordDao = FakeBackupLoanRecordDao(),
+        backupAccountDao: FakeAccountDao = FakeAccountDao(),
+        backupCategoryDao: FakeCategoryDao = FakeCategoryDao(),
+        backupTransactionDao: FakeTransactionDao = FakeTransactionDao(),
+        backupPlannedPaymentDao: FakePlannedPaymentDao = FakePlannedPaymentDao(),
+        backupBudgetDao: FakeBudgetDao = FakeBudgetDao(),
+        backupSettingsDao: FakeSettingsDao = FakeSettingsDao(),
+        backupLoanDao: FakeLoanDao = FakeLoanDao(),
+        backupLoanRecordDao: FakeLoanRecordDao = FakeLoanRecordDao(),
     ): BackupDataUseCase = BackupDataUseCase(
         accountDao = backupAccountDao,
         accountWriter = backupAccountDao,
