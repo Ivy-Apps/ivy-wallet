@@ -14,7 +14,7 @@ import java.time.ZoneId
 import java.util.UUID
 
 class FakeTransactionRepository : TransactionRepository {
-    private val transactionsMap = mutableMapOf<AccountId, List<Transaction>>()
+    private val transactionsMap = mutableMapOf<AccountId, MutableList<Transaction>>()
     override suspend fun findAll(): List<Transaction> {
         return transactionsMap.values
             .flatten()
@@ -28,6 +28,7 @@ class FakeTransactionRepository : TransactionRepository {
 
     override suspend fun findAllIncome(): List<Income> {
         return transactionsMap.values
+            .flatten()
             .filterIsInstance<Income>()
             .filter { !it.removed }
             .sortedByDescending { it.time }
@@ -35,6 +36,7 @@ class FakeTransactionRepository : TransactionRepository {
 
     override suspend fun findAllExpense(): List<Expense> {
         return transactionsMap.values
+            .flatten()
             .filterIsInstance<Expense>()
             .filter { !it.removed }
             .sortedByDescending { it.time }
@@ -42,20 +44,23 @@ class FakeTransactionRepository : TransactionRepository {
 
     override suspend fun findAllTransfer(): List<Transfer> {
         return transactionsMap.values
+            .flatten()
             .filterIsInstance<Transfer>()
             .filter { !it.removed }
             .sortedByDescending { it.time }
     }
 
     override suspend fun findAllIncomeByAccount(accountId: AccountId): List<Income> {
-        return transactionsMap[accountId]?.filterIsInstance<Income>()
+        return transactionsMap[accountId]
+            ?.filterIsInstance<Income>()
             ?.filter { !it.removed }
             ?.sortedByDescending { it.time }
             .orEmpty()
     }
 
     override suspend fun findAllExpenseByAccount(accountId: AccountId): List<Expense> {
-        return transactionsMap[accountId]?.filterIsInstance<Expense>()
+        return transactionsMap[accountId]
+            ?.filterIsInstance<Expense>()
             ?.filter { !it.removed }
             ?.sortedByDescending { it.time }
             .orEmpty()
@@ -153,10 +158,11 @@ class FakeTransactionRepository : TransactionRepository {
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Transaction> {
-        return transactionsMap[accountId]?.filter {
-            val dateTime = toLocalDateTime(it.time)
-            isBetween(dateTime, startDate, endDate) && !it.removed
-        }
+        return transactionsMap[accountId]
+            ?.filter {
+                val dateTime = toLocalDateTime(it.time)
+                isBetween(dateTime, startDate, endDate) && !it.removed
+            }
             ?.sortedByDescending { it.time }
             .orEmpty()
     }
@@ -194,6 +200,7 @@ class FakeTransactionRepository : TransactionRepository {
         endDate: LocalDateTime
     ): List<Income> {
         return transactionsMap.values
+            .flatten()
             .filterIsInstance<Income>()
             .filter {
                 val dateTime = toLocalDateTime(it.time)
@@ -208,6 +215,7 @@ class FakeTransactionRepository : TransactionRepository {
         endDate: LocalDateTime
     ): List<Expense> {
         return transactionsMap.values
+            .flatten()
             .filterIsInstance<Expense>()
             .filter {
                 val dateTime = toLocalDateTime(it.time)
@@ -222,6 +230,7 @@ class FakeTransactionRepository : TransactionRepository {
         endDate: LocalDateTime
     ): List<Transfer> {
         return transactionsMap.values
+            .flatten()
             .filterIsInstance<Transfer>()
             .filter {
                 val dateTime = toLocalDateTime(it.time)
@@ -235,6 +244,7 @@ class FakeTransactionRepository : TransactionRepository {
         endDate: LocalDateTime
     ): List<Income> {
         return transactionsMap.values
+            .flatten()
             .filterIsInstance<Income>()
             .filter {
                 val dateTime = toLocalDateTime(it.time)
@@ -248,6 +258,7 @@ class FakeTransactionRepository : TransactionRepository {
         endDate: LocalDateTime
     ): List<Expense> {
         return transactionsMap.values
+            .flatten()
             .filterIsInstance<Expense>()
             .filter {
                 val dateTime = toLocalDateTime(it.time)
@@ -261,6 +272,7 @@ class FakeTransactionRepository : TransactionRepository {
         endDate: LocalDateTime
     ): List<Transfer> {
         return transactionsMap.values
+            .flatten()
             .filterIsInstance<Transfer>()
             .filter {
                 val dateTime = toLocalDateTime(it.time)
@@ -274,7 +286,16 @@ class FakeTransactionRepository : TransactionRepository {
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Transaction> {
-        return emptyList()
+        return transactionsMap.values
+            .flatten()
+            .filterIsInstance<Transfer>()
+            .filter {
+                val dateTime = toLocalDateTime(it.time)
+                it.toAccount == toAccountId
+                        && isBetween(dateTime, startDate, endDate)
+                        && !it.removed
+            }
+            .sortedByDescending { it.time }
     }
 
     override suspend fun findAllDueToBetween(
@@ -321,6 +342,7 @@ class FakeTransactionRepository : TransactionRepository {
         endDate: LocalDateTime
     ): List<Income> {
         return transactionsMap.values
+            .flatten()
             .filterIsInstance<Income>()
             .filter {
                 val dateTime = toLocalDateTime(it.time)
@@ -334,6 +356,7 @@ class FakeTransactionRepository : TransactionRepository {
         endDate: LocalDateTime
     ): List<Expense> {
         return transactionsMap.values
+            .flatten()
             .filterIsInstance<Expense>()
             .filter {
                 val dateTime = toLocalDateTime(it.time)
@@ -347,6 +370,7 @@ class FakeTransactionRepository : TransactionRepository {
         endDate: LocalDateTime
     ): List<Transfer> {
         return transactionsMap.values
+            .flatten()
             .filterIsInstance<Transfer>()
             .filter {
                 val dateTime = toLocalDateTime(it.time)
@@ -433,6 +457,7 @@ class FakeTransactionRepository : TransactionRepository {
 
     override suspend fun findAllByAccount(accountId: AccountId): List<Transaction> {
         return transactionsMap[accountId]
+            ?.filter { !it.removed }
             ?.sortedByDescending { it.time }
             .orEmpty()
     }
@@ -468,10 +493,18 @@ class FakeTransactionRepository : TransactionRepository {
     }
 
     override suspend fun save(accountId: AccountId, value: Transaction) {
-        transactionsMap[accountId] = transactionsMap[accountId]?.map {
-            if (it.id == value.id) value
-            else it
-        }.orEmpty()
+        val transactionsForAccountId = transactionsMap[accountId]
+        if (transactionsForAccountId == null) {
+            transactionsMap[accountId] = mutableListOf(value)
+            return
+        }
+
+        val indexOfTransaction = transactionsForAccountId.indexOfFirst { it.id == value.id }
+        if (indexOfTransaction > -1) {
+            transactionsForAccountId[indexOfTransaction] = value
+        } else {
+            transactionsForAccountId.add(value)
+        }
     }
 
     override suspend fun saveMany(accountId: AccountId, value: List<Transaction>) {
@@ -491,7 +524,7 @@ class FakeTransactionRepository : TransactionRepository {
                     }
                 } else transaction
             }
-            transactionsMap[entry.key] = modifiedTransactionForEntry
+            transactionsMap[entry.key] = modifiedTransactionForEntry.toMutableList()
 
             if (found) return
         }
@@ -510,7 +543,7 @@ class FakeTransactionRepository : TransactionRepository {
                     }
                 } else transaction
             }
-            transactionsMap[entry.key] = modifiedTransactionForEntry
+            transactionsMap[entry.key] = modifiedTransactionForEntry.toMutableList()
 
             if (found) return
         }
@@ -523,7 +556,7 @@ class FakeTransactionRepository : TransactionRepository {
                 is Income -> transaction.copy(removed = true)
                 is Transfer -> transaction.copy(removed = true)
             }
-        }.orEmpty()
+        }.orEmpty().toMutableList()
     }
 
     override suspend fun deleteById(id: TransactionId) {
@@ -535,18 +568,18 @@ class FakeTransactionRepository : TransactionRepository {
                     false
                 } else true
             }
-            transactionsMap[entry.key] = filteredTransactionsForEntry
+            transactionsMap[entry.key] = filteredTransactionsForEntry.toMutableList()
 
             if (found) return
         }
     }
 
     override suspend fun deleteAllByAccountId(accountId: AccountId) {
-        transactionsMap[accountId] = emptyList()
+        transactionsMap[accountId] = mutableListOf()
     }
 
     override suspend fun deleteAll() {
-        transactionsMap.replaceAll { _, _ -> emptyList() }
+        transactionsMap.replaceAll { _, _ -> mutableListOf() }
     }
 
     private fun toLocalDateTime(instant: Instant) =
@@ -557,6 +590,6 @@ class FakeTransactionRepository : TransactionRepository {
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): Boolean {
-        return dateTime.isAfter(startDate) && dateTime.isBefore(endDate)
+        return !dateTime.isAfter(endDate) && !dateTime.isBefore(startDate)
     }
 }
