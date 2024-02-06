@@ -127,8 +127,12 @@ private fun BoxWithConstraintsScope.UI(
     }
 
     LoanBottomBar(
+        isPaidOffLoanVisible = state.paidOffLoanVisibility,
         onAdd = {
             onEventHandler.invoke(LoanScreenEvent.OnAddLoan)
+        },
+        onTogglePaidOffLoanVisibility = {
+            onEventHandler.invoke(LoanScreenEvent.OnTogglePaidOffLoanVisibility)
         },
         onClose = {
             nav.back()
@@ -442,7 +446,8 @@ private fun Preview() {
         totalOwedAmount = "1500.0 INR",
         loanModalData = LoanModalData(loan = null, baseCurrency = "INR"),
         reorderModalVisible = false,
-        selectedAccount = null
+        selectedAccount = null,
+        paidOffLoanVisibility = true
     )
     IvyWalletPreview {
         UI(
