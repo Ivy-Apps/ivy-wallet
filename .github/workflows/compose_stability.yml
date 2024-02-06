@@ -29,5 +29,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Compose stability report
-        run: ./gradlew assembleDemo -PcomposeCompilerReports=true -PcomposeCompilerMetrics=true
+      - name: Build Compose compiler report (Jetpack Compose)
+        run: ./gradlew assembleDemo -PcomposeCompilerReports=true
+
+      - name: Analyze the report (Ivy)
+        run: ./gradlew :ci-actions:compose-stability:run
+
+      - name: Upload the Compose Stability report
+        uses: actions/upload-artifact@v4
+        with:
+          name: compose-stability-report
+          path: ci-actions/compose-stability/ivy-compose-stability-report.txt

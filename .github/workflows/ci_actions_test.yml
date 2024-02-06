@@ -37,3 +37,6 @@ jobs:
 
       - name: Test the CI "issue-create-comment" action
         run: ./gradlew :ci-actions:issue-create-comment:test
+
+      - name: Test the CI "compose_stability" action
+        run: ./gradlew :ci-actions:compose-stability:test

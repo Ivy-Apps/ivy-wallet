@@ -9,6 +9,7 @@ import ivy.automate.compose.stability.model.ComposableArgument
 import ivy.automate.compose.stability.model.UnstableComposable
 import java.io.File
 
+const val OutputReportFileName = "ivy-compose-stability-report.txt"
 const val ComposeReportFolderName = "compose_compiler"
 
 fun main() {
@@ -23,6 +24,7 @@ fun main() {
             )
         }.toList()
     val ivyReportTxt = buildIvyReport(unstableComposables)
+    createReportFile(ivyReportTxt)
     println(ivyReportTxt)
 }
 
@@ -127,6 +129,11 @@ private fun buildIvyReport(
         }
     }
     append("-----------\n")
-    append("CONCLUSION\n")
+    append("[CONCLUSION]\n")
     append("Unstable Composables: ${unstableComposables.size}")
+}
+
+private fun createReportFile(report: String) {
+    val reportFile = File(OutputReportFileName)
+    reportFile.writeText(report)
 }
