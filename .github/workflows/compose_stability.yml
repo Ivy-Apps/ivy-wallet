@@ -1,4 +1,4 @@
-name: CI Actions tests
+name: Composables stability
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  test:
+  compose_stability:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout GIT
@@ -29,14 +29,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Test the CI actions "base"
-        run: ./gradlew :ci-actions:base:test
+      - name: Build Compose compiler report (Jetpack Compose)
+        run: ./gradlew assembleDemo -PcomposeCompilerReports=true
 
-      - name: Test the CI "issue-assign" action
-        run: ./gradlew :ci-actions:issue-assign:test
+      - name: Analyze the report (Ivy)
+        run: ./gradlew :ci-actions:compose-stability:run
 
-      - name: Test the CI "issue-create-comment" action
-        run: ./gradlew :ci-actions:issue-create-comment:test
-
-      - name: Test the CI "compose_stability" action
-        run: ./gradlew :ci-actions:compose-stability:test
+      - name: Upload the Compose Stability report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: compose-stability-report
+          path: ci-actions/compose-stability/ivy-compose-stability-report.txt
