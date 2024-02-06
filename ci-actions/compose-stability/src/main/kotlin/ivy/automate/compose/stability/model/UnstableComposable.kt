@@ -1,7 +1,9 @@
 package ivy.automate.compose.stability.model
 
+typealias FullyQualifiedName = String
+
 data class UnstableComposable(
-    val fullyQualifiedName: String,
+    val fullyQualifiedName: FullyQualifiedName,
     val name: String,
     val skippable: Boolean,
     val restartable: Boolean,

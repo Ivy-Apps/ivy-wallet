@@ -6,13 +6,19 @@ import arrow.core.raise.catch
 import arrow.core.raise.either
 import arrow.core.right
 import ivy.automate.compose.stability.model.ComposableArgument
+import ivy.automate.compose.stability.model.FullyQualifiedName
 import ivy.automate.compose.stability.model.UnstableComposable
 import java.io.File
+import kotlin.system.exitProcess
 
 const val OutputReportFileName = "ivy-compose-stability-report.txt"
 const val ComposeReportFolderName = "compose_compiler"
+const val BaselineArg = "generateBaseline"
+const val BaselineFileName = "ivy-compose-stability-baseline.txt"
 
-fun main() {
+fun main(args: Array<String>) {
+    val shouldGenerateBaseline = BaselineArg in args
+    val baselineComposables = readBaseline()
     val unstableComposables = findComposeReportFolders()
         .flatMap { reportFolder ->
             unstableComposables(reportFolder).fold(
@@ -23,9 +29,16 @@ fun main() {
                 }
             )
         }.toList()
+        .filter {
+            shouldGenerateBaseline || it.fullyQualifiedName !in baselineComposables
+        }
     val ivyReportTxt = buildIvyReport(unstableComposables)
     createReportFile(ivyReportTxt)
     println(ivyReportTxt)
+    if(!shouldGenerateBaseline && unstableComposables.isNotEmpty()) {
+        println("ERROR: ${unstableComposables.size} unstable composables found. Fix them!")
+        exitProcess(1)
+    }
 }
 
 private fun findComposeReportFolders(): Sequence<File> {
@@ -137,4 +150,21 @@ private fun buildIvyReport(
 private fun createReportFile(report: String) {
     val reportFile = File(OutputReportFileName)
     reportFile.writeText(report)
+}
+
+private fun generateBaseline(unstableComposables: List<UnstableComposable>) {
+    val baselineContent = unstableComposables.joinToString(separator = "\n") {
+        it.fullyQualifiedName
+    }
+    val baselineFile = File(BaselineFileName)
+    baselineFile.writeText(baselineContent)
+}
+
+private fun readBaseline(): Set<FullyQualifiedName> {
+    return try {
+        val baselineFile = File(BaselineFileName)
+        baselineFile.readText().split("\n").toSet()
+    } catch (e: Exception) {
+        emptySet()
+    }
 }
