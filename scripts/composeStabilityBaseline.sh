@@ -12,8 +12,8 @@ if [ ! -f "settings.gradle.kts" ]; then
 fi
 
 
-./gradlew detektBaseline || exit 0
-git add config/detekt/baseline.yml || exit 0
-git commit -m "Add Detekt baseline" || exit 0
-echo "Detekt baseline added."
-echo "[SUCCESS] Detekt baseline committed. Do 'git push'."
+./gradlew :ci-actions:compose-stability:run --args='generateBaseline' || exit 0
+git add ci-actions/compose-stability/ivy-compose-stability-baseline.txt || exit 0
+git commit -m "Add Compose Stability baseline" || exit 0
+echo "Compose Stability baseline added."
+echo "[SUCCESS] Compose Stability baseline committed. Do 'git push'."

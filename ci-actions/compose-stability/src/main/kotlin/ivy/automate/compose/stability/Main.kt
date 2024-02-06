@@ -35,9 +35,17 @@ fun main(args: Array<String>) {
     val ivyReportTxt = buildIvyReport(unstableComposables)
     createReportFile(ivyReportTxt)
     println(ivyReportTxt)
-    if(!shouldGenerateBaseline && unstableComposables.isNotEmpty()) {
-        println("ERROR: ${unstableComposables.size} unstable composables found. Fix them!")
-        exitProcess(1)
+    if (!shouldGenerateBaseline) {
+        if (unstableComposables.isNotEmpty()) {
+            println("ERROR: ${unstableComposables.size} unstable composables found. Fix them!")
+            exitProcess(1)
+        } else {
+            println("SUCCESS!")
+        }
+    } else {
+        generateBaseline(unstableComposables)
+        println("Baseline generated.")
+        println("Check: ${File(BaselineFileName).absolutePath}")
     }
 }
 
