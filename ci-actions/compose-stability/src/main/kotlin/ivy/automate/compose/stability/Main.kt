@@ -53,6 +53,7 @@ private fun unstableComposables(
     }
 }
 
+@Suppress("MagicNumber")
 private fun parseUnstableComposables(
     composablesCsv: File
 ): Either<String, List<UnstableComposable>> =
