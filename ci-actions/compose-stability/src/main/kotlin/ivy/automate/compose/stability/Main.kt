@@ -22,7 +22,8 @@ fun main() {
                 }
             )
         }.toList()
-    println(unstableComposables.filter { it.unstableArguments.isEmpty() })
+    val ivyReportTxt = buildIvyReport(unstableComposables)
+    println(ivyReportTxt)
 }
 
 private fun findComposeReportFolders(): Sequence<File> {
@@ -45,7 +46,7 @@ private fun unstableComposables(
 
     parseUnstableComposables(composablesCsv).bind().map {
         it.copy(
-            unstableArguments = it.findUnstableArguments(composablesTxt)
+            unstableArguments = it.findUnstableArguments(composablesTxt).toSet()
         )
     }
 }
@@ -70,7 +71,7 @@ private fun parseUnstableComposables(
                     name = name,
                     restartable = restartable,
                     skippable = skippable,
-                    unstableArguments = emptyList(),
+                    unstableArguments = emptySet(),
                 )
             }
             .filter { !it.restartable || !it.skippable }
@@ -104,4 +105,28 @@ private fun UnstableComposable.findUnstableArguments(
                 null
             }
         }
+}
+
+private fun buildIvyReport(
+    unstableComposables: List<UnstableComposable>
+): String = buildString {
+    append("-----------")
+    append("\n")
+    append("UNSTABLE COMPOSABLES:")
+    append("\n")
+    unstableComposables.forEachIndexed { index, composable ->
+        append("@Composable ${composable.fullyQualifiedName}")
+        append("(restartable = ${composable.restartable}, skippable = ${composable.skippable}):\n")
+        composable.unstableArguments.forEach { arg ->
+            append("-unstable ")
+            append("\"${arg.name}: ${arg.type}\"")
+            append("\n")
+        }
+        if (index != unstableComposables.lastIndex) {
+            append("\n")
+        }
+    }
+    append("-----------\n")
+    append("CONCLUSION\n")
+    append("Unstable Composables: ${unstableComposables.size}")
 }

@@ -5,7 +5,7 @@ data class UnstableComposable(
     val name: String,
     val skippable: Boolean,
     val restartable: Boolean,
-    val unstableArguments: List<ComposableArgument>
+    val unstableArguments: Set<ComposableArgument>
 )
 
 data class ComposableArgument(
