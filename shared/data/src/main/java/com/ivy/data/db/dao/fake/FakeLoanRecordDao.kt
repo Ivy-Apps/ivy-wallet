@@ -1,11 +1,13 @@
-package com.ivy.data.backup.fake
+package com.ivy.data.db.dao.fake
 
 import com.ivy.data.db.dao.read.LoanRecordDao
 import com.ivy.data.db.dao.write.WriteLoanRecordDao
 import com.ivy.data.db.entity.LoanRecordEntity
+import org.jetbrains.annotations.VisibleForTesting
 import java.util.UUID
 
-class FakeBackupLoanRecordDao : LoanRecordDao, WriteLoanRecordDao {
+@VisibleForTesting
+class FakeLoanRecordDao : LoanRecordDao, WriteLoanRecordDao {
     private val items = mutableListOf<LoanRecordEntity>()
 
     override suspend fun findAll(): List<LoanRecordEntity> {

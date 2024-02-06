@@ -1,11 +1,13 @@
-package com.ivy.data.backup.fake
+package com.ivy.data.db.dao.fake
 
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
 import com.ivy.data.db.entity.SettingsEntity
+import org.jetbrains.annotations.VisibleForTesting
 import java.util.UUID
 
-class FakeBackupSettingsDao : SettingsDao, WriteSettingsDao {
+@VisibleForTesting
+class FakeSettingsDao : SettingsDao, WriteSettingsDao {
     private val items = mutableListOf<SettingsEntity>()
 
     override suspend fun findFirst(): SettingsEntity {
