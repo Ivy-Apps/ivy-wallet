@@ -8,7 +8,7 @@
     <string name="income_uppercase">PENDAPATAN</string>
     <string name="expenses_uppercase">PENGELUARAN</string>
     <string name="app_locked">APLIKASI TERKUNCI</string>
-    <string name="authenticate_text">Otentikasi untuk masuk ke aplikasi</string>
+    <string name="authenticate_text">Autentikasi untuk masuk ke aplikasi</string>
     <string name="unlock">Buka kunci</string>
     <string name="current_balance">SALDO SAAT INI</string>
     <string name="balance_after_payments">SALDO SETELAH PEMBAYARAN TERENCANA</string>
@@ -93,7 +93,7 @@
     <string name="created_on">Dibuat pada</string>
     <string name="hi">Hai</string>
     <string name="hi_name">Hai %1$s</string>
-    <string name="cashflow">Arus kas: %1$s%2$s %3$s</string>
+    <string name="cashflow">Cashflow: %1$s%2$s %3$s</string>
     <string name="search_transactions">Cari transaksi</string>
     <string name="ivy_wallet_open_source">Ivy Wallet adalah sumber terbuka</string>
     <string name="savings_goal">Tujuan tabungan</string>
@@ -151,7 +151,7 @@
     <string name="terms_and_conditions">Syarat dan Ketentuan</string>
     <string name="privacy_policy">Kebijakan Privasi</string>
     <string name="wallet_description">Lacak pendapatan, pengeluaran, dan anggaran Anda dengan Ivy.\n\nAntarmuka pengguna intuitif, pembayaran berulang dan terencana, kelola beberapa akun, atur transaksi dalam kategori, statistik bermakna, ekspor ke CSV, dan banyak lagi.</string>
-    <string name="enter_your_name">Masukkan nama Anda\nuntuk personalisasi\nDompet Anda</string>
+    <string name="enter_your_name">Masukkan nama anda\nuntuk personalisasi\ndompet Anda</string>
     <string name="what_is_your_name">Apa nama Anda?</string>
     <string name="enter">Masukkan</string>
     <string name="add_accounts">Tambahkan akun</string>
@@ -399,7 +399,7 @@
     <string name="ivy_wallet_is_opensource_description">Kode Ivy Wallet terbuka dan semua orang dapat melihatnya. Kami percaya bahwa transparansi dan etika adalah hal yang harus ada dalam setiap produk perangkat lunak. Jika Anda menyukai pekerjaan kami dan ingin membuat aplikasi menjadi lebih baik, Anda dapat berkontribusi di repositori GitHub kami yang bersifat publik.</string>
     <string name="contribute">Berkontribusi</string>
     <string name="adjust_balance">Atur saldo</string>
-    <string name="authentication_required">Otentikasi diperlukan</string>
+    <string name="authentication_required">Autentikasi diperlukan</string>
     <string name="authentication_required_description">Buktikan bahwa Anda memiliki akses ke perangkat ini untuk membuka kunci aplikasi.</string>
     <string name="total_budget">Total Anggaran</string>
     <string name="category_budget">Anggaran Kategori</string>
