@@ -36,6 +36,7 @@ jobs:
         run: ./gradlew :ci-actions:compose-stability:run
 
       - name: Upload the Compose Stability report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: compose-stability-report
