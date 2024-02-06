@@ -55,3 +55,13 @@ If this job is failing this means that your changes break an existing unit test.
 ```
 ./gradlew testDebugUnitTest
 ```
+
+## Compose Stability
+
+This GitHub Action checks whether your `@Composable` functions are stable (i.e. "restartable" and "skippable"). If it fails it means that some of your composables are unstable. That causes unnecessary recompositions which can lead to lost frames and laggy UI/UX especially when animation or scrolling. You must fix that! To fix it, open the failing working and see the output from report - it tells you which `@Composable` functions are unstable and what parameters cause that.
+
+**Compose Stability baseline** (not recommended)
+```
+./scripts/composeStabilityBaseline.sh
+```
+Do that only if the failure is in legacy code. If the script is failing, open it and execute the commands inside it manually.
