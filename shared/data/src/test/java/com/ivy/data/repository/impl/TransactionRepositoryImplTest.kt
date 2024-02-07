@@ -188,7 +188,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = toInstant(transactionDateTime),
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset)
+                    value = Value(PositiveDouble(100.0), account.asset),
+                    account = AccountId(accountId)
                 ),
                 Expense(
                     id = TransactionId(validExpenseId),
@@ -200,7 +201,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = toInstant(transactionDateTime),
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset)
+                    value = Value(PositiveDouble(100.0), account.asset),
+                    account = AccountId(accountId)
                 ),
                 Transfer(
                     id = TransactionId(validTransferId),
@@ -282,7 +284,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = toInstant(transactionDateTime),
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset)
+                    value = Value(PositiveDouble(100.0), account.asset),
+                    account = account.id
                 )
             )
         }
@@ -382,7 +385,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = toInstant(startDate),
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset)
+                    value = Value(PositiveDouble(100.0), account.asset),
+                    account = account.id
                 ),
                 Income(
                     id = TransactionId(validIncome2Id),
@@ -394,7 +398,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = toInstant(endDate),
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset)
+                    value = Value(PositiveDouble(100.0), account.asset),
+                    account = account.id
                 )
             )
         }
@@ -509,7 +514,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = toInstant(startDate),
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset)
+                    value = Value(PositiveDouble(100.0), account.asset),
+                    account = account.id
                 )
             )
         }
@@ -628,7 +634,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = toInstant(startDate),
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset)
+                    value = Value(PositiveDouble(100.0), account.asset),
+                    account = account.id
                 )
             )
         }
@@ -737,7 +744,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = toInstant(startDate),
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset)
+                    value = Value(PositiveDouble(100.0), account.asset),
+                    account = account.id
                 )
             )
         }
@@ -1117,7 +1125,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = toInstant(startDate),
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset)
+                    value = Value(PositiveDouble(100.0), account.asset),
+                    account = account.id
                 )
             )
         }
@@ -1229,7 +1238,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = toInstant(startDate),
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset)
+                    value = Value(PositiveDouble(100.0), account.asset),
+                    account = account.id
                 )
             )
         }
@@ -1344,7 +1354,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = toInstant(startDate),
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset)
+                    value = Value(PositiveDouble(100.0), account.asset),
+                    account = account.id
                 )
             )
         }
@@ -1452,7 +1463,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     metadata = TransactionMetadata(recurringRuleId, null, null),
                     lastUpdated = toInstant(startDate),
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset)
+                    value = Value(PositiveDouble(100.0), account.asset),
+                    account = account.id
                 )
             )
         }
@@ -1571,7 +1583,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     metadata = TransactionMetadata(recurringRuleId, null, null),
                     lastUpdated = toInstant(startDate),
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset)
+                    value = Value(PositiveDouble(100.0), account.asset),
+                    account = account.id
                 )
             )
         }
@@ -1641,8 +1654,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                 metadata = TransactionMetadata(recurringRuleId, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), account.asset)
-
+                value = Value(PositiveDouble(100.0), account.asset),
+                account = account.id
             )
         }
 
@@ -1797,7 +1810,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = toInstant(startDate),
                     removed = isDeleted,
-                    value = Value(PositiveDouble(100.0), account.asset)
+                    value = Value(PositiveDouble(100.0), account.asset),
+                    account = account.id
                 )
             )
         }
@@ -1897,7 +1911,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = toInstant(startDate),
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset)
+                    value = Value(PositiveDouble(100.0), account.asset),
+                    account = account.id
                 )
             )
         }
@@ -1997,7 +2012,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = toInstant(startDate),
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset)
+                    value = Value(PositiveDouble(100.0), account.asset),
+                    account = account.id
                 )
             )
         }
@@ -2069,8 +2085,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                 metadata = TransactionMetadata(recurringRuleId, loanId, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), account.asset)
-
+                value = Value(PositiveDouble(100.0), account.asset),
+                account = account.id
             )
         }
 
@@ -2186,8 +2202,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                 metadata = TransactionMetadata(recurringRuleId, null, loanRecordId),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), account.asset)
-
+                value = Value(PositiveDouble(100.0), account.asset),
+                account = account.id
             )
         }
 
@@ -2335,7 +2351,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     metadata = TransactionMetadata(null, loanId, null),
                     lastUpdated = toInstant(startDate),
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset)
+                    value = Value(PositiveDouble(100.0), account.asset),
+                    account = account.id
                 )
             )
         }
@@ -2362,7 +2379,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(transactionDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = AccountId(accountId)
             )
         )
 
@@ -2406,7 +2424,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = toInstant(transactionDate),
                     removed = false,
-                    value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                    value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                    account = AccountId(accountId)
                 ),
                 Expense(
                     id = TransactionId(transaction2Id),
@@ -2418,7 +2437,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = toInstant(transactionDate),
                     removed = false,
-                    value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                    value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                    account = AccountId(accountId)
                 ),
             )
         )
