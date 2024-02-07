@@ -135,7 +135,8 @@ class TransactionMapper @Inject constructor() {
                 metadata = metadata,
                 lastUpdated = dateTime?.atZone(zoneId)?.toInstant() ?: Instant.now(),
                 removed = isDeleted,
-                value = value
+                value = value,
+                account = AccountId(accountId)
             )
         }
     }
@@ -164,7 +165,8 @@ class TransactionMapper @Inject constructor() {
                 metadata = metadata,
                 lastUpdated = dateTime?.atZone(zoneId)?.toInstant() ?: Instant.now(),
                 removed = isDeleted,
-                value = value
+                value = value,
+                account = AccountId(accountId)
             )
         }
     }
