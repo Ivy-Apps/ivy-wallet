@@ -1,6 +1,6 @@
 package com.ivy.wallet.ui.theme.modal
 
-import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -24,7 +24,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -70,7 +69,6 @@ data class LoanRecordModalData(
     val createLoanRecordTransaction: Boolean = false,
     val isLoanInterest: Boolean = false,
     val id: UUID = UUID.randomUUID(),
-    val loanRecordType: LoanRecordType? = null
 )
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
@@ -114,7 +112,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
         mutableStateOf(modal?.loanAccountCurrencyCode != null && modal.loanAccountCurrencyCode != modal.baseCurrency)
     }
     var loanRecordType by remember(modal) {
-        mutableStateOf(modal?.loanRecordType ?: LoanRecordType.INCREASE)
+        mutableStateOf(modal?.loanRecord?.loanRecordType ?: LoanRecordType.DECREASE)
     }
 
     var amountModalVisible by remember { mutableStateOf(false) }
@@ -258,6 +256,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
         Spacer(Modifier.height(16.dp))
 
         LoanRecordTypeRow(selectedRecordType = loanRecordType, onLoanRecordTypeChanged = {
+            if(it == LoanRecordType.INCREASE) loanInterest = false
             loanRecordType = it
         })
 
@@ -273,14 +272,16 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             createLoanRecordTrans = it
         }
 
-        IvyCheckboxWithText(
-            modifier = Modifier
-                .padding(start = 16.dp)
-                .align(Alignment.Start),
-            text = stringResource(R.string.mark_as_interest),
-            checked = loanInterest
-        ) {
-            loanInterest = it
+        AnimatedVisibility(visible = loanRecordType == LoanRecordType.DECREASE ) {
+            IvyCheckboxWithText(
+                modifier = Modifier
+                    .padding(start = 16.dp)
+                    .align(Alignment.Start),
+                text = stringResource(R.string.mark_as_interest),
+                checked = loanInterest
+            ) {
+                loanInterest = it
+            }
         }
 
         if (reCalculateVisible) {
@@ -396,7 +397,8 @@ private fun save(
             amount = amount,
             dateTime = dateTime,
             interest = loanRecordInterest,
-            accountId = selectedAccount?.id
+            accountId = selectedAccount?.id,
+            loanRecordType = loanRecordType
         )
         onEdit(
             EditLoanRecordData(
@@ -434,15 +436,6 @@ private fun LoanRecordTypeRow(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Spacer(Modifier.width(24.dp))
-
-        LoanRecordType(
-            modifier = Modifier,
-            loanRecordType = LoanRecordType.INCREASE,
-            selectedRecordType = selectedRecordType
-        ) {
-            onLoanRecordTypeChanged(it)
-        }
-
         LoanRecordType(
             modifier = Modifier,
             loanRecordType = LoanRecordType.DECREASE,
@@ -450,9 +443,15 @@ private fun LoanRecordTypeRow(
         ) {
             onLoanRecordTypeChanged(it)
         }
+        Spacer(modifier = Modifier.width(8.dp))
+        LoanRecordType(
+            modifier = Modifier,
+            loanRecordType = LoanRecordType.INCREASE,
+            selectedRecordType = selectedRecordType
+        ) {
+            onLoanRecordTypeChanged(it)
+        }
     }
-
-    Spacer(Modifier.width(24.dp))
 }
 
 @Composable
@@ -462,16 +461,13 @@ private fun LoanRecordType(
     modifier: Modifier = Modifier,
     onClick: (LoanRecordType) -> Unit
 ) {
-    val iconDrawable =
-        if (loanRecordType == LoanRecordType.INCREASE) R.drawable.ic_donate_plus
-        else R.drawable.ic_donate_minus
-    val text =
-        if (loanRecordType == LoanRecordType.INCREASE) stringResource(id = R.string.increase_loan)
-        else stringResource(id = R.string.decrease_loan)
+    val (text, iconDrawable) =
+        if (loanRecordType == LoanRecordType.INCREASE) stringResource(id = R.string.increase_loan) to R.drawable.ic_donate_plus
+        else stringResource(id = R.string.decrease_loan) to R.drawable.ic_donate_minus
     val selected = selectedRecordType == loanRecordType
     val medium = UI.colors.medium
     val rFull = UI.shapes.rFull
-    val selectedColor = UI.colors.pureInverse
+    val selectedColor = UI.colors.green1
     Row(
         modifier = modifier
             .clip(UI.shapes.rFull)
@@ -502,10 +498,8 @@ private fun LoanRecordType(
                 fontWeight = FontWeight.ExtraBold
             )
         )
-
         Spacer(Modifier.width(24.dp))
     }
-    Spacer(Modifier.width(8.dp))
 }
 
 @Composable

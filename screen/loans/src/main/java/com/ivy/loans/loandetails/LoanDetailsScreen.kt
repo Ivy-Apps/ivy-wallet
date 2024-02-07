@@ -126,6 +126,7 @@ private fun BoxWithConstraintsScope.UI(
                     Header(
                         loan = state.loan,
                         baseCurrency = state.baseCurrency,
+                        loanTotalAmount = state.loanTotalAmount,
                         amountPaid = state.amountPaid,
                         loanAmountPaid = state.loanAmountPaid,
                         itemColor = itemColor,
@@ -241,6 +242,7 @@ private fun BoxWithConstraintsScope.UI(
 private fun Header(
     loan: Loan,
     baseCurrency: String,
+    loanTotalAmount: Double,
     amountPaid: Double,
     loanAmountPaid: Double = 0.0,
     itemColor: Color,
@@ -285,7 +287,7 @@ private fun Header(
                 },
             textColor = contrastColor,
             currency = baseCurrency,
-            balance = loan.amount,
+            balance = loanTotalAmount,
         )
 
         Spacer(Modifier.height(20.dp))
@@ -295,6 +297,7 @@ private fun Header(
             baseCurrency = baseCurrency,
             amountPaid = amountPaid,
             loanAmountPaid = loanAmountPaid,
+            loanTotalAmount = loanTotalAmount,
             selectedLoanAccount = selectedLoanAccount,
             onAddRecord = onAddRecord
         )
@@ -367,6 +370,7 @@ private fun LoanItem(
 private fun LoanInfoCard(
     loan: Loan,
     baseCurrency: String,
+    loanTotalAmount: Double,
     amountPaid: Double,
     loanAmountPaid: Double = 0.0,
     selectedLoanAccount: Account? = null,
@@ -380,8 +384,8 @@ private fun LoanInfoCard(
     }
 
     val contrastColor = findContrastTextColor(backgroundColor)
-    val percentPaid = amountPaid / loan.amount
-    val loanPercentPaid = loanAmountPaid / loan.amount
+    val percentPaid = amountPaid / loanTotalAmount
+    val loanPercentPaid = loanAmountPaid / loanTotalAmount
     val nav = navigation()
 
     Column(
@@ -444,7 +448,7 @@ private fun LoanInfoCard(
             modifier = Modifier
                 .padding(horizontal = 24.dp)
                 .testTag("amount_paid"),
-            text = "${amountPaid.format(baseCurrency)} / ${loan.amount.format(baseCurrency)}",
+            text = "${amountPaid.format(baseCurrency)} / ${loanTotalAmount.format(baseCurrency)}",
             style = UI.typo.nB1.style(
                 color = contrastColor,
                 fontWeight = FontWeight.ExtraBold
@@ -714,9 +718,18 @@ private fun LoanRecordItem(
         if (loanRecord.note.isNullOrEmpty()) {
             Spacer(Modifier.height(16.dp))
         }
-
+        val transactionType = when (loan.type){
+            LoanType.LEND -> {
+                if(loanRecord.loanRecordType == LoanRecordType.INCREASE) TransactionType.EXPENSE
+                else TransactionType.INCOME
+            }
+            LoanType.BORROW -> {
+                if(loanRecord.loanRecordType == LoanRecordType.INCREASE) TransactionType.INCOME
+                else TransactionType.EXPENSE
+            }
+        }
         TypeAmountCurrency(
-            transactionType = if (loan.type == LoanType.LEND) TransactionType.INCOME else TransactionType.EXPENSE,
+            transactionType = transactionType,
             dueDate = null,
             currency = baseCurrency,
             amount = loanRecord.amount
@@ -843,6 +856,7 @@ private fun Preview_Empty() {
                 ),
                 displayLoanRecords = persistentListOf(),
                 amountPaid = 3821.00,
+                loanTotalAmount = 4023.54,
                 loanAmountPaid = 100.0,
                 accounts = persistentListOf(),
                 selectedLoanAccount = null,
@@ -898,6 +912,7 @@ private fun Preview_Records() {
                         )
                     ),
                 ),
+                loanTotalAmount = 4023.54,
                 amountPaid = 3821.00,
                 loanAmountPaid = 100.0,
                 accounts = persistentListOf(),

@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.Transaction
+import com.ivy.base.model.LoanRecordType
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.LoanDao
 import com.ivy.data.db.dao.read.LoanRecordDao
@@ -70,6 +71,7 @@ class LoanDetailsViewModel @Inject constructor(
     private val loan = mutableStateOf<Loan?>(null)
     private val displayLoanRecords =
         mutableStateOf<ImmutableList<DisplayLoanRecord>>(persistentListOf())
+    private val loanTotalAmount = mutableDoubleStateOf(0.0)
     private val amountPaid = mutableDoubleStateOf(0.0)
     private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
     private val loanInterestAmountPaid = mutableDoubleStateOf(0.0)
@@ -93,6 +95,7 @@ class LoanDetailsViewModel @Inject constructor(
             baseCurrency = baseCurrency.value,
             loan = loan.value,
             displayLoanRecords = displayLoanRecords.value,
+            loanTotalAmount = loanTotalAmount.doubleValue,
             amountPaid = amountPaid.doubleValue,
             loanAmountPaid = loanInterestAmountPaid.doubleValue,
             accounts = accounts.value,
@@ -218,6 +221,7 @@ class LoanDetailsViewModel @Inject constructor(
             else -> {}
         }
     }
+
     private fun start() {
         load(loanId = screen.loanId)
     }
@@ -277,6 +281,10 @@ class LoanDetailsViewModel @Inject constructor(
                 var amtPaid = 0.0
                 var loanInterestAmtPaid = 0.0
                 displayLoanRecords.value.forEach {
+                    // We do not want to calculate records that increase loan.
+                    if (it.loanRecord.loanRecordType == LoanRecordType.INCREASE) {
+                        return@forEach
+                    }
                     val convertedAmount = it.loanRecord.convertedAmount ?: it.loanRecord.amount
                     if (!it.loanRecord.interest) {
                         amtPaid += convertedAmount
@@ -287,6 +295,19 @@ class LoanDetailsViewModel @Inject constructor(
 
                 amountPaid.doubleValue = amtPaid
                 loanInterestAmountPaid.doubleValue = loanInterestAmtPaid
+            }
+
+            computationThread {
+                // Calculate total amount of loan borrowed or lent.
+                // That is initial amount + each record that increased the loan.
+                var totalAmount = loan.value?.amount ?: 0.0
+                displayLoanRecords.value.forEach {
+                    if (it.loanRecord.loanRecordType == LoanRecordType.INCREASE) {
+                        val convertedAmount = it.loanRecord.convertedAmount ?: it.loanRecord.amount
+                        totalAmount += convertedAmount
+                    }
+                }
+                loanTotalAmount.doubleValue = totalAmount
             }
 
             associatedTransaction = ioThread {
