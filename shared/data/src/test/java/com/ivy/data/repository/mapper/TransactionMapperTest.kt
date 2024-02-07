@@ -49,7 +49,8 @@ class TransactionMapperTest : FreeSpec({
                 ),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(amount = PositiveDouble(100.0), asset = AssetCode("NGN"))
+                value = Value(amount = PositiveDouble(100.0), asset = AssetCode("NGN")),
+                account = accountId
             )
 
             // when
@@ -101,7 +102,8 @@ class TransactionMapperTest : FreeSpec({
                 ),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(amount = PositiveDouble(100.0), asset = AssetCode("NGN"))
+                value = Value(amount = PositiveDouble(100.0), asset = AssetCode("NGN")),
+                account = accountId
             )
 
             // when
@@ -236,7 +238,8 @@ class TransactionMapperTest : FreeSpec({
                     ),
                     lastUpdated = dateTime.atZone(ZoneId.systemDefault()).toInstant(),
                     removed = false,
-                    value = Value(amount = PositiveDouble(100.0), asset = assetCode)
+                    value = Value(amount = PositiveDouble(100.0), asset = assetCode),
+                    account = AccountId(accountId)
                 )
             }
 
@@ -349,7 +352,8 @@ class TransactionMapperTest : FreeSpec({
                     ),
                     lastUpdated = dateTime.atZone(ZoneId.systemDefault()).toInstant(),
                     removed = false,
-                    value = Value(amount = PositiveDouble(100.0), asset = assetCode)
+                    value = Value(amount = PositiveDouble(100.0), asset = assetCode),
+                    account = AccountId(accountId)
                 )
             }
 
