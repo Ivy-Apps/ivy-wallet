@@ -13,5 +13,6 @@ data class LoanScreenState(
     val loanModalData: LoanModalData?,
     val reorderModalVisible: Boolean,
     val totalOweAmount: String,
-    val totalOwedAmount: String
+    val totalOwedAmount: String,
+    val paidOffLoanVisibility: Boolean,
 )

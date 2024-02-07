@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.ivy.base.legacy.SharedPrefs
 import com.ivy.data.db.dao.read.LoanRecordDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteLoanDao
@@ -12,7 +13,6 @@ import com.ivy.domain.ComposeViewModel
 import com.ivy.domain.event.AccountUpdatedEvent
 import com.ivy.domain.event.EventBus
 import com.ivy.frp.test.TestIdlingResource
-import com.ivy.base.legacy.SharedPrefs
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Loan
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
@@ -56,6 +56,12 @@ class LoanViewModel @Inject constructor(
     private val selectedAccount = mutableStateOf<Account?>(null)
     private val loanModalData = mutableStateOf<LoanModalData?>(null)
     private val reorderModalVisible = mutableStateOf(false)
+
+    /** If true paid off loans will be visible */
+    private val paidOffLoanVisibility = mutableStateOf(true)
+
+    /** Contains all loans including both paidOff and pending*/
+    private var allLoans: ImmutableList<DisplayLoan> = persistentListOf()
     private var defaultCurrencyCode = ""
     private var totalOweAmount = 0.0
     private var totalOwedAmount = 0.0
@@ -74,7 +80,8 @@ class LoanViewModel @Inject constructor(
             loanModalData = getLoanModalData(),
             reorderModalVisible = getReorderModalVisible(),
             totalOweAmount = getTotalOweAmount(totalOweAmount, defaultCurrencyCode),
-            totalOwedAmount = getTotalOwedAmount(totalOwedAmount, defaultCurrencyCode)
+            totalOwedAmount = getTotalOwedAmount(totalOwedAmount, defaultCurrencyCode),
+            paidOffLoanVisibility = getPaidOffLoanVisibility()
         )
     }
 
@@ -99,6 +106,9 @@ class LoanViewModel @Inject constructor(
 
     @Composable
     private fun getAccounts() = accounts.value
+
+    @Composable
+    private fun getPaidOffLoanVisibility(): Boolean = paidOffLoanVisibility.value
 
     override fun onEvent(event: LoanScreenEvent) {
         when (event) {
@@ -129,6 +139,10 @@ class LoanViewModel @Inject constructor(
             is LoanScreenEvent.OnCreateAccount -> {
                 createAccount(event.accountData)
             }
+
+            LoanScreenEvent.OnTogglePaidOffLoanVisibility -> {
+                updatePaidOffLoanVisibility()
+            }
         }
     }
 
@@ -147,7 +161,7 @@ class LoanViewModel @Inject constructor(
             totalOweAmount = 0.0
             totalOwedAmount = 0.0
 
-            loans.value = ioThread {
+            allLoans = ioThread {
                 loansAct(Unit)
                     .map { loan ->
                         val amountPaid = calculateAmountPaid(loan)
@@ -177,6 +191,8 @@ class LoanViewModel @Inject constructor(
                         )
                     }.toImmutableList()
             }
+            filterLoans()
+
             TestIdlingResource.decrement()
         }
     }
@@ -242,6 +258,14 @@ class LoanViewModel @Inject constructor(
         }
     }
 
+    /** It filters [allLoans] and updates [loans] based on weather to show paid off loans or not */
+    private fun filterLoans() {
+        loans.value = when (paidOffLoanVisibility.value) {
+            true -> allLoans
+            false -> allLoans.filter { loan -> loan.percentPaid < 1.0 }.toImmutableList()
+        }
+    }
+
     private fun createAccount(data: CreateAccountData) {
         viewModelScope.launch {
             TestIdlingResource.increment()
@@ -288,5 +312,10 @@ class LoanViewModel @Inject constructor(
         }
 
         return amount
+    }
+
+    private fun updatePaidOffLoanVisibility() {
+        paidOffLoanVisibility.value = paidOffLoanVisibility.value.not()
+        filterLoans()
     }
 }

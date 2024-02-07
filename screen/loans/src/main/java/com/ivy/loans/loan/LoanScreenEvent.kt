@@ -11,4 +11,7 @@ sealed interface LoanScreenEvent {
     data class OnReOrderModalShow(val show: Boolean) : LoanScreenEvent
     data object OnAddLoan : LoanScreenEvent
     data object OnLoanModalDismiss : LoanScreenEvent
+
+    /** Toggles paid off loans visibility */
+    data object OnTogglePaidOffLoanVisibility : LoanScreenEvent
 }

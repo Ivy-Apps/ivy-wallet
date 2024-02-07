@@ -1,11 +1,13 @@
-package com.ivy.data.backup.fake
+package com.ivy.data.db.dao.fake
 
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.write.WriteAccountDao
 import com.ivy.data.db.entity.AccountEntity
+import org.jetbrains.annotations.VisibleForTesting
 import java.util.UUID
 
-class FakeBackupAccountDao : AccountDao, WriteAccountDao {
+@VisibleForTesting
+class FakeAccountDao : AccountDao, WriteAccountDao {
     private val accounts = mutableListOf<AccountEntity>()
 
     override suspend fun findAll(deleted: Boolean): List<AccountEntity> {

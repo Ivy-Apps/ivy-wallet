@@ -31,6 +31,7 @@ data class Income(
     override val lastUpdated: Instant,
     override val removed: Boolean,
     val value: Value,
+    val account: AccountId,
 ) : Transaction
 
 data class Expense(
@@ -44,6 +45,7 @@ data class Expense(
     override val lastUpdated: Instant,
     override val removed: Boolean,
     val value: Value,
+    val account: AccountId,
 ) : Transaction
 
 data class Transfer(

@@ -25,7 +25,7 @@ fun Modifier.thenIf(
 ): Modifier {
     // Cannot use Modifier#then() because it stacks the previous modifiers multiple times
     return if (condition) {
-        this.then(otherModifier())
+        this.otherModifier()
     } else {
         this
     }

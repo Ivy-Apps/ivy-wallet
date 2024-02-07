@@ -23,7 +23,7 @@ Separation, the path of wisdom it is: **Compose UI ≠ Logic of Screen**. Why? H
 4. **Compose Previews:** Mock `UiState`, easy it becomes. Any screen state, preview you can.
 5. **Testability:** ViewModel, easy to test it is - send `UiEvent`s, verify `UiState`. Simple. Hmmm... Compose UI, like celebrity is. Mocked `UiState` if you pass, [Paparazzi](https://github.com/cashapp/paparazzi) screenshot tests pass will.
 
-![screen-viewmodel](../assets/screen-vm.svg)
+![screen-viewmodel](assets/screen-vm.svg)
 
 ### Quick understanding, you seek?
 
@@ -48,7 +48,7 @@ Reason, straightforward it is. More strength and simplicity, the Compose runtime
 
 Follow [offical Guide to app architecture by Google](https://developer.android.com/topic/architecture), we do. Not for fleeting trends or mere style, but for wisdom it holds. Simplicity, at its core.
 
-![app-architecture](../assets/app-layers.svg)
+![app-architecture](assets/app-layers.svg)
 
 ### [Data Layer](https://developer.android.com/topic/architecture/data-layer)
 
@@ -72,7 +72,7 @@ Split our app into many modules, we do. Tangled webs ([spaghetti code](https://e
 
 Each screen, like its own planet it is. Expanding it might, with tales of code and tales. But in its own orbit, it stays. The galaxy of code, peaceful and unshaken it remains.
 
-![modularization-strategy](../assets/modularization.svg)
+![modularization-strategy](assets/modularization.svg)
 
 **Simple, our modularization path is:**
 

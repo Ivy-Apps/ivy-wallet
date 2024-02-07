@@ -1,11 +1,13 @@
-package com.ivy.data.backup.fake
+package com.ivy.data.db.dao.fake
 
 import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.data.db.entity.CategoryEntity
+import org.jetbrains.annotations.VisibleForTesting
 import java.util.UUID
 
-class FakeBackupCategoryDao : CategoryDao, WriteCategoryDao {
+@VisibleForTesting
+class FakeCategoryDao : CategoryDao, WriteCategoryDao {
     private val items = mutableListOf<CategoryEntity>()
 
     override suspend fun findAll(deleted: Boolean): List<CategoryEntity> {
