@@ -53,7 +53,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val income2 = Income(
@@ -66,7 +67,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = true,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -79,7 +81,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense2 = Expense(
@@ -92,7 +95,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = true,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -167,7 +171,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val income2 = Income(
@@ -180,7 +185,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = true,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -193,7 +199,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense2 = Expense(
@@ -206,7 +213,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = true,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -281,7 +289,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val income2 = Income(
@@ -294,7 +303,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = true,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -307,7 +317,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -366,7 +377,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -379,7 +391,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense2 = Expense(
@@ -392,7 +405,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = true,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -452,7 +466,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -465,7 +480,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -542,7 +558,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val income2 = Income(
@@ -555,7 +572,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -568,7 +586,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -633,7 +652,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -646,7 +666,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense2 = Expense(
@@ -659,7 +680,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -724,7 +746,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -737,7 +760,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -823,7 +847,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val income2 = Income(
@@ -836,7 +861,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate.minusDays(1)),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -849,7 +875,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -919,7 +946,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -932,7 +960,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense2 = Expense(
@@ -945,7 +974,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate.minusDays(1)),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -1015,7 +1045,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -1028,7 +1059,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -1112,7 +1144,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -1125,7 +1158,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -1211,7 +1245,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -1224,7 +1259,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
 
@@ -1305,7 +1341,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val income2 = Income(
@@ -1318,7 +1355,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate.minusDays(1)),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -1331,7 +1369,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(endDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense2 = Expense(
@@ -1344,7 +1383,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(endDate.plusDays(1)),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -1425,7 +1465,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val income2 = Income(
@@ -1438,7 +1479,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate.minusDays(1)),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -1451,7 +1493,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(endDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense2 = Expense(
@@ -1464,7 +1507,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(endDate.plusDays(1)),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -1548,7 +1592,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val income2 = Income(
@@ -1561,7 +1606,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate.minusDays(1)),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -1574,7 +1620,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(endDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense2 = Expense(
@@ -1587,7 +1634,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(endDate.plusDays(1)),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -1668,7 +1716,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val income2 = Income(
@@ -1681,7 +1730,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -1694,7 +1744,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(endDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense2 = Expense(
@@ -1707,7 +1758,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(endDate.plusDays(1)),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -1790,7 +1842,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val income2 = Income(
@@ -1803,7 +1856,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate.minusDays(1)),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val income3 = Income(
@@ -1816,7 +1870,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -1829,7 +1884,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(endDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
 
@@ -1897,7 +1953,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -1910,7 +1967,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(endDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense2 = Expense(
@@ -1923,7 +1981,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(endDate.plusDays(1)),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense3 = Expense(
@@ -1936,7 +1995,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(endDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
 
@@ -2004,7 +2064,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -2017,7 +2078,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(endDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -2114,7 +2176,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val income2 = Income(
@@ -2127,7 +2190,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate.minusDays(1)),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val income3 = Income(
@@ -2140,7 +2204,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -2153,7 +2218,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(endDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
 
@@ -2219,7 +2285,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -2232,7 +2299,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(endDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense2 = Expense(
@@ -2245,7 +2313,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(endDate.plusDays(1)),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense3 = Expense(
@@ -2258,7 +2327,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(endDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -2323,7 +2393,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -2336,7 +2407,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(endDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -2434,7 +2506,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -2447,7 +2520,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(endDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -2542,7 +2616,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(recurringRuleId, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -2555,7 +2630,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(recurringRuleId, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -2621,7 +2697,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val income2 = Income(
@@ -2634,7 +2711,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate.minusDays(1)),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val income3 = Income(
@@ -2647,7 +2725,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -2660,7 +2739,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(endDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
 
@@ -2727,7 +2807,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -2740,7 +2821,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(endDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense2 = Expense(
@@ -2753,7 +2835,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(endDate.plusDays(1)),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense3 = Expense(
@@ -2766,7 +2849,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(endDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -2831,7 +2915,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -2844,7 +2929,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(endDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -2943,7 +3029,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(recurringRuleId, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val income2 = Income(
@@ -2956,7 +3043,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = toInstant(startDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -2969,7 +3057,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(recurringRuleId, null, null),
                 lastUpdated = toInstant(endDate),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense2 = Expense(
@@ -2982,7 +3071,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(recurringRuleId, null, null),
                 lastUpdated = toInstant(endDate.plusDays(1)),
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -3062,7 +3152,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -3075,7 +3166,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -3123,7 +3215,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -3136,7 +3229,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -3197,7 +3291,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val income2 = Income(
@@ -3210,7 +3305,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = true,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -3223,7 +3319,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense2 = Expense(
@@ -3236,7 +3333,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = true,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -3315,7 +3413,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val income2 = Income(
@@ -3328,7 +3427,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -3341,7 +3441,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense2 = Expense(
@@ -3354,7 +3455,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = true,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -3433,7 +3535,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val income2 = Income(
@@ -3446,7 +3549,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -3459,7 +3563,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense2 = Expense(
@@ -3472,7 +3577,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = true,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -3553,7 +3659,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val income2 = Income(
@@ -3566,7 +3673,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -3579,7 +3687,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense2 = Expense(
@@ -3592,7 +3701,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -3672,7 +3782,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val income2 = Income(
@@ -3685,7 +3796,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -3698,7 +3810,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense2 = Expense(
@@ -3711,7 +3824,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -3795,7 +3909,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val income2 = Income(
@@ -3808,7 +3923,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -3821,7 +3937,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense2 = Expense(
@@ -3834,7 +3951,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = true,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -3901,6 +4019,7 @@ class FakeTransactionRepositoryTest : FreeSpec({
             //given
             val repository = newRepository()
             val accountId = AccountId(UUID.randomUUID())
+            val accountId2 = AccountId(UUID.randomUUID())
             val toAccountId = AccountId(UUID.randomUUID())
             val categoryId = CategoryId(UUID.randomUUID())
 
@@ -3914,7 +4033,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val income2 = Income(
@@ -3927,7 +4047,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId2
             )
 
             val expense1 = Expense(
@@ -3940,7 +4061,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense2 = Expense(
@@ -3953,7 +4075,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = true,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -3982,7 +4105,7 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = true,
-                fromAccount = accountId,
+                fromAccount = accountId2,
                 fromValue = Value(PositiveDouble(100.0), AssetCode("NGN")),
                 toAccount = toAccountId,
                 toValue = Value(PositiveDouble(100.0), AssetCode("NGN"))
@@ -3996,7 +4119,7 @@ class FakeTransactionRepositoryTest : FreeSpec({
             )
 
             repository.saveMany(
-                AccountId(UUID.randomUUID()),
+                accountId2,
                 listOf(income2, transfer2)
             )
 
@@ -4038,7 +4161,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, loanId, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -4051,7 +4175,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -4099,7 +4224,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, loanId, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -4112,7 +4238,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -4174,7 +4301,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, loanRecordId),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -4187,7 +4315,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -4235,7 +4364,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, loanRecordId),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -4248,7 +4378,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -4310,7 +4441,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, loanId, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val expense1 = Expense(
@@ -4323,7 +4455,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, loanId, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             val transfer1 = Transfer(
@@ -4370,7 +4503,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             //when
@@ -4397,7 +4531,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
 
             //when
@@ -4419,7 +4554,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
         }
     }
@@ -4439,7 +4575,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             ),
             Income(
                 id = TransactionId(UUID.randomUUID()),
@@ -4451,7 +4588,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
         )
 
@@ -4477,7 +4615,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
             metadata = TransactionMetadata(null, null, null),
             lastUpdated = Instant.EPOCH,
             removed = false,
-            value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+            value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+            account = accountId
         )
 
 
@@ -4505,7 +4644,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
             metadata = TransactionMetadata(recurringRuleId, null, null),
             lastUpdated = Instant.EPOCH,
             removed = false,
-            value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+            value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+            account = accountId
         )
 
 
@@ -4533,7 +4673,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             ),
             Income(
                 id = TransactionId(UUID.randomUUID()),
@@ -4545,7 +4686,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
         )
 
@@ -4572,7 +4714,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
             metadata = TransactionMetadata(null, null, null),
             lastUpdated = Instant.EPOCH,
             removed = false,
-            value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+            value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+            account = accountId
         )
 
         //when
@@ -4599,7 +4742,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             ),
             Income(
                 id = TransactionId(UUID.randomUUID()),
@@ -4611,7 +4755,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                account = accountId
             )
         )
 
@@ -4639,7 +4784,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
             metadata = TransactionMetadata(null, null, null),
             lastUpdated = Instant.EPOCH,
             removed = false,
-            value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+            value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+            account = accountId1
         )
 
         val transaction2 = Income(
@@ -4652,7 +4798,8 @@ class FakeTransactionRepositoryTest : FreeSpec({
             metadata = TransactionMetadata(null, null, null),
             lastUpdated = Instant.EPOCH,
             removed = false,
-            value = Value(PositiveDouble(100.0), AssetCode("NGN"))
+            value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+            account = accountId2
         )
 
         //when
