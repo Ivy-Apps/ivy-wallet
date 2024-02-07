@@ -4,6 +4,7 @@ import androidx.room.TypeConverter
 import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.epochMilliToDateTime
 import com.ivy.base.legacy.toEpochMilli
+import com.ivy.base.model.LoanRecordType
 import com.ivy.base.model.TransactionType
 import com.ivy.data.model.IntervalType
 import com.ivy.data.model.LoanType
@@ -55,4 +56,10 @@ class RoomTypeConverters {
 
     @TypeConverter
     fun parseInstant(value: Long): Instant = Instant.ofEpochMilli(value)
+
+    @TypeConverter
+    fun saveLoanRecordType(value: LoanRecordType?) = value?.name
+
+    @TypeConverter
+    fun parseLoanRecordType(value: String?) = value?.let { LoanRecordType.valueOf(it) }
 }

@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.theme.modal
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -23,14 +24,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.base.model.LoanRecordType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.utils.thenIf
 import com.ivy.frp.test.TestingContext
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.datamodel.Account
@@ -40,7 +44,6 @@ import com.ivy.legacy.legacy.ui.theme.modal.ModalNameInput
 import com.ivy.legacy.utils.getDefaultFIATCurrency
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.selectEndTextFieldValue
-import com.ivy.design.utils.thenIf
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.resources.R
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
@@ -66,7 +69,8 @@ data class LoanRecordModalData(
     val selectedAccount: Account? = null,
     val createLoanRecordTransaction: Boolean = false,
     val isLoanInterest: Boolean = false,
-    val id: UUID = UUID.randomUUID()
+    val id: UUID = UUID.randomUUID(),
+    val loanRecordType: LoanRecordType? = null
 )
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
@@ -109,6 +113,9 @@ fun BoxWithConstraintsScope.LoanRecordModal(
     var reCalculateVisible by remember(modal) {
         mutableStateOf(modal?.loanAccountCurrencyCode != null && modal.loanAccountCurrencyCode != modal.baseCurrency)
     }
+    var loanRecordType by remember(modal) {
+        mutableStateOf(modal?.loanRecordType ?: LoanRecordType.INCREASE)
+    }
 
     var amountModalVisible by remember { mutableStateOf(false) }
     var deleteModalVisible by remember(modal) { mutableStateOf(false) }
@@ -128,7 +135,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             ) {
                 accountChangeConformationModal =
                     initialRecord != null && modal.selectedAccount != null &&
-                    modal.baseCurrency != currencyCode && currencyCode != modal.loanAccountCurrencyCode
+                            modal.baseCurrency != currencyCode && currencyCode != modal.loanAccountCurrencyCode
 
                 if (!accountChangeConformationModal) {
                     save(
@@ -140,6 +147,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
                         selectedAccount = selectedAcc,
                         createLoanRecordTransaction = createLoanRecordTrans,
                         reCalculateAmount = reCalculate,
+                        loanRecordType = loanRecordType,
 
                         onCreate = onCreate,
                         onEdit = onEdit,
@@ -236,6 +244,23 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             },
             childrenTestTag = "amount_modal_account"
         )
+        Spacer(Modifier.height(16.dp))
+
+        Text(
+            modifier = Modifier.padding(horizontal = 32.dp),
+            text = stringResource(R.string.loan_record_type),
+            style = UI.typo.b2.style(
+                color = UI.colors.pureInverse,
+                fontWeight = FontWeight.ExtraBold
+            )
+        )
+
+        Spacer(Modifier.height(16.dp))
+
+        LoanRecordTypeRow(selectedRecordType = loanRecordType, onLoanRecordTypeChanged = {
+            loanRecordType = it
+        })
+
         Spacer(Modifier.height(16.dp))
 
         IvyCheckboxWithText(
@@ -339,6 +364,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             selectedAccount = selectedAcc,
             createLoanRecordTransaction = createLoanRecordTrans,
             reCalculateAmount = reCalculate,
+            loanRecordType = loanRecordType,
 
             onCreate = onCreate,
             onEdit = onEdit,
@@ -358,6 +384,7 @@ private fun save(
     createLoanRecordTransaction: Boolean = false,
     selectedAccount: Account? = null,
     reCalculateAmount: Boolean = false,
+    loanRecordType: LoanRecordType,
 
     onCreate: (CreateLoanRecordData) -> Unit,
     onEdit: (EditLoanRecordData) -> Unit,
@@ -387,12 +414,98 @@ private fun save(
                 dateTime = dateTime,
                 interest = loanRecordInterest,
                 account = selectedAccount,
-                createLoanRecordTransaction = createLoanRecordTransaction
+                createLoanRecordTransaction = createLoanRecordTransaction,
+                loanRecordType = loanRecordType
             )
         )
     }
 
     dismiss()
+}
+
+@Composable
+private fun LoanRecordTypeRow(
+    selectedRecordType: LoanRecordType?,
+    modifier: Modifier = Modifier,
+    onLoanRecordTypeChanged: (LoanRecordType) -> Unit
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Spacer(Modifier.width(24.dp))
+
+        LoanRecordType(
+            modifier = Modifier,
+            loanRecordType = LoanRecordType.INCREASE,
+            selectedRecordType = selectedRecordType
+        ) {
+            onLoanRecordTypeChanged(it)
+        }
+
+        LoanRecordType(
+            modifier = Modifier,
+            loanRecordType = LoanRecordType.DECREASE,
+            selectedRecordType = selectedRecordType
+        ) {
+            onLoanRecordTypeChanged(it)
+        }
+    }
+
+    Spacer(Modifier.width(24.dp))
+}
+
+@Composable
+private fun LoanRecordType(
+    loanRecordType: LoanRecordType,
+    selectedRecordType: LoanRecordType?,
+    modifier: Modifier = Modifier,
+    onClick: (LoanRecordType) -> Unit
+) {
+    val iconDrawable =
+        if (loanRecordType == LoanRecordType.INCREASE) R.drawable.ic_donate_plus
+        else R.drawable.ic_donate_minus
+    val text =
+        if (loanRecordType == LoanRecordType.INCREASE) stringResource(id = R.string.increase_loan)
+        else stringResource(id = R.string.decrease_loan)
+    val selected = selectedRecordType == loanRecordType
+    val medium = UI.colors.medium
+    val rFull = UI.shapes.rFull
+    val selectedColor = UI.colors.pureInverse
+    Row(
+        modifier = modifier
+            .clip(UI.shapes.rFull)
+            .thenIf(!selected) {
+                border(2.dp, medium, rFull)
+            }
+            .thenIf(selected) {
+                background(selectedColor, rFull)
+            }
+            .clickable(onClick = { onClick(loanRecordType) }),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Spacer(Modifier.width(12.dp))
+
+        ItemIconSDefaultIcon(
+            defaultIcon = iconDrawable,
+            iconName = null,
+            tint = UI.colors.pureInverse
+        )
+
+        Spacer(Modifier.width(4.dp))
+
+        Text(
+            modifier = Modifier.padding(vertical = 10.dp),
+            text = text,
+            style = UI.typo.b2.style(
+                color = UI.colors.pureInverse,
+                fontWeight = FontWeight.ExtraBold
+            )
+        )
+
+        Spacer(Modifier.width(24.dp))
+    }
+    Spacer(Modifier.width(8.dp))
 }
 
 @Composable

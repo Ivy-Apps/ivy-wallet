@@ -441,4 +441,8 @@
     <string name="experimental_settings">Experimental Settings</string>
     <string name="wallet_balance">Wallet balance</string>
     <string name="total_exclusive">Total (exclusive): %1$s %2$s</string>
+    <string name="initial_loan_record">Starting record</string>
+    <string name="loan_record_type">Record type</string>
+    <string name="increase_loan">Increase</string>
+    <string name="decrease_loan">Decrease</string>
 </resources>

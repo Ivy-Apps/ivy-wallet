@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.base.model.LoanRecordType
 import com.ivy.base.model.TransactionType
 import com.ivy.data.model.LoanType
 import com.ivy.design.l0_system.UI
@@ -170,8 +171,14 @@ private fun BoxWithConstraintsScope.UI(
                                 displayLoanRecord
                             )
                         )
-                    }
-                )
+                    })
+                item {
+                    InitialRecordItem(
+                        loan = state.loan,
+                        amount = state.loan.amount,
+                        baseCurrency = state.baseCurrency,
+                    )
+                }
             }
 
             if (state.displayLoanRecords.isEmpty()) {
@@ -731,6 +738,59 @@ private fun LoanRecordItem(
 }
 
 @Composable
+private fun InitialRecordItem(
+    loan: Loan,
+    amount: Double,
+    baseCurrency: String,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .clip(UI.shapes.r4)
+            .background(UI.colors.medium, UI.shapes.r4)
+            .testTag("loan_record_item")
+    ) {
+
+        IvyButton(
+            modifier = Modifier.padding(16.dp),
+            backgroundGradient = Gradient.solid(UI.colors.pure),
+            text = stringResource(id = R.string.initial_loan_record),
+            iconTint = UI.colors.pureInverse,
+            iconStart = getCustomIconIdS(
+                iconName = loan.icon,
+                defaultIcon = R.drawable.ic_custom_loan_s
+            ),
+            textStyle = UI.typo.c.style(
+                color = UI.colors.pureInverse, fontWeight = FontWeight.ExtraBold
+            ),
+            padding = 8.dp,
+        ) {}
+
+
+        loan.dateTime?.formatNicelyWithTime(noWeekDay = false)?.let { nicelyFormattedDate ->
+            Text(
+                modifier = Modifier.padding(horizontal = 24.dp),
+                text = nicelyFormattedDate.uppercase(),
+                style = UI.typo.nC.style(
+                    color = Gray, fontWeight = FontWeight.Bold
+                )
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TypeAmountCurrency(
+            transactionType = if (loan.type == LoanType.LEND) TransactionType.EXPENSE else TransactionType.INCOME,
+            dueDate = null,
+            currency = baseCurrency,
+            amount = amount
+        )
+        Spacer(Modifier.height(16.dp))
+    }
+}
+
+@Composable
 private fun NoLoanRecordsEmptyState() {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -816,14 +876,16 @@ private fun Preview_Records() {
                             amount = 123.45,
                             dateTime = timeNowUTC().minusDays(1),
                             note = "Cash",
-                            loanId = UUID.randomUUID()
+                            loanId = UUID.randomUUID(),
+                            loanRecordType = LoanRecordType.INCREASE
                         )
                     ),
                     DisplayLoanRecord(
                         LoanRecord(
                             amount = 0.50,
                             dateTime = timeNowUTC().minusYears(1),
-                            loanId = UUID.randomUUID()
+                            loanId = UUID.randomUUID(),
+                            loanRecordType = LoanRecordType.DECREASE
                         )
                     ),
                     DisplayLoanRecord(
@@ -831,7 +893,8 @@ private fun Preview_Records() {
                             amount = 1000.00,
                             dateTime = timeNowUTC().minusMonths(1),
                             note = "Revolut",
-                            loanId = UUID.randomUUID()
+                            loanId = UUID.randomUUID(),
+                            loanRecordType = LoanRecordType.INCREASE
                         )
                     ),
                 ),

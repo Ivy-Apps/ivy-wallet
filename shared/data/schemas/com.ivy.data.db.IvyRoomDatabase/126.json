@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 126,
-    "identityHash": "712907ba120b6227af4b79fca7ff41db",
+    "identityHash": "3e221e19eb3210bba162a6a86341c440",
     "entities": [
       {
         "tableName": "accounts",
@@ -637,7 +637,7 @@
       },
       {
         "tableName": "loan_records",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`loanId` TEXT NOT NULL, `amount` REAL NOT NULL, `note` TEXT, `dateTime` INTEGER NOT NULL, `interest` INTEGER NOT NULL, `accountId` TEXT, `convertedAmount` REAL, `isSynced` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `id` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`loanId` TEXT NOT NULL, `amount` REAL NOT NULL, `note` TEXT, `dateTime` INTEGER NOT NULL, `interest` INTEGER NOT NULL, `accountId` TEXT, `convertedAmount` REAL, `loanRecordType` TEXT, `isSynced` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `id` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "loanId",
@@ -679,6 +679,12 @@
             "fieldPath": "convertedAmount",
             "columnName": "convertedAmount",
             "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "loanRecordType",
+            "columnName": "loanRecordType",
+            "affinity": "TEXT",
             "notNull": false
           },
           {
@@ -820,7 +826,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '712907ba120b6227af4b79fca7ff41db')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3e221e19eb3210bba162a6a86341c440')"
     ]
   }
 }

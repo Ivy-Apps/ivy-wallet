@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.ivy.base.kotlinxserilzation.KSerializerLocalDateTime
 import com.ivy.base.kotlinxserilzation.KSerializerUUID
+import com.ivy.base.model.LoanRecordType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
@@ -32,6 +33,8 @@ data class LoanRecordEntity(
     // This is used store the converted amount for currencies which are different from the loan account currency
     @SerialName("convertedAmount")
     val convertedAmount: Double? = null,
+    @SerialName("loanRecordType")
+    val loanRecordType: LoanRecordType,
 
     @SerialName("isSynced")
     val isSynced: Boolean = false,
