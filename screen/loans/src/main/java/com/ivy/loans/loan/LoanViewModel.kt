@@ -5,6 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.SharedPrefs
+import com.ivy.base.model.LoanRecordType
 import com.ivy.data.db.dao.read.LoanRecordDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteLoanDao
@@ -164,22 +165,22 @@ class LoanViewModel @Inject constructor(
             allLoans = ioThread {
                 loansAct(Unit)
                     .map { loan ->
-                        val amountPaid = calculateAmountPaid(loan)
-                        val loanAmount = loan.amount
-                        val percentPaid = amountPaid / loanAmount
+                        val (amountPaid, loanTotalAmount) = calculateAmountPaidAndTotalAmount(loan)
+                        val percentPaid = amountPaid / loanTotalAmount
                         var currCode = findCurrencyCode(accounts.value, loan.accountId)
 
                         when (loan.type) {
-                            LoanType.BORROW -> totalOweAmount += (loanAmount - amountPaid)
-                            LoanType.LEND -> totalOwedAmount += (loanAmount - amountPaid)
+                            LoanType.BORROW -> totalOweAmount += (loanTotalAmount - amountPaid)
+                            LoanType.LEND -> totalOwedAmount += (loanTotalAmount - amountPaid)
                         }
 
                         DisplayLoan(
                             loan = loan,
+                            loanTotalAmount = loanTotalAmount,
                             amountPaid = amountPaid,
                             currencyCode = currCode,
                             formattedDisplayText = "${amountPaid.format(currCode)} $currCode / ${
-                                loanAmount.format(
+                                loanTotalAmount.format(
                                     currCode
                                 )
                             } $currCode (${
@@ -300,18 +301,28 @@ class LoanViewModel @Inject constructor(
         } ?: defaultCurrencyCode
     }
 
-    private suspend fun calculateAmountPaid(loan: Loan): Double {
+    /**
+     *  Calculates the total amount paid and the total loan amount including any changes made to the loan.
+     *  @return A Pair containing the total amount paid and the total loan amount.
+     */
+    private suspend fun calculateAmountPaidAndTotalAmount(loan: Loan): Pair<Double,Double> {
         val loanRecords = ioThread { loanRecordDao.findAllByLoanId(loanId = loan.id) }
-        var amount = 0.0
+        var amountPaid = 0.0
+        var loanTotalAmount = loan.amount
 
         loanRecords.forEach { loanRecord ->
-            if (!loanRecord.interest) {
-                val convertedAmount = loanRecord.convertedAmount ?: loanRecord.amount
-                amount += convertedAmount
+            if(loanRecord.interest) return@forEach
+            val convertedAmount = loanRecord.convertedAmount ?: loanRecord.amount
+            when(loanRecord.loanRecordType){
+                LoanRecordType.DECREASE -> {
+                    amountPaid += convertedAmount
+                }
+                LoanRecordType.INCREASE -> {
+                    loanTotalAmount += convertedAmount
+                }
             }
         }
-
-        return amount
+        return amountPaid to loanTotalAmount
     }
 
     private fun updatePaidOffLoanVisibility() {
