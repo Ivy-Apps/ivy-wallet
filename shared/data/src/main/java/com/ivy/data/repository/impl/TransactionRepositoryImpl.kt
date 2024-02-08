@@ -1,6 +1,9 @@
 package com.ivy.data.repository.impl
 
 import com.ivy.base.model.TransactionType
+import com.ivy.base.threading.DispatchersProvider
+import com.ivy.data.db.dao.read.TransactionDao
+import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.Expense
@@ -12,8 +15,6 @@ import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
-import com.ivy.data.source.LocalTransactionDataSource
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.util.UUID
@@ -22,11 +23,13 @@ import javax.inject.Inject
 class TransactionRepositoryImpl @Inject constructor(
     private val accountRepository: AccountRepository,
     private val mapper: TransactionMapper,
-    private val dataSource: LocalTransactionDataSource,
+    private val transactionDao: TransactionDao,
+    private val writeTransactionDao: WriteTransactionDao,
+    private val dispatchersProvider: DispatchersProvider,
 ) : TransactionRepository {
     override suspend fun findAll(): List<Transaction> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAll().mapNotNull {
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAll().mapNotNull {
                 val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                     it.accountId,
                     it.toAccountId
@@ -37,8 +40,8 @@ class TransactionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun findAll_LIMIT_1(): List<Transaction> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAll_LIMIT_1().mapNotNull {
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAll_LIMIT_1().mapNotNull {
                 val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                     it.accountId,
                     it.toAccountId
@@ -49,8 +52,8 @@ class TransactionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun findAllIncome(): List<Income> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllByType(TransactionType.INCOME).mapNotNull {
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllByType(TransactionType.INCOME).mapNotNull {
                 val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                     it.accountId,
                     it.toAccountId
@@ -66,8 +69,8 @@ class TransactionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun findAllExpense(): List<Expense> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllByType(TransactionType.EXPENSE).mapNotNull {
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllByType(TransactionType.EXPENSE).mapNotNull {
                 val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                     it.accountId,
                     it.toAccountId
@@ -83,8 +86,8 @@ class TransactionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun findAllTransfer(): List<Transfer> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllByType(TransactionType.TRANSFER).mapNotNull {
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllByType(TransactionType.TRANSFER).mapNotNull {
                 val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                     it.accountId,
                     it.toAccountId
@@ -100,8 +103,8 @@ class TransactionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun findAllIncomeByAccount(accountId: AccountId): List<Income> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllByTypeAndAccount(TransactionType.INCOME, accountId.value).mapNotNull {
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllByTypeAndAccount(TransactionType.INCOME, accountId.value).mapNotNull {
                 val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                     it.accountId,
                     it.toAccountId
@@ -117,8 +120,8 @@ class TransactionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun findAllExpenseByAccount(accountId: AccountId): List<Expense> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllByTypeAndAccount(TransactionType.EXPENSE, accountId.value)
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllByTypeAndAccount(TransactionType.EXPENSE, accountId.value)
                 .mapNotNull {
                     val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                         it.accountId,
@@ -135,8 +138,8 @@ class TransactionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun findAllTransferByAccount(accountId: AccountId): List<Transfer> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllByTypeAndAccount(TransactionType.TRANSFER, accountId.value)
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllByTypeAndAccount(TransactionType.TRANSFER, accountId.value)
                 .mapNotNull {
                     val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                         it.accountId,
@@ -157,8 +160,8 @@ class TransactionRepositoryImpl @Inject constructor(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Income> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllByTypeAndAccountBetween(
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllByTypeAndAccountBetween(
                 type = TransactionType.INCOME,
                 accountId = accountId.value,
                 startDate = startDate,
@@ -183,8 +186,8 @@ class TransactionRepositoryImpl @Inject constructor(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Expense> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllByTypeAndAccountBetween(
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllByTypeAndAccountBetween(
                 type = TransactionType.EXPENSE,
                 accountId = accountId.value,
                 startDate = startDate,
@@ -209,8 +212,8 @@ class TransactionRepositoryImpl @Inject constructor(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Transfer> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllByTypeAndAccountBetween(
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllByTypeAndAccountBetween(
                 type = TransactionType.TRANSFER,
                 accountId = accountId.value,
                 startDate = startDate,
@@ -233,8 +236,8 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun findAllTransfersToAccount(
         toAccountId: AccountId
     ): List<Transfer> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllTransfersToAccount(toAccountId.value).mapNotNull {
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllTransfersToAccount(toAccountId.value).mapNotNull {
                 val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                     it.accountId,
                     it.toAccountId
@@ -254,8 +257,8 @@ class TransactionRepositoryImpl @Inject constructor(
         startDate: LocalDateTime,
         endDate: LocalDateTime,
     ): List<Transfer> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllTransfersToAccountBetween(
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllTransfersToAccountBetween(
                 toAccountId = toAccountId.value,
                 startDate = startDate,
                 endDate = endDate,
@@ -279,8 +282,8 @@ class TransactionRepositoryImpl @Inject constructor(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Transaction> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllBetween(startDate, endDate).mapNotNull {
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllBetween(startDate, endDate).mapNotNull {
                 val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                     it.accountId,
                     it.toAccountId
@@ -295,8 +298,8 @@ class TransactionRepositoryImpl @Inject constructor(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Transaction> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllByAccountAndBetween(accountId.value, startDate, endDate).mapNotNull {
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllByAccountAndBetween(accountId.value, startDate, endDate).mapNotNull {
                 val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                     it.accountId,
                     it.toAccountId
@@ -311,8 +314,8 @@ class TransactionRepositoryImpl @Inject constructor(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Transaction> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllByCategoryAndBetween(categoryId.value, startDate, endDate)
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllByCategoryAndBetween(categoryId.value, startDate, endDate)
                 .mapNotNull {
                     val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                         it.accountId,
@@ -327,8 +330,8 @@ class TransactionRepositoryImpl @Inject constructor(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Transaction> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllUnspecifiedAndBetween(startDate, endDate).mapNotNull {
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllUnspecifiedAndBetween(startDate, endDate).mapNotNull {
                 val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                     it.accountId,
                     it.toAccountId
@@ -343,8 +346,8 @@ class TransactionRepositoryImpl @Inject constructor(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Income> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllByCategoryAndTypeAndBetween(
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllByCategoryAndTypeAndBetween(
                 categoryId = categoryId.value,
                 type = TransactionType.INCOME,
                 startDate = startDate,
@@ -369,8 +372,8 @@ class TransactionRepositoryImpl @Inject constructor(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Expense> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllByCategoryAndTypeAndBetween(
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllByCategoryAndTypeAndBetween(
                 categoryId = categoryId.value,
                 type = TransactionType.EXPENSE,
                 startDate = startDate,
@@ -395,8 +398,8 @@ class TransactionRepositoryImpl @Inject constructor(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Transfer> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllByCategoryAndTypeAndBetween(
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllByCategoryAndTypeAndBetween(
                 categoryId = categoryId.value,
                 type = TransactionType.TRANSFER,
                 startDate = startDate,
@@ -420,8 +423,8 @@ class TransactionRepositoryImpl @Inject constructor(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Income> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllUnspecifiedAndTypeAndBetween(
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllUnspecifiedAndTypeAndBetween(
                 type = TransactionType.INCOME,
                 startDate = startDate,
                 endDate = endDate
@@ -444,8 +447,8 @@ class TransactionRepositoryImpl @Inject constructor(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Expense> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllUnspecifiedAndTypeAndBetween(
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllUnspecifiedAndTypeAndBetween(
                 type = TransactionType.EXPENSE,
                 startDate = startDate,
                 endDate = endDate
@@ -468,8 +471,8 @@ class TransactionRepositoryImpl @Inject constructor(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Transfer> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllUnspecifiedAndTypeAndBetween(
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllUnspecifiedAndTypeAndBetween(
                 type = TransactionType.TRANSFER,
                 startDate = startDate,
                 endDate = endDate
@@ -493,8 +496,8 @@ class TransactionRepositoryImpl @Inject constructor(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Transaction> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllToAccountAndBetween(toAccountId.value, startDate, endDate)
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllToAccountAndBetween(toAccountId.value, startDate, endDate)
                 .mapNotNull {
                     val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                         it.accountId,
@@ -509,8 +512,8 @@ class TransactionRepositoryImpl @Inject constructor(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Transaction> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllDueToBetween(startDate, endDate).mapNotNull {
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllDueToBetween(startDate, endDate).mapNotNull {
                 val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                     it.accountId,
                     it.toAccountId
@@ -525,8 +528,8 @@ class TransactionRepositoryImpl @Inject constructor(
         endDate: LocalDateTime,
         categoryId: CategoryId
     ): List<Transaction> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllDueToBetweenByCategory(startDate, endDate, categoryId.value)
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllDueToBetweenByCategory(startDate, endDate, categoryId.value)
                 .mapNotNull {
                     val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                         it.accountId,
@@ -541,8 +544,8 @@ class TransactionRepositoryImpl @Inject constructor(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Transaction> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllDueToBetweenByCategoryUnspecified(startDate, endDate).mapNotNull {
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllDueToBetweenByCategoryUnspecified(startDate, endDate).mapNotNull {
                 val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                     it.accountId,
                     it.toAccountId
@@ -557,8 +560,8 @@ class TransactionRepositoryImpl @Inject constructor(
         endDate: LocalDateTime,
         accountId: AccountId
     ): List<Transaction> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllDueToBetweenByAccount(startDate, endDate, accountId.value)
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllDueToBetweenByAccount(startDate, endDate, accountId.value)
                 .mapNotNull {
                     val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                         it.accountId,
@@ -570,8 +573,8 @@ class TransactionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun findAllByRecurringRuleId(recurringRuleId: UUID): List<Transaction> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllByRecurringRuleId(recurringRuleId).mapNotNull {
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllByRecurringRuleId(recurringRuleId).mapNotNull {
                 val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                     it.accountId,
                     it.toAccountId
@@ -585,8 +588,8 @@ class TransactionRepositoryImpl @Inject constructor(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Income> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllBetweenAndType(startDate, endDate, TransactionType.INCOME)
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllBetweenAndType(startDate, endDate, TransactionType.INCOME)
                 .mapNotNull {
                     val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                         it.accountId,
@@ -606,8 +609,8 @@ class TransactionRepositoryImpl @Inject constructor(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Expense> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllBetweenAndType(startDate, endDate, TransactionType.EXPENSE)
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllBetweenAndType(startDate, endDate, TransactionType.EXPENSE)
                 .mapNotNull {
                     val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                         it.accountId,
@@ -627,8 +630,8 @@ class TransactionRepositoryImpl @Inject constructor(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Transfer> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllBetweenAndType(startDate, endDate, TransactionType.TRANSFER)
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllBetweenAndType(startDate, endDate, TransactionType.TRANSFER)
                 .mapNotNull {
                     val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                         it.accountId,
@@ -649,8 +652,8 @@ class TransactionRepositoryImpl @Inject constructor(
         endDate: LocalDateTime,
         recurringRuleId: UUID
     ): List<Transaction> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllBetweenAndRecurringRuleId(startDate, endDate, recurringRuleId)
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllBetweenAndRecurringRuleId(startDate, endDate, recurringRuleId)
                 .mapNotNull {
                     val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                         it.accountId,
@@ -662,8 +665,8 @@ class TransactionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun findById(id: TransactionId): Transaction? {
-        return withContext(Dispatchers.IO) {
-            dataSource.findById(id.value)?.let {
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findById(id.value)?.let {
                 val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                     it.accountId,
                     it.toAccountId
@@ -677,8 +680,8 @@ class TransactionRepositoryImpl @Inject constructor(
         synced: Boolean,
         deleted: Boolean
     ): List<Transaction> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findByIsSyncedAndIsDeleted(synced, deleted).mapNotNull {
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findByIsSyncedAndIsDeleted(synced, deleted).mapNotNull {
                 val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                     it.accountId,
                     it.toAccountId
@@ -689,14 +692,14 @@ class TransactionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun countHappenedTransactions(): Long {
-        return withContext(Dispatchers.IO) {
-            dataSource.countHappenedTransactions()
+        return withContext(dispatchersProvider.io) {
+            transactionDao.countHappenedTransactions()
         }
     }
 
     override suspend fun findAllByTitleMatchingPattern(pattern: String): List<Transaction> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllByTitleMatchingPattern(pattern).mapNotNull {
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllByTitleMatchingPattern(pattern).mapNotNull {
                 val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                     it.accountId,
                     it.toAccountId
@@ -707,14 +710,14 @@ class TransactionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun countByTitleMatchingPattern(pattern: String): Long {
-        return withContext(Dispatchers.IO) {
-            dataSource.countByTitleMatchingPattern(pattern)
+        return withContext(dispatchersProvider.io) {
+            transactionDao.countByTitleMatchingPattern(pattern)
         }
     }
 
     override suspend fun findAllByCategory(categoryId: CategoryId): List<Transaction> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllByCategory(categoryId.value).mapNotNull {
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllByCategory(categoryId.value).mapNotNull {
                 val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                     it.accountId,
                     it.toAccountId
@@ -728,14 +731,14 @@ class TransactionRepositoryImpl @Inject constructor(
         pattern: String,
         categoryId: CategoryId
     ): Long {
-        return withContext(Dispatchers.IO) {
-            dataSource.countByTitleMatchingPatternAndCategoryId(pattern, categoryId.value)
+        return withContext(dispatchersProvider.io) {
+            transactionDao.countByTitleMatchingPatternAndCategoryId(pattern, categoryId.value)
         }
     }
 
     override suspend fun findAllByAccount(accountId: AccountId): List<Transaction> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllByAccount(accountId.value).mapNotNull {
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllByAccount(accountId.value).mapNotNull {
                 val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                     it.accountId,
                     it.toAccountId
@@ -749,14 +752,14 @@ class TransactionRepositoryImpl @Inject constructor(
         pattern: String,
         accountId: AccountId
     ): Long {
-        return withContext(Dispatchers.IO) {
-            dataSource.countByTitleMatchingPatternAndAccountId(pattern, accountId.value)
+        return withContext(dispatchersProvider.io) {
+            transactionDao.countByTitleMatchingPatternAndAccountId(pattern, accountId.value)
         }
     }
 
     override suspend fun findLoanTransaction(loanId: UUID): Transaction? {
-        return withContext(Dispatchers.IO) {
-            dataSource.findLoanTransaction(loanId)?.let {
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findLoanTransaction(loanId)?.let {
                 val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                     it.accountId,
                     it.toAccountId
@@ -767,8 +770,8 @@ class TransactionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun findLoanRecordTransaction(loanRecordId: UUID): Transaction? {
-        return withContext(Dispatchers.IO) {
-            dataSource.findLoanRecordTransaction(loanRecordId)?.let {
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findLoanRecordTransaction(loanRecordId)?.let {
                 val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                     it.accountId,
                     it.toAccountId
@@ -779,8 +782,8 @@ class TransactionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun findAllByLoanId(loanId: UUID): List<Transaction> {
-        return withContext(Dispatchers.IO) {
-            dataSource.findAllByLoanId(loanId).mapNotNull {
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findAllByLoanId(loanId).mapNotNull {
                 val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                     it.accountId,
                     it.toAccountId
@@ -791,8 +794,8 @@ class TransactionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun save(accountId: AccountId, value: Transaction) {
-        withContext(Dispatchers.IO) {
-            dataSource.save(
+        withContext(dispatchersProvider.io) {
+            writeTransactionDao.save(
                 with(mapper) { value.toEntity(accountId) }
             )
         }
@@ -802,46 +805,46 @@ class TransactionRepositoryImpl @Inject constructor(
         accountId: AccountId,
         value: List<Transaction>
     ) {
-        withContext(Dispatchers.IO) {
-            dataSource.saveMany(
+        withContext(dispatchersProvider.io) {
+            writeTransactionDao.saveMany(
                 value.map { with(mapper) { it.toEntity(accountId) } }
             )
         }
     }
 
     override suspend fun flagDeleted(id: TransactionId) {
-        withContext(Dispatchers.IO) {
-            dataSource.flagDeleted(id.value)
+        withContext(dispatchersProvider.io) {
+            writeTransactionDao.flagDeleted(id.value)
         }
     }
 
     override suspend fun flagDeletedByRecurringRuleIdAndNoDateTime(recurringRuleId: UUID) {
-        withContext(Dispatchers.IO) {
-            dataSource.flagDeletedByRecurringRuleIdAndNoDateTime(recurringRuleId)
+        withContext(dispatchersProvider.io) {
+            writeTransactionDao.flagDeletedByRecurringRuleIdAndNoDateTime(recurringRuleId)
         }
     }
 
     override suspend fun flagDeletedByAccountId(accountId: AccountId) {
-        withContext(Dispatchers.IO) {
-            dataSource.flagDeletedByAccountId(accountId.value)
+        withContext(dispatchersProvider.io) {
+            writeTransactionDao.flagDeletedByAccountId(accountId.value)
         }
     }
 
     override suspend fun deleteById(id: TransactionId) {
-        withContext(Dispatchers.IO) {
-            dataSource.deleteById(id.value)
+        withContext(dispatchersProvider.io) {
+            writeTransactionDao.deleteById(id.value)
         }
     }
 
     override suspend fun deleteAllByAccountId(accountId: AccountId) {
-        withContext(Dispatchers.IO) {
-            dataSource.deleteAllByAccountId(accountId.value)
+        withContext(dispatchersProvider.io) {
+            writeTransactionDao.deleteAllByAccountId(accountId.value)
         }
     }
 
     override suspend fun deleteAll() {
-        withContext(Dispatchers.IO) {
-            dataSource.deleteAll()
+        withContext(dispatchersProvider.io) {
+            writeTransactionDao.deleteAll()
         }
     }
 
