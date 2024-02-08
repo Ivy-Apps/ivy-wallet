@@ -122,6 +122,7 @@ fun BalanceRow(
             }
 
             if (!doubleRowDisplay) {
+                Spacer(Modifier.width(spacerCurrency))
                 Text(
                     text = when {
                         hiddenMode -> "****"
