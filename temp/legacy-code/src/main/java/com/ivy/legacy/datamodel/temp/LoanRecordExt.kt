@@ -11,6 +11,7 @@ fun LoanRecordEntity.toDomain(): LoanRecord = LoanRecord(
     interest = interest,
     accountId = accountId,
     convertedAmount = convertedAmount,
+    loanRecordType = loanRecordType,
     isSynced = isSynced,
     isDeleted = isDeleted,
     id = id

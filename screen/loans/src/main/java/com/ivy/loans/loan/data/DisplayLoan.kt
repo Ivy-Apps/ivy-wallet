@@ -6,6 +6,7 @@ import com.ivy.wallet.domain.data.Reorderable
 
 data class DisplayLoan(
     val loan: Loan,
+    val loanTotalAmount: Double,
     val amountPaid: Double,
     val currencyCode: String? = getDefaultFIATCurrency().currencyCode,
     val formattedDisplayText: String = "",

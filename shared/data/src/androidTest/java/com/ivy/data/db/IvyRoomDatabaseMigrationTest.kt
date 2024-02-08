@@ -7,6 +7,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.ivy.data.db.migration.Migration123to124_LoanIncludeDateTime
 import com.ivy.data.db.migration.Migration124to125_LoanEditDateTime
+import com.ivy.data.db.migration.Migration126to127_LoanRecordType
 import com.ivy.data.model.LoanType
 import io.kotest.matchers.shouldBe
 import org.junit.Rule
@@ -74,6 +75,61 @@ class IvyRoomDatabaseMigrationTest {
             getString(0) shouldBe "Loan 1"
             getDouble(1) shouldBe 123.50
             getString(2) shouldBe LoanType.BORROW.name
+        }
+        newDb.close()
+    }
+
+    @Test
+    fun migrate126to127_LoanRecordType() {
+        // given
+        val loanId = java.util.UUID.randomUUID().toString()
+        val noteString = "here is your note"
+        helper.createDatabase(TestDb, 126).apply {
+            // Database has schema version 1. Insert some data using SQL queries.
+            // You can't use DAO classes because they expect the latest schema.
+            val insertSql = """
+                INSERT INTO loan_records (loanId, amount, note, dateTime, interest, accountId, convertedAmount, isSynced, isDeleted, id) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            """.trimIndent()
+            // Assuming you have an instance of LoanRecordEntity named loanRecordEntity
+            val preparedStatement = compileStatement(insertSql).apply {
+                // Bind the values from your LoanRecordEntity instance to the prepared statement
+                bindString(1, loanId)
+                bindDouble(2, 123.50)
+                bindString(3, noteString)
+                bindString(4, "this will fail, LocalDateTimeNeeded")
+                bindLong(5, 0) // interest
+                bindString(6, UUID.randomUUID().toString())
+                bindDouble(7, 3.14) // convertedAmount
+                bindLong(8, 1)
+                bindLong(9, 0)
+                bindString(10, UUID.randomUUID().toString())
+            }
+            preparedStatement.executeInsert()
+            close()
+        }
+
+        // when
+        helper.runMigrationsAndValidate(
+            TestDb,
+            126,
+            true,
+            Migration126to127_LoanRecordType()
+        )
+        val newDb = helper.runMigrationsAndValidate(
+            TestDb,
+            127,
+            true,
+            Migration126to127_LoanRecordType()
+        )
+
+        // then
+        newDb.query("SELECT * FROM loan_records").apply {
+            moveToFirst() shouldBe true
+            getString(0) shouldBe loanId
+            getDouble(1) shouldBe 123.50
+            getString(2) shouldBe noteString
+            getString(10) shouldBe "DECREASE"
         }
         newDb.close()
     }

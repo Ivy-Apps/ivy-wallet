@@ -29,7 +29,8 @@ class LoanRecordCreator @Inject constructor(
                     isSynced = false,
                     interest = data.interest,
                     accountId = data.account?.id,
-                    convertedAmount = data.convertedAmount
+                    convertedAmount = data.convertedAmount,
+                    loanRecordType = data.loanRecordType
                 )
 
                 loanRecordWriter.save(item.toEntity())

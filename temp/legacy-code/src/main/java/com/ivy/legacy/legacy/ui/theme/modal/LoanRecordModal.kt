@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.theme.modal
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -29,8 +30,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.base.model.LoanRecordType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.utils.thenIf
 import com.ivy.frp.test.TestingContext
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.datamodel.Account
@@ -40,7 +43,6 @@ import com.ivy.legacy.legacy.ui.theme.modal.ModalNameInput
 import com.ivy.legacy.utils.getDefaultFIATCurrency
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.selectEndTextFieldValue
-import com.ivy.design.utils.thenIf
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.resources.R
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
@@ -66,7 +68,7 @@ data class LoanRecordModalData(
     val selectedAccount: Account? = null,
     val createLoanRecordTransaction: Boolean = false,
     val isLoanInterest: Boolean = false,
-    val id: UUID = UUID.randomUUID()
+    val id: UUID = UUID.randomUUID(),
 )
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
@@ -109,6 +111,9 @@ fun BoxWithConstraintsScope.LoanRecordModal(
     var reCalculateVisible by remember(modal) {
         mutableStateOf(modal?.loanAccountCurrencyCode != null && modal.loanAccountCurrencyCode != modal.baseCurrency)
     }
+    var loanRecordType by remember(modal) {
+        mutableStateOf(modal?.loanRecord?.loanRecordType ?: LoanRecordType.DECREASE)
+    }
 
     var amountModalVisible by remember { mutableStateOf(false) }
     var deleteModalVisible by remember(modal) { mutableStateOf(false) }
@@ -128,7 +133,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             ) {
                 accountChangeConformationModal =
                     initialRecord != null && modal.selectedAccount != null &&
-                    modal.baseCurrency != currencyCode && currencyCode != modal.loanAccountCurrencyCode
+                            modal.baseCurrency != currencyCode && currencyCode != modal.loanAccountCurrencyCode
 
                 if (!accountChangeConformationModal) {
                     save(
@@ -140,6 +145,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
                         selectedAccount = selectedAcc,
                         createLoanRecordTransaction = createLoanRecordTrans,
                         reCalculateAmount = reCalculate,
+                        loanRecordType = loanRecordType,
 
                         onCreate = onCreate,
                         onEdit = onEdit,
@@ -238,6 +244,24 @@ fun BoxWithConstraintsScope.LoanRecordModal(
         )
         Spacer(Modifier.height(16.dp))
 
+        Text(
+            modifier = Modifier.padding(horizontal = 32.dp),
+            text = stringResource(R.string.loan_record_type),
+            style = UI.typo.b2.style(
+                color = UI.colors.pureInverse,
+                fontWeight = FontWeight.ExtraBold
+            )
+        )
+
+        Spacer(Modifier.height(16.dp))
+
+        LoanRecordTypeRow(selectedRecordType = loanRecordType, onLoanRecordTypeChanged = {
+            if (it == LoanRecordType.INCREASE) loanInterest = false
+            loanRecordType = it
+        })
+
+        Spacer(Modifier.height(16.dp))
+
         IvyCheckboxWithText(
             modifier = Modifier
                 .padding(start = 16.dp)
@@ -248,14 +272,16 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             createLoanRecordTrans = it
         }
 
-        IvyCheckboxWithText(
-            modifier = Modifier
-                .padding(start = 16.dp)
-                .align(Alignment.Start),
-            text = stringResource(R.string.mark_as_interest),
-            checked = loanInterest
-        ) {
-            loanInterest = it
+        AnimatedVisibility(visible = loanRecordType == LoanRecordType.DECREASE) {
+            IvyCheckboxWithText(
+                modifier = Modifier
+                    .padding(start = 16.dp)
+                    .align(Alignment.Start),
+                text = stringResource(R.string.mark_as_interest),
+                checked = loanInterest
+            ) {
+                loanInterest = it
+            }
         }
 
         if (reCalculateVisible) {
@@ -339,6 +365,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             selectedAccount = selectedAcc,
             createLoanRecordTransaction = createLoanRecordTrans,
             reCalculateAmount = reCalculate,
+            loanRecordType = loanRecordType,
 
             onCreate = onCreate,
             onEdit = onEdit,
@@ -358,6 +385,7 @@ private fun save(
     createLoanRecordTransaction: Boolean = false,
     selectedAccount: Account? = null,
     reCalculateAmount: Boolean = false,
+    loanRecordType: LoanRecordType,
 
     onCreate: (CreateLoanRecordData) -> Unit,
     onEdit: (EditLoanRecordData) -> Unit,
@@ -369,7 +397,8 @@ private fun save(
             amount = amount,
             dateTime = dateTime,
             interest = loanRecordInterest,
-            accountId = selectedAccount?.id
+            accountId = selectedAccount?.id,
+            loanRecordType = loanRecordType
         )
         onEdit(
             EditLoanRecordData(
@@ -387,12 +416,93 @@ private fun save(
                 dateTime = dateTime,
                 interest = loanRecordInterest,
                 account = selectedAccount,
-                createLoanRecordTransaction = createLoanRecordTransaction
+                createLoanRecordTransaction = createLoanRecordTransaction,
+                loanRecordType = loanRecordType
             )
         )
     }
 
     dismiss()
+}
+
+@Composable
+private fun LoanRecordTypeRow(
+    selectedRecordType: LoanRecordType?,
+    modifier: Modifier = Modifier,
+    onLoanRecordTypeChanged: (LoanRecordType) -> Unit
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Spacer(Modifier.width(24.dp))
+        LoanRecordType(
+            modifier = Modifier,
+            loanRecordType = LoanRecordType.DECREASE,
+            selectedRecordType = selectedRecordType
+        ) {
+            onLoanRecordTypeChanged(it)
+        }
+        Spacer(modifier = Modifier.width(8.dp))
+        LoanRecordType(
+            modifier = Modifier,
+            loanRecordType = LoanRecordType.INCREASE,
+            selectedRecordType = selectedRecordType
+        ) {
+            onLoanRecordTypeChanged(it)
+        }
+    }
+}
+
+@Composable
+private fun LoanRecordType(
+    loanRecordType: LoanRecordType,
+    selectedRecordType: LoanRecordType?,
+    modifier: Modifier = Modifier,
+    onClick: (LoanRecordType) -> Unit
+) {
+    val (text, iconDrawable) =
+        if (loanRecordType == LoanRecordType.INCREASE) {
+            stringResource(id = R.string.increase_loan) to R.drawable.ic_donate_plus
+        } else {
+            stringResource(id = R.string.decrease_loan) to R.drawable.ic_donate_minus
+        }
+    val selected = selectedRecordType == loanRecordType
+    val medium = UI.colors.medium
+    val rFull = UI.shapes.rFull
+    val selectedColor = UI.colors.green1
+    Row(
+        modifier = modifier
+            .clip(UI.shapes.rFull)
+            .thenIf(!selected) {
+                border(2.dp, medium, rFull)
+            }
+            .thenIf(selected) {
+                background(selectedColor, rFull)
+            }
+            .clickable(onClick = { onClick(loanRecordType) }),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Spacer(Modifier.width(12.dp))
+
+        ItemIconSDefaultIcon(
+            defaultIcon = iconDrawable,
+            iconName = null,
+            tint = UI.colors.pureInverse
+        )
+
+        Spacer(Modifier.width(4.dp))
+
+        Text(
+            modifier = Modifier.padding(vertical = 10.dp),
+            text = text,
+            style = UI.typo.b2.style(
+                color = UI.colors.pureInverse,
+                fontWeight = FontWeight.ExtraBold
+            )
+        )
+        Spacer(Modifier.width(24.dp))
+    }
 }
 
 @Composable
