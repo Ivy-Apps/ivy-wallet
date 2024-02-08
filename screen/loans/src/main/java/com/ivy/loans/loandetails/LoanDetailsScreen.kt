@@ -367,6 +367,7 @@ private fun LoanItem(
     }
 }
 
+@Suppress("LongMethod")
 @Composable
 private fun LoanInfoCard(
     loan: Loan,
