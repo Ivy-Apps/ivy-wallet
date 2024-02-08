@@ -108,7 +108,7 @@ private fun BoxWithConstraintsScope.UI(
                         )
                     )
 
-                    Spacer(Modifier.height(4.dp))
+                    Spacer(Modifier.height(16.dp))
 
                     IncomeExpensesRow(
                         currency = state.baseCurrency,
