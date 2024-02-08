@@ -25,190 +25,126 @@ class TransactionMapper @Inject constructor() {
     fun TransactionEntity.toDomain(
         accountAssetCode: AssetCode?,
         toAccountAssetCode: AssetCode? = null
-    ): Either<String, Transaction> =
-        either {
-            when (this@toDomain.type) {
-                TransactionType.INCOME -> toIncomeModel(accountAssetCode).bind()
-                TransactionType.EXPENSE -> toExpenseModel(accountAssetCode).bind()
-                TransactionType.TRANSFER -> toTransferModel(
-                    fromAccountAssetCode = accountAssetCode,
-                    toAccountAssetCode = toAccountAssetCode
-                ).bind()
+    ): Either<String, Transaction> = either {
+        val zoneId = ZoneId.systemDefault()
+        val metadata = TransactionMetadata(
+            recurringRuleId = recurringRuleId,
+            loanId = loanId,
+            loanRecordId = loanRecordId
+        )
+        val settled = dateTime != null
+        val time = dateTime?.atZone(zoneId)?.toInstant()
+            ?: raise("Missing transaction time for entity: ${this@toDomain}")
+
+        val fromValue = Value(
+            amount = PositiveDouble.from(amount).bind(),
+            asset = accountAssetCode
+                ?: raise("No asset code associated with the account for this transaction '${this@toDomain}'")
+        )
+
+        when (type) {
+            TransactionType.INCOME -> {
+                Income(
+                    id = TransactionId(id),
+                    title = title?.let { NotBlankTrimmedString.from(it).bind() },
+                    description = description?.let { NotBlankTrimmedString.from(it).bind() },
+                    category = categoryId?.let { CategoryId(it) },
+                    time = time,
+                    settled = settled,
+                    metadata = metadata,
+                    lastUpdated = Instant.EPOCH,
+                    removed = isDeleted,
+                    value = fromValue,
+                    account = AccountId(accountId)
+                )
+            }
+
+            TransactionType.EXPENSE -> {
+                Expense(
+                    id = TransactionId(id),
+                    title = title?.let { NotBlankTrimmedString.from(it).bind() },
+                    description = description?.let { NotBlankTrimmedString.from(it).bind() },
+                    category = categoryId?.let { CategoryId(it) },
+                    time = time,
+                    settled = settled,
+                    metadata = metadata,
+                    lastUpdated = Instant.EPOCH,
+                    removed = isDeleted,
+                    value = fromValue,
+                    account = AccountId(accountId)
+                )
+            }
+
+            TransactionType.TRANSFER -> {
+                val toValue = Value(
+                    amount = toAmount?.let { PositiveDouble.from(it).bind() }
+                        ?: raise("Missing transfer amount for transaction '${this@toDomain}'"),
+                    asset = toAccountAssetCode
+                        ?: raise("No asset code associated with the destination account for this transaction '${this@toDomain}'")
+                )
+
+                val toAccount = toAccountId?.let(::AccountId)
+                    ?: raise("No destination account id associated with this transaction '${this@toDomain}'")
+
+                Transfer(
+                    id = TransactionId(id),
+                    title = title?.let { NotBlankTrimmedString.from(it).bind() },
+                    description = description?.let { NotBlankTrimmedString.from(it).bind() },
+                    category = categoryId?.let { CategoryId(it) },
+                    time = time,
+                    settled = settled,
+                    metadata = metadata,
+                    lastUpdated = Instant.EPOCH,
+                    removed = isDeleted,
+                    fromAccount = AccountId(accountId),
+                    fromValue = fromValue,
+                    toAccount = toAccount,
+                    toValue = toValue
+                )
             }
         }
-
-    fun Transaction.toEntity(accountId: AccountId): TransactionEntity {
-        return when (this) {
-            is Expense -> toEntity(accountId)
-            is Income -> toEntity(accountId)
-            is Transfer -> toEntity()
-        }
     }
 
-    private fun Expense.toEntity(accountId: AccountId): TransactionEntity {
+    fun Transaction.toEntity(): TransactionEntity {
+        val dateTime = time.atZone(ZoneId.systemDefault()).toLocalDateTime()
         return TransactionEntity(
-            accountId = accountId.value,
-            type = TransactionType.EXPENSE,
-            amount = value.amount.value,
-            toAccountId = null,
-            toAmount = value.amount.value,
+            accountId = when (this) {
+                is Expense -> account.value
+                is Income -> account.value
+                is Transfer -> fromAccount.value
+            },
+            type = when (this) {
+                is Expense -> TransactionType.EXPENSE
+                is Income -> TransactionType.INCOME
+                is Transfer -> TransactionType.TRANSFER
+            },
+            amount = when (this) {
+                is Expense -> value.amount.value
+                is Income -> value.amount.value
+                is Transfer -> fromValue.amount.value
+            },
+            toAccountId = if (this is Transfer) {
+                toAccount.value
+            } else {
+                null
+            },
+            toAmount = if (this is Transfer) {
+                toValue.amount.value
+            } else {
+                null
+            },
             title = title?.value,
             description = description?.value,
-            dateTime = time.atZone(ZoneId.systemDefault()).toLocalDateTime(),
+            dateTime = dateTime,
             categoryId = category?.value,
-            dueDate = null,
+            dueDate = dateTime.takeIf { !settled },
             recurringRuleId = metadata.recurringRuleId,
             attachmentUrl = null,
             loanId = metadata.loanId,
             loanRecordId = metadata.loanRecordId,
-            isSynced = false,
+            isSynced = true,
             isDeleted = removed,
             id = id.value
         )
-    }
-
-    private fun Income.toEntity(accountId: AccountId): TransactionEntity {
-        return TransactionEntity(
-            accountId = accountId.value,
-            type = TransactionType.INCOME,
-            amount = value.amount.value,
-            toAccountId = null,
-            toAmount = value.amount.value,
-            title = title?.value,
-            description = description?.value,
-            dateTime = time.atZone(ZoneId.systemDefault()).toLocalDateTime(),
-            categoryId = category?.value,
-            dueDate = null,
-            recurringRuleId = metadata.recurringRuleId,
-            attachmentUrl = null,
-            loanId = metadata.loanId,
-            loanRecordId = metadata.loanRecordId,
-            isSynced = false,
-            isDeleted = removed,
-            id = id.value
-        )
-    }
-
-    private fun Transfer.toEntity(): TransactionEntity {
-        return TransactionEntity(
-            accountId = fromAccount.value,
-            type = TransactionType.TRANSFER,
-            amount = fromValue.amount.value,
-            toAccountId = toAccount.value,
-            toAmount = toValue.amount.value,
-            title = title?.value,
-            description = description?.value,
-            dateTime = time.atZone(ZoneId.systemDefault()).toLocalDateTime(),
-            categoryId = category?.value,
-            dueDate = null,
-            recurringRuleId = metadata.recurringRuleId,
-            attachmentUrl = null,
-            loanId = metadata.loanId,
-            loanRecordId = metadata.loanRecordId,
-            isSynced = false,
-            isDeleted = removed,
-            id = id.value
-        )
-    }
-
-    private fun TransactionEntity.toIncomeModel(accountAssetCode: AssetCode?): Either<String, Income> {
-        return either {
-            val zoneId = ZoneId.systemDefault()
-            val metadata = TransactionMetadata(
-                recurringRuleId = recurringRuleId,
-                loanId = loanId,
-                loanRecordId = loanRecordId
-            )
-
-            val value = Value(
-                amount = PositiveDouble.from(amount).bind(),
-                asset = accountAssetCode ?: AssetCode.from("").bind()
-            )
-
-            Income(
-                id = TransactionId(id),
-                title = title?.let { NotBlankTrimmedString.from(it).bind() },
-                description = description?.let { NotBlankTrimmedString.from(it).bind() },
-                category = categoryId?.let { CategoryId(it) },
-                time = dateTime?.atZone(zoneId)?.toInstant() ?: Instant.now(),
-                settled = true,
-                metadata = metadata,
-                lastUpdated = dateTime?.atZone(zoneId)?.toInstant() ?: Instant.now(),
-                removed = isDeleted,
-                value = value,
-                account = AccountId(accountId)
-            )
-        }
-    }
-
-    private fun TransactionEntity.toExpenseModel(accountAssetCode: AssetCode?): Either<String, Expense> {
-        return either {
-            val zoneId = ZoneId.systemDefault()
-            val metadata = TransactionMetadata(
-                recurringRuleId = recurringRuleId,
-                loanId = loanId,
-                loanRecordId = loanRecordId
-            )
-
-            val value = Value(
-                amount = PositiveDouble.from(amount).bind(),
-                asset = accountAssetCode ?: AssetCode.from("").bind()
-            )
-
-            Expense(
-                id = TransactionId(id),
-                title = title?.let { NotBlankTrimmedString.from(it).bind() },
-                description = description?.let { NotBlankTrimmedString.from(it).bind() },
-                category = categoryId?.let { CategoryId(it) },
-                time = dateTime?.atZone(zoneId)?.toInstant() ?: Instant.now(),
-                settled = true,
-                metadata = metadata,
-                lastUpdated = dateTime?.atZone(zoneId)?.toInstant() ?: Instant.now(),
-                removed = isDeleted,
-                value = value,
-                account = AccountId(accountId)
-            )
-        }
-    }
-
-    private fun TransactionEntity.toTransferModel(
-        fromAccountAssetCode: AssetCode?,
-        toAccountAssetCode: AssetCode?
-    ): Either<String, Transfer> {
-        return either {
-            val zoneId = ZoneId.systemDefault()
-            val metadata = TransactionMetadata(
-                recurringRuleId = recurringRuleId,
-                loanId = loanId,
-                loanRecordId = loanRecordId
-            )
-
-            val fromValue = Value(
-                amount = PositiveDouble.from(amount).bind(),
-                asset = fromAccountAssetCode ?: AssetCode.from("").bind()
-            )
-
-            val toValue = Value(
-                amount = toAmount?.let { PositiveDouble.from(it).bind() }
-                    ?: raise("toAmount cannot be null for transfers"),
-                asset = toAccountAssetCode ?: AssetCode.from("").bind()
-            )
-
-            Transfer(
-                id = TransactionId(id),
-                title = title?.let { NotBlankTrimmedString.from(it).bind() },
-                description = description?.let { NotBlankTrimmedString.from(it).bind() },
-                category = categoryId?.let { CategoryId(it) },
-                time = dateTime?.atZone(zoneId)?.toInstant() ?: Instant.now(),
-                settled = true,
-                metadata = metadata,
-                lastUpdated = dateTime?.atZone(zoneId)?.toInstant() ?: Instant.now(),
-                removed = isDeleted,
-                fromAccount = AccountId(accountId),
-                fromValue = fromValue,
-                toAccount = AccountId(toAccountId!!),
-                toValue = toValue
-            )
-        }
     }
 }
