@@ -12,7 +12,6 @@ import java.util.UUID
 class FakeTransactionDao : TransactionDao, WriteTransactionDao {
     private val items = mutableListOf<TransactionEntity>()
 
-    // SELECT * FROM transactions WHERE isDeleted = 0 ORDER BY dateTime DESC, dueDate ASC"
     override suspend fun findAll(): List<TransactionEntity> {
         return items
             .filter { !it.isDeleted }
@@ -22,12 +21,10 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
             )
     }
 
-    // SELECT * FROM transactions WHERE isDeleted = 0 LIMIT 1
     override suspend fun findAll_LIMIT_1(): List<TransactionEntity> {
         return findAll().take(1)
     }
 
-    // SELECT * FROM transactions WHERE isDeleted = 0 AND type = :type ORDER BY dateTime DESC
     override suspend fun findAllByType(type: TransactionType): List<TransactionEntity> {
         return items.filter { !it.isDeleted && it.type == type }
             .sortedByDescending { it.dateTime }
@@ -37,7 +34,8 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
         type: TransactionType,
         accountId: UUID
     ): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return items.filter { !it.isDeleted && type == it.type && it.accountId == accountId }
+            .sortedByDescending { it.dateTime }
     }
 
     override suspend fun findAllByTypeAndAccountBetween(
@@ -46,14 +44,19 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return items.filter {
+            val dateTime = it.dateTime ?: return@filter false
+            isBetween(dateTime, startDate, endDate) && !it.isDeleted && it.type == type
+        }.sortedByDescending { it.dateTime }
     }
 
     override suspend fun findAllTransfersToAccount(
         toAccountId: UUID,
         type: TransactionType
     ): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return items.filter {
+            it.type == TransactionType.TRANSFER && it.toAccountId == toAccountId && !it.isDeleted
+        }.sortedByDescending { it.dateTime }
     }
 
     override suspend fun findAllTransfersToAccountBetween(
@@ -62,14 +65,22 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
         endDate: LocalDateTime,
         type: TransactionType
     ): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return items.filter {
+            val dateTime = it.dateTime ?: return@filter false
+            it.type == TransactionType.TRANSFER &&
+                    isBetween(dateTime, startDate, endDate) &&
+                    !it.isDeleted
+        }.sortedByDescending { it.dateTime }
     }
 
     override suspend fun findAllBetween(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return items.filter {
+            val dateTime = it.dateTime ?: return@filter false
+            isBetween(dateTime, startDate, endDate) && !it.isDeleted
+        }.sortedByDescending { it.dateTime }
     }
 
     override suspend fun findAllByAccountAndBetween(
@@ -77,7 +88,10 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return items.filter {
+            val dateTime = it.dateTime ?: return@filter false
+            isBetween(dateTime, startDate, endDate) && it.accountId == accountId && !it.isDeleted
+        }.sortedByDescending { it.dateTime }
     }
 
     override suspend fun findAllByCategoryAndBetween(
@@ -85,14 +99,20 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return items.filter {
+            val dateTime = it.dateTime ?: return@filter false
+            isBetween(dateTime, startDate, endDate) && it.categoryId == categoryId && !it.isDeleted
+        }.sortedByDescending { it.dateTime }
     }
 
     override suspend fun findAllUnspecifiedAndBetween(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return items.filter {
+            val dateTime = it.dateTime ?: return@filter false
+            isBetween(dateTime, startDate, endDate) && it.categoryId == null && !it.isDeleted
+        }.sortedByDescending { it.dateTime }
     }
 
     override suspend fun findAllByCategoryAndTypeAndBetween(
@@ -101,7 +121,13 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return items.filter {
+            val dateTime = it.dateTime ?: return@filter false
+            isBetween(dateTime, startDate, endDate) &&
+                    it.type == type &&
+                    it.categoryId == categoryId &&
+                    !it.isDeleted
+        }.sortedByDescending { it.dateTime }
     }
 
     override suspend fun findAllUnspecifiedAndTypeAndBetween(
@@ -109,7 +135,10 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return items.filter {
+            val dateTime = it.dateTime ?: return@filter false
+            isBetween(dateTime, startDate, endDate) && it.type == type && !it.isDeleted
+        }.sortedByDescending { it.dateTime }
     }
 
     override suspend fun findAllToAccountAndBetween(
@@ -117,14 +146,22 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return items.filter {
+            val dateTime = it.dateTime ?: return@filter false
+            isBetween(dateTime, startDate, endDate) &&
+                    it.toAccountId == toAccountId &&
+                    !it.isDeleted
+        }.sortedByDescending { it.dateTime }
     }
 
     override suspend fun findAllDueToBetween(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return items.filter {
+            val dueDate = it.dueDate ?: return@filter false
+            isBetween(dueDate, startDate, endDate) && !it.isDeleted
+        }.sortedByDescending { it.dateTime }
     }
 
     override suspend fun findAllDueToBetweenByCategory(
@@ -132,14 +169,20 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
         endDate: LocalDateTime,
         categoryId: UUID
     ): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return items.filter {
+            val dueDate = it.dueDate ?: return@filter false
+            isBetween(dueDate, startDate, endDate) && it.categoryId == categoryId && !it.isDeleted
+        }.sortedByDescending { it.dateTime }
     }
 
     override suspend fun findAllDueToBetweenByCategoryUnspecified(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return items.filter {
+            val dueDate = it.dueDate ?: return@filter false
+            isBetween(dueDate, startDate, endDate) && it.categoryId == null && !it.isDeleted
+        }.sortedByDescending { it.dateTime }
     }
 
     override suspend fun findAllDueToBetweenByAccount(
@@ -147,11 +190,15 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
         endDate: LocalDateTime,
         accountId: UUID
     ): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return items.filter {
+            val dueDate = it.dueDate ?: return@filter false
+            isBetween(dueDate, startDate, endDate) && it.accountId == accountId && !it.isDeleted
+        }.sortedByDescending { it.dateTime }
     }
 
     override suspend fun findAllByRecurringRuleId(recurringRuleId: UUID): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return items.filter { it.recurringRuleId == recurringRuleId && !it.isDeleted }
+            .sortedByDescending { it.dateTime }
     }
 
     override suspend fun findAllBetweenAndType(
@@ -159,7 +206,10 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
         endDate: LocalDateTime,
         type: TransactionType
     ): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return items.filter {
+            val dateTime = it.dateTime ?: return@filter false
+            isBetween(dateTime, startDate, endDate) && it.type == type && !it.isDeleted
+        }.sortedByDescending { it.dateTime }
     }
 
     override suspend fun findAllBetweenAndRecurringRuleId(
@@ -167,7 +217,12 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
         endDate: LocalDateTime,
         recurringRuleId: UUID
     ): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return items.filter {
+            val dateTime = it.dateTime ?: return@filter false
+            isBetween(dateTime, startDate, endDate) &&
+                    it.recurringRuleId == recurringRuleId &&
+                    !it.isDeleted
+        }.sortedByDescending { it.dateTime }
     }
 
     override suspend fun findById(id: UUID): TransactionEntity? {
@@ -178,53 +233,62 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
         synced: Boolean,
         deleted: Boolean
     ): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return items.filter { it.isSynced == synced && it.isDeleted == deleted }
+            .sortedByDescending { it.dateTime }
     }
 
     override suspend fun countHappenedTransactions(): Long {
-        TODO("Not yet implemented")
+        return items.count { it.dateTime != null && !it.isDeleted }.toLong()
     }
 
     override suspend fun findAllByTitleMatchingPattern(pattern: String): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return items.filter { it.title?.contains(pattern) == true && !it.isDeleted }
+            .sortedByDescending { it.dateTime }
     }
 
     override suspend fun countByTitleMatchingPattern(pattern: String): Long {
-        TODO("Not yet implemented")
+        return items.count { it.title?.contains(pattern) == true && !it.isDeleted }.toLong()
     }
 
     override suspend fun findAllByCategory(categoryId: UUID): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return items.filter { it.categoryId == categoryId && !it.isDeleted }
+            .sortedByDescending { it.dateTime }
     }
 
     override suspend fun countByTitleMatchingPatternAndCategoryId(
         pattern: String,
         categoryId: UUID
     ): Long {
-        TODO("Not yet implemented")
+        return items.count {
+            it.title?.contains(pattern) == true && it.categoryId == categoryId && !it.isDeleted
+        }.toLong()
     }
 
     override suspend fun findAllByAccount(accountId: UUID): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return items.filter { it.accountId == accountId && !it.isDeleted }
+            .sortedByDescending { it.dateTime }
     }
 
     override suspend fun countByTitleMatchingPatternAndAccountId(
         pattern: String,
         accountId: UUID
     ): Long {
-        TODO("Not yet implemented")
+        return items.count {
+            it.title?.contains(pattern) == true && it.accountId == accountId && !it.isDeleted
+        }.toLong()
     }
 
     override suspend fun findLoanTransaction(loanId: UUID): TransactionEntity? {
-        TODO("Not yet implemented")
+        return items.find { it.loanId == loanId }
     }
 
     override suspend fun findLoanRecordTransaction(loanRecordId: UUID): TransactionEntity? {
-        TODO("Not yet implemented")
+        return items.find { it.loanRecordId == loanRecordId }
     }
 
     override suspend fun findAllByLoanId(loanId: UUID): List<TransactionEntity> {
-        TODO("Not yet implemented")
+        return items.filter { it.loanId == loanId && !it.isDeleted }
+            .sortedByDescending { it.dateTime }
     }
 
     override suspend fun save(value: TransactionEntity) {
@@ -236,15 +300,33 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
     }
 
     override suspend fun flagDeleted(id: UUID) {
-        TODO("Not yet implemented")
+        items.map {
+            if (it.id == id) {
+                it.copy(isDeleted = true)
+            } else {
+                it
+            }
+        }
     }
 
     override suspend fun flagDeletedByRecurringRuleIdAndNoDateTime(recurringRuleId: UUID) {
-        TODO("Not yet implemented")
+        items.map {
+            if (it.recurringRuleId == recurringRuleId && it.dateTime == null) {
+                it.copy(isDeleted = true)
+            } else {
+                it
+            }
+        }
     }
 
     override suspend fun flagDeletedByAccountId(accountId: UUID) {
-        TODO("Not yet implemented")
+        items.map {
+            if (it.accountId == accountId) {
+                it.copy(isDeleted = true)
+            } else {
+                it
+            }
+        }
     }
 
     override suspend fun deleteById(id: UUID) {
@@ -252,10 +334,18 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
     }
 
     override suspend fun deleteAllByAccountId(accountId: UUID) {
-        TODO("Not yet implemented")
+        items.removeIf { it.accountId == accountId }
     }
 
     override suspend fun deleteAll() {
         items.clear()
+    }
+
+    private fun isBetween(
+        dateTime: LocalDateTime,
+        startDate: LocalDateTime,
+        endDate: LocalDateTime
+    ): Boolean {
+        return !dateTime.isAfter(endDate) && !dateTime.isBefore(startDate)
     }
 }
