@@ -441,4 +441,6 @@
     <string name="experimental_settings">Ustawienia eksperymentalne</string>
     <string name="wallet_balance">Saldo portfela</string>
     <string name="total_exclusive">Łącznie (exclusive): %1$s %2$s</string>
+    <string name="total_balance">Łącznie Saldo</string>
+    <string name="total_balance_excluded">Łącznie Saldo (wykluczony)</string>
 </resources>

@@ -438,4 +438,6 @@
     <string name="experimental_settings">Experimental Settings</string>
     <string name="wallet_balance">Wallet balance</string>
     <string name="total_exclusive">Итого (эксклюзивно): %1$s %2$s</string>
+    <string name="total_balance">Итого БАЛАНС</string>
+    <string name="total_balance_excluded">Итого БАЛАНС (исключенный)</string>
 </resources>

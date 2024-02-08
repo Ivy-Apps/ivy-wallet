@@ -31,17 +31,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.data.model.AccountData
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.horizontalSwipeListener
 import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.legacy.utils.rememberSwipeListenerState
-import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.resources.R
-import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.GreenDark
 import com.ivy.wallet.ui.theme.GreenLight
@@ -110,20 +110,12 @@ private fun BoxWithConstraintsScope.UI(
 
                     Spacer(Modifier.height(4.dp))
 
-                    Text(
-                        text = state.totalBalanceWithExcludedText,
-                        style = UI.typo.nB2.style(
-                            color = Gray,
-                            fontWeight = FontWeight.Bold
-                        )
-                    )
-
-                    Text(
-                        text = state.totalBalanceWithoutExcludedText,
-                        style = UI.typo.nC.style(
-                            color = Gray,
-                            fontWeight = FontWeight.Bold
-                        )
+                    IncomeExpensesRow(
+                        currency = state.baseCurrency,
+                        incomeLabel = stringResource(id = R.string.total_balance),
+                        income = state.totalBalanceWithoutExcluded.toDouble(),
+                        expensesLabel = stringResource(id = R.string.total_balance_excluded),
+                        expenses = state.totalBalanceWithExcluded.toDouble()
                     )
                 }
 
@@ -140,7 +132,6 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(16.dp))
         }
-
         items(state.accountsData) {
             Spacer(Modifier.height(16.dp))
             AccountCard(
@@ -330,7 +321,7 @@ private fun AccountHeader(
 @Preview
 @Composable
 private fun PreviewAccountsTab() {
-    IvyPreview {
+    IvyWalletPreview {
         val state = AccountsState(
             baseCurrency = "BGN",
             accountsData = persistentListOf(
@@ -379,5 +370,6 @@ private fun PreviewAccountsTab() {
             totalBalanceWithoutExcludedText = "BGN 25.54",
             reorderVisible = false
         )
+        UI(state = state)
     }
 }
