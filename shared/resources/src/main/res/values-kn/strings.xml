@@ -438,4 +438,5 @@
     <string name="experimental_settings">ಪ್ರಯೋಗಾತ್ಮಕ ಸೆಟ್ಟಿಂಗ್‌ಗಳು</string>
     <string name="wallet_balance">Wallet balance</string>
     <string name="total_exclusive">ಒಟ್ಟು (ವಿಶೇಷ): %1$s %2$s</string>
+    <string name="total_balance">ಒಟ್ಟು ಮೊತ್ತ</string>
 </resources>

@@ -438,4 +438,5 @@
     <string name="experimental_settings">प्रायोगिक सेटिंग्स</string>
     <string name="wallet_balance">वॉलेट बैलेंस</string>
     <string name="total_exclusive">कुल (अनन्य): %1$s %2$s</string>
+    <string name="total_balance">कुल बैलेंस</string>
 </resources>
