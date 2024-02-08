@@ -129,6 +129,7 @@ class IvyRoomDatabaseMigrationTest {
             getString(0) shouldBe loanId
             getDouble(1) shouldBe 123.50
             getString(2) shouldBe noteString
+            getString(7) shouldBe "DECREASE"
         }
         newDb.close()
     }
