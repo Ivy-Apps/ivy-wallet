@@ -300,13 +300,16 @@ class LoanDetailsViewModel @Inject constructor(
             computationThread {
                 // Calculate total amount of loan borrowed or lent.
                 // That is initial amount + each record that increased the loan.
-                var totalAmount = loan.value?.amount ?: 0.0
-                displayLoanRecords.value.forEach {
-                    if (it.loanRecord.loanRecordType == LoanRecordType.INCREASE) {
-                        val convertedAmount = it.loanRecord.convertedAmount ?: it.loanRecord.amount
-                        totalAmount += convertedAmount
+                val totalAmount =
+                    displayLoanRecords.value.fold(loan.value?.amount ?: 0.0) { value, record ->
+                        if (record.loanRecord.loanRecordType == LoanRecordType.INCREASE) {
+                            val convertedAmount =
+                                record.loanRecord.convertedAmount ?: record.loanRecord.amount
+                            value + convertedAmount
+                        } else {
+                            value
+                        }
                     }
-                }
                 loanTotalAmount.doubleValue = totalAmount
             }
 

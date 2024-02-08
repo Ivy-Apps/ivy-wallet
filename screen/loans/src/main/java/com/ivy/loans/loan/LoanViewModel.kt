@@ -5,7 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.SharedPrefs
-import com.ivy.base.model.LoanRecordType
+import com.ivy.base.model.processByType
 import com.ivy.data.db.dao.read.LoanRecordDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteLoanDao
@@ -166,7 +166,11 @@ class LoanViewModel @Inject constructor(
                 loansAct(Unit)
                     .map { loan ->
                         val (amountPaid, loanTotalAmount) = calculateAmountPaidAndTotalAmount(loan)
-                        val percentPaid = amountPaid / loanTotalAmount
+                        val percentPaid = if (loanTotalAmount != 0.0) {
+                            amountPaid / loanTotalAmount
+                        } else {
+                            0.0
+                        }
                         var currCode = findCurrencyCode(accounts.value, loan.accountId)
 
                         when (loan.type) {
@@ -307,20 +311,15 @@ class LoanViewModel @Inject constructor(
      */
     private suspend fun calculateAmountPaidAndTotalAmount(loan: Loan): Pair<Double, Double> {
         val loanRecords = ioThread { loanRecordDao.findAllByLoanId(loanId = loan.id) }
-        var amountPaid = 0.0
-        var loanTotalAmount = loan.amount
-
-        loanRecords.forEach { loanRecord ->
-            if (loanRecord.interest) return@forEach
+        val (amountPaid, loanTotalAmount) = loanRecords.fold(0.0 to loan.amount) { value, loanRecord ->
+            val (currentAmountPaid, currentLoanTotalAmount) = value
+            if (loanRecord.interest) return@fold value
             val convertedAmount = loanRecord.convertedAmount ?: loanRecord.amount
-            when (loanRecord.loanRecordType) {
-                LoanRecordType.DECREASE -> {
-                    amountPaid += convertedAmount
-                }
-                LoanRecordType.INCREASE -> {
-                    loanTotalAmount += convertedAmount
-                }
-            }
+
+            loanRecord.loanRecordType.processByType(
+                decreaseAction = {  currentAmountPaid + convertedAmount to currentLoanTotalAmount },
+                increaseAction = { currentAmountPaid to currentLoanTotalAmount + convertedAmount }
+            )
         }
         return amountPaid to loanTotalAmount
     }

@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.model.LoanRecordType
 import com.ivy.base.model.TransactionType
+import com.ivy.base.model.processByType
 import com.ivy.data.model.LoanType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -721,19 +722,17 @@ private fun LoanRecordItem(
         }
         val transactionType = when (loan.type) {
             LoanType.LEND -> {
-                if (loanRecord.loanRecordType == LoanRecordType.INCREASE) {
-                    TransactionType.EXPENSE
-                } else {
-                    TransactionType.INCOME
-                }
+                loanRecord.loanRecordType.processByType(
+                    increaseAction = { TransactionType.EXPENSE },
+                    decreaseAction = { TransactionType.INCOME }
+                )
             }
 
             LoanType.BORROW -> {
-                if (loanRecord.loanRecordType == LoanRecordType.INCREASE) {
-                    TransactionType.INCOME
-                } else {
-                    TransactionType.EXPENSE
-                }
+                loanRecord.loanRecordType.processByType(
+                    increaseAction = { TransactionType.INCOME },
+                    decreaseAction = { TransactionType.EXPENSE }
+                )
             }
         }
         TypeAmountCurrency(
