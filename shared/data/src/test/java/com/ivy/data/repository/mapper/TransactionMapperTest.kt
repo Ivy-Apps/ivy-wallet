@@ -54,7 +54,7 @@ class TransactionMapperTest : FreeSpec({
             )
 
             // when
-            val entity = with(mapper) { income.toEntity(accountId) }
+            val entity = with(mapper) { income.toEntity() }
 
             // then
             entity shouldBe TransactionEntity(
@@ -62,7 +62,7 @@ class TransactionMapperTest : FreeSpec({
                 type = TransactionType.INCOME,
                 amount = 100.0,
                 toAccountId = null,
-                toAmount = 100.0,
+                toAmount = null,
                 title = "Income",
                 description = "Income desc",
                 dateTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime(),
@@ -72,7 +72,7 @@ class TransactionMapperTest : FreeSpec({
                 attachmentUrl = null,
                 loanId = loanId,
                 loanRecordId = loanRecordId,
-                isSynced = false,
+                isSynced = true,
                 isDeleted = false,
                 id = transactionId.value
             )
@@ -107,7 +107,7 @@ class TransactionMapperTest : FreeSpec({
             )
 
             // when
-            val entity = with(mapper) { expense.toEntity(accountId) }
+            val entity = with(mapper) { expense.toEntity() }
 
             // then
             entity shouldBe TransactionEntity(
@@ -115,7 +115,7 @@ class TransactionMapperTest : FreeSpec({
                 type = TransactionType.EXPENSE,
                 amount = 100.0,
                 toAccountId = null,
-                toAmount = 100.0,
+                toAmount = null,
                 title = "Expense",
                 description = "Expense desc",
                 dateTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime(),
@@ -125,7 +125,7 @@ class TransactionMapperTest : FreeSpec({
                 attachmentUrl = null,
                 loanId = loanId,
                 loanRecordId = loanRecordId,
-                isSynced = false,
+                isSynced = true,
                 isDeleted = false,
                 id = transactionId.value
             )
@@ -163,7 +163,7 @@ class TransactionMapperTest : FreeSpec({
             )
 
             // when
-            val entity = with(mapper) { transfer.toEntity(accountId) }
+            val entity = with(mapper) { transfer.toEntity() }
 
             // then
             entity shouldBe TransactionEntity(
@@ -181,7 +181,7 @@ class TransactionMapperTest : FreeSpec({
                 attachmentUrl = null,
                 loanId = loanId,
                 loanRecordId = loanRecordId,
-                isSynced = false,
+                isSynced = true,
                 isDeleted = false,
                 id = transactionId.value
             )
@@ -236,7 +236,7 @@ class TransactionMapperTest : FreeSpec({
                     metadata = TransactionMetadata(
                         recurringRuleId, loanId, loanRecordId
                     ),
-                    lastUpdated = dateTime.atZone(ZoneId.systemDefault()).toInstant(),
+                    lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(amount = PositiveDouble(100.0), asset = assetCode),
                     account = AccountId(accountId)
@@ -350,7 +350,7 @@ class TransactionMapperTest : FreeSpec({
                     metadata = TransactionMetadata(
                         recurringRuleId, loanId, loanRecordId
                     ),
-                    lastUpdated = dateTime.atZone(ZoneId.systemDefault()).toInstant(),
+                    lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(amount = PositiveDouble(100.0), asset = assetCode),
                     account = AccountId(accountId)
@@ -465,7 +465,7 @@ class TransactionMapperTest : FreeSpec({
                     metadata = TransactionMetadata(
                         recurringRuleId, loanId, loanRecordId
                     ),
-                    lastUpdated = dateTime.atZone(ZoneId.systemDefault()).toInstant(),
+                    lastUpdated = Instant.EPOCH,
                     removed = false,
                     fromValue = Value(amount = PositiveDouble(100.0), asset = assetCode),
                     fromAccount = AccountId(accountId),
