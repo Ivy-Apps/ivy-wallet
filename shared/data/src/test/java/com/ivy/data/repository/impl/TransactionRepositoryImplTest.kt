@@ -1,6 +1,8 @@
 package com.ivy.data.repository.impl
 
 import com.ivy.base.model.TransactionType
+import com.ivy.data.db.dao.read.TransactionDao
+import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.db.entity.TransactionEntity
 import com.ivy.data.model.Account
 import com.ivy.data.model.AccountId
@@ -18,7 +20,7 @@ import com.ivy.data.model.primitive.PositiveDouble
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
-import com.ivy.data.source.LocalTransactionDataSource
+import com.ivy.testing.TestDispatchersProvider
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
@@ -32,14 +34,17 @@ import java.time.ZoneId
 import java.util.UUID
 
 class TransactionRepositoryImplTest : FreeSpec({
-    val dataSource = mockk<LocalTransactionDataSource>()
+    val transactionDao = mockk<TransactionDao>()
+    val writeTransactionDao = mockk<WriteTransactionDao>()
     val accountRepo = mockk<AccountRepository>()
     val mapper = TransactionMapper()
 
     fun newRepository(): TransactionRepository = TransactionRepositoryImpl(
         accountRepository = accountRepo,
         mapper = mapper,
-        dataSource = dataSource
+        transactionDao = transactionDao,
+        writeTransactionDao = writeTransactionDao,
+        dispatchersProvider = TestDispatchersProvider
     )
 
     fun toInstant(localDateTime: LocalDateTime): Instant {
@@ -48,19 +53,19 @@ class TransactionRepositoryImplTest : FreeSpec({
 
     "find all" - {
         "empty transactions" {
-            //given
+            //  given
             val repository = newRepository()
-            coEvery { dataSource.findAll() } returns emptyList()
+            coEvery { transactionDao.findAll() } returns emptyList()
 
-            //when
+            //  when
             val res = repository.findAll()
 
-            //then
+            //  then
             res shouldBe emptyList()
         }
 
         "list with valid and invalid transactions" {
-            //given
+            // given
             val repository = newRepository()
             val validIncomeId = UUID.randomUUID()
             val invalidIncomeId = UUID.randomUUID()
@@ -162,7 +167,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                 id = invalidTransferId
             )
 
-            coEvery { dataSource.findAll() } returns listOf(
+            coEvery { transactionDao.findAll() } returns listOf(
                 validIncome,
                 invalidIncome,
                 validExpense,
@@ -173,10 +178,10 @@ class TransactionRepositoryImplTest : FreeSpec({
             coEvery { accountRepo.findById(account.id) } returns account
             coEvery { accountRepo.findById(toAccount.id) } returns toAccount
 
-            //when
+            // when
             val res = repository.findAll()
 
-            //then
+            // then
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validIncomeId),
@@ -186,7 +191,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                     time = toInstant(transactionDateTime),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
-                    lastUpdated = toInstant(transactionDateTime),
+                    lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
                     account = AccountId(accountId)
@@ -199,7 +204,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                     time = toInstant(transactionDateTime),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
-                    lastUpdated = toInstant(transactionDateTime),
+                    lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
                     account = AccountId(accountId)
@@ -212,7 +217,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                     time = toInstant(transactionDateTime),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
-                    lastUpdated = toInstant(transactionDateTime),
+                    lastUpdated = Instant.EPOCH,
                     removed = false,
                     fromAccount = AccountId(accountId),
                     fromValue = Value(PositiveDouble(100.0), account.asset),
@@ -225,19 +230,19 @@ class TransactionRepositoryImplTest : FreeSpec({
 
     "find all limit 1" - {
         "empty transactions" {
-            //given
+            // given
             val repository = newRepository()
-            coEvery { dataSource.findAll_LIMIT_1() } returns emptyList()
+            coEvery { transactionDao.findAll_LIMIT_1() } returns emptyList()
 
-            //when
+            // when
             val res = repository.findAll_LIMIT_1()
 
-            //then
+            // then
             res shouldBe emptyList()
         }
 
         "list with valid and invalid transactions" {
-            //given
+            // given
             val repository = newRepository()
             val validIncomeId = UUID.randomUUID()
             val accountId = UUID.randomUUID()
@@ -266,13 +271,13 @@ class TransactionRepositoryImplTest : FreeSpec({
                 id = validIncomeId
             )
 
-            coEvery { dataSource.findAll_LIMIT_1() } returns listOf(validIncome)
+            coEvery { transactionDao.findAll_LIMIT_1() } returns listOf(validIncome)
             coEvery { accountRepo.findById(account.id) } returns account
 
-            //when
+            // when
             val res = repository.findAll_LIMIT_1()
 
-            //then
+            // then
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validIncomeId),
@@ -282,7 +287,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                     time = toInstant(transactionDateTime),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
-                    lastUpdated = toInstant(transactionDateTime),
+                    lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
                     account = account.id
@@ -293,21 +298,21 @@ class TransactionRepositoryImplTest : FreeSpec({
 
     "find all between" - {
         "empty transactions" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
-            coEvery { dataSource.findAllBetween(startDate, endDate) } returns emptyList()
+            coEvery { transactionDao.findAllBetween(startDate, endDate) } returns emptyList()
 
-            //when
+            // when
             val res = repository.findAllBetween(startDate, endDate)
 
-            //then
+            // then
             res shouldBe emptyList()
         }
 
         "list with valid and invalid transactions" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
@@ -363,17 +368,17 @@ class TransactionRepositoryImplTest : FreeSpec({
                 id = invalidIncomeId
             )
 
-            coEvery { dataSource.findAllBetween(startDate, endDate) } returns listOf(
+            coEvery { transactionDao.findAllBetween(startDate, endDate) } returns listOf(
                 validIncome,
                 validIncome2,
                 invalidIncome
             )
             coEvery { accountRepo.findById(account.id) } returns account
 
-            //when
+            // when
             val res = repository.findAllBetween(startDate, endDate)
 
-            //then
+            // then
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validIncomeId),
@@ -383,7 +388,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
-                    lastUpdated = toInstant(startDate),
+                    lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
                     account = account.id
@@ -396,7 +401,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                     time = toInstant(endDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
-                    lastUpdated = toInstant(endDate),
+                    lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
                     account = account.id
@@ -407,29 +412,29 @@ class TransactionRepositoryImplTest : FreeSpec({
 
     "find all by account and between" - {
         "empty transactions" {
-            //given
+            // given
             val repository = newRepository()
             val accountId = UUID.randomUUID()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
             coEvery {
-                dataSource.findAllByAccountAndBetween(
+                transactionDao.findAllByAccountAndBetween(
                     accountId,
                     startDate,
                     endDate
                 )
             } returns emptyList()
 
-            //when
+            // when
             val res =
                 repository.findAllByAccountAndBetween(AccountId(accountId), startDate, endDate)
 
-            //then
+            // then
             res shouldBe emptyList()
         }
 
         "list with valid and invalid transactions" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
@@ -486,7 +491,7 @@ class TransactionRepositoryImplTest : FreeSpec({
             )
 
             coEvery {
-                dataSource.findAllByAccountAndBetween(
+                transactionDao.findAllByAccountAndBetween(
                     accountId,
                     startDate,
                     endDate
@@ -498,11 +503,11 @@ class TransactionRepositoryImplTest : FreeSpec({
             )
             coEvery { accountRepo.findById(account.id) } returns account
 
-            //when
+            // when
             val res =
                 repository.findAllByAccountAndBetween(AccountId(accountId), startDate, endDate)
 
-            //then
+            // then
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validIncomeId),
@@ -512,7 +517,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
-                    lastUpdated = toInstant(startDate),
+                    lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
                     account = account.id
@@ -523,29 +528,29 @@ class TransactionRepositoryImplTest : FreeSpec({
 
     "find all by category and between" - {
         "empty transactions" {
-            //given
+            // given
             val repository = newRepository()
             val categoryId = UUID.randomUUID()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
             coEvery {
-                dataSource.findAllByCategoryAndBetween(
+                transactionDao.findAllByCategoryAndBetween(
                     categoryId,
                     startDate,
                     endDate
                 )
             } returns emptyList()
 
-            //when
+            // when
             val res =
                 repository.findAllByCategoryAndBetween(CategoryId(categoryId), startDate, endDate)
 
-            //then
+            // then
             res shouldBe emptyList()
         }
 
         "list with valid and invalid transactions" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
@@ -606,7 +611,7 @@ class TransactionRepositoryImplTest : FreeSpec({
             )
 
             coEvery {
-                dataSource.findAllByCategoryAndBetween(
+                transactionDao.findAllByCategoryAndBetween(
                     categoryId,
                     startDate,
                     endDate
@@ -618,11 +623,11 @@ class TransactionRepositoryImplTest : FreeSpec({
             )
             coEvery { accountRepo.findById(account.id) } returns account
 
-            //when
+            // when
             val res =
                 repository.findAllByCategoryAndBetween(CategoryId(categoryId), startDate, endDate)
 
-            //then
+            // then
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validIncomeId),
@@ -632,7 +637,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
-                    lastUpdated = toInstant(startDate),
+                    lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
                     account = account.id
@@ -643,27 +648,27 @@ class TransactionRepositoryImplTest : FreeSpec({
 
     "find all unspecified and between" - {
         "empty transactions" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
             coEvery {
-                dataSource.findAllUnspecifiedAndBetween(
+                transactionDao.findAllUnspecifiedAndBetween(
                     startDate,
                     endDate
                 )
             } returns emptyList()
 
-            //when
+            // when
             val res =
                 repository.findAllUnspecifiedAndBetween(startDate, endDate)
 
-            //then
+            // then
             res shouldBe emptyList()
         }
 
         "list with valid and invalid transactions" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
@@ -722,17 +727,17 @@ class TransactionRepositoryImplTest : FreeSpec({
                 categoryId = null
             )
 
-            coEvery { dataSource.findAllUnspecifiedAndBetween(startDate, endDate) } returns listOf(
+            coEvery { transactionDao.findAllUnspecifiedAndBetween(startDate, endDate) } returns listOf(
                 validIncome,
                 invalidIncome2,
                 invalidIncome
             )
             coEvery { accountRepo.findById(account.id) } returns account
 
-            //when
+            // when
             val res = repository.findAllUnspecifiedAndBetween(startDate, endDate)
 
-            //then
+            // then
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validIncomeId),
@@ -742,7 +747,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
-                    lastUpdated = toInstant(startDate),
+                    lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
                     account = account.id
@@ -753,29 +758,29 @@ class TransactionRepositoryImplTest : FreeSpec({
 
     "find all to account and between" - {
         "empty transactions" {
-            //given
+            // given
             val repository = newRepository()
             val toAccountId = UUID.randomUUID()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
             coEvery {
-                dataSource.findAllToAccountAndBetween(
+                transactionDao.findAllToAccountAndBetween(
                     toAccountId,
                     startDate,
                     endDate
                 )
             } returns emptyList()
 
-            //when
+            // when
             val res =
                 repository.findAllToAccountAndBetween(AccountId(toAccountId), startDate, endDate)
 
-            //then
+            // then
             res shouldBe emptyList()
         }
 
         "list with valid and invalid transactions" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
@@ -845,7 +850,7 @@ class TransactionRepositoryImplTest : FreeSpec({
             )
 
             coEvery {
-                dataSource.findAllToAccountAndBetween(
+                transactionDao.findAllToAccountAndBetween(
                     toAccountId,
                     startDate,
                     endDate
@@ -858,11 +863,11 @@ class TransactionRepositoryImplTest : FreeSpec({
             coEvery { accountRepo.findById(account.id) } returns account
             coEvery { accountRepo.findById(toAccount.id) } returns toAccount
 
-            //when
+            // when
             val res =
                 repository.findAllToAccountAndBetween(AccountId(toAccountId), startDate, endDate)
 
-            //then
+            // then
             res shouldBe listOf(
                 Transfer(
                     id = TransactionId(validTransactionId),
@@ -872,7 +877,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
-                    lastUpdated = toInstant(startDate),
+                    lastUpdated = Instant.EPOCH,
                     removed = false,
                     fromAccount = AccountId(accountId),
                     fromValue = Value(PositiveDouble(100.0), account.asset),
@@ -885,27 +890,27 @@ class TransactionRepositoryImplTest : FreeSpec({
 
     "find all due to and between" - {
         "empty transactions" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
             coEvery {
-                dataSource.findAllDueToBetween(
+                transactionDao.findAllDueToBetween(
                     startDate,
                     endDate
                 )
             } returns emptyList()
 
-            //when
+            // when
             val res =
                 repository.findAllDueToBetween(startDate, endDate)
 
-            //then
+            // then
             res shouldBe emptyList()
         }
 
         "list with valid and invalid transactions" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
@@ -978,7 +983,7 @@ class TransactionRepositoryImplTest : FreeSpec({
             )
 
             coEvery {
-                dataSource.findAllDueToBetween(
+                transactionDao.findAllDueToBetween(
                     startDate,
                     endDate
                 )
@@ -990,11 +995,11 @@ class TransactionRepositoryImplTest : FreeSpec({
             coEvery { accountRepo.findById(account.id) } returns account
             coEvery { accountRepo.findById(toAccount.id) } returns toAccount
 
-            //when
+            // when
             val res =
                 repository.findAllDueToBetween(startDate, endDate)
 
-            //then
+            // then
             res shouldBe listOf(
                 Transfer(
                     id = TransactionId(validTransactionId),
@@ -1004,7 +1009,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
-                    lastUpdated = toInstant(startDate),
+                    lastUpdated = Instant.EPOCH,
                     removed = false,
                     fromAccount = AccountId(accountId),
                     fromValue = Value(PositiveDouble(100.0), account.asset),
@@ -1017,29 +1022,29 @@ class TransactionRepositoryImplTest : FreeSpec({
 
     "find all due to between by category" - {
         "empty transactions" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
             val categoryId = UUID.randomUUID()
             coEvery {
-                dataSource.findAllDueToBetweenByCategory(
+                transactionDao.findAllDueToBetweenByCategory(
                     startDate,
                     endDate,
                     categoryId
                 )
             } returns emptyList()
 
-            //when
+            // when
             val res =
                 repository.findAllDueToBetweenByCategory(startDate, endDate, CategoryId(categoryId))
 
-            //then
+            // then
             res shouldBe emptyList()
         }
 
         "list with valid and invalid transactions" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
@@ -1097,7 +1102,7 @@ class TransactionRepositoryImplTest : FreeSpec({
             )
 
             coEvery {
-                dataSource.findAllDueToBetweenByCategory(
+                transactionDao.findAllDueToBetweenByCategory(
                     startDate,
                     endDate,
                     categoryId
@@ -1109,11 +1114,11 @@ class TransactionRepositoryImplTest : FreeSpec({
             )
             coEvery { accountRepo.findById(account.id) } returns account
 
-            //when
+            // when
             val res =
                 repository.findAllDueToBetweenByCategory(startDate, endDate, CategoryId(categoryId))
 
-            //then
+            // then
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validTransactionId),
@@ -1123,7 +1128,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
-                    lastUpdated = toInstant(startDate),
+                    lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
                     account = account.id
@@ -1134,27 +1139,27 @@ class TransactionRepositoryImplTest : FreeSpec({
 
     "find all due to between by unspecified category" - {
         "empty transactions" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
             coEvery {
-                dataSource.findAllDueToBetweenByCategoryUnspecified(
+                transactionDao.findAllDueToBetweenByCategoryUnspecified(
                     startDate,
                     endDate
                 )
             } returns emptyList()
 
-            //when
+            // when
             val res =
                 repository.findAllDueToBetweenByCategoryUnspecified(startDate, endDate)
 
-            //then
+            // then
             res shouldBe emptyList()
         }
 
         "list with valid and invalid transactions" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
@@ -1211,7 +1216,7 @@ class TransactionRepositoryImplTest : FreeSpec({
             )
 
             coEvery {
-                dataSource.findAllDueToBetweenByCategoryUnspecified(
+                transactionDao.findAllDueToBetweenByCategoryUnspecified(
                     startDate,
                     endDate,
                 )
@@ -1222,11 +1227,11 @@ class TransactionRepositoryImplTest : FreeSpec({
             )
             coEvery { accountRepo.findById(account.id) } returns account
 
-            //when
+            // when
             val res =
                 repository.findAllDueToBetweenByCategoryUnspecified(startDate, endDate)
 
-            //then
+            // then
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validTransactionId),
@@ -1236,7 +1241,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
-                    lastUpdated = toInstant(startDate),
+                    lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
                     account = account.id
@@ -1247,29 +1252,29 @@ class TransactionRepositoryImplTest : FreeSpec({
 
     "find all due to between by account" - {
         "empty transactions" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
             val accountId = UUID.randomUUID()
             coEvery {
-                dataSource.findAllDueToBetweenByAccount(
+                transactionDao.findAllDueToBetweenByAccount(
                     startDate,
                     endDate,
                     accountId
                 )
             } returns emptyList()
 
-            //when
+            // when
             val res =
                 repository.findAllDueToBetweenByAccount(startDate, endDate, AccountId(accountId))
 
-            //then
+            // then
             res shouldBe emptyList()
         }
 
         "list with valid and invalid transactions" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
@@ -1326,7 +1331,7 @@ class TransactionRepositoryImplTest : FreeSpec({
             )
 
             coEvery {
-                dataSource.findAllDueToBetweenByAccount(
+                transactionDao.findAllDueToBetweenByAccount(
                     startDate,
                     endDate,
                     accountId
@@ -1338,11 +1343,11 @@ class TransactionRepositoryImplTest : FreeSpec({
             )
             coEvery { accountRepo.findById(account.id) } returns account
 
-            //when
+            // when
             val res =
                 repository.findAllDueToBetweenByAccount(startDate, endDate, AccountId(accountId))
 
-            //then
+            // then
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validTransactionId),
@@ -1352,7 +1357,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
-                    lastUpdated = toInstant(startDate),
+                    lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
                     account = account.id
@@ -1363,22 +1368,22 @@ class TransactionRepositoryImplTest : FreeSpec({
 
     "find all by recurring rule id" - {
         "empty transactions" {
-            //given
+            // given
             val repository = newRepository()
             val recurringRuleId = UUID.randomUUID()
             coEvery {
-                dataSource.findAllByRecurringRuleId(recurringRuleId)
+                transactionDao.findAllByRecurringRuleId(recurringRuleId)
             } returns emptyList()
 
-            //when
+            // when
             val res = repository.findAllByRecurringRuleId(recurringRuleId)
 
-            //then
+            // then
             res shouldBe emptyList()
         }
 
         "list with valid and invalid transactions" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
@@ -1439,7 +1444,7 @@ class TransactionRepositoryImplTest : FreeSpec({
             )
 
             coEvery {
-                dataSource.findAllByRecurringRuleId(recurringRuleId)
+                transactionDao.findAllByRecurringRuleId(recurringRuleId)
             } returns listOf(
                 validTransaction,
                 invalidTransaction2,
@@ -1447,11 +1452,11 @@ class TransactionRepositoryImplTest : FreeSpec({
             )
             coEvery { accountRepo.findById(account.id) } returns account
 
-            //when
+            // when
             val res =
                 repository.findAllByRecurringRuleId(recurringRuleId)
 
-            //then
+            // then
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validTransactionId),
@@ -1461,7 +1466,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(recurringRuleId, null, null),
-                    lastUpdated = toInstant(startDate),
+                    lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
                     account = account.id
@@ -1472,29 +1477,29 @@ class TransactionRepositoryImplTest : FreeSpec({
 
     "find all between and recurring rule id" - {
         "empty transactions" {
-            //given
+            // given
             val repository = newRepository()
             val recurringRuleId = UUID.randomUUID()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
             coEvery {
-                dataSource.findAllBetweenAndRecurringRuleId(
+                transactionDao.findAllBetweenAndRecurringRuleId(
                     startDate,
                     endDate,
                     recurringRuleId
                 )
             } returns emptyList()
 
-            //when
+            // when
             val res =
                 repository.findAllBetweenAndRecurringRuleId(startDate, endDate, recurringRuleId)
 
-            //then
+            // then
             res shouldBe emptyList()
         }
 
         "list with valid and invalid transactions" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
@@ -1555,7 +1560,7 @@ class TransactionRepositoryImplTest : FreeSpec({
             )
 
             coEvery {
-                dataSource.findAllBetweenAndRecurringRuleId(
+                transactionDao.findAllBetweenAndRecurringRuleId(
                     startDate,
                     endDate,
                     recurringRuleId
@@ -1567,11 +1572,11 @@ class TransactionRepositoryImplTest : FreeSpec({
             )
             coEvery { accountRepo.findById(account.id) } returns account
 
-            //when
+            // when
             val res =
                 repository.findAllBetweenAndRecurringRuleId(startDate, endDate, recurringRuleId)
 
-            //then
+            // then
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validTransactionId),
@@ -1581,7 +1586,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(recurringRuleId, null, null),
-                    lastUpdated = toInstant(startDate),
+                    lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
                     account = account.id
@@ -1592,21 +1597,21 @@ class TransactionRepositoryImplTest : FreeSpec({
 
     "find by id" - {
         "null transaction entity" {
-            //given
+            // given
             val repository = newRepository()
             val transactionId = UUID.randomUUID()
-            coEvery { dataSource.findById(transactionId) } returns null
+            coEvery { transactionDao.findById(transactionId) } returns null
 
-            //when
+            // when
             val res =
                 repository.findById(TransactionId(transactionId))
 
-            //then
+            // then
             res shouldBe null
         }
 
         "valid transaction entity" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val transactionId = UUID.randomUUID()
@@ -1637,13 +1642,13 @@ class TransactionRepositoryImplTest : FreeSpec({
                 recurringRuleId = recurringRuleId
             )
 
-            coEvery { dataSource.findById(transactionId) } returns transaction
+            coEvery { transactionDao.findById(transactionId) } returns transaction
             coEvery { accountRepo.findById(account.id) } returns account
 
-            //when
+            // when
             val res = repository.findById(TransactionId(transactionId))
 
-            //then
+            // then
             res shouldBe Income(
                 id = TransactionId(transactionId),
                 title = NotBlankTrimmedString("Transaction 1"),
@@ -1652,7 +1657,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                 time = toInstant(startDate),
                 settled = true,
                 metadata = TransactionMetadata(recurringRuleId, null, null),
-                lastUpdated = toInstant(startDate),
+                lastUpdated = Instant.EPOCH,
                 removed = false,
                 value = Value(PositiveDouble(100.0), account.asset),
                 account = account.id
@@ -1660,7 +1665,7 @@ class TransactionRepositoryImplTest : FreeSpec({
         }
 
         "invalid transaction entity" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
@@ -1691,40 +1696,40 @@ class TransactionRepositoryImplTest : FreeSpec({
             )
 
 
-            coEvery { dataSource.findById(transactionId) } returns transaction
+            coEvery { transactionDao.findById(transactionId) } returns transaction
             coEvery { accountRepo.findById(account.id) } returns account
 
-            //when
+            // when
             val res = repository.findById(TransactionId(transactionId))
 
-            //then
+            // then
             res shouldBe null
         }
     }
 
     "find by is synced and is deleted" - {
         "empty transactions" {
-            //given
+            // given
             val repository = newRepository()
             val isSynced = true
             val isDeleted = true
             coEvery {
-                dataSource.findByIsSyncedAndIsDeleted(
+                transactionDao.findByIsSyncedAndIsDeleted(
                     synced = isSynced,
                     deleted = isDeleted,
                 )
             } returns emptyList()
 
-            //when
+            // when
             val res =
                 repository.findByIsSyncedAndIsDeleted(isSynced, isDeleted)
 
-            //then
+            // then
             res shouldBe emptyList()
         }
 
         "list with valid and invalid transactions" {
-            //given
+            // given
             val repository = newRepository()
             val isSynced = true
             val isDeleted = true
@@ -1788,17 +1793,17 @@ class TransactionRepositoryImplTest : FreeSpec({
                 isDeleted = isDeleted
             )
 
-            coEvery { dataSource.findByIsSyncedAndIsDeleted(isSynced, isDeleted) } returns listOf(
+            coEvery { transactionDao.findByIsSyncedAndIsDeleted(isSynced, isDeleted) } returns listOf(
                 validTransaction,
                 invalidTransaction2,
                 invalidTransaction
             )
             coEvery { accountRepo.findById(account.id) } returns account
 
-            //when
+            // when
             val res = repository.findByIsSyncedAndIsDeleted(isSynced, isDeleted)
 
-            //then
+            // then
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validTransactionId),
@@ -1808,7 +1813,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
-                    lastUpdated = toInstant(startDate),
+                    lastUpdated = Instant.EPOCH,
                     removed = isDeleted,
                     value = Value(PositiveDouble(100.0), account.asset),
                     account = account.id
@@ -1819,20 +1824,20 @@ class TransactionRepositoryImplTest : FreeSpec({
 
     "find all by category" - {
         "empty transactions" {
-            //given
+            // given
             val repository = newRepository()
             val categoryId = UUID.randomUUID()
-            coEvery { dataSource.findAllByCategory(categoryId) } returns emptyList()
+            coEvery { transactionDao.findAllByCategory(categoryId) } returns emptyList()
 
-            //when
+            // when
             val res = repository.findAllByCategory(CategoryId(categoryId))
 
-            //then
+            // then
             res shouldBe emptyList()
         }
 
         "list with valid and invalid transactions" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
@@ -1889,17 +1894,17 @@ class TransactionRepositoryImplTest : FreeSpec({
                 categoryId = categoryId,
             )
 
-            coEvery { dataSource.findAllByCategory(categoryId) } returns listOf(
+            coEvery { transactionDao.findAllByCategory(categoryId) } returns listOf(
                 validTransaction,
                 invalidTransaction2,
                 invalidTransaction
             )
             coEvery { accountRepo.findById(account.id) } returns account
 
-            //when
+            // when
             val res = repository.findAllByCategory(CategoryId(categoryId))
 
-            //then
+            // then
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validTransactionId),
@@ -1909,7 +1914,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
-                    lastUpdated = toInstant(startDate),
+                    lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
                     account = account.id
@@ -1920,20 +1925,20 @@ class TransactionRepositoryImplTest : FreeSpec({
 
     "find all by account" - {
         "empty transactions" {
-            //given
+            // given
             val repository = newRepository()
             val accountId = UUID.randomUUID()
-            coEvery { dataSource.findAllByAccount(accountId) } returns emptyList()
+            coEvery { transactionDao.findAllByAccount(accountId) } returns emptyList()
 
-            //when
+            // when
             val res = repository.findAllByAccount(AccountId(accountId))
 
-            //then
+            // then
             res shouldBe emptyList()
         }
 
         "list with valid and invalid transactions" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
@@ -1990,17 +1995,17 @@ class TransactionRepositoryImplTest : FreeSpec({
                 categoryId = categoryId,
             )
 
-            coEvery { dataSource.findAllByAccount(accountId) } returns listOf(
+            coEvery { transactionDao.findAllByAccount(accountId) } returns listOf(
                 validTransaction,
                 invalidTransaction2,
                 invalidTransaction
             )
             coEvery { accountRepo.findById(account.id) } returns account
 
-            //when
+            // when
             val res = repository.findAllByAccount(AccountId(accountId))
 
-            //then
+            // then
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validTransactionId),
@@ -2010,7 +2015,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
-                    lastUpdated = toInstant(startDate),
+                    lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
                     account = account.id
@@ -2021,20 +2026,20 @@ class TransactionRepositoryImplTest : FreeSpec({
 
     "find by loan id" - {
         "null transaction entity" {
-            //given
+            // given
             val repository = newRepository()
             val loanId = UUID.randomUUID()
-            coEvery { dataSource.findLoanTransaction(loanId) } returns null
+            coEvery { transactionDao.findLoanTransaction(loanId) } returns null
 
-            //when
+            // when
             val res = repository.findLoanTransaction(loanId)
 
-            //then
+            // then
             res shouldBe null
         }
 
         "valid transaction entity" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val transactionId = UUID.randomUUID()
@@ -2068,13 +2073,13 @@ class TransactionRepositoryImplTest : FreeSpec({
                 loanId = loanId
             )
 
-            coEvery { dataSource.findLoanTransaction(loanId) } returns transaction
+            coEvery { transactionDao.findLoanTransaction(loanId) } returns transaction
             coEvery { accountRepo.findById(account.id) } returns account
 
-            //when
+            // when
             val res = repository.findLoanTransaction(loanId)
 
-            //then
+            // then
             res shouldBe Income(
                 id = TransactionId(transactionId),
                 title = NotBlankTrimmedString("Transaction 1"),
@@ -2083,7 +2088,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                 time = toInstant(startDate),
                 settled = true,
                 metadata = TransactionMetadata(recurringRuleId, loanId, null),
-                lastUpdated = toInstant(startDate),
+                lastUpdated = Instant.EPOCH,
                 removed = false,
                 value = Value(PositiveDouble(100.0), account.asset),
                 account = account.id
@@ -2091,7 +2096,7 @@ class TransactionRepositoryImplTest : FreeSpec({
         }
 
         "invalid transaction entity" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
@@ -2125,33 +2130,33 @@ class TransactionRepositoryImplTest : FreeSpec({
             )
 
 
-            coEvery { dataSource.findLoanTransaction(loanId) } returns transaction
+            coEvery { transactionDao.findLoanTransaction(loanId) } returns transaction
             coEvery { accountRepo.findById(account.id) } returns account
 
-            //when
+            // when
             val res = repository.findLoanTransaction(loanId)
 
-            //then
+            // then
             res shouldBe null
         }
     }
 
     "find by loan record id" - {
         "null transaction entity" {
-            //given
+            // given
             val repository = newRepository()
             val loanRecordId = UUID.randomUUID()
-            coEvery { dataSource.findLoanRecordTransaction(loanRecordId) } returns null
+            coEvery { transactionDao.findLoanRecordTransaction(loanRecordId) } returns null
 
-            //when
+            // when
             val res = repository.findLoanRecordTransaction(loanRecordId)
 
-            //then
+            // then
             res shouldBe null
         }
 
         "valid transaction entity" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val transactionId = UUID.randomUUID()
@@ -2185,13 +2190,13 @@ class TransactionRepositoryImplTest : FreeSpec({
                 loanRecordId = loanRecordId
             )
 
-            coEvery { dataSource.findLoanRecordTransaction(loanRecordId) } returns transaction
+            coEvery { transactionDao.findLoanRecordTransaction(loanRecordId) } returns transaction
             coEvery { accountRepo.findById(account.id) } returns account
 
-            //when
+            // when
             val res = repository.findLoanRecordTransaction(loanRecordId)
 
-            //then
+            // then
             res shouldBe Income(
                 id = TransactionId(transactionId),
                 title = NotBlankTrimmedString("Transaction 1"),
@@ -2200,7 +2205,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                 time = toInstant(startDate),
                 settled = true,
                 metadata = TransactionMetadata(recurringRuleId, null, loanRecordId),
-                lastUpdated = toInstant(startDate),
+                lastUpdated = Instant.EPOCH,
                 removed = false,
                 value = Value(PositiveDouble(100.0), account.asset),
                 account = account.id
@@ -2208,7 +2213,7 @@ class TransactionRepositoryImplTest : FreeSpec({
         }
 
         "invalid transaction entity" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
@@ -2242,33 +2247,33 @@ class TransactionRepositoryImplTest : FreeSpec({
             )
 
 
-            coEvery { dataSource.findLoanRecordTransaction(loanRecordId) } returns transaction
+            coEvery { transactionDao.findLoanRecordTransaction(loanRecordId) } returns transaction
             coEvery { accountRepo.findById(account.id) } returns account
 
-            //when
+            // when
             val res = repository.findLoanRecordTransaction(loanRecordId)
 
-            //then
+            // then
             res shouldBe null
         }
     }
 
     "find all by loan id" - {
         "empty transactions" {
-            //given
+            // given
             val repository = newRepository()
             val loanId = UUID.randomUUID()
-            coEvery { dataSource.findAllByLoanId(loanId) } returns emptyList()
+            coEvery { transactionDao.findAllByLoanId(loanId) } returns emptyList()
 
-            //when
+            // when
             val res = repository.findAllByLoanId(loanId)
 
-            //then
+            // then
             res shouldBe emptyList()
         }
 
         "list with valid and invalid transactions" {
-            //given
+            // given
             val repository = newRepository()
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
@@ -2329,17 +2334,17 @@ class TransactionRepositoryImplTest : FreeSpec({
                 loanId = loanId
             )
 
-            coEvery { dataSource.findAllByLoanId(loanId) } returns listOf(
+            coEvery { transactionDao.findAllByLoanId(loanId) } returns listOf(
                 validTransaction,
                 invalidTransaction2,
                 invalidTransaction
             )
             coEvery { accountRepo.findById(account.id) } returns account
 
-            //when
+            // when
             val res = repository.findAllByLoanId(loanId)
 
-            //then
+            // then
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validTransactionId),
@@ -2349,7 +2354,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(null, loanId, null),
-                    lastUpdated = toInstant(startDate),
+                    lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
                     account = account.id
@@ -2359,14 +2364,14 @@ class TransactionRepositoryImplTest : FreeSpec({
     }
 
     "save" {
-        //given
+        // given
         val repository = newRepository()
         val accountId = UUID.randomUUID()
         val transactionId = UUID.randomUUID()
         val transactionDate = LocalDateTime.now()
-        coEvery { dataSource.save(any()) } just runs
+        coEvery { writeTransactionDao.save(any()) } just runs
 
-        //when
+        // when
         repository.save(
             AccountId(accountId),
             Income(
@@ -2377,16 +2382,16 @@ class TransactionRepositoryImplTest : FreeSpec({
                 time = toInstant(transactionDate),
                 settled = true,
                 metadata = TransactionMetadata(null, null, null),
-                lastUpdated = toInstant(transactionDate),
+                lastUpdated = Instant.EPOCH,
                 removed = false,
                 value = Value(PositiveDouble(100.0), AssetCode("NGN")),
                 account = AccountId(accountId)
             )
         )
 
-        //then
+        // then
         coVerify(exactly = 1) {
-            dataSource.save(
+            writeTransactionDao.save(
                 TransactionEntity(
                     accountId = accountId,
                     type = TransactionType.INCOME,
@@ -2395,22 +2400,23 @@ class TransactionRepositoryImplTest : FreeSpec({
                     description = "Desc",
                     dateTime = transactionDate,
                     id = transactionId,
-                    toAmount = 100.0
+                    toAmount = null,
+                    isSynced = true
                 )
             )
         }
     }
 
     "save many" {
-        //given
+        // given
         val repository = newRepository()
         val accountId = UUID.randomUUID()
         val transaction1Id = UUID.randomUUID()
         val transaction2Id = UUID.randomUUID()
         val transactionDate = LocalDateTime.now()
-        coEvery { dataSource.saveMany(any()) } just runs
+        coEvery { writeTransactionDao.saveMany(any()) } just runs
 
-        //when
+        // when
         repository.saveMany(
             AccountId(accountId),
             listOf(
@@ -2422,7 +2428,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                     time = toInstant(transactionDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
-                    lastUpdated = toInstant(transactionDate),
+                    lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), AssetCode("NGN")),
                     account = AccountId(accountId)
@@ -2435,7 +2441,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                     time = toInstant(transactionDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
-                    lastUpdated = toInstant(transactionDate),
+                    lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), AssetCode("NGN")),
                     account = AccountId(accountId)
@@ -2443,9 +2449,9 @@ class TransactionRepositoryImplTest : FreeSpec({
             )
         )
 
-        //then
+        // then
         coVerify(exactly = 1) {
-            dataSource.saveMany(
+            writeTransactionDao.saveMany(
                 listOf(
                     TransactionEntity(
                         accountId = accountId,
@@ -2455,7 +2461,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                         description = "Desc",
                         dateTime = transactionDate,
                         id = transaction1Id,
-                        toAmount = 100.0
+                        toAmount = null,
+                        isSynced = true
                     ),
                     TransactionEntity(
                         accountId = accountId,
@@ -2465,7 +2472,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                         description = "Desc",
                         dateTime = transactionDate,
                         id = transaction2Id,
-                        toAmount = 100.0
+                        toAmount = null,
+                        isSynced = true
                     )
                 )
             )
@@ -2473,91 +2481,91 @@ class TransactionRepositoryImplTest : FreeSpec({
     }
 
     "flag deleted" {
-        //given
+        // given
         val repository = newRepository()
         val transactionId = UUID.randomUUID()
-        coEvery { dataSource.flagDeleted(any()) } just runs
+        coEvery { writeTransactionDao.flagDeleted(any()) } just runs
 
-        //when
+        // when
         repository.flagDeleted(TransactionId(transactionId))
 
-        //then
+        // then
         coVerify(exactly = 1) {
-            dataSource.flagDeleted(transactionId)
+            writeTransactionDao.flagDeleted(transactionId)
         }
     }
 
     "flag deleted by recurring rule id and no date time" {
-        //given
+        // given
         val repository = newRepository()
         val recurringRuleId = UUID.randomUUID()
-        coEvery { dataSource.flagDeletedByRecurringRuleIdAndNoDateTime(any()) } just runs
+        coEvery { writeTransactionDao.flagDeletedByRecurringRuleIdAndNoDateTime(any()) } just runs
 
-        //when
+        // when
         repository.flagDeletedByRecurringRuleIdAndNoDateTime(recurringRuleId)
 
-        //then
+        // then
         coVerify(exactly = 1) {
-            dataSource.flagDeletedByRecurringRuleIdAndNoDateTime(recurringRuleId)
+            writeTransactionDao.flagDeletedByRecurringRuleIdAndNoDateTime(recurringRuleId)
         }
     }
 
     "flag deleted by account id" {
-        //given
+        // given
         val repository = newRepository()
         val accountId = UUID.randomUUID()
-        coEvery { dataSource.flagDeletedByAccountId(any()) } just runs
+        coEvery { writeTransactionDao.flagDeletedByAccountId(any()) } just runs
 
-        //when
+        // when
         repository.flagDeletedByAccountId(AccountId(accountId))
 
-        //then
+        // then
         coVerify(exactly = 1) {
-            dataSource.flagDeletedByAccountId(accountId)
+            writeTransactionDao.flagDeletedByAccountId(accountId)
         }
     }
 
     "delete by id" {
-        //given
+        // given
         val repository = newRepository()
         val transactionId = UUID.randomUUID()
-        coEvery { dataSource.deleteById(any()) } just runs
+        coEvery { writeTransactionDao.deleteById(any()) } just runs
 
-        //when
+        // when
         repository.deleteById(TransactionId(transactionId))
 
-        //then
+        // then
         coVerify(exactly = 1) {
-            dataSource.deleteById(transactionId)
+            writeTransactionDao.deleteById(transactionId)
         }
     }
 
     "delete all by account id" {
-        //given
+        // given
         val repository = newRepository()
         val accountId = UUID.randomUUID()
-        coEvery { dataSource.deleteAllByAccountId(any()) } just runs
+        coEvery { writeTransactionDao.deleteAllByAccountId(any()) } just runs
 
-        //when
+        // when
         repository.deleteAllByAccountId(AccountId(accountId))
 
-        //then
+        // then
         coVerify(exactly = 1) {
-            dataSource.deleteAllByAccountId(accountId)
+            writeTransactionDao.deleteAllByAccountId(accountId)
         }
     }
 
     "delete all" {
-        //given
+        // given
         val repository = newRepository()
-        coEvery { dataSource.deleteAll() } just runs
+        coEvery { writeTransactionDao.deleteAll() } just runs
 
-        //when
+        // when
         repository.deleteAll()
 
-        //then
+        // then
         coVerify(exactly = 1) {
-            dataSource.deleteAll()
+            writeTransactionDao.deleteAll()
         }
     }
 })
