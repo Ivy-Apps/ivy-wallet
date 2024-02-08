@@ -317,7 +317,7 @@ class LoanViewModel @Inject constructor(
             val convertedAmount = loanRecord.convertedAmount ?: loanRecord.amount
 
             loanRecord.loanRecordType.processByType(
-                decreaseAction = {  currentAmountPaid + convertedAmount to currentLoanTotalAmount },
+                decreaseAction = { currentAmountPaid + convertedAmount to currentLoanTotalAmount },
                 increaseAction = { currentAmountPaid to currentLoanTotalAmount + convertedAmount }
             )
         }

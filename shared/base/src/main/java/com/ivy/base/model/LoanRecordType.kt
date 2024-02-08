@@ -11,8 +11,8 @@ enum class LoanRecordType {
     INCREASE, DECREASE
 }
 
-fun<T>LoanRecordType.processByType(decreaseAction : () -> T, increaseAction : () -> T) : T{
-    return when(this){
+fun <T> LoanRecordType.processByType(decreaseAction: () -> T, increaseAction: () -> T): T {
+    return when (this) {
         LoanRecordType.DECREASE -> decreaseAction()
         LoanRecordType.INCREASE -> increaseAction()
     }
