@@ -1695,7 +1695,6 @@ class TransactionRepositoryImplTest : FreeSpec({
                 categoryId = null,
             )
 
-
             coEvery { transactionDao.findById(transactionId) } returns transaction
             coEvery { accountRepo.findById(account.id) } returns account
 
@@ -2129,7 +2128,6 @@ class TransactionRepositoryImplTest : FreeSpec({
                 loanId = loanId
             )
 
-
             coEvery { transactionDao.findLoanTransaction(loanId) } returns transaction
             coEvery { accountRepo.findById(account.id) } returns account
 
@@ -2245,7 +2243,6 @@ class TransactionRepositoryImplTest : FreeSpec({
                 categoryId = null,
                 loanRecordId = loanRecordId
             )
-
 
             coEvery { transactionDao.findLoanRecordTransaction(loanRecordId) } returns transaction
             coEvery { accountRepo.findById(account.id) } returns account

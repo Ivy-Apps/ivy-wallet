@@ -61,20 +61,17 @@ interface TransactionRepository {
         endDate: LocalDateTime
     ): List<Transaction>
 
-
     suspend fun findAllByAccountAndBetween(
         accountId: AccountId,
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Transaction>
 
-
     suspend fun findAllByCategoryAndBetween(
         categoryId: CategoryId,
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Transaction>
-
 
     suspend fun findAllUnspecifiedAndBetween(
         startDate: LocalDateTime,
@@ -120,12 +117,10 @@ interface TransactionRepository {
         endDate: LocalDateTime
     ): List<Transaction>
 
-
     suspend fun findAllDueToBetween(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Transaction>
-
 
     suspend fun findAllDueToBetweenByCategory(
         startDate: LocalDateTime,
@@ -133,19 +128,16 @@ interface TransactionRepository {
         categoryId: CategoryId
     ): List<Transaction>
 
-
     suspend fun findAllDueToBetweenByCategoryUnspecified(
         startDate: LocalDateTime,
         endDate: LocalDateTime,
     ): List<Transaction>
-
 
     suspend fun findAllDueToBetweenByAccount(
         startDate: LocalDateTime,
         endDate: LocalDateTime,
         accountId: AccountId
     ): List<Transaction>
-
 
     suspend fun findAllByRecurringRuleId(recurringRuleId: UUID): List<Transaction>
 
@@ -194,27 +186,22 @@ interface TransactionRepository {
         categoryId: CategoryId
     ): Long
 
-
     suspend fun findAllByAccount(
         accountId: AccountId
     ): List<Transaction>
-
 
     suspend fun countByTitleMatchingPatternAndAccountId(
         pattern: String,
         accountId: AccountId
     ): Long
 
-
     suspend fun findLoanTransaction(
         loanId: UUID
     ): Transaction?
 
-
     suspend fun findLoanRecordTransaction(
         loanRecordId: UUID
     ): Transaction?
-
 
     suspend fun findAllByLoanId(
         loanId: UUID
@@ -225,6 +212,7 @@ interface TransactionRepository {
     suspend fun saveMany(accountId: AccountId, value: List<Transaction>)
 
     suspend fun flagDeleted(id: TransactionId)
+
     suspend fun flagDeletedByRecurringRuleIdAndNoDateTime(recurringRuleId: UUID)
 
     suspend fun flagDeletedByAccountId(accountId: AccountId)

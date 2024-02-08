@@ -80,7 +80,10 @@ class TransactionMapper @Inject constructor() {
                     amount = toAmount?.let { PositiveDouble.from(it).bind() }
                         ?: raise("Missing transfer amount for transaction '${this@toDomain}'"),
                     asset = toAccountAssetCode
-                        ?: raise("No asset code associated with the destination account for this transaction '${this@toDomain}'")
+                        ?: raise(
+                            "No asset code associated with the destination account for this " +
+                                    "transaction '${this@toDomain}'"
+                        )
                 )
 
                 val toAccount = toAccountId?.let(::AccountId)
