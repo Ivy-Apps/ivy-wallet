@@ -58,8 +58,9 @@ class RoomTypeConverters {
     fun parseInstant(value: Long): Instant = Instant.ofEpochMilli(value)
 
     @TypeConverter
-    fun saveLoanRecordType(value: LoanRecordType?) = value?.name
+    fun saveLoanRecordType(value: LoanRecordType?): String? = value?.name
 
     @TypeConverter
-    fun parseLoanRecordType(value: String?) = value?.let { LoanRecordType.valueOf(it) }
+    fun parseLoanRecordType(value: String?): LoanRecordType? =
+        value?.let { LoanRecordType.valueOf(it) }
 }

@@ -305,15 +305,15 @@ class LoanViewModel @Inject constructor(
      *  Calculates the total amount paid and the total loan amount including any changes made to the loan.
      *  @return A Pair containing the total amount paid and the total loan amount.
      */
-    private suspend fun calculateAmountPaidAndTotalAmount(loan: Loan): Pair<Double,Double> {
+    private suspend fun calculateAmountPaidAndTotalAmount(loan: Loan): Pair<Double, Double> {
         val loanRecords = ioThread { loanRecordDao.findAllByLoanId(loanId = loan.id) }
         var amountPaid = 0.0
         var loanTotalAmount = loan.amount
 
         loanRecords.forEach { loanRecord ->
-            if(loanRecord.interest) return@forEach
+            if (loanRecord.interest) return@forEach
             val convertedAmount = loanRecord.convertedAmount ?: loanRecord.amount
-            when(loanRecord.loanRecordType){
+            when (loanRecord.loanRecordType) {
                 LoanRecordType.DECREASE -> {
                     amountPaid += convertedAmount
                 }

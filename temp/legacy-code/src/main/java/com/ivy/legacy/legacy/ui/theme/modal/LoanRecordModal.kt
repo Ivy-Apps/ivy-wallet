@@ -256,7 +256,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
         Spacer(Modifier.height(16.dp))
 
         LoanRecordTypeRow(selectedRecordType = loanRecordType, onLoanRecordTypeChanged = {
-            if(it == LoanRecordType.INCREASE) loanInterest = false
+            if (it == LoanRecordType.INCREASE) loanInterest = false
             loanRecordType = it
         })
 
@@ -272,7 +272,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             createLoanRecordTrans = it
         }
 
-        AnimatedVisibility(visible = loanRecordType == LoanRecordType.DECREASE ) {
+        AnimatedVisibility(visible = loanRecordType == LoanRecordType.DECREASE) {
             IvyCheckboxWithText(
                 modifier = Modifier
                     .padding(start = 16.dp)
@@ -462,8 +462,11 @@ private fun LoanRecordType(
     onClick: (LoanRecordType) -> Unit
 ) {
     val (text, iconDrawable) =
-        if (loanRecordType == LoanRecordType.INCREASE) stringResource(id = R.string.increase_loan) to R.drawable.ic_donate_plus
-        else stringResource(id = R.string.decrease_loan) to R.drawable.ic_donate_minus
+        if (loanRecordType == LoanRecordType.INCREASE) {
+            stringResource(id = R.string.increase_loan) to R.drawable.ic_donate_plus
+        } else {
+            stringResource(id = R.string.decrease_loan) to R.drawable.ic_donate_minus
+        }
     val selected = selectedRecordType == loanRecordType
     val medium = UI.colors.medium
     val rFull = UI.shapes.rFull

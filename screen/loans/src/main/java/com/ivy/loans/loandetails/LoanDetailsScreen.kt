@@ -172,7 +172,8 @@ private fun BoxWithConstraintsScope.UI(
                                 displayLoanRecord
                             )
                         )
-                    })
+                    }
+                )
                 item {
                     InitialRecordItem(
                         loan = state.loan,
@@ -718,14 +719,21 @@ private fun LoanRecordItem(
         if (loanRecord.note.isNullOrEmpty()) {
             Spacer(Modifier.height(16.dp))
         }
-        val transactionType = when (loan.type){
+        val transactionType = when (loan.type) {
             LoanType.LEND -> {
-                if(loanRecord.loanRecordType == LoanRecordType.INCREASE) TransactionType.EXPENSE
-                else TransactionType.INCOME
+                if (loanRecord.loanRecordType == LoanRecordType.INCREASE) {
+                    TransactionType.EXPENSE
+                } else {
+                    TransactionType.INCOME
+                }
             }
+
             LoanType.BORROW -> {
-                if(loanRecord.loanRecordType == LoanRecordType.INCREASE) TransactionType.INCOME
-                else TransactionType.EXPENSE
+                if (loanRecord.loanRecordType == LoanRecordType.INCREASE) {
+                    TransactionType.INCOME
+                } else {
+                    TransactionType.EXPENSE
+                }
             }
         }
         TypeAmountCurrency(
@@ -764,7 +772,6 @@ private fun InitialRecordItem(
             .background(UI.colors.medium, UI.shapes.r4)
             .testTag("loan_record_item")
     ) {
-
         IvyButton(
             modifier = Modifier.padding(16.dp),
             backgroundGradient = Gradient.solid(UI.colors.pure),
@@ -775,18 +782,21 @@ private fun InitialRecordItem(
                 defaultIcon = R.drawable.ic_custom_loan_s
             ),
             textStyle = UI.typo.c.style(
-                color = UI.colors.pureInverse, fontWeight = FontWeight.ExtraBold
+                color = UI.colors.pureInverse,
+                fontWeight = FontWeight.ExtraBold
             ),
             padding = 8.dp,
         ) {}
 
-
-        loan.dateTime?.formatNicelyWithTime(noWeekDay = false)?.let { nicelyFormattedDate ->
+        loan.dateTime?.formatNicelyWithTime(
+            noWeekDay = false
+        )?.let { nicelyFormattedDate ->
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp),
                 text = nicelyFormattedDate.uppercase(),
                 style = UI.typo.nC.style(
-                    color = Gray, fontWeight = FontWeight.Bold
+                    color = Gray,
+                    fontWeight = FontWeight.Bold
                 )
             )
         }
