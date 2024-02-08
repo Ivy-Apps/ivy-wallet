@@ -19,7 +19,7 @@ import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.util.UUID
 import javax.inject.Inject
-
+@Suppress("LargeClass")
 class TransactionRepositoryImpl @Inject constructor(
     private val accountRepository: AccountRepository,
     private val mapper: TransactionMapper,

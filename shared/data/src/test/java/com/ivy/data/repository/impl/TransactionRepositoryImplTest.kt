@@ -32,7 +32,7 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.UUID
-
+@Suppress("LargeClass")
 class TransactionRepositoryImplTest : FreeSpec({
     val transactionDao = mockk<TransactionDao>()
     val writeTransactionDao = mockk<WriteTransactionDao>()

@@ -64,6 +64,7 @@ data class Transfer(
     val toValue: Value,
 ) : Transaction
 
+@Suppress("DataClassTypedIDs")
 data class TransactionMetadata(
     val recurringRuleId: UUID?,
     // This refers to the loan id that is linked with a transaction
