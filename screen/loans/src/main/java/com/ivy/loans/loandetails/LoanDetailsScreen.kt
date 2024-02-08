@@ -245,13 +245,12 @@ private fun Header(
     baseCurrency: String,
     loanTotalAmount: Double,
     amountPaid: Double,
-    loanAmountPaid: Double = 0.0,
     itemColor: Color,
-    selectedLoanAccount: Account? = null,
-
     onAmountClick: () -> Unit,
     onEditLoan: () -> Unit,
     onDeleteLoan: () -> Unit,
+    loanAmountPaid: Double = 0.0,
+    selectedLoanAccount: Account? = null,
     onAddRecord: () -> Unit
 ) {
     val contrastColor = findContrastTextColor(itemColor)
