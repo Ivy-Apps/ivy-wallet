@@ -310,7 +310,7 @@ private fun LoanHeader(
 
         Spacer(Modifier.height(4.dp))
 
-        val leftToPay = loan.amount - displayLoan.amountPaid
+        val leftToPay = displayLoan.loanTotalAmount - displayLoan.amountPaid
         BalanceRow(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally),
@@ -413,6 +413,7 @@ private fun Preview() {
                     type = LoanType.BORROW,
                     dateTime = LocalDateTime.now()
                 ),
+                loanTotalAmount = 5500.0,
                 amountPaid = 0.0,
                 percentPaid = 0.4
             ),
@@ -425,6 +426,7 @@ private fun Preview() {
                     type = LoanType.BORROW,
                     dateTime = LocalDateTime.now()
                 ),
+                loanTotalAmount = 252.36,
                 amountPaid = 124.23,
                 percentPaid = 0.2
             ),
@@ -437,6 +439,7 @@ private fun Preview() {
                     type = LoanType.LEND,
                     dateTime = LocalDateTime.now()
                 ),
+                loanTotalAmount = 7000.0,
                 amountPaid = 8000.0,
                 percentPaid = 0.8
             ),

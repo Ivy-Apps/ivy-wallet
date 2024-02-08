@@ -11,6 +11,7 @@ data class LoanDetailsScreenState(
     val baseCurrency: String,
     val loan: Loan?,
     val displayLoanRecords: ImmutableList<DisplayLoanRecord>,
+    val loanTotalAmount: Double,
     val amountPaid: Double,
     val loanAmountPaid: Double,
     val accounts: ImmutableList<Account>,

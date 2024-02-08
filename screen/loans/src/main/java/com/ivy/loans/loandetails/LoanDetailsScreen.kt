@@ -33,7 +33,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.base.model.LoanRecordType
 import com.ivy.base.model.TransactionType
+import com.ivy.base.model.processByType
 import com.ivy.data.model.LoanType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -125,6 +127,7 @@ private fun BoxWithConstraintsScope.UI(
                     Header(
                         loan = state.loan,
                         baseCurrency = state.baseCurrency,
+                        loanTotalAmount = state.loanTotalAmount,
                         amountPaid = state.amountPaid,
                         loanAmountPaid = state.loanAmountPaid,
                         itemColor = itemColor,
@@ -172,6 +175,13 @@ private fun BoxWithConstraintsScope.UI(
                         )
                     }
                 )
+                item {
+                    InitialRecordItem(
+                        loan = state.loan,
+                        amount = state.loan.amount,
+                        baseCurrency = state.baseCurrency,
+                    )
+                }
             }
 
             if (state.displayLoanRecords.isEmpty()) {
@@ -234,14 +244,14 @@ private fun BoxWithConstraintsScope.UI(
 private fun Header(
     loan: Loan,
     baseCurrency: String,
+    loanTotalAmount: Double,
     amountPaid: Double,
-    loanAmountPaid: Double = 0.0,
     itemColor: Color,
-    selectedLoanAccount: Account? = null,
-
     onAmountClick: () -> Unit,
     onEditLoan: () -> Unit,
     onDeleteLoan: () -> Unit,
+    loanAmountPaid: Double = 0.0,
+    selectedLoanAccount: Account? = null,
     onAddRecord: () -> Unit
 ) {
     val contrastColor = findContrastTextColor(itemColor)
@@ -278,7 +288,7 @@ private fun Header(
                 },
             textColor = contrastColor,
             currency = baseCurrency,
-            balance = loan.amount,
+            balance = loanTotalAmount,
         )
 
         Spacer(Modifier.height(20.dp))
@@ -288,6 +298,7 @@ private fun Header(
             baseCurrency = baseCurrency,
             amountPaid = amountPaid,
             loanAmountPaid = loanAmountPaid,
+            loanTotalAmount = loanTotalAmount,
             selectedLoanAccount = selectedLoanAccount,
             onAddRecord = onAddRecord
         )
@@ -356,10 +367,12 @@ private fun LoanItem(
     }
 }
 
+@Suppress("LongMethod")
 @Composable
 private fun LoanInfoCard(
     loan: Loan,
     baseCurrency: String,
+    loanTotalAmount: Double,
     amountPaid: Double,
     loanAmountPaid: Double = 0.0,
     selectedLoanAccount: Account? = null,
@@ -373,8 +386,8 @@ private fun LoanInfoCard(
     }
 
     val contrastColor = findContrastTextColor(backgroundColor)
-    val percentPaid = amountPaid / loan.amount
-    val loanPercentPaid = loanAmountPaid / loan.amount
+    val percentPaid = amountPaid / loanTotalAmount
+    val loanPercentPaid = loanAmountPaid / loanTotalAmount
     val nav = navigation()
 
     Column(
@@ -437,7 +450,7 @@ private fun LoanInfoCard(
             modifier = Modifier
                 .padding(horizontal = 24.dp)
                 .testTag("amount_paid"),
-            text = "${amountPaid.format(baseCurrency)} / ${loan.amount.format(baseCurrency)}",
+            text = "${amountPaid.format(baseCurrency)} / ${loanTotalAmount.format(baseCurrency)}",
             style = UI.typo.nB1.style(
                 color = contrastColor,
                 fontWeight = FontWeight.ExtraBold
@@ -707,9 +720,23 @@ private fun LoanRecordItem(
         if (loanRecord.note.isNullOrEmpty()) {
             Spacer(Modifier.height(16.dp))
         }
+        val transactionType = when (loan.type) {
+            LoanType.LEND -> {
+                loanRecord.loanRecordType.processByType(
+                    increaseAction = { TransactionType.EXPENSE },
+                    decreaseAction = { TransactionType.INCOME }
+                )
+            }
 
+            LoanType.BORROW -> {
+                loanRecord.loanRecordType.processByType(
+                    increaseAction = { TransactionType.INCOME },
+                    decreaseAction = { TransactionType.EXPENSE }
+                )
+            }
+        }
         TypeAmountCurrency(
-            transactionType = if (loan.type == LoanType.LEND) TransactionType.INCOME else TransactionType.EXPENSE,
+            transactionType = transactionType,
             dueDate = null,
             currency = baseCurrency,
             amount = loanRecord.amount
@@ -726,6 +753,61 @@ private fun LoanRecordItem(
             )
         }
 
+        Spacer(Modifier.height(16.dp))
+    }
+}
+
+@Composable
+private fun InitialRecordItem(
+    loan: Loan,
+    amount: Double,
+    baseCurrency: String,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .clip(UI.shapes.r4)
+            .background(UI.colors.medium, UI.shapes.r4)
+            .testTag("loan_record_item")
+    ) {
+        IvyButton(
+            modifier = Modifier.padding(16.dp),
+            backgroundGradient = Gradient.solid(UI.colors.pure),
+            text = stringResource(id = R.string.initial_loan_record),
+            iconTint = UI.colors.pureInverse,
+            iconStart = getCustomIconIdS(
+                iconName = loan.icon,
+                defaultIcon = R.drawable.ic_custom_loan_s
+            ),
+            textStyle = UI.typo.c.style(
+                color = UI.colors.pureInverse,
+                fontWeight = FontWeight.ExtraBold
+            ),
+            padding = 8.dp,
+        ) {}
+
+        loan.dateTime?.formatNicelyWithTime(
+            noWeekDay = false
+        )?.let { nicelyFormattedDate ->
+            Text(
+                modifier = Modifier.padding(horizontal = 24.dp),
+                text = nicelyFormattedDate.uppercase(),
+                style = UI.typo.nC.style(
+                    color = Gray,
+                    fontWeight = FontWeight.Bold
+                )
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TypeAmountCurrency(
+            transactionType = if (loan.type == LoanType.LEND) TransactionType.EXPENSE else TransactionType.INCOME,
+            dueDate = null,
+            currency = baseCurrency,
+            amount = amount
+        )
         Spacer(Modifier.height(16.dp))
     }
 }
@@ -783,6 +865,7 @@ private fun Preview_Empty() {
                 ),
                 displayLoanRecords = persistentListOf(),
                 amountPaid = 3821.00,
+                loanTotalAmount = 4023.54,
                 loanAmountPaid = 100.0,
                 accounts = persistentListOf(),
                 selectedLoanAccount = null,
@@ -816,14 +899,16 @@ private fun Preview_Records() {
                             amount = 123.45,
                             dateTime = timeNowUTC().minusDays(1),
                             note = "Cash",
-                            loanId = UUID.randomUUID()
+                            loanId = UUID.randomUUID(),
+                            loanRecordType = LoanRecordType.INCREASE
                         )
                     ),
                     DisplayLoanRecord(
                         LoanRecord(
                             amount = 0.50,
                             dateTime = timeNowUTC().minusYears(1),
-                            loanId = UUID.randomUUID()
+                            loanId = UUID.randomUUID(),
+                            loanRecordType = LoanRecordType.DECREASE
                         )
                     ),
                     DisplayLoanRecord(
@@ -831,10 +916,12 @@ private fun Preview_Records() {
                             amount = 1000.00,
                             dateTime = timeNowUTC().minusMonths(1),
                             note = "Revolut",
-                            loanId = UUID.randomUUID()
+                            loanId = UUID.randomUUID(),
+                            loanRecordType = LoanRecordType.INCREASE
                         )
                     ),
                 ),
+                loanTotalAmount = 4023.54,
                 amountPaid = 3821.00,
                 loanAmountPaid = 100.0,
                 accounts = persistentListOf(),

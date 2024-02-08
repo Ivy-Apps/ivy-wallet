@@ -443,4 +443,8 @@
     <string name="total_exclusive">Total (exclusive): %1$s %2$s</string>
     <string name="total_balance">Total Balance</string>
     <string name="total_balance_excluded">Total Balance (excluded)</string>
+    <string name="initial_loan_record">Starting record</string>
+    <string name="loan_record_type">Record type</string>
+    <string name="increase_loan">Increase</string>
+    <string name="decrease_loan">Decrease</string>
 </resources>
