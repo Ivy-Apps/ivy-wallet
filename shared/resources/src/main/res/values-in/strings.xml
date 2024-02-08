@@ -442,4 +442,5 @@
     <string name="wallet_balance">Saldo dompet</string>
     <string name="total_exclusive">Total (eksklusif): %1$s %2$s</string>
     <string name="total_balance">Total dompet</string>
+    <string name="total_balance_excluded">Total dompet (tidak termasuk)</string>
 </resources>

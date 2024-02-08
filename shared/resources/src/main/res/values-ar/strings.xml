@@ -439,4 +439,5 @@
     <string name="wallet_balance">رصيد المحفظة</string>
     <string name="total_exclusive">%1$s %2$s: المجموع (حصريا)</string>
     <string name="total_balance">المجموع المحفظة</string>
+    <string name="total_balance_excluded">المجموع المحفظة(مستبعد)</string>
 </resources>

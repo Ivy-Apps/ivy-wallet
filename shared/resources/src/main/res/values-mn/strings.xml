@@ -439,4 +439,5 @@
     <string name="wallet_balance">Хэтэвчний үлдэгдэл</string>
     <string name="total_exclusive">Нийт (онцгой): %1$s %2$s</string>
     <string name="total_balance">Нийт ҮЛДЭГДЭЛ</string>
+    <string name="total_balance_excluded">Нийт ҮЛДЭГДЭЛ (үлдэгдэл тооцохгүй)</string>
 </resources>

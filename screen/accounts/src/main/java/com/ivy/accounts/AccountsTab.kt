@@ -114,7 +114,7 @@ private fun BoxWithConstraintsScope.UI(
                         currency = state.baseCurrency,
                         incomeLabel = stringResource(id = R.string.total_balance),
                         income = state.totalBalanceWithoutExcluded.toDouble(),
-                        expensesLabel = "${stringResource(id = R.string.total_balance)} ${stringResource(id = R.string.excluded)}",
+                        expensesLabel = stringResource(id = R.string.total_balance_excluded),
                         expenses = state.totalBalanceWithExcluded.toDouble()
                     )
                 }
