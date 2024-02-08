@@ -441,4 +441,6 @@
     <string name="experimental_settings">Experimental Settings</string>
     <string name="wallet_balance">Wallet balance</string>
     <string name="total_exclusive">Total (exclusive): %1$s %2$s</string>
+    <string name="total_balance">Total Balance</string>
+    <string name="total_balance_excluded">Total Balance (excluded)</string>
 </resources>
