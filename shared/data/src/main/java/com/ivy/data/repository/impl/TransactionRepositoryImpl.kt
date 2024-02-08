@@ -796,7 +796,7 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun save(accountId: AccountId, value: Transaction) {
         withContext(dispatchersProvider.io) {
             writeTransactionDao.save(
-                with(mapper) { value.toEntity(accountId) }
+                with(mapper) { value.toEntity() }
             )
         }
     }
@@ -807,7 +807,7 @@ class TransactionRepositoryImpl @Inject constructor(
     ) {
         withContext(dispatchersProvider.io) {
             writeTransactionDao.saveMany(
-                value.map { with(mapper) { it.toEntity(accountId) } }
+                value.map { with(mapper) { it.toEntity() } }
             )
         }
     }
