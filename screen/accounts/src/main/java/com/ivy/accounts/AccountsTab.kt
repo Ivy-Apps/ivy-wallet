@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.sp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
-import com.ivy.legacy.data.model.AccountData
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.horizontalSwipeListener
@@ -113,9 +112,9 @@ private fun BoxWithConstraintsScope.UI(
                     IncomeExpensesRow(
                         currency = state.baseCurrency,
                         incomeLabel = stringResource(id = R.string.total_balance),
-                        income = state.totalBalanceWithoutExcluded.toDouble(),
+                        income = state.totalBalanceWithoutExcluded.toDoubleOrNull() ?: 0.00,
                         expensesLabel = stringResource(id = R.string.total_balance_excluded),
-                        expenses = state.totalBalanceWithExcluded.toDouble()
+                        expenses = state.totalBalanceWithExcluded.toDoubleOrNull() ?: 0.00
                     )
                 }
 
