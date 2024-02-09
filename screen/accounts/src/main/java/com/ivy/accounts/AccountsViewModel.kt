@@ -186,7 +186,7 @@ class AccountsViewModel @Inject constructor(
 
         baseCurrency.value = baseCurrencyCode
         accountsData.value = accountsDataList
-        totalBalanceWithExcludedText.value = totalBalanceWithExcludedAccounts.toString()
+        totalBalanceWithExcluded.value = totalBalanceWithExcludedAccounts.toString()
         totalBalanceWithExcludedText.value = context.getString(
             R.string.total,
             baseCurrencyCode,
