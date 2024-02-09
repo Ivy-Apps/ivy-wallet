@@ -106,16 +106,6 @@ private fun BoxWithConstraintsScope.UI(
                             fontWeight = FontWeight.ExtraBold
                         )
                     )
-
-                    Spacer(Modifier.height(16.dp))
-
-                    IncomeExpensesRow(
-                        currency = state.baseCurrency,
-                        incomeLabel = stringResource(id = R.string.total_balance),
-                        income = state.totalBalanceWithoutExcluded.toDoubleOrNull() ?: 0.00,
-                        expensesLabel = stringResource(id = R.string.total_balance_excluded),
-                        expenses = state.totalBalanceWithExcluded.toDoubleOrNull() ?: 0.00
-                    )
                 }
 
                 Spacer(Modifier.weight(1f))
@@ -128,7 +118,16 @@ private fun BoxWithConstraintsScope.UI(
 
                 Spacer(Modifier.width(24.dp))
             }
-
+            Column {
+                Spacer(Modifier.height(16.dp))
+                IncomeExpensesRow(
+                    currency = state.baseCurrency,
+                    incomeLabel = stringResource(id = R.string.total_balance),
+                    income = state.totalBalanceWithoutExcluded.toDoubleOrNull() ?: 0.00,
+                    expensesLabel = stringResource(id = R.string.total_balance_excluded),
+                    expenses = state.totalBalanceWithExcluded.toDoubleOrNull() ?: 0.00
+                )
+            }
             Spacer(Modifier.height(16.dp))
         }
         items(state.accountsData) {
