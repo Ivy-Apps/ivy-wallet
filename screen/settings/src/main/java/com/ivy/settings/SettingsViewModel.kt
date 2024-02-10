@@ -302,19 +302,11 @@ class SettingsViewModel @Inject constructor(
 
     private fun switchTheme() {
         viewModelScope.launch {
-            val currentSettings = settingsAct(Unit)
-            val newTheme = when (currentSettings.theme) {
-                Theme.LIGHT -> Theme.DARK
-                Theme.DARK -> Theme.AUTO
-                Theme.AUTO -> Theme.LIGHT
+            settingsAct.getSettingsWithNextTheme().run {
+                updateSettingsAct(this)
+                ivyContext.switchTheme(this.theme)
+                currentTheme.value = this.theme
             }
-            updateSettingsAct(
-                currentSettings.copy(
-                    theme = newTheme
-                )
-            )
-            ivyContext.switchTheme(newTheme)
-            currentTheme.value = newTheme
         }
     }
 
