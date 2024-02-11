@@ -1,5 +1,6 @@
 package com.ivy.wallet.domain.action.settings
 
+import com.ivy.base.legacy.Theme
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
@@ -13,4 +14,14 @@ class SettingsAct @Inject constructor(
     override suspend fun Unit.compose(): suspend () -> Settings = suspend {
         io { settingsDao.findFirst() }
     } then { it.toDomain() }
+
+    suspend fun getSettingsWithNextTheme(): Settings {
+        val currentSettings = this(Unit)
+        val newTheme = when (currentSettings.theme) {
+            Theme.LIGHT -> Theme.DARK
+            Theme.DARK -> Theme.AUTO
+            Theme.AUTO -> Theme.LIGHT
+        }
+        return currentSettings.copy(theme = newTheme)
+    }
 }

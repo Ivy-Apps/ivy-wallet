@@ -80,7 +80,7 @@ class HomeViewModel @Inject constructor(
     private val updateCategoriesCacheAct: UpdateCategoriesCacheAct,
     private val syncExchangeRatesAct: SyncExchangeRatesAct,
 ) : ComposeViewModel<HomeState, HomeEvent>() {
-    private val theme = mutableStateOf(Theme.AUTO)
+    private val currentTheme = mutableStateOf(Theme.AUTO)
     private val name = mutableStateOf("")
     private val period = mutableStateOf(ivyContext.selectedPeriod)
     private val baseData = mutableStateOf(
@@ -145,7 +145,7 @@ class HomeViewModel @Inject constructor(
 
     @Composable
     private fun getTheme(): Theme {
-        return theme.value
+        return currentTheme.value
     }
 
     @Composable
@@ -229,7 +229,7 @@ class HomeViewModel @Inject constructor(
                 is HomeEvent.SetOverdueExpanded -> setOverdueExpanded(event.expanded)
                 is HomeEvent.SetBuffer -> setBuffer(event.buffer).fixUnit()
                 is HomeEvent.SetCurrency -> setCurrency(event.currency).fixUnit()
-                HomeEvent.SwitchTheme -> switchTheme().fixUnit()
+                HomeEvent.SwitchTheme -> switchTheme()
                 is HomeEvent.DismissCustomerJourneyCard -> dismissCustomerJourneyCard(event.card)
                 is HomeEvent.SetExpanded -> setExpanded(event.expanded)
             }
@@ -253,7 +253,7 @@ class HomeViewModel @Inject constructor(
         val hideBalance = shouldHideBalanceAct(Unit)
         val hideIncome = shouldHideIncomeAct(Unit)
 
-        theme.value = settings.theme
+        currentTheme.value = settings.theme
         name.value = settings.name
         period.value = timePeriod
         this.hideBalance.value = hideBalance
@@ -408,17 +408,14 @@ class HomeViewModel @Inject constructor(
         hideIncome.value = true
     }
 
-    private fun switchTheme() = settingsAct then {
-        it.copy(
-            theme = when (it.theme) {
-                Theme.LIGHT -> Theme.DARK
-                Theme.DARK -> Theme.AUTO
-                Theme.AUTO -> Theme.LIGHT
+    private fun switchTheme() {
+        viewModelScope.launch {
+            settingsAct.getSettingsWithNextTheme().run {
+                updateSettingsAct(this)
+                ivyContext.switchTheme(this.theme)
+                currentTheme.value = this.theme
             }
-        )
-    } then updateSettingsAct then { newSettings ->
-        ivyContext.switchTheme(newSettings.theme)
-        theme.value = newSettings.theme
+        }
     }
 
     private suspend fun setBuffer(newBuffer: Double) = settingsAct then {
