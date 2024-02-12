@@ -11,7 +11,7 @@ class FakeAccountDao : AccountDao, WriteAccountDao {
     private val accounts = mutableListOf<AccountEntity>()
 
     override suspend fun findAll(deleted: Boolean): List<AccountEntity> {
-        return accounts
+        return accounts.filter { it.isDeleted == deleted }
     }
 
     override suspend fun findById(id: UUID): AccountEntity? {
@@ -23,7 +23,12 @@ class FakeAccountDao : AccountDao, WriteAccountDao {
     }
 
     override suspend fun save(value: AccountEntity) {
-        accounts.add(value)
+        val existingItemIndex = accounts.indexOfFirst { it.id == value.id }
+        if (existingItemIndex > -1) {
+            accounts[existingItemIndex] = value
+        } else {
+            accounts.add(value)
+        }
     }
 
     override suspend fun saveMany(values: List<AccountEntity>) {
@@ -31,7 +36,13 @@ class FakeAccountDao : AccountDao, WriteAccountDao {
     }
 
     override suspend fun flagDeleted(id: UUID) {
-        TODO("Not yet implemented")
+        accounts.replaceAll { account ->
+            if (account.id == id) {
+                account.copy(isDeleted = true)
+            } else {
+                account
+            }
+        }
     }
 
     override suspend fun deleteById(id: UUID) {
