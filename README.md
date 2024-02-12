@@ -128,7 +128,7 @@ Folks that helped Ivy Wallet in a non-dev creative way that can't be captured in
 </div> -->
 
 <div align="center">
-    <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fbg.linkedin.com%2Fin%2Fstefan-ilijev-194401157&psig=AOvVaw00T60aAKsnf7DnznJhuvAm&ust=1707794733078000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCOiM5b3tpIQDFQAAAAAdAAAAABAE" width="100px;" alt="Stefan Ilijev - Desinger"/><br>
+    <img src="https://media.licdn.com/dms/image/D4D03AQGiFQMobe7CmA/profile-displayphoto-shrink_800_800/0/1690718245199?e=1713398400&v=beta&t=HyB9vgPe8lIARkgJCYr3C8gFSpGDFGMdDlMIUnunHAY" width="100px;" alt="Stefan Ilijev - Desinger"/><br>
     <strong>Stefan Ilijev</strong><br>
     <small>Ivy Wallet's co-founder and designer. Created the <a href="https://www.figma.com/file/kSwIa07jcHEHZXo6rzx7dn/Design-System?node-id=0%3A1&mode=dev">Ivy Wallet design.</a></small>
     <br/>
