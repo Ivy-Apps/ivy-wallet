@@ -30,7 +30,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.absoluteValue
 
 @HiltViewModel
 class CategoriesViewModel @Inject constructor(
