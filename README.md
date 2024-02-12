@@ -128,7 +128,7 @@ Folks that helped Ivy Wallet in a non-dev creative way that can't be captured in
 </div> -->
 
 <div align="center">
-    <img src="https://media.licdn.com/dms/image/D4D03AQGiFQMobe7CmA/profile-displayphoto-shrink_400_400/0/1690718245199?e=1698883200&v=beta&t=rMTp7gOVZKqWx3Dcj6vKGkjwKgKi5NShXEXMRtne8KU" width="100px;" alt="Stefan Ilijev - desinger"/><br>
+    <img src="https://media.licdn.com/dms/image/D4D03AQGiFQMobe7CmA/profile-displayphoto-shrink_800_800/0/1690718245199?e=1713398400&v=beta&t=HyB9vgPe8lIARkgJCYr3C8gFSpGDFGMdDlMIUnunHAY" width="100px;" alt="Stefan Ilijev - Desinger"/><br>
     <strong>Stefan Ilijev</strong><br>
     <small>Ivy Wallet's co-founder and designer. Created the <a href="https://www.figma.com/file/kSwIa07jcHEHZXo6rzx7dn/Design-System?node-id=0%3A1&mode=dev">Ivy Wallet design.</a></small>
     <br/>
@@ -136,8 +136,8 @@ Folks that helped Ivy Wallet in a non-dev creative way that can't be captured in
 </div>
 
 <div align="center">
-    <img src="https://cdn.aditya.tk/img/aditya.jpg" width="100px;" alt="Aditya [ADX]"/><br>
-    <strong><a href="https://aditya.tk" >Aditya</a> </strong><br>
+    <img src="https://avatars.githubusercontent.com/u/86833171?v=4" width="100px;" alt="Aditya [ADX]"/><br>
+    <strong><a href="https://github.com/adx69" >Aditya</a> </strong><br>
     <br/>
 </div>
 
