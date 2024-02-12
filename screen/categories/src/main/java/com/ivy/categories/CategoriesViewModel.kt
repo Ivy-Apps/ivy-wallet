@@ -200,8 +200,9 @@ class CategoriesViewModel @Inject constructor(
             }
 
             SortOrder.BALANCE_AMOUNT -> categoryData.sortedByDescending {
-                it.monthlyBalance.absoluteValue
-            }
+                it.monthlyBalance
+            }.partition { it.monthlyBalance.toInt() != 0 } // Partition into non-zero and zero lists
+                .let { (nonZero, zero) -> nonZero + zero }
 
             SortOrder.ALPHABETICAL -> categoryData.sortedBy {
                 it.category.name
