@@ -227,7 +227,7 @@ class HomeViewModel @Inject constructor(
                 HomeEvent.SelectPreviousMonth -> onSelectPreviousMonth()
                 is HomeEvent.SetUpcomingExpanded -> setUpcomingExpanded(event.expanded)
                 is HomeEvent.SetOverdueExpanded -> setOverdueExpanded(event.expanded)
-                is HomeEvent.SetBuffer -> setBuffer(event.buffer).fixUnit()
+                is HomeEvent.SetBuffer -> setBuffer(event.buffer)
                 is HomeEvent.SetCurrency -> setCurrency(event.currency).fixUnit()
                 HomeEvent.SwitchTheme -> switchTheme()
                 is HomeEvent.DismissCustomerJourneyCard -> dismissCustomerJourneyCard(event.card)
@@ -418,12 +418,12 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun setBuffer(newBuffer: Double) = settingsAct then {
-        it.copy(
-            bufferAmount = newBuffer.toBigDecimal()
-        )
-    } then updateSettingsAct then {
-        reload()
+    private fun setBuffer(newBuffer: Double) {
+        viewModelScope.launch {
+            val currentSettings = settingsAct.getSettings().copy(bufferAmount = newBuffer.toBigDecimal())
+            updateSettingsAct(currentSettings)
+            buffer.value = buffer.value.copy(amount = currentSettings.bufferAmount)
+        }
     }
 
     private suspend fun setCurrency(newCurrency: String) = settingsAct then {
