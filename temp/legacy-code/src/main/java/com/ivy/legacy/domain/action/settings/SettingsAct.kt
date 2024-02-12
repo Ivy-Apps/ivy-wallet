@@ -6,7 +6,6 @@ import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.legacy.datamodel.Settings
 import com.ivy.legacy.datamodel.temp.toDomain
-import java.math.BigDecimal
 import javax.inject.Inject
 
 class SettingsAct @Inject constructor(
