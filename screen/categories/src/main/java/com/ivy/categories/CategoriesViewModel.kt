@@ -1,5 +1,6 @@
 package com.ivy.categories
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -200,8 +201,10 @@ class CategoriesViewModel @Inject constructor(
             }
 
             SortOrder.BALANCE_AMOUNT -> categoryData.sortedByDescending {
-                it.monthlyBalance.absoluteValue
-            }
+                    it.monthlyBalance
+                }.partition { it.monthlyBalance.toInt() != 0 } // Partition into non-zero and zero lists
+                    .let { (nonZero, zero) -> nonZero + zero }
+
 
             SortOrder.ALPHABETICAL -> categoryData.sortedBy {
                 it.category.name
