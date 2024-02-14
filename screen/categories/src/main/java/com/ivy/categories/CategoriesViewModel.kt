@@ -30,7 +30,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.absoluteValue
 
 @HiltViewModel
 class CategoriesViewModel @Inject constructor(
@@ -200,8 +199,9 @@ class CategoriesViewModel @Inject constructor(
             }
 
             SortOrder.BALANCE_AMOUNT -> categoryData.sortedByDescending {
-                it.monthlyBalance.absoluteValue
-            }
+                it.monthlyBalance
+            }.partition { it.monthlyBalance.toInt() != 0 } // Partition into non-zero and zero lists
+                .let { (nonZero, zero) -> nonZero + zero }
 
             SortOrder.ALPHABETICAL -> categoryData.sortedBy {
                 it.category.name

@@ -24,4 +24,6 @@ class SettingsAct @Inject constructor(
         }
         return currentSettings.copy(theme = newTheme)
     }
+
+    suspend fun getSettings(): Settings = this(Unit)
 }
