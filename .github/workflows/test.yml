@@ -32,34 +32,34 @@ jobs:
       - name: Run unit tests
         run: ./gradlew testDebugUnitTest
 
-  code_coverage:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout GIT
-        uses: actions/checkout@v4
-
-      - name: Setup Java SDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'adopt'
-          java-version: '18'
-
-      - name: Enable Gradle Wrapper caching (optimization)
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - name: Code Coverage
-        run: ./gradlew koverHtmlReport
-
-      - name: Upload Code Coverage report
-        uses: actions/upload-artifact@v4
-        with:
-          name: code-coverage-report
-          path: app/build/artifacts/reports/kover/coverageResults/*
+#  code_coverage:
+#    needs: test
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout GIT
+#        uses: actions/checkout@v4
+#
+#      - name: Setup Java SDK
+#        uses: actions/setup-java@v4
+#        with:
+#          distribution: 'adopt'
+#          java-version: '18'
+#
+#      - name: Enable Gradle Wrapper caching (optimization)
+#        uses: actions/cache@v4
+#        with:
+#          path: |
+#            ~/.gradle/caches
+#            ~/.gradle/wrapper
+#          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+#          restore-keys: |
+#            ${{ runner.os }}-gradle-
+#
+#      - name: Code Coverage
+#        run: ./gradlew koverHtmlReport
+#
+#      - name: Upload Code Coverage report
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: code-coverage-report
+#          path: app/build/artifacts/reports/kover/coverageResults/*
