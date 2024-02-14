@@ -60,7 +60,7 @@ private fun SearchUi(
         val listState = rememberLazyListState()
 
         var searchQueryTextFieldValue by remember {
-            mutableStateOf(selectEndTextFieldValue(""))
+            mutableStateOf(selectEndTextFieldValue(uiState.searchQuery))
         }
 
         SearchInput(
@@ -126,6 +126,7 @@ private fun Preview() {
     IvyPreview {
         SearchUi(
             uiState = SearchState(
+                searchQuery = "Transaction",
                 transactions = persistentListOf(),
                 baseCurrency = "",
                 accounts = persistentListOf(),

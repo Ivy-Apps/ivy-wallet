@@ -6,6 +6,7 @@ import com.ivy.legacy.datamodel.Category
 import kotlinx.collections.immutable.ImmutableList
 
 data class SearchState(
+    val searchQuery: String,
     val transactions: ImmutableList<TransactionHistoryItem>,
     val baseCurrency: String,
     val accounts: ImmutableList<Account>,
