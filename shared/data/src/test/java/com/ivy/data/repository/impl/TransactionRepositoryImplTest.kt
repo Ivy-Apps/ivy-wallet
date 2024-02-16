@@ -32,6 +32,7 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.UUID
+
 @Suppress("LargeClass")
 class TransactionRepositoryImplTest : FreeSpec({
     val transactionDao = mockk<TransactionDao>()
@@ -727,7 +728,12 @@ class TransactionRepositoryImplTest : FreeSpec({
                 categoryId = null
             )
 
-            coEvery { transactionDao.findAllUnspecifiedAndBetween(startDate, endDate) } returns listOf(
+            coEvery {
+                transactionDao.findAllUnspecifiedAndBetween(
+                    startDate,
+                    endDate
+                )
+            } returns listOf(
                 validIncome,
                 invalidIncome2,
                 invalidIncome
@@ -1792,7 +1798,12 @@ class TransactionRepositoryImplTest : FreeSpec({
                 isDeleted = isDeleted
             )
 
-            coEvery { transactionDao.findByIsSyncedAndIsDeleted(isSynced, isDeleted) } returns listOf(
+            coEvery {
+                transactionDao.findByIsSyncedAndIsDeleted(
+                    isSynced,
+                    isDeleted
+                )
+            } returns listOf(
                 validTransaction,
                 invalidTransaction2,
                 invalidTransaction

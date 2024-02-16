@@ -19,7 +19,10 @@ import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.util.UUID
 import javax.inject.Inject
+import javax.inject.Singleton
+
 @Suppress("LargeClass")
+@Singleton
 class TransactionRepositoryImpl @Inject constructor(
     private val accountRepository: AccountRepository,
     private val mapper: TransactionMapper,
@@ -27,6 +30,8 @@ class TransactionRepositoryImpl @Inject constructor(
     private val writeTransactionDao: WriteTransactionDao,
     private val dispatchersProvider: DispatchersProvider,
 ) : TransactionRepository {
+    private val accountIdToAssetCodeCache = mutableMapOf<UUID, AssetCode>()
+
     override suspend fun findAll(): List<Transaction> {
         return withContext(dispatchersProvider.io) {
             transactionDao.findAll().mapNotNull {
@@ -104,18 +109,19 @@ class TransactionRepositoryImpl @Inject constructor(
 
     override suspend fun findAllIncomeByAccount(accountId: AccountId): List<Income> {
         return withContext(dispatchersProvider.io) {
-            transactionDao.findAllByTypeAndAccount(TransactionType.INCOME, accountId.value).mapNotNull {
-                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
-                    it.accountId,
-                    it.toAccountId
-                )
-                with(mapper) {
-                    it.toDomain(
-                        accountAssetCode,
-                        toAccountAssetCode
+            transactionDao.findAllByTypeAndAccount(TransactionType.INCOME, accountId.value)
+                .mapNotNull {
+                    val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                        it.accountId,
+                        it.toAccountId
                     )
-                }.getOrNull() as? Income
-            }
+                    with(mapper) {
+                        it.toDomain(
+                            accountAssetCode,
+                            toAccountAssetCode
+                        )
+                    }.getOrNull() as? Income
+                }
         }
     }
 
@@ -299,13 +305,14 @@ class TransactionRepositoryImpl @Inject constructor(
         endDate: LocalDateTime
     ): List<Transaction> {
         return withContext(dispatchersProvider.io) {
-            transactionDao.findAllByAccountAndBetween(accountId.value, startDate, endDate).mapNotNull {
-                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
-                    it.accountId,
-                    it.toAccountId
-                )
-                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
-            }
+            transactionDao.findAllByAccountAndBetween(accountId.value, startDate, endDate)
+                .mapNotNull {
+                    val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                        it.accountId,
+                        it.toAccountId
+                    )
+                    with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
+                }
         }
     }
 
@@ -853,12 +860,14 @@ class TransactionRepositoryImpl @Inject constructor(
         toAccountId: UUID?
     ): Pair<AssetCode?, AssetCode?> {
         val assetCode = getAssetCodeForAccount(accountId)
-        val toAssetCode = getAssetCodeForAccount(toAccountId)
+        val toAssetCode = toAccountId?.let { getAssetCodeForAccount(it) }
         return Pair(assetCode, toAssetCode)
     }
 
-    private suspend fun getAssetCodeForAccount(accountId: UUID?): AssetCode? {
-        accountId ?: return null
-        return accountRepository.findById(AccountId(accountId))?.asset
+    private suspend fun getAssetCodeForAccount(accountId: UUID): AssetCode? {
+        return accountIdToAssetCodeCache[accountId]
+            ?: accountRepository.findById(AccountId(accountId))?.asset?.also {
+                accountIdToAssetCodeCache[accountId] = it
+            }
     }
 }
