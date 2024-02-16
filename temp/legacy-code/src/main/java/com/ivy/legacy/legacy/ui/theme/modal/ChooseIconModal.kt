@@ -41,6 +41,8 @@ import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.components.ItemIconS
 import com.ivy.wallet.ui.theme.dynamicContrast
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import java.util.UUID
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
@@ -219,6 +221,8 @@ private fun LazyListScope.addIconsRowIfNotEmpty(
 
     onIconSelected: (String) -> Unit
 ) {
+    val rowAcc = rowAcc.toImmutableList()
+
     if (rowAcc.isNotEmpty()) {
         item {
             IconsRow(
@@ -236,7 +240,7 @@ private fun LazyListScope.addIconsRowIfNotEmpty(
 
 @Composable
 private fun IconsRow(
-    icons: List<String>,
+    icons: ImmutableList<String>,
     selectedIcon: String?,
     color: Color,
 
