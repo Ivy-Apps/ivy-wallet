@@ -33,7 +33,7 @@ class TransactionMapper @Inject constructor() {
             loanRecordId = loanRecordId
         )
         val settled = dateTime != null
-        val time = dateTime?.atZone(zoneId)?.toInstant()
+        val time = (dateTime ?: dueDate)?.atZone(zoneId)?.toInstant()
             ?: raise("Missing transaction time for entity: ${this@toDomain}")
 
         val fromValue = Value(
