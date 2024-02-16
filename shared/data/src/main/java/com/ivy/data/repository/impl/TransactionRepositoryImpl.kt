@@ -30,6 +30,7 @@ class TransactionRepositoryImpl @Inject constructor(
     private val writeTransactionDao: WriteTransactionDao,
     private val dispatchersProvider: DispatchersProvider,
 ) : TransactionRepository {
+    // TODO: [BUG] Accounts that are updated should be evicted from the cache
     private val accountIdToAssetCodeCache = mutableMapOf<UUID, AssetCode>()
 
     override suspend fun findAll(): List<Transaction> {
