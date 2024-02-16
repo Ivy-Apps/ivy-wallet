@@ -2,6 +2,7 @@ package com.ivy.exchangerates
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.data.db.dao.read.ExchangeRatesDao
@@ -22,6 +23,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@Stable
 @HiltViewModel
 class ExchangeRatesViewModel @Inject constructor(
     private val exchangeRatesDao: ExchangeRatesDao,
