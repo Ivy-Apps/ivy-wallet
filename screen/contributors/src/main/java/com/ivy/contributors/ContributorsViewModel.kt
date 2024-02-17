@@ -2,6 +2,7 @@ package com.ivy.contributors
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.domain.ComposeViewModel
@@ -10,6 +11,7 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@Stable
 @HiltViewModel
 class ContributorsViewModel @Inject constructor(
     private val ivyWalletRepositoryDataSource: IvyWalletRepositoryDataSource

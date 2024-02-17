@@ -28,6 +28,8 @@ import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyIcon
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import timber.log.Timber
 import kotlin.math.acos
 import kotlin.math.sqrt
@@ -38,7 +40,7 @@ const val RADIUS_DP = 112f
 @Composable
 fun PieChart(
     type: TransactionType,
-    categoryAmounts: List<CategoryAmount>,
+    categoryAmounts: ImmutableList<CategoryAmount>,
     selectedCategory: SelectedCategory?,
     modifier: Modifier = Modifier,
     onCategoryClicked: (Category?) -> Unit = {}
@@ -270,7 +272,7 @@ private fun Preview() {
 
             PieChart(
                 type = TransactionType.EXPENSE,
-                categoryAmounts = listOf(
+                categoryAmounts = persistentListOf(
                     CategoryAmount(
                         category = Category("Bills", Green.toArgb()),
                         amount = 791.0

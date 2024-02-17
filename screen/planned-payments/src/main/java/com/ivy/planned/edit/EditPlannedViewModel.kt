@@ -1,6 +1,7 @@
 package com.ivy.planned.edit
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
@@ -39,6 +40,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import javax.inject.Inject
 
+@Stable
 @HiltViewModel
 class EditPlannedViewModel @Inject constructor(
     private val accountDao: AccountDao,

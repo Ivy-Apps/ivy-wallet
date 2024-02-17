@@ -3,6 +3,7 @@ package com.ivy.features
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.viewModelScope
 import com.ivy.domain.ComposeViewModel
 import com.ivy.domain.features.Features
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@Stable
 @SuppressLint("StaticFieldLeak")
 @HiltViewModel
 class FeaturesViewModel @Inject constructor(
