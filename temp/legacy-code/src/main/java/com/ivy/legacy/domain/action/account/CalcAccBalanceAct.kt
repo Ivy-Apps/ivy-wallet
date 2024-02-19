@@ -3,7 +3,6 @@ package com.ivy.wallet.domain.action.account
 import arrow.core.nonEmptyListOf
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
-import com.ivy.legacy.datamodel.Account
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import com.ivy.wallet.domain.pure.transaction.AccountValueFunctions
 import com.ivy.wallet.domain.pure.transaction.foldTransactions
@@ -16,13 +15,13 @@ class CalcAccBalanceAct @Inject constructor(
 
     override suspend fun Input.compose(): suspend () -> Output = suspend {
         AccTrnsAct.Input(
-            accountId = account.id,
+            accountId = account.id.value,
             range = range
         )
     } then accTrnsAct then { accTrns ->
         foldTransactions(
             transactions = accTrns,
-            arg = account.id,
+            arg = account.id.value,
             valueFunctions = nonEmptyListOf(AccountValueFunctions::balance)
         ).head
     } then { balance ->
@@ -33,12 +32,12 @@ class CalcAccBalanceAct @Inject constructor(
     }
 
     data class Input(
-        val account: Account,
+        val account: com.ivy.data.model.Account,
         val range: ClosedTimeRange = ClosedTimeRange.allTimeIvy()
     )
 
     data class Output(
-        val account: Account,
+        val account: com.ivy.data.model.Account,
         val balance: BigDecimal,
     )
 }

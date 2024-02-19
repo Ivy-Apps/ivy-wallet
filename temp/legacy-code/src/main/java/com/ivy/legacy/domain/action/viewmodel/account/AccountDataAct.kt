@@ -29,12 +29,12 @@ class AccountDataAct @Inject constructor(
             )
         ).balance
 
-        val balanceBaseCurrency = if (acc.currency != baseCurrency) {
+        val balanceBaseCurrency = if (acc.asset.code != baseCurrency) {
             exchangeAct(
                 ExchangeAct.Input(
                     data = ExchangeData(
                         baseCurrency = baseCurrency,
-                        fromCurrency = acc.currency.toOption()
+                        fromCurrency = acc.asset.code.toOption()
                     ),
                     amount = balance
                 )
@@ -63,7 +63,7 @@ class AccountDataAct @Inject constructor(
     }
 
     data class Input(
-        val accounts: ImmutableList<Account>,
+        val accounts: ImmutableList<com.ivy.data.model.Account>,
         val baseCurrency: String,
         val range: ClosedTimeRange,
         val includeTransfersInCalc: Boolean = false

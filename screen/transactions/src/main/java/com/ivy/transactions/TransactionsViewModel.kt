@@ -22,6 +22,11 @@ import com.ivy.domain.ComposeViewModel
 import com.ivy.frp.then
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.base.legacy.SharedPrefs
+import com.ivy.data.model.AccountId
+import com.ivy.data.model.primitive.AssetCode
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.IconAsset
+import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.legacy.datamodel.Account
@@ -57,6 +62,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
+import java.time.Instant
 import java.util.UUID
 import javax.inject.Inject
 
@@ -335,11 +341,21 @@ class TransactionsViewModel @Inject constructor(
             currency.value = initialAccount.currency!!
         }
 
-        val account = account.value
+        val account = com.ivy.data.model.Account(
+            AccountId(initialAccount.id),
+            NotBlankTrimmedString(initialAccount.name),
+            AssetCode(initialAccount.currency ?: baseCurrency.value),
+            ColorInt(initialAccount.color),
+            initialAccount.icon?.let { IconAsset(it) },
+            initialAccount.includeInBalance,
+            initialAccount.orderNum,
+            Instant.EPOCH,
+            initialAccount.isDeleted
+        )
 
         val balanceValue = calcAccBalanceAct(
             CalcAccBalanceAct.Input(
-                account = initialAccount
+                account = account
             )
         ).balance.toDouble()
         balance.doubleValue = balanceValue
@@ -360,7 +376,7 @@ class TransactionsViewModel @Inject constructor(
 
         val incomeExpensePair = calcAccIncomeExpenseAct(
             CalcAccIncomeExpenseAct.Input(
-                account = initialAccount,
+                account = account,
                 range = range.toCloseTimeRange(),
                 includeTransfersInCalc = includeTransfersInCalc
             )
@@ -369,15 +385,15 @@ class TransactionsViewModel @Inject constructor(
         expenses.doubleValue = incomeExpensePair.expense.toDouble()
 
         history.value = (
-            accTrnsAct then {
-                trnsWithDateDivsAct(
-                    TrnsWithDateDivsAct.Input(
-                        baseCurrency = baseCurrency.value,
-                        transactions = it
+                accTrnsAct then {
+                    trnsWithDateDivsAct(
+                        TrnsWithDateDivsAct.Input(
+                            baseCurrency = baseCurrency.value,
+                            transactions = it
+                        )
                     )
-                )
-            }
-            )(
+                }
+                )(
             AccTrnsAct.Input(
                 accountId = initialAccount.id,
                 range = range.toCloseTimeRange()
@@ -611,10 +627,10 @@ class TransactionsViewModel @Inject constructor(
         val accountFilterIdSet = accountFilterList.toHashSet()
         val trans = transactions.filter {
             it.categoryId == null && (
-                accountFilterIdSet.contains(it.accountId) || accountFilterIdSet.contains(
-                    it.toAccountId
-                )
-                ) && it.type == TransactionType.TRANSFER
+                    accountFilterIdSet.contains(it.accountId) || accountFilterIdSet.contains(
+                        it.toAccountId
+                    )
+                    ) && it.type == TransactionType.TRANSFER
         }
 
         val historyIncomeExpense = calcTrnsIncomeExpenseAct(
@@ -790,7 +806,7 @@ class TransactionsViewModel @Inject constructor(
     private fun updateAccountDeletionState(confirmationText: String) {
         accountNameConfirmation.value = selectEndTextFieldValue(confirmationText)
         enableDeletionButton.value = account.value?.name == confirmationText ||
-            category.value?.name == confirmationText
+                category.value?.name == confirmationText
     }
 
     fun start(
@@ -826,7 +842,7 @@ class TransactionsViewModel @Inject constructor(
                 // unspecifiedCategory==false is explicitly checked to accommodate for a temp
                 // AccountTransfers Category during Reports Screen
                 screen.categoryId != null && screen.transactions.isNotEmpty() &&
-                    screen.unspecifiedCategory == false -> {
+                        screen.unspecifiedCategory == false -> {
                     initForCategoryWithTransactions(
                         screen.categoryId!!,
                         screen.accountIdFilterList,

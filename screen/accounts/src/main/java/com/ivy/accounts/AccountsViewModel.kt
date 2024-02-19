@@ -7,19 +7,17 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
-import com.ivy.data.db.dao.write.WriteAccountDao
 import com.ivy.domain.ComposeViewModel
 import com.ivy.domain.event.AccountUpdatedEvent
 import com.ivy.domain.event.EventBus
 import com.ivy.base.legacy.SharedPrefs
+import com.ivy.data.repository.AccountRepository
+import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.model.AccountData
 import com.ivy.legacy.data.model.toCloseTimeRange
-import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.ioThread
 import com.ivy.resources.R
-import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.viewmodel.account.AccountDataAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
@@ -35,17 +33,15 @@ import javax.inject.Inject
 @SuppressLint("StaticFieldLeak")
 @HiltViewModel
 class AccountsViewModel @Inject constructor(
-    private val accountCreator: AccountCreator,
     @ApplicationContext
     private val context: Context,
-    private val ivyContext: com.ivy.legacy.IvyWalletCtx,
+    private val ivyContext: IvyWalletCtx,
     private val sharedPrefs: SharedPrefs,
-    private val accountsAct: AccountsAct,
     private val calcWalletBalanceAct: CalcWalletBalanceAct,
     private val baseCurrencyAct: BaseCurrencyAct,
     private val accountDataAct: AccountDataAct,
     private val eventBus: EventBus,
-    private val accountWriter: WriteAccountDao,
+    private val accountRepository: AccountRepository
 ) : ComposeViewModel<AccountsState, AccountsEvent>() {
     private val baseCurrency = mutableStateOf("")
     private val accountsData = mutableStateOf(listOf<AccountData>())
@@ -119,7 +115,6 @@ class AccountsViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.Default) {
             when (event) {
                 is AccountsEvent.OnReorder -> reorder(event.reorderedList)
-                is AccountsEvent.OnEditAccount -> editAccount(event.editedAccount, event.newBalance)
                 is AccountsEvent.OnReorderModalVisible -> reorderModalVisible(event.reorderVisible)
             }
         }
@@ -128,22 +123,17 @@ class AccountsViewModel @Inject constructor(
     private suspend fun reorder(newOrder: List<AccountData>) {
         ioThread {
             newOrder.mapIndexed { index, accountData ->
-                accountWriter.save(
-                    accountData.account.toEntity().copy(
-                        orderNum = index.toDouble(),
-                        isSynced = false
-                    )
-                )
+                accountRepository.save(accountData.account.copy(orderNum = index.toDouble()))
+//                accountWriter.save(
+//                    accountData.account.toEntity().copy(
+//                        orderNum = index.toDouble(),
+//                        isSynced = false
+//                    )
+//                )
             }
         }
 
         startInternally()
-    }
-
-    private suspend fun editAccount(account: Account, newBalance: Double) {
-        accountCreator.editAccount(account, newBalance) {
-            startInternally()
-        }
     }
 
     private fun onStart() {
@@ -159,14 +149,14 @@ class AccountsViewModel @Inject constructor(
         val range = period.toRange(ivyContext.startDayOfMonth)
 
         val baseCurrencyCode = baseCurrencyAct(Unit)
-        val accs = accountsAct(Unit)
+        val accounts = accountRepository.findAll().toImmutableList()
 
         val includeTransfersInCalc =
             sharedPrefs.getBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, false)
 
         val accountsDataList = accountDataAct(
             AccountDataAct.Input(
-                accounts = accs,
+                accounts = accounts,
                 range = range.toCloseTimeRange(),
                 baseCurrency = baseCurrencyCode,
                 includeTransfersInCalc = includeTransfersInCalc

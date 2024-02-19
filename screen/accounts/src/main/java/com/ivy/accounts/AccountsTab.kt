@@ -29,6 +29,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ivy.data.model.AccountId
+import com.ivy.data.model.primitive.AssetCode
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.IconAsset
+import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
@@ -54,6 +59,8 @@ import com.ivy.wallet.ui.theme.dynamicContrast
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.toComposeColor
 import kotlinx.collections.immutable.persistentListOf
+import java.time.Instant
+import java.util.UUID
 
 @Composable
 fun BoxWithConstraintsScope.AccountsTab() {
@@ -138,7 +145,7 @@ private fun BoxWithConstraintsScope.UI(
                 onBalanceClick = {
                     nav.navigateTo(
                         TransactionsScreen(
-                            accountId = it.account.id,
+                            accountId = it.account.id.value,
                             categoryId = null
                         )
                     )
@@ -146,7 +153,7 @@ private fun BoxWithConstraintsScope.UI(
             ) {
                 nav.navigateTo(
                     TransactionsScreen(
-                        accountId = it.account.id,
+                        accountId = it.account.id.value,
                         categoryId = null
                     )
                 )
@@ -173,9 +180,9 @@ private fun BoxWithConstraintsScope.UI(
                 .fillMaxWidth()
                 .padding(end = 24.dp)
                 .padding(vertical = 8.dp),
-            text = item.account.name,
+            text = item.account.name.value,
             style = UI.typo.b1.style(
-                color = item.account.color.toComposeColor(),
+                color = item.account.color.value.toComposeColor(),
                 fontWeight = FontWeight.Bold
             )
         )
@@ -200,8 +207,8 @@ private fun AccountCard(
             )
     ) {
         val account = accountData.account
-        val contrastColor = findContrastTextColor(account.color.toComposeColor())
-        val currency = account.currency ?: baseCurrency
+        val contrastColor = findContrastTextColor(account.color.value.toComposeColor())
+        val currency = account.asset.code
 
         AccountHeader(
             accountData = accountData,
@@ -239,7 +246,7 @@ private fun AccountHeader(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(account.color.toComposeColor(), UI.shapes.r4Top)
+            .background(account.color.value.toComposeColor(), UI.shapes.r4Top)
     ) {
         Spacer(Modifier.height(16.dp))
 
@@ -249,7 +256,7 @@ private fun AccountHeader(
             Spacer(Modifier.width(20.dp))
 
             ItemIconSDefaultIcon(
-                iconName = account.icon,
+                iconName = account.icon?.id,
                 defaultIcon = R.drawable.ic_custom_account_s,
                 tint = contrastColor
             )
@@ -257,7 +264,7 @@ private fun AccountHeader(
             Spacer(Modifier.width(8.dp))
 
             Text(
-                text = account.name,
+                text = account.name.value,
                 style = UI.typo.b1.style(
                     color = contrastColor,
                     fontWeight = FontWeight.ExtraBold
@@ -273,7 +280,7 @@ private fun AccountHeader(
                         .padding(bottom = 4.dp),
                     text = stringResource(R.string.excluded),
                     style = UI.typo.c.style(
-                        color = account.color.toComposeColor().dynamicContrast()
+                        color = account.color.value.toComposeColor().dynamicContrast()
                     )
                 )
             }
@@ -305,7 +312,7 @@ private fun AccountHeader(
                         onBalanceClick()
                     }
                     .testTag("baseCurrencyEquivalent"),
-                textColor = account.color.toComposeColor().dynamicContrast(),
+                textColor = account.color.value.toComposeColor().dynamicContrast(),
                 currency = baseCurrency,
                 balance = accountData.balanceBaseCurrency!!,
                 currencyUpfront = false
@@ -320,42 +327,79 @@ private fun AccountHeader(
 @Composable
 private fun PreviewAccountsTab() {
     IvyWalletPreview {
+        val acc1 = com.ivy.data.model.Account(
+            id = AccountId(UUID.randomUUID()),
+            name = NotBlankTrimmedString("Phyre"),
+            color = ColorInt(Green.toArgb()),
+            asset = AssetCode("USD"),
+            icon = null,
+            includeInBalance = true,
+            orderNum = 0.0,
+            lastUpdated = Instant.EPOCH,
+            removed = false
+        )
+
+        val acc2 = com.ivy.data.model.Account(
+            id = AccountId(UUID.randomUUID()),
+            name = NotBlankTrimmedString("DSK"),
+            color = ColorInt(GreenLight.toArgb()),
+            asset = AssetCode("USD"),
+            icon = null,
+            includeInBalance = true,
+            orderNum = 0.0,
+            lastUpdated = Instant.EPOCH,
+            removed = false
+        )
+
+        val acc3 = com.ivy.data.model.Account(
+            id = AccountId(UUID.randomUUID()),
+            name = NotBlankTrimmedString("Revolut"),
+            color = ColorInt(Green.toArgb()),
+            asset = AssetCode("USD"),
+            icon = IconAsset("revolut"),
+            includeInBalance = true,
+            orderNum = 0.0,
+            lastUpdated = Instant.EPOCH,
+            removed = false
+        )
+
+        val acc4 = com.ivy.data.model.Account(
+            id = AccountId(UUID.randomUUID()),
+            name = NotBlankTrimmedString("Cash"),
+            color = ColorInt(Green.toArgb()),
+            asset = AssetCode("USD"),
+            icon = IconAsset("cash"),
+            includeInBalance = true,
+            orderNum = 0.0,
+            lastUpdated = Instant.EPOCH,
+            removed = false
+        )
         val state = AccountsState(
             baseCurrency = "BGN",
             accountsData = persistentListOf(
                 com.ivy.legacy.data.model.AccountData(
-                    account = Account("Phyre", color = Green.toArgb()),
+                    account = acc1,
                     balance = 2125.0,
                     balanceBaseCurrency = null,
                     monthlyExpenses = 920.0,
                     monthlyIncome = 3045.0
                 ),
                 com.ivy.legacy.data.model.AccountData(
-                    account = Account("DSK", color = GreenLight.toArgb()),
+                    account = acc2,
                     balance = 12125.21,
                     balanceBaseCurrency = null,
                     monthlyExpenses = 1350.50,
                     monthlyIncome = 8000.48
                 ),
                 com.ivy.legacy.data.model.AccountData(
-                    account = Account(
-                        "Revolut",
-                        color = IvyDark.toArgb(),
-                        currency = "USD",
-                        icon = "revolut",
-                        includeInBalance = false
-                    ),
+                    account = acc3,
                     balance = 1200.0,
                     balanceBaseCurrency = 1979.64,
                     monthlyExpenses = 750.0,
                     monthlyIncome = 1000.30
                 ),
                 com.ivy.legacy.data.model.AccountData(
-                    account = Account(
-                        "Cash",
-                        color = GreenDark.toArgb(),
-                        icon = "cash"
-                    ),
+                    account = acc4,
                     balance = 820.0,
                     balanceBaseCurrency = null,
                     monthlyExpenses = 340.0,
