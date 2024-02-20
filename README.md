@@ -148,3 +148,11 @@ Folks that helped Ivy Wallet in a non-dev creative way that can't be captured in
 </div>
 
 
+### Community Projects
+
+#### ivy-wallet-web
+
+This project, developed by the community, enables users to conveniently access **Ivy Wallet** through their **web browsers**, ensuring a smooth experience across various platforms.
+
+- [GitHub](https://github.com/pratikkabade/ivy-wallet-web)
+- [URL](https://ivy-wallet-web.vercel.app/)
