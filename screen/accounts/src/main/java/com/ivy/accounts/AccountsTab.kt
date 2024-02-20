@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ivy.common.ui.rememberScrollPositionListState
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
@@ -74,6 +76,14 @@ private fun BoxWithConstraintsScope.UI(
     val nav = navigation()
     val ivyContext = com.ivy.legacy.ivyWalletCtx()
 
+    var listState = rememberLazyListState()
+    if (!state.accountsData.isEmpty()){
+        listState = rememberScrollPositionListState(
+            key = "accounts_lazy_column",
+            initialFirstVisibleItemIndex = ivyContext.accountsListState?.firstVisibleItemIndex ?: 0,
+            initialFirstVisibleItemScrollOffset = ivyContext.accountsListState?.firstVisibleItemScrollOffset ?: 0
+        )
+    }
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -89,6 +99,7 @@ private fun BoxWithConstraintsScope.UI(
                     ivyContext.selectMainTab(com.ivy.legacy.data.model.MainTab.HOME)
                 }
             ),
+            state = listState,
     ) {
         item {
             Spacer(Modifier.height(32.dp))

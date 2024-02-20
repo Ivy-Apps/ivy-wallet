@@ -78,6 +78,12 @@ class IvyWalletCtx @Inject constructor() : IvyContext() {
     var transactionsListState: LazyListState? = null
 
     @Deprecated("Legacy code. Don't use it, please.")
+    var accountsListState: LazyListState? = null
+
+    @Deprecated("Legacy code. Don't use it, please.")
+    var categoriesListState: LazyListState? = null
+
+    @Deprecated("Legacy code. Don't use it, please.")
     var mainTab by mutableStateOf(com.ivy.legacy.data.model.MainTab.HOME)
         private set
 
@@ -143,5 +149,7 @@ class IvyWalletCtx @Inject constructor() : IvyContext() {
         startDayOfMonth = 1
         isPremium = true
         transactionsListState = null
+        accountsListState= null
+        categoriesListState = null
     }
 }
