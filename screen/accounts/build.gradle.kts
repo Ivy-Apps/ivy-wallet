@@ -14,6 +14,7 @@ dependencies {
     implementation(projects.temp.oldDesign)
     implementation(projects.temp.legacyCode)
     implementation(projects.shared.data)
+    implementation(projects.shared.commonUi)
 
     testImplementation(projects.shared.testing)
 }
