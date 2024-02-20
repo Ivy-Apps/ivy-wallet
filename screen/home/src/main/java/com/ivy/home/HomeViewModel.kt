@@ -2,6 +2,7 @@ package com.ivy.home
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.Theme
@@ -56,6 +57,7 @@ import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import javax.inject.Inject
 
+@Stable
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val ivyContext: IvyWalletCtx,

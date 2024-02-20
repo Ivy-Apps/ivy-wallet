@@ -2,6 +2,7 @@ package com.ivy.search
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.TransactionHistoryItem
@@ -22,6 +23,7 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@Stable
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val trnsWithDateDivsAct: TrnsWithDateDivsAct,
@@ -36,14 +38,16 @@ class SearchViewModel @Inject constructor(
     private val baseCurrency = mutableStateOf<String>(getDefaultFIATCurrency().currencyCode)
     private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
     private val categories = mutableStateOf<ImmutableList<Category>>(persistentListOf())
+    private val searchQuery = mutableStateOf("")
 
     @Composable
     override fun uiState(): SearchState {
         LaunchedEffect(Unit) {
-            search("")
+            search(searchQuery.value)
         }
 
         return SearchState(
+            searchQuery = searchQuery.value,
             transactions = transactions.value,
             baseCurrency = baseCurrency.value,
             accounts = accounts.value,
@@ -58,6 +62,7 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun search(query: String) {
+        searchQuery.value = query
         val normalizedQuery = query.lowercase().trim()
 
         viewModelScope.launch {
@@ -65,7 +70,7 @@ class SearchViewModel @Inject constructor(
                 val filteredTransactions = allTrnsAct(Unit)
                     .filter { transaction ->
                         transaction.title.matchesQuery(normalizedQuery) ||
-                            transaction.description.matchesQuery(normalizedQuery)
+                                transaction.description.matchesQuery(normalizedQuery)
                     }
                 trnsWithDateDivsAct(
                     TrnsWithDateDivsAct.Input(

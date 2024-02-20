@@ -2,6 +2,7 @@ package com.ivy.loans.loan
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.SharedPrefs
@@ -37,6 +38,7 @@ import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
 
+@Stable
 @HiltViewModel
 class LoanViewModel @Inject constructor(
     private val loanRecordDao: LoanRecordDao,

@@ -68,6 +68,7 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
         return items.filter {
             val dateTime = it.dateTime ?: return@filter false
             it.type == TransactionType.TRANSFER &&
+                    it.toAccountId == toAccountId &&
                     isBetween(dateTime, startDate, endDate) &&
                     !it.isDeleted
         }.sortedByDescending { it.dateTime }
@@ -292,7 +293,12 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
     }
 
     override suspend fun save(value: TransactionEntity) {
-        items.add(value)
+        val existingItemIndex = items.indexOfFirst { it.id == value.id }
+        if (existingItemIndex > -1) {
+            items[existingItemIndex] = value
+        } else {
+            items.add(value)
+        }
     }
 
     override suspend fun saveMany(values: List<TransactionEntity>) {
@@ -300,7 +306,7 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
     }
 
     override suspend fun flagDeleted(id: UUID) {
-        items.map {
+        items.replaceAll {
             if (it.id == id) {
                 it.copy(isDeleted = true)
             } else {
@@ -310,7 +316,7 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
     }
 
     override suspend fun flagDeletedByRecurringRuleIdAndNoDateTime(recurringRuleId: UUID) {
-        items.map {
+        items.replaceAll {
             if (it.recurringRuleId == recurringRuleId && it.dateTime == null) {
                 it.copy(isDeleted = true)
             } else {
@@ -320,7 +326,7 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
     }
 
     override suspend fun flagDeletedByAccountId(accountId: UUID) {
-        items.map {
+        items.replaceAll {
             if (it.accountId == accountId) {
                 it.copy(isDeleted = true)
             } else {

@@ -58,7 +58,11 @@ If this job is failing this means that your changes break an existing unit test.
 
 ## Compose Stability
 
-This GitHub Action checks whether your `@Composable` functions are stable (i.e. "restartable" and "skippable"). If it fails it means that some of your composables are unstable. That causes unnecessary recompositions which can lead to lost frames and laggy UI/UX especially when animation or scrolling. You must fix that! To fix it, open the failing working and see the output from report - it tells you which `@Composable` functions are unstable and what parameters cause that.
+This GitHub Action checks whether your `@Composable` functions are stable (i.e. "restartable" and "skippable"). If it fails it means that some of your composables are unstable. That causes unnecessary recompositions which can lead to lost frames and laggy UI/UX especially when animation or scrolling. You must fix that! To fix it, open the failing working and see the output from the report - it tells you which `@Composable` functions are unstable and what parameters cause that.
+
+**Fixing Stability issues:**
+1. Read https://developer.android.com/jetpack/compose/performance/stability/fix
+2. https://developer.android.com/jetpack/compose/performance/stability
 
 **Compose Stability baseline** (not recommended)
 ```

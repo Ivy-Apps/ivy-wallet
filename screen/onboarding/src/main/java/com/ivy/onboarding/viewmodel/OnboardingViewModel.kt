@@ -1,6 +1,7 @@
 package com.ivy.onboarding.viewmodel
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
@@ -43,6 +44,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
+@Stable
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
     private val ivyContext: IvyWalletCtx,

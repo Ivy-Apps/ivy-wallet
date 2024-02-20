@@ -11,7 +11,7 @@ class FakeCategoryDao : CategoryDao, WriteCategoryDao {
     private val items = mutableListOf<CategoryEntity>()
 
     override suspend fun findAll(deleted: Boolean): List<CategoryEntity> {
-        return items
+        return items.filter { it.isDeleted == deleted }
     }
 
     override suspend fun findById(id: UUID): CategoryEntity? {
@@ -23,7 +23,12 @@ class FakeCategoryDao : CategoryDao, WriteCategoryDao {
     }
 
     override suspend fun save(value: CategoryEntity) {
-        items.add(value)
+        val existingItemIndex = items.indexOfFirst { it.id == value.id }
+        if (existingItemIndex > -1) {
+            items[existingItemIndex] = value
+        } else {
+            items.add(value)
+        }
     }
 
     override suspend fun saveMany(values: List<CategoryEntity>) {
@@ -31,7 +36,13 @@ class FakeCategoryDao : CategoryDao, WriteCategoryDao {
     }
 
     override suspend fun flagDeleted(id: UUID) {
-        TODO("Not yet implemented")
+        items.replaceAll { categoryEntity ->
+            if (categoryEntity.id == id) {
+                categoryEntity.copy(isDeleted = true)
+            } else {
+                categoryEntity
+            }
+        }
     }
 
     override suspend fun deleteById(id: UUID) {

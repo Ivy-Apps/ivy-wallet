@@ -1117,3 +1117,5 @@ IvyExplicit:
     active: true
   NoImplicitFunctionReturnType:
     active: true
+  UnnecessaryPassThroughClass:
+    active: true

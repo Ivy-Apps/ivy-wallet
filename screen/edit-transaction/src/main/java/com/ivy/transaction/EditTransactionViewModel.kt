@@ -1,6 +1,7 @@
 package com.ivy.transaction
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
@@ -58,6 +59,7 @@ import java.time.LocalTime
 import java.util.UUID
 import javax.inject.Inject
 
+@Stable
 @HiltViewModel
 class EditTransactionViewModel @Inject constructor(
     private val loanDao: LoanDao,

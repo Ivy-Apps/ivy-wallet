@@ -71,6 +71,7 @@ import com.ivy.wallet.ui.theme.modal.edit.CategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
 
@@ -428,7 +429,7 @@ private fun CategoryHeader(
 @Suppress("UnusedParameter")
 @Composable
 fun BoxWithConstraintsScope.SortModal(
-    items: List<SortOrder>,
+    items: ImmutableList<SortOrder>,
     visible: Boolean,
     initialType: SortOrder,
     dismiss: () -> Unit,

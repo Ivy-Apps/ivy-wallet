@@ -3,6 +3,7 @@ package com.ivy.reports
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.toArgb
@@ -49,6 +50,7 @@ import java.math.BigDecimal
 import java.util.UUID
 import javax.inject.Inject
 
+@Stable
 @HiltViewModel
 class ReportViewModel @Inject constructor(
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
@@ -271,8 +273,7 @@ class ReportViewModel @Inject constructor(
 
                 filterRange ?: return@filter false
 
-                (it.dateTime != null && filterRange.includes(it.dateTime!!)) ||
-                    (it.dueDate != null && filterRange.includes(it.dueDate!!))
+                it.dateTime != null && filterRange.includes(it.dateTime!!)
             }
             .filter { trn ->
                 // Filter by Accounts

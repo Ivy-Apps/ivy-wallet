@@ -82,7 +82,7 @@ android {
 
             matchingFallbacks.add("release")
 
-            isDebuggable = true
+            isDebuggable = false
             isDefault = false
 
             signingConfig = signingConfigs.getByName("debug")

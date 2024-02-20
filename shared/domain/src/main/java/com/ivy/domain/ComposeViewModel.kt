@@ -1,11 +1,13 @@
 package com.ivy.domain
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 
 /**
  * A simple base ViewModel utilizing Compose' reactivity.
  */
+@Stable
 abstract class ComposeViewModel<UiState, UiEvent> : ViewModel() {
     /**
      * Optimized for Compose ui state.
