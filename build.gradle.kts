@@ -8,6 +8,8 @@ plugins {
     alias(libs.plugins.gradleWrapperUpgrade)
 
     alias(libs.plugins.koverPlugin)
+
+    alias(libs.plugins.paparazzi)
 }
 
 subprojects {
