@@ -14,4 +14,16 @@ sealed class ReportScreenEvent {
     data class OnFilterOverlayVisible(val filterOverlayVisible: Boolean) : ReportScreenEvent()
     data class OnTreatTransfersAsIncomeExpense(val transfersAsIncomeExpense: Boolean) :
         ReportScreenEvent()
+
+    @Deprecated("Uses legacy Transaction")
+    data class SkipTransactionsLegacy(val transactions: List<com.ivy.base.legacy.Transaction>) :
+        ReportScreenEvent()
+
+    @Deprecated("Uses legacy Transaction")
+    data class SkipTransactionLegacy(val transaction: com.ivy.base.legacy.Transaction) :
+        ReportScreenEvent()
+
+    @Deprecated("Uses legacy Transaction")
+    data class OnPayOrGetLegacy(val transaction: com.ivy.base.legacy.Transaction) :
+        ReportScreenEvent()
 }

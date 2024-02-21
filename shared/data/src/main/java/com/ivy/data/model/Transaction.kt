@@ -74,16 +74,15 @@ data class TransactionMetadata(
     val loanRecordId: UUID?,
 )
 
-
 fun Transaction.getValue(): BigDecimal =
-    when(this){
+    when (this) {
         is Expense -> value.amount.value.toBigDecimal()
         is Income -> value.amount.value.toBigDecimal()
         is Transfer -> fromValue.amount.value.toBigDecimal()
-}
+    }
 
-fun Transaction.getAccountId() : UUID =
-    when(this){
+fun Transaction.getAccountId(): UUID =
+    when (this) {
         is Expense -> account.value
         is Income -> account.value
         is Transfer -> fromAccount.value

@@ -6,7 +6,6 @@ import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.toEntity
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import com.ivy.wallet.domain.pure.transaction.AccountValueFunctions
 import com.ivy.wallet.domain.pure.transaction.foldTransactions
@@ -14,7 +13,8 @@ import java.math.BigDecimal
 import javax.inject.Inject
 
 class CalcAccBalanceAct @Inject constructor(
-    private val accTrnsAct: AccTrnsAct, private val transactionMapper: TransactionMapper
+    private val accTrnsAct: AccTrnsAct,
+    private val transactionMapper: TransactionMapper
 ) : FPAction<CalcAccBalanceAct.Input, CalcAccBalanceAct.Output>() {
 
     override suspend fun Input.compose(): suspend () -> Output = suspend {
@@ -38,7 +38,8 @@ class CalcAccBalanceAct @Inject constructor(
     }
 
     data class Input(
-        val account: Account, val range: ClosedTimeRange = ClosedTimeRange.allTimeIvy()
+        val account: Account,
+        val range: ClosedTimeRange = ClosedTimeRange.allTimeIvy()
     )
 
     data class Output(

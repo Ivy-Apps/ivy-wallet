@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.viewModelScope
 import arrow.core.toOption
+import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.legacy.stringRes
@@ -18,10 +19,10 @@ import com.ivy.data.db.dao.write.WriteAccountDao
 import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
+import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.domain.ComposeViewModel
 import com.ivy.frp.then
 import com.ivy.legacy.IvyWalletCtx
-import com.ivy.base.legacy.SharedPrefs
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.legacy.datamodel.Account
@@ -43,8 +44,8 @@ import com.ivy.wallet.domain.action.account.CalcAccIncomeExpenseAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.exchange.ExchangeAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
-import com.ivy.wallet.domain.action.transaction.CalcTrnsIncomeExpenseAct
-import com.ivy.wallet.domain.action.transaction.TrnsWithDateDivsAct
+import com.ivy.wallet.domain.action.transaction.LegacyCalcTrnsIncomeExpenseAct
+import com.ivy.wallet.domain.action.transaction.LegacyTrnsWithDateDivsAct
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.deprecated.logic.WalletAccountLogic
@@ -76,16 +77,17 @@ class TransactionsViewModel @Inject constructor(
     private val categoriesAct: CategoriesAct,
     private val accountsAct: AccountsAct,
     private val accTrnsAct: AccTrnsAct,
-    private val trnsWithDateDivsAct: TrnsWithDateDivsAct,
+    private val trnsWithDateDivsAct: LegacyTrnsWithDateDivsAct,
     private val baseCurrencyAct: BaseCurrencyAct,
     private val calcAccBalanceAct: CalcAccBalanceAct,
     private val calcAccIncomeExpenseAct: CalcAccIncomeExpenseAct,
-    private val calcTrnsIncomeExpenseAct: CalcTrnsIncomeExpenseAct,
+    private val calcTrnsIncomeExpenseAct: LegacyCalcTrnsIncomeExpenseAct,
     private val exchangeAct: ExchangeAct,
     private val transactionWriter: WriteTransactionDao,
     private val categoryWriter: WriteCategoryDao,
     private val accountWriter: WriteAccountDao,
     private val plannedPaymentRuleWriter: WritePlannedPaymentRuleDao,
+    private val transactionMapper: TransactionMapper
 ) : ComposeViewModel<TransactionsState, TransactionsEvent>() {
 
     private val period = mutableStateOf(ivyContext.selectedPeriod)
@@ -369,15 +371,17 @@ class TransactionsViewModel @Inject constructor(
         expenses.doubleValue = incomeExpensePair.expense.toDouble()
 
         history.value = (
-            accTrnsAct then {
-                trnsWithDateDivsAct(
-                    TrnsWithDateDivsAct.Input(
-                        baseCurrency = baseCurrency.value,
-                        transactions = it
+                accTrnsAct then {
+                    trnsWithDateDivsAct(
+                        LegacyTrnsWithDateDivsAct.Input(
+                            baseCurrency = baseCurrency.value,
+                            transactions = with(transactionMapper) {
+                                it.map { it.toEntity().toDomain() }
+                            }
+                        )
                     )
-                )
-            }
-            )(
+                }
+                )(
             AccTrnsAct.Input(
                 accountId = initialAccount.id,
                 range = range.toCloseTimeRange()
@@ -611,14 +615,14 @@ class TransactionsViewModel @Inject constructor(
         val accountFilterIdSet = accountFilterList.toHashSet()
         val trans = transactions.filter {
             it.categoryId == null && (
-                accountFilterIdSet.contains(it.accountId) || accountFilterIdSet.contains(
-                    it.toAccountId
-                )
-                ) && it.type == TransactionType.TRANSFER
+                    accountFilterIdSet.contains(it.accountId) || accountFilterIdSet.contains(
+                        it.toAccountId
+                    )
+                    ) && it.type == TransactionType.TRANSFER
         }
 
         val historyIncomeExpense = calcTrnsIncomeExpenseAct(
-            CalcTrnsIncomeExpenseAct.Input(
+            LegacyCalcTrnsIncomeExpenseAct.Input(
                 transactions = trans,
                 accounts = accountFilterList.mapNotNull { accID -> accounts.value.find { it.id == accID } },
                 baseCurrency = baseCurrency.value
@@ -629,7 +633,7 @@ class TransactionsViewModel @Inject constructor(
         expenses.doubleValue = historyIncomeExpense.transferExpense.toDouble()
         balance.doubleValue = income.doubleValue - expenses.doubleValue
         history.value = trnsWithDateDivsAct(
-            TrnsWithDateDivsAct.Input(
+            LegacyTrnsWithDateDivsAct.Input(
                 baseCurrency = baseCurrency.value,
                 transactions = transactions
             )
@@ -790,7 +794,7 @@ class TransactionsViewModel @Inject constructor(
     private fun updateAccountDeletionState(confirmationText: String) {
         accountNameConfirmation.value = selectEndTextFieldValue(confirmationText)
         enableDeletionButton.value = account.value?.name == confirmationText ||
-            category.value?.name == confirmationText
+                category.value?.name == confirmationText
     }
 
     fun start(
@@ -826,7 +830,7 @@ class TransactionsViewModel @Inject constructor(
                 // unspecifiedCategory==false is explicitly checked to accommodate for a temp
                 // AccountTransfers Category during Reports Screen
                 screen.categoryId != null && screen.transactions.isNotEmpty() &&
-                    screen.unspecifiedCategory == false -> {
+                        screen.unspecifiedCategory == false -> {
                     initForCategoryWithTransactions(
                         screen.categoryId!!,
                         screen.accountIdFilterList,

@@ -8,11 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.TransactionRepository
-import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.domain.ComposeViewModel
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
-import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.utils.getDefaultFIATCurrency
 import com.ivy.legacy.utils.ioThread
 import com.ivy.wallet.domain.action.account.AccountsAct
@@ -34,7 +32,6 @@ class SearchViewModel @Inject constructor(
     private val categoriesAct: CategoriesAct,
     private val baseCurrencyAct: BaseCurrencyAct,
     private val transactionRepository: TransactionRepository,
-    private val transactionMapper: TransactionMapper,
 ) : ComposeViewModel<SearchState, SearchEvent>() {
 
     private val transactions =
@@ -79,11 +76,7 @@ class SearchViewModel @Inject constructor(
                 trnsWithDateDivsAct(
                     TrnsWithDateDivsAct.Input(
                         baseCurrency = baseCurrencyAct(Unit),
-                        transactions = with(transactionMapper) {
-                            return@with filteredTransactions.map {
-                                it.toEntity().toDomain()
-                            }
-                        }
+                        transactions = filteredTransactions
                     )
                 ).toImmutableList()
             }

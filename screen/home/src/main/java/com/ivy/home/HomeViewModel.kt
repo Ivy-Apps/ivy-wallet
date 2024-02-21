@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
+import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.domain.ComposeViewModel
 import com.ivy.frp.fixUnit
 import com.ivy.frp.then
@@ -23,6 +24,7 @@ import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Settings
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.legacy.domain.action.settings.UpdateSettingsAct
 import com.ivy.legacy.domain.action.viewmodel.home.ShouldHideIncomeAct
@@ -81,6 +83,7 @@ class HomeViewModel @Inject constructor(
     private val updateAccCacheAct: UpdateAccCacheAct,
     private val updateCategoriesCacheAct: UpdateCategoriesCacheAct,
     private val syncExchangeRatesAct: SyncExchangeRatesAct,
+    private val transactionMapper: TransactionMapper
 ) : ComposeViewModel<HomeState, HomeEvent>() {
     private val currentTheme = mutableStateOf(Theme.AUTO)
     private val name = mutableStateOf("")
@@ -266,8 +269,8 @@ class HomeViewModel @Inject constructor(
 
         Pair(settings, period.value.toRange(ivyContext.startDayOfMonth).toCloseTimeRange())
     } then ::loadAppBaseData then ::loadIncomeExpenseBalance then
-        ::loadBuffer then ::loadTrnHistory then
-        ::loadDueTrns thenInvokeAfter ::loadCustomerJourney
+            ::loadBuffer then ::loadTrnHistory then
+            ::loadDueTrns thenInvokeAfter ::loadCustomerJourney
 
     private suspend fun loadAppBaseData(
         input: Pair<Settings, ClosedTimeRange>
@@ -351,7 +354,11 @@ class HomeViewModel @Inject constructor(
         UpcomingAct.Input(baseCurrency = input.first, range = input.second)
     } then upcomingAct then { result ->
         upcoming.value = DueSection(
-            trns = result.upcomingTrns.toImmutableList(),
+            trns = with(transactionMapper) {
+                result.upcomingTrns.map {
+                    it.toEntity().toDomain()
+                }.toImmutableList()
+            },
             stats = result.upcoming,
             expanded = upcoming.value.expanded
         )
@@ -359,7 +366,11 @@ class HomeViewModel @Inject constructor(
         OverdueAct.Input(baseCurrency = input.first, toRange = input.second.to)
     } then overdueAct thenInvokeAfter { result ->
         overdue.value = DueSection(
-            trns = result.overdueTrns.toImmutableList(),
+            trns = with(transactionMapper) {
+                result.overdueTrns.map {
+                    it.toEntity().toDomain()
+                }.toImmutableList()
+            },
             stats = result.overdue,
             expanded = overdue.value.expanded
         )
@@ -422,7 +433,8 @@ class HomeViewModel @Inject constructor(
 
     private fun setBuffer(newBuffer: Double) {
         viewModelScope.launch {
-            val currentSettings = settingsAct.getSettings().copy(bufferAmount = newBuffer.toBigDecimal())
+            val currentSettings =
+                settingsAct.getSettings().copy(bufferAmount = newBuffer.toBigDecimal())
             updateSettingsAct(currentSettings)
             buffer.value = buffer.value.copy(amount = currentSettings.bufferAmount)
         }

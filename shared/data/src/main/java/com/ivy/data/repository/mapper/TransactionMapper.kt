@@ -151,8 +151,8 @@ class TransactionMapper @Inject constructor() {
         )
     }
 
-    fun Transaction.getTransactionType(): TransactionType{
-        return when(this){
+    fun Transaction.getTransactionType(): TransactionType {
+        return when (this) {
             is Expense -> TransactionType.EXPENSE
             is Income -> TransactionType.INCOME
             is Transfer -> TransactionType.TRANSFER
