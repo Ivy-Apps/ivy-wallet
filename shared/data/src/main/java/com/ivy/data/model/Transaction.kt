@@ -4,6 +4,7 @@ import com.ivy.data.model.common.Value
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.sync.Syncable
 import com.ivy.data.model.sync.UniqueId
+import java.math.BigDecimal
 import java.time.Instant
 import java.util.UUID
 
@@ -72,3 +73,18 @@ data class TransactionMetadata(
     // This refers to the loan record id that is linked with a transaction
     val loanRecordId: UUID?,
 )
+
+
+fun Transaction.getValue(): BigDecimal =
+    when(this){
+        is Expense -> value.amount.value.toBigDecimal()
+        is Income -> value.amount.value.toBigDecimal()
+        is Transfer -> fromValue.amount.value.toBigDecimal()
+}
+
+fun Transaction.getAccountId() : UUID =
+    when(this){
+        is Expense -> account.value
+        is Income -> account.value
+        is Transfer -> fromAccount.value
+    }

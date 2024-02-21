@@ -1,7 +1,12 @@
 package com.ivy.wallet.domain.pure.transaction
 
-import com.ivy.base.legacy.Transaction
 import com.ivy.base.model.TransactionType
+import com.ivy.data.db.dao.fake.FakeTransactionDao
+import com.ivy.data.model.Expense
+import com.ivy.data.model.Income
+import com.ivy.data.model.Transaction
+import com.ivy.data.model.Transfer
+import com.ivy.data.model.getAccountId
 import com.ivy.frp.SideEffect
 import com.ivy.legacy.datamodel.Account
 import com.ivy.wallet.domain.pure.exchange.ExchangeEffect
@@ -21,8 +26,8 @@ object WalletValueFunctions {
         transaction: Transaction,
         arg: Argument
     ): BigDecimal = with(transaction) {
-        when (type) {
-            TransactionType.INCOME -> exchangeInBaseCurrency(
+        when (this) {
+            is Income -> exchangeInBaseCurrency(
                 transaction = this,
                 accounts = arg.accounts,
                 baseCurrency = arg.baseCurrency,
@@ -37,18 +42,18 @@ object WalletValueFunctions {
         transaction: Transaction,
         arg: Argument
     ): BigDecimal = with(transaction) {
-        val condition = arg.accounts.any { it.id == this.toAccountId }
-        when {
-            type == TransactionType.TRANSFER && condition ->
-                exchangeInBaseCurrency(
-                    transaction = this.copy(
-                        amount = this.toAmount,
-                        accountId = this.toAccountId ?: this.accountId
-                    ), // Do not remove copy()
-                    accounts = arg.accounts,
-                    baseCurrency = arg.baseCurrency,
-                    exchange = arg.exchange
-                )
+        val condition = arg.accounts.any { it.id == this.getAccountId() }
+        if (!condition) {
+            return BigDecimal.ZERO
+        }
+
+        when (this) {
+            is Transfer -> exchangeInBaseCurrency(
+                transaction = this,
+                accounts = arg.accounts,
+                baseCurrency = arg.baseCurrency,
+                exchange = arg.exchange
+            )
 
             else -> BigDecimal.ZERO
         }
@@ -58,8 +63,8 @@ object WalletValueFunctions {
         transaction: Transaction,
         arg: Argument
     ): BigDecimal = with(transaction) {
-        when (type) {
-            TransactionType.EXPENSE -> exchangeInBaseCurrency(
+        when (this) {
+            is Expense -> exchangeInBaseCurrency(
                 transaction = this,
                 accounts = arg.accounts,
                 baseCurrency = arg.baseCurrency,
@@ -74,9 +79,12 @@ object WalletValueFunctions {
         transaction: Transaction,
         arg: Argument
     ): BigDecimal = with(transaction) {
-        val condition = arg.accounts.any { it.id == this.accountId }
-        when {
-            type == TransactionType.TRANSFER && condition -> exchangeInBaseCurrency(
+        val condition = arg.accounts.any { it.id == this.getAccountId() }
+        if (!condition) {
+            return BigDecimal.ZERO
+        }
+        when (this) {
+            is Transfer -> exchangeInBaseCurrency(
                 transaction = this,
                 accounts = arg.accounts,
                 baseCurrency = arg.baseCurrency,

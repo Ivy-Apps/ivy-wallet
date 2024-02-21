@@ -28,6 +28,6 @@ class TrnsWithDateDivsAct @Inject constructor(
 
     data class Input(
         val baseCurrency: String,
-        val transactions: List<Transaction>
+        val transactions: List<com.ivy.data.model.Transaction>
     )
 }

@@ -1,6 +1,7 @@
 package com.ivy.wallet.domain.action.category
 
-import com.ivy.base.legacy.Transaction
+import com.ivy.data.model.Transaction
+import com.ivy.data.model.getAccountId
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.legacy.datamodel.Account
@@ -16,12 +17,12 @@ class CategoryIncomeWithAccountFiltersAct @Inject constructor(
     override suspend fun Input.compose(): suspend () -> IncomeExpenseTransferPair = suspend {
         val accountFilterSet = accountFilterList.map { it.id }.toHashSet()
         transactions.filter {
-            it.categoryId == category?.id
+            it.category?.value == category?.id
         }.filter {
             if (accountFilterSet.isEmpty()) {
                 true
             } else {
-                accountFilterSet.contains(it.accountId)
+                accountFilterSet.contains(it.getAccountId())
             }
         }
     } then {

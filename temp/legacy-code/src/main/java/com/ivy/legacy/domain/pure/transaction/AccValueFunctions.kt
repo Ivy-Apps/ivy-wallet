@@ -1,7 +1,11 @@
 package com.ivy.wallet.domain.pure.transaction
 
-import com.ivy.base.legacy.Transaction
-import com.ivy.base.model.TransactionType
+import com.ivy.data.model.Expense
+import com.ivy.data.model.Income
+import com.ivy.data.model.Transaction
+import com.ivy.data.model.Transfer
+import com.ivy.data.model.getAccountId
+import com.ivy.data.model.getValue
 import java.math.BigDecimal
 import java.util.UUID
 
@@ -12,25 +16,27 @@ object AccountValueFunctions {
         transaction: Transaction,
         accountId: UUID
     ): BigDecimal = with(transaction) {
-        if (this.accountId == accountId) {
+        if (this.getAccountId() == accountId) {
             // Account's transactions
-            when (type) {
-                TransactionType.INCOME -> amount
-                TransactionType.EXPENSE -> amount.negate()
-                TransactionType.TRANSFER -> {
-                    if (toAccountId != accountId) {
+            when (this) {
+                is Income -> getValue()
+                is Expense -> getValue().negate()
+                is Transfer -> {
+                    if (this.toAccount.value != accountId) {
                         // transfer to another account
-                        amount.negate()
+                        getValue().negate()
                     } else {
                         // transfer to self
-                        toAmount.minus(amount)
+                        toValue.amount.value.toBigDecimal().minus(getValue())
                     }
                 }
             }
-        } else {
+        } else if (this is Transfer) {
             // potential transfer to account?
-            toAccountId?.takeIf { it == accountId } ?: return BigDecimal.ZERO
-            toAmount
+            this.toAccount.value.takeIf { it == getAccountId() } ?: return BigDecimal.ZERO
+            this.toValue.amount.value.toBigDecimal()
+        } else {
+            BigDecimal.ZERO
         }
     }
 
@@ -38,8 +44,8 @@ object AccountValueFunctions {
         transaction: Transaction,
         accountId: UUID
     ): BigDecimal = with(transaction) {
-        if (this.accountId == accountId && type == TransactionType.INCOME) {
-            amount
+        if (this.getAccountId() == accountId && this is Income) {
+            getValue()
         } else {
             BigDecimal.ZERO
         }
@@ -49,8 +55,8 @@ object AccountValueFunctions {
         transaction: Transaction,
         accountId: UUID
     ): BigDecimal = with(transaction) {
-        if (this.toAccountId == accountId && type == TransactionType.TRANSFER) {
-            toAmount
+        if (this.getAccountId() == accountId && this is Transfer) {
+            this.toValue.amount.value.toBigDecimal()
         } else {
             BigDecimal.ZERO
         }
@@ -60,8 +66,8 @@ object AccountValueFunctions {
         transaction: Transaction,
         accountId: UUID
     ): BigDecimal = with(transaction) {
-        if (this.accountId == accountId && type == TransactionType.EXPENSE) {
-            amount
+        if (this.getAccountId() == accountId && this is Expense) {
+            getValue()
         } else {
             BigDecimal.ZERO
         }
@@ -71,8 +77,8 @@ object AccountValueFunctions {
         transaction: Transaction,
         accountId: UUID
     ): BigDecimal = with(transaction) {
-        if (this.accountId == accountId && type == TransactionType.TRANSFER) {
-            amount
+        if (this.getAccountId() == accountId && this is Transfer) {
+            getValue()
         } else {
             BigDecimal.ZERO
         }
@@ -82,7 +88,7 @@ object AccountValueFunctions {
         transaction: Transaction,
         accountId: UUID
     ): BigDecimal = with(transaction) {
-        if (this.accountId == accountId && type == TransactionType.INCOME) {
+        if (this.getAccountId() == accountId && this is Income) {
             BigDecimal.ONE
         } else {
             BigDecimal.ZERO
@@ -93,7 +99,7 @@ object AccountValueFunctions {
         transaction: Transaction,
         accountId: UUID
     ): BigDecimal = with(transaction) {
-        if (this.accountId == accountId && type == TransactionType.EXPENSE) {
+        if (this.getAccountId() == accountId && this is Expense) {
             BigDecimal.ONE
         } else {
             BigDecimal.ZERO

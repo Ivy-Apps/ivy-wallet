@@ -2,16 +2,17 @@ package com.ivy.wallet.domain.pure.transaction
 
 import arrow.core.Option
 import arrow.core.toOption
-import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
+import com.ivy.base.time.convertToLocal
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.SettingsDao
+import com.ivy.data.model.Transaction
+import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
 import com.ivy.frp.then
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.temp.toDomain
-import com.ivy.legacy.utils.convertUTCtoLocal
 import com.ivy.legacy.utils.toEpochSeconds
 import com.ivy.wallet.domain.data.TransactionHistoryDateDivider
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
@@ -19,7 +20,7 @@ import com.ivy.wallet.domain.pure.exchange.ExchangeData
 import com.ivy.wallet.domain.pure.exchange.ExchangeTrnArgument
 import com.ivy.wallet.domain.pure.exchange.exchangeInBaseCurrency
 import java.math.BigDecimal
-import java.util.*
+import java.util.UUID
 
 @Deprecated("Migrate to actions")
 suspend fun List<Transaction>.withDateDividers(
@@ -44,7 +45,7 @@ suspend fun List<Transaction>.withDateDividers(
 
 @Pure
 suspend fun transactionsWithDateDividers(
-    transactions: List<Transaction>,
+    transactions: List<com.ivy.data.model.Transaction>,
     baseCurrencyCode: String,
 
     @SideEffect
@@ -53,9 +54,9 @@ suspend fun transactionsWithDateDividers(
     exchange: suspend (ExchangeData, BigDecimal) -> Option<BigDecimal>
 ): List<TransactionHistoryItem> {
     if (transactions.isEmpty()) return emptyList()
-
+    val transactionsMapper = TransactionMapper()
     return transactions
-        .groupBy { it.dateTime?.convertUTCtoLocal()?.toLocalDate() }
+        .groupBy { it.time.convertToLocal().toLocalDate() }
         .filterKeys { it != null }
         .toSortedMap { date1, date2 ->
             if (date1 == null || date2 == null) return@toSortedMap 0 // this case shouldn't happen
@@ -67,6 +68,11 @@ suspend fun transactionsWithDateDividers(
                 getAccount = getAccount,
                 exchange = exchange
             )
+
+            // Required to be interoperable with [TransactionHistoryItem]
+            val legacyTransactionsForDate = with(transactionsMapper) {
+                transactionsForDate.map { it.toEntity().toDomain() }
+            }
 
             listOf<TransactionHistoryItem>(
                 TransactionHistoryDateDivider(
@@ -82,6 +88,6 @@ suspend fun transactionsWithDateDividers(
                         arg
                     ).toDouble()
                 ),
-            ).plus(transactionsForDate)
+            ).plus(legacyTransactionsForDate)
         }
 }

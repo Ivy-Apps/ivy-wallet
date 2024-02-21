@@ -8,18 +8,19 @@ import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.viewModelScope
-import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
-import com.ivy.data.db.dao.read.TransactionDao
+import com.ivy.data.model.Expense
+import com.ivy.data.model.Income
+import com.ivy.data.repository.TransactionRepository
+import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.domain.ComposeViewModel
 import com.ivy.domain.RootScreen
 import com.ivy.frp.filterSuspend
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
-import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.utils.formatNicelyWithTime
 import com.ivy.legacy.utils.scopedIOThread
 import com.ivy.legacy.utils.timeNowUTC
@@ -49,12 +50,17 @@ import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.util.UUID
 import javax.inject.Inject
+import com.ivy.data.model.Transaction
+import com.ivy.data.model.Transfer
+import com.ivy.data.model.getValue
+import com.ivy.legacy.datamodel.temp.toDomain
+import java.time.ZoneId
 
 @Stable
 @HiltViewModel
 class ReportViewModel @Inject constructor(
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
-    private val transactionDao: TransactionDao,
+    private val transactionRepository: TransactionRepository,
     private val ivyContext: IvyWalletCtx,
     private val exportCSVLogic: ExportCSVLogic,
     private val exchangeAct: ExchangeAct,
@@ -62,7 +68,8 @@ class ReportViewModel @Inject constructor(
     private val categoriesAct: CategoriesAct,
     private val trnsWithDateDivsAct: TrnsWithDateDivsAct,
     private val calcTrnsIncomeExpenseAct: CalcTrnsIncomeExpenseAct,
-    private val baseCurrencyAct: BaseCurrencyAct
+    private val baseCurrencyAct: BaseCurrencyAct,
+    private val transactionMapper: TransactionMapper
 ) : ComposeViewModel<ReportScreenState, ReportScreenEvent>() {
     private val unSpecifiedCategory =
         Category(stringRes(R.string.unspecified), color = Gray.toArgb())
@@ -78,7 +85,8 @@ class ReportViewModel @Inject constructor(
     private val overdueIncome = mutableDoubleStateOf(0.0)
     private val overdueExpenses = mutableDoubleStateOf(0.0)
     private val history = mutableStateOf<ImmutableList<TransactionHistoryItem>>(persistentListOf())
-    private val upcomingTransactions = mutableStateOf<ImmutableList<Transaction>>(persistentListOf())
+    private val upcomingTransactions =
+        mutableStateOf<ImmutableList<Transaction>>(persistentListOf())
     private val overdueTransactions = mutableStateOf<ImmutableList<Transaction>>(persistentListOf())
     private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
     private val upcomingExpanded = mutableStateOf(false)
@@ -170,8 +178,7 @@ class ReportViewModel @Inject constructor(
             )
 
             val tempHistory = transactionsList
-                .filter { it.dateTime != null }
-                .sortedByDescending { it.dateTime }
+                .sortedByDescending { it.time }
 
             val historyWithDateDividers = scope.async {
                 trnsWithDateDivsAct(
@@ -191,10 +198,10 @@ class ReportViewModel @Inject constructor(
             )
 
             val tempIncome = historyIncomeExpense.value.income.toDouble() +
-                if (treatTransfersAsIncExp.value) historyIncomeExpense.value.transferIncome.toDouble() else 0.0
+                    if (treatTransfersAsIncExp.value) historyIncomeExpense.value.transferIncome.toDouble() else 0.0
 
             val tempExpenses = historyIncomeExpense.value.expense.toDouble() +
-                if (treatTransfersAsIncExp.value) historyIncomeExpense.value.transferExpense.toDouble() else 0.0
+                    if (treatTransfersAsIncExp.value) historyIncomeExpense.value.transferExpense.toDouble() else 0.0
 
             val tempBalance = calculateBalance(historyIncomeExpense.value).toDouble()
 
@@ -205,9 +212,10 @@ class ReportViewModel @Inject constructor(
             // Upcoming
             val upcomingTransactionsList = transactionsList
                 .filter {
-                    it.dueDate != null && it.dueDate!!.isAfter(timeNowUTC)
+                    !it.settled && it.time.atZone(ZoneId.systemDefault()).toLocalDateTime()
+                        .isAfter(timeNowUTC)
                 }
-                .sortedBy { it.dueDate }
+                .sortedBy { it.time }
                 .toImmutableList()
 
             val upcomingIncomeExpense = calcTrnsIncomeExpenseAct(
@@ -219,9 +227,10 @@ class ReportViewModel @Inject constructor(
             )
             // Overdue
             val overdue = transactionsList.filter {
-                it.dueDate != null && it.dueDate!!.isBefore(timeNowUTC)
+                !it.settled && it.time.atZone(ZoneId.systemDefault()).toLocalDateTime()
+                    .isBefore(timeNowUTC)
             }.sortedByDescending {
-                it.dueDate
+                it.time
             }.toImmutableList()
             val overdueIncomeExpense = calcTrnsIncomeExpenseAct(
                 CalcTrnsIncomeExpenseAct.Input(
@@ -247,7 +256,8 @@ class ReportViewModel @Inject constructor(
             transactions.value = transactionsList
             balance.doubleValue = tempBalance
             filterOverlayVisible.value = false
-            showTransfersAsIncExpCheckbox.value = reportFilter.trnTypes.contains(TransactionType.TRANSFER)
+            showTransfersAsIncExpCheckbox.value =
+                reportFilter.trnTypes.contains(TransactionType.TRANSFER)
         }
     }
 
@@ -261,30 +271,43 @@ class ReportViewModel @Inject constructor(
             filter.categories.map { if (it.id == unSpecifiedCategory.id) null else it.id }
         val filterRange = filter.period?.toRange(ivyContext.startDayOfMonth)
 
-        return transactionDao
+        return transactionRepository
             .findAll()
-            .map { it.toDomain() }
             .filter {
-                // Filter by Transaction Type
-                filter.trnTypes.contains(it.type)
+                with(transactionMapper) {
+                    filter.trnTypes.contains(it.getTransactionType())
+                }
             }
             .filter {
                 // Filter by Time Period
 
                 filterRange ?: return@filter false
 
-                it.dateTime != null && filterRange.includes(it.dateTime!!)
+                filterRange.includes(it.time.atZone(ZoneId.systemDefault()).toLocalDateTime())
             }
             .filter { trn ->
                 // Filter by Accounts
+                when (trn) {
+                    is Transfer -> {
+                        filterAccountIds.contains(trn.fromAccount.value) || // Transfers Out
+                                (filterAccountIds.contains(trn.toAccount.value)) // Transfers In
+                    }
 
-                filterAccountIds.contains(trn.accountId) || // Transfers Out
-                    (trn.toAccountId != null && filterAccountIds.contains(trn.toAccountId)) // Transfers In
+                    is Expense -> {
+                        filterAccountIds.contains(trn.account.value)
+                    }
+
+                    is Income -> {
+                        filterAccountIds.contains(trn.account.value)
+                    }
+                }
             }
             .filter { trn ->
                 // Filter by Categories
 
-                filterCategoryIds.contains(trn.categoryId) || (trn.type == TransactionType.TRANSFER)
+                filterCategoryIds.contains(trn.category?.value) || with(transactionMapper) {
+                    (trn.getTransactionType() == TransactionType.TRANSFER)
+                }
             }
             .filterSuspend {
                 // Filter by Amount
@@ -296,12 +319,12 @@ class ReportViewModel @Inject constructor(
                             baseCurrency = baseCurrency,
                             fromCurrency = trnCurrency(it, accounts, baseCurrency),
                         ),
-                        amount = it.amount
+                        amount =  it.getValue()
                     )
                 ).orZero().toDouble()
 
                 (filter.minAmount == null || trnAmountBaseCurrency >= filter.minAmount) &&
-                    (filter.maxAmount == null || trnAmountBaseCurrency <= filter.maxAmount)
+                        (filter.maxAmount == null || trnAmountBaseCurrency <= filter.maxAmount)
             }
             .filter {
                 // Filter by Included Keywords
@@ -309,17 +332,17 @@ class ReportViewModel @Inject constructor(
                 val includeKeywords = filter.includeKeywords
                 if (includeKeywords.isEmpty()) return@filter true
 
-                if (it.title != null && it.title!!.isNotEmpty()) {
+                it.title?.let { title ->
                     includeKeywords.forEach { keyword ->
-                        if (it.title!!.containsLowercase(keyword)) {
+                        if (title.toString().containsLowercase(keyword)) {
                             return@filter true
                         }
                     }
                 }
 
-                if (it.description != null && it.description!!.isNotEmpty()) {
+                it.description?.let { description ->
                     includeKeywords.forEach { keyword ->
-                        if (it.description!!.containsLowercase(keyword)) {
+                        if (description.toString().containsLowercase(keyword)) {
                             return@filter true
                         }
                     }
@@ -333,17 +356,16 @@ class ReportViewModel @Inject constructor(
                 val excludedKeywords = filter.excludeKeywords
                 if (excludedKeywords.isEmpty()) return@filter true
 
-                if (it.title != null && it.title!!.isNotEmpty()) {
+                it.title?.let { title ->
                     excludedKeywords.forEach { keyword ->
-                        if (it.title!!.containsLowercase(keyword)) {
+                        if (title.toString().containsLowercase(keyword)) {
                             return@filter false
                         }
                     }
                 }
-
-                if (it.description != null && it.description!!.isNotEmpty()) {
+                it.description?.let { description ->
                     excludedKeywords.forEach { keyword ->
-                        if (it.description!!.containsLowercase(keyword)) {
+                        if (description.toString().containsLowercase(keyword)) {
                             return@filter false
                         }
                     }
@@ -405,7 +427,9 @@ class ReportViewModel @Inject constructor(
 
     private suspend fun payOrGet(transaction: Transaction) {
         uiThread {
-            plannedPaymentsLogic.payOrGet(transaction = transaction) {
+            plannedPaymentsLogic.payOrGet(transaction = with(transactionMapper) {
+                transaction.toEntity().toDomain()
+            }) {
                 start()
                 setFilter(filter.value)
             }
@@ -418,16 +442,16 @@ class ReportViewModel @Inject constructor(
 
     private fun onTreatTransfersAsIncomeExpense(transfersAsIncExp: Boolean) {
         income.doubleValue = historyIncomeExpense.value.income.toDouble() +
-            if (transfersAsIncExp) historyIncomeExpense.value.transferIncome.toDouble() else 0.0
+                if (transfersAsIncExp) historyIncomeExpense.value.transferIncome.toDouble() else 0.0
         expenses.doubleValue = historyIncomeExpense.value.expense.toDouble() +
-            if (transfersAsIncExp) historyIncomeExpense.value.transferExpense.toDouble() else 0.0
+                if (transfersAsIncExp) historyIncomeExpense.value.transferExpense.toDouble() else 0.0
         treatTransfersAsIncExp.value = transfersAsIncExp
     }
 
     private suspend fun skipTransaction(transaction: Transaction) {
         uiThread {
             plannedPaymentsLogic.payOrGet(
-                transaction = transaction,
+                transaction = with(transactionMapper) { transaction.toEntity().toDomain() },
                 skipTransaction = true
             ) {
                 start()
@@ -439,7 +463,11 @@ class ReportViewModel @Inject constructor(
     private suspend fun skipTransactions(transactions: List<Transaction>) {
         uiThread {
             plannedPaymentsLogic.payOrGet(
-                transactions = transactions,
+                transactions = with(transactionMapper) {
+                    transactions.map {
+                        it.toEntity().toDomain()
+                    }
+                },
                 skipTransaction = true
             ) {
                 start()

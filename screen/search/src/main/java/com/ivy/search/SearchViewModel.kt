@@ -6,15 +6,18 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.TransactionHistoryItem
+import com.ivy.data.model.primitive.NotBlankTrimmedString
+import com.ivy.data.repository.TransactionRepository
+import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.domain.ComposeViewModel
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.utils.getDefaultFIATCurrency
 import com.ivy.legacy.utils.ioThread
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
-import com.ivy.wallet.domain.action.transaction.AllTrnsAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithDateDivsAct
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
@@ -30,7 +33,8 @@ class SearchViewModel @Inject constructor(
     private val accountsAct: AccountsAct,
     private val categoriesAct: CategoriesAct,
     private val baseCurrencyAct: BaseCurrencyAct,
-    private val allTrnsAct: AllTrnsAct
+    private val transactionRepository: TransactionRepository,
+    private val transactionMapper: TransactionMapper,
 ) : ComposeViewModel<SearchState, SearchEvent>() {
 
     private val transactions =
@@ -67,7 +71,7 @@ class SearchViewModel @Inject constructor(
 
         viewModelScope.launch {
             val queryResult = ioThread {
-                val filteredTransactions = allTrnsAct(Unit)
+                val filteredTransactions = transactionRepository.findAll()
                     .filter { transaction ->
                         transaction.title.matchesQuery(normalizedQuery) ||
                                 transaction.description.matchesQuery(normalizedQuery)
@@ -75,7 +79,11 @@ class SearchViewModel @Inject constructor(
                 trnsWithDateDivsAct(
                     TrnsWithDateDivsAct.Input(
                         baseCurrency = baseCurrencyAct(Unit),
-                        transactions = filteredTransactions
+                        transactions = with(transactionMapper) {
+                            return@with filteredTransactions.map {
+                                it.toEntity().toDomain()
+                            }
+                        }
                     )
                 ).toImmutableList()
             }
@@ -87,7 +95,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun String?.matchesQuery(query: String): Boolean {
-        return this?.lowercase()?.trim()?.contains(query) == true
+    private fun NotBlankTrimmedString?.matchesQuery(query: String): Boolean {
+        return this?.toString()?.lowercase()?.trim()?.contains(query) == true
     }
 }

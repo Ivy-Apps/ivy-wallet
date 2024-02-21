@@ -4,19 +4,23 @@ import arrow.core.Option
 import arrow.core.toOption
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.model.TransactionType
+import com.ivy.data.model.Expense
+import com.ivy.data.model.Income
+import com.ivy.data.model.getAccountId
+import com.ivy.data.model.getValue
 import com.ivy.frp.Pure
 import com.ivy.legacy.datamodel.Account
 import com.ivy.wallet.domain.pure.account.accountCurrency
 import java.time.LocalDate
 
 @Pure
-fun expenses(transactions: List<Transaction>): List<Transaction> {
-    return transactions.filter { it.type == TransactionType.EXPENSE }
+fun expenses(transactions: List<com.ivy.data.model.Transaction>): List<com.ivy.data.model.Transaction> {
+    return transactions.filterIsInstance<Expense>()
 }
 
 @Pure
-fun incomes(transactions: List<Transaction>): List<Transaction> {
-    return transactions.filter { it.type == TransactionType.INCOME }
+fun incomes(transactions: List<com.ivy.data.model.Transaction>): List<com.ivy.data.model.Transaction> {
+    return transactions.filterIsInstance<Income>()
 }
 
 @Pure
@@ -38,11 +42,13 @@ fun isOverdue(transaction: Transaction, dateNow: LocalDate): Boolean {
 
 @Pure
 fun trnCurrency(
-    transaction: Transaction,
+    transaction: com.ivy.data.model.Transaction,
     accounts: List<Account>,
     baseCurrency: String
 ): Option<String> {
-    val account = accounts.find { it.id == transaction.accountId }
+    val account = accounts.find {
+        it.id == transaction.getAccountId()
+    }
         ?: return baseCurrency.toOption()
     return accountCurrency(account, baseCurrency).toOption()
 }

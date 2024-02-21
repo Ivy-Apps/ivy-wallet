@@ -2,14 +2,16 @@ package com.ivy.wallet.domain.pure.exchange
 
 import arrow.core.Option
 import arrow.core.toOption
-import com.ivy.base.legacy.Transaction
+import com.ivy.data.model.Transaction
+import com.ivy.data.model.getAccountId
+import com.ivy.data.model.getValue
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
 import com.ivy.legacy.datamodel.Account
 import com.ivy.wallet.domain.pure.account.accountCurrency
 import com.ivy.wallet.domain.pure.transaction.trnCurrency
 import java.math.BigDecimal
-import java.util.*
+import java.util.UUID
 
 typealias ExchangeEffect = suspend (ExchangeData, BigDecimal) -> Option<BigDecimal>
 
@@ -26,7 +28,7 @@ suspend fun exchangeInBaseCurrency(
     transaction: Transaction,
     arg: ExchangeTrnArgument
 ): BigDecimal {
-    val fromCurrency = arg.getAccount(transaction.accountId)?.let {
+    val fromCurrency = arg.getAccount(transaction.getAccountId())?.let {
         accountCurrency(it, arg.baseCurrency)
     }.toOption()
 
@@ -71,7 +73,7 @@ suspend fun exchangeInCurrency(
             fromCurrency = trnCurrency(transaction, accounts, baseCurrency),
             toCurrency = toCurrency
         ),
-        transaction.amount
+        transaction.getValue()
     ).orNull() ?: BigDecimal.ZERO
 }
 
@@ -90,6 +92,6 @@ suspend fun exchangeInCurrency(
             fromCurrency = trnCurrency,
             toCurrency = toCurrency
         ),
-        transaction.amount
+        transaction.getValue()
     ).orNull() ?: BigDecimal.ZERO
 }
