@@ -1,6 +1,7 @@
 package com.ivy.wallet.domain.action.account
 
 import arrow.core.nonEmptyListOf
+import com.ivy.data.model.Account
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
@@ -32,12 +33,12 @@ class CalcAccBalanceAct @Inject constructor(
     }
 
     data class Input(
-        val account: com.ivy.data.model.Account,
+        val account: Account,
         val range: ClosedTimeRange = ClosedTimeRange.allTimeIvy()
     )
 
     data class Output(
-        val account: com.ivy.data.model.Account,
+        val account: Account,
         val balance: BigDecimal,
     )
 }
