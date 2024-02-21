@@ -7,7 +7,6 @@ import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
-import com.ivy.data.repository.AccountRepository
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenFilter
 import com.ivy.frp.action.thenMap
@@ -37,15 +36,17 @@ class CalcWalletBalanceAct @Inject constructor(
             calcAccBalanceAct(
                 CalcAccBalanceAct.Input(
                     account = Account(
-                        AccountId(account.id),
-                        NotBlankTrimmedString(account.name),
-                        AssetCode(account.currency ?: baseCurrency),
-                        ColorInt(account.color),
-                        account.icon?.let { IconAsset(it) },
-                        account.includeInBalance,
-                        account.orderNum,
-                        Instant.EPOCH,
-                        account.isDeleted
+                        id = AccountId(account.id),
+                        name = NotBlankTrimmedString.from(account.name).getOrNull()
+                            ?: error("account name cannot be blank"),
+                        asset = AssetCode.from(account.currency ?: baseCurrency).getOrNull()
+                            ?: error("account currency cannot be blank"),
+                        color = ColorInt(account.color),
+                        icon = account.icon?.let { IconAsset(it) },
+                        includeInBalance = account.includeInBalance,
+                        orderNum = account.orderNum,
+                        lastUpdated = Instant.EPOCH,
+                        removed = account.isDeleted
                     ),
                     range = range
                 )

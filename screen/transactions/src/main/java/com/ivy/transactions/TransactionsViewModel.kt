@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.viewModelScope
 import arrow.core.toOption
+import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.legacy.stringRes
@@ -18,18 +19,17 @@ import com.ivy.data.db.dao.write.WriteAccountDao
 import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
-import com.ivy.domain.ComposeViewModel
-import com.ivy.frp.then
-import com.ivy.legacy.IvyWalletCtx
-import com.ivy.base.legacy.SharedPrefs
+import com.ivy.data.model.Account
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
+import com.ivy.domain.ComposeViewModel
+import com.ivy.frp.then
+import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.data.model.toCloseTimeRange
-import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
@@ -65,6 +65,7 @@ import kotlinx.coroutines.launch
 import java.time.Instant
 import java.util.UUID
 import javax.inject.Inject
+import com.ivy.legacy.datamodel.Account as LegacyAccount
 
 @Stable
 @HiltViewModel
@@ -96,7 +97,7 @@ class TransactionsViewModel @Inject constructor(
 
     private val period = mutableStateOf(ivyContext.selectedPeriod)
     private val categories = mutableStateOf<ImmutableList<Category>>(persistentListOf())
-    private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
+    private val accounts = mutableStateOf<ImmutableList<LegacyAccount>>(persistentListOf())
     private val baseCurrency = mutableStateOf("")
     private val currency = mutableStateOf("")
     private val balance = mutableDoubleStateOf(0.0)
@@ -120,7 +121,7 @@ class TransactionsViewModel @Inject constructor(
     private val history =
         mutableStateOf<ImmutableList<TransactionHistoryItem>>(persistentListOf())
 
-    private val account = mutableStateOf<Account?>(null)
+    private val account = mutableStateOf<LegacyAccount?>(null)
     private val category = mutableStateOf<Category?>(null)
     private val initWithTransactions = mutableStateOf(false)
     private val treatTransfersAsIncomeExpense = mutableStateOf(false)
@@ -174,7 +175,7 @@ class TransactionsViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getAccount(): Account? {
+    private fun getAccount(): LegacyAccount? {
         return account.value
     }
 
@@ -189,7 +190,7 @@ class TransactionsViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getAccounts(): ImmutableList<Account> {
+    private fun getAccounts(): ImmutableList<LegacyAccount> {
         return accounts.value
     }
 
@@ -341,16 +342,18 @@ class TransactionsViewModel @Inject constructor(
             currency.value = initialAccount.currency!!
         }
 
-        val account = com.ivy.data.model.Account(
-            AccountId(initialAccount.id),
-            NotBlankTrimmedString(initialAccount.name),
-            AssetCode(initialAccount.currency ?: baseCurrency.value),
-            ColorInt(initialAccount.color),
-            initialAccount.icon?.let { IconAsset(it) },
-            initialAccount.includeInBalance,
-            initialAccount.orderNum,
-            Instant.EPOCH,
-            initialAccount.isDeleted
+        val account = Account(
+            id = AccountId(initialAccount.id),
+            name = NotBlankTrimmedString.from(initialAccount.name).getOrNull()
+                ?: error("account name cannot be blank"),
+            asset = AssetCode.from(initialAccount.currency ?: baseCurrency.value).getOrNull()
+                ?: error("account currency cannot be blank"),
+            color = ColorInt(initialAccount.color),
+            icon = initialAccount.icon?.let { IconAsset(it) },
+            includeInBalance = initialAccount.includeInBalance,
+            orderNum = initialAccount.orderNum,
+            lastUpdated = Instant.EPOCH,
+            removed = initialAccount.isDeleted
         )
 
         val balanceValue = calcAccBalanceAct(
@@ -752,7 +755,11 @@ class TransactionsViewModel @Inject constructor(
         }
     }
 
-    private fun editAccount(screen: TransactionsScreen, account: Account, newBalance: Double) {
+    private fun editAccount(
+        screen: TransactionsScreen,
+        account: LegacyAccount,
+        newBalance: Double
+    ) {
         viewModelScope.launch {
             accountCreator.editAccount(account, newBalance) {
                 start(

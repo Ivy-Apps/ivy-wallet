@@ -37,7 +37,6 @@ import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
-import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.horizontalSwipeListener
 import com.ivy.legacy.utils.rememberInteractionSource
@@ -47,9 +46,7 @@ import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Green
-import com.ivy.wallet.ui.theme.GreenDark
 import com.ivy.wallet.ui.theme.GreenLight
-import com.ivy.wallet.ui.theme.IvyDark
 import com.ivy.wallet.ui.theme.components.BalanceRow
 import com.ivy.wallet.ui.theme.components.BalanceRowMini
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
