@@ -124,12 +124,6 @@ class AccountsViewModel @Inject constructor(
         ioThread {
             newOrder.mapIndexed { index, accountData ->
                 accountRepository.save(accountData.account.copy(orderNum = index.toDouble()))
-//                accountWriter.save(
-//                    accountData.account.toEntity().copy(
-//                        orderNum = index.toDouble(),
-//                        isSynced = false
-//                    )
-//                )
             }
         }
 
