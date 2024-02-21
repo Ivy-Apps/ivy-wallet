@@ -12,6 +12,10 @@
 - [Domain Modeling Made Functional](https://youtu.be/2JB1_e5wZmU) [Scott Wlaschin]
 - [The Grug Brained Developer - reaction](https://www.youtube.com/watch?v=0KFiDK9r4UI) [ThePrimeTime]
 
+## Math
+
+- [Categories for the Working Hacker](https://youtu.be/gui_SE8rJUM?si=nBHmCInfNI65q2x7) [Philip Wadler]
+
 ## Kotlin Flows
 
 - [Kotlin Flows in Practice](https://www.youtube.com/watch?v=fSB6_KE95bU) [Android Developers]
