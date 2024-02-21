@@ -19,12 +19,8 @@ import com.ivy.data.db.dao.write.WriteAccountDao
 import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
-import com.ivy.data.model.Account
 import com.ivy.data.model.AccountId
-import com.ivy.data.model.primitive.AssetCode
-import com.ivy.data.model.primitive.ColorInt
-import com.ivy.data.model.primitive.IconAsset
-import com.ivy.data.model.primitive.NotBlankTrimmedString
+import com.ivy.data.repository.AccountRepository
 import com.ivy.domain.ComposeViewModel
 import com.ivy.frp.then
 import com.ivy.legacy.IvyWalletCtx
@@ -62,7 +58,6 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
-import java.time.Instant
 import java.util.UUID
 import javax.inject.Inject
 import com.ivy.legacy.datamodel.Account as LegacyAccount
@@ -70,6 +65,7 @@ import com.ivy.legacy.datamodel.Account as LegacyAccount
 @Stable
 @HiltViewModel
 class TransactionsViewModel @Inject constructor(
+    private val accountRepository: AccountRepository,
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
     private val ivyContext: IvyWalletCtx,
@@ -342,19 +338,7 @@ class TransactionsViewModel @Inject constructor(
             currency.value = initialAccount.currency!!
         }
 
-        val account = Account(
-            id = AccountId(initialAccount.id),
-            name = NotBlankTrimmedString.from(initialAccount.name).getOrNull()
-                ?: error("account name cannot be blank"),
-            asset = AssetCode.from(initialAccount.currency ?: baseCurrency.value).getOrNull()
-                ?: error("account currency cannot be blank"),
-            color = ColorInt(initialAccount.color),
-            icon = initialAccount.icon?.let { IconAsset(it) },
-            includeInBalance = initialAccount.includeInBalance,
-            orderNum = initialAccount.orderNum,
-            lastUpdated = Instant.EPOCH,
-            removed = initialAccount.isDeleted
-        )
+        val account = accountRepository.findById(AccountId(accountId)) ?: error("account not found")
 
         val balanceValue = calcAccBalanceAct(
             CalcAccBalanceAct.Input(
