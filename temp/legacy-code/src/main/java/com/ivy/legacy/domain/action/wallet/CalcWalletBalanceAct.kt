@@ -1,6 +1,12 @@
 package com.ivy.wallet.domain.action.wallet
 
 import arrow.core.toOption
+import com.ivy.data.model.Account
+import com.ivy.data.model.AccountId
+import com.ivy.data.model.primitive.AssetCode
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.IconAsset
+import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenFilter
 import com.ivy.frp.action.thenMap
@@ -12,6 +18,7 @@ import com.ivy.wallet.domain.action.exchange.ExchangeAct
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import com.ivy.wallet.domain.pure.exchange.ExchangeData
 import java.math.BigDecimal
+import java.time.Instant
 import javax.inject.Inject
 
 class CalcWalletBalanceAct @Inject constructor(
@@ -25,10 +32,22 @@ class CalcWalletBalanceAct @Inject constructor(
     private suspend fun Input.recipe(): suspend (Unit) -> BigDecimal =
         accountsAct thenFilter {
             withExcluded || it.includeInBalance
-        } thenMap {
+        } thenMap { account ->
             calcAccBalanceAct(
                 CalcAccBalanceAct.Input(
-                    account = it,
+                    account = Account(
+                        id = AccountId(account.id),
+                        name = NotBlankTrimmedString.from(account.name).getOrNull()
+                            ?: error("account name cannot be blank"),
+                        asset = AssetCode.from(account.currency ?: baseCurrency).getOrNull()
+                            ?: error("account currency cannot be blank"),
+                        color = ColorInt(account.color),
+                        icon = account.icon?.let { IconAsset(it) },
+                        includeInBalance = account.includeInBalance,
+                        orderNum = account.orderNum,
+                        lastUpdated = Instant.EPOCH,
+                        removed = account.isDeleted
+                    ),
                     range = range
                 )
             )
@@ -37,7 +56,7 @@ class CalcWalletBalanceAct @Inject constructor(
                 ExchangeAct.Input(
                     data = ExchangeData(
                         baseCurrency = baseCurrency,
-                        fromCurrency = (it.account.currency ?: baseCurrency).toOption(),
+                        fromCurrency = (it.account.asset.code).toOption(),
                         toCurrency = balanceCurrency
                     ),
                     amount = it.balance

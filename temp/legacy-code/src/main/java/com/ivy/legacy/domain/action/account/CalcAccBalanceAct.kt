@@ -3,9 +3,9 @@ package com.ivy.wallet.domain.action.account
 import arrow.core.nonEmptyListOf
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.repository.mapper.TransactionMapper
+import com.ivy.data.model.Account
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
-import com.ivy.legacy.datamodel.Account
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import com.ivy.wallet.domain.pure.transaction.AccountValueFunctions
 import com.ivy.wallet.domain.pure.transaction.foldTransactions
@@ -19,7 +19,7 @@ class CalcAccBalanceAct @Inject constructor(
 
     override suspend fun Input.compose(): suspend () -> Output = suspend {
         AccTrnsAct.Input(
-            accountId = account.id, range = range
+            accountId = account.id.value, range = range
         )
     } then accTrnsAct then { accTrns ->
         foldTransactions(
@@ -28,7 +28,7 @@ class CalcAccBalanceAct @Inject constructor(
                     it.toEntity().toDomain(AssetCode("NGN")).getOrNull()
                 }.filterNotNull()
             },
-            arg = account.id,
+            arg = account.id.value,
             valueFunctions = nonEmptyListOf(AccountValueFunctions::balance)
         ).head
     } then { balance ->

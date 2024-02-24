@@ -17,13 +17,13 @@ class CalcAccIncomeExpenseAct @Inject constructor(
 
     override suspend fun Input.compose(): suspend () -> Output = suspend {
         AccTrnsAct.Input(
-            accountId = account.id,
+            accountId = account.id.value,
             range = range
         )
     } then accTrnsAct then { accTrns ->
         foldTransactions(
             transactions = accTrns,
-            arg = account.id,
+            arg = account.id.value,
             valueFunctions = nonEmptyListOf(
                 AccountValueFunctions::income,
                 AccountValueFunctions::expense,
@@ -42,13 +42,13 @@ class CalcAccIncomeExpenseAct @Inject constructor(
     }
 
     data class Input(
-        val account: Account,
+        val account: com.ivy.data.model.Account,
         val range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
         val includeTransfersInCalc: Boolean = false
     )
 
     data class Output(
-        val account: Account,
+        val account: com.ivy.data.model.Account,
         val incomeExpensePair: IncomeExpensePair
     )
 }

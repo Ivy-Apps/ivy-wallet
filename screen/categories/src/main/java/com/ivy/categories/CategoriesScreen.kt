@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -38,6 +39,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ivy.common.ui.rememberScrollPositionListState
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.datamodel.Category
@@ -90,12 +92,21 @@ private fun BoxWithConstraintsScope.UI(
     onEvent: (CategoriesScreenEvent) -> Unit = {}
 ) {
     val nav = navigation()
-
+    val ivyContext = com.ivy.legacy.ivyWalletCtx()
+    var listState = rememberLazyListState()
+    if (!state.categories.isEmpty()) {
+        listState = rememberScrollPositionListState(
+            key = "categories_lazy_column",
+            initialFirstVisibleItemIndex = ivyContext.categoriesListState?.firstVisibleItemIndex ?: 0,
+            initialFirstVisibleItemScrollOffset = ivyContext.categoriesListState?.firstVisibleItemScrollOffset ?: 0
+        )
+    }
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .statusBarsPadding()
             .navigationBarsPadding(),
+        state = listState
     ) {
         item {
             Spacer(Modifier.height(32.dp))

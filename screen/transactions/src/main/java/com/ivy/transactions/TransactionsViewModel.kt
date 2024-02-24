@@ -19,13 +19,14 @@ import com.ivy.data.db.dao.write.WriteAccountDao
 import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
+import com.ivy.data.model.AccountId
+import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.domain.ComposeViewModel
 import com.ivy.frp.then
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.data.model.toCloseTimeRange
-import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
@@ -60,10 +61,12 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
+import com.ivy.legacy.datamodel.Account as LegacyAccount
 
 @Stable
 @HiltViewModel
 class TransactionsViewModel @Inject constructor(
+    private val accountRepository: AccountRepository,
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
     private val ivyContext: IvyWalletCtx,
@@ -92,7 +95,7 @@ class TransactionsViewModel @Inject constructor(
 
     private val period = mutableStateOf(ivyContext.selectedPeriod)
     private val categories = mutableStateOf<ImmutableList<Category>>(persistentListOf())
-    private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
+    private val accounts = mutableStateOf<ImmutableList<LegacyAccount>>(persistentListOf())
     private val baseCurrency = mutableStateOf("")
     private val currency = mutableStateOf("")
     private val balance = mutableDoubleStateOf(0.0)
@@ -116,7 +119,7 @@ class TransactionsViewModel @Inject constructor(
     private val history =
         mutableStateOf<ImmutableList<TransactionHistoryItem>>(persistentListOf())
 
-    private val account = mutableStateOf<Account?>(null)
+    private val account = mutableStateOf<LegacyAccount?>(null)
     private val category = mutableStateOf<Category?>(null)
     private val initWithTransactions = mutableStateOf(false)
     private val treatTransfersAsIncomeExpense = mutableStateOf(false)
@@ -170,7 +173,7 @@ class TransactionsViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getAccount(): Account? {
+    private fun getAccount(): LegacyAccount? {
         return account.value
     }
 
@@ -185,7 +188,7 @@ class TransactionsViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getAccounts(): ImmutableList<Account> {
+    private fun getAccounts(): ImmutableList<LegacyAccount> {
         return accounts.value
     }
 
@@ -337,11 +340,11 @@ class TransactionsViewModel @Inject constructor(
             currency.value = initialAccount.currency!!
         }
 
-        val account = account.value
+        val account = accountRepository.findById(AccountId(accountId)) ?: error("account not found")
 
         val balanceValue = calcAccBalanceAct(
             CalcAccBalanceAct.Input(
-                account = initialAccount
+                account = account
             )
         ).balance.toDouble()
         balance.doubleValue = balanceValue
@@ -362,7 +365,7 @@ class TransactionsViewModel @Inject constructor(
 
         val incomeExpensePair = calcAccIncomeExpenseAct(
             CalcAccIncomeExpenseAct.Input(
-                account = initialAccount,
+                account = account,
                 range = range.toCloseTimeRange(),
                 includeTransfersInCalc = includeTransfersInCalc
             )
@@ -740,7 +743,11 @@ class TransactionsViewModel @Inject constructor(
         }
     }
 
-    private fun editAccount(screen: TransactionsScreen, account: Account, newBalance: Double) {
+    private fun editAccount(
+        screen: TransactionsScreen,
+        account: LegacyAccount,
+        newBalance: Double
+    ) {
         viewModelScope.launch {
             accountCreator.editAccount(account, newBalance) {
                 start(
