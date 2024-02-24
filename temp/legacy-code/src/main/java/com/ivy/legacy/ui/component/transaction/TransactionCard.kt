@@ -245,12 +245,19 @@ private fun TransactionHeaderRow(
 ) {
     val nav = navigation()
 
+    val category = category(
+        categoryId = transaction.categoryId,
+        categories = categories
+    )
+
     if (transaction.type == TransactionType.TRANSFER) {
         Column(
             modifier = Modifier.padding(horizontal = 20.dp),
         ) {
-            CategoryBadgeDisplay(transaction, categories, nav)
-            Spacer(modifier = Modifier.height(8.dp))
+            if (category != null) {
+                CategoryBadgeDisplay(transaction, category, categories, nav)
+                Spacer(modifier = Modifier.height(8.dp))
+            }
             TransferHeader(
                 accounts = accounts,
                 transaction = transaction
@@ -261,7 +268,9 @@ private fun TransactionHeaderRow(
             modifier = Modifier.padding(horizontal = 20.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            CategoryBadgeDisplay(transaction, categories, nav)
+            if (category != null) {
+                CategoryBadgeDisplay(transaction, category, categories, nav)
+            }
 
             val account = account(
                 accountId = transaction.accountId,
@@ -290,32 +299,27 @@ private fun TransactionHeaderRow(
 @Composable
 fun CategoryBadgeDisplay(
     transaction: Transaction,
+    category: Category,
     categories: List<Category>,
     nav: Navigation,
+) {
+
+    TransactionBadge(
+        text = category.name,
+        backgroundColor = category.color.toComposeColor(),
+        icon = category.icon,
+        defaultIcon = R.drawable.ic_custom_category_s
     ) {
-    val category = category(
-        categoryId = transaction.categoryId,
-        categories = categories
-    )
-
-    if (category != null) {
-        TransactionBadge(
-            text = category.name,
-            backgroundColor = category.color.toComposeColor(),
-            icon = category.icon,
-            defaultIcon = R.drawable.ic_custom_category_s
-        ) {
-            // Navigation logic
-            nav.navigateTo(
-                TransactionsScreen(
-                    accountId = null,
-                    categoryId = category.id
-                )
+        // Navigation logic
+        nav.navigateTo(
+            TransactionsScreen(
+                accountId = null,
+                categoryId = category.id
             )
-        }
-
-        Spacer(Modifier.width(12.dp))
+        )
     }
+
+    Spacer(Modifier.width(12.dp))
 }
 
 
