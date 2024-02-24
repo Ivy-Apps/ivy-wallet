@@ -54,8 +54,8 @@
     <string name="convert_xls_to_csv_description">!HINWEIS: Wenn die exportierte Datei nicht die Erweiterung ".xls" hat, füge sie hinzu, indem du die Datei manuell umbenennst.</string>
     <string name="online_csv_converter_free">Online CSV-Konverter KOSTENLOS</string>
     <string name="check_email_spam">Überprüfe die "Werbung"- und "Spam"-Ordner in deiner E-Mail</string>
-    <string name="download_email_file">Lade die Datei \"transactions_export...\" herunter, die der E-Mail angehängt ist.</string>
-    <string name="download_email_file_description">Wenn du mehr als eine Währung hast, musst du jede \"transactions_export...\"-Datei herunterladen und sie in Ivy importieren.</string>
+    <string name="download_email_file">Lade die Datei \"transactions_export…\" herunter, die der E-Mail angehängt ist.</string>
+    <string name="download_email_file_description">Wenn du mehr als eine Währung hast, musst du jede \"transactions_export…\"-Datei herunterladen und sie in Ivy importieren.</string>
     <string name="import_from">Importieren von</string>
     <string name="please_wait">Bitte warten</string>
     <string name="importing_the_csv_file">Importieren der CSV-Datei</string>
@@ -329,7 +329,7 @@
     <string name="edit_name">Name bearbeiten</string>
     <string name="plan_for">Plan für</string>
     <string name="one_time">Einmalig</string>
-    <string name="multiple_times">Mehrmalig</string>
+    <string name="multiple_times">Wiederkehrend</string>
     <string name="starts_on">Startet am</string>
     <string name="repeats_every_text">Wiederholt sich alle</string>
     <string name="submit">Einreichen</string>
