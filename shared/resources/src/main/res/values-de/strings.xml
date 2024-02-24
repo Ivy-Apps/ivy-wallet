@@ -171,7 +171,7 @@
     <string name="data_integrity_protection_warning">Die Integrität und der Schutz der Daten sind nicht garantiert!</string>
     <string name="or_enter_with_offline_account">ODER MIT OFFLINE-KONTO WEITERGEHEN</string>
     <string name="offline_warning">Deine Daten werden lokal gespeichert (nur auf deinem Handy) und werden nicht mit der Cloud synchronisiert. Du riskierst, sie zu verlieren, wenn du die App deinstallierst oder dein Gerät wechselst. Du kannst die Synchronisierung später immer noch aktivieren, wenn du das möchtest.</string>
-    <string name="terms_conditions"><![CDATA[Terms & Conditions]]></string>
+    <string name="terms_conditions"><![CDATA[Bedingungen]]></string>
     <string name="by_signing_in">Mit der Anmeldung erklärst du dich mit unseren %1$s und %2$s einverstanden.</string>
     <string name="import_csv_file">CSV-Datei importieren</string>
     <string name="from_ivy_or_another_app">von Ivy oder einer anderen App</string>
@@ -235,7 +235,7 @@
     <string name="set_filter">Filter festlegen</string>
     <string name="export">Exportieren</string>
     <string name="no_transactions_for_query">Du hast keine Transaktionen für die Abfrage "%1$s".</string>
-    <string name="import_export"><![CDATA[Import & Export]]></string>
+    <string name="import_export"><![CDATA[Importieren & Exportieren]]></string>
     <string name="backup_data">Daten sichern</string>
     <string name="import_data">Daten importieren</string>
     <string name="app_settings">App-Einstellungen</string>
@@ -351,8 +351,8 @@
     <string name="cash">Bargeld</string>
     <string name="bank">Bank</string>
     <string name="revoult">Revolut</string>
-    <string name="food_drinks"><![CDATA[Food & Drinks]]></string>
-    <string name="bills_fees"><![CDATA[Bills & Fees]]></string>
+    <string name="food_drinks"><![CDATA[Essen & Getränke]]></string>
+    <string name="bills_fees"><![CDATA[Rechnungen & Gebühren]]></string>
     <string name="transport">Transport</string>
     <string name="groceries">Lebensmittel</string>
     <string name="entertainment">Unterhaltung</string>
@@ -376,7 +376,7 @@
     <string name="sports">Sport</string>
     <string name="adjust_initial_balance">Passe deine Anfangsbilanz an</string>
     <string name="to_accounts">Zu Konten</string>
-    <string name="adjust_initial_balance_description"><![CDATA[Let\'s get started. Go to \"Accounts\" -> Tap an account -> Tap its balance -> Enter current balance. That\'s it!]]></string>
+    <string name="adjust_initial_balance_description"><![CDATA[Los geht's. Geh zu \"Konten\" -> Tippe auf ein Konto -> Tippe auf den Kontostand -> Gib den aktuellen Kontostand ein. Das war's!]]></string>
     <string name="create_first_planned_payment">Erstelle deine erste geplante Zahlung</string>
     <string name="create_first_planned_payment_description">Automatisiere die Verfolgung von wiederkehrenden Transaktionen wie Abonnements, Miete, Gehalt usw. Behalte den Überblick über deine Finanzen, indem du weißt, wie viel du im Voraus bezahlen/bekommen musst.</string>
     <string name="did_you_know">Wusstest du schon?</string>
@@ -426,7 +426,7 @@
     <string name="month">Monat</string>
     <string name="years">Jahre</string>
     <string name="year">Jahr</string>
-    <string name="transfers_as_income_expense"><![CDATA[Transfers as income & expenses]]></string>
+    <string name="transfers_as_income_expense"><![CDATA[Überträge als Einkommen & Kosten]]></string>
     <string name="transfers_as_income_expense_description">Behandelt Kontoüberträge als Einkommen oder Kosten im Kontenbild</string>
     <string name="home_category">Home</string>
     <string name="generating_report">Bericht wird generiert…</string>
