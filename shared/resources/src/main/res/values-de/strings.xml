@@ -138,10 +138,10 @@
     <string name="add_income_uppercase">EINKOMMEN HINZUFÜGEN</string>
     <string name="add_expense_uppercase">KOSTEN HINZUFÜGEN</string>
     <string name="account_transfer">KONTOÜBERTRAG</string>
-    <string name="skip">Skip</string>
-    <string name="add_new">Add new</string>
-    <string name="from_date">From %1$s</string>
-    <string name="to_date">To %1$s</string>
+    <string name="skip">Überspringen</string>
+    <string name="add_new">Neu hinzufügen</string>
+    <string name="from_date">Von %1$s</string>
+    <string name="to_date">Bis %1$s</string>
     <string name="range">Range</string>
     <string name="privacy_and_data_collection">Privacy and\ndata collection</string>
     <string name="swipe_to_agree_terms_conditions">Swipe to agree with our Terms and conditions</string>
