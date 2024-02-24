@@ -114,7 +114,7 @@
     <string name="no_loans_description">Du hast keine Darlehen.\nTippe auf \"+ Darlehen hinzufügen\", um eines hinzuzufügen.</string>
     <string name="loan_confirm_deletion_description">Hinweis: Wenn du dieses Darlehen löschst, wird es dauerhaft entfernt und alle damit verbundenen Darlehenseinträge werden gelöscht.</string>
     <string name="confirm_account_loan_change">Bitte warten, alle Darlehenseinträge werden neu berechnet</string>
-    <string name="paid">Gezahlt</string>
+    <string name="paid">Bezahlt</string>
     <string name="left_to_pay">%1$s %2$s verbleibend</string>
     <string name="loan_interest">Darlehenszinsen</string>
     <string name="interest_paid">%1$s %2$s gezahlt</string>
@@ -178,7 +178,7 @@
     <string name="importing_another_time_warning">Das Importieren einer Sicherungsdatei von einer anderen kann bis zu 5 Minuten dauern. Du kannst deine Daten jederzeit später importieren, wenn du das möchtest.</string>
     <string name="import_backup_file">Sicherungsdatei importieren</string>
     <string name="start_fresh">Erneut starten</string>
-    <string name="planned_payment_confirm_deletion_description">Wenn du diese geplante Zahlung löschst, werden alle nicht gezahlten, bevorstehenden oder überfälligen Transaktionen, die mit ihr verbunden sind, gelöscht.</string>
+    <string name="planned_payment_confirm_deletion_description">Wenn du diese geplante Zahlung löschst, werden alle nicht bezahlten, bevorstehenden oder überfälligen Transaktionen, die mit ihr verbunden sind, gelöscht.</string>
     <string name="set_payment_type">Zahlungsart festlegen</string>
     <string name="planned_start_at">Geplanter Start am</string>
     <string name="repeats_every">WIEDERHOLT SICH ALLE %1$d %2$s</string>
@@ -378,7 +378,7 @@
     <string name="to_accounts">Zu Konten</string>
     <string name="adjust_initial_balance_description"><![CDATA[Let\'s get started. Go to \"Accounts\" -> Tap an account -> Tap its balance -> Enter current balance. That\'s it!]]></string>
     <string name="create_first_planned_payment">Erstelle deine erste geplante Zahlung</string>
-    <string name="create_first_planned_payment_description">Automatisiere die Verfolgung von wiederkehrenden Transaktionen wie Abonnements, Miete, Gehalt usw. Behalte den Überblick über deine Finanzen, indem du weißt, wie viel du im Voraus zahlen/bekommen musst.</string>
+    <string name="create_first_planned_payment_description">Automatisiere die Verfolgung von wiederkehrenden Transaktionen wie Abonnements, Miete, Gehalt usw. Behalte den Überblick über deine Finanzen, indem du weißt, wie viel du im Voraus bezahlen/bekommen musst.</string>
     <string name="did_you_know">Wusstest du schon?</string>
     <string name="widget_description">Ivy Wallet verfügt über ein cooles Widget, mit dem du EINKOMMENS-/KOSTEN-/ÜBERTRAGSTRANSAKTIONEN mit nur einem Klick von deiner Startseite aus hinzufügen kannst\n\nHinweis: Wenn die Schaltfläche "Widget hinzufügen" nicht funktioniert, füge es bitte manuell über das Menü "Widgets" deines Launchers hinzu.</string>
     <string name="add_widget">Widget hinzufügen</string>
@@ -395,7 +395,7 @@
     <string name="make_ivy_wallet_better_description">Willst du Ivy Wallet besser machen? Schreib uns eine Bewertung. Das ist der einzige Weg für uns, das zu entwickeln, was du willst und brauchst. Außerdem hilft es uns, im PlayStore besser zu ranken, so dass wir mehr Geld für das Produkt als für Marketing ausgeben können.\n\nWir tun unser Bestes.\nIvy Team</string>
     <string name="we_need_your_help">Wir brauchen deine Hilfe!</string>
     <string name="we_need_your_help_description">Wir sind nur ein Designer und ein Entwickler, die nach ihren 9-5 Jobs an der App arbeiten. Derzeit investieren wir eine Menge Zeit und Geld, um nur Verluste und Erschöpfung zu erzeugen. Wenn du möchtest, dass wir Ivy Wallet weiter entwickeln, dann teile es bitte mit Freund*innen und Familie.\n\nP.S. Google PlayStore Bewertungen helfen auch sehr!</string>
-    <string name="ivy_wallet_is_opensource">Ivy Wallet ist open-source!</string>
+    <string name="ivy_wallet_is_opensource">Ivy Wallet ist Open-Source!</string>
     <string name="ivy_wallet_is_opensource_description">Der Code von Ivy Wallet ist offen und jeder kann ihn einsehen. Wir glauben, dass Transparenz und Ethik ein Muss für jedes Softwareprodukt sind. Wenn dir unsere Arbeit gefällt und du die App besser machen willst, kannst du in unserem öffentlichen Github-Repository mitarbeiten.</string>
     <string name="contribute">Beitragen</string>
     <string name="adjust_balance">Bilanz anpassen</string>
