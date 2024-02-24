@@ -110,7 +110,7 @@ fun TransactionCard(
         TransactionHeaderRow(
             transaction = transaction,
             categories = baseData.categories,
-            accounts = baseData.accounts
+            accounts = baseData.accounts,
         )
 
         if (transaction.dueDate != null) {
@@ -241,7 +241,8 @@ fun TransactionCard(
 private fun TransactionHeaderRow(
     transaction: Transaction,
     categories: List<Category>,
-    accounts: List<Account>
+    accounts: List<Account>,
+    modifier: Modifier = Modifier
 ) {
     val nav = navigation()
 
