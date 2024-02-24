@@ -466,7 +466,7 @@ private fun BoxWithConstraintsScope.UI(
 
         onAmountChanged = {
             onAmountChanged(it)
-            if (shouldFocusCategory(category, transactionType)) {
+            if (shouldFocusCategory(category)) {
                 chooseCategoryModalVisible = true
             } else if (shouldFocusTitle(titleTextFieldValue, transactionType)) {
                 titleFocus.requestFocus()
@@ -587,7 +587,6 @@ private fun BoxWithConstraintsScope.UI(
 
 private fun shouldFocusCategory(
     category: Category?,
-    type: TransactionType
 ): Boolean = category == null
 
 private fun shouldFocusTitle(
