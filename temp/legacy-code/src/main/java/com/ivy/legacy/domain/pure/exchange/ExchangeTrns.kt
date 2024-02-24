@@ -42,6 +42,7 @@ suspend fun exchangeInBaseCurrency(
     )
 }
 
+@Deprecated("Uses legacy Transaction")
 @Pure
 suspend fun exchangeInBaseCurrency(
     transaction: com.ivy.base.legacy.Transaction,
@@ -115,6 +116,7 @@ suspend fun exchangeInCurrency(
     ).orNull() ?: BigDecimal.ZERO
 }
 
+@Deprecated("Uses legacy Transaction")
 suspend fun exchangeInCurrency(
     transaction: com.ivy.base.legacy.Transaction,
     baseCurrency: String,
@@ -134,33 +136,8 @@ suspend fun exchangeInCurrency(
     ).orNull() ?: BigDecimal.ZERO
 }
 
-object LegancyExchangeTrns {
-
-    data class ExchangeTrnArgument(
-        val baseCurrency: String,
-        @SideEffect
-        val getAccount: suspend (accountId: UUID) -> Account?,
-        @SideEffect
-        val exchange: ExchangeEffect
-    )
-
-    @Pure
-    suspend fun exchangeInBaseCurrency(
-        transaction: com.ivy.base.legacy.Transaction,
-        arg: ExchangeTrnArgument
-    ): BigDecimal {
-        val fromCurrency = arg.getAccount(transaction.accountId)?.let {
-            accountCurrency(it, arg.baseCurrency)
-        }.toOption()
-
-        return exchangeInCurrency(
-            transaction = transaction,
-            baseCurrency = arg.baseCurrency,
-            trnCurrency = fromCurrency,
-            toCurrency = arg.baseCurrency,
-            exchange = arg.exchange
-        )
-    }
+@Deprecated("Uses legacy Transaction")
+object LegacyExchangeTrns {
 
     @Pure
     suspend fun exchangeInBaseCurrency(
@@ -192,25 +169,6 @@ object LegancyExchangeTrns {
             ExchangeData(
                 baseCurrency = baseCurrency,
                 fromCurrency = LegacyTrnFunctions.trnCurrency(transaction, accounts, baseCurrency),
-                toCurrency = toCurrency
-            ),
-            transaction.amount
-        ).orNull() ?: BigDecimal.ZERO
-    }
-
-    suspend fun exchangeInCurrency(
-        transaction: com.ivy.base.legacy.Transaction,
-        baseCurrency: String,
-        trnCurrency: Option<String>,
-        toCurrency: String,
-
-        @SideEffect
-        exchange: ExchangeEffect
-    ): BigDecimal {
-        return exchange(
-            ExchangeData(
-                baseCurrency = baseCurrency,
-                fromCurrency = trnCurrency,
                 toCurrency = toCurrency
             ),
             transaction.amount

@@ -9,7 +9,7 @@ import com.ivy.data.model.getAccountId
 import com.ivy.frp.SideEffect
 import com.ivy.legacy.datamodel.Account
 import com.ivy.wallet.domain.pure.exchange.ExchangeEffect
-import com.ivy.wallet.domain.pure.exchange.LegancyExchangeTrns
+import com.ivy.wallet.domain.pure.exchange.LegacyExchangeTrns
 import com.ivy.wallet.domain.pure.exchange.exchangeInBaseCurrency
 import java.math.BigDecimal
 
@@ -96,6 +96,7 @@ object WalletValueFunctions {
     }
 }
 
+@Deprecated("Uses legacy Transaction")
 object WalletValueFunctionsLegacy {
     data class Argument(
         val accounts: List<Account>,
@@ -110,7 +111,7 @@ object WalletValueFunctionsLegacy {
         arg: Argument
     ): BigDecimal = with(transaction) {
         when (type) {
-            TransactionType.INCOME -> LegancyExchangeTrns.exchangeInBaseCurrency(
+            TransactionType.INCOME -> LegacyExchangeTrns.exchangeInBaseCurrency(
                 transaction = this,
                 accounts = arg.accounts,
                 baseCurrency = arg.baseCurrency,
@@ -128,7 +129,7 @@ object WalletValueFunctionsLegacy {
         val condition = arg.accounts.any { it.id == this.toAccountId }
         when {
             type == TransactionType.TRANSFER && condition ->
-                LegancyExchangeTrns.exchangeInBaseCurrency(
+                LegacyExchangeTrns.exchangeInBaseCurrency(
                     transaction = this.copy(
                         amount = this.toAmount,
                         accountId = this.toAccountId ?: this.accountId
@@ -147,7 +148,7 @@ object WalletValueFunctionsLegacy {
         arg: Argument
     ): BigDecimal = with(transaction) {
         when (type) {
-            TransactionType.EXPENSE -> LegancyExchangeTrns.exchangeInBaseCurrency(
+            TransactionType.EXPENSE -> LegacyExchangeTrns.exchangeInBaseCurrency(
                 transaction = this,
                 accounts = arg.accounts,
                 baseCurrency = arg.baseCurrency,
@@ -164,7 +165,7 @@ object WalletValueFunctionsLegacy {
     ): BigDecimal = with(transaction) {
         val condition = arg.accounts.any { it.id == this.accountId }
         when {
-            type == TransactionType.TRANSFER && condition -> LegancyExchangeTrns.exchangeInBaseCurrency(
+            type == TransactionType.TRANSFER && condition -> LegacyExchangeTrns.exchangeInBaseCurrency(
                 transaction = this,
                 accounts = arg.accounts,
                 baseCurrency = arg.baseCurrency,

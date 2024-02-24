@@ -97,6 +97,7 @@ suspend fun transactionsWithDateDividers(
         }
 }
 
+@Deprecated("Uses legacy Transaction")
 object LegacyTrnDateDividers {
     @Deprecated("Migrate to actions")
     suspend fun List<com.ivy.base.legacy.Transaction>.withDateDividers(

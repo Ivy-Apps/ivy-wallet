@@ -11,6 +11,7 @@ import com.ivy.budgets.model.DisplayBudget
 import com.ivy.data.db.dao.write.WriteBudgetDao
 import com.ivy.data.model.Expense
 import com.ivy.data.model.Income
+import com.ivy.data.model.Transaction
 import com.ivy.data.model.Transfer
 import com.ivy.data.model.getAccountId
 import com.ivy.data.model.getValue
@@ -183,7 +184,7 @@ class BudgetViewModel @Inject constructor(
 
     private suspend fun calculateSpentAmount(
         budget: Budget,
-        transactions: List<com.ivy.data.model.Transaction>,
+        transactions: List<Transaction>,
         baseCurrencyCode: String,
         accounts: List<Account>
     ): Double {

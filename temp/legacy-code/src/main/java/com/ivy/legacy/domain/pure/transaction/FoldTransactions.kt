@@ -90,6 +90,7 @@ suspend fun <A> sumTrns(
     ).head
 }
 
+@Deprecated("Uses legacy Transaction")
 object LegacyFoldTransactions {
 
     @Pure

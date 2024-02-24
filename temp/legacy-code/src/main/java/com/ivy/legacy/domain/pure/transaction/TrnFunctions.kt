@@ -55,6 +55,7 @@ fun trnCurrency(
     return accountCurrency(account, baseCurrency).toOption()
 }
 
+@Deprecated("Uses legacy Transaction")
 object LegacyTrnFunctions {
     @Pure
     fun expenses(transactions: List<com.ivy.base.legacy.Transaction>): List<com.ivy.base.legacy.Transaction> {
@@ -64,18 +65,6 @@ object LegacyTrnFunctions {
     @Pure
     fun incomes(transactions: List<com.ivy.base.legacy.Transaction>): List<com.ivy.base.legacy.Transaction> {
         return transactions.filter { it.type == TransactionType.INCOME }
-    }
-
-    @Pure
-    fun isUpcoming(transaction: com.ivy.base.legacy.Transaction, dateNow: LocalDate): Boolean {
-        val dueDate = transaction.dueDate?.toLocalDate() ?: return false
-        return dateNow.isBefore(dueDate) || dateNow.isEqual(dueDate)
-    }
-
-    @Pure
-    fun isOverdue(transaction: com.ivy.base.legacy.Transaction, dateNow: LocalDate): Boolean {
-        val dueDate = transaction.dueDate?.toLocalDate() ?: return false
-        return dateNow.isAfter(dueDate)
     }
 
     @Pure

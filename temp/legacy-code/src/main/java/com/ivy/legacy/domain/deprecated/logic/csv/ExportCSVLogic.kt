@@ -8,6 +8,7 @@ import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.model.Expense
 import com.ivy.data.model.Income
+import com.ivy.data.model.Transaction
 import com.ivy.data.model.Transfer
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.legacy.datamodel.Account
@@ -36,7 +37,7 @@ class ExportCSVLogic @Inject constructor(
     suspend fun exportToFile(
         context: Context,
         fileUri: Uri,
-        exportScope: suspend () -> List<com.ivy.data.model.Transaction> = {
+        exportScope: suspend () -> List<Transaction> = {
             transactionRepository.findAll()
         }
     ) {
@@ -54,7 +55,7 @@ class ExportCSVLogic @Inject constructor(
     }
 
     private suspend fun generateCSV(
-        exportScope: suspend () -> List<com.ivy.data.model.Transaction>
+        exportScope: suspend () -> List<Transaction>
     ): String {
         return ioThread {
             val accountMap = accountDao
@@ -85,7 +86,7 @@ class ExportCSVLogic @Inject constructor(
         }
     }
 
-    private fun com.ivy.data.model.Transaction.toCSV(
+    private fun Transaction.toCSV(
         baseCurrency: String,
         accountMap: Map<UUID, Account>,
         categoryMap: Map<UUID, Category>

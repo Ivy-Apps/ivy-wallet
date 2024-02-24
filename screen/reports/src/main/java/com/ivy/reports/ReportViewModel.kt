@@ -13,6 +13,10 @@ import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
 import com.ivy.data.model.Expense
 import com.ivy.data.model.Income
+import com.ivy.data.model.Transaction
+import com.ivy.data.model.Transfer
+import com.ivy.data.model.getTransactionType
+import com.ivy.data.model.getValue
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.domain.ComposeViewModel
@@ -21,6 +25,7 @@ import com.ivy.frp.filterSuspend
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.utils.formatNicelyWithTime
 import com.ivy.legacy.utils.scopedIOThread
 import com.ivy.legacy.utils.timeNowUTC
@@ -48,13 +53,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
+import java.time.ZoneId
 import java.util.UUID
 import javax.inject.Inject
-import com.ivy.data.model.Transaction
-import com.ivy.data.model.Transfer
-import com.ivy.data.model.getValue
-import com.ivy.legacy.datamodel.temp.toDomain
-import java.time.ZoneId
 
 @Stable
 @HiltViewModel
@@ -337,7 +338,7 @@ class ReportViewModel @Inject constructor(
 
                 it.title?.let { title ->
                     includeKeywords.forEach { keyword ->
-                        if (title.toString().containsLowercase(keyword)) {
+                        if (title.value.containsLowercase(keyword)) {
                             return@filter true
                         }
                     }
@@ -345,7 +346,7 @@ class ReportViewModel @Inject constructor(
 
                 it.description?.let { description ->
                     includeKeywords.forEach { keyword ->
-                        if (description.toString().containsLowercase(keyword)) {
+                        if (description.value.containsLowercase(keyword)) {
                             return@filter true
                         }
                     }
@@ -361,14 +362,14 @@ class ReportViewModel @Inject constructor(
 
                 it.title?.let { title ->
                     excludedKeywords.forEach { keyword ->
-                        if (title.toString().containsLowercase(keyword)) {
+                        if (title.value.containsLowercase(keyword)) {
                             return@filter false
                         }
                     }
                 }
                 it.description?.let { description ->
                     excludedKeywords.forEach { keyword ->
-                        if (description.toString().containsLowercase(keyword)) {
+                        if (description.value.containsLowercase(keyword)) {
                             return@filter false
                         }
                     }

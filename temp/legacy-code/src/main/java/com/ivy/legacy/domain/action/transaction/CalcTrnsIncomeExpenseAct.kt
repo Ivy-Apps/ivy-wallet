@@ -48,6 +48,7 @@ class CalcTrnsIncomeExpenseAct @Inject constructor(
     )
 }
 
+@Deprecated("Uses legacy Transaction")
 class LegacyCalcTrnsIncomeExpenseAct @Inject constructor(
     private val exchangeAct: ExchangeAct
 ) : FPAction<LegacyCalcTrnsIncomeExpenseAct.Input, IncomeExpenseTransferPair>() {

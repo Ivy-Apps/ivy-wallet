@@ -42,6 +42,7 @@ class CategoryIncomeWithAccountFiltersAct @Inject constructor(
     )
 }
 
+@Deprecated("Uses legacy Transaction")
 class LegacyCategoryIncomeWithAccountFiltersAct @Inject constructor(
     private val calcTrnsIncomeExpenseAct: LegacyCalcTrnsIncomeExpenseAct
 ) : FPAction<LegacyCategoryIncomeWithAccountFiltersAct.Input, IncomeExpenseTransferPair>() {

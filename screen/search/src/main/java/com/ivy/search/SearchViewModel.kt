@@ -89,6 +89,6 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun NotBlankTrimmedString?.matchesQuery(query: String): Boolean {
-        return this?.toString()?.lowercase()?.trim()?.contains(query) == true
+        return this?.value?.lowercase()?.contains(query) == true
     }
 }

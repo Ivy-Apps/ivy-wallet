@@ -1,5 +1,6 @@
 package com.ivy.data.model
 
+import com.ivy.base.model.TransactionType
 import com.ivy.data.model.common.Value
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.sync.Syncable
@@ -87,3 +88,11 @@ fun Transaction.getAccountId(): UUID =
         is Income -> account.value
         is Transfer -> fromAccount.value
     }
+
+fun Transaction.getTransactionType(): TransactionType {
+    return when (this) {
+        is Expense -> TransactionType.EXPENSE
+        is Income -> TransactionType.INCOME
+        is Transfer -> TransactionType.TRANSFER
+    }
+}
