@@ -41,6 +41,7 @@ import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.formatNicely
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.timeNowUTC
+import com.ivy.navigation.Navigation
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.resources.R
@@ -109,7 +110,7 @@ fun TransactionCard(
         TransactionHeaderRow(
             transaction = transaction,
             categories = baseData.categories,
-            accounts = baseData.accounts
+            accounts = baseData.accounts,
         )
 
         if (transaction.dueDate != null) {
@@ -240,40 +241,35 @@ fun TransactionCard(
 private fun TransactionHeaderRow(
     transaction: Transaction,
     categories: List<Category>,
-    accounts: List<Account>
+    accounts: List<Account>,
 ) {
     val nav = navigation()
 
+    val category = category(
+        categoryId = transaction.categoryId,
+        categories = categories
+    )
+
     if (transaction.type == TransactionType.TRANSFER) {
-        TransferHeader(
-            accounts = accounts,
-            transaction = transaction
-        )
+        Column(
+            modifier = Modifier.padding(horizontal = 20.dp),
+        ) {
+            if (category != null) {
+                CategoryBadgeDisplay(category, nav)
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+            TransferHeader(
+                accounts = accounts,
+                transaction = transaction
+            )
+        }
     } else {
         Row(
             modifier = Modifier.padding(horizontal = 20.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val category = category(
-                categoryId = transaction.categoryId,
-                categories = categories
-            )
-
             if (category != null) {
-                TransactionBadge(
-                    text = category.name,
-                    backgroundColor = category.color.toComposeColor(),
-                    icon = category.icon,
-                    defaultIcon = R.drawable.ic_custom_category_s
-                ) {
-                    nav.navigateTo(
-                        TransactionsScreen(
-                            accountId = null,
-                            categoryId = category.id
-                        )
-                    )
-                }
-
+                CategoryBadgeDisplay(category, nav)
                 Spacer(Modifier.width(12.dp))
             }
 
@@ -298,6 +294,27 @@ private fun TransactionHeaderRow(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun CategoryBadgeDisplay(
+    category: Category,
+    nav: Navigation,
+) {
+    TransactionBadge(
+        text = category.name,
+        backgroundColor = category.color.toComposeColor(),
+        icon = category.icon,
+        defaultIcon = R.drawable.ic_custom_category_s
+    ) {
+        // Navigation logic
+        nav.navigateTo(
+            TransactionsScreen(
+                accountId = null,
+                categoryId = category.id
+            )
+        )
     }
 }
 
@@ -351,7 +368,6 @@ private fun TransferHeader(
 ) {
     Row(
         modifier = Modifier
-            .padding(horizontal = 20.dp)
             .background(UI.colors.pure, UI.shapes.rFull),
         verticalAlignment = Alignment.CenterVertically
     ) {
