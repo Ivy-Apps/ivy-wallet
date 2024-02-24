@@ -318,13 +318,11 @@ private fun BoxWithConstraintsScope.UI(
             )
         }
 
-        if (transactionType != TransactionType.TRANSFER) {
-            Spacer(Modifier.height(32.dp))
+        Spacer(Modifier.height(32.dp))
 
-            Category(category = category, onChooseCategory = {
-                chooseCategoryModalVisible = true
-            })
-        }
+        Category(category = category, onChooseCategory = {
+            chooseCategoryModalVisible = true
+        })
 
         Spacer(Modifier.height(32.dp))
 
@@ -590,7 +588,7 @@ private fun BoxWithConstraintsScope.UI(
 private fun shouldFocusCategory(
     category: Category?,
     type: TransactionType
-): Boolean = category == null && type != TransactionType.TRANSFER
+): Boolean = category == null
 
 private fun shouldFocusTitle(
     titleTextFieldValue: TextFieldValue,
