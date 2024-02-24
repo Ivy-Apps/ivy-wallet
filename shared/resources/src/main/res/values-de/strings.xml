@@ -53,7 +53,7 @@
     <string name="convert_xls_to_csv">XLS in CSV konvertieren</string>
     <string name="convert_xls_to_csv_description">!HINWEIS: Wenn die exportierte Datei nicht die Erweiterung ".xls" hat, füge sie hinzu, indem du die Datei manuell umbenennst.</string>
     <string name="online_csv_converter_free">Online CSV-Konverter KOSTENLOS</string>
-    <string name="check_email_spam">Überprüfe die "Werbung"- und "Spam"-Ordner in deiner E-Mail</string>
+    <string name="check_email_spam">Überprüfe den "Werbung"- und "Spam"-Ordner in deiner E-Mail</string>
     <string name="download_email_file">Lade die Datei \"transactions_export…\" herunter, die der E-Mail angehängt ist.</string>
     <string name="download_email_file_description">Wenn du mehr als eine Währung hast, musst du jede \"transactions_export…\"-Datei herunterladen und sie in Ivy importieren.</string>
     <string name="import_from">Importieren von</string>
@@ -72,7 +72,7 @@
     <string name="description">Beschreibung</string>
     <string name="planned_for">Geplant für</string>
     <string name="add_money_to">Geld hinzufügen</string>
-    <string name="pay_with">Zahlen mit</string>
+    <string name="pay_with">Bezahlen mit</string>
     <string name="from">Von</string>
     <string name="account">Konto</string>
     <string name="to">Zu</string>
@@ -82,8 +82,8 @@
     <string name="transfer_title">Übertragstitel</string>
     <string name="expense">Kosten</string>
     <string name="add_planned_date_payment">Geplantes Zahlungsdatum hinzufügen</string>
-    <string name="pay">Zahlen</string>
-    <string name="get">Bekommen</string>
+    <string name="pay">Bezahlen</string>
+    <string name="get">Erhalten</string>
     <string name="confirm_deletion">Löschen bestätigen</string>
     <string name="transaction_confirm_deletion_description">Wenn du diese Transaktion löschst, wird sie aus dem Transaktionsverlauf entfernt und die Bilanz entsprechend aktualisiert.</string>
     <string name="confirm_account_change">Kontoänderung bestätigen</string>
@@ -95,7 +95,7 @@
     <string name="hi_name">Hi %1$s</string>
     <string name="cashflow">Cashflow: %1$s%2$s %3$s</string>
     <string name="search_transactions">Transaktionen suchen</string>
-    <string name="ivy_wallet_open_source">Ivy Wallet ist open-source</string>
+    <string name="ivy_wallet_open_source">Ivy Wallet ist Open-Source</string>
     <string name="savings_goal">Sparziel</string>
     <string name="quick_access">Schnellzugriff</string>
     <string name="settings">Einstellungen</string>
