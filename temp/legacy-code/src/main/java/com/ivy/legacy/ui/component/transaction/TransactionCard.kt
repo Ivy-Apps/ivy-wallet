@@ -242,7 +242,6 @@ private fun TransactionHeaderRow(
     transaction: Transaction,
     categories: List<Category>,
     accounts: List<Account>,
-    modifier: Modifier = Modifier
 ) {
     val nav = navigation()
 
@@ -256,7 +255,7 @@ private fun TransactionHeaderRow(
             modifier = Modifier.padding(horizontal = 20.dp),
         ) {
             if (category != null) {
-                CategoryBadgeDisplay(transaction, category, categories, nav)
+                CategoryBadgeDisplay(category, nav)
                 Spacer(modifier = Modifier.height(8.dp))
             }
             TransferHeader(
@@ -270,7 +269,8 @@ private fun TransactionHeaderRow(
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (category != null) {
-                CategoryBadgeDisplay(transaction, category, categories, nav)
+                CategoryBadgeDisplay(category, nav)
+                Spacer(Modifier.width(12.dp))
             }
 
             val account = account(
@@ -299,12 +299,9 @@ private fun TransactionHeaderRow(
 
 @Composable
 fun CategoryBadgeDisplay(
-    transaction: Transaction,
     category: Category,
-    categories: List<Category>,
     nav: Navigation,
 ) {
-
     TransactionBadge(
         text = category.name,
         backgroundColor = category.color.toComposeColor(),
@@ -319,10 +316,7 @@ fun CategoryBadgeDisplay(
             )
         )
     }
-
-    Spacer(Modifier.width(12.dp))
 }
-
 
 @Composable
 private fun TransactionBadge(
