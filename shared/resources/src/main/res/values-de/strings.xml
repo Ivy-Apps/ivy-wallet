@@ -142,9 +142,9 @@
     <string name="add_new">Neu hinzufügen</string>
     <string name="from_date">Von %1$s</string>
     <string name="to_date">Bis %1$s</string>
-    <string name="range">Range</string>
-    <string name="privacy_and_data_collection">Privacy and\ndata collection</string>
-    <string name="swipe_to_agree_terms_conditions">Swipe to agree with our Terms and conditions</string>
+    <string name="range">Bereich</string>
+    <string name="privacy_and_data_collection">Privatsphäre und\nDatenerfassung</string>
+    <string name="swipe_to_agree_terms_conditions">Wische, um unseren Bedingungen zuzustimmen</string>
     <string name="agreed_terms_conditions">Agreed with our Terms and conditions</string>
     <string name="swipe_to_agree_privacy_policy">Swipe to agree with our Privacy policy</string>
     <string name="agreed_privacy_policy">Agreed with our Privacy policy</string>
