@@ -7,7 +7,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.data.model.primitive.NotBlankTrimmedString
-import com.ivy.data.repository.TransactionRepository
 import com.ivy.domain.ComposeViewModel
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
@@ -16,6 +15,7 @@ import com.ivy.legacy.utils.ioThread
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
+import com.ivy.wallet.domain.action.transaction.AllTrnsAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithDateDivsAct
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
@@ -31,7 +31,7 @@ class SearchViewModel @Inject constructor(
     private val accountsAct: AccountsAct,
     private val categoriesAct: CategoriesAct,
     private val baseCurrencyAct: BaseCurrencyAct,
-    private val transactionRepository: TransactionRepository,
+    private val allTrnsAct: AllTrnsAct
 ) : ComposeViewModel<SearchState, SearchEvent>() {
 
     private val transactions =
@@ -68,7 +68,7 @@ class SearchViewModel @Inject constructor(
 
         viewModelScope.launch {
             val queryResult = ioThread {
-                val filteredTransactions = transactionRepository.findAll()
+                val filteredTransactions = allTrnsAct(Unit)
                     .filter { transaction ->
                         transaction.title.matchesQuery(normalizedQuery) ||
                                 transaction.description.matchesQuery(normalizedQuery)
