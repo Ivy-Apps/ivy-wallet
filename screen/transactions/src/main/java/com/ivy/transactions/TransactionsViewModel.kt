@@ -21,6 +21,7 @@ import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.AccountId
 import com.ivy.data.repository.AccountRepository
+import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.domain.ComposeViewModel
 import com.ivy.frp.then
 import com.ivy.legacy.IvyWalletCtx
@@ -44,8 +45,8 @@ import com.ivy.wallet.domain.action.account.CalcAccIncomeExpenseAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.exchange.ExchangeAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
-import com.ivy.wallet.domain.action.transaction.CalcTrnsIncomeExpenseAct
-import com.ivy.wallet.domain.action.transaction.TrnsWithDateDivsAct
+import com.ivy.wallet.domain.action.transaction.LegacyCalcTrnsIncomeExpenseAct
+import com.ivy.wallet.domain.action.transaction.LegacyTrnsWithDateDivsAct
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.deprecated.logic.WalletAccountLogic
@@ -79,16 +80,17 @@ class TransactionsViewModel @Inject constructor(
     private val categoriesAct: CategoriesAct,
     private val accountsAct: AccountsAct,
     private val accTrnsAct: AccTrnsAct,
-    private val trnsWithDateDivsAct: TrnsWithDateDivsAct,
+    private val trnsWithDateDivsAct: LegacyTrnsWithDateDivsAct,
     private val baseCurrencyAct: BaseCurrencyAct,
     private val calcAccBalanceAct: CalcAccBalanceAct,
     private val calcAccIncomeExpenseAct: CalcAccIncomeExpenseAct,
-    private val calcTrnsIncomeExpenseAct: CalcTrnsIncomeExpenseAct,
+    private val calcTrnsIncomeExpenseAct: LegacyCalcTrnsIncomeExpenseAct,
     private val exchangeAct: ExchangeAct,
     private val transactionWriter: WriteTransactionDao,
     private val categoryWriter: WriteCategoryDao,
     private val accountWriter: WriteAccountDao,
     private val plannedPaymentRuleWriter: WritePlannedPaymentRuleDao,
+    private val transactionMapper: TransactionMapper
 ) : ComposeViewModel<TransactionsState, TransactionsEvent>() {
 
     private val period = mutableStateOf(ivyContext.selectedPeriod)
@@ -374,9 +376,11 @@ class TransactionsViewModel @Inject constructor(
         history.value = (
                 accTrnsAct then {
                     trnsWithDateDivsAct(
-                        TrnsWithDateDivsAct.Input(
+                        LegacyTrnsWithDateDivsAct.Input(
                             baseCurrency = baseCurrency.value,
-                            transactions = it
+                            transactions = with(transactionMapper) {
+                                it.map { it.toEntity().toDomain() }
+                            }
                         )
                     )
                 }
@@ -621,7 +625,7 @@ class TransactionsViewModel @Inject constructor(
         }
 
         val historyIncomeExpense = calcTrnsIncomeExpenseAct(
-            CalcTrnsIncomeExpenseAct.Input(
+            LegacyCalcTrnsIncomeExpenseAct.Input(
                 transactions = trans,
                 accounts = accountFilterList.mapNotNull { accID -> accounts.value.find { it.id == accID } },
                 baseCurrency = baseCurrency.value
@@ -632,7 +636,7 @@ class TransactionsViewModel @Inject constructor(
         expenses.doubleValue = historyIncomeExpense.transferExpense.toDouble()
         balance.doubleValue = income.doubleValue - expenses.doubleValue
         history.value = trnsWithDateDivsAct(
-            TrnsWithDateDivsAct.Input(
+            LegacyTrnsWithDateDivsAct.Input(
                 baseCurrency = baseCurrency.value,
                 transactions = transactions
             )

@@ -10,10 +10,10 @@ import com.ivy.legacy.data.model.filterOverdue
 import com.ivy.legacy.data.model.filterUpcoming
 import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.domain.pure.transaction.LegacyTrnDateDividers
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.sumInBaseCurrency
-import com.ivy.wallet.domain.pure.transaction.withDateDividers
-import java.util.*
+import java.util.UUID
 import javax.inject.Inject
 
 @Deprecated("Migrate to FP Style")
@@ -166,15 +166,17 @@ class WalletCategoryLogic @Inject constructor(
         accountFilterSet: Set<UUID>,
         transactions: List<Transaction> = emptyList()
     ): List<TransactionHistoryItem> {
-        return historyByCategory(category, range, transactions = transactions)
-            .filter {
-                accountFilterSet.isEmpty() || accountFilterSet.contains(it.accountId)
-            }
-            .withDateDividers(
-                exchangeRatesLogic = exchangeRatesLogic,
-                settingsDao = settingsDao,
-                accountDao = accountDao
-            )
+        return with(LegacyTrnDateDividers) {
+            historyByCategory(category, range, transactions = transactions)
+                .filter {
+                    accountFilterSet.isEmpty() || accountFilterSet.contains(it.accountId)
+                }
+                .withDateDividers(
+                    exchangeRatesLogic = exchangeRatesLogic,
+                    settingsDao = settingsDao,
+                    accountDao = accountDao
+                )
+        }
     }
 
     suspend fun historyByCategory(
@@ -198,16 +200,18 @@ class WalletCategoryLogic @Inject constructor(
     }
 
     suspend fun historyUnspecified(range: com.ivy.legacy.data.model.FromToTimeRange): List<TransactionHistoryItem> {
-        return transactionDao
-            .findAllUnspecifiedAndBetween(
-                startDate = range.from(),
-                endDate = range.to()
-            ).map { it.toDomain() }
-            .withDateDividers(
-                exchangeRatesLogic = exchangeRatesLogic,
-                settingsDao = settingsDao,
-                accountDao = accountDao
-            )
+        return with(LegacyTrnDateDividers) {
+            transactionDao
+                .findAllUnspecifiedAndBetween(
+                    startDate = range.from(),
+                    endDate = range.to()
+                ).map { it.toDomain() }
+                .withDateDividers(
+                    exchangeRatesLogic = exchangeRatesLogic,
+                    settingsDao = settingsDao,
+                    accountDao = accountDao
+                )
+        }
     }
 
     suspend fun calculateUpcomingIncomeByCategory(
