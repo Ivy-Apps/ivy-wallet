@@ -2,9 +2,34 @@ package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.base.legacy.stringRes
-import com.ivy.data.db.dao.write.WriteAccountDao
 import com.ivy.data.db.dao.write.WriteCategoryDao
-import com.ivy.design.l0_system.*
+import com.ivy.data.repository.AccountRepository
+import com.ivy.data.repository.CurrencyRepository
+import com.ivy.design.l0_system.Blue
+import com.ivy.design.l0_system.Blue2
+import com.ivy.design.l0_system.Blue2Light
+import com.ivy.design.l0_system.Blue3
+import com.ivy.design.l0_system.BlueDark
+import com.ivy.design.l0_system.BlueLight
+import com.ivy.design.l0_system.Green
+import com.ivy.design.l0_system.Green2
+import com.ivy.design.l0_system.Green2Light
+import com.ivy.design.l0_system.GreenLight
+import com.ivy.design.l0_system.Ivy
+import com.ivy.design.l0_system.IvyDark
+import com.ivy.design.l0_system.IvyLight
+import com.ivy.design.l0_system.Orange
+import com.ivy.design.l0_system.Orange2
+import com.ivy.design.l0_system.Orange3
+import com.ivy.design.l0_system.Orange3Light
+import com.ivy.design.l0_system.Purple1
+import com.ivy.design.l0_system.Purple2
+import com.ivy.design.l0_system.Red
+import com.ivy.design.l0_system.Red3
+import com.ivy.design.l0_system.Red3Light
+import com.ivy.design.l0_system.RedLight
+import com.ivy.design.l0_system.Yellow
+import com.ivy.design.l0_system.YellowLight
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
 import com.ivy.resources.R
@@ -15,17 +40,13 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import javax.inject.Inject
 
-@Deprecated("Migrate to FP Style")
+@Deprecated("Legacy, get rid of it.")
 class PreloadDataLogic @Inject constructor(
-    private val accountWriter: WriteAccountDao,
     private val categoryWriter: WriteCategoryDao,
+    private val accountRepository: AccountRepository,
+    private val currencyRepository: CurrencyRepository,
 ) {
     var categoryOrderNum = 0.0
-
-    fun shouldPreloadData(accounts: List<com.ivy.legacy.data.model.AccountBalance>): Boolean {
-        // Preload data only if the user has less than 2 accounts
-        return accounts.size < 2
-    }
 
     suspend fun preloadAccounts() {
         val cash = Account(
@@ -46,8 +67,10 @@ class PreloadDataLogic @Inject constructor(
             isSynced = false
         )
 
-        accountWriter.save(cash.toEntity())
-        accountWriter.save(bank.toEntity())
+        cash.toDomainAccount(currencyRepository).getOrNull()
+            ?.let { accountRepository.save(it) }
+        bank.toDomainAccount(currencyRepository).getOrNull()
+            ?.let { accountRepository.save(it) }
     }
 
     fun accountSuggestions(baseCurrency: String): ImmutableList<CreateAccountData> =

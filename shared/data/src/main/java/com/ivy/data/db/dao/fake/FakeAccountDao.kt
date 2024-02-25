@@ -8,27 +8,22 @@ import java.util.UUID
 
 @VisibleForTesting
 class FakeAccountDao : AccountDao, WriteAccountDao {
-    private val accounts = mutableListOf<AccountEntity>()
+    private val accounts = mutableMapOf<UUID, AccountEntity>()
 
     override suspend fun findAll(deleted: Boolean): List<AccountEntity> {
-        return accounts.filter { it.isDeleted == deleted }
+        return accounts.filterValues { it.isDeleted == deleted }.values.toList()
     }
 
     override suspend fun findById(id: UUID): AccountEntity? {
-        return accounts.find { it.id == id }
+        return accounts[id]
     }
 
     override suspend fun findMaxOrderNum(): Double? {
-        return accounts.maxOfOrNull { it.orderNum }
+        return accounts.maxOfOrNull { (_, entity) -> entity.orderNum }
     }
 
     override suspend fun save(value: AccountEntity) {
-        val existingItemIndex = accounts.indexOfFirst { it.id == value.id }
-        if (existingItemIndex > -1) {
-            accounts[existingItemIndex] = value
-        } else {
-            accounts.add(value)
-        }
+        accounts[value.id] = value
     }
 
     override suspend fun saveMany(values: List<AccountEntity>) {
@@ -36,17 +31,12 @@ class FakeAccountDao : AccountDao, WriteAccountDao {
     }
 
     override suspend fun flagDeleted(id: UUID) {
-        accounts.replaceAll { account ->
-            if (account.id == id) {
-                account.copy(isDeleted = true)
-            } else {
-                account
-            }
-        }
+        val acc = accounts[id] ?: return
+        accounts[id] = acc.copy(isDeleted = true)
     }
 
     override suspend fun deleteById(id: UUID) {
-        accounts.removeIf { it.id == id }
+        accounts.remove(id)
     }
 
     override suspend fun deleteAll() {
