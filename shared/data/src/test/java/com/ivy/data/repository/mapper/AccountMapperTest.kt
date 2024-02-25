@@ -7,6 +7,7 @@ import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
+import com.ivy.data.repository.fake.FakeCurrencyRepository
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.core.spec.style.FreeSpec
@@ -18,7 +19,7 @@ class AccountMapperTest : FreeSpec({
 
     "maps Account to entity" {
         // given
-        val mapper = AccountMapper()
+        val mapper = AccountMapper(FakeCurrencyRepository())
         val id = UUID.randomUUID()
         val account = Account(
             id = AccountId(id),
@@ -50,7 +51,7 @@ class AccountMapperTest : FreeSpec({
 
     "maps AccountEntity to domain" - {
         // given
-        val mapper = AccountMapper()
+        val mapper = AccountMapper(FakeCurrencyRepository())
         val entity = AccountEntity(
             name = "Test",
             currency = "USD",
@@ -99,7 +100,7 @@ class AccountMapperTest : FreeSpec({
             val result = with(mapper) { corruptedEntity.toDomain() }
 
             // then
-            result.shouldBeLeft()
+            result.shouldBeRight().asset shouldBe AssetCode("USD")
         }
 
         "missing icon is okay" {

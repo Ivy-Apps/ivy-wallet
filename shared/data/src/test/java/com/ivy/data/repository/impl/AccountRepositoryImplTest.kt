@@ -12,6 +12,7 @@ import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.AccountRepository
+import com.ivy.data.repository.fake.FakeCurrencyRepository
 import com.ivy.data.repository.mapper.AccountMapper
 import com.ivy.testing.TestDispatchersProvider
 import io.kotest.core.spec.style.FreeSpec
@@ -30,7 +31,7 @@ class AccountRepositoryImplTest : FreeSpec({
     val writeEventBus = mockk<DataWriteEventBus>(relaxed = true)
 
     fun newRepository(): AccountRepository = AccountRepositoryImpl(
-        mapper = AccountMapper(),
+        mapper = AccountMapper(FakeCurrencyRepository()),
         accountDao = accountDao,
         writeAccountDao = writeAccountDao,
         dispatchersProvider = TestDispatchersProvider,

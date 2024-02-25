@@ -12,6 +12,7 @@ import com.ivy.base.legacy.SharedPrefs
 import com.ivy.data.db.IvyRoomDatabase
 import com.ivy.data.file.IvyFileReader
 import com.ivy.data.repository.fake.FakeAccountRepository
+import com.ivy.data.repository.fake.FakeCurrencyRepository
 import com.ivy.data.repository.mapper.AccountMapper
 import com.ivy.testing.TestDispatchersProvider
 import io.kotest.matchers.collections.shouldBeEmpty
@@ -46,9 +47,16 @@ class BackupDataUseCaseAndroidTest {
             sharedPrefs = SharedPrefs(appContext),
             accountRepository = FakeAccountRepository(
                 accountDao = db.accountDao,
-                writeAccountDao = db.writeAccountDao
+                writeAccountDao = db.writeAccountDao,
+                settingsDao = db.settingsDao,
+                writeSettingsDao = db.writeSettingsDao,
             ),
-            accountMapper = AccountMapper(),
+            accountMapper = AccountMapper(
+                FakeCurrencyRepository(
+                    settingsDao = db.settingsDao,
+                    writeSettingsDao = db.writeSettingsDao,
+                )
+            ),
             categoryWriter = db.writeCategoryDao,
             transactionWriter = db.writeTransactionDao,
             settingsWriter = db.writeSettingsDao,

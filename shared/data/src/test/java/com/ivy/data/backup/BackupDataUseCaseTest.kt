@@ -10,6 +10,7 @@ import com.ivy.data.db.dao.fake.FakePlannedPaymentDao
 import com.ivy.data.db.dao.fake.FakeSettingsDao
 import com.ivy.data.db.dao.fake.FakeTransactionDao
 import com.ivy.data.repository.fake.FakeAccountRepository
+import com.ivy.data.repository.fake.FakeCurrencyRepository
 import com.ivy.data.repository.mapper.AccountMapper
 import com.ivy.testing.TestDispatchersProvider
 import com.ivy.testing.testResource
@@ -30,7 +31,7 @@ class BackupDataUseCaseTest : FreeSpec({
         backupLoanRecordDao: FakeLoanRecordDao = FakeLoanRecordDao(),
     ): BackupDataUseCase = BackupDataUseCase(
         accountDao = backupAccountDao,
-        accountMapper = AccountMapper(),
+        accountMapper = AccountMapper(FakeCurrencyRepository()),
         accountRepository = FakeAccountRepository(),
         budgetDao = backupBudgetDao,
         categoryDao = backupCategoryDao,

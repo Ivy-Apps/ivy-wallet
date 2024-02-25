@@ -9,15 +9,19 @@ import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
+import com.ivy.data.repository.CurrencyRepository
 import java.time.Instant
 import javax.inject.Inject
 
-class AccountMapper @Inject constructor() {
-    fun AccountEntity.toDomain(): Either<String, Account> = either {
+class AccountMapper @Inject constructor(
+    private val currencyRepository: CurrencyRepository
+) {
+    suspend fun AccountEntity.toDomain(): Either<String, Account> = either {
         Account(
             id = AccountId(id),
             name = NotBlankTrimmedString.from(name).bind(),
-            asset = AssetCode.from(currency ?: "").bind(),
+            asset = currency?.let(AssetCode::from)?.bind()
+                ?: currencyRepository.getBaseCurrency(),
             color = ColorInt(color),
             icon = icon?.let { IconAsset.from(it).getOrNull() },
             includeInBalance = includeInBalance,
