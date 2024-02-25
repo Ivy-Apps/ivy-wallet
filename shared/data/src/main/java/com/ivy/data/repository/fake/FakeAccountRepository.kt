@@ -1,8 +1,6 @@
 package com.ivy.data.repository.fake
 
 import com.ivy.data.DataWriteEventBus
-import com.ivy.data.db.dao.fake.FakeAccountDao
-import com.ivy.data.db.dao.fake.FakeSettingsDao
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteAccountDao
@@ -15,10 +13,10 @@ import org.jetbrains.annotations.VisibleForTesting
 
 @VisibleForTesting
 class FakeAccountRepository(
-    accountDao: AccountDao = FakeAccountDao(),
-    writeAccountDao: WriteAccountDao = FakeAccountDao(),
-    settingsDao: SettingsDao = FakeSettingsDao(),
-    writeSettingsDao: WriteSettingsDao = FakeSettingsDao(),
+    accountDao: AccountDao,
+    writeAccountDao: WriteAccountDao,
+    settingsDao: SettingsDao,
+    writeSettingsDao: WriteSettingsDao,
     private val accountRepository: AccountRepository = AccountRepositoryImpl(
         mapper = AccountMapper(
             FakeCurrencyRepository(

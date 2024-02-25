@@ -1,5 +1,6 @@
 package com.ivy.data.repository.mapper
 
+import com.ivy.data.db.dao.fake.FakeSettingsDao
 import com.ivy.data.db.entity.AccountEntity
 import com.ivy.data.model.Account
 import com.ivy.data.model.AccountId
@@ -17,9 +18,17 @@ import java.util.UUID
 
 class AccountMapperTest : FreeSpec({
 
+    fun newAccountMapper(
+        settingsDao: FakeSettingsDao = FakeSettingsDao(),
+    ): AccountMapper {
+        return AccountMapper(
+            currencyRepository = FakeCurrencyRepository(settingsDao, settingsDao)
+        )
+    }
+
     "maps Account to entity" {
         // given
-        val mapper = AccountMapper(FakeCurrencyRepository())
+        val mapper = newAccountMapper()
         val id = UUID.randomUUID()
         val account = Account(
             id = AccountId(id),
@@ -51,7 +60,7 @@ class AccountMapperTest : FreeSpec({
 
     "maps AccountEntity to domain" - {
         // given
-        val mapper = AccountMapper(FakeCurrencyRepository())
+        val mapper = newAccountMapper()
         val entity = AccountEntity(
             name = "Test",
             currency = "USD",

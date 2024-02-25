@@ -3,6 +3,7 @@ package com.ivy.data.repository.impl
 import com.ivy.data.DataWriteEvent
 import com.ivy.data.DataWriteEventBus
 import com.ivy.data.DeleteOperation
+import com.ivy.data.db.dao.fake.FakeSettingsDao
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.write.WriteAccountDao
 import com.ivy.data.db.entity.AccountEntity
@@ -30,8 +31,10 @@ class AccountRepositoryImplTest : FreeSpec({
     val writeAccountDao = mockk<WriteAccountDao>()
     val writeEventBus = mockk<DataWriteEventBus>(relaxed = true)
 
-    fun newRepository(): AccountRepository = AccountRepositoryImpl(
-        mapper = AccountMapper(FakeCurrencyRepository()),
+    fun newRepository(
+        settingsDao: FakeSettingsDao = FakeSettingsDao()
+    ): AccountRepository = AccountRepositoryImpl(
+        mapper = AccountMapper(FakeCurrencyRepository(settingsDao, settingsDao)),
         accountDao = accountDao,
         writeAccountDao = writeAccountDao,
         dispatchersProvider = TestDispatchersProvider,
