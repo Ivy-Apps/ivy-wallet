@@ -1,6 +1,5 @@
 package com.ivy.transaction
 
-import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Column
@@ -24,7 +23,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -249,8 +247,6 @@ private fun BoxWithConstraintsScope.UI(
     val titleFocus = FocusRequester()
     val scrollState = rememberScrollState()
 
-    val context = LocalContext.current
-
     // This is to scroll the column to the customExchangeCard composable when it is shown
     var customExchangeRatePosition by remember { mutableStateOf(0F) }
     LaunchedEffect(key1 = customExchangeRateState.showCard) {
@@ -459,9 +455,6 @@ private fun BoxWithConstraintsScope.UI(
                 // create new mode
                 ModalAdd {
                     onSave(true)
-                    if (toAccount == null && transactionType == TransactionType.TRANSFER) {
-                        Toast.makeText(context, context.getString(R.string.msg_select_account_to_transfer), Toast.LENGTH_LONG).show()
-                    }
                 }
             }
         },
