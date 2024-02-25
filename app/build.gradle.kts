@@ -121,14 +121,6 @@ android {
         xmlOutput = file("${project.rootDir}/build/reports/lint/lint.xml")
         baseline = file("lint-baseline.xml")
     }
-
-    packaging {
-        resources.pickFirsts.apply {
-            add("win32-x86-64/attach_hotspot_windows.dll")
-            add("win32-x86/attach_hotspot_windows.dll")
-            add("META-INF/**")
-        }
-    }
 }
 
 dependencies {

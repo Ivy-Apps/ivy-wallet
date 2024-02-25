@@ -8,7 +8,7 @@ import com.ivy.data.db.dao.write.WriteSettingsDao
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.impl.AccountRepositoryImpl
 import com.ivy.data.repository.mapper.AccountMapper
-import com.ivy.testing.TestDispatchersProvider
+import com.ivy.base.TestDispatchersProvider
 import org.jetbrains.annotations.VisibleForTesting
 
 @VisibleForTesting

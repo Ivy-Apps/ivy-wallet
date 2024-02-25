@@ -4,7 +4,7 @@ import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
 import com.ivy.data.repository.CurrencyRepository
 import com.ivy.data.repository.impl.CurrencyRepositoryImpl
-import com.ivy.testing.TestDispatchersProvider
+import com.ivy.base.TestDispatchersProvider
 import org.jetbrains.annotations.VisibleForTesting
 
 @VisibleForTesting

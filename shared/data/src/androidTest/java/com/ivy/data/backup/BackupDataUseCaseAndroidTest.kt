@@ -14,7 +14,7 @@ import com.ivy.data.file.IvyFileReader
 import com.ivy.data.repository.fake.FakeAccountRepository
 import com.ivy.data.repository.fake.FakeCurrencyRepository
 import com.ivy.data.repository.mapper.AccountMapper
-import com.ivy.testing.TestDispatchersProvider
+import com.ivy.base.TestDispatchersProvider
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.ints.shouldBeGreaterThan
 import kotlinx.coroutines.runBlocking

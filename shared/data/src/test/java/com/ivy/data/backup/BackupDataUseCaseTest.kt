@@ -12,7 +12,7 @@ import com.ivy.data.db.dao.fake.FakeTransactionDao
 import com.ivy.data.repository.fake.FakeAccountRepository
 import com.ivy.data.repository.fake.FakeCurrencyRepository
 import com.ivy.data.repository.mapper.AccountMapper
-import com.ivy.testing.TestDispatchersProvider
+import com.ivy.base.TestDispatchersProvider
 import com.ivy.testing.testResource
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.ints.shouldBeGreaterThan
