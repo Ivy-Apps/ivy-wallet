@@ -9,6 +9,8 @@ import com.ivy.data.db.dao.fake.FakeLoanRecordDao
 import com.ivy.data.db.dao.fake.FakePlannedPaymentDao
 import com.ivy.data.db.dao.fake.FakeSettingsDao
 import com.ivy.data.db.dao.fake.FakeTransactionDao
+import com.ivy.data.repository.fake.FakeAccountRepository
+import com.ivy.data.repository.mapper.AccountMapper
 import com.ivy.testing.TestDispatchersProvider
 import com.ivy.testing.testResource
 import io.kotest.core.spec.style.FreeSpec
@@ -28,7 +30,8 @@ class BackupDataUseCaseTest : FreeSpec({
         backupLoanRecordDao: FakeLoanRecordDao = FakeLoanRecordDao(),
     ): BackupDataUseCase = BackupDataUseCase(
         accountDao = backupAccountDao,
-        accountWriter = backupAccountDao,
+        accountMapper = AccountMapper(),
+        accountRepository = FakeAccountRepository(),
         budgetDao = backupBudgetDao,
         categoryDao = backupCategoryDao,
         loanRecordDao = backupLoanRecordDao,

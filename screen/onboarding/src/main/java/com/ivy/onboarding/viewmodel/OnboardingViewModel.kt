@@ -10,7 +10,7 @@ import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
-import com.ivy.domain.ComposeViewModel
+import com.ivy.base.ComposeViewModel
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.LogoutLogic
 import com.ivy.base.legacy.SharedPrefs

@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Transaction
 import com.ivy.data.db.dao.write.WriteCategoryDao
-import com.ivy.domain.ComposeViewModel
+import com.ivy.base.ComposeViewModel
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.thenInvokeAfter
 import com.ivy.legacy.datamodel.Account

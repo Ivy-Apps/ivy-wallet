@@ -22,7 +22,7 @@ import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.AccountId
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.mapper.TransactionMapper
-import com.ivy.domain.ComposeViewModel
+import com.ivy.base.ComposeViewModel
 import com.ivy.frp.then
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.model.TimePeriod

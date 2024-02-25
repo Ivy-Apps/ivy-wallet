@@ -13,8 +13,7 @@ dependencies {
 
     implementation(libs.datastore)
     implementation(libs.bundles.ktor)
+    implementation(projects.shared.testing)
 
     androidTestImplementation(libs.bundles.integration.testing)
-    androidTestImplementation(projects.shared.testing)
-    testImplementation(projects.shared.testing)
 }
