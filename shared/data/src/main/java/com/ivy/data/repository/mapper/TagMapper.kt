@@ -26,7 +26,7 @@ class TagMapper @Inject constructor() {
             name = NotBlankTrimmedString(this.name),
             description = this.description,
             color = ColorInt(this.color),
-            icon = this.icon?.let { IconAsset(it) },
+            icon = this.icon?.let { IconAsset.from(it).getOrNull() },
             orderNum = this.orderNum,
             creationTimestamp = this.dateTime,
             lastUpdated = this.lastSyncedTime,

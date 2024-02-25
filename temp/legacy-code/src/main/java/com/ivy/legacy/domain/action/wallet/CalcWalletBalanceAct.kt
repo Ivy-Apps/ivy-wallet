@@ -42,7 +42,7 @@ class CalcWalletBalanceAct @Inject constructor(
                         asset = AssetCode.from(account.currency ?: baseCurrency).getOrNull()
                             ?: error("account currency cannot be blank"),
                         color = ColorInt(account.color),
-                        icon = account.icon?.let { IconAsset(it) },
+                        icon = account.icon?.let { IconAsset.from(it).getOrNull() },
                         includeInBalance = account.includeInBalance,
                         orderNum = account.orderNum,
                         lastUpdated = Instant.EPOCH,
