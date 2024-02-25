@@ -122,7 +122,6 @@ android {
         baseline = file("lint-baseline.xml")
     }
 
-
     packaging {
         resources.pickFirsts.apply {
             add("win32-x86-64/attach_hotspot_windows.dll")
