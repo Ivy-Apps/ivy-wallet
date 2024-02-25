@@ -75,20 +75,8 @@ class AccountCreator @Inject constructor(
             isSynced = false
         )
         ioThread {
-            val account = either {
-                Account(
-                    id = AccountId(legacyAccount.id),
-                    name = NotBlankTrimmedString.from(legacyAccount.name).bind(),
-                    asset = legacyAccount.currency?.let(AssetCode::from)?.bind()
-                        ?: currencyRepository.getBaseCurrency(),
-                    color = ColorInt(legacyAccount.color),
-                    icon = legacyAccount.icon?.let(IconAsset::from)?.getOrNull(),
-                    includeInBalance = legacyAccount.includeInBalance,
-                    orderNum = legacyAccount.orderNum,
-                    lastUpdated = Instant.now(),
-                    removed = legacyAccount.isDeleted,
-                )
-            }.getOrNull() ?: return@ioThread
+            val account = legacyAccount.toDomainAccount(currencyRepository).getOrNull()
+                ?: return@ioThread
             accountRepository.save(account)
 
             accountLogic.adjustBalance(
