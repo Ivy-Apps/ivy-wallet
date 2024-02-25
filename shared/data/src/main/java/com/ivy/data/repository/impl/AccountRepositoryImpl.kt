@@ -29,6 +29,10 @@ class AccountRepositoryImpl @Inject constructor(
         return accountsMemo[id] ?: withContext(dispatchersProvider.io) {
             accountDao.findById(id.value)?.let {
                 with(mapper) { it.toDomain() }.getOrNull()
+            }.also {
+                if (it != null) {
+                    accountsMemo[id] = it
+                }
             }
         }
     }
@@ -39,7 +43,7 @@ class AccountRepositoryImpl @Inject constructor(
         } else withContext(dispatchersProvider.io) {
             accountDao.findAll(deleted).mapNotNull {
                 with(mapper) { it.toDomain() }.getOrNull()
-            }
+            }.also(::memoize)
         }
     }
 
@@ -67,11 +71,14 @@ class AccountRepositoryImpl @Inject constructor(
             writeAccountDao.saveMany(
                 values.map { with(mapper) { it.toEntity() } }
             )
-            // Memoize
-            values.forEach {
-                accountsMemo[it.id] = it
-            }
+            memoize(values)
             writeEventBus.post(DataWriteEvent.SaveAccounts(values))
+        }
+    }
+
+    private fun memoize(accounts: List<Account>) {
+        accounts.forEach {
+            accountsMemo[it.id] = it
         }
     }
 
