@@ -11,6 +11,8 @@ import com.ivy.base.di.KotlinxSerializationModule
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.data.db.IvyRoomDatabase
 import com.ivy.data.file.IvyFileReader
+import com.ivy.data.repository.fake.FakeAccountRepository
+import com.ivy.data.repository.mapper.AccountMapper
 import com.ivy.testing.TestDispatchersProvider
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.ints.shouldBeGreaterThan
@@ -42,7 +44,11 @@ class BackupDataUseCaseAndroidTest {
             settingsDao = db.settingsDao,
             transactionDao = db.transactionDao,
             sharedPrefs = SharedPrefs(appContext),
-            accountWriter = db.writeAccountDao,
+            accountRepository = FakeAccountRepository(
+                accountDao = db.accountDao,
+                writeAccountDao = db.writeAccountDao
+            ),
+            accountMapper = AccountMapper(),
             categoryWriter = db.writeCategoryDao,
             transactionWriter = db.writeTransactionDao,
             settingsWriter = db.writeSettingsDao,
