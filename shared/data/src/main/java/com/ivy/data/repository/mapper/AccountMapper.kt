@@ -23,7 +23,7 @@ class AccountMapper @Inject constructor(
             asset = currency?.let(AssetCode::from)?.bind()
                 ?: currencyRepository.getBaseCurrency(),
             color = ColorInt(color),
-            icon = icon?.let { IconAsset.from(it).getOrNull() },
+            icon = icon?.let(IconAsset::from)?.getOrNull(),
             includeInBalance = includeInBalance,
             orderNum = orderNum,
             lastUpdated = Instant.EPOCH, // TODO: Wire this
