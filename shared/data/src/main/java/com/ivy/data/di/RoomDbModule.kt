@@ -10,6 +10,7 @@ import com.ivy.data.db.dao.read.LoanDao
 import com.ivy.data.db.dao.read.LoanRecordDao
 import com.ivy.data.db.dao.read.PlannedPaymentRuleDao
 import com.ivy.data.db.dao.read.SettingsDao
+import com.ivy.data.db.dao.read.TagDao
 import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.data.db.dao.read.UserDao
 import com.ivy.data.db.dao.write.WriteAccountDao
@@ -20,6 +21,8 @@ import com.ivy.data.db.dao.write.WriteLoanDao
 import com.ivy.data.db.dao.write.WriteLoanRecordDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
+import com.ivy.data.db.dao.write.WriteTagAssociationDao
+import com.ivy.data.db.dao.write.WriteTagDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import dagger.Module
 import dagger.Provides
@@ -88,6 +91,11 @@ object RoomDbModule {
     }
 
     @Provides
+    fun provideTagDao(db: IvyRoomDatabase): TagDao {
+        return db.tagDao
+    }
+
+    @Provides
     fun provideExchangeRatesDao(
         roomDatabase: IvyRoomDatabase
     ): ExchangeRatesDao {
@@ -137,5 +145,15 @@ object RoomDbModule {
     @Provides
     fun provideWriteExchangeRatesDao(db: IvyRoomDatabase): WriteExchangeRatesDao {
         return db.writeExchangeRatesDao
+    }
+
+    @Provides
+    fun provideWriteTagDao(db: IvyRoomDatabase): WriteTagDao {
+        return db.writeTagDao
+    }
+
+    @Provides
+    fun provideWriteTagAssociationDao(db: IvyRoomDatabase): WriteTagAssociationDao {
+        return db.writeTagAssociationDao
     }
 }

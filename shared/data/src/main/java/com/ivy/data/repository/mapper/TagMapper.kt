@@ -1,14 +1,24 @@
 package com.ivy.data.repository.mapper
 
+import android.graphics.Color
+import com.ivy.data.db.entity.TagAssociationEntity
 import com.ivy.data.db.entity.TagEntity
 import com.ivy.data.model.Tag
+import com.ivy.data.model.TagAssociation
+import com.ivy.data.model.primitive.AssociationId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.primitive.TagId
+import java.time.Instant
+import java.util.UUID
 import javax.inject.Inject
 
 class TagMapper @Inject constructor() {
+
+    companion object {
+        fun createNewTagId(): TagId = TagId(UUID.randomUUID())
+    }
 
     fun TagEntity.toDomain(): Tag {
         return Tag(
@@ -35,6 +45,38 @@ class TagMapper @Inject constructor() {
             dateTime = this.creationTimestamp,
             lastSyncedTime = this.lastUpdated,
             isDeleted = this.removed
+        )
+    }
+
+    fun TagAssociation.toEntity(): TagAssociationEntity {
+        return TagAssociationEntity(
+            tagId = this.id.value,
+            associatedId = this.associatedId.value,
+            lastSyncedTime = this.lastUpdated,
+            isDeleted = this.removed
+        )
+    }
+
+    fun createNewTag(tagId: TagId = createNewTagId(), name: NotBlankTrimmedString): Tag {
+        return Tag(
+            id = tagId,
+            name = name,
+            description = null,
+            color = ColorInt(Color.TRANSPARENT),
+            icon = null,
+            orderNum = 0.0,
+            creationTimestamp = Instant.now(),
+            lastUpdated = Instant.now(),
+            removed = false
+        )
+    }
+
+    fun createNewTagAssociation(tagId: TagId, associationId: AssociationId): TagAssociation {
+        return TagAssociation(
+            id = tagId,
+            associatedId = associationId,
+            lastUpdated = Instant.now(),
+            removed = false
         )
     }
 }

@@ -29,6 +29,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.model.TransactionType
+import com.ivy.data.model.Tag
 import com.ivy.design.l0_system.Orange
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -39,6 +40,8 @@ import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.rootView
 import com.ivy.legacy.ui.component.edit.TransactionDateTime
+import com.ivy.legacy.ui.component.tags.AddTagButton
+import com.ivy.legacy.ui.component.tags.ShowTagModal
 import com.ivy.legacy.utils.convertUTCtoLocal
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.timeNowLocal
@@ -113,7 +116,8 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransactionScreen)
 
         categories = uiState.categories,
         accounts = uiState.accounts,
-
+        tags = uiState.tags,
+        transactionAssociatedTags = uiState.transactionAssociatedTags,
         hasChanges = uiState.hasChanges,
         onSetDate = {
             viewModel.onEvent(EditTransactionEvent.OnSetDate(it))
@@ -169,6 +173,9 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransactionScreen)
         },
         onExchangeRateChanged = {
             viewModel.onEvent(EditTransactionEvent.UpdateExchangeRate(it))
+        },
+        onTagOperation = {
+            viewModel.onEvent(it)
         }
     )
 }
@@ -192,6 +199,8 @@ private fun BoxWithConstraintsScope.UI(
     customExchangeRateState: CustomExchangeRateState,
     categories: ImmutableList<Category>,
     accounts: ImmutableList<Account>,
+    tags: ImmutableList<Tag>,
+    transactionAssociatedTags: ImmutableList<Tag>,
     onTitleChanged: (String?) -> Unit,
     onDescriptionChanged: (String?) -> Unit,
     onAmountChanged: (Double) -> Unit,
@@ -211,12 +220,14 @@ private fun BoxWithConstraintsScope.UI(
     onDelete: () -> Unit,
     onCreateAccount: (CreateAccountData) -> Unit,
     onExchangeRateChanged: (Double?) -> Unit = { },
+    onTagOperation: (EditTransactionEvent.TagEvent) -> Unit = {},
     loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(),
     backgroundProcessing: Boolean = false,
     hasChanges: Boolean = false,
 
-) {
+    ) {
     var chooseCategoryModalVisible by remember { mutableStateOf(false) }
+    var tagModelVisible by remember { mutableStateOf(false) }
     var categoryModalData: CategoryModalData? by remember { mutableStateOf(null) }
     var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
     var descriptionModalVisible by remember { mutableStateOf(false) }
@@ -322,6 +333,12 @@ private fun BoxWithConstraintsScope.UI(
 
         Category(category = category, onChooseCategory = {
             chooseCategoryModalVisible = true
+        })
+
+        Spacer(Modifier.height(16.dp))
+
+        AddTagButton(transactionAssociatedTags = transactionAssociatedTags, onClick = {
+            tagModelVisible = true
         })
 
         Spacer(Modifier.height(32.dp))
@@ -583,6 +600,35 @@ private fun BoxWithConstraintsScope.UI(
             onExchangeRateChanged(it)
         }
     )
+
+    ShowTagModal(
+        visible = tagModelVisible,
+        onDismiss = {
+            tagModelVisible = false
+            // Reset TagList, avoids showing incorrect tag list when user has searched for a tag
+            onTagOperation(EditTransactionEvent.TagEvent.OnTagSearch(""))
+        },
+        allTagList = tags,
+        selectedTagList = transactionAssociatedTags,
+        onTagAdd = {
+            onTagOperation(EditTransactionEvent.TagEvent.SaveTag(name = it))
+        },
+        onTagEdit = { oldTag, newTag ->
+            onTagOperation(EditTransactionEvent.TagEvent.OnTagEdit(oldTag, newTag))
+        },
+        onTagDelete = {
+            onTagOperation(EditTransactionEvent.TagEvent.OnTagDelete(it))
+        },
+        onTagSelected = {
+            onTagOperation(EditTransactionEvent.TagEvent.OnTagSelect(it))
+        },
+        onTagDeSelected = {
+            onTagOperation(EditTransactionEvent.TagEvent.OnTagDeSelect(it))
+        },
+        onTagSearch = {
+            onTagOperation(EditTransactionEvent.TagEvent.OnTagSearch(it))
+        }
+    )
 }
 
 private fun shouldFocusCategory(
@@ -605,6 +651,8 @@ private fun BoxWithConstraintsScope.Preview() {
             screen = EditTransactionScreen(null, TransactionType.EXPENSE),
             initialTitle = "",
             titleSuggestions = persistentSetOf(),
+            tags = persistentListOf(),
+            transactionAssociatedTags = persistentListOf(),
             baseCurrency = "BGN",
             dateTime = timeNowLocal(),
             description = null,
