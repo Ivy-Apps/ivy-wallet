@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.viewModelScope
 import arrow.core.toOption
+import com.ivy.base.ComposeViewModel
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
@@ -15,14 +16,12 @@ import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.CategoryDao
-import com.ivy.data.db.dao.write.WriteAccountDao
 import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.AccountId
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.mapper.TransactionMapper
-import com.ivy.base.ComposeViewModel
 import com.ivy.frp.then
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.model.TimePeriod
@@ -88,9 +87,8 @@ class TransactionsViewModel @Inject constructor(
     private val exchangeAct: ExchangeAct,
     private val transactionWriter: WriteTransactionDao,
     private val categoryWriter: WriteCategoryDao,
-    private val accountWriter: WriteAccountDao,
     private val plannedPaymentRuleWriter: WritePlannedPaymentRuleDao,
-    private val transactionMapper: TransactionMapper
+    private val transactionMapper: TransactionMapper,
 ) : ComposeViewModel<TransactionsState, TransactionsEvent>() {
 
     private val period = mutableStateOf(ivyContext.selectedPeriod)
@@ -713,7 +711,7 @@ class TransactionsViewModel @Inject constructor(
         ioThread {
             transactionWriter.flagDeletedByAccountId(accountId = accountId)
             plannedPaymentRuleWriter.flagDeletedByAccountId(accountId = accountId)
-            accountWriter.flagDeleted(accountId)
+            accountRepository.deleteById(AccountId(accountId))
 
             nav.back()
         }
