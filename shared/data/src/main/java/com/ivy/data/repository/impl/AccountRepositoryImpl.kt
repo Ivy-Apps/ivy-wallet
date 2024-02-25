@@ -40,18 +40,22 @@ class AccountRepositoryImpl @Inject constructor(
     override suspend fun findAll(deleted: Boolean): List<Account> {
         return if (accountsMemo.isNotEmpty()) {
             accountsMemo.values.sortedBy { it.orderNum }
-        } else withContext(dispatchersProvider.io) {
-            accountDao.findAll(deleted).mapNotNull {
-                with(mapper) { it.toDomain() }.getOrNull()
-            }.also(::memoize)
+        } else {
+            withContext(dispatchersProvider.io) {
+                accountDao.findAll(deleted).mapNotNull {
+                    with(mapper) { it.toDomain() }.getOrNull()
+                }.also(::memoize)
+            }
         }
     }
 
     override suspend fun findMaxOrderNum(): Double {
         return if (accountsMemo.isNotEmpty()) {
             accountsMemo.maxOfOrNull { (_, acc) -> acc.orderNum } ?: 0.0
-        } else withContext(dispatchersProvider.io) {
-            accountDao.findMaxOrderNum() ?: 0.0
+        } else {
+            withContext(dispatchersProvider.io) {
+                accountDao.findMaxOrderNum() ?: 0.0
+            }
         }
     }
 

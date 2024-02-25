@@ -421,6 +421,7 @@ class CSVImporter @Inject constructor(
         ).convertLocalToUTC()
     }
 
+    @Suppress("ReturnCount")
     private suspend fun mapAccount(
         baseCurrency: String,
         accountNameString: String?,

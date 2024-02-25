@@ -42,6 +42,7 @@ data class Account(
         id = id
     )
 
+    @Suppress("DataClassFunctions")
     suspend fun toDomainAccount(
         currencyRepository: CurrencyRepository
     ): Either<String, DomainAccount> {
