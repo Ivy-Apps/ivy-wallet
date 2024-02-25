@@ -24,10 +24,10 @@ class CurrencyRepositoryImpl @Inject constructor(
         const val FALLBACK_DEFAULT_CURRENCY = "USD"
     }
 
-    private var memoBaseCurrency: AssetCode? = null
+    private var baseCurrencyMemo: AssetCode? = null
 
     override suspend fun getBaseCurrency(): AssetCode = withContext(dispatchersProvider.io) {
-        val baseCurrency = memoBaseCurrency
+        val baseCurrency = baseCurrencyMemo
         if (baseCurrency != null) return@withContext baseCurrency
 
         val currencyCode = settingsDao.findFirstOrNull()?.currency
@@ -52,7 +52,7 @@ class CurrencyRepositoryImpl @Inject constructor(
                     isDeleted = false,
                     id = UUID.randomUUID()
                 )
-            memoBaseCurrency = newCurrency
+            baseCurrencyMemo = newCurrency
             writeSettingsDao.save(
                 currentEntity.copy(
                     currency = newCurrency.code
