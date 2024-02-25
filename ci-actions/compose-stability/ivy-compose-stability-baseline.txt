@@ -148,6 +148,8 @@ com.ivy.transaction.EditTransactionViewModel.getHasChanges
 com.ivy.transaction.EditTransactionViewModel.getDisplayLoanHelper
 com.ivy.transaction.EditTransactionViewModel.getBackgroundProcessingStarted
 com.ivy.transaction.EditTransactionViewModel.getCustomExchangeRateState
+com.ivy.transaction.EditTransactionViewModel.getTags
+com.ivy.transaction.EditTransactionViewModel.getTransactionAssociatedTags
 com.ivy.features.FeaturesViewModel.uiState
 com.ivy.features.FeaturesViewModel.getFeatures
 com.ivy.balance.BalanceViewModel.uiState
