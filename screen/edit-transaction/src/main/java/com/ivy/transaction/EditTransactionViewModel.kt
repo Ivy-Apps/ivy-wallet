@@ -71,6 +71,7 @@ import java.time.LocalTime
 import java.util.UUID
 import javax.inject.Inject
 
+@Suppress("LargeClass")
 @Stable
 @HiltViewModel
 class EditTransactionViewModel @Inject constructor(

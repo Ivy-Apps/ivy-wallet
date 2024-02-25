@@ -180,6 +180,7 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransactionScreen)
     )
 }
 
+@Suppress("LongParameterList", "LongMethod", "CyclomaticComplexMethod")
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
