@@ -687,6 +687,7 @@ class EditTransactionViewModel @Inject constructor(
         }
     }
 
+    // Comment for push
     @Suppress("ReturnCount")
     private fun validTransaction(): Boolean {
         if (hasNotChosenAccountToTransfer()) {
