@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.pure.transaction
 
 import arrow.core.NonEmptyList
 import arrow.core.nonEmptyListOf
-import com.ivy.base.legacy.Transaction
+import com.ivy.data.model.Transaction
 import com.ivy.frp.Pure
 import com.ivy.wallet.domain.pure.util.mapIndexedNel
 import com.ivy.wallet.domain.pure.util.mapIndexedNelSuspend
@@ -88,4 +88,55 @@ suspend fun <A> sumTrns(
         valueFunctionArgument = argument,
         valueFunctions = nonEmptyListOf(valueFunction)
     ).head
+}
+
+@Deprecated("Uses legacy Transaction")
+object LegacyFoldTransactions {
+
+    @Pure
+    suspend fun <Arg> foldTransactionsSuspend(
+        transactions: List<com.ivy.base.legacy.Transaction>,
+        valueFunctions: NonEmptyList<suspend (com.ivy.base.legacy.Transaction, Arg) -> BigDecimal>,
+        arg: Arg
+    ): NonEmptyList<BigDecimal> = sumTransactionsSuspendInternal(
+        transactions = transactions,
+        valueFunctions = valueFunctions,
+        valueFunctionArgument = arg
+    )
+
+    @Deprecated("Kept only to stay compatible with legacy.Transaction")
+    @Pure
+    internal tailrec suspend fun <A> sumTransactionsSuspendInternal(
+        transactions: List<com.ivy.base.legacy.Transaction>,
+        valueFunctionArgument: A,
+        valueFunctions: NonEmptyList<suspend (com.ivy.base.legacy.Transaction, A) -> BigDecimal>,
+        sum: NonEmptyList<BigDecimal> = nonEmptyListOfZeros(n = valueFunctions.size)
+    ): NonEmptyList<BigDecimal> {
+        return if (transactions.isEmpty()) {
+            sum
+        } else {
+            sumTransactionsSuspendInternal(
+                valueFunctionArgument = valueFunctionArgument,
+                transactions = transactions.drop(1),
+                valueFunctions = valueFunctions,
+                sum = sum.mapIndexedNelSuspend { index, sumValue ->
+                    val valueFunction = valueFunctions[index]
+                    sumValue + valueFunction(transactions.first(), valueFunctionArgument)
+                }
+            )
+        }
+    }
+
+    @Deprecated("Kept only to stay compatible with legacy.Transaction")
+    suspend fun <A> sumTrns(
+        transactions: List<com.ivy.base.legacy.Transaction>,
+        valueFunction: suspend (com.ivy.base.legacy.Transaction, A) -> BigDecimal,
+        argument: A
+    ): BigDecimal {
+        return sumTransactionsSuspendInternal(
+            transactions = transactions,
+            valueFunctionArgument = argument,
+            valueFunctions = nonEmptyListOf(valueFunction)
+        ).head
+    }
 }

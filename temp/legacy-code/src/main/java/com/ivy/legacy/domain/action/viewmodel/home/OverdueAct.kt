@@ -1,6 +1,5 @@
 package com.ivy.wallet.domain.action.viewmodel.home
 
-import com.ivy.base.legacy.Transaction
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.legacy.utils.beginningOfIvyTime
@@ -37,6 +36,6 @@ class OverdueAct @Inject constructor(
 
     data class Output(
         val overdue: IncomeExpensePair,
-        val overdueTrns: List<Transaction>
+        val overdueTrns: List<com.ivy.data.model.Transaction>
     )
 }

@@ -15,7 +15,6 @@ import com.ivy.data.db.dao.read.LoanRecordDao
 import com.ivy.data.db.dao.read.PlannedPaymentRuleDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.read.TransactionDao
-import com.ivy.data.db.dao.write.WriteAccountDao
 import com.ivy.data.db.dao.write.WriteBudgetDao
 import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.data.db.dao.write.WriteLoanDao
@@ -24,6 +23,8 @@ import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.file.IvyFileReader
+import com.ivy.data.repository.AccountRepository
+import com.ivy.data.repository.mapper.AccountMapper
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.async
@@ -46,7 +47,8 @@ class BackupDataUseCase @Inject constructor(
     private val settingsDao: SettingsDao,
     private val transactionDao: TransactionDao,
     private val sharedPrefs: SharedPrefs,
-    private val accountWriter: WriteAccountDao,
+    private val accountRepository: AccountRepository,
+    private val accountMapper: AccountMapper,
     private val categoryWriter: WriteCategoryDao,
     private val transactionWriter: WriteTransactionDao,
     private val settingsWriter: WriteSettingsDao,
@@ -229,7 +231,14 @@ class BackupDataUseCase @Inject constructor(
             transactionWriter.saveMany(completeData.transactions)
             onProgress(0.6)
 
-            val accounts = async { accountWriter.saveMany(completeData.accounts) }
+            val accounts = async {
+                val domainAccounts = with(accountMapper) {
+                    completeData.accounts.mapNotNull { entity ->
+                        entity.toDomain().getOrNull()
+                    }
+                }
+                accountRepository.saveMany(domainAccounts)
+            }
             val budgets = async { budgetWriter.saveMany(completeData.budgets) }
             val categories =
                 async { categoryWriter.saveMany(completeData.categories) }

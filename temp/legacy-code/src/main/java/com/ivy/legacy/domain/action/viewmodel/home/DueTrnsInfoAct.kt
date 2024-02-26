@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.action.viewmodel.home
 
-import com.ivy.base.legacy.Transaction
+import com.ivy.data.model.Transaction
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.lambda
 import com.ivy.frp.then
