@@ -11,13 +11,6 @@ class RemoteExchangeRatesDataSourceImpl @Inject constructor(
     private val ktorClient: Lazy<HttpClient>
 ) : RemoteExchangeRatesDataSource {
 
-    private val urls = listOf(
-        "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur.json",
-        "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur.min.json",
-        "https://raw.githubusercontent.com/fawazahmed0/currency-api/1/latest/currencies/eur.min.json",
-        "https://raw.githubusercontent.com/fawazahmed0/currency-api/1/latest/currencies/eur.json",
-    )
-
     data class ExchangeRatesResponse(
         val date: String,
         val rates: Map<String, Double>
