@@ -8,7 +8,7 @@ import kotlinx.collections.immutable.ImmutableList
 @Deprecated("Uses legacy Transaction")
 @Immutable
 data class LegacyDueSection(
-    val trns: List<Transaction>,
+    val trns: ImmutableList<Transaction>,
     val expanded: Boolean,
     val stats: IncomeExpensePair
 )
