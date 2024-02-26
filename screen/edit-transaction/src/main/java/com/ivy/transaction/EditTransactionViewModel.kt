@@ -75,7 +75,6 @@ import javax.inject.Inject
 @Suppress("LargeClass")
 @Stable
 @HiltViewModel
-@Suppress("LargeClass")
 class EditTransactionViewModel @Inject constructor(
     private val toaster: Toaster,
     private val loanDao: LoanDao,
