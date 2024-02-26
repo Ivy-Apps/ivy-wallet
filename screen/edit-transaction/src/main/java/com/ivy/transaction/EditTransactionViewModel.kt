@@ -5,6 +5,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.ivy.base.Toaster
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.refreshWidget
 import com.ivy.base.model.TransactionType
@@ -75,6 +76,7 @@ import javax.inject.Inject
 @Stable
 @HiltViewModel
 class EditTransactionViewModel @Inject constructor(
+    private val toaster: Toaster,
     private val loanDao: LoanDao,
     private val settingsDao: SettingsDao,
     private val nav: Navigation,
@@ -404,15 +406,15 @@ class EditTransactionViewModel @Inject constructor(
 
         val loanWarningDescription = if (isLoanRecord) {
             "Note: This transaction is associated with a Loan Record of Loan : ${loan.name}\n" +
-                "You are trying to change the account associated with the loan record to an " +
-                "account of different currency" +
-                "\n The Loan Record will be re-calculated based on today's currency exchanges" +
-                " rates"
+                    "You are trying to change the account associated with the loan record to an " +
+                    "account of different currency" +
+                    "\n The Loan Record will be re-calculated based on today's currency exchanges" +
+                    " rates"
         } else {
             "Note: You are trying to change the account associated with the loan: ${loan.name} " +
-                "with an account of different currency, " +
-                "\nAll the loan records will be re-calculated based on today's currency " +
-                "exchanges rates "
+                    "with an account of different currency, " +
+                    "\nAll the loan records will be re-calculated based on today's currency " +
+                    "exchanges rates "
         }
 
         val loanCaption =
@@ -636,7 +638,7 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     private fun save(closeScreen: Boolean = true) {
-        if (!validateTransaction()) {
+        if (!validTransaction()) {
             return
         }
 
@@ -662,7 +664,7 @@ class EditTransactionViewModel @Inject constructor(
                     dueDate = dueDate.value,
                     dateTime = when {
                         loadedTransaction().dateTime == null &&
-                            dueDate.value == null -> {
+                                dueDate.value == null -> {
                             timeNowUTC()
                         }
 
@@ -730,8 +732,11 @@ class EditTransactionViewModel @Inject constructor(
         }
     }
 
-    private fun validateTransaction(): Boolean {
-        if (transactionType.value == TransactionType.TRANSFER && toAccount.value == null) {
+    // Comment for push
+    @Suppress("ReturnCount")
+    private fun validTransaction(): Boolean {
+        if (hasNotChosenAccountToTransfer()) {
+            toaster.show(com.ivy.resources.R.string.msg_select_account_to_transfer)
             return false
         }
 
@@ -740,6 +745,10 @@ class EditTransactionViewModel @Inject constructor(
         }
 
         return true
+    }
+
+    private fun hasNotChosenAccountToTransfer(): Boolean {
+        return transactionType.value == TransactionType.TRANSFER && toAccount.value == null
     }
 
     private fun reset() {
