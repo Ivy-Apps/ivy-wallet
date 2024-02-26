@@ -512,7 +512,7 @@ class EditTransactionViewModel @Inject constructor(
 
     private fun onPayPlannedPayment() {
         viewModelScope.launch {
-            plannedPaymentsLogic.payOrGet(
+            plannedPaymentsLogic.payOrGetLegacy(
                 transaction = loadedTransaction(),
                 syncTransaction = false
             ) { paidTransaction ->

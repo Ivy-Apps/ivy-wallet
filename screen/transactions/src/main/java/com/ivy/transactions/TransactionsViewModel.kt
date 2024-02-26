@@ -401,8 +401,9 @@ class TransactionsViewModel @Inject constructor(
         }
 
         upcoming.value = ioThread {
-            accountLogic.upcoming(initialAccount, range)
-                .toImmutableList()
+            with(transactionMapper) {
+                accountLogic.upcoming(initialAccount, range).map { it.toEntity().toDomain() }
+            }.toImmutableList()
         }
 
         // Overdue
@@ -414,7 +415,14 @@ class TransactionsViewModel @Inject constructor(
             accountLogic.calculateOverdueExpenses(initialAccount, range)
         }
 
-        overdue.value = ioThread { accountLogic.overdue(initialAccount, range).toImmutableList() }
+        overdue.value = ioThread {
+            with(transactionMapper) {
+                accountLogic.overdue(initialAccount, range).map {
+                    it.toEntity().toDomain()
+                }
+                    .toImmutableList()
+            }
+        }
     }
 
     private suspend fun initForCategory(categoryId: UUID, accountFilterList: List<UUID>) {
@@ -456,7 +464,7 @@ class TransactionsViewModel @Inject constructor(
         }
 
         upcoming.value = ioThread {
-            categoryLogic.upcomingByCategory(initialCategory, range).toImmutableList()
+            categoryLogic.upcomingByCategoryLegacy(initialCategory, range).toImmutableList()
         }
 
         // Overdue
@@ -470,7 +478,9 @@ class TransactionsViewModel @Inject constructor(
         }
 
         overdue.value =
-            ioThread { categoryLogic.overdueByCategory(initialCategory, range).toImmutableList() }
+            ioThread {
+                categoryLogic.overdueByCategoryLegacy(initialCategory, range).toImmutableList()
+            }
     }
 
     private suspend fun initForCategoryWithTransactions(
@@ -543,7 +553,7 @@ class TransactionsViewModel @Inject constructor(
             }
 
             upcoming.value = ioThread {
-                categoryLogic.upcomingByCategory(initialCategory, range).toImmutableList()
+                categoryLogic.upcomingByCategoryLegacy(initialCategory, range).toImmutableList()
             }
 
             // Overdue
@@ -558,7 +568,7 @@ class TransactionsViewModel @Inject constructor(
 
             overdue.value =
                 ioThread {
-                    categoryLogic.overdueByCategory(initialCategory, range).toImmutableList()
+                    categoryLogic.overdueByCategoryLegacy(initialCategory, range).toImmutableList()
                 }
         }
     }
@@ -592,7 +602,7 @@ class TransactionsViewModel @Inject constructor(
         }
 
         upcoming.value = ioThread {
-            categoryLogic.upcomingUnspecified(range).toImmutableList()
+            categoryLogic.upcomingUnspecifiedLegacy(range).toImmutableList()
         }
 
         // Overdue
@@ -604,7 +614,7 @@ class TransactionsViewModel @Inject constructor(
             categoryLogic.calculateOverdueExpensesUnspecified(range)
         }
 
-        overdue.value = ioThread { categoryLogic.overdueUnspecified(range).toImmutableList() }
+        overdue.value = ioThread { categoryLogic.overdueUnspecifiedLegacy(range).toImmutableList() }
     }
 
     private suspend fun initForAccountTransfersCategory(
@@ -761,7 +771,7 @@ class TransactionsViewModel @Inject constructor(
 
     private fun payOrGet(screen: TransactionsScreen, transaction: Transaction) {
         viewModelScope.launch {
-            plannedPaymentsLogic.payOrGet(transaction = transaction) {
+            plannedPaymentsLogic.payOrGetLegacy(transaction = transaction) {
                 start(
                     screen = screen,
                     reset = false
@@ -772,7 +782,7 @@ class TransactionsViewModel @Inject constructor(
 
     private fun skipTransaction(screen: TransactionsScreen, transaction: Transaction) {
         viewModelScope.launch {
-            plannedPaymentsLogic.payOrGet(
+            plannedPaymentsLogic.payOrGetLegacy(
                 transaction = transaction,
                 skipTransaction = true
             ) {
@@ -786,7 +796,7 @@ class TransactionsViewModel @Inject constructor(
 
     private fun skipTransactions(screen: TransactionsScreen, transactions: List<Transaction>) {
         viewModelScope.launch {
-            plannedPaymentsLogic.payOrGet(
+            plannedPaymentsLogic.payOrGetLegacy(
                 transactions = transactions,
                 skipTransaction = true
             ) {

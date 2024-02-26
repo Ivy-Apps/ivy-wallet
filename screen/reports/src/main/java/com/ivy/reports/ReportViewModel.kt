@@ -25,7 +25,6 @@ import com.ivy.frp.filterSuspend
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
-import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.utils.formatNicelyWithTime
 import com.ivy.legacy.utils.scopedIOThread
 import com.ivy.legacy.utils.timeNowUTC
@@ -432,9 +431,7 @@ class ReportViewModel @Inject constructor(
     private suspend fun payOrGet(transaction: Transaction) {
         uiThread {
             plannedPaymentsLogic.payOrGet(
-                transaction = with(transactionMapper) {
-                    transaction.toEntity().toDomain()
-                }
+                transaction = transaction
             ) {
                 start()
                 setFilter(filter.value)
@@ -445,7 +442,7 @@ class ReportViewModel @Inject constructor(
     @Deprecated("Uses legacy Transaction")
     private suspend fun payOrGetLegacy(transaction: com.ivy.base.legacy.Transaction) {
         uiThread {
-            plannedPaymentsLogic.payOrGet(transaction = transaction) {
+            plannedPaymentsLogic.payOrGetLegacy(transaction = transaction) {
                 start()
                 setFilter(filter.value)
             }
@@ -467,7 +464,7 @@ class ReportViewModel @Inject constructor(
     private suspend fun skipTransaction(transaction: Transaction) {
         uiThread {
             plannedPaymentsLogic.payOrGet(
-                transaction = with(transactionMapper) { transaction.toEntity().toDomain() },
+                transaction = transaction,
                 skipTransaction = true
             ) {
                 start()
@@ -479,7 +476,7 @@ class ReportViewModel @Inject constructor(
     @Deprecated("Uses legacy Transaction")
     private suspend fun skipTransactionLegacy(transaction: com.ivy.base.legacy.Transaction) {
         uiThread {
-            plannedPaymentsLogic.payOrGet(
+            plannedPaymentsLogic.payOrGetLegacy(
                 transaction = transaction,
                 skipTransaction = true
             ) {
@@ -492,11 +489,7 @@ class ReportViewModel @Inject constructor(
     private suspend fun skipTransactions(transactions: List<Transaction>) {
         uiThread {
             plannedPaymentsLogic.payOrGet(
-                transactions = with(transactionMapper) {
-                    transactions.map {
-                        it.toEntity().toDomain()
-                    }
-                },
+                transactions = transactions,
                 skipTransaction = true
             ) {
                 start()
@@ -508,7 +501,7 @@ class ReportViewModel @Inject constructor(
     @Deprecated("Uses legacy Transaction")
     private suspend fun skipTransactionsLegacy(transactions: List<com.ivy.base.legacy.Transaction>) {
         uiThread {
-            plannedPaymentsLogic.payOrGet(
+            plannedPaymentsLogic.payOrGetLegacy(
                 transactions = transactions,
                 skipTransaction = true
             ) {

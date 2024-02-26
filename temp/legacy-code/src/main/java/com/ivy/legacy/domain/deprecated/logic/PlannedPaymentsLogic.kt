@@ -9,6 +9,9 @@ import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.IntervalType
+import com.ivy.data.model.getAccount
+import com.ivy.data.model.settledTransaction
+import com.ivy.data.repository.TransactionRepository
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.PlannedPaymentRule
 import com.ivy.legacy.datamodel.temp.toDomain
@@ -28,6 +31,7 @@ class PlannedPaymentsLogic @Inject constructor(
     private val accountDao: AccountDao,
     private val transactionWriter: WriteTransactionDao,
     private val plannedPaymentRuleWriter: WritePlannedPaymentRuleDao,
+    private val transactionRepository: TransactionRepository
 ) {
     companion object {
         private const val AVG_DAYS_IN_MONTH = 30.436875
@@ -152,7 +156,8 @@ class PlannedPaymentsLogic @Inject constructor(
         }
     }
 
-    suspend fun payOrGet(
+    @Deprecated("Uses legacy Transaction")
+    suspend fun payOrGetLegacy(
         transaction: Transaction,
         syncTransaction: Boolean = true,
         skipTransaction: Boolean = false,
@@ -189,6 +194,84 @@ class PlannedPaymentsLogic @Inject constructor(
     }
 
     suspend fun payOrGet(
+        transaction: com.ivy.data.model.Transaction,
+        syncTransaction: Boolean = true,
+        skipTransaction: Boolean = false,
+        onUpdateUI: suspend (paidTransaction: com.ivy.data.model.Transaction) -> Unit
+    ) {
+        if (transaction.settled) return
+
+        val paidTransaction = transaction.settledTransaction()
+
+        val plannedPaymentRule = ioThread {
+            paidTransaction.metadata.recurringRuleId?.let {
+                plannedPaymentRuleDao.findById(it)
+            }
+        }
+
+        ioThread {
+            if (skipTransaction) {
+                transactionRepository.flagDeleted(paidTransaction.id)
+            } else {
+                transactionRepository.save(paidTransaction.getAccount(), paidTransaction)
+            }
+
+            if (plannedPaymentRule != null && plannedPaymentRule.oneTime) {
+                // delete paid oneTime planned payment rules
+                plannedPaymentRuleWriter.flagDeleted(plannedPaymentRule.id)
+            }
+        }
+
+        onUpdateUI(paidTransaction)
+    }
+
+    suspend fun payOrGet(
+        transactions: List<com.ivy.data.model.Transaction>,
+        syncTransaction: Boolean = true,
+        skipTransaction: Boolean = false,
+        onUpdateUI: suspend (paidTransactions: List<com.ivy.data.model.Transaction>) -> Unit
+    ) {
+        val paidTransactions: List<com.ivy.data.model.Transaction> =
+            transactions.filter { it.settled }
+
+        if (paidTransactions.isEmpty()) return
+
+        paidTransactions.map {
+            it.settledTransaction()
+        }
+
+        val plannedPaymentRules = ioThread {
+            paidTransactions.map { transaction ->
+                transaction.metadata.recurringRuleId?.let {
+                    plannedPaymentRuleDao.findById(it)
+                }
+            }
+        }
+
+        ioThread {
+            if (skipTransaction) {
+                paidTransactions.forEach { paidTransaction ->
+                    transactionRepository.flagDeleted(paidTransaction.id)
+                }
+            } else {
+                paidTransactions.forEach { paidTransaction ->
+                    transactionRepository.save(paidTransaction.getAccount(), paidTransaction)
+                }
+            }
+
+            plannedPaymentRules.forEach { plannedPaymentRule ->
+                if (plannedPaymentRule != null && plannedPaymentRule.oneTime) {
+                    // delete paid oneTime planned payment rules
+                    plannedPaymentRuleWriter.flagDeleted(plannedPaymentRule.id)
+                }
+            }
+        }
+
+        onUpdateUI(paidTransactions)
+    }
+
+    @Deprecated("Uses legacy Transaction")
+    suspend fun payOrGetLegacy(
         transactions: List<Transaction>,
         syncTransaction: Boolean = true,
         skipTransaction: Boolean = false,
