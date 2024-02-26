@@ -5,7 +5,7 @@ ktor = "2.3.8"
 arrow = "1.2.1"
 kotest = "5.8.0"
 # https://developer.android.com/jetpack/androidx/releases/compose
-compose = "1.6.1"
+compose = "1.6.2"
 # https://developer.android.com/jetpack/androidx/releases/compose-kotlin
 compose-compiler = "1.5.8" # It's used! Use compatible with Kotlin one
 compose-material3 = "1.2.0"
@@ -80,7 +80,7 @@ compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-activity = { module = "androidx.activity:activity-compose", version = "1.8.2" }
 compose-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version = "2.7.0" }
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
-compose-coil = { module = "io.coil-kt:coil-compose", version = "2.5.0" }
+compose-coil = { module = "io.coil-kt:coil-compose", version = "2.6.0" }
 glance = { module = "androidx.glance:glance", version.ref = "glance" }
 glance-appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "glance" }
 glance-material3 = { module = "androidx.glance:glance-material3", version.ref = "glance" }
@@ -96,7 +96,7 @@ datastore = { module = "androidx.datastore:datastore-preferences", version = "1.
 
 # Hilt
 hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
-hilt-work = { module = "androidx.hilt:hilt-work", version = "1.1.0" }
+hilt-work = { module = "androidx.hilt:hilt-work", version = "1.2.0" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
 
