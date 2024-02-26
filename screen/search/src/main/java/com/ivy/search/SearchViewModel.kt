@@ -6,7 +6,8 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.TransactionHistoryItem
-import com.ivy.domain.ComposeViewModel
+import com.ivy.data.model.primitive.NotBlankTrimmedString
+import com.ivy.base.ComposeViewModel
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.utils.getDefaultFIATCurrency
@@ -87,7 +88,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun String?.matchesQuery(query: String): Boolean {
-        return this?.lowercase()?.trim()?.contains(query) == true
+    private fun NotBlankTrimmedString?.matchesQuery(query: String): Boolean {
+        return this?.value?.lowercase()?.contains(query) == true
     }
 }

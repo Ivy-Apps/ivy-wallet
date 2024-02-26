@@ -8,9 +8,11 @@ android {
     }
 
     packaging {
-        resources.pickFirsts.add("win32-x86-64/attach_hotspot_windows.dll")
-        resources.pickFirsts.add("win32-x86/attach_hotspot_windows.dll")
-        resources.pickFirsts.add("META-INF/**")
+        resources.pickFirsts.apply {
+            add("win32-x86-64/attach_hotspot_windows.dll")
+            add("win32-x86/attach_hotspot_windows.dll")
+            add("META-INF/**")
+        }
     }
 }
 

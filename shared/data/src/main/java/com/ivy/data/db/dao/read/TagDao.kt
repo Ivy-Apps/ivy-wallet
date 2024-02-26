@@ -15,6 +15,9 @@ interface TagDao {
     @Query("SELECT * FROM tags WHERE id = :id")
     suspend fun findById(id: UUID): TagEntity?
 
+    @Query("SELECT * FROM tags WHERE name LIKE '%' || :text ||'%'")
+    suspend fun findByText(text: String): List<TagEntity>
+
     @Suppress("AnnotationOnSeparateLine")
     @Query(
         "SELECT tags.* FROM tags LEFT JOIN tags_association ON tags.id = tags_association.tagId " +

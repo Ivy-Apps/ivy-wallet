@@ -12,11 +12,16 @@ import com.ivy.base.model.TransactionType
 import com.ivy.data.db.dao.read.LoanDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
-import com.ivy.domain.ComposeViewModel
+import com.ivy.base.ComposeViewModel
 import com.ivy.domain.event.AccountUpdatedEvent
 import com.ivy.domain.event.EventBus
 import com.ivy.legacy.data.EditTransactionDisplayLoan
 import com.ivy.base.legacy.SharedPrefs
+import com.ivy.data.model.Tag
+import com.ivy.data.model.primitive.AssociationId
+import com.ivy.data.model.primitive.NotBlankTrimmedString
+import com.ivy.data.repository.TagsRepository
+import com.ivy.data.repository.mapper.TagMapper
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.datamodel.toEntity
@@ -27,6 +32,7 @@ import com.ivy.legacy.utils.getTrueDate
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.timeUTC
+import com.ivy.legacy.utils.toLowerCaseLocal
 import com.ivy.legacy.utils.uiThread
 import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.MainScreen
@@ -50,7 +56,13 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentSetOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentSet
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
@@ -60,6 +72,7 @@ import java.time.LocalTime
 import java.util.UUID
 import javax.inject.Inject
 
+@Suppress("LargeClass")
 @Stable
 @HiltViewModel
 @Suppress("LargeClass")
@@ -82,6 +95,8 @@ class EditTransactionViewModel @Inject constructor(
     private val accountByIdAct: AccountByIdAct,
     private val eventBus: EventBus,
     private val transactionWriter: WriteTransactionDao,
+    private val tagsRepository: TagsRepository,
+    private val tagMapper: TagMapper
 ) : ComposeViewModel<EditTransactionState, EditTransactionEvent>() {
 
     private val transactionType = mutableStateOf(TransactionType.EXPENSE)
@@ -95,6 +110,8 @@ class EditTransactionViewModel @Inject constructor(
     private val time = MutableStateFlow<LocalTime?>(null)
     private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
     private val categories = mutableStateOf<ImmutableList<Category>>(persistentListOf())
+    private val tags = mutableStateOf<ImmutableList<Tag>>(persistentListOf())
+    private val transactionAssociatedTags = mutableStateOf<ImmutableList<Tag>>(persistentListOf())
     private val account = mutableStateOf<Account?>(null)
     private val toAccount = mutableStateOf<Account?>(null)
     private val category = mutableStateOf<Category?>(null)
@@ -116,12 +133,16 @@ class EditTransactionViewModel @Inject constructor(
 
     private var title: String? = null
     private lateinit var baseUserCurrency: String
+    private var tagSearchJob: Job? = null
+    private val tagSearchDebounceTimeInMills: Long = 500
 
     fun start(screen: EditTransactionScreen) {
         viewModelScope.launch {
             editMode = screen.initialTransactionId != null
 
             baseUserCurrency = baseCurrency()
+
+            val tagList = async { getAllTags() }
 
             val getAccounts = accountsAct(Unit)
             if (getAccounts.isEmpty()) {
@@ -147,6 +168,11 @@ class EditTransactionViewModel @Inject constructor(
                 toAmount = BigDecimal.ZERO
             )
 
+            tags.value = tagList.await()
+            transactionAssociatedTags.value =
+                tagsRepository.findByAssociatedId(AssociationId(loadedTransaction().id))
+                    .toImmutableList()
+
             display(loadedTransaction!!)
         }
     }
@@ -170,7 +196,9 @@ class EditTransactionViewModel @Inject constructor(
             hasChanges = getHasChanges(),
             displayLoanHelper = getDisplayLoanHelper(),
             backgroundProcessingStarted = getBackgroundProcessingStarted(),
-            customExchangeRateState = getCustomExchangeRateState()
+            customExchangeRateState = getCustomExchangeRateState(),
+            tags = getTags(),
+            transactionAssociatedTags = getTransactionAssociatedTags()
         )
     }
 
@@ -259,6 +287,16 @@ class EditTransactionViewModel @Inject constructor(
         return customExchangeRateState.value
     }
 
+    @Composable
+    private fun getTags(): ImmutableList<Tag> {
+        return tags.value
+    }
+
+    @Composable
+    private fun getTransactionAssociatedTags(): ImmutableList<Tag> {
+        return transactionAssociatedTags.value
+    }
+
     override fun onEvent(event: EditTransactionEvent) {
         when (event) {
             is EditTransactionEvent.CreateAccount -> createAccount(event.data)
@@ -284,6 +322,14 @@ class EditTransactionViewModel @Inject constructor(
             is EditTransactionEvent.Save -> save(event.closeScreen)
             is EditTransactionEvent.SetHasChanges -> setHasChanges(event.hasChangesValue)
             is EditTransactionEvent.UpdateExchangeRate -> updateExchangeRate(event.exRate)
+            is EditTransactionEvent.TagEvent -> when (event) {
+                is EditTransactionEvent.TagEvent.SaveTag -> onTagSaved(event.name)
+                is EditTransactionEvent.TagEvent.OnTagSelect -> associateTagToTransaction(event.selectedTag)
+                is EditTransactionEvent.TagEvent.OnTagDeSelect -> removeTagAssociation(event.selectedTag)
+                is EditTransactionEvent.TagEvent.OnTagSearch -> searchTag(event.query)
+                is EditTransactionEvent.TagEvent.OnTagDelete -> deleteTag(event.selectedTag)
+                is EditTransactionEvent.TagEvent.OnTagEdit -> updateTagInformation(event.oldTag, event.newTag)
+            }
         }
     }
 
@@ -781,6 +827,71 @@ class EditTransactionViewModel @Inject constructor(
             hasChanges.value = true
 
             save(closeScreen)
+        }
+    }
+
+    private suspend fun getAllTags(): ImmutableList<Tag> =
+        tagsRepository.findAll().toImmutableList()
+
+    private fun onTagSaved(name: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            NotBlankTrimmedString.from(name.toLowerCaseLocal())
+                .onRight {
+                    val tag = with(tagMapper) { createNewTag(name = it) }
+                    tagsRepository.save(tag)
+                    this@EditTransactionViewModel.tags.value = getAllTags()
+                }
+
+            saveIfEditMode()
+        }
+    }
+
+    private fun associateTagToTransaction(selectedTag: Tag) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val associatedId = AssociationId(loadedTransaction().id)
+            tagsRepository.associateTagToEntity(associatedId, selectedTag.id)
+            transactionAssociatedTags.value =
+                tagsRepository.findByAssociatedId(associatedId).toImmutableList()
+        }
+    }
+
+    private fun removeTagAssociation(selectedTag: Tag) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val associatedId = AssociationId(loadedTransaction().id)
+            tagsRepository.removeTagAssociation(associatedId, selectedTag.id)
+            transactionAssociatedTags.value =
+                tagsRepository.findByAssociatedId(associatedId).toImmutableList()
+        }
+    }
+
+    private fun searchTag(query: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            tagSearchJob?.cancelAndJoin()
+            delay(tagSearchDebounceTimeInMills) // Debounce effect
+            tagSearchJob = launch(Dispatchers.IO) {
+                NotBlankTrimmedString.from(query.toLowerCaseLocal())
+                    .onRight {
+                        tags.value =
+                            tagsRepository.findByText(text = it.value).toImmutableList()
+                    }
+                    .onLeft {
+                        tags.value = tagsRepository.findAll().toImmutableList()
+                    }
+            }
+        }
+    }
+
+    private fun deleteTag(selectedTag: Tag) {
+        viewModelScope.launch(Dispatchers.IO) {
+            tagsRepository.deleteById(selectedTag.id)
+            tags.value = tagsRepository.findAll().toImmutableList()
+        }
+    }
+
+    private fun updateTagInformation(oldTag: Tag, newTag: Tag) {
+        viewModelScope.launch(Dispatchers.IO) {
+            tagsRepository.updateTag(oldTag.id, newTag)
+            tags.value = tagsRepository.findAll().toImmutableList()
         }
     }
 }

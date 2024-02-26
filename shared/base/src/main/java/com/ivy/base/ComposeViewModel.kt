@@ -1,4 +1,4 @@
-package com.ivy.domain
+package com.ivy.base
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable

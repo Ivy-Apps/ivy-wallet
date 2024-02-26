@@ -1,5 +1,6 @@
 package com.ivy.data.repository.mapper
 
+import com.ivy.data.db.dao.fake.FakeSettingsDao
 import com.ivy.data.db.entity.AccountEntity
 import com.ivy.data.model.Account
 import com.ivy.data.model.AccountId
@@ -7,6 +8,7 @@ import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
+import com.ivy.data.repository.fake.FakeCurrencyRepository
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.core.spec.style.FreeSpec
@@ -16,9 +18,17 @@ import java.util.UUID
 
 class AccountMapperTest : FreeSpec({
 
+    fun newAccountMapper(
+        settingsDao: FakeSettingsDao = FakeSettingsDao(),
+    ): AccountMapper {
+        return AccountMapper(
+            currencyRepository = FakeCurrencyRepository(settingsDao, settingsDao)
+        )
+    }
+
     "maps Account to entity" {
         // given
-        val mapper = AccountMapper()
+        val mapper = newAccountMapper()
         val id = UUID.randomUUID()
         val account = Account(
             id = AccountId(id),
@@ -50,7 +60,7 @@ class AccountMapperTest : FreeSpec({
 
     "maps AccountEntity to domain" - {
         // given
-        val mapper = AccountMapper()
+        val mapper = newAccountMapper()
         val entity = AccountEntity(
             name = "Test",
             currency = "USD",
@@ -99,7 +109,7 @@ class AccountMapperTest : FreeSpec({
             val result = with(mapper) { corruptedEntity.toDomain() }
 
             // then
-            result.shouldBeLeft()
+            result.shouldBeRight().asset shouldBe AssetCode("USD")
         }
 
         "missing icon is okay" {

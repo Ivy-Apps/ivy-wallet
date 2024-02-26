@@ -3,16 +3,18 @@ package com.ivy.legacy.domain.deprecated.logic.csv
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.model.TransactionType
+import com.ivy.data.backup.CSVRow
+import com.ivy.data.backup.ImportResult
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.data.db.dao.read.SettingsDao
-import com.ivy.data.db.dao.write.WriteAccountDao
 import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
+import com.ivy.data.repository.AccountRepository
+import com.ivy.data.repository.CurrencyRepository
 import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.design.l0_system.Green
 import com.ivy.design.l0_system.IvyDark
-import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.datamodel.toEntity
@@ -20,8 +22,6 @@ import com.ivy.legacy.utils.convertLocalToUTC
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.toLowerCaseLocal
 import com.ivy.wallet.domain.data.IvyCurrency
-import com.ivy.data.backup.CSVRow
-import com.ivy.data.backup.ImportResult
 import com.ivy.wallet.domain.deprecated.logic.csv.model.RowMapping
 import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.opencsv.CSVReaderBuilder
@@ -36,17 +36,19 @@ import java.time.format.DateTimeFormatter
 import java.util.UUID
 import javax.inject.Inject
 import kotlin.math.absoluteValue
+import com.ivy.legacy.datamodel.Account as LegacyAccount
 
 class CSVImporter @Inject constructor(
     private val settingsDao: SettingsDao,
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
     private val writeTransactionDao: WriteTransactionDao,
-    private val writeAccountDao: WriteAccountDao,
     private val writeCategoryDao: WriteCategoryDao,
+    private val accountRepository: AccountRepository,
+    private val currencyRepository: CurrencyRepository,
 ) {
 
-    lateinit var accounts: List<Account>
+    lateinit var accounts: List<LegacyAccount>
     lateinit var categories: List<Category>
 
     private var newCategoryColorIndex = 0
@@ -419,6 +421,7 @@ class CSVImporter @Inject constructor(
         ).convertLocalToUTC()
     }
 
+    @Suppress("ReturnCount")
     private suspend fun mapAccount(
         baseCurrency: String,
         accountNameString: String?,
@@ -426,7 +429,7 @@ class CSVImporter @Inject constructor(
         icon: String?,
         orderNum: Double?,
         currencyRawString: String?,
-    ): Account? {
+    ): LegacyAccount? {
         if (accountNameString == null || accountNameString.isBlank()) return null
 
         val existingAccount = accounts.firstOrNull {
@@ -452,7 +455,7 @@ class CSVImporter @Inject constructor(
             }
         }.toArgb()
 
-        val newAccount = Account(
+        val newAccount = LegacyAccount(
             name = accountNameString,
             currency = mapCurrency(
                 baseCurrency = baseCurrency,
@@ -462,7 +465,9 @@ class CSVImporter @Inject constructor(
             icon = icon,
             orderNum = orderNum ?: accountDao.findMaxOrderNum().nextOrderNum()
         )
-        writeAccountDao.save(newAccount.toEntity())
+        val domainAccount = newAccount.toDomainAccount(currencyRepository).getOrNull()
+            ?: return null
+        accountRepository.save(domainAccount)
         accounts = accountDao.findAll().map { it.toDomain() }
 
         return newAccount

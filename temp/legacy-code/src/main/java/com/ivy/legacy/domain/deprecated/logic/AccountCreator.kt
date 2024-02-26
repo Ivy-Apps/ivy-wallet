@@ -1,31 +1,54 @@
 package com.ivy.legacy.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
+import arrow.core.raise.either
 import com.ivy.data.db.dao.read.AccountDao
-import com.ivy.data.db.dao.write.WriteAccountDao
-import com.ivy.legacy.datamodel.Account
+import com.ivy.data.model.Account
+import com.ivy.data.model.AccountId
+import com.ivy.data.model.primitive.AssetCode
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.IconAsset
+import com.ivy.data.model.primitive.NotBlankTrimmedString
+import com.ivy.data.repository.AccountRepository
+import com.ivy.data.repository.CurrencyRepository
 import com.ivy.legacy.utils.ioThread
 import com.ivy.wallet.domain.deprecated.logic.WalletAccountLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.pure.util.nextOrderNum
+import java.time.Instant
+import java.util.UUID
 import javax.inject.Inject
+import com.ivy.legacy.datamodel.Account as LegacyAccount
 
 class AccountCreator @Inject constructor(
     private val accountLogic: WalletAccountLogic,
     private val accountDao: AccountDao,
-    private val accountWriter: WriteAccountDao,
+    private val accountRepository: AccountRepository,
+    private val currencyRepository: CurrencyRepository,
 ) {
 
     suspend fun createAccount(
         data: CreateAccountData,
         onRefreshUI: suspend () -> Unit
     ) {
-        val name = data.name
-        if (name.isBlank()) return
-
         ioThread {
-            val account = Account(
-                name = name,
+            val account = either {
+                Account(
+                    id = AccountId(value = UUID.randomUUID()),
+                    name = NotBlankTrimmedString.from(data.name).bind(),
+                    asset = AssetCode.from(data.currency).bind(),
+                    color = ColorInt(data.color.toArgb()),
+                    icon = data.icon?.let(IconAsset::from)?.getOrNull(),
+                    includeInBalance = data.includeBalance,
+                    orderNum = accountDao.findMaxOrderNum().nextOrderNum(),
+                    lastUpdated = Instant.now(),
+                    removed = false,
+                )
+            }.getOrNull() ?: return@ioThread
+            accountRepository.save(account)
+
+            val legacyAccount = LegacyAccount(
+                name = data.name,
                 currency = data.currency,
                 color = data.color.toArgb(),
                 icon = data.icon,
@@ -33,10 +56,8 @@ class AccountCreator @Inject constructor(
                 orderNum = accountDao.findMaxOrderNum().nextOrderNum(),
                 isSynced = false
             )
-            accountWriter.save(account.toEntity())
-
             accountLogic.adjustBalance(
-                account = account,
+                account = legacyAccount,
                 actualBalance = 0.0,
                 newBalance = data.balance
             )
@@ -46,19 +67,21 @@ class AccountCreator @Inject constructor(
     }
 
     suspend fun editAccount(
-        account: Account,
+        legacyAccount: LegacyAccount,
         newBalance: Double,
         onRefreshUI: suspend () -> Unit
     ) {
-        val updatedAccount = account.copy(
+        val updatedLegacyAccount = legacyAccount.copy(
             isSynced = false
         )
-
         ioThread {
-            accountWriter.save(updatedAccount.toEntity())
+            val account = legacyAccount.toDomainAccount(currencyRepository).getOrNull()
+                ?: return@ioThread
+            accountRepository.save(account)
+
             accountLogic.adjustBalance(
-                account = updatedAccount,
-                actualBalance = accountLogic.calculateAccountBalance(updatedAccount),
+                account = updatedLegacyAccount,
+                actualBalance = accountLogic.calculateAccountBalance(updatedLegacyAccount),
                 newBalance = newBalance
             )
         }

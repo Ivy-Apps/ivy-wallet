@@ -3,12 +3,15 @@ package com.ivy.importdata.csv.domain
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.model.TransactionType
+import com.ivy.data.backup.CSVRow
+import com.ivy.data.backup.ImportResult
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.data.db.dao.read.SettingsDao
-import com.ivy.data.db.dao.write.WriteAccountDao
 import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
+import com.ivy.data.repository.AccountRepository
+import com.ivy.data.repository.CurrencyRepository
 import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.importdata.csv.ImportantFields
 import com.ivy.importdata.csv.OptionalFields
@@ -19,8 +22,6 @@ import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.utils.toLowerCaseLocal
 import com.ivy.wallet.domain.data.IvyCurrency
-import com.ivy.data.backup.CSVRow
-import com.ivy.data.backup.ImportResult
 import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.IvyDark
@@ -35,8 +36,9 @@ class CSVImporterV2 @Inject constructor(
     private val transactionWriter: WriteTransactionDao,
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
-    private val accountWriter: WriteAccountDao,
     private val categoryWriter: WriteCategoryDao,
+    private val currencyRepository: CurrencyRepository,
+    private val accountRepository: AccountRepository,
 ) {
 
     lateinit var accounts: List<Account>
@@ -271,7 +273,9 @@ class CSVImporterV2 @Inject constructor(
             icon = icon,
             orderNum = orderNum ?: accountDao.findMaxOrderNum().nextOrderNum()
         )
-        accountWriter.save(newAccount.toEntity())
+        val domainAccount = newAccount.toDomainAccount(currencyRepository).getOrNull()
+            ?: return null
+        accountRepository.save(domainAccount)
         accounts = accountDao.findAll().map { it.toDomain() }
 
         return newAccount

@@ -6,13 +6,17 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
-import com.ivy.base.legacy.Transaction
-import com.ivy.base.model.TransactionType
+import com.ivy.base.legacy.SharedPrefs
 import com.ivy.budgets.model.DisplayBudget
 import com.ivy.data.db.dao.write.WriteBudgetDao
-import com.ivy.domain.ComposeViewModel
+import com.ivy.data.model.Expense
+import com.ivy.data.model.Income
+import com.ivy.data.model.Transaction
+import com.ivy.data.model.Transfer
+import com.ivy.data.model.getAccountId
+import com.ivy.data.model.getValue
+import com.ivy.base.ComposeViewModel
 import com.ivy.frp.sumOfSuspend
-import com.ivy.base.legacy.SharedPrefs
 import com.ivy.legacy.data.model.FromToTimeRange
 import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.legacy.datamodel.Account
@@ -48,7 +52,7 @@ class BudgetViewModel @Inject constructor(
     private val budgetsAct: BudgetsAct,
     private val baseCurrencyAct: BaseCurrencyAct,
     private val historyTrnsAct: HistoryTrnsAct,
-    private val exchangeAct: ExchangeAct
+    private val exchangeAct: ExchangeAct,
 ) : ComposeViewModel<BudgetScreenState, BudgetScreenEvent>() {
 
     private val baseCurrency = mutableStateOf("")
@@ -189,15 +193,15 @@ class BudgetViewModel @Inject constructor(
         val categoryFilter = budget.parseCategoryIds()
 
         return transactions
-            .filter { accountsFilter.isEmpty() || accountsFilter.contains(it.accountId) }
-            .filter { categoryFilter.isEmpty() || categoryFilter.contains(it.categoryId) }
+            .filter { accountsFilter.isEmpty() || accountsFilter.contains(it.getAccountId()) }
+            .filter { categoryFilter.isEmpty() || categoryFilter.contains(it.category?.value) }
             .sumOfSuspend {
-                when (it.type) {
-                    TransactionType.INCOME -> {
+                when (it) {
+                    is Income -> {
                         0.0 // ignore income
                     }
 
-                    TransactionType.EXPENSE -> {
+                    is Expense -> {
                         // increment spent amount
                         exchangeAct(
                             ExchangeAct.Input(
@@ -205,12 +209,12 @@ class BudgetViewModel @Inject constructor(
                                     baseCurrency = baseCurrencyCode,
                                     fromCurrency = trnCurrency(it, accounts, baseCurrencyCode)
                                 ),
-                                amount = it.amount
+                                amount = it.getValue()
                             )
                         ).orNull()?.toDouble() ?: 0.0
                     }
 
-                    TransactionType.TRANSFER -> {
+                    is Transfer -> {
                         // ignore transfers for simplicity
                         0.0
                     }
