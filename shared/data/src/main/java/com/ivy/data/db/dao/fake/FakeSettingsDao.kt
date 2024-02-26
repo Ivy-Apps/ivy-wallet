@@ -14,6 +14,10 @@ class FakeSettingsDao : SettingsDao, WriteSettingsDao {
         return items.first()
     }
 
+    override suspend fun findFirstOrNull(): SettingsEntity? {
+        return items.firstOrNull()
+    }
+
     override suspend fun findAll(): List<SettingsEntity> {
         return items
     }

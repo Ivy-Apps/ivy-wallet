@@ -19,7 +19,7 @@ import com.ivy.data.model.getTransactionType
 import com.ivy.data.model.getValue
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
-import com.ivy.domain.ComposeViewModel
+import com.ivy.base.ComposeViewModel
 import com.ivy.domain.RootScreen
 import com.ivy.frp.filterSuspend
 import com.ivy.legacy.IvyWalletCtx

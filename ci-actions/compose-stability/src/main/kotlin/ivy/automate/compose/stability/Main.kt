@@ -30,7 +30,8 @@ fun main(args: Array<String>) {
             )
         }.toList()
         .filter {
-            shouldGenerateBaseline || it.fullyQualifiedName !in baselineComposables
+            it.isNotViewModelFunction() &&
+                    (shouldGenerateBaseline || it.fullyQualifiedName !in baselineComposables)
         }
     val ivyReportTxt = buildIvyReport(unstableComposables)
     createReportFile(ivyReportTxt)
@@ -175,4 +176,8 @@ private fun readBaseline(): Set<FullyQualifiedName> {
     } catch (e: Exception) {
         emptySet()
     }
+}
+
+private fun UnstableComposable.isNotViewModelFunction(): Boolean {
+    return "ViewModel." !in fullyQualifiedName
 }

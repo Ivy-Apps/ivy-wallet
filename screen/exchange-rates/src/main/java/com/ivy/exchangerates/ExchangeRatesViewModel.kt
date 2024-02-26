@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.data.db.dao.read.ExchangeRatesDao
 import com.ivy.data.db.dao.write.WriteExchangeRatesDao
 import com.ivy.data.db.entity.ExchangeRateEntity
-import com.ivy.domain.ComposeViewModel
+import com.ivy.base.ComposeViewModel
 import com.ivy.exchangerates.data.RateUi
 import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct

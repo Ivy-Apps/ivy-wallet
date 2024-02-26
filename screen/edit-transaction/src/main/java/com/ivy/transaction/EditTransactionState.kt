@@ -2,6 +2,7 @@ package com.ivy.transaction
 
 import androidx.compose.runtime.Immutable
 import com.ivy.base.model.TransactionType
+import com.ivy.data.model.Tag
 import com.ivy.legacy.data.EditTransactionDisplayLoan
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
@@ -28,5 +29,7 @@ data class EditTransactionState(
     val hasChanges: Boolean,
     val displayLoanHelper: EditTransactionDisplayLoan,
     val backgroundProcessingStarted: Boolean,
-    val customExchangeRateState: CustomExchangeRateState
+    val customExchangeRateState: CustomExchangeRateState,
+    val tags: ImmutableList<Tag>,
+    val transactionAssociatedTags: ImmutableList<Tag>
 )

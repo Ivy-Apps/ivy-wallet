@@ -9,7 +9,7 @@ import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.data.repository.mapper.TransactionMapper
-import com.ivy.domain.ComposeViewModel
+import com.ivy.base.ComposeViewModel
 import com.ivy.frp.fixUnit
 import com.ivy.frp.then
 import com.ivy.frp.thenInvokeAfter

@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.data.model.primitive.NotBlankTrimmedString
-import com.ivy.domain.ComposeViewModel
+import com.ivy.base.ComposeViewModel
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.utils.getDefaultFIATCurrency

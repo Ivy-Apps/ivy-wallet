@@ -15,7 +15,7 @@ import com.ivy.data.model.Transaction
 import com.ivy.data.model.Transfer
 import com.ivy.data.model.getAccountId
 import com.ivy.data.model.getValue
-import com.ivy.domain.ComposeViewModel
+import com.ivy.base.ComposeViewModel
 import com.ivy.frp.sumOfSuspend
 import com.ivy.legacy.data.model.FromToTimeRange
 import com.ivy.legacy.data.model.toCloseTimeRange
