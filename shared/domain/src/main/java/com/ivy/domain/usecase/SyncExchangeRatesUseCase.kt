@@ -14,14 +14,13 @@ class SyncExchangeRatesUseCase @Inject constructor(
         if (baseCurrency.isBlank()) return
         val baseCurrencyLower = baseCurrency.lowercase()
 
-        var exchangeRatesResponse: RemoteExchangeRatesDataSourceImpl.ExchangeRatesResponse =
-            RemoteExchangeRatesDataSourceImpl.ExchangeRatesResponse("", emptyMap())
+        var exchangeRatesResponse: RemoteExchangeRatesDataSourceImpl.ExchangeRatesResponse? = null
 
         for (url in repository.urls) {
             exchangeRatesResponse = repository.fetchExchangeRates(url)
-            if (exchangeRatesResponse.rates.isNotEmpty()) break
+            if (exchangeRatesResponse != null) break
         }
-        if (exchangeRatesResponse.rates.isEmpty()) return
+        if (exchangeRatesResponse == null) return
 
         // At this point we must have non-empty EUR rates
         // Now we must convert them to base currency
@@ -52,7 +51,7 @@ class SyncExchangeRatesUseCase @Inject constructor(
             val manualOverride = repository.findByBaseCurrencyAndCurrency(
                 baseCurrency = newRate.baseCurrency,
                 currency = newRate.currency
-            ).manualOverride
+            )?.manualOverride ?: false
 
             if (!manualOverride && newRate.rate > 0.0) {
                 // Only save exchange rates that are not overridden
