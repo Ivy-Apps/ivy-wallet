@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.legacy.stringRes
@@ -184,7 +185,7 @@ private fun RowScope.HeaderCard(
             IvyButton(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = 8.dp)
                     .align(Alignment.CenterHorizontally),
                 text = addButtonText,
                 shadowAlpha = 0.1f,
@@ -192,7 +193,7 @@ private fun RowScope.HeaderCard(
                 textStyle = UI.typo.b2.style(
                     color = findContrastTextColor(addButtonBackground),
                     fontWeight = FontWeight.Bold
-                ),
+                ).copy(fontSize = 12.sp),
                 wrapContentMode = false
             ) {
                 onAddClick()
