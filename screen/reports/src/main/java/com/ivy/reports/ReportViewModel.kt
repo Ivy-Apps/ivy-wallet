@@ -15,8 +15,8 @@ import com.ivy.data.model.Expense
 import com.ivy.data.model.Income
 import com.ivy.data.model.Transaction
 import com.ivy.data.model.Transfer
-import com.ivy.data.model.getTransactionType
-import com.ivy.data.model.getValue
+import com.ivy.data.temp.migration.getTransactionType
+import com.ivy.data.temp.migration.getValue
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.base.ComposeViewModel

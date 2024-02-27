@@ -1,14 +1,10 @@
 package com.ivy.data.model
 
-import com.ivy.base.model.TransactionType
 import com.ivy.data.model.common.Value
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.sync.Syncable
 import com.ivy.data.model.sync.UniqueId
-import java.math.BigDecimal
 import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 import java.util.UUID
 
 @JvmInline
@@ -76,51 +72,3 @@ data class TransactionMetadata(
     // This refers to the loan record id that is linked with a transaction
     val loanRecordId: UUID?,
 )
-
-fun Transaction.getValue(): BigDecimal =
-    when (this) {
-        is Expense -> value.amount.value.toBigDecimal()
-        is Income -> value.amount.value.toBigDecimal()
-        is Transfer -> fromValue.amount.value.toBigDecimal()
-    }
-
-fun Transaction.getAccountId(): UUID =
-    when (this) {
-        is Expense -> account.value
-        is Income -> account.value
-        is Transfer -> fromAccount.value
-    }
-
-fun Transaction.getAccount(): AccountId = when (this) {
-    is Expense -> account
-    is Income -> account
-    is Transfer -> fromAccount
-}
-
-fun Transaction.getTransactionType(): TransactionType {
-    return when (this) {
-        is Expense -> TransactionType.EXPENSE
-        is Income -> TransactionType.INCOME
-        is Transfer -> TransactionType.TRANSFER
-    }
-}
-
-fun Transaction.settledTransaction(): Transaction {
-    val timeNow = LocalDateTime.now(ZoneOffset.UTC).toInstant(ZoneOffset.UTC)
-    return when (this) {
-        is Income -> this.copy(
-            settled = true,
-            time = timeNow
-        )
-
-        is Expense -> this.copy(
-            settled = true,
-            time = timeNow
-        )
-
-        is Transfer -> this.copy(
-            settled = true,
-            time = timeNow
-        )
-    }
-}

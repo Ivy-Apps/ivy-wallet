@@ -6,7 +6,7 @@ import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.Expense
 import com.ivy.data.model.Income
-import com.ivy.data.model.getValue
+import com.ivy.data.temp.migration.getValue
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.legacy.data.model.filterOverdue
 import com.ivy.legacy.data.model.filterUpcoming

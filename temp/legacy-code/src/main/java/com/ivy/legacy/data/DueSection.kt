@@ -13,6 +13,7 @@ data class LegacyDueSection(
     val stats: IncomeExpensePair
 )
 
+@Deprecated("Legacy data model")
 @Immutable
 data class DueSection(
     val trns: ImmutableList<com.ivy.data.model.Transaction>,

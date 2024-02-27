@@ -9,8 +9,8 @@ import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.IntervalType
-import com.ivy.data.model.getAccount
-import com.ivy.data.model.settledTransaction
+import com.ivy.data.temp.migration.getAccount
+import com.ivy.data.temp.migration.settleNow
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.PlannedPaymentRule
@@ -201,7 +201,7 @@ class PlannedPaymentsLogic @Inject constructor(
     ) {
         if (transaction.settled) return
 
-        val paidTransaction = transaction.settledTransaction()
+        val paidTransaction = transaction.settleNow()
 
         val plannedPaymentRule = ioThread {
             paidTransaction.metadata.recurringRuleId?.let {
@@ -237,7 +237,7 @@ class PlannedPaymentsLogic @Inject constructor(
         if (paidTransactions.isEmpty()) return
 
         paidTransactions.map {
-            it.settledTransaction()
+            it.settleNow()
         }
 
         val plannedPaymentRules = ioThread {

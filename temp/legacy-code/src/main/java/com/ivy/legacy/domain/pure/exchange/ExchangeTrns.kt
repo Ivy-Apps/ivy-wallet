@@ -3,8 +3,8 @@ package com.ivy.wallet.domain.pure.exchange
 import arrow.core.Option
 import arrow.core.toOption
 import com.ivy.data.model.Transaction
-import com.ivy.data.model.getAccountId
-import com.ivy.data.model.getValue
+import com.ivy.data.temp.migration.getAccountId
+import com.ivy.data.temp.migration.getValue
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
 import com.ivy.legacy.datamodel.Account
