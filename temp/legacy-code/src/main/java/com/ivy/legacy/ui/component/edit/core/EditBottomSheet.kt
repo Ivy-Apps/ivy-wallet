@@ -556,6 +556,7 @@ private fun AccountsRow(
             ) {
                 onSelectedAccountChanged(account)
             }
+            Spacer(Modifier.width(8.dp))
         }
 
         item {

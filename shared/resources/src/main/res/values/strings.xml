@@ -447,4 +447,5 @@
     <string name="loan_record_type">Record type</string>
     <string name="increase_loan">Increase</string>
     <string name="decrease_loan">Decrease</string>
+    <string name="msg_select_account_to_transfer">Please select an account to transfer to</string>
 </resources>

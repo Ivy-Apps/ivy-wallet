@@ -10,6 +10,9 @@ interface SettingsDao {
     @Query("SELECT * FROM settings LIMIT 1")
     suspend fun findFirst(): SettingsEntity
 
+    @Query("SELECT * FROM settings LIMIT 1")
+    suspend fun findFirstOrNull(): SettingsEntity?
+
     @Query("SELECT * FROM settings")
     suspend fun findAll(): List<SettingsEntity>
 

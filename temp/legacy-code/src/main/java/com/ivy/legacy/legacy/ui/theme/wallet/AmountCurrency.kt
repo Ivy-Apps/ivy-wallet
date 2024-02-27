@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.theme.wallet
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
@@ -65,6 +66,7 @@ fun AmountCurrencyB1Row(
     }
 }
 
+@SuppressLint("ComposeContentEmitterReturningValues")
 @Composable
 fun AmountCurrencyB1(
     amount: Double,

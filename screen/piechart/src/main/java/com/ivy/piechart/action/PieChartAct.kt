@@ -17,8 +17,8 @@ import com.ivy.piechart.CategoryAmount
 import com.ivy.resources.R
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
-import com.ivy.wallet.domain.action.category.CategoryIncomeWithAccountFiltersAct
-import com.ivy.wallet.domain.action.transaction.CalcTrnsIncomeExpenseAct
+import com.ivy.wallet.domain.action.category.LegacyCategoryIncomeWithAccountFiltersAct
+import com.ivy.wallet.domain.action.transaction.LegacyCalcTrnsIncomeExpenseAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithRangeAndAccFiltersAct
 import com.ivy.wallet.domain.pure.account.filterExcluded
 import com.ivy.wallet.domain.pure.data.IncomeExpenseTransferPair
@@ -31,9 +31,9 @@ import javax.inject.Inject
 class PieChartAct @Inject constructor(
     private val accountsAct: AccountsAct,
     private val trnsWithRangeAndAccFiltersAct: TrnsWithRangeAndAccFiltersAct,
-    private val calcTrnsIncomeExpenseAct: CalcTrnsIncomeExpenseAct,
+    private val calcTrnsIncomeExpenseAct: LegacyCalcTrnsIncomeExpenseAct,
     private val categoriesAct: CategoriesAct,
-    private val categoryIncomeWithAccountFiltersAct: CategoryIncomeWithAccountFiltersAct
+    private val categoryIncomeWithAccountFiltersAct: LegacyCategoryIncomeWithAccountFiltersAct
 ) : FPAction<PieChartAct.Input, PieChartAct.Output>() {
 
     private val accountTransfersCategory =
@@ -67,7 +67,7 @@ class PieChartAct @Inject constructor(
         val transactions = it.second
 
         val incomeExpenseTransfer = calcTrnsIncomeExpenseAct(
-            CalcTrnsIncomeExpenseAct.Input(
+            LegacyCalcTrnsIncomeExpenseAct.Input(
                 transactions = transactions,
                 accounts = accountsUsed,
                 baseCurrency = baseCurrency
@@ -162,7 +162,7 @@ class PieChartAct @Inject constructor(
             }
 
             val catIncomeExpense = categoryIncomeWithAccountFiltersAct(
-                CategoryIncomeWithAccountFiltersAct.Input(
+                LegacyCategoryIncomeWithAccountFiltersAct.Input(
                     transactions = trans,
                     accountFilterList = accUsed,
                     category = category,

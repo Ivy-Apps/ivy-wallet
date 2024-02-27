@@ -5,16 +5,16 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Transaction
 import com.ivy.data.db.dao.write.WriteCategoryDao
-import com.ivy.domain.ComposeViewModel
+import com.ivy.base.ComposeViewModel
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.thenInvokeAfter
-import com.ivy.base.legacy.SharedPrefs
 import com.ivy.legacy.datamodel.Account
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
-import com.ivy.wallet.domain.action.category.CategoryIncomeWithAccountFiltersAct
+import com.ivy.wallet.domain.action.category.LegacyCategoryIncomeWithAccountFiltersAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithRangeAndAccFiltersAct
 import com.ivy.wallet.domain.data.SortOrder
@@ -42,7 +42,7 @@ class CategoriesViewModel @Inject constructor(
     private val baseCurrencyAct: BaseCurrencyAct,
     private val accountsAct: AccountsAct,
     private val trnsWithRangeAndAccFiltersAct: TrnsWithRangeAndAccFiltersAct,
-    private val categoryIncomeWithAccountFiltersAct: CategoryIncomeWithAccountFiltersAct,
+    private val categoryIncomeWithAccountFiltersAct: LegacyCategoryIncomeWithAccountFiltersAct,
     private val categoryWriter: WriteCategoryDao,
 ) : ComposeViewModel<CategoriesScreenState, CategoriesScreenEvent>() {
 
@@ -142,7 +142,7 @@ class CategoriesViewModel @Inject constructor(
         com.ivy.legacy.utils.scopedIOThread { scope ->
             val categories = categoriesAct(Unit).mapAsync(scope) {
                 val catIncomeExpense = categoryIncomeWithAccountFiltersAct(
-                    CategoryIncomeWithAccountFiltersAct.Input(
+                    LegacyCategoryIncomeWithAccountFiltersAct.Input(
                         transactions = transactions,
                         accountFilterList = allAccounts,
                         category = it,

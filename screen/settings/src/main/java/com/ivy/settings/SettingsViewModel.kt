@@ -12,7 +12,7 @@ import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.refreshWidget
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
-import com.ivy.domain.ComposeViewModel
+import com.ivy.base.ComposeViewModel
 import com.ivy.domain.RootScreen
 import com.ivy.frp.monad.Res
 import com.ivy.legacy.IvyWalletCtx

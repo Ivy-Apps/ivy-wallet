@@ -28,6 +28,7 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
+import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
@@ -35,6 +36,7 @@ import com.ivy.legacy.data.AppBaseData
 import com.ivy.legacy.data.DueSection
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.ui.component.IncomeExpensesCards
 import com.ivy.legacy.ui.component.transaction.TransactionsDividerLine
 import com.ivy.legacy.ui.component.transaction.transactions
@@ -63,6 +65,7 @@ import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
 import com.ivy.wallet.ui.theme.components.IvyToolbar
 import com.ivy.wallet.ui.theme.pureBlur
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 
 @ExperimentalFoundationApi
 @Composable
@@ -84,6 +87,13 @@ private fun BoxWithConstraintsScope.UI(
     state: ReportScreenState = ReportScreenState(),
     onEventHandler: (ReportScreenEvent) -> Unit = {}
 ) {
+    val transactionMapper = TransactionMapper()
+    val legacyTransactions =
+        with(transactionMapper) { state.transactions.map { it.toEntity().toDomain() } }
+    val legacyUpcomingTransactions =
+        with(transactionMapper) { state.upcomingTransactions.map { it.toEntity().toDomain() } }
+    val legacyOverdueTransactions =
+        with(transactionMapper) { state.overdueTransactions.map { it.toEntity().toDomain() } }
     val nav = navigation()
     val context = LocalContext.current
 
@@ -167,7 +177,7 @@ private fun BoxWithConstraintsScope.UI(
                         nav.navigateTo(
                             PieChartStatisticScreen(
                                 type = TransactionType.INCOME,
-                                transactions = state.transactions,
+                                transactions = legacyTransactions.toImmutableList(),
                                 accountList = state.accountIdFilters,
                                 treatTransfersAsIncomeExpense = state.treatTransfersAsIncExp
                             )
@@ -179,7 +189,7 @@ private fun BoxWithConstraintsScope.UI(
                         nav.navigateTo(
                             PieChartStatisticScreen(
                                 type = TransactionType.EXPENSE,
-                                transactions = state.transactions,
+                                transactions = legacyTransactions.toImmutableList(),
                                 accountList = state.accountIdFilters,
                                 treatTransfersAsIncomeExpense = state.treatTransfersAsIncExp
                             )
@@ -221,7 +231,7 @@ private fun BoxWithConstraintsScope.UI(
                 ),
 
                 upcoming = DueSection(
-                    trns = state.upcomingTransactions,
+                    trns = legacyUpcomingTransactions.toImmutableList(),
                     stats = IncomeExpensePair(
                         income = state.upcomingIncome.toBigDecimal(),
                         expense = state.upcomingExpenses.toBigDecimal()
@@ -234,7 +244,7 @@ private fun BoxWithConstraintsScope.UI(
                 },
 
                 overdue = DueSection(
-                    trns = state.overdueTransactions,
+                    trns = legacyOverdueTransactions.toImmutableList(),
                     stats = IncomeExpensePair(
                         income = state.overdueIncome.toBigDecimal(),
                         expense = state.overdueExpenses.toBigDecimal()
@@ -249,15 +259,15 @@ private fun BoxWithConstraintsScope.UI(
                 lastItemSpacer = 48.dp,
 
                 onPayOrGet = {
-                    onEventHandler.invoke(ReportScreenEvent.OnPayOrGet(transaction = it))
+                    onEventHandler.invoke(ReportScreenEvent.OnPayOrGetLegacy(transaction = it))
                 },
                 emptyStateTitle = stringRes(R.string.no_transactions),
                 emptyStateText = stringRes(R.string.no_transactions_for_your_filter),
                 onSkipTransaction = {
-                    onEventHandler.invoke(ReportScreenEvent.SkipTransaction(transaction = it))
+                    onEventHandler.invoke(ReportScreenEvent.SkipTransactionLegacy(transaction = it))
                 },
                 onSkipAllTransactions = {
-                    onEventHandler.invoke(ReportScreenEvent.SkipTransactions(transactions = it))
+                    onEventHandler.invoke(ReportScreenEvent.SkipTransactionsLegacy(transactions = it))
                 }
             )
         } else {

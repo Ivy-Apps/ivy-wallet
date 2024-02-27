@@ -50,7 +50,7 @@ Instructions in [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ### Need help?
 
-Jour our Telegram community and drop a message in the "Development" topic.
+Join our Telegram community and drop a message in the "Development" topic.
 
 [![Telegram Group](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/+ETavgioAvWg4NThk)
 

@@ -9,7 +9,10 @@ import com.ivy.data.db.dao.fake.FakeLoanRecordDao
 import com.ivy.data.db.dao.fake.FakePlannedPaymentDao
 import com.ivy.data.db.dao.fake.FakeSettingsDao
 import com.ivy.data.db.dao.fake.FakeTransactionDao
-import com.ivy.testing.TestDispatchersProvider
+import com.ivy.data.repository.fake.FakeAccountRepository
+import com.ivy.data.repository.fake.FakeCurrencyRepository
+import com.ivy.data.repository.mapper.AccountMapper
+import com.ivy.base.TestDispatchersProvider
 import com.ivy.testing.testResource
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.ints.shouldBeGreaterThan
@@ -18,31 +21,42 @@ import io.mockk.mockk
 
 class BackupDataUseCaseTest : FreeSpec({
     fun newBackupDataUseCase(
-        backupAccountDao: FakeAccountDao = FakeAccountDao(),
-        backupCategoryDao: FakeCategoryDao = FakeCategoryDao(),
-        backupTransactionDao: FakeTransactionDao = FakeTransactionDao(),
-        backupPlannedPaymentDao: FakePlannedPaymentDao = FakePlannedPaymentDao(),
-        backupBudgetDao: FakeBudgetDao = FakeBudgetDao(),
-        backupSettingsDao: FakeSettingsDao = FakeSettingsDao(),
-        backupLoanDao: FakeLoanDao = FakeLoanDao(),
-        backupLoanRecordDao: FakeLoanRecordDao = FakeLoanRecordDao(),
+        accountDao: FakeAccountDao = FakeAccountDao(),
+        categoryDao: FakeCategoryDao = FakeCategoryDao(),
+        transactionDao: FakeTransactionDao = FakeTransactionDao(),
+        plannedPaymentDao: FakePlannedPaymentDao = FakePlannedPaymentDao(),
+        budgetDao: FakeBudgetDao = FakeBudgetDao(),
+        settingsDao: FakeSettingsDao = FakeSettingsDao(),
+        loanDao: FakeLoanDao = FakeLoanDao(),
+        loanRecordDao: FakeLoanRecordDao = FakeLoanRecordDao(),
     ): BackupDataUseCase = BackupDataUseCase(
-        accountDao = backupAccountDao,
-        accountWriter = backupAccountDao,
-        budgetDao = backupBudgetDao,
-        categoryDao = backupCategoryDao,
-        loanRecordDao = backupLoanRecordDao,
-        loanDao = backupLoanDao,
-        plannedPaymentRuleDao = backupPlannedPaymentDao,
-        settingsDao = backupSettingsDao,
-        transactionDao = backupTransactionDao,
-        categoryWriter = backupCategoryDao,
-        transactionWriter = backupTransactionDao,
-        settingsWriter = backupSettingsDao,
-        budgetWriter = backupBudgetDao,
-        loanWriter = backupLoanDao,
-        loanRecordWriter = backupLoanRecordDao,
-        plannedPaymentRuleWriter = backupPlannedPaymentDao,
+        accountDao = accountDao,
+        accountMapper = AccountMapper(
+            FakeCurrencyRepository(
+                settingsDao = settingsDao,
+                writeSettingsDao = settingsDao
+            )
+        ),
+        accountRepository = FakeAccountRepository(
+            accountDao = accountDao,
+            writeAccountDao = accountDao,
+            settingsDao = settingsDao,
+            writeSettingsDao = settingsDao
+        ),
+        budgetDao = budgetDao,
+        categoryDao = categoryDao,
+        loanRecordDao = loanRecordDao,
+        loanDao = loanDao,
+        plannedPaymentRuleDao = plannedPaymentDao,
+        settingsDao = settingsDao,
+        transactionDao = transactionDao,
+        categoryWriter = categoryDao,
+        transactionWriter = transactionDao,
+        settingsWriter = settingsDao,
+        budgetWriter = budgetDao,
+        loanWriter = loanDao,
+        loanRecordWriter = loanRecordDao,
+        plannedPaymentRuleWriter = plannedPaymentDao,
 
         context = mockk(relaxed = true),
         sharedPrefs = mockk(relaxed = true),
@@ -69,9 +83,9 @@ class BackupDataUseCaseTest : FreeSpec({
         // Also - exporting and re-importing the data should work
         // given
         val exportedJson = originalBackupUseCase.generateJsonBackup()
-        val freshBackupUseCase = newBackupDataUseCase()
 
         // when
+        val freshBackupUseCase = newBackupDataUseCase()
         val reImportedDataRes = freshBackupUseCase.importJson(exportedJson, onProgress = {})
 
         // then
