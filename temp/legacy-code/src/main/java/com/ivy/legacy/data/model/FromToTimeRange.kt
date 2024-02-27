@@ -10,7 +10,7 @@ import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.toIvyFutureTime
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import java.time.LocalDateTime
-import java.time.ZoneId
+import java.time.ZoneOffset
 
 @Immutable
 data class FromToTimeRange(
@@ -67,11 +67,11 @@ fun Iterable<Transaction>.filterUpcomingLegacy(): List<Transaction> {
 }
 
 fun Iterable<com.ivy.data.model.Transaction>.filterUpcoming(): List<com.ivy.data.model.Transaction> {
-    val todayStartOfDayUTC = dateNowUTC().atStartOfDay()
+    val todayStartOfDayUTC = dateNowUTC().atStartOfDay().toInstant(ZoneOffset.UTC)
 
     return filter {
         // make sure that it's in the future
-        !it.settled && it.time.atZone(ZoneId.systemDefault()).toLocalDateTime().isAfter(todayStartOfDayUTC)
+        !it.settled && it.time.isAfter(todayStartOfDayUTC)
     }
 }
 
@@ -86,11 +86,11 @@ fun Iterable<Transaction>.filterOverdueLegacy(): List<Transaction> {
 }
 
 fun Iterable<com.ivy.data.model.Transaction>.filterOverdue(): List<com.ivy.data.model.Transaction> {
-    val todayStartOfDayUTC = dateNowUTC().atStartOfDay()
+    val todayStartOfDayUTC = dateNowUTC().atStartOfDay().toInstant(ZoneOffset.UTC)
 
     return filter {
         // make sure that it's in the past
-        !it.settled && it.time.atZone(ZoneId.systemDefault()).toLocalDateTime().isBefore(todayStartOfDayUTC)
+        !it.settled && it.time.isBefore(todayStartOfDayUTC)
     }
 }
 

@@ -22,6 +22,7 @@ import javax.inject.Inject
 
 class TransactionMapper @Inject constructor() {
 
+    @Suppress("CyclomaticComplexMethod")
     fun TransactionEntity.toDomain(
         accountAssetCode: AssetCode?,
         toAccountAssetCode: AssetCode? = null
@@ -34,6 +35,7 @@ class TransactionMapper @Inject constructor() {
         )
         val settled = dateTime != null
         val time = dateTime?.atZone(zoneId)?.toInstant()
+            ?: dueDate?.atZone(zoneId)?.toInstant()
             ?: raise("Missing transaction time for entity: ${this@toDomain}")
 
         val fromValue = Value(
