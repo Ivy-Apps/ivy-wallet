@@ -3,23 +3,24 @@ package com.ivy.data.repository
 import com.ivy.data.db.entity.ExchangeRateEntity
 import com.ivy.data.model.ExchangeRate
 import com.ivy.data.remote.impl.RemoteExchangeRatesDataSourceImpl
+import kotlinx.coroutines.flow.Flow
 
 interface ExchangeRatesRepository {
 
     val urls: List<String>
-    fun fetchExchangeRates(url: String) : RemoteExchangeRatesDataSourceImpl.ExchangeRatesResponse
+    suspend fun fetchExchangeRates(url: String) : RemoteExchangeRatesDataSourceImpl.ExchangeRatesResponse?
 
-    fun save(value: ExchangeRateEntity)
+    suspend fun save(value: ExchangeRateEntity)
 
-    fun saveMany(value: List<ExchangeRateEntity>)
+    suspend fun saveMany(values: List<ExchangeRateEntity>)
 
-    fun save(value: ExchangeRate)
+    suspend fun save(value: ExchangeRate)
 
-    fun saveMany(value: ExchangeRate)
+    suspend fun saveMany(values: List<ExchangeRate>)
 
-    fun deleteAll()
+    suspend fun deleteAll()
 
-    fun findAll(): List<ExchangeRateEntity>
-    fun findByBaseCurrencyAndCurrency(baseCurrency: String, currency: String) : ExchangeRateEntity
+    suspend fun findAll(): Flow<List<ExchangeRate>>
+    suspend fun findByBaseCurrencyAndCurrency(baseCurrency: String, currency: String) : ExchangeRate?
 
 }
