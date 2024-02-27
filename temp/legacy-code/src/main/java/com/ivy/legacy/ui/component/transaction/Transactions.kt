@@ -22,7 +22,7 @@ import com.ivy.base.legacy.stringRes
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.data.AppBaseData
-import com.ivy.legacy.data.DueSection
+import com.ivy.legacy.data.LegacyDueSection
 import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.navigation
@@ -41,8 +41,8 @@ import com.ivy.wallet.ui.theme.components.IvyIcon
 fun LazyListScope.transactions(
     baseData: AppBaseData,
 
-    upcoming: DueSection?,
-    overdue: DueSection?,
+    upcoming: LegacyDueSection?,
+    overdue: LegacyDueSection?,
     history: List<TransactionHistoryItem>,
 
     emptyStateTitle: String = stringRes(R.string.no_transactions),
@@ -109,7 +109,7 @@ fun LazyListScope.transactions(
 private fun LazyListScope.upcomingSection(
     baseData: AppBaseData,
 
-    upcoming: DueSection?,
+    upcoming: LegacyDueSection?,
 
     onPayOrGet: (Transaction) -> Unit,
     onSkipTransaction: (Transaction) -> Unit,
@@ -148,7 +148,7 @@ private fun LazyListScope.upcomingSection(
 private fun LazyListScope.overdueSection(
     baseData: AppBaseData,
 
-    overdue: DueSection?,
+    overdue: LegacyDueSection?,
 
     onPayOrGet: (Transaction) -> Unit,
     onSkipTransaction: (Transaction) -> Unit,
@@ -344,8 +344,8 @@ private fun LazyItemScope.NoTransactionsEmptyState(
 
 private fun LazyListScope.scrollHackSpacer(
     history: List<TransactionHistoryItem>,
-    upcoming: DueSection?,
-    overdue: DueSection?,
+    upcoming: LegacyDueSection?,
+    overdue: LegacyDueSection?,
 
     lastItemSpacer: Dp?,
 ) {

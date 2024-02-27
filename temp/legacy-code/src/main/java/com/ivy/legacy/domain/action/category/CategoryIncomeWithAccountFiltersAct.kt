@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.action.category
 
 import com.ivy.data.model.Transaction
-import com.ivy.data.model.getAccountId
+import com.ivy.data.temp.migration.getAccountId
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.legacy.datamodel.Account

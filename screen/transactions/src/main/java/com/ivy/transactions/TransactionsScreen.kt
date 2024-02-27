@@ -44,7 +44,6 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.Constants
 import com.ivy.legacy.data.AppBaseData
-import com.ivy.legacy.data.DueSection
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
@@ -58,6 +57,7 @@ import com.ivy.legacy.utils.horizontalSwipeListener
 import com.ivy.legacy.utils.rememberSwipeListenerState
 import com.ivy.legacy.utils.setStatusBarDarkTextCompat
 import com.ivy.design.utils.thenIf
+import com.ivy.legacy.data.LegacyDueSection
 import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.IvyPreview
@@ -376,7 +376,7 @@ private fun BoxWithConstraintsScope.UI(
                     accounts,
                     categories
                 ),
-                upcoming = DueSection(
+                upcoming = LegacyDueSection(
                     trns = upcoming,
                     stats = IncomeExpensePair(
                         income = upcomingIncome.toBigDecimal(),
@@ -386,7 +386,7 @@ private fun BoxWithConstraintsScope.UI(
                 ),
                 setUpcomingExpanded = setUpcomingExpanded,
 
-                overdue = DueSection(
+                overdue = LegacyDueSection(
                     trns = overdue,
                     stats = IncomeExpensePair(
                         income = overdueIncome.toBigDecimal(),

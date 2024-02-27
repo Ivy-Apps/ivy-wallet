@@ -8,7 +8,7 @@ import com.ivy.data.model.Expense
 import com.ivy.data.model.Income
 import com.ivy.data.model.Transaction
 import com.ivy.data.model.Transfer
-import com.ivy.data.model.getAccountId
+import com.ivy.data.temp.migration.getAccountId
 
 import com.ivy.frp.Pure
 import com.ivy.legacy.datamodel.Account
