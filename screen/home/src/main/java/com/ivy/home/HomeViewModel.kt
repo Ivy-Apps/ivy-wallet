@@ -18,7 +18,7 @@ import com.ivy.home.customerjourney.CustomerJourneyCardsProvider
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.AppBaseData
 import com.ivy.legacy.data.BufferInfo
-import com.ivy.legacy.data.DueSection
+import com.ivy.legacy.data.LegacyDueSection
 import com.ivy.legacy.data.model.MainTab
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.data.model.toCloseTimeRange
@@ -105,14 +105,14 @@ class HomeViewModel @Inject constructor(
         )
     )
     private val upcoming = mutableStateOf(
-        DueSection(
+        LegacyDueSection(
             trns = persistentListOf(),
             stats = IncomeExpensePair.zero(),
             expanded = false,
         )
     )
     private val overdue = mutableStateOf(
-        DueSection(
+        LegacyDueSection(
             trns = persistentListOf(),
             stats = IncomeExpensePair.zero(),
             expanded = false,
@@ -189,12 +189,12 @@ class HomeViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getUpcoming(): DueSection {
+    private fun getUpcoming(): LegacyDueSection {
         return upcoming.value
     }
 
     @Composable
-    private fun getOverdue(): DueSection {
+    private fun getOverdue(): LegacyDueSection {
         return overdue.value
     }
 
@@ -353,7 +353,7 @@ class HomeViewModel @Inject constructor(
     ): Unit = suspend {
         UpcomingAct.Input(baseCurrency = input.first, range = input.second)
     } then upcomingAct then { result ->
-        upcoming.value = DueSection(
+        upcoming.value = LegacyDueSection(
             trns = with(transactionMapper) {
                 result.upcomingTrns.map {
                     it.toEntity().toDomain()
@@ -365,7 +365,7 @@ class HomeViewModel @Inject constructor(
     } then {
         OverdueAct.Input(baseCurrency = input.first, toRange = input.second.to)
     } then overdueAct thenInvokeAfter { result ->
-        overdue.value = DueSection(
+        overdue.value = LegacyDueSection(
             trns = with(transactionMapper) {
                 result.overdueTrns.map {
                     it.toEntity().toDomain()
@@ -452,7 +452,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun payOrGetPlanned(transaction: Transaction) {
-        plannedPaymentsLogic.payOrGet(
+        plannedPaymentsLogic.payOrGetLegacy(
             transaction = transaction,
             skipTransaction = false
         ) {
@@ -461,7 +461,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun skipPlanned(transaction: Transaction) {
-        plannedPaymentsLogic.payOrGet(
+        plannedPaymentsLogic.payOrGetLegacy(
             transaction = transaction,
             skipTransaction = true
         ) {
@@ -470,15 +470,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun skipAllPlanned(transactions: List<Transaction>) {
-        // transactions.forEach {
-        //    plannedPaymentsLogic.payOrGet(
-        //        transaction = it,
-        //        skipTransaction = true
-        //    ){
-        //        reload()
-        //    }
-        // }
-        plannedPaymentsLogic.payOrGet(
+        plannedPaymentsLogic.payOrGetLegacy(
             transactions = transactions,
             skipTransaction = true
         ) {

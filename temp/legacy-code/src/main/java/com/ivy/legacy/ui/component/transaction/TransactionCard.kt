@@ -77,16 +77,16 @@ fun TransactionCard(
     transaction: Transaction,
 
     onPayOrGet: (Transaction) -> Unit,
+    modifier: Modifier = Modifier,
     onSkipTransaction: (Transaction) -> Unit = {},
 
     onClick: (Transaction) -> Unit,
 ) {
-    Spacer(Modifier.height(12.dp))
-
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
+            .padding(top = 12.dp)
             .clip(UI.shapes.r4)
             .clickable {
                 if (baseData.accounts.find { it.id == transaction.accountId } != null) {
@@ -426,10 +426,11 @@ fun TypeAmountCurrency(
     transactionType: TransactionType,
     dueDate: LocalDateTime?,
     currency: String,
-    amount: Double
+    amount: Double,
+    modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier.testTag("type_amount_currency"),
+        modifier = modifier.testTag("type_amount_currency"),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(24.dp))

@@ -36,7 +36,7 @@ import com.ivy.home.customerjourney.CustomerJourney
 import com.ivy.home.customerjourney.CustomerJourneyCardModel
 import com.ivy.legacy.data.AppBaseData
 import com.ivy.legacy.data.BufferInfo
-import com.ivy.legacy.data.DueSection
+import com.ivy.legacy.data.LegacyDueSection
 import com.ivy.legacy.data.model.MainTab
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.ivyWalletCtx
@@ -271,6 +271,7 @@ private fun BoxWithConstraintsScope.UI(
     }
 }
 
+@Suppress("LongParameterList")
 @ExperimentalAnimationApi
 @Composable
 fun HomeLazyColumn(
@@ -282,8 +283,8 @@ fun HomeLazyColumn(
 
     baseData: AppBaseData,
 
-    upcoming: DueSection,
-    overdue: DueSection,
+    upcoming: LegacyDueSection,
+    overdue: LegacyDueSection,
     balance: BigDecimal,
     stats: IncomeExpensePair,
     history: ImmutableList<TransactionHistoryItem>,
@@ -399,12 +400,12 @@ private fun BoxWithConstraintsScope.PreviewHomeTab() {
                 customerJourneyCards = persistentListOf(),
                 history = persistentListOf(),
                 stats = IncomeExpensePair.zero(),
-                upcoming = DueSection(
+                upcoming = LegacyDueSection(
                     trns = persistentListOf(),
                     stats = IncomeExpensePair.zero(),
                     expanded = false,
                 ),
-                overdue = DueSection(
+                overdue = LegacyDueSection(
                     trns = persistentListOf(),
                     stats = IncomeExpensePair.zero(),
                     expanded = false,

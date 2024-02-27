@@ -1,20 +1,17 @@
 package com.ivy.wallet.domain.action.account
 
 import arrow.core.nonEmptyListOf
-import com.ivy.data.model.primitive.AssetCode
-import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.data.model.Account
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
-import com.ivy.wallet.domain.pure.transaction.AccountValueFunctions
+import com.ivy.legacy.domain.pure.transaction.AccountValueFunctions
 import com.ivy.wallet.domain.pure.transaction.foldTransactions
 import java.math.BigDecimal
 import javax.inject.Inject
 
 class CalcAccBalanceAct @Inject constructor(
-    private val accTrnsAct: AccTrnsAct,
-    private val transactionMapper: TransactionMapper
+    private val accTrnsAct: AccTrnsAct
 ) : FPAction<CalcAccBalanceAct.Input, CalcAccBalanceAct.Output>() {
 
     override suspend fun Input.compose(): suspend () -> Output = suspend {
@@ -23,11 +20,7 @@ class CalcAccBalanceAct @Inject constructor(
         )
     } then accTrnsAct then { accTrns ->
         foldTransactions(
-            transactions = with(transactionMapper) {
-                accTrns.map {
-                    it.toEntity().toDomain(AssetCode("NGN")).getOrNull()
-                }.filterNotNull()
-            },
+            transactions = accTrns,
             arg = account.id.value,
             valueFunctions = nonEmptyListOf(AccountValueFunctions::balance)
         ).head

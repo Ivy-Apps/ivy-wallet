@@ -33,7 +33,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.AppBaseData
-import com.ivy.legacy.data.DueSection
+import com.ivy.legacy.data.LegacyDueSection
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.datamodel.temp.toDomain
@@ -90,10 +90,6 @@ private fun BoxWithConstraintsScope.UI(
     val transactionMapper = TransactionMapper()
     val legacyTransactions =
         with(transactionMapper) { state.transactions.map { it.toEntity().toDomain() } }
-    val legacyUpcomingTransactions =
-        with(transactionMapper) { state.upcomingTransactions.map { it.toEntity().toDomain() } }
-    val legacyOverdueTransactions =
-        with(transactionMapper) { state.overdueTransactions.map { it.toEntity().toDomain() } }
     val nav = navigation()
     val context = LocalContext.current
 
@@ -230,8 +226,12 @@ private fun BoxWithConstraintsScope.UI(
                     accounts = state.accounts,
                 ),
 
-                upcoming = DueSection(
-                    trns = legacyUpcomingTransactions.toImmutableList(),
+                upcoming = LegacyDueSection(
+                    trns = with(transactionMapper) {
+                        state.upcomingTransactions.map {
+                            it.toEntity().toDomain()
+                        }.toImmutableList()
+                    },
                     stats = IncomeExpensePair(
                         income = state.upcomingIncome.toBigDecimal(),
                         expense = state.upcomingExpenses.toBigDecimal()
@@ -243,8 +243,12 @@ private fun BoxWithConstraintsScope.UI(
                     onEventHandler.invoke(ReportScreenEvent.OnUpcomingExpanded(upcomingExpanded = it))
                 },
 
-                overdue = DueSection(
-                    trns = legacyOverdueTransactions.toImmutableList(),
+                overdue = LegacyDueSection(
+                    trns = with(transactionMapper) {
+                        state.overdueTransactions.map {
+                            it.toEntity().toDomain()
+                        }.toImmutableList()
+                    },
                     stats = IncomeExpensePair(
                         income = state.overdueIncome.toBigDecimal(),
                         expense = state.overdueExpenses.toBigDecimal()
