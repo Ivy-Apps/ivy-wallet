@@ -1,6 +1,7 @@
 package com.ivy.data.repository.impl
 
 import com.ivy.data.db.entity.ExchangeRateEntity
+import com.ivy.data.model.ExchangeRate
 import com.ivy.data.remote.impl.RemoteExchangeRatesDataSourceImpl
 import com.ivy.data.repository.ExchangeRatesRepository
 import javax.inject.Inject
@@ -24,11 +25,27 @@ class ExchangeRatesRepositoryImpl @Inject constructor() : ExchangeRatesRepositor
         TODO("Not yet implemented")
     }
 
-    override fun save(exchangeRate: ExchangeRateEntity) {
+    override fun save(value: ExchangeRateEntity) {
         TODO("Not yet implemented")
     }
 
-    override fun readExchangeRates() {
+    override fun save(value: ExchangeRate) {
+        TODO("Not yet implemented")
+    }
+
+    override fun saveMany(value: List<ExchangeRateEntity>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun saveMany(value: ExchangeRate) {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteAll() {
+        TODO("Not yet implemented")
+    }
+
+    override fun findAll(): List<ExchangeRateEntity> {
         TODO("Not yet implemented")
     }
 }
