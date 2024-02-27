@@ -12,7 +12,7 @@ import com.ivy.wallet.domain.pure.account.filterExcluded
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.domain.pure.exchange.ExchangeData
-import com.ivy.wallet.domain.pure.transaction.AccountValueFunctions
+import com.ivy.legacy.domain.pure.transaction.AccountValueFunctions
 import com.ivy.wallet.domain.pure.transaction.foldTransactions
 import com.ivy.wallet.domain.pure.util.orZero
 import timber.log.Timber
