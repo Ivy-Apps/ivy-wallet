@@ -12,11 +12,11 @@ interface ExchangeRatesRepository {
 
     suspend fun save(value: ExchangeRateEntity)
 
-    suspend fun saveMany(values: List<ExchangeRateEntity>)
+    suspend fun saveManyEntities(values: List<ExchangeRateEntity>)
 
     suspend fun save(value: ExchangeRate)
 
-    suspend fun saveMany(values: List<ExchangeRate>)
+    suspend fun saveManyRates(values: List<ExchangeRate>)
 
     suspend fun deleteAll()
 

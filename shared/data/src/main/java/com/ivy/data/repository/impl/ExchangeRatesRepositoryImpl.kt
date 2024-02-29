@@ -69,13 +69,13 @@ class ExchangeRatesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveMany(values: List<ExchangeRateEntity>) {
+    override suspend fun saveManyEntities(values: List<ExchangeRateEntity>) {
         withContext(dispatchersProvider.io){
             writeExchangeRatesDao.saveMany(values)
         }
     }
 
-    override suspend fun saveMany(values: List<ExchangeRate>) {
+    override suspend fun saveManyRates(values: List<ExchangeRate>) {
         withContext(dispatchersProvider.io){
             writeExchangeRatesDao.saveMany(
                 values.map {
