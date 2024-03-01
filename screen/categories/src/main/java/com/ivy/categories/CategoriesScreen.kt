@@ -39,10 +39,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ivy.base.legacy.stringRes
 import com.ivy.common.ui.rememberScrollPositionListState
+import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.IconAsset
+import com.ivy.data.model.primitive.NotBlankTrimmedString
+import com.ivy.design.l0_system.RedLight
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.legacy.datamodel.Category
 import com.ivy.navigation.CategoriesScreen
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
@@ -73,6 +79,7 @@ import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import java.time.Instant
 import java.util.UUID
 
 @Composable
@@ -147,7 +154,7 @@ private fun BoxWithConstraintsScope.UI(
             Spacer(Modifier.height(16.dp))
         }
 
-        items(state.categories, key = { it.category.id }) { categoryData ->
+        items(state.categories, key = { it.category.id.value }) { categoryData ->
             Spacer(Modifier.height(16.dp))
             CategoryCard(
                 currency = state.baseCurrency,
@@ -159,7 +166,7 @@ private fun BoxWithConstraintsScope.UI(
                 nav.navigateTo(
                     TransactionsScreen(
                         accountId = null,
-                        categoryId = categoryData.category.id
+                        categoryId = categoryData.category.id.value
                     )
                 )
             }
@@ -197,9 +204,9 @@ private fun BoxWithConstraintsScope.UI(
                 .fillMaxWidth()
                 .padding(end = 24.dp)
                 .padding(vertical = 8.dp),
-            text = item.category.name,
+            text = item.category.name.value,
             style = UI.typo.b1.style(
-                color = item.category.color.toComposeColor(),
+                color = item.category.color.value.toComposeColor(),
                 fontWeight = FontWeight.Bold
             )
         )
@@ -249,7 +256,7 @@ private fun CategoryCard(
         CategoryHeader(
             categoryData = categoryData,
             currency = currency,
-            contrastColor = findContrastTextColor(categoryData.category.color.toComposeColor())
+            contrastColor = findContrastTextColor(categoryData.category.color.value.toComposeColor())
         )
 
         Spacer(Modifier.height(12.dp))
@@ -375,7 +382,7 @@ private fun CategoryHeader(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(category.color.toComposeColor(), UI.shapes.r4Top)
+            .background(category.color.value.toComposeColor(), UI.shapes.r4Top)
     ) {
         Spacer(Modifier.height(16.dp))
 
@@ -385,7 +392,7 @@ private fun CategoryHeader(
             Spacer(Modifier.width(20.dp))
 
             ItemIconSDefaultIcon(
-                iconName = category.icon,
+                iconName = category.icon?.id,
                 defaultIcon = R.drawable.ic_custom_category_s,
                 tint = contrastColor
             )
@@ -393,7 +400,7 @@ private fun CategoryHeader(
             Spacer(Modifier.width(8.dp))
 
             Text(
-                text = category.name,
+                text = category.name.value,
                 style = UI.typo.b1.style(
                     color = contrastColor,
                     fontWeight = FontWeight.ExtraBold
@@ -556,9 +563,13 @@ private fun Preview() {
             categories = persistentListOf(
                 CategoryData(
                     category = Category(
-                        "Groceries",
-                        Green.toArgb(),
-                        icon = "groceries"
+                        id = CategoryId(UUID.randomUUID()),
+                        name = NotBlankTrimmedString("Groceries"),
+                        color = ColorInt(Green.toArgb()),
+                        icon = IconAsset("groceries"),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false
                     ),
                     monthlyBalance = 2125.0,
                     monthlyExpenses = 920.0,
@@ -566,25 +577,41 @@ private fun Preview() {
                 ),
                 CategoryData(
                     category = Category(
-                        "Fun",
-                        Orange.toArgb(),
-                        icon = "game"
+                        id = CategoryId(UUID.randomUUID()),
+                        name = NotBlankTrimmedString("Fun"),
+                        color = ColorInt(Orange.toArgb()),
+                        icon = IconAsset("game"),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false
                     ),
                     monthlyBalance = 1200.0,
                     monthlyExpenses = 750.0,
                     monthlyIncome = 0.0
                 ),
                 CategoryData(
-                    category = Category("Ivy", IvyDark.toArgb()),
+                    category = Category(
+                        id = CategoryId(UUID.randomUUID()),
+                        name = NotBlankTrimmedString("Ivy"),
+                        color = ColorInt(IvyDark.toArgb()),
+                        icon = IconAsset(""),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false
+                    ),
                     monthlyBalance = 1200.0,
                     monthlyExpenses = 0.0,
                     monthlyIncome = 5000.0
                 ),
                 CategoryData(
                     category = Category(
-                        "Food",
-                        GreenLight.toArgb(),
-                        icon = "atom"
+                        id = CategoryId(UUID.randomUUID()),
+                        name = NotBlankTrimmedString("Food"),
+                        color = ColorInt(GreenLight.toArgb()),
+                        icon = IconAsset("atom"),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false
                     ),
                     monthlyBalance = 12125.21,
                     monthlyExpenses = 1350.50,
@@ -592,9 +619,13 @@ private fun Preview() {
                 ),
                 CategoryData(
                     category = Category(
-                        "Shisha",
-                        GreenDark.toArgb(),
-                        icon = "drink"
+                        id = CategoryId(UUID.randomUUID()),
+                        name = NotBlankTrimmedString("Shisha"),
+                        color = ColorInt(GreenDark.toArgb()),
+                        icon = IconAsset("drink"),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false
                     ),
                     monthlyBalance = 820.0,
                     monthlyExpenses = 340.0,
