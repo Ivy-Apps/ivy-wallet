@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 interface ExchangeRatesRepository {
 
     val urls: List<String>
-    suspend fun fetchExchangeRates(url: String) : RemoteExchangeRatesDataSourceImpl.ExchangeRatesResponse?
+    suspend fun fetchExchangeRates() : RemoteExchangeRatesDataSourceImpl.ExchangeRatesResponse?
 
     suspend fun save(value: ExchangeRateEntity)
 
