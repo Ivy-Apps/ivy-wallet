@@ -7,16 +7,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.Theme
 import com.ivy.data.db.dao.read.AccountDao
-import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
 import com.ivy.base.ComposeViewModel
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.LogoutLogic
 import com.ivy.base.legacy.SharedPrefs
+import com.ivy.data.model.Category
+import com.ivy.data.repository.CategoryRepository
 import com.ivy.legacy.data.model.AccountBalance
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.datamodel.Settings
 import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
@@ -29,7 +29,6 @@ import com.ivy.onboarding.OnboardingDetailState
 import com.ivy.onboarding.OnboardingEvent
 import com.ivy.onboarding.OnboardingState
 import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.PreloadDataLogic
@@ -53,11 +52,10 @@ class OnboardingViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
     private val accountLogic: WalletAccountLogic,
     private val categoryCreator: CategoryCreator,
-    private val categoryDao: CategoryDao,
+    private val categoryRepository: CategoryRepository,
     private val accountCreator: AccountCreator,
 
     private val accountsAct: AccountsAct,
-    private val categoriesAct: CategoriesAct,
     private val syncExchangeRatesAct: SyncExchangeRatesAct,
     private val settingsWriter: WriteSettingsDao,
 
@@ -101,7 +99,7 @@ class OnboardingViewModel @Inject constructor(
         nav = nav,
         accountDao = accountDao,
         sharedPrefs = sharedPrefs,
-        categoryDao = categoryDao,
+        categoryRepository = categoryRepository,
         preloadDataLogic = preloadDataLogic,
         transactionReminderLogic = transactionReminderLogic,
         logoutLogic = logoutLogic,
@@ -265,13 +263,13 @@ class OnboardingViewModel @Inject constructor(
     // ---------------------------- Categories ------------------------------------------------------
     private suspend fun editCategory(updatedCategory: Category) {
         categoryCreator.editCategory(updatedCategory) {
-            _categories.value = categoriesAct(Unit)!!
+            _categories.value = categoryRepository.findAll().toImmutableList()
         }
     }
 
     private suspend fun createCategory(data: CreateCategoryData) {
         categoryCreator.createCategory(data) {
-            _categories.value = categoriesAct(Unit)!!
+            _categories.value = categoryRepository.findAll().toImmutableList()
         }
     }
 

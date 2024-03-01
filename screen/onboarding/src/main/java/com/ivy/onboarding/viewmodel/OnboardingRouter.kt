@@ -2,12 +2,11 @@ package com.ivy.onboarding.viewmodel
 
 import androidx.compose.runtime.MutableState
 import com.ivy.data.db.dao.read.AccountDao
-import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.legacy.LogoutLogic
 import com.ivy.base.legacy.SharedPrefs
+import com.ivy.data.model.Category
+import com.ivy.data.repository.CategoryRepository
 import com.ivy.legacy.data.model.AccountBalance
-import com.ivy.legacy.datamodel.Category
-import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.legacy.utils.OpResult
 import com.ivy.legacy.utils.ioThread
@@ -40,7 +39,7 @@ class OnboardingRouter(
     private val sharedPrefs: SharedPrefs,
     private val transactionReminderLogic: TransactionReminderLogic,
     private val preloadDataLogic: PreloadDataLogic,
-    private val categoryDao: CategoryDao,
+    private val categoryRepository: CategoryRepository,
     private val logoutLogic: LogoutLogic,
     private val syncExchangeRatesAct: SyncExchangeRatesAct,
 ) {
@@ -217,7 +216,7 @@ class OnboardingRouter(
 
     private suspend fun routeToCategories() {
         categories.value =
-            ioThread { categoryDao.findAll().map { it.toDomain() }.toImmutableList() }!!
+            ioThread { categoryRepository.findAll().toImmutableList() }
         categorySuggestions.value = preloadDataLogic.categorySuggestions()
 
         state.value = OnboardingState.CATEGORIES

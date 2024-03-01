@@ -278,6 +278,7 @@ class HomeViewModel @Inject constructor(
         suspend {} then accountsAct then updateAccCacheAct then { accounts ->
             accounts
         } then { accounts ->
+            // TODO: Convert to CategoryRepo findAll
             val categories = categoriesAct thenInvokeAfter updateCategoriesCacheAct
             accounts to categories
         } thenInvokeAfter { (accounts, categories) ->

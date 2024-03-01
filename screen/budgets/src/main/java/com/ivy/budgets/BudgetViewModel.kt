@@ -16,17 +16,17 @@ import com.ivy.data.model.Transfer
 import com.ivy.data.temp.migration.getAccountId
 import com.ivy.data.temp.migration.getValue
 import com.ivy.base.ComposeViewModel
+import com.ivy.data.model.Category
+import com.ivy.data.repository.CategoryRepository
 import com.ivy.frp.sumOfSuspend
 import com.ivy.legacy.data.model.FromToTimeRange
 import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Budget
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.domain.deprecated.logic.BudgetCreator
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.budget.BudgetsAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.exchange.ExchangeAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.transaction.HistoryTrnsAct
@@ -48,7 +48,7 @@ class BudgetViewModel @Inject constructor(
     private val budgetCreator: BudgetCreator,
     private val ivyContext: com.ivy.legacy.IvyWalletCtx,
     private val accountsAct: AccountsAct,
-    private val categoriesAct: CategoriesAct,
+    private val categoryRepository: CategoryRepository,
     private val budgetsAct: BudgetsAct,
     private val baseCurrencyAct: BaseCurrencyAct,
     private val historyTrnsAct: HistoryTrnsAct,
@@ -146,7 +146,7 @@ class BudgetViewModel @Inject constructor(
 
     private fun start() {
         viewModelScope.launch {
-            categories.value = categoriesAct(Unit)
+            categories.value = categoryRepository.findAll().toImmutableList()
             val accounts = accountsAct(Unit)
             val baseCurrency = baseCurrencyAct(Unit)
             val startDateOfMonth = ivyContext.initStartDayOfMonthInMemory(sharedPrefs = sharedPrefs)
