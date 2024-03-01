@@ -1,9 +1,9 @@
 package com.ivy.reports
 
 import com.ivy.base.model.TransactionType
+import com.ivy.data.model.Category
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
 import java.util.UUID
 
 data class ReportFilter(

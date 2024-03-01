@@ -35,12 +35,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.ivy.base.model.TransactionType
+import com.ivy.data.model.Category
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.IconAsset
+import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.domain.legacy.ui.theme.components.ListItem
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.utils.capitalizeLocal
 import com.ivy.legacy.utils.springBounce
@@ -574,10 +577,10 @@ private fun CategoriesFilter(
 
         items(items = allCategories) { category ->
             ListItem(
-                icon = category.icon,
+                icon = category.icon?.id,
                 defaultIcon = R.drawable.ic_custom_category_s,
-                text = category.name,
-                selectedColor = category.color.toComposeColor().takeIf {
+                text = category.name.value,
+                selectedColor = category.color.value.toComposeColor().takeIf {
                     filter?.categories?.contains(category) == true
                 }
             ) { selected ->
@@ -873,7 +876,7 @@ private fun Preview() {
     IvyWalletPreview {
         val acc1 = Account("Cash", color = Green.toArgb())
         val acc2 = Account("DSK", color = GreenDark.toArgb())
-        val cat1 = Category("Science", color = Purple1Dark.toArgb(), icon = "atom")
+        val cat1 = Category(name = NotBlankTrimmedString("Science"), color = ColorInt(Purple1Dark.toArgb()), icon = IconAsset("atom"))
 
         FilterOverlay(
             visible = true,
@@ -887,8 +890,8 @@ private fun Preview() {
             ),
             categories = listOf(
                 cat1,
-                Category("Pet", color = Red3Light.toArgb(), icon = "pet"),
-                Category("Home", color = Green.toArgb(), icon = null),
+                Category(name = NotBlankTrimmedString("Pet"), color = ColorInt(Red3Light.toArgb()), icon = IconAsset("pet")),
+                Category(name = NotBlankTrimmedString("Home"), color = ColorInt(Green.toArgb()), icon = null),
             ),
 
             filter = ReportFilter.emptyFilter("BGN").copy(

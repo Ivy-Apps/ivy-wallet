@@ -273,7 +273,7 @@ class ReportViewModel @Inject constructor(
     ): ImmutableList<Transaction> {
         val filterAccountIds = filter.accounts.map { it.id }
         val filterCategoryIds =
-            filter.categories.map { if (it.id == unSpecifiedCategory.id.value) null else it.id }
+            filter.categories.map { if (it.id.value == unSpecifiedCategory.id.value) null else it.id }
         val filterRange = filter.period?.toRange(ivyContext.startDayOfMonth)
 
         return transactionRepository
@@ -310,7 +310,7 @@ class ReportViewModel @Inject constructor(
             .filter { trn ->
                 // Filter by Categories
 
-                filterCategoryIds.contains(trn.category?.value) || with(transactionMapper) {
+                filterCategoryIds.contains(trn.category) || with(transactionMapper) {
                     (trn.getTransactionType() == TransactionType.TRANSFER)
                 }
             }

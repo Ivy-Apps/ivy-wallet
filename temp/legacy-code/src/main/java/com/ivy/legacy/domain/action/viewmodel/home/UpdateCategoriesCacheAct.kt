@@ -1,8 +1,8 @@
 package com.ivy.wallet.domain.action.viewmodel.home
 
+import com.ivy.data.model.Category
 import com.ivy.frp.action.FPAction
 import com.ivy.legacy.IvyWalletCtx
-import com.ivy.legacy.datamodel.Category
 import javax.inject.Inject
 
 class UpdateCategoriesCacheAct @Inject constructor(
@@ -12,7 +12,7 @@ class UpdateCategoriesCacheAct @Inject constructor(
         val categories = this
 
         ivyWalletCtx.categoryMap.clear()
-        ivyWalletCtx.categoryMap.putAll(categories.map { it.id to it })
+        ivyWalletCtx.categoryMap.putAll(categories.map { it.id.value to it })
 
         categories
     }

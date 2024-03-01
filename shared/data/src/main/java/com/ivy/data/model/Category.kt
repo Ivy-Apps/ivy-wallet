@@ -16,7 +16,7 @@ data class Category(
     override val id: CategoryId = CategoryId(),
     val name: NotBlankTrimmedString,
     val color: ColorInt,
-    val icon: IconAsset? = IconAsset(""),
+    val icon: IconAsset? = null,
     override val orderNum: Double = 0.0,
     override val lastUpdated: Instant = Instant.EPOCH,
     override val removed: Boolean = false,

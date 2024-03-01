@@ -29,6 +29,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.model.TransactionType
+import com.ivy.data.model.Category
 import com.ivy.data.model.Tag
 import com.ivy.design.l0_system.Orange
 import com.ivy.design.l0_system.UI
@@ -36,7 +37,6 @@ import com.ivy.design.l0_system.style
 import com.ivy.design.utils.hideKeyboard
 import com.ivy.legacy.data.EditTransactionDisplayLoan
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.rootView
 import com.ivy.legacy.ui.component.edit.TransactionDateTime
@@ -409,7 +409,7 @@ private fun BoxWithConstraintsScope.UI(
                             type = transactionType,
                             amount = amount,
                             accountId = account?.id,
-                            categoryId = category?.id,
+                            categoryId = category?.id?.value,
                             title = titleTextFieldValue.text,
                             description = description,
                         )

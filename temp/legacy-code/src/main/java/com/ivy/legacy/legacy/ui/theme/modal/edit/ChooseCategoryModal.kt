@@ -32,7 +32,9 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.utils.thenIf
 import com.ivy.legacy.IvyWalletPreview
-import com.ivy.legacy.datamodel.Category
+import com.ivy.data.model.Category
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.hideKeyboard
 import com.ivy.legacy.utils.onScreenStart
@@ -185,7 +187,7 @@ private fun CategoryButton(
     onLongClick: () -> Unit,
     onDeselect: () -> Unit,
 ) {
-    val categoryColor = category.color.toComposeColor()
+    val categoryColor = category.color.value.toComposeColor()
 
     val rFull = UI.shapes.rFull
 
@@ -215,7 +217,7 @@ private fun CategoryButton(
         ItemIconSDefaultIcon(
             modifier = Modifier
                 .background(categoryColor, CircleShape),
-            iconName = category.icon,
+            iconName = category.icon?.id,
             defaultIcon = R.drawable.ic_custom_category_s,
             tint = findContrastTextColor(categoryColor)
         )
@@ -227,7 +229,7 @@ private fun CategoryButton(
                     start = if (selected) 12.dp else 12.dp,
                     end = if (selected) 20.dp else 24.dp
                 ),
-            text = category.name,
+            text = category.name.value,
             style = UI.typo.b2.style(
                 color = if (selected) {
                     findContrastTextColor(categoryColor)
@@ -285,9 +287,9 @@ private class AddNewCategory
 private fun PreviewChooseCategoryModal() {
     IvyWalletPreview {
         val categories = mutableListOf(
-            Category("Test", color = Ivy.toArgb()),
-            Category("Second", color = Orange.toArgb()),
-            Category("Third", color = Red.toArgb()),
+            Category(name = NotBlankTrimmedString("Test"), color = ColorInt(Ivy.toArgb())),
+            Category(name = NotBlankTrimmedString("Second"), color = ColorInt(Orange.toArgb())),
+            Category(name = NotBlankTrimmedString("Third"), color = ColorInt(Red.toArgb())),
         )
 
         ChooseCategoryModal(

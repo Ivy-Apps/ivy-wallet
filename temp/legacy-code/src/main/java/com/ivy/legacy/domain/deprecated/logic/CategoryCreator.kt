@@ -26,7 +26,7 @@ class CategoryCreator @Inject constructor(
                 val newCategory = Category(
                     name = NotBlankTrimmedString(name.trim()),
                     color = ColorInt(data.color.toArgb()),
-                    icon = IconAsset(data.icon ?: ""),
+                    icon = data.icon?.let { IconAsset(it) },
                     orderNum = categoryRepository.findMaxOrderNum().nextOrderNum(),
                 )
                 categoryRepository.save(newCategory)
