@@ -1,7 +1,6 @@
 package com.ivy.domain.usecase
 
 import com.ivy.data.db.entity.ExchangeRateEntity
-import com.ivy.data.remote.impl.RemoteExchangeRatesDataSourceImpl
 import com.ivy.data.repository.ExchangeRatesRepository
 import timber.log.Timber
 import javax.inject.Inject
@@ -14,13 +13,7 @@ class SyncExchangeRatesUseCase @Inject constructor(
         if (baseCurrency.isBlank()) return
         val baseCurrencyLower = baseCurrency.lowercase()
 
-        var exchangeRatesResponse: RemoteExchangeRatesDataSourceImpl.ExchangeRatesResponse? = null
-
-        for (url in repository.urls) {
-            exchangeRatesResponse = repository.fetchExchangeRates(url)
-            if (exchangeRatesResponse != null) break
-        }
-        if (exchangeRatesResponse == null) return
+        val exchangeRatesResponse = repository.fetchExchangeRates() ?: return
 
         // At this point we must have non-empty EUR rates
         // Now we must convert them to base currency

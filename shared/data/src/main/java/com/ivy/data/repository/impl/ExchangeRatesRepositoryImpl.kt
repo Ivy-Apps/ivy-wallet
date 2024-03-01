@@ -28,7 +28,7 @@ class ExchangeRatesRepositoryImpl @Inject constructor(
         "https://raw.githubusercontent.com/fawazahmed0/currency-api/1/latest/currencies/eur.min.json",
         "https://raw.githubusercontent.com/fawazahmed0/currency-api/1/latest/currencies/eur.json",
     )
-    override suspend fun fetchExchangeRates(url: String) : RemoteExchangeRatesDataSourceImpl.ExchangeRatesResponse?{
+    override suspend fun fetchExchangeRates() : RemoteExchangeRatesDataSourceImpl.ExchangeRatesResponse?{
 
         var result: RemoteExchangeRatesDataSourceImpl.ExchangeRatesResponse? = null
 
