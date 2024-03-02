@@ -20,25 +20,40 @@ class CategoryRepositoryImpl @Inject constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val writeEventBus: DataWriteEventBus,
 ) : CategoryRepository {
+
+    private val categoriesMemo = mutableMapOf<CategoryId, Category>()
+
     override suspend fun findAll(deleted: Boolean): List<Category> {
-        return withContext(dispatchersProvider.io) {
-            categoryDao.findAll(deleted).mapNotNull {
-                with(mapper) { it.toDomain() }.getOrNull()
+        return if (categoriesMemo.isNotEmpty()) {
+            categoriesMemo.values.sortedBy { it.orderNum }
+        } else {
+            withContext(dispatchersProvider.io) {
+                categoryDao.findAll(deleted).mapNotNull {
+                    with(mapper) { it.toDomain() }.getOrNull()
+                }.also(::memoize)
             }
         }
     }
 
     override suspend fun findById(id: CategoryId): Category? {
-        return withContext(dispatchersProvider.io) {
+        return categoriesMemo[id] ?: withContext(dispatchersProvider.io) {
             categoryDao.findById(id.value)?.let {
                 with(mapper) { it.toDomain() }.getOrNull()
+            }.also {
+                if (it != null) {
+                    categoriesMemo[id] = it
+                }
             }
         }
     }
 
     override suspend fun findMaxOrderNum(): Double {
-        return withContext(dispatchersProvider.io) {
-            categoryDao.findMaxOrderNum() ?: 0.0
+        return if (categoriesMemo.isNotEmpty()) {
+            categoriesMemo.maxOfOrNull { (_, category) -> category.orderNum } ?: 0.0
+        } else {
+            withContext(dispatchersProvider.io) {
+                categoryDao.findMaxOrderNum() ?: 0.0
+            }
         }
     }
 
@@ -47,6 +62,7 @@ class CategoryRepositoryImpl @Inject constructor(
             writeCategoryDao.save(
                 with(mapper) { value.toEntity() }
             )
+            categoriesMemo[value.id] = value
             writeEventBus.post(DataWriteEvent.SaveCategories(listOf(value)))
         }
     }
@@ -56,12 +72,14 @@ class CategoryRepositoryImpl @Inject constructor(
             writeCategoryDao.saveMany(
                 values.map { with(mapper) { it.toEntity() } }
             )
+            memoize(values)
             writeEventBus.post(DataWriteEvent.SaveCategories(values))
         }
     }
 
     override suspend fun deleteById(id: CategoryId) {
         withContext(dispatchersProvider.io) {
+            categoriesMemo.remove(id)
             writeCategoryDao.deleteById(id.value)
             writeEventBus.post(
                 DataWriteEvent.DeleteCategories(
@@ -73,8 +91,15 @@ class CategoryRepositoryImpl @Inject constructor(
 
     override suspend fun deleteAll() {
         withContext(dispatchersProvider.io) {
+            categoriesMemo.clear()
             writeCategoryDao.deleteAll()
             writeEventBus.post(DataWriteEvent.DeleteCategories(DeleteOperation.All))
+        }
+    }
+
+    private fun memoize(accounts: List<Category>) {
+        accounts.forEach {
+            categoriesMemo[it.id] = it
         }
     }
 }
