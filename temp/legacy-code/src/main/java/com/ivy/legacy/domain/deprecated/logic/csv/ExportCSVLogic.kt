@@ -4,15 +4,15 @@ import android.content.Context
 import android.net.Uri
 import com.ivy.base.legacy.writeToFile
 import com.ivy.data.db.dao.read.AccountDao
-import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.data.db.dao.read.SettingsDao
+import com.ivy.data.model.Category
 import com.ivy.data.model.Expense
 import com.ivy.data.model.Income
 import com.ivy.data.model.Transaction
 import com.ivy.data.model.Transfer
+import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.formatLocal
@@ -26,7 +26,7 @@ import javax.inject.Inject
 class ExportCSVLogic @Inject constructor(
     private val settingsDao: SettingsDao,
     private val transactionRepository: TransactionRepository,
-    private val categoryDao: CategoryDao,
+    private val categoryRepository: CategoryRepository,
     private val accountDao: AccountDao
 ) {
     companion object {
@@ -62,9 +62,9 @@ class ExportCSVLogic @Inject constructor(
                 .findAll()
                 .map { it.id to it }
                 .toMap()
-            val categoryMap = categoryDao
+            val categoryMap = categoryRepository
                 .findAll()
-                .map { it.id to it }
+                .map { it.id.value to it }
                 .toMap()
 
             val baseCurrency = settingsDao.findFirst().currency
@@ -73,7 +73,7 @@ class ExportCSVLogic @Inject constructor(
                     it.toCSV(
                         baseCurrency = baseCurrency,
                         accountMap = accountMap.mapValues { it.value.toDomain() },
-                        categoryMap = categoryMap.mapValues { it.value.toDomain() }
+                        categoryMap = categoryMap
                     )
                 }
 
@@ -105,7 +105,7 @@ class ExportCSVLogic @Inject constructor(
 
         // Category
         csv.appendValue(category?.value) {
-            append(categoryMap[it]?.name?.escapeCSVString() ?: it)
+            append(categoryMap[it]?.name?.value?.escapeCSVString() ?: it)
         }
 
         when (this) {

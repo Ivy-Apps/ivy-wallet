@@ -6,16 +6,18 @@ import com.ivy.base.model.TransactionType
 import com.ivy.data.backup.CSVRow
 import com.ivy.data.backup.ImportResult
 import com.ivy.data.db.dao.read.AccountDao
-import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.data.db.dao.read.SettingsDao
-import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
+import com.ivy.data.model.Category
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.IconAsset
+import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.AccountRepository
+import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.repository.CurrencyRepository
 import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.design.l0_system.Green
 import com.ivy.design.l0_system.IvyDark
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.utils.convertLocalToUTC
@@ -41,9 +43,8 @@ import com.ivy.legacy.datamodel.Account as LegacyAccount
 class CSVImporter @Inject constructor(
     private val settingsDao: SettingsDao,
     private val accountDao: AccountDao,
-    private val categoryDao: CategoryDao,
+    private val categoryRepository: CategoryRepository,
     private val writeTransactionDao: WriteTransactionDao,
-    private val writeCategoryDao: WriteCategoryDao,
     private val accountRepository: AccountRepository,
     private val currencyRepository: CurrencyRepository,
 ) {
@@ -91,7 +92,7 @@ class CSVImporter @Inject constructor(
         accounts = accountDao.findAll().map { it.toDomain() }
         val initialAccountsCount = accounts.size
 
-        categories = categoryDao.findAll().map { it.toDomain() }
+        categories = categoryRepository.findAll()
         val initialCategoriesCount = categories.size
 
         val baseCurrency = settingsDao.findFirst().currency
@@ -236,7 +237,7 @@ class CSVImporter @Inject constructor(
                 toAmount = toAmount?.toBigDecimal() ?: amount.toBigDecimal(),
                 dateTime = dateTime,
                 dueDate = dueDate,
-                categoryId = category?.id,
+                categoryId = category?.id?.value,
                 title = title,
                 description = description
             ),
@@ -497,7 +498,7 @@ class CSVImporter @Inject constructor(
         if (categoryNameString == null || categoryNameString.isBlank()) return null
 
         val existingCategory = categories.firstOrNull {
-            categoryNameString.toLowerCaseLocal() == it.name.toLowerCaseLocal()
+            categoryNameString.toLowerCaseLocal() == it.name.value.toLowerCaseLocal()
         }
         if (existingCategory != null) {
             return existingCategory
@@ -510,13 +511,13 @@ class CSVImporter @Inject constructor(
         }.toArgb()
 
         val newCategory = Category(
-            name = categoryNameString,
-            color = colorArgb,
-            icon = icon,
-            orderNum = orderNum ?: categoryDao.findMaxOrderNum().nextOrderNum()
+            name = NotBlankTrimmedString(categoryNameString),
+            color = ColorInt(colorArgb),
+            icon = icon?.let { IconAsset(it) },
+            orderNum = orderNum ?: categoryRepository.findMaxOrderNum().nextOrderNum()
         )
-        writeCategoryDao.save(newCategory.toEntity())
-        categories = categoryDao.findAll().map { it.toDomain() }
+        categoryRepository.save(newCategory)
+        categories = categoryRepository.findAll()
 
         return newCategory
     }
