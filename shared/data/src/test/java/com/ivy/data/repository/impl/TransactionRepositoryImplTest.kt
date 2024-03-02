@@ -21,6 +21,8 @@ import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.base.TestDispatchersProvider
+import com.ivy.data.model.primitive.AssociationId
+import com.ivy.data.repository.TagsRepository
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
@@ -28,6 +30,7 @@ import io.mockk.coVerify
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
+import kotlinx.collections.immutable.persistentListOf
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -38,13 +41,15 @@ class TransactionRepositoryImplTest : FreeSpec({
     val writeTransactionDao = mockk<WriteTransactionDao>()
     val accountRepo = mockk<AccountRepository>()
     val mapper = TransactionMapper()
+    val tagsRepo = mockk<TagsRepository>()
 
     fun newRepository(): TransactionRepository = TransactionRepositoryImpl(
         accountRepository = accountRepo,
         mapper = mapper,
         transactionDao = transactionDao,
         writeTransactionDao = writeTransactionDao,
-        dispatchersProvider = TestDispatchersProvider
+        dispatchersProvider = TestDispatchersProvider,
+        tagReader = tagsRepo
     )
 
     fun toInstant(localDateTime: LocalDateTime): Instant {
@@ -194,7 +199,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
-                    account = AccountId(accountId)
+                    account = AccountId(accountId),
+                    tags = persistentListOf()
                 ),
                 Expense(
                     id = TransactionId(validExpenseId),
@@ -207,7 +213,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
-                    account = AccountId(accountId)
+                    account = AccountId(accountId),
+                    tags = persistentListOf()
                 ),
                 Transfer(
                     id = TransactionId(validTransferId),
@@ -222,7 +229,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     fromAccount = AccountId(accountId),
                     fromValue = Value(PositiveDouble(100.0), account.asset),
                     toAccount = AccountId(toAccountId),
-                    toValue = Value(PositiveDouble(100.0), toAccount.asset)
+                    toValue = Value(PositiveDouble(100.0), toAccount.asset),
+                    tags = persistentListOf()
                 )
             )
         }
@@ -290,7 +298,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
-                    account = account.id
+                    account = account.id,
+                    tags = persistentListOf()
                 )
             )
         }
@@ -303,6 +312,7 @@ class TransactionRepositoryImplTest : FreeSpec({
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
             coEvery { transactionDao.findAllBetween(startDate, endDate) } returns emptyList()
+            coEvery { tagsRepo.findByAssociatedId(listOf()) } returns emptyMap()
 
             // when
             val res = repository.findAllBetween(startDate, endDate)
@@ -373,6 +383,15 @@ class TransactionRepositoryImplTest : FreeSpec({
                 validIncome2,
                 invalidIncome
             )
+            coEvery {
+                tagsRepo.findByAssociatedId(
+                    listOf(
+                        AssociationId(validIncome.id),
+                        AssociationId(validIncome2.id),
+                        AssociationId(invalidIncome.id)
+                    )
+                )
+            } returns emptyMap()
             coEvery { accountRepo.findById(account.id) } returns account
 
             // when
@@ -391,7 +410,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
-                    account = account.id
+                    account = account.id,
+                    tags = persistentListOf()
                 ),
                 Income(
                     id = TransactionId(validIncome2Id),
@@ -404,7 +424,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
-                    account = account.id
+                    account = account.id,
+                    tags = persistentListOf()
                 )
             )
         }
@@ -520,7 +541,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
-                    account = account.id
+                    account = account.id,
+                    tags = persistentListOf()
                 )
             )
         }
@@ -640,7 +662,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
-                    account = account.id
+                    account = account.id,
+                    tags = persistentListOf()
                 )
             )
         }
@@ -750,7 +773,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
-                    account = account.id
+                    account = account.id,
+                    tags = persistentListOf()
                 )
             )
         }
@@ -882,7 +906,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     fromAccount = AccountId(accountId),
                     fromValue = Value(PositiveDouble(100.0), account.asset),
                     toAccount = AccountId(toAccountId),
-                    toValue = Value(PositiveDouble(100.0), account.asset)
+                    toValue = Value(PositiveDouble(100.0), account.asset),
+                    tags = persistentListOf()
                 )
             )
         }
@@ -1014,7 +1039,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     fromAccount = AccountId(accountId),
                     fromValue = Value(PositiveDouble(100.0), account.asset),
                     toAccount = AccountId(toAccountId),
-                    toValue = Value(PositiveDouble(100.0), account.asset)
+                    toValue = Value(PositiveDouble(100.0), account.asset),
+                    tags = persistentListOf()
                 )
             )
         }
@@ -1131,7 +1157,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
-                    account = account.id
+                    account = account.id,
+                    tags = persistentListOf()
                 )
             )
         }
@@ -1244,7 +1271,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
-                    account = account.id
+                    account = account.id,
+                    tags = persistentListOf()
                 )
             )
         }
@@ -1360,7 +1388,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
-                    account = account.id
+                    account = account.id,
+                    tags = persistentListOf()
                 )
             )
         }
@@ -1469,7 +1498,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
-                    account = account.id
+                    account = account.id,
+                    tags = persistentListOf()
                 )
             )
         }
@@ -1589,7 +1619,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
-                    account = account.id
+                    account = account.id,
+                    tags = persistentListOf()
                 )
             )
         }
@@ -1660,7 +1691,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                 lastUpdated = Instant.EPOCH,
                 removed = false,
                 value = Value(PositiveDouble(100.0), account.asset),
-                account = account.id
+                account = account.id,
+                tags = persistentListOf()
             )
         }
 
@@ -1815,7 +1847,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     lastUpdated = Instant.EPOCH,
                     removed = isDeleted,
                     value = Value(PositiveDouble(100.0), account.asset),
-                    account = account.id
+                    account = account.id,
+                    tags = persistentListOf()
                 )
             )
         }
@@ -1916,7 +1949,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
-                    account = account.id
+                    account = account.id,
+                    tags = persistentListOf()
                 )
             )
         }
@@ -2017,7 +2051,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
-                    account = account.id
+                    account = account.id,
+                    tags = persistentListOf()
                 )
             )
         }
@@ -2090,7 +2125,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                 lastUpdated = Instant.EPOCH,
                 removed = false,
                 value = Value(PositiveDouble(100.0), account.asset),
-                account = account.id
+                account = account.id,
+                tags = persistentListOf()
             )
         }
 
@@ -2206,7 +2242,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                 lastUpdated = Instant.EPOCH,
                 removed = false,
                 value = Value(PositiveDouble(100.0), account.asset),
-                account = account.id
+                account = account.id,
+                tags = persistentListOf()
             )
         }
 
@@ -2354,7 +2391,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), account.asset),
-                    account = account.id
+                    account = account.id,
+                    tags = persistentListOf()
                 )
             )
         }
@@ -2382,7 +2420,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                 lastUpdated = Instant.EPOCH,
                 removed = false,
                 value = Value(PositiveDouble(100.0), AssetCode("NGN")),
-                account = AccountId(accountId)
+                account = AccountId(accountId),
+                tags = persistentListOf()
             )
         )
 
@@ -2428,7 +2467,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), AssetCode("NGN")),
-                    account = AccountId(accountId)
+                    account = AccountId(accountId),
+                    tags = persistentListOf()
                 ),
                 Expense(
                     id = TransactionId(transaction2Id),
@@ -2441,7 +2481,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                     lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(PositiveDouble(100.0), AssetCode("NGN")),
-                    account = AccountId(accountId)
+                    account = AccountId(accountId),
+                    tags = persistentListOf()
                 ),
             )
         )
