@@ -35,6 +35,14 @@ class TagsRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun findByAssociatedId(ids: List<AssociationId>): Map<AssociationId, List<Tag>> {
+        return withContext(dispatchersProvider.io) {
+            tagDao.findTagsByAssociatedIds(ids.map { it.value }).entries.associate { (id, tags) ->
+                AssociationId(id) to with(mapper) { tags.map { it.toDomain() } }
+            }
+        }
+    }
+
     override suspend fun findAll(deleted: Boolean): List<Tag> {
         return withContext(dispatchersProvider.io) {
             tagDao.findAll().let {

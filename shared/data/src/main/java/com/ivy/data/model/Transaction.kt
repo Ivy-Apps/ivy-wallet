@@ -4,6 +4,7 @@ import com.ivy.data.model.common.Value
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.sync.Syncable
 import com.ivy.data.model.sync.UniqueId
+import kotlinx.collections.immutable.ImmutableList
 import java.time.Instant
 import java.util.UUID
 
@@ -18,6 +19,7 @@ sealed interface Transaction : Syncable {
     val time: Instant
     val settled: Boolean
     val metadata: TransactionMetadata
+    val tags: ImmutableList<Tag>
 }
 
 data class Income(
@@ -30,6 +32,7 @@ data class Income(
     override val metadata: TransactionMetadata,
     override val lastUpdated: Instant,
     override val removed: Boolean,
+    override val tags: ImmutableList<Tag>,
     val value: Value,
     val account: AccountId,
 ) : Transaction
@@ -44,6 +47,7 @@ data class Expense(
     override val metadata: TransactionMetadata,
     override val lastUpdated: Instant,
     override val removed: Boolean,
+    override val tags: ImmutableList<Tag>,
     val value: Value,
     val account: AccountId,
 ) : Transaction
@@ -58,6 +62,7 @@ data class Transfer(
     override val metadata: TransactionMetadata,
     override val lastUpdated: Instant,
     override val removed: Boolean,
+    override val tags: ImmutableList<Tag>,
     val fromAccount: AccountId,
     val fromValue: Value,
     val toAccount: AccountId,

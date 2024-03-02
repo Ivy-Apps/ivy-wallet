@@ -13,6 +13,7 @@ import com.ivy.frp.SideEffect
 import com.ivy.frp.then
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.datamodel.temp.toImmutableLegacyTags
 import com.ivy.legacy.utils.convertUTCtoLocal
 import com.ivy.legacy.utils.toEpochSeconds
 import com.ivy.wallet.domain.data.TransactionHistoryDateDivider
@@ -77,7 +78,10 @@ suspend fun transactionsWithDateDividers(
 
             // Required to be interoperable with [TransactionHistoryItem]
             val legacyTransactionsForDate = with(transactionsMapper) {
-                transactionsForDate.map { it.toEntity().toDomain() }
+                transactionsForDate.map {
+                    it.toEntity()
+                        .toDomain(tags = it.tags.toImmutableLegacyTags())
+                }
             }
             listOf<TransactionHistoryItem>(
                 TransactionHistoryDateDivider(

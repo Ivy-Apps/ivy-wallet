@@ -170,7 +170,7 @@ fun BoxWithConstraintsScope.ShowTagModal(
     DeleteModal(
         visible = deleteTagModalVisible,
         title = stringResource(R.string.confirm_deletion),
-        description = "Are you sure you want to delete the following tag:\t'${selectedTag?.name}' ?",
+        description = "Are you sure you want to delete the following tag:\t'${selectedTag?.name?.value}' ?",
         dismiss = { deleteTagModalVisible = false }
     ) {
         if (selectedTag != null) {
