@@ -108,3 +108,4 @@ com.ivy.reports.AccountsFilter
 com.ivy.reports.CategoriesFilter
 com.ivy.reports.AmountFilter
 com.ivy.reports.KeywordsFilter
+com.ivy.reports.OthersFilter

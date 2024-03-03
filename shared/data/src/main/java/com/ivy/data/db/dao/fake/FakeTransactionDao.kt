@@ -230,6 +230,10 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
         return items.find { it.id == id }
     }
 
+    override suspend fun findByIds(ids: List<UUID>): List<TransactionEntity> {
+        return items.filter { it.id in ids }
+    }
+
     override suspend fun findByIsSyncedAndIsDeleted(
         synced: Boolean,
         deleted: Boolean

@@ -2,6 +2,7 @@ package com.ivy.data.model
 
 import com.ivy.data.model.common.Value
 import com.ivy.data.model.primitive.NotBlankTrimmedString
+import com.ivy.data.model.primitive.TagId
 import com.ivy.data.model.sync.Syncable
 import com.ivy.data.model.sync.UniqueId
 import java.time.Instant
@@ -18,6 +19,7 @@ sealed interface Transaction : Syncable {
     val time: Instant
     val settled: Boolean
     val metadata: TransactionMetadata
+    val tags: List<TagId>
 }
 
 data class Income(
@@ -30,6 +32,7 @@ data class Income(
     override val metadata: TransactionMetadata,
     override val lastUpdated: Instant,
     override val removed: Boolean,
+    override val tags: List<TagId>,
     val value: Value,
     val account: AccountId,
 ) : Transaction
@@ -44,6 +47,7 @@ data class Expense(
     override val metadata: TransactionMetadata,
     override val lastUpdated: Instant,
     override val removed: Boolean,
+    override val tags: List<TagId>,
     val value: Value,
     val account: AccountId,
 ) : Transaction
@@ -58,6 +62,7 @@ data class Transfer(
     override val metadata: TransactionMetadata,
     override val lastUpdated: Instant,
     override val removed: Boolean,
+    override val tags: List<TagId>,
     val fromAccount: AccountId,
     val fromValue: Value,
     val toAccount: AccountId,

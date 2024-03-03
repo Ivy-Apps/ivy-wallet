@@ -16,6 +16,7 @@ import com.ivy.data.model.common.Value
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.primitive.PositiveDouble
+import com.ivy.data.model.primitive.TagId
 import java.time.Instant
 import java.time.ZoneId
 import javax.inject.Inject
@@ -25,7 +26,8 @@ class TransactionMapper @Inject constructor() {
     @Suppress("CyclomaticComplexMethod")
     fun TransactionEntity.toDomain(
         accountAssetCode: AssetCode?,
-        toAccountAssetCode: AssetCode? = null
+        toAccountAssetCode: AssetCode? = null,
+        tags: List<TagId> = emptyList()
     ): Either<String, Transaction> = either {
         val zoneId = ZoneId.systemDefault()
         val metadata = TransactionMetadata(
@@ -57,7 +59,8 @@ class TransactionMapper @Inject constructor() {
                     lastUpdated = Instant.EPOCH,
                     removed = isDeleted,
                     value = fromValue,
-                    account = AccountId(accountId)
+                    account = AccountId(accountId),
+                    tags = tags
                 )
             }
 
@@ -73,7 +76,8 @@ class TransactionMapper @Inject constructor() {
                     lastUpdated = Instant.EPOCH,
                     removed = isDeleted,
                     value = fromValue,
-                    account = AccountId(accountId)
+                    account = AccountId(accountId),
+                    tags = tags
                 )
             }
 
@@ -104,7 +108,8 @@ class TransactionMapper @Inject constructor() {
                     fromAccount = AccountId(accountId),
                     fromValue = fromValue,
                     toAccount = toAccount,
-                    toValue = toValue
+                    toValue = toValue,
+                    tags = tags
                 )
             }
         }
