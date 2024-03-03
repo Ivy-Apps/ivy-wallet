@@ -22,7 +22,6 @@ import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.base.ComposeViewModel
 import com.ivy.data.model.Tag
 import com.ivy.data.model.TransactionId
-import com.ivy.data.model.primitive.AssociationId
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.TagsRepository
 import com.ivy.domain.RootScreen
@@ -30,7 +29,6 @@ import com.ivy.frp.filterSuspend
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
-import com.ivy.legacy.datamodel.temp.toImmutableLegacyTags
 import com.ivy.legacy.utils.formatNicelyWithTime
 import com.ivy.legacy.utils.scopedIOThread
 import com.ivy.legacy.utils.timeNowUTC
@@ -221,12 +219,10 @@ class ReportViewModel @Inject constructor(
                 .sortedByDescending { it.time }
 
             val historyWithDateDividers = scope.async {
-                appendTagInformation(
-                    trnsWithDateDivsAct(
-                        TrnsWithDateDivsAct.Input(
-                            baseCurrency = baseCurrency,
-                            transactions = tempHistory
-                        )
+                trnsWithDateDivsAct(
+                    TrnsWithDateDivsAct.Input(
+                        baseCurrency = baseCurrency,
+                        transactions = tempHistory
                     )
                 )
             }
@@ -427,23 +423,6 @@ class ReportViewModel @Inject constructor(
                 }
                 true
             }.toImmutableList()
-    }
-
-    private suspend fun appendTagInformation(transactions: List<TransactionHistoryItem>): List<TransactionHistoryItem> {
-        val transactionIds =
-            transactions.filterIsInstance(com.ivy.base.legacy.Transaction::class.java)
-                .map { AssociationId(it.id) }
-
-        val tagMap = tagsRepository.findByAssociatedId(transactionIds).mapKeys { it.key.value }
-
-        return transactions.map {
-            when (it) {
-                is com.ivy.base.legacy.Transaction -> it.copy(
-                    tags = tagMap[it.id]?.toImmutableLegacyTags() ?: persistentListOf()
-                )
-                else -> { it }
-            }
-        }
     }
 
     private fun String.containsLowercase(anotherString: String): Boolean {

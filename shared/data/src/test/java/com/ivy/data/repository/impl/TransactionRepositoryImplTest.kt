@@ -61,6 +61,7 @@ class TransactionRepositoryImplTest : FreeSpec({
             //  given
             val repository = newRepository()
             coEvery { transactionDao.findAll() } returns emptyList()
+            coEvery { tagsRepo.findByAllTagsForAssociations() } returns emptyMap()
 
             //  when
             val res = repository.findAll()
@@ -182,6 +183,7 @@ class TransactionRepositoryImplTest : FreeSpec({
             )
             coEvery { accountRepo.findById(account.id) } returns account
             coEvery { accountRepo.findById(toAccount.id) } returns toAccount
+            coEvery { tagsRepo.findByAllTagsForAssociations() } returns emptyMap()
 
             // when
             val res = repository.findAll()

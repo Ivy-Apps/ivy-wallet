@@ -102,6 +102,18 @@ class TagsRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun findByAllTagsForAssociations(): Map<AssociationId, List<TagAssociation>> {
+        return withContext(dispatchersProvider.io) {
+            tagAssociationDao.findAll().groupBy {
+                AssociationId(it.associatedId)
+            }.mapValues {
+                with(mapper) {
+                    it.value.map { it.toDomain() }
+                }
+            }
+        }
+    }
+
     override suspend fun associateTagToEntity(associationId: AssociationId, tagId: TagId) {
         withContext(dispatchersProvider.io) {
             writeTagAssociationDao.save(

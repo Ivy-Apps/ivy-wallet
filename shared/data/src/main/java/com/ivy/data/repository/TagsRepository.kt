@@ -13,6 +13,7 @@ interface TagsRepository {
     suspend fun findAll(deleted: Boolean = false): List<Tag>
     suspend fun findByText(text: String): List<Tag>
     suspend fun findByAllAssociatedIdForTagId(tagIds: List<TagId>): Map<TagId, List<TagAssociation>>
+    suspend fun findByAllTagsForAssociations(): Map<AssociationId, List<TagAssociation>>
     suspend fun associateTagToEntity(associationId: AssociationId, tagId: TagId)
     suspend fun removeTagAssociation(associationId: AssociationId, tagId: TagId)
     suspend fun save(value: Tag)

@@ -19,7 +19,7 @@ import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.TagsRepository
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
-import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.util.UUID
@@ -35,12 +35,21 @@ class TransactionRepositoryImpl @Inject constructor(
 ) : TransactionRepository {
     override suspend fun findAll(): List<Transaction> {
         return withContext(dispatchersProvider.io) {
-            transactionDao.findAll().mapNotNull {
+            val tagMap = async { findAllTagAssociations() }
+            val transactions = transactionDao.findAll()
+            transactions.mapNotNull {
                 val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                     it.accountId,
                     it.toAccountId
                 )
-                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
+                val tags = tagMap.await()[it.id] ?: emptyList()
+                with(mapper) {
+                    it.toDomain(
+                        accountAssetCode = accountAssetCode,
+                        toAccountAssetCode = toAccountAssetCode,
+                        tags = tags
+                    )
+                }.getOrNull()
             }
         }
     }
@@ -293,7 +302,7 @@ class TransactionRepositoryImpl @Inject constructor(
             val tagAssociationMap = getTagsForTransactionIds(transactions)
 
             transactions.mapNotNull {
-                val tags = tagAssociationMap[it.id] ?: persistentListOf()
+                val tags = tagAssociationMap[it.id] ?: emptyList()
                 val (accountAssetCode, toAccountAssetCode) = getAssetCodes(it.accountId, it.toAccountId)
 
                 with(mapper) {
@@ -692,12 +701,20 @@ class TransactionRepositoryImpl @Inject constructor(
 
     override suspend fun findByIds(ids: List<TransactionId>): List<Transaction> {
         return withContext(dispatchersProvider.io) {
+            val tagMap = async { findTagsForTransactionIds(ids) }
             transactionDao.findByIds(ids.map { it.value }).mapNotNull {
                 val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
                     it.accountId,
                     it.toAccountId
                 )
-                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
+                val tags = tagMap.await()[it.id] ?: emptyList()
+                with(mapper) {
+                    it.toDomain(
+                        accountAssetCode = accountAssetCode,
+                        toAccountAssetCode = toAccountAssetCode,
+                        tags = tags
+                    )
+                }.getOrNull()
             }
         }
     }
@@ -889,8 +906,19 @@ class TransactionRepositoryImpl @Inject constructor(
     }
 
     private suspend fun getTagsForTransactionIds(transactions: List<TransactionEntity>): Map<UUID, List<TagId>> {
-        val transactionIdList = transactions.map { AssociationId(it.id) }
-        return tagRepository.findByAssociatedId(transactionIdList).entries
-            .associate { (key, tags) -> key.value to tags.map { it.id } }
+        return findTagsForTransactionIds(transactions.map { TransactionId(it.id) })
+    }
+
+    private suspend fun findTagsForTransactionIds(transactionIds: List<TransactionId>): Map<UUID, List<TagId>> {
+        return tagRepository.findByAssociatedId(transactionIds.map { AssociationId(it.value) })
+            .entries.associate {
+                it.key.value to it.value.map { ta -> ta.id }
+            }
+    }
+
+    private suspend fun findAllTagAssociations(): Map<UUID, List<TagId>> {
+        return tagRepository.findByAllTagsForAssociations().entries.associate {
+            it.key.value to it.value.map { ta -> ta.id }
+        }
     }
 }
