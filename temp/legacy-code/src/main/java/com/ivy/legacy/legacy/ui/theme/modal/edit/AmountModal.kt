@@ -313,17 +313,16 @@ fun AmountKeyboard(
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             ZeroRow.invoke(this)
         }
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(8.dp))
     }
 
     Row(
-        modifier = Modifier.fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp),
+        modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly
 
@@ -334,15 +333,11 @@ fun AmountKeyboard(
             onNumberPressed = onNumberPressed
         )
 
-        Spacer(Modifier.width(16.dp))
-
         CircleNumberButton(
             forCalculator = forCalculator,
             value = "8",
             onNumberPressed = onNumberPressed
         )
-
-        Spacer(Modifier.width(16.dp))
 
         CircleNumberButton(
             forCalculator = forCalculator,
@@ -351,8 +346,6 @@ fun AmountKeyboard(
         )
 
         if (FirstRowExtra != null) {
-            Spacer(modifier = Modifier.width(16.dp))
-
             FirstRowExtra.invoke(this)
         }
     }
@@ -360,8 +353,7 @@ fun AmountKeyboard(
     Spacer(Modifier.height(8.dp))
 
     Row(
-        modifier = Modifier.fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp),
+        modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
@@ -371,15 +363,11 @@ fun AmountKeyboard(
             onNumberPressed = onNumberPressed
         )
 
-        Spacer(Modifier.width(16.dp))
-
         CircleNumberButton(
             forCalculator = forCalculator,
             value = "5",
             onNumberPressed = onNumberPressed
         )
-
-        Spacer(Modifier.width(16.dp))
 
         CircleNumberButton(
             forCalculator = forCalculator,
@@ -388,8 +376,6 @@ fun AmountKeyboard(
         )
 
         if (SecondRowExtra != null) {
-            Spacer(modifier = Modifier.width(16.dp))
-
             SecondRowExtra.invoke(this)
         }
     }
@@ -397,8 +383,7 @@ fun AmountKeyboard(
     Spacer(Modifier.height(8.dp))
 
     Row(
-        modifier = Modifier.fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp),
+        modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
@@ -408,14 +393,12 @@ fun AmountKeyboard(
             onNumberPressed = onNumberPressed
         )
 
-        Spacer(Modifier.width(16.dp))
         CircleNumberButton(
             forCalculator = forCalculator,
             value = "2",
             onNumberPressed = onNumberPressed
         )
 
-        Spacer(Modifier.width(16.dp))
         CircleNumberButton(
             forCalculator = forCalculator,
             value = "3",
@@ -423,7 +406,6 @@ fun AmountKeyboard(
         )
 
         if (ThirdRowExtra != null) {
-            Spacer(modifier = Modifier.width(16.dp))
             ThirdRowExtra.invoke(this)
         }
     }
@@ -431,8 +413,7 @@ fun AmountKeyboard(
     Spacer(Modifier.height(8.dp))
 
     Row(
-        modifier = Modifier.fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp),
+        modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
@@ -447,15 +428,11 @@ fun AmountKeyboard(
             onDecimalPoint()
         }
 
-        Spacer(Modifier.width(16.dp))
-
         CircleNumberButton(
             forCalculator = forCalculator,
             value = "0",
             onNumberPressed = onNumberPressed
         )
-
-        Spacer(Modifier.width(16.dp))
 
         IvyIcon(
             modifier = circleButtonModifier(onClick = onBackspace)
@@ -466,7 +443,6 @@ fun AmountKeyboard(
         )
 
         if (FourthRowExtra != null) {
-            Spacer(modifier = Modifier.width(16.dp))
             FourthRowExtra.invoke(this)
         }
     }
