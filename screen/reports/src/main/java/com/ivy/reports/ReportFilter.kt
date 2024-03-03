@@ -1,6 +1,7 @@
 package com.ivy.reports
 
 import com.ivy.base.model.TransactionType
+import com.ivy.data.model.Tag
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
@@ -16,7 +17,8 @@ data class ReportFilter(
     val minAmount: Double?,
     val maxAmount: Double?,
     val includeKeywords: List<String>,
-    val excludeKeywords: List<String>
+    val excludeKeywords: List<String>,
+    val selectedTags: List<Tag>
 ) {
     companion object {
         fun emptyFilter(
@@ -30,7 +32,8 @@ data class ReportFilter(
             includeKeywords = emptyList(),
             excludeKeywords = emptyList(),
             minAmount = null,
-            maxAmount = null
+            maxAmount = null,
+            selectedTags = emptyList()
         )
     }
 

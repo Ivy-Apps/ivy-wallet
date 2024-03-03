@@ -57,6 +57,15 @@ class TagMapper @Inject constructor() {
         )
     }
 
+    fun TagAssociationEntity.toDomain(): TagAssociation {
+        return TagAssociation(
+            id = TagId(this.tagId),
+            associatedId = AssociationId(this.associatedId),
+            lastUpdated = this.lastSyncedTime,
+            removed = this.isDeleted
+        )
+    }
+
     fun createNewTag(tagId: TagId = createNewTagId(), name: NotBlankTrimmedString): Tag {
         return Tag(
             id = tagId,

@@ -10,6 +10,7 @@ import com.ivy.data.db.dao.read.LoanDao
 import com.ivy.data.db.dao.read.LoanRecordDao
 import com.ivy.data.db.dao.read.PlannedPaymentRuleDao
 import com.ivy.data.db.dao.read.SettingsDao
+import com.ivy.data.db.dao.read.TagAssociationDao
 import com.ivy.data.db.dao.read.TagDao
 import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.data.db.dao.read.UserDao
@@ -93,6 +94,11 @@ object RoomDbModule {
     @Provides
     fun provideTagDao(db: IvyRoomDatabase): TagDao {
         return db.tagDao
+    }
+
+    @Provides
+    fun provideTagAssociationDao(db: IvyRoomDatabase): TagAssociationDao {
+        return db.tagAssociationDao
     }
 
     @Provides

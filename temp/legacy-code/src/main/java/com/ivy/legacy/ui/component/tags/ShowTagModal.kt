@@ -72,6 +72,7 @@ fun BoxWithConstraintsScope.ShowTagModal(
     @Suppress("UNUSED_PARAMETER") modifier: Modifier = Modifier,
     id: UUID = UUID.randomUUID(),
     visible: Boolean = false,
+    selectOnlyMode: Boolean = false,
     onTagSearch: (String) -> Unit
 ) {
     var showTagAddModal by remember {
@@ -127,6 +128,7 @@ fun BoxWithConstraintsScope.ShowTagModal(
         TagList(
             transactionTags = allTagList,
             selectedTagList = selectedTagList,
+            selectOnlyMode = selectOnlyMode,
             onAddNewTag = {
                 showTagAddModal = true
             },
@@ -137,8 +139,10 @@ fun BoxWithConstraintsScope.ShowTagModal(
                 onTagDeSelected(it)
             },
             onTagLongClick = {
-                selectedTag = it
-                showTagAddModal = true
+                if (!selectOnlyMode) {
+                    selectedTag = it
+                    showTagAddModal = true
+                }
             }
         )
     }
@@ -188,12 +192,17 @@ private fun ColumnScope.TagList(
     transactionTags: ImmutableList<Tag>,
     onAddNewTag: () -> Unit,
     selectedTagList: ImmutableList<Tag>,
+    selectOnlyMode: Boolean,
     onTagSelected: (Tag) -> Unit = {},
     onTagDeSelected: (Tag) -> Unit = {},
     onTagLongClick: (Tag) -> Unit = {}
 ) {
-    val tagListWithAddNewTag by remember(transactionTags) {
-        mutableStateOf(listOf(AddNewTag()) + transactionTags)
+    val tagListWithAddNewTag: List<Any> by remember(transactionTags) {
+        if (selectOnlyMode) {
+            mutableStateOf(transactionTags)
+        } else {
+            mutableStateOf(listOf(AddNewTag()) + transactionTags)
+        }
     }
 
     WrapContentRow(

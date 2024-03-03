@@ -1,10 +1,12 @@
 package com.ivy.reports
 
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,6 +21,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.ivy.base.model.TransactionType
+import com.ivy.data.model.Tag
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.domain.legacy.ui.theme.components.ListItem
@@ -42,6 +46,8 @@ import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.ivyWalletCtx
+import com.ivy.legacy.ui.component.tags.AddTagButton
+import com.ivy.legacy.ui.component.tags.ShowTagModal
 import com.ivy.legacy.utils.capitalizeLocal
 import com.ivy.legacy.utils.springBounce
 import com.ivy.resources.R
@@ -68,9 +74,14 @@ import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1Row
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import java.util.UUID
 import kotlin.math.roundToInt
 
+@Suppress("LongMethod")
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BoxWithConstraintsScope.FilterOverlay(
     visible: Boolean,
@@ -78,10 +89,12 @@ fun BoxWithConstraintsScope.FilterOverlay(
     baseCurrency: String,
     accounts: List<Account>,
     categories: List<Category>,
+    allTags: ImmutableList<Tag>,
 
     filter: ReportFilter?,
     onClose: () -> Unit,
-    onSetFilter: (ReportFilter?) -> Unit
+    onSetFilter: (ReportFilter?) -> Unit,
+    onTagSearch: (String) -> Unit
 ) {
     val percentVisible by animateFloatAsState(
         targetValue = if (visible) 1f else 0f,
@@ -109,6 +122,12 @@ fun BoxWithConstraintsScope.FilterOverlay(
     var maxAmountModalShown by remember { mutableStateOf(false) }
     var includeKeywordModalShown by remember { mutableStateOf(false) }
     var excludeKeywordModalShown by remember { mutableStateOf(false) }
+    var tagModalVisible by remember { mutableStateOf(false) }
+    val selectedTags by remember(localFilter) {
+        derivedStateOf {
+            localFilter?.selectedTags?.toImmutableList() ?: persistentListOf()
+        }
+    }
 
     if (percentVisible > 0.01f) {
         Column(
@@ -241,6 +260,15 @@ fun BoxWithConstraintsScope.FilterOverlay(
                 }
             )
 
+            FilterDivider()
+
+            OthersFilter(
+                filter = localFilter,
+                onTagButtonClicked = {
+                    tagModalVisible = true
+                }
+            )
+
             Spacer(Modifier.height(196.dp))
         }
     }
@@ -355,6 +383,86 @@ fun BoxWithConstraintsScope.FilterOverlay(
                 .excludeKeywords.plus(keyword)
                 .toSet().toList() // filter duplicated
         )
+    }
+
+    ShowTagModal(
+        visible = tagModalVisible,
+        selectOnlyMode = true,
+        onDismiss = {
+            tagModalVisible = false
+            // Reset TagList, avoids showing incorrect tag list if user had searched for a tag previously
+            onTagSearch("")
+        },
+        allTagList = allTags,
+        selectedTagList = selectedTags,
+        onTagAdd = {
+                   // Do Nothing
+        },
+        onTagEdit = { oldTag, newTag ->
+                    // Do Nothing
+        },
+        onTagDelete = {
+                      // Do Nothing
+        },
+        onTagSelected = {
+            localFilter = nonNullFilter(localFilter).copy(
+                selectedTags = nonNullFilter(localFilter).selectedTags.plus(it)
+            )
+        },
+        onTagDeSelected = {
+           localFilter = nonNullFilter(localFilter).copy(
+                selectedTags = nonNullFilter(localFilter).selectedTags.minus(it)
+            )
+        },
+        onTagSearch = {
+            onTagSearch(it)
+        }
+    )
+}
+
+@Composable
+fun ColumnScope.OthersFilter(
+    filter: ReportFilter?,
+    onTagButtonClicked: () -> Unit
+) {
+    FilterTitleText(
+        text = stringResource(R.string.others_optional),
+        active = false
+    )
+
+    TagFilter(
+        selectedTags = filter?.selectedTags?.toImmutableList() ?: persistentListOf(),
+        onTagButtonClicked = onTagButtonClicked
+    )
+}
+
+@Composable
+fun ColumnScope.TagFilter(
+    selectedTags: ImmutableList<Tag>,
+    onTagButtonClicked: () -> Unit,
+    @Suppress("UnusedParameter") modifier: Modifier = Modifier
+) {
+    Text(
+        modifier = Modifier.padding(start = 32.dp, top = 16.dp),
+        text = stringResource(R.string.tags),
+        style = UI.typo.b2.style(
+            fontWeight = FontWeight.ExtraBold
+        )
+    )
+
+    Spacer(Modifier.height(12.dp))
+
+    if (selectedTags.isEmpty()) {
+        AddKeywordButton(
+            modifier = Modifier.padding(start = 24.dp),
+            text = "Select Tags"
+        ) {
+            onTagButtonClicked()
+        }
+    } else {
+        AddTagButton(transactionAssociatedTags = selectedTags) {
+            onTagButtonClicked()
+        }
     }
 }
 
@@ -825,11 +933,9 @@ private fun Keyword(
 }
 
 @Composable
-private fun AddKeywordButton(
-    text: String,
-    onCLick: () -> Unit
-) {
+private fun AddKeywordButton(text: String, modifier: Modifier = Modifier, onCLick: () -> Unit) {
     IvyOutlinedButton(
+        modifier = modifier,
         text = text,
         iconStart = R.drawable.ic_plus,
         padding = 10.dp,
@@ -903,8 +1009,10 @@ private fun Preview() {
                 maxAmount = 13256.27,
             ),
             onClose = { },
+            allTags = persistentListOf(),
             onSetFilter = {
-            }
+            },
+            onTagSearch = { }
         )
     }
 }

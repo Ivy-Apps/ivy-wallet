@@ -690,6 +690,18 @@ class TransactionRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun findByIds(ids: List<TransactionId>): List<Transaction> {
+        return withContext(dispatchersProvider.io) {
+            transactionDao.findByIds(ids.map { it.value }).mapNotNull {
+                val (accountAssetCode, toAccountAssetCode) = getAssetCodes(
+                    it.accountId,
+                    it.toAccountId
+                )
+                with(mapper) { it.toDomain(accountAssetCode, toAccountAssetCode) }.getOrNull()
+            }
+        }
+    }
+
     override suspend fun findByIsSyncedAndIsDeleted(
         synced: Boolean,
         deleted: Boolean
