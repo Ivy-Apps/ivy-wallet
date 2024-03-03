@@ -66,7 +66,7 @@ class TagMapper @Inject constructor() {
             icon = null,
             orderNum = 0.0,
             creationTimestamp = Instant.now(),
-            lastUpdated = Instant.now(),
+            lastUpdated = Instant.EPOCH,
             removed = false
         )
     }
@@ -75,7 +75,7 @@ class TagMapper @Inject constructor() {
         return TagAssociation(
             id = tagId,
             associatedId = associationId,
-            lastUpdated = Instant.now(),
+            lastUpdated = Instant.EPOCH,
             removed = false
         )
     }

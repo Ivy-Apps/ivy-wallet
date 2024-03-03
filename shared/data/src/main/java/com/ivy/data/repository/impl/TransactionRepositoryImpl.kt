@@ -9,19 +9,17 @@ import com.ivy.data.model.AccountId
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.Expense
 import com.ivy.data.model.Income
-import com.ivy.data.model.Tag
 import com.ivy.data.model.Transaction
 import com.ivy.data.model.TransactionId
 import com.ivy.data.model.Transfer
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.AssociationId
+import com.ivy.data.model.primitive.TagId
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.TagsRepository
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
-import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.util.UUID
@@ -33,7 +31,7 @@ class TransactionRepositoryImpl @Inject constructor(
     private val transactionDao: TransactionDao,
     private val writeTransactionDao: WriteTransactionDao,
     private val dispatchersProvider: DispatchersProvider,
-    private val tagReader: TagsRepository
+    private val tagRepository: TagsRepository
 ) : TransactionRepository {
     override suspend fun findAll(): List<Transaction> {
         return withContext(dispatchersProvider.io) {
@@ -878,9 +876,9 @@ class TransactionRepositoryImpl @Inject constructor(
         return accountRepository.findById(AccountId(accountId))?.asset
     }
 
-    private suspend fun getTagsForTransactionIds(transactions: List<TransactionEntity>): Map<UUID, ImmutableList<Tag>> {
+    private suspend fun getTagsForTransactionIds(transactions: List<TransactionEntity>): Map<UUID, List<TagId>> {
         val transactionIdList = transactions.map { AssociationId(it.id) }
-        return tagReader.findByAssociatedId(transactionIdList).entries
-            .associate { (key, tags) -> key.value to tags.toImmutableList() }
+        return tagRepository.findByAssociatedId(transactionIdList).entries
+            .associate { (key, tags) -> key.value to tags.map { it.id } }
     }
 }

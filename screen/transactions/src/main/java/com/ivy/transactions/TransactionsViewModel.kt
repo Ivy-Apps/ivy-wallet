@@ -21,6 +21,7 @@ import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.AccountId
 import com.ivy.data.repository.AccountRepository
+import com.ivy.data.repository.TagsRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.frp.then
 import com.ivy.legacy.IvyWalletCtx
@@ -90,6 +91,7 @@ class TransactionsViewModel @Inject constructor(
     private val categoryWriter: WriteCategoryDao,
     private val plannedPaymentRuleWriter: WritePlannedPaymentRuleDao,
     private val transactionMapper: TransactionMapper,
+    private val tagsRepository: TagsRepository
 ) : ComposeViewModel<TransactionsState, TransactionsEvent>() {
 
     private val period = mutableStateOf(ivyContext.selectedPeriod)
@@ -378,7 +380,10 @@ class TransactionsViewModel @Inject constructor(
                         LegacyTrnsWithDateDivsAct.Input(
                             baseCurrency = baseCurrency.value,
                             transactions = with(transactionMapper) {
-                                it.map { it.toEntity().toDomain(tags = it.tags.toImmutableLegacyTags()) }
+                                it.map {
+                                    val tags = tagsRepository.findByIds(it.tags).toImmutableLegacyTags()
+                                    it.toEntity().toDomain(tags = tags)
+                                }
                             }
                         )
                     )

@@ -49,7 +49,7 @@ class TransactionRepositoryImplTest : FreeSpec({
         transactionDao = transactionDao,
         writeTransactionDao = writeTransactionDao,
         dispatchersProvider = TestDispatchersProvider,
-        tagReader = tagsRepo
+        tagRepository = tagsRepo
     )
 
     fun toInstant(localDateTime: LocalDateTime): Instant {

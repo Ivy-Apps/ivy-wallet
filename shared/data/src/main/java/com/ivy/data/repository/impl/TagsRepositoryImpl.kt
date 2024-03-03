@@ -11,7 +11,9 @@ import com.ivy.data.repository.TagsRepository
 import com.ivy.data.repository.mapper.TagMapper
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class TagsRepositoryImpl @Inject constructor(
     private val mapper: TagMapper,
     private val tagDao: TagDao,
@@ -19,12 +21,19 @@ class TagsRepositoryImpl @Inject constructor(
     private val writeTagAssociationDao: WriteTagAssociationDao,
     private val dispatchersProvider: DispatchersProvider
 ) : TagsRepository {
-    override suspend fun findById(id: TagId): Tag? {
-        return withContext(dispatchersProvider.io) {
-            tagDao.findById(id.value)?.let {
+    private val tagsMemo = mutableMapOf<TagId, Tag>()
+    private var findAllMemoized: Boolean = false
+
+    override suspend fun findByIds(id: TagId): Tag? {
+        return tagsMemo[id] ?: withContext(dispatchersProvider.io) {
+            tagDao.findByIds(id.value)?.let {
                 with(mapper) { it.toDomain() }
-            }
+            }.also(::memoize)
         }
+    }
+
+    override suspend fun findByIds(ids: List<TagId>): List<Tag> {
+        return ids.mapNotNull { tagsMemo[it] ?: findByIds(it) }
     }
 
     override suspend fun findByAssociatedId(id: AssociationId): List<Tag> {
@@ -44,9 +53,15 @@ class TagsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun findAll(deleted: Boolean): List<Tag> {
-        return withContext(dispatchersProvider.io) {
-            tagDao.findAll().let {
-                with(mapper) { it.map { it.toDomain() } }
+        return if (findAllMemoized) {
+            tagsMemo.values.sortedByDescending { it.creationTimestamp.epochSecond }
+        } else {
+            withContext(dispatchersProvider.io) {
+                tagDao.findAll().let {
+                    with(mapper) { it.map { it.toDomain() } }
+                }
+            }.also(::memoize).also {
+                findAllMemoized = true
             }
         }
     }
@@ -78,12 +93,15 @@ class TagsRepositoryImpl @Inject constructor(
     override suspend fun save(value: Tag) {
         withContext(dispatchersProvider.io) {
             writeTagDao.save(with(mapper) { value.toEntity() })
+        }.also {
+            memoize(value)
         }
     }
 
     override suspend fun updateTag(tagId: TagId, value: Tag) {
         withContext(dispatchersProvider.io) {
             writeTagDao.update(with(mapper) { value.toEntity() })
+            memoize(value)
         }
     }
 
@@ -91,12 +109,22 @@ class TagsRepositoryImpl @Inject constructor(
         withContext(dispatchersProvider.io) {
             writeTagAssociationDao.deleteAssociationsByTagId(id.value)
             writeTagDao.deleteById(id.value)
+            tagsMemo.remove(id)
         }
     }
 
     override suspend fun deleteAll() {
         withContext(dispatchersProvider.io) {
+            tagsMemo.clear()
+            writeTagAssociationDao.deleteAll()
             writeTagDao.deleteAll()
         }
+    }
+
+    private fun memoize(tag: Tag?) {
+        tag?.let { tagsMemo[it.id] = it }
+    }
+    private fun memoize(tags: List<Tag>) {
+        tags.forEach(::memoize)
     }
 }

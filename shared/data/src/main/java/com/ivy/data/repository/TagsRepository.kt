@@ -5,7 +5,8 @@ import com.ivy.data.model.primitive.AssociationId
 import com.ivy.data.model.primitive.TagId
 
 interface TagsRepository {
-    suspend fun findById(id: TagId): Tag?
+    suspend fun findByIds(id: TagId): Tag?
+    suspend fun findByIds(ids: List<TagId>): List<Tag>
     suspend fun findByAssociatedId(id: AssociationId): List<Tag>
     suspend fun findByAssociatedId(ids: List<AssociationId>): Map<AssociationId, List<Tag>>
     suspend fun findAll(deleted: Boolean = false): List<Tag>

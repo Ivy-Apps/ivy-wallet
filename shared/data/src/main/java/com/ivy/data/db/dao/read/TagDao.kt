@@ -13,7 +13,10 @@ interface TagDao {
     suspend fun findAll(): List<TagEntity>
 
     @Query("SELECT * FROM tags WHERE id = :id")
-    suspend fun findById(id: UUID): TagEntity?
+    suspend fun findByIds(id: UUID): TagEntity?
+
+    @Query("SELECT * FROM tags WHERE id in (:ids)")
+    suspend fun findByIds(ids: List<UUID>): List<TagEntity>
 
     @Query("SELECT * FROM tags WHERE name LIKE '%' || :text ||'%'")
     suspend fun findByText(text: String): List<TagEntity>
