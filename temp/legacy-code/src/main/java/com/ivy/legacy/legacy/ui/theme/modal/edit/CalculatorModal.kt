@@ -99,8 +99,6 @@ fun BoxWithConstraintsScope.CalculatorModal(
                     expression = ""
                 }
 
-                Spacer(Modifier.width(16.dp))
-
                 KeypadCircleButton(
                     text = "(",
                     testTag = "key_("
@@ -108,16 +106,12 @@ fun BoxWithConstraintsScope.CalculatorModal(
                     expression += "("
                 }
 
-                Spacer(Modifier.width(16.dp))
-
                 KeypadCircleButton(
                     text = ")",
                     testTag = "key_)"
                 ) {
                     expression += ")"
                 }
-
-                Spacer(Modifier.width(16.dp))
 
                 KeypadCircleButton(
                     text = "÷",
