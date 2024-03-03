@@ -164,6 +164,7 @@ interface TransactionRepository {
     ): List<Transaction>
 
     suspend fun findById(id: TransactionId): Transaction?
+    suspend fun findByIds(ids: List<TransactionId>): List<Transaction>
 
     suspend fun findByIsSyncedAndIsDeleted(
         synced: Boolean,

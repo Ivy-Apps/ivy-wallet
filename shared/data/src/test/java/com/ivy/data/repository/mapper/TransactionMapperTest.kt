@@ -17,6 +17,7 @@ import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
+import kotlinx.collections.immutable.persistentListOf
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -50,7 +51,8 @@ class TransactionMapperTest : FreeSpec({
                 lastUpdated = Instant.EPOCH,
                 removed = false,
                 value = Value(amount = PositiveDouble(100.0), asset = AssetCode("NGN")),
-                account = accountId
+                account = accountId,
+                tags = persistentListOf()
             )
 
             // when
@@ -103,7 +105,8 @@ class TransactionMapperTest : FreeSpec({
                 lastUpdated = Instant.EPOCH,
                 removed = false,
                 value = Value(amount = PositiveDouble(100.0), asset = AssetCode("NGN")),
-                account = accountId
+                account = accountId,
+                tags = persistentListOf()
             )
 
             // when
@@ -159,7 +162,8 @@ class TransactionMapperTest : FreeSpec({
                 fromValue = Value(amount = PositiveDouble(100.0), asset = AssetCode("NGN")),
                 fromAccount = accountId,
                 toValue = Value(amount = PositiveDouble(100.0), asset = AssetCode("NGN")),
-                toAccount = toAccountId
+                toAccount = toAccountId,
+                tags = persistentListOf()
             )
 
             // when
@@ -239,7 +243,8 @@ class TransactionMapperTest : FreeSpec({
                     lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(amount = PositiveDouble(100.0), asset = assetCode),
-                    account = AccountId(accountId)
+                    account = AccountId(accountId),
+                    tags = persistentListOf()
                 )
             }
 
@@ -353,7 +358,8 @@ class TransactionMapperTest : FreeSpec({
                     lastUpdated = Instant.EPOCH,
                     removed = false,
                     value = Value(amount = PositiveDouble(100.0), asset = assetCode),
-                    account = AccountId(accountId)
+                    account = AccountId(accountId),
+                    tags = persistentListOf()
                 )
             }
 
@@ -470,7 +476,8 @@ class TransactionMapperTest : FreeSpec({
                     fromValue = Value(amount = PositiveDouble(100.0), asset = assetCode),
                     fromAccount = AccountId(accountId),
                     toValue = Value(amount = PositiveDouble(100.0), asset = assetCode),
-                    toAccount = AccountId(toAccountId)
+                    toAccount = AccountId(toAccountId),
+                    tags = persistentListOf()
                 )
             }
 

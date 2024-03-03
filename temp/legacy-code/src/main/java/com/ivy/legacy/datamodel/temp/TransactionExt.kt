@@ -1,9 +1,14 @@
 package com.ivy.legacy.datamodel.temp
 
+import com.ivy.base.legacy.LegacyTag
 import com.ivy.base.legacy.Transaction
 import com.ivy.data.db.entity.TransactionEntity
+import com.ivy.data.model.Tag
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 
-fun TransactionEntity.toDomain(): Transaction = Transaction(
+fun TransactionEntity.toDomain(tags: ImmutableList<LegacyTag> = persistentListOf()): Transaction = Transaction(
     accountId = accountId,
     type = type,
     amount = amount.toBigDecimal(),
@@ -18,8 +23,12 @@ fun TransactionEntity.toDomain(): Transaction = Transaction(
     attachmentUrl = attachmentUrl,
     loanId = loanId,
     loanRecordId = loanRecordId,
-    id = id
+    id = id,
+    tags = tags
 )
+fun Tag.toLegacyTag(): LegacyTag = LegacyTag(this.id.value, this.name.value)
+fun List<Tag>.toImmutableLegacyTags(): ImmutableList<LegacyTag> =
+    this.map { it.toLegacyTag() }.toImmutableList()
 
 fun TransactionEntity.isIdenticalWith(transaction: TransactionEntity?): Boolean {
     if (transaction == null) return false

@@ -178,6 +178,9 @@ interface TransactionDao {
     @Query("SELECT * FROM transactions WHERE id = :id")
     suspend fun findById(id: UUID): TransactionEntity?
 
+    @Query("SELECT * FROM transactions WHERE id in (:ids)")
+    suspend fun findByIds(ids: List<UUID>): List<TransactionEntity>
+
     @Query("SELECT * FROM transactions WHERE isSynced = :synced AND isDeleted = :deleted")
     suspend fun findByIsSyncedAndIsDeleted(
         synced: Boolean,

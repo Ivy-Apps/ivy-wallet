@@ -3,11 +3,13 @@ package com.ivy.reports
 import com.ivy.data.model.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.data.model.Category
+import com.ivy.data.model.Tag
 import com.ivy.legacy.datamodel.Account
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.util.*
 
+@Suppress("DataClassDefaultValues")
 data class ReportScreenState(
     val baseCurrency: String = "",
     val balance: Double = 0.0,
@@ -30,5 +32,6 @@ data class ReportScreenState(
     val transactions: ImmutableList<Transaction> = persistentListOf(),
     val filterOverlayVisible: Boolean = false,
     val showTransfersAsIncExpCheckbox: Boolean = false,
-    val treatTransfersAsIncExp: Boolean = false
+    val treatTransfersAsIncExp: Boolean = false,
+    val allTags: ImmutableList<Tag> = persistentListOf()
 )

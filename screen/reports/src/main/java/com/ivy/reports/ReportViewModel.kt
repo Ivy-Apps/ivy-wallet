@@ -20,6 +20,10 @@ import com.ivy.data.temp.migration.getValue
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.base.ComposeViewModel
+import com.ivy.data.model.Tag
+import com.ivy.data.model.TransactionId
+import com.ivy.data.model.primitive.NotBlankTrimmedString
+import com.ivy.data.repository.TagsRepository
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
@@ -52,8 +56,12 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.math.BigDecimal
 import java.time.Instant
 import java.time.ZoneId
@@ -73,7 +81,8 @@ class ReportViewModel @Inject constructor(
     private val trnsWithDateDivsAct: TrnsWithDateDivsAct,
     private val calcTrnsIncomeExpenseAct: CalcTrnsIncomeExpenseAct,
     private val baseCurrencyAct: BaseCurrencyAct,
-    private val transactionMapper: TransactionMapper
+    private val transactionMapper: TransactionMapper,
+    private val tagsRepository: TagsRepository
 ) : ComposeViewModel<ReportScreenState, ReportScreenEvent>() {
     private val unSpecifiedCategory =
         Category(
@@ -109,6 +118,10 @@ class ReportViewModel @Inject constructor(
     private val filterOverlayVisible = mutableStateOf(false)
     private val showTransfersAsIncExpCheckbox = mutableStateOf(false)
     private val treatTransfersAsIncExp = mutableStateOf(false)
+    private val allTags = mutableStateOf<ImmutableList<Tag>>(persistentListOf())
+
+    private var tagSearchJob: Job? = null
+    private val tagSearchDebounceTimeInMills: Long = 500
 
     @Composable
     override fun uiState(): ReportScreenState {
@@ -138,7 +151,8 @@ class ReportViewModel @Inject constructor(
             upcomingExpanded = upcomingExpanded.value,
             upcomingExpenses = upcomingExpenses.doubleValue,
             upcomingIncome = upcomingIncome.doubleValue,
-            upcomingTransactions = upcomingTransactions.value
+            upcomingTransactions = upcomingTransactions.value,
+            allTags = allTags.value
         )
     }
 
@@ -159,6 +173,26 @@ class ReportViewModel @Inject constructor(
                 is ReportScreenEvent.OnTreatTransfersAsIncomeExpense -> onTreatTransfersAsIncomeExpense(
                     event.transfersAsIncomeExpense
                 )
+                is ReportScreenEvent.OnTagSearch -> onTagSearch(event.data)
+            }
+        }
+    }
+
+    private suspend fun onTagSearch(query: String) {
+        withContext(Dispatchers.IO) {
+            tagSearchJob?.cancelAndJoin()
+            delay(tagSearchDebounceTimeInMills) // Debounce effect
+            tagSearchJob = launch(Dispatchers.IO) {
+                NotBlankTrimmedString.from(query.toLowerCaseLocal())
+                    .fold(
+                        ifRight = {
+                            allTags.value =
+                                tagsRepository.findByText(text = it.value).toImmutableList()
+                        },
+                        ifLeft = {
+                            allTags.value = tagsRepository.findAll().toImmutableList()
+                        }
+                    )
             }
         }
     }
@@ -169,6 +203,8 @@ class ReportViewModel @Inject constructor(
             accounts.value = accountsAct(Unit)
             categories.value =
                 (listOf(unSpecifiedCategory) + categoryRepository.findAll()).toImmutableList()
+                (listOf(unSpecifiedCategory) + categoriesAct(Unit)).toImmutableList()
+            allTags.value = tagsRepository.findAll().toImmutableList()
         }
     }
 
@@ -286,8 +322,21 @@ class ReportViewModel @Inject constructor(
             filter.categories.map { if (it.id.value == unSpecifiedCategory.id.value) null else it.id }
         val filterRange = filter.period?.toRange(ivyContext.startDayOfMonth)
 
-        return transactionRepository
-            .findAll()
+        val transactions = if (filter.selectedTags.isNotEmpty()) {
+            tagsRepository.findByAllAssociatedIdForTagId(filter.selectedTags.map { it.id })
+                .asSequence()
+                .flatMap { it.value }
+                .map { TransactionId(it.associatedId.value) }
+                .distinct()
+                .toList()
+                .let {
+                    transactionRepository.findByIds(it)
+                }
+        } else {
+            transactionRepository.findAll()
+        }
+
+        return transactions
             .filter {
                 with(transactionMapper) {
                     filter.trnTypes.contains(it.getTransactionType())
@@ -385,10 +434,8 @@ class ReportViewModel @Inject constructor(
                         }
                     }
                 }
-
                 true
-            }
-            .toImmutableList()
+            }.toImmutableList()
     }
 
     private fun String.containsLowercase(anotherString: String): Boolean {

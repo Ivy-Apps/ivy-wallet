@@ -2,6 +2,8 @@ package com.ivy.base.legacy
 
 import androidx.compose.runtime.Immutable
 import com.ivy.base.model.TransactionType
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -36,6 +38,9 @@ data class Transaction(
 
     val isSynced: Boolean = false,
     val isDeleted: Boolean = false,
+
+    @Suppress("DataClassDefaultValues")
+    val tags: ImmutableList<LegacyTag> = persistentListOf(),
 
     val id: UUID = UUID.randomUUID()
 ) : TransactionHistoryItem

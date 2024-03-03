@@ -13,18 +13,27 @@ interface TagDao {
     suspend fun findAll(): List<TagEntity>
 
     @Query("SELECT * FROM tags WHERE id = :id")
-    suspend fun findById(id: UUID): TagEntity?
+    suspend fun findByIds(id: UUID): TagEntity?
+
+    @Query("SELECT * FROM tags WHERE id in (:ids)")
+    suspend fun findByIds(ids: List<UUID>): List<TagEntity>
 
     @Query("SELECT * FROM tags WHERE name LIKE '%' || :text ||'%'")
     suspend fun findByText(text: String): List<TagEntity>
 
-    @Suppress("AnnotationOnSeparateLine")
+    @Suppress(
+        "AnnotationOnSeparateLine",
+        "ArgumentListWrapping",
+        "MaximumLineLength",
+        "ParameterListWrapping",
+        "MaxLineLength"
+    )
     @Query(
-        "SELECT tags.* FROM tags LEFT JOIN tags_association ON tags.id = tags_association.tagId " +
-                "WHERE associatedId IN (:ids) GROUP BY tags.id"
+        "SELECT tags.*,tags_association.associatedId FROM tags LEFT JOIN tags_association ON tags.id = tags_association.tagId " +
+                "WHERE associatedId IN (:ids)"
     )
     @RewriteQueriesToDropUnusedColumns
-    suspend fun findTagsByAssociatedIds(ids: List<UUID>): Map<@MapColumn(columnName = "id") UUID, List<TagEntity>>
+    suspend fun findTagsByAssociatedIds(ids: List<UUID>): Map<@MapColumn(columnName = "associatedId") UUID, List<TagEntity>>
 
     @Query("SELECT tags.* FROM tags JOIN tags_association ON tags.id = tags_association.tagId WHERE associatedId = :id")
     @RewriteQueriesToDropUnusedColumns
