@@ -27,7 +27,6 @@ import com.ivy.data.repository.TagsRepository
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
-import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.CategoryRepository
 import com.ivy.domain.RootScreen
 import com.ivy.frp.filterSuspend
@@ -203,7 +202,6 @@ class ReportViewModel @Inject constructor(
             accounts.value = accountsAct(Unit)
             categories.value =
                 (listOf(unSpecifiedCategory) + categoryRepository.findAll()).toImmutableList()
-                (listOf(unSpecifiedCategory) + categoriesAct(Unit)).toImmutableList()
             allTags.value = tagsRepository.findAll().toImmutableList()
         }
     }

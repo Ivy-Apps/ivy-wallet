@@ -22,15 +22,18 @@ class CategoryRepositoryImpl @Inject constructor(
 ) : CategoryRepository {
 
     private val categoriesMemo = mutableMapOf<CategoryId, Category>()
+    private var findAllMemoized: Boolean = false
 
     override suspend fun findAll(deleted: Boolean): List<Category> {
-        return if (categoriesMemo.isNotEmpty()) {
+        return if (findAllMemoized) {
             categoriesMemo.values.sortedBy { it.orderNum }
         } else {
             withContext(dispatchersProvider.io) {
                 categoryDao.findAll(deleted).mapNotNull {
                     with(mapper) { it.toDomain() }.getOrNull()
-                }.also(::memoize)
+                }.also(::memoize).also {
+                    findAllMemoized = true
+                }
             }
         }
     }
