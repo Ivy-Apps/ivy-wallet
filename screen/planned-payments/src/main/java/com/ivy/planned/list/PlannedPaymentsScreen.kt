@@ -13,13 +13,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.model.TransactionType
+import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
 import com.ivy.data.model.IntervalType
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.design.l0_system.Purple
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.datamodel.PlannedPaymentRule
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.navigation.EditPlannedScreen
@@ -30,6 +33,8 @@ import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Orange
 import kotlinx.collections.immutable.persistentListOf
+import java.time.Instant
+import java.util.UUID
 
 @Composable
 fun BoxWithConstraintsScope.PlannedPaymentsScreen(screen: PlannedPaymentsScreen) {
@@ -102,8 +107,24 @@ private fun BoxWithConstraintsScope.UI(
 private fun Preview() {
     IvyWalletPreview {
         val account = Account(name = "Cash", Green.toArgb())
-        val food = Category(name = "Food", Purple.toArgb())
-        val shisha = Category(name = "Shisha", color = Orange.toArgb())
+        val food = Category(
+            name = NotBlankTrimmedString("Food"),
+            color = ColorInt(Purple.toArgb()),
+            icon = null,
+            id = CategoryId(UUID.randomUUID()),
+            lastUpdated = Instant.EPOCH,
+            orderNum = 0.0,
+            removed = false,
+        )
+        val shisha = Category(
+            name = NotBlankTrimmedString("Shisha"),
+            color = ColorInt(Orange.toArgb()),
+            icon = null,
+            id = CategoryId(UUID.randomUUID()),
+            lastUpdated = Instant.EPOCH,
+            orderNum = 0.0,
+            removed = false,
+            )
 
         UI(
             PlannedPaymentsScreenState(
@@ -114,7 +135,7 @@ private fun Preview() {
                     PlannedPaymentRule(
                         accountId = account.id,
                         title = "Lidl pazar",
-                        categoryId = food.id,
+                        categoryId = food.id.value,
                         amount = 250.75,
                         startDate = timeNowUTC().plusDays(5),
                         oneTime = true,
@@ -129,7 +150,7 @@ private fun Preview() {
                     PlannedPaymentRule(
                         accountId = account.id,
                         title = "Tabu",
-                        categoryId = shisha.id,
+                        categoryId = shisha.id.value,
                         amount = 1025.5,
                         startDate = timeNowUTC().plusDays(5),
                         oneTime = false,

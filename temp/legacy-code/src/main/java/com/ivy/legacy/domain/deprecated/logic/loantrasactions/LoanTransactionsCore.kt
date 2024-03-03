@@ -13,6 +13,7 @@ import com.ivy.data.db.dao.write.WriteLoanDao
 import com.ivy.data.db.dao.write.WriteLoanRecordDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
 import com.ivy.data.model.LoanType
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
@@ -33,6 +34,7 @@ import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.Instant
 import java.time.LocalDateTime
 import java.util.Locale
 import java.util.UUID
@@ -52,6 +54,10 @@ class LoanTransactionsCore @Inject constructor(
     private val writeLoanDao: WriteLoanDao,
 ) {
     private var baseCurrencyCode: String? = null
+
+    companion object {
+        const val DEFAULT_COLOR_INDEX = 4
+    }
 
     init {
         CoroutineScope(Dispatchers.IO).launch {
@@ -215,10 +221,15 @@ class LoanTransactionsCore @Inject constructor(
             category.name.value.lowercase(Locale.ENGLISH).contains("loan")
         } ?: if (ivyContext.isPremium || categoryList.size < 12) {
             addCategoryToDb = true
+
             Category(
                 name = NotBlankTrimmedString(stringRes(R.string.loans)),
-                color = ColorInt(IVY_COLOR_PICKER_COLORS_FREE[4].toArgb()),
-                icon = IconAsset("loan")
+                color = ColorInt(IVY_COLOR_PICKER_COLORS_FREE[DEFAULT_COLOR_INDEX].toArgb()),
+                icon = IconAsset("loan"),
+                id = CategoryId(UUID.randomUUID()),
+                lastUpdated = Instant.EPOCH,
+                orderNum = 0.0,
+                removed = false,
             )
         } else {
             null

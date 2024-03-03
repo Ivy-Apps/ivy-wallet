@@ -29,6 +29,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
 import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
@@ -69,6 +70,8 @@ import com.ivy.wallet.ui.theme.components.IvyToolbar
 import com.ivy.wallet.ui.theme.pureBlur
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import java.time.Instant
+import java.util.UUID
 
 @ExperimentalFoundationApi
 @Composable
@@ -407,7 +410,15 @@ private fun Preview() {
     IvyWalletPreview {
         val acc1 = Account("Cash", color = Green.toArgb())
         val acc2 = Account("DSK", color = GreenDark.toArgb())
-        val cat1 = Category(name = NotBlankTrimmedString("Science"), color = ColorInt(Purple1Dark.toArgb()), icon = IconAsset("atom"))
+        val cat1 = Category(
+            name = NotBlankTrimmedString("Science"),
+            color = ColorInt(Purple1Dark.toArgb()),
+            icon = IconAsset("atom"),
+            id = CategoryId(UUID.randomUUID()),
+            lastUpdated = Instant.EPOCH,
+            orderNum = 0.0,
+            removed = false,
+        )
         val state = ReportScreenState(
             baseCurrency = "BGN",
             balance = -6405.66,
@@ -434,8 +445,24 @@ private fun Preview() {
             ),
             categories = persistentListOf(
                 cat1,
-                Category(name = NotBlankTrimmedString("Pet"), color = ColorInt(Red3Light.toArgb()), icon = IconAsset("pet")),
-                Category(name = NotBlankTrimmedString("Home"), color = ColorInt(Green.toArgb()), icon = null),
+                Category(
+                    name = NotBlankTrimmedString("Pet"),
+                    color = ColorInt(Red3Light.toArgb()),
+                    icon = IconAsset("pet"),
+                    id = CategoryId(UUID.randomUUID()),
+                    lastUpdated = Instant.EPOCH,
+                    orderNum = 0.0,
+                    removed = false,
+                ),
+                Category(
+                    name = NotBlankTrimmedString("Home"),
+                    color = ColorInt(Green.toArgb()),
+                    icon = null,
+                    id = CategoryId(UUID.randomUUID()),
+                    lastUpdated = Instant.EPOCH,
+                    orderNum = 0.0,
+                    removed = false,
+                ),
             ),
         )
 
@@ -450,7 +477,15 @@ private fun Preview_NO_FILTER() {
     IvyWalletPreview {
         val acc1 = Account("Cash", color = Green.toArgb())
         val acc2 = Account("DSK", color = GreenDark.toArgb())
-        val cat1 = Category(name = NotBlankTrimmedString("Science"), color = ColorInt(Purple1Dark.toArgb()), icon = IconAsset("atom"))
+        val cat1 = Category(
+            name = NotBlankTrimmedString("Science"),
+            color = ColorInt(Purple1Dark.toArgb()),
+            icon = IconAsset("atom"),
+            id = CategoryId(UUID.randomUUID()),
+            lastUpdated = Instant.EPOCH,
+            orderNum = 0.0,
+            removed = false,
+        )
         val state = ReportScreenState(
             baseCurrency = "BGN",
             balance = 0.0,
@@ -479,8 +514,24 @@ private fun Preview_NO_FILTER() {
             ),
             categories = persistentListOf(
                 cat1,
-                Category(name = NotBlankTrimmedString("Pet"), color = ColorInt(Red3Light.toArgb()), icon = IconAsset("pet")),
-                Category(name = NotBlankTrimmedString("Home"), color = ColorInt(Green.toArgb()), icon = null),
+                Category(
+                    name = NotBlankTrimmedString("Pet"),
+                    color = ColorInt(Red3Light.toArgb()),
+                    icon = IconAsset("pet"),
+                    id = CategoryId(UUID.randomUUID()),
+                    lastUpdated = Instant.EPOCH,
+                    orderNum = 0.0,
+                    removed = false,
+                ),
+                Category(
+                    name = NotBlankTrimmedString("Home"),
+                    color = ColorInt(Green.toArgb()),
+                    icon = null,
+                    id = CategoryId(UUID.randomUUID()),
+                    lastUpdated = Instant.EPOCH,
+                    orderNum = 0.0,
+                    removed = false,
+                ),
             ),
         )
 

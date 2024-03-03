@@ -34,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
@@ -63,6 +64,8 @@ import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import com.ivy.wallet.ui.theme.toComposeColor
+import java.time.Instant
+import java.util.UUID
 
 @ExperimentalFoundationApi
 @Composable
@@ -399,7 +402,11 @@ private fun Preview_Categories() {
                 Category(
                     name = NotBlankTrimmedString("Food & Drinks"),
                     color = ColorInt(Orange.toArgb()),
-                    icon = IconAsset("fooddrinks")
+                    icon = IconAsset("fooddrinks"),
+                    id = CategoryId(UUID.randomUUID()),
+                    lastUpdated = Instant.EPOCH,
+                    orderNum = 0.0,
+                    removed = false,
                 )
             )
         )
@@ -471,7 +478,11 @@ private fun Preview_Premium() {
                 Category(
                     name = NotBlankTrimmedString("Food & Drinks"),
                     color = ColorInt(Orange.toArgb()),
-                    icon = IconAsset("fooddrinks")
+                    icon = IconAsset("fooddrinks"),
+                    id = CategoryId(UUID.randomUUID()),
+                    lastUpdated = Instant.EPOCH,
+                    orderNum = 0.0,
+                    removed = false,
                 )
             }
         )

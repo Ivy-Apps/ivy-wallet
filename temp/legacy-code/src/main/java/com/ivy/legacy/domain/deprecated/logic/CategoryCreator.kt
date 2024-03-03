@@ -2,6 +2,7 @@ package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
@@ -9,6 +10,8 @@ import com.ivy.data.repository.CategoryRepository
 import com.ivy.legacy.utils.ioThread
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.pure.util.nextOrderNum
+import java.time.Instant
+import java.util.UUID
 import javax.inject.Inject
 
 class CategoryCreator @Inject constructor(
@@ -28,6 +31,9 @@ class CategoryCreator @Inject constructor(
                     color = ColorInt(data.color.toArgb()),
                     icon = data.icon?.let { IconAsset(it) },
                     orderNum = categoryRepository.findMaxOrderNum().nextOrderNum(),
+                    id = CategoryId(UUID.randomUUID()),
+                    lastUpdated = Instant.EPOCH,
+                    removed = false,
                 )
                 categoryRepository.save(newCategory)
                 newCategory

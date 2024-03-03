@@ -10,14 +10,20 @@ import java.time.Instant
 import java.util.UUID
 
 @JvmInline
-value class CategoryId(override val value: UUID = UUID.randomUUID()) : UniqueId
+value class CategoryId(override val value: UUID) : UniqueId
 
 data class Category(
-    override val id: CategoryId = CategoryId(),
+    override val id: CategoryId,
     val name: NotBlankTrimmedString,
     val color: ColorInt,
-    val icon: IconAsset? = null,
-    override val orderNum: Double = 0.0,
-    override val lastUpdated: Instant = Instant.EPOCH,
-    override val removed: Boolean = false,
+    val icon: IconAsset?,
+    override val orderNum: Double,
+    override val lastUpdated: Instant,
+    override val removed: Boolean
 ) : Syncable, Reorderable
+
+// categoryId
+// UUID.randomUUID()
+// IconAsset = null
+// Instant.EPOCH - last updated
+// removed - false

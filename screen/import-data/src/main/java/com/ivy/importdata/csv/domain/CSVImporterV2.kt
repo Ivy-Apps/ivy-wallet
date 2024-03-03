@@ -9,6 +9,7 @@ import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
@@ -28,6 +29,7 @@ import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.IvyDark
 import kotlinx.collections.immutable.toImmutableList
+import java.time.Instant
 import java.util.UUID
 import javax.inject.Inject
 import kotlin.math.absoluteValue
@@ -319,10 +321,13 @@ class CSVImporterV2 @Inject constructor(
         }.toArgb()
 
         val newCategory = Category(
+            id = CategoryId(UUID.randomUUID()),
             name = NotBlankTrimmedString(categoryNameString),
             color = ColorInt(colorArgb),
             icon = icon?.let { IconAsset(it) },
-            orderNum = orderNum ?: categoryRepository.findMaxOrderNum().nextOrderNum()
+            orderNum = orderNum ?: categoryRepository.findMaxOrderNum().nextOrderNum(),
+            lastUpdated = Instant.EPOCH,
+            removed = false
         )
         categoryRepository.save(newCategory)
         categories = categoryRepository.findAll()

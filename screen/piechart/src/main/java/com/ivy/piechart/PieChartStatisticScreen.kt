@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ivy.base.model.TransactionType
 import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
@@ -79,6 +80,8 @@ import com.ivy.wallet.ui.theme.pureBlur
 import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1Row
 import kotlinx.collections.immutable.persistentListOf
+import java.time.Instant
+import java.util.UUID
 
 @ExperimentalFoundationApi
 @Composable
@@ -344,7 +347,8 @@ private fun CategoryAmountCard(
     val category = categoryAmount.category
     val amount = categoryAmount.amount
 
-    val categoryColor = category?.color?.value?.toComposeColor() ?: Gray // Unspecified category = Gray
+    val categoryColor =
+        category?.color?.value?.toComposeColor() ?: Gray // Unspecified category = Gray
     val selectedState = when {
         selectedCategory == null -> {
             // no selectedCategory
@@ -476,7 +480,11 @@ private fun Preview_Expense() {
                     category = Category(
                         name = NotBlankTrimmedString("Bills"),
                         color = ColorInt(Green.toArgb()),
-                        icon = IconAsset("bills")
+                        icon = IconAsset("bills"),
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
                     ),
                     amount = 791.0
                 ),
@@ -489,7 +497,11 @@ private fun Preview_Expense() {
                     category = Category(
                         name = NotBlankTrimmedString("Shisha"),
                         color = ColorInt(Orange.toArgb()),
-                        icon = IconAsset("trees")
+                        icon = IconAsset("trees"),
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
                     ),
                     amount = 411.93
                 ),
@@ -497,6 +509,11 @@ private fun Preview_Expense() {
                     category = Category(
                         name = NotBlankTrimmedString("Food & Drink"),
                         color = ColorInt(IvyDark.toArgb()),
+                        icon = null,
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
                     ),
                     amount = 260.03
                 ),
@@ -504,6 +521,11 @@ private fun Preview_Expense() {
                     category = Category(
                         name = NotBlankTrimmedString("Gifts"),
                         color = ColorInt(RedLight.toArgb()),
+                        icon = null,
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
                     ),
                     amount = 160.0
                 ),
@@ -511,6 +533,11 @@ private fun Preview_Expense() {
                     category = Category(
                         name = NotBlankTrimmedString("Clothes & Jewelery Fancy"),
                         color = ColorInt(Red.toArgb()),
+                        icon = null,
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
                     ),
                     amount = 2.0
                 ),
@@ -518,7 +545,11 @@ private fun Preview_Expense() {
                     category = Category(
                         name = NotBlankTrimmedString("Finances, Burocracy & Governance"),
                         color = ColorInt(IvyLight.toArgb()),
-                        icon = IconAsset("work")
+                        icon = IconAsset("work"),
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
                     ),
                     amount = 2.0
                 ),
@@ -552,7 +583,11 @@ private fun Preview_Income() {
                     category = Category(
                         name = NotBlankTrimmedString("Bills"),
                         color = ColorInt(Green.toArgb()),
-                        icon = IconAsset("bills")
+                        icon = IconAsset("bills"),
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
                     ),
                     amount = 791.0
                 ),
@@ -565,7 +600,11 @@ private fun Preview_Income() {
                     category = Category(
                         name = NotBlankTrimmedString("Shisha"),
                         color = ColorInt(Orange.toArgb()),
-                        icon = IconAsset("trees")
+                        icon = IconAsset("trees"),
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
                     ),
                     amount = 411.93
                 ),
@@ -573,6 +612,11 @@ private fun Preview_Income() {
                     category = com.ivy.data.model.Category(
                         name = NotBlankTrimmedString("Food & Drink"),
                         color = ColorInt(IvyDark.toArgb()),
+                        icon = null,
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
                     ),
                     amount = 260.03
                 ),
@@ -580,6 +624,11 @@ private fun Preview_Income() {
                     category = Category(
                         name = NotBlankTrimmedString("Gifts"),
                         color = ColorInt(RedLight.toArgb()),
+                        icon = null,
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
                     ),
                     amount = 160.0
                 ),
@@ -587,6 +636,11 @@ private fun Preview_Income() {
                     category = Category(
                         name = NotBlankTrimmedString("Clothes & Jewelery Fancy"),
                         color = ColorInt(Red.toArgb()),
+                        icon = null,
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
                     ),
                     amount = 2.0
                 ),
@@ -594,7 +648,11 @@ private fun Preview_Income() {
                     category = Category(
                         name = NotBlankTrimmedString("Finances, Burocracy & Governance"),
                         color = ColorInt(IvyLight.toArgb()),
-                        icon = IconAsset("work")
+                        icon = IconAsset("work"),
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
                     ),
                     amount = 2.0
                 ),

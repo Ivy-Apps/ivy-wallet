@@ -61,6 +61,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
+import java.time.Instant
 import java.util.UUID
 import javax.inject.Inject
 import com.ivy.legacy.datamodel.Account as LegacyAccount
@@ -624,7 +625,15 @@ class TransactionsViewModel @Inject constructor(
     ) {
         initWithTransactions.value = true
         category.value =
-            Category(name = NotBlankTrimmedString(stringRes(R.string.account_transfers)), color = ColorInt(RedLight.toArgb()), icon = IconAsset("transfer"))
+            Category(
+                name = NotBlankTrimmedString(stringRes(R.string.account_transfers)),
+                color = ColorInt(RedLight.toArgb()),
+                icon = IconAsset("transfer"),
+                id = CategoryId(UUID.randomUUID()),
+                lastUpdated = Instant.EPOCH,
+                orderNum = 0.0,
+                removed = false,
+            )
         val accountFilterIdSet = accountFilterList.toHashSet()
         val trans = transactions.filter {
             it.categoryId == null && (

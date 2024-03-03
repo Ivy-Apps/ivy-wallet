@@ -22,6 +22,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.ivy.base.legacy.toEpochMilli
 import com.ivy.base.model.TransactionType
 import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.design.l0_system.UI
@@ -33,6 +34,8 @@ import com.ivy.wallet.ui.theme.components.IvyIcon
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import timber.log.Timber
+import java.time.Instant
+import java.util.UUID
 import kotlin.math.acos
 import kotlin.math.sqrt
 
@@ -276,21 +279,51 @@ private fun Preview() {
                 type = TransactionType.EXPENSE,
                 categoryAmounts = persistentListOf(
                     CategoryAmount(
-                        category = Category(name = NotBlankTrimmedString("Bills"), color = ColorInt(Green.toArgb())),
+                        category = Category(
+                            name = NotBlankTrimmedString("Bills"),
+                            color = ColorInt(Green.toArgb()),
+                            icon = null,
+                            id = CategoryId(UUID.randomUUID()),
+                            lastUpdated = Instant.EPOCH,
+                            orderNum = 0.0,
+                            removed = false,
+                            ),
                         amount = 791.0
                     ),
                     CategoryAmount(
-                        category = Category(name = NotBlankTrimmedString("Shisha"), color = ColorInt(Green.toArgb())),
+                        category = Category(
+                            name = NotBlankTrimmedString("Shisha"),
+                            color = ColorInt(Green.toArgb()),
+                            icon = null,
+                            id = CategoryId(UUID.randomUUID()),
+                            lastUpdated = Instant.EPOCH,
+                            orderNum = 0.0,
+                            removed = false,
+                            ),
                         amount = 411.93
                     ),
                     CategoryAmount(
-                        category = Category(name = NotBlankTrimmedString("Food & Drink"), color = ColorInt(
-                            IvyDark.toArgb())),
+                        category = Category(
+                            name = NotBlankTrimmedString("Food & Drink"),
+                            color = ColorInt(IvyDark.toArgb()),
+                            icon = null,
+                            id = CategoryId(UUID.randomUUID()),
+                            lastUpdated = Instant.EPOCH,
+                            orderNum = 0.0,
+                            removed = false,
+                        ),
                         amount = 260.03
                     ),
                     CategoryAmount(
-                        category = Category(name = NotBlankTrimmedString("Gifts"), color = ColorInt(
-                            RedLight.toArgb())),
+                        category = Category(
+                            name = NotBlankTrimmedString("Gifts"),
+                            color = ColorInt(RedLight.toArgb()),
+                            icon = null,
+                            id = CategoryId(UUID.randomUUID()),
+                            lastUpdated = Instant.EPOCH,
+                            orderNum = 0.0,
+                            removed = false,
+                        ),
                         amount = 160.0
                     ),
                     CategoryAmount(

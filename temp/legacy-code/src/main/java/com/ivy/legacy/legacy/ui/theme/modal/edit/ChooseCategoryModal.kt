@@ -33,6 +33,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.design.utils.thenIf
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.legacy.utils.drawColoredShadow
@@ -52,6 +53,7 @@ import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalSkip
 import com.ivy.wallet.ui.theme.modal.ModalTitle
 import com.ivy.wallet.ui.theme.toComposeColor
+import java.time.Instant
 import java.util.UUID
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
@@ -287,9 +289,33 @@ private class AddNewCategory
 private fun PreviewChooseCategoryModal() {
     IvyWalletPreview {
         val categories = mutableListOf(
-            Category(name = NotBlankTrimmedString("Test"), color = ColorInt(Ivy.toArgb())),
-            Category(name = NotBlankTrimmedString("Second"), color = ColorInt(Orange.toArgb())),
-            Category(name = NotBlankTrimmedString("Third"), color = ColorInt(Red.toArgb())),
+            Category(
+                name = NotBlankTrimmedString("Test"),
+                color = ColorInt(Ivy.toArgb()),
+                icon = null,
+                id = CategoryId(UUID.randomUUID()),
+                lastUpdated = Instant.EPOCH,
+                orderNum = 0.0,
+                removed = false,
+            ),
+            Category(
+                name = NotBlankTrimmedString("Second"),
+                color = ColorInt(Orange.toArgb()),
+                icon = null,
+                id = CategoryId(UUID.randomUUID()),
+                lastUpdated = Instant.EPOCH,
+                orderNum = 0.0,
+                removed = false,
+                ),
+            Category(
+                name = NotBlankTrimmedString("Third"),
+                color = ColorInt(Red.toArgb()),
+                icon = null,
+                id = CategoryId(UUID.randomUUID()),
+                lastUpdated = Instant.EPOCH,
+                orderNum = 0.0,
+                removed = false,
+                ),
         )
 
         ChooseCategoryModal(

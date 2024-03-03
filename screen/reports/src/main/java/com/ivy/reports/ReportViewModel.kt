@@ -21,6 +21,7 @@ import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.base.ComposeViewModel
 import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.CategoryRepository
@@ -54,6 +55,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
+import java.time.Instant
 import java.time.ZoneId
 import java.util.UUID
 import javax.inject.Inject
@@ -74,7 +76,15 @@ class ReportViewModel @Inject constructor(
     private val transactionMapper: TransactionMapper
 ) : ComposeViewModel<ReportScreenState, ReportScreenEvent>() {
     private val unSpecifiedCategory =
-        Category(name = NotBlankTrimmedString(stringRes(R.string.unspecified)), color = ColorInt(Gray.toArgb()))
+        Category(
+            name = NotBlankTrimmedString(stringRes(R.string.unspecified)),
+            color = ColorInt(Gray.toArgb()),
+            icon = null,
+            id = CategoryId(UUID.randomUUID()),
+            lastUpdated = Instant.EPOCH,
+            orderNum = 0.0,
+            removed = false,
+        )
     private val baseCurrency = mutableStateOf("")
     private val categories = mutableStateOf<ImmutableList<Category>>(persistentListOf())
     private val historyIncomeExpense = mutableStateOf(IncomeExpenseTransferPair.zero())

@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.model.TransactionType
 import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
@@ -70,7 +71,9 @@ import com.ivy.wallet.ui.theme.gradientExpenses
 import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 import kotlinx.collections.immutable.persistentListOf
+import java.time.Instant
 import java.time.LocalDateTime
+import java.util.UUID
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
@@ -525,7 +528,15 @@ private fun PreviewUpcomingExpense() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = Account(name = "Cash", Green.toArgb())
-            val food = Category(name = NotBlankTrimmedString("Food"), color = ColorInt(Blue.toArgb()))
+            val food = Category(
+                name = NotBlankTrimmedString("Food"),
+                color = ColorInt(Blue.toArgb()),
+                icon = null,
+                id = CategoryId(UUID.randomUUID()),
+                lastUpdated = Instant.EPOCH,
+                orderNum = 0.0,
+                removed = false,
+                )
 
             item {
                 TransactionCard(
@@ -557,7 +568,15 @@ private fun PreviewOverdueExpense() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = Account(name = "Cash", color = Green.toArgb())
-            val food = Category(name = NotBlankTrimmedString("Rent"), color = ColorInt(Green.toArgb()))
+            val food = Category(
+                name = NotBlankTrimmedString("Rent"),
+                color = ColorInt(Green.toArgb()),
+                icon = null,
+                id = CategoryId(UUID.randomUUID()),
+                lastUpdated = Instant.EPOCH,
+                orderNum = 0.0,
+                removed = false,
+            )
 
             item {
                 TransactionCard(
@@ -592,7 +611,11 @@ private fun PreviewNormalExpense() {
             val food = Category(
                 name = NotBlankTrimmedString("Bitovi"),
                 color = ColorInt(Orange.toArgb()),
-                icon = IconAsset("groceries")
+                icon = IconAsset("groceries"),
+                id = CategoryId(UUID.randomUUID()),
+                lastUpdated = Instant.EPOCH,
+                orderNum = 0.0,
+                removed = false,
             )
 
             item {
@@ -624,7 +647,15 @@ private fun PreviewIncome() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = Account(name = "DSK Bank", color = Green.toArgb())
-            val category = Category(name = NotBlankTrimmedString("Salary"), color = ColorInt(GreenDark.toArgb()))
+            val category = Category(
+                name = NotBlankTrimmedString("Salary"),
+                color = ColorInt(GreenDark.toArgb()),
+                icon = null,
+                id = CategoryId(UUID.randomUUID()),
+                lastUpdated = Instant.EPOCH,
+                orderNum = 0.0,
+                removed = false,
+                )
 
             item {
                 TransactionCard(

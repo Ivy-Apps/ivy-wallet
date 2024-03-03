@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.ivy.base.model.TransactionType
 import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
@@ -71,6 +72,7 @@ import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1Row
+import java.time.Instant
 import java.util.UUID
 import kotlin.math.roundToInt
 
@@ -876,7 +878,15 @@ private fun Preview() {
     IvyWalletPreview {
         val acc1 = Account("Cash", color = Green.toArgb())
         val acc2 = Account("DSK", color = GreenDark.toArgb())
-        val cat1 = Category(name = NotBlankTrimmedString("Science"), color = ColorInt(Purple1Dark.toArgb()), icon = IconAsset("atom"))
+        val cat1 = Category(
+            name = NotBlankTrimmedString("Science"),
+            color = ColorInt(Purple1Dark.toArgb()),
+            icon = IconAsset("atom"),
+            id = CategoryId(UUID.randomUUID()),
+            lastUpdated = Instant.EPOCH,
+            orderNum = 0.0,
+            removed = false,
+        )
 
         FilterOverlay(
             visible = true,
@@ -890,8 +900,24 @@ private fun Preview() {
             ),
             categories = listOf(
                 cat1,
-                Category(name = NotBlankTrimmedString("Pet"), color = ColorInt(Red3Light.toArgb()), icon = IconAsset("pet")),
-                Category(name = NotBlankTrimmedString("Home"), color = ColorInt(Green.toArgb()), icon = null),
+                Category(
+                    name = NotBlankTrimmedString("Pet"),
+                    color = ColorInt(Red3Light.toArgb()),
+                    icon = IconAsset("pet"),
+                    id = CategoryId(UUID.randomUUID()),
+                    lastUpdated = Instant.EPOCH,
+                    orderNum = 0.0,
+                    removed = false,
+                ),
+                Category(
+                    name = NotBlankTrimmedString("Home"),
+                    color = ColorInt(Green.toArgb()),
+                    icon = null,
+                    id = CategoryId(UUID.randomUUID()),
+                    lastUpdated = Instant.EPOCH,
+                    orderNum = 0.0,
+                    removed = false,
+                ),
             ),
 
             filter = ReportFilter.emptyFilter("BGN").copy(
