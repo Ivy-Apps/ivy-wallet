@@ -21,7 +21,7 @@ import com.ivy.base.legacy.SharedPrefs
 import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.legacy.domain.action.settings.UpdateSettingsAct
 import com.ivy.data.backup.BackupDataUseCase
-import com.ivy.legacy.utils.formatNicelyWithTime
+import com.ivy.legacy.utils.getISOFormattedDateTime
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.uiThread
@@ -263,7 +263,7 @@ class SettingsViewModel @Inject constructor(
     private fun exportToCSV(rootScreen: RootScreen) {
         ivyContext.createNewFile(
             "Ivy Wallet (${
-                timeNowUTC().formatNicelyWithTime(noWeekDay = true)
+                timeNowUTC().getISOFormattedDateTime()
             }).csv"
         ) { fileUri ->
             viewModelScope.launch {
@@ -282,7 +282,7 @@ class SettingsViewModel @Inject constructor(
     private fun exportToZip(rootScreen: RootScreen) {
         ivyContext.createNewFile(
             "Ivy Wallet (${
-                timeNowUTC().formatNicelyWithTime(noWeekDay = true)
+                timeNowUTC().getISOFormattedDateTime()
             }).zip"
         ) { fileUri ->
             viewModelScope.launch(Dispatchers.IO) {
