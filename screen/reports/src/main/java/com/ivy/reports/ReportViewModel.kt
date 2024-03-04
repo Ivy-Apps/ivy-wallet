@@ -30,6 +30,7 @@ import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.utils.formatNicelyWithTime
+import com.ivy.legacy.utils.getISOFormattedDateTime
 import com.ivy.legacy.utils.scopedIOThread
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.toLowerCaseLocal
@@ -439,7 +440,7 @@ class ReportViewModel @Inject constructor(
 
         ivyContext.createNewFile(
             "Report (${
-                timeNowUTC().formatNicelyWithTime(noWeekDay = true)
+                timeNowUTC().getISOFormattedDateTime()
             }).csv"
         ) { fileUri ->
             viewModelScope.launch {

@@ -78,6 +78,8 @@ fun LocalDateTime.formatNicely(
     }
 }
 
+fun LocalDateTime.getISOFormattedDateTime() = this.formatLocal("yyyyMMdd_HH:mm")
+
 fun LocalDateTime.formatNicelyWithTime(
     noWeekDay: Boolean = true,
     zone: ZoneId = ZoneOffset.systemDefault()
@@ -85,10 +87,14 @@ fun LocalDateTime.formatNicelyWithTime(
     val today = dateNowUTC()
     val isThisYear = today.year == this.year
 
-    val patternNoWeekDay = "yyyyMMdd_HH:mm"
+    val patternNoWeekDay = "dd MMM HH:mm"
 
     if (noWeekDay) {
-        return this.formatLocal(patternNoWeekDay)
+        return if (isThisYear) {
+            this.formatLocal(patternNoWeekDay)
+        } else {
+            this.formatLocal("dd MMM, yyyy HH:mm")
+        }
     }
 
     return when (this.toLocalDate()) {
