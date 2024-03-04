@@ -41,13 +41,15 @@ fun SearchInput(
             .border(1.dp, Gray, UI.shapes.rFull),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        Spacer(Modifier.width(12.dp))
 
-        IvyIcon(icon = R.drawable.ic_search, modifier = Modifier.weight(1f))
+        IvyIcon(icon = R.drawable.ic_search)
+
+        Spacer(Modifier.width(12.dp))
 
         val searchFocus = FocusRequester()
         IvyBasicTextField(
             modifier = Modifier
-                .weight(4f)
                 .padding(vertical = 12.dp)
                 .focusRequester(searchFocus),
             value = searchQueryTextFieldValue,
@@ -63,14 +65,17 @@ fun SearchInput(
             }
         }
 
+        Spacer(Modifier.weight(1f))
+
         IvyIcon(
             modifier = Modifier
-                .weight(1f)
                 .clickable {
                     onSetSearchQueryTextField(selectEndTextFieldValue(""))
                 }
                 .padding(all = 12.dp), // enlarge click area
             icon = R.drawable.ic_outline_clear_24
         )
+
+        Spacer(Modifier.width(8.dp))
     }
 }
