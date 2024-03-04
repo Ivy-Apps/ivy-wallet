@@ -85,11 +85,10 @@ fun LocalDateTime.formatNicelyWithTime(
     val today = dateNowUTC()
     val isThisYear = today.year == this.year
 
-    val patternNoWeekDay = "dd MMM HH:mm"
+    val patternNoWeekDay = "yyyyMMdd_HH:mm"
 
     if (noWeekDay) {
-        //Only for backup, export, reports file name formats
-        return this.formatLocal("yyyyMMdd_HH:mm")
+        return this.formatLocal(patternNoWeekDay)
     }
 
     return when (this.toLocalDate()) {
