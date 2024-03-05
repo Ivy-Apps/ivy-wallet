@@ -283,7 +283,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
             .alpha(percentVisible)
             .align(Alignment.BottomCenter)
             .zIndex(200f)
-            .padding(bottom = 32.dp)
+            .padding(bottom = 48.dp)
     ) {
         Spacer(Modifier.width(24.dp))
 
