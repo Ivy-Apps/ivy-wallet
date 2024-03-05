@@ -14,6 +14,8 @@ import com.ivy.data.db.dao.read.LoanDao
 import com.ivy.data.db.dao.read.LoanRecordDao
 import com.ivy.data.db.dao.read.PlannedPaymentRuleDao
 import com.ivy.data.db.dao.read.SettingsDao
+import com.ivy.data.db.dao.read.TagAssociationDao
+import com.ivy.data.db.dao.read.TagDao
 import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.data.db.dao.write.WriteBudgetDao
 import com.ivy.data.db.dao.write.WriteCategoryDao
@@ -21,6 +23,8 @@ import com.ivy.data.db.dao.write.WriteLoanDao
 import com.ivy.data.db.dao.write.WriteLoanRecordDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
+import com.ivy.data.db.dao.write.WriteTagAssociationDao
+import com.ivy.data.db.dao.write.WriteTagDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.file.IvyFileReader
 import com.ivy.data.repository.AccountRepository
@@ -61,6 +65,10 @@ class BackupDataUseCase @Inject constructor(
     private val json: Json,
     private val dispatchersProvider: DispatchersProvider,
     private val fileReader: IvyFileReader,
+    private val tagDao: TagDao,
+    private val tagWriter: WriteTagDao,
+    private val tagAssociationDao: TagAssociationDao,
+    private val tagAssociationWriter: WriteTagAssociationDao
 ) {
     suspend fun exportToFile(
         zipFileUri: Uri
@@ -94,6 +102,8 @@ class BackupDataUseCase @Inject constructor(
             val settings = async { settingsDao.findAll() }
             val transactions = async { transactionDao.findAll() }
             val sharedPrefs = async { getSharedPrefsData() }
+            val tags = async { tagDao.findAll() }
+            val tagAssociations = async { tagAssociationDao.findAll() }
 
             val completeData = IvyWalletCompleteData(
                 accounts = accounts.await(),
@@ -104,7 +114,9 @@ class BackupDataUseCase @Inject constructor(
                 plannedPaymentRules = plannedPaymentRules.await(),
                 settings = settings.await(),
                 transactions = transactions.await(),
-                sharedPrefs = sharedPrefs.await()
+                sharedPrefs = sharedPrefs.await(),
+                tags = tags.await(),
+                tagAssociations = tagAssociations.await()
             )
 
             json.encodeToString(completeData)
@@ -252,8 +264,13 @@ class BackupDataUseCase @Inject constructor(
             val loanRecords =
                 async { loanRecordWriter.saveMany(completeData.loanRecords) }
 
+            val tags = async { tagWriter.save(completeData.tags) }
+            val tagAssociations = async { tagAssociationWriter.save(completeData.tagAssociations) }
+
             loans.await()
             loanRecords.await()
+            tags.await()
+            tagAssociations.await()
 
             onProgress(0.8)
 
