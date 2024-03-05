@@ -15,6 +15,8 @@ import com.ivy.data.repository.fake.FakeAccountRepository
 import com.ivy.data.repository.fake.FakeCurrencyRepository
 import com.ivy.data.repository.mapper.AccountMapper
 import com.ivy.base.TestDispatchersProvider
+import com.ivy.data.repository.fake.FakeTagRepository
+import com.ivy.data.repository.mapper.TagMapper
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.ints.shouldBeGreaterThan
 import kotlinx.coroutines.runBlocking
@@ -67,7 +69,14 @@ class BackupDataUseCaseAndroidTest {
             context = appContext,
             json = KotlinxSerializationModule.provideJson(),
             dispatchersProvider = TestDispatchersProvider,
-            fileReader = IvyFileReader(appContext)
+            fileReader = IvyFileReader(appContext),
+            tagRepository = FakeTagRepository(
+                tagDao = db.tagDao,
+                tagAssociationDao = db.tagAssociationDao,
+                writeTagDao = db.writeTagDao,
+                writeTagAssociationDao = db.writeTagAssociationDao
+            ),
+            tagMapper = TagMapper()
         )
     }
 

@@ -24,7 +24,9 @@ import com.ivy.data.db.dao.write.WriteSettingsDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.file.IvyFileReader
 import com.ivy.data.repository.AccountRepository
+import com.ivy.data.repository.TagsRepository
 import com.ivy.data.repository.mapper.AccountMapper
+import com.ivy.data.repository.mapper.TagMapper
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.async
@@ -61,6 +63,8 @@ class BackupDataUseCase @Inject constructor(
     private val json: Json,
     private val dispatchersProvider: DispatchersProvider,
     private val fileReader: IvyFileReader,
+    private val tagRepository: TagsRepository,
+    private val tagMapper: TagMapper
 ) {
     suspend fun exportToFile(
         zipFileUri: Uri
@@ -94,6 +98,11 @@ class BackupDataUseCase @Inject constructor(
             val settings = async { settingsDao.findAll() }
             val transactions = async { transactionDao.findAll() }
             val sharedPrefs = async { getSharedPrefsData() }
+            val tags = async { tagRepository.findAll().map { with(tagMapper) { it.toEntity() } } }
+            val tagAssociations = async {
+                tagRepository.findByAllTagsForAssociations().flatMap { it.value }
+                    .map { with(tagMapper) { it.toEntity() } }.toList()
+            }
 
             val completeData = IvyWalletCompleteData(
                 accounts = accounts.await(),
@@ -104,7 +113,9 @@ class BackupDataUseCase @Inject constructor(
                 plannedPaymentRules = plannedPaymentRules.await(),
                 settings = settings.await(),
                 transactions = transactions.await(),
-                sharedPrefs = sharedPrefs.await()
+                sharedPrefs = sharedPrefs.await(),
+                tags = tags.await(),
+                tagAssociations = tagAssociations.await()
             )
 
             json.encodeToString(completeData)
@@ -252,8 +263,19 @@ class BackupDataUseCase @Inject constructor(
             val loanRecords =
                 async { loanRecordWriter.saveMany(completeData.loanRecords) }
 
+            val tags =
+                async { tagRepository.save(completeData.tags.map { with(tagMapper) { it.toDomain() } }) }
+
+            val tagAssociations = async {
+                tagRepository.saveAllTagAssociations(
+                    completeData.tagAssociations.map { with(tagMapper) { it.toDomain() } }
+                )
+            }
+
             loans.await()
             loanRecords.await()
+            tags.await()
+            tagAssociations.await()
 
             onProgress(0.8)
 

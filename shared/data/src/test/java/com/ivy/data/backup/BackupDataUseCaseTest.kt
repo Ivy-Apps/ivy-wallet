@@ -13,6 +13,10 @@ import com.ivy.data.repository.fake.FakeAccountRepository
 import com.ivy.data.repository.fake.FakeCurrencyRepository
 import com.ivy.data.repository.mapper.AccountMapper
 import com.ivy.base.TestDispatchersProvider
+import com.ivy.data.db.dao.fake.FakeTagAssociationDao
+import com.ivy.data.db.dao.fake.FakeTagDao
+import com.ivy.data.repository.fake.FakeTagRepository
+import com.ivy.data.repository.mapper.TagMapper
 import com.ivy.testing.testResource
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.ints.shouldBeGreaterThan
@@ -29,6 +33,8 @@ class BackupDataUseCaseTest : FreeSpec({
         settingsDao: FakeSettingsDao = FakeSettingsDao(),
         loanDao: FakeLoanDao = FakeLoanDao(),
         loanRecordDao: FakeLoanRecordDao = FakeLoanRecordDao(),
+        tagDao: FakeTagDao = FakeTagDao(),
+        tagAssociationDao: FakeTagAssociationDao = FakeTagAssociationDao()
     ): BackupDataUseCase = BackupDataUseCase(
         accountDao = accountDao,
         accountMapper = AccountMapper(
@@ -62,7 +68,14 @@ class BackupDataUseCaseTest : FreeSpec({
         sharedPrefs = mockk(relaxed = true),
         json = KotlinxSerializationModule.provideJson(),
         dispatchersProvider = TestDispatchersProvider,
-        fileReader = mockk(relaxed = true)
+        fileReader = mockk(relaxed = true),
+        tagRepository = FakeTagRepository(
+            tagDao = tagDao,
+            tagAssociationDao = tagAssociationDao,
+            writeTagDao = tagDao,
+            writeTagAssociationDao = tagAssociationDao
+        ),
+        tagMapper = TagMapper()
     )
 
     suspend fun backupTestCase(backupVersion: String) {

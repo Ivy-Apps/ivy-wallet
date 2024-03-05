@@ -310,7 +310,7 @@ class ReportViewModel @Inject constructor(
         val filterRange = filter.period?.toRange(ivyContext.startDayOfMonth)
 
         val transactions = if (filter.selectedTags.isNotEmpty()) {
-            tagsRepository.findByAllAssociatedIdForTagId(filter.selectedTags.map { it.id })
+            tagsRepository.findByAllAssociatedIdForTagId(filter.selectedTags.toList())
                 .asSequence()
                 .flatMap { it.value }
                 .map { TransactionId(it.associatedId.value) }

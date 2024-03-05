@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.ivy.base.model.TransactionType
 import com.ivy.data.model.Tag
+import com.ivy.data.model.primitive.TagId
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.domain.legacy.ui.theme.components.ListItem
@@ -75,8 +76,10 @@ import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1Row
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toImmutableList
+import kotlinx.collections.immutable.persistentSetOf
+import kotlinx.collections.immutable.toImmutableSet
 import java.util.UUID
 import kotlin.math.roundToInt
 
@@ -125,7 +128,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
     var tagModalVisible by remember { mutableStateOf(false) }
     val selectedTags by remember(localFilter) {
         derivedStateOf {
-            localFilter?.selectedTags?.toImmutableList() ?: persistentListOf()
+            localFilter?.selectedTags?.toImmutableSet() ?: persistentSetOf()
         }
     }
 
@@ -264,6 +267,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
 
             OthersFilter(
                 filter = localFilter,
+                selectedTags = selectedTags,
                 onTagButtonClicked = {
                     tagModalVisible = true
                 }
@@ -279,7 +283,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
             .alpha(percentVisible)
             .align(Alignment.BottomCenter)
             .zIndex(200f)
-            .padding(bottom = 32.dp)
+            .padding(bottom = 48.dp)
     ) {
         Spacer(Modifier.width(24.dp))
 
@@ -406,12 +410,12 @@ fun BoxWithConstraintsScope.FilterOverlay(
         },
         onTagSelected = {
             localFilter = nonNullFilter(localFilter).copy(
-                selectedTags = nonNullFilter(localFilter).selectedTags.plus(it)
+                selectedTags = nonNullFilter(localFilter).selectedTags.plus(it.id)
             )
         },
         onTagDeSelected = {
            localFilter = nonNullFilter(localFilter).copy(
-                selectedTags = nonNullFilter(localFilter).selectedTags.minus(it)
+                selectedTags = nonNullFilter(localFilter).selectedTags.minus(it.id)
             )
         },
         onTagSearch = {
@@ -422,7 +426,9 @@ fun BoxWithConstraintsScope.FilterOverlay(
 
 @Composable
 fun ColumnScope.OthersFilter(
+    @Suppress("UnusedParameter")
     filter: ReportFilter?,
+    selectedTags: ImmutableSet<TagId>,
     onTagButtonClicked: () -> Unit
 ) {
     FilterTitleText(
@@ -431,14 +437,14 @@ fun ColumnScope.OthersFilter(
     )
 
     TagFilter(
-        selectedTags = filter?.selectedTags?.toImmutableList() ?: persistentListOf(),
+        selectedTags = selectedTags,
         onTagButtonClicked = onTagButtonClicked
     )
 }
 
 @Composable
 fun ColumnScope.TagFilter(
-    selectedTags: ImmutableList<Tag>,
+    selectedTags: ImmutableSet<TagId>,
     onTagButtonClicked: () -> Unit,
     @Suppress("UnusedParameter") modifier: Modifier = Modifier
 ) {
