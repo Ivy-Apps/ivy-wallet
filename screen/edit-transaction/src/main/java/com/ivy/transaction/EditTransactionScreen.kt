@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.model.TransactionType
 import com.ivy.data.model.Tag
+import com.ivy.data.model.primitive.TagId
 import com.ivy.design.l0_system.Orange
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -201,7 +202,7 @@ private fun BoxWithConstraintsScope.UI(
     categories: ImmutableList<Category>,
     accounts: ImmutableList<Account>,
     tags: ImmutableList<Tag>,
-    transactionAssociatedTags: ImmutableList<Tag>,
+    transactionAssociatedTags: ImmutableSet<TagId>,
     onTitleChanged: (String?) -> Unit,
     onDescriptionChanged: (String?) -> Unit,
     onAmountChanged: (Double) -> Unit,
@@ -653,7 +654,7 @@ private fun BoxWithConstraintsScope.Preview() {
             initialTitle = "",
             titleSuggestions = persistentSetOf(),
             tags = persistentListOf(),
-            transactionAssociatedTags = persistentListOf(),
+            transactionAssociatedTags = persistentSetOf(),
             baseCurrency = "BGN",
             dateTime = timeNowLocal(),
             description = null,

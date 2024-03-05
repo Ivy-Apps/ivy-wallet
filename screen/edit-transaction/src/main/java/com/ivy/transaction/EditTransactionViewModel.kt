@@ -20,6 +20,7 @@ import com.ivy.base.legacy.SharedPrefs
 import com.ivy.data.model.Tag
 import com.ivy.data.model.primitive.AssociationId
 import com.ivy.data.model.primitive.NotBlankTrimmedString
+import com.ivy.data.model.primitive.TagId
 import com.ivy.data.repository.TagsRepository
 import com.ivy.data.repository.mapper.TagMapper
 import com.ivy.legacy.datamodel.Account
@@ -57,6 +58,7 @@ import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.collections.immutable.toImmutableSet
 import kotlinx.collections.immutable.toPersistentSet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -110,7 +112,7 @@ class EditTransactionViewModel @Inject constructor(
     private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
     private val categories = mutableStateOf<ImmutableList<Category>>(persistentListOf())
     private val tags = mutableStateOf<ImmutableList<Tag>>(persistentListOf())
-    private val transactionAssociatedTags = mutableStateOf<ImmutableList<Tag>>(persistentListOf())
+    private val transactionAssociatedTags = mutableStateOf<ImmutableSet<TagId>>(persistentSetOf())
     private val account = mutableStateOf<Account?>(null)
     private val toAccount = mutableStateOf<Account?>(null)
     private val category = mutableStateOf<Category?>(null)
@@ -170,7 +172,7 @@ class EditTransactionViewModel @Inject constructor(
             tags.value = tagList.await()
             transactionAssociatedTags.value =
                 tagsRepository.findByAssociatedId(AssociationId(loadedTransaction().id))
-                    .toImmutableList()
+                    .toImmutableTagIdSet()
 
             display(loadedTransaction!!)
         }
@@ -292,7 +294,7 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getTransactionAssociatedTags(): ImmutableList<Tag> {
+    private fun getTransactionAssociatedTags(): ImmutableSet<TagId> {
         return transactionAssociatedTags.value
     }
 
@@ -850,7 +852,7 @@ class EditTransactionViewModel @Inject constructor(
             val associatedId = AssociationId(loadedTransaction().id)
             tagsRepository.associateTagToEntity(associatedId, selectedTag.id)
             transactionAssociatedTags.value =
-                tagsRepository.findByAssociatedId(associatedId).toImmutableList()
+                tagsRepository.findByAssociatedId(associatedId).toImmutableTagIdSet()
         }
     }
 
@@ -859,7 +861,7 @@ class EditTransactionViewModel @Inject constructor(
             val associatedId = AssociationId(loadedTransaction().id)
             tagsRepository.removeTagAssociation(associatedId, selectedTag.id)
             transactionAssociatedTags.value =
-                tagsRepository.findByAssociatedId(associatedId).toImmutableList()
+                tagsRepository.findByAssociatedId(associatedId).toImmutableTagIdSet()
         }
     }
 
@@ -893,4 +895,7 @@ class EditTransactionViewModel @Inject constructor(
             tags.value = tagsRepository.findAll().toImmutableList()
         }
     }
+
+    private fun List<Tag>.toImmutableTagIdSet(): ImmutableSet<TagId> =
+        this.map { it.id }.toImmutableSet()
 }
