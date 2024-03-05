@@ -17,6 +17,8 @@ interface TagsRepository {
     suspend fun associateTagToEntity(associationId: AssociationId, tagId: TagId)
     suspend fun removeTagAssociation(associationId: AssociationId, tagId: TagId)
     suspend fun save(value: Tag)
+    suspend fun save(value: List<Tag>)
+    suspend fun saveAllTagAssociations(value: List<TagAssociation>)
     suspend fun updateTag(tagId: TagId, value: Tag)
     suspend fun deleteById(id: TagId)
     suspend fun deleteAll()

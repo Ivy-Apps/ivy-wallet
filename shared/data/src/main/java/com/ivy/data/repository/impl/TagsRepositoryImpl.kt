@@ -138,6 +138,20 @@ class TagsRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun save(value: List<Tag>) {
+        withContext(dispatchersProvider.io) {
+            writeTagDao.save(with(mapper) { value.map { it.toEntity() } })
+        }.also {
+            memoize(value)
+        }
+    }
+
+    override suspend fun saveAllTagAssociations(value: List<TagAssociation>) {
+        withContext(dispatchersProvider.io) {
+            writeTagAssociationDao.save(with(mapper) { value.map { it.toEntity() } })
+        }
+    }
+
     override suspend fun updateTag(tagId: TagId, value: Tag) {
         withContext(dispatchersProvider.io) {
             writeTagDao.update(with(mapper) { value.toEntity() })
