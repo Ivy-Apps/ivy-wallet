@@ -32,6 +32,11 @@ import androidx.compose.ui.unit.dp
 import com.ivy.base.legacy.LegacyTag
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.model.TransactionType
+import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.IconAsset
+import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.design.l0_system.BlueLight
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -40,7 +45,6 @@ import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.AppBaseData
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.utils.dateNowUTC
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.formatNicely
@@ -73,7 +77,9 @@ import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import java.time.Instant
 import java.time.LocalDateTime
+import java.util.UUID
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
@@ -346,16 +352,16 @@ fun CategoryBadgeDisplay(
     nav: Navigation,
 ) {
     TransactionBadge(
-        text = category.name,
-        backgroundColor = category.color.toComposeColor(),
-        icon = category.icon,
+        text = category.name.value,
+        backgroundColor = category.color.value.toComposeColor(),
+        icon = category.icon?.id,
         defaultIcon = R.drawable.ic_custom_category_s
     ) {
         // Navigation logic
         nav.navigateTo(
             TransactionsScreen(
                 accountId = null,
-                categoryId = category.id
+                categoryId = category.id.value
             )
         )
     }
@@ -565,7 +571,15 @@ private fun PreviewUpcomingExpense() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = Account(name = "Cash", Green.toArgb())
-            val food = Category(name = "Food", Blue.toArgb())
+            val food = Category(
+                name = NotBlankTrimmedString("Food"),
+                color = ColorInt(Blue.toArgb()),
+                icon = null,
+                id = CategoryId(UUID.randomUUID()),
+                lastUpdated = Instant.EPOCH,
+                orderNum = 0.0,
+                removed = false,
+                )
 
             item {
                 TransactionCard(
@@ -577,7 +591,7 @@ private fun PreviewUpcomingExpense() {
                     transaction = Transaction(
                         accountId = cash.id,
                         title = "Lidl pazar",
-                        categoryId = food.id,
+                        categoryId = food.id.value,
                         amount = 250.75.toBigDecimal(),
                         dueDate = timeNowUTC().plusDays(5),
                         dateTime = null,
@@ -597,7 +611,15 @@ private fun PreviewOverdueExpense() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = Account(name = "Cash", color = Green.toArgb())
-            val food = Category(name = "Rent", color = Green.toArgb())
+            val food = Category(
+                name = NotBlankTrimmedString("Rent"),
+                color = ColorInt(Green.toArgb()),
+                icon = null,
+                id = CategoryId(UUID.randomUUID()),
+                lastUpdated = Instant.EPOCH,
+                orderNum = 0.0,
+                removed = false,
+            )
 
             item {
                 TransactionCard(
@@ -609,7 +631,7 @@ private fun PreviewOverdueExpense() {
                     transaction = Transaction(
                         accountId = cash.id,
                         title = "Rent",
-                        categoryId = food.id,
+                        categoryId = food.id.value,
                         amount = 500.0.toBigDecimal(),
                         dueDate = timeNowUTC().minusDays(5),
                         dateTime = null,
@@ -630,9 +652,13 @@ private fun PreviewNormalExpense() {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = Account(name = "Cash", color = Green.toArgb())
             val food = Category(
-                name = "Bitovi",
-                color = Orange.toArgb(),
-                icon = "groceries"
+                name = NotBlankTrimmedString("Bitovi"),
+                color = ColorInt(Orange.toArgb()),
+                icon = IconAsset("groceries"),
+                id = CategoryId(UUID.randomUUID()),
+                lastUpdated = Instant.EPOCH,
+                orderNum = 0.0,
+                removed = false,
             )
 
             item {
@@ -645,7 +671,7 @@ private fun PreviewNormalExpense() {
                     transaction = Transaction(
                         accountId = cash.id,
                         title = "Близкия магазин",
-                        categoryId = food.id,
+                        categoryId = food.id.value,
                         amount = 32.51.toBigDecimal(),
                         dateTime = timeNowUTC(),
                         type = TransactionType.EXPENSE
@@ -664,7 +690,15 @@ private fun PreviewIncome() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = Account(name = "DSK Bank", color = Green.toArgb())
-            val category = Category(name = "Salary", color = GreenDark.toArgb())
+            val category = Category(
+                name = NotBlankTrimmedString("Salary"),
+                color = ColorInt(GreenDark.toArgb()),
+                icon = null,
+                id = CategoryId(UUID.randomUUID()),
+                lastUpdated = Instant.EPOCH,
+                orderNum = 0.0,
+                removed = false,
+                )
 
             item {
                 TransactionCard(
@@ -676,7 +710,7 @@ private fun PreviewIncome() {
                     transaction = Transaction(
                         accountId = cash.id,
                         title = "Qredo Salary May",
-                        categoryId = category.id,
+                        categoryId = category.id.value,
                         amount = 8049.70.toBigDecimal(),
                         dateTime = timeNowUTC(),
                         type = TransactionType.INCOME

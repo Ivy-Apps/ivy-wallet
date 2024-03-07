@@ -1,7 +1,7 @@
 package com.ivy.planned.list
 
+import com.ivy.data.model.Category
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.datamodel.PlannedPaymentRule
 import kotlinx.collections.immutable.ImmutableList
 import javax.annotation.concurrent.Immutable

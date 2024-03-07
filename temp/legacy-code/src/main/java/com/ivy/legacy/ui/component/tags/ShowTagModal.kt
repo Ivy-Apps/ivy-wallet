@@ -33,7 +33,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ivy.data.model.Tag
-import com.ivy.data.model.primitive.TagId
 import com.ivy.data.repository.mapper.TagMapper.Companion.createNewTagId
 import com.ivy.design.l0_system.Blue2Dark
 import com.ivy.design.l0_system.UI
@@ -57,7 +56,6 @@ import com.ivy.wallet.ui.theme.modal.ModalTitle
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.components.WrapContentRow
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.ImmutableSet
 import java.util.UUID
 
 @ExperimentalFoundationApi
@@ -65,7 +63,7 @@ import java.util.UUID
 fun BoxWithConstraintsScope.ShowTagModal(
     onDismiss: () -> Unit,
     allTagList: ImmutableList<Tag>,
-    selectedTagList: ImmutableSet<TagId>,
+    selectedTagList: ImmutableList<Tag>,
     onTagAdd: (String) -> Unit,
     onTagEdit: (oldTag: Tag, newTag: Tag) -> Unit,
     onTagDelete: (Tag) -> Unit,
@@ -129,7 +127,7 @@ fun BoxWithConstraintsScope.ShowTagModal(
 
         TagList(
             transactionTags = allTagList,
-            selectedTagSet = selectedTagList,
+            selectedTagList = selectedTagList,
             selectOnlyMode = selectOnlyMode,
             onAddNewTag = {
                 showTagAddModal = true
@@ -193,7 +191,7 @@ fun BoxWithConstraintsScope.ShowTagModal(
 private fun ColumnScope.TagList(
     transactionTags: ImmutableList<Tag>,
     onAddNewTag: () -> Unit,
-    selectedTagSet: ImmutableSet<TagId>,
+    selectedTagList: ImmutableList<Tag>,
     selectOnlyMode: Boolean,
     onTagSelected: (Tag) -> Unit = {},
     onTagDeSelected: (Tag) -> Unit = {},
@@ -218,7 +216,7 @@ private fun ColumnScope.TagList(
             is Tag -> {
                 ExistingTag(
                     tag = it,
-                    selected = selectedTagSet.contains(it.id),
+                    selected = selectedTagList.contains(it),
                     onClick = { onTagSelected(it) },
                     onLongClick = { onTagLongClick(it) },
                     onDeselect = {

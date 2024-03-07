@@ -6,9 +6,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.ivy.data.model.Category
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.legacy.datamodel.Category
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.components.IvyBorderButton
@@ -44,15 +44,15 @@ private fun CategoryButton(
     category: Category,
     onClick: () -> Unit,
 ) {
-    val contrastColor = findContrastTextColor(category.color.toComposeColor())
+    val contrastColor = findContrastTextColor(category.color.value.toComposeColor())
     IvyButton(
         modifier = Modifier.padding(start = 24.dp),
-        text = category.name,
+        text = category.name.value,
         iconStart = getCustomIconIdS(
-            iconName = category.icon,
+            iconName = category.icon?.id,
             defaultIcon = R.drawable.ic_custom_category_s
         ),
-        backgroundGradient = Gradient.from(category.color, category.color),
+        backgroundGradient = Gradient.from(category.color.value, category.color.value),
         textStyle = UI.typo.b2.style(
             color = contrastColor,
             fontWeight = FontWeight.Bold

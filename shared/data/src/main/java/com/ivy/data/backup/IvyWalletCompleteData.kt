@@ -8,13 +8,10 @@ import com.ivy.data.db.entity.LoanEntity
 import com.ivy.data.db.entity.LoanRecordEntity
 import com.ivy.data.db.entity.PlannedPaymentRuleEntity
 import com.ivy.data.db.entity.SettingsEntity
-import com.ivy.data.db.entity.TagAssociationEntity
-import com.ivy.data.db.entity.TagEntity
 import com.ivy.data.db.entity.TransactionEntity
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Suppress("DataClassDefaultValues")
 @Keep
 @Serializable
 data class IvyWalletCompleteData(
@@ -35,9 +32,5 @@ data class IvyWalletCompleteData(
     @SerialName("transactions")
     val transactions: List<TransactionEntity> = emptyList(),
     @SerialName("sharedPrefs")
-    val sharedPrefs: HashMap<String, String> = HashMap(),
-    @SerialName("tags")
-    val tags: List<TagEntity> = emptyList(),
-    @SerialName("tagAssociations")
-    val tagAssociations: List<TagAssociationEntity> = emptyList()
+    val sharedPrefs: HashMap<String, String> = HashMap()
 )

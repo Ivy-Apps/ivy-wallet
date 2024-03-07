@@ -1,8 +1,8 @@
 package com.ivy.legacy.ui.component.transaction
 
 import androidx.compose.runtime.Composable
+import com.ivy.data.model.Category
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.ivyWalletCtx
 import java.util.UUID
 
@@ -13,7 +13,7 @@ fun category(
     categories: List<Category>
 ): Category? {
     val targetId = categoryId ?: return null
-    return ivyWalletCtx().categoryMap[targetId] ?: categories.find { it.id == targetId }
+    return ivyWalletCtx().categoryMap[targetId] ?: categories.find { it.id.value == targetId }
 }
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")

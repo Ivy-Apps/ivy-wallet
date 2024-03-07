@@ -25,6 +25,7 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import arrow.core.raise.either
 import com.ivy.data.model.Tag
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.primitive.TagId
@@ -72,10 +73,15 @@ fun BoxWithConstraintsScope.AddOrEditTagModal(
             ModalPositiveButton(
                 onClick = {
                     if (initialTag != null) {
-                        onTagEdit(
-                            initialTag,
-                            initialTag.copy(name = NotBlankTrimmedString(filename))
-                        )
+                        val updatedTag = either {
+                            initialTag.copy(
+                                name = NotBlankTrimmedString.from(filename).bind()
+                            )
+                        }.getOrNull()
+
+                        if (updatedTag != null) {
+                            onTagEdit(initialTag, updatedTag)
+                        }
                     } else {
                         onTagAdd(filename)
                     }

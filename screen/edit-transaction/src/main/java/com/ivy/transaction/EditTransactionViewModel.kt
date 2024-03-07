@@ -17,14 +17,15 @@ import com.ivy.domain.event.AccountUpdatedEvent
 import com.ivy.domain.event.EventBus
 import com.ivy.legacy.data.EditTransactionDisplayLoan
 import com.ivy.base.legacy.SharedPrefs
+import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
 import com.ivy.data.model.Tag
 import com.ivy.data.model.primitive.AssociationId
 import com.ivy.data.model.primitive.NotBlankTrimmedString
-import com.ivy.data.model.primitive.TagId
+import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.repository.TagsRepository
 import com.ivy.data.repository.mapper.TagMapper
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.computationThread
@@ -40,8 +41,6 @@ import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
 import com.ivy.wallet.domain.action.account.AccountByIdAct
 import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
-import com.ivy.wallet.domain.action.category.CategoryByIdAct
 import com.ivy.wallet.domain.action.transaction.TrnByIdAct
 import com.ivy.wallet.domain.data.CustomExchangeRateState
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
@@ -58,7 +57,6 @@ import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.collections.immutable.toImmutableSet
 import kotlinx.collections.immutable.toPersistentSet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -90,9 +88,8 @@ class EditTransactionViewModel @Inject constructor(
     private val smartTitleSuggestionsLogic: SmartTitleSuggestionsLogic,
     private val loanTransactionsLogic: LoanTransactionsLogic,
     private val accountsAct: AccountsAct,
-    private val categoriesAct: CategoriesAct,
+    private val categoryRepository: CategoryRepository,
     private val trnByIdAct: TrnByIdAct,
-    private val categoryByIdAct: CategoryByIdAct,
     private val accountByIdAct: AccountByIdAct,
     private val eventBus: EventBus,
     private val transactionWriter: WriteTransactionDao,
@@ -112,7 +109,7 @@ class EditTransactionViewModel @Inject constructor(
     private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
     private val categories = mutableStateOf<ImmutableList<Category>>(persistentListOf())
     private val tags = mutableStateOf<ImmutableList<Tag>>(persistentListOf())
-    private val transactionAssociatedTags = mutableStateOf<ImmutableSet<TagId>>(persistentSetOf())
+    private val transactionAssociatedTags = mutableStateOf<ImmutableList<Tag>>(persistentListOf())
     private val account = mutableStateOf<Account?>(null)
     private val toAccount = mutableStateOf<Account?>(null)
     private val category = mutableStateOf<Category?>(null)
@@ -152,7 +149,7 @@ class EditTransactionViewModel @Inject constructor(
             }
             accounts.value = getAccounts
 
-            categories.value = categoriesAct(Unit)
+            categories.value = categoryRepository.findAll().toImmutableList()
 
             reset()
 
@@ -172,7 +169,7 @@ class EditTransactionViewModel @Inject constructor(
             tags.value = tagList.await()
             transactionAssociatedTags.value =
                 tagsRepository.findByAssociatedId(AssociationId(loadedTransaction().id))
-                    .toImmutableTagIdSet()
+                    .toImmutableList()
 
             display(loadedTransaction!!)
         }
@@ -294,7 +291,7 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getTransactionAssociatedTags(): ImmutableSet<TagId> {
+    private fun getTransactionAssociatedTags(): ImmutableList<Tag> {
         return transactionAssociatedTags.value
     }
 
@@ -373,7 +370,7 @@ class EditTransactionViewModel @Inject constructor(
             accountByIdAct(it)
         }
         category.value = transaction.categoryId?.let {
-            categoryByIdAct(it)
+            categoryRepository.findById(CategoryId(it))
         }
         amount.doubleValue = transaction.amount.toDouble()
 
@@ -591,7 +588,7 @@ class EditTransactionViewModel @Inject constructor(
     private fun createCategory(data: CreateCategoryData) {
         viewModelScope.launch {
             categoryCreator.createCategory(data) {
-                categories.value = categoriesAct(Unit)
+                categories.value = categoryRepository.findAll().toImmutableList()
 
                 // Select the newly created category
                 onCategoryChanged(it)
@@ -601,7 +598,7 @@ class EditTransactionViewModel @Inject constructor(
 
     private fun onCategoryChanged(newCategory: Category?) {
         loadedTransaction = loadedTransaction().copy(
-            categoryId = newCategory?.id
+            categoryId = newCategory?.id?.value
         )
         category.value = newCategory
 
@@ -615,7 +612,7 @@ class EditTransactionViewModel @Inject constructor(
             titleSuggestions.value = ioThread {
                 smartTitleSuggestionsLogic.suggest(
                     title = title,
-                    categoryId = category.value?.id,
+                    categoryId = category.value?.id?.value,
                     accountId = account.value?.id
                 )
             }.toPersistentSet()
@@ -625,7 +622,7 @@ class EditTransactionViewModel @Inject constructor(
     private fun editCategory(updatedCategory: Category) {
         viewModelScope.launch {
             categoryCreator.editCategory(updatedCategory) {
-                categories.value = categoriesAct(Unit)
+                categories.value = categoryRepository.findAll().toImmutableList()
             }
         }
     }
@@ -672,7 +669,7 @@ class EditTransactionViewModel @Inject constructor(
 
                         else -> loadedTransaction().dateTime
                     },
-                    categoryId = category.value?.id,
+                    categoryId = category.value?.id?.value,
                     isSynced = false
                 )
 
@@ -852,7 +849,7 @@ class EditTransactionViewModel @Inject constructor(
             val associatedId = AssociationId(loadedTransaction().id)
             tagsRepository.associateTagToEntity(associatedId, selectedTag.id)
             transactionAssociatedTags.value =
-                tagsRepository.findByAssociatedId(associatedId).toImmutableTagIdSet()
+                tagsRepository.findByAssociatedId(associatedId).toImmutableList()
         }
     }
 
@@ -861,7 +858,7 @@ class EditTransactionViewModel @Inject constructor(
             val associatedId = AssociationId(loadedTransaction().id)
             tagsRepository.removeTagAssociation(associatedId, selectedTag.id)
             transactionAssociatedTags.value =
-                tagsRepository.findByAssociatedId(associatedId).toImmutableTagIdSet()
+                tagsRepository.findByAssociatedId(associatedId).toImmutableList()
         }
     }
 
@@ -895,7 +892,4 @@ class EditTransactionViewModel @Inject constructor(
             tags.value = tagsRepository.findAll().toImmutableList()
         }
     }
-
-    private fun List<Tag>.toImmutableTagIdSet(): ImmutableSet<TagId> =
-        this.map { it.id }.toImmutableSet()
 }

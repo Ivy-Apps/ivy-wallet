@@ -1,17 +1,22 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.data.db.dao.read.CategoryDao
-import com.ivy.data.db.dao.write.WriteCategoryDao
-import com.ivy.legacy.datamodel.Category
+import arrow.core.raise.either
+import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.IconAsset
+import com.ivy.data.model.primitive.NotBlankTrimmedString
+import com.ivy.data.repository.CategoryRepository
 import com.ivy.legacy.utils.ioThread
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.pure.util.nextOrderNum
+import java.time.Instant
+import java.util.UUID
 import javax.inject.Inject
 
 class CategoryCreator @Inject constructor(
-    private val categoryDao: CategoryDao,
-    private val categoryWriter: WriteCategoryDao,
+    private val categoryRepository: CategoryRepository,
 ) {
     suspend fun createCategory(
         data: CreateCategoryData,
@@ -22,19 +27,25 @@ class CategoryCreator @Inject constructor(
 
         try {
             val newCategory = ioThread {
-                val newCategory = Category(
-                    name = name.trim(),
-                    color = data.color.toArgb(),
-                    icon = data.icon,
-                    orderNum = categoryDao.findMaxOrderNum().nextOrderNum(),
-                    isSynced = false
-                )
+                val newCategory: Category? = either {
+                    Category(
+                        name = NotBlankTrimmedString.from(name.trim()).bind(),
+                        color = ColorInt(data.color.toArgb()),
+                        icon = data.icon?.let { IconAsset(it) },
+                        orderNum = categoryRepository.findMaxOrderNum().nextOrderNum(),
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        removed = false,
+                    )
+                }.getOrNull()
 
-                categoryWriter.save(newCategory.toEntity())
+                if (newCategory != null) {
+                    categoryRepository.save(newCategory)
+                }
                 newCategory
             }
 
-            onRefreshUI(newCategory)
+            newCategory?.let { onRefreshUI(it) }
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -44,15 +55,11 @@ class CategoryCreator @Inject constructor(
         updatedCategory: Category,
         onRefreshUI: suspend (Category) -> Unit
     ) {
-        if (updatedCategory.name.isBlank()) return
+        if (updatedCategory.name.value.isBlank()) return
 
         try {
             ioThread {
-                categoryWriter.save(
-                    updatedCategory.toEntity().copy(
-                        isSynced = false
-                    )
-                )
+                categoryRepository.save(updatedCategory)
             }
 
             onRefreshUI(updatedCategory)

@@ -4,6 +4,12 @@ import androidx.compose.ui.graphics.toArgb
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
+import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.IconAsset
+import com.ivy.data.model.primitive.NotBlankTrimmedString
+import com.ivy.data.repository.CategoryRepository
 import com.ivy.design.l0_system.RedLight
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
@@ -12,11 +18,9 @@ import com.ivy.frp.action.thenFilter
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.then
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
 import com.ivy.piechart.CategoryAmount
 import com.ivy.resources.R
 import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.category.LegacyCategoryIncomeWithAccountFiltersAct
 import com.ivy.wallet.domain.action.transaction.LegacyCalcTrnsIncomeExpenseAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithRangeAndAccFiltersAct
@@ -25,6 +29,7 @@ import com.ivy.wallet.domain.pure.data.IncomeExpenseTransferPair
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import java.math.BigDecimal
+import java.time.Instant
 import java.util.UUID
 import javax.inject.Inject
 
@@ -32,15 +37,19 @@ class PieChartAct @Inject constructor(
     private val accountsAct: AccountsAct,
     private val trnsWithRangeAndAccFiltersAct: TrnsWithRangeAndAccFiltersAct,
     private val calcTrnsIncomeExpenseAct: LegacyCalcTrnsIncomeExpenseAct,
-    private val categoriesAct: CategoriesAct,
+    private val categoryRepository: CategoryRepository,
     private val categoryIncomeWithAccountFiltersAct: LegacyCategoryIncomeWithAccountFiltersAct
 ) : FPAction<PieChartAct.Input, PieChartAct.Output>() {
 
     private val accountTransfersCategory =
         Category(
-            stringRes(R.string.account_transfers),
-            RedLight.toArgb(),
-            "transfer"
+            name = NotBlankTrimmedString(stringRes(R.string.account_transfers)),
+            color = ColorInt(RedLight.toArgb()),
+            icon = IconAsset("transfer"),
+            id = CategoryId(UUID.randomUUID()),
+            lastUpdated = Instant.EPOCH,
+            orderNum = 0.0,
+            removed = false,
         )
 
     override suspend fun Input.compose(): suspend () -> Output = suspend {
@@ -79,7 +88,7 @@ class PieChartAct @Inject constructor(
                 type = type,
                 baseCurrency = baseCurrency,
                 allCategories = suspend {
-                    categoriesAct(Unit).plus(null) // for unspecified
+                    categoryRepository.findAll() // for unspecified
                 },
                 transactions = suspend { transactions },
                 accountsUsed = suspend { accountsUsed },
@@ -154,7 +163,7 @@ class PieChartAct @Inject constructor(
             val categoryTransactions = asyncIo {
                 if (addAssociatedTransToCategoryAmt) {
                     trans.filter {
-                        it.type == type && it.categoryId == category?.id
+                        it.type == type && it.categoryId == category?.id?.value
                     }
                 } else {
                     emptyList()

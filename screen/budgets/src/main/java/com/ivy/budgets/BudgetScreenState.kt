@@ -1,9 +1,9 @@
 package com.ivy.budgets
 
 import com.ivy.budgets.model.DisplayBudget
+import com.ivy.data.model.Category
 import com.ivy.legacy.data.model.FromToTimeRange
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
 import kotlinx.collections.immutable.ImmutableList
 import javax.annotation.concurrent.Immutable
 

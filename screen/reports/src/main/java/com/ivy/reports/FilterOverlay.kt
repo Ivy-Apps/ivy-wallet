@@ -38,14 +38,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.ivy.base.model.TransactionType
+import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.IconAsset
+import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.Tag
-import com.ivy.data.model.primitive.TagId
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.domain.legacy.ui.theme.components.ListItem
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.ui.component.tags.AddTagButton
 import com.ivy.legacy.ui.component.tags.ShowTagModal
@@ -76,10 +79,9 @@ import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1Row
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.persistentSetOf
-import kotlinx.collections.immutable.toImmutableSet
+import kotlinx.collections.immutable.toImmutableList
+import java.time.Instant
 import java.util.UUID
 import kotlin.math.roundToInt
 
@@ -128,7 +130,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
     var tagModalVisible by remember { mutableStateOf(false) }
     val selectedTags by remember(localFilter) {
         derivedStateOf {
-            localFilter?.selectedTags?.toImmutableSet() ?: persistentSetOf()
+            localFilter?.selectedTags?.toImmutableList() ?: persistentListOf()
         }
     }
 
@@ -267,7 +269,6 @@ fun BoxWithConstraintsScope.FilterOverlay(
 
             OthersFilter(
                 filter = localFilter,
-                selectedTags = selectedTags,
                 onTagButtonClicked = {
                     tagModalVisible = true
                 }
@@ -283,7 +284,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
             .alpha(percentVisible)
             .align(Alignment.BottomCenter)
             .zIndex(200f)
-            .padding(bottom = 48.dp)
+            .padding(bottom = 32.dp)
     ) {
         Spacer(Modifier.width(24.dp))
 
@@ -410,12 +411,12 @@ fun BoxWithConstraintsScope.FilterOverlay(
         },
         onTagSelected = {
             localFilter = nonNullFilter(localFilter).copy(
-                selectedTags = nonNullFilter(localFilter).selectedTags.plus(it.id)
+                selectedTags = nonNullFilter(localFilter).selectedTags.plus(it)
             )
         },
         onTagDeSelected = {
            localFilter = nonNullFilter(localFilter).copy(
-                selectedTags = nonNullFilter(localFilter).selectedTags.minus(it.id)
+                selectedTags = nonNullFilter(localFilter).selectedTags.minus(it)
             )
         },
         onTagSearch = {
@@ -426,9 +427,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
 
 @Composable
 fun ColumnScope.OthersFilter(
-    @Suppress("UnusedParameter")
     filter: ReportFilter?,
-    selectedTags: ImmutableSet<TagId>,
     onTagButtonClicked: () -> Unit
 ) {
     FilterTitleText(
@@ -437,14 +436,14 @@ fun ColumnScope.OthersFilter(
     )
 
     TagFilter(
-        selectedTags = selectedTags,
+        selectedTags = filter?.selectedTags?.toImmutableList() ?: persistentListOf(),
         onTagButtonClicked = onTagButtonClicked
     )
 }
 
 @Composable
 fun ColumnScope.TagFilter(
-    selectedTags: ImmutableSet<TagId>,
+    selectedTags: ImmutableList<Tag>,
     onTagButtonClicked: () -> Unit,
     @Suppress("UnusedParameter") modifier: Modifier = Modifier
 ) {
@@ -688,10 +687,10 @@ private fun CategoriesFilter(
 
         items(items = allCategories) { category ->
             ListItem(
-                icon = category.icon,
+                icon = category.icon?.id,
                 defaultIcon = R.drawable.ic_custom_category_s,
-                text = category.name,
-                selectedColor = category.color.toComposeColor().takeIf {
+                text = category.name.value,
+                selectedColor = category.color.value.toComposeColor().takeIf {
                     filter?.categories?.contains(category) == true
                 }
             ) { selected ->
@@ -985,7 +984,15 @@ private fun Preview() {
     IvyWalletPreview {
         val acc1 = Account("Cash", color = Green.toArgb())
         val acc2 = Account("DSK", color = GreenDark.toArgb())
-        val cat1 = Category("Science", color = Purple1Dark.toArgb(), icon = "atom")
+        val cat1 = Category(
+            name = NotBlankTrimmedString("Science"),
+            color = ColorInt(Purple1Dark.toArgb()),
+            icon = IconAsset("atom"),
+            id = CategoryId(UUID.randomUUID()),
+            lastUpdated = Instant.EPOCH,
+            orderNum = 0.0,
+            removed = false,
+        )
 
         FilterOverlay(
             visible = true,
@@ -999,8 +1006,24 @@ private fun Preview() {
             ),
             categories = listOf(
                 cat1,
-                Category("Pet", color = Red3Light.toArgb(), icon = "pet"),
-                Category("Home", color = Green.toArgb(), icon = null),
+                Category(
+                    name = NotBlankTrimmedString("Pet"),
+                    color = ColorInt(Red3Light.toArgb()),
+                    icon = IconAsset("pet"),
+                    id = CategoryId(UUID.randomUUID()),
+                    lastUpdated = Instant.EPOCH,
+                    orderNum = 0.0,
+                    removed = false,
+                ),
+                Category(
+                    name = NotBlankTrimmedString("Home"),
+                    color = ColorInt(Green.toArgb()),
+                    icon = null,
+                    id = CategoryId(UUID.randomUUID()),
+                    lastUpdated = Instant.EPOCH,
+                    orderNum = 0.0,
+                    removed = false,
+                ),
             ),
 
             filter = ReportFilter.emptyFilter("BGN").copy(

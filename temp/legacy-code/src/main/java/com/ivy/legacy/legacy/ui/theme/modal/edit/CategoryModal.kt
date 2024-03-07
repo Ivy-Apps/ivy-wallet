@@ -33,9 +33,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import arrow.core.raise.either
+import com.ivy.data.model.Category
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.IconAsset
+import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.domain.legacy.ui.IvyColorPicker
 import com.ivy.legacy.IvyWalletPreview
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.utils.hideKeyboard
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.onScreenStart
@@ -69,10 +73,10 @@ fun BoxWithConstraintsScope.CategoryModal(
 ) {
     val initialCategory = modal?.category
     var nameTextFieldValue by remember(modal) {
-        mutableStateOf(selectEndTextFieldValue(initialCategory?.name))
+        mutableStateOf(selectEndTextFieldValue(initialCategory?.name?.value))
     }
     var color by remember(modal) {
-        mutableStateOf(initialCategory?.color?.let { Color(it) } ?: Ivy)
+        mutableStateOf(initialCategory?.color?.let { Color(it.value) } ?: Ivy)
     }
     var icon by remember(modal) {
         mutableStateOf(initialCategory?.icon)
@@ -92,19 +96,23 @@ fun BoxWithConstraintsScope.CategoryModal(
                 enabled = nameTextFieldValue.text.isNotNullOrBlank()
             ) {
                 if (initialCategory != null) {
-                    onEditCategory(
+                    val updatedCategory = either {
                         initialCategory.copy(
-                            name = nameTextFieldValue.text.trim(),
-                            color = color.toArgb(),
+                            name = NotBlankTrimmedString.from(nameTextFieldValue.text.trim()).bind(),
+                            color = ColorInt(color.toArgb()),
                             icon = icon
                         )
-                    )
+                    }.getOrNull()
+
+                    if (updatedCategory != null) {
+                        onEditCategory(updatedCategory)
+                    }
                 } else {
                     onCreateCategory(
                         CreateCategoryData(
                             name = nameTextFieldValue.text.trim(),
                             color = color,
-                            icon = icon
+                            icon = icon?.id
                         )
                     )
                 }
@@ -131,7 +139,7 @@ fun BoxWithConstraintsScope.CategoryModal(
             hint = stringResource(R.string.category_name),
             defaultIcon = R.drawable.ic_custom_category_m,
             color = color,
-            icon = icon,
+            icon = icon?.id,
 
             autoFocusKeyboard = modal?.autoFocusKeyboard ?: true,
 
@@ -154,11 +162,11 @@ fun BoxWithConstraintsScope.CategoryModal(
 
     ChooseIconModal(
         visible = chooseIconModalVisible,
-        initialIcon = icon ?: "category",
+        initialIcon = icon?.id ?: "category",
         color = color,
         dismiss = { chooseIconModalVisible = false }
     ) {
-        icon = it
+        icon = it?.let { iconId -> IconAsset(iconId) }
     }
 }
 

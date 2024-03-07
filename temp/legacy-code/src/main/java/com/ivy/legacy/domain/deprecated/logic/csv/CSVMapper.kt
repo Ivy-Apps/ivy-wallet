@@ -176,7 +176,7 @@ class CSVMapper @Inject constructor() {
 
         transformTransaction = { transaction, category, _ ->
             transaction.copy(
-                type = if (category?.name?.toLowerCaseLocal() == "income") {
+                type = if (category?.name?.value?.toLowerCaseLocal() == "income") {
                     TransactionType.INCOME
                 } else {
                     TransactionType.EXPENSE

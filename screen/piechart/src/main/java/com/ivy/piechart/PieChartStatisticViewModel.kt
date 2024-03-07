@@ -11,8 +11,8 @@ import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.base.ComposeViewModel
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.base.legacy.SharedPrefs
+import com.ivy.data.model.Category
 import com.ivy.legacy.data.model.TimePeriod
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.utils.ioThread
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.piechart.action.PieChartAct
@@ -259,7 +259,7 @@ class PieChartStatisticViewModel @Inject constructor(
         val selectedCategoryValue = if (clickedCategory == selectedCategory.value?.category) {
             null
         } else {
-            SelectedCategory(category = clickedCategory)
+            clickedCategory?.let { SelectedCategory(category = it) }
         }
 
         val existingCategoryAmounts = categoryAmounts.value

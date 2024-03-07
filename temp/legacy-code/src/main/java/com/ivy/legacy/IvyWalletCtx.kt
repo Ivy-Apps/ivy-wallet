@@ -7,8 +7,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.ivy.design.IvyContext
 import com.ivy.base.legacy.SharedPrefs
+import com.ivy.data.model.Category
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*

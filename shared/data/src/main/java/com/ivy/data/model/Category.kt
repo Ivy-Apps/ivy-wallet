@@ -19,5 +19,5 @@ data class Category(
     val icon: IconAsset?,
     override val orderNum: Double,
     override val lastUpdated: Instant,
-    override val removed: Boolean,
+    override val removed: Boolean
 ) : Syncable, Reorderable

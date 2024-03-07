@@ -8,12 +8,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.base.ComposeViewModel
+import com.ivy.data.model.Category
+import com.ivy.data.repository.CategoryRepository
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.datamodel.PlannedPaymentRule
 import com.ivy.legacy.utils.ioThread
 import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
@@ -27,7 +27,7 @@ import javax.inject.Inject
 class PlannedPaymentsViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
-    private val categoriesAct: CategoriesAct,
+    private val categoriesRepository: CategoryRepository,
     private val accountsAct: AccountsAct
 ) : ComposeViewModel<PlannedPaymentsScreenState, PlannedPaymentsScreenEvent>() {
 
@@ -137,7 +137,7 @@ class PlannedPaymentsViewModel @Inject constructor(
             val settings = ioThread { settingsDao.findFirst() }
             currency.value = settings.currency
 
-            categories.value = categoriesAct(Unit)
+            categories.value = categoriesRepository.findAll().toImmutableList()
             accounts.value = accountsAct(Unit)
 
             oneTimePlannedPayment.value =

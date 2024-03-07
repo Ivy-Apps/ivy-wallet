@@ -6,13 +6,13 @@ import com.ivy.base.model.TransactionType
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.read.TransactionDao
+import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.legacy.data.model.filterOverdue
 import com.ivy.legacy.data.model.filterOverdueLegacy
 import com.ivy.legacy.data.model.filterUpcoming
 import com.ivy.legacy.data.model.filterUpcomingLegacy
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.domain.pure.transaction.LegacyTrnDateDividers
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
@@ -66,7 +66,7 @@ class WalletCategoryLogic @Inject constructor(
     ): Double {
         return transactionDao
             .findAllByCategoryAndTypeAndBetween(
-                categoryId = category.id,
+                categoryId = category.id.value,
                 type = TransactionType.INCOME,
                 startDate = range.from(),
                 endDate = range.to()
@@ -103,7 +103,7 @@ class WalletCategoryLogic @Inject constructor(
     ): Double {
         return transactionDao
             .findAllByCategoryAndTypeAndBetween(
-                categoryId = category.id,
+                categoryId = category.id.value,
                 type = TransactionType.EXPENSE,
                 startDate = range.from(),
                 endDate = range.to()
@@ -193,7 +193,7 @@ class WalletCategoryLogic @Inject constructor(
         val trans = transactions.ifEmpty {
             transactionDao
                 .findAllByCategoryAndBetween(
-                    categoryId = category.id,
+                    categoryId = category.id.value,
                     startDate = range.from(),
                     endDate = range.to()
                 ).map { it.toDomain() }
@@ -271,7 +271,7 @@ class WalletCategoryLogic @Inject constructor(
         range: com.ivy.legacy.data.model.FromToTimeRange
     ): List<Transaction> {
         return transactionDao.findAllDueToBetweenByCategory(
-            categoryId = category.id,
+            categoryId = category.id.value,
             startDate = range.upcomingFrom(),
             endDate = range.to()
         )
@@ -284,7 +284,7 @@ class WalletCategoryLogic @Inject constructor(
         range: com.ivy.legacy.data.model.FromToTimeRange
     ): List<com.ivy.data.model.Transaction> {
         return transactionRepository.findAllDueToBetweenByCategory(
-            categoryId = CategoryId(category.id),
+            categoryId = CategoryId(category.id.value),
             startDate = range.upcomingFrom(),
             endDate = range.to()
         ).filterUpcoming()
@@ -361,7 +361,7 @@ class WalletCategoryLogic @Inject constructor(
         range: com.ivy.legacy.data.model.FromToTimeRange
     ): List<Transaction> {
         return transactionDao.findAllDueToBetweenByCategory(
-            categoryId = category.id,
+            categoryId = category.id.value,
             startDate = range.from(),
             endDate = range.overdueTo()
         )
@@ -374,7 +374,7 @@ class WalletCategoryLogic @Inject constructor(
         range: com.ivy.legacy.data.model.FromToTimeRange
     ): List<com.ivy.data.model.Transaction> {
         return transactionRepository.findAllDueToBetweenByCategory(
-            categoryId = CategoryId(category.id),
+            categoryId = CategoryId(category.id.value),
             startDate = range.from(),
             endDate = range.overdueTo()
         )

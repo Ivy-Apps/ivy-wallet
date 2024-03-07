@@ -25,12 +25,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.model.TransactionType
+import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
 import com.ivy.data.model.IntervalType
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.datamodel.PlannedPaymentRule
 import com.ivy.legacy.forDisplay
 import com.ivy.legacy.ui.component.transaction.TypeAmountCurrency
@@ -53,7 +56,9 @@ import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.toComposeColor
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import java.time.Instant
 import java.time.LocalDateTime
+import java.util.UUID
 
 @Composable
 fun LazyItemScope.PlannedPaymentCard(
@@ -147,15 +152,15 @@ private fun PlannedPaymentHeaderRow(
             Spacer(Modifier.width(12.dp))
 
             val category =
-                plannedPayment.categoryId?.let { targetId -> categories.find { it.id == targetId } }
+                plannedPayment.categoryId?.let { targetId -> categories.find { it.id.value == targetId } }
             if (category != null) {
                 IvyButton(
-                    iconTint = findContrastTextColor(category.color.toComposeColor()),
-                    iconStart = getCustomIconIdS(category.icon, R.drawable.ic_custom_category_s),
-                    text = category.name,
-                    backgroundGradient = Gradient.solid(category.color.toComposeColor()),
+                    iconTint = findContrastTextColor(category.color.value.toComposeColor()),
+                    iconStart = getCustomIconIdS(category.icon?.id, R.drawable.ic_custom_category_s),
+                    text = category.name.value,
+                    backgroundGradient = Gradient.solid(category.color.value.toComposeColor()),
                     textStyle = UI.typo.c.style(
-                        color = findContrastTextColor(category.color.toComposeColor()),
+                        color = findContrastTextColor(category.color.value.toComposeColor()),
                         fontWeight = FontWeight.ExtraBold
                     ),
                     padding = 8.dp,
@@ -164,7 +169,7 @@ private fun PlannedPaymentHeaderRow(
                     nav.navigateTo(
                         TransactionsScreen(
                             accountId = null,
-                            categoryId = category.id
+                            categoryId = category.id.value
                         )
                     )
                 }
@@ -262,7 +267,15 @@ private fun Preview_oneTime() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = Account(name = "Cash", Green.toArgb())
-            val food = Category(name = "Food", Blue.toArgb())
+            val food = Category(
+                name = NotBlankTrimmedString("Food"),
+                color = ColorInt(Blue.toArgb()),
+                icon = null,
+                id = CategoryId(UUID.randomUUID()),
+                lastUpdated = Instant.EPOCH,
+                orderNum = 0.0,
+                removed = false,
+            )
 
             item {
                 Spacer(Modifier.height(68.dp))
@@ -274,7 +287,7 @@ private fun Preview_oneTime() {
                     plannedPayment = PlannedPaymentRule(
                         accountId = cash.id,
                         title = "Lidl pazar",
-                        categoryId = food.id,
+                        categoryId = food.id.value,
                         amount = 250.75,
                         startDate = timeNowUTC().plusDays(5),
                         oneTime = true,
@@ -294,7 +307,15 @@ private fun Preview_recurring() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val account = Account(name = "Revolut", Blue.toArgb())
-            val shisha = Category(name = "Shisha", color = Orange.toArgb())
+            val shisha = Category(
+                name = NotBlankTrimmedString("Shisha"),
+                color = ColorInt(Orange.toArgb()),
+                icon = null,
+                id = CategoryId(UUID.randomUUID()),
+                lastUpdated = Instant.EPOCH,
+                orderNum = 0.0,
+                removed = false,
+            )
 
             item {
                 Spacer(Modifier.height(68.dp))
@@ -306,7 +327,7 @@ private fun Preview_recurring() {
                     plannedPayment = PlannedPaymentRule(
                         accountId = account.id,
                         title = "Tabu",
-                        categoryId = shisha.id,
+                        categoryId = shisha.id.value,
                         amount = 250.75,
                         startDate = timeNowUTC().plusDays(5),
                         oneTime = false,
@@ -326,7 +347,15 @@ private fun Preview_recurringError() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val account = Account(name = "Revolut", Blue.toArgb())
-            val shisha = Category(name = "Shisha", color = Orange.toArgb())
+            val shisha = Category(
+                name = NotBlankTrimmedString("Shisha"),
+                color = ColorInt(Orange.toArgb()),
+                icon = null,
+                id = CategoryId(UUID.randomUUID()),
+                lastUpdated = Instant.EPOCH,
+                orderNum = 0.0,
+                removed = false,
+                )
 
             item {
                 Spacer(Modifier.height(68.dp))
@@ -338,7 +367,7 @@ private fun Preview_recurringError() {
                     plannedPayment = PlannedPaymentRule(
                         accountId = account.id,
                         title = "Tabu",
-                        categoryId = shisha.id,
+                        categoryId = shisha.id.value,
                         amount = 250.75,
                         startDate = timeNowUTC().plusDays(5),
                         oneTime = false,
