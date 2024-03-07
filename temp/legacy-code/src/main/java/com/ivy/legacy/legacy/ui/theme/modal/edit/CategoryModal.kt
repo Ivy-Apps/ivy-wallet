@@ -33,6 +33,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import arrow.core.raise.either
 import com.ivy.data.model.Category
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
@@ -95,13 +96,17 @@ fun BoxWithConstraintsScope.CategoryModal(
                 enabled = nameTextFieldValue.text.isNotNullOrBlank()
             ) {
                 if (initialCategory != null) {
-                    onEditCategory(
+                    val updatedCategory = either {
                         initialCategory.copy(
-                            name = NotBlankTrimmedString(nameTextFieldValue.text.trim()),
+                            name = NotBlankTrimmedString.from(nameTextFieldValue.text.trim()).bind(),
                             color = ColorInt(color.toArgb()),
                             icon = icon
                         )
-                    )
+                    }.getOrNull()
+
+                    if (updatedCategory != null) {
+                        onEditCategory(updatedCategory)
+                    }
                 } else {
                     onCreateCategory(
                         CreateCategoryData(

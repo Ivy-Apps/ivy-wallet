@@ -1,6 +1,7 @@
 package com.ivy.legacy.domain.deprecated.logic.csv
 
 import androidx.compose.ui.graphics.toArgb
+import arrow.core.raise.either
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.model.TransactionType
 import com.ivy.data.backup.CSVRow
@@ -512,17 +513,22 @@ class CSVImporter @Inject constructor(
             IVY_COLOR_PICKER_COLORS_FREE.first()
         }.toArgb()
 
-        val newCategory = Category(
-            name = NotBlankTrimmedString(categoryNameString),
-            color = ColorInt(colorArgb),
-            icon = icon?.let { IconAsset(it) },
-            orderNum = orderNum ?: categoryRepository.findMaxOrderNum().nextOrderNum(),
-            id = CategoryId(UUID.randomUUID()),
-            lastUpdated = Instant.EPOCH,
-            removed = false,
-        )
-        categoryRepository.save(newCategory)
-        categories = categoryRepository.findAll()
+        val newCategory: Category? = either {
+            Category(
+                name = NotBlankTrimmedString.from(categoryNameString).bind(),
+                color = ColorInt(colorArgb),
+                icon = icon?.let { IconAsset(it) },
+                orderNum = orderNum ?: categoryRepository.findMaxOrderNum().nextOrderNum(),
+                id = CategoryId(UUID.randomUUID()),
+                lastUpdated = Instant.EPOCH,
+                removed = false,
+            )
+        }.getOrNull()
+
+        if (newCategory != null) {
+            categoryRepository.save(newCategory)
+            categories = categoryRepository.findAll()
+        }
 
         return newCategory
     }

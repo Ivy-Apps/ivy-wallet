@@ -1,6 +1,7 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
+import arrow.core.raise.either
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
@@ -26,20 +27,25 @@ class CategoryCreator @Inject constructor(
 
         try {
             val newCategory = ioThread {
-                val newCategory = Category(
-                    name = NotBlankTrimmedString(name.trim()),
-                    color = ColorInt(data.color.toArgb()),
-                    icon = data.icon?.let { IconAsset(it) },
-                    orderNum = categoryRepository.findMaxOrderNum().nextOrderNum(),
-                    id = CategoryId(UUID.randomUUID()),
-                    lastUpdated = Instant.EPOCH,
-                    removed = false,
-                )
-                categoryRepository.save(newCategory)
+                val newCategory: Category? = either {
+                    Category(
+                        name = NotBlankTrimmedString.from(name.trim()).bind(),
+                        color = ColorInt(data.color.toArgb()),
+                        icon = data.icon?.let { IconAsset(it) },
+                        orderNum = categoryRepository.findMaxOrderNum().nextOrderNum(),
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        removed = false,
+                    )
+                }.getOrNull()
+
+                if (newCategory != null) {
+                    categoryRepository.save(newCategory)
+                }
                 newCategory
             }
 
-            onRefreshUI(newCategory)
+            newCategory?.let { onRefreshUI(it) }
         } catch (e: Exception) {
             e.printStackTrace()
         }

@@ -21,9 +21,3 @@ data class Category(
     override val lastUpdated: Instant,
     override val removed: Boolean
 ) : Syncable, Reorderable
-
-// categoryId
-// UUID.randomUUID()
-// IconAsset = null
-// Instant.EPOCH - last updated
-// removed - false
