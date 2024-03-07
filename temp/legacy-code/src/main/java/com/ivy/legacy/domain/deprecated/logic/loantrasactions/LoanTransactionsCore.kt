@@ -3,6 +3,7 @@ package com.ivy.legacy.domain.deprecated.logic.loantrasactions
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.stringRes
+import com.ivy.base.model.LoanRecordType
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.LoanDao
@@ -114,6 +115,7 @@ class LoanTransactionsCore @Inject constructor(
         time: LocalDateTime? = null,
         isLoanRecord: Boolean = false,
         transaction: Transaction? = null,
+        loanRecordType: LoanRecordType
     ) {
         if (isLoanRecord && loanRecordId == null) {
             return
@@ -130,7 +132,8 @@ class LoanTransactionsCore @Inject constructor(
                 categoryId = category?.id?.value ?: transaction.categoryId,
                 time = time ?: transaction.dateTime ?: timeNowUTC(),
                 isLoanRecord = isLoanRecord,
-                transaction = transaction
+                transaction = transaction,
+                loanRecordType = loanRecordType
             )
         } else if (createTransaction && transaction == null) {
             createMainTransaction(
@@ -143,7 +146,8 @@ class LoanTransactionsCore @Inject constructor(
                 categoryId = category?.id?.value,
                 time = time ?: timeNowUTC(),
                 isLoanRecord = isLoanRecord,
-                transaction = transaction
+                transaction = transaction,
+                loanRecordType = loanRecordType
             )
         } else {
             deleteTransaction(transaction = transaction)
@@ -160,13 +164,14 @@ class LoanTransactionsCore @Inject constructor(
         categoryId: UUID? = null,
         time: LocalDateTime = timeNowUTC(),
         isLoanRecord: Boolean = false,
-        transaction: Transaction? = null
+        transaction: Transaction? = null,
+        loanRecordType: LoanRecordType
     ) {
         if (selectedAccountId == null) {
             return
         }
 
-        val transType = if (isLoanRecord) {
+        val transType = if (isLoanRecord && loanRecordType != LoanRecordType.INCREASE) {
             if (loanType == LoanType.BORROW) TransactionType.EXPENSE else TransactionType.INCOME
         } else if (loanType == LoanType.BORROW) TransactionType.INCOME else TransactionType.EXPENSE
 
