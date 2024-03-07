@@ -31,6 +31,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.model.LoanRecordType
+import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.utils.thenIf
@@ -393,7 +394,7 @@ private fun save(
 ) {
     if (loanRecord != null) {
         val record = loanRecord.copy(
-            note = noteTextFieldValue.text.trim(),
+            note = NotBlankTrimmedString.from(noteTextFieldValue.text).getOrNull()?.value,
             amount = amount,
             dateTime = dateTime,
             interest = loanRecordInterest,
@@ -411,7 +412,7 @@ private fun save(
     } else {
         onCreate(
             CreateLoanRecordData(
-                note = noteTextFieldValue.text.trim(),
+                note = NotBlankTrimmedString.from(noteTextFieldValue.text).getOrNull()?.value,
                 amount = amount,
                 dateTime = dateTime,
                 interest = loanRecordInterest,
