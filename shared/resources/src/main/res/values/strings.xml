@@ -450,4 +450,5 @@
     <string name="msg_select_account_to_transfer">Please select an account to transfer to</string>
     <string name="others_optional">Others (Optional)</string>
     <string name="tags">Tags</string>
+    <string name="search_tags">Search Tags</string>
 </resources>
