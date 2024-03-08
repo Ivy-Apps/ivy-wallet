@@ -1,6 +1,7 @@
 plugins {
     id("ivy.feature")
     id("ivy.integration.testing")
+    id("ivy.room")
 }
 
 android {
@@ -12,6 +13,11 @@ dependencies {
     implementation(projects.shared.data)
 
     implementation(libs.datastore)
-    implementation(libs.androidx.test.ext)
-    androidTestImplementation("junit:junit:4.12")
+    implementation(libs.bundles.ktor)
+
+    val mockkVersion = "1.13.10"
+    androidTestImplementation(libs.bundles.integration.testing)
+    androidTestImplementation(projects.shared.testing)
+    androidTestImplementation("io.mockk:mockk-android:${mockkVersion}")
+    androidTestImplementation("io.mockk:mockk-agent:${mockkVersion}")
 }
