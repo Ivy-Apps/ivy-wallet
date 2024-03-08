@@ -33,10 +33,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.IconAsset
+import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.utils.toLowerCaseLocal
 import com.ivy.navigation.navigation
 import com.ivy.onboarding.components.OnboardingProgressSlider
@@ -60,6 +64,8 @@ import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import com.ivy.wallet.ui.theme.toComposeColor
+import java.time.Instant
+import java.util.UUID
 
 @ExperimentalFoundationApi
 @Composable
@@ -154,7 +160,7 @@ fun BoxWithConstraintsScope.OnboardingCategories(
 
                 Suggestions(
                     suggestions = suggestions.filter { suggestion ->
-                        categories.map { it.name.toLowerCaseLocal() }
+                        categories.map { it.name.value.toLowerCaseLocal() }
                             .contains(suggestion.name.toLowerCaseLocal()).not()
                     },
                     onAddSuggestion = {
@@ -226,7 +232,7 @@ private fun CategoryCard(
     category: Category,
     onClick: () -> Unit
 ) {
-    val categoryColor = category.color.toComposeColor()
+    val categoryColor = category.color.value.toComposeColor()
 
     Row(
         modifier = Modifier
@@ -244,7 +250,7 @@ private fun CategoryCard(
         ItemIconSDefaultIcon(
             modifier = Modifier
                 .background(categoryColor, CircleShape),
-            iconName = category.icon,
+            iconName = category.icon?.id,
             defaultIcon = R.drawable.ic_custom_category_s,
             tint = findContrastTextColor(categoryColor)
         )
@@ -255,7 +261,7 @@ private fun CategoryCard(
             modifier = Modifier
                 .padding(start = 16.dp, end = 24.dp)
                 .padding(vertical = 24.dp),
-            text = category.name,
+            text = category.name.value,
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold
             )
@@ -394,9 +400,13 @@ private fun Preview_Categories() {
             ),
             categories = listOf(
                 Category(
-                    name = "Food & Drinks",
-                    color = Orange.toArgb(),
-                    icon = "fooddrinks"
+                    name = NotBlankTrimmedString("Food & Drinks"),
+                    color = ColorInt(Orange.toArgb()),
+                    icon = IconAsset("fooddrinks"),
+                    id = CategoryId(UUID.randomUUID()),
+                    lastUpdated = Instant.EPOCH,
+                    orderNum = 0.0,
+                    removed = false,
                 )
             )
         )
@@ -466,9 +476,13 @@ private fun Preview_Premium() {
             ),
             categories = List(12) {
                 Category(
-                    name = "Food & Drinks",
-                    color = Orange.toArgb(),
-                    icon = "fooddrinks"
+                    name = NotBlankTrimmedString("Food & Drinks"),
+                    color = ColorInt(Orange.toArgb()),
+                    icon = IconAsset("fooddrinks"),
+                    id = CategoryId(UUID.randomUUID()),
+                    lastUpdated = Instant.EPOCH,
+                    orderNum = 0.0,
+                    removed = false,
                 )
             }
         )

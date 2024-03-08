@@ -5,20 +5,23 @@ import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.dao.read.AccountDao
-import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.data.db.dao.read.LoanDao
 import com.ivy.data.db.dao.read.LoanRecordDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.read.TransactionDao
-import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.data.db.dao.write.WriteLoanDao
 import com.ivy.data.db.dao.write.WriteLoanRecordDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
+import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
 import com.ivy.data.model.LoanType
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.IconAsset
+import com.ivy.data.model.primitive.NotBlankTrimmedString
+import com.ivy.data.repository.CategoryRepository
 import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.datamodel.Loan
 import com.ivy.legacy.datamodel.LoanRecord
 import com.ivy.legacy.datamodel.temp.toDomain
@@ -31,13 +34,14 @@ import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.Instant
 import java.time.LocalDateTime
 import java.util.Locale
 import java.util.UUID
 import javax.inject.Inject
 
 class LoanTransactionsCore @Inject constructor(
-    private val categoryDao: CategoryDao,
+    private val categoryRepository: CategoryRepository,
     private val transactionDao: TransactionDao,
     private val ivyContext: IvyWalletCtx,
     private val loanRecordDao: LoanRecordDao,
@@ -46,11 +50,14 @@ class LoanTransactionsCore @Inject constructor(
     private val accountsDao: AccountDao,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val writeTransactionDao: WriteTransactionDao,
-    private val writeCategoryDao: WriteCategoryDao,
     private val writeLoanRecordDao: WriteLoanRecordDao,
     private val writeLoanDao: WriteLoanDao,
 ) {
     private var baseCurrencyCode: String? = null
+
+    companion object {
+        const val DEFAULT_COLOR_INDEX = 4
+    }
 
     init {
         CoroutineScope(Dispatchers.IO).launch {
@@ -120,7 +127,7 @@ class LoanTransactionsCore @Inject constructor(
                 loanType = loanType,
                 selectedAccountId = selectedAccountId,
                 title = title ?: transaction.title,
-                categoryId = category?.id ?: transaction.categoryId,
+                categoryId = category?.id?.value ?: transaction.categoryId,
                 time = time ?: transaction.dateTime ?: timeNowUTC(),
                 isLoanRecord = isLoanRecord,
                 transaction = transaction
@@ -133,7 +140,7 @@ class LoanTransactionsCore @Inject constructor(
                 loanType = loanType,
                 selectedAccountId = selectedAccountId,
                 title = title,
-                categoryId = category?.id,
+                categoryId = category?.id?.value,
                 time = time ?: timeNowUTC(),
                 isLoanRecord = isLoanRecord,
                 transaction = transaction
@@ -205,19 +212,24 @@ class LoanTransactionsCore @Inject constructor(
         }
 
         val categoryList = ioThread {
-            categoryDao.findAll().map { it.toDomain() }
+            categoryRepository.findAll()
         }
 
         var addCategoryToDb = false
 
         val loanCategory = categoryList.find { category ->
-            category.name.lowercase(Locale.ENGLISH).contains("loan")
+            category.name.value.lowercase(Locale.ENGLISH).contains("loan")
         } ?: if (ivyContext.isPremium || categoryList.size < 12) {
             addCategoryToDb = true
+
             Category(
-                stringRes(R.string.loans),
-                color = IVY_COLOR_PICKER_COLORS_FREE[4].toArgb(),
-                icon = "loan"
+                name = NotBlankTrimmedString(stringRes(R.string.loans)),
+                color = ColorInt(IVY_COLOR_PICKER_COLORS_FREE[DEFAULT_COLOR_INDEX].toArgb()),
+                icon = IconAsset("loan"),
+                id = CategoryId(UUID.randomUUID()),
+                lastUpdated = Instant.EPOCH,
+                orderNum = 0.0,
+                removed = false,
             )
         } else {
             null
@@ -226,12 +238,12 @@ class LoanTransactionsCore @Inject constructor(
         if (addCategoryToDb) {
             ioThread {
                 loanCategory?.let {
-                    writeCategoryDao.save(it.toEntity())
+                    categoryRepository.save(it)
                 }
             }
         }
 
-        return loanCategory?.id
+        return loanCategory?.id?.value
     }
 
     suspend fun computeConvertedAmount(

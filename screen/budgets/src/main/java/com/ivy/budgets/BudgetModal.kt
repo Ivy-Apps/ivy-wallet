@@ -23,13 +23,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.IconAsset
+import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.domain.legacy.ui.theme.components.ListItem
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Budget
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.legacy.ui.theme.modal.ModalNameInput
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.selectEndTextFieldValue
@@ -46,6 +50,7 @@ import com.ivy.wallet.ui.theme.modal.ModalDelete
 import com.ivy.wallet.ui.theme.modal.ModalTitle
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import com.ivy.wallet.ui.theme.toComposeColor
+import java.time.Instant
 import java.util.UUID
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
@@ -237,19 +242,19 @@ private fun CategoriesRow(
 
         items(items = categories) { category ->
             ListItem(
-                icon = category.icon,
+                icon = category.icon?.id,
                 defaultIcon = R.drawable.ic_custom_category_s,
-                text = category.name,
-                selectedColor = category.color.toComposeColor().takeIf {
-                    budgetCategoryIds.contains(category.id)
+                text = category.name.value,
+                selectedColor = category.color.value.toComposeColor().takeIf {
+                    budgetCategoryIds.contains(category.id.value)
                 }
             ) { selected ->
                 if (selected) {
                     // remove category
-                    onSetBudgetCategoryIds(budgetCategoryIds.filter { it != category.id })
+                    onSetBudgetCategoryIds(budgetCategoryIds.filter { it != category.id.value })
                 } else {
                     // add category
-                    onSetBudgetCategoryIds(budgetCategoryIds.plus(category.id))
+                    onSetBudgetCategoryIds(budgetCategoryIds.plus(category.id.value))
                 }
             }
         }
@@ -264,7 +269,15 @@ private fun CategoriesRow(
 @Composable
 private fun Preview_create() {
     IvyWalletPreview {
-        val cat1 = Category("Science", color = Purple1Dark.toArgb(), icon = "atom")
+        val cat1 = Category(
+            name = NotBlankTrimmedString("Science"),
+            color = ColorInt(Purple1Dark.toArgb()),
+            icon = IconAsset("atom"),
+            id = CategoryId(UUID.randomUUID()),
+            lastUpdated = Instant.EPOCH,
+            orderNum = 0.0,
+            removed = false,
+        )
 
         BudgetModal(
             modal = BudgetModalData(
@@ -272,8 +285,24 @@ private fun Preview_create() {
                 baseCurrency = "BGN",
                 categories = listOf(
                     cat1,
-                    Category("Pet", color = Red3Light.toArgb(), icon = "pet"),
-                    Category("Home", color = Green.toArgb(), icon = null),
+                    Category(
+                        name = NotBlankTrimmedString("Pet"),
+                        color = ColorInt(Red3Light.toArgb()),
+                        icon = IconAsset("pet"),
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
+                    ),
+                    Category(
+                        name = NotBlankTrimmedString("Home"),
+                        color = ColorInt(Green.toArgb()),
+                        icon = null,
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
+                    ),
                 ),
                 accounts = emptyList()
             ),
@@ -289,7 +318,15 @@ private fun Preview_create() {
 @Composable
 private fun Preview_edit() {
     IvyWalletPreview {
-        val cat1 = Category("Science", color = Purple1Dark.toArgb(), icon = "atom")
+        val cat1 = Category(
+            name = NotBlankTrimmedString("Science"),
+            color = ColorInt(Purple1Dark.toArgb()),
+            icon = IconAsset("atom"),
+            id = CategoryId(UUID.randomUUID()),
+            lastUpdated = Instant.EPOCH,
+            orderNum = 0.0,
+            removed = false,
+        )
 
         BudgetModal(
             modal = BudgetModalData(
@@ -303,8 +340,24 @@ private fun Preview_edit() {
                 baseCurrency = "BGN",
                 categories = listOf(
                     cat1,
-                    Category("Pet", color = Red3Light.toArgb(), icon = "pet"),
-                    Category("Home", color = Green.toArgb(), icon = null),
+                    Category(
+                        name = NotBlankTrimmedString("Pet"),
+                        color = ColorInt(Red3Light.toArgb()),
+                        icon = IconAsset("pet"),
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
+                    ),
+                    Category(
+                        name = NotBlankTrimmedString("Home"),
+                        color = ColorInt(Green.toArgb()),
+                        icon = null,
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
+                    ),
                 ),
                 accounts = emptyList()
             ),

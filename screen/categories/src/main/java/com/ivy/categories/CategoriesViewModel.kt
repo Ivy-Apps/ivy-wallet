@@ -7,13 +7,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Transaction
-import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.base.ComposeViewModel
+import com.ivy.data.repository.CategoryRepository
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.thenInvokeAfter
 import com.ivy.legacy.datamodel.Account
 import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.category.LegacyCategoryIncomeWithAccountFiltersAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithRangeAndAccFiltersAct
@@ -36,14 +35,13 @@ import javax.inject.Inject
 @HiltViewModel
 class CategoriesViewModel @Inject constructor(
     private val categoryCreator: CategoryCreator,
-    private val categoriesAct: CategoriesAct,
+    private val categoryRepository: CategoryRepository,
     private val ivyContext: com.ivy.legacy.IvyWalletCtx,
     private val sharedPrefs: SharedPrefs,
     private val baseCurrencyAct: BaseCurrencyAct,
     private val accountsAct: AccountsAct,
     private val trnsWithRangeAndAccFiltersAct: TrnsWithRangeAndAccFiltersAct,
     private val categoryIncomeWithAccountFiltersAct: LegacyCategoryIncomeWithAccountFiltersAct,
-    private val categoryWriter: WriteCategoryDao,
 ) : ComposeViewModel<CategoriesScreenState, CategoriesScreenEvent>() {
 
     private val baseCurrency = mutableStateOf("")
@@ -140,7 +138,7 @@ class CategoriesViewModel @Inject constructor(
 
     private suspend fun loadCategories() {
         com.ivy.legacy.utils.scopedIOThread { scope ->
-            val categories = categoriesAct(Unit).mapAsync(scope) {
+            val categories = categoryRepository.findAll().mapAsync(scope) {
                 val catIncomeExpense = categoryIncomeWithAccountFiltersAct(
                     LegacyCategoryIncomeWithAccountFiltersAct.Input(
                         transactions = transactions,
@@ -173,12 +171,7 @@ class CategoriesViewModel @Inject constructor(
         if (sortOrder == SortOrder.DEFAULT) {
             com.ivy.legacy.utils.ioThread {
                 sortedList.forEachIndexed { index, categoryData ->
-                    categoryWriter.save(
-                        categoryData.category.toEntity().copy(
-                            orderNum = index.toDouble(),
-                            isSynced = false
-                        )
-                    )
+                    categoryRepository.save(categoryData.category)
                 }
             }
         }
@@ -206,7 +199,7 @@ class CategoriesViewModel @Inject constructor(
                 .let { (nonZero, zero) -> nonZero + zero }
 
             SortOrder.ALPHABETICAL -> categoryData.sortedBy {
-                it.category.name
+                it.category.name.value
             }
 
             SortOrder.EXPENSES -> categoryData.sortedByDescending {

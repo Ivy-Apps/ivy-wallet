@@ -7,17 +7,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.dao.read.AccountDao
-import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.data.db.dao.read.PlannedPaymentRuleDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.IntervalType
 import com.ivy.base.ComposeViewModel
+import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
+import com.ivy.data.repository.CategoryRepository
 import com.ivy.domain.event.AccountUpdatedEvent
 import com.ivy.domain.event.EventBus
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.datamodel.PlannedPaymentRule
 import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
@@ -25,7 +26,6 @@ import com.ivy.legacy.utils.ioThread
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.Navigation
 import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsGenerator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
@@ -36,6 +36,7 @@ import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import javax.inject.Inject
@@ -44,7 +45,7 @@ import javax.inject.Inject
 @HiltViewModel
 class EditPlannedViewModel @Inject constructor(
     private val accountDao: AccountDao,
-    private val categoryDao: CategoryDao,
+    private val categoryRepository: CategoryRepository,
     private val settingsDao: SettingsDao,
     private val nav: Navigation,
     private val plannedPaymentRuleDao: PlannedPaymentRuleDao,
@@ -52,7 +53,6 @@ class EditPlannedViewModel @Inject constructor(
     private val categoryCreator: CategoryCreator,
     private val accountCreator: AccountCreator,
     private val accountsAct: AccountsAct,
-    private val categoriesAct: CategoriesAct,
     private val eventBus: EventBus,
     private val plannedPaymentRuleWriter: WritePlannedPaymentRuleDao,
     private val transactionWriter: WriteTransactionDao,
@@ -263,7 +263,7 @@ class EditPlannedViewModel @Inject constructor(
                 return@launch
             }
             this@EditPlannedViewModel.accounts.value = accounts
-            categories.value = categoriesAct(Unit)
+            categories.value = categoryRepository.findAll().toImmutableList()
 
             reset()
 
@@ -299,7 +299,7 @@ class EditPlannedViewModel @Inject constructor(
         val selectedAccount = ioThread { accountDao.findById(rule.accountId)!!.toDomain() }
         account.value = selectedAccount
         category.value = rule.categoryId?.let {
-            ioThread { categoryDao.findById(rule.categoryId!!)?.toDomain() }
+            ioThread { categoryRepository.findById(CategoryId(it)) }
         }
         amount.doubleValue = rule.amount
 
@@ -361,7 +361,7 @@ class EditPlannedViewModel @Inject constructor(
 
     private fun updateCategory(newCategory: Category?) {
         loadedRule = loadedRule().copy(
-            categoryId = newCategory?.id
+            categoryId = newCategory?.id?.value
         )
         this@EditPlannedViewModel.category.value = newCategory
 
@@ -409,7 +409,7 @@ class EditPlannedViewModel @Inject constructor(
                         startDate = startDate.value ?: error("no startDate"),
                         intervalN = intervalN.value ?: error("no intervalN"),
                         intervalType = intervalType.value ?: error("no intervalType"),
-                        categoryId = category.value?.id,
+                        categoryId = category.value?.id?.value,
                         accountId = account.value?.id ?: error("no accountId"),
                         title = title?.trim(),
                         description = description.value?.trim(),
@@ -472,7 +472,7 @@ class EditPlannedViewModel @Inject constructor(
     private fun createCategory(data: CreateCategoryData) {
         viewModelScope.launch {
             categoryCreator.createCategory(data) {
-                categories.value = categoriesAct(Unit)
+                categories.value = categoryRepository.findAll().toImmutableList()
 
                 updateCategory(it)
             }
@@ -482,7 +482,7 @@ class EditPlannedViewModel @Inject constructor(
     private fun editCategory(updatedCategory: Category) {
         viewModelScope.launch {
             categoryCreator.editCategory(updatedCategory) {
-                categories.value = categoriesAct(Unit)
+                categories.value = categoryRepository.findAll().toImmutableList()
             }
         }
     }

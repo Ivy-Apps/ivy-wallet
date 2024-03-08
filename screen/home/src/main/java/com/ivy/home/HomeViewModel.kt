@@ -10,6 +10,7 @@ import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.base.ComposeViewModel
+import com.ivy.data.repository.CategoryRepository
 import com.ivy.frp.fixUnit
 import com.ivy.frp.then
 import com.ivy.frp.thenInvokeAfter
@@ -34,7 +35,6 @@ import com.ivy.navigation.BalanceScreen
 import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
 import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.action.settings.CalcBufferDiffAct
 import com.ivy.wallet.domain.action.settings.SettingsAct
@@ -71,7 +71,7 @@ class HomeViewModel @Inject constructor(
     private val calcWalletBalanceAct: CalcWalletBalanceAct,
     private val settingsAct: SettingsAct,
     private val accountsAct: AccountsAct,
-    private val categoriesAct: CategoriesAct,
+    private val categoryRepository: CategoryRepository,
     private val calcBufferDiffAct: CalcBufferDiffAct,
     private val upcomingAct: UpcomingAct,
     private val overdueAct: OverdueAct,
@@ -278,7 +278,8 @@ class HomeViewModel @Inject constructor(
         suspend {} then accountsAct then updateAccCacheAct then { accounts ->
             accounts
         } then { accounts ->
-            val categories = categoriesAct thenInvokeAfter updateCategoriesCacheAct
+            val retrievedCategories = categoryRepository.findAll()
+            val categories = updateCategoriesCacheAct(retrievedCategories)
             accounts to categories
         } thenInvokeAfter { (accounts, categories) ->
             val (settings, timeRange) = input

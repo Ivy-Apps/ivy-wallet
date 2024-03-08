@@ -40,13 +40,13 @@ import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
 import com.ivy.common.ui.rememberScrollPositionListState
+import com.ivy.data.model.Category
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.Constants
 import com.ivy.legacy.data.AppBaseData
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.ui.component.IncomeExpensesCards
 import com.ivy.legacy.ui.component.ItemStatisticToolbar
@@ -255,7 +255,7 @@ private fun BoxWithConstraintsScope.UI(
     onChoosePeriodModal: (ChoosePeriodModalData?) -> Unit
 ) {
     val ivyContext = ivyWalletCtx()
-    val itemColor = (account?.color ?: category?.color)?.toComposeColor() ?: Gray
+    val itemColor = (account?.color ?: category?.color?.value)?.toComposeColor() ?: Gray
 
     var categoryModalData: CategoryModalData? by remember { mutableStateOf(null) }
     var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
@@ -696,7 +696,7 @@ private fun Header(
                     initialTransactionId = null,
                     type = trnType,
                     accountId = account?.id,
-                    categoryId = category?.id
+                    categoryId = category?.id?.value
                 )
             )
         }
@@ -765,7 +765,7 @@ private fun Item(
 
             category != null -> {
                 ItemIconMDefaultIcon(
-                    iconName = category.icon,
+                    iconName = category.icon?.id,
                     defaultIcon = R.drawable.ic_custom_category_m,
                     tint = contrastColor
                 )
@@ -773,7 +773,7 @@ private fun Item(
                 Spacer(Modifier.width(8.dp))
 
                 Text(
-                    text = category.name,
+                    text = category.name.value,
                     style = UI.typo.b1.style(
                         color = contrastColor,
                         fontWeight = FontWeight.ExtraBold

@@ -1,23 +1,27 @@
 package com.ivy.importdata.csv.domain
 
 import androidx.compose.ui.graphics.toArgb
+import arrow.core.raise.either
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.model.TransactionType
 import com.ivy.data.backup.CSVRow
 import com.ivy.data.backup.ImportResult
 import com.ivy.data.db.dao.read.AccountDao
-import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.data.db.dao.read.SettingsDao
-import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
+import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.IconAsset
+import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.AccountRepository
+import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.repository.CurrencyRepository
 import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.importdata.csv.ImportantFields
 import com.ivy.importdata.csv.OptionalFields
 import com.ivy.importdata.csv.TransferFields
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.utils.toLowerCaseLocal
@@ -26,6 +30,7 @@ import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.IvyDark
 import kotlinx.collections.immutable.toImmutableList
+import java.time.Instant
 import java.util.UUID
 import javax.inject.Inject
 import kotlin.math.absoluteValue
@@ -35,8 +40,7 @@ class CSVImporterV2 @Inject constructor(
     private val settingsDao: SettingsDao,
     private val transactionWriter: WriteTransactionDao,
     private val accountDao: AccountDao,
-    private val categoryDao: CategoryDao,
-    private val categoryWriter: WriteCategoryDao,
+    private val categoryRepository: CategoryRepository,
     private val currencyRepository: CurrencyRepository,
     private val accountRepository: AccountRepository,
 ) {
@@ -63,7 +67,7 @@ class CSVImporterV2 @Inject constructor(
         accounts = accountDao.findAll().map { it.toDomain() }
         val initialAccountsCount = accounts.size
 
-        categories = categoryDao.findAll().map { it.toDomain() }
+        categories = categoryRepository.findAll()
         val initialCategoriesCount = categories.size
 
         val baseCurrency = settingsDao.findFirst().currency
@@ -224,7 +228,7 @@ class CSVImporterV2 @Inject constructor(
             toAmount = toAmount?.toBigDecimal() ?: amount.toBigDecimal(),
             dateTime = dateTime,
             dueDate = null,
-            categoryId = category?.id,
+            categoryId = category?.id?.value,
             title = title,
             description = description
         )
@@ -305,7 +309,7 @@ class CSVImporterV2 @Inject constructor(
         if (categoryNameString == null || categoryNameString.isBlank()) return null
 
         val existingCategory = categories.firstOrNull {
-            categoryNameString.toLowerCaseLocal() == it.name.toLowerCaseLocal()
+            categoryNameString.toLowerCaseLocal() == it.name.value.toLowerCaseLocal()
         }
         if (existingCategory != null) {
             return existingCategory
@@ -317,14 +321,22 @@ class CSVImporterV2 @Inject constructor(
             IVY_COLOR_PICKER_COLORS_FREE.first()
         }.toArgb()
 
-        val newCategory = Category(
-            name = categoryNameString,
-            color = colorArgb,
-            icon = icon,
-            orderNum = orderNum ?: categoryDao.findMaxOrderNum().nextOrderNum()
-        )
-        categoryWriter.save(newCategory.toEntity())
-        categories = categoryDao.findAll().map { it.toDomain() }
+        val newCategory: Category? = either {
+            Category(
+                id = CategoryId(UUID.randomUUID()),
+                name = NotBlankTrimmedString.from(categoryNameString).bind(),
+                color = ColorInt(colorArgb),
+                icon = icon?.let { IconAsset(it) },
+                orderNum = orderNum ?: categoryRepository.findMaxOrderNum().nextOrderNum(),
+                lastUpdated = Instant.EPOCH,
+                removed = false
+            )
+        }.getOrNull()
+
+        if (newCategory != null) {
+            categoryRepository.save(newCategory)
+            categories = categoryRepository.findAll()
+        }
 
         return newCategory
     }

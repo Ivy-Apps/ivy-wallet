@@ -24,11 +24,14 @@ import com.ivy.data.model.Tag
 import com.ivy.data.model.TransactionId
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.TagsRepository
+import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.repository.CategoryRepository
 import com.ivy.domain.RootScreen
 import com.ivy.frp.filterSuspend
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.utils.formatNicelyWithTime
 import com.ivy.legacy.utils.scopedIOThread
 import com.ivy.legacy.utils.timeNowUTC
@@ -36,7 +39,6 @@ import com.ivy.legacy.utils.toLowerCaseLocal
 import com.ivy.legacy.utils.uiThread
 import com.ivy.resources.R
 import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.exchange.ExchangeAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.transaction.CalcTrnsIncomeExpenseAct
@@ -60,6 +62,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.math.BigDecimal
+import java.time.Instant
 import java.time.ZoneId
 import java.util.UUID
 import javax.inject.Inject
@@ -73,7 +76,7 @@ class ReportViewModel @Inject constructor(
     private val exportCSVLogic: ExportCSVLogic,
     private val exchangeAct: ExchangeAct,
     private val accountsAct: AccountsAct,
-    private val categoriesAct: CategoriesAct,
+    private val categoryRepository: CategoryRepository,
     private val trnsWithDateDivsAct: TrnsWithDateDivsAct,
     private val calcTrnsIncomeExpenseAct: CalcTrnsIncomeExpenseAct,
     private val baseCurrencyAct: BaseCurrencyAct,
@@ -81,7 +84,15 @@ class ReportViewModel @Inject constructor(
     private val tagsRepository: TagsRepository
 ) : ComposeViewModel<ReportScreenState, ReportScreenEvent>() {
     private val unSpecifiedCategory =
-        Category(stringRes(R.string.unspecified), color = Gray.toArgb())
+        Category(
+            name = NotBlankTrimmedString(stringRes(R.string.unspecified)),
+            color = ColorInt(Gray.toArgb()),
+            icon = null,
+            id = CategoryId(UUID.randomUUID()),
+            lastUpdated = Instant.EPOCH,
+            orderNum = 0.0,
+            removed = false,
+        )
     private val baseCurrency = mutableStateOf("")
     private val categories = mutableStateOf<ImmutableList<Category>>(persistentListOf())
     private val historyIncomeExpense = mutableStateOf(IncomeExpenseTransferPair.zero())
@@ -190,7 +201,7 @@ class ReportViewModel @Inject constructor(
             baseCurrency.value = baseCurrencyAct(Unit)
             accounts.value = accountsAct(Unit)
             categories.value =
-                (listOf(unSpecifiedCategory) + categoriesAct(Unit)).toImmutableList()
+                (listOf(unSpecifiedCategory) + categoryRepository.findAll()).toImmutableList()
             allTags.value = tagsRepository.findAll().toImmutableList()
         }
     }
@@ -306,7 +317,7 @@ class ReportViewModel @Inject constructor(
     ): ImmutableList<Transaction> {
         val filterAccountIds = filter.accounts.map { it.id }
         val filterCategoryIds =
-            filter.categories.map { if (it.id == unSpecifiedCategory.id) null else it.id }
+            filter.categories.map { if (it.id.value == unSpecifiedCategory.id.value) null else it.id }
         val filterRange = filter.period?.toRange(ivyContext.startDayOfMonth)
 
         val transactions = if (filter.selectedTags.isNotEmpty()) {
@@ -356,7 +367,7 @@ class ReportViewModel @Inject constructor(
             .filter { trn ->
                 // Filter by Categories
 
-                filterCategoryIds.contains(trn.category?.value) || with(transactionMapper) {
+                filterCategoryIds.contains(trn.category) || with(transactionMapper) {
                     (trn.getTransactionType() == TransactionType.TRANSFER)
                 }
             }

@@ -15,19 +15,23 @@ import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.dao.read.AccountDao
-import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.AccountId
+import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.IconAsset
+import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.TagsRepository
+import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.frp.then
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.data.model.toCloseTimeRange
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.datamodel.temp.toImmutableLegacyTags
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
@@ -43,7 +47,6 @@ import com.ivy.wallet.domain.action.account.AccTrnsAct
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.account.CalcAccBalanceAct
 import com.ivy.wallet.domain.action.account.CalcAccIncomeExpenseAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.exchange.ExchangeAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.transaction.LegacyCalcTrnsIncomeExpenseAct
@@ -60,6 +63,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
+import java.time.Instant
 import java.util.UUID
 import javax.inject.Inject
 import com.ivy.legacy.datamodel.Account as LegacyAccount
@@ -69,7 +73,7 @@ import com.ivy.legacy.datamodel.Account as LegacyAccount
 class TransactionsViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
     private val accountDao: AccountDao,
-    private val categoryDao: CategoryDao,
+    private val categoryRepository: CategoryRepository,
     private val ivyContext: IvyWalletCtx,
     private val nav: Navigation,
     private val accountLogic: WalletAccountLogic,
@@ -78,7 +82,6 @@ class TransactionsViewModel @Inject constructor(
     private val accountCreator: AccountCreator,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
     private val sharedPrefs: SharedPrefs,
-    private val categoriesAct: CategoriesAct,
     private val accountsAct: AccountsAct,
     private val accTrnsAct: AccTrnsAct,
     private val trnsWithDateDivsAct: LegacyTrnsWithDateDivsAct,
@@ -432,7 +435,7 @@ class TransactionsViewModel @Inject constructor(
     private suspend fun initForCategory(categoryId: UUID, accountFilterList: List<UUID>) {
         val accountFilterSet = accountFilterList.toSet()
         val initialCategory = ioThread {
-            categoryDao.findById(categoryId)?.toDomain() ?: error("category not found")
+            categoryRepository.findById(CategoryId(categoryId)) ?: error("category not found")
         }
         category.value = initialCategory
         val range = period.value.toRange(ivyContext.startDayOfMonth)
@@ -501,7 +504,7 @@ class TransactionsViewModel @Inject constructor(
 
             val accountFilterSet = accountFilterList.toSet()
             val initialCategory = ioThread {
-                categoryDao.findById(categoryId)?.toDomain() ?: error("category not found")
+                categoryRepository.findById(CategoryId(categoryId)) ?: error("category not found")
             }
             category.value = initialCategory
             val range = period.value.toRange(ivyContext.startDayOfMonth)
@@ -628,7 +631,15 @@ class TransactionsViewModel @Inject constructor(
     ) {
         initWithTransactions.value = true
         category.value =
-            Category(stringRes(R.string.account_transfers), RedLight.toArgb(), "transfer")
+            Category(
+                name = NotBlankTrimmedString(stringRes(R.string.account_transfers)),
+                color = ColorInt(RedLight.toArgb()),
+                icon = IconAsset("transfer"),
+                id = CategoryId(UUID.randomUUID()),
+                lastUpdated = Instant.EPOCH,
+                orderNum = 0.0,
+                removed = false,
+            )
         val accountFilterIdSet = accountFilterList.toHashSet()
         val trans = transactions.filter {
             it.categoryId == null && (
@@ -815,7 +826,7 @@ class TransactionsViewModel @Inject constructor(
     private fun updateAccountDeletionState(confirmationText: String) {
         accountNameConfirmation.value = selectEndTextFieldValue(confirmationText)
         enableDeletionButton.value = account.value?.name == confirmationText ||
-                category.value?.name == confirmationText
+                category.value?.name?.value == confirmationText
     }
 
     fun start(
@@ -834,7 +845,7 @@ class TransactionsViewModel @Inject constructor(
             baseCurrency.value = baseCurrencyValue
             currency.value = baseCurrency.value
 
-            categories.value = categoriesAct(Unit)
+            categories.value = categoryRepository.findAll().toImmutableList()
             accounts.value = accountsAct(Unit)
             initWithTransactions.value = false
             treatTransfersAsIncomeExpense.value =

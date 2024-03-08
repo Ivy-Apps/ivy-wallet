@@ -39,9 +39,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ivy.base.model.TransactionType
+import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.IconAsset
+import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.horizontalSwipeListener
@@ -76,6 +80,8 @@ import com.ivy.wallet.ui.theme.pureBlur
 import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1Row
 import kotlinx.collections.immutable.persistentListOf
+import java.time.Instant
+import java.util.UUID
 
 @ExperimentalFoundationApi
 @Composable
@@ -207,7 +213,7 @@ private fun BoxWithConstraintsScope.UI(
                 ) {
                     nav.navigateTo(
                         TransactionsScreen(
-                            categoryId = item.category?.id,
+                            categoryId = item.category?.id?.value,
                             unspecifiedCategory = item.isCategoryUnspecified,
                             accountIdFilterList = state.accountIdFilterList,
                             transactions = item.associatedTransactions
@@ -341,7 +347,8 @@ private fun CategoryAmountCard(
     val category = categoryAmount.category
     val amount = categoryAmount.amount
 
-    val categoryColor = category?.color?.toComposeColor() ?: Gray // Unspecified category = Gray
+    val categoryColor =
+        category?.color?.value?.toComposeColor() ?: Gray // Unspecified category = Gray
     val selectedState = when {
         selectedCategory == null -> {
             // no selectedCategory
@@ -380,13 +387,13 @@ private fun CategoryAmountCard(
 
         ItemIconM(
             modifier = Modifier.background(categoryColor, CircleShape),
-            iconName = category?.icon,
+            iconName = category?.icon?.id,
             tint = findContrastTextColor(categoryColor),
             iconContentScale = ContentScale.None,
             Default = {
                 ItemIconMDefaultIcon(
                     modifier = Modifier.background(categoryColor, CircleShape),
-                    iconName = category?.icon,
+                    iconName = category?.icon?.id,
                     defaultIcon = R.drawable.ic_custom_category_m,
                     tint = findContrastTextColor(categoryColor)
                 )
@@ -406,7 +413,7 @@ private fun CategoryAmountCard(
                     modifier = Modifier
                         .weight(1f)
                         .padding(end = 16.dp),
-                    text = category?.name ?: stringResource(R.string.unspecified),
+                    text = category?.name?.value ?: stringResource(R.string.unspecified),
                     style = UI.typo.b2.style(
                         color = textColor,
                         fontWeight = FontWeight.Bold,
@@ -470,7 +477,15 @@ private fun Preview_Expense() {
             totalAmount = 1828.0,
             categoryAmounts = persistentListOf(
                 CategoryAmount(
-                    category = Category("Bills", Green.toArgb(), icon = "bills"),
+                    category = Category(
+                        name = NotBlankTrimmedString("Bills"),
+                        color = ColorInt(Green.toArgb()),
+                        icon = IconAsset("bills"),
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
+                    ),
                     amount = 791.0
                 ),
                 CategoryAmount(
@@ -479,26 +494,62 @@ private fun Preview_Expense() {
                     isCategoryUnspecified = true
                 ),
                 CategoryAmount(
-                    category = Category("Shisha", Orange.toArgb(), icon = "trees"),
+                    category = Category(
+                        name = NotBlankTrimmedString("Shisha"),
+                        color = ColorInt(Orange.toArgb()),
+                        icon = IconAsset("trees"),
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
+                    ),
                     amount = 411.93
                 ),
                 CategoryAmount(
-                    category = Category("Food & Drink", IvyDark.toArgb()),
+                    category = Category(
+                        name = NotBlankTrimmedString("Food & Drink"),
+                        color = ColorInt(IvyDark.toArgb()),
+                        icon = null,
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
+                    ),
                     amount = 260.03
                 ),
                 CategoryAmount(
-                    category = Category("Gifts", RedLight.toArgb()),
+                    category = Category(
+                        name = NotBlankTrimmedString("Gifts"),
+                        color = ColorInt(RedLight.toArgb()),
+                        icon = null,
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
+                    ),
                     amount = 160.0
                 ),
                 CategoryAmount(
-                    category = Category("Clothes & Jewelery Fancy", Red.toArgb()),
+                    category = Category(
+                        name = NotBlankTrimmedString("Clothes & Jewelery Fancy"),
+                        color = ColorInt(Red.toArgb()),
+                        icon = null,
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
+                    ),
                     amount = 2.0
                 ),
                 CategoryAmount(
                     category = Category(
-                        "Finances, Burocracy & Governance",
-                        IvyLight.toArgb(),
-                        icon = "work"
+                        name = NotBlankTrimmedString("Finances, Burocracy & Governance"),
+                        color = ColorInt(IvyLight.toArgb()),
+                        icon = IconAsset("work"),
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
                     ),
                     amount = 2.0
                 ),
@@ -529,7 +580,15 @@ private fun Preview_Income() {
             totalAmount = 1828.0,
             categoryAmounts = persistentListOf(
                 CategoryAmount(
-                    category = Category("Bills", Green.toArgb(), icon = "bills"),
+                    category = Category(
+                        name = NotBlankTrimmedString("Bills"),
+                        color = ColorInt(Green.toArgb()),
+                        icon = IconAsset("bills"),
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
+                    ),
                     amount = 791.0
                 ),
                 CategoryAmount(
@@ -538,26 +597,62 @@ private fun Preview_Income() {
                     isCategoryUnspecified = true
                 ),
                 CategoryAmount(
-                    category = Category("Shisha", Orange.toArgb(), icon = "trees"),
+                    category = Category(
+                        name = NotBlankTrimmedString("Shisha"),
+                        color = ColorInt(Orange.toArgb()),
+                        icon = IconAsset("trees"),
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
+                    ),
                     amount = 411.93
                 ),
                 CategoryAmount(
-                    category = Category("Food & Drink", IvyDark.toArgb()),
+                    category = com.ivy.data.model.Category(
+                        name = NotBlankTrimmedString("Food & Drink"),
+                        color = ColorInt(IvyDark.toArgb()),
+                        icon = null,
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
+                    ),
                     amount = 260.03
                 ),
                 CategoryAmount(
-                    category = Category("Gifts", RedLight.toArgb()),
+                    category = Category(
+                        name = NotBlankTrimmedString("Gifts"),
+                        color = ColorInt(RedLight.toArgb()),
+                        icon = null,
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
+                    ),
                     amount = 160.0
                 ),
                 CategoryAmount(
-                    category = Category("Clothes & Jewelery Fancy", Red.toArgb()),
+                    category = Category(
+                        name = NotBlankTrimmedString("Clothes & Jewelery Fancy"),
+                        color = ColorInt(Red.toArgb()),
+                        icon = null,
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
+                    ),
                     amount = 2.0
                 ),
                 CategoryAmount(
                     category = Category(
-                        "Finances, Burocracy & Governance",
-                        IvyLight.toArgb(),
-                        icon = "work"
+                        name = NotBlankTrimmedString("Finances, Burocracy & Governance"),
+                        color = ColorInt(IvyLight.toArgb()),
+                        icon = IconAsset("work"),
+                        id = CategoryId(UUID.randomUUID()),
+                        lastUpdated = Instant.EPOCH,
+                        orderNum = 0.0,
+                        removed = false,
                     ),
                     amount = 2.0
                 ),

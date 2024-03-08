@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.data.model.Category
 import com.ivy.legacy.data.model.AccountBalance
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.navigation.OnboardingScreen
 import com.ivy.onboarding.steps.OnboardingAccounts
