@@ -3,13 +3,11 @@ package com.ivy.legacy.ui.component.tags
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -23,13 +21,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ivy.data.model.Tag
@@ -38,16 +33,14 @@ import com.ivy.design.l0_system.Blue2Dark
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.utils.thenIf
+import com.ivy.legacy.ui.SearchInput
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.hideKeyboard
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.selectEndTextFieldValue
 import com.ivy.wallet.ui.theme.Gradient
-import com.ivy.wallet.ui.theme.Gray
-import com.ivy.wallet.ui.theme.components.IvyBasicTextField
 import com.ivy.wallet.ui.theme.components.IvyBorderButton
 import com.ivy.wallet.ui.theme.components.IvyCircleButton
-import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.modal.DeleteModal
 import com.ivy.wallet.ui.theme.modal.IvyModal
@@ -117,11 +110,13 @@ fun BoxWithConstraintsScope.ShowTagModal(
         Spacer(Modifier.height(24.dp))
 
         SearchInput(
-            searchQueryTextFieldValue = searchQueryTextFieldValue
-        ) {
-            searchQueryTextFieldValue = it
-            onTagSearch(it.text)
-        }
+            searchQueryTextFieldValue = searchQueryTextFieldValue,
+            hint = stringResource(id = R.string.search_tags),
+            onSetSearchQueryTextField = {
+                searchQueryTextFieldValue = it
+                onTagSearch(it.text)
+            }
+        )
 
         Spacer(Modifier.height(24.dp))
 
@@ -332,59 +327,6 @@ private fun AddNewTagButton(
         padding = 10.dp,
         onClick = onClick
     )
-}
-
-@Composable
-private fun SearchInput(
-    searchQueryTextFieldValue: TextFieldValue,
-    onSetSearchQueryTextField: (TextFieldValue) -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .clip(UI.shapes.rFull)
-            .background(UI.colors.pure)
-            .border(1.dp, Gray, UI.shapes.rFull),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Spacer(Modifier.width(12.dp))
-
-        IvyIcon(icon = R.drawable.ic_search)
-
-        Spacer(Modifier.width(12.dp))
-
-        val searchFocus = FocusRequester()
-        IvyBasicTextField(
-            modifier = Modifier
-                .focusRequester(searchFocus)
-                .padding(vertical = 12.dp),
-            value = searchQueryTextFieldValue,
-            hint = "Search Tags",
-            onValueChanged = {
-                onSetSearchQueryTextField(it)
-            }
-        )
-
-        Spacer(
-            Modifier
-                .weight(1f)
-                .clickable {
-                    searchFocus.requestFocus()
-                }
-        )
-
-        IvyIcon(
-            modifier = Modifier
-                .clickable {
-                    onSetSearchQueryTextField(selectEndTextFieldValue(""))
-                }
-                .padding(all = 12.dp), // enlarge click area
-            icon = R.drawable.ic_outline_clear_24
-        )
-
-        Spacer(Modifier.width(8.dp))
-    }
 }
 
 private class AddNewTag

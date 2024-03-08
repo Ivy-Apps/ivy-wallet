@@ -4,10 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,6 +23,7 @@ import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.components.IvyBasicTextField
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
+@Suppress("MagicNumber")
 @Composable
 fun SearchInput(
     searchQueryTextFieldValue: TextFieldValue,
@@ -41,15 +40,12 @@ fun SearchInput(
             .border(1.dp, Gray, UI.shapes.rFull),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Spacer(Modifier.width(12.dp))
-
-        IvyIcon(icon = R.drawable.ic_search)
-
-        Spacer(Modifier.width(12.dp))
+        IvyIcon(icon = R.drawable.ic_search, modifier = Modifier.weight(1f))
 
         val searchFocus = FocusRequester()
         IvyBasicTextField(
             modifier = Modifier
+                .weight(5f)
                 .padding(vertical = 12.dp)
                 .focusRequester(searchFocus),
             value = searchQueryTextFieldValue,
@@ -65,17 +61,13 @@ fun SearchInput(
             }
         }
 
-        Spacer(Modifier.weight(1f))
-
         IvyIcon(
             modifier = Modifier
+                .weight(1f)
                 .clickable {
                     onSetSearchQueryTextField(selectEndTextFieldValue(""))
-                }
-                .padding(all = 12.dp), // enlarge click area
+                },
             icon = R.drawable.ic_outline_clear_24
         )
-
-        Spacer(Modifier.width(8.dp))
     }
 }

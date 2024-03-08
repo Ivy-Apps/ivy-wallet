@@ -440,4 +440,5 @@
     <string name="total_exclusive">Totale (esclusivo): %1$s %2$s</string>
     <string name="total_balance">Totale Saldo</string>
     <string name="total_balance_excluded">Totale Saldo (escluso)</string>
+    <string name="search_tags">Tag di Ricerca</string>
 </resources>
