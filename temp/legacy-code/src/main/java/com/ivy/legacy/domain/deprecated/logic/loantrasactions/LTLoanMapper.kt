@@ -1,6 +1,7 @@
 package com.ivy.wallet.domain.deprecated.logic.loantrasactions
 
 import com.ivy.base.legacy.Transaction
+import com.ivy.base.model.LoanRecordType
 import com.ivy.base.model.TransactionType
 import com.ivy.data.model.LoanType
 import com.ivy.legacy.datamodel.Account
@@ -30,6 +31,7 @@ class LTLoanMapper @Inject constructor(
                 selectedAccountId = data.account?.id,
                 title = data.name,
                 isLoanRecord = false,
+                loanRecordType = LoanRecordType.DECREASE
             )
         }
     }
@@ -49,7 +51,8 @@ class LTLoanMapper @Inject constructor(
                 title = loan.name,
                 isLoanRecord = false,
                 transaction = transaction,
-                time = transaction?.dateTime
+                time = transaction?.dateTime,
+                loanRecordType = LoanRecordType.DECREASE
             )
         }
     }

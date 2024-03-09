@@ -30,7 +30,8 @@ class LTLoanRecordMapper @Inject constructor(
                 title = loanRecord.note,
                 time = loanRecord.dateTime,
                 isLoanRecord = true,
-                transaction = transaction
+                transaction = transaction,
+                loanRecordType = loanRecord.loanRecordType
             )
         }
     }
@@ -51,6 +52,7 @@ class LTLoanRecordMapper @Inject constructor(
                 loanId = loan.id,
                 selectedAccountId = data.account?.id,
                 isLoanRecord = true,
+                loanRecordType = data.loanRecordType
             )
         }
     }
