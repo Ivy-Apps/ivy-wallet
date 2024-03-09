@@ -17,5 +17,3 @@ fun <T> LoanRecordType.processByType(decreaseAction: () -> T, increaseAction: ()
         LoanRecordType.INCREASE -> increaseAction()
     }
 }
-
-fun defaultLoanRecordType(): LoanRecordType = LoanRecordType.DECREASE
