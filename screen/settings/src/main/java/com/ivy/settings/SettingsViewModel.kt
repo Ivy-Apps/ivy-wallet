@@ -8,19 +8,19 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.refreshWidget
+import com.ivy.data.backup.BackupDataUseCase
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
 import com.ivy.domain.ComposeViewModel
 import com.ivy.domain.RootScreen
+import com.ivy.domain.usecase.SyncExchangeRatesUseCase
 import com.ivy.frp.monad.Res
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.LogoutLogic
-import com.ivy.base.legacy.SharedPrefs
-import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.legacy.domain.action.settings.UpdateSettingsAct
-import com.ivy.data.backup.BackupDataUseCase
 import com.ivy.legacy.utils.formatNicelyWithTime
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeNowUTC
@@ -50,7 +50,7 @@ class SettingsViewModel @Inject constructor(
     private val backupDataUseCase: BackupDataUseCase,
     private val startDayOfMonthAct: StartDayOfMonthAct,
     private val updateStartDayOfMonthAct: UpdateStartDayOfMonthAct,
-    private val syncExchangeRatesAct: SyncExchangeRatesAct,
+    private val syncExchangeRatesUseCase: SyncExchangeRatesUseCase,
     private val settingsAct: SettingsAct,
     private val updateSettingsAct: UpdateSettingsAct,
     private val settingsWriter: WriteSettingsDao,
@@ -236,12 +236,7 @@ class SettingsViewModel @Inject constructor(
                         currency = newCurrency
                     )
                 )
-
-                syncExchangeRatesAct(
-                    SyncExchangeRatesAct.Input(
-                        baseCurrency = newCurrency
-                    )
-                )
+                syncExchangeRatesUseCase.sync(newCurrency)
             }
         }
     }
