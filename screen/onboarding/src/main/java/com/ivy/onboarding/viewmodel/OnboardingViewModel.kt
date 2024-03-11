@@ -5,20 +5,20 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Theme
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
 import com.ivy.base.ComposeViewModel
+import com.ivy.domain.usecase.SyncExchangeRatesUseCase
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.LogoutLogic
-import com.ivy.base.legacy.SharedPrefs
 import com.ivy.data.model.Category
 import com.ivy.data.repository.CategoryRepository
 import com.ivy.legacy.data.model.AccountBalance
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Settings
-import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.OpResult
 import com.ivy.legacy.utils.ioThread
@@ -56,7 +56,7 @@ class OnboardingViewModel @Inject constructor(
     private val accountCreator: AccountCreator,
 
     private val accountsAct: AccountsAct,
-    private val syncExchangeRatesAct: SyncExchangeRatesAct,
+    private val syncExchangeRatesUseCase: SyncExchangeRatesUseCase,
     private val settingsWriter: WriteSettingsDao,
 
     // Only OnboardingRouter stuff
@@ -103,7 +103,7 @@ class OnboardingViewModel @Inject constructor(
         preloadDataLogic = preloadDataLogic,
         transactionReminderLogic = transactionReminderLogic,
         logoutLogic = logoutLogic,
-        syncExchangeRatesAct = syncExchangeRatesAct,
+        syncExchangeRatesUseCase = syncExchangeRatesUseCase,
     )
 
     fun start(screen: OnboardingScreen, isSystemDarkMode: Boolean) {
