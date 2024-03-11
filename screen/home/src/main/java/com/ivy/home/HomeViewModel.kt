@@ -82,7 +82,7 @@ class HomeViewModel @Inject constructor(
     private val updateSettingsAct: UpdateSettingsAct,
     private val updateAccCacheAct: UpdateAccCacheAct,
     private val updateCategoriesCacheAct: UpdateCategoriesCacheAct,
-    private val syncExchangeRatesUseCase: SyncExchangeRatesUseCase
+    private val syncExchangeRatesUseCase: SyncExchangeRatesUseCase,
     private val transactionMapper: TransactionMapper
 ) : ComposeViewModel<HomeState, HomeEvent>() {
     private val currentTheme = mutableStateOf(Theme.AUTO)

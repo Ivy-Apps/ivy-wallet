@@ -8,7 +8,6 @@ import com.ivy.base.legacy.SharedPrefs
 import com.ivy.data.model.Category
 import com.ivy.data.repository.CategoryRepository
 import com.ivy.legacy.data.model.AccountBalance
-import com.ivy.legacy.datamodel.Category
 import com.ivy.legacy.utils.OpResult
 import com.ivy.legacy.utils.ioThread
 import com.ivy.navigation.ImportScreen
