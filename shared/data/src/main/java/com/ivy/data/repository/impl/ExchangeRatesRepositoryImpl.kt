@@ -6,7 +6,7 @@ import com.ivy.data.db.dao.write.WriteExchangeRatesDao
 import com.ivy.data.db.entity.ExchangeRateEntity
 import com.ivy.data.model.ExchangeRate
 import com.ivy.data.remote.RemoteExchangeRatesDataSource
-import com.ivy.data.remote.impl.RemoteExchangeRatesDataSourceImpl
+import com.ivy.data.remote.responses.ExchangeRatesResponse
 import com.ivy.data.repository.ExchangeRatesRepository
 import com.ivy.data.repository.mapper.ExchangeRateMapper
 import kotlinx.coroutines.flow.Flow
@@ -28,9 +28,9 @@ class ExchangeRatesRepositoryImpl @Inject constructor(
         "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.min.json",
         "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.json",
     )
-    override suspend fun fetchExchangeRates() : RemoteExchangeRatesDataSourceImpl.ExchangeRatesResponse?{
+    override suspend fun fetchExchangeRates() : ExchangeRatesResponse?{
 
-        var result: RemoteExchangeRatesDataSourceImpl.ExchangeRatesResponse? = null
+        var result: ExchangeRatesResponse? = null
 
         withContext(dispatchersProvider.io){
             urls.forEach {url ->
