@@ -2,13 +2,13 @@ package com.ivy.data.repository
 
 import com.ivy.data.db.entity.ExchangeRateEntity
 import com.ivy.data.model.ExchangeRate
-import com.ivy.data.remote.impl.RemoteExchangeRatesDataSourceImpl
+import com.ivy.data.remote.responses.ExchangeRatesResponse
 import kotlinx.coroutines.flow.Flow
 
 interface ExchangeRatesRepository {
 
     val urls: List<String>
-    suspend fun fetchExchangeRates() : RemoteExchangeRatesDataSourceImpl.ExchangeRatesResponse?
+    suspend fun fetchExchangeRates() : ExchangeRatesResponse?
 
     suspend fun save(value: ExchangeRateEntity)
 

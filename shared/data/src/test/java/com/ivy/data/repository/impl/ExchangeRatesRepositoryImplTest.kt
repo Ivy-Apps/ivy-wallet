@@ -7,7 +7,7 @@ import com.ivy.data.db.dao.write.WriteExchangeRatesDao
 import com.ivy.data.db.entity.ExchangeRateEntity
 import com.ivy.data.model.ExchangeRate
 import com.ivy.data.remote.RemoteExchangeRatesDataSource
-import com.ivy.data.remote.impl.RemoteExchangeRatesDataSourceImpl
+import com.ivy.data.remote.responses.ExchangeRatesResponse
 import com.ivy.data.repository.mapper.ExchangeRateMapper
 import com.ivy.testing.TestDispatchersProvider
 import io.kotest.core.spec.style.FreeSpec
@@ -38,7 +38,7 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
             //given
             val repository = newRepository()
             val urls = repository.urls
-            val mockResponse = RemoteExchangeRatesDataSourceImpl.ExchangeRatesResponse(
+            val mockResponse = ExchangeRatesResponse(
                 date = "",
                 rates = emptyMap()
             )

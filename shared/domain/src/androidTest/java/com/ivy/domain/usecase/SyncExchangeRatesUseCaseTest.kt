@@ -9,7 +9,7 @@ import arrow.core.right
 import com.ivy.data.db.IvyRoomDatabase
 import com.ivy.data.db.entity.ExchangeRateEntity
 import com.ivy.data.remote.RemoteExchangeRatesDataSource
-import com.ivy.data.remote.impl.RemoteExchangeRatesDataSourceImpl
+import com.ivy.data.remote.responses.ExchangeRatesResponse
 import com.ivy.data.repository.ExchangeRatesRepository
 import com.ivy.data.repository.impl.ExchangeRatesRepositoryImpl
 import com.ivy.data.repository.mapper.ExchangeRateMapper
@@ -33,7 +33,7 @@ class SyncExchangeRatesUseCaseTest{
     private lateinit var db: IvyRoomDatabase
 
     private val dataSource = mockk<RemoteExchangeRatesDataSource>()
-    private val mockSuccessfulNetworkResponse = RemoteExchangeRatesDataSourceImpl.ExchangeRatesResponse(
+    private val mockSuccessfulNetworkResponse = ExchangeRatesResponse(
         date = "3/3/2024",
         rates = mapOf(
             "tone" to 774.71625493,
