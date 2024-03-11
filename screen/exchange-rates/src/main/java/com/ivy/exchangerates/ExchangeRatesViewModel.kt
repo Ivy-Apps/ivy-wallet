@@ -8,9 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.data.db.dao.read.ExchangeRatesDao
 import com.ivy.data.db.dao.write.WriteExchangeRatesDao
 import com.ivy.data.db.entity.ExchangeRateEntity
+import com.ivy.domain.usecase.SyncExchangeRatesUseCase
 import com.ivy.base.ComposeViewModel
 import com.ivy.exchangerates.data.RateUi
-import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
@@ -28,7 +28,7 @@ import javax.inject.Inject
 class ExchangeRatesViewModel @Inject constructor(
     private val exchangeRatesDao: ExchangeRatesDao,
     private val baseCurrencyAct: BaseCurrencyAct,
-    private val syncExchangeRatesAct: SyncExchangeRatesAct,
+    private val syncExchangeRatesUseCase: SyncExchangeRatesUseCase,
     private val exchangeRatesWriter: WriteExchangeRatesDao,
 ) : ComposeViewModel<RatesState, RatesEvent>() {
     private val searchQuery = MutableStateFlow("")
@@ -137,7 +137,7 @@ class ExchangeRatesViewModel @Inject constructor(
     }
 
     private suspend fun sync() {
-        syncExchangeRatesAct(SyncExchangeRatesAct.Input(baseCurrencyAct(Unit)))
+        syncExchangeRatesUseCase.sync(baseCurrencyAct(Unit))
     }
     // endregion
 }
