@@ -9,6 +9,7 @@ import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.domain.ComposeViewModel
+import com.ivy.domain.usecase.SyncExchangeRatesUseCase
 import com.ivy.frp.fixUnit
 import com.ivy.frp.then
 import com.ivy.frp.thenInvokeAfter
@@ -23,7 +24,6 @@ import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Settings
-import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.legacy.domain.action.settings.UpdateSettingsAct
 import com.ivy.legacy.domain.action.viewmodel.home.ShouldHideIncomeAct
 import com.ivy.legacy.utils.dateNowUTC
@@ -80,7 +80,7 @@ class HomeViewModel @Inject constructor(
     private val updateSettingsAct: UpdateSettingsAct,
     private val updateAccCacheAct: UpdateAccCacheAct,
     private val updateCategoriesCacheAct: UpdateCategoriesCacheAct,
-    private val syncExchangeRatesAct: SyncExchangeRatesAct,
+    private val syncExchangeRatesUseCase: SyncExchangeRatesUseCase
 ) : ComposeViewModel<HomeState, HomeEvent>() {
     private val currentTheme = mutableStateOf(Theme.AUTO)
     private val name = mutableStateOf("")
@@ -434,7 +434,7 @@ class HomeViewModel @Inject constructor(
         )
     } then updateSettingsAct then {
         // update exchange rates from POV of the new base currency
-        syncExchangeRatesAct(SyncExchangeRatesAct.Input(baseCurrency = newCurrency))
+        syncExchangeRatesUseCase.sync(newCurrency)
     } then {
         reload()
     }
