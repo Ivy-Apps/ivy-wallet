@@ -23,10 +23,10 @@ class ExchangeRatesRepositoryImpl @Inject constructor(
 ) : ExchangeRatesRepository {
 
     override val urls = listOf(
-        "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur.json",
-        "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur.min.json",
-        "https://raw.githubusercontent.com/fawazahmed0/currency-api/1/latest/currencies/eur.min.json",
-        "https://raw.githubusercontent.com/fawazahmed0/currency-api/1/latest/currencies/eur.json",
+        "https://currency-api.pages.dev/v1/currencies/eur.json",
+        "https://currency-api.pages.dev/v1/currencies/eur.min.json",
+        "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.min.json",
+        "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.json",
     )
     override suspend fun fetchExchangeRates() : RemoteExchangeRatesDataSourceImpl.ExchangeRatesResponse?{
 
