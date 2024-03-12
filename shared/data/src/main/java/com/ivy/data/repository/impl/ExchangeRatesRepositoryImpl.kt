@@ -87,7 +87,7 @@ class ExchangeRatesRepositoryImpl
             }
         }
 
-        override suspend fun deleteAll()  {
+        override suspend fun deleteAll() {
             withContext(dispatchersProvider.io) {
                 writeExchangeRatesDao.deleteALl()
             }
