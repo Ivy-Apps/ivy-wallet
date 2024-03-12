@@ -12,12 +12,9 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object RemoteDataSourceModule {
-
     @Provides
     @Singleton
-    fun provideRemoteExchangeRatesDataSource(
-        ktorClient : HttpClient
-    ): RemoteExchangeRatesDataSource {
+    fun provideRemoteExchangeRatesDataSource(ktorClient: HttpClient): RemoteExchangeRatesDataSource {
         return RemoteExchangeRatesDataSourceImpl(lazy { ktorClient })
     }
 }

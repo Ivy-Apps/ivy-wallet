@@ -6,9 +6,9 @@ import com.ivy.data.remote.responses.ExchangeRatesResponse
 import kotlinx.coroutines.flow.Flow
 
 interface ExchangeRatesRepository {
-
     val urls: List<String>
-    suspend fun fetchExchangeRates() : ExchangeRatesResponse?
+
+    suspend fun fetchExchangeRates(): ExchangeRatesResponse?
 
     suspend fun save(value: ExchangeRateEntity)
 
@@ -21,6 +21,9 @@ interface ExchangeRatesRepository {
     suspend fun deleteAll()
 
     suspend fun findAll(): Flow<List<ExchangeRate>>
-    suspend fun findByBaseCurrencyAndCurrency(baseCurrency: String, currency: String) : ExchangeRate?
 
+    suspend fun findByBaseCurrencyAndCurrency(
+        baseCurrency: String,
+        currency: String,
+    ): ExchangeRate?
 }
