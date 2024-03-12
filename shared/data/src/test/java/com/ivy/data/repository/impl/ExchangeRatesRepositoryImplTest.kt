@@ -2,6 +2,7 @@ package com.ivy.data.repository.impl
 
 import arrow.core.left
 import arrow.core.right
+import com.ivy.base.TestDispatchersProvider
 import com.ivy.data.db.dao.read.ExchangeRatesDao
 import com.ivy.data.db.dao.write.WriteExchangeRatesDao
 import com.ivy.data.db.entity.ExchangeRateEntity
@@ -9,7 +10,6 @@ import com.ivy.data.model.ExchangeRate
 import com.ivy.data.remote.RemoteExchangeRatesDataSource
 import com.ivy.data.remote.responses.ExchangeRatesResponse
 import com.ivy.data.repository.mapper.ExchangeRateMapper
-import com.ivy.testing.TestDispatchersProvider
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
@@ -25,23 +25,25 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
     val writeExchangeRatesDao = mockk<WriteExchangeRatesDao>()
     val remoteExchangeRatesDataSource = mockk<RemoteExchangeRatesDataSource>()
 
-    fun newRepository() = ExchangeRatesRepositoryImpl(
-        mapper = mapper,
-        exchangeRatesDao = exchangeRatesDao,
-        writeExchangeRatesDao = writeExchangeRatesDao,
-        remoteExchangeRatesDataSource = remoteExchangeRatesDataSource,
-        dispatchersProvider = TestDispatchersProvider
-    )
+    fun newRepository() =
+        ExchangeRatesRepositoryImpl(
+            mapper = mapper,
+            exchangeRatesDao = exchangeRatesDao,
+            writeExchangeRatesDao = writeExchangeRatesDao,
+            remoteExchangeRatesDataSource = remoteExchangeRatesDataSource,
+            dispatchersProvider = TestDispatchersProvider,
+        )
 
     "fetchExchangeRates" - {
         "successful network responses" {
-            //given
+            // given
             val repository = newRepository()
             val urls = repository.urls
-            val mockResponse = ExchangeRatesResponse(
-                date = "",
-                rates = emptyMap()
-            )
+            val mockResponse =
+                ExchangeRatesResponse(
+                    date = "",
+                    rates = emptyMap(),
+                )
 
             urls.forEach { url ->
                 coEvery {
@@ -49,15 +51,15 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
                 } returns mockResponse.right()
             }
 
-            //when
+            // when
             val result = repository.fetchExchangeRates()
 
-            //then
+            // then
             result shouldBe mockResponse
         }
 
         "unsuccessful network responses" {
-            //given
+            // given
             val repository = newRepository()
             val urls = repository.urls
             val mockResponse = "Network Error"
@@ -68,17 +70,17 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
                 } returns mockResponse.left()
             }
 
-            //when
+            // when
             val result = repository.fetchExchangeRates()
 
-            //then
+            // then
             result shouldBe null
         }
     }
 
     "findByBaseCurrencyAndCurrency" - {
         "exchange rate is found and mapped" {
-            //given
+            // given
             val repository = newRepository()
 
             val mockEntity = ExchangeRateEntity("", "", 0.0)
@@ -88,111 +90,110 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
                 exchangeRatesDao.findByBaseCurrencyAndCurrency("", "")
             } returns mockEntity
             every {
-                with(mapper){ mockEntity.toDomain() }
+                with(mapper) { mockEntity.toDomain() }
             } returns mockDomain
 
-            //when
+            // when
             val result = repository.findByBaseCurrencyAndCurrency("", "")
 
-            //then
+            // then
             result shouldBe mockDomain
         }
 
         "exchange rate is not found" {
-            //given
+            // given
             val repository = newRepository()
 
             coEvery {
                 exchangeRatesDao.findByBaseCurrencyAndCurrency("", "")
             } returns null
 
-            //when
+            // when
             val result = repository.findByBaseCurrencyAndCurrency("", "")
 
-            //then
+            // then
             result shouldBe null
-
         }
-        
     }
 
     "save" - {
         "entity is saved" {
-            //given
+            // given
             val repository = newRepository()
-            val mockEntity = ExchangeRateEntity("","",0.0)
+            val mockEntity = ExchangeRateEntity("", "", 0.0)
 
-            coEvery{ writeExchangeRatesDao.save(mockEntity) } returns Unit
+            coEvery { writeExchangeRatesDao.save(mockEntity) } returns Unit
 
-            //when
+            // when
             repository.save(mockEntity)
 
-            //then
+            // then
             coVerify { writeExchangeRatesDao.save(mockEntity) }
         }
 
         "rate is mapped and saved" {
-            //given
+            // given
             val repository = newRepository()
-            val mockRate = ExchangeRate("","",0.0, false)
+            val mockRate = ExchangeRate("", "", 0.0, false)
             val mockEntity = ExchangeRateEntity("", "", 0.0)
 
             coEvery { writeExchangeRatesDao.save(mockEntity) } returns Unit
-            every { with(mapper){ mockRate.toEntity() } } returns mockEntity
+            every { with(mapper) { mockRate.toEntity() } } returns mockEntity
 
-            //when
+            // when
             repository.save(mockRate)
 
-            //then
+            // then
             coVerify {
                 writeExchangeRatesDao.save(mockEntity)
             }
         }
-
     }
 
     "saveManyEntities" - {
         "entities are saved" {
-            //given
+            // given
             val repository = newRepository()
-            val mockEntities = listOf(
-                ExchangeRateEntity("","",0.0),
-                ExchangeRateEntity("","",0.0),
-                ExchangeRateEntity("","",0.0)
-            )
+            val mockEntities =
+                listOf(
+                    ExchangeRateEntity("", "", 0.0),
+                    ExchangeRateEntity("", "", 0.0),
+                    ExchangeRateEntity("", "", 0.0),
+                )
 
             coEvery { writeExchangeRatesDao.saveMany(mockEntities) } returns Unit
 
-            //when
+            // when
             repository.saveManyEntities(mockEntities)
 
-            //then
+            // then
             coVerify { writeExchangeRatesDao.saveMany(mockEntities) }
         }
-
     }
 
     "saveManyRates" - {
         "rates are mapped and saved" {
-            //given
+            // given
             val repository = newRepository()
-            val mockRates = listOf(
-                ExchangeRate("","",0.0, false),
-                ExchangeRate("","",0.0, false),
-                ExchangeRate("","",0.0, false)
-            )
-            val mockEntities = listOf(
-                ExchangeRateEntity("", "", 0.0, false),
-                ExchangeRateEntity("", "", 0.0, false),
-                ExchangeRateEntity("", "", 0.0, false)
-            )
+            val mockRates =
+                listOf(
+                    ExchangeRate("", "", 0.0, false),
+                    ExchangeRate("", "", 0.0, false),
+                    ExchangeRate("", "", 0.0, false),
+                )
+            val mockEntities =
+                listOf(
+                    ExchangeRateEntity("", "", 0.0, false),
+                    ExchangeRateEntity("", "", 0.0, false),
+                    ExchangeRateEntity("", "", 0.0, false),
+                )
 
             coEvery { writeExchangeRatesDao.saveMany(mockEntities) } returns Unit
 
-            //when
+            // when
             repository.saveManyRates(mockRates)
 
-            //then
+            // then
             verify {
                 with(mapper) { mockRates.map { it.toEntity() } }
             }
@@ -204,63 +205,64 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
 
     "deleteAll" - {
         "exchange rates are deleted" {
-            //given
+            // given
             val repository = newRepository()
 
             coEvery { writeExchangeRatesDao.deleteALl() } returns Unit
 
-            //when
+            // when
             repository.deleteAll()
 
-            //then
-            coVerify(exactly = 1){ writeExchangeRatesDao.deleteALl() }
+            // then
+            coVerify(exactly = 1) { writeExchangeRatesDao.deleteALl() }
         }
     }
 
     "findAll" - {
         "empty list" {
-            //given
+            // given
             val repository = newRepository()
-            val mockReturnValue = flow{ emit(emptyList<ExchangeRateEntity>()) }
+            val mockReturnValue = flow { emit(emptyList<ExchangeRateEntity>()) }
 
             every { exchangeRatesDao.findAll() } returns mockReturnValue
 
-            //when
+            // when
             val result = repository.findAll()
 
-            //then
-            result.collect{ value ->
+            // then
+            result.collect { value ->
                 value shouldBe emptyList()
             }
         }
 
         "list of exchange rates" {
-            //given
+            // given
             val repository = newRepository()
-            val mockReturnValue = flow{
-                emit(
-                    listOf<ExchangeRateEntity>(
-                    ExchangeRateEntity("", "", 0.0),
-                    ExchangeRateEntity("", "", 0.0),
-                    ExchangeRateEntity("", "", 0.0),
+            val mockReturnValue =
+                flow {
+                    emit(
+                        listOf<ExchangeRateEntity>(
+                            ExchangeRateEntity("", "", 0.0),
+                            ExchangeRateEntity("", "", 0.0),
+                            ExchangeRateEntity("", "", 0.0),
+                        ),
                     )
-                )
-            }
+                }
 
             every { exchangeRatesDao.findAll() } returns mockReturnValue
 
-            //when
+            // when
             val result = repository.findAll()
 
-            //then
-            result.collect{ value ->
-                value shouldBe listOf(
-                    ExchangeRate("","",0.0, false),
-                    ExchangeRate("", "", 0.0, false),
-                    ExchangeRate("","", 0.0,false)
-                )
+            // then
+            result.collect { value ->
+                value shouldBe
+                    listOf(
+                        ExchangeRate("", "", 0.0, false),
+                        ExchangeRate("", "", 0.0, false),
+                        ExchangeRate("", "", 0.0, false),
+                    )
             }
         }
     }
-
 })

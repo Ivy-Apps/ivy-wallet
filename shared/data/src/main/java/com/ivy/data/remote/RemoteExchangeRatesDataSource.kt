@@ -4,5 +4,5 @@ import arrow.core.Either
 import com.ivy.data.remote.responses.ExchangeRatesResponse
 
 interface RemoteExchangeRatesDataSource {
-    suspend fun fetchEurExchangeRates(url: String) : Either<String, ExchangeRatesResponse>
+    suspend fun fetchEurExchangeRates(url: String): Either<String, ExchangeRatesResponse>
 }
