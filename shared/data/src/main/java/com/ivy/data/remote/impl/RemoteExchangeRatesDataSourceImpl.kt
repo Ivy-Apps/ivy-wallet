@@ -8,15 +8,13 @@ import io.ktor.client.call.body
 import io.ktor.client.request.get
 import javax.inject.Inject
 
-class RemoteExchangeRatesDataSourceImpl
-    @Inject
-    constructor(
-        private val ktorClient: Lazy<HttpClient>,
-    ) : RemoteExchangeRatesDataSource {
-        override suspend fun fetchEurExchangeRates(url: String): Either<String, ExchangeRatesResponse> =
-            Either.catchOrThrow<Exception, ExchangeRatesResponse> {
-                ktorClient.value.get(url).body<ExchangeRatesResponse>()
-            }.mapLeft { e ->
-                e.message ?: "Error fetching exchange rates"
-            }
-    }
+class RemoteExchangeRatesDataSourceImpl @Inject constructor(
+    private val ktorClient: dagger.Lazy<HttpClient>,
+) : RemoteExchangeRatesDataSource {
+    override suspend fun fetchEurExchangeRates(url: String): Either<String, ExchangeRatesResponse> =
+        Either.catchOrThrow<Exception, ExchangeRatesResponse> {
+            ktorClient.get().get(url).body<ExchangeRatesResponse>()
+        }.mapLeft { e ->
+            e.message ?: "Error fetching exchange rates"
+        }
+}

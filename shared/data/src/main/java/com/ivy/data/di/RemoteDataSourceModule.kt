@@ -14,7 +14,7 @@ import javax.inject.Singleton
 object RemoteDataSourceModule {
     @Provides
     @Singleton
-    fun provideRemoteExchangeRatesDataSource(ktorClient: HttpClient): RemoteExchangeRatesDataSource {
-        return RemoteExchangeRatesDataSourceImpl(lazy { ktorClient })
+    fun provideRemoteExchangeRatesDataSource(ktorClient: dagger.Lazy<HttpClient>): RemoteExchangeRatesDataSource {
+        return RemoteExchangeRatesDataSourceImpl(ktorClient)
     }
 }
