@@ -7,6 +7,8 @@ import com.ivy.data.db.dao.read.ExchangeRatesDao
 import com.ivy.data.db.dao.write.WriteExchangeRatesDao
 import com.ivy.data.db.entity.ExchangeRateEntity
 import com.ivy.data.model.ExchangeRate
+import com.ivy.data.model.primitive.AssetCode
+import com.ivy.data.model.primitive.PositiveDouble
 import com.ivy.data.remote.RemoteExchangeRatesDataSource
 import com.ivy.data.remote.responses.ExchangeRatesResponse
 import com.ivy.data.repository.mapper.ExchangeRateMapper
@@ -84,7 +86,7 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
             val repository = newRepository()
 
             val mockEntity = ExchangeRateEntity("", "", 0.0)
-            val mockDomain = ExchangeRate("", "", 0.0, false)
+            val mockDomain = ExchangeRate(AssetCode(""), "", PositiveDouble(0.0), false)
 
             coEvery {
                 exchangeRatesDao.findByBaseCurrencyAndCurrency("", "")
@@ -134,7 +136,7 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
         "rate is mapped and saved" {
             // given
             val repository = newRepository()
-            val mockRate = ExchangeRate("", "", 0.0, false)
+            val mockRate = ExchangeRate(AssetCode(""), "", PositiveDouble(0.0), false)
             val mockEntity = ExchangeRateEntity("", "", 0.0)
 
             coEvery { writeExchangeRatesDao.save(mockEntity) } returns Unit
@@ -177,9 +179,9 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
             val repository = newRepository()
             val mockRates =
                 listOf(
-                    ExchangeRate("", "", 0.0, false),
-                    ExchangeRate("", "", 0.0, false),
-                    ExchangeRate("", "", 0.0, false),
+                    ExchangeRate(AssetCode(""), "", PositiveDouble(0.0), false),
+                    ExchangeRate(AssetCode(""), "", PositiveDouble(0.0), false),
+                    ExchangeRate(AssetCode(""), "", PositiveDouble(0.0), false),
                 )
             val mockEntities =
                 listOf(
@@ -258,9 +260,9 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
             result.collect { value ->
                 value shouldBe
                     listOf(
-                        ExchangeRate("", "", 0.0, false),
-                        ExchangeRate("", "", 0.0, false),
-                        ExchangeRate("", "", 0.0, false),
+                        ExchangeRate(AssetCode(""), "", PositiveDouble(0.0), false),
+                        ExchangeRate(AssetCode(""), "", PositiveDouble(0.0), false),
+                        ExchangeRate(AssetCode(""), "", PositiveDouble(0.0), false),
                     )
             }
         }

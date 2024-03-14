@@ -2,6 +2,8 @@ package com.ivy.data.repository.mapper
 
 import com.ivy.data.db.entity.ExchangeRateEntity
 import com.ivy.data.model.ExchangeRate
+import com.ivy.data.model.primitive.AssetCode
+import com.ivy.data.model.primitive.PositiveDouble
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 
@@ -12,9 +14,9 @@ class ExchangeRateMapperTest : FreeSpec({
         val mapper = ExchangeRateMapper()
         val exchangeRate =
             ExchangeRate(
-                baseCurrency = "USD",
+                baseCurrency = AssetCode("USD"),
                 currency = "AAVE",
-                rate = 0.000943049049897979,
+                rate = PositiveDouble(0.000943049049897979),
                 manualOverride = false,
             )
 
@@ -48,9 +50,9 @@ class ExchangeRateMapperTest : FreeSpec({
         // then
         result shouldBe
             ExchangeRate(
-                baseCurrency = "USD",
+                baseCurrency = AssetCode("USD"),
                 currency = "AAVE",
-                rate = 0.000943049049897979,
+                rate = PositiveDouble(0.000943049049897979),
                 manualOverride = false,
             )
     }
