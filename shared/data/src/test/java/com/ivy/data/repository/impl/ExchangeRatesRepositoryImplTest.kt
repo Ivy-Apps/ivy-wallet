@@ -85,18 +85,18 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
             // given
             val repository = newRepository()
 
-            val mockEntity = ExchangeRateEntity("", "", 0.0)
-            val mockDomain = ExchangeRate(AssetCode(""), "", PositiveDouble(0.0), false)
+            val mockEntity = ExchangeRateEntity("usd", "aed", 2.0)
+            val mockDomain = ExchangeRate(AssetCode("usd"), "aed", PositiveDouble(2.0), false)
 
             coEvery {
-                exchangeRatesDao.findByBaseCurrencyAndCurrency("", "")
+                exchangeRatesDao.findByBaseCurrencyAndCurrency("usd", "aed")
             } returns mockEntity
             every {
                 with(mapper) { mockEntity.toDomain() }
             } returns mockDomain
 
             // when
-            val result = repository.findByBaseCurrencyAndCurrency("", "")
+            val result = repository.findByBaseCurrencyAndCurrency("usd", "aed")
 
             // then
             result shouldBe mockDomain
@@ -107,11 +107,11 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
             val repository = newRepository()
 
             coEvery {
-                exchangeRatesDao.findByBaseCurrencyAndCurrency("", "")
+                exchangeRatesDao.findByBaseCurrencyAndCurrency("usd", "aed")
             } returns null
 
             // when
-            val result = repository.findByBaseCurrencyAndCurrency("", "")
+            val result = repository.findByBaseCurrencyAndCurrency("usd", "aed")
 
             // then
             result shouldBe null
@@ -122,7 +122,7 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
         "entity is saved" {
             // given
             val repository = newRepository()
-            val mockEntity = ExchangeRateEntity("", "", 0.0)
+            val mockEntity = ExchangeRateEntity("usd", "aed", 2.0)
 
             coEvery { writeExchangeRatesDao.save(mockEntity) } returns Unit
 
@@ -136,8 +136,8 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
         "rate is mapped and saved" {
             // given
             val repository = newRepository()
-            val mockRate = ExchangeRate(AssetCode(""), "", PositiveDouble(0.0), false)
-            val mockEntity = ExchangeRateEntity("", "", 0.0)
+            val mockRate = ExchangeRate(AssetCode("usd"), "aed", PositiveDouble(2.0), false)
+            val mockEntity = ExchangeRateEntity("usd", "aed", 2.0)
 
             coEvery { writeExchangeRatesDao.save(mockEntity) } returns Unit
             every { with(mapper) { mockRate.toEntity() } } returns mockEntity
@@ -158,9 +158,9 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
             val repository = newRepository()
             val mockEntities =
                 listOf(
-                    ExchangeRateEntity("", "", 0.0),
-                    ExchangeRateEntity("", "", 0.0),
-                    ExchangeRateEntity("", "", 0.0),
+                    ExchangeRateEntity("usd", "aed", 2.0),
+                    ExchangeRateEntity("usd", "aed", 2.0),
+                    ExchangeRateEntity("usd", "aed", 2.0),
                 )
 
             coEvery { writeExchangeRatesDao.saveMany(mockEntities) } returns Unit
@@ -179,15 +179,15 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
             val repository = newRepository()
             val mockRates =
                 listOf(
-                    ExchangeRate(AssetCode(""), "", PositiveDouble(0.0), false),
-                    ExchangeRate(AssetCode(""), "", PositiveDouble(0.0), false),
-                    ExchangeRate(AssetCode(""), "", PositiveDouble(0.0), false),
+                    ExchangeRate(AssetCode("usd"), "aed", PositiveDouble(2.0), false),
+                    ExchangeRate(AssetCode("usd"), "aed", PositiveDouble(2.0), false),
+                    ExchangeRate(AssetCode("usd"), "aed", PositiveDouble(2.0), false),
                 )
             val mockEntities =
                 listOf(
-                    ExchangeRateEntity("", "", 0.0, false),
-                    ExchangeRateEntity("", "", 0.0, false),
-                    ExchangeRateEntity("", "", 0.0, false),
+                    ExchangeRateEntity("usd", "aed", 2.0, false),
+                    ExchangeRateEntity("usd", "aed", 2.0, false),
+                    ExchangeRateEntity("usd", "aed", 2.0, false),
                 )
 
             coEvery { writeExchangeRatesDao.saveMany(mockEntities) } returns Unit
@@ -244,9 +244,9 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
                 flow {
                     emit(
                         listOf<ExchangeRateEntity>(
-                            ExchangeRateEntity("", "", 0.0),
-                            ExchangeRateEntity("", "", 0.0),
-                            ExchangeRateEntity("", "", 0.0),
+                            ExchangeRateEntity("usd", "aed", 2.0),
+                            ExchangeRateEntity("usd", "aed", 2.0),
+                            ExchangeRateEntity("usd", "aed", 2.0),
                         ),
                     )
                 }
@@ -260,9 +260,9 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
             result.collect { value ->
                 value shouldBe
                     listOf(
-                        ExchangeRate(AssetCode(""), "", PositiveDouble(0.0), false),
-                        ExchangeRate(AssetCode(""), "", PositiveDouble(0.0), false),
-                        ExchangeRate(AssetCode(""), "", PositiveDouble(0.0), false),
+                        ExchangeRate(AssetCode("usd"), "aed", PositiveDouble(2.0), false),
+                        ExchangeRate(AssetCode("usd"), "aed", PositiveDouble(2.0), false),
+                        ExchangeRate(AssetCode("usd"), "aed", PositiveDouble(2.0), false),
                     )
             }
         }
