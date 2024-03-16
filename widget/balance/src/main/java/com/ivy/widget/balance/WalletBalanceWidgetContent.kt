@@ -123,7 +123,6 @@ private fun trimBalanceZeros(balance: String): String {
     return balanceDouble.toString()
 }
 
-
 @Composable
 fun IncomeExpenseSection(
     income: String,
