@@ -92,6 +92,7 @@ fun BalanceSection(
     balance: String,
     currency: String
 ) {
+    val trimmedBalance = trimBalanceZeros(balance) // Trim unnecessary zeros
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = GlanceModifier.padding(start = 14.dp, top = 14.dp),
@@ -105,7 +106,7 @@ fun BalanceSection(
         )
         Spacer(GlanceModifier.width(10.dp))
         Text(
-            text = balance,
+            text = trimmedBalance,
             style = TextStyle(
                 fontSize = 34.sp,
                 fontWeight = FontWeight.Bold,
@@ -114,6 +115,14 @@ fun BalanceSection(
         )
     }
 }
+
+// Utility function to trim unnecessary zeros after the decimal point
+private fun trimBalanceZeros(balance: String): String {
+    // Convert balance to double to handle cases like "1000.00" to "1000" correctly
+    val balanceDouble = balance.toDoubleOrNull() ?: return balance
+    return balanceDouble.toString()
+}
+
 
 @Composable
 fun IncomeExpenseSection(
