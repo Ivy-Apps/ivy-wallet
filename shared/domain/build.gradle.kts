@@ -15,9 +15,7 @@ dependencies {
     implementation(libs.datastore)
     implementation(libs.bundles.ktor)
 
-    val mockkVersion = "1.13.10"
     androidTestImplementation(libs.bundles.integration.testing)
     androidTestImplementation(projects.shared.testing)
-    androidTestImplementation("io.mockk:mockk-android:$mockkVersion")
-    androidTestImplementation("io.mockk:mockk-agent:$mockkVersion")
+    androidTestImplementation(libs.mockk.android)
 }
