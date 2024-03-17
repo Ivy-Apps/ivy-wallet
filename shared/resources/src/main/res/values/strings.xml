@@ -170,7 +170,7 @@
     <string name="sync_data_ivy_cloud">SYNC YOUR DATA ON THE IVY CLOUD</string>
     <string name="data_integrity_protection_warning">Data integrity and protection aren\'t guaranteed!</string>
     <string name="or_enter_with_offline_account">OR ENTER WITH OFFLINE ACCOUNT</string>
-    <string name="offline_warning">Your data will be saved locally only and won't be synced with the cloud. Uninstalling the app or changing your device could result in data loss. You can enable sync later if needed.</string>
+    <string name="offline_warning">Your data will be saved locally only and won\'t be synced with the cloud. Uninstalling the app or changing your device could result in data loss. You can enable sync later if needed.</string>
     <string name="terms_conditions"><![CDATA[Terms & Conditions]]></string>
     <string name="by_signing_in">By signing in, you accept our %1$s and %2$s.</string>
     <string name="import_csv_file">Import CSV file</string>
