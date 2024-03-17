@@ -15,7 +15,7 @@ class ExchangeRateMapperTest : FreeSpec({
         val exchangeRate =
             ExchangeRate(
                 baseCurrency = AssetCode("USD"),
-                currency = "AAVE",
+                currency = AssetCode("AAVE"),
                 rate = PositiveDouble(0.000943049049897979),
                 manualOverride = false,
             )
@@ -51,7 +51,7 @@ class ExchangeRateMapperTest : FreeSpec({
         result shouldBe
             ExchangeRate(
                 baseCurrency = AssetCode("USD"),
-                currency = "AAVE",
+                currency = AssetCode("AAVE"),
                 rate = PositiveDouble(0.000943049049897979),
                 manualOverride = false,
             )

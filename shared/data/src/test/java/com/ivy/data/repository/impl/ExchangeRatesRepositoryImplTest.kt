@@ -86,7 +86,7 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
             val repository = newRepository()
 
             val mockEntity = ExchangeRateEntity("usd", "aed", 2.0)
-            val mockDomain = ExchangeRate(AssetCode("usd"), "aed", PositiveDouble(2.0), false)
+            val mockDomain = ExchangeRate(AssetCode("usd"), AssetCode("aed"), PositiveDouble(2.0), false)
 
             coEvery {
                 exchangeRatesDao.findByBaseCurrencyAndCurrency("usd", "aed")
@@ -136,7 +136,7 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
         "rate is mapped and saved" {
             // given
             val repository = newRepository()
-            val mockRate = ExchangeRate(AssetCode("usd"), "aed", PositiveDouble(2.0), false)
+            val mockRate = ExchangeRate(AssetCode("usd"), AssetCode("aed"), PositiveDouble(2.0), false)
             val mockEntity = ExchangeRateEntity("usd", "aed", 2.0)
 
             coEvery { writeExchangeRatesDao.save(mockEntity) } returns Unit
@@ -179,9 +179,9 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
             val repository = newRepository()
             val mockRates =
                 listOf(
-                    ExchangeRate(AssetCode("usd"), "aed", PositiveDouble(2.0), false),
-                    ExchangeRate(AssetCode("usd"), "aed", PositiveDouble(2.0), false),
-                    ExchangeRate(AssetCode("usd"), "aed", PositiveDouble(2.0), false),
+                    ExchangeRate(AssetCode("usd"), AssetCode("aed"), PositiveDouble(2.0), false),
+                    ExchangeRate(AssetCode("usd"), AssetCode("aed"), PositiveDouble(2.0), false),
+                    ExchangeRate(AssetCode("usd"), AssetCode("aed"), PositiveDouble(2.0), false),
                 )
             val mockEntities =
                 listOf(
@@ -260,9 +260,9 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
             result.collect { value ->
                 value shouldBe
                     listOf(
-                        ExchangeRate(AssetCode("usd"), "aed", PositiveDouble(2.0), false),
-                        ExchangeRate(AssetCode("usd"), "aed", PositiveDouble(2.0), false),
-                        ExchangeRate(AssetCode("usd"), "aed", PositiveDouble(2.0), false),
+                        ExchangeRate(AssetCode("usd"), AssetCode("aed"), PositiveDouble(2.0), false),
+                        ExchangeRate(AssetCode("usd"), AssetCode("aed"), PositiveDouble(2.0), false),
+                        ExchangeRate(AssetCode("usd"), AssetCode("aed"), PositiveDouble(2.0), false),
                     )
             }
         }

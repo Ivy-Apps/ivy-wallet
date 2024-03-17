@@ -5,7 +5,7 @@ import com.ivy.data.model.primitive.PositiveDouble
 
 data class ExchangeRate(
     val baseCurrency: AssetCode,
-    val currency: String,
+    val currency: AssetCode,
     val rate: PositiveDouble,
     val manualOverride: Boolean,
 )

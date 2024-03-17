@@ -10,7 +10,7 @@ class ExchangeRateMapper @Inject constructor() {
     fun ExchangeRateEntity.toDomain(): ExchangeRate {
         return ExchangeRate(
             baseCurrency = AssetCode(baseCurrency),
-            currency = currency,
+            currency = AssetCode(currency),
             rate = PositiveDouble(rate),
             manualOverride = manualOverride,
             )
@@ -19,7 +19,7 @@ class ExchangeRateMapper @Inject constructor() {
     fun ExchangeRate.toEntity(): ExchangeRateEntity {
         return ExchangeRateEntity(
             baseCurrency = baseCurrency.code,
-            currency = currency,
+            currency = currency.code,
             rate = rate.value,
             manualOverride = manualOverride,
             )
