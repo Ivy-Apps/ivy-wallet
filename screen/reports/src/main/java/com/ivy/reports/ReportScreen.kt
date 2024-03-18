@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,6 +29,7 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
+import com.ivy.common.ui.rememberScrollPositionListState
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
@@ -98,6 +100,11 @@ private fun BoxWithConstraintsScope.UI(
         with(transactionMapper) { state.transactions.map { it.toEntity().toDomain() } }
     val nav = navigation()
     val context = LocalContext.current
+    var listState = rememberLazyListState()
+
+    if (state.transactions.isNotEmpty() || state.history.isNotEmpty() || state.upcomingTransactions.isNotEmpty() || state.overdueTransactions.isNotEmpty()) {
+        listState = rememberScrollPositionListState(key = "reports")
+    }
 
     if (state.loading) {
         Box(
@@ -123,7 +130,8 @@ private fun BoxWithConstraintsScope.UI(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .systemBarsPadding()
+            .systemBarsPadding(),
+        state = listState
     ) {
         stickyHeader {
             Toolbar(
