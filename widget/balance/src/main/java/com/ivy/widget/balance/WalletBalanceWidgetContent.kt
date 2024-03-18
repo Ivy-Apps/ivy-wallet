@@ -105,7 +105,7 @@ fun BalanceSection(
         )
         Spacer(GlanceModifier.width(10.dp))
         Text(
-            text = currency,
+            text = balance,
             style = TextStyle(
                 fontSize = 34.sp,
                 fontWeight = FontWeight.Bold,
