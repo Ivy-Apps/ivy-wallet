@@ -16,6 +16,7 @@ import com.ivy.data.repository.impl.ExchangeRatesRepositoryImpl
 import com.ivy.data.repository.mapper.ExchangeRateMapper
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.runBlocking
@@ -30,7 +31,13 @@ class SyncExchangeRatesUseCaseTest {
     private lateinit var repository: ExchangeRatesRepository
     private lateinit var db: IvyRoomDatabase
 
-    private val dataSource = mockk<RemoteExchangeRatesDataSource>()
+    private val dataSource = mockk<RemoteExchangeRatesDataSource>{
+        every { urls } returns listOf(
+            "www.exampleurl.com",
+            "www.exampleurl2.com",
+            "www.exampleurl3.com"
+        )
+    }
     private val mockSuccessfulNetworkResponse =
         ExchangeRatesResponse(
             date = "3/3/2024",
@@ -309,16 +316,13 @@ class SyncExchangeRatesUseCaseTest {
     private suspend fun mockSuccessfulNetworkResponses() {
         val mockNetworkResponse = mockSuccessfulNetworkResponse.right()
 
-        repository.urls.forEach { url ->
-            coEvery { dataSource.fetchEurExchangeRates(url) } returns mockNetworkResponse
-        }
+        coEvery { dataSource.fetchEurExchangeRates(any()) } returns mockNetworkResponse
     }
 
     private suspend fun mockUnSuccessfulNetworkResponses() {
         val mockNetworkResponse = "Network Failure".left()
 
-        repository.urls.forEach { url ->
-            coEvery { dataSource.fetchEurExchangeRates(url) } returns mockNetworkResponse
-        }
+        coEvery { dataSource.fetchEurExchangeRates(any()) } returns mockNetworkResponse
+
     }
 }
