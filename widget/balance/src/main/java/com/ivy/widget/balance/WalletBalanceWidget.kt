@@ -31,7 +31,14 @@ import javax.inject.Inject
 class WalletBalanceWidget(
     private val getAppStarter: () -> AppStarter,
 ) : GlanceAppWidget() {
-
+    private fun remember(balance: String): String {
+        val balanceDouble = balance.toDouble()
+        return if (Math.abs(balanceDouble) < 1000) {
+            DecimalFormat("###,###.##").format(balanceDouble)
+        } else {
+            com.ivy.legacy.utils.shortenAmount(balanceDouble)
+        }
+    }
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {
             val prefs = currentState<Preferences>()
@@ -43,7 +50,7 @@ class WalletBalanceWidget(
 
             WalletBalanceWidgetContent(
                 appLocked = appLocked,
-                balance = balance,
+                balance = remember(balance),
                 currency = currency,
                 income = income,
                 expense = expense,
