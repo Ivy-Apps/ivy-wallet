@@ -6,8 +6,6 @@ import com.ivy.data.remote.responses.ExchangeRatesResponse
 import kotlinx.coroutines.flow.Flow
 
 interface ExchangeRatesRepository {
-    val urls: List<String>
-
     suspend fun fetchExchangeRates(): ExchangeRatesResponse?
 
     suspend fun save(value: ExchangeRateEntity)

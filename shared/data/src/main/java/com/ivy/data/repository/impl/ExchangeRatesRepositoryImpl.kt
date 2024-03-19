@@ -21,19 +21,11 @@ class ExchangeRatesRepositoryImpl @Inject constructor(
     private val remoteExchangeRatesDataSource: RemoteExchangeRatesDataSource,
     private val dispatchersProvider: DispatchersProvider,
 ) : ExchangeRatesRepository {
-    override val urls =
-        listOf(
-            "https://currency-api.pages.dev/v1/currencies/eur.json",
-            "https://currency-api.pages.dev/v1/currencies/eur.min.json",
-            "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.min.json",
-            "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.json",
-        )
-
     override suspend fun fetchExchangeRates(): ExchangeRatesResponse? {
         var result: ExchangeRatesResponse? = null
 
         withContext(dispatchersProvider.io) {
-            urls.forEach { url ->
+            remoteExchangeRatesDataSource.urls.forEach { url ->
                 result = remoteExchangeRatesDataSource.fetchEurExchangeRates(url).getOrNull()
                 if (result != null) return@withContext
             }

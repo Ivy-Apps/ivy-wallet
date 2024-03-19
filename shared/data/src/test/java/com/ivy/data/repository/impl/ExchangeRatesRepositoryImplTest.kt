@@ -25,7 +25,13 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
     val mapper = mockk<ExchangeRateMapper>()
     val exchangeRatesDao = mockk<ExchangeRatesDao>()
     val writeExchangeRatesDao = mockk<WriteExchangeRatesDao>()
-    val remoteExchangeRatesDataSource = mockk<RemoteExchangeRatesDataSource>()
+    val remoteExchangeRatesDataSource = mockk<RemoteExchangeRatesDataSource>{
+        every { urls } returns listOf(
+            "www.exampleurl.com",
+            "www.exampleurl2.com",
+            "www.exampleurl3.com"
+        )
+    }
 
     fun newRepository() =
         ExchangeRatesRepositoryImpl(
@@ -40,18 +46,15 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
         "successful network responses" {
             // given
             val repository = newRepository()
-            val urls = repository.urls
             val mockResponse =
                 ExchangeRatesResponse(
                     date = "",
                     rates = emptyMap(),
                 )
 
-            urls.forEach { url ->
-                coEvery {
-                    remoteExchangeRatesDataSource.fetchEurExchangeRates(url)
-                } returns mockResponse.right()
-            }
+            coEvery {
+                remoteExchangeRatesDataSource.fetchEurExchangeRates(any())
+            } returns mockResponse.right()
 
             // when
             val result = repository.fetchExchangeRates()
@@ -63,14 +66,11 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
         "unsuccessful network responses" {
             // given
             val repository = newRepository()
-            val urls = repository.urls
             val mockResponse = "Network Error"
 
-            urls.forEach { url ->
-                coEvery {
-                    remoteExchangeRatesDataSource.fetchEurExchangeRates(url)
-                } returns mockResponse.left()
-            }
+            coEvery {
+                remoteExchangeRatesDataSource.fetchEurExchangeRates(any())
+            } returns mockResponse.left()
 
             // when
             val result = repository.fetchExchangeRates()
