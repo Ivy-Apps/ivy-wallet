@@ -102,7 +102,7 @@ private fun BoxWithConstraintsScope.UI(
     val context = LocalContext.current
     var listState = rememberLazyListState()
 
-    if (state.transactions.isNotEmpty() || state.history.isNotEmpty() || state.upcomingTransactions.isNotEmpty() || state.overdueTransactions.isNotEmpty()) {
+    if (state.transactions.isNotEmpty()) {
         listState = rememberScrollPositionListState(key = "reports")
     }
 

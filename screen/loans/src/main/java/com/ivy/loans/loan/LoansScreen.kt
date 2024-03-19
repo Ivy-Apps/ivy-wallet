@@ -82,7 +82,7 @@ private fun BoxWithConstraintsScope.UI(
     val nav = navigation()
     var scrollState = rememberScrollState()
 
-    if (state.loans.isNotEmpty()){
+    if (state.loans.isNotEmpty()) {
         scrollState = ivyWalletCtx().loansScrollState
     }
 
