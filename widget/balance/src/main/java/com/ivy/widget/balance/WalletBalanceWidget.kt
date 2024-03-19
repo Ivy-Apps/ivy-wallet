@@ -2,6 +2,7 @@ package com.ivy.widget.balance
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
+import android.icu.text.DecimalFormat
 import androidx.annotation.Keep
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
