@@ -29,12 +29,14 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+const val THOUSAND = 1000
+
 class WalletBalanceWidget(
     private val getAppStarter: () -> AppStarter,
 ) : GlanceAppWidget() {
     private fun remember(balance: String): String {
         val balanceDouble = balance.toDouble()
-        return if (Math.abs(balanceDouble) < 1000) {
+        return if (Math.abs(balanceDouble) < THOUSAND) {
             DecimalFormat("###,###.##").format(balanceDouble)
         } else {
             com.ivy.legacy.utils.shortenAmount(balanceDouble)
