@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -100,11 +99,8 @@ private fun BoxWithConstraintsScope.UI(
         with(transactionMapper) { state.transactions.map { it.toEntity().toDomain() } }
     val nav = navigation()
     val context = LocalContext.current
-    var listState = rememberLazyListState()
 
-    if (state.transactions.isNotEmpty()) {
-        listState = rememberScrollPositionListState(key = "reports")
-    }
+    val listState = rememberScrollPositionListState(key = "reports")
 
     if (state.loading) {
         Box(

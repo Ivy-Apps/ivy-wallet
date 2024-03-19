@@ -80,11 +80,7 @@ private fun BoxWithConstraintsScope.UI(
     onEventHandler: (LoanScreenEvent) -> Unit = {},
 ) {
     val nav = navigation()
-    var scrollState = rememberScrollState()
-
-    if (state.loans.isNotEmpty()) {
-        scrollState = ivyWalletCtx().loansScrollState
-    }
+    val scrollState = if (state.loans.isNotEmpty()) ivyWalletCtx().loansScrollState else rememberScrollState()
 
     Column(
         modifier = Modifier

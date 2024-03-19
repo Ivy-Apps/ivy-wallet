@@ -21,7 +21,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.ivy.common.ui.rememberScrollPositionListState
 import com.ivy.data.model.Category
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -56,11 +55,6 @@ fun PlannedPaymentsLazyColumn(
     listState: LazyListState = rememberLazyListState()
 ) {
     val nav = navigation()
-    var listState = rememberLazyListState()
-
-    if (oneTime.isNotEmpty() || recurring.isNotEmpty()) {
-        listState = rememberScrollPositionListState(key = "plannedPayments")
-    }
 
     LazyColumn(
         modifier = Modifier
