@@ -25,7 +25,7 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
     val mapper = mockk<ExchangeRateMapper>()
     val exchangeRatesDao = mockk<ExchangeRatesDao>()
     val writeExchangeRatesDao = mockk<WriteExchangeRatesDao>()
-    val remoteExchangeRatesDataSource = mockk<RemoteExchangeRatesDataSource>{
+    val remoteExchangeRatesDataSource = mockk<RemoteExchangeRatesDataSource> {
         every { urls } returns listOf(
             "www.exampleurl.com",
             "www.exampleurl2.com",

@@ -31,7 +31,7 @@ class SyncExchangeRatesUseCaseTest {
     private lateinit var repository: ExchangeRatesRepository
     private lateinit var db: IvyRoomDatabase
 
-    private val dataSource = mockk<RemoteExchangeRatesDataSource>{
+    private val dataSource = mockk<RemoteExchangeRatesDataSource> {
         every { urls } returns listOf(
             "www.exampleurl.com",
             "www.exampleurl2.com",
@@ -323,6 +323,5 @@ class SyncExchangeRatesUseCaseTest {
         val mockNetworkResponse = "Network Failure".left()
 
         coEvery { dataSource.fetchEurExchangeRates(any()) } returns mockNetworkResponse
-
     }
 }

@@ -11,6 +11,7 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 abstract class RemoteDataSourceModule {
     @Binds
-    abstract fun bindExchangeRatesDataSource(datasource: RemoteExchangeRatesDataSourceImpl): RemoteExchangeRatesDataSource
-
+    abstract fun bindExchangeRatesDataSource(
+        datasource: RemoteExchangeRatesDataSourceImpl
+    ): RemoteExchangeRatesDataSource
 }
