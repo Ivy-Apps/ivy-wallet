@@ -28,6 +28,7 @@ import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.ivy.resources.R
+import java.text.DecimalFormat
 
 @Composable
 fun WalletBalanceWidgetContent(
@@ -92,6 +93,7 @@ fun BalanceSection(
     balance: String,
     currency: String
 ) {
+    val formattedBalance = DecimalFormat("###,###.##").format(balance.toDouble())
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = GlanceModifier.padding(start = 14.dp, top = 14.dp),
@@ -105,7 +107,7 @@ fun BalanceSection(
         )
         Spacer(GlanceModifier.width(10.dp))
         Text(
-            text = balance,
+            text = formattedBalance,
             style = TextStyle(
                 fontSize = 34.sp,
                 fontWeight = FontWeight.Bold,

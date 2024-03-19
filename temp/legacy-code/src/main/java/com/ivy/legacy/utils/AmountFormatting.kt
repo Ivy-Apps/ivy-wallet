@@ -105,22 +105,7 @@ fun shortenAmount(amount: Double): String {
             formatShortenedNumber(amount / THOUSAND, "k")
         }
 
-        else -> {
-            val formattedAmount = amount.format(2) // Format with 2 decimal places
-            if (formattedAmount.contains(".")) {
-                // Check if the amount contains decimals
-                val decimalPart = formattedAmount.substringAfter(".")
-                val integerPart = formattedAmount.substringBefore(".")
-                if (decimalPart.toInt() == 0) {
-                    // If the decimal part is zero, remove it
-                    integerPart
-                } else {
-                    formattedAmount
-                }
-            } else {
-                formattedAmount
-            }
-        }
+        else -> amount.toString()
     }
 }
 
