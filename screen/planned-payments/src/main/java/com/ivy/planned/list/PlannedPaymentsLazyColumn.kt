@@ -60,7 +60,8 @@ fun PlannedPaymentsLazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .statusBarsPadding()
-            .navigationBarsPadding()
+            .navigationBarsPadding(),
+        state = listState
     ) {
         item {
             Header()
