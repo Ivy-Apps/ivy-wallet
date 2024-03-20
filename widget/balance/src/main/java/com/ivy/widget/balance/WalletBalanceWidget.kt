@@ -38,7 +38,7 @@ class WalletBalanceWidget(
     private val getAppStarter: () -> AppStarter,
 ) : GlanceAppWidget() {
     @Composable
-    fun trimzero(balance: String): String {
+    fun formatBalance(balance: String): String {
         val formattedBalance = remember(balance) {
             val balanceDouble = balance.toDouble()
             if (Math.abs(balanceDouble) < THOUSAND) {
@@ -60,7 +60,7 @@ class WalletBalanceWidget(
 
             WalletBalanceWidgetContent(
                 appLocked = appLocked,
-                balance = trimzero(balance),
+                balance = formatBalance(balance),
                 currency = currency,
                 income = income,
                 expense = expense,
