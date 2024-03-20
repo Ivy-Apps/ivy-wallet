@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -39,6 +38,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.datamodel.Loan
 import com.ivy.legacy.humanReadableType
+import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.utils.getDefaultFIATCurrency
 import com.ivy.loans.loan.data.DisplayLoan
 import com.ivy.navigation.LoanDetailsScreen
@@ -79,12 +79,12 @@ private fun BoxWithConstraintsScope.UI(
     onEventHandler: (LoanScreenEvent) -> Unit = {},
 ) {
     val nav = navigation()
-
+    val scrollState = ivyWalletCtx().loansScrollState
     Column(
         modifier = Modifier
             .fillMaxSize()
             .systemBarsPadding()
-            .verticalScroll(rememberScrollState()),
+            .verticalScroll(scrollState),
     ) {
         Spacer(Modifier.height(32.dp))
 

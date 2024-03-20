@@ -30,7 +30,9 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Build Ivy Wallet's code
-        run: ./gradlew :shared:data:assembleDebug :shared:data:assembleAndroidTest
+        run: |
+          ./gradlew :shared:data:assembleDebug :shared:data:assembleAndroidTest
+          ./gradlew :shared:domain:assembleDebug :shared:domain:assembleAndroidTest
 
       - name: Enable KVM (emulator optimization)
         run: |
@@ -42,4 +44,6 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          script: ./gradlew :shared:data:connectedDebugAndroidTest
+          script: |
+            ./gradlew :shared:data:connectedDebugAndroidTest
+            ./gradlew :shared:domain:connectedDebugAndroidTest

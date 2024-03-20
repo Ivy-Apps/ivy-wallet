@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.common.ui.rememberScrollPositionListState
 import com.ivy.base.model.TransactionType
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
@@ -83,7 +84,8 @@ private fun BoxWithConstraintsScope.UI(
         },
         setRecurringExpanded = {
             onEvent(PlannedPaymentsScreenEvent.OnRecurringPaymentsExpanded(it))
-        }
+        },
+        listState = rememberScrollPositionListState(key = "plannedPayments")
     )
 
     val nav = navigation()

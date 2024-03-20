@@ -28,6 +28,7 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
+import com.ivy.common.ui.rememberScrollPositionListState
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
@@ -99,6 +100,8 @@ private fun BoxWithConstraintsScope.UI(
     val nav = navigation()
     val context = LocalContext.current
 
+    val listState = rememberScrollPositionListState(key = "reports")
+
     if (state.loading) {
         Box(
             modifier = Modifier
@@ -123,7 +126,8 @@ private fun BoxWithConstraintsScope.UI(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .systemBarsPadding()
+            .systemBarsPadding(),
+        state = listState
     ) {
         stickyHeader {
             Toolbar(

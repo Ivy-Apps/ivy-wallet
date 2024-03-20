@@ -3,14 +3,14 @@ package com.ivy.main
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.base.legacy.SharedPrefs
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.domain.event.AccountUpdatedEvent
 import com.ivy.domain.event.EventBus
+import com.ivy.domain.usecase.SyncExchangeRatesUseCase
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.IvyWalletCtx
-import com.ivy.base.legacy.SharedPrefs
 import com.ivy.legacy.data.model.MainTab
-import com.ivy.legacy.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.asLiveData
 import com.ivy.legacy.utils.ioThread
@@ -26,7 +26,7 @@ class MainViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
     private val ivyContext: IvyWalletCtx,
     private val nav: Navigation,
-    private val syncExchangeRatesAct: SyncExchangeRatesAct,
+    private val syncExchangeRatesUseCase: SyncExchangeRatesUseCase,
     private val accountCreator: AccountCreator,
     private val sharedPrefs: SharedPrefs,
     private val eventBus: EventBus,
@@ -57,9 +57,7 @@ class MainViewModel @Inject constructor(
 
             ioThread {
                 // Sync exchange rates
-                syncExchangeRatesAct(
-                    SyncExchangeRatesAct.Input(baseCurrency = baseCurrency)
-                )
+                syncExchangeRatesUseCase.sync(baseCurrency)
             }
 
             TestIdlingResource.decrement()
