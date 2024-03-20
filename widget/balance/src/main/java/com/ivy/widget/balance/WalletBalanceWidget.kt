@@ -4,6 +4,8 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.icu.text.DecimalFormat
 import androidx.annotation.Keep
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -19,6 +21,7 @@ import com.ivy.base.model.TransactionType
 import com.ivy.domain.AppStarter
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.legacy.data.model.toCloseTimeRange
+import com.ivy.legacy.utils.shortenAmount
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.settings.SettingsAct
 import com.ivy.wallet.domain.action.wallet.CalcIncomeExpenseAct
@@ -34,13 +37,17 @@ const val THOUSAND = 1000
 class WalletBalanceWidget(
     private val getAppStarter: () -> AppStarter,
 ) : GlanceAppWidget() {
-    private fun remember(balance: String): String {
-        val balanceDouble = balance.toDouble()
-        return if (Math.abs(balanceDouble) < THOUSAND) {
-            DecimalFormat("###,###.##").format(balanceDouble)
-        } else {
-            com.ivy.legacy.utils.shortenAmount(balanceDouble)
+    @Composable
+    fun trimzero(balance: String): String {
+        val formattedBalance = remember(balance) {
+            val balanceDouble = balance.toDouble()
+            if (Math.abs(balanceDouble) < THOUSAND) {
+                DecimalFormat("###,###.##").format(balanceDouble)
+            } else {
+                shortenAmount(balanceDouble)
+            }
         }
+        return formattedBalance
     }
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {
@@ -53,7 +60,7 @@ class WalletBalanceWidget(
 
             WalletBalanceWidgetContent(
                 appLocked = appLocked,
-                balance = remember(balance),
+                balance = trimzero(balance),
                 currency = currency,
                 income = income,
                 expense = expense,
