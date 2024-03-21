@@ -12,7 +12,9 @@ import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.repository.mapper.CategoryMapper
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class CategoryRepositoryImpl @Inject constructor(
     private val mapper: CategoryMapper,
     private val writeCategoryDao: WriteCategoryDao,
