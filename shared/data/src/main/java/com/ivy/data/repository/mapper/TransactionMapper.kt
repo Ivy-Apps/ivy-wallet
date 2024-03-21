@@ -95,7 +95,8 @@ class TransactionMapper @Inject constructor() {
                 val toAccount = toAccountId?.let(::AccountId)
                     ?: raise("No destination account id associated with this transaction '${this@toDomain}'")
 
-                if (AccountId(accountId) == toAccount) {
+                if (AccountId(accountId) == toAccount
+                ) {
                     raise("Source account id and destination account id are same with this transaction '${this@toDomain}'")
                 }
 
