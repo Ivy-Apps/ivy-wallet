@@ -97,7 +97,9 @@ class TransactionMapper @Inject constructor() {
 
                 if (AccountId(accountId) == toAccount
                 ) {
-                    raise("Source account id and destination account id are same with this transaction '${this@toDomain}'")
+                    raise(
+                        "Source account id and destination account id are same with this transaction '${this@toDomain}'"
+                    )
                 }
 
                 Transfer(
