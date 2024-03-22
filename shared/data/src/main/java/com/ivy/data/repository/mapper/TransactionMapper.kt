@@ -50,8 +50,8 @@ class TransactionMapper @Inject constructor() {
             TransactionType.INCOME -> {
                 Income(
                     id = TransactionId(id),
-                    title = title?.let { NotBlankTrimmedString.from(it).bind() },
-                    description = description?.let { NotBlankTrimmedString.from(it).bind() },
+                    title = title?.let { NotBlankTrimmedString.from(it).getOrNull() },
+                    description = description?.let { NotBlankTrimmedString.from(it).getOrNull() },
                     category = categoryId?.let { CategoryId(it) },
                     time = time,
                     settled = settled,
@@ -67,8 +67,8 @@ class TransactionMapper @Inject constructor() {
             TransactionType.EXPENSE -> {
                 Expense(
                     id = TransactionId(id),
-                    title = title?.let { NotBlankTrimmedString.from(it).bind() },
-                    description = description?.let { NotBlankTrimmedString.from(it).bind() },
+                    title = title?.let { NotBlankTrimmedString.from(it).getOrNull() },
+                    description = description?.let { NotBlankTrimmedString.from(it).getOrNull() },
                     category = categoryId?.let { CategoryId(it) },
                     time = time,
                     settled = settled,
@@ -104,8 +104,8 @@ class TransactionMapper @Inject constructor() {
 
                 Transfer(
                     id = TransactionId(id),
-                    title = title?.let { NotBlankTrimmedString.from(it).bind() },
-                    description = description?.let { NotBlankTrimmedString.from(it).bind() },
+                    title = title?.let { NotBlankTrimmedString.from(it).getOrNull() },
+                    description = description?.let { NotBlankTrimmedString.from(it).getOrNull() },
                     category = categoryId?.let { CategoryId(it) },
                     time = time,
                     settled = settled,
