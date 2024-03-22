@@ -734,6 +734,10 @@ class EditTransactionViewModel @Inject constructor(
     // Comment for push
     @Suppress("ReturnCount")
     private fun validTransaction(): Boolean {
+        if (hasChosenSameSourceAndDestinationAccountToTransfer()) {
+            toaster.show(com.ivy.resources.R.string.msg_source_account_destination_account_same_for_transfer)
+            return false
+        }
         if (hasNotChosenAccountToTransfer()) {
             toaster.show(com.ivy.resources.R.string.msg_select_account_to_transfer)
             return false
@@ -748,6 +752,10 @@ class EditTransactionViewModel @Inject constructor(
 
     private fun hasNotChosenAccountToTransfer(): Boolean {
         return transactionType.value == TransactionType.TRANSFER && toAccount.value == null
+    }
+
+    private fun hasChosenSameSourceAndDestinationAccountToTransfer(): Boolean {
+        return transactionType.value == TransactionType.TRANSFER && toAccount.value == account.value
     }
 
     private fun reset() {
