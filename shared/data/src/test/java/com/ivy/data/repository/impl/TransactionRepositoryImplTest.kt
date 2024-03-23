@@ -120,9 +120,9 @@ class TransactionRepositoryImplTest : FreeSpec({
             val invalidIncome = TransactionEntity(
                 accountId = accountId,
                 type = TransactionType.INCOME,
-                amount = 100.0,
+                amount = 0.0,
                 toAccountId = null,
-                title = " ",
+                title = " ", /* Not invalid */
                 toAmount = 100.0,
                 description = "Desc",
                 dateTime = transactionDateTime,
@@ -142,9 +142,9 @@ class TransactionRepositoryImplTest : FreeSpec({
             val invalidExpense = TransactionEntity(
                 accountId = accountId,
                 type = TransactionType.EXPENSE,
-                amount = 100.0,
+                amount = 0.0,
                 toAccountId = null,
-                title = " ",
+                title = " ", /* Not invalid */
                 toAmount = 100.0,
                 description = "Desc",
                 dateTime = transactionDateTime,
@@ -164,9 +164,9 @@ class TransactionRepositoryImplTest : FreeSpec({
             val invalidTransfer = TransactionEntity(
                 accountId = accountId,
                 type = TransactionType.TRANSFER,
-                amount = 100.0,
+                amount = 0.0,
                 toAccountId = toAccountId,
-                title = " ",
+                title = " ", /* Not Invalid */
                 toAmount = 100.0,
                 description = "Desc",
                 dateTime = transactionDateTime,
@@ -371,9 +371,9 @@ class TransactionRepositoryImplTest : FreeSpec({
             val invalidIncome = TransactionEntity(
                 accountId = accountId,
                 type = TransactionType.INCOME,
-                amount = 100.0,
+                amount = 0.0,
                 toAccountId = null,
-                title = "",
+                title = "", /* Not invalid */
                 toAmount = 100.0,
                 description = "Desc",
                 dateTime = endDate,
@@ -492,25 +492,13 @@ class TransactionRepositoryImplTest : FreeSpec({
             val invalidIncome = TransactionEntity(
                 accountId = accountId,
                 type = TransactionType.INCOME,
-                amount = 100.0,
+                amount = 0.0,
                 toAccountId = null,
-                title = "",
+                title = "", /* Not invalid */
                 toAmount = 100.0,
-                description = "",
+                description = "", /* Not invalid */
                 dateTime = endDate,
                 id = validIncome2Id
-            )
-
-            val invalidIncome2 = TransactionEntity(
-                accountId = accountId,
-                type = TransactionType.INCOME,
-                amount = -100.0,
-                toAccountId = null,
-                title = "Transaction 3",
-                toAmount = 100.0,
-                description = "",
-                dateTime = endDate,
-                id = invalidIncomeId
             )
 
             coEvery {
@@ -521,7 +509,6 @@ class TransactionRepositoryImplTest : FreeSpec({
                 )
             } returns listOf(
                 validIncome,
-                invalidIncome2,
                 invalidIncome
             )
             coEvery { accountRepo.findById(account.id) } returns account
@@ -611,19 +598,6 @@ class TransactionRepositoryImplTest : FreeSpec({
             val invalidIncome = TransactionEntity(
                 accountId = accountId,
                 type = TransactionType.INCOME,
-                amount = 100.0,
-                toAccountId = null,
-                title = "",
-                toAmount = 100.0,
-                description = "Desc",
-                dateTime = endDate,
-                id = validIncome2Id,
-                categoryId = categoryId
-            )
-
-            val invalidIncome2 = TransactionEntity(
-                accountId = accountId,
-                type = TransactionType.INCOME,
                 amount = -100.0,
                 toAccountId = null,
                 title = "Transaction 3",
@@ -642,8 +616,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                 )
             } returns listOf(
                 validIncome,
-                invalidIncome2,
-                invalidIncome
+                invalidIncome,
             )
             coEvery { accountRepo.findById(account.id) } returns account
 
@@ -863,18 +836,6 @@ class TransactionRepositoryImplTest : FreeSpec({
                 id = validTransaction2Id,
             )
 
-            val invalidTransaction2 = TransactionEntity(
-                accountId = accountId,
-                type = TransactionType.TRANSFER,
-                amount = 100.0,
-                toAccountId = toAccountId,
-                title = "Transaction 3",
-                toAmount = 100.0,
-                description = " ",
-                dateTime = endDate,
-                id = invalidTransactionId,
-            )
-
             coEvery {
                 transactionDao.findAllToAccountAndBetween(
                     toAccountId,
@@ -883,7 +844,6 @@ class TransactionRepositoryImplTest : FreeSpec({
                 )
             } returns listOf(
                 validTransaction,
-                invalidTransaction2,
                 invalidTransaction
             )
             coEvery { accountRepo.findById(account.id) } returns account
@@ -996,19 +956,6 @@ class TransactionRepositoryImplTest : FreeSpec({
                 dueDate = startDate
             )
 
-            val invalidTransaction2 = TransactionEntity(
-                accountId = accountId,
-                type = TransactionType.TRANSFER,
-                amount = 100.0,
-                toAccountId = toAccountId,
-                title = "Transaction 3",
-                toAmount = 100.0,
-                description = "",
-                dateTime = endDate,
-                id = invalidTransactionId,
-                dueDate = endDate
-            )
-
             coEvery {
                 transactionDao.findAllDueToBetween(
                     startDate,
@@ -1016,7 +963,6 @@ class TransactionRepositoryImplTest : FreeSpec({
                 )
             } returns listOf(
                 validTransaction,
-                invalidTransaction2,
                 invalidTransaction
             )
             coEvery { accountRepo.findById(account.id) } returns account
@@ -1117,18 +1063,6 @@ class TransactionRepositoryImplTest : FreeSpec({
                 categoryId = categoryId
             )
 
-            val invalidTransaction2 = TransactionEntity(
-                accountId = accountId,
-                type = TransactionType.INCOME,
-                amount = 100.0,
-                title = "Transaction 3",
-                description = "",
-                dateTime = endDate,
-                id = invalidTransactionId,
-                dueDate = endDate,
-                categoryId = categoryId
-            )
-
             coEvery {
                 transactionDao.findAllDueToBetweenByCategory(
                     startDate,
@@ -1137,7 +1071,6 @@ class TransactionRepositoryImplTest : FreeSpec({
                 )
             } returns listOf(
                 validTransaction,
-                invalidTransaction2,
                 invalidTransaction
             )
             coEvery { accountRepo.findById(account.id) } returns account
@@ -1232,18 +1165,6 @@ class TransactionRepositoryImplTest : FreeSpec({
                 categoryId = null
             )
 
-            val invalidTransaction2 = TransactionEntity(
-                accountId = accountId,
-                type = TransactionType.INCOME,
-                amount = 100.0,
-                title = "Transaction 3",
-                description = "",
-                dateTime = endDate,
-                id = invalidTransactionId,
-                dueDate = endDate,
-                categoryId = null
-            )
-
             coEvery {
                 transactionDao.findAllDueToBetweenByCategoryUnspecified(
                     startDate,
@@ -1251,7 +1172,6 @@ class TransactionRepositoryImplTest : FreeSpec({
                 )
             } returns listOf(
                 validTransaction,
-                invalidTransaction2,
                 invalidTransaction
             )
             coEvery { accountRepo.findById(account.id) } returns account
@@ -1348,18 +1268,6 @@ class TransactionRepositoryImplTest : FreeSpec({
                 categoryId = null
             )
 
-            val invalidTransaction2 = TransactionEntity(
-                accountId = accountId,
-                type = TransactionType.INCOME,
-                amount = 100.0,
-                title = "Transaction 3",
-                description = "",
-                dateTime = endDate,
-                id = invalidTransactionId,
-                dueDate = endDate,
-                categoryId = null
-            )
-
             coEvery {
                 transactionDao.findAllDueToBetweenByAccount(
                     startDate,
@@ -1368,7 +1276,6 @@ class TransactionRepositoryImplTest : FreeSpec({
                 )
             } returns listOf(
                 validTransaction,
-                invalidTransaction2,
                 invalidTransaction
             )
             coEvery { accountRepo.findById(account.id) } returns account
@@ -1461,24 +1368,10 @@ class TransactionRepositoryImplTest : FreeSpec({
                 recurringRuleId = recurringRuleId
             )
 
-            val invalidTransaction2 = TransactionEntity(
-                accountId = accountId,
-                type = TransactionType.INCOME,
-                amount = 100.0,
-                title = "Transaction 3",
-                description = "",
-                dateTime = endDate,
-                id = invalidTransactionId,
-                dueDate = endDate,
-                categoryId = null,
-                recurringRuleId = recurringRuleId
-            )
-
             coEvery {
                 transactionDao.findAllByRecurringRuleId(recurringRuleId)
             } returns listOf(
                 validTransaction,
-                invalidTransaction2,
                 invalidTransaction
             )
             coEvery { accountRepo.findById(account.id) } returns account
@@ -1578,19 +1471,6 @@ class TransactionRepositoryImplTest : FreeSpec({
                 recurringRuleId = recurringRuleId
             )
 
-            val invalidTransaction2 = TransactionEntity(
-                accountId = accountId,
-                type = TransactionType.INCOME,
-                amount = 100.0,
-                title = "Transaction 3",
-                description = "",
-                dateTime = endDate,
-                id = invalidTransactionId,
-                dueDate = endDate,
-                categoryId = null,
-                recurringRuleId = recurringRuleId
-            )
-
             coEvery {
                 transactionDao.findAllBetweenAndRecurringRuleId(
                     startDate,
@@ -1599,7 +1479,6 @@ class TransactionRepositoryImplTest : FreeSpec({
                 )
             } returns listOf(
                 validTransaction,
-                invalidTransaction2,
                 invalidTransaction
             )
             coEvery { accountRepo.findById(account.id) } returns account
@@ -1812,23 +1691,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                 isDeleted = isDeleted
             )
 
-            val invalidTransaction2 = TransactionEntity(
-                accountId = accountId,
-                type = TransactionType.INCOME,
-                amount = 100.0,
-                title = "Transaction 3",
-                description = "",
-                dateTime = endDate,
-                id = invalidTransactionId,
-                dueDate = endDate,
-                categoryId = null,
-                isSynced = isSynced,
-                isDeleted = isDeleted
-            )
-
             coEvery { transactionDao.findByIsSyncedAndIsDeleted(isSynced, isDeleted) } returns listOf(
                 validTransaction,
-                invalidTransaction2,
                 invalidTransaction
             )
             coEvery { accountRepo.findById(account.id) } returns account
@@ -1916,21 +1780,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                 categoryId = categoryId,
             )
 
-            val invalidTransaction2 = TransactionEntity(
-                accountId = accountId,
-                type = TransactionType.INCOME,
-                amount = 100.0,
-                title = "Transaction 3",
-                description = "",
-                dateTime = endDate,
-                id = invalidTransactionId,
-                dueDate = endDate,
-                categoryId = categoryId,
-            )
-
             coEvery { transactionDao.findAllByCategory(categoryId) } returns listOf(
                 validTransaction,
-                invalidTransaction2,
                 invalidTransaction
             )
             coEvery { accountRepo.findById(account.id) } returns account
@@ -2018,21 +1869,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                 categoryId = categoryId,
             )
 
-            val invalidTransaction2 = TransactionEntity(
-                accountId = accountId,
-                type = TransactionType.INCOME,
-                amount = 100.0,
-                title = "Transaction 3",
-                description = "",
-                dateTime = endDate,
-                id = invalidTransactionId,
-                dueDate = endDate,
-                categoryId = categoryId,
-            )
-
             coEvery { transactionDao.findAllByAccount(accountId) } returns listOf(
                 validTransaction,
-                invalidTransaction2,
                 invalidTransaction
             )
             coEvery { accountRepo.findById(account.id) } returns account
@@ -2357,22 +2195,8 @@ class TransactionRepositoryImplTest : FreeSpec({
                 loanId = loanId
             )
 
-            val invalidTransaction2 = TransactionEntity(
-                accountId = accountId,
-                type = TransactionType.INCOME,
-                amount = 100.0,
-                title = "Transaction 3",
-                description = "",
-                dateTime = endDate,
-                id = invalidTransactionId,
-                dueDate = endDate,
-                categoryId = categoryId,
-                loanId = loanId
-            )
-
             coEvery { transactionDao.findAllByLoanId(loanId) } returns listOf(
                 validTransaction,
-                invalidTransaction2,
                 invalidTransaction
             )
             coEvery { accountRepo.findById(account.id) } returns account
