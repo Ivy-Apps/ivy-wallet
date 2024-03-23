@@ -122,7 +122,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                 type = TransactionType.INCOME,
                 amount = 0.0,
                 toAccountId = null,
-                title = " ", /* Not invalid */
+                title = " ",
                 toAmount = 100.0,
                 description = "Desc",
                 dateTime = transactionDateTime,
@@ -144,7 +144,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                 type = TransactionType.EXPENSE,
                 amount = 0.0,
                 toAccountId = null,
-                title = " ", /* Not invalid */
+                title = " ",
                 toAmount = 100.0,
                 description = "Desc",
                 dateTime = transactionDateTime,
@@ -166,7 +166,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                 type = TransactionType.TRANSFER,
                 amount = 0.0,
                 toAccountId = toAccountId,
-                title = " ", /* Not Invalid */
+                title = " ",
                 toAmount = 100.0,
                 description = "Desc",
                 dateTime = transactionDateTime,
@@ -373,7 +373,7 @@ class TransactionRepositoryImplTest : FreeSpec({
                 type = TransactionType.INCOME,
                 amount = 0.0,
                 toAccountId = null,
-                title = "", /* Not invalid */
+                title = "",
                 toAmount = 100.0,
                 description = "Desc",
                 dateTime = endDate,
@@ -494,9 +494,9 @@ class TransactionRepositoryImplTest : FreeSpec({
                 type = TransactionType.INCOME,
                 amount = 0.0,
                 toAccountId = null,
-                title = "", /* Not invalid */
+                title = "",
                 toAmount = 100.0,
-                description = "", /* Not invalid */
+                description = "",
                 dateTime = endDate,
                 id = validIncome2Id
             )
@@ -785,7 +785,6 @@ class TransactionRepositoryImplTest : FreeSpec({
             val endDate = LocalDateTime.now()
             val validTransactionId = UUID.randomUUID()
             val validTransaction2Id = UUID.randomUUID()
-            val invalidTransactionId = UUID.randomUUID()
             val accountId = UUID.randomUUID()
             val toAccountId = UUID.randomUUID()
             val account = Account(
@@ -903,7 +902,6 @@ class TransactionRepositoryImplTest : FreeSpec({
             val endDate = LocalDateTime.now()
             val validTransactionId = UUID.randomUUID()
             val validTransaction2Id = UUID.randomUUID()
-            val invalidTransactionId = UUID.randomUUID()
             val accountId = UUID.randomUUID()
             val toAccountId = UUID.randomUUID()
             val account = Account(
@@ -1024,7 +1022,6 @@ class TransactionRepositoryImplTest : FreeSpec({
             val endDate = LocalDateTime.now()
             val validTransactionId = UUID.randomUUID()
             val validTransaction2Id = UUID.randomUUID()
-            val invalidTransactionId = UUID.randomUUID()
             val accountId = UUID.randomUUID()
             val categoryId = UUID.randomUUID()
             val account = Account(
@@ -1127,7 +1124,6 @@ class TransactionRepositoryImplTest : FreeSpec({
             val endDate = LocalDateTime.now()
             val validTransactionId = UUID.randomUUID()
             val validTransaction2Id = UUID.randomUUID()
-            val invalidTransactionId = UUID.randomUUID()
             val accountId = UUID.randomUUID()
             val account = Account(
                 id = AccountId(accountId),
@@ -1230,7 +1226,6 @@ class TransactionRepositoryImplTest : FreeSpec({
             val endDate = LocalDateTime.now()
             val validTransactionId = UUID.randomUUID()
             val validTransaction2Id = UUID.randomUUID()
-            val invalidTransactionId = UUID.randomUUID()
             val accountId = UUID.randomUUID()
             val account = Account(
                 id = AccountId(accountId),
@@ -1327,7 +1322,6 @@ class TransactionRepositoryImplTest : FreeSpec({
             val endDate = LocalDateTime.now()
             val validTransactionId = UUID.randomUUID()
             val validTransaction2Id = UUID.randomUUID()
-            val invalidTransactionId = UUID.randomUUID()
             val accountId = UUID.randomUUID()
             val recurringRuleId = UUID.randomUUID()
             val account = Account(
@@ -1430,7 +1424,6 @@ class TransactionRepositoryImplTest : FreeSpec({
             val endDate = LocalDateTime.now()
             val validTransactionId = UUID.randomUUID()
             val validTransaction2Id = UUID.randomUUID()
-            val invalidTransactionId = UUID.randomUUID()
             val accountId = UUID.randomUUID()
             val recurringRuleId = UUID.randomUUID()
             val account = Account(
@@ -1649,7 +1642,6 @@ class TransactionRepositoryImplTest : FreeSpec({
             val endDate = LocalDateTime.now()
             val validTransactionId = UUID.randomUUID()
             val validTransaction2Id = UUID.randomUUID()
-            val invalidTransactionId = UUID.randomUUID()
             val accountId = UUID.randomUUID()
             val account = Account(
                 id = AccountId(accountId),
@@ -1741,7 +1733,6 @@ class TransactionRepositoryImplTest : FreeSpec({
             val endDate = LocalDateTime.now()
             val validTransactionId = UUID.randomUUID()
             val validTransaction2Id = UUID.randomUUID()
-            val invalidTransactionId = UUID.randomUUID()
             val accountId = UUID.randomUUID()
             val categoryId = UUID.randomUUID()
             val account = Account(
@@ -1830,7 +1821,6 @@ class TransactionRepositoryImplTest : FreeSpec({
             val endDate = LocalDateTime.now()
             val validTransactionId = UUID.randomUUID()
             val validTransaction2Id = UUID.randomUUID()
-            val invalidTransactionId = UUID.randomUUID()
             val accountId = UUID.randomUUID()
             val categoryId = UUID.randomUUID()
             val account = Account(
@@ -2153,7 +2143,6 @@ class TransactionRepositoryImplTest : FreeSpec({
             val endDate = LocalDateTime.now()
             val validTransactionId = UUID.randomUUID()
             val validTransaction2Id = UUID.randomUUID()
-            val invalidTransactionId = UUID.randomUUID()
             val accountId = UUID.randomUUID()
             val categoryId = UUID.randomUUID()
             val loanId = UUID.randomUUID()

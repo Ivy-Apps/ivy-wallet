@@ -46,7 +46,7 @@ class TransactionMapper @Inject constructor() {
                 ?: raise("No asset code associated with the account for this transaction '${this@toDomain}'")
         )
 
-        val notBlankTrimmedDescription =  description?.let { NotBlankTrimmedString.from(it).getOrNull() }
+        val notBlankTrimmedDescription = description?.let { NotBlankTrimmedString.from(it).getOrNull() }
 
         val notBlankTrimmedTitle = title?.let { NotBlankTrimmedString.from(it).getOrNull() }
 
