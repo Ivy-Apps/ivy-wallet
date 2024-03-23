@@ -248,24 +248,24 @@ class TransactionMapperTest : FreeSpec({
                 )
             }
 
-            "title not null but blank" {
-                val corruptedEntity = entity.copy(title = "")
+            "blank title is okay" {
+                val blankTitleEntity = entity.copy(title = "")
 
                 // when
-                val income = with(mapper) { corruptedEntity.toDomain(assetCode) }
+                val income = with(mapper) { blankTitleEntity.toDomain(assetCode) }
 
                 // then
-                income.shouldBeLeft()
+                income.shouldBeRight()
             }
 
-            "description not null but blank" {
-                val corruptedEntity = entity.copy(description = "")
+            "blank description is okay" {
+                val blankDescriptionEntity = entity.copy(description = "")
 
                 // when
-                val income = with(mapper) { corruptedEntity.toDomain(assetCode) }
+                val income = with(mapper) { blankDescriptionEntity.toDomain(assetCode) }
 
                 // then
-                income.shouldBeLeft()
+                income.shouldBeRight()
             }
 
             "no category is okay" {
@@ -363,24 +363,24 @@ class TransactionMapperTest : FreeSpec({
                 )
             }
 
-            "title not null but blank" {
-                val corruptedEntity = entity.copy(title = "")
+            "blank title is okay" {
+                val blankTitleEntity = entity.copy(title = "")
 
                 // when
-                val expense = with(mapper) { corruptedEntity.toDomain(assetCode) }
+                val expense = with(mapper) { blankTitleEntity.toDomain(assetCode) }
 
                 // then
-                expense.shouldBeLeft()
+                expense.shouldBeRight()
             }
 
-            "description not null but blank" {
-                val corruptedEntity = entity.copy(description = "")
+            "blank description is okay" {
+                val blankDescriptionEntity = entity.copy(description = "")
 
                 // when
-                val expense = with(mapper) { corruptedEntity.toDomain(assetCode) }
+                val expense = with(mapper) { blankDescriptionEntity.toDomain(assetCode) }
 
                 // then
-                expense.shouldBeLeft()
+                expense.shouldBeRight()
             }
 
             "no category is okay" {
@@ -481,21 +481,21 @@ class TransactionMapperTest : FreeSpec({
                 )
             }
 
-            "title not null but blank" {
-                val corruptedEntity = entity.copy(title = "")
+            "blank title is okay" {
+                val blankTitleEntity = entity.copy(title = "")
 
                 // when
-                val transfer = with(mapper) { corruptedEntity.toDomain(assetCode) }
+                val transfer = with(mapper) { blankTitleEntity.toDomain(assetCode) }
 
                 // then
                 transfer.shouldBeLeft()
             }
 
-            "description not null but blank" {
-                val corruptedEntity = entity.copy(description = "")
+            "blank description is okay" {
+                val blankDescriptionEntity = entity.copy(description = "")
 
                 // when
-                val transfer = with(mapper) { corruptedEntity.toDomain(assetCode) }
+                val transfer = with(mapper) { blankDescriptionEntity.toDomain(assetCode) }
 
                 // then
                 transfer.shouldBeLeft()
