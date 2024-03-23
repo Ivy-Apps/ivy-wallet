@@ -46,12 +46,16 @@ class TransactionMapper @Inject constructor() {
                 ?: raise("No asset code associated with the account for this transaction '${this@toDomain}'")
         )
 
+        val notBlankTrimmedDescription =  description?.let { NotBlankTrimmedString.from(it).getOrNull() }
+
+        val notBlankTrimmedTitle = title?.let { NotBlankTrimmedString.from(it).getOrNull() }
+
         when (type) {
             TransactionType.INCOME -> {
                 Income(
                     id = TransactionId(id),
-                    title = title?.let { NotBlankTrimmedString.from(it).getOrNull() },
-                    description = description?.let { NotBlankTrimmedString.from(it).getOrNull() },
+                    title = notBlankTrimmedTitle,
+                    description = notBlankTrimmedDescription,
                     category = categoryId?.let { CategoryId(it) },
                     time = time,
                     settled = settled,
@@ -67,8 +71,8 @@ class TransactionMapper @Inject constructor() {
             TransactionType.EXPENSE -> {
                 Expense(
                     id = TransactionId(id),
-                    title = title?.let { NotBlankTrimmedString.from(it).getOrNull() },
-                    description = description?.let { NotBlankTrimmedString.from(it).getOrNull() },
+                    title = notBlankTrimmedTitle,
+                    description = notBlankTrimmedDescription,
                     category = categoryId?.let { CategoryId(it) },
                     time = time,
                     settled = settled,
@@ -104,8 +108,8 @@ class TransactionMapper @Inject constructor() {
 
                 Transfer(
                     id = TransactionId(id),
-                    title = title?.let { NotBlankTrimmedString.from(it).getOrNull() },
-                    description = description?.let { NotBlankTrimmedString.from(it).getOrNull() },
+                    title = notBlankTrimmedTitle,
+                    description = notBlankTrimmedDescription,
                     category = categoryId?.let { CategoryId(it) },
                     time = time,
                     settled = settled,
