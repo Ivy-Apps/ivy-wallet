@@ -54,7 +54,8 @@ class AccountCreator @Inject constructor(
                 icon = data.icon,
                 includeInBalance = data.includeBalance,
                 orderNum = accountDao.findMaxOrderNum().nextOrderNum(),
-                isSynced = false
+                isSynced = false,
+                id = account.id.value
             )
             accountLogic.adjustBalance(
                 account = legacyAccount,
