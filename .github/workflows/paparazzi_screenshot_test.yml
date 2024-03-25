@@ -31,6 +31,7 @@ jobs:
 
       - name: Verify git LFS
         run: |
+          chmod +x git-hooks/pre-receive
           git-hooks/pre-receive
           git lfs install --local
           git lfs pull
