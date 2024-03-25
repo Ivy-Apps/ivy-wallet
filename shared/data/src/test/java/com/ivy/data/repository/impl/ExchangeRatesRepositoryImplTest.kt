@@ -19,6 +19,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 
 class ExchangeRatesRepositoryImplTest : FreeSpec({
@@ -86,8 +87,12 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
             val repository = newRepository()
 
             val mockEntity = ExchangeRateEntity("usd", "aed", 2.0)
-            val mockDomain =
-                ExchangeRate(AssetCode("usd"), AssetCode("aed"), PositiveDouble(2.0), false)
+            val mockDomain = ExchangeRate(
+                baseCurrency = AssetCode.unsafe("usd"),
+                currency = AssetCode.unsafe("aed"),
+                rate = PositiveDouble.unsafe(2.0),
+                manualOverride = false
+            )
 
             coEvery {
                 exchangeRatesDao.findByBaseCurrencyAndCurrency("usd", "aed")
@@ -137,8 +142,12 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
         "rate is mapped and saved" {
             // given
             val repository = newRepository()
-            val mockRate =
-                ExchangeRate(AssetCode("usd"), AssetCode("aed"), PositiveDouble(2.0), false)
+            val mockRate = ExchangeRate(
+                baseCurrency = AssetCode.unsafe("usd"),
+                currency = AssetCode.unsafe("aed"),
+                rate = PositiveDouble.unsafe(2.0),
+                manualOverride = false
+            )
             val mockEntity = ExchangeRateEntity("usd", "aed", 2.0)
 
             coEvery { writeExchangeRatesDao.save(mockEntity) } returns Unit
@@ -179,19 +188,31 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
         "rates are mapped and saved" {
             // given
             val repository = newRepository()
-            val mockRates =
-                listOf(
-                    ExchangeRate(AssetCode("usd"), AssetCode("aed"), PositiveDouble(2.0), false),
-                    ExchangeRate(AssetCode("usd"), AssetCode("aed"), PositiveDouble(2.0), false),
-                    ExchangeRate(AssetCode("usd"), AssetCode("aed"), PositiveDouble(2.0), false),
-                )
-            val mockEntities =
-                listOf(
-                    ExchangeRateEntity("usd", "aed", 2.0, false),
-                    ExchangeRateEntity("usd", "aed", 2.0, false),
-                    ExchangeRateEntity("usd", "aed", 2.0, false),
-                )
-
+            val mockRates = listOf(
+                ExchangeRate(
+                    AssetCode.unsafe("usd"),
+                    AssetCode.unsafe("aed"),
+                    PositiveDouble.unsafe(2.0),
+                    false
+                ),
+                ExchangeRate(
+                    AssetCode.unsafe("usd"),
+                    AssetCode.unsafe("aed"),
+                    PositiveDouble.unsafe(2.0),
+                    false
+                ),
+                ExchangeRate(
+                    AssetCode.unsafe("usd"),
+                    AssetCode.unsafe("aed"),
+                    PositiveDouble.unsafe(2.0),
+                    false
+                ),
+            )
+            val mockEntities = listOf(
+                ExchangeRateEntity("usd", "aed", 2.0, false),
+                ExchangeRateEntity("usd", "aed", 2.0, false),
+                ExchangeRateEntity("usd", "aed", 2.0, false),
+            )
             coEvery { writeExchangeRatesDao.saveMany(mockEntities) } returns Unit
 
             // when
@@ -259,29 +280,26 @@ class ExchangeRatesRepositoryImplTest : FreeSpec({
             val result = repository.findAll()
 
             // then
-            result.collect { value ->
-                value shouldBe
-                        listOf(
-                            ExchangeRate(
-                                AssetCode("usd"),
-                                AssetCode("aed"),
-                                PositiveDouble(2.0),
-                                false
-                            ),
-                            ExchangeRate(
-                                AssetCode("usd"),
-                                AssetCode("aed"),
-                                PositiveDouble(2.0),
-                                false
-                            ),
-                            ExchangeRate(
-                                AssetCode("usd"),
-                                AssetCode("aed"),
-                                PositiveDouble(2.0),
-                                false
-                            ),
-                        )
-            }
+            result.first() shouldBe listOf(
+                ExchangeRate(
+                    AssetCode.unsafe("usd"),
+                    AssetCode.unsafe("aed"),
+                    PositiveDouble.unsafe(2.0),
+                    false
+                ),
+                ExchangeRate(
+                    AssetCode.unsafe("usd"),
+                    AssetCode.unsafe("aed"),
+                    PositiveDouble.unsafe(2.0),
+                    false
+                ),
+                ExchangeRate(
+                    AssetCode.unsafe("usd"),
+                    AssetCode.unsafe("aed"),
+                    PositiveDouble.unsafe(2.0),
+                    false
+                ),
+            )
         }
     }
 })

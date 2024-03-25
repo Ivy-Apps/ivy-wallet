@@ -19,7 +19,7 @@ class CategoryMapperTest : FreeSpec({
         val mapper = CategoryMapper()
         val categoryId = CategoryId(UUID.randomUUID())
         val category = Category(
-            name = NotBlankTrimmedString("Home"),
+            name = NotBlankTrimmedString.unsafe("Home"),
             color = ColorInt(42),
             icon = null,
             orderNum = 1.0,
@@ -63,7 +63,7 @@ class CategoryMapperTest : FreeSpec({
 
             // then
             res.shouldBeRight() shouldBe Category(
-                name = NotBlankTrimmedString("Home"),
+                name = NotBlankTrimmedString.unsafe("Home"),
                 color = ColorInt(42),
                 icon = null,
                 orderNum = 1.0,

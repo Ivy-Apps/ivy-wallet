@@ -1,5 +1,6 @@
 package com.ivy.data.repository.impl
 
+import com.ivy.base.TestDispatchersProvider
 import com.ivy.data.DataWriteEvent
 import com.ivy.data.DataWriteEventBus
 import com.ivy.data.DeleteOperation
@@ -15,7 +16,6 @@ import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.fake.FakeCurrencyRepository
 import com.ivy.data.repository.mapper.AccountMapper
-import com.ivy.base.TestDispatchersProvider
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
@@ -77,8 +77,8 @@ class AccountRepositoryImplTest : FreeSpec({
             // then
             res shouldBe Account(
                 id = accountId,
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("BGN"),
+                name = NotBlankTrimmedString.unsafe("Bank"),
+                asset = AssetCode.unsafe("BGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -162,8 +162,8 @@ class AccountRepositoryImplTest : FreeSpec({
             res shouldBe listOf(
                 Account(
                     id = account1Id,
-                    name = NotBlankTrimmedString("Bank"),
-                    asset = AssetCode("BGN"),
+                    name = NotBlankTrimmedString.unsafe("Bank"),
+                    asset = AssetCode.unsafe("BGN"),
                     color = ColorInt(1),
                     icon = null,
                     includeInBalance = true,
@@ -173,8 +173,8 @@ class AccountRepositoryImplTest : FreeSpec({
                 ),
                 Account(
                     id = account2Id,
-                    name = NotBlankTrimmedString("Cash"),
-                    asset = AssetCode("BGN"),
+                    name = NotBlankTrimmedString.unsafe("Cash"),
+                    asset = AssetCode.unsafe("BGN"),
                     color = ColorInt(2),
                     icon = null,
                     includeInBalance = true,
@@ -222,8 +222,8 @@ class AccountRepositoryImplTest : FreeSpec({
             res shouldBe listOf(
                 Account(
                     id = account1Id,
-                    name = NotBlankTrimmedString("Bank"),
-                    asset = AssetCode("BGN"),
+                    name = NotBlankTrimmedString.unsafe("Bank"),
+                    asset = AssetCode.unsafe("BGN"),
                     color = ColorInt(1),
                     icon = null,
                     includeInBalance = true,
@@ -268,8 +268,8 @@ class AccountRepositoryImplTest : FreeSpec({
         coEvery { writeAccountDao.save(any()) } just runs
         val account = Account(
             id = accountId,
-            name = NotBlankTrimmedString("Bank"),
-            asset = AssetCode("BGN"),
+            name = NotBlankTrimmedString.unsafe("Bank"),
+            asset = AssetCode.unsafe("BGN"),
             color = ColorInt(1),
             icon = null,
             includeInBalance = true,
@@ -311,8 +311,8 @@ class AccountRepositoryImplTest : FreeSpec({
         val accounts = listOf(
             Account(
                 id = account1Id,
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("BGN"),
+                name = NotBlankTrimmedString.unsafe("Bank"),
+                asset = AssetCode.unsafe("BGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -322,8 +322,8 @@ class AccountRepositoryImplTest : FreeSpec({
             ),
             Account(
                 id = account2Id,
-                name = NotBlankTrimmedString("Cash"),
-                asset = AssetCode("BGN"),
+                name = NotBlankTrimmedString.unsafe("Cash"),
+                asset = AssetCode.unsafe("BGN"),
                 color = ColorInt(2),
                 icon = null,
                 includeInBalance = true,

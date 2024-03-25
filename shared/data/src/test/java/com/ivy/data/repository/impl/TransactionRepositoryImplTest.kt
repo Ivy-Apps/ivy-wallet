@@ -1,5 +1,6 @@
 package com.ivy.data.repository.impl
 
+import com.ivy.base.TestDispatchersProvider
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
@@ -14,15 +15,14 @@ import com.ivy.data.model.TransactionMetadata
 import com.ivy.data.model.Transfer
 import com.ivy.data.model.common.Value
 import com.ivy.data.model.primitive.AssetCode
+import com.ivy.data.model.primitive.AssociationId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.primitive.PositiveDouble
 import com.ivy.data.repository.AccountRepository
+import com.ivy.data.repository.TagsRepository
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
-import com.ivy.base.TestDispatchersProvider
-import com.ivy.data.model.primitive.AssociationId
-import com.ivy.data.repository.TagsRepository
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
@@ -35,6 +35,7 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.UUID
+
 @Suppress("LargeClass")
 class TransactionRepositoryImplTest : FreeSpec({
     val transactionDao = mockk<TransactionDao>()
@@ -84,8 +85,8 @@ class TransactionRepositoryImplTest : FreeSpec({
             val transactionDateTime = LocalDateTime.now()
             val account = Account(
                 id = AccountId(accountId),
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Bank"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -96,8 +97,8 @@ class TransactionRepositoryImplTest : FreeSpec({
 
             val toAccount = Account(
                 id = AccountId(toAccountId),
-                name = NotBlankTrimmedString("Cash"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Cash"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -192,36 +193,36 @@ class TransactionRepositoryImplTest : FreeSpec({
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validIncomeId),
-                    title = NotBlankTrimmedString("Transaction 1"),
-                    description = NotBlankTrimmedString("Desc"),
+                    title = NotBlankTrimmedString.unsafe("Transaction 1"),
+                    description = NotBlankTrimmedString.unsafe("Desc"),
                     category = null,
                     time = toInstant(transactionDateTime),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = Instant.EPOCH,
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset),
+                    value = Value(PositiveDouble.unsafe(100.0), account.asset),
                     account = AccountId(accountId),
                     tags = persistentListOf()
                 ),
                 Expense(
                     id = TransactionId(validExpenseId),
-                    title = NotBlankTrimmedString("Transaction 1"),
-                    description = NotBlankTrimmedString("Desc"),
+                    title = NotBlankTrimmedString.unsafe("Transaction 1"),
+                    description = NotBlankTrimmedString.unsafe("Desc"),
                     category = null,
                     time = toInstant(transactionDateTime),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = Instant.EPOCH,
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset),
+                    value = Value(PositiveDouble.unsafe(100.0), account.asset),
                     account = AccountId(accountId),
                     tags = persistentListOf()
                 ),
                 Transfer(
                     id = TransactionId(validTransferId),
-                    title = NotBlankTrimmedString("Transaction 1"),
-                    description = NotBlankTrimmedString("Desc"),
+                    title = NotBlankTrimmedString.unsafe("Transaction 1"),
+                    description = NotBlankTrimmedString.unsafe("Desc"),
                     category = null,
                     time = toInstant(transactionDateTime),
                     settled = true,
@@ -229,9 +230,9 @@ class TransactionRepositoryImplTest : FreeSpec({
                     lastUpdated = Instant.EPOCH,
                     removed = false,
                     fromAccount = AccountId(accountId),
-                    fromValue = Value(PositiveDouble(100.0), account.asset),
+                    fromValue = Value(PositiveDouble.unsafe(100.0), account.asset),
                     toAccount = AccountId(toAccountId),
-                    toValue = Value(PositiveDouble(100.0), toAccount.asset),
+                    toValue = Value(PositiveDouble.unsafe(100.0), toAccount.asset),
                     tags = persistentListOf()
                 )
             )
@@ -259,8 +260,8 @@ class TransactionRepositoryImplTest : FreeSpec({
             val transactionDateTime = LocalDateTime.now()
             val account = Account(
                 id = AccountId(accountId),
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Bank"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -291,15 +292,15 @@ class TransactionRepositoryImplTest : FreeSpec({
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validIncomeId),
-                    title = NotBlankTrimmedString("Transaction 1"),
-                    description = NotBlankTrimmedString("Desc"),
+                    title = NotBlankTrimmedString.unsafe("Transaction 1"),
+                    description = NotBlankTrimmedString.unsafe("Desc"),
                     category = null,
                     time = toInstant(transactionDateTime),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = Instant.EPOCH,
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset),
+                    value = Value(PositiveDouble.unsafe(100.0), account.asset),
                     account = account.id,
                     tags = persistentListOf()
                 )
@@ -334,8 +335,8 @@ class TransactionRepositoryImplTest : FreeSpec({
             val accountId = UUID.randomUUID()
             val account = Account(
                 id = AccountId(accountId),
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Bank"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -403,29 +404,29 @@ class TransactionRepositoryImplTest : FreeSpec({
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validIncomeId),
-                    title = NotBlankTrimmedString("Transaction 1"),
-                    description = NotBlankTrimmedString("Desc"),
+                    title = NotBlankTrimmedString.unsafe("Transaction 1"),
+                    description = NotBlankTrimmedString.unsafe("Desc"),
                     category = null,
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = Instant.EPOCH,
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset),
+                    value = Value(PositiveDouble.unsafe(100.0), account.asset),
                     account = account.id,
                     tags = persistentListOf()
                 ),
                 Income(
                     id = TransactionId(validIncome2Id),
-                    title = NotBlankTrimmedString("Transaction 2"),
-                    description = NotBlankTrimmedString("Desc"),
+                    title = NotBlankTrimmedString.unsafe("Transaction 2"),
+                    description = NotBlankTrimmedString.unsafe("Desc"),
                     category = null,
                     time = toInstant(endDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = Instant.EPOCH,
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset),
+                    value = Value(PositiveDouble.unsafe(100.0), account.asset),
                     account = account.id,
                     tags = persistentListOf()
                 )
@@ -463,12 +464,11 @@ class TransactionRepositoryImplTest : FreeSpec({
             val endDate = LocalDateTime.now()
             val validIncomeId = UUID.randomUUID()
             val validIncome2Id = UUID.randomUUID()
-            val invalidIncomeId = UUID.randomUUID()
             val accountId = UUID.randomUUID()
             val account = Account(
                 id = AccountId(accountId),
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Bank"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -521,15 +521,15 @@ class TransactionRepositoryImplTest : FreeSpec({
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validIncomeId),
-                    title = NotBlankTrimmedString("Transaction 1"),
-                    description = NotBlankTrimmedString("Desc"),
+                    title = NotBlankTrimmedString.unsafe("Transaction 1"),
+                    description = NotBlankTrimmedString.unsafe("Desc"),
                     category = null,
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = Instant.EPOCH,
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset),
+                    value = Value(PositiveDouble.unsafe(100.0), account.asset),
                     account = account.id,
                     tags = persistentListOf()
                 )
@@ -566,14 +566,13 @@ class TransactionRepositoryImplTest : FreeSpec({
             val startDate = LocalDateTime.now().minusDays(7)
             val endDate = LocalDateTime.now()
             val validIncomeId = UUID.randomUUID()
-            val validIncome2Id = UUID.randomUUID()
             val invalidIncomeId = UUID.randomUUID()
             val categoryId = UUID.randomUUID()
             val accountId = UUID.randomUUID()
             val account = Account(
                 id = AccountId(accountId),
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Bank"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -628,15 +627,15 @@ class TransactionRepositoryImplTest : FreeSpec({
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validIncomeId),
-                    title = NotBlankTrimmedString("Transaction 1"),
-                    description = NotBlankTrimmedString("Desc"),
+                    title = NotBlankTrimmedString.unsafe("Transaction 1"),
+                    description = NotBlankTrimmedString.unsafe("Desc"),
                     category = CategoryId(categoryId),
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = Instant.EPOCH,
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset),
+                    value = Value(PositiveDouble.unsafe(100.0), account.asset),
                     account = account.id,
                     tags = persistentListOf()
                 )
@@ -676,8 +675,8 @@ class TransactionRepositoryImplTest : FreeSpec({
             val accountId = UUID.randomUUID()
             val account = Account(
                 id = AccountId(accountId),
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Bank"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -725,7 +724,12 @@ class TransactionRepositoryImplTest : FreeSpec({
                 categoryId = null
             )
 
-            coEvery { transactionDao.findAllUnspecifiedAndBetween(startDate, endDate) } returns listOf(
+            coEvery {
+                transactionDao.findAllUnspecifiedAndBetween(
+                    startDate,
+                    endDate
+                )
+            } returns listOf(
                 validIncome,
                 invalidIncome2,
                 invalidIncome
@@ -739,15 +743,15 @@ class TransactionRepositoryImplTest : FreeSpec({
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validIncomeId),
-                    title = NotBlankTrimmedString("Transaction 1"),
-                    description = NotBlankTrimmedString("Desc"),
+                    title = NotBlankTrimmedString.unsafe("Transaction 1"),
+                    description = NotBlankTrimmedString.unsafe("Desc"),
                     category = null,
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = Instant.EPOCH,
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset),
+                    value = Value(PositiveDouble.unsafe(100.0), account.asset),
                     account = account.id,
                     tags = persistentListOf()
                 )
@@ -789,8 +793,8 @@ class TransactionRepositoryImplTest : FreeSpec({
             val toAccountId = UUID.randomUUID()
             val account = Account(
                 id = AccountId(accountId),
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Bank"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -801,8 +805,8 @@ class TransactionRepositoryImplTest : FreeSpec({
 
             val toAccount = Account(
                 id = AccountId(toAccountId),
-                name = NotBlankTrimmedString("Cash"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Cash"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -856,8 +860,8 @@ class TransactionRepositoryImplTest : FreeSpec({
             res shouldBe listOf(
                 Transfer(
                     id = TransactionId(validTransactionId),
-                    title = NotBlankTrimmedString("Transaction 1"),
-                    description = NotBlankTrimmedString("Desc"),
+                    title = NotBlankTrimmedString.unsafe("Transaction 1"),
+                    description = NotBlankTrimmedString.unsafe("Desc"),
                     category = null,
                     time = toInstant(startDate),
                     settled = true,
@@ -865,9 +869,9 @@ class TransactionRepositoryImplTest : FreeSpec({
                     lastUpdated = Instant.EPOCH,
                     removed = false,
                     fromAccount = AccountId(accountId),
-                    fromValue = Value(PositiveDouble(100.0), account.asset),
+                    fromValue = Value(PositiveDouble.unsafe(100.0), account.asset),
                     toAccount = AccountId(toAccountId),
-                    toValue = Value(PositiveDouble(100.0), account.asset),
+                    toValue = Value(PositiveDouble.unsafe(100.0), account.asset),
                     tags = persistentListOf()
                 )
             )
@@ -906,8 +910,8 @@ class TransactionRepositoryImplTest : FreeSpec({
             val toAccountId = UUID.randomUUID()
             val account = Account(
                 id = AccountId(accountId),
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Bank"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -918,8 +922,8 @@ class TransactionRepositoryImplTest : FreeSpec({
 
             val toAccount = Account(
                 id = AccountId(toAccountId),
-                name = NotBlankTrimmedString("Cash"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Cash"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -974,8 +978,8 @@ class TransactionRepositoryImplTest : FreeSpec({
             res shouldBe listOf(
                 Transfer(
                     id = TransactionId(validTransactionId),
-                    title = NotBlankTrimmedString("Transaction 1"),
-                    description = NotBlankTrimmedString("Desc"),
+                    title = NotBlankTrimmedString.unsafe("Transaction 1"),
+                    description = NotBlankTrimmedString.unsafe("Desc"),
                     category = null,
                     time = toInstant(startDate),
                     settled = true,
@@ -983,9 +987,9 @@ class TransactionRepositoryImplTest : FreeSpec({
                     lastUpdated = Instant.EPOCH,
                     removed = false,
                     fromAccount = AccountId(accountId),
-                    fromValue = Value(PositiveDouble(100.0), account.asset),
+                    fromValue = Value(PositiveDouble.unsafe(100.0), account.asset),
                     toAccount = AccountId(toAccountId),
-                    toValue = Value(PositiveDouble(100.0), account.asset),
+                    toValue = Value(PositiveDouble.unsafe(100.0), account.asset),
                     tags = persistentListOf()
                 )
             )
@@ -1026,8 +1030,8 @@ class TransactionRepositoryImplTest : FreeSpec({
             val categoryId = UUID.randomUUID()
             val account = Account(
                 id = AccountId(accountId),
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Bank"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -1080,15 +1084,15 @@ class TransactionRepositoryImplTest : FreeSpec({
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validTransactionId),
-                    title = NotBlankTrimmedString("Transaction 1"),
-                    description = NotBlankTrimmedString("Desc"),
+                    title = NotBlankTrimmedString.unsafe("Transaction 1"),
+                    description = NotBlankTrimmedString.unsafe("Desc"),
                     category = CategoryId(categoryId),
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = Instant.EPOCH,
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset),
+                    value = Value(PositiveDouble.unsafe(100.0), account.asset),
                     account = account.id,
                     tags = persistentListOf()
                 )
@@ -1127,8 +1131,8 @@ class TransactionRepositoryImplTest : FreeSpec({
             val accountId = UUID.randomUUID()
             val account = Account(
                 id = AccountId(accountId),
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Bank"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -1180,15 +1184,15 @@ class TransactionRepositoryImplTest : FreeSpec({
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validTransactionId),
-                    title = NotBlankTrimmedString("Transaction 1"),
-                    description = NotBlankTrimmedString("Desc"),
+                    title = NotBlankTrimmedString.unsafe("Transaction 1"),
+                    description = NotBlankTrimmedString.unsafe("Desc"),
                     category = null,
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = Instant.EPOCH,
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset),
+                    value = Value(PositiveDouble.unsafe(100.0), account.asset),
                     account = account.id,
                     tags = persistentListOf()
                 )
@@ -1229,8 +1233,8 @@ class TransactionRepositoryImplTest : FreeSpec({
             val accountId = UUID.randomUUID()
             val account = Account(
                 id = AccountId(accountId),
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Bank"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -1283,15 +1287,15 @@ class TransactionRepositoryImplTest : FreeSpec({
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validTransactionId),
-                    title = NotBlankTrimmedString("Transaction 1"),
-                    description = NotBlankTrimmedString("Desc"),
+                    title = NotBlankTrimmedString.unsafe("Transaction 1"),
+                    description = NotBlankTrimmedString.unsafe("Desc"),
                     category = null,
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = Instant.EPOCH,
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset),
+                    value = Value(PositiveDouble.unsafe(100.0), account.asset),
                     account = account.id,
                     tags = persistentListOf()
                 )
@@ -1326,8 +1330,8 @@ class TransactionRepositoryImplTest : FreeSpec({
             val recurringRuleId = UUID.randomUUID()
             val account = Account(
                 id = AccountId(accountId),
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Bank"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -1371,22 +1375,21 @@ class TransactionRepositoryImplTest : FreeSpec({
             coEvery { accountRepo.findById(account.id) } returns account
 
             // when
-            val res =
-                repository.findAllByRecurringRuleId(recurringRuleId)
+            val res = repository.findAllByRecurringRuleId(recurringRuleId)
 
             // then
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validTransactionId),
-                    title = NotBlankTrimmedString("Transaction 1"),
-                    description = NotBlankTrimmedString("Desc"),
+                    title = NotBlankTrimmedString.unsafe("Transaction 1"),
+                    description = NotBlankTrimmedString.unsafe("Desc"),
                     category = null,
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(recurringRuleId, null, null),
                     lastUpdated = Instant.EPOCH,
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset),
+                    value = Value(PositiveDouble.unsafe(100.0), account.asset),
                     account = account.id,
                     tags = persistentListOf()
                 )
@@ -1428,8 +1431,8 @@ class TransactionRepositoryImplTest : FreeSpec({
             val recurringRuleId = UUID.randomUUID()
             val account = Account(
                 id = AccountId(accountId),
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Bank"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -1484,15 +1487,15 @@ class TransactionRepositoryImplTest : FreeSpec({
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validTransactionId),
-                    title = NotBlankTrimmedString("Transaction 1"),
-                    description = NotBlankTrimmedString("Desc"),
+                    title = NotBlankTrimmedString.unsafe("Transaction 1"),
+                    description = NotBlankTrimmedString.unsafe("Desc"),
                     category = null,
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(recurringRuleId, null, null),
                     lastUpdated = Instant.EPOCH,
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset),
+                    value = Value(PositiveDouble.unsafe(100.0), account.asset),
                     account = account.id,
                     tags = persistentListOf()
                 )
@@ -1524,8 +1527,8 @@ class TransactionRepositoryImplTest : FreeSpec({
             val recurringRuleId = UUID.randomUUID()
             val account = Account(
                 id = AccountId(accountId),
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Bank"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -1556,15 +1559,15 @@ class TransactionRepositoryImplTest : FreeSpec({
             // then
             res shouldBe Income(
                 id = TransactionId(transactionId),
-                title = NotBlankTrimmedString("Transaction 1"),
-                description = NotBlankTrimmedString("Desc"),
+                title = NotBlankTrimmedString.unsafe("Transaction 1"),
+                description = NotBlankTrimmedString.unsafe("Desc"),
                 category = null,
                 time = toInstant(startDate),
                 settled = true,
                 metadata = TransactionMetadata(recurringRuleId, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), account.asset),
+                value = Value(PositiveDouble.unsafe(100.0), account.asset),
                 account = account.id,
                 tags = persistentListOf()
             )
@@ -1579,8 +1582,8 @@ class TransactionRepositoryImplTest : FreeSpec({
             val accountId = UUID.randomUUID()
             val account = Account(
                 id = AccountId(accountId),
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Bank"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -1645,8 +1648,8 @@ class TransactionRepositoryImplTest : FreeSpec({
             val accountId = UUID.randomUUID()
             val account = Account(
                 id = AccountId(accountId),
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Bank"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -1683,7 +1686,12 @@ class TransactionRepositoryImplTest : FreeSpec({
                 isDeleted = isDeleted
             )
 
-            coEvery { transactionDao.findByIsSyncedAndIsDeleted(isSynced, isDeleted) } returns listOf(
+            coEvery {
+                transactionDao.findByIsSyncedAndIsDeleted(
+                    isSynced,
+                    isDeleted
+                )
+            } returns listOf(
                 validTransaction,
                 invalidTransaction
             )
@@ -1696,15 +1704,15 @@ class TransactionRepositoryImplTest : FreeSpec({
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validTransactionId),
-                    title = NotBlankTrimmedString("Transaction 1"),
-                    description = NotBlankTrimmedString("Desc"),
+                    title = NotBlankTrimmedString.unsafe("Transaction 1"),
+                    description = NotBlankTrimmedString.unsafe("Desc"),
                     category = null,
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = Instant.EPOCH,
                     removed = isDeleted,
-                    value = Value(PositiveDouble(100.0), account.asset),
+                    value = Value(PositiveDouble.unsafe(100.0), account.asset),
                     account = account.id,
                     tags = persistentListOf()
                 )
@@ -1737,8 +1745,8 @@ class TransactionRepositoryImplTest : FreeSpec({
             val categoryId = UUID.randomUUID()
             val account = Account(
                 id = AccountId(accountId),
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Bank"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -1784,15 +1792,15 @@ class TransactionRepositoryImplTest : FreeSpec({
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validTransactionId),
-                    title = NotBlankTrimmedString("Transaction 1"),
-                    description = NotBlankTrimmedString("Desc"),
+                    title = NotBlankTrimmedString.unsafe("Transaction 1"),
+                    description = NotBlankTrimmedString.unsafe("Desc"),
                     category = CategoryId(categoryId),
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = Instant.EPOCH,
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset),
+                    value = Value(PositiveDouble.unsafe(100.0), account.asset),
                     account = account.id,
                     tags = persistentListOf()
                 )
@@ -1825,8 +1833,8 @@ class TransactionRepositoryImplTest : FreeSpec({
             val categoryId = UUID.randomUUID()
             val account = Account(
                 id = AccountId(accountId),
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Bank"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -1872,15 +1880,15 @@ class TransactionRepositoryImplTest : FreeSpec({
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validTransactionId),
-                    title = NotBlankTrimmedString("Transaction 1"),
-                    description = NotBlankTrimmedString("Desc"),
+                    title = NotBlankTrimmedString.unsafe("Transaction 1"),
+                    description = NotBlankTrimmedString.unsafe("Desc"),
                     category = CategoryId(categoryId),
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = Instant.EPOCH,
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset),
+                    value = Value(PositiveDouble.unsafe(100.0), account.asset),
                     account = account.id,
                     tags = persistentListOf()
                 )
@@ -1913,8 +1921,8 @@ class TransactionRepositoryImplTest : FreeSpec({
 
             val account = Account(
                 id = AccountId(accountId),
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Bank"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -1946,15 +1954,15 @@ class TransactionRepositoryImplTest : FreeSpec({
             // then
             res shouldBe Income(
                 id = TransactionId(transactionId),
-                title = NotBlankTrimmedString("Transaction 1"),
-                description = NotBlankTrimmedString("Desc"),
+                title = NotBlankTrimmedString.unsafe("Transaction 1"),
+                description = NotBlankTrimmedString.unsafe("Desc"),
                 category = null,
                 time = toInstant(startDate),
                 settled = true,
                 metadata = TransactionMetadata(recurringRuleId, loanId, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), account.asset),
+                value = Value(PositiveDouble.unsafe(100.0), account.asset),
                 account = account.id,
                 tags = persistentListOf()
             )
@@ -1971,8 +1979,8 @@ class TransactionRepositoryImplTest : FreeSpec({
 
             val account = Account(
                 id = AccountId(accountId),
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Bank"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -2030,8 +2038,8 @@ class TransactionRepositoryImplTest : FreeSpec({
 
             val account = Account(
                 id = AccountId(accountId),
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Bank"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -2063,15 +2071,15 @@ class TransactionRepositoryImplTest : FreeSpec({
             // then
             res shouldBe Income(
                 id = TransactionId(transactionId),
-                title = NotBlankTrimmedString("Transaction 1"),
-                description = NotBlankTrimmedString("Desc"),
+                title = NotBlankTrimmedString.unsafe("Transaction 1"),
+                description = NotBlankTrimmedString.unsafe("Desc"),
                 category = null,
                 time = toInstant(startDate),
                 settled = true,
                 metadata = TransactionMetadata(recurringRuleId, null, loanRecordId),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), account.asset),
+                value = Value(PositiveDouble.unsafe(100.0), account.asset),
                 account = account.id,
                 tags = persistentListOf()
             )
@@ -2088,8 +2096,8 @@ class TransactionRepositoryImplTest : FreeSpec({
 
             val account = Account(
                 id = AccountId(accountId),
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Bank"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -2148,8 +2156,8 @@ class TransactionRepositoryImplTest : FreeSpec({
             val loanId = UUID.randomUUID()
             val account = Account(
                 id = AccountId(accountId),
-                name = NotBlankTrimmedString("Bank"),
-                asset = AssetCode("NGN"),
+                name = NotBlankTrimmedString.unsafe("Bank"),
+                asset = AssetCode.unsafe("NGN"),
                 color = ColorInt(1),
                 icon = null,
                 includeInBalance = true,
@@ -2197,15 +2205,15 @@ class TransactionRepositoryImplTest : FreeSpec({
             res shouldBe listOf(
                 Income(
                     id = TransactionId(validTransactionId),
-                    title = NotBlankTrimmedString("Transaction 1"),
-                    description = NotBlankTrimmedString("Desc"),
+                    title = NotBlankTrimmedString.unsafe("Transaction 1"),
+                    description = NotBlankTrimmedString.unsafe("Desc"),
                     category = CategoryId(categoryId),
                     time = toInstant(startDate),
                     settled = true,
                     metadata = TransactionMetadata(null, loanId, null),
                     lastUpdated = Instant.EPOCH,
                     removed = false,
-                    value = Value(PositiveDouble(100.0), account.asset),
+                    value = Value(PositiveDouble.unsafe(100.0), account.asset),
                     account = account.id,
                     tags = persistentListOf()
                 )
@@ -2226,15 +2234,15 @@ class TransactionRepositoryImplTest : FreeSpec({
             AccountId(accountId),
             Income(
                 id = TransactionId(transactionId),
-                title = NotBlankTrimmedString("Transaction 1"),
-                description = NotBlankTrimmedString("Desc"),
+                title = NotBlankTrimmedString.unsafe("Transaction 1"),
+                description = NotBlankTrimmedString.unsafe("Desc"),
                 category = null,
                 time = toInstant(transactionDate),
                 settled = true,
                 metadata = TransactionMetadata(null, null, null),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                value = Value(PositiveDouble.unsafe(100.0), AssetCode.unsafe("NGN")),
                 account = AccountId(accountId),
                 tags = persistentListOf()
             )
@@ -2273,29 +2281,29 @@ class TransactionRepositoryImplTest : FreeSpec({
             listOf(
                 Income(
                     id = TransactionId(transaction1Id),
-                    title = NotBlankTrimmedString("Transaction 1"),
-                    description = NotBlankTrimmedString("Desc"),
+                    title = NotBlankTrimmedString.unsafe("Transaction 1"),
+                    description = NotBlankTrimmedString.unsafe("Desc"),
                     category = null,
                     time = toInstant(transactionDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = Instant.EPOCH,
                     removed = false,
-                    value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                    value = Value(PositiveDouble.unsafe(100.0), AssetCode.unsafe("NGN")),
                     account = AccountId(accountId),
                     tags = persistentListOf()
                 ),
                 Expense(
                     id = TransactionId(transaction2Id),
-                    title = NotBlankTrimmedString("Transaction 2"),
-                    description = NotBlankTrimmedString("Desc"),
+                    title = NotBlankTrimmedString.unsafe("Transaction 2"),
+                    description = NotBlankTrimmedString.unsafe("Desc"),
                     category = null,
                     time = toInstant(transactionDate),
                     settled = true,
                     metadata = TransactionMetadata(null, null, null),
                     lastUpdated = Instant.EPOCH,
                     removed = false,
-                    value = Value(PositiveDouble(100.0), AssetCode("NGN")),
+                    value = Value(PositiveDouble.unsafe(100.0), AssetCode.unsafe("NGN")),
                     account = AccountId(accountId),
                     tags = persistentListOf()
                 ),

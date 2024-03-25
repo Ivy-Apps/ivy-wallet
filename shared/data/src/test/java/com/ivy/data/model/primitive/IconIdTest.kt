@@ -24,6 +24,6 @@ class IconIdTest : FreeSpec({
         val res = IconAsset.from(rawInput)
 
         // then
-        res.shouldBeRight() shouldBe IconAsset("icon")
+        res.shouldBeRight() shouldBe IconAsset.unsafe("icon")
     }
 })

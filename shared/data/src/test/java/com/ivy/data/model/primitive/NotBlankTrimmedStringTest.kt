@@ -20,6 +20,6 @@ class NotBlankTrimmedStringTest : FreeSpec({
         val res = NotBlankTrimmedString.from(rawInput)
 
         // then
-        res.shouldBeRight() shouldBe NotBlankTrimmedString("abc")
+        res.shouldBeRight() shouldBe NotBlankTrimmedString.unsafe("abc")
     }
 })
