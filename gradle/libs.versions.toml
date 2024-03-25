@@ -7,7 +7,7 @@ kotest = "5.8.1"
 # https://developer.android.com/jetpack/androidx/releases/compose
 compose = "1.6.4"
 # https://developer.android.com/jetpack/androidx/releases/compose-kotlin
-compose-compiler = "1.5.8" # It's used! Use compatible with Kotlin one
+compose-compiler = "1.5.11" # It's used! Use compatible with Kotlin one
 compose-material3 = "1.2.1"
 glance = "1.0.0"
 hilt = "2.51"
