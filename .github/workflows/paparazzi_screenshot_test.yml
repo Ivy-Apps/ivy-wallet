@@ -1,4 +1,4 @@
-name: Paparazzi Screenshots tests
+name: Paparazzi screenshots tests
 
 on:
   push:
