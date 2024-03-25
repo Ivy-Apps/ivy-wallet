@@ -1,6 +1,8 @@
 package com.ivy.data.repository.mapper
 
 import android.graphics.Color
+import arrow.core.Either
+import arrow.core.raise.either
 import com.ivy.data.db.entity.TagAssociationEntity
 import com.ivy.data.db.entity.TagEntity
 import com.ivy.data.model.Tag
@@ -15,54 +17,53 @@ import java.util.UUID
 import javax.inject.Inject
 
 class TagMapper @Inject constructor() {
-
     companion object {
         fun createNewTagId(): TagId = TagId(UUID.randomUUID())
     }
 
-    fun TagEntity.toDomain(): Tag {
-        return Tag(
-            id = TagId(this.id),
-            name = NotBlankTrimmedString(this.name),
-            description = this.description,
-            color = ColorInt(this.color),
-            icon = this.icon?.let { IconAsset.from(it).getOrNull() },
-            orderNum = this.orderNum,
-            creationTimestamp = this.dateTime,
-            lastUpdated = this.lastSyncedTime,
-            removed = this.isDeleted
+    fun TagEntity.toDomain(): Either<String, Tag> = either {
+        Tag(
+            id = TagId(id),
+            name = NotBlankTrimmedString.from(name).bind(),
+            description = description,
+            color = ColorInt(color),
+            icon = icon?.let(IconAsset::from)?.getOrNull(),
+            orderNum = orderNum,
+            creationTimestamp = dateTime,
+            lastUpdated = lastSyncedTime,
+            removed = isDeleted
         )
     }
 
     fun Tag.toEntity(): TagEntity {
         return TagEntity(
-            id = this.id.value,
-            name = this.name.value,
-            description = this.description,
-            color = this.color.value,
-            icon = this.icon?.id,
-            orderNum = this.orderNum,
-            dateTime = this.creationTimestamp,
-            lastSyncedTime = this.lastUpdated,
-            isDeleted = this.removed
+            id = id.value,
+            name = name.value,
+            description = description,
+            color = color.value,
+            icon = icon?.id,
+            orderNum = orderNum,
+            dateTime = creationTimestamp,
+            lastSyncedTime = lastUpdated,
+            isDeleted = removed
         )
     }
 
     fun TagAssociation.toEntity(): TagAssociationEntity {
         return TagAssociationEntity(
-            tagId = this.id.value,
-            associatedId = this.associatedId.value,
-            lastSyncedTime = this.lastUpdated,
-            isDeleted = this.removed
+            tagId = id.value,
+            associatedId = associatedId.value,
+            lastSyncedTime = lastUpdated,
+            isDeleted = removed
         )
     }
 
     fun TagAssociationEntity.toDomain(): TagAssociation {
         return TagAssociation(
-            id = TagId(this.tagId),
-            associatedId = AssociationId(this.associatedId),
-            lastUpdated = this.lastSyncedTime,
-            removed = this.isDeleted
+            id = TagId(tagId),
+            associatedId = AssociationId(associatedId),
+            lastUpdated = lastSyncedTime,
+            removed = isDeleted
         )
     }
 
