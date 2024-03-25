@@ -20,6 +20,6 @@ class AssetCodeTest : FreeSpec({
         val res = AssetCode.from(rawInput)
 
         // then
-        res.shouldBeRight() shouldBe AssetCode("USD")
+        res.shouldBeRight() shouldBe AssetCode.unsafe("USD")
     }
 })

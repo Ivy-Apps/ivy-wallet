@@ -31,7 +31,7 @@ class CategoryCreator @Inject constructor(
                     Category(
                         name = NotBlankTrimmedString.from(name.trim()).bind(),
                         color = ColorInt(data.color.toArgb()),
-                        icon = data.icon?.let { IconAsset(it) },
+                        icon = data.icon?.let(IconAsset::from)?.getOrNull(),
                         orderNum = categoryRepository.findMaxOrderNum().nextOrderNum(),
                         id = CategoryId(UUID.randomUUID()),
                         lastUpdated = Instant.EPOCH,

@@ -32,10 +32,10 @@ class AccountMapperTest : FreeSpec({
         val id = UUID.randomUUID()
         val account = Account(
             id = AccountId(id),
-            name = NotBlankTrimmedString("Test"),
-            asset = AssetCode("USD"),
+            name = NotBlankTrimmedString.unsafe("Test"),
+            asset = AssetCode.unsafe("USD"),
             color = ColorInt(value = 42),
-            icon = IconAsset("icon"),
+            icon = IconAsset.unsafe("icon"),
             includeInBalance = true,
             orderNum = 0.0,
             lastUpdated = Instant.EPOCH,
@@ -79,10 +79,10 @@ class AccountMapperTest : FreeSpec({
             // then
             result.shouldBeRight() shouldBe Account(
                 id = AccountId(entity.id),
-                name = NotBlankTrimmedString("Test"),
-                asset = AssetCode("USD"),
+                name = NotBlankTrimmedString.unsafe("Test"),
+                asset = AssetCode.unsafe("USD"),
                 color = ColorInt(value = 42),
-                icon = IconAsset("icon"),
+                icon = IconAsset.unsafe("icon"),
                 includeInBalance = true,
                 orderNum = 0.0,
                 lastUpdated = Instant.EPOCH,
@@ -109,7 +109,7 @@ class AccountMapperTest : FreeSpec({
             val result = with(mapper) { corruptedEntity.toDomain() }
 
             // then
-            result.shouldBeRight().asset shouldBe AssetCode("USD")
+            result.shouldBeRight().asset shouldBe AssetCode.unsafe("USD")
         }
 
         "missing icon is okay" {

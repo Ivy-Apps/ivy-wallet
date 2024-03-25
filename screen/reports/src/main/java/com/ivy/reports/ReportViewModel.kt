@@ -8,26 +8,26 @@ import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.viewModelScope
+import com.ivy.base.ComposeViewModel
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
-import com.ivy.data.model.Expense
-import com.ivy.data.model.Income
-import com.ivy.data.model.Transaction
-import com.ivy.data.model.Transfer
-import com.ivy.data.temp.migration.getTransactionType
-import com.ivy.data.temp.migration.getValue
-import com.ivy.data.repository.TransactionRepository
-import com.ivy.data.repository.mapper.TransactionMapper
-import com.ivy.base.ComposeViewModel
-import com.ivy.data.model.Tag
-import com.ivy.data.model.TransactionId
-import com.ivy.data.model.primitive.NotBlankTrimmedString
-import com.ivy.data.repository.TagsRepository
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
+import com.ivy.data.model.Expense
+import com.ivy.data.model.Income
+import com.ivy.data.model.Tag
+import com.ivy.data.model.Transaction
+import com.ivy.data.model.TransactionId
+import com.ivy.data.model.Transfer
 import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.CategoryRepository
+import com.ivy.data.repository.TagsRepository
+import com.ivy.data.repository.TransactionRepository
+import com.ivy.data.repository.mapper.TransactionMapper
+import com.ivy.data.temp.migration.getTransactionType
+import com.ivy.data.temp.migration.getValue
 import com.ivy.domain.RootScreen
 import com.ivy.frp.filterSuspend
 import com.ivy.legacy.IvyWalletCtx
@@ -85,7 +85,7 @@ class ReportViewModel @Inject constructor(
 ) : ComposeViewModel<ReportScreenState, ReportScreenEvent>() {
     private val unSpecifiedCategory =
         Category(
-            name = NotBlankTrimmedString(stringRes(R.string.unspecified)),
+            name = NotBlankTrimmedString.unsafe(stringRes(R.string.unspecified)),
             color = ColorInt(Gray.toArgb()),
             icon = null,
             id = CategoryId(UUID.randomUUID()),
@@ -172,6 +172,7 @@ class ReportViewModel @Inject constructor(
                 is ReportScreenEvent.OnTreatTransfersAsIncomeExpense -> onTreatTransfersAsIncomeExpense(
                     event.transfersAsIncomeExpense
                 )
+
                 is ReportScreenEvent.OnTagSearch -> onTagSearch(event.data)
             }
         }

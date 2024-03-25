@@ -43,9 +43,9 @@ class PieChartAct @Inject constructor(
 
     private val accountTransfersCategory =
         Category(
-            name = NotBlankTrimmedString(stringRes(R.string.account_transfers)),
+            name = NotBlankTrimmedString.unsafe(stringRes(R.string.account_transfers)),
             color = ColorInt(RedLight.toArgb()),
-            icon = IconAsset("transfer"),
+            icon = IconAsset.unsafe("transfer"),
             id = CategoryId(UUID.randomUUID()),
             lastUpdated = Instant.EPOCH,
             orderNum = 0.0,

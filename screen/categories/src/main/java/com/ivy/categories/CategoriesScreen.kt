@@ -562,9 +562,9 @@ private fun Preview() {
                 CategoryData(
                     category = Category(
                         id = CategoryId(UUID.randomUUID()),
-                        name = NotBlankTrimmedString("Groceries"),
+                        name = NotBlankTrimmedString.unsafe("Groceries"),
                         color = ColorInt(Green.toArgb()),
-                        icon = IconAsset("groceries"),
+                        icon = IconAsset.unsafe("groceries"),
                         lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
                         removed = false
@@ -576,9 +576,9 @@ private fun Preview() {
                 CategoryData(
                     category = Category(
                         id = CategoryId(UUID.randomUUID()),
-                        name = NotBlankTrimmedString("Fun"),
+                        name = NotBlankTrimmedString.unsafe("Fun"),
                         color = ColorInt(Orange.toArgb()),
-                        icon = IconAsset("game"),
+                        icon = IconAsset.unsafe("game"),
                         lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
                         removed = false
@@ -590,9 +590,9 @@ private fun Preview() {
                 CategoryData(
                     category = Category(
                         id = CategoryId(UUID.randomUUID()),
-                        name = NotBlankTrimmedString("Ivy"),
+                        name = NotBlankTrimmedString.unsafe("Ivy"),
                         color = ColorInt(IvyDark.toArgb()),
-                        icon = IconAsset(""),
+                        icon = IconAsset.unsafe("icon"),
                         lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
                         removed = false
@@ -604,9 +604,9 @@ private fun Preview() {
                 CategoryData(
                     category = Category(
                         id = CategoryId(UUID.randomUUID()),
-                        name = NotBlankTrimmedString("Food"),
+                        name = NotBlankTrimmedString.unsafe("Food"),
                         color = ColorInt(GreenLight.toArgb()),
-                        icon = IconAsset("atom"),
+                        icon = IconAsset.unsafe("atom"),
                         lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
                         removed = false
@@ -618,9 +618,9 @@ private fun Preview() {
                 CategoryData(
                     category = Category(
                         id = CategoryId(UUID.randomUUID()),
-                        name = NotBlankTrimmedString("Shisha"),
+                        name = NotBlankTrimmedString.unsafe("Shisha"),
                         color = ColorInt(GreenDark.toArgb()),
-                        icon = IconAsset("drink"),
+                        icon = IconAsset.unsafe("drink"),
                         lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
                         removed = false

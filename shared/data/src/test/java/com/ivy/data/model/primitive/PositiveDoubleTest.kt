@@ -29,6 +29,6 @@ class PositiveDoubleTest : FreeSpec({
         val res = PositiveDouble.from(number)
 
         // then
-        res.shouldBeRight() shouldBe PositiveDouble(42.0)
+        res.shouldBeRight() shouldBe PositiveDouble.unsafe(42.0)
     }
 })

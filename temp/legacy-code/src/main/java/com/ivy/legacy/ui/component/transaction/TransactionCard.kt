@@ -572,14 +572,14 @@ private fun PreviewUpcomingExpense() {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = Account(name = "Cash", Green.toArgb())
             val food = Category(
-                name = NotBlankTrimmedString("Food"),
+                name = NotBlankTrimmedString.unsafe("Food"),
                 color = ColorInt(Blue.toArgb()),
                 icon = null,
                 id = CategoryId(UUID.randomUUID()),
                 lastUpdated = Instant.EPOCH,
                 orderNum = 0.0,
                 removed = false,
-                )
+            )
 
             item {
                 TransactionCard(
@@ -612,7 +612,7 @@ private fun PreviewOverdueExpense() {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = Account(name = "Cash", color = Green.toArgb())
             val food = Category(
-                name = NotBlankTrimmedString("Rent"),
+                name = NotBlankTrimmedString.unsafe("Rent"),
                 color = ColorInt(Green.toArgb()),
                 icon = null,
                 id = CategoryId(UUID.randomUUID()),
@@ -652,9 +652,9 @@ private fun PreviewNormalExpense() {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = Account(name = "Cash", color = Green.toArgb())
             val food = Category(
-                name = NotBlankTrimmedString("Bitovi"),
+                name = NotBlankTrimmedString.unsafe("Bitovi"),
                 color = ColorInt(Orange.toArgb()),
-                icon = IconAsset("groceries"),
+                icon = IconAsset.unsafe("groceries"),
                 id = CategoryId(UUID.randomUUID()),
                 lastUpdated = Instant.EPOCH,
                 orderNum = 0.0,
@@ -691,14 +691,14 @@ private fun PreviewIncome() {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = Account(name = "DSK Bank", color = Green.toArgb())
             val category = Category(
-                name = NotBlankTrimmedString("Salary"),
+                name = NotBlankTrimmedString.unsafe("Salary"),
                 color = ColorInt(GreenDark.toArgb()),
                 icon = null,
                 id = CategoryId(UUID.randomUUID()),
                 lastUpdated = Instant.EPOCH,
                 orderNum = 0.0,
                 removed = false,
-                )
+            )
 
             item {
                 TransactionCard(

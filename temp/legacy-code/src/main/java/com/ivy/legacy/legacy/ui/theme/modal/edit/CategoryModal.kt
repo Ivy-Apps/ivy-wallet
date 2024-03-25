@@ -166,7 +166,7 @@ fun BoxWithConstraintsScope.CategoryModal(
         color = color,
         dismiss = { chooseIconModalVisible = false }
     ) {
-        icon = it?.let { iconId -> IconAsset(iconId) }
+        icon = it?.let { iconId -> IconAsset.unsafe(iconId) }
     }
 }
 

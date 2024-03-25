@@ -29,12 +29,12 @@ class TransactionMapper @Inject constructor() {
         toAccountAssetCode: AssetCode? = null,
         tags: List<TagId> = emptyList()
     ): Either<String, Transaction> = either {
-        val zoneId = ZoneId.systemDefault()
         val metadata = TransactionMetadata(
             recurringRuleId = recurringRuleId,
             loanId = loanId,
             loanRecordId = loanRecordId
         )
+        val zoneId = ZoneId.systemDefault()
         val settled = dateTime != null
         val time = dateTime?.atZone(zoneId)?.toInstant()
             ?: dueDate?.atZone(zoneId)?.toInstant()
@@ -46,9 +46,8 @@ class TransactionMapper @Inject constructor() {
                 ?: raise("No asset code associated with the account for this transaction '${this@toDomain}'")
         )
 
-        val notBlankTrimmedDescription = description?.let { NotBlankTrimmedString.from(it).getOrNull() }
-
-        val notBlankTrimmedTitle = title?.let { NotBlankTrimmedString.from(it).getOrNull() }
+        val notBlankTrimmedDescription = description?.let(NotBlankTrimmedString::from)?.getOrNull()
+        val notBlankTrimmedTitle = title?.let(NotBlankTrimmedString::from)?.getOrNull()
 
         when (type) {
             TransactionType.INCOME -> {
@@ -96,13 +95,15 @@ class TransactionMapper @Inject constructor() {
                         )
                 )
 
-                val toAccount = toAccountId?.let(::AccountId)
-                    ?: raise("No destination account id associated with this transaction '${this@toDomain}'")
+                val toAccount = toAccountId?.let(::AccountId) ?: raise(
+                    "No destination account id associated" +
+                            " with this transaction '${this@toDomain}'"
+                )
 
-                if (AccountId(accountId) == toAccount
-                ) {
+                if (accountId == toAccount.value) {
                     raise(
-                        "Source account id and destination account id are same with this transaction '${this@toDomain}'"
+                        "Source account id and destination accounts " +
+                                "are same with this transaction '${this@toDomain}'"
                     )
                 }
 

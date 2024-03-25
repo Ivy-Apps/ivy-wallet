@@ -37,7 +37,7 @@ class TagsRepositoryImpl @Inject constructor(
     override suspend fun findByIds(id: TagId): Tag? {
         return tagsMemo[id] ?: withContext(dispatchersProvider.io) {
             tagDao.findByIds(id.value)?.let {
-                with(mapper) { it.toDomain() }
+                with(mapper) { it.toDomain().getOrNull() } ?: return@withContext null
             }.also(::memoize)
         }
     }
@@ -48,8 +48,12 @@ class TagsRepositoryImpl @Inject constructor(
 
     override suspend fun findByAssociatedId(id: AssociationId): List<Tag> {
         return withContext(dispatchersProvider.io) {
-            tagDao.findTagsByAssociatedId(id.value).let {
-                with(mapper) { it.map { it.toDomain() } }
+            tagDao.findTagsByAssociatedId(id.value).let { entities ->
+                entities.mapNotNull {
+                    with(mapper) {
+                        it.toDomain().getOrNull()
+                    }
+                }
             }
         }
     }
@@ -59,7 +63,12 @@ class TagsRepositoryImpl @Inject constructor(
             withContext(dispatchersProvider.io) {
                 async {
                     tagDao.findTagsByAssociatedIds(it.map { it.value }).entries.associate { (id, tags) ->
-                        AssociationId(id) to with(mapper) { tags.map { it.toDomain() } }
+                        val domainTags = tags.mapNotNull {
+                            with(mapper) {
+                                it.toDomain().getOrNull()
+                            }
+                        }
+                        AssociationId(id) to domainTags
                     }
                 }
             }
@@ -73,8 +82,10 @@ class TagsRepositoryImpl @Inject constructor(
             tagsMemo.values.sortedByDescending { it.creationTimestamp.epochSecond }
         } else {
             withContext(dispatchersProvider.io) {
-                tagDao.findAll().let {
-                    with(mapper) { it.map { it.toDomain() } }
+                tagDao.findAll().let { entities ->
+                    entities.mapNotNull {
+                        with(mapper) { it.toDomain().getOrNull() }
+                    }
                 }
             }.also(::memoize).also {
                 findAllMemoized = true
@@ -84,8 +95,10 @@ class TagsRepositoryImpl @Inject constructor(
 
     override suspend fun findByText(text: String): List<Tag> {
         return withContext(dispatchersProvider.io) {
-            tagDao.findByText(text).let {
-                with(mapper) { it.map { it.toDomain() } }
+            tagDao.findByText(text).let { entities ->
+                entities.mapNotNull {
+                    with(mapper) { it.toDomain().getOrNull() }
+                }
             }
         }
     }
@@ -164,8 +177,10 @@ class TagsRepositoryImpl @Inject constructor(
     private fun memoize(tag: Tag?) {
         tag?.let { tagsMemo[it.id] = it }
     }
+
     private fun memoize(tags: List<Tag>) {
         tags.forEach(::memoize)
     }
+
     private fun List<TagId>.toRawValues(): List<UUID> = this.map { it.value }
 }

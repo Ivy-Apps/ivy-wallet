@@ -228,9 +228,9 @@ class LoanTransactionsCore @Inject constructor(
             addCategoryToDb = true
 
             Category(
-                name = NotBlankTrimmedString(stringRes(R.string.loans)),
+                name = NotBlankTrimmedString.unsafe(stringRes(R.string.loans)),
                 color = ColorInt(IVY_COLOR_PICKER_COLORS_FREE[DEFAULT_COLOR_INDEX].toArgb()),
-                icon = IconAsset("loan"),
+                icon = IconAsset.unsafe("loan"),
                 id = CategoryId(UUID.randomUUID()),
                 lastUpdated = Instant.EPOCH,
                 orderNum = 0.0,
