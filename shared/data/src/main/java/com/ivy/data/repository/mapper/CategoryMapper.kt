@@ -12,14 +12,12 @@ import java.time.Instant
 import javax.inject.Inject
 
 class CategoryMapper @Inject constructor() {
-    val test = "Hello"
-
     fun CategoryEntity.toDomain(): Either<String, Category> = either {
         Category(
             id = CategoryId(id),
             name = NotBlankTrimmedString.from(name).bind(),
             color = ColorInt(color),
-            icon = icon?.let { IconAsset.from(it).getOrNull() },
+            icon = icon?.let(IconAsset::from)?.getOrNull(),
             orderNum = orderNum,
             lastUpdated = Instant.EPOCH,
             removed = isDeleted
