@@ -270,9 +270,9 @@ private fun CategoriesRow(
 private fun Preview_create() {
     IvyWalletPreview {
         val cat1 = Category(
-            name = NotBlankTrimmedString("Science"),
+            name = NotBlankTrimmedString.unsafe("Science"),
             color = ColorInt(Purple1Dark.toArgb()),
-            icon = IconAsset("atom"),
+            icon = IconAsset.unsafe("atom"),
             id = CategoryId(UUID.randomUUID()),
             lastUpdated = Instant.EPOCH,
             orderNum = 0.0,
@@ -286,16 +286,16 @@ private fun Preview_create() {
                 categories = listOf(
                     cat1,
                     Category(
-                        name = NotBlankTrimmedString("Pet"),
+                        name = NotBlankTrimmedString.unsafe("Pet"),
                         color = ColorInt(Red3Light.toArgb()),
-                        icon = IconAsset("pet"),
+                        icon = IconAsset.unsafe("pet"),
                         id = CategoryId(UUID.randomUUID()),
                         lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
                         removed = false,
                     ),
                     Category(
-                        name = NotBlankTrimmedString("Home"),
+                        name = NotBlankTrimmedString.unsafe("Home"),
                         color = ColorInt(Green.toArgb()),
                         icon = null,
                         id = CategoryId(UUID.randomUUID()),
@@ -319,9 +319,9 @@ private fun Preview_create() {
 private fun Preview_edit() {
     IvyWalletPreview {
         val cat1 = Category(
-            name = NotBlankTrimmedString("Science"),
+            name = NotBlankTrimmedString.unsafe("Science"),
             color = ColorInt(Purple1Dark.toArgb()),
-            icon = IconAsset("atom"),
+            icon = IconAsset.unsafe("atom"),
             id = CategoryId(UUID.randomUUID()),
             lastUpdated = Instant.EPOCH,
             orderNum = 0.0,
@@ -341,16 +341,16 @@ private fun Preview_edit() {
                 categories = listOf(
                     cat1,
                     Category(
-                        name = NotBlankTrimmedString("Pet"),
+                        name = NotBlankTrimmedString.unsafe("Pet"),
                         color = ColorInt(Red3Light.toArgb()),
-                        icon = IconAsset("pet"),
+                        icon = IconAsset.unsafe("pet"),
                         id = CategoryId(UUID.randomUUID()),
                         lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
                         removed = false,
                     ),
                     Category(
-                        name = NotBlankTrimmedString("Home"),
+                        name = NotBlankTrimmedString.unsafe("Home"),
                         color = ColorInt(Green.toArgb()),
                         icon = null,
                         id = CategoryId(UUID.randomUUID()),

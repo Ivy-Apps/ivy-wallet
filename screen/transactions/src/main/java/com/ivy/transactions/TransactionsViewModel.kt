@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.viewModelScope
 import arrow.core.toOption
@@ -12,7 +11,6 @@ import com.ivy.base.ComposeViewModel
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
-import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.write.WriteCategoryDao
@@ -21,12 +19,9 @@ import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
-import com.ivy.data.model.primitive.ColorInt
-import com.ivy.data.model.primitive.IconAsset
-import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.AccountRepository
-import com.ivy.data.repository.TagsRepository
 import com.ivy.data.repository.CategoryRepository
+import com.ivy.data.repository.TagsRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.frp.then
 import com.ivy.legacy.IvyWalletCtx
@@ -42,7 +37,6 @@ import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.selectEndTextFieldValue
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.TransactionsScreen
-import com.ivy.resources.R
 import com.ivy.wallet.domain.action.account.AccTrnsAct
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.account.CalcAccBalanceAct
@@ -56,14 +50,12 @@ import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.deprecated.logic.WalletAccountLogic
 import com.ivy.wallet.domain.deprecated.logic.WalletCategoryLogic
 import com.ivy.wallet.domain.pure.exchange.ExchangeData
-import com.ivy.wallet.ui.theme.RedLight
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
-import java.time.Instant
 import java.util.UUID
 import javax.inject.Inject
 import com.ivy.legacy.datamodel.Account as LegacyAccount
@@ -384,7 +376,8 @@ class TransactionsViewModel @Inject constructor(
                             baseCurrency = baseCurrency.value,
                             transactions = with(transactionMapper) {
                                 it.map {
-                                    val tags = tagsRepository.findByIds(it.tags).toImmutableLegacyTags()
+                                    val tags =
+                                        tagsRepository.findByIds(it.tags).toImmutableLegacyTags()
                                     it.toEntity().toDomain(tags = tags)
                                 }
                             }
@@ -630,16 +623,8 @@ class TransactionsViewModel @Inject constructor(
         transactions: List<Transaction>
     ) {
         initWithTransactions.value = true
-        category.value =
-            Category(
-                name = NotBlankTrimmedString(stringRes(R.string.account_transfers)),
-                color = ColorInt(RedLight.toArgb()),
-                icon = IconAsset("transfer"),
-                id = CategoryId(UUID.randomUUID()),
-                lastUpdated = Instant.EPOCH,
-                orderNum = 0.0,
-                removed = false,
-            )
+
+        category.value = categories.value.firstOrNull { it.id.value == categoryId }
         val accountFilterIdSet = accountFilterList.toHashSet()
         val trans = transactions.filter {
             it.categoryId == null && (

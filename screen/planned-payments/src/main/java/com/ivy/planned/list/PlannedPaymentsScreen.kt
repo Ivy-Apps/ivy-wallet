@@ -12,8 +12,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.common.ui.rememberScrollPositionListState
 import com.ivy.base.model.TransactionType
+import com.ivy.common.ui.rememberScrollPositionListState
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.IntervalType
@@ -110,7 +110,7 @@ private fun Preview() {
     IvyWalletPreview {
         val account = Account(name = "Cash", Green.toArgb())
         val food = Category(
-            name = NotBlankTrimmedString("Food"),
+            name = NotBlankTrimmedString.unsafe("Food"),
             color = ColorInt(Purple.toArgb()),
             icon = null,
             id = CategoryId(UUID.randomUUID()),
@@ -119,14 +119,14 @@ private fun Preview() {
             removed = false,
         )
         val shisha = Category(
-            name = NotBlankTrimmedString("Shisha"),
+            name = NotBlankTrimmedString.unsafe("Shisha"),
             color = ColorInt(Orange.toArgb()),
             icon = null,
             id = CategoryId(UUID.randomUUID()),
             lastUpdated = Instant.EPOCH,
             orderNum = 0.0,
             removed = false,
-            )
+        )
 
         UI(
             PlannedPaymentsScreenState(

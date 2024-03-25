@@ -156,7 +156,10 @@ private fun PlannedPaymentHeaderRow(
             if (category != null) {
                 IvyButton(
                     iconTint = findContrastTextColor(category.color.value.toComposeColor()),
-                    iconStart = getCustomIconIdS(category.icon?.id, R.drawable.ic_custom_category_s),
+                    iconStart = getCustomIconIdS(
+                        category.icon?.id,
+                        R.drawable.ic_custom_category_s
+                    ),
                     text = category.name.value,
                     backgroundGradient = Gradient.solid(category.color.value.toComposeColor()),
                     textStyle = UI.typo.c.style(
@@ -268,7 +271,7 @@ private fun Preview_oneTime() {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = Account(name = "Cash", Green.toArgb())
             val food = Category(
-                name = NotBlankTrimmedString("Food"),
+                name = NotBlankTrimmedString.unsafe("Food"),
                 color = ColorInt(Blue.toArgb()),
                 icon = null,
                 id = CategoryId(UUID.randomUUID()),
@@ -308,7 +311,7 @@ private fun Preview_recurring() {
         LazyColumn(Modifier.fillMaxSize()) {
             val account = Account(name = "Revolut", Blue.toArgb())
             val shisha = Category(
-                name = NotBlankTrimmedString("Shisha"),
+                name = NotBlankTrimmedString.unsafe("Shisha"),
                 color = ColorInt(Orange.toArgb()),
                 icon = null,
                 id = CategoryId(UUID.randomUUID()),
@@ -348,14 +351,14 @@ private fun Preview_recurringError() {
         LazyColumn(Modifier.fillMaxSize()) {
             val account = Account(name = "Revolut", Blue.toArgb())
             val shisha = Category(
-                name = NotBlankTrimmedString("Shisha"),
+                name = NotBlankTrimmedString.unsafe("Shisha"),
                 color = ColorInt(Orange.toArgb()),
                 icon = null,
                 id = CategoryId(UUID.randomUUID()),
                 lastUpdated = Instant.EPOCH,
                 orderNum = 0.0,
                 removed = false,
-                )
+            )
 
             item {
                 Spacer(Modifier.height(68.dp))
