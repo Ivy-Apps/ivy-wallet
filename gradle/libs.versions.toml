@@ -14,7 +14,7 @@ hilt = "2.51"
 room = "2.6.1"
 androidx-work = "2.9.0"
 kotlinx-collections = "0.3.7"
-androidx-test = "1.5.2"
+androidx-test = "1.5.0"
 paparazzi = "1.3.3"
 
 # Android
