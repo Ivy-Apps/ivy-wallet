@@ -16,6 +16,5 @@ dependencies {
     implementation(libs.bundles.ktor)
 
     androidTestImplementation(libs.bundles.integration.testing)
-    androidTestImplementation(projects.shared.testing)
     androidTestImplementation(libs.mockk.android)
 }
