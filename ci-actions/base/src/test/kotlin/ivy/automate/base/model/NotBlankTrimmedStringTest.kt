@@ -2,20 +2,20 @@ package ivy.automate.base.model
 
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
-import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import ivy.automate.base.github.model.NotBlankTrimmedString
+import org.junit.Test
 
-class NotBlankTrimmedStringTest : FreeSpec({
-    "invalid" - {
-        "blank string" {
-            NotBlankTrimmedString.from("").shouldBeLeft()
-            NotBlankTrimmedString.from(" ").shouldBeLeft()
-            NotBlankTrimmedString.from("  ").shouldBeLeft()
-        }
+class NotBlankTrimmedStringTest {
+    @Test
+    fun `invalid - blank string`() {
+        NotBlankTrimmedString.from("").shouldBeLeft()
+        NotBlankTrimmedString.from(" ").shouldBeLeft()
+        NotBlankTrimmedString.from("  ").shouldBeLeft()
     }
 
-    "valid" {
+    @Test
+    fun valid() {
         // given
         val token = " abc "
 
@@ -25,4 +25,4 @@ class NotBlankTrimmedStringTest : FreeSpec({
         // then
         res.shouldBeRight().value shouldBe "abc"
     }
-})
+}
