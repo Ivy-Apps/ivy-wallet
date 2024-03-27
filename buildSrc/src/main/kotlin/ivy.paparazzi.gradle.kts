@@ -3,7 +3,6 @@ plugins {
     id("app.cash.paparazzi")
 }
 
-
 // TODO Remove when https://github.com/google/guava/issues/6567 is fixed.
 // See also: https://github.com/google/guava/issues/6801.
 dependencies.constraints {
