@@ -36,17 +36,15 @@ class ExchangeRatesRepositoryImpl @Inject constructor(
     override suspend fun findByBaseCurrencyAndCurrency(
         baseCurrency: String,
         currency: String,
-    ): ExchangeRate? {
-        return withContext(dispatchersProvider.io) {
-            val exchangeRateEntity =
-                exchangeRatesDao.findByBaseCurrencyAndCurrency(baseCurrency, currency)
-            if (exchangeRateEntity != null) {
-                with(mapper) {
-                    return@withContext exchangeRateEntity.toDomain()
-                }
-            } else {
-                return@withContext null
+    ): ExchangeRate? = withContext(dispatchersProvider.io) {
+        val exchangeRateEntity =
+            exchangeRatesDao.findByBaseCurrencyAndCurrency(baseCurrency, currency)
+        if (exchangeRateEntity != null) {
+            with(mapper) {
+                exchangeRateEntity.toDomain().getOrNull()
             }
+        } else {
+            null
         }
     }
 
@@ -87,8 +85,10 @@ class ExchangeRatesRepositoryImpl @Inject constructor(
     override suspend fun findAll(): Flow<List<ExchangeRate>> {
         return withContext(dispatchersProvider.io) {
             exchangeRatesDao.findAll().map { exchangeRateEntities ->
-                with(mapper) {
-                    exchangeRateEntities.map { it.toDomain() }
+                exchangeRateEntities.mapNotNull {
+                    with(mapper) {
+                        it.toDomain().getOrNull()
+                    }
                 }
             }
         }

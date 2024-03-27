@@ -1,5 +1,6 @@
 package com.ivy.data.repository.impl
 
+import com.ivy.base.TestDispatchersProvider
 import com.ivy.data.DataWriteEvent
 import com.ivy.data.DataWriteEventBus
 import com.ivy.data.DeleteOperation
@@ -12,7 +13,6 @@ import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.repository.mapper.CategoryMapper
-import com.ivy.base.TestDispatchersProvider
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
@@ -90,7 +90,7 @@ class CategoryRepositoryImplTest : FreeSpec({
             // then
             res shouldBe listOf(
                 Category(
-                    name = NotBlankTrimmedString("Home"),
+                    name = NotBlankTrimmedString.unsafe("Home"),
                     color = ColorInt(42),
                     icon = null,
                     orderNum = 0.0,
@@ -99,7 +99,7 @@ class CategoryRepositoryImplTest : FreeSpec({
                     id = CategoryId(id1)
                 ),
                 Category(
-                    name = NotBlankTrimmedString("Fun"),
+                    name = NotBlankTrimmedString.unsafe("Fun"),
                     color = ColorInt(42),
                     icon = null,
                     orderNum = 2.0,
@@ -144,7 +144,7 @@ class CategoryRepositoryImplTest : FreeSpec({
 
             // then
             category shouldBe Category(
-                name = NotBlankTrimmedString("Home"),
+                name = NotBlankTrimmedString.unsafe("Home"),
                 color = ColorInt(42),
                 icon = null,
                 orderNum = 0.0,
@@ -207,7 +207,7 @@ class CategoryRepositoryImplTest : FreeSpec({
         val repository = newRepository()
         val id = UUID.randomUUID()
         val category = Category(
-            name = NotBlankTrimmedString("Home"),
+            name = NotBlankTrimmedString.unsafe("Home"),
             color = ColorInt(42),
             icon = null,
             orderNum = 3.0,
@@ -247,7 +247,7 @@ class CategoryRepositoryImplTest : FreeSpec({
         val id3 = UUID.randomUUID()
         val categories = listOf(
             Category(
-                name = NotBlankTrimmedString("Home"),
+                name = NotBlankTrimmedString.unsafe("Home"),
                 color = ColorInt(42),
                 icon = null,
                 orderNum = 3.0,
@@ -256,7 +256,7 @@ class CategoryRepositoryImplTest : FreeSpec({
                 id = CategoryId(id1)
             ),
             Category(
-                name = NotBlankTrimmedString("Fun"),
+                name = NotBlankTrimmedString.unsafe("Fun"),
                 color = ColorInt(42),
                 icon = null,
                 orderNum = 4.0,
@@ -265,7 +265,7 @@ class CategoryRepositoryImplTest : FreeSpec({
                 id = CategoryId(id2)
             ),
             Category(
-                name = NotBlankTrimmedString("Health"),
+                name = NotBlankTrimmedString.unsafe("Health"),
                 color = ColorInt(42),
                 icon = null,
                 orderNum = 5.0,

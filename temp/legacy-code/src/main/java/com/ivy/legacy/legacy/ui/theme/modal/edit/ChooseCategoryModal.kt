@@ -28,14 +28,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.style
-import com.ivy.design.utils.thenIf
-import com.ivy.legacy.IvyWalletPreview
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.NotBlankTrimmedString
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
+import com.ivy.design.utils.thenIf
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.hideKeyboard
 import com.ivy.legacy.utils.onScreenStart
@@ -290,7 +290,7 @@ private fun PreviewChooseCategoryModal() {
     IvyWalletPreview {
         val categories = mutableListOf(
             Category(
-                name = NotBlankTrimmedString("Test"),
+                name = NotBlankTrimmedString.unsafe("Test"),
                 color = ColorInt(Ivy.toArgb()),
                 icon = null,
                 id = CategoryId(UUID.randomUUID()),
@@ -299,23 +299,23 @@ private fun PreviewChooseCategoryModal() {
                 removed = false,
             ),
             Category(
-                name = NotBlankTrimmedString("Second"),
+                name = NotBlankTrimmedString.unsafe("Second"),
                 color = ColorInt(Orange.toArgb()),
                 icon = null,
                 id = CategoryId(UUID.randomUUID()),
                 lastUpdated = Instant.EPOCH,
                 orderNum = 0.0,
                 removed = false,
-                ),
+            ),
             Category(
-                name = NotBlankTrimmedString("Third"),
+                name = NotBlankTrimmedString.unsafe("Third"),
                 color = ColorInt(Red.toArgb()),
                 icon = null,
                 id = CategoryId(UUID.randomUUID()),
                 lastUpdated = Instant.EPOCH,
                 orderNum = 0.0,
                 removed = false,
-                ),
+            ),
         )
 
         ChooseCategoryModal(

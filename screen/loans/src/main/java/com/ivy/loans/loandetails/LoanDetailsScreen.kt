@@ -388,6 +388,7 @@ private fun LoanInfoCard(
     val contrastColor = findContrastTextColor(backgroundColor)
     val percentPaid = amountPaid / loanTotalAmount
     val loanPercentPaid = loanAmountPaid / loanTotalAmount
+    val leftToPay = loanTotalAmount - amountPaid
     val nav = navigation()
 
     Column(
@@ -467,7 +468,6 @@ private fun LoanInfoCard(
 
         Spacer(Modifier.height(12.dp))
 
-        val leftToPay = loan.amount - amountPaid
         Row(
             modifier = Modifier
                 .fillMaxWidth()

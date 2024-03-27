@@ -30,12 +30,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ivy.common.ui.rememberScrollPositionListState
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
-import com.ivy.common.ui.rememberScrollPositionListState
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
@@ -84,7 +84,8 @@ private fun BoxWithConstraintsScope.UI(
         listState = rememberScrollPositionListState(
             key = "accounts_lazy_column",
             initialFirstVisibleItemIndex = ivyContext.accountsListState?.firstVisibleItemIndex ?: 0,
-            initialFirstVisibleItemScrollOffset = ivyContext.accountsListState?.firstVisibleItemScrollOffset ?: 0
+            initialFirstVisibleItemScrollOffset = ivyContext.accountsListState?.firstVisibleItemScrollOffset
+                ?: 0
         )
     }
     LazyColumn(
@@ -336,9 +337,9 @@ private fun PreviewAccountsTab() {
     IvyWalletPreview {
         val acc1 = com.ivy.data.model.Account(
             id = AccountId(UUID.randomUUID()),
-            name = NotBlankTrimmedString("Phyre"),
+            name = NotBlankTrimmedString.unsafe("Phyre"),
             color = ColorInt(Green.toArgb()),
-            asset = AssetCode("USD"),
+            asset = AssetCode.unsafe("USD"),
             icon = null,
             includeInBalance = true,
             orderNum = 0.0,
@@ -348,9 +349,9 @@ private fun PreviewAccountsTab() {
 
         val acc2 = com.ivy.data.model.Account(
             id = AccountId(UUID.randomUUID()),
-            name = NotBlankTrimmedString("DSK"),
+            name = NotBlankTrimmedString.unsafe("DSK"),
             color = ColorInt(GreenLight.toArgb()),
-            asset = AssetCode("USD"),
+            asset = AssetCode.unsafe("USD"),
             icon = null,
             includeInBalance = true,
             orderNum = 0.0,
@@ -360,10 +361,10 @@ private fun PreviewAccountsTab() {
 
         val acc3 = com.ivy.data.model.Account(
             id = AccountId(UUID.randomUUID()),
-            name = NotBlankTrimmedString("Revolut"),
+            name = NotBlankTrimmedString.unsafe("Revolut"),
             color = ColorInt(Green.toArgb()),
-            asset = AssetCode("USD"),
-            icon = IconAsset("revolut"),
+            asset = AssetCode.unsafe("USD"),
+            icon = IconAsset.unsafe("revolut"),
             includeInBalance = true,
             orderNum = 0.0,
             lastUpdated = Instant.EPOCH,
@@ -372,10 +373,10 @@ private fun PreviewAccountsTab() {
 
         val acc4 = com.ivy.data.model.Account(
             id = AccountId(UUID.randomUUID()),
-            name = NotBlankTrimmedString("Cash"),
+            name = NotBlankTrimmedString.unsafe("Cash"),
             color = ColorInt(Green.toArgb()),
-            asset = AssetCode("USD"),
-            icon = IconAsset("cash"),
+            asset = AssetCode.unsafe("USD"),
+            icon = IconAsset.unsafe("cash"),
             includeInBalance = true,
             orderNum = 0.0,
             lastUpdated = Instant.EPOCH,

@@ -280,7 +280,7 @@ private fun Preview() {
                 categoryAmounts = persistentListOf(
                     CategoryAmount(
                         category = Category(
-                            name = NotBlankTrimmedString("Bills"),
+                            name = NotBlankTrimmedString.unsafe("Bills"),
                             color = ColorInt(Green.toArgb()),
                             icon = null,
                             id = CategoryId(UUID.randomUUID()),
@@ -292,7 +292,7 @@ private fun Preview() {
                     ),
                     CategoryAmount(
                         category = Category(
-                            name = NotBlankTrimmedString("Shisha"),
+                            name = NotBlankTrimmedString.unsafe("Shisha"),
                             color = ColorInt(Green.toArgb()),
                             icon = null,
                             id = CategoryId(UUID.randomUUID()),
@@ -304,7 +304,7 @@ private fun Preview() {
                     ),
                     CategoryAmount(
                         category = Category(
-                            name = NotBlankTrimmedString("Food & Drink"),
+                            name = NotBlankTrimmedString.unsafe("Food & Drink"),
                             color = ColorInt(IvyDark.toArgb()),
                             icon = null,
                             id = CategoryId(UUID.randomUUID()),
@@ -316,7 +316,7 @@ private fun Preview() {
                     ),
                     CategoryAmount(
                         category = Category(
-                            name = NotBlankTrimmedString("Gifts"),
+                            name = NotBlankTrimmedString.unsafe("Gifts"),
                             color = ColorInt(RedLight.toArgb()),
                             icon = null,
                             id = CategoryId(UUID.randomUUID()),

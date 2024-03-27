@@ -40,12 +40,11 @@ jobs:
 
       - name: Upload APK in Telegram Group
         if: |
-          github.ref == 'refs/heads/main' &&
-          github.event.head_commit.author.name != 'dependabot[bot]'
+          github.ref == 'refs/heads/main'
         run: |
           COMMIT_LINK="https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}"
-          COMMIT_MESSAGE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${GITHUB_REPOSITORY}/commits/${GITHUB_SHA}" | jq -r .commit.message)
-          CAPTION=$'Ivy Wallet Demo APK:\n\n'"$COMMIT_MESSAGE"$'\n\ncommit: '"$COMMIT_LINK"
+          COMMIT_MESSAGE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${GITHUB_REPOSITORY}/commits/${GITHUB_SHA}" | jq -r .commit.message | cut -c 1-100)
+          CAPTION=$'Ivy Wallet Demo APK:\n\n'"$COMMIT_MESSAGE"$'\n... see commit at: '"$COMMIT_LINK"
           
           curl -F "chat_id=-1001647280565" \
                -F "document=@app/build/outputs/apk/demo/app-demo.apk" \

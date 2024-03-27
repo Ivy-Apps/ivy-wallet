@@ -400,9 +400,9 @@ private fun Preview_Categories() {
             ),
             categories = listOf(
                 Category(
-                    name = NotBlankTrimmedString("Food & Drinks"),
+                    name = NotBlankTrimmedString.unsafe("Food & Drinks"),
                     color = ColorInt(Orange.toArgb()),
-                    icon = IconAsset("fooddrinks"),
+                    icon = IconAsset.unsafe("fooddrinks"),
                     id = CategoryId(UUID.randomUUID()),
                     lastUpdated = Instant.EPOCH,
                     orderNum = 0.0,
@@ -476,9 +476,9 @@ private fun Preview_Premium() {
             ),
             categories = List(12) {
                 Category(
-                    name = NotBlankTrimmedString("Food & Drinks"),
+                    name = NotBlankTrimmedString.unsafe("Food & Drinks"),
                     color = ColorInt(Orange.toArgb()),
-                    icon = IconAsset("fooddrinks"),
+                    icon = IconAsset.unsafe("fooddrinks"),
                     id = CategoryId(UUID.randomUUID()),
                     lastUpdated = Instant.EPOCH,
                     orderNum = 0.0,

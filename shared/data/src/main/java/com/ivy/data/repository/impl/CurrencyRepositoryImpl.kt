@@ -33,7 +33,7 @@ class CurrencyRepositoryImpl @Inject constructor(
         val currencyCode = settingsDao.findFirstOrNull()?.currency
             ?: getDefaultFIATCurrency()?.currencyCode
         currencyCode?.let(AssetCode::from)?.getOrNull()
-            ?: AssetCode(FALLBACK_DEFAULT_CURRENCY)
+            ?: AssetCode.unsafe(FALLBACK_DEFAULT_CURRENCY)
     }
 
     private fun getDefaultFIATCurrency(): Currency? {

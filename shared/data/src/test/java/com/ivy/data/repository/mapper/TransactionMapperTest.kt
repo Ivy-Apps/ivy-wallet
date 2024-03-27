@@ -38,8 +38,8 @@ class TransactionMapperTest : FreeSpec({
 
             val income = Income(
                 id = transactionId,
-                title = NotBlankTrimmedString("Income"),
-                description = NotBlankTrimmedString("Income desc"),
+                title = NotBlankTrimmedString.unsafe("Income"),
+                description = NotBlankTrimmedString.unsafe("Income desc"),
                 category = categoryId,
                 time = instant,
                 settled = true,
@@ -50,7 +50,10 @@ class TransactionMapperTest : FreeSpec({
                 ),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(amount = PositiveDouble(100.0), asset = AssetCode("NGN")),
+                value = Value(
+                    amount = PositiveDouble.unsafe(100.0),
+                    asset = AssetCode.unsafe("NGN")
+                ),
                 account = accountId,
                 tags = persistentListOf()
             )
@@ -92,8 +95,8 @@ class TransactionMapperTest : FreeSpec({
 
             val expense = Expense(
                 id = transactionId,
-                title = NotBlankTrimmedString("Expense"),
-                description = NotBlankTrimmedString("Expense desc"),
+                title = NotBlankTrimmedString.unsafe("Expense"),
+                description = NotBlankTrimmedString.unsafe("Expense desc"),
                 category = categoryId,
                 time = instant,
                 settled = true,
@@ -104,7 +107,10 @@ class TransactionMapperTest : FreeSpec({
                 ),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                value = Value(amount = PositiveDouble(100.0), asset = AssetCode("NGN")),
+                value = Value(
+                    amount = PositiveDouble.unsafe(100.0),
+                    asset = AssetCode.unsafe("NGN")
+                ),
                 account = accountId,
                 tags = persistentListOf()
             )
@@ -147,8 +153,8 @@ class TransactionMapperTest : FreeSpec({
 
             val transfer = Transfer(
                 id = transactionId,
-                title = NotBlankTrimmedString("Transfer"),
-                description = NotBlankTrimmedString("Transfer desc"),
+                title = NotBlankTrimmedString.unsafe("Transfer"),
+                description = NotBlankTrimmedString.unsafe("Transfer desc"),
                 category = categoryId,
                 time = instant,
                 settled = true,
@@ -159,9 +165,15 @@ class TransactionMapperTest : FreeSpec({
                 ),
                 lastUpdated = Instant.EPOCH,
                 removed = false,
-                fromValue = Value(amount = PositiveDouble(100.0), asset = AssetCode("NGN")),
+                fromValue = Value(
+                    amount = PositiveDouble.unsafe(100.0),
+                    asset = AssetCode.unsafe("NGN")
+                ),
                 fromAccount = accountId,
-                toValue = Value(amount = PositiveDouble(100.0), asset = AssetCode("NGN")),
+                toValue = Value(
+                    amount = PositiveDouble.unsafe(100.0),
+                    asset = AssetCode.unsafe("NGN")
+                ),
                 toAccount = toAccountId,
                 tags = persistentListOf()
             )
@@ -203,7 +215,7 @@ class TransactionMapperTest : FreeSpec({
             val loanId = UUID.randomUUID()
             val loanRecordId = UUID.randomUUID()
             val transactionId = UUID.randomUUID()
-            val assetCode = AssetCode("NGN")
+            val assetCode = AssetCode.unsafe("NGN")
 
             val entity = TransactionEntity(
                 accountId = accountId,
@@ -232,8 +244,8 @@ class TransactionMapperTest : FreeSpec({
                 // then
                 income.shouldBeRight() shouldBe Income(
                     id = TransactionId(transactionId),
-                    title = NotBlankTrimmedString("Income"),
-                    description = NotBlankTrimmedString("Income desc"),
+                    title = NotBlankTrimmedString.unsafe("Income"),
+                    description = NotBlankTrimmedString.unsafe("Income desc"),
                     category = CategoryId(categoryId),
                     time = dateTime.atZone(ZoneId.systemDefault()).toInstant(),
                     settled = true,
@@ -242,30 +254,33 @@ class TransactionMapperTest : FreeSpec({
                     ),
                     lastUpdated = Instant.EPOCH,
                     removed = false,
-                    value = Value(amount = PositiveDouble(100.0), asset = assetCode),
+                    value = Value(
+                        amount = PositiveDouble.unsafe(100.0),
+                        asset = assetCode
+                    ),
                     account = AccountId(accountId),
                     tags = persistentListOf()
                 )
             }
 
-            "title not null but blank" {
-                val corruptedEntity = entity.copy(title = "")
+            "blank title is okay" {
+                val blankTitleEntity = entity.copy(title = "")
 
                 // when
-                val income = with(mapper) { corruptedEntity.toDomain(assetCode) }
+                val income = with(mapper) { blankTitleEntity.toDomain(assetCode) }
 
                 // then
-                income.shouldBeLeft()
+                income.shouldBeRight()
             }
 
-            "description not null but blank" {
-                val corruptedEntity = entity.copy(description = "")
+            "blank description is okay" {
+                val blankDescriptionEntity = entity.copy(description = "")
 
                 // when
-                val income = with(mapper) { corruptedEntity.toDomain(assetCode) }
+                val income = with(mapper) { blankDescriptionEntity.toDomain(assetCode) }
 
                 // then
-                income.shouldBeLeft()
+                income.shouldBeRight()
             }
 
             "no category is okay" {
@@ -318,7 +333,7 @@ class TransactionMapperTest : FreeSpec({
             val loanId = UUID.randomUUID()
             val loanRecordId = UUID.randomUUID()
             val transactionId = UUID.randomUUID()
-            val assetCode = AssetCode("NGN")
+            val assetCode = AssetCode.unsafe("NGN")
 
             val entity = TransactionEntity(
                 accountId = accountId,
@@ -347,8 +362,8 @@ class TransactionMapperTest : FreeSpec({
                 // then
                 expense.shouldBeRight() shouldBe Expense(
                     id = TransactionId(transactionId),
-                    title = NotBlankTrimmedString("Expense"),
-                    description = NotBlankTrimmedString("Expense desc"),
+                    title = NotBlankTrimmedString.unsafe("Expense"),
+                    description = NotBlankTrimmedString.unsafe("Expense desc"),
                     category = CategoryId(categoryId),
                     time = dateTime.atZone(ZoneId.systemDefault()).toInstant(),
                     settled = true,
@@ -357,30 +372,30 @@ class TransactionMapperTest : FreeSpec({
                     ),
                     lastUpdated = Instant.EPOCH,
                     removed = false,
-                    value = Value(amount = PositiveDouble(100.0), asset = assetCode),
+                    value = Value(amount = PositiveDouble.unsafe(100.0), asset = assetCode),
                     account = AccountId(accountId),
                     tags = persistentListOf()
                 )
             }
 
-            "title not null but blank" {
-                val corruptedEntity = entity.copy(title = "")
+            "blank title is okay" {
+                val blankTitleEntity = entity.copy(title = "")
 
                 // when
-                val expense = with(mapper) { corruptedEntity.toDomain(assetCode) }
+                val expense = with(mapper) { blankTitleEntity.toDomain(assetCode) }
 
                 // then
-                expense.shouldBeLeft()
+                expense.shouldBeRight()
             }
 
-            "description not null but blank" {
-                val corruptedEntity = entity.copy(description = "")
+            "blank description is okay" {
+                val blankDescriptionEntity = entity.copy(description = "")
 
                 // when
-                val expense = with(mapper) { corruptedEntity.toDomain(assetCode) }
+                val expense = with(mapper) { blankDescriptionEntity.toDomain(assetCode) }
 
                 // then
-                expense.shouldBeLeft()
+                expense.shouldBeRight()
             }
 
             "no category is okay" {
@@ -434,7 +449,7 @@ class TransactionMapperTest : FreeSpec({
             val loanId = UUID.randomUUID()
             val loanRecordId = UUID.randomUUID()
             val transactionId = UUID.randomUUID()
-            val assetCode = AssetCode("NGN")
+            val assetCode = AssetCode.unsafe("NGN")
 
             val entity = TransactionEntity(
                 accountId = accountId,
@@ -463,8 +478,8 @@ class TransactionMapperTest : FreeSpec({
                 // then
                 transfer.shouldBeRight() shouldBe Transfer(
                     id = TransactionId(transactionId),
-                    title = NotBlankTrimmedString("Transfer"),
-                    description = NotBlankTrimmedString("Transfer desc"),
+                    title = NotBlankTrimmedString.unsafe("Transfer"),
+                    description = NotBlankTrimmedString.unsafe("Transfer desc"),
                     category = CategoryId(categoryId),
                     time = dateTime.atZone(ZoneId.systemDefault()).toInstant(),
                     settled = true,
@@ -473,29 +488,35 @@ class TransactionMapperTest : FreeSpec({
                     ),
                     lastUpdated = Instant.EPOCH,
                     removed = false,
-                    fromValue = Value(amount = PositiveDouble(100.0), asset = assetCode),
+                    fromValue = Value(
+                        amount = PositiveDouble.unsafe(100.0),
+                        asset = assetCode
+                    ),
                     fromAccount = AccountId(accountId),
-                    toValue = Value(amount = PositiveDouble(100.0), asset = assetCode),
+                    toValue = Value(
+                        amount = PositiveDouble.unsafe(100.0),
+                        asset = assetCode
+                    ),
                     toAccount = AccountId(toAccountId),
                     tags = persistentListOf()
                 )
             }
 
-            "title not null but blank" {
-                val corruptedEntity = entity.copy(title = "")
+            "blank title is okay" {
+                val blankTitleEntity = entity.copy(title = "")
 
                 // when
-                val transfer = with(mapper) { corruptedEntity.toDomain(assetCode) }
+                val transfer = with(mapper) { blankTitleEntity.toDomain(assetCode) }
 
                 // then
                 transfer.shouldBeLeft()
             }
 
-            "description not null but blank" {
-                val corruptedEntity = entity.copy(description = "")
+            "blank description is okay" {
+                val blankDescriptionEntity = entity.copy(description = "")
 
                 // when
-                val transfer = with(mapper) { corruptedEntity.toDomain(assetCode) }
+                val transfer = with(mapper) { blankDescriptionEntity.toDomain(assetCode) }
 
                 // then
                 transfer.shouldBeLeft()
