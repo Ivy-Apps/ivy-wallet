@@ -29,7 +29,7 @@ fun DemoComposable(modifier: Modifier = Modifier) {
     Surface(modifier = modifier) {
         Text(
             modifier = Modifier.padding(all = 16.dp),
-            text = "Demo composable"
+            text = "Demo composable",
         )
     }
 }

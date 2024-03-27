@@ -10,7 +10,8 @@ open class PaparazziScreenshotTest {
     @get:Rule
     val paparazzi = Paparazzi(
         deviceConfig = DeviceConfig.PIXEL_6_PRO,
-        showSystemUi = true
+        showSystemUi = true,
+        maxPercentDifference = 0.001
     )
 
     protected fun snapshot(theme: PaparazziTheme, content: @Composable () -> Unit) {
