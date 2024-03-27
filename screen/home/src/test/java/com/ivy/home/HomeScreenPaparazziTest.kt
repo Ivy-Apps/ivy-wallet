@@ -3,6 +3,7 @@ package com.ivy.home
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.BoxWithConstraints
+import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import com.ivy.base.legacy.Theme
 import com.ivy.legacy.data.AppBaseData
@@ -20,6 +21,7 @@ import java.math.BigDecimal
 @OptIn(ExperimentalAnimationApi::class, ExperimentalFoundationApi::class)
 @RunWith(TestParameterInjector::class)
 class HomeScreenPaparazziTest(
+    @TestParameter
     private val theme: PaparazziTheme,
 ) : PaparazziScreenshotTest() {
     @Test
