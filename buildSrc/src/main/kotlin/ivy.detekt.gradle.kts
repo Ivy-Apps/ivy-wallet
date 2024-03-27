@@ -42,7 +42,7 @@ tasks.withType<Detekt> {
     allRules = true
 
     // Target version of the generated JVM bytecode. It is used for type resolution.
-    jvmTarget = "1.8"
+    jvmTarget = catalog.version("jvm-target")
 }
 
 dependencies {

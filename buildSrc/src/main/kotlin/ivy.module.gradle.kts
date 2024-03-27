@@ -21,7 +21,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = catalog.version("jvm-target")
     }
 
     // Android

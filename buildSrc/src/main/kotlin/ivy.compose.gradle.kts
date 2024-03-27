@@ -25,10 +25,6 @@ android {
             isReturnDefaultValues = true
         }
     }
-
-    molecule {
-        kotlinCompilerPlugin.set(catalog.version("compose-compiler"))
-    }
 }
 
 @Suppress("MaximumLineLength", "MaxLineLength")
