@@ -22,15 +22,9 @@ class ExchangeRatesRepositoryImpl @Inject constructor(
     private val dispatchersProvider: DispatchersProvider,
 ) : ExchangeRatesRepository {
     override suspend fun fetchExchangeRates(): ExchangeRatesResponse? {
-        var result: ExchangeRatesResponse? = null
-
-        withContext(dispatchersProvider.io) {
-            remoteExchangeRatesDataSource.urls.forEach { url ->
-                result = remoteExchangeRatesDataSource.fetchEurExchangeRates(url).getOrNull()
-                if (result != null) return@withContext
-            }
+        return withContext(dispatchersProvider.io) {
+            remoteExchangeRatesDataSource.fetchEurExchangeRates().getOrNull()
         }
-        return result
     }
 
     override suspend fun findByBaseCurrencyAndCurrency(

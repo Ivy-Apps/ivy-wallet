@@ -1,5 +1,6 @@
 package com.ivy.data.backup
 
+import com.ivy.base.TestDispatchersProvider
 import com.ivy.base.di.KotlinxSerializationModule
 import com.ivy.data.db.dao.fake.FakeAccountDao
 import com.ivy.data.db.dao.fake.FakeBudgetDao
@@ -12,15 +13,15 @@ import com.ivy.data.db.dao.fake.FakeTransactionDao
 import com.ivy.data.repository.fake.FakeAccountRepository
 import com.ivy.data.repository.fake.FakeCurrencyRepository
 import com.ivy.data.repository.mapper.AccountMapper
-import com.ivy.base.TestDispatchersProvider
 import com.ivy.testing.testResource
-import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
 import io.mockk.mockk
+import kotlinx.coroutines.test.runTest
+import org.junit.Test
 
-class BackupDataUseCaseTest : FreeSpec({
-    fun newBackupDataUseCase(
+class BackupDataUseCaseTest {
+    private fun newBackupDataUseCase(
         accountDao: FakeAccountDao = FakeAccountDao(),
         categoryDao: FakeCategoryDao = FakeCategoryDao(),
         transactionDao: FakeTransactionDao = FakeTransactionDao(),
@@ -95,7 +96,8 @@ class BackupDataUseCaseTest : FreeSpec({
         freshBackupUseCase.generateJsonBackup() shouldBe exportedJson
     }
 
-    "backup compatibility with 4.5.0 (150)" {
+    @Test
+    fun `backup compatibility with 450 (150)`() = runTest {
         backupTestCase("450-150")
     }
-})
+}

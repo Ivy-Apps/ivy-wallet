@@ -14,13 +14,14 @@ hilt = "2.51"
 room = "2.6.1"
 androidx-work = "2.9.0"
 kotlinx-collections = "0.3.7"
-androidx-test = "1.5.0"
+paparazzi = "1.3.3"
 
 # Android
 min-sdk = "28"
 compile-sdk = "34"
 version-name = "4.5.0"
 version-code = "150"
+jvm-target = "17"
 
 
 # Linters
@@ -54,21 +55,22 @@ arrowkt-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
 
 # Testing
 mockk = { module = "io.mockk:mockk", version = "1.13.10" }
-kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
 kotest-property-arrow = { module = "io.kotest.extensions:kotest-property-arrow", version.ref = "arrow" }
 kotest-assertions-arrow = { module = "io.kotest.extensions:kotest-assertions-arrow", version.ref = "arrow" }
-kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 cashapp-molecule-plugin = { module = "app.cash.molecule:molecule-gradle-plugin", version = "1.4.1" }
 cashapp-turbine = { module = "app.cash.turbine:turbine", version = "1.1.0" }
+paparazzi-plugin = { module = "app.cash.paparazzi:paparazzi-gradle-plugin", version.ref = "paparazzi" }
+paparazzi = { module = "app.cash.paparazzi:paparazzi", version.ref = "paparazzi" }
+google-testparameterinjector = { module = "com.google.testparameterinjector:test-parameter-injector", version = "1.15" }
 
 # Integartion (Android) testing
-androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test" }
-androidx-test-core = { module = "androidx.test:core-ktx", version.ref = "androidx-test" }
+androidx-test-runner = { module = "androidx.test:runner", version = "1.5.2" }
+androidx-test-core = { module = "androidx.test:core-ktx", version = "1.5.0" }
 androidx-test-ext = { module = "androidx.test.ext:junit-ktx", version = "1.1.5" }
-mockk-android = { module = "io.mockk:mockk-android", version = "1.13.10"}
+mockk-android = { module = "io.mockk:mockk-android", version = "1.13.10" }
 
 # Compose
 compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
@@ -134,7 +136,7 @@ detekt-gradle-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plu
 detekt-ruleset-compiler = { module = "com.braisgabin.detekt:kotlin-compiler-wrapper", version = "0.0.4" }
 detekt-ruleset-ktlint = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 detekt-ruleset-compose = { module = "io.nlopez.compose.rules:detekt", version = "0.3.12" }
-detekt-ruleset-ivy-explicit = { module = "com.github.Ivy-Apps:detekt-explicit", version = "v0.0.7" }
+detekt-ruleset-ivy-explicit = { module = "com.github.Ivy-Apps:detekt-explicit", version = "v0.0.8" }
 slack-lint-compose = { module = "com.slack.lint.compose:compose-lint-checks", version = "1.3.1" }
 
 # KSP
@@ -163,15 +165,14 @@ ktor = [
     "ktor-logging"
 ]
 testing = [
-    "kotest-junit5",
     "kotest-assertions",
     "kotest-property",
     "kotest-property-arrow",
     "kotest-assertions-arrow",
-    "kotest-datatest",
     "kotlin-coroutines-test",
     "mockk",
-    "cashapp-turbine"
+    "cashapp-turbine",
+    "google-testparameterinjector"
 ]
 integration-testing = [
     "kotest-assertions",

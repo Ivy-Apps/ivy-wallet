@@ -2,24 +2,30 @@ package com.ivy.contributors
 
 import com.ivy.contributors.IvyWalletRepositoryDataSource.ContributorDto
 import com.ivy.contributors.IvyWalletRepositoryDataSource.IvyWalletRepositoryInfo
+import com.ivy.testing.ComposeViewModelTest
 import com.ivy.testing.runTest
-import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.collections.immutable.persistentListOf
+import org.junit.Before
+import org.junit.Test
 
-class ContributorsViewModelTest : FreeSpec({
-    val repoDataSource = mockk<IvyWalletRepositoryDataSource>()
+class ContributorsViewModelTest : ComposeViewModelTest() {
 
-    fun newViewModel() = ContributorsViewModel(
-        ivyWalletRepositoryDataSource = repoDataSource,
-    )
+    private val repoDataSource = mockk<IvyWalletRepositoryDataSource>()
 
-    "happy path, both success" {
+    private lateinit var viewModel: ContributorsViewModel
+
+    @Before
+    fun setup() {
+        viewModel = ContributorsViewModel(repoDataSource)
+    }
+
+    @Test
+    fun `happy path, both success`() {
         // given
-        val viewModel = newViewModel()
         coEvery { repoDataSource.fetchContributors() } returns listOf(
             ContributorDto(
                 login = "a",
@@ -69,9 +75,9 @@ class ContributorsViewModelTest : FreeSpec({
         }
     }
 
-    "unhappy path, both error" {
+    @Test
+    fun `unhappy path, both error`() {
         // given
-        val viewModel = newViewModel()
         coEvery { repoDataSource.fetchContributors() } returns null
         coEvery { repoDataSource.fetchRepositoryInfo() } returns null
 
@@ -80,4 +86,4 @@ class ContributorsViewModelTest : FreeSpec({
             projectResponse.shouldBeInstanceOf<ProjectResponse.Error>()
         }
     }
-})
+}

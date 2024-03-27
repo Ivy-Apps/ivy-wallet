@@ -1,15 +1,18 @@
 package ivy.automate.issue.create
 
-import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import ivy.automate.base.Constants
 import ivy.automate.base.github.model.GitHubIssue
 import ivy.automate.base.github.model.GitHubIssueNumber
 import ivy.automate.base.github.model.GitHubUser
 import ivy.automate.base.github.model.GitHubUsername
+import kotlinx.coroutines.test.runTest
+import org.junit.Test
 
-class CommentTextTest : FreeSpec({
-    "the comment text should look good" {
+class CommentTextTest {
+
+    @Test
+    fun `the comment text should look good`(): Unit = runTest {
         // given
         val issue = GitHubIssue(
             number = GitHubIssueNumber(value = "223"),
@@ -28,4 +31,4 @@ class CommentTextTest : FreeSpec({
             _Tagging @ILIYANGERMANOV for review & approval 👀_
         """.trimIndent()
     }
-})
+}

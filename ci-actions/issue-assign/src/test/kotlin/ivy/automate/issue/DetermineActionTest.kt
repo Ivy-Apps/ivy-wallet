@@ -4,7 +4,6 @@ import arrow.core.left
 import arrow.core.right
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
-import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -19,8 +18,10 @@ import ivy.automate.base.github.model.GitHubLabelName
 import ivy.automate.base.github.model.GitHubPAT
 import ivy.automate.base.github.model.GitHubUser
 import ivy.automate.base.github.model.GitHubUsername
+import kotlinx.coroutines.test.runTest
+import org.junit.Test
 
-class DetermineActionTest : FreeSpec({
+class DetermineActionTest {
     val user1 = GitHubUser(GitHubUsername("user1"))
     val user2 = GitHubUser(GitHubUsername("user2"))
     val ivyBot = GitHubUser(GitHubUsername(Constants.IVY_BOT_USERNAME))
@@ -32,10 +33,12 @@ class DetermineActionTest : FreeSpec({
     )
     val gitHubService = mockk<GitHubService>()
 
-    suspend fun testScope(
+    fun testScope(
         block: suspend context(GitHubService) () -> Unit
     ) {
-        block(gitHubService)
+        runTest {
+            block(gitHubService)
+        }
     }
 
     fun newLabel(name: String) = GitHubLabel(GitHubLabelName(name))
@@ -49,221 +52,223 @@ class DetermineActionTest : FreeSpec({
         assignee = assignee,
     )
 
-    "unhappy path" - {
-        testScope {
-            "fails to fetch comments" {
-                // given
-                coEvery {
-                    gitHubService.fetchIssueComments(issueNumber)
-                } returns Exception("API error").left()
-                coEvery {
-                    gitHubService.fetchIssue(issueNumber)
-                } returns newIssue().right()
-                coEvery {
-                    gitHubService.fetchIssueLabels(issueNumber)
-                } returns listOf(newLabel("approved")).right()
+    @Test
+    fun `unhappy path - fails to fetch comments`() = testScope {
+        // given
+        coEvery {
+            gitHubService.fetchIssueComments(issueNumber)
+        } returns Exception("API error").left()
+        coEvery {
+            gitHubService.fetchIssue(issueNumber)
+        } returns newIssue().right()
+        coEvery {
+            gitHubService.fetchIssueLabels(issueNumber)
+        } returns listOf(newLabel("approved")).right()
 
-                // when
-                val action = determineAction(args)
+        // when
+        val action = determineAction(args)
 
-                // then
-                action.shouldBeLeft()
-            }
-
-            "fails to fetch issue" {
-                // given
-                coEvery {
-                    gitHubService.fetchIssueComments(issueNumber)
-                } returns listOf(
-                    GitHubComment(user1, "I'm on it")
-                ).right()
-                coEvery {
-                    gitHubService.fetchIssue(issueNumber)
-                } returns Exception("API error").left()
-                coEvery {
-                    gitHubService.fetchIssueLabels(issueNumber)
-                } returns listOf(newLabel("approved")).right()
-
-                // when
-                val action = determineAction(args)
-
-                // then
-                action.shouldBeLeft()
-            }
-
-            "fails to fetch labels" {
-                // given
-                coEvery {
-                    gitHubService.fetchIssueComments(issueNumber)
-                } returns listOf(
-                    GitHubComment(user1, "I'm on it")
-                ).right()
-                coEvery {
-                    gitHubService.fetchIssue(issueNumber)
-                } returns newIssue().right()
-                coEvery {
-                    gitHubService.fetchIssueLabels(issueNumber)
-                } returns Exception("API error").left()
-
-                // when
-                val action = determineAction(args)
-
-                // then
-                action.shouldBeLeft()
-            }
-        }
+        // then
+        action.shouldBeLeft()
     }
 
-    "happy path" - {
-        testScope {
-            "AssignIssue - single comment" {
-                // given
-                coEvery {
-                    gitHubService.fetchIssueComments(issueNumber)
-                } returns listOf(
-                    GitHubComment(user1, "I'm on it")
-                ).right()
-                coEvery {
-                    gitHubService.fetchIssue(issueNumber)
-                } returns newIssue().right()
-                coEvery {
-                    gitHubService.fetchIssueLabels(issueNumber)
-                } returns listOf(newLabel("approved")).right()
+    @Test
+    fun `unhappy path - fails to fetch issue`() = testScope {
+        // given
+        coEvery {
+            gitHubService.fetchIssueComments(issueNumber)
+        } returns listOf(
+            GitHubComment(user1, "I'm on it")
+        ).right()
+        coEvery {
+            gitHubService.fetchIssue(issueNumber)
+        } returns Exception("API error").left()
+        coEvery {
+            gitHubService.fetchIssueLabels(issueNumber)
+        } returns listOf(newLabel("approved")).right()
 
-                // when
-                val action = determineAction(args)
+        // when
+        val action = determineAction(args)
 
-                // then
-                action.shouldBeRight() shouldBe Action.AssignIssue(issueNumber, user1)
-            }
-
-            "AssignIssue - multiple comments" {
-                // given
-                coEvery {
-                    gitHubService.fetchIssueComments(issueNumber)
-                } returns listOf(
-                    GitHubComment(user1, "Can I take it?"),
-                    GitHubComment(ivyBot, "Random message"),
-                    GitHubComment(user2, "I'm on it")
-                ).right()
-                coEvery {
-                    gitHubService.fetchIssue(issueNumber)
-                } returns newIssue().right()
-                coEvery {
-                    gitHubService.fetchIssueLabels(issueNumber)
-                } returns listOf(newLabel("approved")).right()
-
-                // when
-                val action = determineAction(args)
-
-                // then
-                action.shouldBeRight() shouldBe Action.AssignIssue(issueNumber, user2)
-            }
-
-            "AlreadyTaken" {
-                // given
-                coEvery {
-                    gitHubService.fetchIssueComments(issueNumber)
-                } returns listOf(
-                    GitHubComment(user2, "I'm on it")
-                ).right()
-                coEvery {
-                    gitHubService.fetchIssue(issueNumber)
-                } returns newIssue(assignee = user1).right()
-                coEvery {
-                    gitHubService.fetchIssueLabels(issueNumber)
-                } returns listOf(newLabel("approved")).right()
-
-                // when
-                val action = determineAction(args)
-
-                // then
-                action.shouldBeRight() shouldBe Action.AlreadyTaken(user2, issueNumber, user1)
-            }
-
-            "NotApproved" {
-                // given
-                coEvery {
-                    gitHubService.fetchIssueComments(issueNumber)
-                } returns listOf(
-                    GitHubComment(user1, "I'm on it")
-                ).right()
-                coEvery {
-                    gitHubService.fetchIssue(issueNumber)
-                } returns newIssue().right()
-                coEvery {
-                    gitHubService.fetchIssueLabels(issueNumber)
-                } returns listOf(newLabel("feature")).right()
-
-                // when
-                val action = determineAction(args)
-
-                // then
-                action.shouldBeRight() shouldBe Action.NotApproved(user1, issueNumber)
-            }
-
-            "DoNothing - empty comments" {
-                // given
-                coEvery {
-                    gitHubService.fetchIssueComments(issueNumber)
-                } returns emptyList<GitHubComment>().right()
-                coEvery {
-                    gitHubService.fetchIssue(issueNumber)
-                } returns newIssue().right()
-                coEvery {
-                    gitHubService.fetchIssueLabels(issueNumber)
-                } returns listOf(newLabel("approved")).right()
-
-                // when
-                val action = determineAction(args)
-
-                // then
-                action.shouldBeRight() shouldBe Action.DoNothing(issueNumber)
-            }
-
-            "DoNothing - ivy bot comment" {
-                // given
-                coEvery {
-                    gitHubService.fetchIssueComments(issueNumber)
-                } returns listOf(
-                    GitHubComment(user1, "I'm on it"),
-                    GitHubComment(user2, "I'm on it"),
-                    GitHubComment(ivyBot, "Okay, I'm on it"),
-                ).right()
-                coEvery {
-                    gitHubService.fetchIssue(issueNumber)
-                } returns newIssue().right()
-                coEvery {
-                    gitHubService.fetchIssueLabels(issueNumber)
-                } returns listOf(newLabel("approved")).right()
-
-                // when
-                val action = determineAction(args)
-
-                // then
-                action.shouldBeRight() shouldBe Action.DoNothing(issueNumber)
-            }
-
-            "DoNothing - unknown comment intention" {
-                // given
-                coEvery {
-                    gitHubService.fetchIssueComments(issueNumber)
-                } returns listOf(
-                    GitHubComment(user1, "Random comment")
-                ).right()
-                coEvery {
-                    gitHubService.fetchIssue(issueNumber)
-                } returns newIssue().right()
-                coEvery {
-                    gitHubService.fetchIssueLabels(issueNumber)
-                } returns listOf(newLabel("approved")).right()
-
-                // when
-                val action = determineAction(args)
-
-                // then
-                action.shouldBeRight() shouldBe Action.DoNothing(issueNumber)
-            }
-        }
+        // then
+        action.shouldBeLeft()
     }
-})
+
+    @Test
+    fun `unhappy path - fails to fetch labels`() = testScope {
+        // given
+        coEvery {
+            gitHubService.fetchIssueComments(issueNumber)
+        } returns listOf(
+            GitHubComment(user1, "I'm on it")
+        ).right()
+        coEvery {
+            gitHubService.fetchIssue(issueNumber)
+        } returns newIssue().right()
+        coEvery {
+            gitHubService.fetchIssueLabels(issueNumber)
+        } returns Exception("API error").left()
+
+        // when
+        val action = determineAction(args)
+
+        // then
+        action.shouldBeLeft()
+    }
+
+    @Test
+    fun `happy path - AssignIssue - single comment`() = testScope {
+        // given
+        coEvery {
+            gitHubService.fetchIssueComments(issueNumber)
+        } returns listOf(
+            GitHubComment(user1, "I'm on it")
+        ).right()
+        coEvery {
+            gitHubService.fetchIssue(issueNumber)
+        } returns newIssue().right()
+        coEvery {
+            gitHubService.fetchIssueLabels(issueNumber)
+        } returns listOf(newLabel("approved")).right()
+
+        // when
+        val action = determineAction(args)
+
+        // then
+        action.shouldBeRight() shouldBe Action.AssignIssue(issueNumber, user1)
+    }
+
+    @Test
+    fun `happy path -AssignIssue - multiple comments`() = testScope {
+        // given
+        coEvery {
+            gitHubService.fetchIssueComments(issueNumber)
+        } returns listOf(
+            GitHubComment(user1, "Can I take it?"),
+            GitHubComment(ivyBot, "Random message"),
+            GitHubComment(user2, "I'm on it")
+        ).right()
+        coEvery {
+            gitHubService.fetchIssue(issueNumber)
+        } returns newIssue().right()
+        coEvery {
+            gitHubService.fetchIssueLabels(issueNumber)
+        } returns listOf(newLabel("approved")).right()
+
+        // when
+        val action = determineAction(args)
+
+        // then
+        action.shouldBeRight() shouldBe Action.AssignIssue(issueNumber, user2)
+    }
+
+    @Test
+    fun `happy path - AlreadyTaken`() = testScope {
+        // given
+        coEvery {
+            gitHubService.fetchIssueComments(issueNumber)
+        } returns listOf(
+            GitHubComment(user2, "I'm on it")
+        ).right()
+        coEvery {
+            gitHubService.fetchIssue(issueNumber)
+        } returns newIssue(assignee = user1).right()
+        coEvery {
+            gitHubService.fetchIssueLabels(issueNumber)
+        } returns listOf(newLabel("approved")).right()
+
+        // when
+        val action = determineAction(args)
+
+        // then
+        action.shouldBeRight() shouldBe Action.AlreadyTaken(user2, issueNumber, user1)
+    }
+
+    @Test
+    fun `happy path - NotApproved`() = testScope {
+        // given
+        coEvery {
+            gitHubService.fetchIssueComments(issueNumber)
+        } returns listOf(
+            GitHubComment(user1, "I'm on it")
+        ).right()
+        coEvery {
+            gitHubService.fetchIssue(issueNumber)
+        } returns newIssue().right()
+        coEvery {
+            gitHubService.fetchIssueLabels(issueNumber)
+        } returns listOf(newLabel("feature")).right()
+
+        // when
+        val action = determineAction(args)
+
+        // then
+        action.shouldBeRight() shouldBe Action.NotApproved(user1, issueNumber)
+    }
+
+    @Test
+    fun `happy path - DoNothing - empty comments`() = testScope {
+        // given
+        coEvery {
+            gitHubService.fetchIssueComments(issueNumber)
+        } returns emptyList<GitHubComment>().right()
+        coEvery {
+            gitHubService.fetchIssue(issueNumber)
+        } returns newIssue().right()
+        coEvery {
+            gitHubService.fetchIssueLabels(issueNumber)
+        } returns listOf(newLabel("approved")).right()
+
+        // when
+        val action = determineAction(args)
+
+        // then
+        action.shouldBeRight() shouldBe Action.DoNothing(issueNumber)
+    }
+
+    @Test
+    fun `happy path - DoNothing - ivy bot comment`() = testScope {
+        // given
+        coEvery {
+            gitHubService.fetchIssueComments(issueNumber)
+        } returns listOf(
+            GitHubComment(user1, "I'm on it"),
+            GitHubComment(user2, "I'm on it"),
+            GitHubComment(ivyBot, "Okay, I'm on it"),
+        ).right()
+        coEvery {
+            gitHubService.fetchIssue(issueNumber)
+        } returns newIssue().right()
+        coEvery {
+            gitHubService.fetchIssueLabels(issueNumber)
+        } returns listOf(newLabel("approved")).right()
+
+        // when
+        val action = determineAction(args)
+
+        // then
+        action.shouldBeRight() shouldBe Action.DoNothing(issueNumber)
+    }
+
+    @Test
+    fun `happy path - DoNothing - unknown comment intention`() = testScope {
+        // given
+        coEvery {
+            gitHubService.fetchIssueComments(issueNumber)
+        } returns listOf(
+            GitHubComment(user1, "Random comment")
+        ).right()
+        coEvery {
+            gitHubService.fetchIssue(issueNumber)
+        } returns newIssue().right()
+        coEvery {
+            gitHubService.fetchIssueLabels(issueNumber)
+        } returns listOf(newLabel("approved")).right()
+
+        // when
+        val action = determineAction(args)
+
+        // then
+        action.shouldBeRight() shouldBe Action.DoNothing(issueNumber)
+    }
+}

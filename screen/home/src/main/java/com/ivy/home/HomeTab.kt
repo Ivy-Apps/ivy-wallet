@@ -67,15 +67,17 @@ fun BoxWithConstraintsScope.HomeTab() {
     val viewModel: HomeViewModel = screenScopedViewModel()
     val uiState = viewModel.uiState()
 
-    UI(uiState, viewModel::onEvent)
+    HomeUi(uiState, viewModel::onEvent)
 }
 
+@Suppress("LongMethod")
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @Composable
-private fun BoxWithConstraintsScope.UI(
+fun BoxWithConstraintsScope.HomeUi(
     uiState: HomeState,
-    onEvent: (HomeEvent) -> Unit
+    onEvent: (HomeEvent) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val ivyContext = ivyWalletCtx()
 
@@ -94,7 +96,7 @@ private fun BoxWithConstraintsScope.UI(
     val baseCurrency = uiState.baseData.baseCurrency
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .systemBarsPadding()
             .verticalSwipeListener(
@@ -383,7 +385,7 @@ fun HomeLazyColumn(
 @Composable
 private fun BoxWithConstraintsScope.PreviewHomeTab() {
     IvyPreview {
-        UI(
+        HomeUi(
             uiState = HomeState(
                 theme = Theme.AUTO,
                 name = "",

@@ -92,13 +92,14 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+    val javaVersion = libs.versions.jvm.target.get()
+    kotlinOptions {
+        jvmTarget = javaVersion
     }
 
-    kotlinOptions {
-        jvmTarget = "11"
+    compileOptions {
+        sourceCompatibility = JavaVersion.valueOf("VERSION_$javaVersion")
+        targetCompatibility = JavaVersion.valueOf("VERSION_$javaVersion")
     }
 
     buildFeatures {

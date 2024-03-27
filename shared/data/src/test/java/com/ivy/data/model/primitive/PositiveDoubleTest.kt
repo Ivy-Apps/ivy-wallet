@@ -2,26 +2,32 @@ package com.ivy.data.model.primitive
 
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
-import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
+import org.junit.Test
 
-class PositiveDoubleTest : FreeSpec({
-    "fails for" - {
-        "zero [0]" {
-            PositiveDouble.from(0.0).shouldBeLeft()
-        }
-        "negative numbers" {
-            PositiveDouble.from(-1.0).shouldBeLeft()
-        }
-        "positive infinity" {
-            PositiveDouble.from(Double.POSITIVE_INFINITY).shouldBeLeft()
-        }
-        "negative infinity" {
-            PositiveDouble.from(Double.NEGATIVE_INFINITY).shouldBeLeft()
-        }
+class PositiveDoubleTest {
+    @Test
+    fun `fails for zero`() {
+        PositiveDouble.from(0.0).shouldBeLeft()
     }
 
-    "works for positive numbers" {
+    @Test
+    fun `fails for negative numbers`() {
+        PositiveDouble.from(-1.0).shouldBeLeft()
+    }
+
+    @Test
+    fun `positive infinity`() {
+        PositiveDouble.from(Double.POSITIVE_INFINITY).shouldBeLeft()
+    }
+
+    @Test
+    fun `negative infinity`() {
+        PositiveDouble.from(Double.NEGATIVE_INFINITY).shouldBeLeft()
+    }
+
+    @Test
+    fun `works for positive numbers`() {
         // given
         val number = 42.0
 
@@ -31,4 +37,4 @@ class PositiveDoubleTest : FreeSpec({
         // then
         res.shouldBeRight() shouldBe PositiveDouble.unsafe(42.0)
     }
-})
+}

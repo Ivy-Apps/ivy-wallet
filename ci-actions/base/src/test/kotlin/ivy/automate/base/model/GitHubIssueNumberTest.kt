@@ -2,22 +2,24 @@ package ivy.automate.base.model
 
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
-import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import ivy.automate.base.github.model.GitHubIssueNumber
+import org.junit.Test
 
-class GitHubIssueNumberTest : FreeSpec({
-    "invalid" - {
-        "blank string" {
-            GitHubIssueNumber.from("").shouldBeLeft()
-        }
+class GitHubIssueNumberTest {
 
-        "not a number" {
-            GitHubIssueNumber.from("123a").shouldBeLeft()
-        }
+    @Test
+    fun `invalid - blank string`() {
+        GitHubIssueNumber.from("").shouldBeLeft()
     }
 
-    "valid" {
+    @Test
+    fun `invalid - not a number`() {
+        GitHubIssueNumber.from("123a").shouldBeLeft()
+    }
+
+    @Test
+    fun valid() {
         // given
         val id = "2763"
 
@@ -27,4 +29,4 @@ class GitHubIssueNumberTest : FreeSpec({
         // then
         res.shouldBeRight().value shouldBe "2763"
     }
-})
+}

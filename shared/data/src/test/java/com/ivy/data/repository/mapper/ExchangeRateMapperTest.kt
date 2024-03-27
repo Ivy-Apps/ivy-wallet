@@ -4,12 +4,21 @@ import com.ivy.data.db.entity.ExchangeRateEntity
 import com.ivy.data.model.ExchangeRate
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.PositiveDouble
-import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
+import org.junit.Before
+import org.junit.Test
 
-class ExchangeRateMapperTest : FreeSpec({
+class ExchangeRateMapperTest {
 
-    "maps ExchangeRate to ExchangeRateEntity" {
+    private lateinit var mapper: ExchangeRateMapper
+
+    @Before
+    fun setup() {
+        mapper = ExchangeRateMapper()
+    }
+
+    @Test
+    fun `maps domain to entity`() {
         // given
         val mapper = ExchangeRateMapper()
         val exchangeRate =
@@ -33,9 +42,9 @@ class ExchangeRateMapperTest : FreeSpec({
                 )
     }
 
-    "maps ExchangeRateEntity to ExchangeRate" {
+    @Test
+    fun `maps entity to domain`() {
         // given
-        val mapper = ExchangeRateMapper()
         val exchangeRateEntity =
             ExchangeRateEntity(
                 baseCurrency = "USD",
@@ -55,4 +64,4 @@ class ExchangeRateMapperTest : FreeSpec({
             manualOverride = false,
         )
     }
-})
+}

@@ -1,22 +1,27 @@
 package com.ivy.testing
 
-import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
+import org.junit.Before
+import org.junit.Test
 
-class ComposeViewModelTestExtTest : FreeSpec({
-    fun newViewModel() = FakeViewModel()
+class ComposeViewModelTestExtTest : ComposeViewModelTest() {
 
-    "initial state, no events" {
-        val viewModel = newViewModel()
+    private lateinit var viewModel: FakeViewModel
 
+    @Before
+    fun setup() {
+        viewModel = FakeViewModel()
+    }
+
+    @Test
+    fun `initial state, no events`() {
         viewModel.runTest {
             counter shouldBe 42
         }
     }
 
-    "increment event" {
-        val viewModel = newViewModel()
-
+    @Test
+    fun `increment event`() {
         viewModel.runTest(
             events = listOf(FakeUiEvent.Increment)
         ) {
@@ -24,9 +29,8 @@ class ComposeViewModelTestExtTest : FreeSpec({
         }
     }
 
-    "decrement event" {
-        val viewModel = newViewModel()
-
+    @Test
+    fun `decrement event`() {
         viewModel.runTest(
             events = listOf(FakeUiEvent.Decrement)
         ) {
@@ -34,9 +38,8 @@ class ComposeViewModelTestExtTest : FreeSpec({
         }
     }
 
-    "1 decrement 2 increment event" {
-        val viewModel = newViewModel()
-
+    @Test
+    fun `1 decrement 2 increment event`() {
         viewModel.runTest(
             events = listOf(
                 FakeUiEvent.Decrement,
@@ -47,4 +50,4 @@ class ComposeViewModelTestExtTest : FreeSpec({
             counter shouldBe 43
         }
     }
-})
+}

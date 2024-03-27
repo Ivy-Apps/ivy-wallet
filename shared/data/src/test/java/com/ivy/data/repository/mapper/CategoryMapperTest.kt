@@ -7,17 +7,23 @@ import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
-import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
+import org.junit.Before
+import org.junit.Test
 import java.time.Instant
 import java.util.UUID
 
-class CategoryMapperTest : FreeSpec({
+class CategoryMapperTest {
+    private lateinit var mapper: CategoryMapper
 
-    "maps Category to Entity" {
+    @Before
+    fun setup() {
+        mapper = CategoryMapper()
+    }
+
+    @Test
+    fun `maps domain to entity`() {
         // given
-        val mapper = CategoryMapper()
-        val categoryId = CategoryId(UUID.randomUUID())
         val category = Category(
             name = NotBlankTrimmedString.unsafe("Home"),
             color = ColorInt(42),
@@ -25,7 +31,7 @@ class CategoryMapperTest : FreeSpec({
             orderNum = 1.0,
             removed = false,
             lastUpdated = Instant.EPOCH,
-            id = categoryId
+            id = CategoryId
         )
 
         // when
@@ -39,71 +45,74 @@ class CategoryMapperTest : FreeSpec({
             orderNum = 1.0,
             isSynced = true,
             isDeleted = false,
-            id = categoryId.value
+            id = CategoryId.value
         )
     }
 
-    "maps CategoryEntity to domain" - {
+    @Test
+    fun `maps entity to domain - valid entity`() {
+        // when
+        val res = with(mapper) { ValidEntity.toDomain() }
+
+        // then
+        res.shouldBeRight() shouldBe Category(
+            name = NotBlankTrimmedString.unsafe("Home"),
+            color = ColorInt(42),
+            icon = null,
+            orderNum = 1.0,
+            removed = false,
+            lastUpdated = Instant.EPOCH,
+            id = CategoryId
+        )
+    }
+
+    @Test
+    fun `maps entity to domain - name missing`() {
         // given
-        val categoryId = CategoryId(UUID.randomUUID())
-        val mapper = CategoryMapper()
-        val categoryEntity = CategoryEntity(
+        val corruptedEntity = ValidEntity.copy(name = "")
+
+        // when
+        val res = with(mapper) { corruptedEntity.toDomain() }
+
+        // then
+        res.shouldBeLeft()
+    }
+
+    @Test
+    fun `maps entity to domain - missing icon is okay`() {
+        // given
+        val missingIconEntity = ValidEntity.copy(icon = null)
+
+        // when
+        val res = with(mapper) { missingIconEntity.toDomain() }
+
+        // then
+        res.shouldBeRight()
+    }
+
+    @Test
+    fun `maps entity to domain - invalid icon is okay`() {
+        // given
+        val invalidIconEntity = ValidEntity.copy(icon = "invalid icon")
+
+        // when
+        val result = with(mapper) { invalidIconEntity.toDomain() }
+
+        // then
+        result.shouldBeRight()
+    }
+
+    companion object {
+        val CategoryId = CategoryId(UUID.randomUUID())
+
+        val ValidEntity = CategoryEntity(
             name = "Home",
             color = 42,
             icon = null,
             orderNum = 1.0,
             isSynced = true,
             isDeleted = false,
-            id = categoryId.value
+            id = CategoryId.value
         )
-
-        "valid entity" {
-            // when
-            val res = with(mapper) { categoryEntity.toDomain() }
-
-            // then
-            res.shouldBeRight() shouldBe Category(
-                name = NotBlankTrimmedString.unsafe("Home"),
-                color = ColorInt(42),
-                icon = null,
-                orderNum = 1.0,
-                removed = false,
-                lastUpdated = Instant.EPOCH,
-                id = categoryId
-            )
-        }
-
-        "name missing" {
-            // given
-            val corruptedEntity = categoryEntity.copy(name = "")
-
-            // when
-            val res = with(mapper) { corruptedEntity.toDomain() }
-
-            // then
-            res.shouldBeLeft()
-        }
-
-        "missing icon is okay" {
-            // given
-            val missingIconEntity = categoryEntity.copy(icon = null)
-
-            // when
-            val res = with(mapper) { missingIconEntity.toDomain() }
-
-            // then
-            res.shouldBeRight()
-        }
-
-        "invalid icon is okay" {
-            // given
-            val invalidIconEntity = categoryEntity.copy(icon = "invalid icon")
-
-            // when
-            val result = with(mapper) { invalidIconEntity.toDomain() }
-
-            // then
-            result.shouldBeRight()
-        }
     }
-})
+}

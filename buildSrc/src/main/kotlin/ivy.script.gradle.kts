@@ -7,10 +7,8 @@ kotlin {
     sourceSets.all {
         kotlin.srcDir("build/generated/ksp/$name/kotlin")
     }
-}
 
-tasks.withType<Test>().configureEach {
-    useJUnitPlatform()
+    jvmToolchain(catalog.version("jvm-target").toInt())
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {

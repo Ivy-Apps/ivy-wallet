@@ -2,17 +2,19 @@ package com.ivy.data.model.primitive
 
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
-import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
+import org.junit.Test
 
-class NotBlankTrimmedStringTest : FreeSpec({
-    "fails for blank strings" {
+class NotBlankTrimmedStringTest {
+    @Test
+    fun `fails for blank strings`() {
         NotBlankTrimmedString.from("").shouldBeLeft()
         NotBlankTrimmedString.from(" ").shouldBeLeft()
         NotBlankTrimmedString.from("  ").shouldBeLeft()
     }
 
-    "trims blanks space" {
+    @Test
+    fun `trims blanks space`() {
         // given
         val rawInput = " abc "
 
@@ -22,4 +24,4 @@ class NotBlankTrimmedStringTest : FreeSpec({
         // then
         res.shouldBeRight() shouldBe NotBlankTrimmedString.unsafe("abc")
     }
-})
+}

@@ -2,18 +2,20 @@ package ivy.automate.base.model
 
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
-import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import ivy.automate.base.github.model.GitHubUsername
+import org.junit.Test
 
-class GitHubUsernameTest : FreeSpec({
-    "invalid username" {
+class GitHubUsernameTest {
+    @Test
+    fun `invalid username`() {
         GitHubUsername.from("").shouldBeLeft()
         GitHubUsername.from(" ").shouldBeLeft()
         GitHubUsername.from("  ").shouldBeLeft()
     }
 
-    "valid username" {
+    @Test
+    fun `valid username`() {
         // given
         val rawUsername = " ILIYANGERMANOV "
 
@@ -23,4 +25,4 @@ class GitHubUsernameTest : FreeSpec({
         // then
         res.shouldBeRight().value shouldBe "ILIYANGERMANOV"
     }
-})
+}

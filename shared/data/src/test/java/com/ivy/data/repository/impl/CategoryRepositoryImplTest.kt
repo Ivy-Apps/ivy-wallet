@@ -13,152 +13,64 @@ import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.repository.mapper.CategoryMapper
-import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
+import kotlinx.coroutines.test.runTest
+import org.junit.Before
+import org.junit.Test
 import java.time.Instant
 import java.util.UUID
 
-class CategoryRepositoryImplTest : FreeSpec({
-    val categoryDao = mockk<CategoryDao>()
-    val writeCategoryDao = mockk<WriteCategoryDao>()
-    val writeEventBus = mockk<DataWriteEventBus>(relaxed = true)
+class CategoryRepositoryImplTest {
+    private val categoryDao = mockk<CategoryDao>()
+    private val writeCategoryDao = mockk<WriteCategoryDao>()
+    private val writeEventBus = mockk<DataWriteEventBus>(relaxed = true)
 
-    fun newRepository(): CategoryRepository = CategoryRepositoryImpl(
-        mapper = CategoryMapper(),
-        categoryDao = categoryDao,
-        writeCategoryDao = writeCategoryDao,
-        dispatchersProvider = TestDispatchersProvider,
-        writeEventBus = writeEventBus
-    )
+    private lateinit var repository: CategoryRepository
 
-    "find all not deleted" - {
-        "empty list" {
-            // given
-            val repository = newRepository()
-            coEvery { categoryDao.findAll(false) } returns emptyList()
-
-            // when
-            val res = repository.findAll(false)
-
-            // then
-            res shouldBe emptyList()
-        }
-
-        "valid and invalid categories" {
-            // given
-            val repository = newRepository()
-            val id1 = UUID.randomUUID()
-            val id3 = UUID.randomUUID()
-            coEvery { categoryDao.findAll(false) } returns listOf(
-                CategoryEntity(
-                    name = "Home",
-                    color = 42,
-                    icon = null,
-                    orderNum = 0.0,
-                    isSynced = true,
-                    isDeleted = false,
-                    id = id1
-                ),
-                CategoryEntity(
-                    name = "",
-                    color = 42,
-                    icon = null,
-                    orderNum = 1.0,
-                    isSynced = true,
-                    isDeleted = false,
-                    id = UUID.randomUUID()
-                ),
-                CategoryEntity(
-                    name = "Fun",
-                    color = 42,
-                    icon = null,
-                    orderNum = 2.0,
-                    isSynced = true,
-                    isDeleted = false,
-                    id = id3
-                )
-            )
-
-            // when
-            val res = repository.findAll(false)
-
-            // then
-            res shouldBe listOf(
-                Category(
-                    name = NotBlankTrimmedString.unsafe("Home"),
-                    color = ColorInt(42),
-                    icon = null,
-                    orderNum = 0.0,
-                    removed = false,
-                    lastUpdated = Instant.EPOCH,
-                    id = CategoryId(id1)
-                ),
-                Category(
-                    name = NotBlankTrimmedString.unsafe("Fun"),
-                    color = ColorInt(42),
-                    icon = null,
-                    orderNum = 2.0,
-                    removed = false,
-                    lastUpdated = Instant.EPOCH,
-                    id = CategoryId(id3)
-                )
-            )
-        }
+    @Before
+    fun setup() {
+        repository = CategoryRepositoryImpl(
+            mapper = CategoryMapper(),
+            categoryDao = categoryDao,
+            writeCategoryDao = writeCategoryDao,
+            dispatchersProvider = TestDispatchersProvider,
+            writeEventBus = writeEventBus
+        )
     }
 
-    "find by id" - {
-        "null CategoryEntity" {
-            // given
-            val repository = newRepository()
-            val id = UUID.randomUUID()
-            coEvery { categoryDao.findById(id) } returns null
+    @Test
+    fun `find all not deleted - empty list`() = runTest {
+        // given
+        coEvery { categoryDao.findAll(false) } returns emptyList()
 
-            // when
-            val category = repository.findById(CategoryId(id))
+        // when
+        val res = repository.findAll(false)
 
-            // then
-            category shouldBe null
-        }
+        // then
+        res shouldBe emptyList()
+    }
 
-        "valid CategoryEntity" {
-            // given
-            val repository = newRepository()
-            val id = UUID.randomUUID()
-            coEvery { categoryDao.findById(id) } returns CategoryEntity(
+    @Test
+    fun `find all not deleted - valid and invalid categories`() = runTest {
+        // given
+        val id1 = UUID.randomUUID()
+        val id3 = UUID.randomUUID()
+        coEvery { categoryDao.findAll(false) } returns listOf(
+            CategoryEntity(
                 name = "Home",
                 color = 42,
                 icon = null,
                 orderNum = 0.0,
                 isSynced = true,
                 isDeleted = false,
-                id = id
-            )
-
-            // when
-            val category = repository.findById(CategoryId(id))
-
-            // then
-            category shouldBe Category(
-                name = NotBlankTrimmedString.unsafe("Home"),
-                color = ColorInt(42),
-                icon = null,
-                orderNum = 0.0,
-                removed = false,
-                lastUpdated = Instant.EPOCH,
-                id = CategoryId(id)
-            )
-        }
-
-        "invalid CategoryEntity" {
-            // given
-            val repository = newRepository()
-            val id = UUID.randomUUID()
-            coEvery { categoryDao.findById(id) } returns CategoryEntity(
+                id = id1
+            ),
+            CategoryEntity(
                 name = "",
                 color = 42,
                 icon = null,
@@ -166,45 +78,134 @@ class CategoryRepositoryImplTest : FreeSpec({
                 isSynced = true,
                 isDeleted = false,
                 id = UUID.randomUUID()
+            ),
+            CategoryEntity(
+                name = "Fun",
+                color = 42,
+                icon = null,
+                orderNum = 2.0,
+                isSynced = true,
+                isDeleted = false,
+                id = id3
             )
+        )
 
-            // when
-            val category = repository.findById(CategoryId(id))
+        // when
+        val res = repository.findAll(false)
 
-            // then
-            category shouldBe null
-        }
+        // then
+        res shouldBe listOf(
+            Category(
+                name = NotBlankTrimmedString.unsafe("Home"),
+                color = ColorInt(42),
+                icon = null,
+                orderNum = 0.0,
+                removed = false,
+                lastUpdated = Instant.EPOCH,
+                id = CategoryId(id1)
+            ),
+            Category(
+                name = NotBlankTrimmedString.unsafe("Fun"),
+                color = ColorInt(42),
+                icon = null,
+                orderNum = 2.0,
+                removed = false,
+                lastUpdated = Instant.EPOCH,
+                id = CategoryId(id3)
+            )
+        )
     }
 
-    "find max order num" - {
-        "null from the source" {
-            // given
-            val repository = newRepository()
-            coEvery { categoryDao.findMaxOrderNum() } returns null
-
-            // when
-            val num = repository.findMaxOrderNum()
-
-            // then
-            num shouldBe 0.0
-        }
-
-        "number from the source" {
-            // given
-            val repository = newRepository()
-            coEvery { categoryDao.findMaxOrderNum() } returns 15.0
-
-            // when
-            val num = repository.findMaxOrderNum()
-
-            // then
-            num shouldBe 15.0
-        }
-    }
-
-    "save" {
+    @Test
+    fun `find by id - null CategoryEntity`() = runTest {
         // given
-        val repository = newRepository()
+        val id = UUID.randomUUID()
+        coEvery { categoryDao.findById(id) } returns null
+
+        // when
+        val category = repository.findById(CategoryId(id))
+
+        // then
+        category shouldBe null
+    }
+
+    @Test
+    fun `find by id - valid CategoryEntity`() = runTest {
+        // given
+        val id = UUID.randomUUID()
+        coEvery { categoryDao.findById(id) } returns CategoryEntity(
+            name = "Home",
+            color = 42,
+            icon = null,
+            orderNum = 0.0,
+            isSynced = true,
+            isDeleted = false,
+            id = id
+        )
+
+        // when
+        val category = repository.findById(CategoryId(id))
+
+        // then
+        category shouldBe Category(
+            name = NotBlankTrimmedString.unsafe("Home"),
+            color = ColorInt(42),
+            icon = null,
+            orderNum = 0.0,
+            removed = false,
+            lastUpdated = Instant.EPOCH,
+            id = CategoryId(id)
+        )
+    }
+
+    @Test
+    fun `find by id - invalid CategoryEntity`() = runTest {
+        // given
+        val id = UUID.randomUUID()
+        coEvery { categoryDao.findById(id) } returns CategoryEntity(
+            name = "",
+            color = 42,
+            icon = null,
+            orderNum = 1.0,
+            isSynced = true,
+            isDeleted = false,
+            id = UUID.randomUUID()
+        )
+
+        // when
+        val category = repository.findById(CategoryId(id))
+
+        // then
+        category shouldBe null
+    }
+
+    @Test
+    fun `find max order num - null from the source`() = runTest {
+        // given
+        coEvery { categoryDao.findMaxOrderNum() } returns null
+
+        // when
+        val num = repository.findMaxOrderNum()
+
+        // then
+        num shouldBe 0.0
+    }
+
+    @Test
+    fun `find max order num - number from the source`() = runTest {
+        // given
+        coEvery { categoryDao.findMaxOrderNum() } returns 15.0
+
+        // when
+        val num = repository.findMaxOrderNum()
+
+        // then
+        num shouldBe 15.0
+    }
+
+    @Test
+    fun save() = runTest {
+        // given
         val id = UUID.randomUUID()
         val category = Category(
             name = NotBlankTrimmedString.unsafe("Home"),
@@ -239,9 +240,9 @@ class CategoryRepositoryImplTest : FreeSpec({
         }
     }
 
-    "save many" {
+    @Test
+    fun `save many`() = runTest {
         // given
-        val repository = newRepository()
         val id1 = UUID.randomUUID()
         val id2 = UUID.randomUUID()
         val id3 = UUID.randomUUID()
@@ -320,9 +321,9 @@ class CategoryRepositoryImplTest : FreeSpec({
         }
     }
 
-    "delete by id" {
+    @Test
+    fun `delete by id`() = runTest {
         // given
-        val repository = newRepository()
         val categoryId = CategoryId(UUID.randomUUID())
         coEvery { writeCategoryDao.deleteById(any()) } just runs
 
@@ -342,9 +343,9 @@ class CategoryRepositoryImplTest : FreeSpec({
         }
     }
 
-    "delete all" {
+    @Test
+    fun `delete all`() = runTest {
         // given
-        val repository = newRepository()
         coEvery { writeCategoryDao.deleteAll() } just runs
 
         // when
@@ -358,4 +359,4 @@ class CategoryRepositoryImplTest : FreeSpec({
             writeEventBus.post(DataWriteEvent.DeleteCategories(DeleteOperation.All))
         }
     }
-})
+}
