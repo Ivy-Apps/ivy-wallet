@@ -1,8 +1,8 @@
 package com.ivy.contributors
 
-import app.cash.paparazzi.Paparazzi
 import com.ivy.contributors.IvyWalletRepositoryDataSource.ContributorDto
 import com.ivy.contributors.IvyWalletRepositoryDataSource.IvyWalletRepositoryInfo
+import com.ivy.testing.ComposeViewModelTest
 import com.ivy.testing.runTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -10,13 +10,10 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.collections.immutable.persistentListOf
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 
-class ContributorsViewModelTest {
-    @get:Rule
-    val paparazzi = Paparazzi()
-
+class ContributorsViewModelTest : ComposeViewModelTest() {
+    
     private val repoDataSource = mockk<IvyWalletRepositoryDataSource>()
 
     private lateinit var viewModel: ContributorsViewModel

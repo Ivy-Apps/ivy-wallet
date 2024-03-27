@@ -2,12 +2,19 @@ package com.ivy.testing
 
 import app.cash.molecule.RecompositionMode
 import app.cash.molecule.moleculeFlow
+import app.cash.paparazzi.Paparazzi
 import app.cash.turbine.test
 import com.ivy.base.ComposeViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
+import org.junit.Rule
+
+open class ComposeViewModelTest {
+    @get:Rule
+    val paparazzi = Paparazzi()
+}
 
 /**
  * Runs a [ComposeViewModel] test simulation.

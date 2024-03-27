@@ -1,15 +1,10 @@
 package com.ivy.testing
 
-import app.cash.paparazzi.Paparazzi
 import io.kotest.matchers.shouldBe
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 
-class ComposeViewModelTestExtTest {
-
-    @get:Rule
-    val paparazzi = Paparazzi()
+class ComposeViewModelTestExtTest : ComposeViewModelTest() {
 
     private lateinit var viewModel: FakeViewModel
 
