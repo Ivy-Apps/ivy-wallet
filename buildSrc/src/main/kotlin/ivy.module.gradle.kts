@@ -29,14 +29,6 @@ android {
     defaultConfig {
         minSdk = catalog.version("min-sdk").toInt()
     }
-
-    // Kotest
-    testOptions {
-        unitTests.all {
-            // Required by Kotest
-            it.useJUnitPlatform()
-        }
-    }
 }
 
 dependencies {

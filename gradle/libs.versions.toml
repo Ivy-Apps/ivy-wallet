@@ -55,17 +55,16 @@ arrowkt-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
 
 # Testing
 mockk = { module = "io.mockk:mockk", version = "1.13.10" }
-kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
 kotest-property-arrow = { module = "io.kotest.extensions:kotest-property-arrow", version.ref = "arrow" }
 kotest-assertions-arrow = { module = "io.kotest.extensions:kotest-assertions-arrow", version.ref = "arrow" }
-kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 cashapp-molecule-plugin = { module = "app.cash.molecule:molecule-gradle-plugin", version = "1.4.1" }
 cashapp-turbine = { module = "app.cash.turbine:turbine", version = "1.1.0" }
 paparazzi-plugin = { module = "app.cash.paparazzi:paparazzi-gradle-plugin", version.ref = "paparazzi" }
 paparazzi = { module = "app.cash.paparazzi:paparazzi", version.ref = "paparazzi" }
+google-testparameterinjector = { module = "com.google.testparameterinjector:test-parameter-injector", version = "1.15" }
 
 # Integartion (Android) testing
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test" }
@@ -166,15 +165,14 @@ ktor = [
     "ktor-logging"
 ]
 testing = [
-    "kotest-junit5",
     "kotest-assertions",
     "kotest-property",
     "kotest-property-arrow",
     "kotest-assertions-arrow",
-    "kotest-datatest",
     "kotlin-coroutines-test",
     "mockk",
-    "cashapp-turbine"
+    "cashapp-turbine",
+    "google-testparameterinjector"
 ]
 integration-testing = [
     "kotest-assertions",
