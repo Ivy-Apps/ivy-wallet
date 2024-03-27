@@ -237,7 +237,6 @@ class AccountRepositoryImplTest {
         )
     }
 
-
     @Test
     fun `finds max order num - no accounts`() = runTest {
         // given

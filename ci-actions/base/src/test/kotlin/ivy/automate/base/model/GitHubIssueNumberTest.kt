@@ -18,7 +18,6 @@ class GitHubIssueNumberTest {
         GitHubIssueNumber.from("123a").shouldBeLeft()
     }
 
-
     @Test
     fun valid() {
         // given

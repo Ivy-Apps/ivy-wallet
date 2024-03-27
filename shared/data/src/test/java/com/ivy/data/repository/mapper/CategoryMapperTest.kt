@@ -14,7 +14,6 @@ import java.time.Instant
 import java.util.UUID
 
 class CategoryMapperTest {
-
     private lateinit var mapper: CategoryMapper
 
     @Before
@@ -49,7 +48,6 @@ class CategoryMapperTest {
             id = CategoryId.value
         )
     }
-
 
     @Test
     fun `maps entity to domain - valid entity`() {

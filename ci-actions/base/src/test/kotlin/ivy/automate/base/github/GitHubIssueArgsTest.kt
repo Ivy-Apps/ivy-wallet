@@ -70,7 +70,6 @@ class GitHubIssueArgsTest {
         res.shouldBeLeft()
     }
 
-
     @Test
     fun `valid args`() {
         // given

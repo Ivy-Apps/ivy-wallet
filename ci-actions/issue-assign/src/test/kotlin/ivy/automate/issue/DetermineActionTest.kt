@@ -116,7 +116,6 @@ class DetermineActionTest {
         action.shouldBeLeft()
     }
 
-
     @Test
     fun `happy path - AssignIssue - single comment`() = testScope {
         // given

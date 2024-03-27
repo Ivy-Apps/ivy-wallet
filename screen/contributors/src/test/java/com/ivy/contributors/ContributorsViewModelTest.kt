@@ -13,7 +13,7 @@ import org.junit.Before
 import org.junit.Test
 
 class ContributorsViewModelTest : ComposeViewModelTest() {
-    
+
     private val repoDataSource = mockk<IvyWalletRepositoryDataSource>()
 
     private lateinit var viewModel: ContributorsViewModel

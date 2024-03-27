@@ -9,7 +9,6 @@ import org.junit.Test
 import java.util.UUID
 
 class FakeAccountDaoTest {
-
     private lateinit var dao: FakeAccountDao
 
     @Before
@@ -51,7 +50,6 @@ class FakeAccountDaoTest {
         // then
         res shouldBe null
     }
-
 
     @Test
     fun `find all - not deleted accounts`() = runTest {
@@ -163,7 +161,6 @@ class FakeAccountDaoTest {
         res shouldBe emptyList()
     }
 
-
     @Test
     fun `find max order num of accounts`() = runTest {
         // given
@@ -212,7 +209,6 @@ class FakeAccountDaoTest {
         // then
         res shouldBe null
     }
-
 
     @Test
     fun `save - create new`() = runTest {
@@ -269,7 +265,6 @@ class FakeAccountDaoTest {
             isDeleted = false
         )
     }
-
 
     @Test
     fun `save many`() = runTest {

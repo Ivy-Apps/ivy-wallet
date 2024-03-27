@@ -26,7 +26,6 @@ class PositiveDoubleTest {
         PositiveDouble.from(Double.NEGATIVE_INFINITY).shouldBeLeft()
     }
 
-
     @Test
     fun `works for positive numbers`() {
         // given

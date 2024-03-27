@@ -146,7 +146,6 @@ class FakeTransactionDaoTest {
         res shouldBe listOf(transfer1, expense1, income1)
     }
 
-
     @Test
     fun `find all limit 1 - empty transactions`() = runTest {
         // when
@@ -272,7 +271,6 @@ class FakeTransactionDaoTest {
         // then
         res shouldBe listOf(transfer1)
     }
-
 
     @Test
     fun `find all transfer to account - empty transactions`() = runTest {
@@ -463,7 +461,6 @@ class FakeTransactionDaoTest {
         res shouldBe listOf(transfer1)
     }
 
-
     @Test
     fun `find all between - empty transactions`() = runTest {
         // given
@@ -596,7 +593,6 @@ class FakeTransactionDaoTest {
         // then
         res shouldBe listOf(expense1, income1, transfer1)
     }
-
 
     @Test
     fun `find all by account and between - empty transactions`() = runTest {
@@ -732,7 +728,6 @@ class FakeTransactionDaoTest {
         res shouldBe listOf(expense1, income1, transfer1)
     }
 
-
     @Test
     fun `find all by category and between - empty transactions`() = runTest {
         // given
@@ -866,7 +861,6 @@ class FakeTransactionDaoTest {
         // then
         res shouldBe listOf(expense1, income1, transfer1)
     }
-
 
     @Test
     fun `find all unspecified and between - empty transactions`() = runTest {

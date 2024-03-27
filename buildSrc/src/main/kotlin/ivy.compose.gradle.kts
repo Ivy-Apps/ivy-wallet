@@ -61,7 +61,9 @@ dependencies.constraints {
                 objects.named(TargetJvmEnvironment::class.java, TargetJvmEnvironment.STANDARD_JVM)
             )
         }
-        because("Paparazzi's layoutlib and sdk-common depend on Guava's -jre published variant." +
-                "See https://github.com/cashapp/paparazzi/issues/906.")
+        because(
+            "Paparazzi's layoutlib and sdk-common depend on Guava's -jre published variant." +
+                "See https://github.com/cashapp/paparazzi/issues/906."
+        )
     }
 }

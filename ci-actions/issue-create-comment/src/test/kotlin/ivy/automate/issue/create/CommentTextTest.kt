@@ -12,7 +12,7 @@ import org.junit.Test
 class CommentTextTest {
 
     @Test
-    fun `the comment text should look good`() = runTest {
+    fun `the comment text should look good`(): Unit = runTest {
         // given
         val issue = GitHubIssue(
             number = GitHubIssueNumber(value = "223"),

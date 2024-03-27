@@ -62,7 +62,6 @@ class AccountMapperTest {
         )
     }
 
-
     @Test
     fun `maps entity to domain - valid entity`() = runTest {
         // given
