@@ -15,13 +15,14 @@ kotlin {
 
 android {
     // Kotlin
+    val javaVersion = catalog.version("jvm-target")
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.valueOf("VERSION_$javaVersion")
+        targetCompatibility = JavaVersion.valueOf("VERSION_$javaVersion")
     }
 
     kotlinOptions {
-        jvmTarget = catalog.version("jvm-target")
+        jvmTarget = javaVersion
     }
 
     // Android

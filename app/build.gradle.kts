@@ -92,8 +92,14 @@ android {
         }
     }
 
+    val javaVersion = libs.versions.jvm.target.get()
     kotlinOptions {
-        jvmTarget = libs.versions.jvm.target.get()
+        jvmTarget = javaVersion
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.valueOf("VERSION_$javaVersion")
+        targetCompatibility = JavaVersion.valueOf("VERSION_$javaVersion")
     }
 
     buildFeatures {

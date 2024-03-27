@@ -22,7 +22,7 @@ min-sdk = "28"
 compile-sdk = "34"
 version-name = "4.5.0"
 version-code = "150"
-jvm-target = "11"
+jvm-target = "17"
 
 
 # Linters
