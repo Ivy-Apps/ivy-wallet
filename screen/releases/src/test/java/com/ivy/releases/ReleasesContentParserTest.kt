@@ -34,7 +34,7 @@ class ReleasesContentParserTest {
         // when
         val res = releasesContentParser.toCommitsList(commits)
 
-        //then
+        // then
         res shouldBe persistentListOf(
             "c9a985eb Add `GitHubWorkerMigration` and bump version to \"4.4.2\" (142)",
             "e6e001e8 Update dev-request.yml",
