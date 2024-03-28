@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.theme.modal.edit
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,16 +36,16 @@ import com.ivy.wallet.ui.theme.modal.ModalTitle
 import com.notkamui.keval.Keval
 import java.util.UUID
 
+@SuppressLint("ComposeModifierMissing")
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.CalculatorModal(
-    id: UUID = UUID.randomUUID(),
-    initialAmount: Double?,
-    visible: Boolean,
-    currency: String,
-
-    dismiss: () -> Unit,
-    onCalculation: (Double) -> Unit
+      initialAmount: Double?,
+      visible: Boolean,
+      currency: String,
+      dismiss: () -> Unit,
+      id: UUID = UUID.randomUUID(),
+      onCalculation: (Double) -> Unit
 ) {
     var expression by remember(id, initialAmount) {
         mutableStateOf(initialAmount?.format(currency) ?: "")
@@ -121,18 +122,18 @@ fun BoxWithConstraintsScope.CalculatorModal(
             },
             FirstRowExtra = {
                 KeypadCircleButton(
-                    text = "x",
+                    text = "×",
                     testTag = "key_*"
                 ) {
-                    expression += "x"
+                    expression += "×"
                 }
             },
             SecondRowExtra = {
                 KeypadCircleButton(
-                    text = "-",
+                    text = "−",
                     testTag = "key_-"
                 ) {
-                    expression += "-"
+                    expression += "−"
                 }
             },
             ThirdRowExtra = {
@@ -182,7 +183,7 @@ private fun formatExpression(expression: String, currency: String): String {
     var formattedExpression = expression
 
     expression
-        .split("(", ")", "÷", "x", "-", "+")
+        .split("(", ")", "÷", "×", "−", "+")
         .ifEmpty {
             // handle only number expression formatting
             listOf(expression)
@@ -212,7 +213,8 @@ private fun calculate(expression: String): Double? {
             for (char in expression) {
                 when (char) {
                     '÷' -> this.append('/')
-                    'x' -> this.append('*')
+                    '×' -> this.append('*')
+                    '−' -> this.append('-')
                     else -> this.append(char)
                 }
             }
