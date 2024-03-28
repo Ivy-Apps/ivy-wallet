@@ -144,12 +144,12 @@
     <string name="to_date">To %1$s</string>
     <string name="range">Range</string>
     <string name="privacy_and_data_collection">Privacy and\ndata collection</string>
-    <string name="swipe_to_agree_terms_conditions">Swipe to agree with our Terms and conditions</string>
-    <string name="agreed_terms_conditions">Agreed with our Terms and conditions</string>
-    <string name="swipe_to_agree_privacy_policy">Swipe to agree with our Privacy policy</string>
-    <string name="agreed_privacy_policy">Agreed with our Privacy policy</string>
-    <string name="terms_and_conditions">Terms and conditions</string>
-    <string name="privacy_policy">Privacy policy</string>
+    <string name="swipe_to_agree_terms_conditions">Swipe to agree with our Terms and Conditions</string>
+    <string name="agreed_terms_conditions">Agreed with our Terms and Conditions</string>
+    <string name="swipe_to_agree_privacy_policy">Swipe to agree with our Privacy Policy</string>
+    <string name="agreed_privacy_policy">Agreed with our Privacy Policy</string>
+    <string name="terms_and_conditions">Terms and Conditions</string>
+    <string name="privacy_policy">Privacy Policy</string>
     <string name="wallet_description">Track your income, expenses and budget with Ivy.\n\nIntuitive interface, recurring and planned payments, manage multiple accounts, organize transactions in categories, powerful statistics, export to CSV and so much more.</string>
     <string name="enter_your_name">Enter your name\nto personalize your\nwallet</string>
     <string name="what_is_your_name">What\'s your name?</string>
@@ -175,10 +175,10 @@
     <string name="by_signing_in">By signing in, you accept our %1$s and %2$s.</string>
     <string name="import_csv_file">Import CSV file</string>
     <string name="from_ivy_or_another_app">from Ivy or another app</string>
-    <string name="importing_another_time_warning">Importing a backup file from another can take up to 5 mins. You can always import your data later if you want to.</string>
+    <string name="importing_another_time_warning">Importing a backup file from another app can take up to 5 min. You can always import your data later if you wish.</string>
     <string name="import_backup_file">Import backup file</string>
     <string name="start_fresh">Start fresh</string>
-    <string name="planned_payment_confirm_deletion_description">Deleting this planned payment will remove all associated upcoming or overdue unpaid transactions.</string>
+    <string name="planned_payment_confirm_deletion_description">Deleting this planned payment will remove all associated (upcoming or overdue) unpaid transactions.</string>
     <string name="set_payment_type">Set payment type</string>
     <string name="planned_start_at">Planned start at</string>
     <string name="repeats_every">REPEATS EVERY %1$d %2$s</string>
@@ -187,7 +187,7 @@
     <string name="null_text">null</string>
     <string name="starts_date">"STARTS %1$s "</string>
     <string name="add_payment">Add payment</string>
-    <string name="one_time_payments">One time payments</string>
+    <string name="one_time_payments">One-time payments</string>
     <string name="recurring_payments">Recurring payments</string>
     <string name="no_planned_payments">No planned payments</string>
     <string name="no_planned_payments_description">You  don\'t have any planned payments.\nTap the \'⚡\' button at the bottom to add one.</string>
@@ -207,7 +207,7 @@
     <string name="enter_account_balance">Enter account balance</string>
     <string name="choose_currency">Choose currency</string>
     <string name="calculator">Calculator</string>
-    <string name="calculator_empty_expression">Calculation (+-÷x=)</string>
+    <string name="calculator_empty_expression">Calculation (+−÷×=)</string>
     <string name="edit_category">Edit category</string>
     <string name="create_category">Create category</string>
     <string name="category_name">Category name</string>
@@ -239,7 +239,7 @@
     <string name="backup_data">Backup Data</string>
     <string name="import_data">Import Data</string>
     <string name="app_settings">App Settings</string>
-    <string name="lock_app">Lock app</string>
+    <string name="lock_app">Lock App</string>
     <string name="show_notifications">Show notifications</string>
     <string name="hide_balance">Hide balance</string>
     <string name="hide_balance_description">Tap on the hidden balance to reveal it for 5s</string>
@@ -252,15 +252,15 @@
     <string name="danger_zone">Danger zone</string>
     <string name="delete_all_user_data">Delete all user data</string>
     <string name="delete_all_user_data_question">Delete all user data?</string>
-    <string name="delete_all_user_data_warning">WARNING! This action will PERMANENTLY delete all data for %1$s and you won\'t be able to recover it.</string>
+    <string name="delete_all_user_data_warning">WARNING! This action will PERMANENTLY delete all data associated with %1$s. It cannot be recovered.</string>
     <string name="your_account">your account</string>
-    <string name="confirm_all_userd_data_deletion">Confirm permanent deletion for \'%1$s\'</string>
+    <string name="confirm_all_userd_data_deletion">Confirm permanent deletion for %1$s</string>
     <string name="all_of_your_data">all of your data</string>
     <string name="final_deletion_warning">FINAL WARNING! After clicking "Delete" your data will be gone forever.</string>
     <string name="exporting_data">Exporting Data</string>
     <string name="exporting_data_description">Please wait, exporting data</string>
     <string name="start_date_of_month">Start date of month</string>
-    <string name="ivy_telegram">Ivy Telegram</string>
+    <string name="ivy_telegram">Ivy Telegram group</string>
     <string name="help_center">Help Center</string>
     <string name="roadmap">Roadmap</string>
     <string name="request_a_feature">Request a feature</string>
@@ -270,7 +270,7 @@
     <string name="logout">Logout</string>
     <string name="login">Login</string>
     <string name="syncing">Syncing…</string>
-    <string name="data_synced_to_cloud">Data synced to cloud</string>
+    <string name="data_synced_to_cloud">Data synced to the cloud</string>
     <string name="tap_to_sync">Tap to sync</string>
     <string name="sync_failed">Sync failed. Tap to sync</string>
     <string name="anonymous">Anonymous</string>
@@ -314,7 +314,7 @@
     <string name="associated_account">Associated Account</string>
     <string name="create_main_transaction">Create a Main Transaction</string>
     <string name="enter_loan_amount_uppercase">ENTER LOAN AMOUNT</string>
-    <string name="confirm_account_change_warning">"Note: If you attempt to change the account associated with the loan to an account of a different currency, all loan records will be recalculated based on today's exchange rates "</string>
+    <string name="confirm_account_change_warning">"If you attempt to change the account associated with the loan to one in a different currency, all loan records will be recalculated based on today\'s exchange rates."</string>
     <string name="loan_type">Loan type</string>
     <string name="borrow_money">Borrow money</string>
     <string name="lend_money">Lend money</string>
@@ -325,7 +325,7 @@
     <string name="recalculate_amount_with_today_exchange_rates">Update amount using today\'s exchange rates.</string>
     <string name="enter_record_amount_uppercase">ENTER RECORD AMOUNT</string>
     <string name="record_deletion_warning">Are you sure you want to delete the "%1$s" record?</string>
-    <string name="account_change_warning">"Note: If you attempt to change the account associated with the loan record to an account in a different currency, the amount will be recalculated based on today's exchange rates "</string>
+    <string name="account_change_warning">"If you attempt to change the account associated with the loan record to one in a different currency, all loan records will be recalculated based on today\'s exchange rates."</string>
     <string name="edit_name">Edit name</string>
     <string name="plan_for">Plan for</string>
     <string name="one_time">One time</string>
@@ -378,23 +378,23 @@
     <string name="to_accounts">To accounts</string>
     <string name="adjust_initial_balance_description"><![CDATA[Let\'s get started. Go to \"Accounts\" -> Tap an account -> Tap its balance -> Enter current balance. That\'s it!]]></string>
     <string name="create_first_planned_payment">Create your first planned payment</string>
-    <string name="create_first_planned_payment_description">Automate the tracking of recurring transactions like your subscriptions, rent, salary, etc. Stay on top of your finances by knowing how much you need to pay/get in advance.</string>
+    <string name="create_first_planned_payment_description">Keep track of your regular transactions, such as subscriptions, rent, and paychecks. Stay on top of your finances by knowing how much you owe or expect to receive in advance.</string>
     <string name="did_you_know">Did you know?</string>
-    <string name="widget_description">Ivy Wallet has a cool widget that lets you add INCOME/EXPENSES/TRANSFER transactions with a tap from your home\n\nNote: If the "Add widget" button doesn\'t work, please add it manually from your launcher\'s widgets menu.</string>
+    <string name="widget_description">Ivy Wallet has a cool widget that lets you add transactions with a single tap from your home screen.\n\nNote: If the "Add widget" button doesn\'t work, please add it manually from your launcher\'s widgets menu.</string>
     <string name="add_widget">Add widget</string>
     <string name="set_a_budget">Set a budget</string>
     <string name="set_a_budget_description">Ivy Wallet helps you not only passively track your spending, but also proactively manage your financial future by setting and sticking to budgets.</string>
     <string name="expenses_piechart_description">You can see your spending structure by category! Try it by tapping the gray/black Expenses button just below your balance.</string>
     <string name="expenses_piechart">Expenses PieChart</string>
     <string name="review_ivy_wallet">Leave a review</string>
-    <string name="review_ivy_wallet_description">Give us your feedback! Help Ivy Wallet improve and grow by leaving a review. Compliments, ideas, and criticism  are all welcome! We will do our best.\n\nCheers,\nIvy Team</string>
-    <string name="help_us_grow">Help us grow so we can invest more in development and make the app better for you. By sharing Ivy Wallet you\'ll make two developers happy and also help a friend to take control of their finances.</string>
+    <string name="review_ivy_wallet_description">Give us your feedback! Help Ivy Wallet improve and grow by leaving a review. We welcome compliments, ideas, and criticism! Your input is invaluable in our ongoing efforts to enhance the app.\n\nCheers,\nIvy Team</string>
+    <string name="help_us_grow">Help us grow so we can invest more in development and make the app better for you. By sharing Ivy Wallet you\'ll make all the contributors happy and also help a friend to take control of their finances.</string>
     <string name="share_with_friends">Share with friends</string>
     <string name="make_a_report_description">You can generate reports to get deep insight into your income and spending. Filter your transactions by type, time period, category, accounts, amount, keywords and more to get a better handle on your finances.</string>
     <string name="make_a_report">Make a report</string>
-    <string name="make_ivy_wallet_better_description">Would you like to make Ivy Wallet better? Write us a review. It\'s the only way we can build what you want and need. It also helps us rank higher in the Play Store so we can spend money on the product instead of marketing.\n\nWe do our best.\nIvy Team</string>
+    <string name="make_ivy_wallet_better_description">Would you like to make Ivy Wallet better? Write us a review. It\'s the only way we can implement what you need. It also helps us rank higher in the Play Store so we can spend money on the product instead of marketing.\n\nWe do our best.\nIvy Team</string>
     <string name="we_need_your_help">We need your help!</string>
-    <string name="we_need_your_help_description">We\'re just a designer and a developer working on the app after our 9–5 jobs. Currently, we invest a lot of time and money to generate only losses and exhaustion. If you want us to continue developing Ivy Wallet, please share it with your friends and family.\n\nP.S. Google Play Store reviews also help a lot!</string>
+    <string name="we_need_your_help_description">We need your support to keep improving the app. Please share Ivy Wallet with your friends and family, and consider leaving a review on the Google Play Store. Your contributions will help us continue our mission.</string>
     <string name="ivy_wallet_is_opensource">Ivy Wallet is open-source!</string>
     <string name="ivy_wallet_is_opensource_description">Ivy Wallet\'s code is open and everyone can see it. We believe that transparency and ethics are a must for any software product. If you like our work and want to make the app better you can contribute to our public Github repository.</string>
     <string name="contribute">Contribute</string>
@@ -432,8 +432,8 @@
     <string name="generating_report">Generating report…</string>
     <string name="sort_by">Sort by</string>
     <string name="skip_all">Skip all</string>
-    <string name="confirm_skip_all">Confirm skip all</string>
-    <string name="confirm_skip_all_description">Are you sure that you want to skip all overdue planned payments?</string>
+    <string name="confirm_skip_all">Confirm skipping all</string>
+    <string name="confirm_skip_all_description">Are you sure you want to skip all overdue planned payments?</string>
     <string name="switch_to_offline_mode">Switch to offline mode</string>
     <string name="delete_all_user_cloud_data_warning">WARNING! This action will delete all your cloud-stored data for %1$s PERMANENTLY, the offline data stored in your local app will remain.</string>
     <string name="delete_all_cloud_data_question">Delete all cloud-stored data?</string>
@@ -448,8 +448,8 @@
     <string name="increase_loan">Increase</string>
     <string name="decrease_loan">Decrease</string>
     <string name="msg_select_account_to_transfer">Select the transfer destination</string>
-    <string name="msg_source_account_destination_account_same_for_transfer">Select different source/destination for transfer </string>
-    <string name="others_optional">Others (Optional)</string>
+    <string name="msg_source_account_destination_account_same_for_transfer">Select a different destination account for the transfer</string>
+    <string name="others_optional">Other (optional)</string>
     <string name="tags">Tags</string>
     <string name="search_tags">Search Tags</string>
 </resources>
