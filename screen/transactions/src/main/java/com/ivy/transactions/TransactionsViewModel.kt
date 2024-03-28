@@ -732,6 +732,7 @@ class TransactionsViewModel @Inject constructor(
     private suspend fun deleteCategory(categoryId: UUID) {
         ioThread {
             categoryWriter.flagDeleted(categoryId)
+            categoryRepository.deleteById(CategoryId(categoryId))
 
             nav.back()
         }
