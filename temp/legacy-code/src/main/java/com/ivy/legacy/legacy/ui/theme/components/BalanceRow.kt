@@ -112,7 +112,7 @@ fun BalanceRow(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            if (currencyUpfront || doubleRowDisplay) {
+            if (doubleRowDisplay) {
                 Currency(
                     currency = currency,
                     textColor = textColor,
@@ -122,13 +122,20 @@ fun BalanceRow(
             }
 
             if (!doubleRowDisplay) {
-                Spacer(Modifier.width(spacerCurrency))
+                val balanceText = when {
+                    hiddenMode -> "****"
+                    balanceAmountPrefix != null -> "$balanceAmountPrefix$integerPartFormatted"
+                    else -> integerPartFormatted
+                }
+
+                val balanceCurrencyText = if (currencyUpfront) {
+                    "$currency $balanceText"
+                } else {
+                    "$balanceText $currency"
+                }
+
                 Text(
-                    text = when {
-                        hiddenMode -> "****"
-                        balanceAmountPrefix != null -> "$balanceAmountPrefix$integerPartFormatted"
-                        else -> integerPartFormatted
-                    },
+                    text = balanceCurrencyText,
                     style = if (balanceFontSize == null) {
                         UI.typo.nH1.style(
                             fontWeight = FontWeight.ExtraBold,
@@ -140,15 +147,6 @@ fun BalanceRow(
                             color = textColor
                         ).copy(fontSize = balanceFontSize)
                     }
-                )
-            }
-
-            if (!currencyUpfront && !doubleRowDisplay) {
-                Spacer(Modifier.width(spacerCurrency))
-                Currency(
-                    currency = currency,
-                    textColor = textColor,
-                    currencyFontSize = currencyFontSize
                 )
             }
         }
