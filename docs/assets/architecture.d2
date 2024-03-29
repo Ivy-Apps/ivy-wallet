@@ -24,7 +24,7 @@ ui: "UI Layer" {
     vm <- c: "user input as UI events"
 }
 
-world  -> data: receives data
+world -> data: receives data
 data -> world: sends data
 data.repo -> domain: "domain model"
 data.repo -> ui.vm: "domain model"

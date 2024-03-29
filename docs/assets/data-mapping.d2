@@ -10,9 +10,9 @@ domain: "Domain models" {
     "Explicit and exact"
     "Validated"
 }
-uiState: "UI models" {
-    "*UiState"
-    "Formatted and ready to display"
+uiState: "ViewState models" {
+    "*ViewState"
+    "UI models: formatted and ready to display"
     "Optimized for Compose"
 }
 
@@ -22,6 +22,6 @@ vm: "ViewModel"
 raw -> repo: "raw"
 repo -> domain: "domain"
 domain -> vm: "domain"
-vm -> uiState: "ui"
+vm -> uiState: "viewState"
 
 
