@@ -24,13 +24,13 @@ Wraps an IO operation (e.g. a Ktor http call) and ensures that it won't throw ex
 
 ### Domain Mapper classes (optional)
 
-A classes responsible for transforming and validating raw models (e.g. DTOs, entities) to domain ones. The validations can fail so mappers usually return `Either<Error, DomainModel>`.
+A classes responsible for transforming and validating raw models (e.g. DTOs, entities) to domain ones. These validations can fail so mappers usually return `Either<Error, DomainModel>`.
 
 ### Repository
 
-Combines one or many data sources to implement [CRUD operations](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) and provide validated domain data.
+Combines one or many data sources to implement [CRUD operations](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) and provide validated domain data. Repository functions must be **main-safe** (not blocking the main UI thread) or simply said they must move work on a background thread (e.g. `withContext(Disparchers.IO)`)
 
-## Domain Layer
+## Domain Layer (optional)
 
 ### UseCases
 
