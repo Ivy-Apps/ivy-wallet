@@ -96,12 +96,8 @@ value class PositiveInt private constructor(val value: Int) {
         override val exactName = "PositiveInt"
 
         override fun Raise<String>.spec(raw: Int): PositiveInt {
-            ensure(raw > 0) {
-                "$raw is not >= 0"
-            }
-            ensure(raw.isFinite()) {
-                "Is not a finite number"
-            }
+            ensure(raw > 0) { "$raw is not >= 0" }
+            ensure(raw.isFinite()) { "Is not a finite number" }
             return PositiveInt(raw)
         }
     }
