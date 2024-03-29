@@ -28,7 +28,7 @@ To recap - **THINK** and keep it simple.
 
 To get started read:
 
-1. **[Data Modeling](./guidelines/Data-Modeling.md)**.
+1. **[Data Modeling](./guidelines/Data-Modeling.md)**
 2. **[Error Handling](./guidelines/Error-Handling.md)**
 3. **[Unit Testing](./guidelines/Unit-Testing.md)**
 4. **[Architecture](./guidelines/Architecture.md)**
