@@ -28,11 +28,12 @@ To recap - **THINK** and keep it simple.
 
 To get started read:
 
-1. **[Architecture](./guidelines/Architecture.md)**
-2. **[Screen Architecture](./guidelines/Screen-Architecture.md)**
-3. **[Error Handling](./guidelines/Error-Handling.md)**
-4. **[Unit Testing](./guidelines/Unit-Testing.md)**
-5. **[Screenshot Testing](./guidelines/Screenshot-Testing.md)**
+1. **[Data Modeling](./guidelines/Data-Modeling.md)**
+2. **[Architecture](./guidelines/Architecture.md)**
+3. **[Screen Architecture](./guidelines/Screen-Architecture.md)**
+4. **[Error Handling](./guidelines/Error-Handling.md)**
+5. **[Unit Testing](./guidelines/Unit-Testing.md)**
+6. **[Screenshot Testing](./guidelines/Screenshot-Testing.md)**
 
 ## References
 
