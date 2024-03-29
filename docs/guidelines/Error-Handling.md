@@ -1,11 +1,11 @@
 # Error Handling
 
-It's common operations to fail and we should expect that.
+It's common for operations to fail and we should expect that.
 In Ivy Wallet we **do not throw exceptions** but rather make functions that
 can fail return [Either<Error, Data>](https://arrow-kt.io/learn/typed-errors/working-with-typed-errors/).
 
-Either is a generic data type that models two possible case:
-- `Either.Left` for the unhappy path (e.g. request failing, invalid inlut, no network connection)
+Either is a generic data type that models two possible cases:
+- `Either.Left` for the unhappy path (e.g. request failing, invalid input, no network connection)
 - `Either.Right` for the happy path
 
 Simplified, `Either` is just:
@@ -75,11 +75,30 @@ class CryptoInvestor @Inject constructor(
 ```
 
 Let's analyze, simplified:
-- `either {}` puts us into a "special" scope where the last line returns `Either.Right` and also give us access to some functions:
-  - `Operation.bind()`: if the operation fails terminates the `either {}` with operation's `Left` value, otherwise `.bind()` returns operation's `Right` value
+- `either {}` puts us into a "special" scope where the last line returns `Either.Right` and also gives us access to some functions:
+  - `Operation.bind()`: if the operation fails terminates the `either {}` with operation's `Left` value, otherwise `.bind()` returns the operation's `Right` value
   - `raise(E)`: like **throw** but for `either {}` - terminates the function with `Left(E)`
-- `Either.mapLeft {}`: transforms the `Left` (error type) of the `Either`. In the example we do it so we can match the left type of the `either {}`
+- `Either.mapLeft {}`: transforms the `Left` (error type) of the `Either`. In the example, we do it so we can match the left type of the `either {}`
 
-**Useful `Either` functions:**
+## Useful `Either` functions
 
-- 
+We won't cover all but I'll list the ones that we often use in Ivy Wallet and find the most useful.
+
+- either {}
+  - Either.bind()
+  - raise()
+  - ensure()
+- Either.getOrNull()
+- Either.map {} and Either.mapLeft {}
+- Either.fold({},{})
+
+I strongly recommend allocating some time to also go through [Arrow's Working with typed errors guide](https://arrow-kt.io/learn/typed-errors/working-with-typed-errors/) which covers much more.
+
+## Fun facts about `Either`
+
+- Either is a [monad](https://en.wikipedia.org/wiki/Monad_(functional_programming)).
+- `Either<Throwable, T>` is equivalent to Kotlin's std `Result` type.
+- Many projects create a custom `Result<E, T>` while they can just use `Either` with all of its built-in features.
+
+> In some rare cases it's okay to `throw` a runtime exception. Those are the cases in which you're okay and want the app to crash
+> (e.g. not enough disk space to write in Room DB / local storage).
