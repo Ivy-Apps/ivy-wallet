@@ -76,10 +76,10 @@ fun BoxWithConstraintsScope.AmountModal(
         mutableStateOf(
             if (currency.isNotEmpty()) {
                 initialAmount?.takeIf { it != 0.0 }?.format(currency)
-                    ?: ""
+                    ?: "0"
             } else {
                 initialAmount?.takeIf { it != 0.0 }?.format(decimalCountMax)
-                    ?: ""
+                    ?: "0"
             }
         )
     }
@@ -113,11 +113,7 @@ fun BoxWithConstraintsScope.AmountModal(
                 iconStart = R.drawable.ic_check
             ) {
                 try {
-                    if (amount.isEmpty()) {
-                        onAmountChanged(0.0)
-                    } else {
-                        onAmountChanged(amount.amountToDouble())
-                    }
+                    onAmountChanged(amount.amountToDouble())
                     dismiss()
                 } catch (e: Exception) {
                     e.printStackTrace()
