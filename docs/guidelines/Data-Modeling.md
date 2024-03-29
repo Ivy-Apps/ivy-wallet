@@ -78,7 +78,7 @@ data class Order(
   val item: ItemId,
   val count: PositiveInt,
   val time: Instant, // <-- always in UTC 
-  val trackId: NotBlankTrimmedString
+  val trackingId: NotBlankTrimmedString
 )
 
 @JvmInline
@@ -115,3 +115,10 @@ We fixed:
 
 - Order `count` of `0`, `negative`, or infinity by explicitly requiring a `PositiveInt`. (unfortunately, that happens at runtime because the compiler can't know if a given integer is positive or not by just looking at the code.)
 - The `UUID`s now can't be messed up because the compiler will give you an error if for example, you try to pass `UserId` but a function accepts `OrderId`.
+- The `time` is now always in UTC by using `Instant`.
+- The `trackignId` can't be blank or contain trailing whitespaces.
+
+To learn more about Explicit types you can [the Arrow Exact GitHub repo](https://github.com/arrow-kt/arrow-exact).
+
+> Not all types can be exact. For example, we make an exception for DTOs, entities, and UI layer types where we need primitives.
+> However, everything in your domain layer where the business logic is must be exact and explicit.
