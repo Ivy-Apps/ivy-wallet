@@ -1,0 +1,25 @@
+direction: right
+
+raw: "Raw data models" {
+    "DTOs"
+    "Entities"
+    "Bytes"
+}
+domain: "Domain models" {
+    "ADTs"
+    "Explicit and exact"
+    "Validated"
+}
+uiState: "UI models" {
+    "*UiState"
+    "Formatted and ready to display"
+    "Optimized for Compose"
+}
+
+repo: "Repository"
+vm: "ViewModel"
+
+raw -> repo -> domain
+domain -> vm -> uiState
+
+
