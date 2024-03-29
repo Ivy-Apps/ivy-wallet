@@ -26,3 +26,50 @@ fun <E,A,B> Either<E, A>.fold(
 
 // a bunch more extension functions and utils
 ```
+
+So in Ivy, operations that can fail (logically or for some other reason) we'll model using **Either**.
+
+## Data Layer example
+
+Imagine that we're building a program that buys BTC if its price is below $50,000.
+
+```kotlin
+interface BtcDataSource {
+  suspend fun fetchCurrentPriceUSD(): Either<String, PositiveDouble>
+  suspend buy(amount: PositiveDouble): Either<BuyError, Unit>
+
+  sealed interface BuyError {
+    data class IO(val e: Throwable) : BuyError
+    data object TooSmallAmount : BuyError
+  }
+}
+
+interface MyBank {
+  suspend fun currentblBalanceUSD(): Either<Unit, PositiveDouble>
+}
+
+class CryptoInvestor @Inject constructor(
+  private val btcDataSource: BtcDataSource,
+  private val myBank: MyBank
+) {
+  suspend buyIfCheap(): Either<String, PositiveDouble> = either {
+    val btcPrice = btcDataSource.fetchCurrentPriceUSD().bind()
+    if(btcPrice.value > 50_000) {
+      raise("BTC is expensive! Won't buy.")
+    }
+    val myBalance = myBank.currentBalanceUSD().mapLeft {
+      "Failed to fetch my bank account balance."
+    }.bind()
+    btcDataSource.buy(myBalance).mapLeft { err ->
+       when(err) {
+         is BuyError.IO -> "Failed to buy because of an IO error - ${e.msg}"
+         BuyError.TooSmallAmount -> "Failed to buy because I'm poor."
+       }
+    }.bind()
+    // Bought BTC with my entire balance!
+    myBalance // <-- the last line returns the Either.Right
+  }
+}
+```
+
+
