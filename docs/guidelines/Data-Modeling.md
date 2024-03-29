@@ -114,7 +114,7 @@ We fixed:
 - The `time` is now always in UTC by using `Instant`.
 - The `trackignId` can't be blank or contain trailing whitespaces.
 
-To learn more about Explicit types you can [the Arrow Exact GitHub repo](https://github.com/arrow-kt/arrow-exact).
+To learn more about Explicit types you can check [the Arrow Exact GitHub repo](https://github.com/arrow-kt/arrow-exact).
 
 > Not all types can be exact. For example, we make an exception for DTOs, entities, and UI layer types where we need primitives.
 > However, everything in your domain layer where the business logic is must be exact and explicit.
