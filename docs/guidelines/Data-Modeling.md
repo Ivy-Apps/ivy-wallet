@@ -116,5 +116,5 @@ We fixed:
 
 To learn more about Explicit types you can check [the Arrow Exact GitHub repo](https://github.com/arrow-kt/arrow-exact).
 
-> Not all types can be exact. For example, we make an exception for DTOs, entities, and UI layer types where we need primitives.
-> However, everything in your domain layer where the business logic is must be exact and explicit.
+> Not all types can be exact. For example, we make an exception for DTOs and entities where we need primitives.
+> However, we still use ADTs and everything in the domain layer where the business logic is must be exact and explicit.
