@@ -109,7 +109,7 @@ This data model takes more code but you'll thank me for that later because...
 
 We fixed:
 
-- Order `count` of `0`, `negative`, or infinity by explicitly requiring a `PositiveInt`. (unfortunately, that happens at runtime because the compiler can't know if a given integer is positive or not by just looking at the code.)
+- Order `count` of zero, negative, or infinity by explicitly requiring a `PositiveInt` (unfortunately, that happens at runtime because the compiler can't know if a given integer is positive or not by just looking at the code).
 - The `UUID`s now can't be messed up because the compiler will give you an error if for example, you try to pass `UserId` but a function accepts `OrderId`.
 - The `time` is now always in UTC by using `Instant`.
 - The `trackignId` can't be blank or contain trailing whitespaces.
