@@ -2,11 +2,11 @@
 
 Ivy Wallet follows a less constrained version of [the official Android Developer's guide to app architecture by Google](https://developer.android.com/topic/architecture).
 
-**Data Mapping**
+**Data Mapping:** _Raw model → Domain model → ViewState model_
 
 ![data-mapping](../assets/data-mapping.svg)
 
-**Architecture**
+**Architecture:** _Data Layer → Domain Layer (optional) → UI layer_
 
 ![architecture](../assets/architecture.svg)
 
@@ -14,8 +14,16 @@ Ivy Wallet follows a less constrained version of [the official Android Developer
 
 ### Data source (optional)
 
-### Repository (abstracted)
+### Repository
 
 ## Domain Layer
 
+### UseCases
+
 ## UI Layer
+
+### ViewModel
+
+### ViewStateMappers (optional)
+
+### Composables
