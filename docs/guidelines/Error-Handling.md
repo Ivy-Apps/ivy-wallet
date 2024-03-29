@@ -54,7 +54,9 @@ class CryptoInvestor @Inject constructor(
 ) {
   suspend buyIfCheap(): Either<String, PositiveDouble> = either {
     val btcPrice = btcDataSource.fetchCurrentPriceUSD().bind()
+    // .bind() - if it fails returns Either.Left and short-circuits the function
     if(btcPrice.value > 50_000) {
+      // short-circuits and returns Either.Left with the msg below
       raise("BTC is expensive! Won't buy.")
     }
     val myBalance = myBank.currentBalanceUSD().mapLeft {
@@ -65,7 +67,7 @@ class CryptoInvestor @Inject constructor(
          is BuyError.IO -> "Failed to buy because of an IO error - ${e.msg}"
          BuyError.TooSmallAmount -> "Failed to buy because I'm poor."
        }
-    }.bind()
+    }.bind() // maps the BuyError to Strinf and short-circuits
     // Bought BTC with my entire balance!
     myBalance // <-- the last line returns the Either.Right
   }
