@@ -26,6 +26,6 @@ ui: "UI Layer" {
 
 world  -> data: receives data
 data -> world: sends data
-data.repo -> domain
-data.repo -> ui.vm
-domain.uc -> ui.vm
+data.repo -> domain: "domain model"
+data.repo -> ui.vm: "domain model"
+domain.uc -> ui.vm: "domain model"

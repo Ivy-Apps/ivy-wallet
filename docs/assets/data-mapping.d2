@@ -19,7 +19,9 @@ uiState: "UI models" {
 repo: "Repository"
 vm: "ViewModel"
 
-raw -> repo -> domain
-domain -> vm -> uiState
+raw -> repo: "raw"
+repo -> domain: "domain"
+domain -> vm: "domain"
+vm -> uiState: "ui"
 
 
