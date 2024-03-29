@@ -79,3 +79,7 @@ Let's analyze, simplified:
   - `Operation.bind()`: if the operation fails terminates the `either {}` with operation's `Left` value, otherwise `.bind()` returns operation's `Right` value
   - `raise(E)`: like **throw** but for `either {}` - terminates the function with `Left(E)`
 - `Either.mapLeft {}`: transforms the `Left` (error type) of the `Either`. In the example we do it so we can match the left type of the `either {}`
+
+**Useful `Either` functions:**
+
+- 
