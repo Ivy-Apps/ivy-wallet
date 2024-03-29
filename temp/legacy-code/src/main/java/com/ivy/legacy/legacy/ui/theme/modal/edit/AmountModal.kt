@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -56,6 +57,7 @@ import com.ivy.wallet.ui.theme.modal.modalPreviewActionRowHeight
 import java.util.UUID
 import kotlin.math.truncate
 
+@SuppressLint("ComposeModifierMissing")
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.AmountModal(
@@ -74,10 +76,10 @@ fun BoxWithConstraintsScope.AmountModal(
         mutableStateOf(
             if (currency.isNotEmpty()) {
                 initialAmount?.takeIf { it != 0.0 }?.format(currency)
-                    ?: ""
+                    ?: "0"
             } else {
                 initialAmount?.takeIf { it != 0.0 }?.format(decimalCountMax)
-                    ?: ""
+                    ?: "0"
             }
         )
     }
@@ -111,11 +113,7 @@ fun BoxWithConstraintsScope.AmountModal(
                 iconStart = R.drawable.ic_check
             ) {
                 try {
-                    if (amount.isEmpty()) {
-                        onAmountChanged(0.0)
-                    } else {
-                        onAmountChanged(amount.amountToDouble())
-                    }
+                    onAmountChanged(amount.amountToDouble())
                     dismiss()
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -136,6 +134,7 @@ fun BoxWithConstraintsScope.AmountModal(
                                 amount.firstOrNull() == '-' -> {
                                     amount = amount.drop(1)
                                 }
+
                                 amount.isNotEmpty() -> {
                                     amount = "-$amount"
                                 }
@@ -186,10 +185,11 @@ fun BoxWithConstraintsScope.AmountModal(
     )
 }
 
+@SuppressLint("ComposeModifierMissing")
 @Composable
 fun AmountCurrency(
     amount: String,
-    currency: String
+    currency: String,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -224,7 +224,7 @@ fun AmountInput(
     decimalCountMax: Int = 2,
     setAmount: (String) -> Unit,
 
-) {
+    ) {
     var firstInput by remember { mutableStateOf(true) }
 
     AmountKeyboard(
@@ -296,17 +296,17 @@ private fun formatNumber(number: String): String? {
     return null
 }
 
+@SuppressLint("ComposeContentEmitterReturningValues", "ComposeMultipleContentEmitters", "ComposeModifierMissing")
 @Composable
 fun AmountKeyboard(
     forCalculator: Boolean,
+    onNumberPressed: (String) -> Unit,
+    onDecimalPoint: () -> Unit,
     ZeroRow: (@Composable RowScope.() -> Unit)? = null,
     FirstRowExtra: (@Composable RowScope.() -> Unit)? = null,
     SecondRowExtra: (@Composable RowScope.() -> Unit)? = null,
     ThirdRowExtra: (@Composable RowScope.() -> Unit)? = null,
     FourthRowExtra: (@Composable RowScope.() -> Unit)? = null,
-
-    onNumberPressed: (String) -> Unit,
-    onDecimalPoint: () -> Unit,
     onBackspace: () -> Unit,
 ) {
     if (ZeroRow != null) {
@@ -345,9 +345,7 @@ fun AmountKeyboard(
             onNumberPressed = onNumberPressed
         )
 
-        if (FirstRowExtra != null) {
-            FirstRowExtra.invoke(this)
-        }
+        FirstRowExtra?.invoke(this)
     }
 
     Spacer(Modifier.height(8.dp))
@@ -375,9 +373,7 @@ fun AmountKeyboard(
             onNumberPressed = onNumberPressed
         )
 
-        if (SecondRowExtra != null) {
-            SecondRowExtra.invoke(this)
-        }
+        SecondRowExtra?.invoke(this)
     }
 
     Spacer(Modifier.height(8.dp))
@@ -405,9 +401,7 @@ fun AmountKeyboard(
             onNumberPressed = onNumberPressed
         )
 
-        if (ThirdRowExtra != null) {
-            ThirdRowExtra.invoke(this)
-        }
+        ThirdRowExtra?.invoke(this)
     }
 
     Spacer(Modifier.height(8.dp))
@@ -442,9 +436,7 @@ fun AmountKeyboard(
             tint = Red
         )
 
-        if (FourthRowExtra != null) {
-            FourthRowExtra.invoke(this)
-        }
+        FourthRowExtra?.invoke(this)
     }
 }
 
@@ -467,6 +459,7 @@ fun CircleNumberButton(
     )
 }
 
+@SuppressLint("ComposeModifierMissing")
 @Composable
 fun KeypadCircleButton(
     text: String,
@@ -474,11 +467,10 @@ fun KeypadCircleButton(
     textColor: Color = UI.colors.pureInverse,
     fontSize: TextUnit = 32.sp,
     btnSize: Dp = 80.dp,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Text(
         modifier = circleButtonModifier(size = btnSize, onClick = onClick)
-            .padding(top = 18.dp)
             .testTag(testTag),
         text = text,
         fontSize = fontSize,
@@ -495,21 +487,17 @@ fun KeypadCircleButton(
 @Composable
 private fun circleButtonModifier(
     size: Dp = 80.dp,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ): Modifier {
     return Modifier
         .size(size)
-//        .drawColoredShadow(
-//            color = Black,
-//            alpha = if (UI.colors.isLight) 0.05f else 0.5f,
-//            borderRadius = 32.dp
-//        )
         .clip(CircleShape)
         .clickable(
             onClick = onClick
         )
         .background(UI.colors.pure, UI.shapes.rFull)
         .border(2.dp, UI.colors.medium, UI.shapes.rFull)
+        .wrapContentHeight()
 }
 
 @Preview
