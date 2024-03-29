@@ -67,11 +67,13 @@ class CryptoInvestor @Inject constructor(
          is BuyError.IO -> "Failed to buy because of an IO error - ${e.msg}"
          BuyError.TooSmallAmount -> "Failed to buy because I'm poor."
        }
-    }.bind() // maps the BuyError to Strinf and short-circuits
+    }.bind() // maps the BuyError to String and short-circuits
     // Bought BTC with my entire balance!
     myBalance // <-- the last line returns the Either.Right
   }
 }
 ```
 
-
+Let's analyze:
+- `either {}` puts us into a "special" scope where the last line returns `Either.Right` and also give us access to some functions:
+  - `Either.bind()`: terminates the computation with `Either.Left` if it
