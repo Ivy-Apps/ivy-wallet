@@ -38,6 +38,6 @@ Combines one or many data sources to implement [CRUD operations](https://en.wiki
 
 ### ViewModel
 
-### ViewStateMappers (optional)
+### ViewState Mapper classes (optional)
 
 ### Composables
