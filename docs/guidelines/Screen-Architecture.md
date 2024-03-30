@@ -69,3 +69,4 @@ The Compose UI is responsible for rendering the view-state according to its desi
 - [Modern Compose Architecture with Circuit by Slack](https://youtu.be/ZIr_uuN8FEw?si=sulxyqta5dZn-L11)
 - [Reactive UI state on Android, starring Compose by Reddit](https://www.reddit.com/r/RedditEng/s/WhIYLJUzNR)
 - [The Circuit - Compose-driven Architecture for Kotlin by Slack](https://youtu.be/bMJocp969Bo?si=ab9UrAW1HSwm5sGV)
+- [A Jetpack Compose by any other name by Jake Wharton](https://jakewharton.com/a-jetpack-compose-by-any-other-name)
