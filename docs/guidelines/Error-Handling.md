@@ -91,6 +91,7 @@ We won't cover all but I'll list the ones that we often use in Ivy Wallet and fi
 - Either.getOrNull()
 - Either.map {} and Either.mapLeft {}
 - Either.fold({},{})
+- Either.catch({}){}
 
 I strongly recommend allocating some time to also go through [Arrow's Working with typed errors guide](https://arrow-kt.io/learn/typed-errors/working-with-typed-errors/) which covers much more.
 
