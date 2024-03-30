@@ -10,7 +10,8 @@ It key characteristics are:
 2. The UI composables directly display the view-state provided by the VM.
 3. The user interacts with the Compose UI and the UI transforms user's interactions to events and sends them to the VM.
 4. The VM handles the events coming from the UI and produces a new view-state.
-5. Repeat
+
+Repeat ♻️
 
 ## ViewModel
 
