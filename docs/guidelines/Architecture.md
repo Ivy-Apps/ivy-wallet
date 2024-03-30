@@ -14,7 +14,7 @@ Ivy Wallet follows a less constrained version of [the official Android Developer
 
 ## Data Layer
 
-The Data Layer is responsible for dealing with the outside world and mapping it to your domain. It does IO operations (network calls, fyle system, device hardware and sensors) and maps them into valid domain model by executing the required business logic and rules.
+The Data Layer is responsible for dealing with the outside world and mapping it to your domain. It does IO operations (network calls, file system, device hardware and sensors) and maps them into valid domain model by executing the required business logic and rules.
 
 ### Data source (optional)
 
@@ -32,11 +32,21 @@ Combines one or many data sources to implement [CRUD operations](https://en.wiki
 
 ## Domain Layer (optional)
 
+Optional architecture layer for more complex domain logic that combines one or many repositories with business logic and rules (e.g. calculating the balance in Ivy Wallet).
+
 ### UseCases
+
+Encapsulates the logic for a single operation from your domain. Nothing special just combines one or many repositories with some business logic.
 
 ## UI Layer
 
+The user of the app sees and interacts only with the UI layer. The UI layer consists of screens, composable components, view-state mappers and presentation logic.
+
 ### ViewModel
+
+The ViewModel combines the data from uses-cases and repositories and transforms it into view-state representation that's formatted and ready to display in your Compose UI. It also handles user interactions and translates them into data/domain layer calls.
+
+> Simply said, the viewmodel is translator between the UI (user) and the domain. It's like an adapter - adapts domain models to view-state and adapts user interactions into domain calls.
 
 ### ViewState Mapper classes (optional)
 
