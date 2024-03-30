@@ -165,7 +165,7 @@ private fun BoxWithConstraintsScope.UI(
     onDeleteAllUserData: () -> Unit = {},
     onDeleteCloudUserData: () -> Unit = {},
 
-) {
+    ) {
     var currencyModalVisible by remember { mutableStateOf(false) }
     var nameModalVisible by remember { mutableStateOf(false) }
     var chooseStartDateOfMonthVisible by remember { mutableStateOf(false) }
@@ -302,7 +302,7 @@ private fun BoxWithConstraintsScope.UI(
 
             SettingsDefaultButton(
                 icon = R.drawable.ic_currency,
-                text = "Exchange rates"
+                text = stringResource(R.string.exchange_rates),
             ) {
                 nav.navigateTo(ExchangeRatesScreen)
             }
@@ -656,7 +656,7 @@ private fun ContactSupport() {
 private fun Releases(nav: Navigation) {
     SettingsDefaultButton(
         icon = R.drawable.ic_vue_money_tag,
-        text = "Releases",
+        text = stringResource(R.string.releases),
         iconPadding = 10.dp
     ) {
         nav.navigateTo(ReleasesScreen)
@@ -680,7 +680,7 @@ private fun Attributions() {
 
     SettingsDefaultButton(
         icon = R.drawable.ic_vue_location_global,
-        text = "Attributions",
+        text = stringResource(R.string.attributions),
         iconPadding = 6.dp
     ) {
         nav.navigateTo(AttributionsScreen)
@@ -699,7 +699,7 @@ private fun AppThemeButton(
         backgroundGradient = Gradient.solid(UI.colors.medium),
         textColor = UI.colors.pureInverse,
         iconPadding = 6.dp,
-        description = "Tap to switch theme",
+        description = stringResource(R.string.tap_to_switch_theme),
         onClick = onClick
     )
 }
@@ -845,7 +845,7 @@ private fun ExportCSV(
         icon = R.drawable.ic_vue_pc_printer,
         text = stringResource(R.string.export_to_csv),
         iconPadding = 6.dp,
-        description = "⚠\uFE0F Do not use for backup purposes"
+        description = stringResource(R.string.do_not_use_for_backup_purposes)
     ) {
         onExportToCSV()
     }

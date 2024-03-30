@@ -538,7 +538,7 @@ private fun BoxWithConstraintsScope.DeleteModals(
                 account.name
             )
         } else {
-            "Please type \"${category?.name?.value ?: ""}\" in order to delete your category."
+            stringResource(R.string.please_type_category_name, category?.name?.value ?: "")
         },
         hint = if (account != null) stringResource(id = R.string.account_name) else "Category name",
         accountName = accountNameConfirmation,

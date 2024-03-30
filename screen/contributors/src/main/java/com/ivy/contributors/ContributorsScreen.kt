@@ -36,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -77,10 +78,10 @@ private fun ContributorsUi(
                     TopAppBarTitle(
                         title = when (uiState.contributorsResponse) {
                             is ContributorsResponse.Error, ContributorsResponse.Loading ->
-                                "Contributors"
+                                stringResource(R.string.project_contributors)
 
                             is ContributorsResponse.Success ->
-                                "${uiState.contributorsResponse.contributors.size} Contributors"
+                                stringResource(R.string.contributors_number, uiState.contributorsResponse.contributors.size)
                         }
                     )
                 },
@@ -268,7 +269,7 @@ private fun ContributorsErrorState(
         ElevatedButton(
             onClick = onClick
         ) {
-            Text(text = "Try again")
+            Text(text = stringResource(R.string.try_again))
         }
     }
 }
@@ -277,7 +278,7 @@ private fun ContributorsErrorState(
 private fun LoadingState(modifier: Modifier = Modifier) {
     Text(
         modifier = modifier,
-        text = "Loading..."
+        text = stringResource(R.string.loading)
     )
 }
 
@@ -321,8 +322,8 @@ private fun ContributorCard(contributor: Contributor) {
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = when (contributor.contributionsCount.toInt()) {
-                        1 -> "1 contribution"
-                        else -> "${contributor.contributionsCount} contributions"
+                        1 -> stringResource(R.string.one_contribution)
+                        else -> stringResource(R.string.contributions_number, contributor.contributionsCount)
                     },
                     style = MaterialTheme.typography.bodySmall
                 )
@@ -385,7 +386,7 @@ private fun PreviewError() {
         ContributorsUi(
             uiState = ContributorsState(
                 projectResponse = ProjectResponse.Error,
-                contributorsResponse = ContributorsResponse.Error("Error")
+                contributorsResponse = ContributorsResponse.Error(stringResource(R.string.error))
             ),
             onEvent = {}
         )

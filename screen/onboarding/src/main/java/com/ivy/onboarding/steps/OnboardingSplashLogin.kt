@@ -332,7 +332,7 @@ private fun LoginWithGoogleExplanation() {
 private fun LocalAccountExplanation() {
     Text(
         modifier = Modifier.padding(start = 32.dp),
-        text = "ENTER WITH OFFLINE ACCOUNT",
+        text = stringResource(R.string.enter_with_offline_account),
         style = UI.typo.c.style(
             color = Gray,
             fontWeight = FontWeight.ExtraBold
@@ -343,9 +343,7 @@ private fun LocalAccountExplanation() {
 
     Text(
         modifier = Modifier.padding(start = 32.dp, end = 32.dp),
-        text = "Your data will be saved only locally on your phone. " +
-            "You risk losing your data if you uninstall the app or change your device. " +
-            "To prevent data loss, we recommend exporting backup from settings regularly.",
+        text = stringResource(R.string.your_data_will_be_saved_only_locally),
         style = UI.typo.c.style(
             color = Gray,
             fontWeight = FontWeight.Medium
