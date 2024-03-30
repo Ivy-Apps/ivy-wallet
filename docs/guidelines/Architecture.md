@@ -50,4 +50,10 @@ The ViewModel combines the data from uses-cases and repositories and transforms 
 
 ### ViewState Mapper classes (optional)
 
+In more complex cases, it becomes impractical to put all domain -> view-state mapping in the ViewModel. Also, it's common multiple viewmodels to map the same domain model to the same view-state. In that case, it's good to extract the view-state mapping logic in a separate class that we call a `SomethingViewStateMapper`.
+
 ### Composables
+
+Composables are the screens and UI components that the user sees and interacts with. They should be dumb as fck. Their responsibility and logic should be limited to:
+- displaying the already formatted view-state provided by the VM
+- send UI interactions to the VM in the form of events
