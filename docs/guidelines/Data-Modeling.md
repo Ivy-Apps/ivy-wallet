@@ -116,7 +116,7 @@ The revised data model takes more code but it gives you one important property:
 This is **validation by construction** and it eliminates undesirable cases asap which greatly simplifies your domain logic. By making our data model explicit we fixed:
 
 - Order `count` of zero, negative, or infinity by explicitly requiring a `PositiveInt` (unfortunately, that happens at runtime because the compiler can't know if a given integer is positive or not by just looking at the code).
-- The `UUID`s now can't be messed up because the compiler will give you an error if for example, you try to pass `UserId` to a function accepting `OrderId`.
+- The `UUID`s now can't be messed up because the compiler will give you an error, if for example you try to pass `UserId` to a function accepting `OrderId`.
 - The `time` is now always in UTC by using `Instant`.
 - The `trackignId` is trimmed and can't be blank.
 
