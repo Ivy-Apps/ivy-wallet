@@ -1,49 +1,81 @@
 # Unit Testing
 
-Unit tests are the proof that your code works. While often seen as boring and waste of time, 
-automated tests are the thing that guarantee correctness under the test cases and
+Unit tests are the proof that your code works. While often seen as boring and a waste of time, 
+automated tests are the things that guarantee correctness under the test cases and
 assumptions that you've setup.
 
-A good unit test short and simple. If you're unit test doesn't fit 
+A good unit test is short and simple. If you're test case doesn't fit 
 on half the screen then it's likely bad. Also, if you can't understand what's happening
-in a test in a glance, then it's bad again.
+in a test at a glance, then it's bad again.
 
 ## Unit test structure
 
 Most good unit tests share a similar structure/pattern. They start with a simple
 name that reads like a sentence and tells you what's being tested. Then inside
-the test functions body they're split into three parts.
+the test functions body, they're split into three parts.
 
 ```kotlin
 class CurrencyConverterTest {
-  private val exchangeRatesRepo = mockk<ExchangeRatesRepository>
+    // we mock it because we're interested only in testing
+    // the CurrencyConverter code paths
+    private val exchangeRatesRepo = mockk<ExchangeRatesRepository>()
 
-  private lateinit var converter: CurrencyConverter
+    private lateinit var converter: CurrencyConverter
 
-  @Before
-  fun setup() {
-    // before each test always create a new instance
-    // to ensure that you're testing a fresh state of the class
-    converter = CurrencyConverter()
-  }
+    @Before
+    fun setup() {
+        // before each test always create a new instance
+        // to ensure that you're testing a fresh state of the class
+        converter = CurrencyConverter()
+    }
 
-  @Test
-  fun `converts BTC to USD`() = runTest {
-    // given
-    every { exchangeRatesRepo.findRate(from = AssetCode.
+    @Test
+    fun `converts BTC to USD, happy path`() = runTest {
+        // given
+        coEvery {
+            exchangeRatesRepo.findRate(BTC, USD)
+        } returns PositiveDouble.unsafe(50_000.0)
+        val btcHolding = value(2.0, BTC)
 
- 
-    // when
-    // then
-  }
-}
+        // when
+        val usdMoney = converter.convert(
+            from = btcHolding,
+            to = USD
+        )
 
+        // then
+        usdMoney shouldBe value(100_000.0, USD)
+    }
+
+    // ... other tests for the unhappy paths
+
+    private fun value(amount: Double, asset: AssetCode): Value {
+        return Value(PositiveDouble.unsafe(amount), asset)
+    }
+
+    companion object {
+        val USD = AssetCode.unsafe("USD")
+        val BTC = AssetCode.unsafe("BTC")
+    }
 }
 ```
 
 ### Given (optional)
 
+Here we do the required setup for our test case. This usually involves:
+- mocking stuff (e.g. `every { x.something() } returns Y`).
+- creating instances of data classes required for the test.
+- other preparatory work that we need to set the **sut (system under test)**
+to the correct state to test our **code path under test** (e.g. happy path, unhappy path, edge-case, etc).
+
 ### When
 
+In the `// when` section we execute the code path under test or i.e. just call the function we want to test with the arguments needed.
+It's also good practice to save the result of the function in a `val` that you'll verify in the `// then` section.
+
 ### Then
+
+Lastly we verify 
+
+
 
