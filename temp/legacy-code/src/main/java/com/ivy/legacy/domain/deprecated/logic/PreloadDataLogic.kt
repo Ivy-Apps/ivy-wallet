@@ -1,9 +1,15 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
+import arrow.core.raise.either
 import com.ivy.base.legacy.stringRes
-import com.ivy.data.db.dao.write.WriteCategoryDao
+import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.IconAsset
+import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.AccountRepository
+import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.repository.CurrencyRepository
 import com.ivy.design.l0_system.Blue
 import com.ivy.design.l0_system.Blue2
@@ -31,22 +37,23 @@ import com.ivy.design.l0_system.RedLight
 import com.ivy.design.l0_system.Yellow
 import com.ivy.design.l0_system.YellowLight
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.Category
 import com.ivy.resources.R
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import java.time.Instant
+import java.util.UUID
 import javax.inject.Inject
 
 @Deprecated("Legacy, get rid of it.")
 class PreloadDataLogic @Inject constructor(
-    private val categoryWriter: WriteCategoryDao,
+    private val categoryRepository: CategoryRepository,
     private val accountRepository: AccountRepository,
     private val currencyRepository: CurrencyRepository,
 ) {
-    var categoryOrderNum = 0.0
+    private var categoryOrderNum = 0.0
 
     suspend fun preloadAccounts() {
         val cash = Account(
@@ -171,17 +178,23 @@ class PreloadDataLogic @Inject constructor(
     )
 
     private suspend fun preloadCategory(
-        data: CreateCategoryData
+        data: CreateCategoryData,
     ) {
-        val category = Category(
-            name = data.name,
-            color = data.color.toArgb(),
-            icon = data.icon,
-            orderNum = categoryOrderNum++,
-            isSynced = false
-        )
+        val category: Category? = either {
+            Category(
+                name = NotBlankTrimmedString.from(data.name.trim()).bind(),
+                color = ColorInt(data.color.toArgb()),
+                icon = data.icon?.let(IconAsset::from)?.getOrNull(),
+                orderNum = categoryOrderNum++,
+                id = CategoryId(UUID.randomUUID()),
+                lastUpdated = Instant.EPOCH,
+                removed = false,
+            )
+        }.getOrNull()
 
-        categoryWriter.save(category.toEntity())
+        if (category != null) {
+            categoryRepository.save(category)
+        }
     }
 
     fun categorySuggestions(): ImmutableList<CreateCategoryData> = preloadCategoriesCreateData()
