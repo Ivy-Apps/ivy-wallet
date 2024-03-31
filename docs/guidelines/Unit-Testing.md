@@ -87,4 +87,28 @@ Too many assertions and the test becomes a pain in the ass to maintain.
 Too few assertions and the test becomes useless.
 
 > As a rule of thumb, test the function as if it's a black box and you don't know its implementation.
-> Assert only the things that you expect from its signature and responsibility no matter the implementation
+> Assert only the things that you expect from its signature and responsibility without looking at the implementation.
+
+## When to mock and when not?
+
+That solely depends on whether you want to execute the code paths in a dependency. 
+It's common in practice for some code paths to be impossible to execute in JVM unit tests - for example using real Room DB DAOs and SQLite database.
+In those cases, we have two options:
+- create fake implementations (e.g. `FakeDao`, `FakeDataStore` that stores stuff in-memory only)
+- mock them using [MockK](https://mockk.io/)
+
+There's not a single rule but I'll give you some questions to help you decide:
+1. Do I want to test and execute the code path (implementation) of this dependency?
+2. Will my test become simpler if I mock it?
+3. Will my test become simpler if I use the real implementation?
+4. Will my test become simpler if I create and use a fake implementation?
+
+It's all about making your tests short, simple, and valuable.
+
+## Tips for making unit tests simpler
+
+- Extract complex `data class` and model creation to a `companion object { val something = Something(...) } ` at the bottom of the test class.
+- Extract complex mocking and setup in a `private fun` at the bottom of the test class.
+- To create similar `data classes` and models to the already extracted ones use `.copy()` or create those extracted objects using a `fun` that accepts default arguments.
+- If the same helper `vals` and util functions are needed in different test classes, extract them in a new `object SomethingFixtures` file so they can be reused.
+- If your test is still not fitting half the screen, maybe you're testing too much in a single test case. Split the test into multiple smaller tests that verify only a single portion of the original large one.
