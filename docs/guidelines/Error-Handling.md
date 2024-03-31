@@ -36,7 +36,7 @@ Imagine that we're building a program that buys BTC if its price is below $50,00
 ```kotlin
 interface BtcDataSource {
   suspend fun fetchCurrentPriceUSD(): Either<String, PositiveDouble>
-  suspend buy(amount: PositiveDouble): Either<BuyError, Unit>
+  suspend fun buy(amount: PositiveDouble): Either<BuyError, Unit>
 
   sealed interface BuyError {
     data class IO(val e: Throwable) : BuyError
@@ -52,7 +52,7 @@ class CryptoInvestor @Inject constructor(
   private val btcDataSource: BtcDataSource,
   private val myBank: MyBank
 ) {
-  suspend buyIfCheap(): Either<String, PositiveDouble> = either {
+  suspend fun buyIfCheap(): Either<String, PositiveDouble> = either {
     val btcPrice = btcDataSource.fetchCurrentPriceUSD().bind()
     // .bind() - if it fails returns Either.Left and short-circuits the function
     if(btcPrice.value > 50_000) {
