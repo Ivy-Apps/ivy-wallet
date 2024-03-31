@@ -182,7 +182,7 @@ class PreloadDataLogic @Inject constructor(
     ) {
         val category: Category? = either {
             Category(
-                name = NotBlankTrimmedString.from(data.name.trim()).bind(),
+                name = NotBlankTrimmedString.from(data.name).bind(),
                 color = ColorInt(data.color.toArgb()),
                 icon = data.icon?.let(IconAsset::from)?.getOrNull(),
                 orderNum = categoryOrderNum++,
