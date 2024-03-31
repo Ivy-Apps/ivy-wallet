@@ -20,7 +20,7 @@ data class ScreenUiState(
 
 The problem with this approach is that our code will have to deal with many impossible (illegal) states. For example:
 
-- What to show if `loading = false`, `content == null`, `error == null`?
+- What to show if `loading = false`, `content = null`, `error = null`?
 - What to do if we have both `loading = true` and `error != null`?
 
 There are so many ways things to go wrong - for example, a common one is forgetting to reset `loading` back to `false`.
@@ -35,14 +35,14 @@ sealed interface ScreenUiState {
 }
 ```
 
-With the ADTs representation, we eliminate the impossible cases of having a `content` and `error` at the same time 
-or `loading = false` and nulls for both `content` and `error`. We also eliminate that on compile-time, meaning that
-whatever shit will do - the compiler will never allow this code to run.
+With the ADTs representation, we eliminate all impossible cases. We also do eliminate that on compile-time, meaning that whatever shit we do - the compiler will never allow the code to run.
 
 **Takeaway:** Model your data using `data classes`, and  `sealed interfaces` (and combinations of them) in a way that:
 
 - Mirrors your domain one-to-one, exactly and explicitly.
 - Impossible cases are eliminated by construction and at compile-time.
+
+> You can have `sealed interfaces` (**sum** types) inside `data classes` (**product** types) and vice-versa. Combine them as you see fit.
 
 ## Explicit Types
 
@@ -66,8 +66,8 @@ Do you spot them?
 Let's think and analyze:
 
 1. What if someone orders a `count = 0` or even worse a `count = -1`?
-2. Imagine this function `placeOrder(orderId: UUID, userId: UUID, itemId: UUID, ...)`. How likely is someone to pass a wrong `UUID` and mess UUIDs up?
-3. The `trackingId` seems to be required but what if someone passes `trackingId = ""` or `trackingId = "XYZ "`?
+2. Imagine a function `placeOrder(orderId: UUID, userId: UUID, itemId: UUID, ...)`. How likely is someone to pass a wrong `UUID` and mess UUIDs up?
+3. The `trackingId` seems to be required and important but what if someone passes `trackingId = ""` or `trackingId = "XYZ  "`?
 
 I can go on but you see the point. So let's how we can fix it.
 
@@ -109,17 +109,18 @@ PositiveInt.from(-5)
 // Either.Left("-5 is not > 0")
 ```
 
-This data model takes more code but you'll thank me for that later because...
-**If any of your domain functions accept `order: Order` - you immediately know that it's a valid order and almost no validation logic is required.**
+The revised data model takes more code but it gives you one important property: 
 
-We fixed:
+> If any of your functions accepts an instance of `order: Order`, you immediately know that it's a valid order and no validation logic is required.
+
+This is **validation by construction** and it eliminates undesirable cases asap which greatly simplifies your domain logic. By making our data model explicit we fixed:
 
 - Order `count` of zero, negative, or infinity by explicitly requiring a `PositiveInt` (unfortunately, that happens at runtime because the compiler can't know if a given integer is positive or not by just looking at the code).
-- The `UUID`s now can't be messed up because the compiler will give you an error if for example, you try to pass `UserId` but a function accepts `OrderId`.
+- The `UUID`s now can't be messed up because the compiler will give you an error, if for example you try to pass `UserId` to a function accepting `OrderId`.
 - The `time` is now always in UTC by using `Instant`.
-- The `trackignId` can't be blank or contain trailing whitespaces.
+- The `trackignId` is trimmed and can't be blank.
 
-To learn more about Explicit types you can check [the Arrow Exact GitHub repo](https://github.com/arrow-kt/arrow-exact).
+To learn more about Exact types you can check [the Arrow Exact GitHub repo](https://github.com/arrow-kt/arrow-exact). The benefit of explicit data models is correctness and reduced complexity of your core logic.
 
-> Not all types can be exact. For example, we make an exception for DTOs and entities where we need primitives.
+> Not all types should be exact. For example, we make an exception for DTOs and entities where working with primitives is easier.
 > However, we still use ADTs and everything in the domain layer where the business logic is must be exact and explicit.
