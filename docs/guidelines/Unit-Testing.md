@@ -112,3 +112,4 @@ It's all about making your tests short, simple, and valuable.
 - To create similar `data classes` and models to the already extracted ones use `.copy()` or create those extracted objects using a `fun` that accepts default arguments.
 - If the same helper `vals` and util functions are needed in different test classes, extract them in a new `object SomethingFixtures` file so they can be reused.
 - If your test is still not fitting half the screen, maybe you're testing too much in a single test case. Split the test into multiple smaller tests that verify only a single portion of the original large one.
+- Sometimes when the `data class` you want to create is too hard to create you can even mock it like `val transaction = mockk<Transaction>(relaxed = true) { every { settled } returns true }` to simplify your test.
