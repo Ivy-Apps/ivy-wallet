@@ -67,7 +67,7 @@ Let's think and analyze:
 
 1. What if someone orders a `count = 0` or even worse a `count = -1`?
 2. Imagine a function `placeOrder(orderId: UUID, userId: UUID, itemId: UUID, ...)`. How likely is someone to pass a wrong `UUID` and mess UUIDs up?
-3. The `trackingId` seems to be required but what if someone passes `trackingId = ""` or `trackingId = "XYZ  "`?
+3. The `trackingId` seems to be required and important but what if someone passes `trackingId = ""` or `trackingId = "XYZ  "`?
 
 I can go on but you see the point. So let's how we can fix it.
 
@@ -109,17 +109,18 @@ PositiveInt.from(-5)
 // Either.Left("-5 is not > 0")
 ```
 
-This data model takes more code but you'll thank me for that later because...
-**If any of your domain functions accept `order: Order` - you immediately know that it's a valid order and almost no validation logic is required.**
+The revised data model takes more code but it gives you one important property: 
 
-We fixed:
+> If any of your functions accepts an instance of `order: Order`, you immediately know that it's a valid order and no validation logic is required.
+
+This is validation by construction and eliminates undesirable cases as early as possible which greatly simplifies your domain logic. By making our data model explicit we fixed:
 
 - Order `count` of zero, negative, or infinity by explicitly requiring a `PositiveInt` (unfortunately, that happens at runtime because the compiler can't know if a given integer is positive or not by just looking at the code).
-- The `UUID`s now can't be messed up because the compiler will give you an error if for example, you try to pass `UserId` but a function accepts `OrderId`.
+- The `UUID`s now can't be messed up because the compiler will give you an error if for example, you try to pass `UserId` to a function accepting `OrderId`.
 - The `time` is now always in UTC by using `Instant`.
-- The `trackignId` can't be blank or contain trailing whitespaces.
+- The `trackignId` is trimmed and can't be blank.
 
 To learn more about Explicit types you can check [the Arrow Exact GitHub repo](https://github.com/arrow-kt/arrow-exact).
 
-> Not all types can be exact. For example, we make an exception for DTOs and entities where we need primitives.
+> Not all types should be exact. For example, we make an exception for DTOs and entities where working with primitives is easier.
 > However, we still use ADTs and everything in the domain layer where the business logic is must be exact and explicit.
