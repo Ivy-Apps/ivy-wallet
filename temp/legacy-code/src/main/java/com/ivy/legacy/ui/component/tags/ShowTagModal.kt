@@ -95,7 +95,7 @@ fun BoxWithConstraintsScope.ShowTagModal(
         PrimaryAction = {
             ModalPositiveButton(
                 onClick = onDismiss,
-                text = "Done",
+                text = stringResource(R.string.done),
                 iconStart = R.drawable.ic_custom_document_s
             )
         },

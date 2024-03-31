@@ -203,7 +203,7 @@ private fun Toolbar(
             )
             if (totalOweAmount.isNotEmpty()) {
                 Text(
-                    text = "You Owe: $totalOweAmount",
+                    text = stringResource(R.string.you_owe, totalOweAmount),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
@@ -211,7 +211,7 @@ private fun Toolbar(
             }
             if (totalOwedAmount.isNotEmpty()) {
                 Text(
-                    text = "You're Owed: $totalOwedAmount",
+                    text = stringResource(R.string.you_are_owed, totalOwedAmount),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold

@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -87,7 +88,7 @@ fun BoxWithConstraintsScope.AddOrEditTagModal(
                     }
                     onDismiss()
                 },
-                text = "Done",
+                text = stringResource(R.string.done),
                 iconStart = R.drawable.ic_custom_document_s,
                 enabled = filename.isNotEmpty()
             )
