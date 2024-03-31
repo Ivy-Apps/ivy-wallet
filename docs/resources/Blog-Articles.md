@@ -7,6 +7,11 @@
 - [Architecture: Domain Layer](https://developer.android.com/topic/architecture/domain-layer)
 - [Architecture: UI Layer](https://developer.android.com/topic/architecture/ui-layer)
 
+## Screen Architecture (Compose in the VM)
+
+- [Reactive UI state on Android, starring Compose by Reddit](https://www.reddit.com/r/RedditEng/s/WhIYLJUzNR)
+- [A Jetpack Compose by any other name by Jake Wharton](https://jakewharton.com/a-jetpack-compose-by-any-other-name)
+
 ## Software Development
 
 - [The Grug Brained Developer](https://grugbrain.dev/)
