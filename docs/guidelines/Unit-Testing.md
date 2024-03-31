@@ -71,11 +71,20 @@ to the correct state to test our **code path under test** (e.g. happy path, unha
 ### When
 
 In the `// when` section we execute the code path under test or i.e. just call the function we want to test with the arguments needed.
-It's also good practice to save the result of the function in a `val` that you'll verify in the `// then` section.
+It's also good practice to save the result of the function in a `val res = ...` that you'll verify in the `// then` section.
 
 ### Then
 
-Lastly we verify 
+Lastly in the `// then` section, we verify the result of the test and make assertions. We can assert that:
 
+- the returned result is what we expect using `res shouldBe X`
+- the side effects that we expected happened (e.g. `coVerify(exactly = 1) { repo.save(item) }`)
+- side effects that shouldn't happen didn't happen (`coVerify(exactly = 0) { repo.delete(any()) }`)
+- other affected systems state is what we expect (e.g. `fakeUserDao.getCurrentUser shouldBe user1`)
 
+Here you should be smart and be careful to assert only the things that you care about.
+Too many assertions and the test becomes a pain in the ass to maintain.
+Too few assertions and the test becomes useless.
 
+> As a rule of thumb, test the function as if it's a black box and you don't know its implementation.
+> Assert only the things that you expect from its signature and responsibility no matter the implementation
