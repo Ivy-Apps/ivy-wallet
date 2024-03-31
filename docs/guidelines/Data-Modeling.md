@@ -113,14 +113,14 @@ The revised data model takes more code but it gives you one important property:
 
 > If any of your functions accepts an instance of `order: Order`, you immediately know that it's a valid order and no validation logic is required.
 
-This is validation by construction and eliminates undesirable cases as early as possible which greatly simplifies your domain logic. By making our data model explicit we fixed:
+This is **validation by construction** and it eliminates undesirable cases asap which greatly simplifies your domain logic. By making our data model explicit we fixed:
 
 - Order `count` of zero, negative, or infinity by explicitly requiring a `PositiveInt` (unfortunately, that happens at runtime because the compiler can't know if a given integer is positive or not by just looking at the code).
 - The `UUID`s now can't be messed up because the compiler will give you an error if for example, you try to pass `UserId` to a function accepting `OrderId`.
 - The `time` is now always in UTC by using `Instant`.
 - The `trackignId` is trimmed and can't be blank.
 
-To learn more about Explicit types you can check [the Arrow Exact GitHub repo](https://github.com/arrow-kt/arrow-exact).
+To learn more about Exact types you can check [the Arrow Exact GitHub repo](https://github.com/arrow-kt/arrow-exact). The benefit of explicit data models is correctness and reduced complexity of your core logic.
 
 > Not all types should be exact. For example, we make an exception for DTOs and entities where working with primitives is easier.
 > However, we still use ADTs and everything in the domain layer where the business logic is must be exact and explicit.
