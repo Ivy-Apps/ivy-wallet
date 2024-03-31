@@ -41,6 +41,7 @@ import com.ivy.legacy.utils.uiThread
 import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
+import com.ivy.resources.R
 import com.ivy.wallet.domain.action.account.AccountByIdAct
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.transaction.TrnByIdAct
@@ -410,16 +411,28 @@ class EditTransactionViewModel @Inject constructor(
         val isLoanRecord = trans.loanRecordId != null
 
         val loanWarningDescription = if (isLoanRecord) {
-            context.getString(com.ivy.resources.R.string.note_transaction_associated_with_loan_record_of_loan, loan.name)
+            context.getString(
+                R.string.note_transaction_associated_with_loan_record_of_loan,
+                loan.name
+            )
         } else {
-            context.getString(com.ivy.resources.R.string.note_you_are_trying_to_change_the_account_associated_with_the_loan, loan.name)
+            context.getString(
+                R.string.note_you_are_trying_to_change_the_account_associated_with_the_loan,
+                loan.name
+            )
         }
 
         val loanCaption =
             if (isLoanRecord) {
-                context.getString(com.ivy.resources.R.string.this_transaction_is_associated_with_loan_record, loan.name)
+                context.getString(
+                    R.string.this_transaction_is_associated_with_loan_record,
+                    loan.name
+                )
             } else {
-                context.getString(com.ivy.resources.R.string.this_transaction_is_associated_with_loan, loan.name)
+                context.getString(
+                    R.string.this_transaction_is_associated_with_loan,
+                    loan.name
+                )
             }
 
         return EditTransactionDisplayLoan(
@@ -734,11 +747,11 @@ class EditTransactionViewModel @Inject constructor(
     @Suppress("ReturnCount")
     private fun validTransaction(): Boolean {
         if (hasChosenSameSourceAndDestinationAccountToTransfer()) {
-            toaster.show(com.ivy.resources.R.string.msg_source_account_destination_account_same_for_transfer)
+            toaster.show(R.string.msg_source_account_destination_account_same_for_transfer)
             return false
         }
         if (hasNotChosenAccountToTransfer()) {
-            toaster.show(com.ivy.resources.R.string.msg_select_account_to_transfer)
+            toaster.show(R.string.msg_select_account_to_transfer)
             return false
         }
 

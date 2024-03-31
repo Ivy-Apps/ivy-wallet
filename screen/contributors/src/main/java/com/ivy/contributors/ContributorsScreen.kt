@@ -81,7 +81,10 @@ private fun ContributorsUi(
                                 stringResource(R.string.project_contributors)
 
                             is ContributorsResponse.Success ->
-                                stringResource(R.string.contributors_number, uiState.contributorsResponse.contributors.size)
+                                stringResource(
+                                    R.string.contributors_number,
+                                    uiState.contributorsResponse.contributors.size
+                                )
                         }
                     )
                 },

@@ -31,6 +31,7 @@ import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
+import com.ivy.resources.R
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -54,7 +55,7 @@ private fun AttributionsUI(
         topBar = {
             TopAppBar(
                 title = {
-                    TopAppBarTitle(title = stringResource(com.ivy.resources.R.string.attributions))
+                    TopAppBarTitle(title = stringResource(R.string.attributions))
                 },
                 navigationIcon = {
                     BackButton(nav = nav)
@@ -159,7 +160,7 @@ private fun AttributionsSectionDivider(
 @Composable
 private fun AttributionsUIPreview() {
     val attributionItems = persistentListOf<AttributionItem>(
-        AttributionItem.Divider(sectionName = stringResource(com.ivy.resources.R.string.icons)),
+        AttributionItem.Divider(sectionName = stringResource(R.string.icons)),
         AttributionItem.Attribution(name = "iconsax", link = "https://iconsax.io"),
         AttributionItem.Attribution(
             name = "Material Symbols Google",
@@ -169,7 +170,7 @@ private fun AttributionsUIPreview() {
             name = "coolicons",
             link = "https://github.com/krystonschwarze/coolicons"
         ),
-        AttributionItem.Divider(sectionName = stringResource(com.ivy.resources.R.string.fonts)),
+        AttributionItem.Divider(sectionName = stringResource(R.string.fonts)),
         AttributionItem.Attribution(
             name = "Open Sans",
             link = "https://fonts.google.com/specimen/Open+Sans"
