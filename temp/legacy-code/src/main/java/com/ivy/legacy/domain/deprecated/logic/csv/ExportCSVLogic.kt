@@ -3,6 +3,7 @@ package com.ivy.wallet.domain.deprecated.logic.csv
 import android.content.Context
 import android.net.Uri
 import com.ivy.base.legacy.writeToFile
+import com.ivy.base.model.TransactionType
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.model.Category
@@ -135,8 +136,18 @@ class ExportCSVLogic @Inject constructor(
             append(account?.name?.escapeCSVString() ?: it)
         }
 
+        // Amount
+        csv.appendValue(0.0) {
+            append(0.0)
+        }
+
+        // Currency
+        csv.appendValue(fromValue.asset.code) {
+            append(it)
+        }
+
         // Type
-        csv.appendValue(javaClass.simpleName) {
+        csv.appendValue(TransactionType.TRANSFER) {
             append(it)
         }
         // Transfer Amount
@@ -172,7 +183,7 @@ class ExportCSVLogic @Inject constructor(
             append(it.formatLocal(CSV_DATETIME_FORMAT))
         }
         // ID
-        csv.appendValue(id) {
+        csv.appendValue(id.value.toString()) {
             append(it)
         }
         // Account Color
@@ -243,7 +254,7 @@ class ExportCSVLogic @Inject constructor(
         }
 
         // Type
-        csv.appendValue(javaClass.simpleName) {
+        csv.appendValue(TransactionType.INCOME) {
             append(it)
         }
         // Description
@@ -307,7 +318,7 @@ class ExportCSVLogic @Inject constructor(
         }
 
         // Type
-        csv.appendValue(javaClass.simpleName) {
+        csv.appendValue(TransactionType.EXPENSE) {
             append(it)
         }
         // Description
