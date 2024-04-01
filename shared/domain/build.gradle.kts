@@ -17,4 +17,5 @@ dependencies {
 
     androidTestImplementation(libs.bundles.integration.testing)
     androidTestImplementation(libs.mockk.android)
+    androidTestImplementation(project(":shared:testing"))
 }
