@@ -167,7 +167,7 @@
     <string name="google_signing_in_success">Success!</string>
     <string name="login_with_google">Login with Google</string>
     <string name="offline_account">Offline account</string>
-    <string name="sync_data_ivy_cloud">SYNC YOUR DATA ON THE IVY CLOUD</string>
+    <string name="sync_data_ivy_cloud">SYNC YOUR DATA IN THE IVY CLOUD</string>
     <string name="data_integrity_protection_warning">Data integrity and protection aren\'t guaranteed!</string>
     <string name="or_enter_with_offline_account">OR ENTER WITH OFFLINE ACCOUNT</string>
     <string name="offline_warning">Your data will be saved locally only and won\'t be synced with the cloud. Uninstalling the app or changing your device could result in data loss. You can enable sync later if needed.</string>
@@ -471,7 +471,7 @@
     <string name="try_again">Try again</string>
     <string name="one_contribution">1 contribution</string>
     <string name="contributions_number">%1$s contributions</string>
-    <string name="you_can_see_a_piechart">You can see a PieChart for your expenses! Click the Expense card on the top of the dashboard.</string>
+    <string name="you_can_see_a_piechart">You can see a PieChart for your expenses! Click the Expense card at the top of the dashboard.</string>
     <string name="it_looks_like_that_you_are_enjoying">It looks like that you\'re enjoying Ivy Wallet! Feel free join our invite-only Ivy Telegram Community and make our app better :)</string>
     <string name="ivy_community">Ivy Community</string>
     <string name="join_now">Join now</string>
