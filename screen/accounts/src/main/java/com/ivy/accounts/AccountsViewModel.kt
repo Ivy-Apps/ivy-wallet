@@ -7,6 +7,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.ivy.accounts.compute.BalanceComputeUseCase
+import com.ivy.accounts.compute.computeForAccount
 import com.ivy.base.ComposeViewModel
 import com.ivy.domain.event.AccountUpdatedEvent
 import com.ivy.domain.event.EventBus
@@ -26,7 +28,10 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @Stable
@@ -41,7 +46,8 @@ class AccountsViewModel @Inject constructor(
     private val baseCurrencyAct: BaseCurrencyAct,
     private val accountDataAct: AccountDataAct,
     private val eventBus: EventBus,
-    private val accountRepository: AccountRepository
+    private val accountRepository: AccountRepository,
+    private val balanceComputeUseCase: BalanceComputeUseCase
 ) : ComposeViewModel<AccountsState, AccountsEvent>() {
     private val baseCurrency = mutableStateOf("")
     private val accountsData = mutableStateOf(listOf<AccountData>())
@@ -145,30 +151,23 @@ class AccountsViewModel @Inject constructor(
         val baseCurrencyCode = baseCurrencyAct(Unit)
         val accounts = accountRepository.findAll().toImmutableList()
 
-        val includeTransfersInCalc =
-            sharedPrefs.getBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, false)
+        val accountsDataList = withContext(Dispatchers.IO) {
+            accounts.map {
+                async {
+                    balanceComputeUseCase.computeForAccount(
+                        account = it,
+                        range = range
+                    )
+                }
+            }.awaitAll()
+        }
 
-        val accountsDataList = accountDataAct(
-            AccountDataAct.Input(
-                accounts = accounts,
-                range = range.toCloseTimeRange(),
-                baseCurrency = baseCurrencyCode,
-                includeTransfersInCalc = includeTransfersInCalc
-            )
-        )
+        val totalBalanceWithExcludedAccounts = accountsDataList
+            .sumOf { it.balanceBaseCurrency ?: it.balance }
 
-        val totalBalanceWithExcludedAccounts = calcWalletBalanceAct(
-            CalcWalletBalanceAct.Input(
-                baseCurrency = baseCurrencyCode,
-                withExcluded = true
-            )
-        ).toDouble()
-
-        val totalBalanceWithoutExcludedAccounts = calcWalletBalanceAct(
-            CalcWalletBalanceAct.Input(
-                baseCurrency = baseCurrencyCode
-            )
-        ).toDouble()
+        val totalBalanceWithoutExcludedAccounts = accountsDataList
+            .filter { it.account.includeInBalance }
+            .sumOf { it.balanceBaseCurrency ?: it.balance }
 
         baseCurrency.value = baseCurrencyCode
         accountsData.value = accountsDataList
