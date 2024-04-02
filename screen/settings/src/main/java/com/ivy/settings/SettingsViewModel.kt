@@ -21,7 +21,7 @@ import com.ivy.frp.monad.Res
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.LogoutLogic
 import com.ivy.legacy.domain.action.settings.UpdateSettingsAct
-import com.ivy.legacy.utils.formatNicelyWithTime
+import com.ivy.legacy.utils.getISOFormattedDateTime
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.uiThread
@@ -257,9 +257,9 @@ class SettingsViewModel @Inject constructor(
 
     private fun exportToCSV(rootScreen: RootScreen) {
         ivyContext.createNewFile(
-            "Ivy Wallet (${
-                timeNowUTC().formatNicelyWithTime(noWeekDay = true)
-            }).csv"
+            "IvyWalletExport_${
+                timeNowUTC().getISOFormattedDateTime()
+            }.csv"
         ) { fileUri ->
             viewModelScope.launch {
                 exportCSVLogic.exportToFile(
@@ -276,9 +276,9 @@ class SettingsViewModel @Inject constructor(
 
     private fun exportToZip(rootScreen: RootScreen) {
         ivyContext.createNewFile(
-            "Ivy Wallet (${
-                timeNowUTC().formatNicelyWithTime(noWeekDay = true)
-            }).zip"
+            "IvyWalletBackup_${
+                timeNowUTC().getISOFormattedDateTime()
+            }.zip"
         ) { fileUri ->
             viewModelScope.launch(Dispatchers.IO) {
                 progressState.value = true
