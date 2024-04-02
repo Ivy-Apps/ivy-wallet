@@ -298,9 +298,6 @@ private fun LoanHeader(
             Spacer(Modifier.width(8.dp))
 
             Text(
-                modifier = Modifier
-                    .align(Alignment.Bottom)
-                    .padding(bottom = 4.dp),
                 text = loan.humanReadableType(),
                 style = UI.typo.c.style(
                     color = loan.color.toComposeColor().dynamicContrast()
