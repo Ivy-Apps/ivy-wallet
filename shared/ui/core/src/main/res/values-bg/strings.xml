@@ -89,7 +89,6 @@
     <string name="confirm_account_change">Потвърди смяна на сметка</string>
     <string name="confirm_account_change_description">Важно: You are trying to change the account associated with the loan with an account of different currency, \nAll the loan records will be re-calculated based on today\'s exchanges rates </string>
     <string name="confirm">Потвърди</string>
-    <string name="account_change_recalculating">Моля изчакайте, изчисляване</string>
     <string name="created_on">Създадено на</string>
     <string name="hi">Хей</string>
     <string name="hi_name">Хей %1$s</string>
@@ -277,7 +276,7 @@
     <string name="buffer_exceeded_by">Надвишен с</string>
     <string name="set_transaction_type">Тип транзакция</string>
     <string name="transfer">Трансфер</string>
-    <string name="selected">Избран</string>
+    <string name="selected_text">Избран</string>
     <string name="search_currency">Търсене (USD, EUR, GBP, BTC, и т.н.)</string>
     <string name="pre_selected">Пре-избран</string>
     <string name="crypto">Crypto</string>

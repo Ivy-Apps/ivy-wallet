@@ -89,7 +89,6 @@
     <string name="confirm_account_change">Potwierdź zmianę konta</string>
     <string name="confirm_account_change_description">Uwaga: Próbujesz zmienić konto powiązane z pożyczką na konto w innej walucie, \nWszystkie rekordy pożyczek zostaną przeliczone na podstawie dzisiejszych kursów wymiany </string>
     <string name="confirm">Potwierdź</string>
-    <string name="account_change_recalculating">Proszę czekać, przeliczanie wszystkich rekordów pożyczek</string>
     <string name="created_on">Utworzony</string>
     <string name="hi">Cześć</string>
     <string name="hi_name">Cześć %1$s</string>
@@ -280,7 +279,7 @@
     <string name="buffer_exceeded_by">Bufor przekroczony o</string>
     <string name="set_transaction_type">Ustaw typ transakcji</string>
     <string name="transfer">Transfer</string>
-    <string name="selected">Zaznaczone</string>
+    <string name="selected_text">Zaznaczone</string>
     <string name="search_currency">Szukaj (USD, EUR, GBP, BTC, etc)</string>
     <string name="pre_selected">Wstępnie wybrane</string>
     <string name="crypto">Krypto</string>

@@ -79,7 +79,7 @@ fun BoxWithConstraintsScope.EditPlannedScreen(screen: EditPlannedScreen) {
 private fun BoxWithConstraintsScope.UI(
     screen: EditPlannedScreen,
     state: EditPlannedScreenState,
-    onEvent: (EditPlannedScreenEvent) -> Unit
+    onEvent: (EditPlannedScreenEvent) -> Unit,
 ) {
     var titleTextFieldValue by remember(state.initialTitle) {
         mutableStateOf(
@@ -396,12 +396,12 @@ private fun BoxWithConstraintsScope.UI(
 
 private fun shouldFocusCategory(
     category: Category?,
-    type: TransactionType
+    type: TransactionType,
 ): Boolean = category == null && type != TransactionType.TRANSFER
 
 private fun shouldFocusTitle(
     titleTextFieldValue: TextFieldValue,
-    type: TransactionType
+    type: TransactionType,
 ): Boolean = titleTextFieldValue.text.isBlank() && type != TransactionType.TRANSFER
 
 private fun shouldFocusRecurring(

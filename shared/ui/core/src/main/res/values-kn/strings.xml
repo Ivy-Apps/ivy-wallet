@@ -89,7 +89,6 @@
     <string name="confirm_account_change">ಖಾತೆ ಬದಲಾವಣೆಯನ್ನು ದೃಢೀಕರಿಸಿ</string>
     <string name="confirm_account_change_description">ಗಮನಿಸಿ: ನೀವು ವಿವಿಧ ಕರೆನ್ಸಿಯ ಖಾತೆಯೊಂದಿಗೆ ಸಾಲದೊಂದಿಗೆ ಸಂಯೋಜಿತವಾಗಿರುವ ಖಾತೆಯನ್ನು ಬದಲಾಯಿಸಲು ಪ್ರಯತ್ನಿಸುತ್ತಿರುವಿರಿ, \nಇಂದಿನ ವಿನಿಮಯ ದರಗಳ ಆಧಾರದ ಮೇಲೆ ಎಲ್ಲಾ ಸಾಲದ ದಾಖಲೆಗಳನ್ನು ಮರು ಲೆಕ್ಕಾಚಾರ ಮಾಡಲಾಗುತ್ತದೆ.</string>
     <string name="confirm">ದೃಢೀಕರಿಸಿ</string>
-    <string name="account_change_recalculating">ದಯವಿಟ್ಟು ನಿರೀಕ್ಷಿಸಿ, ಎಲ್ಲಾ ಸಾಲದ ದಾಖಲೆಗಳನ್ನು ಮರು ಲೆಕ್ಕಾಚಾರ ಮಾಡಲಾಗುತ್ತಿದೆ</string>
     <string name="created_on">ಈ ಸಮಯದಲ್ಲಿ ರಚಿಸಲಾಗಿದೆ</string>
     <string name="hi">ನಮಸ್ಕಾರ</string>
     <string name="hi_name">ನಮಸ್ಕಾರ %1$s</string>
@@ -277,7 +276,7 @@
     <string name="buffer_exceeded_by">ಬಫರ್ ಈ ಮೊತ್ತವನ್ನು ಮೀರಿದೆ</string>
     <string name="set_transaction_type">ವಹಿವಾಟಿನ ಪ್ರಕಾರವನ್ನು ಹೊಂದಿಸಿ</string>
     <string name="transfer">ವರ್ಗಾವಣೆ</string>
-    <string name="selected">ಆಯ್ಕೆ ಮಾಡಲಾಗಿದೆ</string>
+    <string name="selected_text">ಆಯ್ಕೆ ಮಾಡಲಾಗಿದೆ</string>
     <string name="search_currency">ಹುಡುಕಿ (USD, EUR, GBP, BTC, ಇತ್ಯಾದಿ)</string>
     <string name="pre_selected">ಮೊದಲೇ ಆಯ್ಕೆ ಮಾಡಲಾಗಿದೆ</string>
     <string name="crypto">ಕ್ರಿಪ್ಟೋ</string>

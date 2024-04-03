@@ -255,7 +255,7 @@ private fun SelectedCurrencyCard(
         )
 
         Text(
-            text = if (preselected) stringResource(R.string.pre_selected) else stringResource(R.string.selected),
+            text = if (preselected) stringResource(R.string.pre_selected) else stringResource(R.string.selected_text),
             style = UI.typo.b2.style(
                 color = White,
                 fontWeight = FontWeight.SemiBold

@@ -194,7 +194,7 @@ private fun TransactionTypeButton(
             )
 
             Text(
-                text = stringResource(R.string.selected),
+                text = stringResource(R.string.selected_text),
                 style = UI.typo.b2.style(
                     fontWeight = FontWeight.SemiBold,
                     color = textSelectedColor

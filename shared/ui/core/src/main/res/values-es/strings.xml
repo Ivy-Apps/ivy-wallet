@@ -89,7 +89,6 @@
     <string name="confirm_account_change">Confirmar cambio de cuenta</string>
     <string name="confirm_account_change_description">Nota: Está intentando cambiar la cuenta asociada con el préstamo con una cuenta de moneda diferente, \nTodos los registros del préstamo se volverán a calcular en función de las tasas de cambio de hoy </string>
     <string name="confirm">Confirmar</string>
-    <string name="account_change_recalculating">Espere, recalculando todos los registros de préstamo</string>
     <string name="created_on">Creado el</string>
     <string name="hi">Hola</string>
     <string name="hi_name">Hola %1$s</string>
@@ -277,7 +276,7 @@
     <string name="buffer_exceeded_by">Reserva excedida por</string>
     <string name="set_transaction_type">Establecer tipo de transacción</string>
     <string name="transfer">Transferir</string>
-    <string name="selected">Seleccionado</string>
+    <string name="selected_text">Seleccionado</string>
     <string name="search_currency">Buscar (USD, EUR, GBP, BTC, etc.)</string>
     <string name="pre_selected">Preseleccionado</string>
     <string name="crypto">Cripto</string>

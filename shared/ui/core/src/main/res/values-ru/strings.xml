@@ -89,7 +89,6 @@
     <string name="confirm_account_change">Подтвердите изменение счёта</string>
     <string name="confirm_account_change_description">Примечание. Вы пытаетесь изменить счёт, связанный с кредитом со счётом в другой валюте,\nвсе записи о кредите будут пересчитаны на основе сегодняшних обменных курсов</string>
     <string name="confirm">Подтвердить</string>
-    <string name="account_change_recalculating">Пожалуйста, подождите. Пересчитываем все данные по кредиту</string>
     <string name="created_on">Создано</string>
     <string name="hi">Привет</string>
     <string name="hi_name">Привет, %1$s</string>
@@ -277,7 +276,7 @@
     <string name="buffer_exceeded_by">Буфер превышен на</string>
     <string name="set_transaction_type">Установить тип транзакции</string>
     <string name="transfer">Перевод</string>
-    <string name="selected">Выбран</string>
+    <string name="selected_text">Выбран</string>
     <string name="search_currency">Поиск (USD, EUR, GBP, BTC и т.д.)</string>
     <string name="pre_selected">Предварительно выбранный</string>
     <string name="crypto">Криптовалюта</string>

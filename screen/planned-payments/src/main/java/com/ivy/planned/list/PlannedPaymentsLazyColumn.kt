@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
@@ -52,7 +53,7 @@ fun PlannedPaymentsLazyColumn(
     recurringExpanded: Boolean,
     setOneTimeExpanded: (Boolean) -> Unit,
     setRecurringExpanded: (Boolean) -> Unit,
-    listState: LazyListState = rememberLazyListState()
+    listState: LazyListState = rememberLazyListState(),
 ) {
     val nav = navigation()
 
@@ -106,7 +107,7 @@ private fun LazyListScope.plannedPaymentItems(
     recurringIncome: Double,
     recurringExpenses: Double,
     recurringExpanded: Boolean,
-    setRecurringExpanded: (Boolean) -> Unit
+    setRecurringExpanded: (Boolean) -> Unit,
 ) {
     if (oneTime.isNotEmpty()) {
         item {
@@ -185,7 +186,7 @@ private fun LazyListScope.plannedPaymentItems(
 private fun onPlannedPaymentClick(
     nav: Navigation,
     listState: LazyListState,
-    rule: PlannedPaymentRule
+    rule: PlannedPaymentRule,
 ) {
     nav.navigateTo(
         EditPlannedScreen(
@@ -198,7 +199,9 @@ private fun onPlannedPaymentClick(
 @Composable
 private fun LazyItemScope.NoPlannedPaymentsEmptyState() {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(Modifier.height(64.dp))
@@ -215,7 +218,8 @@ private fun LazyItemScope.NoPlannedPaymentsEmptyState() {
             style = UI.typo.b1.style(
                 color = Gray,
                 fontWeight = FontWeight.ExtraBold
-            )
+            ),
+            textAlign = TextAlign.Center
         )
 
         Spacer(Modifier.height(8.dp))

@@ -586,7 +586,7 @@ private fun BoxWithConstraintsScope.UI(
 
     ProgressModal(
         title = stringResource(R.string.confirm_account_change),
-        description = stringResource(R.string.account_change_recalculating),
+        description = stringResource(R.string.confirm_account_loan_change),
         visible = waitModalVisible
     )
 
