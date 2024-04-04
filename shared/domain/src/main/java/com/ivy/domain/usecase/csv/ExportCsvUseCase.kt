@@ -36,15 +36,20 @@ class ExportCsvUseCase @Inject constructor(
     private val fileSystem: FileSystem
 ) {
 
-    suspend fun exportCsvToFile(
-        outputFile: Uri
+    suspend fun exportToFile(
+        outputFile: Uri,
+        exportScope: suspend TransactionRepository.() -> List<Transaction> = {
+            transactionRepository.findAll()
+        }
     ): Either<FileSystem.Failure, Unit> = withContext(dispatchers.io) {
-        val csv = exportCsv()
+        val csv = exportCsv(exportScope)
         fileSystem.writeToFile(outputFile, csv)
     }
 
-    suspend fun exportCsv(): String = withContext(dispatchers.io) {
-        val transactions = transactionRepository.findAll()
+    suspend fun exportCsv(
+        exportScope: suspend TransactionRepository.() -> List<Transaction>
+    ): String = withContext(dispatchers.io) {
+        val transactions = transactionRepository.exportScope()
         val accountsMap = accountRepository.findAll().associateBy(Account::id)
         val categoriesMap = categoryRepository.findAll().associateBy(Category::id)
 
