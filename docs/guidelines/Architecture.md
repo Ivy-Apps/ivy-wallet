@@ -18,7 +18,7 @@ The Data Layer is responsible for dealing with the outside world and mapping it 
 
 ### Data source (optional)
 
-Wraps an IO operation (e.g. a Ktor http call) and ensures that it won't throw exceptions. 
+Wraps an IO operation (e.g. a Ktor http call) and ensures that it won't throw exceptions by making it a total function (i.e. wraps with `try-catch` and returns `Either<ErrorDto, DataDto>` of some raw data model). 
 
 > A data source isn't always needed if it'll do nothing useful. For example, there's no point wrapping Room DB DAOs.
 

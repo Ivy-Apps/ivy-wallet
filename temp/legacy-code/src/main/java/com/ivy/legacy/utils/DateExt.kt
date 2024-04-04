@@ -78,6 +78,8 @@ fun LocalDateTime.formatNicely(
     }
 }
 
+fun LocalDateTime.getISOFormattedDateTime(): String = this.formatLocal("yyyyMMdd-HHmm")
+
 fun LocalDateTime.formatNicelyWithTime(
     noWeekDay: Boolean = true,
     zone: ZoneId = ZoneOffset.systemDefault()

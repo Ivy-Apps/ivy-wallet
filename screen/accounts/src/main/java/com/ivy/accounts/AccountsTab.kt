@@ -283,9 +283,6 @@ private fun AccountHeader(
                 Spacer(Modifier.width(8.dp))
 
                 Text(
-                    modifier = Modifier
-                        .align(Alignment.Bottom)
-                        .padding(bottom = 4.dp),
                     text = stringResource(R.string.excluded),
                     style = UI.typo.c.style(
                         color = account.color.value.toComposeColor().dynamicContrast()

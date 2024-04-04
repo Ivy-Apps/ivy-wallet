@@ -752,9 +752,6 @@ private fun Item(
                     Spacer(Modifier.width(8.dp))
 
                     Text(
-                        modifier = Modifier
-                            .align(Alignment.Bottom)
-                            .padding(bottom = 12.dp),
                         text = stringRes(R.string.excluded),
                         style = UI.typo.c.style(
                             color = account.color.toComposeColor().dynamicContrast()
