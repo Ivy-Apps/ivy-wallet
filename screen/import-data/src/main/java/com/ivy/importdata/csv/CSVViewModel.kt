@@ -23,7 +23,7 @@ import com.ivy.importdata.csv.domain.parseToAccount
 import com.ivy.importdata.csv.domain.parseToAccountCurrency
 import com.ivy.importdata.csv.domain.parseTransactionType
 import com.ivy.navigation.Navigation
-import com.ivy.data.file.IvyFileReader
+import com.ivy.data.file.FileSystem
 import com.opencsv.CSVReaderBuilder
 import com.opencsv.validators.LineValidator
 import com.opencsv.validators.RowValidator
@@ -41,7 +41,7 @@ import kotlin.math.roundToInt
 
 @HiltViewModel
 class CSVViewModel @Inject constructor(
-    private val fileReader: IvyFileReader,
+    private val fileReader: FileSystem,
     private val csvImporter: CSVImporterV2,
     private val nav: Navigation,
 ) : ViewModel() {

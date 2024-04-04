@@ -29,6 +29,7 @@ import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.data.temp.migration.getTransactionType
 import com.ivy.data.temp.migration.getValue
 import com.ivy.domain.RootScreen
+import com.ivy.domain.usecase.csv.ExportCsvUseCase
 import com.ivy.frp.filterSuspend
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.datamodel.Account
@@ -44,7 +45,6 @@ import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.transaction.CalcTrnsIncomeExpenseAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithDateDivsAct
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
-import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
 import com.ivy.wallet.domain.pure.data.IncomeExpenseTransferPair
 import com.ivy.wallet.domain.pure.exchange.ExchangeData
 import com.ivy.wallet.domain.pure.transaction.trnCurrency
@@ -73,7 +73,6 @@ class ReportViewModel @Inject constructor(
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
     private val transactionRepository: TransactionRepository,
     private val ivyContext: IvyWalletCtx,
-    private val exportCSVLogic: ExportCSVLogic,
     private val exchangeAct: ExchangeAct,
     private val accountsAct: AccountsAct,
     private val categoryRepository: CategoryRepository,
@@ -81,7 +80,8 @@ class ReportViewModel @Inject constructor(
     private val calcTrnsIncomeExpenseAct: CalcTrnsIncomeExpenseAct,
     private val baseCurrencyAct: BaseCurrencyAct,
     private val transactionMapper: TransactionMapper,
-    private val tagsRepository: TagsRepository
+    private val tagsRepository: TagsRepository,
+    private val exportCsvUseCase: ExportCsvUseCase,
 ) : ComposeViewModel<ReportScreenState, ReportScreenEvent>() {
     private val unSpecifiedCategory =
         Category(
@@ -457,9 +457,8 @@ class ReportViewModel @Inject constructor(
             viewModelScope.launch {
                 loading.value = true
 
-                exportCSVLogic.exportToFile(
-                    context = context,
-                    fileUri = fileUri,
+                exportCsvUseCase.exportToFile(
+                    outputFile = fileUri,
                     exportScope = {
                         filterTransactions(
                             baseCurrency = baseCurrency.value,

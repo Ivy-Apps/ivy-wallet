@@ -1,22 +1,22 @@
 package com.ivy.settings
 
 import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.ivy.base.ComposeViewModel
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.refreshWidget
 import com.ivy.data.backup.BackupDataUseCase
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
-import com.ivy.base.ComposeViewModel
 import com.ivy.domain.RootScreen
 import com.ivy.domain.usecase.SyncExchangeRatesUseCase
+import com.ivy.domain.usecase.csv.ExportCsvUseCase
 import com.ivy.frp.monad.Res
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.LogoutLogic
@@ -28,10 +28,8 @@ import com.ivy.legacy.utils.uiThread
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.action.global.UpdateStartDayOfMonthAct
 import com.ivy.wallet.domain.action.settings.SettingsAct
-import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
 import com.ivy.widget.balance.WalletBalanceWidgetReceiver
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -41,10 +39,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
-    @ApplicationContext
-    private val context: Context,
     private val ivyContext: IvyWalletCtx,
-    private val exportCSVLogic: ExportCSVLogic,
     private val logoutLogic: LogoutLogic,
     private val sharedPrefs: SharedPrefs,
     private val backupDataUseCase: BackupDataUseCase,
@@ -54,6 +49,7 @@ class SettingsViewModel @Inject constructor(
     private val settingsAct: SettingsAct,
     private val updateSettingsAct: UpdateSettingsAct,
     private val settingsWriter: WriteSettingsDao,
+    private val exportCsvUseCase: ExportCsvUseCase,
 ) : ComposeViewModel<SettingsState, SettingsEvent>() {
 
     private val currencyCode = mutableStateOf("")
@@ -262,9 +258,8 @@ class SettingsViewModel @Inject constructor(
             }.csv"
         ) { fileUri ->
             viewModelScope.launch {
-                exportCSVLogic.exportToFile(
-                    context = context,
-                    fileUri = fileUri
+                exportCsvUseCase.exportToFile(
+                    outputFile = fileUri
                 )
 
                 rootScreen.shareCSVFile(

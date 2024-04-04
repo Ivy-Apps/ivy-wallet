@@ -10,12 +10,8 @@ value class PositiveDouble private constructor(val value: Double) {
         override val exactName = "PositiveDouble"
 
         override fun Raise<String>.spec(raw: Double): PositiveDouble {
-            ensure(raw > 0.0) {
-                "$raw is not >= 0"
-            }
-            ensure(raw.isFinite()) {
-                "Is not a finite number"
-            }
+            ensure(raw > 0.0) { "$raw is not > 0" }
+            ensure(raw.isFinite()) { "Is not a finite number" }
             return PositiveDouble(raw)
         }
     }

@@ -63,7 +63,7 @@ class BackupDataUseCaseTest {
         sharedPrefs = mockk(relaxed = true),
         json = KotlinxSerializationModule.provideJson(),
         dispatchersProvider = TestDispatchersProvider,
-        fileReader = mockk(relaxed = true)
+        fileSystem = mockk(relaxed = true)
     )
 
     suspend fun backupTestCase(backupVersion: String) {
