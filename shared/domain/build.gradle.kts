@@ -14,6 +14,7 @@ dependencies {
 
     implementation(libs.datastore)
     implementation(libs.bundles.ktor)
+    implementation(libs.bundles.opencsv)
 
     androidTestImplementation(libs.bundles.integration.testing)
     androidTestImplementation(libs.mockk.android)

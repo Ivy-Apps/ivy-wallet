@@ -1,8 +1,11 @@
 package com.ivy.domain.usecase.csv
 
+import android.net.Uri
+import arrow.core.Either
 import com.ivy.base.model.TransactionType
 import com.ivy.base.threading.DispatchersProvider
 import com.ivy.base.time.convertToLocal
+import com.ivy.data.file.FileSystem
 import com.ivy.data.model.Account
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.Category
@@ -17,6 +20,7 @@ import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.repository.TransactionRepository
 import kotlinx.coroutines.withContext
+import org.apache.commons.text.StringEscapeUtils
 import java.text.DecimalFormat
 import java.time.Instant
 import java.time.format.DateTimeFormatter
@@ -29,7 +33,15 @@ class ExportCsvUseCase @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val transactionRepository: TransactionRepository,
     private val dispatchers: DispatchersProvider,
+    private val fileSystem: FileSystem
 ) {
+
+    suspend fun exportCsvToFile(
+        outputFile: Uri
+    ): Either<FileSystem.Failure, Unit> = withContext(dispatchers.io) {
+        val csv = exportCsv()
+        fileSystem.writeToFile(outputFile, csv)
+    }
 
     suspend fun exportCsv(): String = withContext(dispatchers.io) {
         val transactions = transactionRepository.findAll()
@@ -38,14 +50,15 @@ class ExportCsvUseCase @Inject constructor(
 
         buildString {
             append(IvyCsvRow.Columns.joinToString(separator = CSV_SEPARATOR))
-            append('\n')
+            append(NEWLINE)
             for (trn in transactions) {
-                val row = trn.toIvyCsvRow().toCsvString(
-                    accountsMap = accountsMap,
-                    categoriesMap = categoriesMap
+                append(
+                    trn.toIvyCsvRow().toCsvString(
+                        accountsMap = accountsMap,
+                        categoriesMap = categoriesMap
+                    )
                 )
-                append(row)
-                append('\n')
+                append(NEWLINE)
             }
         }
     }
@@ -88,16 +101,27 @@ class ExportCsvUseCase @Inject constructor(
 
     @OptIn(ExperimentalTypeInference::class)
     private fun csvRow(@BuilderInference build: CsvRowScope.() -> Unit): String {
-        val row = mutableListOf<String>()
+        val columns = mutableListOf<String>()
         val rowScope = object : CsvRowScope {
             override fun csvAppend(value: String?) {
-                row.add(
-                    if (value != null) "$value," else ","
+                columns.add(
+                    if (value != null) {
+                        value.escapeCsvString() + CSV_SEPARATOR
+                    } else {
+                        CSV_SEPARATOR
+                    }
                 )
             }
         }
         rowScope.build()
-        return row.joinToString(separator = CSV_SEPARATOR)
+        return columns.joinToString(separator = CSV_SEPARATOR)
+    }
+
+    private fun String.escapeCsvString(): String = try {
+        StringEscapeUtils.escapeCsv(this)
+    } catch (e: Exception) {
+        replace(CSV_SEPARATOR, " ")
+            .replace(NEWLINE, " ")
     }
 
     private fun Transaction.toIvyCsvRow(): IvyCsvRow = when (this) {
@@ -168,11 +192,12 @@ class ExportCsvUseCase @Inject constructor(
     private fun Double.csvFormat(): String = DecimalFormat.getCurrencyInstance(Locale.ENGLISH)
         .format(this)
 
-    companion object {
-        private const val CSV_SEPARATOR = ","
-    }
-
     interface CsvRowScope {
         fun csvAppend(value: String?)
+    }
+
+    companion object {
+        private const val CSV_SEPARATOR = ","
+        private const val NEWLINE = "\n"
     }
 }

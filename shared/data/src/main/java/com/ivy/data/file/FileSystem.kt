@@ -7,15 +7,33 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.BufferedReader
 import java.io.FileInputStream
 import java.io.FileNotFoundException
+import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStreamReader
 import java.nio.charset.Charset
 import javax.inject.Inject
 
-class IvyFileReader @Inject constructor(
+class FileSystem @Inject constructor(
     @ApplicationContext
     private val appContext: Context
 ) {
+    fun writeToFile(uri: Uri, content: String): Either<Failure, Unit> = try {
+        val contentResolver = appContext.contentResolver
+
+        contentResolver.openFileDescriptor(uri, "w")?.use {
+            FileOutputStream(it.fileDescriptor).use { fOut ->
+                val writer = fOut.writer(charset = Charsets.UTF_16)
+                writer.write(content)
+                writer.close()
+            }
+        }
+        Either.Right(Unit)
+    } catch (e: FileNotFoundException) {
+        Either.Left(Failure.FileNotFound(e))
+    } catch (e: Exception) {
+        Either.Left(Failure.IO(e))
+    }
+
     fun read(
         uri: Uri,
         charset: Charset = Charsets.UTF_8

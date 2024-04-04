@@ -10,7 +10,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.ivy.base.di.KotlinxSerializationModule
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.data.db.IvyRoomDatabase
-import com.ivy.data.file.IvyFileReader
+import com.ivy.data.file.FileSystem
 import com.ivy.data.repository.fake.FakeAccountRepository
 import com.ivy.data.repository.fake.FakeCurrencyRepository
 import com.ivy.data.repository.mapper.AccountMapper
@@ -67,7 +67,7 @@ class BackupDataUseCaseAndroidTest {
             context = appContext,
             json = KotlinxSerializationModule.provideJson(),
             dispatchersProvider = TestDispatchersProvider,
-            fileReader = IvyFileReader(appContext)
+            fileSystem = FileSystem(appContext)
         )
     }
 

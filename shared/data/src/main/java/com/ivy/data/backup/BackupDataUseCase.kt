@@ -22,7 +22,7 @@ import com.ivy.data.db.dao.write.WriteLoanRecordDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
-import com.ivy.data.file.IvyFileReader
+import com.ivy.data.file.FileSystem
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.mapper.AccountMapper
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -60,7 +60,7 @@ class BackupDataUseCase @Inject constructor(
     private val context: Context,
     private val json: Json,
     private val dispatchersProvider: DispatchersProvider,
-    private val fileReader: IvyFileReader,
+    private val fileSystem: FileSystem,
 ) {
     suspend fun exportToFile(
         zipFileUri: Uri
@@ -136,7 +136,7 @@ class BackupDataUseCase @Inject constructor(
             val jsonString = try {
                 extractAndReadBackupZip(backupFileUri, onProgress)
             } catch (e: Exception) {
-                fileReader.read(backupFileUri, Charsets.UTF_16).getOrNull()
+                fileSystem.read(backupFileUri, Charsets.UTF_16).getOrNull()
             } ?: ""
 
             importJson(jsonString, onProgress, clearCacheDir = true)
@@ -179,7 +179,7 @@ class BackupDataUseCase @Inject constructor(
             error("Didn't unzip exactly one file.")
         }
 
-        return fileReader.read(filesList[0].toUri(), Charsets.UTF_16).getOrNull()
+        return fileSystem.read(filesList[0].toUri(), Charsets.UTF_16).getOrNull()
     }
 
     suspend fun importJson(
