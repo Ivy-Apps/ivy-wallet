@@ -6,6 +6,7 @@ import com.ivy.base.threading.DispatchersProvider
 import com.ivy.data.db.dao.read.ExchangeRatesDao
 import com.ivy.data.db.dao.write.WriteExchangeRatesDao
 import com.ivy.data.model.ExchangeRate
+import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.remote.RemoteExchangeRatesDataSource
 import com.ivy.data.repository.ExchangeRatesRepository
 import com.ivy.data.repository.mapper.ExchangeRateMapper
@@ -29,6 +30,22 @@ class ExchangeRatesRepositoryImpl @Inject constructor(
         }
     }
 
+
+    override fun findAll(): Flow<List<ExchangeRate>> =
+        exchangeRatesDao.findAll().map { entities ->
+            entities.mapNotNull {
+                with(mapper) { it.toDomain().getOrNull() }
+            }
+        }.flowOn(dispatchers.io)
+
+    override suspend fun findAllManuallyOverridden(): List<ExchangeRate> =
+        withContext(dispatchers.io) {
+            exchangeRatesDao.findAllManuallyOverridden()
+                .mapNotNull {
+                    with(mapper) { it.toDomain().getOrNull() }
+                }
+        }
+
     override suspend fun save(value: ExchangeRate) {
         withContext(dispatchers.io) {
             writeExchangeRatesDao.save(with(mapper) { value.toEntity() })
@@ -51,18 +68,13 @@ class ExchangeRatesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun findAll(): Flow<List<ExchangeRate>> =
-        exchangeRatesDao.findAll().map { entities ->
-            entities.mapNotNull {
-                with(mapper) { it.toDomain().getOrNull() }
-            }
-        }.flowOn(dispatchers.io)
-
-    override suspend fun findAllManuallyOverridden(): List<ExchangeRate> =
-        withContext(dispatchers.io) {
-            exchangeRatesDao.findAllManuallyOverridden()
-                .mapNotNull {
-                    with(mapper) { it.toDomain().getOrNull() }
-                }
-        }
+    override suspend fun deleteByBaseCurrencyAndCurrency(
+        baseCurrency: AssetCode,
+        currency: AssetCode
+    ): Unit = withContext(dispatchers.io) {
+        writeExchangeRatesDao.deleteByBaseCurrencyAndCurrency(
+            baseCurrency = baseCurrency.code,
+            currency = currency.code
+        )
+    }
 }
