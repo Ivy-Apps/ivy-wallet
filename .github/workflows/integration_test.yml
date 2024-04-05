@@ -45,5 +45,5 @@ jobs:
         with:
           api-level: 29
           script: |
-            ./gradlew :shared:data:connectedDebugAndroidTest
+            ./gradlew :shared:data:core:connectedDebugAndroidTest
             ./gradlew :shared:domain:connectedDebugAndroidTest
