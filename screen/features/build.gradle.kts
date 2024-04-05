@@ -13,5 +13,5 @@ dependencies {
     implementation(projects.shared.ui.core)
     implementation(projects.shared.ui.navigation)
 
-    testImplementation(projects.shared.testing)
+    
 }

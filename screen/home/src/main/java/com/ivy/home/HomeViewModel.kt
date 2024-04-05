@@ -10,7 +10,7 @@ import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.domain.usecase.SyncExchangeRatesUseCase
 import com.ivy.data.repository.mapper.TransactionMapper
-import com.ivy.base.ComposeViewModel
+import com.ivy.ui.ComposeViewModel
 import com.ivy.data.repository.CategoryRepository
 import com.ivy.frp.fixUnit
 import com.ivy.frp.then

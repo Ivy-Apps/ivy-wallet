@@ -1,10 +1,10 @@
-package com.ivy.testing
+package com.ivy.ui.testing
 
 import app.cash.molecule.RecompositionMode
 import app.cash.molecule.moleculeFlow
 import app.cash.paparazzi.Paparazzi
 import app.cash.turbine.test
-import com.ivy.base.ComposeViewModel
+import com.ivy.ui.ComposeViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.resetMain

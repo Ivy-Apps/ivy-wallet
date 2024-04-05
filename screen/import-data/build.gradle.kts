@@ -18,5 +18,5 @@ dependencies {
 
     implementation(libs.bundles.opencsv)
 
-    testImplementation(projects.shared.testing)
+    
 }

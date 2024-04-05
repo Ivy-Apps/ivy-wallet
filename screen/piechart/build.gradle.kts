@@ -15,5 +15,5 @@ dependencies {
     implementation(projects.temp.legacyCode)
     implementation(projects.temp.oldDesign)
 
-    testImplementation(projects.shared.testing)
+    
 }

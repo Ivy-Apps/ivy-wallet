@@ -1,4 +1,4 @@
-package com.ivy.testing
+package com.ivy.ui.testing
 
 import io.kotest.matchers.shouldBe
 import org.junit.Before

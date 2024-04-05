@@ -9,5 +9,5 @@ android {
 dependencies {
     implementation(projects.shared.domain)
 
-    testImplementation(projects.shared.testing)
+    
 }

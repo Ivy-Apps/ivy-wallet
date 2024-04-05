@@ -7,11 +7,12 @@ android {
 }
 
 dependencies {
-    implementation(libs.bundles.ktor)
     implementation(projects.shared.base)
     implementation(projects.shared.domain)
     implementation(projects.shared.ui.core)
     implementation(projects.shared.ui.navigation)
 
-    testImplementation(projects.shared.testing)
+    implementation(libs.bundles.ktor)
+
+    testImplementation(projects.shared.ui.testing)
 }

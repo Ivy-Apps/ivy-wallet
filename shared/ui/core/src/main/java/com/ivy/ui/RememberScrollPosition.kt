@@ -1,4 +1,4 @@
-package com.ivy.common.ui
+package com.ivy.ui
 
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable

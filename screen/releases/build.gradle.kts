@@ -14,5 +14,5 @@ dependencies {
 
     implementation(libs.bundles.ktor)
 
-    testImplementation(projects.shared.testing)
+    
 }

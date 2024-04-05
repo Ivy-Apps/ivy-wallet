@@ -1,4 +1,4 @@
-package com.ivy.base
+package com.ivy.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable

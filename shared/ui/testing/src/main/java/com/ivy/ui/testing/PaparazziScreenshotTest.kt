@@ -1,4 +1,4 @@
-package com.ivy.testing
+package com.ivy.ui.testing
 
 import androidx.compose.runtime.Composable
 import app.cash.paparazzi.DeviceConfig

@@ -1,11 +1,11 @@
-package com.ivy.testing
+package com.ivy.ui.testing
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.setValue
-import com.ivy.base.ComposeViewModel
+import com.ivy.ui.ComposeViewModel
 
 data class FakeUiState(
     val counter: Int,
