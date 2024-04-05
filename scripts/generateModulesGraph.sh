@@ -23,9 +23,14 @@ then
     exit 1
 fi
 
+# Clean
+rm all_modules.gv
+
 # Generate modules graph
-./gradlew generateModulesGraphvizText -Pmodules.graph.output.gv=all_modules.gv || exit -1
+echo "Generating dependencies graph..."
+./gradlew generateModulesGraphvizText --rerun-tasks -Pmodules.graph.output.gv=all_modules.gv || exit -1
 
 # Convert the graph to SVG
 dot -Tsvg "all_modules.gv" > "docs/assets/modules-graph.svg" || exit -1
 echo 'Modules graph generated in "docs/assets/modules-graph.svg"'
+open docs/assets/modules-graph.svg

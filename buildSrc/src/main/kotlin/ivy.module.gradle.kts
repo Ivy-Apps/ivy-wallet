@@ -5,7 +5,6 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("com.google.devtools.ksp")
     id("org.jetbrains.kotlin.plugin.serialization")
-    id("ivy.module-graph")
 }
 
 kotlin {
