@@ -50,7 +50,7 @@ import com.ivy.legacy.utils.simpleActivityForResultLauncher
 import com.ivy.legacy.utils.timeNowLocal
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.NavigationRoot
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.ui.applocked.AppLockedScreen
 import com.ivy.widget.balance.WalletBalanceWidgetReceiver
 import com.ivy.widget.transaction.AddTransactionWidget

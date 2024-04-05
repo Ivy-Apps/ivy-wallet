@@ -20,7 +20,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.legacy.utils.format
 import com.ivy.navigation.CSVScreen
 import com.ivy.navigation.navigation
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.data.backup.ImportResult
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Gray

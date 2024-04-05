@@ -33,7 +33,7 @@ import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.legacy.utils.selectEndTextFieldValue
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.ui.theme.components.IvyDescriptionTextField
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalDynamicPrimaryAction

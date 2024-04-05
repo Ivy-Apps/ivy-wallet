@@ -17,7 +17,7 @@ import com.ivy.legacy.data.model.AccountData
 import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.ioThread
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.viewmodel.account.AccountDataAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct

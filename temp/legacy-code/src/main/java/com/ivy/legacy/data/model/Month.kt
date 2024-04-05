@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 import com.ivy.base.legacy.stringRes
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.utils.dateNowUTC
-import com.ivy.resources.R
+import com.ivy.ui.R
 import java.time.LocalDate
 
 @Immutable

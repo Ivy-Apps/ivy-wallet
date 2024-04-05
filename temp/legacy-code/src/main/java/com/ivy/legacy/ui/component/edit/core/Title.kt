@@ -29,7 +29,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.legacy.utils.keyboardVisibleState
 import com.ivy.legacy.utils.selectEndTextFieldValue
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.domain.deprecated.logic.SUGGESTIONS_LIMIT
 import com.ivy.wallet.ui.theme.components.IvyTitleTextField
 import kotlinx.coroutines.launch

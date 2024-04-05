@@ -3,14 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.ivy.core.ui"
+    namespace = "com.ivy.ui"
 }
 
 dependencies {
-    
-    
     implementation(projects.shared.domain)
-    
 
     testImplementation(projects.shared.testing)
 }

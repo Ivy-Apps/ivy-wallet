@@ -37,7 +37,7 @@ import com.ivy.design.l0_system.RedLight
 import com.ivy.design.l0_system.Yellow
 import com.ivy.design.l0_system.YellowLight
 import com.ivy.legacy.datamodel.Account
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import kotlinx.collections.immutable.ImmutableList

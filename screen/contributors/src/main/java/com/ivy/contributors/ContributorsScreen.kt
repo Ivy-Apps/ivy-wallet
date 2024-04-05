@@ -46,7 +46,7 @@ import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
-import com.ivy.resources.R
+import com.ivy.ui.R
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable

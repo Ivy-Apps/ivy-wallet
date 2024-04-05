@@ -30,7 +30,7 @@ import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.PlannedPaymentsScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Orange
 import kotlinx.collections.immutable.persistentListOf

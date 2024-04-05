@@ -19,7 +19,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.IvyIcon
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.selectEndTextFieldValue
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.ui.theme.components.IvyBasicTextField
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")

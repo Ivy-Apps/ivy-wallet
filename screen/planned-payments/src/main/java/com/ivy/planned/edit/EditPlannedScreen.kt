@@ -32,7 +32,7 @@ import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.screenScopedViewModel
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.ui.edit.core.Category
 import com.ivy.wallet.ui.edit.core.Description
 import com.ivy.wallet.ui.edit.core.EditBottomSheet

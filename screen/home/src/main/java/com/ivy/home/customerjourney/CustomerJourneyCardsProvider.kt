@@ -19,7 +19,7 @@ import com.ivy.base.legacy.SharedPrefs
 import com.ivy.legacy.data.model.MainTab
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.PieChartStatisticScreen
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.widget.transaction.AddTransactionWidgetCompact
 import javax.inject.Inject
 

@@ -125,14 +125,13 @@ android {
 }
 
 dependencies {
-    implementation(projects.shared.base)
-    implementation(projects.shared.data)
-    implementation(projects.shared.domain)
+
     implementation(projects.screen.attributions)
     implementation(projects.screen.balance)
     implementation(projects.screen.budgets)
     implementation(projects.screen.categories)
     implementation(projects.screen.contributors)
+    implementation(projects.screen.editTransaction)
     implementation(projects.screen.exchangeRates)
     implementation(projects.screen.features)
     implementation(projects.screen.home)
@@ -146,8 +145,11 @@ dependencies {
     implementation(projects.screen.reports)
     implementation(projects.screen.search)
     implementation(projects.screen.settings)
-    implementation(projects.screen.editTransaction)
     implementation(projects.screen.transactions)
+    implementation(projects.shared.base)
+    implementation(projects.shared.data)
+    implementation(projects.shared.domain)
+    implementation(projects.shared.ui.navigation)
     implementation(projects.temp.legacyCode)
     implementation(projects.temp.oldDesign)
     implementation(projects.widget.addTransaction)

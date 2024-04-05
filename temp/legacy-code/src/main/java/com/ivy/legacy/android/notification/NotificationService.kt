@@ -4,7 +4,7 @@ import android.app.NotificationManager
 import android.content.Context
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import com.ivy.resources.R
+import com.ivy.ui.R
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
