@@ -79,9 +79,9 @@ com.ivy.legacy.utils.formatLocalTime
 com.ivy.legacy.utils.rememberSwipeListenerState
 com.ivy.legacy.utils.keyboardVisibleState
 com.ivy.legacy.utils.UiText.asString
+com.ivy.ui.rememberScrollPositionListState
 com.ivy.navigation.navigation
 com.ivy.navigation.screenScopedViewModel
-com.ivy.common.ui.rememberScrollPositionListState
 com.ivy.data.datastore.datastore
 com.ivy.domain.features.BoolFeature.asEnabledState
 com.ivy.importdata.csv.ImportUI
@@ -101,6 +101,7 @@ com.ivy.onboarding.steps.Accounts
 com.ivy.onboarding.steps.OnboardingCategories
 com.ivy.onboarding.steps.Categories
 com.ivy.reports.FilterOverlay
+com.ivy.reports.OthersFilter
 com.ivy.reports.TypeFilter
 com.ivy.reports.TypeFilterCheckbox
 com.ivy.reports.PeriodFilter
@@ -108,4 +109,3 @@ com.ivy.reports.AccountsFilter
 com.ivy.reports.CategoriesFilter
 com.ivy.reports.AmountFilter
 com.ivy.reports.KeywordsFilter
-com.ivy.reports.OthersFilter
