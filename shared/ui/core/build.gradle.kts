@@ -7,10 +7,10 @@ android {
 }
 
 dependencies {
-    implementation(projects.shared.resources)
-    implementation(projects.shared.designSystem)
+    
+    
     implementation(projects.shared.domain)
-    implementation(projects.shared.navigation)
+    
 
     testImplementation(projects.shared.testing)
 }

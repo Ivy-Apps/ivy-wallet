@@ -10,9 +10,9 @@ android {
 dependencies {
     implementation(projects.shared.base)
     implementation(projects.shared.domain)
-    implementation(projects.shared.resources)
+    
     implementation(projects.temp.oldDesign)
-    implementation(projects.shared.navigation)
+    
     implementation(projects.shared.data)
 
     implementation(libs.bundles.activity)

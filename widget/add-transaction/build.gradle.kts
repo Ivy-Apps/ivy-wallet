@@ -10,6 +10,6 @@ dependencies {
     implementation(projects.shared.base)
     implementation(projects.shared.base)
     implementation(projects.shared.domain)
-    implementation(projects.shared.resources)
+    
     implementation(projects.widget.sharedBase)
 }
