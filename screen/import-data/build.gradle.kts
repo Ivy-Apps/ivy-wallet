@@ -17,6 +17,4 @@ dependencies {
     implementation(projects.temp.oldDesign)
 
     implementation(libs.bundles.opencsv)
-
-    
 }

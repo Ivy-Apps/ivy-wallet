@@ -13,6 +13,4 @@ dependencies {
     implementation(projects.shared.ui.navigation)
 
     implementation(libs.bundles.ktor)
-
-    
 }
