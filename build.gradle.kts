@@ -9,7 +9,6 @@ plugins {
     alias(libs.plugins.gradleWrapperUpgrade)
 
     alias(libs.plugins.koverPlugin)
-
 }
 
 subprojects {
