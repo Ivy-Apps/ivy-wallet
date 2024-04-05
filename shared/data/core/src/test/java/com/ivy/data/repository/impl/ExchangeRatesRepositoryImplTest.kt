@@ -1,17 +1,17 @@
 package com.ivy.data.repository.impl
 
+import arrow.core.Either
 import arrow.core.left
-import arrow.core.right
 import com.ivy.base.TestDispatchersProvider
 import com.ivy.data.db.dao.read.ExchangeRatesDao
 import com.ivy.data.db.dao.write.WriteExchangeRatesDao
-import com.ivy.data.db.entity.ExchangeRateEntity
-import com.ivy.data.model.primitive.AssetCode
-import com.ivy.data.model.primitive.PositiveDouble
+import com.ivy.data.model.ExchangeRate
 import com.ivy.data.remote.RemoteExchangeRatesDataSource
 import com.ivy.data.remote.responses.ExchangeRatesResponse
 import com.ivy.data.repository.ExchangeRatesRepository
 import com.ivy.data.repository.mapper.ExchangeRateMapper
+import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.every
@@ -46,69 +46,33 @@ class ExchangeRatesRepositoryImplTest {
             date = "",
             rates = emptyMap(),
         )
+        val mockRates = mockk<List<ExchangeRate>>()
+        with(mapper) {
+            every { mockResponse.toDomain() } returns Either.Right(mockRates)
+        }
         coEvery {
             remoteExchangeRatesDataSource.fetchEurExchangeRates()
-        } returns mockResponse.right()
+        } returns Either.Right(mockResponse)
 
         // when
         val result = repository.fetchEurExchangeRates()
 
         // then
-        result shouldBe mockResponse
+        result.shouldBeRight() shouldBe mockRates
     }
 
     @Test
     fun `fetchExchangeRates - unsuccessful network responses`() = runTest {
         // given
-        val mockResponse = "Network Error"
-
+        val errResponse = "Network Error"
         coEvery {
             remoteExchangeRatesDataSource.fetchEurExchangeRates()
-        } returns mockResponse.left()
+        } returns errResponse.left()
 
         // when
         val result = repository.fetchEurExchangeRates()
 
         // then
-        result shouldBe null
-    }
-
-    @Test
-    fun `findByBaseCurrencyAndCurrency - exchange rate is found and mapped`() = runTest {
-        // given
-        val mockEntity = ExchangeRateEntity("usd", "aed", 2.0)
-        val mockDomain = com.ivy.data.model.ExchangeRate(
-            baseCurrency = AssetCode.unsafe("usd"),
-            currency = AssetCode.unsafe("aed"),
-            rate = PositiveDouble.unsafe(2.0),
-            manualOverride = false
-        )
-
-        coEvery {
-            exchangeRatesDao.findByBaseCurrencyAndCurrency("usd", "aed")
-        } returns mockEntity
-        every {
-            with(mapper) { mockEntity.toDomain() }
-        } returns mockDomain.right()
-
-        // when
-        val result = repository.findByBaseCurrencyAndCurrency("usd", "aed")
-
-        // then
-        result shouldBe mockDomain
-    }
-
-    @Test
-    fun `findByBaseCurrencyAndCurrency - exchange rate is not found`() = runTest {
-        // given
-        coEvery {
-            exchangeRatesDao.findByBaseCurrencyAndCurrency("usd", "aed")
-        } returns null
-
-        // when
-        val result = repository.findByBaseCurrencyAndCurrency("usd", "aed")
-
-        // then
-        result shouldBe null
+        result.shouldBeLeft() shouldBe errResponse
     }
 }
