@@ -30,7 +30,6 @@ class ExchangeRatesRepositoryImpl @Inject constructor(
         }
     }
 
-
     override fun findAll(): Flow<List<ExchangeRate>> =
         exchangeRatesDao.findAll().map { entities ->
             entities.mapNotNull {

@@ -5,8 +5,3 @@ plugins {
 android {
     namespace = "com.ivy.data.model"
 }
-
-dependencies {
-
-
-}

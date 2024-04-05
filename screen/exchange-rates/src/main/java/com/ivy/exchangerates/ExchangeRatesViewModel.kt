@@ -38,7 +38,7 @@ class ExchangeRatesViewModel @Inject constructor(
     private var searchQuery by mutableStateOf("")
     private var baseCurrency by mutableStateOf<AssetCode?>(null)
 
-    private fun toUi(exchangeRate: ExchangeRate) = RateUi(
+    private fun toUi(exchangeRate: ExchangeRate): RateUi = RateUi(
         from = exchangeRate.baseCurrency.code,
         to = exchangeRate.currency.code,
         rate = exchangeRate.rate.value

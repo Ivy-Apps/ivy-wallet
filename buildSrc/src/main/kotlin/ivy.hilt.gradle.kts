@@ -10,7 +10,6 @@ kotlin {
     }
 }
 
-
 dependencies {
     implementation(libs.bundles.hilt)
     ksp(catalog.library("hilt-compiler"))

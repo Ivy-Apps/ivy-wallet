@@ -31,10 +31,10 @@ class TagsRepositoryImpl @Inject constructor(
         private const val MAX_SQL_LITE_QUERY_SIZE = 999
     }
 
-    private val tagsMemo = mutableMapOf<TagId, com.ivy.data.model.Tag>()
+    private val tagsMemo = mutableMapOf<TagId, Tag>()
     private var findAllMemoized: Boolean = false
 
-    override suspend fun findByIds(id: TagId): com.ivy.data.model.Tag? {
+    override suspend fun findByIds(id: TagId): Tag? {
         return tagsMemo[id] ?: withContext(dispatchersProvider.io) {
             tagDao.findByIds(id.value)?.let {
                 with(mapper) { it.toDomain().getOrNull() } ?: return@withContext null
@@ -42,11 +42,11 @@ class TagsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun findByIds(ids: List<TagId>): List<com.ivy.data.model.Tag> {
+    override suspend fun findByIds(ids: List<TagId>): List<Tag> {
         return ids.mapNotNull { tagsMemo[it] ?: findByIds(it) }
     }
 
-    override suspend fun findByAssociatedId(id: AssociationId): List<com.ivy.data.model.Tag> {
+    override suspend fun findByAssociatedId(id: AssociationId): List<Tag> {
         return withContext(dispatchersProvider.io) {
             tagDao.findTagsByAssociatedId(id.value).let { entities ->
                 entities.mapNotNull {
@@ -58,18 +58,21 @@ class TagsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun findByAssociatedId(ids: List<AssociationId>): Map<AssociationId, List<com.ivy.data.model.Tag>> {
+    override suspend fun findByAssociatedId(
+        ids: List<AssociationId>
+    ): Map<AssociationId, List<Tag>> {
         return ids.chunked(MAX_SQL_LITE_QUERY_SIZE).map {
             withContext(dispatchersProvider.io) {
                 async {
-                    tagDao.findTagsByAssociatedIds(it.map { it.value }).entries.associate { (id, tags) ->
-                        val domainTags = tags.mapNotNull {
-                            with(mapper) {
-                                it.toDomain().getOrNull()
+                    tagDao.findTagsByAssociatedIds(it.map { it.value })
+                        .entries.associate { (id, tags) ->
+                            val domainTags = tags.mapNotNull {
+                                with(mapper) {
+                                    it.toDomain().getOrNull()
+                                }
                             }
+                            AssociationId(id) to domainTags
                         }
-                        AssociationId(id) to domainTags
-                    }
                 }
             }
         }.awaitAll().asSequence()
@@ -77,7 +80,7 @@ class TagsRepositoryImpl @Inject constructor(
             .associate { it.key to it.value }
     }
 
-    override suspend fun findAll(deleted: Boolean): List<com.ivy.data.model.Tag> {
+    override suspend fun findAll(deleted: Boolean): List<Tag> {
         return if (findAllMemoized) {
             tagsMemo.values.sortedByDescending { it.creationTimestamp.epochSecond }
         } else {
@@ -93,7 +96,7 @@ class TagsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun findByText(text: String): List<com.ivy.data.model.Tag> {
+    override suspend fun findByText(text: String): List<Tag> {
         return withContext(dispatchersProvider.io) {
             tagDao.findByText(text).let { entities ->
                 entities.mapNotNull {
@@ -103,7 +106,9 @@ class TagsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun findByAllAssociatedIdForTagId(tagIds: List<TagId>): Map<TagId, List<com.ivy.data.model.TagAssociation>> {
+    override suspend fun findByAllAssociatedIdForTagId(
+        tagIds: List<TagId>
+    ): Map<TagId, List<TagAssociation>> {
         return withContext(dispatchersProvider.io) {
             tagAssociationDao.findByAllAssociatedIdForTagId(
                 tagIds.toRawValues()
@@ -115,7 +120,7 @@ class TagsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun findByAllTagsForAssociations(): Map<AssociationId, List<com.ivy.data.model.TagAssociation>> {
+    override suspend fun findByAllTagsForAssociations(): Map<AssociationId, List<TagAssociation>> {
         return withContext(dispatchersProvider.io) {
             tagAssociationDao.findAll().groupBy {
                 AssociationId(it.associatedId)
@@ -143,7 +148,7 @@ class TagsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun save(value: com.ivy.data.model.Tag) {
+    override suspend fun save(value: Tag) {
         withContext(dispatchersProvider.io) {
             writeTagDao.save(with(mapper) { value.toEntity() })
         }.also {
@@ -151,7 +156,7 @@ class TagsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateTag(tagId: TagId, value: com.ivy.data.model.Tag) {
+    override suspend fun updateTag(tagId: TagId, value: Tag) {
         withContext(dispatchersProvider.io) {
             writeTagDao.update(with(mapper) { value.toEntity() })
             memoize(value)
@@ -174,11 +179,11 @@ class TagsRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun memoize(tag: com.ivy.data.model.Tag?) {
+    private fun memoize(tag: Tag?) {
         tag?.let { tagsMemo[it.id] = it }
     }
 
-    private fun memoize(tags: List<com.ivy.data.model.Tag>) {
+    private fun memoize(tags: List<Tag>) {
         tags.forEach(::memoize)
     }
 

@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.SharedPrefs
-import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.repository.CurrencyRepository
 import com.ivy.domain.event.AccountUpdatedEvent
 import com.ivy.domain.event.EventBus
@@ -24,7 +23,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val settingsDao: SettingsDao,
     private val ivyContext: IvyWalletCtx,
     private val nav: Navigation,
     private val syncExchangeRatesUseCase: SyncExchangeRatesUseCase,
