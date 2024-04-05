@@ -6,7 +6,6 @@ import com.ivy.base.TestDispatchersProvider
 import com.ivy.data.db.dao.read.ExchangeRatesDao
 import com.ivy.data.db.dao.write.WriteExchangeRatesDao
 import com.ivy.data.db.entity.ExchangeRateEntity
-import com.ivy.data.model.ExchangeRate
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.PositiveDouble
 import com.ivy.data.remote.RemoteExchangeRatesDataSource
@@ -36,7 +35,7 @@ class ExchangeRatesRepositoryImplTest {
             exchangeRatesDao = exchangeRatesDao,
             writeExchangeRatesDao = writeExchangeRatesDao,
             remoteExchangeRatesDataSource = remoteExchangeRatesDataSource,
-            dispatchersProvider = TestDispatchersProvider,
+            dispatchers = TestDispatchersProvider,
         )
     }
 
@@ -52,7 +51,7 @@ class ExchangeRatesRepositoryImplTest {
         } returns mockResponse.right()
 
         // when
-        val result = repository.fetchExchangeRates()
+        val result = repository.fetchEurExchangeRates()
 
         // then
         result shouldBe mockResponse
@@ -68,7 +67,7 @@ class ExchangeRatesRepositoryImplTest {
         } returns mockResponse.left()
 
         // when
-        val result = repository.fetchExchangeRates()
+        val result = repository.fetchEurExchangeRates()
 
         // then
         result shouldBe null

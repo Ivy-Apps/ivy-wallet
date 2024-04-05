@@ -8,6 +8,7 @@ import com.ivy.base.TestDispatchersProvider
 import com.ivy.base.di.KotlinxSerializationModule
 import com.ivy.data.db.IvyRoomDatabase
 import com.ivy.data.di.KtorClientModule
+import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.remote.impl.RemoteExchangeRatesDataSourceImpl
 import com.ivy.data.repository.ExchangeRatesRepository
 import com.ivy.data.repository.impl.ExchangeRatesRepositoryImpl
@@ -42,7 +43,7 @@ class SyncExchangeRatesUseCaseTest {
                     KtorClientModule.provideKtorClient(KotlinxSerializationModule.provideJson())
                 },
             ),
-            dispatchersProvider = TestDispatchersProvider,
+            dispatchers = TestDispatchersProvider,
         )
 
         useCase = SyncExchangeRatesUseCase(repository)
@@ -59,7 +60,7 @@ class SyncExchangeRatesUseCaseTest {
         val exchangeRatesDao = db.exchangeRatesDao
 
         // when
-        useCase.sync("USD")
+        useCase.sync(AssetCode.unsafe("USD"))
 
         // then
         val savedRates = exchangeRatesDao.findAll().first()

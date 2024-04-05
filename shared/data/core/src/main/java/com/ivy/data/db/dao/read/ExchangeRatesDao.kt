@@ -10,6 +10,9 @@ interface ExchangeRatesDao {
     @Query("SELECT * FROM exchange_rates")
     fun findAll(): Flow<List<ExchangeRateEntity>>
 
+    @Query("SELECT * FROM exchange_rates WHERE manualOverride = 1")
+    suspend fun findAllManuallyOverridden(): List<ExchangeRateEntity>
+
     @Query("SELECT * FROM exchange_rates WHERE baseCurrency = :baseCurrency AND currency = :currency")
     suspend fun findByBaseCurrencyAndCurrency(
         baseCurrency: String,

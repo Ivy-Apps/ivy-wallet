@@ -27,12 +27,11 @@ import javax.inject.Inject
 @HiltViewModel
 class ExchangeRatesViewModel @Inject constructor(
     private val exchangeRatesDao: ExchangeRatesDao,
-    private val baseCurrencyAct: BaseCurrencyAct,
     private val syncExchangeRatesUseCase: SyncExchangeRatesUseCase,
     private val exchangeRatesWriter: WriteExchangeRatesDao,
 ) : ComposeViewModel<RatesState, RatesEvent>() {
-    private val searchQuery = MutableStateFlow("")
-    private val rates = mutableStateOf<List<ExchangeRateEntity>>(persistentListOf())
+    private val searchQuery = mutableStateOf("")
+    private val rates = mutableStateOf<List<ExchangeRateEntity>>(emptyList())
     private val baseCurrency = mutableStateOf("")
 
     private fun toUi(entity: ExchangeRateEntity) = RateUi(

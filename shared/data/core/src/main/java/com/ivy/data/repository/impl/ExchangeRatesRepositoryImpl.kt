@@ -1,15 +1,16 @@
 package com.ivy.data.repository.impl
 
+import arrow.core.Either
+import arrow.core.raise.either
 import com.ivy.base.threading.DispatchersProvider
 import com.ivy.data.db.dao.read.ExchangeRatesDao
 import com.ivy.data.db.dao.write.WriteExchangeRatesDao
-import com.ivy.data.db.entity.ExchangeRateEntity
 import com.ivy.data.model.ExchangeRate
 import com.ivy.data.remote.RemoteExchangeRatesDataSource
-import com.ivy.data.remote.responses.ExchangeRatesResponse
 import com.ivy.data.repository.ExchangeRatesRepository
 import com.ivy.data.repository.mapper.ExchangeRateMapper
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -19,49 +20,23 @@ class ExchangeRatesRepositoryImpl @Inject constructor(
     private val exchangeRatesDao: ExchangeRatesDao,
     private val writeExchangeRatesDao: WriteExchangeRatesDao,
     private val remoteExchangeRatesDataSource: RemoteExchangeRatesDataSource,
-    private val dispatchersProvider: DispatchersProvider,
+    private val dispatchers: DispatchersProvider,
 ) : ExchangeRatesRepository {
-    override suspend fun fetchExchangeRates(): ExchangeRatesResponse? {
-        return withContext(dispatchersProvider.io) {
-            remoteExchangeRatesDataSource.fetchEurExchangeRates().getOrNull()
+    override suspend fun fetchEurExchangeRates(): Either<String, List<ExchangeRate>> = either {
+        withContext(dispatchers.io) {
+            val response = remoteExchangeRatesDataSource.fetchEurExchangeRates().bind()
+            with(mapper) { response.toDomain().bind() }
         }
     }
 
-    override suspend fun findByBaseCurrencyAndCurrency(
-        baseCurrency: String,
-        currency: String,
-    ): com.ivy.data.model.ExchangeRate? = withContext(dispatchersProvider.io) {
-        val exchangeRateEntity =
-            exchangeRatesDao.findByBaseCurrencyAndCurrency(baseCurrency, currency)
-        if (exchangeRateEntity != null) {
-            with(mapper) {
-                exchangeRateEntity.toDomain().getOrNull()
-            }
-        } else {
-            null
-        }
-    }
-
-    override suspend fun save(value: ExchangeRateEntity) {
-        withContext(dispatchersProvider.io) {
-            writeExchangeRatesDao.save(value)
-        }
-    }
-
-    override suspend fun save(value: com.ivy.data.model.ExchangeRate) {
-        withContext(dispatchersProvider.io) {
+    override suspend fun save(value: ExchangeRate) {
+        withContext(dispatchers.io) {
             writeExchangeRatesDao.save(with(mapper) { value.toEntity() })
         }
     }
 
-    override suspend fun saveManyEntities(values: List<ExchangeRateEntity>) {
-        withContext(dispatchersProvider.io) {
-            writeExchangeRatesDao.saveMany(values)
-        }
-    }
-
-    override suspend fun saveManyRates(values: List<com.ivy.data.model.ExchangeRate>) {
-        withContext(dispatchersProvider.io) {
+    override suspend fun saveManyRates(values: List<ExchangeRate>) {
+        withContext(dispatchers.io) {
             writeExchangeRatesDao.saveMany(
                 values.map {
                     with(mapper) { it.toEntity() }
@@ -71,20 +46,23 @@ class ExchangeRatesRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteAll() {
-        withContext(dispatchersProvider.io) {
+        withContext(dispatchers.io) {
             writeExchangeRatesDao.deleteALl()
         }
     }
 
-    override suspend fun findAll(): Flow<List<com.ivy.data.model.ExchangeRate>> {
-        return withContext(dispatchersProvider.io) {
-            exchangeRatesDao.findAll().map { exchangeRateEntities ->
-                exchangeRateEntities.mapNotNull {
-                    with(mapper) {
-                        it.toDomain().getOrNull()
-                    }
-                }
+    override suspend fun findAll(): Flow<List<ExchangeRate>> =
+        exchangeRatesDao.findAll().map { entities ->
+            entities.mapNotNull {
+                with(mapper) { it.toDomain().getOrNull() }
             }
+        }.flowOn(dispatchers.io)
+
+    override suspend fun findAllManuallyOverridden(): List<ExchangeRate> =
+        withContext(dispatchers.io) {
+            exchangeRatesDao.findAllManuallyOverridden()
+                .mapNotNull {
+                    with(mapper) { it.toDomain().getOrNull() }
+                }
         }
-    }
 }
