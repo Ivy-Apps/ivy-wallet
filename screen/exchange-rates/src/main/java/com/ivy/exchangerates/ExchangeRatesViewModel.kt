@@ -10,6 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import arrow.core.raise.either
+import com.ivy.base.Toaster
 import com.ivy.base.threading.DispatchersProvider
 import com.ivy.data.model.ExchangeRate
 import com.ivy.data.model.primitive.AssetCode
@@ -31,7 +32,8 @@ class ExchangeRatesViewModel @Inject constructor(
     private val syncExchangeRatesUseCase: SyncExchangeRatesUseCase,
     private val currencyRepo: CurrencyRepository,
     private val exchangeRatesRepo: ExchangeRatesRepository,
-    private val dispatchers: DispatchersProvider
+    private val dispatchers: DispatchersProvider,
+    private val toaster: Toaster,
 ) : ComposeViewModel<RatesState, RatesEvent>() {
     private var searchQuery by mutableStateOf("")
     private var baseCurrency by mutableStateOf<AssetCode?>(null)
@@ -97,7 +99,7 @@ class ExchangeRatesViewModel @Inject constructor(
             }.onRight {
                 // Sync to fetch the real rate
                 baseCurrency?.let { syncExchangeRatesUseCase.sync(it) }
-            }
+            }.onLeft { toaster.show(it) }
         }
     }
 
@@ -116,7 +118,7 @@ class ExchangeRatesViewModel @Inject constructor(
                 )
             }.onRight {
                 exchangeRatesRepo.save(it)
-            }
+            }.onLeft { toaster.show(it) }
         }
     }
 
@@ -131,9 +133,8 @@ class ExchangeRatesViewModel @Inject constructor(
                 )
             }.onRight {
                 exchangeRatesRepo.save(it)
-            }
+            }.onLeft { toaster.show(it) }
         }
     }
-
     // endregion
 }

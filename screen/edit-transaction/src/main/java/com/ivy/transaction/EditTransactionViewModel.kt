@@ -333,7 +333,10 @@ class EditTransactionViewModel @Inject constructor(
                 is EditTransactionEvent.TagEvent.OnTagDeSelect -> removeTagAssociation(event.selectedTag)
                 is EditTransactionEvent.TagEvent.OnTagSearch -> searchTag(event.query)
                 is EditTransactionEvent.TagEvent.OnTagDelete -> deleteTag(event.selectedTag)
-                is EditTransactionEvent.TagEvent.OnTagEdit -> updateTagInformation(event.oldTag, event.newTag)
+                is EditTransactionEvent.TagEvent.OnTagEdit -> updateTagInformation(
+                    event.oldTag,
+                    event.newTag
+                )
             }
         }
     }
@@ -747,11 +750,15 @@ class EditTransactionViewModel @Inject constructor(
     @Suppress("ReturnCount")
     private fun validTransaction(): Boolean {
         if (hasChosenSameSourceAndDestinationAccountToTransfer()) {
-            toaster.show(R.string.msg_source_account_destination_account_same_for_transfer)
+            viewModelScope.launch {
+                toaster.show(R.string.msg_source_account_destination_account_same_for_transfer)
+            }
             return false
         }
         if (hasNotChosenAccountToTransfer()) {
-            toaster.show(R.string.msg_select_account_to_transfer)
+            viewModelScope.launch {
+                toaster.show(R.string.msg_select_account_to_transfer)
+            }
             return false
         }
 
