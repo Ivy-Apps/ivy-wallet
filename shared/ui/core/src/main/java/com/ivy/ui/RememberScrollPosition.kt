@@ -3,6 +3,7 @@ package com.ivy.ui
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.saveable.rememberSaveable
 
 /**
@@ -10,6 +11,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
  */
 private val saveMap = mutableMapOf<String, KeyParams>()
 
+@Immutable
 private data class KeyParams(
     val params: String = "",
     val index: Int,
