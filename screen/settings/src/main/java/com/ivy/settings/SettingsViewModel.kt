@@ -7,13 +7,13 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
-import com.ivy.ui.ComposeViewModel
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.refreshWidget
 import com.ivy.data.backup.BackupDataUseCase
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
+import com.ivy.data.model.primitive.AssetCode
 import com.ivy.domain.RootScreen
 import com.ivy.domain.usecase.SyncExchangeRatesUseCase
 import com.ivy.domain.usecase.csv.ExportCsvUseCase
@@ -25,6 +25,7 @@ import com.ivy.legacy.utils.getISOFormattedDateTime
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.uiThread
+import com.ivy.ui.ComposeViewModel
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.action.global.UpdateStartDayOfMonthAct
 import com.ivy.wallet.domain.action.settings.SettingsAct
@@ -232,7 +233,9 @@ class SettingsViewModel @Inject constructor(
                         currency = newCurrency
                     )
                 )
-                syncExchangeRatesUseCase.sync(newCurrency)
+                AssetCode.from(newCurrency).onRight {
+                    syncExchangeRatesUseCase.sync(it)
+                }
             }
         }
     }

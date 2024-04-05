@@ -31,7 +31,7 @@ jobs:
 
       - name: Build Ivy Wallet's code
         run: |
-          ./gradlew :shared:data:assembleDebug :shared:data:assembleAndroidTest
+          ./gradlew :shared:data:core:assembleDebug :shared:data:core:assembleAndroidTest
           ./gradlew :shared:domain:assembleDebug :shared:domain:assembleAndroidTest
 
       - name: Enable KVM (emulator optimization)
@@ -45,5 +45,5 @@ jobs:
         with:
           api-level: 29
           script: |
-            ./gradlew :shared:data:connectedDebugAndroidTest
+            ./gradlew :shared:data:core:connectedDebugAndroidTest
             ./gradlew :shared:domain:connectedDebugAndroidTest

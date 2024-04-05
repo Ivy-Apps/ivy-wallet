@@ -11,4 +11,6 @@ if [ ! -f "settings.gradle.kts" ]; then
     exit 1
 fi
 
-./gradlew :shared:data:connectedDebugAndroidTest || exit 0
+./gradlew :shared:data:core:connectedDebugAndroidTest || exit 1
+./gradlew :shared:domain:connectedDebugAndroidTest || exit 1
+
