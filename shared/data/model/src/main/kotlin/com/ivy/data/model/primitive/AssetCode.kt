@@ -13,6 +13,7 @@ value class AssetCode private constructor(val code: String) {
             return AssetCode(notBlankTrimmed.value.uppercase())
         }
 
+        val USD = AssetCode.unsafe("USD")
         val EUR = AssetCode.unsafe("EUR")
     }
 }

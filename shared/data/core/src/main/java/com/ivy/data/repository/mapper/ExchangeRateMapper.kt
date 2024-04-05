@@ -40,7 +40,7 @@ class ExchangeRateMapper @Inject constructor() {
                 )
             }.getOrNull()
         }
-        ensure(domainRates.isEmpty()) { "Failed to map exchange rates to domain" }
+        ensure(domainRates.isNotEmpty()) { "Failed to map exchange rates to domain" }
         domainRates
     }
 }

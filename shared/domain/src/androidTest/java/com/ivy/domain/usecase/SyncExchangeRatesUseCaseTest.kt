@@ -13,6 +13,7 @@ import com.ivy.data.remote.impl.RemoteExchangeRatesDataSourceImpl
 import com.ivy.data.repository.ExchangeRatesRepository
 import com.ivy.data.repository.impl.ExchangeRatesRepositoryImpl
 import com.ivy.data.repository.mapper.ExchangeRateMapper
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.doubles.shouldBeGreaterThan
 import io.kotest.matchers.nulls.shouldNotBeNull
@@ -60,9 +61,10 @@ class SyncExchangeRatesUseCaseTest {
         val exchangeRatesDao = db.exchangeRatesDao
 
         // when
-        useCase.sync(AssetCode.unsafe("USD"))
+        val res = useCase.sync(AssetCode.USD)
 
         // then
+        res.shouldBeRight()
         val savedRates = exchangeRatesDao.findAll().first()
         savedRates.shouldNotBeEmpty()
         println("Saved ${savedRates.size} exchange rates")

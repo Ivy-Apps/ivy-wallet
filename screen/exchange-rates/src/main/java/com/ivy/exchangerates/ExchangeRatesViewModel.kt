@@ -45,7 +45,11 @@ class ExchangeRatesViewModel @Inject constructor(
     @Composable
     override fun uiState(): RatesState {
         LaunchedEffect(Unit) {
-            baseCurrency = currencyRepo.getBaseCurrency()
+            baseCurrency = currencyRepo.getBaseCurrency().also {
+                viewModelScope.launch {
+                    syncExchangeRatesUseCase.sync(it)
+                }
+            }
         }
 
         val rates = getRates()

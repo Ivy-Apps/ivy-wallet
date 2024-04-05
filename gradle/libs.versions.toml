@@ -179,6 +179,8 @@ testing = [
 ]
 integration-testing = [
     "kotest-assertions",
+    "kotest-assertions-arrow",
+    "kotlin-coroutines-test",
     "androidx-test-core",
     "androidx-test-runner",
     "androidx-test-ext"
