@@ -19,7 +19,7 @@ import com.ivy.frp.action.thenMap
 import com.ivy.frp.then
 import com.ivy.legacy.datamodel.Account
 import com.ivy.piechart.CategoryAmount
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.LegacyCategoryIncomeWithAccountFiltersAct
 import com.ivy.wallet.domain.action.transaction.LegacyCalcTrnsIncomeExpenseAct

@@ -13,7 +13,7 @@ import com.ivy.data.db.dao.fake.FakeTransactionDao
 import com.ivy.data.repository.fake.FakeAccountRepository
 import com.ivy.data.repository.fake.FakeCurrencyRepository
 import com.ivy.data.repository.mapper.AccountMapper
-import com.ivy.testing.testResource
+import com.ivy.data.testResource
 import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
 import io.mockk.mockk
@@ -66,7 +66,7 @@ class BackupDataUseCaseTest {
         fileSystem = mockk(relaxed = true)
     )
 
-    suspend fun backupTestCase(backupVersion: String) {
+    private suspend fun backupTestCase(backupVersion: String) {
         // given
         val originalBackupUseCase = newBackupDataUseCase()
         val backupJsonData = testResource("backups/$backupVersion.json")

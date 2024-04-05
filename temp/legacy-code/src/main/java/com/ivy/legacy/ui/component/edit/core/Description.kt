@@ -17,7 +17,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.legacy.ui.component.edit.PrimaryAttributeColumn
 import com.ivy.legacy.utils.isNotNullOrBlank
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.ui.theme.components.AddPrimaryAttributeButton
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")

@@ -2,7 +2,7 @@ package com.ivy.legacy
 
 import com.ivy.base.legacy.stringRes
 import com.ivy.data.model.IntervalType
-import com.ivy.resources.R
+import com.ivy.ui.R
 import java.time.LocalDateTime
 
 fun IntervalType.forDisplay(intervalN: Int): String {

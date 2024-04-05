@@ -2,8 +2,8 @@ package com.ivy.contributors
 
 import com.ivy.contributors.IvyWalletRepositoryDataSource.ContributorDto
 import com.ivy.contributors.IvyWalletRepositoryDataSource.IvyWalletRepositoryInfo
-import com.ivy.testing.ComposeViewModelTest
-import com.ivy.testing.runTest
+import com.ivy.ui.testing.ComposeViewModelTest
+import com.ivy.ui.testing.runTest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import io.mockk.coEvery

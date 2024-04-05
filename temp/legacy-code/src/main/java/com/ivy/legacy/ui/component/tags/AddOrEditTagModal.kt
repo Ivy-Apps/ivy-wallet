@@ -35,7 +35,7 @@ import com.ivy.wallet.ui.theme.components.IvyTitleTextField
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalPositiveButton
 import com.ivy.wallet.ui.theme.modal.ModalTitle
-import com.ivy.resources.R
+import com.ivy.ui.R
 
 @Suppress("DEPRECATION")
 @SuppressLint("ComposeModifierMissing")

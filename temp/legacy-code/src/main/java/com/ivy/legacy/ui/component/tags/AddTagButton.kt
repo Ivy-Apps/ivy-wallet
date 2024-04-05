@@ -15,7 +15,7 @@ import com.ivy.wallet.ui.theme.components.IvyBorderButton
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import kotlinx.collections.immutable.ImmutableList
-import com.ivy.resources.R
+import com.ivy.ui.R
 
 @Composable
 fun AddTagButton(

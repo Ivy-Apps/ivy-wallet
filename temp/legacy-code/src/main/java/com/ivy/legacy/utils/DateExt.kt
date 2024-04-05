@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.ivy.base.legacy.stringRes
 import com.ivy.frp.Total
-import com.ivy.resources.R
+import com.ivy.ui.R
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime

@@ -22,6 +22,7 @@ import com.ivy.data.repository.TransactionRepository
 import kotlinx.coroutines.withContext
 import org.apache.commons.text.StringEscapeUtils
 import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.time.Instant
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -109,13 +110,7 @@ class ExportCsvUseCase @Inject constructor(
         val columns = mutableListOf<String>()
         val rowScope = object : CsvRowScope {
             override fun csvAppend(value: String?) {
-                columns.add(
-                    if (value != null) {
-                        value.escapeCsvString() + CSV_SEPARATOR
-                    } else {
-                        CSV_SEPARATOR
-                    }
-                )
+                columns.add(value?.escapeCsvString() ?: "")
             }
         }
         rowScope.build()
@@ -194,8 +189,9 @@ class ExportCsvUseCase @Inject constructor(
     private fun Instant.csvFormat(): String = convertToLocal()
         .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
 
-    private fun Double.csvFormat(): String = DecimalFormat.getCurrencyInstance(Locale.ENGLISH)
-        .format(this)
+    private fun Double.csvFormat(): String = DecimalFormat(NUMBER_FORMAT).apply {
+        decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.ENGLISH)
+    }.format(this)
 
     interface CsvRowScope {
         fun csvAppend(value: String?)
@@ -204,5 +200,6 @@ class ExportCsvUseCase @Inject constructor(
     companion object {
         private const val CSV_SEPARATOR = ","
         private const val NEWLINE = "\n"
+        private const val NUMBER_FORMAT = "#,##0.00"
     }
 }

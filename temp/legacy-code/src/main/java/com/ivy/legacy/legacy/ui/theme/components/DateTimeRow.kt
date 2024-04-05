@@ -13,7 +13,7 @@ import com.ivy.legacy.utils.convertUTCtoLocal
 import com.ivy.legacy.utils.formatLocalTime
 import com.ivy.legacy.utils.formatNicely
 import com.ivy.legacy.utils.getTrueDate
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
 import java.time.LocalDateTime
 

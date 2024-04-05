@@ -26,7 +26,7 @@ import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.legacy.utils.springBounce
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.components.IvyDividerDot

@@ -5,7 +5,6 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("org.jetbrains.kotlin.plugin.serialization")
     id("com.google.devtools.ksp")
-
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
 }
@@ -125,15 +124,13 @@ android {
 }
 
 dependencies {
-    implementation(projects.shared.base)
-    implementation(projects.shared.data)
-    implementation(projects.shared.domain)
-    implementation(projects.shared.navigation)
+
     implementation(projects.screen.attributions)
     implementation(projects.screen.balance)
     implementation(projects.screen.budgets)
     implementation(projects.screen.categories)
     implementation(projects.screen.contributors)
+    implementation(projects.screen.editTransaction)
     implementation(projects.screen.exchangeRates)
     implementation(projects.screen.features)
     implementation(projects.screen.home)
@@ -147,8 +144,11 @@ dependencies {
     implementation(projects.screen.reports)
     implementation(projects.screen.search)
     implementation(projects.screen.settings)
-    implementation(projects.screen.editTransaction)
     implementation(projects.screen.transactions)
+    implementation(projects.shared.base)
+    implementation(projects.shared.data)
+    implementation(projects.shared.domain)
+    implementation(projects.shared.ui.navigation)
     implementation(projects.temp.legacyCode)
     implementation(projects.temp.oldDesign)
     implementation(projects.widget.addTransaction)
@@ -183,45 +183,4 @@ dependencies {
     testImplementation(libs.androidx.work.testing)
 
     lintChecks(libs.slack.lint.compose)
-}
-
-dependencies {
-    koverReport {
-        defaults {
-            mergeWith("debug")
-            html {
-                onCheck = false
-                setReportDir(layout.buildDirectory.dir("artifacts/reports/kover/coverageResults"))
-            }
-        }
-    }
-
-    kover(projects.shared.base)
-    kover(projects.shared.data)
-    kover(projects.shared.domain)
-    kover(projects.shared.navigation)
-    kover(projects.shared.resources)
-    kover(projects.widget.sharedBase)
-    kover(projects.screen.attributions)
-    kover(projects.screen.balance)
-    kover(projects.screen.budgets)
-    kover(projects.screen.categories)
-    kover(projects.screen.contributors)
-    kover(projects.screen.exchangeRates)
-    kover(projects.screen.features)
-    kover(projects.screen.home)
-    kover(projects.screen.importData)
-    kover(projects.screen.loans)
-    kover(projects.screen.main)
-    kover(projects.screen.onboarding)
-    kover(projects.screen.piechart)
-    kover(projects.screen.plannedPayments)
-    kover(projects.screen.releases)
-    kover(projects.screen.reports)
-    kover(projects.screen.search)
-    kover(projects.screen.settings)
-    kover(projects.screen.editTransaction)
-    kover(projects.screen.transactions)
-    kover(projects.widget.addTransaction)
-    kover(projects.widget.balance)
 }

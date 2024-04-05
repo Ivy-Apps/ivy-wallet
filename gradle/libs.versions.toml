@@ -142,6 +142,9 @@ slack-lint-compose = { module = "com.slack.lint.compose:compose-lint-checks", ve
 # KSP
 ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version = "1.9.22-1.0.18" }
 
+# Modules Graph
+module-graph-plugin = { module = "com.jraska.module.graph.assertion:plugin", version = "2.5.0" }
+
 [bundles]
 kotlin = [
     "kotlin-stdlib",
