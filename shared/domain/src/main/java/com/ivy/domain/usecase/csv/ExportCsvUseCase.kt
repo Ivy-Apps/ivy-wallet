@@ -109,13 +109,7 @@ class ExportCsvUseCase @Inject constructor(
         val columns = mutableListOf<String>()
         val rowScope = object : CsvRowScope {
             override fun csvAppend(value: String?) {
-                columns.add(
-                    if (value != null) {
-                        value.escapeCsvString() + CSV_SEPARATOR
-                    } else {
-                        CSV_SEPARATOR
-                    }
-                )
+                columns.add(value?.escapeCsvString() ?: "")
             }
         }
         rowScope.build()
