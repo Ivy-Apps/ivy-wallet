@@ -10,7 +10,7 @@ android {
 
 dependencies {
     implementation(projects.shared.base)
-    implementation(projects.shared.data)
+    implementation(projects.shared.data.core)
 
     implementation(libs.datastore)
     implementation(libs.bundles.ktor)
