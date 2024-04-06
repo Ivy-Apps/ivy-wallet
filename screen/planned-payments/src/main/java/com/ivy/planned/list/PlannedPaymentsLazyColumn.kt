@@ -37,6 +37,7 @@ import com.ivy.wallet.ui.theme.components.IvyIcon
 import kotlinx.collections.immutable.ImmutableList
 import kotlin.math.absoluteValue
 
+@Suppress("LongParameterList")
 @Composable
 fun PlannedPaymentsLazyColumn(
     Header: @Composable () -> Unit,
@@ -90,6 +91,7 @@ fun PlannedPaymentsLazyColumn(
     }
 }
 
+@Suppress("LongParameterList")
 private fun LazyListScope.plannedPaymentItems(
     nav: Navigation,
     currency: String,

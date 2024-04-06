@@ -73,7 +73,7 @@ fun BoxWithConstraintsScope.EditPlannedScreen(screen: EditPlannedScreen) {
  * Flow Empty: Type -> Amount -> Category -> Recurring Rule -> Title
  * Flow Amount + Category: Recurring Rule -> Title
  */
-
+@Suppress("LongMethod")
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
