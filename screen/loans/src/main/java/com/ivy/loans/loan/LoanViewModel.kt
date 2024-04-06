@@ -11,9 +11,6 @@ import com.ivy.data.db.dao.read.LoanRecordDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteLoanDao
 import com.ivy.data.model.LoanType
-import com.ivy.ui.ComposeViewModel
-import com.ivy.domain.event.AccountUpdatedEvent
-import com.ivy.domain.event.EventBus
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Loan
@@ -22,6 +19,7 @@ import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.getDefaultFIATCurrency
 import com.ivy.legacy.utils.ioThread
 import com.ivy.loans.loan.data.DisplayLoan
+import com.ivy.ui.ComposeViewModel
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.loan.LoansAct
 import com.ivy.wallet.domain.deprecated.logic.LoanCreator
@@ -49,7 +47,6 @@ class LoanViewModel @Inject constructor(
     private val loanTransactionsLogic: LoanTransactionsLogic,
     private val loansAct: LoansAct,
     private val accountsAct: AccountsAct,
-    private val eventBus: EventBus,
     private val loanWriter: WriteLoanDao,
 ) : ComposeViewModel<LoanScreenState, LoanScreenEvent>() {
 
@@ -278,7 +275,6 @@ class LoanViewModel @Inject constructor(
             TestIdlingResource.increment()
 
             accountCreator.createAccount(data) {
-                eventBus.post(AccountUpdatedEvent)
                 accounts.value = accountsAct(Unit)
             }
 

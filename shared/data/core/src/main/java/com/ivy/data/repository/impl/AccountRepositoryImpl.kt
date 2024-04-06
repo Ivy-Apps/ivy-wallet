@@ -1,8 +1,9 @@
 package com.ivy.data.repository.impl
 
+import com.ivy.base.di.AppCoroutineScope
 import com.ivy.base.threading.DispatchersProvider
+import com.ivy.data.DataObserver
 import com.ivy.data.DataWriteEvent
-import com.ivy.data.DataWriteEventBus
 import com.ivy.data.DeleteOperation
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.write.WriteAccountDao
@@ -10,6 +11,9 @@ import com.ivy.data.model.Account
 import com.ivy.data.model.AccountId
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.mapper.AccountMapper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -20,12 +24,31 @@ class AccountRepositoryImpl @Inject constructor(
     private val accountDao: AccountDao,
     private val writeAccountDao: WriteAccountDao,
     private val dispatchersProvider: DispatchersProvider,
-    private val writeEventBus: DataWriteEventBus,
+    private val dataObserver: DataObserver,
+    @AppCoroutineScope
+    private val appCoroutineScope: CoroutineScope,
 ) : AccountRepository {
 
-    private val accountsMemo = mutableMapOf<com.ivy.data.model.AccountId, com.ivy.data.model.Account>()
+    init {
+        appCoroutineScope.launch {
+            dataObserver.writeEvents.collectLatest { event ->
+                when (event) {
+                    DataWriteEvent.AllDataChange -> {
+                        findAllMemoized = false
+                        accountsMemo.clear()
+                    }
+                    else -> {
+                        // do nothing
+                    }
+                }
+            }
+        }
+    }
 
-    override suspend fun findById(id: com.ivy.data.model.AccountId): com.ivy.data.model.Account? {
+    private val accountsMemo = mutableMapOf<AccountId, Account>()
+    private var findAllMemoized = false
+
+    override suspend fun findById(id: AccountId): Account? {
         return accountsMemo[id] ?: withContext(dispatchersProvider.io) {
             accountDao.findById(id.value)?.let {
                 with(mapper) { it.toDomain() }.getOrNull()
@@ -37,14 +60,17 @@ class AccountRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun findAll(deleted: Boolean): List<com.ivy.data.model.Account> {
-        return if (accountsMemo.isNotEmpty()) {
+    override suspend fun findAll(deleted: Boolean): List<Account> {
+        return if (findAllMemoized) {
             accountsMemo.values.sortedBy { it.orderNum }
         } else {
             withContext(dispatchersProvider.io) {
                 accountDao.findAll(deleted).mapNotNull {
                     with(mapper) { it.toDomain() }.getOrNull()
-                }.also(::memoize)
+                }.also {
+                    memoize(it)
+                    findAllMemoized = true
+                }
             }
         }
     }
@@ -59,38 +85,38 @@ class AccountRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun save(value: com.ivy.data.model.Account) {
+    override suspend fun save(value: Account) {
         withContext(dispatchersProvider.io) {
             writeAccountDao.save(
                 with(mapper) { value.toEntity() }
             )
             // Memoize
             accountsMemo[value.id] = value
-            writeEventBus.post(DataWriteEvent.SaveAccounts(listOf(value)))
+            dataObserver.post(DataWriteEvent.SaveAccounts(listOf(value)))
         }
     }
 
-    override suspend fun saveMany(values: List<com.ivy.data.model.Account>) {
+    override suspend fun saveMany(values: List<Account>) {
         withContext(dispatchersProvider.io) {
             writeAccountDao.saveMany(
                 values.map { with(mapper) { it.toEntity() } }
             )
             memoize(values)
-            writeEventBus.post(DataWriteEvent.SaveAccounts(values))
+            dataObserver.post(DataWriteEvent.SaveAccounts(values))
         }
     }
 
-    private fun memoize(accounts: List<com.ivy.data.model.Account>) {
+    private fun memoize(accounts: List<Account>) {
         accounts.forEach {
             accountsMemo[it.id] = it
         }
     }
 
-    override suspend fun deleteById(id: com.ivy.data.model.AccountId) {
+    override suspend fun deleteById(id: AccountId) {
         withContext(dispatchersProvider.io) {
             accountsMemo.remove(id)
             writeAccountDao.deleteById(id.value)
-            writeEventBus.post(
+            dataObserver.post(
                 DataWriteEvent.DeleteAccounts(DeleteOperation.Just(listOf(id)))
             )
         }
@@ -100,7 +126,7 @@ class AccountRepositoryImpl @Inject constructor(
         withContext(dispatchersProvider.io) {
             accountsMemo.clear()
             writeAccountDao.deleteAll()
-            writeEventBus.post(DataWriteEvent.DeleteAccounts(DeleteOperation.All))
+            dataObserver.post(DataWriteEvent.DeleteAccounts(DeleteOperation.All))
         }
     }
 }

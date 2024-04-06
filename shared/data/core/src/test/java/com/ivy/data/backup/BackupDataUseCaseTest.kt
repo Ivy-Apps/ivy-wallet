@@ -2,6 +2,7 @@ package com.ivy.data.backup
 
 import com.ivy.base.TestDispatchersProvider
 import com.ivy.base.di.KotlinxSerializationModule
+import com.ivy.data.DataObserver
 import com.ivy.data.db.dao.fake.FakeAccountDao
 import com.ivy.data.db.dao.fake.FakeBudgetDao
 import com.ivy.data.db.dao.fake.FakeCategoryDao
@@ -63,7 +64,8 @@ class BackupDataUseCaseTest {
         sharedPrefs = mockk(relaxed = true),
         json = KotlinxSerializationModule.provideJson(),
         dispatchersProvider = TestDispatchersProvider,
-        fileSystem = mockk(relaxed = true)
+        fileSystem = mockk(relaxed = true),
+        dataObserver = DataObserver(),
     )
 
     private suspend fun backupTestCase(backupVersion: String) {

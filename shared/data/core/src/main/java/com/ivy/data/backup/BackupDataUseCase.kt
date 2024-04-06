@@ -7,6 +7,8 @@ import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.unzip
 import com.ivy.base.legacy.zip
 import com.ivy.base.threading.DispatchersProvider
+import com.ivy.data.DataObserver
+import com.ivy.data.DataWriteEvent
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.BudgetDao
 import com.ivy.data.db.dao.read.CategoryDao
@@ -61,6 +63,7 @@ class BackupDataUseCase @Inject constructor(
     private val json: Json,
     private val dispatchersProvider: DispatchersProvider,
     private val fileSystem: FileSystem,
+    private val dataObserver: DataObserver,
 ) {
     suspend fun exportToFile(
         zipFileUri: Uri
@@ -149,6 +152,8 @@ class BackupDataUseCase @Inject constructor(
                 categoriesImported = 0,
                 failedRows = persistentListOf()
             )
+        } finally {
+            dataObserver.post(DataWriteEvent.AllDataChange)
         }
     }
 

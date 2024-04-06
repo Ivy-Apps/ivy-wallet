@@ -261,8 +261,9 @@
     <string name="ivy_telegram">Ivy Telegram group</string>
     <string name="help_center">Help Center</string>
     <string name="roadmap">Roadmap</string>
+    <string name="report_bug">Report a bug</string>
     <string name="request_a_feature">Request a feature</string>
-    <string name="contact_support">Contact support</string>
+    <string name="contact_support">Community support</string>
     <string name="project_contributors">Contributors</string>
     <string name="account_uppercase">ACCOUNT</string>
     <string name="logout">Logout</string>

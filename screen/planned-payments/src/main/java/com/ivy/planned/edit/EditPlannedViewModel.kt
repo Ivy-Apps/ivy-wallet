@@ -11,13 +11,10 @@ import com.ivy.data.db.dao.read.PlannedPaymentRuleDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
-import com.ivy.data.model.IntervalType
-import com.ivy.ui.ComposeViewModel
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
+import com.ivy.data.model.IntervalType
 import com.ivy.data.repository.CategoryRepository
-import com.ivy.domain.event.AccountUpdatedEvent
-import com.ivy.domain.event.EventBus
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.PlannedPaymentRule
 import com.ivy.legacy.datamodel.temp.toDomain
@@ -25,6 +22,7 @@ import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.ioThread
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.Navigation
+import com.ivy.ui.ComposeViewModel
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsGenerator
@@ -53,7 +51,6 @@ class EditPlannedViewModel @Inject constructor(
     private val categoryCreator: CategoryCreator,
     private val accountCreator: AccountCreator,
     private val accountsAct: AccountsAct,
-    private val eventBus: EventBus,
     private val plannedPaymentRuleWriter: WritePlannedPaymentRuleDao,
     private val transactionWriter: WriteTransactionDao,
 ) : ComposeViewModel<EditPlannedScreenState, EditPlannedScreenEvent>() {
@@ -222,8 +219,10 @@ class EditPlannedViewModel @Inject constructor(
             is EditPlannedScreenEvent.OnDelete -> delete()
             is EditPlannedScreenEvent.OnSetTransactionType ->
                 updateTransactionType(event.newTransactionType)
+
             is EditPlannedScreenEvent.OnDescriptionChanged ->
                 updateDescription(event.newDescription)
+
             is EditPlannedScreenEvent.OnCreateAccount -> createAccount(event.data)
             is EditPlannedScreenEvent.OnCreateCategory -> createCategory(event.data)
             is EditPlannedScreenEvent.OnAccountChanged -> updateAccount(event.newAccount)
@@ -231,22 +230,30 @@ class EditPlannedViewModel @Inject constructor(
             is EditPlannedScreenEvent.OnTitleChanged -> updateTitle(event.newTitle)
             is EditPlannedScreenEvent.OnRuleChanged ->
                 updateRule(event.startDate, event.oneTime, event.intervalN, event.intervalType)
+
             is EditPlannedScreenEvent.OnCategoryChanged -> updateCategory(event.newCategory)
             is EditPlannedScreenEvent.OnEditCategory -> editCategory(event.updatedCategory)
             is EditPlannedScreenEvent.OnCategoryModalVisible ->
                 categoryModalVisible.value = event.visible
+
             is EditPlannedScreenEvent.OnCategoryModalDataChanged ->
                 categoryModalData.value = event.categoryModalData
+
             is EditPlannedScreenEvent.OnAccountModalDataChanged ->
                 accountModalData.value = event.accountModalData
+
             is EditPlannedScreenEvent.OnDescriptionModalVisible ->
                 descriptionModalVisible.value = event.visible
+
             is EditPlannedScreenEvent.OnTransactionTypeModalVisible ->
                 transactionTypeModalVisible.value = event.visible
+
             is EditPlannedScreenEvent.OnAmountModalVisible ->
                 amountModalVisible.value = event.visible
+
             is EditPlannedScreenEvent.OnDeleteTransactionModalVisible ->
                 deleteTransactionModalVisible.value = event.visible
+
             is EditPlannedScreenEvent.OnRecurringRuleModalDataChanged ->
                 recurringRuleModalData.value = event.recurringRuleModalData
         }
@@ -449,9 +456,9 @@ class EditPlannedViewModel @Inject constructor(
 
     private fun validateRecurring(): Boolean {
         return startDate.value != null &&
-            intervalN.value != null &&
-            intervalN.value!! > 0 &&
-            intervalType.value != null
+                intervalN.value != null &&
+                intervalN.value!! > 0 &&
+                intervalType.value != null
     }
 
     private fun delete() {
@@ -490,7 +497,6 @@ class EditPlannedViewModel @Inject constructor(
     private fun createAccount(data: CreateAccountData) {
         viewModelScope.launch {
             accountCreator.createAccount(data) {
-                eventBus.post(AccountUpdatedEvent)
                 accounts.value = accountsAct(Unit)
             }
         }

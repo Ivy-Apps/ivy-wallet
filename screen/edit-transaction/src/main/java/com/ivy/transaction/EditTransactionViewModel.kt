@@ -8,17 +8,13 @@ import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.Toaster
+import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.refreshWidget
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.dao.read.LoanDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
-import com.ivy.ui.ComposeViewModel
-import com.ivy.domain.event.AccountUpdatedEvent
-import com.ivy.domain.event.EventBus
-import com.ivy.legacy.data.EditTransactionDisplayLoan
-import com.ivy.base.legacy.SharedPrefs
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.Tag
@@ -27,6 +23,7 @@ import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.repository.TagsRepository
 import com.ivy.data.repository.mapper.TagMapper
+import com.ivy.legacy.data.EditTransactionDisplayLoan
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
@@ -41,6 +38,7 @@ import com.ivy.legacy.utils.uiThread
 import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
+import com.ivy.ui.ComposeViewModel
 import com.ivy.ui.R
 import com.ivy.wallet.domain.action.account.AccountByIdAct
 import com.ivy.wallet.domain.action.account.AccountsAct
@@ -98,7 +96,6 @@ class EditTransactionViewModel @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val trnByIdAct: TrnByIdAct,
     private val accountByIdAct: AccountByIdAct,
-    private val eventBus: EventBus,
     private val transactionWriter: WriteTransactionDao,
     private val tagsRepository: TagsRepository,
     private val tagMapper: TagMapper
@@ -645,7 +642,6 @@ class EditTransactionViewModel @Inject constructor(
     private fun createAccount(data: CreateAccountData) {
         viewModelScope.launch {
             accountCreator.createAccount(data) {
-                eventBus.post(AccountUpdatedEvent)
                 accounts.value = accountsAct(Unit)
             }
         }
