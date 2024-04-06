@@ -17,45 +17,7 @@ class DisclaimerViewModel @Inject constructor(
     private val legalRepo: LegalRepository,
 ) : ComposeViewModel<DisclaimerViewState, DisclaimerViewEvent>() {
 
-    private var checkboxes by mutableStateOf(
-        // LEGAL TEXT:
-        // Do NOT extract or translate these strings
-        listOf(
-            CheckboxViewState(
-                text = """
-                    I understand this app is open-source and community-driven, 
-                    provided 'as-is' without warranties of any kind. 
-                    I acknowledge the app may have errors and agree to use it at my own risk.
-                """.trimIndent(),
-                checked = false,
-            ),
-            CheckboxViewState(
-                text = """
-                    I acknowledge that no warranty, express or implied, 
-                    is made regarding the accuracy, reliability, 
-                    or completeness of the data provided. 
-                    I am responsible for backing up my data to prevent loss.
-                """.trimIndent(),
-                checked = false,
-            ),
-            CheckboxViewState(
-                text = """
-                  I agree the app developers, contributors, and the distributing company shall 
-                  not be liable for any claims, damages, 
-                  or data loss resulting from my use of the app, including security breaches.  
-                """.trimIndent(),
-                checked = false,
-            ),
-            CheckboxViewState(
-                text = """
-                    I am aware the app might display misleading information or inaccuracies. 
-                    I accept responsibility for verifying any financial information 
-                    or calculations before making decisions based on app data.
-                """.trimIndent(),
-                checked = false,
-            ),
-        ).toImmutableList()
-    )
+    private var checkboxes by mutableStateOf(LegalCheckboxes)
 
     @Composable
     override fun uiState(): DisclaimerViewState {
@@ -94,5 +56,45 @@ class DisclaimerViewModel @Inject constructor(
 
     private fun handleExportDataClick() {
         // TODO: Implement
+    }
+
+    companion object {
+        val LegalCheckboxes = // LEGAL TEXT:
+            // Do NOT extract or translate these strings
+            listOf(
+                CheckboxViewState(
+                    text = """
+                    I understand this app is open-source and community-driven, 
+                    provided 'as-is' without warranties of any kind. 
+                    I acknowledge the app may have errors and agree to use it at my own risk.
+                """.trimIndent(),
+                    checked = false,
+                ),
+                CheckboxViewState(
+                    text = """
+                    I acknowledge that no warranty, express or implied, 
+                    is made regarding the accuracy, reliability, 
+                    or completeness of the data provided. 
+                    I am responsible for backing up my data to prevent loss.
+                """.trimIndent(),
+                    checked = false,
+                ),
+                CheckboxViewState(
+                    text = """
+                  I agree the app developers, contributors, and the distributing company shall 
+                  not be liable for any claims, damages, 
+                  or data loss resulting from my use of the app, including security breaches.  
+                """.trimIndent(),
+                    checked = false,
+                ),
+                CheckboxViewState(
+                    text = """
+                    I am aware the app might display misleading information or inaccuracies. 
+                    I accept responsibility for verifying any financial information 
+                    or calculations before making decisions based on app data.
+                """.trimIndent(),
+                    checked = false,
+                ),
+            ).toImmutableList()
     }
 }

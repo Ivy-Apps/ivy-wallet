@@ -7,12 +7,14 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun AgreeButton(
+    enabled: Boolean,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     Button(
         modifier = modifier,
-        onClick = onClick
+        enabled = enabled,
+        onClick = onClick,
     ) {
         Text("I accept and agree")
     }

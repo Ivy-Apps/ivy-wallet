@@ -1,34 +1,31 @@
 package com.ivy.disclaimer
 
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.Modifier
-import androidx.compose.material3.Text
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.Icons
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.TopAppBar
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.ivy.disclaimer.composables.AcceptTermsText
+import com.ivy.disclaimer.composables.AgreeButton
+import com.ivy.disclaimer.composables.AgreementCheckBox
 import com.ivy.disclaimer.composables.DisclaimerTopAppBar
+import com.ivy.disclaimer.composables.ExportDataButton
 import com.ivy.navigation.screenScopedViewModel
 
 @Composable
 fun DisclaimerScreenImpl() {
     val viewModel: DisclaimerViewModel = screenScopedViewModel()
-    val uiState = viewModel.uiState()
-
+    val viewState = viewModel.uiState()
+    DisclaimerScreenUi(viewState = viewState, onEvent = viewModel::onEvent)
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DisclaimerScreenUi(
-    uiState: DisclaimerViewState,
+    viewState: DisclaimerViewState,
     onEvent: (DisclaimerViewEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -38,16 +35,50 @@ fun DisclaimerScreenUi(
             DisclaimerTopAppBar()
         },
         content = { innerPadding ->
-            Content(modifier = Modifier.padding(innerPadding))
+            Content(
+                modifier = Modifier.padding(innerPadding),
+                viewState = viewState,
+                onEvent = onEvent,
+            )
         }
     )
 }
 
 @Composable
 private fun Content(
+    viewState: DisclaimerViewState,
+    onEvent: (DisclaimerViewEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(modifier = modifier) {
-        // Your content goes here
+    LazyColumn(
+        modifier = modifier.padding(horizontal = 16.dp)
+    ) {
+        item {
+            Spacer(modifier = Modifier.height(24.dp))
+            AcceptTermsText()
+        }
+        itemsIndexed(items = viewState.checkboxes) { index, item ->
+            Spacer(modifier = Modifier.height(8.dp))
+            AgreementCheckBox(
+                viewState = item,
+                onClick = {
+                    onEvent(DisclaimerViewEvent.OnCheckboxClick(index))
+                }
+            )
+        }
+        item {
+            Spacer(modifier = Modifier.height(24.dp))
+            ExportDataButton { onEvent(DisclaimerViewEvent.OnExportDataClick) }
+        }
+        item {
+            Spacer(modifier = Modifier.height(12.dp))
+            AgreeButton(
+                enabled = viewState.agreeButtonEnabled,
+            ) { onEvent(DisclaimerViewEvent.OnAgreeClick) }
+        }
+        item {
+            // To ensure proper scrolling
+            Spacer(modifier = Modifier.height(48.dp))
+        }
     }
 }
