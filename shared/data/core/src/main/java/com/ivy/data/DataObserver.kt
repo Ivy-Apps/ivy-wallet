@@ -4,6 +4,8 @@ import com.ivy.data.model.Account
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
+import com.ivy.data.model.Tag
+import com.ivy.data.model.primitive.TagId
 import com.ivy.data.model.sync.UniqueId
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -30,6 +32,10 @@ sealed interface DataWriteEvent {
     sealed interface CategoryChange : DataWriteEvent
     data class SaveCategories(val categories: List<Category>) : CategoryChange
     data class DeleteCategories(val operation: DeleteOperation<CategoryId>) : CategoryChange
+
+    sealed interface TagChange : DataWriteEvent
+    data class SaveTags(val tags: List<Tag>) : TagChange
+    data class DeleteTags(val operation: DeleteOperation<TagId>) : TagChange
 }
 
 sealed interface DeleteOperation<out Id : UniqueId> {

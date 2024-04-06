@@ -21,8 +21,8 @@ class TagMapper @Inject constructor() {
         fun createNewTagId(): TagId = TagId(UUID.randomUUID())
     }
 
-    fun TagEntity.toDomain(): Either<String, com.ivy.data.model.Tag> = either {
-        com.ivy.data.model.Tag(
+    fun TagEntity.toDomain(): Either<String, Tag> = either {
+        Tag(
             id = TagId(id),
             name = NotBlankTrimmedString.from(name).bind(),
             description = description,
@@ -35,7 +35,7 @@ class TagMapper @Inject constructor() {
         )
     }
 
-    fun com.ivy.data.model.Tag.toEntity(): TagEntity {
+    fun Tag.toEntity(): TagEntity {
         return TagEntity(
             id = id.value,
             name = name.value,
@@ -49,7 +49,7 @@ class TagMapper @Inject constructor() {
         )
     }
 
-    fun com.ivy.data.model.TagAssociation.toEntity(): TagAssociationEntity {
+    fun TagAssociation.toEntity(): TagAssociationEntity {
         return TagAssociationEntity(
             tagId = id.value,
             associatedId = associatedId.value,
@@ -58,8 +58,8 @@ class TagMapper @Inject constructor() {
         )
     }
 
-    fun TagAssociationEntity.toDomain(): com.ivy.data.model.TagAssociation {
-        return com.ivy.data.model.TagAssociation(
+    fun TagAssociationEntity.toDomain(): TagAssociation {
+        return TagAssociation(
             id = TagId(tagId),
             associatedId = AssociationId(associatedId),
             lastUpdated = lastSyncedTime,
@@ -67,8 +67,8 @@ class TagMapper @Inject constructor() {
         )
     }
 
-    fun createNewTag(tagId: TagId = createNewTagId(), name: NotBlankTrimmedString): com.ivy.data.model.Tag {
-        return com.ivy.data.model.Tag(
+    fun createNewTag(tagId: TagId = createNewTagId(), name: NotBlankTrimmedString): Tag {
+        return Tag(
             id = tagId,
             name = name,
             description = null,
@@ -81,8 +81,8 @@ class TagMapper @Inject constructor() {
         )
     }
 
-    fun createNewTagAssociation(tagId: TagId, associationId: AssociationId): com.ivy.data.model.TagAssociation {
-        return com.ivy.data.model.TagAssociation(
+    fun createNewTagAssociation(tagId: TagId, associationId: AssociationId): TagAssociation {
+        return TagAssociation(
             id = tagId,
             associatedId = associationId,
             lastUpdated = Instant.EPOCH,

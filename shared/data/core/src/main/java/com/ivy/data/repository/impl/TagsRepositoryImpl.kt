@@ -1,6 +1,10 @@
 package com.ivy.data.repository.impl
 
+import com.ivy.base.di.AppCoroutineScope
 import com.ivy.base.threading.DispatchersProvider
+import com.ivy.data.DataObserver
+import com.ivy.data.DataWriteEvent
+import com.ivy.data.DeleteOperation
 import com.ivy.data.db.dao.read.TagAssociationDao
 import com.ivy.data.db.dao.read.TagDao
 import com.ivy.data.db.dao.write.WriteTagAssociationDao
@@ -11,8 +15,11 @@ import com.ivy.data.model.primitive.AssociationId
 import com.ivy.data.model.primitive.TagId
 import com.ivy.data.repository.TagsRepository
 import com.ivy.data.repository.mapper.TagMapper
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.UUID
 import javax.inject.Inject
@@ -25,10 +32,27 @@ class TagsRepositoryImpl @Inject constructor(
     private val tagAssociationDao: TagAssociationDao,
     private val writeTagDao: WriteTagDao,
     private val writeTagAssociationDao: WriteTagAssociationDao,
-    private val dispatchersProvider: DispatchersProvider
+    private val dispatchersProvider: DispatchersProvider,
+    private val dataObserver: DataObserver,
+    @AppCoroutineScope
+    private val appCoroutineScope: CoroutineScope
 ) : TagsRepository {
-    companion object {
-        private const val MAX_SQL_LITE_QUERY_SIZE = 999
+
+    init {
+        appCoroutineScope.launch {
+            dataObserver.writeEvents.collectLatest { event ->
+                when (event) {
+                    DataWriteEvent.AllDataChange -> {
+                        findAllMemoized = false
+                        tagsMemo.clear()
+                    }
+
+                    else -> {
+                        // do nothing
+                    }
+                }
+            }
+        }
     }
 
     private val tagsMemo = mutableMapOf<TagId, Tag>()
@@ -153,6 +177,7 @@ class TagsRepositoryImpl @Inject constructor(
             writeTagDao.save(with(mapper) { value.toEntity() })
         }.also {
             memoize(value)
+            dataObserver.post(DataWriteEvent.SaveTags(listOf(value)))
         }
     }
 
@@ -160,6 +185,7 @@ class TagsRepositoryImpl @Inject constructor(
         withContext(dispatchersProvider.io) {
             writeTagDao.update(with(mapper) { value.toEntity() })
             memoize(value)
+            dataObserver.post(DataWriteEvent.SaveTags(listOf(value)))
         }
     }
 
@@ -168,6 +194,7 @@ class TagsRepositoryImpl @Inject constructor(
             writeTagAssociationDao.deleteAssociationsByTagId(id.value)
             writeTagDao.deleteById(id.value)
             tagsMemo.remove(id)
+            dataObserver.post(DataWriteEvent.DeleteTags(DeleteOperation.Just(listOf(id))))
         }
     }
 
@@ -176,6 +203,7 @@ class TagsRepositoryImpl @Inject constructor(
             tagsMemo.clear()
             writeTagAssociationDao.deleteAll()
             writeTagDao.deleteAll()
+            dataObserver.post(DataWriteEvent.DeleteTags(DeleteOperation.All))
         }
     }
 
@@ -188,4 +216,8 @@ class TagsRepositoryImpl @Inject constructor(
     }
 
     private fun List<TagId>.toRawValues(): List<UUID> = this.map { it.value }
+
+    companion object {
+        private const val MAX_SQL_LITE_QUERY_SIZE = 999
+    }
 }
