@@ -2,13 +2,11 @@ package com.ivy.data.repository.impl
 
 import com.ivy.base.TestDispatchersProvider
 import com.ivy.data.DataWriteEvent
-import com.ivy.data.DataWriteEventBus
+import com.ivy.data.DataObserver
 import com.ivy.data.DeleteOperation
 import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.data.db.entity.CategoryEntity
-import com.ivy.data.model.Category
-import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.CategoryRepository
@@ -28,7 +26,7 @@ import java.util.UUID
 class CategoryRepositoryImplTest {
     private val categoryDao = mockk<CategoryDao>()
     private val writeCategoryDao = mockk<WriteCategoryDao>()
-    private val writeEventBus = mockk<DataWriteEventBus>(relaxed = true)
+    private val writeEventBus = mockk<DataObserver>(relaxed = true)
 
     private lateinit var repository: CategoryRepository
 

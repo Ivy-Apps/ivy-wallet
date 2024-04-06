@@ -2,7 +2,7 @@ package com.ivy.data.repository.impl
 
 import com.ivy.base.threading.DispatchersProvider
 import com.ivy.data.DataWriteEvent
-import com.ivy.data.DataWriteEventBus
+import com.ivy.data.DataObserver
 import com.ivy.data.DeleteOperation
 import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.data.db.dao.write.WriteCategoryDao
@@ -20,13 +20,13 @@ class CategoryRepositoryImpl @Inject constructor(
     private val writeCategoryDao: WriteCategoryDao,
     private val categoryDao: CategoryDao,
     private val dispatchersProvider: DispatchersProvider,
-    private val writeEventBus: DataWriteEventBus,
+    private val writeEventBus: DataObserver,
 ) : CategoryRepository {
 
-    private val categoriesMemo = mutableMapOf<com.ivy.data.model.CategoryId, com.ivy.data.model.Category>()
+    private val categoriesMemo = mutableMapOf<CategoryId, Category>()
     private var findAllMemoized: Boolean = false
 
-    override suspend fun findAll(deleted: Boolean): List<com.ivy.data.model.Category> {
+    override suspend fun findAll(deleted: Boolean): List<Category> {
         return if (findAllMemoized) {
             categoriesMemo.values.sortedBy { it.orderNum }
         } else {
@@ -40,7 +40,7 @@ class CategoryRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun findById(id: com.ivy.data.model.CategoryId): com.ivy.data.model.Category? {
+    override suspend fun findById(id: CategoryId): Category? {
         return categoriesMemo[id] ?: withContext(dispatchersProvider.io) {
             categoryDao.findById(id.value)?.let {
                 with(mapper) { it.toDomain() }.getOrNull()
@@ -62,7 +62,7 @@ class CategoryRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun save(value: com.ivy.data.model.Category) {
+    override suspend fun save(value: Category) {
         return withContext(dispatchersProvider.io) {
             writeCategoryDao.save(
                 with(mapper) { value.toEntity() }
@@ -72,7 +72,7 @@ class CategoryRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveMany(values: List<com.ivy.data.model.Category>) {
+    override suspend fun saveMany(values: List<Category>) {
         withContext(dispatchersProvider.io) {
             writeCategoryDao.saveMany(
                 values.map { with(mapper) { it.toEntity() } }
@@ -82,7 +82,7 @@ class CategoryRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteById(id: com.ivy.data.model.CategoryId) {
+    override suspend fun deleteById(id: CategoryId) {
         withContext(dispatchersProvider.io) {
             categoriesMemo.remove(id)
             writeCategoryDao.deleteById(id.value)
@@ -102,7 +102,7 @@ class CategoryRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun memoize(accounts: List<com.ivy.data.model.Category>) {
+    private fun memoize(accounts: List<Category>) {
         accounts.forEach {
             categoriesMemo[it.id] = it
         }

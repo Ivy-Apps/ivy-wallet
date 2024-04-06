@@ -1,6 +1,6 @@
 package com.ivy.data.repository.fake
 
-import com.ivy.data.DataWriteEventBus
+import com.ivy.data.DataObserver
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteAccountDao
@@ -27,6 +27,6 @@ class FakeAccountRepository(
         accountDao = accountDao,
         writeAccountDao = writeAccountDao,
         dispatchersProvider = TestDispatchersProvider,
-        writeEventBus = DataWriteEventBus(),
+        writeEventBus = DataObserver(),
     )
 ) : AccountRepository by accountRepository

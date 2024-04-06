@@ -10,48 +10,48 @@ import java.math.BigDecimal
 import java.time.Instant
 import java.util.UUID
 
-fun com.ivy.data.model.Transaction.getValue(): BigDecimal =
+fun Transaction.getValue(): BigDecimal =
     when (this) {
-        is com.ivy.data.model.Expense -> value.amount.value.toBigDecimal()
-        is com.ivy.data.model.Income -> value.amount.value.toBigDecimal()
-        is com.ivy.data.model.Transfer -> fromValue.amount.value.toBigDecimal()
+        is Expense -> value.amount.value.toBigDecimal()
+        is Income -> value.amount.value.toBigDecimal()
+        is Transfer -> fromValue.amount.value.toBigDecimal()
     }
 
-fun com.ivy.data.model.Transaction.getAccountId(): UUID =
+fun Transaction.getAccountId(): UUID =
     when (this) {
-        is com.ivy.data.model.Expense -> account.value
-        is com.ivy.data.model.Income -> account.value
-        is com.ivy.data.model.Transfer -> fromAccount.value
+        is Expense -> account.value
+        is Income -> account.value
+        is Transfer -> fromAccount.value
     }
 
-fun com.ivy.data.model.Transaction.getAccount(): com.ivy.data.model.AccountId = when (this) {
-    is com.ivy.data.model.Expense -> account
-    is com.ivy.data.model.Income -> account
-    is com.ivy.data.model.Transfer -> fromAccount
+fun Transaction.getAccount(): AccountId = when (this) {
+    is Expense -> account
+    is Income -> account
+    is Transfer -> fromAccount
 }
 
-fun com.ivy.data.model.Transaction.getTransactionType(): TransactionType {
+fun Transaction.getTransactionType(): TransactionType {
     return when (this) {
-        is com.ivy.data.model.Expense -> TransactionType.EXPENSE
-        is com.ivy.data.model.Income -> TransactionType.INCOME
-        is com.ivy.data.model.Transfer -> TransactionType.TRANSFER
+        is Expense -> TransactionType.EXPENSE
+        is Income -> TransactionType.INCOME
+        is Transfer -> TransactionType.TRANSFER
     }
 }
 
-fun com.ivy.data.model.Transaction.settleNow(): com.ivy.data.model.Transaction {
+fun Transaction.settleNow(): Transaction {
     val timeNow = Instant.now()
     return when (this) {
-        is com.ivy.data.model.Income -> this.copy(
+        is Income -> this.copy(
             settled = true,
             time = timeNow
         )
 
-        is com.ivy.data.model.Expense -> this.copy(
+        is Expense -> this.copy(
             settled = true,
             time = timeNow
         )
 
-        is com.ivy.data.model.Transfer -> this.copy(
+        is Transfer -> this.copy(
             settled = true,
             time = timeNow
         )

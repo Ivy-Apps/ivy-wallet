@@ -2,14 +2,12 @@ package com.ivy.data.repository.impl
 
 import com.ivy.base.TestDispatchersProvider
 import com.ivy.data.DataWriteEvent
-import com.ivy.data.DataWriteEventBus
+import com.ivy.data.DataObserver
 import com.ivy.data.DeleteOperation
 import com.ivy.data.db.dao.fake.FakeSettingsDao
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.write.WriteAccountDao
 import com.ivy.data.db.entity.AccountEntity
-import com.ivy.data.model.Account
-import com.ivy.data.model.AccountId
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.NotBlankTrimmedString
@@ -31,7 +29,7 @@ import java.util.UUID
 class AccountRepositoryImplTest {
     val accountDao = mockk<AccountDao>()
     val writeAccountDao = mockk<WriteAccountDao>()
-    val writeEventBus = mockk<DataWriteEventBus>(relaxed = true)
+    val writeEventBus = mockk<DataObserver>(relaxed = true)
 
     private lateinit var repository: AccountRepository
 

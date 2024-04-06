@@ -2,7 +2,7 @@ package com.ivy.data.repository.impl
 
 import com.ivy.base.threading.DispatchersProvider
 import com.ivy.data.DataWriteEvent
-import com.ivy.data.DataWriteEventBus
+import com.ivy.data.DataObserver
 import com.ivy.data.DeleteOperation
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.write.WriteAccountDao
@@ -20,12 +20,12 @@ class AccountRepositoryImpl @Inject constructor(
     private val accountDao: AccountDao,
     private val writeAccountDao: WriteAccountDao,
     private val dispatchersProvider: DispatchersProvider,
-    private val writeEventBus: DataWriteEventBus,
+    private val writeEventBus: DataObserver,
 ) : AccountRepository {
 
-    private val accountsMemo = mutableMapOf<com.ivy.data.model.AccountId, com.ivy.data.model.Account>()
+    private val accountsMemo = mutableMapOf<AccountId, Account>()
 
-    override suspend fun findById(id: com.ivy.data.model.AccountId): com.ivy.data.model.Account? {
+    override suspend fun findById(id: AccountId): Account? {
         return accountsMemo[id] ?: withContext(dispatchersProvider.io) {
             accountDao.findById(id.value)?.let {
                 with(mapper) { it.toDomain() }.getOrNull()
@@ -37,7 +37,7 @@ class AccountRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun findAll(deleted: Boolean): List<com.ivy.data.model.Account> {
+    override suspend fun findAll(deleted: Boolean): List<Account> {
         return if (accountsMemo.isNotEmpty()) {
             accountsMemo.values.sortedBy { it.orderNum }
         } else {
@@ -59,7 +59,7 @@ class AccountRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun save(value: com.ivy.data.model.Account) {
+    override suspend fun save(value: Account) {
         withContext(dispatchersProvider.io) {
             writeAccountDao.save(
                 with(mapper) { value.toEntity() }
@@ -70,7 +70,7 @@ class AccountRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveMany(values: List<com.ivy.data.model.Account>) {
+    override suspend fun saveMany(values: List<Account>) {
         withContext(dispatchersProvider.io) {
             writeAccountDao.saveMany(
                 values.map { with(mapper) { it.toEntity() } }
@@ -80,13 +80,13 @@ class AccountRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun memoize(accounts: List<com.ivy.data.model.Account>) {
+    private fun memoize(accounts: List<Account>) {
         accounts.forEach {
             accountsMemo[it.id] = it
         }
     }
 
-    override suspend fun deleteById(id: com.ivy.data.model.AccountId) {
+    override suspend fun deleteById(id: AccountId) {
         withContext(dispatchersProvider.io) {
             accountsMemo.remove(id)
             writeAccountDao.deleteById(id.value)
