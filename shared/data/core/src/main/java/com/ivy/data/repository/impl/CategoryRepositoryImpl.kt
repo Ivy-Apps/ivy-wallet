@@ -1,8 +1,9 @@
 package com.ivy.data.repository.impl
 
+import com.ivy.base.di.AppCoroutineScope
 import com.ivy.base.threading.DispatchersProvider
-import com.ivy.data.DataWriteEvent
 import com.ivy.data.DataObserver
+import com.ivy.data.DataWriteEvent
 import com.ivy.data.DeleteOperation
 import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.data.db.dao.write.WriteCategoryDao
@@ -10,6 +11,9 @@ import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.repository.mapper.CategoryMapper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -20,8 +24,37 @@ class CategoryRepositoryImpl @Inject constructor(
     private val writeCategoryDao: WriteCategoryDao,
     private val categoryDao: CategoryDao,
     private val dispatchersProvider: DispatchersProvider,
-    private val writeEventBus: DataObserver,
+    private val dataObserver: DataObserver,
+    @AppCoroutineScope
+    private val appCoroutineScope: CoroutineScope
 ) : CategoryRepository {
+
+    init {
+        appCoroutineScope.launch {
+            dataObserver.writeEvents.collectLatest { event ->
+                when (event) {
+                    DataWriteEvent.AllDataChange -> categoriesMemo.clear()
+                    is DataWriteEvent.DeleteCategories -> {
+                        when (val op = event.operation) {
+                            DeleteOperation.All -> categoriesMemo.clear()
+                            is DeleteOperation.Just -> {
+                                op.ids.forEach(categoriesMemo::remove)
+                            }
+                        }
+                    }
+
+                    is DataWriteEvent.SaveCategories -> {
+                        event.categories.map(Category::id)
+                            .forEach(categoriesMemo::remove)
+                    }
+
+                    else -> {
+                        // do nothing
+                    }
+                }
+            }
+        }
+    }
 
     private val categoriesMemo = mutableMapOf<CategoryId, Category>()
     private var findAllMemoized: Boolean = false
@@ -68,7 +101,7 @@ class CategoryRepositoryImpl @Inject constructor(
                 with(mapper) { value.toEntity() }
             )
             categoriesMemo[value.id] = value
-            writeEventBus.post(DataWriteEvent.SaveCategories(listOf(value)))
+            dataObserver.post(DataWriteEvent.SaveCategories(listOf(value)))
         }
     }
 
@@ -78,7 +111,7 @@ class CategoryRepositoryImpl @Inject constructor(
                 values.map { with(mapper) { it.toEntity() } }
             )
             memoize(values)
-            writeEventBus.post(DataWriteEvent.SaveCategories(values))
+            dataObserver.post(DataWriteEvent.SaveCategories(values))
         }
     }
 
@@ -86,7 +119,7 @@ class CategoryRepositoryImpl @Inject constructor(
         withContext(dispatchersProvider.io) {
             categoriesMemo.remove(id)
             writeCategoryDao.deleteById(id.value)
-            writeEventBus.post(
+            dataObserver.post(
                 DataWriteEvent.DeleteCategories(
                     DeleteOperation.Just(listOf(id))
                 )
@@ -98,7 +131,7 @@ class CategoryRepositoryImpl @Inject constructor(
         withContext(dispatchersProvider.io) {
             categoriesMemo.clear()
             writeCategoryDao.deleteAll()
-            writeEventBus.post(DataWriteEvent.DeleteCategories(DeleteOperation.All))
+            dataObserver.post(DataWriteEvent.DeleteCategories(DeleteOperation.All))
         }
     }
 

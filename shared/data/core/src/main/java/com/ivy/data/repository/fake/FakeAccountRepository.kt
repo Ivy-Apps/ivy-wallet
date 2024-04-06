@@ -1,5 +1,6 @@
 package com.ivy.data.repository.fake
 
+import com.ivy.base.TestCoroutineScope
 import com.ivy.data.DataObserver
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.SettingsDao
@@ -27,6 +28,7 @@ class FakeAccountRepository(
         accountDao = accountDao,
         writeAccountDao = writeAccountDao,
         dispatchersProvider = TestDispatchersProvider,
-        writeEventBus = DataObserver(),
+        dataObserver = DataObserver(),
+        appCoroutineScope = TestCoroutineScope
     )
 ) : AccountRepository by accountRepository

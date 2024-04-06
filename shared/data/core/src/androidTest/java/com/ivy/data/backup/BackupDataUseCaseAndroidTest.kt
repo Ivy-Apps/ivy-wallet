@@ -15,6 +15,7 @@ import com.ivy.data.repository.fake.FakeAccountRepository
 import com.ivy.data.repository.fake.FakeCurrencyRepository
 import com.ivy.data.repository.mapper.AccountMapper
 import com.ivy.base.TestDispatchersProvider
+import com.ivy.data.DataObserver
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.ints.shouldBeGreaterThan
 import kotlinx.coroutines.runBlocking
@@ -67,7 +68,8 @@ class BackupDataUseCaseAndroidTest {
             context = appContext,
             json = KotlinxSerializationModule.provideJson(),
             dispatchersProvider = TestDispatchersProvider,
-            fileSystem = FileSystem(appContext)
+            fileSystem = FileSystem(appContext),
+            dataObserver = DataObserver(),
         )
     }
 

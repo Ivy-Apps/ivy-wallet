@@ -1,5 +1,6 @@
 package com.ivy.data.repository.impl
 
+import com.ivy.base.TestCoroutineScope
 import com.ivy.base.TestDispatchersProvider
 import com.ivy.data.DataWriteEvent
 import com.ivy.data.DataObserver
@@ -41,7 +42,8 @@ class AccountRepositoryImplTest {
             accountDao = accountDao,
             writeAccountDao = writeAccountDao,
             dispatchersProvider = TestDispatchersProvider,
-            writeEventBus = writeEventBus,
+            dataObserver = writeEventBus,
+            appCoroutineScope = TestCoroutineScope,
         )
     }
 

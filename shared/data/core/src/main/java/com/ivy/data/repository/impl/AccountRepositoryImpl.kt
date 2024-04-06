@@ -1,8 +1,9 @@
 package com.ivy.data.repository.impl
 
+import com.ivy.base.di.AppCoroutineScope
 import com.ivy.base.threading.DispatchersProvider
-import com.ivy.data.DataWriteEvent
 import com.ivy.data.DataObserver
+import com.ivy.data.DataWriteEvent
 import com.ivy.data.DeleteOperation
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.write.WriteAccountDao
@@ -10,6 +11,9 @@ import com.ivy.data.model.Account
 import com.ivy.data.model.AccountId
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.mapper.AccountMapper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -20,8 +24,37 @@ class AccountRepositoryImpl @Inject constructor(
     private val accountDao: AccountDao,
     private val writeAccountDao: WriteAccountDao,
     private val dispatchersProvider: DispatchersProvider,
-    private val writeEventBus: DataObserver,
+    private val dataObserver: DataObserver,
+    @AppCoroutineScope
+    private val appCoroutineScope: CoroutineScope,
 ) : AccountRepository {
+
+    init {
+        appCoroutineScope.launch {
+            dataObserver.writeEvents.collectLatest { event ->
+                when (event) {
+                    DataWriteEvent.AllDataChange -> accountsMemo.clear()
+                    is DataWriteEvent.DeleteAccounts -> {
+                        when (val op = event.operation) {
+                            DeleteOperation.All -> accountsMemo.clear()
+                            is DeleteOperation.Just -> {
+                                op.ids.forEach(accountsMemo::remove)
+                            }
+                        }
+                    }
+
+                    is DataWriteEvent.SaveAccounts -> {
+                        event.accounts.map(Account::id)
+                            .forEach(accountsMemo::remove)
+                    }
+
+                    else -> {
+                        // do nothing
+                    }
+                }
+            }
+        }
+    }
 
     private val accountsMemo = mutableMapOf<AccountId, Account>()
 
@@ -66,7 +99,7 @@ class AccountRepositoryImpl @Inject constructor(
             )
             // Memoize
             accountsMemo[value.id] = value
-            writeEventBus.post(DataWriteEvent.SaveAccounts(listOf(value)))
+            dataObserver.post(DataWriteEvent.SaveAccounts(listOf(value)))
         }
     }
 
@@ -76,7 +109,7 @@ class AccountRepositoryImpl @Inject constructor(
                 values.map { with(mapper) { it.toEntity() } }
             )
             memoize(values)
-            writeEventBus.post(DataWriteEvent.SaveAccounts(values))
+            dataObserver.post(DataWriteEvent.SaveAccounts(values))
         }
     }
 
@@ -90,7 +123,7 @@ class AccountRepositoryImpl @Inject constructor(
         withContext(dispatchersProvider.io) {
             accountsMemo.remove(id)
             writeAccountDao.deleteById(id.value)
-            writeEventBus.post(
+            dataObserver.post(
                 DataWriteEvent.DeleteAccounts(DeleteOperation.Just(listOf(id)))
             )
         }
@@ -100,7 +133,7 @@ class AccountRepositoryImpl @Inject constructor(
         withContext(dispatchersProvider.io) {
             accountsMemo.clear()
             writeAccountDao.deleteAll()
-            writeEventBus.post(DataWriteEvent.DeleteAccounts(DeleteOperation.All))
+            dataObserver.post(DataWriteEvent.DeleteAccounts(DeleteOperation.All))
         }
     }
 }
