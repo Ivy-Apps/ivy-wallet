@@ -33,7 +33,6 @@ class DisclaimerViewModel @Inject constructor(
         when (event) {
             DisclaimerViewEvent.OnAgreeClick -> handleAgreeClick()
             is DisclaimerViewEvent.OnCheckboxClick -> handleCheckboxClick(event)
-            DisclaimerViewEvent.OnExportDataClick -> handleExportDataClick()
         }
     }
 
@@ -54,10 +53,6 @@ class DisclaimerViewModel @Inject constructor(
                 item
             }
         }.toImmutableList()
-    }
-
-    private fun handleExportDataClick() {
-        // TODO: Implement
     }
 
     companion object {

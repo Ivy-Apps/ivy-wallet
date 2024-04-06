@@ -13,7 +13,6 @@ import com.ivy.disclaimer.composables.AcceptTermsText
 import com.ivy.disclaimer.composables.AgreeButton
 import com.ivy.disclaimer.composables.AgreementCheckBox
 import com.ivy.disclaimer.composables.DisclaimerTopAppBar
-import com.ivy.disclaimer.composables.ExportDataButton
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.component.OpenSourceCard
 
@@ -55,7 +54,6 @@ private fun Content(
         modifier = modifier.padding(horizontal = 16.dp)
     ) {
         item {
-            Spacer(modifier = Modifier.height(12.dp))
             OpenSourceCard()
         }
         item {
@@ -76,10 +74,6 @@ private fun Content(
             AgreeButton(
                 enabled = viewState.agreeButtonEnabled,
             ) { onEvent(DisclaimerViewEvent.OnAgreeClick) }
-        }
-        item {
-            Spacer(modifier = Modifier.height(8.dp))
-            ExportDataButton { onEvent(DisclaimerViewEvent.OnExportDataClick) }
         }
         item {
             // To ensure proper scrolling

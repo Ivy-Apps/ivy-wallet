@@ -15,5 +15,4 @@ data class CheckboxViewState(
 sealed interface DisclaimerViewEvent {
     data class OnCheckboxClick(val index: Int) : DisclaimerViewEvent
     data object OnAgreeClick : DisclaimerViewEvent
-    data object OnExportDataClick : DisclaimerViewEvent
 }
