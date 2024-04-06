@@ -89,7 +89,6 @@
     <string name="confirm_account_change">Дансны өөрчлөлтийг хадгалах</string>
     <string name="confirm_account_change_description">Санамж: Та зээлийн тооцоотой холбогдсон дансыг өөр мөнгөн тэмдэгтэй дансаар солих гэж байна, \nХолбогдох бүх тооцоо өнөөдрийн валютын ханшаар дахин бодогдох болно </string>
     <string name="confirm">Батлах</string>
-    <string name="account_change_recalculating">Түр хүлээнэ үү, зээлүүдийн тооцоог дахин бодож байна</string>
     <string name="created_on">Үүссэн огноо</string>
     <string name="hi">Сайн уу?</string>
     <string name="hi_name">Сайн уу, %1$s</string>
@@ -277,7 +276,7 @@
     <string name="buffer_exceeded_by">Илүү зарцуулсан дүн</string>
     <string name="set_transaction_type">Гүйлгээний төрөл</string>
     <string name="transfer">Шилжүүлэг</string>
-    <string name="selected">Сонгогдсон</string>
+    <string name="selected_text">Сонгогдсон</string>
     <string name="search_currency">Хайх (MNT, USD, KRW, BTC гэх мэт)</string>
     <string name="pre_selected">Урьдчилан сонгогдсон</string>
     <string name="crypto">Крипто</string>

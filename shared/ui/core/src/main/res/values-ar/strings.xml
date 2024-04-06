@@ -89,7 +89,6 @@
     <string name="confirm_account_change">تأكيد تغيير الحساب</string>
     <string name="confirm_account_change_description">ملاحظة: انت تحاول ان تغير حساب مرتبط بقرض من حساب بعملة مختلفة, \n سجلات القرض سوف يتم اعادة حسابها وفقا لأسعار الصرف اليوم</string>
     <string name="confirm">تأكيد</string>
-    <string name="account_change_recalculating">الرجاء الانتظارو يتم إعادة حساب سجلات القرض</string>
     <string name="created_on">تم الانشاء في</string>
     <string name="hi">أهلا</string>
     <string name="hi_name">أهلا %1$s</string>
@@ -277,7 +276,7 @@
     <string name="buffer_exceeded_by">تجاوزت حاجز الإنفاق ب</string>
     <string name="set_transaction_type">تحديد نوع المعاملة</string>
     <string name="transfer">تحويل</string>
-    <string name="selected">تم تحديده</string>
+    <string name="selected_text">تم تحديده</string>
     <string name="search_currency">(USD, EUR, GBP, BTC, الخ) ابحث </string>
     <string name="pre_selected">محدد مسبقًا</string>
     <string name="crypto">عملة رقمية</string>

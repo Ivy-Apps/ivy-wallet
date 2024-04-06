@@ -150,7 +150,7 @@ fun BoxWithConstraintsScope.OnboardingAccounts(
 
                 Text(
                     modifier = Modifier.padding(horizontal = 32.dp),
-                    text = stringResource(R.string.suggestion),
+                    text = stringResource(R.string.suggestions),
                     style = UI.typo.b1.style(
                         fontWeight = FontWeight.ExtraBold
                     )

@@ -89,7 +89,6 @@
     <string name="confirm_account_change">Conferma cambio contro</string>
     <string name="confirm_account_change_description">Nota: Stai cercando di modificare il conto associato al prestito con un conto di valuta diversa, \nTutti i record del prestito saranno ricalcolati in base ai tassi di cambio di oggi </string>
     <string name="confirm">Conferma</string>
-    <string name="account_change_recalculating">Attendi, tutti i prestiti stanno venendo ricalcolati</string>
     <string name="created_on">Creato il</string>
     <string name="hi">Ciao</string>
     <string name="hi_name">Ciao %1$s</string>
@@ -280,7 +279,7 @@
     <string name="buffer_exceeded_by">Margine superato di</string>
     <string name="set_transaction_type">Imposta il tipo di transazione</string>
     <string name="transfer">Trasferimento</string>
-    <string name="selected">Selezionato</string>
+    <string name="selected_text">Selezionato</string>
     <string name="search_currency">Cerca (USD, EUR, GBP, BTC, ecc)</string>
     <string name="pre_selected">Pre-selezionato</string>
     <string name="crypto">Crypto</string>

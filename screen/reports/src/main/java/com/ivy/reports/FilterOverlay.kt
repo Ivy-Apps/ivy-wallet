@@ -460,7 +460,7 @@ fun ColumnScope.TagFilter(
     if (selectedTags.isEmpty()) {
         AddKeywordButton(
             modifier = Modifier.padding(start = 24.dp),
-            text = "Select Tags"
+            text = stringResource(R.string.select_tags)
         ) {
             onTagButtonClicked()
         }

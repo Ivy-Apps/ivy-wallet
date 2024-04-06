@@ -89,7 +89,6 @@
     <string name="confirm_account_change">Konfirmasi Perubahan Akun</string>
     <string name="confirm_account_change_description">Catatan: Anda mencoba mengganti akun yang terkait dengan pinjaman dengan akun mata uang berbeda, \nSemua catatan pinjaman akan dihitung ulang berdasarkan nilai tukar hari ini </string>
     <string name="confirm">Konfirmasi</string>
-    <string name="account_change_recalculating">Harap tunggu, menghitung ulang semua catatan pinjaman</string>
     <string name="created_on">Dibuat pada</string>
     <string name="hi">Hai</string>
     <string name="hi_name">Hai %1$s</string>
@@ -280,7 +279,7 @@
     <string name="buffer_exceeded_by">Buffer melebihi oleh</string>
     <string name="set_transaction_type">Atur jenis transaksi</string>
     <string name="transfer">Transfer</string>
-    <string name="selected">Dipilih</string>
+    <string name="selected_text">Dipilih</string>
     <string name="search_currency">Cari (USD, EUR, GBP, BTC, dll)</string>
     <string name="pre_selected">Pra-dipilih</string>
     <string name="crypto">Kripto</string>

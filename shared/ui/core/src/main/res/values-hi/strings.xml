@@ -88,7 +88,6 @@
     <string name="confirm_account_change">खाता परिवर्तन की पुष्टि करें</string>
     <string name="confirm_account_change_description">नोट: आप किसी भिन्न मुद्रा वाले खाते से ऋण से जुड़े खाते को बदलने का प्रयास कर रहे हैं, आज की विनिमय दरों के आधार पर सभी ऋण रिकॉर्ड की पुन: गणना की जाएगी</string>
     <string name="confirm">पुष्टि करें</string>
-    <string name="account_change_recalculating">कृपया प्रतीक्षा करें, सभी ऋण रिकॉर्ड की पुन: गणना की जा रही है</string>
     <string name="created_on">पर बनाया गया</string>
     <string name="hi">नमस्ते</string>
     <string name="hi_name">नमस्ते %1$s</string>
@@ -319,7 +318,7 @@
     <string name="crypto">क्रिप्टो</string>
     <string name="pre_selected">पूर्व-चयनित</string>
     <string name="search_currency">खोजें (USD, EUR, GBP, BTC, आदि)</string>
-    <string name="selected">चयनित</string>
+    <string name="selected_text">चयनित</string>
     <string name="transfer">ट्रांसफर</string>
     <string name="set_transaction_type">लेन-देन प्रकार सेट करें</string>
     <string name="budget_exceeded_by">बजट इतने से अधिक हो गया</string>

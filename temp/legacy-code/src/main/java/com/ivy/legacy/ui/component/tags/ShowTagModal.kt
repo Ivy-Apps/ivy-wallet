@@ -105,7 +105,7 @@ fun BoxWithConstraintsScope.ShowTagModal(
 
         Spacer(Modifier.height(32.dp))
 
-        ModalTitle(text = "Tags")
+        ModalTitle(text = stringResource(R.string.tags))
 
         Spacer(Modifier.height(24.dp))
 

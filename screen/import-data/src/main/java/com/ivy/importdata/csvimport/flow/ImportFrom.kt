@@ -76,8 +76,15 @@ fun BoxWithConstraintsScope.ImportFrom(
                     nav.navigateTo(CSVScreen(launchedFromOnboarding))
                 }
             ) {
-                Text(text = "Manual CSV import")
+                Text(
+                    text = stringResource(id = R.string.manual_csv_import),
+                    style = UI.typo.b2.style(
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                )
             }
+            Spacer(Modifier.height(16.dp))
         }
 
         item {
@@ -115,7 +122,7 @@ fun BoxWithConstraintsScope.ImportFrom(
 @Composable
 private fun ImportOption(
     importType: ImportType,
-    onImportFrom: (ImportType) -> Unit
+    onImportFrom: (ImportType) -> Unit,
 ) {
     Row(
         modifier = Modifier

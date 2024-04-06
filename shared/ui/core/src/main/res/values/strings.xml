@@ -89,7 +89,6 @@
     <string name="confirm_account_change">Confirm Account Change</string>
     <string name="confirm_account_change_description">Note: You are trying to change the account associated with the loan with an account of different currency, \nAll the loan records will be re-calculated based on today\'s exchanges rates </string>
     <string name="confirm">Confirm</string>
-    <string name="account_change_recalculating">Please wait, re-calculating all loan records</string>
     <string name="created_on">Created on</string>
     <string name="hi">Hi</string>
     <string name="hi_name">Hi %1$s</string>
@@ -155,7 +154,6 @@
     <string name="what_is_your_name">What\'s your name?</string>
     <string name="enter">Enter</string>
     <string name="add_accounts">Add accounts</string>
-    <string name="suggestion">Suggestions</string>
     <string name="next">Next</string>
     <string name="add_categories">Add categories</string>
     <string name="suggestions">Suggestions</string>
@@ -280,7 +278,7 @@
     <string name="buffer_exceeded_by">Buffer exceeded by</string>
     <string name="set_transaction_type">Set transaction type</string>
     <string name="transfer">Transfer</string>
-    <string name="selected">Selected</string>
+    <string name="selected_text">Selected</string>
     <string name="search_currency">Search (USD, EUR, GBP, BTC, etc.)</string>
     <string name="pre_selected">Pre-selected</string>
     <string name="crypto">Crypto</string>
@@ -482,4 +480,10 @@
     <string name="your_data_will_be_saved_only_locally">Your data will be saved only locally on your phone. You risk losing your data if you uninstall the app or change your device. To prevent data loss, we recommend exporting backup from settings regularly.</string>
     <string name="you_owe">You Owe: %1$s</string>
     <string name="you_are_owed">You\'re owed %1$s</string>
+    <string name="manual_csv_import">Manual CSV import</string>
+    <string name="csv_import_failed">If this didn\'t work, try manual CSV import.</string>
+    <string name="import_a_csv_file_to_continue">Import a CSV file to continue.</string>
+    <string name="import_csv_continue">Continue</string>
+    <string name="warning_import_csv_file">"\n!!!⚠️WARNING: Importing may duplicate transactions!!!\nDuplicate transactions can NOT be easily deleted and you'll need to remove manually each one of them! \nReason: We can't parse transaction ids because Ivy Wallet works only with UUID and other apps don't.\nIf you're starting fresh, no worries - kindly ignore this message."</string>
+    <string name="select_tags">Select Tags</string>
 </resources>
