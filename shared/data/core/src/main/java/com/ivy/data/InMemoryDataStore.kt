@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@Deprecated("No longer needed, replaced with repo-level memoization")
 @Singleton
 class InMemoryDataStore @Inject constructor(
     private val dataWriteEventBus: DataWriteEventBus,
