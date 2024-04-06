@@ -15,6 +15,7 @@ import com.ivy.disclaimer.composables.AgreementCheckBox
 import com.ivy.disclaimer.composables.DisclaimerTopAppBar
 import com.ivy.disclaimer.composables.ExportDataButton
 import com.ivy.navigation.screenScopedViewModel
+import com.ivy.ui.component.OpenSourceCard
 
 @Composable
 fun DisclaimerScreenImpl() {
@@ -54,7 +55,11 @@ private fun Content(
         modifier = modifier.padding(horizontal = 16.dp)
     ) {
         item {
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(12.dp))
+            OpenSourceCard()
+        }
+        item {
+            Spacer(modifier = Modifier.height(12.dp))
             AcceptTermsText()
         }
         itemsIndexed(items = viewState.checkboxes) { index, item ->
@@ -67,14 +72,14 @@ private fun Content(
             )
         }
         item {
-            Spacer(modifier = Modifier.height(24.dp))
-            ExportDataButton { onEvent(DisclaimerViewEvent.OnExportDataClick) }
-        }
-        item {
             Spacer(modifier = Modifier.height(12.dp))
             AgreeButton(
                 enabled = viewState.agreeButtonEnabled,
             ) { onEvent(DisclaimerViewEvent.OnAgreeClick) }
+        }
+        item {
+            Spacer(modifier = Modifier.height(8.dp))
+            ExportDataButton { onEvent(DisclaimerViewEvent.OnExportDataClick) }
         }
         item {
             // To ensure proper scrolling

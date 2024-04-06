@@ -1,6 +1,6 @@
 package com.ivy.disclaimer.composables
 
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,7 +12,7 @@ fun ExportDataButton(
     onClick: () -> Unit
 ) {
     OutlinedButton(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
         onClick = onClick
     ) {
         Text("Export data")

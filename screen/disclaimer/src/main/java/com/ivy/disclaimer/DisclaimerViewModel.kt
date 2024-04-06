@@ -59,42 +59,37 @@ class DisclaimerViewModel @Inject constructor(
     }
 
     companion object {
-        val LegalCheckboxes = // LEGAL TEXT:
-            // Do NOT extract or translate these strings
-            listOf(
-                CheckboxViewState(
-                    text = """
-                    I understand this app is open-source and community-driven, 
-                    provided 'as-is' without warranties of any kind. 
-                    I acknowledge the app may have errors and agree to use it at my own risk.
-                """.trimIndent(),
-                    checked = false,
-                ),
-                CheckboxViewState(
-                    text = """
-                    I acknowledge that no warranty, express or implied, 
-                    is made regarding the accuracy, reliability, 
-                    or completeness of the data provided. 
-                    I am responsible for backing up my data to prevent loss.
-                """.trimIndent(),
-                    checked = false,
-                ),
-                CheckboxViewState(
-                    text = """
-                  I agree the app developers, contributors, and the distributing company shall 
-                  not be liable for any claims, damages, 
-                  or data loss resulting from my use of the app, including security breaches.  
-                """.trimIndent(),
-                    checked = false,
-                ),
-                CheckboxViewState(
-                    text = """
-                    I am aware the app might display misleading information or inaccuracies. 
-                    I accept responsibility for verifying any financial information 
-                    or calculations before making decisions based on app data.
-                """.trimIndent(),
-                    checked = false,
-                ),
-            ).toImmutableList()
+        // LEGAL text - do NOT extract or translate
+        val LegalCheckboxes = listOf(
+            CheckboxViewState(
+                text = "I recognize this app is open-source and provided 'as-is' " +
+                        "with no warranties, explicit or implied. " +
+                        "I fully accept all risks of errors, defects, or failures, " +
+                        "using the app solely at my own risk.",
+                checked = false,
+            ),
+            CheckboxViewState(
+                text = "I understand there is no warranty for the accuracy, " +
+                        "reliability, or completeness of my data. " +
+                        "Manual data backup is my responsibility, and I agree to not hold " +
+                        "the app liable for any data loss.",
+                checked = false,
+            ),
+            CheckboxViewState(
+                text = "I hereby release the app developers, contributors, " +
+                        "and distributing company from any liability for " +
+                        "claims, damages, legal fees, or losses, including those resulting " +
+                        "from security breaches or data inaccuracies.",
+                checked = false,
+            ),
+            CheckboxViewState(
+                text = "I am aware and accept that the app may display misleading information " +
+                        "or contain inaccuracies. " +
+                        "I assume full responsibility for verifying the integrity " +
+                        "of financial data and calculations before making " +
+                        "any decisions based on app data.",
+                checked = false,
+            ),
+        ).toImmutableList()
     }
 }

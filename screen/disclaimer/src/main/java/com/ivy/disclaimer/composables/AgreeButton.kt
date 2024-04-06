@@ -1,5 +1,6 @@
 package com.ivy.disclaimer.composables
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,7 +13,7 @@ fun AgreeButton(
     onClick: () -> Unit
 ) {
     Button(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
         enabled = enabled,
         onClick = onClick,
     ) {
