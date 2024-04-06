@@ -37,23 +37,6 @@ class CategoryRepositoryImpl @Inject constructor(
                         findAllMemoized = false
                         categoriesMemo.clear()
                     }
-                    is DataWriteEvent.DeleteCategories -> {
-                        findAllMemoized = false
-                        when (val op = event.operation) {
-                            DeleteOperation.All -> {
-                                categoriesMemo.clear()
-                            }
-                            is DeleteOperation.Just -> {
-                                op.ids.forEach(categoriesMemo::remove)
-                            }
-                        }
-                    }
-
-                    is DataWriteEvent.SaveCategories -> {
-                        findAllMemoized = false
-                        event.categories.map(Category::id)
-                            .forEach(categoriesMemo::remove)
-                    }
 
                     else -> {
                         // do nothing
@@ -73,7 +56,8 @@ class CategoryRepositoryImpl @Inject constructor(
             withContext(dispatchersProvider.io) {
                 categoryDao.findAll(deleted).mapNotNull {
                     with(mapper) { it.toDomain() }.getOrNull()
-                }.also(::memoize).also {
+                }.also {
+                    memoize(it)
                     findAllMemoized = true
                 }
             }

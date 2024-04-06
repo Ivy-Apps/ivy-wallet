@@ -37,23 +37,6 @@ class AccountRepositoryImpl @Inject constructor(
                         findAllMemoized = false
                         accountsMemo.clear()
                     }
-
-                    is DataWriteEvent.DeleteAccounts -> {
-                        findAllMemoized = false
-                        when (val op = event.operation) {
-                            DeleteOperation.All -> accountsMemo.clear()
-                            is DeleteOperation.Just -> {
-                                op.ids.forEach(accountsMemo::remove)
-                            }
-                        }
-                    }
-
-                    is DataWriteEvent.SaveAccounts -> {
-                        findAllMemoized = false
-                        event.accounts.map(Account::id)
-                            .forEach(accountsMemo::remove)
-                    }
-
                     else -> {
                         // do nothing
                     }
