@@ -8,10 +8,12 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.data.repository.LegalRepository
 import com.ivy.navigation.Navigation
 import com.ivy.ui.ComposeViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class DisclaimerViewModel @Inject constructor(
     private val navigation: Navigation,
     private val legalRepo: LegalRepository,
