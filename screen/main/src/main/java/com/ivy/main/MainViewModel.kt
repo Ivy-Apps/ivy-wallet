@@ -5,8 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.data.repository.CurrencyRepository
-import com.ivy.domain.event.AccountUpdatedEvent
-import com.ivy.domain.event.EventBus
 import com.ivy.domain.usecase.SyncExchangeRatesUseCase
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.IvyWalletCtx
@@ -28,7 +26,6 @@ class MainViewModel @Inject constructor(
     private val syncExchangeRatesUseCase: SyncExchangeRatesUseCase,
     private val accountCreator: AccountCreator,
     private val sharedPrefs: SharedPrefs,
-    private val eventBus: EventBus,
     private val currencyRepository: CurrencyRepository,
 ) : ViewModel() {
 
@@ -72,9 +69,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            accountCreator.createAccount(data) {
-                eventBus.post(AccountUpdatedEvent)
-            }
+            accountCreator.createAccount(data) {}
 
             TestIdlingResource.decrement()
         }
