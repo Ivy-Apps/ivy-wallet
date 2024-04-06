@@ -33,8 +33,13 @@ class AccountRepositoryImpl @Inject constructor(
         appCoroutineScope.launch {
             dataObserver.writeEvents.collectLatest { event ->
                 when (event) {
-                    DataWriteEvent.AllDataChange -> accountsMemo.clear()
+                    DataWriteEvent.AllDataChange -> {
+                        findAllMemoized = false
+                        accountsMemo.clear()
+                    }
+
                     is DataWriteEvent.DeleteAccounts -> {
+                        findAllMemoized = false
                         when (val op = event.operation) {
                             DeleteOperation.All -> accountsMemo.clear()
                             is DeleteOperation.Just -> {
@@ -44,6 +49,7 @@ class AccountRepositoryImpl @Inject constructor(
                     }
 
                     is DataWriteEvent.SaveAccounts -> {
+                        findAllMemoized = false
                         event.accounts.map(Account::id)
                             .forEach(accountsMemo::remove)
                     }
@@ -57,6 +63,7 @@ class AccountRepositoryImpl @Inject constructor(
     }
 
     private val accountsMemo = mutableMapOf<AccountId, Account>()
+    private var findAllMemoized = false
 
     override suspend fun findById(id: AccountId): Account? {
         return accountsMemo[id] ?: withContext(dispatchersProvider.io) {
@@ -71,13 +78,16 @@ class AccountRepositoryImpl @Inject constructor(
     }
 
     override suspend fun findAll(deleted: Boolean): List<Account> {
-        return if (accountsMemo.isNotEmpty()) {
+        return if (findAllMemoized) {
             accountsMemo.values.sortedBy { it.orderNum }
         } else {
             withContext(dispatchersProvider.io) {
                 accountDao.findAll(deleted).mapNotNull {
                     with(mapper) { it.toDomain() }.getOrNull()
-                }.also(::memoize)
+                }.also {
+                    memoize(it)
+                    findAllMemoized = true
+                }
             }
         }
     }

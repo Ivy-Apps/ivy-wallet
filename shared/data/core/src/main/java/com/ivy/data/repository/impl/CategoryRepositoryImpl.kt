@@ -33,10 +33,16 @@ class CategoryRepositoryImpl @Inject constructor(
         appCoroutineScope.launch {
             dataObserver.writeEvents.collectLatest { event ->
                 when (event) {
-                    DataWriteEvent.AllDataChange -> categoriesMemo.clear()
+                    DataWriteEvent.AllDataChange -> {
+                        findAllMemoized = false
+                        categoriesMemo.clear()
+                    }
                     is DataWriteEvent.DeleteCategories -> {
+                        findAllMemoized = false
                         when (val op = event.operation) {
-                            DeleteOperation.All -> categoriesMemo.clear()
+                            DeleteOperation.All -> {
+                                categoriesMemo.clear()
+                            }
                             is DeleteOperation.Just -> {
                                 op.ids.forEach(categoriesMemo::remove)
                             }
@@ -44,6 +50,7 @@ class CategoryRepositoryImpl @Inject constructor(
                     }
 
                     is DataWriteEvent.SaveCategories -> {
+                        findAllMemoized = false
                         event.categories.map(Category::id)
                             .forEach(categoriesMemo::remove)
                     }
@@ -100,8 +107,8 @@ class CategoryRepositoryImpl @Inject constructor(
             writeCategoryDao.save(
                 with(mapper) { value.toEntity() }
             )
-            categoriesMemo[value.id] = value
             dataObserver.post(DataWriteEvent.SaveCategories(listOf(value)))
+            categoriesMemo[value.id] = value
         }
     }
 
