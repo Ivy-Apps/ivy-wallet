@@ -138,12 +138,10 @@ fun BoxWithConstraintsScope.DeleteConfirmationModal(
         Spacer(Modifier.height(12.dp))
 
         val view = LocalView.current
-        val focusRequester = FocusRequester()
 
         IvyNameTextField(
             modifier = Modifier
-                .padding(start = 28.dp, end = 36.dp)
-                .focusRequester(focusRequester),
+                .padding(start = 28.dp, end = 36.dp),
             underlineModifier = Modifier.padding(start = 24.dp, end = 32.dp),
             value = deletionTextFieldValue,
             hint = hint,
