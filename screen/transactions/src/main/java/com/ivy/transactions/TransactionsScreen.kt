@@ -31,7 +31,6 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.legacy.Theme
@@ -39,12 +38,13 @@ import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
-import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.data.model.Category
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.utils.thenIf
 import com.ivy.legacy.Constants
 import com.ivy.legacy.data.AppBaseData
+import com.ivy.legacy.data.LegacyDueSection
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.ivyWalletCtx
@@ -54,11 +54,9 @@ import com.ivy.legacy.ui.component.transaction.transactions
 import com.ivy.legacy.utils.balancePrefix
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.horizontalSwipeListener
+import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.legacy.utils.rememberSwipeListenerState
 import com.ivy.legacy.utils.setStatusBarDarkTextCompat
-import com.ivy.design.utils.thenIf
-import com.ivy.legacy.data.LegacyDueSection
-import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.PieChartStatisticScreen
@@ -66,6 +64,7 @@ import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.GreenDark
@@ -180,7 +179,6 @@ fun BoxWithConstraintsScope.TransactionsScreen(screen: TransactionsScreen) {
         onSkipAllTransactions = { transactions ->
             viewModel.onEvent(TransactionsEvent.SkipTransactions(screen, transactions))
         },
-        accountNameConfirmation = uiState.accountNameConfirmation,
         updateAccountNameConfirmation = {
             viewModel.onEvent(TransactionsEvent.UpdateAccountDeletionState(it))
         },
@@ -200,6 +198,7 @@ fun BoxWithConstraintsScope.TransactionsScreen(screen: TransactionsScreen) {
     )
 }
 
+@Suppress("LongMethod", "LongParameterList")
 @Composable
 private fun BoxWithConstraintsScope.UI(
     period: TimePeriod,
@@ -211,7 +210,6 @@ private fun BoxWithConstraintsScope.UI(
     account: Account?,
     category: Category?,
 
-    accountNameConfirmation: TextFieldValue,
     updateAccountNameConfirmation: (String) -> Unit,
     enableDeletionButton: Boolean,
 
@@ -825,7 +823,6 @@ private fun BoxWithConstraintsScope.Preview_empty() {
             onDelete = {},
             onEditAccount = { _, _ -> },
             onEditCategory = {},
-            accountNameConfirmation = TextFieldValue(),
             updateAccountNameConfirmation = {},
             enableDeletionButton = true,
             deleteModal1Visible = false,
@@ -871,7 +868,6 @@ private fun BoxWithConstraintsScope.Preview_crypto() {
             onDelete = {},
             onEditAccount = { _, _ -> },
             onEditCategory = {},
-            accountNameConfirmation = TextFieldValue(),
             updateAccountNameConfirmation = {},
             enableDeletionButton = true,
             deleteModal1Visible = false,
@@ -919,7 +915,6 @@ private fun BoxWithConstraintsScope.Preview_empty_upcoming() {
                     BigDecimal.valueOf(10L)
                 )
             ),
-            accountNameConfirmation = TextFieldValue(),
             updateAccountNameConfirmation = {},
             enableDeletionButton = true,
             deleteModal1Visible = false,
