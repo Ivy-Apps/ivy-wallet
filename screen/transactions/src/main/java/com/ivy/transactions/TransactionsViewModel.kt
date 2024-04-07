@@ -150,7 +150,6 @@ class TransactionsViewModel @Inject constructor(
             overdueExpanded = getOverdueExpanded(),
             overdueIncome = getOverdueIncome(),
             overdueExpenses = getOverdueExpenses(),
-            accountNameConfirmation = getAccountNameConfirmation(),
             enableDeletionButton = getEnableDeletionButton(),
             skipAllModalVisible = getSkipAllModalVisible(),
             deleteModal1Visible = getDeleteModal1Visible(),
