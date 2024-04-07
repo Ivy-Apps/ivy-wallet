@@ -31,6 +31,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.legacy.Theme
@@ -38,13 +39,12 @@ import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
+import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.data.model.Category
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.design.utils.thenIf
 import com.ivy.legacy.Constants
 import com.ivy.legacy.data.AppBaseData
-import com.ivy.legacy.data.LegacyDueSection
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.ivyWalletCtx
@@ -54,9 +54,11 @@ import com.ivy.legacy.ui.component.transaction.transactions
 import com.ivy.legacy.utils.balancePrefix
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.horizontalSwipeListener
-import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.legacy.utils.rememberSwipeListenerState
 import com.ivy.legacy.utils.setStatusBarDarkTextCompat
+import com.ivy.design.utils.thenIf
+import com.ivy.legacy.data.LegacyDueSection
+import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.PieChartStatisticScreen
@@ -64,7 +66,6 @@ import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
-import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.GreenDark
@@ -179,6 +180,7 @@ fun BoxWithConstraintsScope.TransactionsScreen(screen: TransactionsScreen) {
         onSkipAllTransactions = { transactions ->
             viewModel.onEvent(TransactionsEvent.SkipTransactions(screen, transactions))
         },
+        accountNameConfirmation = uiState.accountNameConfirmation,
         updateAccountNameConfirmation = {
             viewModel.onEvent(TransactionsEvent.UpdateAccountDeletionState(it))
         },
@@ -209,6 +211,7 @@ private fun BoxWithConstraintsScope.UI(
     account: Account?,
     category: Category?,
 
+    accountNameConfirmation: TextFieldValue,
     updateAccountNameConfirmation: (String) -> Unit,
     enableDeletionButton: Boolean,
 
@@ -251,173 +254,11 @@ private fun BoxWithConstraintsScope.UI(
     onSkipAllTransactions: (List<Transaction>) -> Unit = {},
     onChoosePeriodModal: (ChoosePeriodModalData?) -> Unit,
 ) {
-    var categoryModalData: CategoryModalData? by remember { mutableStateOf(null) }
-    var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
-
-    HeaderUI(
-        period = period,
-        baseCurrency = baseCurrency,
-        currency = currency,
-        onSkipAllModalVisible = onSkipAllModalVisible,
-        account = account,
-        category = category,
-        categories = categories,
-        accounts = accounts,
-        balance = balance,
-        balanceBaseCurrency = balanceBaseCurrency,
-        income = income,
-        expenses = expenses,
-        history = history,
-        onEdit = {
-            when {
-                account != null -> {
-                    accountModalData = AccountModalData(
-                        account = account,
-                        baseCurrency = currency,
-                        balance = balance,
-                        autoFocusKeyboard = false
-                    )
-                }
-
-                category != null -> {
-                    categoryModalData = CategoryModalData(
-                        category = category,
-                        autoFocusKeyboard = false
-                    )
-                }
-            }
-        },
-        onBalanceClick = {
-            when {
-                account != null -> {
-                    accountModalData = AccountModalData(
-                        account = account,
-                        baseCurrency = currency,
-                        balance = balance,
-                        adjustBalanceMode = true,
-                        autoFocusKeyboard = false
-                    )
-                }
-            }
-        },
-        showAccountModal = {
-            accountModalData = AccountModalData(
-                account = account,
-                baseCurrency = currency,
-                balance = balance,
-                adjustBalanceMode = false,
-                autoFocusKeyboard = false
-            )
-        },
-        showCategoryModal = {
-            categoryModalData = CategoryModalData(
-                category = category,
-                autoFocusKeyboard = false
-            )
-        },
-        onPreviousMonth = onPreviousMonth,
-        onNextMonth = onNextMonth,
-        onDeleteModal1Visible = onDeleteModal1Visible,
-        initWithTransactions = initWithTransactions,
-        treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense,
-        upcomingExpanded = upcomingExpanded,
-        setUpcomingExpanded = setUpcomingExpanded,
-        upcomingIncome = upcomingIncome,
-        upcomingExpenses = upcomingExpenses,
-        upcoming = upcoming,
-        overdueExpanded = overdueExpanded,
-        setOverdueExpanded = setOverdueExpanded,
-        overdueIncome = overdueIncome,
-        overdueExpenses = overdueExpenses,
-        overdue = overdue,
-        onPayOrGet = onPayOrGet,
-        onSkipTransaction = onSkipTransaction,
-        onChoosePeriodModal = onChoosePeriodModal
-    )
-
-    DeleteModals(
-        account = account,
-        category = category,
-        updateAccountNameConfirmation = updateAccountNameConfirmation,
-        enableDeletionButton = enableDeletionButton,
-        onDelete = onDelete,
-        skipAllModalVisible = skipAllModalVisible,
-        onSkipAllModalVisible = {
-            onSkipAllModalVisible(it)
-        },
-        onSkipAllTransactions = onSkipAllTransactions,
-        deleteModal1Visible = deleteModal1Visible,
-        setDeleteModal1Visible = onDeleteModal1Visible
-    )
-
-    CategoryModal(
-        modal = categoryModalData,
-        onCreateCategory = {},
-        onEditCategory = onEditCategory,
-        dismiss = {
-            categoryModalData = null
-        }
-    )
-
-    AccountModal(
-        modal = accountModalData,
-        onCreateAccount = {},
-        onEditAccount = onEditAccount,
-        dismiss = {
-            accountModalData = null
-        }
-    )
-
-    ChoosePeriodModal(
-        modal = choosePeriodModal,
-        dismiss = {
-            onChoosePeriodModal(null)
-        }
-    ) {
-        onSetPeriod(it)
-    }
-}
-
-@Composable
-private fun HeaderUI(
-    period: TimePeriod,
-    baseCurrency: String,
-    currency: String,
-    onSkipAllModalVisible: (Boolean) -> Unit,
-    account: Account?,
-    category: Category?,
-    categories: ImmutableList<Category>,
-    accounts: ImmutableList<Account>,
-    balance: Double,
-    balanceBaseCurrency: Double?,
-    income: Double,
-    expenses: Double,
-    history: ImmutableList<TransactionHistoryItem>,
-    onEdit: () -> Unit,
-    onBalanceClick: () -> Unit,
-    showAccountModal: () -> Unit,
-    showCategoryModal: () -> Unit,
-    onPreviousMonth: () -> Unit,
-    onNextMonth: () -> Unit,
-    onDeleteModal1Visible: (Boolean) -> Unit,
-    initWithTransactions: Boolean = false,
-    treatTransfersAsIncomeExpense: Boolean = false,
-    upcomingExpanded: Boolean = true,
-    setUpcomingExpanded: (Boolean) -> Unit = {},
-    upcomingIncome: Double = 0.0,
-    upcomingExpenses: Double = 0.0,
-    upcoming: ImmutableList<Transaction> = persistentListOf(),
-    overdueExpanded: Boolean = true,
-    setOverdueExpanded: (Boolean) -> Unit = {},
-    overdueIncome: Double = 0.0,
-    overdueExpenses: Double = 0.0,
-    overdue: ImmutableList<Transaction> = persistentListOf(),
-    onPayOrGet: (Transaction) -> Unit = {},
-    onSkipTransaction: (Transaction) -> Unit = {},
-    onChoosePeriodModal: (ChoosePeriodModalData?) -> Unit,
-) {
     val ivyContext = ivyWalletCtx()
     val itemColor = (account?.color ?: category?.color?.value)?.toComposeColor() ?: Gray
+
+    var categoryModalData: CategoryModalData? by remember { mutableStateOf(null) }
+    var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
 
     val swipeListenerState = rememberSwipeListenerState()
     Column(
@@ -430,10 +271,11 @@ private fun HeaderUI(
                     state = swipeListenerState,
                     onSwipeLeft = {
                         onNextMonth()
+                    },
+                    onSwipeRight = {
+                        onPreviousMonth()
                     }
-                ) {
-                    onPreviousMonth()
-                }
+                )
             }
     ) {
         val listState = rememberScrollPositionListState(
@@ -464,13 +306,58 @@ private fun HeaderUI(
                     balance = balance,
                     balanceBaseCurrency = balanceBaseCurrency,
                     treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense,
+
                     onDelete = {
                         onDeleteModal1Visible(true)
                     },
-                    onEdit = onEdit,
-                    onBalanceClick = onBalanceClick,
-                    showCategoryModal = showCategoryModal,
-                    showAccountModal = showAccountModal,
+                    onEdit = {
+                        when {
+                            account != null -> {
+                                accountModalData = AccountModalData(
+                                    account = account,
+                                    baseCurrency = currency,
+                                    balance = balance,
+                                    autoFocusKeyboard = false
+                                )
+                            }
+
+                            category != null -> {
+                                categoryModalData = CategoryModalData(
+                                    category = category,
+                                    autoFocusKeyboard = false
+                                )
+                            }
+                        }
+                    },
+
+                    onBalanceClick = {
+                        when {
+                            account != null -> {
+                                accountModalData = AccountModalData(
+                                    account = account,
+                                    baseCurrency = currency,
+                                    balance = balance,
+                                    adjustBalanceMode = true,
+                                    autoFocusKeyboard = false
+                                )
+                            }
+                        }
+                    },
+                    showCategoryModal = {
+                        categoryModalData = CategoryModalData(
+                            category = category,
+                            autoFocusKeyboard = false
+                        )
+                    },
+                    showAccountModal = {
+                        accountModalData = AccountModalData(
+                            account = account,
+                            baseCurrency = currency,
+                            balance = balance,
+                            adjustBalanceMode = false,
+                            autoFocusKeyboard = false
+                        )
+                    }
                 )
             }
 
@@ -526,6 +413,48 @@ private fun HeaderUI(
                 )
             )
         }
+    }
+
+    DeleteModals(
+        account = account,
+        category = category,
+        updateAccountNameConfirmation = updateAccountNameConfirmation,
+        enableDeletionButton = enableDeletionButton,
+        onDelete = onDelete,
+        skipAllModalVisible = skipAllModalVisible,
+        onSkipAllModalVisible = {
+            onSkipAllModalVisible(it)
+        },
+        onSkipAllTransactions = onSkipAllTransactions,
+        deleteModal1Visible = deleteModal1Visible,
+        setDeleteModal1Visible = onDeleteModal1Visible
+    )
+
+    CategoryModal(
+        modal = categoryModalData,
+        onCreateCategory = { },
+        onEditCategory = onEditCategory,
+        dismiss = {
+            categoryModalData = null
+        }
+    )
+
+    AccountModal(
+        modal = accountModalData,
+        onCreateAccount = { },
+        onEditAccount = onEditAccount,
+        dismiss = {
+            accountModalData = null
+        }
+    )
+
+    ChoosePeriodModal(
+        modal = choosePeriodModal,
+        dismiss = {
+            onChoosePeriodModal(null)
+        }
+    ) {
+        onSetPeriod(it)
     }
 }
 
@@ -896,6 +825,7 @@ private fun BoxWithConstraintsScope.Preview_empty() {
             onDelete = {},
             onEditAccount = { _, _ -> },
             onEditCategory = {},
+            accountNameConfirmation = TextFieldValue(),
             updateAccountNameConfirmation = {},
             enableDeletionButton = true,
             deleteModal1Visible = false,
@@ -941,6 +871,7 @@ private fun BoxWithConstraintsScope.Preview_crypto() {
             onDelete = {},
             onEditAccount = { _, _ -> },
             onEditCategory = {},
+            accountNameConfirmation = TextFieldValue(),
             updateAccountNameConfirmation = {},
             enableDeletionButton = true,
             deleteModal1Visible = false,
@@ -988,6 +919,7 @@ private fun BoxWithConstraintsScope.Preview_empty_upcoming() {
                     BigDecimal.valueOf(10L)
                 )
             ),
+            accountNameConfirmation = TextFieldValue(),
             updateAccountNameConfirmation = {},
             enableDeletionButton = true,
             deleteModal1Visible = false,
