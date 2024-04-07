@@ -9,10 +9,10 @@
 
 # [Ivy Wallet: money manager](https://play.google.com/store/apps/details?id=com.ivy.wallet)
 
-|          |             |                |       |
-| :---:    |    :----:   |          :---: | :---: |
-| ![1](https://user-images.githubusercontent.com/5564499/189540998-4d6cdcd3-ab4d-40f7-85d4-c82fe8a017d1.png) | ![2](https://user-images.githubusercontent.com/5564499/189541011-1ebbd8b6-50fe-432a-91e2-59206efe99ce.png) | ![3](https://user-images.githubusercontent.com/5564499/189541023-35e7f163-d639-4466-9a91-c56890d5a28e.png) | ![4](https://user-images.githubusercontent.com/5564499/189541027-d352314c-fd5c-43eb-82ad-4aba14c7b0fa.png)
-| ![5](https://user-images.githubusercontent.com/5564499/189541030-1a0d7948-33af-420b-b126-936d0211c93f.png) | ![6](https://user-images.githubusercontent.com/5564499/189541035-621c4511-5ec7-4d3f-b08e-925d8da95472.png) |![7](https://user-images.githubusercontent.com/5564499/189541127-7adf5bfa-0652-461c-80f1-076b7179eb6c.png) | ![8](https://user-images.githubusercontent.com/5564499/189541040-7cab633e-be4c-40b2-a2c6-890a15edf805.png)
+|                                                                                                            |                                                                                                            |                                                                                                            |                                                                                                            |
+|:----------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------:|
+| ![1](https://user-images.githubusercontent.com/5564499/189540998-4d6cdcd3-ab4d-40f7-85d4-c82fe8a017d1.png) | ![2](https://user-images.githubusercontent.com/5564499/189541011-1ebbd8b6-50fe-432a-91e2-59206efe99ce.png) | ![3](https://user-images.githubusercontent.com/5564499/189541023-35e7f163-d639-4466-9a91-c56890d5a28e.png) | ![4](https://user-images.githubusercontent.com/5564499/189541027-d352314c-fd5c-43eb-82ad-4aba14c7b0fa.png) |
+| ![5](https://user-images.githubusercontent.com/5564499/189541030-1a0d7948-33af-420b-b126-936d0211c93f.png) | ![6](https://user-images.githubusercontent.com/5564499/189541035-621c4511-5ec7-4d3f-b08e-925d8da95472.png) | ![7](https://user-images.githubusercontent.com/5564499/189541127-7adf5bfa-0652-461c-80f1-076b7179eb6c.png) | ![8](https://user-images.githubusercontent.com/5564499/189541040-7cab633e-be4c-40b2-a2c6-890a15edf805.png) |
 
 Ivy Wallet is a free and open source **money management android app**. It's written using **100% Kotlin and Jetpack Compose**. It's designed to help you keep track of your personal finances with ease.
 
@@ -109,7 +109,7 @@ Make sure to check out our short **[Developer Guidelines 🏗️](docs/Guideline
 ### Contributors Wall:
 
 <a href="https://github.com/ILIYANGERMANOV/ivy-wallet/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Ivy-Apps/ivy-wallet" />
+  <img alt="contributors graph" src="https://contrib.rocks/image?repo=Ivy-Apps/ivy-wallet" />
 </a>
 <br>
 <br>
@@ -132,7 +132,7 @@ Folks that helped Ivy Wallet in a non-dev creative ways that can't be captured o
   </a>
 </div> -->
 
-<div align="center">
+<div style="text-align: center">
     <img src="https://media.licdn.com/dms/image/D4D03AQGiFQMobe7CmA/profile-displayphoto-shrink_800_800/0/1690718245199?e=1713398400&v=beta&t=HyB9vgPe8lIARkgJCYr3C8gFSpGDFGMdDlMIUnunHAY" width="100px;" alt="Stefan Ilijev - Desinger"/><br>
     <strong>Stefan Ilijev</strong><br>
     <small>Co-founder and designer of Ivy Wallet. Created the <a href="https://www.figma.com/file/kSwIa07jcHEHZXo6rzx7dn/Design-System?node-id=0%3A1&mode=dev">Ivy design scheme.</a></small>
@@ -140,13 +140,13 @@ Folks that helped Ivy Wallet in a non-dev creative ways that can't be captured o
     <br/>
 </div>
 
-<div align="center">
+<div style="text-align: center">
     <img src="https://avatars.githubusercontent.com/u/86833171?v=4" width="100px;" alt="Aditya [ADX]"/><br>
     <strong><a href="https://github.com/adx69" >Aditya</a> </strong><br>
     <br/>
 </div>
 
-<div align="center">
+<div style="text-align: center">
     <img src="https://avatars.githubusercontent.com/u/130169485?v=4" width="100px;" alt="Shymom [SSI]"/><br>
     <strong><a href="https://github.com/SHYMOM" >Shymom</a> </strong><br>
     <br/>
