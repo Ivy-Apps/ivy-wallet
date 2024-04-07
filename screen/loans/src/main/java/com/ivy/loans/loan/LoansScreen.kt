@@ -44,7 +44,7 @@ import com.ivy.loans.loan.data.DisplayLoan
 import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.LoansScreen
 import com.ivy.navigation.navigation
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Orange
@@ -203,7 +203,7 @@ private fun Toolbar(
             )
             if (totalOweAmount.isNotEmpty()) {
                 Text(
-                    text = "You Owe: $totalOweAmount",
+                    text = stringResource(R.string.you_owe, totalOweAmount),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
@@ -211,7 +211,7 @@ private fun Toolbar(
             }
             if (totalOwedAmount.isNotEmpty()) {
                 Text(
-                    text = "You're Owed: $totalOwedAmount",
+                    text = stringResource(R.string.you_are_owed, totalOwedAmount),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
@@ -298,9 +298,6 @@ private fun LoanHeader(
             Spacer(Modifier.width(8.dp))
 
             Text(
-                modifier = Modifier
-                    .align(Alignment.Bottom)
-                    .padding(bottom = 4.dp),
                 text = loan.humanReadableType(),
                 style = UI.typo.c.style(
                     color = loan.color.toComposeColor().dynamicContrast()

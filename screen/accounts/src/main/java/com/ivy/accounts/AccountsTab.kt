@@ -30,7 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ivy.common.ui.rememberScrollPositionListState
+import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.ColorInt
@@ -46,7 +46,7 @@ import com.ivy.legacy.utils.rememberSwipeListenerState
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.GreenLight
 import com.ivy.wallet.ui.theme.components.BalanceRow
@@ -283,9 +283,6 @@ private fun AccountHeader(
                 Spacer(Modifier.width(8.dp))
 
                 Text(
-                    modifier = Modifier
-                        .align(Alignment.Bottom)
-                        .padding(bottom = 4.dp),
                     text = stringResource(R.string.excluded),
                     style = UI.typo.c.style(
                         color = account.color.value.toComposeColor().dynamicContrast()

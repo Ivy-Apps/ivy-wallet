@@ -28,7 +28,7 @@ import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.legacy.stringRes
-import com.ivy.common.ui.rememberScrollPositionListState
+import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.frp.forward
 import com.ivy.frp.then2
 import com.ivy.home.Constants.SWIPE_HORIZONTAL_THRESHOLD
@@ -47,7 +47,7 @@ import com.ivy.legacy.utils.rememberSwipeListenerState
 import com.ivy.legacy.utils.verticalSwipeListener
 import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.screenScopedViewModel
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.ui.theme.modal.BufferModal
@@ -67,15 +67,17 @@ fun BoxWithConstraintsScope.HomeTab() {
     val viewModel: HomeViewModel = screenScopedViewModel()
     val uiState = viewModel.uiState()
 
-    UI(uiState, viewModel::onEvent)
+    HomeUi(uiState, viewModel::onEvent)
 }
 
+@Suppress("LongMethod")
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @Composable
-private fun BoxWithConstraintsScope.UI(
+fun BoxWithConstraintsScope.HomeUi(
     uiState: HomeState,
-    onEvent: (HomeEvent) -> Unit
+    onEvent: (HomeEvent) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val ivyContext = ivyWalletCtx()
 
@@ -94,7 +96,7 @@ private fun BoxWithConstraintsScope.UI(
     val baseCurrency = uiState.baseData.baseCurrency
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .systemBarsPadding()
             .verticalSwipeListener(
@@ -383,7 +385,7 @@ fun HomeLazyColumn(
 @Composable
 private fun BoxWithConstraintsScope.PreviewHomeTab() {
     IvyPreview {
-        UI(
+        HomeUi(
             uiState = HomeState(
                 theme = Theme.AUTO,
                 name = "",

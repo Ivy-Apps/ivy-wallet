@@ -43,7 +43,7 @@ _Replace "YOUR_ISSUE_NUMBER" with the id/number of your issue._
 
 ### Time to work
 
-Make sure to read the **[Architecture Guidelines 🏗️](docs/Architecture.md)** before you begin.
+Make sure to read the **[Developer Guidelines 🏗️](docs/Guidelines.md)** before you begin.
 
 **🔨 Workflow:**
 

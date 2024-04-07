@@ -50,7 +50,7 @@ import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.domain.data.CustomExchangeRateState
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
@@ -586,7 +586,7 @@ private fun BoxWithConstraintsScope.UI(
 
     ProgressModal(
         title = stringResource(R.string.confirm_account_change),
-        description = stringResource(R.string.account_change_recalculating),
+        description = stringResource(R.string.confirm_account_loan_change),
         visible = waitModalVisible
     )
 

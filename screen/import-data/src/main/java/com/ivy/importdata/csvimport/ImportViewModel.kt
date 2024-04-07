@@ -16,7 +16,7 @@ import com.ivy.navigation.Navigation
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVMapper
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVNormalizer
-import com.ivy.data.file.IvyFileReader
+import com.ivy.data.file.FileSystem
 import com.ivy.data.backup.ImportResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
@@ -29,7 +29,7 @@ import kotlin.math.roundToInt
 class ImportViewModel @Inject constructor(
     private val ivyContext: com.ivy.legacy.IvyWalletCtx,
     private val nav: Navigation,
-    private val fileReader: IvyFileReader,
+    private val fileReader: FileSystem,
     private val csvNormalizer: CSVNormalizer,
     private val csvMapper: CSVMapper,
     private val csvImporter: CSVImporter,

@@ -42,7 +42,7 @@ import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.keyboardOnlyWindowInsets
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.springBounceSlow
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IvyOutlinedTextField

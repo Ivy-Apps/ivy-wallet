@@ -5,7 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import androidx.core.content.ContextCompat
-import com.ivy.resources.R
+import com.ivy.ui.R
 
 enum class IvyNotificationChannel(
     val channelId: String,

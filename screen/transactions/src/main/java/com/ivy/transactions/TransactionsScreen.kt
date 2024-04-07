@@ -39,7 +39,7 @@ import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
-import com.ivy.common.ui.rememberScrollPositionListState
+import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.data.model.Category
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -65,7 +65,7 @@ import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.GreenDark
@@ -538,7 +538,7 @@ private fun BoxWithConstraintsScope.DeleteModals(
                 account.name
             )
         } else {
-            "Please type \"${category?.name?.value ?: ""}\" in order to delete your category."
+            stringResource(R.string.please_type_category_name, category?.name?.value ?: "")
         },
         hint = if (account != null) stringResource(id = R.string.account_name) else "Category name",
         onAccountNameChange = updateAccountNameConfirmation,
@@ -751,9 +751,6 @@ private fun Item(
                     Spacer(Modifier.width(8.dp))
 
                     Text(
-                        modifier = Modifier
-                            .align(Alignment.Bottom)
-                            .padding(bottom = 12.dp),
                         text = stringRes(R.string.excluded),
                         style = UI.typo.c.style(
                             color = account.color.toComposeColor().dynamicContrast()

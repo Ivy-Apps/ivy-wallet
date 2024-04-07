@@ -12,7 +12,7 @@ import com.ivy.design.l0_system.Red3
 import com.ivy.design.l0_system.RedLight
 import com.ivy.design.l0_system.White
 import com.ivy.design.l0_system.Yellow
-import com.ivy.resources.R
+import com.ivy.ui.R
 
 @Immutable
 enum class ImportType {

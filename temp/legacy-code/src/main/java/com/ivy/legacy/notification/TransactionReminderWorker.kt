@@ -12,7 +12,7 @@ import com.ivy.domain.AppStarter
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.legacy.utils.atEndOfDay
 import com.ivy.legacy.utils.dateNowUTC
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.android.notification.IvyNotificationChannel
 import com.ivy.wallet.android.notification.NotificationService
 import dagger.assisted.Assisted

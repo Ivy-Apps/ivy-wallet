@@ -1,22 +1,20 @@
 package com.ivy.transaction
 
+import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.Toaster
+import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.refreshWidget
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.dao.read.LoanDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
-import com.ivy.base.ComposeViewModel
-import com.ivy.domain.event.AccountUpdatedEvent
-import com.ivy.domain.event.EventBus
-import com.ivy.legacy.data.EditTransactionDisplayLoan
-import com.ivy.base.legacy.SharedPrefs
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.Tag
@@ -25,6 +23,7 @@ import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.repository.TagsRepository
 import com.ivy.data.repository.mapper.TagMapper
+import com.ivy.legacy.data.EditTransactionDisplayLoan
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
@@ -39,6 +38,8 @@ import com.ivy.legacy.utils.uiThread
 import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
+import com.ivy.ui.ComposeViewModel
+import com.ivy.ui.R
 import com.ivy.wallet.domain.action.account.AccountByIdAct
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.transaction.TrnByIdAct
@@ -52,6 +53,7 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.widget.balance.WalletBalanceWidgetReceiver
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.persistentListOf
@@ -74,8 +76,11 @@ import javax.inject.Inject
 
 @Suppress("LargeClass")
 @Stable
+@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 class EditTransactionViewModel @Inject constructor(
+    @ApplicationContext
+    private val context: Context,
     private val toaster: Toaster,
     private val loanDao: LoanDao,
     private val settingsDao: SettingsDao,
@@ -91,7 +96,6 @@ class EditTransactionViewModel @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val trnByIdAct: TrnByIdAct,
     private val accountByIdAct: AccountByIdAct,
-    private val eventBus: EventBus,
     private val transactionWriter: WriteTransactionDao,
     private val tagsRepository: TagsRepository,
     private val tagMapper: TagMapper
@@ -326,7 +330,10 @@ class EditTransactionViewModel @Inject constructor(
                 is EditTransactionEvent.TagEvent.OnTagDeSelect -> removeTagAssociation(event.selectedTag)
                 is EditTransactionEvent.TagEvent.OnTagSearch -> searchTag(event.query)
                 is EditTransactionEvent.TagEvent.OnTagDelete -> deleteTag(event.selectedTag)
-                is EditTransactionEvent.TagEvent.OnTagEdit -> updateTagInformation(event.oldTag, event.newTag)
+                is EditTransactionEvent.TagEvent.OnTagEdit -> updateTagInformation(
+                    event.oldTag,
+                    event.newTag
+                )
             }
         }
     }
@@ -404,23 +411,28 @@ class EditTransactionViewModel @Inject constructor(
         val isLoanRecord = trans.loanRecordId != null
 
         val loanWarningDescription = if (isLoanRecord) {
-            "Note: This transaction is associated with a Loan Record of Loan : ${loan.name}\n" +
-                    "You are trying to change the account associated with the loan record to an " +
-                    "account of different currency" +
-                    "\n The Loan Record will be re-calculated based on today's currency exchanges" +
-                    " rates"
+            context.getString(
+                R.string.note_transaction_associated_with_loan_record_of_loan,
+                loan.name
+            )
         } else {
-            "Note: You are trying to change the account associated with the loan: ${loan.name} " +
-                    "with an account of different currency, " +
-                    "\nAll the loan records will be re-calculated based on today's currency " +
-                    "exchanges rates "
+            context.getString(
+                R.string.note_you_are_trying_to_change_the_account_associated_with_the_loan,
+                loan.name
+            )
         }
 
         val loanCaption =
             if (isLoanRecord) {
-                "* This transaction is associated with a Loan Record of Loan : ${loan.name}"
+                context.getString(
+                    R.string.this_transaction_is_associated_with_loan_record,
+                    loan.name
+                )
             } else {
-                "* This transaction is associated with Loan : ${loan.name}"
+                context.getString(
+                    R.string.this_transaction_is_associated_with_loan,
+                    loan.name
+                )
             }
 
         return EditTransactionDisplayLoan(
@@ -630,7 +642,6 @@ class EditTransactionViewModel @Inject constructor(
     private fun createAccount(data: CreateAccountData) {
         viewModelScope.launch {
             accountCreator.createAccount(data) {
-                eventBus.post(AccountUpdatedEvent)
                 accounts.value = accountsAct(Unit)
             }
         }
@@ -735,11 +746,15 @@ class EditTransactionViewModel @Inject constructor(
     @Suppress("ReturnCount")
     private fun validTransaction(): Boolean {
         if (hasChosenSameSourceAndDestinationAccountToTransfer()) {
-            toaster.show(com.ivy.resources.R.string.msg_source_account_destination_account_same_for_transfer)
+            viewModelScope.launch {
+                toaster.show(R.string.msg_source_account_destination_account_same_for_transfer)
+            }
             return false
         }
         if (hasNotChosenAccountToTransfer()) {
-            toaster.show(com.ivy.resources.R.string.msg_select_account_to_transfer)
+            viewModelScope.launch {
+                toaster.show(R.string.msg_select_account_to_transfer)
+            }
             return false
         }
 

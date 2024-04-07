@@ -10,12 +10,12 @@ android {
 
 dependencies {
     implementation(projects.shared.base)
-    implementation(projects.shared.data)
+    implementation(projects.shared.data.core)
 
     implementation(libs.datastore)
     implementation(libs.bundles.ktor)
+    implementation(libs.bundles.opencsv)
 
     androidTestImplementation(libs.bundles.integration.testing)
-    androidTestImplementation(projects.shared.testing)
     androidTestImplementation(libs.mockk.android)
 }

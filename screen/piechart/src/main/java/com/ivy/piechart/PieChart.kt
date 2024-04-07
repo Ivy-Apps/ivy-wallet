@@ -28,7 +28,7 @@ import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.design.l0_system.UI
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.timeNowUTC
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import kotlinx.collections.immutable.ImmutableList

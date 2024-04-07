@@ -7,19 +7,13 @@ android {
 }
 
 dependencies {
-    implementation(projects.shared.base)
-    implementation(projects.shared.domain)
-    implementation(projects.shared.resources)
-    implementation(projects.shared.designSystem)
-    implementation(projects.shared.navigation)
-    implementation(projects.shared.commonUi)
-    implementation(projects.shared.data)
-
-    implementation(projects.screen.home)
     implementation(projects.screen.accounts)
-
-    implementation(projects.temp.oldDesign)
+    implementation(projects.screen.home)
+    implementation(projects.shared.base)
+    implementation(projects.shared.data.core)
+    implementation(projects.shared.domain)
+    implementation(projects.shared.ui.core)
+    implementation(projects.shared.ui.navigation)
     implementation(projects.temp.legacyCode)
-
-    testImplementation(projects.shared.testing)
+    implementation(projects.temp.oldDesign)
 }

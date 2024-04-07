@@ -37,7 +37,7 @@ import com.ivy.frp.test.TestingContext
 import com.ivy.legacy.frp.onScreenStart
 import com.ivy.legacy.ivyWalletCtx
 import com.ivy.navigation.navigation
-import com.ivy.resources.R
+import com.ivy.ui.R
 import kotlinx.coroutines.launch
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")

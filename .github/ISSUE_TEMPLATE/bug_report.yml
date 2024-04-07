@@ -47,13 +47,21 @@ body:
     validations:
       required: false
   - type: input
+    id: app_version
+    attributes:
+      label: App version
+      description: Specify the version of the Ivy Wallet app.
+      placeholder: 4.6.0 (160) from Google Play or 4.6.3 (163) from GitHub
+    validations:
+      required: true
+  - type: input
     id: smartphone
     attributes:
       label: Smartphone
       description: Specify the phone model and Android version.
       placeholder: Samsung Galaxy S20 Ultra, Android 11
     validations:
-      required: true
+      required: false
   - type: textarea
     id: additional
     attributes:

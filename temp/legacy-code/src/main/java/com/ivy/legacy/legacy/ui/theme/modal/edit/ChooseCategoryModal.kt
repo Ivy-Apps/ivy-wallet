@@ -39,7 +39,7 @@ import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.hideKeyboard
 import com.ivy.legacy.utils.onScreenStart
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.Orange

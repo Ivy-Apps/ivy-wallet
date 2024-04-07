@@ -8,10 +8,10 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
-import com.ivy.domain.usecase.SyncExchangeRatesUseCase
-import com.ivy.data.repository.mapper.TransactionMapper
-import com.ivy.base.ComposeViewModel
+import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.repository.CategoryRepository
+import com.ivy.data.repository.mapper.TransactionMapper
+import com.ivy.domain.usecase.SyncExchangeRatesUseCase
 import com.ivy.frp.fixUnit
 import com.ivy.frp.then
 import com.ivy.frp.thenInvokeAfter
@@ -34,6 +34,7 @@ import com.ivy.legacy.utils.ioThread
 import com.ivy.navigation.BalanceScreen
 import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
+import com.ivy.ui.ComposeViewModel
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.action.settings.CalcBufferDiffAct
@@ -447,7 +448,9 @@ class HomeViewModel @Inject constructor(
         )
     } then updateSettingsAct then {
         // update exchange rates from POV of the new base currency
-        syncExchangeRatesUseCase.sync(newCurrency)
+        AssetCode.from(newCurrency).onRight {
+            syncExchangeRatesUseCase.sync(it)
+        }
     } then {
         reload()
     }

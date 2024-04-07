@@ -12,6 +12,7 @@ android {
             add("win32-x86-64/attach_hotspot_windows.dll")
             add("win32-x86/attach_hotspot_windows.dll")
             add("META-INF/**")
+            add("xsd/catalog.xml")
         }
     }
 }

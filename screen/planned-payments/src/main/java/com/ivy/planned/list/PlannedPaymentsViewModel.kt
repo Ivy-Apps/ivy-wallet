@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.data.db.dao.read.SettingsDao
-import com.ivy.base.ComposeViewModel
+import com.ivy.ui.ComposeViewModel
 import com.ivy.data.model.Category
 import com.ivy.data.repository.CategoryRepository
 import com.ivy.legacy.datamodel.Account

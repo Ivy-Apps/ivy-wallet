@@ -46,7 +46,7 @@ import com.ivy.wallet.ui.theme.modal.DeleteModal
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalPositiveButton
 import com.ivy.wallet.ui.theme.modal.ModalTitle
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.ui.theme.components.WrapContentRow
 import kotlinx.collections.immutable.ImmutableList
 import java.util.UUID
@@ -95,7 +95,7 @@ fun BoxWithConstraintsScope.ShowTagModal(
         PrimaryAction = {
             ModalPositiveButton(
                 onClick = onDismiss,
-                text = "Done",
+                text = stringResource(R.string.done),
                 iconStart = R.drawable.ic_custom_document_s
             )
         },
@@ -105,7 +105,7 @@ fun BoxWithConstraintsScope.ShowTagModal(
 
         Spacer(Modifier.height(32.dp))
 
-        ModalTitle(text = "Tags")
+        ModalTitle(text = stringResource(R.string.tags))
 
         Spacer(Modifier.height(24.dp))
 

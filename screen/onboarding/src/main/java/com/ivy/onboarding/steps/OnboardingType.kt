@@ -25,7 +25,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.navigation.navigation
 import com.ivy.onboarding.components.OnboardingProgressSlider
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green

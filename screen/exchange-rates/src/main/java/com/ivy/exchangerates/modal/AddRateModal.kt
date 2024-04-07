@@ -47,18 +47,16 @@ fun BoxWithConstraintsScope.AddRateModal(
             ModalAdd {
                 val to = toCurrency
                 val finalRate = rate
-                if (to.isNotBlank() && finalRate != null) {
-                    onAdd(
-                        RatesEvent.AddRate(
-                            RateUi(
-                                from = baseCurrency,
-                                to = to,
-                                rate = finalRate,
-                            )
+                onAdd(
+                    RatesEvent.AddRate(
+                        RateUi(
+                            from = baseCurrency,
+                            to = to,
+                            rate = finalRate ?: 0.0,
                         )
                     )
-                    dismiss()
-                }
+                )
+                dismiss()
             }
         }
     ) {

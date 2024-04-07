@@ -1,0 +1,40 @@
+name: Paparazzi screenshots tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  sceenshot_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GIT
+        uses: actions/checkout@v4
+
+      - name: Setup Java SDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'adopt'
+          java-version: '18'
+
+      - name: Enable Gradle Wrapper caching (optimization)
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Verify git lfs
+        run: |
+          chmod +x git-hooks/pre-receive
+          git-hooks/pre-receive
+          git lfs install --local
+          git lfs pull
+
+      - name: Run Paparazzi screenshot tests
+        run: ./gradlew verifyPaparazziDebug

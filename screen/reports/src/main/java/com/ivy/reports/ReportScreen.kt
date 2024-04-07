@@ -28,7 +28,7 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
-import com.ivy.common.ui.rememberScrollPositionListState
+import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
@@ -50,7 +50,7 @@ import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.navigation.ReportScreen
 import com.ivy.navigation.navigation
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green

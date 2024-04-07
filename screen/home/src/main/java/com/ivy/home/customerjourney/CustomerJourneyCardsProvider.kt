@@ -19,7 +19,7 @@ import com.ivy.base.legacy.SharedPrefs
 import com.ivy.legacy.data.model.MainTab
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.PieChartStatisticScreen
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.widget.transaction.AddTransactionWidgetCompact
 import javax.inject.Inject
 
@@ -126,8 +126,7 @@ class CustomerJourneyCardsProvider @Inject constructor(
                 trnCount >= 7
             },
             title = stringRes(R.string.did_you_know),
-            description = "You can see a PieChart for your expenses!" +
-                " Click the Expense card on the top of the dashboard.",
+            description = stringRes(R.string.you_can_see_a_piechart),
             cta = stringRes(R.string.expenses_piechart),
             ctaIcon = R.drawable.ic_custom_bills_s,
             background = Gradient.solid(Red),
@@ -174,9 +173,9 @@ class CustomerJourneyCardsProvider @Inject constructor(
             condition = { trnCount, _, _ ->
                 trnCount >= 16
             },
-            description = "It looks like that you're enjoying Ivy Wallet! Feel free join our invite-only Ivy Telegram Community and make our app better :)",
-            title = "Ivy Community",
-            cta = "Join now",
+            description = stringRes(R.string.it_looks_like_that_you_are_enjoying),
+            title = stringRes(R.string.ivy_community),
+            cta = stringRes(R.string.join_now),
             ctaIcon = R.drawable.ic_telegram_24dp,
             background = Gradient.solid(Blue),
             hasDismiss = true,
@@ -222,10 +221,9 @@ class CustomerJourneyCardsProvider @Inject constructor(
             condition = { trnCount, _, _ ->
                 trnCount >= 28
             },
-            description = "It looks like that you're enjoying Ivy Wallet! " +
-                "If you haven't yet, feel free join our invite-only Ivy Telegram Community and make our app better :)",
-            title = "Ivy Community",
-            cta = "Join now",
+            description = stringRes(R.string.it_looks_like_that_you_are_enjoying_telegram),
+            title = stringRes(R.string.ivy_community),
+            cta = stringRes(R.string.join_now),
             ctaIcon = R.drawable.ic_telegram_24dp,
             background = Gradient.solid(Blue),
             hasDismiss = true,
