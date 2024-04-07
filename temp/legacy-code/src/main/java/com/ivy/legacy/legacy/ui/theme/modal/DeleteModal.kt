@@ -8,10 +8,13 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -26,7 +29,6 @@ import com.ivy.legacy.utils.hideKeyboard
 import com.ivy.resources.R
 import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.components.IvyNameTextField
-import kotlinx.coroutines.delay
 import java.util.UUID
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
@@ -85,7 +87,6 @@ fun BoxWithConstraintsScope.DeleteConfirmationModal(
     id: UUID = UUID.randomUUID(),
     title: String,
     description: String,
-    accountName: TextFieldValue,
     hint: String = stringResource(id = R.string.account_name),
     visible: Boolean,
     enableDeletionButton: Boolean,
@@ -95,6 +96,9 @@ fun BoxWithConstraintsScope.DeleteConfirmationModal(
     dismiss: () -> Unit,
     onDelete: () -> Unit,
 ) {
+    var deletionTextFieldValue by remember(this) {
+        mutableStateOf(TextFieldValue(""))
+    }
     IvyModal(
         id = id,
         visible = visible,
@@ -134,14 +138,14 @@ fun BoxWithConstraintsScope.DeleteConfirmationModal(
         Spacer(Modifier.height(12.dp))
 
         val view = LocalView.current
-        val focusRequester = remember { FocusRequester() }
+        val focusRequester = FocusRequester()
 
         IvyNameTextField(
             modifier = Modifier
-                .padding(start = 28.dp, end = 36.dp),
-            focusRequester = focusRequester,
+                .padding(start = 28.dp, end = 36.dp)
+                .focusRequester(focusRequester),
             underlineModifier = Modifier.padding(start = 24.dp, end = 32.dp),
-            value = accountName,
+            value = deletionTextFieldValue,
             hint = hint,
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Words,
@@ -155,12 +159,8 @@ fun BoxWithConstraintsScope.DeleteConfirmationModal(
                 }
             ),
         ) { newValue ->
+            deletionTextFieldValue = newValue
             onAccountNameChange(newValue.text)
-        }
-
-        LaunchedEffect(key1 = true) {
-            delay(50)
-            focusRequester.requestFocus()
         }
 
         Spacer(Modifier.height(48.dp))
