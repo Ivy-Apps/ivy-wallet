@@ -252,7 +252,7 @@ private fun BoxWithConstraintsScope.UI(
     onPayOrGet: (Transaction) -> Unit = {},
     onSkipTransaction: (Transaction) -> Unit = {},
     onSkipAllTransactions: (List<Transaction>) -> Unit = {},
-    onChoosePeriodModal: (ChoosePeriodModalData?) -> Unit
+    onChoosePeriodModal: (ChoosePeriodModalData?) -> Unit,
 ) {
     val ivyContext = ivyWalletCtx()
     val itemColor = (account?.color ?: category?.color?.value)?.toComposeColor() ?: Gray
@@ -418,7 +418,6 @@ private fun BoxWithConstraintsScope.UI(
     DeleteModals(
         account = account,
         category = category,
-        accountNameConfirmation = accountNameConfirmation,
         updateAccountNameConfirmation = updateAccountNameConfirmation,
         enableDeletionButton = enableDeletionButton,
         onDelete = onDelete,
@@ -465,7 +464,7 @@ private fun LazyListScope.choosePeriodModal(
     initWithTransactions: Boolean,
     onPreviousMonth: () -> Unit,
     onNextMonth: () -> Unit,
-    onChoosePeriodModal: (ChoosePeriodModalData?) -> Unit
+    onChoosePeriodModal: (ChoosePeriodModalData?) -> Unit,
 ) {
     item {
         // Rounded corners top effect
@@ -503,14 +502,13 @@ private fun BoxWithConstraintsScope.DeleteModals(
     setDeleteModal1Visible: (Boolean) -> Unit,
     account: Account?,
     category: Category?,
-    accountNameConfirmation: TextFieldValue,
     updateAccountNameConfirmation: (String) -> Unit,
     enableDeletionButton: Boolean,
     onDelete: () -> Unit,
     skipAllModalVisible: Boolean,
     onSkipAllModalVisible: (Boolean) -> Unit,
     onSkipAllTransactions: (List<Transaction>) -> Unit,
-    overdue: ImmutableList<Transaction> = persistentListOf()
+    overdue: ImmutableList<Transaction> = persistentListOf(),
 ) {
     var deleteModal3Visible by remember { mutableStateOf(false) }
 
