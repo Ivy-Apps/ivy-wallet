@@ -141,7 +141,7 @@
     <string name="add_new">Thêm mới</string>
     <string name="from_date">Từ ngày %1$s</string>
     <string name="to_date">đến ngày %1$s</string>
-    <string name="range">Phạm vị</string>
+    <string name="range">Phạm vi</string>
     <string name="privacy_and_data_collection">Quyền riêng tư và\nviệc thu thập dữ liệu</string>
     <string name="swipe_to_agree_terms_conditions">Vuốt để đồng ý với Điều khoản và Điều kiện của chúng tôi</string>
     <string name="agreed_terms_conditions">Đồng ý với Điều khoản và Điều kiện của chúng tôi</string>

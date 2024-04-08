@@ -37,7 +37,7 @@ import kotlinx.collections.immutable.ImmutableList
 fun CustomerJourney(
     customerJourneyCards: ImmutableList<CustomerJourneyCardModel>,
     modifier: Modifier = Modifier,
-    onDismiss: (CustomerJourneyCardModel) -> Unit
+    onDismiss: (CustomerJourneyCardModel) -> Unit,
 ) {
     val ivyContext = ivyWalletCtx()
     val nav = navigation()
@@ -67,7 +67,7 @@ fun CustomerJourneyCard(
     cardData: CustomerJourneyCardModel,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
-    onCTA: () -> Unit
+    onCTA: () -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -131,7 +131,7 @@ fun CustomerJourneyCard(
             IvyButton(
                 modifier = Modifier
                     .align(Alignment.End)
-                    .padding(end = 20.dp)
+                    .padding(horizontal = 20.dp)
                     .testTag("cta_prompt_${cardData.id}"),
                 text = cardData.cta,
                 shadowAlpha = 0f,

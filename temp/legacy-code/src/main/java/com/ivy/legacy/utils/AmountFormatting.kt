@@ -111,12 +111,21 @@ fun shortenAmount(amount: Double): String {
 
 private fun formatShortenedNumber(
     number: Double,
-    extension: String
+    extension: String,
 ): String {
     return if (hasSignificantDecimalPart(number)) {
         "${number.format(2)}$extension"
     } else {
         "${number.toInt()}$extension"
+    }
+}
+
+fun String.toCalcBalanceAmount(): Double {
+    val amountString = this.lowercase()
+    return when {
+        amountString.contains("k") -> amountString.replace("k", "000").toDouble()
+        amountString.contains("m") -> amountString.replace("m", "000000").toDouble()
+        else -> this.toDouble()
     }
 }
 
@@ -180,7 +189,7 @@ fun formatInputAmount(
     val amountDouble = newlyEnteredNumberString.amountToDoubleOrNull()
 
     val decimalCountOkay = IvyCurrency.fromCode(currency)?.isCrypto == true ||
-        decimalCount <= decimalCountMax
+            decimalCount <= decimalCountMax
     if (amountDouble != null && decimalCountOkay) {
         val intPart = truncate(amountDouble).toInt()
         val decimalPartFormatted = if (decimalPartString != null) {
@@ -196,8 +205,8 @@ fun formatInputAmount(
 }
 
 /**
- toInt on numbers in the range (-1.0, 0.0) (exclusive of boundaries) will produce a positive int 0
- So, this function append negative sign in that case
+toInt on numbers in the range (-1.0, 0.0) (exclusive of boundaries) will produce a positive int 0
+So, this function append negative sign in that case
  */
 fun integerPartFormatted(value: Double): String {
     val preciseValue = value.toBigDecimal()
