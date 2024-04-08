@@ -1,16 +1,16 @@
 [versions]
-kotlin = "1.9.22"
+kotlin = "1.9.23"
 kotlin-coroutines = "1.8.0"
 ktor = "2.3.9"
-arrow = "1.2.3"
+arrow = "1.2.4"
 kotest = "5.8.1"
 # https://developer.android.com/jetpack/androidx/releases/compose
-compose = "1.6.4"
+compose = "1.6.5"
 # https://developer.android.com/jetpack/androidx/releases/compose-kotlin
 compose-compiler = "1.5.10" # It's used! Use compatible with Kotlin one
 compose-material3 = "1.2.1"
 glance = "1.0.0"
-hilt = "2.51"
+hilt = "2.51.1"
 room = "2.6.1"
 androidx-work = "2.9.0"
 kotlinx-collections = "0.3.7"
@@ -60,7 +60,7 @@ kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest"
 kotest-property-arrow = { module = "io.kotest.extensions:kotest-property-arrow", version.ref = "arrow" }
 kotest-assertions-arrow = { module = "io.kotest.extensions:kotest-assertions-arrow", version.ref = "arrow" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
-cashapp-molecule-plugin = { module = "app.cash.molecule:molecule-gradle-plugin", version = "1.4.1" }
+cashapp-molecule-plugin = { module = "app.cash.molecule:molecule-gradle-plugin", version = "1.4.2" }
 cashapp-turbine = { module = "app.cash.turbine:turbine", version = "1.1.0" }
 paparazzi-plugin = { module = "app.cash.paparazzi:paparazzi-gradle-plugin", version.ref = "paparazzi" }
 paparazzi = { module = "app.cash.paparazzi:paparazzi", version.ref = "paparazzi" }
@@ -127,7 +127,7 @@ material = { module = "com.google.android.material:material", version = "1.11.0"
 timber = { module = "com.jakewharton.timber:timber", version = "5.0.1" }
 
 # Legacy
-keval = { module = "com.notkamui.libs:keval", version = "1.0.0" }
+keval = { module = "com.notkamui.libs:keval", version = "1.0.1" }
 opencsv-csv = { module = "com.opencsv:opencsv", version = "5.9" }
 opencsv-apache-commons = { module = "org.apache.commons:commons-lang3", version = "3.14.0" }
 
@@ -135,12 +135,12 @@ opencsv-apache-commons = { module = "org.apache.commons:commons-lang3", version 
 detekt-gradle-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 detekt-ruleset-compiler = { module = "com.braisgabin.detekt:kotlin-compiler-wrapper", version = "0.0.4" }
 detekt-ruleset-ktlint = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
-detekt-ruleset-compose = { module = "io.nlopez.compose.rules:detekt", version = "0.3.12" }
+detekt-ruleset-compose = { module = "io.nlopez.compose.rules:detekt", version = "0.3.13" }
 detekt-ruleset-ivy-explicit = { module = "com.github.Ivy-Apps:detekt-explicit", version = "v0.0.8" }
 slack-lint-compose = { module = "com.slack.lint.compose:compose-lint-checks", version = "1.3.1" }
 
 # KSP
-ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version = "1.9.22-1.0.18" }
+ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version = "1.9.23-1.0.20" }
 
 # Modules Graph
 module-graph-plugin = { module = "com.jraska.module.graph.assertion:plugin", version = "2.5.0" }
