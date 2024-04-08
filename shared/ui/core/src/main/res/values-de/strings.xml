@@ -134,9 +134,9 @@
     <string name="transactions">Transaktionen</string>
     <string name="home">Start</string>
     <string name="add_planned_payment">Geplante Zahlung hinzufügen</string>
-    <string name="add_income_uppercase">EINNAHME HINZUFÜGEN</string>
-    <string name="add_expense_uppercase">AUSGABE HINZUFÜGEN</string>
-    <string name="account_transfer">KONTOÜBERTRAG</string>
+    <string name="add_income_uppercase">NEUE\nEINNAHME</string>
+    <string name="add_expense_uppercase">NEUE\nAUSGABE</string>
+    <string name="account_transfer">KONTO\nÜBERTRAG</string>
     <string name="skip">Überspringen</string>
     <string name="add_new">Neu hinzufügen</string>
     <string name="from_date">Von %1$s</string>
