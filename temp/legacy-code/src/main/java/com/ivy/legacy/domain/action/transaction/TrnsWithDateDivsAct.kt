@@ -7,7 +7,7 @@ import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.TagsRepository
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
-import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.datamodel.temp.toLegacyDomain
 import com.ivy.legacy.domain.pure.transaction.LegacyTrnDateDividers
 import com.ivy.legacy.domain.pure.transaction.transactionsWithDateDividers
 import com.ivy.wallet.domain.action.exchange.ExchangeAct
@@ -26,8 +26,7 @@ class TrnsWithDateDivsAct @Inject constructor(
             transactions = transactions,
             baseCurrencyCode = baseCurrency,
             getTags = { tagIds -> tagsRepository.findByIds(tagIds) },
-
-            getAccount = accountDao::findById then { it?.toDomain() },
+            getAccount = accountDao::findById then { it?.toLegacyDomain() },
             accountRepository = accountRepository,
             exchange = ::actInput then exchangeAct
         )
@@ -50,7 +49,7 @@ class LegacyTrnsWithDateDivsAct @Inject constructor(
             transactions = transactions,
             baseCurrencyCode = baseCurrency,
 
-            getAccount = accountDao::findById then { it?.toDomain() },
+            getAccount = accountDao::findById then { it?.toLegacyDomain() },
             exchange = ::actInput then exchangeAct
         )
     }

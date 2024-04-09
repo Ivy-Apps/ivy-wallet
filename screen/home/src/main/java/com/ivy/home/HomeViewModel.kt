@@ -26,7 +26,7 @@ import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Settings
-import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.datamodel.temp.toLegacyDomain
 import com.ivy.legacy.domain.action.settings.UpdateSettingsAct
 import com.ivy.legacy.domain.action.viewmodel.home.ShouldHideIncomeAct
 import com.ivy.legacy.utils.dateNowUTC
@@ -358,7 +358,7 @@ class HomeViewModel @Inject constructor(
         upcoming.value = LegacyDueSection(
             trns = with(transactionMapper) {
                 result.upcomingTrns.map {
-                    it.toEntity().toDomain()
+                    it.toEntity().toLegacyDomain()
                 }.toImmutableList()
             },
             stats = result.upcoming,
@@ -370,7 +370,7 @@ class HomeViewModel @Inject constructor(
         overdue.value = LegacyDueSection(
             trns = with(transactionMapper) {
                 result.overdueTrns.map {
-                    it.toEntity().toDomain()
+                    it.toEntity().toLegacyDomain()
                 }.toImmutableList()
             },
             stats = result.overdue,

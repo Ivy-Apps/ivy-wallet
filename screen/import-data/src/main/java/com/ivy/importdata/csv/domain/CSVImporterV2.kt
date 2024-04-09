@@ -22,7 +22,7 @@ import com.ivy.importdata.csv.ImportantFields
 import com.ivy.importdata.csv.OptionalFields
 import com.ivy.importdata.csv.TransferFields
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.datamodel.temp.toLegacyDomain
 import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.utils.toLowerCaseLocal
 import com.ivy.wallet.domain.data.IvyCurrency
@@ -64,7 +64,7 @@ class CSVImporterV2 @Inject constructor(
         newCategoryColorIndex = 0
         newAccountColorIndex = 0
 
-        accounts = accountDao.findAll().map { it.toDomain() }
+        accounts = accountDao.findAll().map { it.toLegacyDomain() }
         val initialAccountsCount = accounts.size
 
         categories = categoryRepository.findAll()
@@ -280,7 +280,7 @@ class CSVImporterV2 @Inject constructor(
         val domainAccount = newAccount.toDomainAccount(currencyRepository).getOrNull()
             ?: return null
         accountRepository.save(domainAccount)
-        accounts = accountDao.findAll().map { it.toDomain() }
+        accounts = accountDao.findAll().map { it.toLegacyDomain() }
 
         return newAccount
     }

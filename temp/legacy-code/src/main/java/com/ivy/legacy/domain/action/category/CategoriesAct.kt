@@ -5,7 +5,7 @@ import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.then
 import com.ivy.legacy.datamodel.Category
-import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.datamodel.temp.toLegacyDomain
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import javax.inject.Inject
@@ -17,5 +17,5 @@ class CategoriesAct @Inject constructor(
         io {
             categoryDao.findAll()
         }
-    } thenMap { it.toDomain() } then { it.toImmutableList() }
+    } thenMap { it.toLegacyDomain() } then { it.toImmutableList() }
 }

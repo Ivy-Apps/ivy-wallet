@@ -5,7 +5,7 @@ import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.legacy.datamodel.Settings
-import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.datamodel.temp.toLegacyDomain
 import javax.inject.Inject
 
 class SettingsAct @Inject constructor(
@@ -13,7 +13,7 @@ class SettingsAct @Inject constructor(
 ) : FPAction<Unit, Settings>() {
     override suspend fun Unit.compose(): suspend () -> Settings = suspend {
         io { settingsDao.findFirst() }
-    } then { it.toDomain() }
+    } then { it.toLegacyDomain() }
 
     suspend fun getSettingsWithNextTheme(): Settings {
         val currentSettings = this(Unit)

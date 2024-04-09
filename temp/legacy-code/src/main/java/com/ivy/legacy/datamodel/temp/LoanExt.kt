@@ -4,7 +4,7 @@ import com.ivy.data.db.entity.LoanEntity
 import com.ivy.data.model.LoanType
 import com.ivy.legacy.datamodel.Loan
 
-fun LoanEntity.toDomain(): Loan = Loan(
+fun LoanEntity.toLegacyDomain(): Loan = Loan(
     name = name,
     amount = amount,
     type = type,

@@ -8,7 +8,7 @@ import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.viewModelScope
-import com.ivy.ui.ComposeViewModel
+import com.ivy.base.legacy.LegacyTransaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
@@ -33,11 +33,13 @@ import com.ivy.domain.usecase.csv.ExportCsvUseCase
 import com.ivy.frp.filterSuspend
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.datamodel.temp.toLegacy
 import com.ivy.legacy.utils.getISOFormattedDateTime
 import com.ivy.legacy.utils.scopedIOThread
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.toLowerCaseLocal
 import com.ivy.legacy.utils.uiThread
+import com.ivy.ui.ComposeViewModel
 import com.ivy.ui.R
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.exchange.ExchangeAct
@@ -106,14 +108,15 @@ class ReportViewModel @Inject constructor(
     private val overdueExpenses = mutableDoubleStateOf(0.0)
     private val history = mutableStateOf<ImmutableList<TransactionHistoryItem>>(persistentListOf())
     private val upcomingTransactions =
-        mutableStateOf<ImmutableList<Transaction>>(persistentListOf())
-    private val overdueTransactions = mutableStateOf<ImmutableList<Transaction>>(persistentListOf())
+        mutableStateOf<ImmutableList<LegacyTransaction>>(persistentListOf())
+    private val overdueTransactions =
+        mutableStateOf<ImmutableList<LegacyTransaction>>(persistentListOf())
     private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
     private val upcomingExpanded = mutableStateOf(false)
     private val overdueExpanded = mutableStateOf(false)
     private val loading = mutableStateOf(false)
     private val accountIdFilters = mutableStateOf<ImmutableList<UUID>>(persistentListOf())
-    private val transactions = mutableStateOf<ImmutableList<Transaction>>(persistentListOf())
+    private val transactions = mutableStateOf<ImmutableList<LegacyTransaction>>(persistentListOf())
     private val filterOverlayVisible = mutableStateOf(false)
     private val showTransfersAsIncExpCheckbox = mutableStateOf(false)
     private val treatTransfersAsIncExp = mutableStateOf(false)
@@ -297,13 +300,19 @@ class ReportViewModel @Inject constructor(
             overdueIncome.doubleValue = overdueIncomeExpense.income.toDouble()
             overdueExpenses.doubleValue = overdueIncomeExpense.expense.toDouble()
             history.value = historyWithDateDividers.await().toImmutableList()
-            upcomingTransactions.value = upcomingTransactionsList
-            overdueTransactions.value = overdue
+            upcomingTransactions.value = upcomingTransactionsList.map {
+                it.toLegacy(transactionMapper)
+            }.toImmutableList()
+            overdueTransactions.value = overdue.map {
+                it.toLegacy(transactionMapper)
+            }.toImmutableList()
             accounts.value = tempAccounts.toImmutableList()
             filter.value = reportFilter
             loading.value = false
             accountIdFilters.value = accountFilterIdList.await().toImmutableList()
-            transactions.value = transactionsList
+            transactions.value = transactionsList.map {
+                it.toLegacy(transactionMapper)
+            }.toImmutableList()
             balance.doubleValue = tempBalance
             filterOverlayVisible.value = false
             showTransfersAsIncExpCheckbox.value =

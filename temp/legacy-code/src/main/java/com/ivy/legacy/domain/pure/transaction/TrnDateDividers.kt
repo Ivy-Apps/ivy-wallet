@@ -16,8 +16,8 @@ import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
 import com.ivy.frp.then
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.datamodel.temp.toImmutableLegacyTags
+import com.ivy.legacy.datamodel.temp.toLegacyDomain
 import com.ivy.legacy.utils.convertUTCtoLocal
 import com.ivy.legacy.utils.toEpochSeconds
 import com.ivy.wallet.domain.data.TransactionHistoryDateDivider
@@ -44,7 +44,7 @@ suspend fun List<Transaction>.withDateDividers(
     return transactionsWithDateDividers(
         transactions = this,
         baseCurrencyCode = settingsDao.findFirst().currency,
-        getAccount = accountDao::findById then { it?.toDomain() },
+        getAccount = accountDao::findById then { it?.toLegacyDomain() },
         getTags = { tagsIds -> tagsRepository.findByIds(tagsIds) },
         accountRepository = accountRepository,
         exchange = { data, amount ->
@@ -91,7 +91,7 @@ suspend fun transactionsWithDateDividers(
             val legacyTransactionsForDate = with(transactionsMapper) {
                 transactionsForDate.map {
                     it.toEntity()
-                        .toDomain(tags = getTags(it.tags).toImmutableLegacyTags())
+                        .toLegacyDomain(tags = getTags(it.tags).toImmutableLegacyTags())
                 }
             }
             listOf<TransactionHistoryItem>(
@@ -123,7 +123,7 @@ object LegacyTrnDateDividers {
         return transactionsWithDateDividers(
             transactions = this,
             baseCurrencyCode = settingsDao.findFirst().currency,
-            getAccount = accountDao::findById then { it?.toDomain() },
+            getAccount = accountDao::findById then { it?.toLegacyDomain() },
             exchange = { data, amount ->
                 exchangeRatesLogic.convertAmount(
                     baseCurrency = data.baseCurrency,

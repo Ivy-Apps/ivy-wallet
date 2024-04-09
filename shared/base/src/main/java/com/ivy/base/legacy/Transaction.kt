@@ -10,6 +10,8 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.util.UUID
 
+typealias LegacyTransaction = Transaction
+
 @Deprecated("Legacy data model. Will be deleted")
 @Immutable
 data class Transaction(

@@ -14,7 +14,7 @@ import com.ivy.data.temp.migration.settleNow
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.PlannedPaymentRule
-import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.datamodel.temp.toLegacyDomain
 import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeNowUTC
@@ -46,9 +46,9 @@ class PlannedPaymentsLogic @Inject constructor(
             endDate = range.to()
         ).sumOf {
             val amount = exchangeRatesLogic.amountBaseCurrency(
-                transaction = it.toDomain(),
+                transaction = it.toLegacyDomain(),
                 baseCurrency = baseCurrency,
-                accounts = accounts.map { it.toDomain() }
+                accounts = accounts.map { it.toLegacyDomain() }
             )
 
             when (it.type) {
@@ -60,7 +60,7 @@ class PlannedPaymentsLogic @Inject constructor(
     }
 
     suspend fun oneTime(): List<PlannedPaymentRule> {
-        return plannedPaymentRuleDao.findAllByOneTime(oneTime = true).map { it.toDomain() }
+        return plannedPaymentRuleDao.findAllByOneTime(oneTime = true).map { it.toLegacyDomain() }
     }
 
     suspend fun oneTimeIncome(): Double {
@@ -84,7 +84,7 @@ class PlannedPaymentsLogic @Inject constructor(
     }
 
     suspend fun recurring(): List<PlannedPaymentRule> =
-        plannedPaymentRuleDao.findAllByOneTime(oneTime = false).map { it.toDomain() }
+        plannedPaymentRuleDao.findAllByOneTime(oneTime = false).map { it.toLegacyDomain() }
 
     suspend fun recurringIncome(): Double {
         return recurring()
@@ -106,7 +106,7 @@ class PlannedPaymentsLogic @Inject constructor(
             amountForMonthInBaseCurrency(
                 plannedPayment = it,
                 baseCurrency = baseCurrency,
-                accounts = accounts.map { it.toDomain() }
+                accounts = accounts.map { it.toLegacyDomain() }
             )
         }
     }

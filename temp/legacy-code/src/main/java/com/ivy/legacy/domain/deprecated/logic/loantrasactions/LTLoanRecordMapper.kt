@@ -3,7 +3,7 @@ package com.ivy.wallet.domain.deprecated.logic.loantrasactions
 import com.ivy.base.legacy.Transaction
 import com.ivy.legacy.datamodel.Loan
 import com.ivy.legacy.datamodel.LoanRecord
-import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.datamodel.temp.toLegacyDomain
 import com.ivy.legacy.domain.deprecated.logic.loantrasactions.LoanTransactionsCore
 import com.ivy.legacy.utils.computationThread
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
@@ -82,7 +82,7 @@ class LTLoanRecordMapper @Inject constructor(
                 newLoanRecordAccountID = transaction.accountId,
                 newLoanRecordAmount = transaction.amount.toDouble(),
                 loanAccountId = loan.accountId,
-                accounts = ltCore.fetchAccounts().map { it.toDomain() }
+                accounts = ltCore.fetchAccounts().map { it.toLegacyDomain() }
             )
 
             val modifiedLoanRecord = loanRecord.copy(
@@ -92,7 +92,7 @@ class LTLoanRecordMapper @Inject constructor(
                 accountId = transaction.accountId,
                 convertedAmount = convertedAmount
             )
-            ltCore.saveLoanRecords(modifiedLoanRecord.toDomain())
+            ltCore.saveLoanRecords(modifiedLoanRecord.toLegacyDomain())
         }
         onBackgroundProcessingEnd()
     }
@@ -110,7 +110,7 @@ class LTLoanRecordMapper @Inject constructor(
             newLoanRecordAccountID = newLoanRecord.accountId,
             newLoanRecordAmount = newLoanRecord.amount,
             loanAccountId = loanAccountId,
-            accounts = ltCore.fetchAccounts().map { it.toDomain() },
+            accounts = ltCore.fetchAccounts().map { it.toLegacyDomain() },
             reCalculateLoanAmount = reCalculateLoanAmount
         )
     }
@@ -126,7 +126,7 @@ class LTLoanRecordMapper @Inject constructor(
             newLoanRecordAccountID = data.account?.id,
             newLoanRecordAmount = data.amount,
             loanAccountId = loanAccountId,
-            accounts = ltCore.fetchAccounts().map { it.toDomain() },
+            accounts = ltCore.fetchAccounts().map { it.toLegacyDomain() },
         )
     }
 }

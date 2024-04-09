@@ -17,7 +17,7 @@ import com.ivy.data.model.IntervalType
 import com.ivy.data.repository.CategoryRepository
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.PlannedPaymentRule
-import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.datamodel.temp.toLegacyDomain
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.ioThread
 import com.ivy.navigation.EditPlannedScreen
@@ -275,7 +275,7 @@ class EditPlannedViewModel @Inject constructor(
             reset()
 
             loadedRule = screen.plannedPaymentRuleId?.let {
-                ioThread { plannedPaymentRuleDao.findById(it)!!.toDomain() }
+                ioThread { plannedPaymentRuleDao.findById(it)!!.toLegacyDomain() }
             } ?: PlannedPaymentRule(
                 startDate = null,
                 intervalN = null,
@@ -303,7 +303,7 @@ class EditPlannedViewModel @Inject constructor(
         intervalType.value = rule.intervalType
         initialTitle.value = rule.title
         description.value = rule.description
-        val selectedAccount = ioThread { accountDao.findById(rule.accountId)!!.toDomain() }
+        val selectedAccount = ioThread { accountDao.findById(rule.accountId)!!.toLegacyDomain() }
         account.value = selectedAccount
         category.value = rule.categoryId?.let {
             ioThread { categoryRepository.findById(CategoryId(it)) }

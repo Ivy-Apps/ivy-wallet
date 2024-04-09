@@ -6,7 +6,7 @@ import com.ivy.data.db.dao.read.ExchangeRatesDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.PlannedPaymentRule
-import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.datamodel.temp.toLegacyDomain
 import java.util.UUID
 import javax.inject.Inject
 
@@ -130,7 +130,7 @@ suspend fun Iterable<Transaction>.sumInBaseCurrency(
         exchangeRatesLogic.amountBaseCurrency(
             transaction = it,
             baseCurrency = baseCurrency,
-            accounts = accounts.map { it.toDomain() }
+            accounts = accounts.map { it.toLegacyDomain() }
         )
     }
 }
@@ -148,7 +148,7 @@ suspend fun Iterable<PlannedPaymentRule>.sumByDoublePlannedInBaseCurrency(
         exchangeRatesLogic.amountBaseCurrency(
             plannedPayment = it,
             baseCurrency = baseCurrency,
-            accounts = accounts.map { it.toDomain() }
+            accounts = accounts.map { it.toLegacyDomain() }
         )
     }
 }
