@@ -4,6 +4,7 @@ import arrow.core.Either
 import arrow.core.raise.either
 import arrow.core.raise.ensure
 import arrow.core.raise.ensureNotNull
+import com.ivy.base.TimeProvider
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.entity.TransactionEntity
 import com.ivy.data.model.AccountId
@@ -22,11 +23,11 @@ import com.ivy.data.model.primitive.PositiveDouble
 import com.ivy.data.model.primitive.TagId
 import com.ivy.data.repository.AccountRepository
 import java.time.Instant
-import java.time.ZoneId
 import javax.inject.Inject
 
 class TransactionMapper @Inject constructor(
-    private val accountRepository: AccountRepository
+    private val accountRepository: AccountRepository,
+    private val timeProvider: TimeProvider,
 ) {
 
     suspend fun TransactionEntity.toDomain(
@@ -130,14 +131,13 @@ class TransactionMapper @Inject constructor(
     }
 
     private fun TransactionEntity.mapTime(): Either<String, Instant> = either {
-        val zoneId = ZoneId.systemDefault()
-        val time = (dateTime ?: dueDate)?.atZone(zoneId)?.toInstant()
+        val time = (dateTime ?: dueDate)?.atZone(timeProvider.getZoneId())?.toInstant()
         ensureNotNull(time) { "Missing transaction time for entity: $this" }
         time
     }
 
     fun Transaction.toEntity(): TransactionEntity {
-        val dateTime = time.atZone(ZoneId.systemDefault()).toLocalDateTime()
+        val dateTime = time.atZone(timeProvider.getZoneId()).toLocalDateTime()
         return TransactionEntity(
             accountId = getFromAccount().value,
             type = when (this) {

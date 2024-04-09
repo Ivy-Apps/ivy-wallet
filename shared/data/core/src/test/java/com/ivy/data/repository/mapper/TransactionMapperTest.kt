@@ -3,6 +3,7 @@ package com.ivy.data.repository.mapper
 import arrow.core.Some
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
+import com.ivy.base.TimeProvider
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.entity.TransactionEntity
 import com.ivy.data.model.AccountId
@@ -26,6 +27,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.next
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.test.runTest
@@ -41,12 +43,18 @@ import java.util.UUID
 class TransactionMapperTest {
 
     private val accountRepo = mockk<AccountRepository>()
+    private val timeProvider = mockk<TimeProvider> {
+        every { getZoneId() } returns ZoneId.of("UTC")
+    }
 
     private lateinit var mapper: TransactionMapper
 
     @Before
     fun setup() {
-        mapper = TransactionMapper(accountRepo)
+        mapper = TransactionMapper(
+            accountRepository = accountRepo,
+            timeProvider = timeProvider,
+        )
     }
 
     // region entity -> domain
@@ -82,7 +90,7 @@ class TransactionMapperTest {
         val entity = with(mapper) { income.toEntity() }
 
         // then
-        val dateTime = InstantNow.atZone(ZoneId.systemDefault()).toLocalDateTime()
+        val dateTime = InstantNow.atZone(timeProvider.getZoneId()).toLocalDateTime()
         entity shouldBe TransactionEntity(
             accountId = AccountId.value,
             type = TransactionType.INCOME,
@@ -136,7 +144,7 @@ class TransactionMapperTest {
         val entity = with(mapper) { expense.toEntity() }
 
         // then
-        val dateTime = InstantNow.atZone(ZoneId.systemDefault()).toLocalDateTime()
+        val dateTime = InstantNow.atZone(timeProvider.getZoneId()).toLocalDateTime()
         entity shouldBe TransactionEntity(
             accountId = AccountId.value,
             type = TransactionType.EXPENSE,
@@ -195,7 +203,7 @@ class TransactionMapperTest {
         val entity = with(mapper) { transfer.toEntity() }
 
         // then
-        val dateTime = InstantNow.atZone(ZoneId.systemDefault()).toLocalDateTime()
+        val dateTime = InstantNow.atZone(timeProvider.getZoneId()).toLocalDateTime()
         entity shouldBe TransactionEntity(
             accountId = AccountId.value,
             type = TransactionType.TRANSFER,
@@ -241,7 +249,7 @@ class TransactionMapperTest {
             title = NotBlankTrimmedString.unsafe("Income"),
             description = NotBlankTrimmedString.unsafe("Income desc"),
             category = CategoryId,
-            time = DateTime.atZone(ZoneId.systemDefault()).toInstant(),
+            time = DateTime.atZone(timeProvider.getZoneId()).toInstant(),
             settled = settled,
             metadata = TransactionMetadata(
                 recurringRuleId = RecurringRuleId,
@@ -367,7 +375,7 @@ class TransactionMapperTest {
             title = NotBlankTrimmedString.unsafe("Expense"),
             description = NotBlankTrimmedString.unsafe("Expense desc"),
             category = CategoryId,
-            time = DateTime.atZone(ZoneId.systemDefault()).toInstant(),
+            time = DateTime.atZone(timeProvider.getZoneId()).toInstant(),
             settled = settled,
             metadata = TransactionMetadata(
                 recurringRuleId = RecurringRuleId,
@@ -498,7 +506,7 @@ class TransactionMapperTest {
             title = NotBlankTrimmedString.unsafe("Transfer"),
             description = NotBlankTrimmedString.unsafe("Transfer desc"),
             category = CategoryId,
-            time = DateTime.atZone(ZoneId.systemDefault()).toInstant(),
+            time = DateTime.atZone(timeProvider.getZoneId()).toInstant(),
             settled = settled,
             metadata = TransactionMetadata(
                 recurringRuleId = RecurringRuleId,

@@ -2,6 +2,7 @@ package com.ivy.legacy.domain.pure.transaction
 
 import arrow.core.Option
 import arrow.core.toOption
+import com.ivy.base.TimeProvider
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.time.convertToLocal
 import com.ivy.data.db.dao.read.AccountDao
@@ -40,6 +41,7 @@ suspend fun List<Transaction>.withDateDividers(
     accountDao: AccountDao,
     tagsRepository: TagsRepository,
     accountRepository: AccountRepository,
+    timeProvider: TimeProvider,
 ): List<TransactionHistoryItem> {
     return transactionsWithDateDividers(
         transactions = this,
@@ -47,6 +49,7 @@ suspend fun List<Transaction>.withDateDividers(
         getAccount = accountDao::findById then { it?.toLegacyDomain() },
         getTags = { tagsIds -> tagsRepository.findByIds(tagsIds) },
         accountRepository = accountRepository,
+        timeProvider = timeProvider,
         exchange = { data, amount ->
             exchangeRatesLogic.convertAmount(
                 baseCurrency = data.baseCurrency,
@@ -63,6 +66,7 @@ suspend fun transactionsWithDateDividers(
     transactions: List<Transaction>,
     baseCurrencyCode: String,
     accountRepository: AccountRepository,
+    timeProvider: TimeProvider,
 
     @SideEffect
     getAccount: suspend (accountId: UUID) -> Account?,
@@ -72,7 +76,7 @@ suspend fun transactionsWithDateDividers(
     getTags: suspend (tagIds: List<TagId>) -> List<Tag> = { emptyList() },
 ): List<TransactionHistoryItem> {
     if (transactions.isEmpty()) return emptyList()
-    val transactionsMapper = TransactionMapper(accountRepository)
+    val transactionsMapper = TransactionMapper(accountRepository, timeProvider)
     return transactions
         .groupBy { it.time.convertToLocal().toLocalDate() }
         .filterKeys { it != null }
