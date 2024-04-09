@@ -1,12 +1,18 @@
 package com.ivy.data.repository.mapper
 
 import arrow.core.Some
+import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import com.ivy.base.model.TransactionType
+import com.ivy.base.time.convertToLocal
 import com.ivy.data.db.entity.TransactionEntity
+import com.ivy.data.model.AccountId
+import com.ivy.data.model.CategoryId
 import com.ivy.data.model.Expense
 import com.ivy.data.model.Income
+import com.ivy.data.model.TransactionId
 import com.ivy.data.model.TransactionMetadata
+import com.ivy.data.model.Transfer
 import com.ivy.data.model.common.Value
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.AssetCode.Companion.EUR
@@ -148,7 +154,7 @@ class TransactionMapperTest {
     @Test
     fun `maps domain transfer to entity`() {
         // given
-        val transfer = com.ivy.data.model.Transfer(
+        val transfer = Transfer(
             id = TransactionId,
             title = NotBlankTrimmedString.unsafe("Transfer"),
             description = NotBlankTrimmedString.unsafe("Transfer desc"),
@@ -203,9 +209,16 @@ class TransactionMapperTest {
 
     // domain -> entity
     @Test
-    fun `maps income entity to domain - valid income`() = runTest {
+    fun `maps income entity to domain - valid income`(
+        @TestParameter settled: Boolean,
+        @TestParameter removed: Boolean,
+    ) = runTest {
         // given
-        val entity = ValidIncome
+        val entity = ValidIncome.copy(
+            dateTime = DateTime.takeIf { settled },
+            dueDate = DateTime.takeIf { !settled },
+            isDeleted = removed,
+        )
         mockkAccounts(account = EUR)
 
         // when
@@ -218,14 +231,14 @@ class TransactionMapperTest {
             description = NotBlankTrimmedString.unsafe("Income desc"),
             category = CategoryId,
             time = DateTime.atZone(ZoneId.systemDefault()).toInstant(),
-            settled = true,
+            settled = settled,
             metadata = TransactionMetadata(
                 recurringRuleId = RecurringRuleId,
                 loanId = LoanId,
                 loanRecordId = LoanRecordId
             ),
             lastUpdated = Instant.EPOCH,
-            removed = false,
+            removed = removed,
             value = Value(
                 amount = PositiveDouble.unsafe(100.0),
                 asset = EUR
@@ -310,9 +323,16 @@ class TransactionMapperTest {
     }
 
     @Test
-    fun `expense entity to domain - valid expense`() = runTest {
+    fun `expense entity to domain - valid expense`(
+        @TestParameter settled: Boolean,
+        @TestParameter removed: Boolean,
+    ) = runTest {
         // given
-        val entity = ValidExpense
+        val entity = ValidExpense.copy(
+            dateTime = DateTime.takeIf { settled },
+            dueDate = DateTime.takeIf { !settled },
+            isDeleted = removed
+        )
         mockkAccounts(account = EUR)
 
         // when
@@ -325,14 +345,14 @@ class TransactionMapperTest {
             description = NotBlankTrimmedString.unsafe("Expense desc"),
             category = CategoryId,
             time = DateTime.atZone(ZoneId.systemDefault()).toInstant(),
-            settled = true,
+            settled = settled,
             metadata = TransactionMetadata(
                 recurringRuleId = RecurringRuleId,
                 loanId = LoanId,
                 loanRecordId = LoanRecordId
             ),
             lastUpdated = Instant.EPOCH,
-            removed = false,
+            removed = removed,
             value = Value(
                 amount = PositiveDouble.unsafe(100.0),
                 asset = EUR
@@ -417,9 +437,18 @@ class TransactionMapperTest {
     }
 
     @Test
-    fun `transfer entity to domain - valid transfer`() = runTest {
+    fun `transfer entity to domain - valid transfer`(
+        @TestParameter settled: Boolean,
+        @TestParameter removed: Boolean,
+    ) = runTest {
         // given
-        val entity = ValidTransfer
+        val entity = ValidTransfer.copy(
+            dateTime = DateTime.takeIf { settled },
+            dueDate = DateTime.takeIf { !settled },
+            isDeleted = removed,
+            amount = 50.0,
+            toAmount = 55.0,
+        )
         mockkAccounts(
             account = EUR,
             toAccount = USD
@@ -429,27 +458,27 @@ class TransactionMapperTest {
         val transfer = with(mapper) { entity.toDomain() }
 
         // then
-        transfer.shouldBeRight() shouldBe com.ivy.data.model.Transfer(
+        transfer.shouldBeRight() shouldBe Transfer(
             id = TransactionId,
             title = NotBlankTrimmedString.unsafe("Transfer"),
             description = NotBlankTrimmedString.unsafe("Transfer desc"),
             category = CategoryId,
             time = DateTime.atZone(ZoneId.systemDefault()).toInstant(),
-            settled = true,
+            settled = settled,
             metadata = TransactionMetadata(
                 recurringRuleId = RecurringRuleId,
                 loanId = LoanId,
                 loanRecordId = LoanRecordId
             ),
             lastUpdated = Instant.EPOCH,
-            removed = false,
+            removed = removed,
             fromValue = Value(
-                amount = PositiveDouble.unsafe(100.0),
+                amount = PositiveDouble.unsafe(50.0),
                 asset = EUR
             ),
             fromAccount = AccountId,
             toValue = Value(
-                amount = PositiveDouble.unsafe(100.0),
+                amount = PositiveDouble.unsafe(55.0),
                 asset = USD
             ),
             toAccount = ToAccountId,
@@ -582,13 +611,13 @@ class TransactionMapperTest {
 
     companion object {
         val DateTime = LocalDateTime.now()
-        val AccountId = com.ivy.data.model.AccountId(UUID.randomUUID())
-        val ToAccountId = com.ivy.data.model.AccountId(UUID.randomUUID())
-        val CategoryId = com.ivy.data.model.CategoryId(UUID.randomUUID())
+        val AccountId = AccountId(UUID.randomUUID())
+        val ToAccountId = AccountId(UUID.randomUUID())
+        val CategoryId = CategoryId(UUID.randomUUID())
         val RecurringRuleId = UUID.randomUUID()
         val LoanId = UUID.randomUUID()
         val LoanRecordId = UUID.randomUUID()
-        val TransactionId = com.ivy.data.model.TransactionId(UUID.randomUUID())
+        val TransactionId = TransactionId(UUID.randomUUID())
         val InstantNow = Instant.now()
 
         val ValidIncome = TransactionEntity(
