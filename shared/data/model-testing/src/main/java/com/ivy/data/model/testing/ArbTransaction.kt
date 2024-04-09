@@ -129,8 +129,7 @@ fun Arb.Companion.transfer(
         ),
         fromAccount = fromAccountVal,
         toAccount = toAccount.getOrElse {
-            Arb.accountId()
-                .filter { it != fromAccountVal }.bind()
+            Arb.accountId().filter { it != fromAccountVal }.bind()
         },
         toValue = Value(
             amount = toAmount.getOrElse { Arb.positiveDoubleExact().bind() },
@@ -172,6 +171,7 @@ fun Arb.Companion.assetCode(): Arb<AssetCode> = Arb.notBlankTrimmedString().map 
     AssetCode.unsafe(it.value)
 }
 
+@Suppress("MagicNumber")
 private suspend fun ArbitraryBuilderContext.arbInstant(
     time: Option<ArbTime>
 ): Instant {

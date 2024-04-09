@@ -145,7 +145,8 @@ class TransactionTest {
             removed = false,
             tags = listOf(),
             value = Value(
-                amount = PositiveDouble.unsafe(1.0), asset = AssetCode.EUR
+                amount = PositiveDouble.unsafe(1.0),
+                asset = AssetCode.EUR
             ),
             account = AccountId,
         )
@@ -166,7 +167,8 @@ class TransactionTest {
             removed = false,
             tags = listOf(),
             value = Value(
-                amount = PositiveDouble.unsafe(1.0), asset = AssetCode.EUR
+                amount = PositiveDouble.unsafe(1.0),
+                asset = AssetCode.EUR
             ),
             account = AccountId,
         )
@@ -188,10 +190,12 @@ class TransactionTest {
             tags = listOf(),
             fromAccount = AccountId,
             fromValue = Value(
-                amount = PositiveDouble.unsafe(1.0), asset = AssetCode.EUR
+                amount = PositiveDouble.unsafe(1.0),
+                asset = AssetCode.EUR
             ),
             toValue = Value(
-                amount = PositiveDouble.unsafe(1.0), asset = AssetCode.EUR
+                amount = PositiveDouble.unsafe(1.0),
+                asset = AssetCode.EUR
             ),
             toAccount = ToAccountId,
         )
