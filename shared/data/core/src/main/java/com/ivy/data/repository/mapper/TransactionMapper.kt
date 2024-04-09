@@ -2,6 +2,7 @@ package com.ivy.data.repository.mapper
 
 import arrow.core.Either
 import arrow.core.raise.either
+import arrow.core.raise.ensure
 import arrow.core.raise.ensureNotNull
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.entity.TransactionEntity
@@ -36,35 +37,33 @@ class TransactionMapper @Inject constructor(
             loanRecordId = loanRecordId
         )
         val settled = dateTime != null
-        val zoneId = ZoneId.systemDefault()
-        val time = dateTime?.atZone(zoneId)?.toInstant()
-            ?: dueDate?.atZone(zoneId)?.toInstant()
-            ?: raise("Missing transaction time for entity: ${this@toDomain}")
+        val time = mapTime().bind()
 
-        val sourceAccount = accountRepository.findById(AccountId(accountId))
+        val accountId = AccountId(accountId)
+        val sourceAccount = accountRepository.findById(accountId)
         ensureNotNull(sourceAccount) { "No source account for transaction: ${this@toDomain}" }
         val fromValue = Value(
             amount = PositiveDouble.from(amount).bind(),
             asset = sourceAccount.asset
         )
 
-        val notBlankTrimmedTitle = title?.let(NotBlankTrimmedString::from)?.getOrNull()
-        val notBlankTrimmedDescription = description?.let(NotBlankTrimmedString::from)?.getOrNull()
+        val notBlankTitle = title?.let(NotBlankTrimmedString::from)?.getOrNull()
+        val notBlankDescription = description?.let(NotBlankTrimmedString::from)?.getOrNull()
 
         when (type) {
             TransactionType.INCOME -> {
                 Income(
                     id = TransactionId(id),
-                    title = notBlankTrimmedTitle,
-                    description = notBlankTrimmedDescription,
+                    value = fromValue,
+                    account = accountId,
+                    title = notBlankTitle,
+                    description = notBlankDescription,
                     category = categoryId?.let(::CategoryId),
                     time = time,
                     settled = settled,
                     metadata = metadata,
                     lastUpdated = Instant.EPOCH,
                     removed = isDeleted,
-                    value = fromValue,
-                    account = AccountId(accountId),
                     tags = tags
                 )
             }
@@ -72,16 +71,16 @@ class TransactionMapper @Inject constructor(
             TransactionType.EXPENSE -> {
                 Expense(
                     id = TransactionId(id),
-                    title = notBlankTrimmedTitle,
-                    description = notBlankTrimmedDescription,
+                    account = accountId,
+                    value = fromValue,
+                    title = notBlankTitle,
+                    description = notBlankDescription,
                     category = categoryId?.let(::CategoryId),
                     time = time,
                     settled = settled,
                     metadata = metadata,
                     lastUpdated = Instant.EPOCH,
                     removed = isDeleted,
-                    value = fromValue,
-                    account = AccountId(accountId),
                     tags = tags
                 )
             }
@@ -91,34 +90,33 @@ class TransactionMapper @Inject constructor(
                 ensureNotNull(toAccountId) {
                     "No destination account id associated with transaction '${this@toDomain}'"
                 }
+                ensure(accountId != toAccountId) {
+                    "Self transfers aren't allowed. Source and destination accounts " +
+                            "must be different for transaction: ${this@toDomain}"
+                }
+
                 val toAccount = accountRepository.findById(toAccountId)
                 ensureNotNull(toAccount) {
-                    "No destination account  associated with transaction '${this@toDomain}'"
+                    "No destination account associated with transaction '${this@toDomain}'"
                 }
 
                 val toValue = Value(
-                    amount = toAmount?.let(PositiveDouble::from)?.getOrNull() ?: fromValue.amount,
+                    amount = toAmount?.let(PositiveDouble::from)?.getOrNull()
+                        ?: fromValue.amount,
                     asset = toAccount.asset
                 )
 
-                if (accountId == toAccountId.value) {
-                    raise(
-                        "Source account id and destination accounts " +
-                                "are same with this transaction '${this@toDomain}'"
-                    )
-                }
-
                 Transfer(
                     id = TransactionId(id),
-                    title = notBlankTrimmedTitle,
-                    description = notBlankTrimmedDescription,
+                    title = notBlankTitle,
+                    description = notBlankDescription,
                     category = categoryId?.let(::CategoryId),
                     time = time,
                     settled = settled,
                     metadata = metadata,
                     lastUpdated = Instant.EPOCH,
                     removed = isDeleted,
-                    fromAccount = AccountId(accountId),
+                    fromAccount = accountId,
                     fromValue = fromValue,
                     toAccount = toAccountId,
                     toValue = toValue,
@@ -126,6 +124,13 @@ class TransactionMapper @Inject constructor(
                 )
             }
         }
+    }
+
+    private fun TransactionEntity.mapTime(): Either<String, Instant> = either {
+        val zoneId = ZoneId.systemDefault()
+        val time = (dateTime ?: dueDate)?.atZone(zoneId)?.toInstant()
+        ensureNotNull(time) { "Missing transaction time for entity: $this" }
+        time
     }
 
     fun Transaction.toEntity(): TransactionEntity {
