@@ -1,6 +1,7 @@
 package com.ivy.data.repository.impl
 
 import arrow.core.Either
+import arrow.core.Some
 import arrow.core.identity
 import com.ivy.base.TestDispatchersProvider
 import com.ivy.base.model.TransactionType
@@ -9,11 +10,13 @@ import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.db.entity.TransactionEntity
 import com.ivy.data.invalidTransactionEntity
+import com.ivy.data.model.AccountId
 import com.ivy.data.model.Expense
 import com.ivy.data.model.Income
 import com.ivy.data.model.Transaction
 import com.ivy.data.model.Transfer
 import com.ivy.data.model.testing.ModelFixtures
+import com.ivy.data.model.testing.accountId
 import com.ivy.data.model.testing.transaction
 import com.ivy.data.model.testing.transactionId
 import com.ivy.data.repository.TagsRepository
@@ -348,15 +351,8 @@ class TransactionRepositoryImplTest {
     @Test
     fun save() = runTest {
         // given
-        val trn = Arb.transaction().next()
-        val entity = mockk<TransactionEntity>(relaxed = true) {
-            every { id } returns trn.id.value
-        }
         repository = newRepository(fakeDao = FakeTransactionDao())
-        with(mapper) {
-            every { trn.toEntity() } returns entity
-            coEvery { entity.toDomain(any()) } returns Either.Right(trn)
-        }
+        val trn = mockkFakeTrnMapping()
 
         // when
         repository.save(trn)
@@ -369,21 +365,9 @@ class TransactionRepositoryImplTest {
     @Test
     fun saveMany() = runTest {
         // given
-        val trn1 = Arb.transaction().next()
-        val trn2 = Arb.transaction().next()
-        val entity1 = mockk<TransactionEntity>(relaxed = true) {
-            every { id } returns trn1.id.value
-        }
-        val entity2 = mockk<TransactionEntity>(relaxed = true) {
-            every { id } returns trn2.id.value
-        }
         repository = newRepository(fakeDao = FakeTransactionDao())
-        with(mapper) {
-            every { trn1.toEntity() } returns entity1
-            coEvery { entity1.toDomain(any()) } returns Either.Right(trn1)
-            every { trn2.toEntity() } returns entity2
-            coEvery { entity2.toDomain(any()) } returns Either.Right(trn2)
-        }
+        val trn1 = mockkFakeTrnMapping()
+        val trn2 = mockkFakeTrnMapping()
 
         // when
         repository.saveMany(listOf(trn1, trn2))
@@ -391,6 +375,82 @@ class TransactionRepositoryImplTest {
         // then
         val savedTrns = repository.findAll()
         savedTrns.toSet() shouldBe setOf(trn1, trn2)
+    }
+
+    @Test
+    fun flagDeleted() = runTest {
+        // given
+        repository = newRepository(fakeDao = FakeTransactionDao())
+        val trn = mockkFakeTrnMapping()
+        repository.save(trn)
+
+        // when
+        repository.flagDeleted(trn.id)
+
+        // then
+        repository.findById(trn.id) shouldBe null
+    }
+
+    @Test
+    fun deleteById() = runTest {
+        // given
+        repository = newRepository(fakeDao = FakeTransactionDao())
+        val trn = mockkFakeTrnMapping()
+        repository.save(trn)
+
+        // when
+        repository.deleteById(trn.id)
+
+        // then
+        repository.findById(trn.id) shouldBe null
+    }
+
+    @Test
+    fun deleteAllByAccountId() = runTest {
+        // given
+        repository = newRepository(fakeDao = FakeTransactionDao())
+        val acc1 = Arb.accountId().next()
+        val acc2 = Arb.accountId().next()
+        val trnOneAcc1 = mockkFakeTrnMapping(account = acc1)
+        val trnTwoAcc1 = mockkFakeTrnMapping(account = acc1)
+        val trnAcc2 = mockkFakeTrnMapping(account = acc2)
+        repository.saveMany(listOf(trnOneAcc1, trnTwoAcc1, trnAcc2))
+
+        // when
+        repository.deleteAllByAccountId(accountId = acc1)
+
+        // then
+        repository.findAll() shouldBe listOf(trnAcc2)
+    }
+
+    @Test
+    fun deleteAll() = runTest {
+        // given
+        repository = newRepository(fakeDao = FakeTransactionDao())
+        val trn1 = mockkFakeTrnMapping()
+        val trn2 = mockkFakeTrnMapping()
+        val trn3 = mockkFakeTrnMapping()
+        repository.saveMany(listOf(trn1, trn2, trn3))
+
+        // when
+        repository.deleteAll()
+
+        // then
+        repository.findAll() shouldBe emptyList()
+    }
+
+    private fun mockkFakeTrnMapping(
+        account: AccountId = Arb.accountId().next()
+    ): Transaction {
+        val trn = Arb.transaction(account = Some(account)).next()
+        val entity = mockk<TransactionEntity>(relaxed = true) {
+            every { id } returns trn.id.value
+        }
+        with(mapper) {
+            every { trn.toEntity() } returns entity
+            coEvery { entity.toDomain(any()) } returns Either.Right(trn)
+        }
+        return trn
     }
 
     private fun transactionsTestCase(
