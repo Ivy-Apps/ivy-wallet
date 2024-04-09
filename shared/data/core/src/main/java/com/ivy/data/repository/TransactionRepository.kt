@@ -14,9 +14,6 @@ interface TransactionRepository {
 
     suspend fun findAll(): List<Transaction>
 
-    @Suppress("FunctionNaming")
-    suspend fun findAll_LIMIT_1(): List<Transaction>
-
     suspend fun findAllIncome(): List<Income>
 
     suspend fun findAllExpense(): List<Expense>

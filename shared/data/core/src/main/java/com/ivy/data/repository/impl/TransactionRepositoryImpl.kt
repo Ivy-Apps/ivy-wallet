@@ -41,14 +41,6 @@ class TransactionRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun findAll_LIMIT_1(): List<Transaction> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findAll_LIMIT_1().mapNotNull {
-                with(mapper) { it.toDomain() }.getOrNull()
-            }
-        }
-    }
-
     override suspend fun findAllIncome(): List<Income> {
         return withContext(dispatchersProvider.io) {
             transactionDao.findAllByType(TransactionType.INCOME).mapNotNull {
