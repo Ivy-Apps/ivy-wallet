@@ -445,6 +445,7 @@ class TransactionRepositoryImplTest {
         val trn = Arb.transaction(account = Some(account)).next()
         val entity = mockk<TransactionEntity>(relaxed = true) {
             every { id } returns trn.id.value
+            every { accountId } returns account.value
         }
         with(mapper) {
             every { trn.toEntity() } returns entity
