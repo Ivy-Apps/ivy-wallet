@@ -34,14 +34,9 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun findAll(): List<Transaction> {
         return withContext(dispatchersProvider.io) {
             val tagMap = async { findAllTagAssociations() }
-            val transactions = transactionDao.findAll()
-            transactions.mapNotNull {
+            transactionDao.findAll().mapNotNull {
                 val tags = tagMap.await()[it.id] ?: emptyList()
-                with(mapper) {
-                    it.toDomain(
-                        tags = tags
-                    )
-                }.getOrNull()
+                with(mapper) { it.toDomain(tags = tags) }.getOrNull()
             }
         }
     }
@@ -57,9 +52,7 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun findAllIncome(): List<Income> {
         return withContext(dispatchersProvider.io) {
             transactionDao.findAllByType(TransactionType.INCOME).mapNotNull {
-                with(mapper) {
-                    it.toDomain()
-                }.getOrNull() as? Income
+                with(mapper) { it.toDomain() }.getOrNull() as? Income
             }
         }
     }
