@@ -2,6 +2,9 @@ package com.ivy.data.repository.mapper
 
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.entity.TransactionEntity
+import com.ivy.data.model.Expense
+import com.ivy.data.model.Income
+import com.ivy.data.model.TransactionMetadata
 import com.ivy.data.model.common.Value
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.NotBlankTrimmedString
@@ -28,14 +31,14 @@ class TransactionMapperTest {
     @Test
     fun `maps domain income to entity`() {
         // given
-        val income = com.ivy.data.model.Income(
+        val income = Income(
             id = TransactionId,
             title = NotBlankTrimmedString.unsafe("Income"),
             description = NotBlankTrimmedString.unsafe("Income desc"),
             category = CategoryId,
             time = InstantNow,
             settled = true,
-            metadata = com.ivy.data.model.TransactionMetadata(
+            metadata = TransactionMetadata(
                 recurringRuleId = RecurringRuleId,
                 loanId = LoanId,
                 loanRecordId = LoanRecordId
@@ -78,14 +81,14 @@ class TransactionMapperTest {
     @Test
     fun `maps domain expense to entity`() {
         // given
-        val expense = com.ivy.data.model.Expense(
+        val expense = Expense(
             id = TransactionId,
             title = NotBlankTrimmedString.unsafe("Expense"),
             description = NotBlankTrimmedString.unsafe("Expense desc"),
             category = CategoryId,
             time = InstantNow,
             settled = true,
-            metadata = com.ivy.data.model.TransactionMetadata(
+            metadata = TransactionMetadata(
                 recurringRuleId = RecurringRuleId,
                 loanId = LoanId,
                 loanRecordId = LoanRecordId
@@ -135,7 +138,7 @@ class TransactionMapperTest {
             category = CategoryId,
             time = InstantNow,
             settled = true,
-            metadata = com.ivy.data.model.TransactionMetadata(
+            metadata = TransactionMetadata(
                 recurringRuleId = RecurringRuleId,
                 loanId = LoanId,
                 loanRecordId = LoanRecordId
@@ -189,14 +192,14 @@ class TransactionMapperTest {
         val income = with(mapper) { entity.toDomain(EUR) }
 
         // then
-        income.shouldBeRight() shouldBe com.ivy.data.model.Income(
+        income.shouldBeRight() shouldBe Income(
             id = TransactionId,
             title = NotBlankTrimmedString.unsafe("Income"),
             description = NotBlankTrimmedString.unsafe("Income desc"),
             category = CategoryId,
             time = DateTime.atZone(ZoneId.systemDefault()).toInstant(),
             settled = true,
-            metadata = com.ivy.data.model.TransactionMetadata(
+            metadata = TransactionMetadata(
                 recurringRuleId = RecurringRuleId,
                 loanId = LoanId,
                 loanRecordId = LoanRecordId
@@ -287,14 +290,14 @@ class TransactionMapperTest {
         val expense = with(mapper) { entity.toDomain(EUR) }
 
         // then
-        expense.shouldBeRight() shouldBe com.ivy.data.model.Expense(
+        expense.shouldBeRight() shouldBe Expense(
             id = TransactionId,
             title = NotBlankTrimmedString.unsafe("Expense"),
             description = NotBlankTrimmedString.unsafe("Expense desc"),
             category = CategoryId,
             time = DateTime.atZone(ZoneId.systemDefault()).toInstant(),
             settled = true,
-            metadata = com.ivy.data.model.TransactionMetadata(
+            metadata = TransactionMetadata(
                 recurringRuleId = RecurringRuleId,
                 loanId = LoanId,
                 loanRecordId = LoanRecordId
@@ -386,7 +389,7 @@ class TransactionMapperTest {
             category = CategoryId,
             time = DateTime.atZone(ZoneId.systemDefault()).toInstant(),
             settled = true,
-            metadata = com.ivy.data.model.TransactionMetadata(
+            metadata = TransactionMetadata(
                 recurringRuleId = RecurringRuleId,
                 loanId = LoanId,
                 loanRecordId = LoanRecordId
@@ -465,6 +468,17 @@ class TransactionMapperTest {
     @Test
     fun `transfer entity to domain - no loanRecordId is okay`() {
         val noLoanRecordId = ValidTransfer.copy(loanRecordId = null)
+
+        // when
+        val transfer = with(mapper) { noLoanRecordId.toDomain(USD, EUR) }
+
+        // then
+        transfer.shouldBeRight()
+    }
+
+    @Test
+    fun `transfer entity to domain - no toAmount is okay`() {
+        val noLoanRecordId = ValidTransfer.copy(toAmount = null)
 
         // when
         val transfer = with(mapper) { noLoanRecordId.toDomain(USD, EUR) }

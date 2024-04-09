@@ -23,6 +23,16 @@ fun <A> Arb.Companion.maybe(arb: Arb<A>): Arb<A?> = arbitrary {
     }
 }
 
+fun <A> Arb.Companion.or(a: Arb<A>, b: Arb<A>): Arb<A> = arbitrary {
+    if (Arb.boolean().bind()) {
+        a.bind()
+    } else {
+        b.bind()
+    }
+}
+
+fun <A> Arb.Companion.ofValue(a: A): Arb<A> = arbitrary { a }
+
 fun Arb.Companion.positiveDoubleExact(): Arb<PositiveDouble> = Arb.positiveDouble()
     .filter { it.isFinite() }
     .map { PositiveDouble.unsafe(it) }

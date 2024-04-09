@@ -17,14 +17,11 @@ import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.primitive.PositiveDouble
 import com.ivy.data.model.primitive.TagId
-import com.ivy.data.repository.CurrencyRepository
 import java.time.Instant
 import java.time.ZoneId
 import javax.inject.Inject
 
-class TransactionMapper @Inject constructor(
-    private val currencyRepository: CurrencyRepository
-) {
+class TransactionMapper @Inject constructor() {
 
     @Suppress("CyclomaticComplexMethod")
     fun TransactionEntity.toDomain(
