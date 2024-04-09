@@ -23,7 +23,6 @@ import java.time.LocalDateTime
 import java.util.UUID
 import javax.inject.Inject
 
-@Suppress("LargeClass")
 class TransactionRepositoryImpl @Inject constructor(
     private val mapper: TransactionMapper,
     private val transactionDao: TransactionDao,
@@ -81,7 +80,6 @@ class TransactionRepositoryImpl @Inject constructor(
             transactionDao.findAllTransfersToAccount(toAccountId = toAccountId.value)
         }
     ).filterIsInstance<Transfer>()
-
 
     override suspend fun findAllBetween(
         startDate: LocalDateTime,

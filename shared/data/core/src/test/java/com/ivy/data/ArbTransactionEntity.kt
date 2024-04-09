@@ -20,11 +20,13 @@ import io.kotest.property.arbitrary.uuid
 import java.util.UUID
 
 fun Arb.Companion.invalidTransactionEntity(): Arb<TransactionEntity> = Arb.or(
-    Arb.invalidIncomeOrExpense(), Arb.invalidTransfer()
+    a = Arb.invalidIncomeOrExpense(),
+    b = Arb.invalidTransfer()
 )
 
 fun Arb.Companion.validTransactionEntity(): Arb<TransactionEntity> = Arb.or(
-    Arb.validIncomeOrExpense(), Arb.validTransfer()
+    a = Arb.validIncomeOrExpense(),
+    b = Arb.validTransfer()
 )
 
 fun Arb.Companion.invalidTransfer(): Arb<TransactionEntity> = arbitrary {
