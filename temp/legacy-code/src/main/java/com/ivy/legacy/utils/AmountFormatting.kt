@@ -123,8 +123,8 @@ private fun formatShortenedNumber(
 fun String.toCalcBalanceAmount(): Double {
     val amountString = this.lowercase()
     return when {
-        amountString.contains("k") -> amountString.replace("k", "").toDouble() * 1000
-        amountString.contains("m") -> amountString.replace("m", "").toDouble() * 1000000
+        amountString.contains("k") -> amountString.replace("k", "").toDouble() * THOUSAND
+        amountString.contains("m") -> amountString.replace("m", "").toDouble() * MILLION
         else -> this.toDouble()
     }
 }
