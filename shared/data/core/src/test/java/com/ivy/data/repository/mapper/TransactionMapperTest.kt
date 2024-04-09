@@ -1,5 +1,7 @@
 package com.ivy.data.repository.mapper
 
+import arrow.core.Some
+import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.entity.TransactionEntity
 import com.ivy.data.model.Expense
@@ -7,11 +9,16 @@ import com.ivy.data.model.Income
 import com.ivy.data.model.TransactionMetadata
 import com.ivy.data.model.common.Value
 import com.ivy.data.model.primitive.AssetCode
+import com.ivy.data.model.primitive.AssetCode.Companion.EUR
+import com.ivy.data.model.primitive.AssetCode.Companion.USD
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.primitive.PositiveDouble
+import com.ivy.data.model.testing.account
 import com.ivy.data.repository.AccountRepository
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.shouldBe
+import io.kotest.property.Arb
+import io.kotest.property.arbitrary.next
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -19,11 +26,13 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.UUID
 
+@RunWith(TestParameterInjector::class)
 class TransactionMapperTest {
 
     private val accountRepo = mockk<AccountRepository>()
@@ -35,6 +44,7 @@ class TransactionMapperTest {
         mapper = TransactionMapper(accountRepo)
     }
 
+    // region entity -> domain
     @Test
     fun `maps domain income to entity`() {
         // given
@@ -189,14 +199,14 @@ class TransactionMapperTest {
             id = TransactionId.value
         )
     }
+    // endregion
 
+    // domain -> entity
     @Test
     fun `maps income entity to domain - valid income`() = runTest {
         // given
         val entity = ValidIncome
-        coEvery { accountRepo.findById(AccountId) } returns mockk {
-            every { asset } returns AssetCode.EUR
-        }
+        mockkAccounts(account = EUR)
 
         // when
         val income = with(mapper) { entity.toDomain() }
@@ -218,7 +228,7 @@ class TransactionMapperTest {
             removed = false,
             value = Value(
                 amount = PositiveDouble.unsafe(100.0),
-                asset = AssetCode.EUR
+                asset = EUR
             ),
             account = AccountId,
             tags = persistentListOf()
@@ -228,9 +238,7 @@ class TransactionMapperTest {
     @Test
     fun `maps income entity to domain - blank title is okay`() = runTest {
         val blankTitleEntity = ValidIncome.copy(title = "")
-        coEvery { accountRepo.findById(AccountId) } returns mockk {
-            every { asset } returns AssetCode.USD
-        }
+        mockkAccounts(account = EUR)
 
         // when
         val income = with(mapper) { blankTitleEntity.toDomain() }
@@ -242,9 +250,7 @@ class TransactionMapperTest {
     @Test
     fun `maps income entity to domain - blank description is okay`() = runTest {
         val blankDescriptionEntity = ValidIncome.copy(description = "")
-        coEvery { accountRepo.findById(AccountId) } returns mockk {
-            every { asset } returns AssetCode.EUR
-        }
+        mockkAccounts(account = EUR)
 
         // when
         val income = with(mapper) { blankDescriptionEntity.toDomain() }
@@ -256,9 +262,7 @@ class TransactionMapperTest {
     @Test
     fun `maps income entity to domain - no category is okay`() = runTest {
         val noCategoryEntity = ValidIncome.copy(categoryId = null)
-        coEvery { accountRepo.findById(AccountId) } returns mockk {
-            every { asset } returns AssetCode.EUR
-        }
+        mockkAccounts(account = EUR)
 
         // when
         val income = with(mapper) { noCategoryEntity.toDomain() }
@@ -270,9 +274,7 @@ class TransactionMapperTest {
     @Test
     fun `maps income entity to domain - no recurringId is okay`() = runTest {
         val noRecurringId = ValidIncome.copy(recurringRuleId = null)
-        coEvery { accountRepo.findById(AccountId) } returns mockk {
-            every { asset } returns AssetCode.EUR
-        }
+        mockkAccounts(account = EUR)
 
         // when
         val income = with(mapper) { noRecurringId.toDomain() }
@@ -285,9 +287,7 @@ class TransactionMapperTest {
     fun `maps income entity to domain - no loanId is okay`() = runTest {
         // given
         val noLoanId = ValidIncome.copy(loanId = null)
-        coEvery { accountRepo.findById(AccountId) } returns mockk {
-            every { asset } returns AssetCode.USD
-        }
+        mockkAccounts(account = USD)
 
         // when
         val income = with(mapper) { noLoanId.toDomain() }
@@ -300,9 +300,7 @@ class TransactionMapperTest {
     fun `maps income entity to domain - no loanRecordId is okay`() = runTest {
         // given
         val noLoanRecordId = ValidIncome.copy(loanRecordId = null)
-        coEvery { accountRepo.findById(AccountId) } returns mockk {
-            every { asset } returns AssetCode.EUR
-        }
+        mockkAccounts(account = EUR)
 
         // when
         val income = with(mapper) { noLoanRecordId.toDomain() }
@@ -315,9 +313,7 @@ class TransactionMapperTest {
     fun `expense entity to domain - valid expense`() = runTest {
         // given
         val entity = ValidExpense
-        coEvery { accountRepo.findById(AccountId) } returns mockk {
-            every { asset } returns AssetCode.EUR
-        }
+        mockkAccounts(account = EUR)
 
         // when
         val expense = with(mapper) { entity.toDomain() }
@@ -339,7 +335,7 @@ class TransactionMapperTest {
             removed = false,
             value = Value(
                 amount = PositiveDouble.unsafe(100.0),
-                asset = AssetCode.EUR
+                asset = EUR
             ),
             account = AccountId,
             tags = persistentListOf()
@@ -349,9 +345,7 @@ class TransactionMapperTest {
     @Test
     fun `expense entity to domain - blank title is okay`() = runTest {
         val blankTitleEntity = ValidExpense.copy(title = "")
-        coEvery { accountRepo.findById(AccountId) } returns mockk {
-            every { asset } returns AssetCode.USD
-        }
+        mockkAccounts(account = USD)
 
         // when
         val expense = with(mapper) { blankTitleEntity.toDomain() }
@@ -363,9 +357,7 @@ class TransactionMapperTest {
     @Test
     fun `expense entity to domain - blank description is okay`() = runTest {
         val blankDescriptionEntity = ValidExpense.copy(description = "")
-        coEvery { accountRepo.findById(AccountId) } returns mockk {
-            every { asset } returns AssetCode.EUR
-        }
+        mockkAccounts(account = EUR)
 
         // when
         val expense = with(mapper) { blankDescriptionEntity.toDomain() }
@@ -378,9 +370,7 @@ class TransactionMapperTest {
     fun `expense entity to domain - no category is okay`() = runTest {
         // given
         val noCategoryEntity = ValidExpense.copy(categoryId = null)
-        coEvery { accountRepo.findById(AccountId) } returns mockk {
-            every { asset } returns AssetCode.EUR
-        }
+        mockkAccounts(account = EUR)
 
         // when
         val expense = with(mapper) { noCategoryEntity.toDomain() }
@@ -392,9 +382,7 @@ class TransactionMapperTest {
     @Test
     fun `expense entity to domain - no recurringId is okay`() = runTest {
         val noRecurringId = ValidExpense.copy(recurringRuleId = null)
-        coEvery { accountRepo.findById(AccountId) } returns mockk {
-            every { asset } returns AssetCode.EUR
-        }
+        mockkAccounts(account = EUR)
 
         // when
         val expense = with(mapper) { noRecurringId.toDomain() }
@@ -406,9 +394,7 @@ class TransactionMapperTest {
     @Test
     fun `expense entity to domain - no loanId is okay`() = runTest {
         val noLoanId = ValidExpense.copy(loanId = null)
-        coEvery { accountRepo.findById(AccountId) } returns mockk {
-            every { asset } returns AssetCode.USD
-        }
+        mockkAccounts(account = USD)
 
         // when
         val expense = with(mapper) { noLoanId.toDomain() }
@@ -421,9 +407,7 @@ class TransactionMapperTest {
     fun `expense entity to domain - no loanRecordId is okay`() = runTest {
         // given
         val noLoanRecordId = ValidExpense.copy(loanRecordId = null)
-        coEvery { accountRepo.findById(AccountId) } returns mockk {
-            every { asset } returns AssetCode.EUR
-        }
+        mockkAccounts(account = EUR)
 
         // when
         val expense = with(mapper) { noLoanRecordId.toDomain() }
@@ -436,12 +420,10 @@ class TransactionMapperTest {
     fun `transfer entity to domain - valid transfer`() = runTest {
         // given
         val entity = ValidTransfer
-        coEvery { accountRepo.findById(AccountId) } returns mockk {
-            every { asset } returns AssetCode.EUR
-        }
-        coEvery { accountRepo.findById(ToAccountId) } returns mockk {
-            every { asset } returns AssetCode.USD
-        }
+        mockkAccounts(
+            account = EUR,
+            toAccount = USD
+        )
 
         // when
         val transfer = with(mapper) { entity.toDomain() }
@@ -463,12 +445,12 @@ class TransactionMapperTest {
             removed = false,
             fromValue = Value(
                 amount = PositiveDouble.unsafe(100.0),
-                asset = AssetCode.EUR
+                asset = EUR
             ),
             fromAccount = AccountId,
             toValue = Value(
                 amount = PositiveDouble.unsafe(100.0),
-                asset = AssetCode.USD
+                asset = USD
             ),
             toAccount = ToAccountId,
             tags = persistentListOf()
@@ -479,12 +461,10 @@ class TransactionMapperTest {
     fun `transfer entity to domain - blank title is okay`() = runTest {
         // given
         val blankTitleEntity = ValidTransfer.copy(title = "")
-        coEvery { accountRepo.findById(AccountId) } returns mockk {
-            every { asset } returns AssetCode.EUR
-        }
-        coEvery { accountRepo.findById(ToAccountId) } returns mockk {
-            every { asset } returns AssetCode.EUR
-        }
+        mockkAccounts(
+            account = EUR,
+            toAccount = EUR
+        )
 
         // when
         val transfer = with(mapper) { blankTitleEntity.toDomain() }
@@ -496,12 +476,10 @@ class TransactionMapperTest {
     @Test
     fun `transfer entity to domain - blank description is okay`() = runTest {
         val blankDescriptionEntity = ValidTransfer.copy(description = "")
-        coEvery { accountRepo.findById(AccountId) } returns mockk {
-            every { asset } returns AssetCode.USD
-        }
-        coEvery { accountRepo.findById(ToAccountId) } returns mockk {
-            every { asset } returns AssetCode.USD
-        }
+        mockkAccounts(
+            account = USD,
+            toAccount = USD
+        )
 
         // when
         val transfer = with(mapper) { blankDescriptionEntity.toDomain() }
@@ -514,12 +492,10 @@ class TransactionMapperTest {
     fun `transfer entity to domain - no category is okay`() = runTest {
         // given
         val noCategoryEntity = ValidTransfer.copy(categoryId = null)
-        coEvery { accountRepo.findById(AccountId) } returns mockk {
-            every { asset } returns AssetCode.USD
-        }
-        coEvery { accountRepo.findById(ToAccountId) } returns mockk {
-            every { asset } returns AssetCode.EUR
-        }
+        mockkAccounts(
+            account = USD,
+            toAccount = EUR
+        )
 
         // when
         val transfer = with(mapper) { noCategoryEntity.toDomain() }
@@ -532,12 +508,10 @@ class TransactionMapperTest {
     fun `transfer entity to domain - no recurringId is okay`() = runTest {
         // given
         val noRecurringId = ValidTransfer.copy(recurringRuleId = null)
-        coEvery { accountRepo.findById(AccountId) } returns mockk {
-            every { asset } returns AssetCode.EUR
-        }
-        coEvery { accountRepo.findById(ToAccountId) } returns mockk {
-            every { asset } returns AssetCode.USD
-        }
+        mockkAccounts(
+            account = EUR,
+            toAccount = USD
+        )
 
         // when
         val transfer = with(mapper) { noRecurringId.toDomain() }
@@ -549,12 +523,10 @@ class TransactionMapperTest {
     @Test
     fun `transfer entity to domain - no loanId is okay`() = runTest {
         val noLoanId = ValidTransfer.copy(loanId = null)
-        coEvery { accountRepo.findById(AccountId) } returns mockk {
-            every { asset } returns AssetCode.USD
-        }
-        coEvery { accountRepo.findById(ToAccountId) } returns mockk {
-            every { asset } returns AssetCode.USD
-        }
+        mockkAccounts(
+            account = USD,
+            toAccount = USD
+        )
 
         // when
         val transfer = with(mapper) { noLoanId.toDomain() }
@@ -566,12 +538,10 @@ class TransactionMapperTest {
     @Test
     fun `transfer entity to domain - no loanRecordId is okay`() = runTest {
         val noLoanRecordId = ValidTransfer.copy(loanRecordId = null)
-        coEvery { accountRepo.findById(AccountId) } returns mockk {
-            every { asset } returns AssetCode.EUR
-        }
-        coEvery { accountRepo.findById(ToAccountId) } returns mockk {
-            every { asset } returns AssetCode.USD
-        }
+        mockkAccounts(
+            account = EUR,
+            toAccount = USD
+        )
 
         // when
         val transfer = with(mapper) { noLoanRecordId.toDomain() }
@@ -583,18 +553,31 @@ class TransactionMapperTest {
     @Test
     fun `transfer entity to domain - no toAmount is okay`() = runTest {
         val noLoanRecordId = ValidTransfer.copy(toAmount = null)
-        coEvery { accountRepo.findById(AccountId) } returns mockk {
-            every { asset } returns AssetCode.EUR
-        }
-        coEvery { accountRepo.findById(ToAccountId) } returns mockk {
-            every { asset } returns AssetCode.USD
-        }
+        mockkAccounts(
+            account = EUR,
+            toAccount = USD
+        )
 
         // when
         val transfer = with(mapper) { noLoanRecordId.toDomain() }
 
         // then
         transfer.shouldBeRight()
+    }
+    // endregion
+
+    private fun mockkAccounts(
+        account: AssetCode,
+        toAccount: AssetCode? = null,
+    ) {
+        coEvery {
+            accountRepo.findById(AccountId)
+        } returns Arb.account(asset = Some(account)).next()
+        if (toAccount != null) {
+            coEvery {
+                accountRepo.findById(ToAccountId)
+            } returns Arb.account(asset = Some(toAccount)).next()
+        }
     }
 
     companion object {
