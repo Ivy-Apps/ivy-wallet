@@ -9,6 +9,7 @@ import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.model.Tag
 import com.ivy.data.model.Transaction
 import com.ivy.data.model.primitive.TagId
+import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.TagsRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.frp.Pure
@@ -37,13 +38,15 @@ suspend fun List<Transaction>.withDateDividers(
     exchangeRatesLogic: ExchangeRatesLogic,
     settingsDao: SettingsDao,
     accountDao: AccountDao,
-    tagsRepository: TagsRepository
+    tagsRepository: TagsRepository,
+    accountRepository: AccountRepository,
 ): List<TransactionHistoryItem> {
     return transactionsWithDateDividers(
         transactions = this,
         baseCurrencyCode = settingsDao.findFirst().currency,
         getAccount = accountDao::findById then { it?.toDomain() },
         getTags = { tagsIds -> tagsRepository.findByIds(tagsIds) },
+        accountRepository = accountRepository,
         exchange = { data, amount ->
             exchangeRatesLogic.convertAmount(
                 baseCurrency = data.baseCurrency,
@@ -59,6 +62,7 @@ suspend fun List<Transaction>.withDateDividers(
 suspend fun transactionsWithDateDividers(
     transactions: List<Transaction>,
     baseCurrencyCode: String,
+    accountRepository: AccountRepository,
 
     @SideEffect
     getAccount: suspend (accountId: UUID) -> Account?,
@@ -68,7 +72,7 @@ suspend fun transactionsWithDateDividers(
     getTags: suspend (tagIds: List<TagId>) -> List<Tag> = { emptyList() },
 ): List<TransactionHistoryItem> {
     if (transactions.isEmpty()) return emptyList()
-    val transactionsMapper = TransactionMapper()
+    val transactionsMapper = TransactionMapper(accountRepository)
     return transactions
         .groupBy { it.time.convertToLocal().toLocalDate() }
         .filterKeys { it != null }
