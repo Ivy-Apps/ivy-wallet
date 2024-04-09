@@ -43,7 +43,7 @@ class TransactionMapperPropertyTest {
     }
 
     @Test
-    fun `maps invalid incomes and expense to domain - fails`() = runTest {
+    fun `maps invalid incomes or expense to domain - fails`() = runTest {
         forAll(Arb.invalidIncomeOrExpense()) { entity ->
             // given
             coEvery {
@@ -64,7 +64,7 @@ class TransactionMapperPropertyTest {
     }
 
     @Test
-    fun `maps valid incomes and expense to domain - success`() = runTest {
+    fun `maps valid incomes or expense to domain - success`() = runTest {
         forAll(Arb.validIncomeOrExpense()) { entity ->
             // given
             coEvery {

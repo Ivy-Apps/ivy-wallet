@@ -4,7 +4,6 @@ import arrow.core.Some
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import com.ivy.base.model.TransactionType
-import com.ivy.base.time.convertToLocal
 import com.ivy.data.db.entity.TransactionEntity
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.CategoryId
@@ -21,12 +20,12 @@ import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.primitive.PositiveDouble
 import com.ivy.data.model.testing.account
 import com.ivy.data.repository.AccountRepository
+import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.next
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.test.runTest
@@ -323,6 +322,18 @@ class TransactionMapperTest {
     }
 
     @Test
+    fun `income entity to domain - missing source account is failure`() = runTest {
+        // given
+        coEvery { accountRepo.findById(AccountId) } returns null
+
+        // when
+        val transfer = with(mapper) { ValidIncome.toDomain() }
+
+        // then
+        transfer.shouldBeLeft()
+    }
+
+    @Test
     fun `expense entity to domain - valid expense`(
         @TestParameter settled: Boolean,
         @TestParameter removed: Boolean,
@@ -434,6 +445,18 @@ class TransactionMapperTest {
 
         // then
         expense.shouldBeRight()
+    }
+
+    @Test
+    fun `expense entity to domain - missing source account is failure`() = runTest {
+        // given
+        coEvery { accountRepo.findById(AccountId) } returns null
+
+        // when
+        val transfer = with(mapper) { ValidExpense.toDomain() }
+
+        // then
+        transfer.shouldBeLeft()
     }
 
     @Test
@@ -551,6 +574,7 @@ class TransactionMapperTest {
 
     @Test
     fun `transfer entity to domain - no loanId is okay`() = runTest {
+        // given
         val noLoanId = ValidTransfer.copy(loanId = null)
         mockkAccounts(
             account = USD,
@@ -566,6 +590,7 @@ class TransactionMapperTest {
 
     @Test
     fun `transfer entity to domain - no loanRecordId is okay`() = runTest {
+        // given
         val noLoanRecordId = ValidTransfer.copy(loanRecordId = null)
         mockkAccounts(
             account = EUR,
@@ -581,6 +606,7 @@ class TransactionMapperTest {
 
     @Test
     fun `transfer entity to domain - no toAmount is okay`() = runTest {
+        // given
         val noLoanRecordId = ValidTransfer.copy(toAmount = null)
         mockkAccounts(
             account = EUR,
@@ -592,6 +618,36 @@ class TransactionMapperTest {
 
         // then
         transfer.shouldBeRight()
+    }
+
+    @Test
+    fun `transfer entity to domain - missing source account is failure`() = runTest {
+        // given
+        coEvery { accountRepo.findById(AccountId) } returns null
+        coEvery {
+            accountRepo.findById(ToAccountId)
+        } returns Arb.account(asset = Some(EUR)).next()
+
+        // when
+        val transfer = with(mapper) { ValidTransfer.toDomain() }
+
+        // then
+        transfer.shouldBeLeft()
+    }
+
+    @Test
+    fun `transfer entity to domain - missing destination account is failure`() = runTest {
+        // given
+        coEvery {
+            accountRepo.findById(AccountId)
+        } returns Arb.account(asset = Some(EUR)).next()
+        coEvery { accountRepo.findById(ToAccountId) } returns null
+
+        // when
+        val transfer = with(mapper) { ValidTransfer.toDomain() }
+
+        // then
+        transfer.shouldBeLeft()
     }
     // endregion
 
