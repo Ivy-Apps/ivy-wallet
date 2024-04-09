@@ -7,6 +7,7 @@ import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.db.entity.TransactionEntity
 import com.ivy.data.invalidTransactionEntity
 import com.ivy.data.model.Transaction
+import com.ivy.data.model.testing.ModelFixtures
 import com.ivy.data.model.testing.transaction
 import com.ivy.data.repository.TagsRepository
 import com.ivy.data.repository.TransactionRepository
@@ -48,12 +49,66 @@ class TransactionRepositoryImplTest {
     }
 
     @Test
-    fun `find all`() = testCase(
+    fun `find by id - not existing`() = runTest {
+        // given
+        val transactionId = ModelFixtures.TransactionId
+        coEvery {
+            transactionDao.findById(transactionId.value)
+        } returns null
+
+        // when
+        val trn = repository.findById(transactionId)
+
+        // then
+        trn shouldBe null
+    }
+
+    @Test
+    fun `find by id - existing, successful mapping`() = runTest {
+        // given
+        val transactionId = ModelFixtures.TransactionId
+        val entity = mockk<TransactionEntity>()
+        val transaction = mockk<Transaction>()
+        coEvery {
+            transactionDao.findById(transactionId.value)
+        } returns entity
+        with(mapper) {
+            coEvery { entity.toDomain(any()) } returns Either.Right(transaction)
+        }
+
+        // when
+        val trn = repository.findById(transactionId)
+
+        // then
+        trn shouldBe transaction
+    }
+
+    @Test
+    fun `find by id - existing, failed mapping`() = runTest {
+        // given
+        val transactionId = ModelFixtures.TransactionId
+        val entity = mockk<TransactionEntity>()
+        coEvery {
+            transactionDao.findById(transactionId.value)
+        } returns entity
+        with(mapper) {
+            coEvery { entity.toDomain(any()) } returns Either.Left("err")
+        }
+
+        // when
+        val trn = repository.findById(transactionId)
+
+        // then
+        trn shouldBe null
+    }
+
+    @Test
+    fun `find all`() = transactionsTestCase(
         daoMethod = transactionDao::findAll,
         repoMethod = repository::findAll
     )
 
-    private fun testCase(
+    private fun transactionsTestCase(
         daoMethod: suspend () -> List<TransactionEntity>,
         repoMethod: suspend () -> List<Transaction>,
     ) = runTest {
