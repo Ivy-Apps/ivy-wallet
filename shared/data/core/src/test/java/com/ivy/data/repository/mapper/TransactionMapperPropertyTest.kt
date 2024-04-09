@@ -46,7 +46,7 @@ class TransactionMapperPropertyTest {
                 accountId = Some(trnOrig.getFromAccount()),
                 asset = Some(trnOrig.getFromValue().asset)
             ).next()
-            coEvery { accountRepo.findById(trnOrig.getFromAccount()) } returns account
+            coEvery { accountRepo.findById(account.id) } returns account
 
             if (trnOrig is Transfer) {
                 val toAccount = Arb.account(

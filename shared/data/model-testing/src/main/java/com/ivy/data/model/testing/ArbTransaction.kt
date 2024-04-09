@@ -19,11 +19,14 @@ import io.kotest.property.Arb
 import io.kotest.property.arbitrary.ArbitraryBuilderContext
 import io.kotest.property.arbitrary.arbitrary
 import io.kotest.property.arbitrary.boolean
+import io.kotest.property.arbitrary.filter
 import io.kotest.property.arbitrary.instant
 import io.kotest.property.arbitrary.int
 import io.kotest.property.arbitrary.map
+import io.kotest.property.arbitrary.removeEdgecases
 import io.kotest.property.arbitrary.uuid
 import java.time.Instant
+import java.util.concurrent.TimeUnit
 
 fun Arb.Companion.income(
     accountId: Option<AccountId> = None,
@@ -104,6 +107,7 @@ fun Arb.Companion.transfer(
     toAsset: Option<AssetCode> = None,
     id: Option<TransactionId> = None
 ): Arb<Transfer> = arbitrary {
+    val fromAccountVal = fromAccount.getOrElse { Arb.accountId().bind() }
     Transfer(
         id = id.getOrElse { Arb.transactionId().bind() },
         title = Arb.maybe(Arb.notBlankTrimmedString()).bind(),
@@ -123,8 +127,11 @@ fun Arb.Companion.transfer(
             amount = fromAmount.getOrElse { Arb.positiveDoubleExact().bind() },
             asset = fromAsset.getOrElse { Arb.assetCode().bind() }
         ),
-        fromAccount = fromAccount.getOrElse { Arb.accountId().bind() },
-        toAccount = toAccount.getOrElse { Arb.accountId().bind() },
+        fromAccount = fromAccountVal,
+        toAccount = toAccount.getOrElse {
+            Arb.accountId()
+                .filter { it != fromAccountVal }.bind()
+        },
         toValue = Value(
             amount = toAmount.getOrElse { Arb.positiveDoubleExact().bind() },
             asset = toAsset.getOrElse { Arb.assetCode().bind() }
@@ -167,12 +174,30 @@ fun Arb.Companion.assetCode(): Arb<AssetCode> = Arb.notBlankTrimmedString().map 
 
 private suspend fun ArbitraryBuilderContext.arbInstant(
     time: Option<ArbTime>
-): Instant = when (time) {
-    None -> Arb.instant().bind()
-    is Some -> when (val arbTime = time.value) {
-        is ArbTime.Before -> Arb.instant(maxValue = arbTime.before).bind()
-        is ArbTime.After -> Arb.instant(minValue = arbTime.after).bind()
-        is ArbTime.Exactly -> arbTime.time
+): Instant {
+    // Because of legacy timezone conversions
+    val safeOffset = TimeUnit.SECONDS.toDays(365 * 4)
+    val safeMaxValue = Instant.MAX.minusSeconds(safeOffset)
+    val safeMinValue = Instant.MIN.plusSeconds(safeOffset)
+    return when (time) {
+        None -> Arb.instant(
+            minValue = safeMinValue,
+            maxValue = safeMaxValue
+        ).removeEdgecases().bind()
+
+        is Some -> when (val arbTime = time.value) {
+            is ArbTime.Before -> Arb.instant(
+                minValue = safeMinValue,
+                maxValue = minOf(arbTime.before, safeMaxValue)
+            ).bind()
+
+            is ArbTime.After -> Arb.instant(
+                minValue = maxOf(arbTime.after, safeMinValue),
+                maxValue = safeMaxValue
+            ).bind()
+
+            is ArbTime.Exactly -> arbTime.time
+        }
     }
 }
 
