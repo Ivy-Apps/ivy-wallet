@@ -23,12 +23,12 @@ android {
     }
 }
 
-//gradle.projectsEvaluated {
-//    // Increase tests Heap Size because of Kotest property-based tests
-//    tasks.withType<Test> {
-//        maxHeapSize = "2048m"
-//    }
-//}
+gradle.projectsEvaluated {
+    // Increase tests Heap Size because of Kotest property-based tests
+    tasks.withType<Test> {
+        maxHeapSize = "2048m"
+    }
+}
 
 dependencies {
     implementation(libs.bundles.arrow)
