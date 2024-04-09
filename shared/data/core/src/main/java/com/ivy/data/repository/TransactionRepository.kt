@@ -17,9 +17,7 @@ interface TransactionRepository {
     suspend fun findAllIncomeByAccount(accountId: AccountId): List<Income>
     suspend fun findAllExpenseByAccount(accountId: AccountId): List<Expense>
     suspend fun findAllTransferByAccount(accountId: AccountId): List<Transfer>
-    suspend fun findAllTransfersToAccount(
-        toAccountId: AccountId,
-    ): List<Transfer>
+    suspend fun findAllTransfersToAccount(toAccountId: AccountId): List<Transfer>
 
     suspend fun findAllBetween(
         startDate: LocalDateTime,
