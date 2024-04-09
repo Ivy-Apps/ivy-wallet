@@ -28,6 +28,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
+import java.util.UUID
 
 class TransactionMapperPropertyTest {
 
@@ -40,6 +41,49 @@ class TransactionMapperPropertyTest {
         mapper = TransactionMapper(
             accountRepository = accountRepo,
         )
+    }
+
+    @Test
+    fun `maps valid transfer to domain - success`() = runTest {
+        forAll(Arb.validTransfer()) { entity ->
+            // given
+            coEvery {
+                accountRepo.findById(AccountId(entity.accountId))
+            } returns Arb.account().next()
+            entity.toAccountId?.let { toAccountId ->
+                coEvery {
+                    accountRepo.findById(AccountId(toAccountId))
+                } returns Arb.account().next()
+            }
+
+            // when
+            val res = with(mapper) { entity.toDomain(tags = emptyList()) }
+
+            // then
+            res.isRight()
+        }
+    }
+
+
+    @Test
+    fun `maps invalid transfer to domain - fails`() = runTest {
+        forAll(Arb.invalidTransfer()) { entity ->
+            // given
+            coEvery {
+                accountRepo.findById(AccountId(entity.accountId))
+            } returns Arb.account().next()
+            entity.toAccountId?.let { toAccountId ->
+                coEvery {
+                    accountRepo.findById(AccountId(toAccountId))
+                } returns Arb.account().next()
+            }
+
+            // when
+            val res = with(mapper) { entity.toDomain(tags = emptyList()) }
+
+            // then
+            res.isLeft()
+        }
     }
 
     @Test
@@ -82,6 +126,62 @@ class TransactionMapperPropertyTest {
             // then
             res.isRight()
         }
+    }
+
+    private fun Arb.Companion.invalidTransfer(): Arb<TransactionEntity> = arbitrary {
+        var entity = validTransfer().bind()
+        val invalidReasons = InvalidTransferReason.entries.shuffled().take(
+            Arb.int(1 until InvalidTransferReason.entries.size).bind()
+        ).toSet()
+
+        if (InvalidTransferReason.SameAccountAndToAccount in invalidReasons) {
+            val accountId = UUID.randomUUID()
+            entity = entity.copy(
+                accountId = accountId,
+                toAccountId = accountId
+            )
+        }
+
+        if (InvalidTransferReason.MissingToAccount in invalidReasons) {
+            entity = entity.copy(
+                toAccountId = null
+            )
+        }
+
+        entity
+    }
+
+    private fun Arb.Companion.validTransfer(): Arb<TransactionEntity> = arbitrary {
+        val isPlannedPayment = Arb.boolean().bind()
+
+        val account = Arb.accountId().bind().value
+        val toAccount = Arb.accountId()
+            .filter { it.value != account }
+            .bind().value
+
+        TransactionEntity(
+            accountId = account,
+            type = TransactionType.TRANSFER,
+            amount = Arb.positiveDoubleExact().bind().value,
+            toAccountId = toAccount,
+            toAmount = Arb.maybe(Arb.positiveDoubleExact()).bind()?.value,
+            title = Arb.maybe(Arb.string()).bind(),
+            description = Arb.maybe(Arb.string()).bind(),
+            dateTime = Arb.localDateTime().bind().takeIf {
+                !isPlannedPayment || Arb.boolean().bind()
+            },
+            dueDate = Arb.localDateTime().bind().takeIf {
+                isPlannedPayment || Arb.boolean().bind()
+            },
+            categoryId = Arb.maybe(Arb.uuid()).bind(),
+            recurringRuleId = Arb.maybe(Arb.uuid()).bind(),
+            attachmentUrl = Arb.maybe(Arb.string()).bind(),
+            loanId = Arb.maybe(Arb.uuid()).bind(),
+            loanRecordId = Arb.maybe(Arb.uuid()).bind(),
+            isSynced = Arb.boolean().bind(),
+            isDeleted = Arb.boolean().bind(),
+            id = Arb.uuid().bind()
+        )
     }
 
     private fun Arb.Companion.invalidIncomeOrExpense(): Arb<TransactionEntity> = arbitrary {
@@ -143,5 +243,10 @@ class TransactionMapperPropertyTest {
         MissingTime,
         NonPositiveAmount,
         InfiniteAmount,
+    }
+
+    enum class InvalidTransferReason {
+        MissingToAccount,
+        SameAccountAndToAccount,
     }
 }
