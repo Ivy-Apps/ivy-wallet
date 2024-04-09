@@ -10,7 +10,6 @@ import io.kotest.property.Arb
 import io.kotest.property.arbitrary.arbitrary
 import io.kotest.property.arbitrary.boolean
 import io.kotest.property.arbitrary.double
-import io.kotest.property.arbitrary.enum
 import io.kotest.property.arbitrary.filter
 import io.kotest.property.arbitrary.int
 import io.kotest.property.arbitrary.localDateTime
@@ -115,8 +114,7 @@ fun Arb.Companion.validIncomeOrExpense(): Arb<TransactionEntity> = arbitrary {
 
     TransactionEntity(
         accountId = Arb.uuid().bind(),
-        type = Arb.enum<TransactionType>()
-            .filter { it != TransactionType.TRANSFER }.bind(),
+        type = Arb.of(TransactionType.INCOME, TransactionType.EXPENSE).bind(),
         amount = Arb.positiveDoubleExact().bind().value,
         toAccountId = Arb.maybe(Arb.accountId()).bind()?.value,
         toAmount = Arb.maybe(Arb.double()).bind(),

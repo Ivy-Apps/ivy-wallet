@@ -112,7 +112,13 @@ class TransactionRepositoryImplTest {
         daoMethod: suspend () -> List<TransactionEntity>,
         repoMethod: suspend () -> List<Transaction>,
     ) = runTest {
-        checkAll(Arb.map(Arb.trnMappingRow())) { trnMapping ->
+        checkAll(
+            Arb.map(
+                arb = Arb.trnMappingRow(),
+                minSize = 0,
+                maxSize = 10,
+            )
+        ) { trnMapping ->
             // given
             coEvery { daoMethod() } returns trnMapping.keys.toList()
             trnMapping.forEach { (entity, mappingRes) ->
