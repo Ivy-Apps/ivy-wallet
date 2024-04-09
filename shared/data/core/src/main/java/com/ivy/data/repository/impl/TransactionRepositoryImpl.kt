@@ -902,12 +902,11 @@ class TransactionRepositoryImpl @Inject constructor(
         toAccountId: UUID?
     ): Pair<AssetCode?, AssetCode?> {
         val assetCode = getAssetCodeForAccount(accountId)
-        val toAssetCode = getAssetCodeForAccount(toAccountId)
+        val toAssetCode = toAccountId?.let { getAssetCodeForAccount(it) }
         return Pair(assetCode, toAssetCode)
     }
 
-    private suspend fun getAssetCodeForAccount(accountId: UUID?): AssetCode? {
-        accountId ?: return null
+    private suspend fun getAssetCodeForAccount(accountId: UUID): AssetCode? {
         return accountRepository.findById(AccountId(accountId))?.asset
     }
 
