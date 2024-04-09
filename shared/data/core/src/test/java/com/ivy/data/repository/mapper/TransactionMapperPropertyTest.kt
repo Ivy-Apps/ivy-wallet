@@ -64,7 +64,6 @@ class TransactionMapperPropertyTest {
         }
     }
 
-
     @Test
     fun `maps invalid transfer to domain - fails`() = runTest {
         forAll(Arb.invalidTransfer()) { entity ->

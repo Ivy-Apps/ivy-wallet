@@ -27,7 +27,6 @@ class TransactionMapper @Inject constructor(
     private val accountRepository: AccountRepository
 ) {
 
-    @Suppress("CyclomaticComplexMethod")
     suspend fun TransactionEntity.toDomain(
         tags: List<TagId> = emptyList()
     ): Either<String, Transaction> = either {

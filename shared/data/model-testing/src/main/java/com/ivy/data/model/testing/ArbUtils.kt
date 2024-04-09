@@ -43,7 +43,5 @@ fun Arb.Companion.positiveDoubleExact(): Arb<PositiveDouble> = Arb.positiveDoubl
 fun Arb.Companion.colorInt(): Arb<ColorInt> = Arb.int().map(::ColorInt)
 
 fun Arb.Companion.iconAsset(): Arb<IconAsset> = Arb.notBlankTrimmedString().map {
-    IconAsset.unsafe(it.value.filter { c ->
-        !c.isWhitespace()
-    })
+    IconAsset.unsafe(it.value.filter { c -> !c.isWhitespace() })
 }

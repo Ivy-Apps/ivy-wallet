@@ -132,9 +132,10 @@ fun Arb.Companion.transfer(
     )
 }
 
+@Suppress("MagicNumber")
 fun Arb.Companion.transaction(): Arb<Transaction> = arbitrary {
-    when(Arb.int(1..3).bind()) {
-        1 ->income().bind()
+    when (Arb.int(1..3).bind()) {
+        1 -> income().bind()
         2 -> expense().bind()
         3 -> transfer().bind()
         else -> error("Arb.Companion.Transaction error - it's not your test but the test utils.")
