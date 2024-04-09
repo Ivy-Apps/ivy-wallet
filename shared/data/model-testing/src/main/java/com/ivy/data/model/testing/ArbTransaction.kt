@@ -24,18 +24,25 @@ fun Arb.Companion.income(
     accountId: Option<AccountId> = None,
     categoryId: Option<CategoryId?> = None,
     settled: Option<Boolean> = None,
-    before: Instant = Instant.MAX,
+    time: Option<ArbTime> = None,
     removed: Option<Boolean> = Some(false),
     amount: Option<PositiveDouble> = None,
     asset: Option<AssetCode> = None,
     id: Option<TransactionId> = None
-) = arbitrary {
+): Arb<Income> = arbitrary {
     Income(
         id = id.getOrElse { Arb.transactionId().bind() },
         title = Arb.maybe(Arb.notBlankTrimmedString()).bind(),
         description = Arb.maybe(Arb.notBlankTrimmedString()).bind(),
         category = categoryId.getOrElse { Arb.maybe(Arb.categoryId()).bind() },
-        time = Arb.instant(maxValue = before).bind(),
+        time = when (time) {
+            None -> Arb.instant().bind()
+            is Some -> when (val arbTime = time.value) {
+                is ArbTime.Before -> Arb.instant(maxValue = arbTime.before).bind()
+                is ArbTime.After -> Arb.instant(minValue = arbTime.after).bind()
+                is ArbTime.Exactly -> arbTime.time
+            }
+        },
         settled = settled.getOrElse { Arb.boolean().bind() },
         metadata = TransactionMetadata(
             recurringRuleId = null,
@@ -50,8 +57,13 @@ fun Arb.Companion.income(
             asset = asset.getOrElse { Arb.assetCode().bind() }
         ),
         account = accountId.getOrElse { Arb.accountId().bind() }
-
     )
+}
+
+sealed interface ArbTime {
+    data class Before(val before: Instant) : ArbTime
+    data class After(val after: Instant) : ArbTime
+    data class Exactly(val time: Instant) : ArbTime
 }
 
 fun Arb.Companion.transactionId(): Arb<TransactionId> = Arb.uuid().map(::TransactionId)

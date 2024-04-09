@@ -2,13 +2,6 @@ package com.ivy.data.repository.mapper
 
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.entity.TransactionEntity
-import com.ivy.data.model.AccountId
-import com.ivy.data.model.CategoryId
-import com.ivy.data.model.Expense
-import com.ivy.data.model.Income
-import com.ivy.data.model.TransactionId
-import com.ivy.data.model.TransactionMetadata
-import com.ivy.data.model.Transfer
 import com.ivy.data.model.common.Value
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.NotBlankTrimmedString
