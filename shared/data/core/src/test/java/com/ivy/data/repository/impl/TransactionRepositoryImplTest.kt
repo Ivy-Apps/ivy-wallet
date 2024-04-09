@@ -9,6 +9,7 @@ import com.ivy.data.invalidTransactionEntity
 import com.ivy.data.model.Transaction
 import com.ivy.data.model.testing.ModelFixtures
 import com.ivy.data.model.testing.transaction
+import com.ivy.data.model.testing.transactionId
 import com.ivy.data.repository.TagsRepository
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
@@ -17,7 +18,9 @@ import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.arbitrary
 import io.kotest.property.arbitrary.boolean
+import io.kotest.property.arbitrary.list
 import io.kotest.property.arbitrary.map
+import io.kotest.property.arbitrary.next
 import io.kotest.property.arbitrary.string
 import io.kotest.property.checkAll
 import io.mockk.coEvery
@@ -107,6 +110,19 @@ class TransactionRepositoryImplTest {
         daoMethod = transactionDao::findAll,
         repoMethod = repository::findAll
     )
+
+    @Test
+    fun `find all by ids`() {
+        val ids = Arb.list(Arb.transactionId()).next()
+        transactionsTestCase(
+            daoMethod = {
+                transactionDao.findByIds(ids.map { it.value })
+            },
+            repoMethod = {
+                repository.findByIds(ids)
+            }
+        )
+    }
 
     private fun transactionsTestCase(
         daoMethod: suspend () -> List<TransactionEntity>,

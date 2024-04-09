@@ -9,7 +9,6 @@ import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.IntervalType
-import com.ivy.data.temp.migration.getAccount
 import com.ivy.data.temp.migration.settleNow
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.legacy.datamodel.Account
@@ -213,7 +212,7 @@ class PlannedPaymentsLogic @Inject constructor(
             if (skipTransaction) {
                 transactionRepository.flagDeleted(paidTransaction.id)
             } else {
-                transactionRepository.save(paidTransaction.getAccount(), paidTransaction)
+                transactionRepository.save(paidTransaction)
             }
 
             if (plannedPaymentRule != null && plannedPaymentRule.oneTime) {
@@ -255,7 +254,7 @@ class PlannedPaymentsLogic @Inject constructor(
                 }
             } else {
                 paidTransactions.forEach { paidTransaction ->
-                    transactionRepository.save(paidTransaction.getAccount(), paidTransaction)
+                    transactionRepository.save(paidTransaction)
                 }
             }
 

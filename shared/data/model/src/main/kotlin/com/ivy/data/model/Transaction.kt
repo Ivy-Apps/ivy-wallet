@@ -19,6 +19,7 @@ sealed interface Transaction : Syncable {
     val time: Instant
     val settled: Boolean
     val metadata: TransactionMetadata
+    // TODO: Get rid of Tags from the core model because of perf. and complexity
     val tags: List<TagId>
 }
 
