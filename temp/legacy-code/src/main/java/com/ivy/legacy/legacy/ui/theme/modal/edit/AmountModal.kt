@@ -76,10 +76,10 @@ fun BoxWithConstraintsScope.AmountModal(
         mutableStateOf(
             if (currency.isNotEmpty()) {
                 initialAmount?.takeIf { it != 0.0 }?.format(currency)
-                    ?: "0"
+                    ?: ""
             } else {
                 initialAmount?.takeIf { it != 0.0 }?.format(decimalCountMax)
-                    ?: "0"
+                    ?: ""
             }
         )
     }
@@ -289,7 +289,6 @@ private fun formatNumber(number: String): String? {
         } else {
             ""
         }
-
         return formatInt(intPart) + decimalFormatted
     }
 
@@ -318,13 +317,13 @@ fun AmountKeyboard(
             ZeroRow.invoke(this)
         }
 
-        Spacer(Modifier.height(8.dp))
+        Spacer(Modifier.height(16.dp))
     }
 
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceEvenly
+        horizontalArrangement = Arrangement.Center
 
     ) {
         CircleNumberButton(
@@ -333,11 +332,15 @@ fun AmountKeyboard(
             onNumberPressed = onNumberPressed
         )
 
+        Spacer(Modifier.width(16.dp))
+
         CircleNumberButton(
             forCalculator = forCalculator,
             value = "8",
             onNumberPressed = onNumberPressed
         )
+
+        Spacer(Modifier.width(16.dp))
 
         CircleNumberButton(
             forCalculator = forCalculator,
@@ -348,12 +351,12 @@ fun AmountKeyboard(
         FirstRowExtra?.invoke(this)
     }
 
-    Spacer(Modifier.height(8.dp))
+    Spacer(Modifier.height(16.dp))
 
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceEvenly
+        horizontalArrangement = Arrangement.Center
     ) {
         CircleNumberButton(
             forCalculator = forCalculator,
@@ -361,11 +364,15 @@ fun AmountKeyboard(
             onNumberPressed = onNumberPressed
         )
 
+        Spacer(Modifier.width(16.dp))
+
         CircleNumberButton(
             forCalculator = forCalculator,
             value = "5",
             onNumberPressed = onNumberPressed
         )
+
+        Spacer(Modifier.width(16.dp))
 
         CircleNumberButton(
             forCalculator = forCalculator,
@@ -376,12 +383,12 @@ fun AmountKeyboard(
         SecondRowExtra?.invoke(this)
     }
 
-    Spacer(Modifier.height(8.dp))
+    Spacer(Modifier.height(16.dp))
 
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceEvenly
+        horizontalArrangement = Arrangement.Center
     ) {
         CircleNumberButton(
             forCalculator = forCalculator,
@@ -389,11 +396,15 @@ fun AmountKeyboard(
             onNumberPressed = onNumberPressed
         )
 
+        Spacer(Modifier.width(16.dp))
+
         CircleNumberButton(
             forCalculator = forCalculator,
             value = "2",
             onNumberPressed = onNumberPressed
         )
+
+        Spacer(Modifier.width(16.dp))
 
         CircleNumberButton(
             forCalculator = forCalculator,
@@ -404,12 +415,12 @@ fun AmountKeyboard(
         ThirdRowExtra?.invoke(this)
     }
 
-    Spacer(Modifier.height(8.dp))
+    Spacer(Modifier.height(16.dp))
 
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceEvenly
+        horizontalArrangement = Arrangement.Center
     ) {
         KeypadCircleButton(
             text = localDecimalSeparator(),
@@ -422,11 +433,15 @@ fun AmountKeyboard(
             onDecimalPoint()
         }
 
+        Spacer(Modifier.width(16.dp))
+
         CircleNumberButton(
             forCalculator = forCalculator,
             value = "0",
             onNumberPressed = onNumberPressed
         )
+
+        Spacer(Modifier.width(16.dp))
 
         IvyIcon(
             modifier = circleButtonModifier(onClick = onBackspace)
