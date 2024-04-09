@@ -41,30 +41,6 @@ class TransactionRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun findAllIncome(): List<Income> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findAllByType(TransactionType.INCOME).mapNotNull {
-                with(mapper) { it.toDomain() }.getOrNull() as? Income
-            }
-        }
-    }
-
-    override suspend fun findAllExpense(): List<Expense> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findAllByType(TransactionType.EXPENSE).mapNotNull {
-                with(mapper) { it.toDomain() }.getOrNull() as? Expense
-            }
-        }
-    }
-
-    override suspend fun findAllTransfer(): List<Transfer> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findAllByType(TransactionType.TRANSFER).mapNotNull {
-                with(mapper) { it.toDomain() }.getOrNull() as? Transfer
-            }
-        }
-    }
-
     override suspend fun findAllIncomeByAccount(accountId: AccountId): List<Income> {
         return withContext(dispatchersProvider.io) {
             transactionDao.findAllByTypeAndAccount(TransactionType.INCOME, accountId.value)
@@ -92,57 +68,6 @@ class TransactionRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun findAllIncomeByAccountBetween(
-        accountId: AccountId,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
-    ): List<Income> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findAllByTypeAndAccountBetween(
-                type = TransactionType.INCOME,
-                accountId = accountId.value,
-                startDate = startDate,
-                endDate = endDate
-            ).mapNotNull {
-                with(mapper) { it.toDomain() }.getOrNull() as? Income
-            }
-        }
-    }
-
-    override suspend fun findAllExpenseByAccountBetween(
-        accountId: AccountId,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
-    ): List<Expense> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findAllByTypeAndAccountBetween(
-                type = TransactionType.EXPENSE,
-                accountId = accountId.value,
-                startDate = startDate,
-                endDate = endDate
-            ).mapNotNull {
-                with(mapper) { it.toDomain() }.getOrNull() as? Expense
-            }
-        }
-    }
-
-    override suspend fun findAllTransferByAccountBetween(
-        accountId: AccountId,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
-    ): List<Transfer> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findAllByTypeAndAccountBetween(
-                type = TransactionType.TRANSFER,
-                accountId = accountId.value,
-                startDate = startDate,
-                endDate = endDate
-            ).mapNotNull {
-                with(mapper) { it.toDomain() }.getOrNull() as? Transfer
-            }
-        }
-    }
-
     override suspend fun findAllTransfersToAccount(
         toAccountId: AccountId
     ): List<Transfer> {
@@ -153,22 +78,6 @@ class TransactionRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun findAllTransfersToAccountBetween(
-        toAccountId: AccountId,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime,
-    ): List<Transfer> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findAllTransfersToAccountBetween(
-                toAccountId = toAccountId.value,
-                startDate = startDate,
-                endDate = endDate,
-                type = TransactionType.TRANSFER
-            ).mapNotNull {
-                with(mapper) { it.toDomain() }.getOrNull() as? Transfer
-            }
-        }
-    }
 
     override suspend fun findAllBetween(
         startDate: LocalDateTime,
@@ -196,126 +105,6 @@ class TransactionRepositoryImpl @Inject constructor(
                 .mapNotNull {
                     with(mapper) { it.toDomain() }.getOrNull()
                 }
-        }
-    }
-
-    override suspend fun findAllByCategoryAndBetween(
-        categoryId: CategoryId,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
-    ): List<Transaction> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findAllByCategoryAndBetween(categoryId.value, startDate, endDate)
-                .mapNotNull {
-                    with(mapper) { it.toDomain() }.getOrNull()
-                }
-        }
-    }
-
-    override suspend fun findAllUnspecifiedAndBetween(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
-    ): List<Transaction> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findAllUnspecifiedAndBetween(startDate, endDate).mapNotNull {
-                with(mapper) { it.toDomain() }.getOrNull()
-            }
-        }
-    }
-
-    override suspend fun findAllIncomeByCategoryAndBetween(
-        categoryId: CategoryId,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
-    ): List<Income> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findAllByCategoryAndTypeAndBetween(
-                categoryId = categoryId.value,
-                type = TransactionType.INCOME,
-                startDate = startDate,
-                endDate = endDate
-            ).mapNotNull {
-                with(mapper) { it.toDomain() }.getOrNull() as? Income
-            }
-        }
-    }
-
-    override suspend fun findAllExpenseByCategoryAndBetween(
-        categoryId: CategoryId,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
-    ): List<Expense> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findAllByCategoryAndTypeAndBetween(
-                categoryId = categoryId.value,
-                type = TransactionType.EXPENSE,
-                startDate = startDate,
-                endDate = endDate
-            ).mapNotNull {
-                with(mapper) { it.toDomain() }.getOrNull() as? Expense
-            }
-        }
-    }
-
-    override suspend fun findAllTransferByCategoryAndBetween(
-        categoryId: CategoryId,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
-    ): List<Transfer> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findAllByCategoryAndTypeAndBetween(
-                categoryId = categoryId.value,
-                type = TransactionType.TRANSFER,
-                startDate = startDate,
-                endDate = endDate
-            ).mapNotNull {
-                with(mapper) { it.toDomain() }.getOrNull() as? Transfer
-            }
-        }
-    }
-
-    override suspend fun findAllUnspecifiedIncomeAndBetween(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
-    ): List<Income> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findAllUnspecifiedAndTypeAndBetween(
-                type = TransactionType.INCOME,
-                startDate = startDate,
-                endDate = endDate
-            ).mapNotNull {
-                with(mapper) { it.toDomain() }.getOrNull() as? Income
-            }
-        }
-    }
-
-    override suspend fun findAllUnspecifiedExpenseAndBetween(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
-    ): List<Expense> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findAllUnspecifiedAndTypeAndBetween(
-                type = TransactionType.EXPENSE,
-                startDate = startDate,
-                endDate = endDate
-            ).mapNotNull {
-                with(mapper) { it.toDomain() }.getOrNull() as? Expense
-            }
-        }
-    }
-
-    override suspend fun findAllUnspecifiedTransferAndBetween(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
-    ): List<Transfer> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findAllUnspecifiedAndTypeAndBetween(
-                type = TransactionType.TRANSFER,
-                startDate = startDate,
-                endDate = endDate
-            ).mapNotNull {
-                with(mapper) { it.toDomain() }.getOrNull() as? Transfer
-            }
         }
     }
 
@@ -380,63 +169,6 @@ class TransactionRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun findAllByRecurringRuleId(recurringRuleId: UUID): List<Transaction> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findAllByRecurringRuleId(recurringRuleId).mapNotNull {
-                with(mapper) { it.toDomain() }.getOrNull()
-            }
-        }
-    }
-
-    override suspend fun findAllIncomeBetween(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
-    ): List<Income> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findAllBetweenAndType(startDate, endDate, TransactionType.INCOME)
-                .mapNotNull {
-                    with(mapper) { it.toDomain() }.getOrNull() as? Income
-                }
-        }
-    }
-
-    override suspend fun findAllExpenseBetween(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
-    ): List<Expense> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findAllBetweenAndType(startDate, endDate, TransactionType.EXPENSE)
-                .mapNotNull {
-                    with(mapper) { it.toDomain() }.getOrNull() as? Expense
-                }
-        }
-    }
-
-    override suspend fun findAllTransferBetween(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
-    ): List<Transfer> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findAllBetweenAndType(startDate, endDate, TransactionType.TRANSFER)
-                .mapNotNull {
-                    with(mapper) { it.toDomain() }.getOrNull() as? Transfer
-                }
-        }
-    }
-
-    override suspend fun findAllBetweenAndRecurringRuleId(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime,
-        recurringRuleId: UUID
-    ): List<Transaction> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findAllBetweenAndRecurringRuleId(startDate, endDate, recurringRuleId)
-                .mapNotNull {
-                    with(mapper) { it.toDomain() }.getOrNull()
-                }
-        }
-    }
-
     override suspend fun findById(id: TransactionId): Transaction? {
         return withContext(dispatchersProvider.io) {
             transactionDao.findById(id.value)?.let {
@@ -451,95 +183,6 @@ class TransactionRepositoryImpl @Inject constructor(
             transactionDao.findByIds(ids.map { it.value }).mapNotNull {
                 val tags = tagMap.await()[it.id] ?: emptyList()
                 with(mapper) { it.toDomain(tags = tags) }.getOrNull()
-            }
-        }
-    }
-
-    override suspend fun findByIsSyncedAndIsDeleted(
-        synced: Boolean,
-        deleted: Boolean
-    ): List<Transaction> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findByIsSyncedAndIsDeleted(synced, deleted).mapNotNull {
-                with(mapper) { it.toDomain() }.getOrNull()
-            }
-        }
-    }
-
-    override suspend fun countHappenedTransactions(): Long {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.countHappenedTransactions()
-        }
-    }
-
-    override suspend fun findAllByTitleMatchingPattern(pattern: String): List<Transaction> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findAllByTitleMatchingPattern(pattern).mapNotNull {
-                with(mapper) { it.toDomain() }.getOrNull()
-            }
-        }
-    }
-
-    override suspend fun countByTitleMatchingPattern(pattern: String): Long {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.countByTitleMatchingPattern(pattern)
-        }
-    }
-
-    override suspend fun findAllByCategory(categoryId: CategoryId): List<Transaction> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findAllByCategory(categoryId.value).mapNotNull {
-                with(mapper) { it.toDomain() }.getOrNull()
-            }
-        }
-    }
-
-    override suspend fun countByTitleMatchingPatternAndCategoryId(
-        pattern: String,
-        categoryId: CategoryId
-    ): Long {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.countByTitleMatchingPatternAndCategoryId(pattern, categoryId.value)
-        }
-    }
-
-    override suspend fun findAllByAccount(accountId: AccountId): List<Transaction> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findAllByAccount(accountId.value).mapNotNull {
-                with(mapper) { it.toDomain() }.getOrNull()
-            }
-        }
-    }
-
-    override suspend fun countByTitleMatchingPatternAndAccountId(
-        pattern: String,
-        accountId: AccountId
-    ): Long {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.countByTitleMatchingPatternAndAccountId(pattern, accountId.value)
-        }
-    }
-
-    override suspend fun findLoanTransaction(loanId: UUID): Transaction? {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findLoanTransaction(loanId)?.let {
-                with(mapper) { it.toDomain() }.getOrNull()
-            }
-        }
-    }
-
-    override suspend fun findLoanRecordTransaction(loanRecordId: UUID): Transaction? {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findLoanRecordTransaction(loanRecordId)?.let {
-                with(mapper) { it.toDomain() }.getOrNull()
-            }
-        }
-    }
-
-    override suspend fun findAllByLoanId(loanId: UUID): List<Transaction> {
-        return withContext(dispatchersProvider.io) {
-            transactionDao.findAllByLoanId(loanId).mapNotNull {
-                with(mapper) { it.toDomain() }.getOrNull()
             }
         }
     }
@@ -566,18 +209,6 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun flagDeleted(id: TransactionId) {
         withContext(dispatchersProvider.io) {
             writeTransactionDao.flagDeleted(id.value)
-        }
-    }
-
-    override suspend fun flagDeletedByRecurringRuleIdAndNoDateTime(recurringRuleId: UUID) {
-        withContext(dispatchersProvider.io) {
-            writeTransactionDao.flagDeletedByRecurringRuleIdAndNoDateTime(recurringRuleId)
-        }
-    }
-
-    override suspend fun flagDeletedByAccountId(accountId: AccountId) {
-        withContext(dispatchersProvider.io) {
-            writeTransactionDao.flagDeletedByAccountId(accountId.value)
         }
     }
 
