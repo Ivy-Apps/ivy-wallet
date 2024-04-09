@@ -49,16 +49,18 @@ class TransactionMapper @Inject constructor(
 
         val notBlankTitle = title?.let(NotBlankTrimmedString::from)?.getOrNull()
         val notBlankDescription = description?.let(NotBlankTrimmedString::from)?.getOrNull()
+        val category = categoryId?.let(::CategoryId)
+        val transactionId = TransactionId(id)
 
         when (type) {
             TransactionType.INCOME -> {
                 Income(
-                    id = TransactionId(id),
+                    id = transactionId,
                     value = fromValue,
                     account = accountId,
                     title = notBlankTitle,
                     description = notBlankDescription,
-                    category = categoryId?.let(::CategoryId),
+                    category = category,
                     time = time,
                     settled = settled,
                     metadata = metadata,
@@ -70,12 +72,12 @@ class TransactionMapper @Inject constructor(
 
             TransactionType.EXPENSE -> {
                 Expense(
-                    id = TransactionId(id),
+                    id = transactionId,
                     account = accountId,
                     value = fromValue,
                     title = notBlankTitle,
                     description = notBlankDescription,
-                    category = categoryId?.let(::CategoryId),
+                    category = category,
                     time = time,
                     settled = settled,
                     metadata = metadata,
@@ -107,10 +109,10 @@ class TransactionMapper @Inject constructor(
                 )
 
                 Transfer(
-                    id = TransactionId(id),
+                    id = transactionId,
                     title = notBlankTitle,
                     description = notBlankDescription,
-                    category = categoryId?.let(::CategoryId),
+                    category = category,
                     time = time,
                     settled = settled,
                     metadata = metadata,
