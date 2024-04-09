@@ -7,6 +7,7 @@ import com.ivy.data.invalidTransfer
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.Transfer
 import com.ivy.data.model.getFromAccount
+import com.ivy.data.model.getFromValue
 import com.ivy.data.model.testing.account
 import com.ivy.data.model.testing.transaction
 import com.ivy.data.repository.AccountRepository
@@ -41,11 +42,17 @@ class TransactionMapperPropertyTest {
     fun `property - domain-entity isomorphism`() = runTest {
         checkAll(Arb.transaction()) { trnOrig ->
             // given
-            val account = Arb.account(accountId = Some(trnOrig.getFromAccount())).next()
+            val account = Arb.account(
+                accountId = Some(trnOrig.getFromAccount()),
+                asset = Some(trnOrig.getFromValue().asset)
+            ).next()
             coEvery { accountRepo.findById(trnOrig.getFromAccount()) } returns account
 
             if (trnOrig is Transfer) {
-                val toAccount = Arb.account(accountId = Some(trnOrig.toAccount)).next()
+                val toAccount = Arb.account(
+                    accountId = Some(trnOrig.toAccount),
+                    asset = Some(trnOrig.toValue.asset)
+                ).next()
                 coEvery { accountRepo.findById(toAccount.id) } returns toAccount
             }
 

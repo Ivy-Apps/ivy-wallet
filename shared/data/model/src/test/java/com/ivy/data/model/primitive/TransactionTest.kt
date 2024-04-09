@@ -8,6 +8,7 @@ import com.ivy.data.model.TransactionMetadata
 import com.ivy.data.model.Transfer
 import com.ivy.data.model.common.Value
 import com.ivy.data.model.getFromAccount
+import com.ivy.data.model.getFromValue
 import com.ivy.data.model.getToAccount
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
@@ -86,6 +87,42 @@ class TransactionTest {
 
         // then
         accountId shouldBe ToAccountId
+    }
+
+    @Test
+    fun `getFromValue - income`() {
+        // given
+        val trn = Income
+
+        // when
+        val value = trn.getFromValue()
+
+        // then
+        value shouldBe Income.value
+    }
+
+    @Test
+    fun `getFromValue - expense`() {
+        // given
+        val trn = Expense
+
+        // when
+        val value = trn.getFromValue()
+
+        // then
+        value shouldBe Expense.value
+    }
+
+    @Test
+    fun `getFromValue - transfer`() {
+        // given
+        val trn = Transfer
+
+        // when
+        val value = trn.getFromValue()
+
+        // then
+        value shouldBe Transfer.fromValue
     }
 
     companion object {

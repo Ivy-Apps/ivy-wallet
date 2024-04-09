@@ -80,6 +80,12 @@ data class TransactionMetadata(
     val loanRecordId: UUID?,
 )
 
+fun Transaction.getFromValue(): Value = when (this) {
+    is Expense -> value
+    is Income -> value
+    is Transfer -> fromValue
+}
+
 fun Transaction.getFromAccount(): AccountId = when (this) {
     is Expense -> account
     is Income -> account

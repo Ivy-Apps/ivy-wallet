@@ -135,18 +135,24 @@ fun Arb.Companion.transfer(
 @Suppress("MagicNumber")
 fun Arb.Companion.transaction(
     account: Option<AccountId> = None,
+    fromAsset: Option<AssetCode> = None,
+    toAsset: Option<AssetCode> = None,
 ): Arb<Transaction> = arbitrary {
     when (Arb.int(1..3).bind()) {
         1 -> income(
-            accountId = account
+            accountId = account,
+            asset = fromAsset,
         ).bind()
 
         2 -> expense(
-            accountId = account
+            accountId = account,
+            asset = fromAsset,
         ).bind()
 
         3 -> transfer(
-            fromAccount = account
+            fromAccount = account,
+            fromAsset = fromAsset,
+            toAsset = toAsset,
         ).bind()
 
         else -> error("Arb.Companion.Transaction error - it's not your test but the test utils.")
