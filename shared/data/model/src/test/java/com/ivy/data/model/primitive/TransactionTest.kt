@@ -1,0 +1,162 @@
+package com.ivy.data.model.primitive
+
+import com.ivy.data.model.AccountId
+import com.ivy.data.model.Expense
+import com.ivy.data.model.Income
+import com.ivy.data.model.TransactionId
+import com.ivy.data.model.TransactionMetadata
+import com.ivy.data.model.Transfer
+import com.ivy.data.model.common.Value
+import com.ivy.data.model.getFromAccount
+import com.ivy.data.model.getToAccount
+import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldBe
+import org.junit.Test
+import java.time.Instant
+import java.util.UUID
+
+class TransactionTest {
+    @Test
+    fun `getFromAccount - income`() {
+        // given
+        val trn = Income
+
+        // when
+        val accountId = trn.getFromAccount()
+
+        // then
+        accountId shouldBe AccountId
+    }
+
+    @Test
+    fun `getFromAccount - expense`() {
+        // given
+        val trn = Expense
+
+        // when
+        val accountId = trn.getFromAccount()
+
+        // then
+        accountId.shouldNotBeNull() shouldBe AccountId
+    }
+
+    @Test
+    fun `getFromAccount - transfer`() {
+        // given
+        val trn = Transfer
+
+        // when
+        val accountId = trn.getFromAccount()
+
+        // then
+        accountId shouldBe AccountId
+    }
+
+    @Test
+    fun `getToAccount - income`() {
+        // given
+        val trn = Income
+
+        // when
+        val accountId = trn.getToAccount()
+
+        // then
+        accountId shouldBe null
+    }
+
+    @Test
+    fun `getToAccount - expense`() {
+        // given
+        val trn = Expense
+
+        // when
+        val accountId = trn.getToAccount()
+
+        // then
+        accountId shouldBe null
+    }
+
+    @Test
+    fun `getToAccount - transfer`() {
+        // given
+        val trn = Transfer
+
+        // when
+        val accountId = trn.getToAccount()
+
+        // then
+        accountId shouldBe ToAccountId
+    }
+
+    companion object {
+        val AccountId = AccountId(UUID.randomUUID())
+        val ToAccountId = AccountId(UUID.randomUUID())
+
+        val Expense = Expense(
+            id = TransactionId(UUID.randomUUID()),
+            title = null,
+            description = null,
+            category = null,
+            time = Instant.EPOCH,
+            settled = false,
+            metadata = TransactionMetadata(
+                recurringRuleId = null,
+                loanId = null,
+                loanRecordId = null
+            ),
+            lastUpdated = Instant.EPOCH,
+            removed = false,
+            tags = listOf(),
+            value = Value(
+                amount = PositiveDouble.unsafe(1.0), asset = AssetCode.EUR
+            ),
+            account = AccountId,
+        )
+
+        val Income = Income(
+            id = TransactionId(UUID.randomUUID()),
+            title = null,
+            description = null,
+            category = null,
+            time = Instant.EPOCH,
+            settled = false,
+            metadata = TransactionMetadata(
+                recurringRuleId = null,
+                loanId = null,
+                loanRecordId = null
+            ),
+            lastUpdated = Instant.EPOCH,
+            removed = false,
+            tags = listOf(),
+            value = Value(
+                amount = PositiveDouble.unsafe(1.0), asset = AssetCode.EUR
+            ),
+            account = AccountId,
+        )
+
+        val Transfer = Transfer(
+            id = TransactionId(UUID.randomUUID()),
+            title = null,
+            description = null,
+            category = null,
+            time = Instant.EPOCH,
+            settled = false,
+            metadata = TransactionMetadata(
+                recurringRuleId = null,
+                loanId = null,
+                loanRecordId = null
+            ),
+            lastUpdated = Instant.EPOCH,
+            removed = false,
+            tags = listOf(),
+            fromAccount = AccountId,
+            fromValue = Value(
+                amount = PositiveDouble.unsafe(1.0), asset = AssetCode.EUR
+            ),
+            toValue = Value(
+                amount = PositiveDouble.unsafe(1.0), asset = AssetCode.EUR
+            ),
+            toAccount = ToAccountId,
+        )
+    }
+}

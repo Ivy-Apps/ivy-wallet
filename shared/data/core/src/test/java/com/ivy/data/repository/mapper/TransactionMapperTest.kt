@@ -51,7 +51,10 @@ class TransactionMapperTest {
 
     // region entity -> domain
     @Test
-    fun `maps domain income to entity`() {
+    fun `maps domain income to entity`(
+        @TestParameter settled: Boolean,
+        @TestParameter removed: Boolean,
+    ) {
         // given
         val income = Income(
             id = TransactionId,
@@ -59,14 +62,14 @@ class TransactionMapperTest {
             description = NotBlankTrimmedString.unsafe("Income desc"),
             category = CategoryId,
             time = InstantNow,
-            settled = true,
+            settled = settled,
             metadata = TransactionMetadata(
                 recurringRuleId = RecurringRuleId,
                 loanId = LoanId,
                 loanRecordId = LoanRecordId
             ),
             lastUpdated = InstantNow,
-            removed = false,
+            removed = removed,
             value = Value(
                 amount = PositiveDouble.unsafe(100.0),
                 asset = AssetCode.unsafe("NGN")
@@ -79,6 +82,7 @@ class TransactionMapperTest {
         val entity = with(mapper) { income.toEntity() }
 
         // then
+        val dateTime = InstantNow.atZone(ZoneId.systemDefault()).toLocalDateTime()
         entity shouldBe TransactionEntity(
             accountId = AccountId.value,
             type = TransactionType.INCOME,
@@ -87,21 +91,24 @@ class TransactionMapperTest {
             toAmount = null,
             title = "Income",
             description = "Income desc",
-            dateTime = InstantNow.atZone(ZoneId.systemDefault()).toLocalDateTime(),
+            dateTime = dateTime.takeIf { settled },
             categoryId = CategoryId.value,
-            dueDate = null,
+            dueDate = dateTime.takeIf { !settled },
             recurringRuleId = RecurringRuleId,
             attachmentUrl = null,
             loanId = LoanId,
             loanRecordId = LoanRecordId,
             isSynced = true,
-            isDeleted = false,
+            isDeleted = removed,
             id = TransactionId.value
         )
     }
 
     @Test
-    fun `maps domain expense to entity`() {
+    fun `maps domain expense to entity`(
+        @TestParameter settled: Boolean,
+        @TestParameter removed: Boolean,
+    ) {
         // given
         val expense = Expense(
             id = TransactionId,
@@ -109,14 +116,14 @@ class TransactionMapperTest {
             description = NotBlankTrimmedString.unsafe("Expense desc"),
             category = CategoryId,
             time = InstantNow,
-            settled = true,
+            settled = settled,
             metadata = TransactionMetadata(
                 recurringRuleId = RecurringRuleId,
                 loanId = LoanId,
                 loanRecordId = LoanRecordId
             ),
             lastUpdated = Instant.EPOCH,
-            removed = false,
+            removed = removed,
             value = Value(
                 amount = PositiveDouble.unsafe(100.0),
                 asset = AssetCode.unsafe("NGN")
@@ -129,6 +136,7 @@ class TransactionMapperTest {
         val entity = with(mapper) { expense.toEntity() }
 
         // then
+        val dateTime = InstantNow.atZone(ZoneId.systemDefault()).toLocalDateTime()
         entity shouldBe TransactionEntity(
             accountId = AccountId.value,
             type = TransactionType.EXPENSE,
@@ -137,21 +145,24 @@ class TransactionMapperTest {
             toAmount = null,
             title = "Expense",
             description = "Expense desc",
-            dateTime = InstantNow.atZone(ZoneId.systemDefault()).toLocalDateTime(),
+            dateTime = dateTime.takeIf { settled },
             categoryId = CategoryId.value,
-            dueDate = null,
+            dueDate = dateTime.takeIf { !settled },
             recurringRuleId = RecurringRuleId,
             attachmentUrl = null,
             loanId = LoanId,
             loanRecordId = LoanRecordId,
             isSynced = true,
-            isDeleted = false,
+            isDeleted = removed,
             id = TransactionId.value
         )
     }
 
     @Test
-    fun `maps domain transfer to entity`() {
+    fun `maps domain transfer to entity`(
+        @TestParameter settled: Boolean,
+        @TestParameter removed: Boolean,
+    ) {
         // given
         val transfer = Transfer(
             id = TransactionId,
@@ -159,14 +170,14 @@ class TransactionMapperTest {
             description = NotBlankTrimmedString.unsafe("Transfer desc"),
             category = CategoryId,
             time = InstantNow,
-            settled = true,
+            settled = settled,
             metadata = TransactionMetadata(
                 recurringRuleId = RecurringRuleId,
                 loanId = LoanId,
                 loanRecordId = LoanRecordId
             ),
             lastUpdated = Instant.EPOCH,
-            removed = false,
+            removed = removed,
             fromValue = Value(
                 amount = PositiveDouble.unsafe(100.0),
                 asset = AssetCode.unsafe("NGN")
@@ -184,6 +195,7 @@ class TransactionMapperTest {
         val entity = with(mapper) { transfer.toEntity() }
 
         // then
+        val dateTime = InstantNow.atZone(ZoneId.systemDefault()).toLocalDateTime()
         entity shouldBe TransactionEntity(
             accountId = AccountId.value,
             type = TransactionType.TRANSFER,
@@ -192,15 +204,15 @@ class TransactionMapperTest {
             toAmount = 100.0,
             title = "Transfer",
             description = "Transfer desc",
-            dateTime = InstantNow.atZone(ZoneId.systemDefault()).toLocalDateTime(),
+            dateTime = dateTime.takeIf { settled },
             categoryId = CategoryId.value,
-            dueDate = null,
+            dueDate = dateTime.takeIf { !settled },
             recurringRuleId = RecurringRuleId,
             attachmentUrl = null,
             loanId = LoanId,
             loanRecordId = LoanRecordId,
             isSynced = true,
-            isDeleted = false,
+            isDeleted = removed,
             id = TransactionId.value
         )
     }

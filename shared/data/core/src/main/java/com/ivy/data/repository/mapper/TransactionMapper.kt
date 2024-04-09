@@ -15,6 +15,8 @@ import com.ivy.data.model.TransactionId
 import com.ivy.data.model.TransactionMetadata
 import com.ivy.data.model.Transfer
 import com.ivy.data.model.common.Value
+import com.ivy.data.model.getFromAccount
+import com.ivy.data.model.getToAccount
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.primitive.PositiveDouble
 import com.ivy.data.model.primitive.TagId
@@ -137,11 +139,7 @@ class TransactionMapper @Inject constructor(
     fun Transaction.toEntity(): TransactionEntity {
         val dateTime = time.atZone(ZoneId.systemDefault()).toLocalDateTime()
         return TransactionEntity(
-            accountId = when (this) {
-                is Expense -> account.value
-                is Income -> account.value
-                is Transfer -> fromAccount.value
-            },
+            accountId = getFromAccount().value,
             type = when (this) {
                 is Expense -> TransactionType.EXPENSE
                 is Income -> TransactionType.INCOME
@@ -152,11 +150,7 @@ class TransactionMapper @Inject constructor(
                 is Income -> value.amount.value
                 is Transfer -> fromValue.amount.value
             },
-            toAccountId = if (this is Transfer) {
-                toAccount.value
-            } else {
-                null
-            },
+            toAccountId = getToAccount()?.value,
             toAmount = if (this is Transfer) {
                 toValue.amount.value
             } else {
@@ -164,7 +158,7 @@ class TransactionMapper @Inject constructor(
             },
             title = title?.value,
             description = description?.value,
-            dateTime = dateTime,
+            dateTime = dateTime.takeIf { settled },
             categoryId = category?.value,
             dueDate = dateTime.takeIf { !settled },
             recurringRuleId = metadata.recurringRuleId,

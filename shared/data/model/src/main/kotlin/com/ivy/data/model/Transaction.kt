@@ -79,3 +79,15 @@ data class TransactionMetadata(
     // This refers to the loan record id that is linked with a transaction
     val loanRecordId: UUID?,
 )
+
+fun Transaction.getFromAccount(): AccountId = when (this) {
+    is Expense -> account
+    is Income -> account
+    is Transfer -> fromAccount
+}
+
+fun Transaction.getToAccount(): AccountId? = when (this) {
+    is Expense -> null
+    is Income -> null
+    is Transfer -> toAccount
+}
