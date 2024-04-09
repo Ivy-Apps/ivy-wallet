@@ -16,11 +16,11 @@ import javax.inject.Inject
 class AccountMapper @Inject constructor(
     private val currencyRepository: CurrencyRepository
 ) {
-    suspend fun AccountEntity.toDomain(): Either<String, com.ivy.data.model.Account> = either {
-        com.ivy.data.model.Account(
-            id = com.ivy.data.model.AccountId(id),
+    suspend fun AccountEntity.toDomain(): Either<String, Account> = either {
+        Account(
+            id = AccountId(id),
             name = NotBlankTrimmedString.from(name).bind(),
-            asset = currency?.let(AssetCode::from)?.bind()
+            asset = currency?.let(AssetCode::from)?.getOrNull()
                 ?: currencyRepository.getBaseCurrency(),
             color = ColorInt(color),
             icon = icon?.let(IconAsset::from)?.getOrNull(),
@@ -31,7 +31,7 @@ class AccountMapper @Inject constructor(
         )
     }
 
-    fun com.ivy.data.model.Account.toEntity(): AccountEntity {
+    fun Account.toEntity(): AccountEntity {
         return AccountEntity(
             name = name.value,
             currency = asset.code,

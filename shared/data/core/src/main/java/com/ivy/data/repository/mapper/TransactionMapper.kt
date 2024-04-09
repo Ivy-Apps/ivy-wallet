@@ -2,6 +2,7 @@ package com.ivy.data.repository.mapper
 
 import arrow.core.Either
 import arrow.core.raise.either
+import arrow.core.raise.ensureNotNull
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.entity.TransactionEntity
 import com.ivy.data.model.AccountId
@@ -13,20 +14,20 @@ import com.ivy.data.model.TransactionId
 import com.ivy.data.model.TransactionMetadata
 import com.ivy.data.model.Transfer
 import com.ivy.data.model.common.Value
-import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.primitive.PositiveDouble
 import com.ivy.data.model.primitive.TagId
+import com.ivy.data.repository.AccountRepository
 import java.time.Instant
 import java.time.ZoneId
 import javax.inject.Inject
 
-class TransactionMapper @Inject constructor() {
+class TransactionMapper @Inject constructor(
+    private val accountRepository: AccountRepository
+) {
 
     @Suppress("CyclomaticComplexMethod")
-    fun TransactionEntity.toDomain(
-        accountAssetCode: AssetCode?,
-        toAccountAssetCode: AssetCode? = null,
+    suspend fun TransactionEntity.toDomain(
         tags: List<TagId> = emptyList()
     ): Either<String, Transaction> = either {
         val metadata = TransactionMetadata(
@@ -40,10 +41,11 @@ class TransactionMapper @Inject constructor() {
             ?: dueDate?.atZone(zoneId)?.toInstant()
             ?: raise("Missing transaction time for entity: ${this@toDomain}")
 
+        val sourceAccount = accountRepository.findById(AccountId(accountId))
+        ensureNotNull(sourceAccount) { "No source account for transaction: ${this@toDomain}" }
         val fromValue = Value(
             amount = PositiveDouble.from(amount).bind(),
-            asset = accountAssetCode
-                ?: raise("No asset code associated with the account for this transaction '${this@toDomain}'")
+            asset = sourceAccount.asset
         )
 
         val notBlankTrimmedTitle = title?.let(NotBlankTrimmedString::from)?.getOrNull()
@@ -85,17 +87,21 @@ class TransactionMapper @Inject constructor() {
             }
 
             TransactionType.TRANSFER -> {
+                val toAccountId = toAccountId?.let(::AccountId)
+                ensureNotNull(toAccountId) {
+                    "No destination account id associated with transaction '${this@toDomain}'"
+                }
+                val toAccount = accountRepository.findById(toAccountId)
+                ensureNotNull(toAccount) {
+                    "No destination account  associated with transaction '${this@toDomain}'"
+                }
+
                 val toValue = Value(
-                    amount = toAmount?.let { PositiveDouble.from(it).bind() } ?: fromValue.amount,
-                    asset = toAccountAssetCode ?: fromValue.asset
+                    amount = toAmount?.let(PositiveDouble::from)?.getOrNull() ?: fromValue.amount,
+                    asset = toAccount.asset
                 )
 
-                val toAccount = toAccountId?.let(::AccountId) ?: raise(
-                    "No destination account id associated" +
-                            " with this transaction '${this@toDomain}'"
-                )
-
-                if (accountId == toAccount.value) {
+                if (accountId == toAccountId.value) {
                     raise(
                         "Source account id and destination accounts " +
                                 "are same with this transaction '${this@toDomain}'"
@@ -114,7 +120,7 @@ class TransactionMapper @Inject constructor() {
                     removed = isDeleted,
                     fromAccount = AccountId(accountId),
                     fromValue = fromValue,
-                    toAccount = toAccount,
+                    toAccount = toAccountId,
                     toValue = toValue,
                     tags = tags
                 )
