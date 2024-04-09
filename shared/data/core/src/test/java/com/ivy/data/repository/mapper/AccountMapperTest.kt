@@ -34,14 +34,14 @@ class AccountMapperTest {
     fun `maps domain to entity`() {
         // given
         val id = UUID.randomUUID()
-        val account = com.ivy.data.model.Account(
-            id = com.ivy.data.model.AccountId(id),
+        val account = Account(
+            id = AccountId(id),
             name = NotBlankTrimmedString.unsafe("Test"),
             asset = AssetCode.unsafe("USD"),
             color = ColorInt(value = 42),
             icon = IconAsset.unsafe("icon"),
             includeInBalance = true,
-            orderNum = 0.0,
+            orderNum = 3.14,
             lastUpdated = Instant.EPOCH,
             removed = false
         )
@@ -56,29 +56,33 @@ class AccountMapperTest {
             color = 42,
             icon = "icon",
             includeInBalance = true,
+            orderNum = 3.14,
             isSynced = true,
             isDeleted = false,
             id = id,
         )
     }
 
+    // region entity to domain
     @Test
     fun `maps entity to domain - valid entity`() = runTest {
         // given
-        val entity = ValidEntity
+        val entity = ValidEntity.copy(
+            orderNum = 42.0
+        )
 
         // when
         val result = with(mapper) { entity.toDomain() }
 
         // then
-        result.shouldBeRight() shouldBe com.ivy.data.model.Account(
-            id = com.ivy.data.model.AccountId(entity.id),
+        result.shouldBeRight() shouldBe Account(
+            id = AccountId(entity.id),
             name = NotBlankTrimmedString.unsafe("Test"),
             asset = AssetCode.unsafe("USD"),
             color = ColorInt(value = 42),
             icon = IconAsset.unsafe("icon"),
             includeInBalance = true,
-            orderNum = 0.0,
+            orderNum = 42.0,
             lastUpdated = Instant.EPOCH,
             removed = false
         )
@@ -118,7 +122,7 @@ class AccountMapperTest {
         val result = with(mapper) { missingIconEntity.toDomain() }
 
         // then
-        result.shouldBeRight()
+        result.shouldBeRight().icon shouldBe null
     }
 
     @Test
@@ -130,8 +134,9 @@ class AccountMapperTest {
         val result = with(mapper) { invalidIconEntity.toDomain() }
 
         // then
-        result.shouldBeRight()
+        result.shouldBeRight().icon shouldBe null
     }
+    // endregion
 
     companion object {
         val ValidEntity = AccountEntity(

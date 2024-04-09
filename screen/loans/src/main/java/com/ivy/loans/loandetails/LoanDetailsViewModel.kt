@@ -15,7 +15,7 @@ import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Loan
 import com.ivy.legacy.datamodel.LoanRecord
-import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.datamodel.temp.toLegacyDomain
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.ioThread
@@ -258,7 +258,7 @@ class LoanDetailsViewModel @Inject constructor(
                         )
 
                         DisplayLoanRecord(
-                            it.toDomain(),
+                            it.toLegacyDomain(),
                             account = account,
                             loanRecordTransaction = trans != null,
                             loanRecordCurrencyCode = account?.currency ?: defaultCurrencyCode,
@@ -307,7 +307,7 @@ class LoanDetailsViewModel @Inject constructor(
             }
 
             associatedTransaction = ioThread {
-                transactionDao.findLoanTransaction(loanId = loan.value!!.id)?.toDomain()
+                transactionDao.findLoanTransaction(loanId = loan.value!!.id)?.toLegacyDomain()
             }
 
             associatedTransaction?.let {

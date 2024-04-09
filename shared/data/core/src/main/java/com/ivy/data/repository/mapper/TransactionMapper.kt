@@ -2,6 +2,9 @@ package com.ivy.data.repository.mapper
 
 import arrow.core.Either
 import arrow.core.raise.either
+import arrow.core.raise.ensure
+import arrow.core.raise.ensureNotNull
+import com.ivy.base.TimeProvider
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.entity.TransactionEntity
 import com.ivy.data.model.AccountId
@@ -13,113 +16,113 @@ import com.ivy.data.model.TransactionId
 import com.ivy.data.model.TransactionMetadata
 import com.ivy.data.model.Transfer
 import com.ivy.data.model.common.Value
-import com.ivy.data.model.primitive.AssetCode
+import com.ivy.data.model.getFromAccount
+import com.ivy.data.model.getToAccount
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.primitive.PositiveDouble
 import com.ivy.data.model.primitive.TagId
+import com.ivy.data.repository.AccountRepository
 import java.time.Instant
-import java.time.ZoneId
 import javax.inject.Inject
 
-class TransactionMapper @Inject constructor() {
+class TransactionMapper @Inject constructor(
+    private val accountRepository: AccountRepository,
+    private val timeProvider: TimeProvider,
+) {
 
-    @Suppress("CyclomaticComplexMethod")
-    fun TransactionEntity.toDomain(
-        accountAssetCode: AssetCode?,
-        toAccountAssetCode: AssetCode? = null,
+    suspend fun TransactionEntity.toDomain(
         tags: List<TagId> = emptyList()
-    ): Either<String, com.ivy.data.model.Transaction> = either {
-        val metadata = com.ivy.data.model.TransactionMetadata(
+    ): Either<String, Transaction> = either {
+        val metadata = TransactionMetadata(
             recurringRuleId = recurringRuleId,
             loanId = loanId,
             loanRecordId = loanRecordId
         )
-        val zoneId = ZoneId.systemDefault()
         val settled = dateTime != null
-        val time = dateTime?.atZone(zoneId)?.toInstant()
-            ?: dueDate?.atZone(zoneId)?.toInstant()
-            ?: raise("Missing transaction time for entity: ${this@toDomain}")
+        val time = mapTime().bind()
 
+        val accountId = AccountId(accountId)
+        val sourceAccount = accountRepository.findById(accountId)
+        ensureNotNull(sourceAccount) { "No source account for transaction: ${this@toDomain}" }
         val fromValue = Value(
             amount = PositiveDouble.from(amount).bind(),
-            asset = accountAssetCode
-                ?: raise("No asset code associated with the account for this transaction '${this@toDomain}'")
+            asset = sourceAccount.asset
         )
 
-        val notBlankTrimmedTitle = title?.let(NotBlankTrimmedString::from)?.getOrNull()
-        val notBlankTrimmedDescription = description?.let(NotBlankTrimmedString::from)?.getOrNull()
+        val notBlankTitle = title?.let(NotBlankTrimmedString::from)?.getOrNull()
+        val notBlankDescription = description?.let(NotBlankTrimmedString::from)?.getOrNull()
+        val category = categoryId?.let(::CategoryId)
+        val transactionId = TransactionId(id)
 
         when (type) {
             TransactionType.INCOME -> {
-                com.ivy.data.model.Income(
-                    id = com.ivy.data.model.TransactionId(id),
-                    title = notBlankTrimmedTitle,
-                    description = notBlankTrimmedDescription,
-                    category = categoryId?.let { com.ivy.data.model.CategoryId(it) },
+                Income(
+                    id = transactionId,
+                    value = fromValue,
+                    account = accountId,
+                    title = notBlankTitle,
+                    description = notBlankDescription,
+                    category = category,
                     time = time,
                     settled = settled,
                     metadata = metadata,
                     lastUpdated = Instant.EPOCH,
                     removed = isDeleted,
-                    value = fromValue,
-                    account = com.ivy.data.model.AccountId(accountId),
                     tags = tags
                 )
             }
 
             TransactionType.EXPENSE -> {
-                com.ivy.data.model.Expense(
-                    id = com.ivy.data.model.TransactionId(id),
-                    title = notBlankTrimmedTitle,
-                    description = notBlankTrimmedDescription,
-                    category = categoryId?.let { com.ivy.data.model.CategoryId(it) },
+                Expense(
+                    id = transactionId,
+                    account = accountId,
+                    value = fromValue,
+                    title = notBlankTitle,
+                    description = notBlankDescription,
+                    category = category,
                     time = time,
                     settled = settled,
                     metadata = metadata,
                     lastUpdated = Instant.EPOCH,
                     removed = isDeleted,
-                    value = fromValue,
-                    account = com.ivy.data.model.AccountId(accountId),
                     tags = tags
                 )
             }
 
             TransactionType.TRANSFER -> {
-                val toValue = Value(
-                    amount = toAmount?.let { PositiveDouble.from(it).bind() }
-                        ?: raise("Missing transfer amount for transaction '${this@toDomain}'"),
-                    asset = toAccountAssetCode
-                        ?: raise(
-                            "No asset code associated with the destination account for this " +
-                                    "transaction '${this@toDomain}'"
-                        )
-                )
-
-                val toAccount = toAccountId?.let(::AccountId) ?: raise(
-                    "No destination account id associated" +
-                            " with this transaction '${this@toDomain}'"
-                )
-
-                if (accountId == toAccount.value) {
-                    raise(
-                        "Source account id and destination accounts " +
-                                "are same with this transaction '${this@toDomain}'"
-                    )
+                val toAccountId = toAccountId?.let(::AccountId)
+                ensureNotNull(toAccountId) {
+                    "No destination account id associated with transaction '${this@toDomain}'"
+                }
+                ensure(accountId != toAccountId) {
+                    "Self transfers aren't allowed. Source and destination accounts " +
+                            "must be different for transaction: ${this@toDomain}"
                 }
 
-                com.ivy.data.model.Transfer(
-                    id = com.ivy.data.model.TransactionId(id),
-                    title = notBlankTrimmedTitle,
-                    description = notBlankTrimmedDescription,
-                    category = categoryId?.let { com.ivy.data.model.CategoryId(it) },
+                val toAccount = accountRepository.findById(toAccountId)
+                ensureNotNull(toAccount) {
+                    "No destination account associated with transaction '${this@toDomain}'"
+                }
+
+                val toValue = Value(
+                    amount = toAmount?.let(PositiveDouble::from)?.getOrNull()
+                        ?: fromValue.amount,
+                    asset = toAccount.asset
+                )
+
+                Transfer(
+                    id = transactionId,
+                    title = notBlankTitle,
+                    description = notBlankDescription,
+                    category = category,
                     time = time,
                     settled = settled,
                     metadata = metadata,
                     lastUpdated = Instant.EPOCH,
                     removed = isDeleted,
-                    fromAccount = com.ivy.data.model.AccountId(accountId),
+                    fromAccount = accountId,
                     fromValue = fromValue,
-                    toAccount = toAccount,
+                    toAccount = toAccountId,
                     toValue = toValue,
                     tags = tags
                 )
@@ -127,37 +130,35 @@ class TransactionMapper @Inject constructor() {
         }
     }
 
-    fun com.ivy.data.model.Transaction.toEntity(): TransactionEntity {
-        val dateTime = time.atZone(ZoneId.systemDefault()).toLocalDateTime()
+    private fun TransactionEntity.mapTime(): Either<String, Instant> = either {
+        val time = (dateTime ?: dueDate)?.atZone(timeProvider.getZoneId())?.toInstant()
+        ensureNotNull(time) { "Missing transaction time for entity: $this" }
+        time
+    }
+
+    fun Transaction.toEntity(): TransactionEntity {
+        val dateTime = time.atZone(timeProvider.getZoneId()).toLocalDateTime()
         return TransactionEntity(
-            accountId = when (this) {
-                is com.ivy.data.model.Expense -> account.value
-                is com.ivy.data.model.Income -> account.value
-                is com.ivy.data.model.Transfer -> fromAccount.value
-            },
+            accountId = getFromAccount().value,
             type = when (this) {
-                is com.ivy.data.model.Expense -> TransactionType.EXPENSE
-                is com.ivy.data.model.Income -> TransactionType.INCOME
-                is com.ivy.data.model.Transfer -> TransactionType.TRANSFER
+                is Expense -> TransactionType.EXPENSE
+                is Income -> TransactionType.INCOME
+                is Transfer -> TransactionType.TRANSFER
             },
             amount = when (this) {
-                is com.ivy.data.model.Expense -> value.amount.value
-                is com.ivy.data.model.Income -> value.amount.value
-                is com.ivy.data.model.Transfer -> fromValue.amount.value
+                is Expense -> value.amount.value
+                is Income -> value.amount.value
+                is Transfer -> fromValue.amount.value
             },
-            toAccountId = if (this is com.ivy.data.model.Transfer) {
-                toAccount.value
-            } else {
-                null
-            },
-            toAmount = if (this is com.ivy.data.model.Transfer) {
+            toAccountId = getToAccount()?.value,
+            toAmount = if (this is Transfer) {
                 toValue.amount.value
             } else {
                 null
             },
             title = title?.value,
             description = description?.value,
-            dateTime = dateTime,
+            dateTime = dateTime.takeIf { settled },
             categoryId = category?.value,
             dueDate = dateTime.takeIf { !settled },
             recurringRuleId = metadata.recurringRuleId,

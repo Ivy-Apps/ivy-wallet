@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.deprecated.logic
 
 import com.ivy.base.legacy.Transaction
 import com.ivy.data.db.dao.read.TransactionDao
-import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.datamodel.temp.toLegacyDomain
 import com.ivy.legacy.utils.capitalizeWords
 import com.ivy.legacy.utils.isNotNullOrBlank
 import java.util.*
@@ -31,7 +31,7 @@ class SmartTitleSuggestionsLogic @Inject constructor(
         if (title != null && title.isNotEmpty()) {
             // suggest by title
             val suggestionsByTitle = transactionDao.findAllByTitleMatchingPattern("$title%")
-                .map { it.toDomain() }
+                .map { it.toLegacyDomain() }
                 .extractUniqueTitles()
                 .sortedByMostUsedFirst {
                     transactionDao.countByTitleMatchingPattern("$it%")
@@ -49,7 +49,7 @@ class SmartTitleSuggestionsLogic @Inject constructor(
                 .findAllByCategory(
                     categoryId = categoryId
                 )
-                .map { it.toDomain() }
+                .map { it.toLegacyDomain() }
                 // exclude already suggested suggestions so they're ordered by priority at the end
                 .extractUniqueTitles(excludeSuggestions = suggestions)
                 .sortedByMostUsedFirst {
@@ -71,7 +71,7 @@ class SmartTitleSuggestionsLogic @Inject constructor(
                 .findAllByAccount(
                     accountId = accountId
                 )
-                .map { it.toDomain() }
+                .map { it.toLegacyDomain() }
                 // exclude already suggested suggestions so they're ordered by priority at the end
                 .extractUniqueTitles(excludeSuggestions = suggestions)
                 .sortedByMostUsedFirst {

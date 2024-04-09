@@ -2,6 +2,7 @@ package com.ivy.legacy.domain.pure.transaction
 
 import arrow.core.Option
 import arrow.core.toOption
+import com.ivy.base.TimeProvider
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.time.convertToLocal
 import com.ivy.data.db.dao.read.AccountDao
@@ -9,14 +10,15 @@ import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.model.Tag
 import com.ivy.data.model.Transaction
 import com.ivy.data.model.primitive.TagId
+import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.TagsRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
 import com.ivy.frp.then
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.datamodel.temp.toImmutableLegacyTags
+import com.ivy.legacy.datamodel.temp.toLegacyDomain
 import com.ivy.legacy.utils.convertUTCtoLocal
 import com.ivy.legacy.utils.toEpochSeconds
 import com.ivy.wallet.domain.data.TransactionHistoryDateDivider
@@ -37,13 +39,17 @@ suspend fun List<Transaction>.withDateDividers(
     exchangeRatesLogic: ExchangeRatesLogic,
     settingsDao: SettingsDao,
     accountDao: AccountDao,
-    tagsRepository: TagsRepository
+    tagsRepository: TagsRepository,
+    accountRepository: AccountRepository,
+    timeProvider: TimeProvider,
 ): List<TransactionHistoryItem> {
     return transactionsWithDateDividers(
         transactions = this,
         baseCurrencyCode = settingsDao.findFirst().currency,
-        getAccount = accountDao::findById then { it?.toDomain() },
+        getAccount = accountDao::findById then { it?.toLegacyDomain() },
         getTags = { tagsIds -> tagsRepository.findByIds(tagsIds) },
+        accountRepository = accountRepository,
+        timeProvider = timeProvider,
         exchange = { data, amount ->
             exchangeRatesLogic.convertAmount(
                 baseCurrency = data.baseCurrency,
@@ -59,6 +65,8 @@ suspend fun List<Transaction>.withDateDividers(
 suspend fun transactionsWithDateDividers(
     transactions: List<Transaction>,
     baseCurrencyCode: String,
+    accountRepository: AccountRepository,
+    timeProvider: TimeProvider,
 
     @SideEffect
     getAccount: suspend (accountId: UUID) -> Account?,
@@ -68,7 +76,7 @@ suspend fun transactionsWithDateDividers(
     getTags: suspend (tagIds: List<TagId>) -> List<Tag> = { emptyList() },
 ): List<TransactionHistoryItem> {
     if (transactions.isEmpty()) return emptyList()
-    val transactionsMapper = TransactionMapper()
+    val transactionsMapper = TransactionMapper(accountRepository, timeProvider)
     return transactions
         .groupBy { it.time.convertToLocal().toLocalDate() }
         .filterKeys { it != null }
@@ -87,7 +95,7 @@ suspend fun transactionsWithDateDividers(
             val legacyTransactionsForDate = with(transactionsMapper) {
                 transactionsForDate.map {
                     it.toEntity()
-                        .toDomain(tags = getTags(it.tags).toImmutableLegacyTags())
+                        .toLegacyDomain(tags = getTags(it.tags).toImmutableLegacyTags())
                 }
             }
             listOf<TransactionHistoryItem>(
@@ -119,7 +127,7 @@ object LegacyTrnDateDividers {
         return transactionsWithDateDividers(
             transactions = this,
             baseCurrencyCode = settingsDao.findFirst().currency,
-            getAccount = accountDao::findById then { it?.toDomain() },
+            getAccount = accountDao::findById then { it?.toLegacyDomain() },
             exchange = { data, amount ->
                 exchangeRatesLogic.convertAmount(
                     baseCurrency = data.baseCurrency,

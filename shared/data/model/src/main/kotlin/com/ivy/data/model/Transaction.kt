@@ -19,6 +19,8 @@ sealed interface Transaction : Syncable {
     val time: Instant
     val settled: Boolean
     val metadata: TransactionMetadata
+
+    // TODO: Get rid of Tags from the core model because of perf. and complexity
     val tags: List<TagId>
 }
 
@@ -77,3 +79,21 @@ data class TransactionMetadata(
     // This refers to the loan record id that is linked with a transaction
     val loanRecordId: UUID?,
 )
+
+fun Transaction.getFromValue(): Value = when (this) {
+    is Expense -> value
+    is Income -> value
+    is Transfer -> fromValue
+}
+
+fun Transaction.getFromAccount(): AccountId = when (this) {
+    is Expense -> account
+    is Income -> account
+    is Transfer -> fromAccount
+}
+
+fun Transaction.getToAccount(): AccountId? = when (this) {
+    is Expense -> null
+    is Income -> null
+    is Transfer -> toAccount
+}

@@ -26,8 +26,8 @@ import com.ivy.frp.then
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.data.model.toCloseTimeRange
-import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.datamodel.temp.toImmutableLegacyTags
+import com.ivy.legacy.datamodel.temp.toLegacyDomain
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.dateNowUTC
@@ -327,7 +327,7 @@ class TransactionsViewModel @Inject constructor(
 
     private suspend fun initForAccount(accountId: UUID) {
         val initialAccount = ioThread {
-            accountDao.findById(accountId)?.toDomain() ?: error("account not found")
+            accountDao.findById(accountId)?.toLegacyDomain() ?: error("account not found")
         }
         account.value = initialAccount
         val range = period.value.toRange(ivyContext.startDayOfMonth)
@@ -378,7 +378,7 @@ class TransactionsViewModel @Inject constructor(
                                 it.map {
                                     val tags =
                                         tagsRepository.findByIds(it.tags).toImmutableLegacyTags()
-                                    it.toEntity().toDomain(tags = tags)
+                                    it.toEntity().toLegacyDomain(tags = tags)
                                 }
                             }
                         )
@@ -402,7 +402,7 @@ class TransactionsViewModel @Inject constructor(
 
         upcoming.value = ioThread {
             with(transactionMapper) {
-                accountLogic.upcoming(initialAccount, range).map { it.toEntity().toDomain() }
+                accountLogic.upcoming(initialAccount, range).map { it.toEntity().toLegacyDomain() }
             }.toImmutableList()
         }
 
@@ -418,9 +418,8 @@ class TransactionsViewModel @Inject constructor(
         overdue.value = ioThread {
             with(transactionMapper) {
                 accountLogic.overdue(initialAccount, range).map {
-                    it.toEntity().toDomain()
-                }
-                    .toImmutableList()
+                    it.toEntity().toLegacyDomain()
+                }.toImmutableList()
             }
         }
     }

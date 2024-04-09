@@ -13,7 +13,7 @@ import com.ivy.legacy.data.model.filterOverdue
 import com.ivy.legacy.data.model.filterOverdueLegacy
 import com.ivy.legacy.data.model.filterUpcoming
 import com.ivy.legacy.data.model.filterUpcomingLegacy
-import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.datamodel.temp.toLegacyDomain
 import com.ivy.legacy.domain.pure.transaction.LegacyTrnDateDividers
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.sumInBaseCurrency
@@ -36,7 +36,7 @@ class WalletCategoryLogic @Inject constructor(
         transactions: List<Transaction> = emptyList()
     ): Double {
         val baseCurrency = settingsDao.findFirst().currency
-        val accounts = accountDao.findAll().map { it.toDomain() }
+        val accounts = accountDao.findAll().map { it.toLegacyDomain() }
 
         return historyByCategory(
             category,
@@ -70,7 +70,7 @@ class WalletCategoryLogic @Inject constructor(
                 type = TransactionType.INCOME,
                 startDate = range.from(),
                 endDate = range.to()
-            ).map { it.toDomain() }
+            ).map { it.toLegacyDomain() }
             .filter {
                 accountFilterSet.isEmpty() || accountFilterSet.contains(it.accountId)
             }
@@ -110,7 +110,7 @@ class WalletCategoryLogic @Inject constructor(
             )
             .filter {
                 accountFilterSet.isEmpty() || accountFilterSet.contains(it.accountId)
-            }.map { it.toDomain() }
+            }.map { it.toLegacyDomain() }
             .sumInBaseCurrency(
                 exchangeRatesLogic = exchangeRatesLogic,
                 settingsDao = settingsDao,
@@ -143,7 +143,7 @@ class WalletCategoryLogic @Inject constructor(
                 type = TransactionType.INCOME,
                 startDate = range.from(),
                 endDate = range.to()
-            ).map { it.toDomain() }
+            ).map { it.toLegacyDomain() }
             .sumInBaseCurrency(
                 exchangeRatesLogic = exchangeRatesLogic,
                 settingsDao = settingsDao,
@@ -157,7 +157,7 @@ class WalletCategoryLogic @Inject constructor(
                 type = TransactionType.EXPENSE,
                 startDate = range.from(),
                 endDate = range.to()
-            ).map { it.toDomain() }
+            ).map { it.toLegacyDomain() }
             .sumInBaseCurrency(
                 exchangeRatesLogic = exchangeRatesLogic,
                 settingsDao = settingsDao,
@@ -196,7 +196,7 @@ class WalletCategoryLogic @Inject constructor(
                     categoryId = category.id.value,
                     startDate = range.from(),
                     endDate = range.to()
-                ).map { it.toDomain() }
+                ).map { it.toLegacyDomain() }
         }
 
         return trans.filter {
@@ -210,7 +210,7 @@ class WalletCategoryLogic @Inject constructor(
                 .findAllUnspecifiedAndBetween(
                     startDate = range.from(),
                     endDate = range.to()
-                ).map { it.toDomain() }
+                ).map { it.toLegacyDomain() }
                 .withDateDividers(
                     exchangeRatesLogic = exchangeRatesLogic,
                     settingsDao = settingsDao,
@@ -275,7 +275,7 @@ class WalletCategoryLogic @Inject constructor(
             startDate = range.upcomingFrom(),
             endDate = range.to()
         )
-            .map { it.toDomain() }
+            .map { it.toLegacyDomain() }
             .filterUpcomingLegacy()
     }
 
@@ -296,7 +296,7 @@ class WalletCategoryLogic @Inject constructor(
             startDate = range.upcomingFrom(),
             endDate = range.to()
         )
-            .map { it.toDomain() }
+            .map { it.toLegacyDomain() }
             .filterUpcomingLegacy()
     }
 
@@ -365,7 +365,7 @@ class WalletCategoryLogic @Inject constructor(
             startDate = range.from(),
             endDate = range.overdueTo()
         )
-            .map { it.toDomain() }
+            .map { it.toLegacyDomain() }
             .filterOverdueLegacy()
     }
 
@@ -387,7 +387,7 @@ class WalletCategoryLogic @Inject constructor(
             startDate = range.from(),
             endDate = range.overdueTo()
         )
-            .map { it.toDomain() }
+            .map { it.toLegacyDomain() }
             .filterOverdueLegacy()
     }
 

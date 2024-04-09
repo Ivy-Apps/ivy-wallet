@@ -24,7 +24,7 @@ import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Loan
 import com.ivy.legacy.datamodel.LoanRecord
-import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.datamodel.temp.toLegacyDomain
 import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.ioThread
@@ -76,9 +76,9 @@ class LoanTransactionsCore @Inject constructor(
             val transactions: List<Transaction?> =
                 if (loanId != null) {
                     transactionDao.findAllByLoanId(loanId = loanId)
-                        .map { it.toDomain() }
+                        .map { it.toLegacyDomain() }
                 } else {
-                    listOf(transactionDao.findLoanRecordTransaction(loanRecordId!!)).map { it?.toDomain() }
+                    listOf(transactionDao.findLoanRecordTransaction(loanRecordId!!)).map { it?.toLegacyDomain() }
                 }
 
             transactions.forEach { trans ->
@@ -334,7 +334,7 @@ class LoanTransactionsCore @Inject constructor(
     suspend fun fetchLoanRecordTransaction(loanRecordId: UUID?): Transaction? {
         return loanRecordId?.let {
             ioThread {
-                transactionDao.findLoanRecordTransaction(it)?.toDomain()
+                transactionDao.findLoanRecordTransaction(it)?.toLegacyDomain()
             }
         }
     }
