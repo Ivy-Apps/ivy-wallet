@@ -2,11 +2,13 @@ package com.ivy.data.repository.mapper
 
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.entity.TransactionEntity
+import com.ivy.data.model.AccountId
+import com.ivy.data.model.testing.account
 import com.ivy.data.model.testing.accountId
-import com.ivy.data.model.testing.assetCode
 import com.ivy.data.model.testing.maybe
 import com.ivy.data.model.testing.or
 import com.ivy.data.model.testing.positiveDoubleExact
+import com.ivy.data.repository.AccountRepository
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.arbitrary
 import io.kotest.property.arbitrary.boolean
@@ -16,35 +18,45 @@ import io.kotest.property.arbitrary.filter
 import io.kotest.property.arbitrary.int
 import io.kotest.property.arbitrary.localDateTime
 import io.kotest.property.arbitrary.negativeDouble
+import io.kotest.property.arbitrary.next
 import io.kotest.property.arbitrary.of
 import io.kotest.property.arbitrary.string
 import io.kotest.property.arbitrary.uuid
 import io.kotest.property.forAll
+import io.mockk.coEvery
+import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
 class TransactionMapperPropertyTest {
 
+    private val accountRepo = mockk<AccountRepository>()
+
     private lateinit var mapper: TransactionMapper
 
     @Before
     fun setup() {
-        mapper = TransactionMapper()
+        mapper = TransactionMapper(
+            accountRepository = accountRepo,
+        )
     }
 
     @Test
     fun `maps invalid incomes and expense to domain - fails`() = runTest {
-        // given
         forAll(Arb.invalidIncomeOrExpense()) { entity ->
-            // when
-            val res = with(mapper) {
-                entity.toDomain(
-                    accountAssetCode = Arb.assetCode().bind(),
-                    toAccountAssetCode = null,
-                    tags = emptyList()
-                )
+            // given
+            coEvery {
+                accountRepo.findById(AccountId(entity.accountId))
+            } returns Arb.account().next()
+            entity.toAccountId?.let { toAccountId ->
+                coEvery {
+                    accountRepo.findById(AccountId(toAccountId))
+                } returns Arb.account().next()
             }
+
+            // when
+            val res = with(mapper) { entity.toDomain(tags = emptyList()) }
 
             // then
             res.isLeft()
@@ -53,16 +65,19 @@ class TransactionMapperPropertyTest {
 
     @Test
     fun `maps valid incomes and expense to domain - success`() = runTest {
-        // given
         forAll(Arb.validIncomeOrExpense()) { entity ->
-            // when
-            val res = with(mapper) {
-                entity.toDomain(
-                    accountAssetCode = Arb.assetCode().bind(),
-                    toAccountAssetCode = null,
-                    tags = emptyList()
-                )
+            // given
+            coEvery {
+                accountRepo.findById(AccountId(entity.accountId))
+            } returns Arb.account().next()
+            entity.toAccountId?.let { toAccountId ->
+                coEvery {
+                    accountRepo.findById(AccountId(toAccountId))
+                } returns Arb.account().next()
             }
+
+            // when
+            val res = with(mapper) { entity.toDomain(tags = emptyList()) }
 
             // then
             res.isRight()

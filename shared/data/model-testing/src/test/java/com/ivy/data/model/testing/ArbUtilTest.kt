@@ -1,5 +1,6 @@
 package com.ivy.data.model.testing
 
+import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
@@ -42,5 +43,12 @@ class ArbUtilTest {
         // then
         nonNullCaseGenerated shouldBe true
         nullCaseGenerated shouldBe true
+    }
+
+    @Test
+    fun `generates arb IconAsset`() = runTest {
+        forAll(Arb.iconAsset()) {
+            IconAsset.from(it.id).isRight()
+        }
     }
 }

@@ -1,11 +1,14 @@
 package com.ivy.data.model.testing
 
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.primitive.PositiveDouble
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.arbitrary
 import io.kotest.property.arbitrary.boolean
 import io.kotest.property.arbitrary.filter
+import io.kotest.property.arbitrary.int
 import io.kotest.property.arbitrary.map
 import io.kotest.property.arbitrary.positiveDouble
 import io.kotest.property.arbitrary.string
@@ -36,3 +39,11 @@ fun <A> Arb.Companion.ofValue(a: A): Arb<A> = arbitrary { a }
 fun Arb.Companion.positiveDoubleExact(): Arb<PositiveDouble> = Arb.positiveDouble()
     .filter { it.isFinite() }
     .map { PositiveDouble.unsafe(it) }
+
+fun Arb.Companion.colorInt(): Arb<ColorInt> = Arb.int().map(::ColorInt)
+
+fun Arb.Companion.iconAsset(): Arb<IconAsset> = Arb.notBlankTrimmedString().map {
+    IconAsset.unsafe(it.value.filter { c ->
+        !c.isWhitespace()
+    })
+}
