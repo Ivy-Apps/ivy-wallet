@@ -4,6 +4,7 @@ import arrow.core.Either
 import arrow.core.identity
 import com.ivy.base.TestDispatchersProvider
 import com.ivy.base.model.TransactionType
+import com.ivy.data.db.dao.fake.FakeTransactionDao
 import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.db.entity.TransactionEntity
@@ -30,6 +31,7 @@ import io.kotest.property.arbitrary.next
 import io.kotest.property.arbitrary.string
 import io.kotest.property.checkAll
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -48,14 +50,18 @@ class TransactionRepositoryImplTest {
 
     @Before
     fun setup() {
-        repository = TransactionRepositoryImpl(
-            mapper = mapper,
-            transactionDao = transactionDao,
-            writeTransactionDao = writeTransactionDao,
-            dispatchersProvider = TestDispatchersProvider,
-            tagRepository = tagRepository
-        )
+        repository = newRepository(fakeDao = null)
     }
+
+    private fun newRepository(
+        fakeDao: FakeTransactionDao?,
+    ): TransactionRepository = TransactionRepositoryImpl(
+        mapper = mapper,
+        transactionDao = fakeDao ?: transactionDao,
+        writeTransactionDao = fakeDao ?: writeTransactionDao,
+        dispatchersProvider = TestDispatchersProvider,
+        tagRepository = tagRepository
+    )
 
     @Test
     fun `find by id - not existing`() = runTest {
@@ -337,6 +343,54 @@ class TransactionRepositoryImplTest {
                 )
             }
         )
+    }
+
+    @Test
+    fun save() = runTest {
+        // given
+        val trn = Arb.transaction().next()
+        val entity = mockk<TransactionEntity>(relaxed = true) {
+            every { id } returns trn.id.value
+        }
+        repository = newRepository(fakeDao = FakeTransactionDao())
+        with(mapper) {
+            every { trn.toEntity() } returns entity
+            coEvery { entity.toDomain(any()) } returns Either.Right(trn)
+        }
+
+        // when
+        repository.save(trn)
+
+        // then
+        val savedTrn = repository.findById(trn.id)
+        savedTrn shouldBe trn
+    }
+
+    @Test
+    fun saveMany() = runTest {
+        // given
+        val trn1 = Arb.transaction().next()
+        val trn2 = Arb.transaction().next()
+        val entity1 = mockk<TransactionEntity>(relaxed = true) {
+            every { id } returns trn1.id.value
+        }
+        val entity2 = mockk<TransactionEntity>(relaxed = true) {
+            every { id } returns trn2.id.value
+        }
+        repository = newRepository(fakeDao = FakeTransactionDao())
+        with(mapper) {
+            every { trn1.toEntity() } returns entity1
+            coEvery { entity1.toDomain(any()) } returns Either.Right(trn1)
+            every { trn2.toEntity() } returns entity2
+            coEvery { entity2.toDomain(any()) } returns Either.Right(trn2)
+        }
+
+        // when
+        repository.saveMany(listOf(trn1, trn2))
+
+        // then
+        val savedTrns = repository.findAll()
+        savedTrns.toSet() shouldBe setOf(trn1, trn2)
     }
 
     private fun transactionsTestCase(
