@@ -41,15 +41,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.utils.thenIf
 import com.ivy.legacy.data.model.MainTab
 import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.densityScope
 import com.ivy.legacy.utils.lerp
 import com.ivy.legacy.utils.navigationBarInset
-import com.ivy.legacy.utils.springBounceFast
-import com.ivy.design.utils.thenIf
 import com.ivy.legacy.utils.rememberInteractionSource
+import com.ivy.legacy.utils.springBounceFast
 import com.ivy.legacy.utils.toDensityDp
 import com.ivy.legacy.utils.toDensityPx
 import com.ivy.ui.R
@@ -163,7 +163,7 @@ fun BoxWithConstraintsScope.BottomBar(
     // ------------------------------------ BUTTONS--------------------------------------------------
     val fabStartX = ivyContext.screenWidth / 2 - FAB_BUTTON_SIZE.toDensityPx() / 2
     val fabStartY = ivyContext.screenHeight - navigationBarInset() -
-        30.dp.toDensityPx() - FAB_BUTTON_SIZE.toDensityPx()
+            30.dp.toDensityPx() - FAB_BUTTON_SIZE.toDensityPx()
 
     TransactionButtons(
         buttonsShownPercent = buttonsShownPercent,
@@ -304,6 +304,7 @@ private fun TransactionButtons(
                         )
                     }
                 }
+                .padding(horizontal = 8.dp)
                 .alpha(buttonsShownPercent)
                 .zIndex(200f),
             iconStart = R.drawable.ic_planned_payments,
@@ -358,7 +359,7 @@ private fun AddIncomeButton(
     buttonLeftX: Float,
     sideButtonsY: Float,
     clickAreaWidth: Int,
-    onAddIncome: () -> Unit
+    onAddIncome: () -> Unit,
 ) {
     IvyCircleButton(
         modifier = Modifier
@@ -443,7 +444,7 @@ private fun AddExpenseButton(
     fabStartY: Float,
     buttonCenterY: Float,
     clickAreaWidth: Int,
-    onAddExpense: () -> Unit
+    onAddExpense: () -> Unit,
 ) {
     IvyCircleButton(
         modifier = Modifier
@@ -530,7 +531,7 @@ private fun AddTransferButton(
     buttonRightX: Float,
     sideButtonsY: Float,
     clickAreaWidth: Int,
-    onAddTransfer: () -> Unit
+    onAddTransfer: () -> Unit,
 ) {
     IvyCircleButton(
         modifier = Modifier
@@ -614,7 +615,7 @@ private fun RowScope.Tab(
     name: String,
     selected: Boolean,
     selectedColor: Color,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier

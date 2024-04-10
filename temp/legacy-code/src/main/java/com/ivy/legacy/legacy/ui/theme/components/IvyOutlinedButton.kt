@@ -72,7 +72,7 @@ fun IvyOutlinedButton(
         }
 
         Text(
-            modifier = Modifier.padding(vertical = padding),
+            modifier = Modifier.padding(vertical = padding, horizontal = 4.dp),
             text = text,
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold,
