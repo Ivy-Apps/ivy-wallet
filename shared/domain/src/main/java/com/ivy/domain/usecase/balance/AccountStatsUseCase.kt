@@ -64,10 +64,11 @@ class AccountStatsUseCase @Inject constructor(
         fun process(value: Value) {
             count++
             val asset = value.asset
-            // 0 + positive OR positive + positive is always positive
-            values[asset] = PositiveDouble.unsafe(
+            PositiveDouble.from(
                 (values[asset]?.value ?: 0.0) + value.amount.value
-            )
+            ).onRight { newValue ->
+                values[asset] = newValue
+            }
         }
 
         fun build(): Summary = Summary(
