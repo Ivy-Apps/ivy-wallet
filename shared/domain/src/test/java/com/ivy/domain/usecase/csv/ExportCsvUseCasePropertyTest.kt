@@ -12,7 +12,6 @@ import com.ivy.data.model.testing.transaction
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.repository.TransactionRepository
-import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.int
@@ -46,7 +45,7 @@ class ExportCsvUseCasePropertyTest {
     }
 
     @Test
-    fun `property - num of columns matches the format`() = runTest {
+    fun `property - num of row and columns matches the format`() = runTest {
         checkAll(Arb.list(Arb.transaction())) { trns ->
             // given
             val accounts = trns.flatMap {
@@ -60,7 +59,11 @@ class ExportCsvUseCasePropertyTest {
                 .map {
                     Arb.category(categoryId = Some(it)).next()
                 }.run {
-                    drop(Arb.int(indices).bind()).shuffled()
+                    if (isNotEmpty()) {
+                        drop(Arb.int(indices).bind()).shuffled()
+                    } else {
+                        this
+                    }
                 }
             coEvery { categoryRepository.findAll(any()) } returns categories
 
@@ -69,11 +72,14 @@ class ExportCsvUseCasePropertyTest {
 
             // then
             val rows = ReadCsvUseCase().readCsv(csv)
-            rows.shouldNotBeEmpty()
+            rows.size shouldBe trns.size + 1 // +1 for the header
             rows.forEach { row ->
                 // Matches the expected # of columns
-                println(row)
-                row.size shouldBe IvyCsvRow.Columns.size
+                val hasExpectedNumOfColumns = row.size == IvyCsvRow.Columns.size
+                if (!hasExpectedNumOfColumns) {
+                    println("(${row.size} cols) $row")
+                }
+                hasExpectedNumOfColumns shouldBe true
             }
         }
     }

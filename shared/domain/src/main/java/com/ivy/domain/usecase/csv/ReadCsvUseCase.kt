@@ -10,7 +10,6 @@ class ReadCsvUseCase @Inject constructor() {
 
     fun readCsv(csv: String): List<List<String>> {
         val csvReader = CSVReaderBuilder(StringReader(csv))
-            .withSkipLines(1)
             .withLineValidator(object : LineValidator {
                 override fun isValid(line: String?): Boolean {
                     return true
