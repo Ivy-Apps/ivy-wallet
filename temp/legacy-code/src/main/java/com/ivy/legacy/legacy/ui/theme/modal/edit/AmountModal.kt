@@ -123,7 +123,7 @@ fun BoxWithConstraintsScope.AmountModal(
         SecondaryActions = {
             if (showPlusMinus) {
                 Row {
-                    Spacer(modifier = Modifier.width(34.dp))
+                    Spacer(modifier = Modifier.width(24.dp))
                     KeypadCircleButton(
                         text = "+/-",
                         testTag = "plus_minus",
@@ -228,6 +228,7 @@ fun AmountInput(
     var firstInput by remember { mutableStateOf(true) }
 
     AmountKeyboard(
+        horizontalPadding = 40.dp,
         forCalculator = false,
         onNumberPressed = {
             if (firstInput) {
@@ -289,6 +290,7 @@ private fun formatNumber(number: String): String? {
         } else {
             ""
         }
+
         return formatInt(intPart) + decimalFormatted
     }
 
@@ -301,6 +303,7 @@ fun AmountKeyboard(
     forCalculator: Boolean,
     onNumberPressed: (String) -> Unit,
     onDecimalPoint: () -> Unit,
+    horizontalPadding: Dp = 0.dp,
     ZeroRow: (@Composable RowScope.() -> Unit)? = null,
     FirstRowExtra: (@Composable RowScope.() -> Unit)? = null,
     SecondRowExtra: (@Composable RowScope.() -> Unit)? = null,
@@ -310,20 +313,24 @@ fun AmountKeyboard(
 ) {
     if (ZeroRow != null) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = horizontalPadding),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             ZeroRow.invoke(this)
         }
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(8.dp))
     }
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = horizontalPadding),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.SpaceEvenly
 
     ) {
         CircleNumberButton(
@@ -332,15 +339,11 @@ fun AmountKeyboard(
             onNumberPressed = onNumberPressed
         )
 
-        Spacer(Modifier.width(16.dp))
-
         CircleNumberButton(
             forCalculator = forCalculator,
             value = "8",
             onNumberPressed = onNumberPressed
         )
-
-        Spacer(Modifier.width(16.dp))
 
         CircleNumberButton(
             forCalculator = forCalculator,
@@ -351,12 +354,14 @@ fun AmountKeyboard(
         FirstRowExtra?.invoke(this)
     }
 
-    Spacer(Modifier.height(16.dp))
+    Spacer(Modifier.height(8.dp))
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = horizontalPadding),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         CircleNumberButton(
             forCalculator = forCalculator,
@@ -364,15 +369,11 @@ fun AmountKeyboard(
             onNumberPressed = onNumberPressed
         )
 
-        Spacer(Modifier.width(16.dp))
-
         CircleNumberButton(
             forCalculator = forCalculator,
             value = "5",
             onNumberPressed = onNumberPressed
         )
-
-        Spacer(Modifier.width(16.dp))
 
         CircleNumberButton(
             forCalculator = forCalculator,
@@ -383,12 +384,14 @@ fun AmountKeyboard(
         SecondRowExtra?.invoke(this)
     }
 
-    Spacer(Modifier.height(16.dp))
+    Spacer(Modifier.height(8.dp))
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = horizontalPadding),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         CircleNumberButton(
             forCalculator = forCalculator,
@@ -396,15 +399,11 @@ fun AmountKeyboard(
             onNumberPressed = onNumberPressed
         )
 
-        Spacer(Modifier.width(16.dp))
-
         CircleNumberButton(
             forCalculator = forCalculator,
             value = "2",
             onNumberPressed = onNumberPressed
         )
-
-        Spacer(Modifier.width(16.dp))
 
         CircleNumberButton(
             forCalculator = forCalculator,
@@ -415,12 +414,14 @@ fun AmountKeyboard(
         ThirdRowExtra?.invoke(this)
     }
 
-    Spacer(Modifier.height(16.dp))
+    Spacer(Modifier.height(8.dp))
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = horizontalPadding),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         KeypadCircleButton(
             text = localDecimalSeparator(),
@@ -433,15 +434,11 @@ fun AmountKeyboard(
             onDecimalPoint()
         }
 
-        Spacer(Modifier.width(16.dp))
-
         CircleNumberButton(
             forCalculator = forCalculator,
             value = "0",
             onNumberPressed = onNumberPressed
         )
-
-        Spacer(Modifier.width(16.dp))
 
         IvyIcon(
             modifier = circleButtonModifier(onClick = onBackspace)
