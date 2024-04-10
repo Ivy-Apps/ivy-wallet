@@ -233,7 +233,7 @@ class CustomerJourneyCardsProvider @Inject constructor(
             }
         )
 
-        fun bugsApology() = CustomerJourneyCardModel(
+        fun bugsApology(): CustomerJourneyCardModel = CustomerJourneyCardModel(
             id = "bugs_apology_1",
             condition = { trnCount, _, _ ->
                 trnCount > 10
