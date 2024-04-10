@@ -29,8 +29,14 @@ class AccountStatsUseCase @Inject constructor(
 
         for (trn in transactions) {
             when (trn) {
-                is Expense -> expense.process(trn.value)
-                is Income -> income.process(trn.value)
+                is Expense -> if (trn.account == account) {
+                    expense.process(trn.value)
+                }
+
+                is Income -> if (trn.account == account) {
+                    income.process(trn.value)
+                }
+
                 is Transfer -> {
                     when (account) {
                         trn.fromAccount -> transfersOut.process(trn.fromValue)

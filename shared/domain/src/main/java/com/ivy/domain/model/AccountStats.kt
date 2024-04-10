@@ -9,9 +9,25 @@ data class AccountStats(
     val expense: Summary,
     val transfersIn: Summary,
     val transfersOut: Summary,
-)
+) {
+    companion object {
+        val Zero = AccountStats(
+            income = Summary.Zero,
+            expense = Summary.Zero,
+            transfersIn = Summary.Zero,
+            transfersOut = Summary.Zero,
+        )
+    }
+}
 
 data class Summary(
     val values: Map<AssetCode, PositiveDouble>,
     val trnCount: NonNegativeInt,
-)
+) {
+    companion object {
+        val Zero = Summary(
+            values = emptyMap(),
+            trnCount = NonNegativeInt.Zero
+        )
+    }
+}

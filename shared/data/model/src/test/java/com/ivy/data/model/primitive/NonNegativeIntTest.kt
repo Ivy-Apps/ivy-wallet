@@ -1,5 +1,6 @@
 package com.ivy.data.model.primitive
 
+import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.int
 import io.kotest.property.forAll
@@ -19,5 +20,10 @@ class NonNegativeIntTest {
         forAll(Arb.int(max = -1)) { number ->
             NonNegativeInt.from(number).isLeft()
         }
+    }
+
+    @Test
+    fun `zero is valid`() = runTest {
+        NonNegativeInt.Zero.value shouldBe 0
     }
 }

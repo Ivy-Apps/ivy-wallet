@@ -13,6 +13,8 @@ value class NonNegativeInt private constructor(val value: Int) {
             ensure(raw >= 0) { "$raw is not >= 0" }
             return NonNegativeInt(raw)
         }
+
+        val Zero = NonNegativeInt.unsafe(0)
     }
 }
 
