@@ -76,10 +76,10 @@ fun BoxWithConstraintsScope.AmountModal(
         mutableStateOf(
             if (currency.isNotEmpty()) {
                 initialAmount?.takeIf { it != 0.0 }?.format(currency)
-                    ?: "0"
+                    ?: ""
             } else {
                 initialAmount?.takeIf { it != 0.0 }?.format(decimalCountMax)
-                    ?: "0"
+                    ?: ""
             }
         )
     }
