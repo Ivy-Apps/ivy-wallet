@@ -148,24 +148,26 @@ class WalletBalanceWidgetReceiver : GlanceAppWidgetReceiver() {
                 )
             )
 
-            val glanceId =
-                GlanceAppWidgetManager(context).getGlanceIds(WalletBalanceWidget::class.java)
-                    .firstOrNull()
-            glanceId?.let {
-                updateAppWidgetState(context, PreferencesGlanceStateDefinition, it) { pref ->
-                    pref.toMutablePreferences().apply {
-                        this[booleanPreferencesKey("appLocked")] = appLocked
-                        this[stringPreferencesKey("balance")] =
-                            com.ivy.legacy.utils.shortenAmount(balance.toDouble())
-                        this[stringPreferencesKey("currency")] = currency
-                        this[stringPreferencesKey("income")] =
-                            com.ivy.legacy.utils.shortenAmount(incomeExpense.income.toDouble())
-                        this[stringPreferencesKey("expense")] =
-                            com.ivy.legacy.utils.shortenAmount(incomeExpense.expense.toDouble())
+            GlanceAppWidgetManager(context).getGlanceIds(WalletBalanceWidget::class.java)
+                .forEach {
+                    updateAppWidgetState(
+                        context,
+                        PreferencesGlanceStateDefinition,
+                        it
+                    ) { pref ->
+                        pref.toMutablePreferences().apply {
+                            this[booleanPreferencesKey("appLocked")] = appLocked
+                            this[stringPreferencesKey("balance")] =
+                                shortenAmount(balance.toDouble())
+                            this[stringPreferencesKey("currency")] = currency
+                            this[stringPreferencesKey("income")] =
+                                shortenAmount(incomeExpense.income.toDouble())
+                            this[stringPreferencesKey("expense")] =
+                                shortenAmount(incomeExpense.expense.toDouble())
+                        }
                     }
+                    glanceAppWidget.update(context, it)
                 }
-                glanceAppWidget.update(context, it)
-            }
         }
     }
 }
