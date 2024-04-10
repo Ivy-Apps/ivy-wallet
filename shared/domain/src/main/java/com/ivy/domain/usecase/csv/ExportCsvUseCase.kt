@@ -118,11 +118,12 @@ class ExportCsvUseCase @Inject constructor(
     }
 
     private fun String.escapeCsvString(): String = try {
-        StringEscapeUtils.escapeCsv(this)
+        StringEscapeUtils.escapeCsv(this).escapeSpecialChars()
     } catch (e: Exception) {
-        replace(CSV_SEPARATOR, " ")
-            .replace(NEWLINE, " ")
+        escapeSpecialChars()
     }
+
+    private fun String.escapeSpecialChars(): String = replace("\\", "")
 
     private fun Transaction.toIvyCsvRow(): IvyCsvRow = when (this) {
         is Expense -> expenseCsvRow()

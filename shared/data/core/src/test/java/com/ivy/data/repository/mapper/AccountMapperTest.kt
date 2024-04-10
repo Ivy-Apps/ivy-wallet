@@ -1,5 +1,7 @@
 package com.ivy.data.repository.mapper
 
+import com.google.testing.junit.testparameterinjector.TestParameter
+import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import com.ivy.data.db.entity.AccountEntity
 import com.ivy.data.model.Account
 import com.ivy.data.model.AccountId
@@ -7,6 +9,7 @@ import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
+import com.ivy.data.model.testing.ModelFixtures
 import com.ivy.data.repository.CurrencyRepository
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
@@ -16,9 +19,11 @@ import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 import java.time.Instant
 import java.util.UUID
 
+@RunWith(TestParameterInjector::class)
 class AccountMapperTest {
 
     private val currencyRepository = mockk<CurrencyRepository>(relaxed = true)
@@ -31,19 +36,21 @@ class AccountMapperTest {
     }
 
     @Test
-    fun `maps domain to entity`() {
+    fun `maps domain to entity`(
+        @TestParameter includeInBalance: Boolean,
+        @TestParameter removed: Boolean,
+    ) {
         // given
-        val id = UUID.randomUUID()
         val account = Account(
-            id = AccountId(id),
+            id = ModelFixtures.AccountId,
             name = NotBlankTrimmedString.unsafe("Test"),
             asset = AssetCode.unsafe("USD"),
             color = ColorInt(value = 42),
             icon = IconAsset.unsafe("icon"),
-            includeInBalance = true,
+            includeInBalance = includeInBalance,
             orderNum = 3.14,
             lastUpdated = Instant.EPOCH,
-            removed = false
+            removed = removed
         )
 
         // when
@@ -55,20 +62,25 @@ class AccountMapperTest {
             currency = "USD",
             color = 42,
             icon = "icon",
-            includeInBalance = true,
+            includeInBalance = includeInBalance,
             orderNum = 3.14,
             isSynced = true,
-            isDeleted = false,
-            id = id,
+            isDeleted = removed,
+            id = ModelFixtures.AccountId.value,
         )
     }
 
     // region entity to domain
     @Test
-    fun `maps entity to domain - valid entity`() = runTest {
+    fun `maps entity to domain - valid entity`(
+        @TestParameter includeInBalance: Boolean,
+        @TestParameter removed: Boolean,
+    ) = runTest {
         // given
         val entity = ValidEntity.copy(
-            orderNum = 42.0
+            orderNum = 42.0,
+            includeInBalance = includeInBalance,
+            isDeleted = removed,
         )
 
         // when
@@ -81,10 +93,10 @@ class AccountMapperTest {
             asset = AssetCode.unsafe("USD"),
             color = ColorInt(value = 42),
             icon = IconAsset.unsafe("icon"),
-            includeInBalance = true,
+            includeInBalance = includeInBalance,
             orderNum = 42.0,
             lastUpdated = Instant.EPOCH,
-            removed = false
+            removed = removed
         )
     }
 

@@ -109,8 +109,8 @@ class ArbTransactionTest {
 
     @Test
     fun `generates arb transfer`() = runTest {
-        forAll(Arb.transfer()) {
-            true
+        forAll(Arb.transfer()) { transfer ->
+            transfer.fromAccount != transfer.toAccount
         }
     }
 

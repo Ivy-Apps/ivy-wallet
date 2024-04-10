@@ -1,5 +1,6 @@
 package com.ivy.home.customerjourney
 
+import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.dao.read.PlannedPaymentRuleDao
@@ -15,7 +16,6 @@ import com.ivy.design.l0_system.Red
 import com.ivy.design.l0_system.Red3
 import com.ivy.legacy.Constants
 import com.ivy.legacy.IvyWalletCtx
-import com.ivy.base.legacy.SharedPrefs
 import com.ivy.legacy.data.model.MainTab
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.PieChartStatisticScreen
@@ -65,6 +65,7 @@ class CustomerJourneyCardsProvider @Inject constructor(
             rateUsCard_2(),
             joinTelegram2(),
             ivyWalletIsOpenSource(),
+            bugsApology(),
         )
 
         fun adjustBalanceCard() = CustomerJourneyCardModel(
@@ -229,6 +230,28 @@ class CustomerJourneyCardsProvider @Inject constructor(
             hasDismiss = true,
             onAction = { _, _, ivyActivity ->
                 ivyActivity.openUrlInBrowser(Constants.URL_IVY_TELEGRAM_INVITE)
+            }
+        )
+
+        fun bugsApology(): CustomerJourneyCardModel = CustomerJourneyCardModel(
+            id = "bugs_apology_1",
+            condition = { trnCount, _, _ ->
+                trnCount > 10
+            },
+            title = "Apologies for the bugs!",
+            description = "Ivy Wallet v4.6.2 had some annoying bugs... " +
+                    "We're sorry for that and we hope that we have fixed them.\n\n" +
+                    "Ivy Wallet is an open-source and community-driven project " +
+                    "that is maintained and develop solely by voluntary contributors. " +
+                    "So to help us and make your experience better, " +
+                    "please report any bugs as a GitHub issue. You can also" +
+                    " join our community and become a contributor!",
+            cta = "Report a bug",
+            ctaIcon = R.drawable.github_logo,
+            background = Gradient.solid(Blue),
+            hasDismiss = true,
+            onAction = { _, _, ivyActivity ->
+                ivyActivity.openUrlInBrowser(Constants.URL_GITHUB_NEW_ISSUE)
             }
         )
     }

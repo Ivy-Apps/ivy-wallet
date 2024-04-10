@@ -19,8 +19,8 @@ paparazzi = "1.3.3"
 # Android
 min-sdk = "28"
 compile-sdk = "34"
-version-name = "4.6.2"
-version-code = "162"
+version-name = "4.6.3"
+version-code = "163"
 jvm-target = "17"
 
 
