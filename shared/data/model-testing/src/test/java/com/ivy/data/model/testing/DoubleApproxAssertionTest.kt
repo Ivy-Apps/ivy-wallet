@@ -12,7 +12,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(TestParameterInjector::class)
-class DoubleAssertionTest {
+class DoubleApproxAssertionTest {
 
     enum class DoubleApproxTestCase(
         val a: Double,
