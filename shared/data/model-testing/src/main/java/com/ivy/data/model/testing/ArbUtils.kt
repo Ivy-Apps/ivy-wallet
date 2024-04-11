@@ -41,8 +41,7 @@ fun Arb.Companion.positiveDoubleExact(
 ): Arb<PositiveDouble> = Arb.positiveDouble(
     max = max,
     includeNonFiniteEdgeCases = false,
-).filter { it.isFinite() }
-    .map(PositiveDouble::unsafe)
+).map(PositiveDouble::unsafe)
 
 fun Arb.Companion.colorInt(): Arb<ColorInt> = Arb.int().map(::ColorInt)
 
