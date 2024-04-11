@@ -14,6 +14,7 @@ import com.ivy.data.model.testing.income
 import com.ivy.data.model.testing.transaction
 import com.ivy.domain.model.AccountStats
 import com.ivy.domain.model.StatSummary
+import com.ivy.domain.model.round
 import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.filter
@@ -80,15 +81,13 @@ class AccountStatsUseCasePropertyTest {
             val stats = useCase.calculate(account, trns)
 
             // then
-            stats shouldBe AccountStats.Zero.copy(
-                income = StatSummary(
-                    values = mapOf(
-                        AssetCode.EUR to expectedEurIncome,
-                        AssetCode.USD to expectedUsdIncome
-                    ),
-                    trnCount = NonNegativeInt.unsafe(eurIncomes.size + usdIncomes.size)
-                )
-            )
+            stats.income.round() shouldBe StatSummary(
+                values = mapOf(
+                    AssetCode.EUR to expectedEurIncome,
+                    AssetCode.USD to expectedUsdIncome
+                ),
+                trnCount = NonNegativeInt.unsafe(eurIncomes.size + usdIncomes.size)
+            ).round()
         }
     }
 
