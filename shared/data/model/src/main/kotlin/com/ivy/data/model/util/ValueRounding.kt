@@ -1,4 +1,4 @@
-package com.ivy.data.model.testing
+package com.ivy.data.model.util
 
 import com.ivy.data.model.common.Value
 import com.ivy.data.model.primitive.PositiveDouble
