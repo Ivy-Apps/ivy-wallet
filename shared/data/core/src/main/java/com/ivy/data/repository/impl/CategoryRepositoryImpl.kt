@@ -39,7 +39,7 @@ class CategoryRepositoryImpl @Inject constructor(
     override suspend fun findById(id: CategoryId): Category? = memo.findById(
         id = id,
         findByIdOperation = {
-            categoryDao.findById(it.value)?.let {
+            categoryDao.findById(id.value)?.let {
                 with(mapper) { it.toDomain() }.getOrNull()
             }
         }
@@ -72,7 +72,7 @@ class CategoryRepositoryImpl @Inject constructor(
     override suspend fun deleteById(id: CategoryId) = memo.deleteById(
         id = id
     ) {
-        writeCategoryDao.deleteById(it.value)
+        writeCategoryDao.deleteById(id.value)
     }
 
     override suspend fun deleteAll() = memo.deleteAll(writeCategoryDao::deleteAll)

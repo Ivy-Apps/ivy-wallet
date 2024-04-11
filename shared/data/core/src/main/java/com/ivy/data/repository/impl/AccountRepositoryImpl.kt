@@ -19,7 +19,7 @@ class AccountRepositoryImpl @Inject constructor(
     private val accountDao: AccountDao,
     private val writeAccountDao: WriteAccountDao,
     private val dispatchersProvider: DispatchersProvider,
-    private val memoFactory: RepositoryMemoFactory,
+    memoFactory: RepositoryMemoFactory,
 ) : AccountRepository {
 
     private val memo = memoFactory.createMemo(
@@ -30,7 +30,7 @@ class AccountRepositoryImpl @Inject constructor(
     override suspend fun findById(id: AccountId): Account? = memo.findById(
         id = id,
         findByIdOperation = {
-            accountDao.findById(it.value)?.let {
+            accountDao.findById(id.value)?.let {
                 with(mapper) { it.toDomain() }.getOrNull()
             }
         }
@@ -66,7 +66,7 @@ class AccountRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteById(id: AccountId): Unit = memo.deleteById(id) {
-        writeAccountDao.deleteById(it.value)
+        writeAccountDao.deleteById(id.value)
     }
 
     override suspend fun deleteAll(): Unit = memo.deleteAll(
