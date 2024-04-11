@@ -6,6 +6,7 @@ import com.ivy.data.model.AccountId
 import com.ivy.data.model.Expense
 import com.ivy.data.model.Income
 import com.ivy.data.model.Transaction
+import com.ivy.data.model.Transfer
 import com.ivy.data.model.Value
 import com.ivy.data.model.getFromAccount
 import com.ivy.data.model.getToAccount
@@ -18,6 +19,8 @@ import com.ivy.domain.model.StatSummary
 import com.ivy.domain.model.shouldBeApprox
 import com.ivy.domain.nonEmptyExpenses
 import com.ivy.domain.nonEmptyIncomes
+import com.ivy.domain.nonEmptyTransfersIn
+import com.ivy.domain.nonEmptyTransfersOut
 import com.ivy.domain.sum
 import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
@@ -57,17 +60,31 @@ class AccountStatsUseCasePropertyTest {
     }
 
     @Test
-    fun `property - sums incomes in account`() = aggregationTestsCase(
+    fun `property - aggregates incomes for account`() = aggregationTestsCase(
         arbTrns = { acc, asset -> Arb.nonEmptyIncomes(acc, asset) },
         extractValue = Income::value,
         expectedResultSelector = AccountStats::income
     )
 
     @Test
-    fun `property - aggregates expenses in account`() = aggregationTestsCase(
+    fun `property - aggregates expenses for account`() = aggregationTestsCase(
         arbTrns = { acc, asset -> Arb.nonEmptyExpenses(acc, asset) },
         extractValue = Expense::value,
         expectedResultSelector = AccountStats::expense
+    )
+
+    @Test
+    fun `property - aggregates transfer-out for account`() = aggregationTestsCase(
+        arbTrns = { acc, asset -> Arb.nonEmptyTransfersOut(acc, asset) },
+        extractValue = Transfer::fromValue,
+        expectedResultSelector = AccountStats::transfersOut
+    )
+
+    @Test
+    fun `property - aggregates transfer-in for account`() = aggregationTestsCase(
+        arbTrns = { acc, asset -> Arb.nonEmptyTransfersIn(acc, asset) },
+        extractValue = Transfer::toValue,
+        expectedResultSelector = AccountStats::transfersIn
     )
 
     private fun <T : Transaction> aggregationTestsCase(
@@ -86,16 +103,17 @@ class AccountStatsUseCasePropertyTest {
         ) { eurTrns, usdTrns, gbpTrns ->
             // given
             val trns = (eurTrns + usdTrns + gbpTrns).shuffled()
-            val expectedEur = eurTrns.map(extractValue).toNonEmptyList().sum()
-            val expectedUsd = usdTrns.map(extractValue).toNonEmptyList().sum()
-            val expectedGbp = gbpTrns.map(extractValue).toNonEmptyList().sum()
+            val expectedEur = eurTrns.map(extractValue).sum()
+            val expectedUsd = usdTrns.map(extractValue).sum()
+            val expectedGbp = gbpTrns.map(extractValue).sum()
+            val extractedTrnsCount = eurTrns.size + usdTrns.size + gbpTrns.size
 
             // when
             val accStats = useCase.calculate(account, trns)
 
             // then
             expectedResultSelector(accStats) shouldBeApprox StatSummary(
-                trnCount = NonNegativeInt.unsafe(eurTrns.size + usdTrns.size + gbpTrns.size),
+                trnCount = NonNegativeInt.unsafe(extractedTrnsCount),
                 values = mapOf(
                     AssetCode.EUR to expectedEur,
                     AssetCode.USD to expectedUsd,
