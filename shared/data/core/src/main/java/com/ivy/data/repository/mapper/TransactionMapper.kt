@@ -20,7 +20,7 @@ import com.ivy.data.model.getFromAccount
 import com.ivy.data.model.getToAccount
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.primitive.PositiveDouble
-import com.ivy.data.model.primitive.TagId
+import com.ivy.data.model.TagId
 import com.ivy.data.repository.AccountRepository
 import java.time.Instant
 import javax.inject.Inject

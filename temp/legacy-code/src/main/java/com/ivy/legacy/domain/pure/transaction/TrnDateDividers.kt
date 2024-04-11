@@ -9,7 +9,7 @@ import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.model.Tag
 import com.ivy.data.model.Transaction
-import com.ivy.data.model.primitive.TagId
+import com.ivy.data.model.TagId
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.TagsRepository
 import com.ivy.data.repository.mapper.TransactionMapper

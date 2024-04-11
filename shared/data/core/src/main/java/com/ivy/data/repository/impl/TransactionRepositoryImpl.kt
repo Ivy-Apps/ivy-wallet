@@ -13,7 +13,7 @@ import com.ivy.data.model.Transaction
 import com.ivy.data.model.TransactionId
 import com.ivy.data.model.Transfer
 import com.ivy.data.model.primitive.AssociationId
-import com.ivy.data.model.primitive.TagId
+import com.ivy.data.model.TagId
 import com.ivy.data.repository.TagsRepository
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper

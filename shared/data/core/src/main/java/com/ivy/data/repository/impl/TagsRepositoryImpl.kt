@@ -12,7 +12,7 @@ import com.ivy.data.db.dao.write.WriteTagDao
 import com.ivy.data.model.Tag
 import com.ivy.data.model.TagAssociation
 import com.ivy.data.model.primitive.AssociationId
-import com.ivy.data.model.primitive.TagId
+import com.ivy.data.model.TagId
 import com.ivy.data.repository.TagsRepository
 import com.ivy.data.repository.mapper.TagMapper
 import kotlinx.coroutines.CoroutineScope
