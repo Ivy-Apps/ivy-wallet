@@ -82,11 +82,11 @@ class AccountStatsUseCasePropertyTest {
 
             // then
             stats.income.round() shouldBe StatSummary(
+                trnCount = NonNegativeInt.unsafe(eurIncomes.size + usdIncomes.size),
                 values = mapOf(
                     AssetCode.EUR to expectedEurIncome,
                     AssetCode.USD to expectedUsdIncome
                 ),
-                trnCount = NonNegativeInt.unsafe(eurIncomes.size + usdIncomes.size)
             ).round()
         }
     }

@@ -5,8 +5,8 @@ import com.ivy.data.model.primitive.NonNegativeInt
 import com.ivy.data.model.primitive.PositiveDouble
 
 data class StatSummary(
-    val values: Map<AssetCode, PositiveDouble>,
     val trnCount: NonNegativeInt,
+    val values: Map<AssetCode, PositiveDouble>,
 ) {
     companion object {
         val Zero = StatSummary(
