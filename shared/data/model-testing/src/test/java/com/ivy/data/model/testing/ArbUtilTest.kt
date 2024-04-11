@@ -25,6 +25,13 @@ class ArbUtilTest {
     }
 
     @Test
+    fun `arb positive double respects max param`() = runTest {
+        forAll(Arb.positiveDoubleExact(max = 10.0)) {
+            it.value <= 10.0
+        }
+    }
+
+    @Test
     fun `arb maybe handles both cases`() = runTest {
         // given
         var nonNullCaseGenerated = false

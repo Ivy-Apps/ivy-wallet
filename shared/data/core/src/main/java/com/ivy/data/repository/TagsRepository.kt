@@ -3,7 +3,7 @@ package com.ivy.data.repository
 import com.ivy.data.model.Tag
 import com.ivy.data.model.TagAssociation
 import com.ivy.data.model.primitive.AssociationId
-import com.ivy.data.model.primitive.TagId
+import com.ivy.data.model.TagId
 
 interface TagsRepository {
     suspend fun findByIds(id: TagId): Tag?

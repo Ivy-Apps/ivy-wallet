@@ -36,9 +36,12 @@ fun <A> Arb.Companion.or(a: Arb<A>, b: Arb<A>): Arb<A> = arbitrary {
 
 fun <A> Arb.Companion.ofValue(a: A): Arb<A> = arbitrary { a }
 
-fun Arb.Companion.positiveDoubleExact(): Arb<PositiveDouble> = Arb.positiveDouble()
-    .filter { it.isFinite() }
-    .map { PositiveDouble.unsafe(it) }
+fun Arb.Companion.positiveDoubleExact(
+    max: Double = Double.MAX_VALUE,
+): Arb<PositiveDouble> = Arb.positiveDouble(
+    max = max,
+    includeNonFiniteEdgeCases = false,
+).map(PositiveDouble::unsafe)
 
 fun Arb.Companion.colorInt(): Arb<ColorInt> = Arb.int().map(::ColorInt)
 

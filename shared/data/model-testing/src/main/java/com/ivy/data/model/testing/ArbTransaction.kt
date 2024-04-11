@@ -12,7 +12,6 @@ import com.ivy.data.model.Transaction
 import com.ivy.data.model.TransactionId
 import com.ivy.data.model.TransactionMetadata
 import com.ivy.data.model.Transfer
-import com.ivy.data.model.common.Value
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.PositiveDouble
 import io.kotest.property.Arb
@@ -53,10 +52,7 @@ fun Arb.Companion.income(
         lastUpdated = Instant.EPOCH,
         removed = removed.getOrElse { Arb.boolean().bind() },
         tags = listOf(),
-        value = Value(
-            amount = amount.getOrElse { Arb.positiveDoubleExact().bind() },
-            asset = asset.getOrElse { Arb.assetCode().bind() }
-        ),
+        value = Arb.value(amount, asset).bind(),
         account = accountId.getOrElse { Arb.accountId().bind() }
     )
 }
@@ -86,10 +82,7 @@ fun Arb.Companion.expense(
         lastUpdated = Instant.EPOCH,
         removed = removed.getOrElse { Arb.boolean().bind() },
         tags = listOf(),
-        value = Value(
-            amount = amount.getOrElse { Arb.positiveDoubleExact().bind() },
-            asset = asset.getOrElse { Arb.assetCode().bind() }
-        ),
+        value = Arb.value(amount, asset).bind(),
         account = accountId.getOrElse { Arb.accountId().bind() }
     )
 }
@@ -123,18 +116,12 @@ fun Arb.Companion.transfer(
         lastUpdated = Instant.EPOCH,
         removed = removed.getOrElse { Arb.boolean().bind() },
         tags = listOf(),
-        fromValue = Value(
-            amount = fromAmount.getOrElse { Arb.positiveDoubleExact().bind() },
-            asset = fromAsset.getOrElse { Arb.assetCode().bind() }
-        ),
+        fromValue = Arb.value(fromAmount, fromAsset).bind(),
         fromAccount = fromAccountVal,
         toAccount = toAccount.getOrElse {
             Arb.accountId().filter { it != fromAccountVal }.bind()
         },
-        toValue = Value(
-            amount = toAmount.getOrElse { Arb.positiveDoubleExact().bind() },
-            asset = toAsset.getOrElse { Arb.assetCode().bind() }
-        )
+        toValue = Arb.value(toAmount, toAsset).bind()
     )
 }
 

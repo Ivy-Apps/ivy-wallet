@@ -11,7 +11,7 @@ import com.ivy.data.model.primitive.AssociationId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
-import com.ivy.data.model.primitive.TagId
+import com.ivy.data.model.TagId
 import java.time.Instant
 import java.util.UUID
 import javax.inject.Inject

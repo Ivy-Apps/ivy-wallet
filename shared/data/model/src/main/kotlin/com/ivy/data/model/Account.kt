@@ -1,6 +1,5 @@
 package com.ivy.data.model
 
-import com.ivy.data.model.common.Reorderable
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
