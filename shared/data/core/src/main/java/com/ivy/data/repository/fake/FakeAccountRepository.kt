@@ -28,7 +28,6 @@ class FakeAccountRepository(
         accountDao = accountDao,
         writeAccountDao = writeAccountDao,
         dispatchersProvider = TestDispatchersProvider,
-        dataObserver = DataObserver(),
-        appCoroutineScope = TestCoroutineScope
+        memoFactory = fakeRepositoryMakeFactory()
     )
 ) : AccountRepository by accountRepository

@@ -9,7 +9,7 @@ import java.util.UUID
 @JvmInline
 value class TransactionId(override val value: UUID) : UniqueId
 
-sealed interface Transaction : Syncable {
+sealed interface Transaction : Syncable<TransactionId> {
     override val id: TransactionId
     val title: NotBlankTrimmedString?
     val description: NotBlankTrimmedString?
