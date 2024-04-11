@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.data.repository.CurrencyRepository
-import com.ivy.domain.usecase.SyncExchangeRatesUseCase
+import com.ivy.domain.usecase.exchange.SyncExchangeRatesUseCase
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.model.MainTab

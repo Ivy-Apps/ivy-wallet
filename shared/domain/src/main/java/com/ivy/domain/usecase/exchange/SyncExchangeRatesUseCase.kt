@@ -1,4 +1,4 @@
-package com.ivy.domain.usecase
+package com.ivy.domain.usecase.exchange
 
 import arrow.core.Either
 import arrow.core.raise.either
