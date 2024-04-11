@@ -14,7 +14,7 @@ import com.ivy.data.model.testing.income
 import com.ivy.data.model.testing.transaction
 import com.ivy.domain.model.AccountStats
 import com.ivy.domain.model.StatSummary
-import com.ivy.domain.model.round
+import com.ivy.domain.model.shouldBeApprox
 import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.filter
@@ -81,13 +81,13 @@ class AccountStatsUseCasePropertyTest {
             val stats = useCase.calculate(account, trns)
 
             // then
-            stats.income.round() shouldBe StatSummary(
+            stats.income shouldBeApprox StatSummary(
                 trnCount = NonNegativeInt.unsafe(eurIncomes.size + usdIncomes.size),
                 values = mapOf(
                     AssetCode.EUR to expectedEurIncome,
                     AssetCode.USD to expectedUsdIncome
                 ),
-            ).round()
+            )
         }
     }
 
@@ -100,6 +100,9 @@ class AccountStatsUseCasePropertyTest {
             PositiveDouble.from(sum + value.amount.value)
                 .onRight { newSum ->
                     sum = newSum.value
+                }
+                .onLeft {
+                    sum = Double.MAX_VALUE
                 }
         }
         return PositiveDouble.unsafe(sum)

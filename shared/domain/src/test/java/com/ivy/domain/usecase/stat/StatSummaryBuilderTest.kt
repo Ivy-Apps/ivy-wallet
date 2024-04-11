@@ -116,7 +116,26 @@ class StatSummaryBuilderTest {
     }
 
     @Test
-    fun `handles double overflow`() {
+    fun `handles 1x double overflow`() {
+        // given
+        val statSummaryBuilder = StatSummaryBuilder()
+
+        // when
+        statSummaryBuilder.process(value(3.14, AssetCode.EUR))
+        statSummaryBuilder.process(value(Double.MAX_VALUE, AssetCode.EUR))
+        val statSummary = statSummaryBuilder.build()
+
+        // then
+        statSummary shouldBe StatSummary(
+            trnCount = count(2),
+            values = mapOf(
+                AssetCode.EUR to amount(Double.MAX_VALUE)
+            )
+        )
+    }
+
+    @Test
+    fun `handles 2x double overflow`() {
         // given
         val statSummaryBuilder = StatSummaryBuilder()
 
