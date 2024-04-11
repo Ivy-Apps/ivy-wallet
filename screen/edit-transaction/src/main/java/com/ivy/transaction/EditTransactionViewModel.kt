@@ -21,7 +21,7 @@ import com.ivy.data.model.Tag
 import com.ivy.data.model.primitive.AssociationId
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.CategoryRepository
-import com.ivy.data.repository.TagsRepository
+import com.ivy.data.repository.TagRepository
 import com.ivy.data.repository.mapper.TagMapper
 import com.ivy.legacy.data.EditTransactionDisplayLoan
 import com.ivy.legacy.datamodel.Account
@@ -97,7 +97,7 @@ class EditTransactionViewModel @Inject constructor(
     private val trnByIdAct: TrnByIdAct,
     private val accountByIdAct: AccountByIdAct,
     private val transactionWriter: WriteTransactionDao,
-    private val tagsRepository: TagsRepository,
+    private val tagRepository: TagRepository,
     private val tagMapper: TagMapper
 ) : ComposeViewModel<EditTransactionState, EditTransactionEvent>() {
 
@@ -172,7 +172,7 @@ class EditTransactionViewModel @Inject constructor(
 
             tags.value = tagList.await()
             transactionAssociatedTags.value =
-                tagsRepository.findByAssociatedId(AssociationId(loadedTransaction().id))
+                tagRepository.findByAssociatedId(AssociationId(loadedTransaction().id))
                     .toImmutableList()
 
             display(loadedTransaction!!)
@@ -849,14 +849,14 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     private suspend fun getAllTags(): ImmutableList<Tag> =
-        tagsRepository.findAll().toImmutableList()
+        tagRepository.findAll().toImmutableList()
 
     private fun onTagSaved(name: String) {
         viewModelScope.launch(Dispatchers.IO) {
             NotBlankTrimmedString.from(name.toLowerCaseLocal())
                 .onRight {
                     val tag = with(tagMapper) { createNewTag(name = it) }
-                    tagsRepository.save(tag)
+                    tagRepository.save(tag)
                     this@EditTransactionViewModel.tags.value = getAllTags()
                 }
 
@@ -867,18 +867,18 @@ class EditTransactionViewModel @Inject constructor(
     private fun associateTagToTransaction(selectedTag: Tag) {
         viewModelScope.launch(Dispatchers.IO) {
             val associatedId = AssociationId(loadedTransaction().id)
-            tagsRepository.associateTagToEntity(associatedId, selectedTag.id)
+            tagRepository.associateTagToEntity(associatedId, selectedTag.id)
             transactionAssociatedTags.value =
-                tagsRepository.findByAssociatedId(associatedId).toImmutableList()
+                tagRepository.findByAssociatedId(associatedId).toImmutableList()
         }
     }
 
     private fun removeTagAssociation(selectedTag: Tag) {
         viewModelScope.launch(Dispatchers.IO) {
             val associatedId = AssociationId(loadedTransaction().id)
-            tagsRepository.removeTagAssociation(associatedId, selectedTag.id)
+            tagRepository.removeTagAssociation(associatedId, selectedTag.id)
             transactionAssociatedTags.value =
-                tagsRepository.findByAssociatedId(associatedId).toImmutableList()
+                tagRepository.findByAssociatedId(associatedId).toImmutableList()
         }
     }
 
@@ -890,10 +890,10 @@ class EditTransactionViewModel @Inject constructor(
                 NotBlankTrimmedString.from(query.toLowerCaseLocal())
                     .onRight {
                         tags.value =
-                            tagsRepository.findByText(text = it.value).toImmutableList()
+                            tagRepository.findByText(text = it.value).toImmutableList()
                     }
                     .onLeft {
-                        tags.value = tagsRepository.findAll().toImmutableList()
+                        tags.value = tagRepository.findAll().toImmutableList()
                     }
             }
         }
@@ -901,15 +901,15 @@ class EditTransactionViewModel @Inject constructor(
 
     private fun deleteTag(selectedTag: Tag) {
         viewModelScope.launch(Dispatchers.IO) {
-            tagsRepository.deleteById(selectedTag.id)
-            tags.value = tagsRepository.findAll().toImmutableList()
+            tagRepository.deleteById(selectedTag.id)
+            tags.value = tagRepository.findAll().toImmutableList()
         }
     }
 
     private fun updateTagInformation(newTag: Tag) {
         viewModelScope.launch(Dispatchers.IO) {
-            tagsRepository.save(newTag)
-            tags.value = tagsRepository.findAll().toImmutableList()
+            tagRepository.save(newTag)
+            tags.value = tagRepository.findAll().toImmutableList()
         }
     }
 }

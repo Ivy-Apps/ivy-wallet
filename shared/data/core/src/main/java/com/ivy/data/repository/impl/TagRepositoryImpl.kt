@@ -11,7 +11,7 @@ import com.ivy.data.model.TagAssociation
 import com.ivy.data.model.TagId
 import com.ivy.data.model.primitive.AssociationId
 import com.ivy.data.repository.RepositoryMemoFactory
-import com.ivy.data.repository.TagsRepository
+import com.ivy.data.repository.TagRepository
 import com.ivy.data.repository.mapper.TagMapper
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -21,7 +21,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class TagsRepositoryImpl @Inject constructor(
+class TagRepositoryImpl @Inject constructor(
     private val mapper: TagMapper,
     private val tagDao: TagDao,
     private val tagAssociationDao: TagAssociationDao,
@@ -29,7 +29,7 @@ class TagsRepositoryImpl @Inject constructor(
     private val writeTagAssociationDao: WriteTagAssociationDao,
     private val dispatchersProvider: DispatchersProvider,
     memoFactory: RepositoryMemoFactory,
-) : TagsRepository {
+) : TagRepository {
 
     private val memo = memoFactory.createMemo(
         getDataWriteSaveEvent = DataWriteEvent::SaveTags,

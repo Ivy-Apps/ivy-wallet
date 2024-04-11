@@ -63,7 +63,7 @@ class ExchangeRatesRepositoryImpl @Inject constructor(
 
     override suspend fun deleteAll() {
         withContext(dispatchers.io) {
-            writeExchangeRatesDao.deleteALl()
+            writeExchangeRatesDao.deleteAll()
         }
     }
 

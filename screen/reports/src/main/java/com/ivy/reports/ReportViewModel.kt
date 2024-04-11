@@ -23,7 +23,7 @@ import com.ivy.data.model.Transfer
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.CategoryRepository
-import com.ivy.data.repository.TagsRepository
+import com.ivy.data.repository.TagRepository
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.data.temp.migration.getTransactionType
@@ -82,7 +82,7 @@ class ReportViewModel @Inject constructor(
     private val calcTrnsIncomeExpenseAct: CalcTrnsIncomeExpenseAct,
     private val baseCurrencyAct: BaseCurrencyAct,
     private val transactionMapper: TransactionMapper,
-    private val tagsRepository: TagsRepository,
+    private val tagRepository: TagRepository,
     private val exportCsvUseCase: ExportCsvUseCase,
 ) : ComposeViewModel<ReportScreenState, ReportScreenEvent>() {
     private val unSpecifiedCategory =
@@ -190,10 +190,10 @@ class ReportViewModel @Inject constructor(
                     .fold(
                         ifRight = {
                             allTags.value =
-                                tagsRepository.findByText(text = it.value).toImmutableList()
+                                tagRepository.findByText(text = it.value).toImmutableList()
                         },
                         ifLeft = {
-                            allTags.value = tagsRepository.findAll().toImmutableList()
+                            allTags.value = tagRepository.findAll().toImmutableList()
                         }
                     )
             }
@@ -206,7 +206,7 @@ class ReportViewModel @Inject constructor(
             accounts.value = accountsAct(Unit)
             categories.value =
                 (listOf(unSpecifiedCategory) + categoryRepository.findAll()).toImmutableList()
-            allTags.value = tagsRepository.findAll().toImmutableList()
+            allTags.value = tagRepository.findAll().toImmutableList()
         }
     }
 
@@ -331,7 +331,7 @@ class ReportViewModel @Inject constructor(
         val filterRange = filter.period?.toRange(ivyContext.startDayOfMonth)
 
         val transactions = if (filter.selectedTags.isNotEmpty()) {
-            tagsRepository.findByAllAssociatedIdForTagId(filter.selectedTags.map { it.id })
+            tagRepository.findByAllAssociatedIdForTagId(filter.selectedTags.map { it.id })
                 .asSequence()
                 .flatMap { it.value }
                 .map { TransactionId(it.associatedId.value) }
