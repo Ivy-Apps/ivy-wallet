@@ -12,7 +12,7 @@ class ArbValueTest {
     @Test
     fun `generates arb values`() = runTest {
         forAll(Arb.value()) { value ->
-            value.amount.value <= MAX_ARB_VALUE_ALLOWED
+            value.amount.value <= MaxArbValueAllowed
         }
     }
 

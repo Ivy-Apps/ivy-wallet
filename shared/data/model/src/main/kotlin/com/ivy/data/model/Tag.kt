@@ -22,7 +22,6 @@ data class Tag(
     override val removed: Boolean
 ) : Syncable, Reorderable
 
-
 @Suppress("DataClassTypedIDs")
 data class TagAssociation(
     override val id: TagId,

@@ -8,22 +8,26 @@ import kotlin.math.abs
 /**
  * Defines a constant representing the percentage tolerance for approximation checks.
  */
-const val PERCENTAGE_TOLERANCE = 0.0000001 // Represents 0.00001%
+const val PercentageTolerance = 0.0000001 // Represents 0.00001%
 
 /**
- * Asserts that the numeric value of the receiver [Double] is approximately equal to another [Double],
- * considering a tolerance threshold.
+ * Asserts that the numeric value of the receiver [Double] is approximately equal
+ * to another [Double], considering a tolerance threshold.
  *
- * The tolerance is dynamically calculated as 0.00001% of the larger (by magnitude) of the two values being compared.
- * This method is useful for scenarios where floating-point precision might lead to minor discrepancies between
- * theoretically equal values, such as in financial calculations or when dealing with the results of complex numerical operations.
+ * The tolerance is dynamically calculated as [PercentageTolerance] of
+ * the larger (by magnitude) of the two values being compared.
+ * This method is useful for scenarios where floating-point precision
+ * might lead to minor discrepancies between
+ * theoretically equal values, such as in financial calculations or when dealing
+ * with the results of complex numerical operations.
  *
  * @param other The [Double] to compare the receiver to.
- * @throws AssertionError if the difference between the receiver and [other] exceeds the calculated tolerance.
+ * @throws AssertionError if the difference between the receiver
+ * and [other] exceeds the calculated tolerance.
  */
 infix fun Double.shouldBeApprox(other: Double) {
     // Calculate tolerance as a percentage of the larger (by absolute value) of the two numbers.
-    val tolerance = maxOf(abs(this), abs(other)) * PERCENTAGE_TOLERANCE
+    val tolerance = maxOf(abs(this), abs(other)) * PercentageTolerance
     // Calculate the absolute difference between the two values.
     val difference = abs(this - other)
 
@@ -32,20 +36,11 @@ infix fun Double.shouldBeApprox(other: Double) {
 }
 
 /**
- * Asserts that the numeric value of the receiver [Double] is not approximately equal to another [Double],
- * considering a tolerance threshold.
- *
- * The tolerance is dynamically calculated as 0.00001% of the larger (by magnitude) of the two values being compared.
- * This method can be particularly useful for ensuring that two values differ by a significant amount,
- * beyond the typical precision errors encountered with floating-point arithmetic.
- *
- * @param other The [Double] to compare the receiver to.
- * @throws AssertionError if the difference between the receiver and [other] is within the calculated tolerance,
- * indicating that the values are approximately equal when they should not be.
+ * Same as [Double.shouldBeApprox] but negated.
  */
 infix fun Double.shouldNotBeApprox(other: Double) {
     // Calculate tolerance as a percentage of the larger (by absolute value) of the two numbers.
-    val tolerance = maxOf(abs(this), abs(other)) * PERCENTAGE_TOLERANCE
+    val tolerance = maxOf(abs(this), abs(other)) * PercentageTolerance
     // Calculate the absolute difference between the two values.
     val difference = abs(this - other)
 

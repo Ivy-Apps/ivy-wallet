@@ -99,7 +99,9 @@ class AccountStatsUseCasePropertyTest {
         val arbGpbTrns = arbTrns(account, AssetCode.GBP)
 
         checkAll(
-            arbEurTrns, arbUsdTrns, arbGpbTrns
+            arbEurTrns,
+            arbUsdTrns,
+            arbGpbTrns
         ) { eurTrns, usdTrns, gbpTrns ->
             // given
             val trns = (eurTrns + usdTrns + gbpTrns).shuffled()

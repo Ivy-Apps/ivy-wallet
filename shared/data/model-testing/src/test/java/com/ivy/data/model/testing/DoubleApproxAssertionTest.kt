@@ -111,7 +111,7 @@ class DoubleApproxAssertionTest {
     }
 
     private fun Arb.Companion.nonZeroScalar(): Arb<Int> = Arb.int(
-        min = -MAX_ARB_VALUE_ALLOWED.toInt(),
-        max = MAX_ARB_VALUE_ALLOWED.toInt()
+        min = -MaxArbValueAllowed.toInt(),
+        max = MaxArbValueAllowed.toInt()
     ).filter { it != 0 }
 }

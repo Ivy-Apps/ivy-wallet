@@ -26,7 +26,6 @@ fun Arb.Companion.nonEmptyTransfersOut(
     max = max
 ).map { it.toNonEmptyList() }
 
-
 fun Arb.Companion.nonEmptyTransfersIn(
     account: AccountId,
     asset: AssetCode,
