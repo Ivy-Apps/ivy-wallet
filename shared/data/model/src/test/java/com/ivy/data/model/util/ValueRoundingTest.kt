@@ -2,7 +2,7 @@ package com.ivy.data.model.util
 
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
-import com.ivy.data.model.common.Value
+import com.ivy.data.model.Value
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.PositiveDouble
 import io.kotest.matchers.shouldBe

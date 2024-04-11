@@ -1,4 +1,4 @@
-package com.ivy.data.model.common
+package com.ivy.data.model
 
 /**
  * Indicates that the item can be reordered by the user.

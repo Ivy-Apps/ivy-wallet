@@ -1,6 +1,6 @@
 package com.ivy.domain.usecase.stat
 
-import com.ivy.data.model.common.Value
+import com.ivy.data.model.Value
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.NonNegativeInt
 import com.ivy.data.model.primitive.PositiveDouble

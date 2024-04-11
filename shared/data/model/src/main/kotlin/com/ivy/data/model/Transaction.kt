@@ -1,6 +1,5 @@
 package com.ivy.data.model
 
-import com.ivy.data.model.common.Value
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.primitive.TagId
 import com.ivy.data.model.sync.Syncable

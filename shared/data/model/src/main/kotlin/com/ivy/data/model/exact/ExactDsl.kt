@@ -1,4 +1,4 @@
-package com.ivy.data.model
+package com.ivy.data.model.exact
 
 import arrow.core.Either
 import arrow.core.raise.Raise

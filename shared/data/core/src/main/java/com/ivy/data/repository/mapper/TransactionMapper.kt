@@ -15,7 +15,7 @@ import com.ivy.data.model.Transaction
 import com.ivy.data.model.TransactionId
 import com.ivy.data.model.TransactionMetadata
 import com.ivy.data.model.Transfer
-import com.ivy.data.model.common.Value
+import com.ivy.data.model.Value
 import com.ivy.data.model.getFromAccount
 import com.ivy.data.model.getToAccount
 import com.ivy.data.model.primitive.NotBlankTrimmedString

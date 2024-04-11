@@ -1,6 +1,6 @@
 package com.ivy.data.model.util
 
-import com.ivy.data.model.common.Value
+import com.ivy.data.model.Value
 import com.ivy.data.model.primitive.PositiveDouble
 import java.math.BigDecimal
 import java.math.RoundingMode

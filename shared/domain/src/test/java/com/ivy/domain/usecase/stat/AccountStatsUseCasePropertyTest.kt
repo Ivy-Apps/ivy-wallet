@@ -3,7 +3,7 @@ package com.ivy.domain.usecase.stat
 import arrow.core.Some
 import com.ivy.base.TestDispatchersProvider
 import com.ivy.data.model.Income
-import com.ivy.data.model.common.Value
+import com.ivy.data.model.Value
 import com.ivy.data.model.getFromAccount
 import com.ivy.data.model.getToAccount
 import com.ivy.data.model.primitive.AssetCode
