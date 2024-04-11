@@ -1,4 +1,4 @@
-package com.ivy.domain.usecase.balance
+package com.ivy.domain.usecase.stat
 
 import com.ivy.base.threading.DispatchersProvider
 import com.ivy.data.model.AccountId
@@ -6,12 +6,7 @@ import com.ivy.data.model.Expense
 import com.ivy.data.model.Income
 import com.ivy.data.model.Transaction
 import com.ivy.data.model.Transfer
-import com.ivy.data.model.common.Value
-import com.ivy.data.model.primitive.AssetCode
-import com.ivy.data.model.primitive.NonNegativeInt
-import com.ivy.data.model.primitive.PositiveDouble
 import com.ivy.domain.model.AccountStats
-import com.ivy.domain.model.Summary
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -22,10 +17,10 @@ class AccountStatsUseCase @Inject constructor(
         account: AccountId,
         transactions: List<Transaction>
     ): AccountStats = withContext(dispatchers.default) {
-        val income = SummaryBuilder()
-        val expense = SummaryBuilder()
-        val transfersIn = SummaryBuilder()
-        val transfersOut = SummaryBuilder()
+        val income = StatSummaryBuilder()
+        val expense = StatSummaryBuilder()
+        val transfersIn = StatSummaryBuilder()
+        val transfersOut = StatSummaryBuilder()
 
         for (trn in transactions) {
             when (trn) {
@@ -54,26 +49,6 @@ class AccountStatsUseCase @Inject constructor(
             expense = expense.build(),
             transfersIn = transfersIn.build(),
             transfersOut = transfersOut.build()
-        )
-    }
-
-    class SummaryBuilder {
-        private var count = 0
-        private val values = mutableMapOf<AssetCode, PositiveDouble>()
-
-        fun process(value: Value) {
-            count++
-            val asset = value.asset
-            PositiveDouble.from(
-                (values[asset]?.value ?: 0.0) + value.amount.value
-            ).onRight { newValue ->
-                values[asset] = newValue
-            }
-        }
-
-        fun build(): Summary = Summary(
-            trnCount = NonNegativeInt.unsafe(count),
-            values = values,
         )
     }
 }

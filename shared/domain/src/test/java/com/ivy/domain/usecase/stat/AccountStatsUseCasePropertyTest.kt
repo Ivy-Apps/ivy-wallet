@@ -1,4 +1,4 @@
-package com.ivy.domain.usecase.balance
+package com.ivy.domain.usecase.stat
 
 import arrow.core.Some
 import com.ivy.base.TestDispatchersProvider
@@ -13,7 +13,7 @@ import com.ivy.data.model.testing.ModelFixtures
 import com.ivy.data.model.testing.income
 import com.ivy.data.model.testing.transaction
 import com.ivy.domain.model.AccountStats
-import com.ivy.domain.model.Summary
+import com.ivy.domain.model.StatSummary
 import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.filter
@@ -81,7 +81,7 @@ class AccountStatsUseCasePropertyTest {
 
             // then
             stats shouldBe AccountStats.Zero.copy(
-                income = Summary(
+                income = StatSummary(
                     values = mapOf(
                         AssetCode.EUR to expectedEurIncome,
                         AssetCode.USD to expectedUsdIncome
