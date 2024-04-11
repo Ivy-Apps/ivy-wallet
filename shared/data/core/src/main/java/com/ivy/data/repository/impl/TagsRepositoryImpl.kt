@@ -154,8 +154,7 @@ class TagsRepositoryImpl @Inject constructor(
         writeTagDao.save(with(mapper) { it.toEntity() })
     }
 
-
-    override suspend fun deleteById(id: TagId) = memo.deleteById(
+    override suspend fun deleteById(id: TagId): Unit = memo.deleteById(
         id = id,
         deleteByIdOperation = {
             writeTagAssociationDao.deleteAssociationsByTagId(it.value)
@@ -163,7 +162,7 @@ class TagsRepositoryImpl @Inject constructor(
         }
     )
 
-    override suspend fun deleteAll() = memo.deleteAll {
+    override suspend fun deleteAll(): Unit = memo.deleteAll {
         writeTagAssociationDao.deleteAll()
         writeTagDao.deleteAll()
     }

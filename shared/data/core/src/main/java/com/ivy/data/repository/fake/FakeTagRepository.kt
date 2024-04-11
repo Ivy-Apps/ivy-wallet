@@ -1,8 +1,6 @@
 package com.ivy.data.repository.fake
 
-import com.ivy.base.TestCoroutineScope
 import com.ivy.base.TestDispatchersProvider
-import com.ivy.data.DataObserver
 import com.ivy.data.db.dao.read.TagAssociationDao
 import com.ivy.data.db.dao.read.TagDao
 import com.ivy.data.db.dao.write.WriteTagAssociationDao

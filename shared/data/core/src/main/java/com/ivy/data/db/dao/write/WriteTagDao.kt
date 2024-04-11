@@ -4,10 +4,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
 import androidx.room.Upsert
 import com.ivy.data.db.entity.TagEntity
-import java.util.*
+import java.util.UUID
 
 @Dao
 interface WriteTagDao {

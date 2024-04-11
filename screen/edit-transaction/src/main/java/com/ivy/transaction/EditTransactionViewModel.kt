@@ -330,10 +330,7 @@ class EditTransactionViewModel @Inject constructor(
                 is EditTransactionEvent.TagEvent.OnTagDeSelect -> removeTagAssociation(event.selectedTag)
                 is EditTransactionEvent.TagEvent.OnTagSearch -> searchTag(event.query)
                 is EditTransactionEvent.TagEvent.OnTagDelete -> deleteTag(event.selectedTag)
-                is EditTransactionEvent.TagEvent.OnTagEdit -> updateTagInformation(
-                    event.oldTag,
-                    event.newTag
-                )
+                is EditTransactionEvent.TagEvent.OnTagEdit -> updateTagInformation(event.newTag)
             }
         }
     }
@@ -909,7 +906,7 @@ class EditTransactionViewModel @Inject constructor(
         }
     }
 
-    private fun updateTagInformation(oldTag: Tag, newTag: Tag) {
+    private fun updateTagInformation(newTag: Tag) {
         viewModelScope.launch(Dispatchers.IO) {
             tagsRepository.save(newTag)
             tags.value = tagsRepository.findAll().toImmutableList()

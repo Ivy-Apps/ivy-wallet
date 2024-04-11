@@ -69,11 +69,9 @@ class CategoryRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun deleteById(id: CategoryId) = memo.deleteById(
-        id = id
-    ) {
+    override suspend fun deleteById(id: CategoryId): Unit = memo.deleteById(id = id) {
         writeCategoryDao.deleteById(id.value)
     }
 
-    override suspend fun deleteAll() = memo.deleteAll(writeCategoryDao::deleteAll)
+    override suspend fun deleteAll(): Unit = memo.deleteAll(writeCategoryDao::deleteAll)
 }
