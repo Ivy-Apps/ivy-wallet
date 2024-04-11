@@ -911,7 +911,7 @@ class EditTransactionViewModel @Inject constructor(
 
     private fun updateTagInformation(oldTag: Tag, newTag: Tag) {
         viewModelScope.launch(Dispatchers.IO) {
-            tagsRepository.updateTag(oldTag.id, newTag)
+            tagsRepository.save(newTag)
             tags.value = tagsRepository.findAll().toImmutableList()
         }
     }

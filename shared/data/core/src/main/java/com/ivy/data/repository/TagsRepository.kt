@@ -6,7 +6,7 @@ import com.ivy.data.model.primitive.AssociationId
 import com.ivy.data.model.TagId
 
 interface TagsRepository {
-    suspend fun findByIds(id: TagId): Tag?
+    suspend fun findById(id: TagId): Tag?
     suspend fun findByIds(ids: List<TagId>): List<Tag>
     suspend fun findByAssociatedId(id: AssociationId): List<Tag>
     suspend fun findByAssociatedId(ids: List<AssociationId>): Map<AssociationId, List<Tag>>
@@ -17,7 +17,6 @@ interface TagsRepository {
     suspend fun associateTagToEntity(associationId: AssociationId, tagId: TagId)
     suspend fun removeTagAssociation(associationId: AssociationId, tagId: TagId)
     suspend fun save(value: Tag)
-    suspend fun updateTag(tagId: TagId, value: Tag)
     suspend fun deleteById(id: TagId)
     suspend fun deleteAll()
 }

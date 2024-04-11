@@ -14,21 +14,21 @@ class RepositoryMemoFactory @Inject constructor(
     private val dispatchers: DispatchersProvider,
 ) {
     fun <T : Syncable<TID>, TID : UniqueId> createMemo(
-        getSaveEvent: (List<T>) -> DataWriteEvent,
-        getDeleteEvent: (DeleteOperation<TID>) -> DataWriteEvent
+        getDataWriteSaveEvent: (List<T>) -> DataWriteEvent,
+        getDateWriteDeleteEvent: (DeleteOperation<TID>) -> DataWriteEvent
     ): RepositoryMemo<T, TID> = RepositoryMemo(
         dataObserver = dataObserver,
         dispatchers = dispatchers,
-        getSaveEvent = getSaveEvent,
-        getDeleteEvent = getDeleteEvent,
+        getDataWriteSaveEvent = getDataWriteSaveEvent,
+        getDataWriteDeleteEvent = getDateWriteDeleteEvent,
     )
 }
 
 class RepositoryMemo<T : Syncable<TID>, TID : UniqueId> internal constructor(
     private val dataObserver: DataObserver,
     private val dispatchers: DispatchersProvider,
-    private val getSaveEvent: (List<T>) -> DataWriteEvent,
-    private val getDeleteEvent: (DeleteOperation<TID>) -> DataWriteEvent,
+    private val getDataWriteSaveEvent: (List<T>) -> DataWriteEvent,
+    private val getDataWriteDeleteEvent: (DeleteOperation<TID>) -> DataWriteEvent,
 ) {
 
     private val _memo = mutableMapOf<TID, T>()
@@ -38,7 +38,7 @@ class RepositoryMemo<T : Syncable<TID>, TID : UniqueId> internal constructor(
 
     suspend fun findAll(
         findAllOperation: suspend () -> List<T>,
-        sortMemo: (Collection<T>) -> List<T>,
+        sortMemo: Collection<T>.() -> List<T>,
     ): List<T> {
         return if (findAllMemoized) {
             sortMemo(_memo.values)
@@ -54,12 +54,17 @@ class RepositoryMemo<T : Syncable<TID>, TID : UniqueId> internal constructor(
 
     suspend fun findById(
         id: TID,
-        findByIdOperation: suspend (UniqueId) -> T?
+        findByIdOperation: suspend (TID) -> T?
     ): T? {
         return items[id] ?: withContext(dispatchers.io) {
             findByIdOperation(id)?.also(::memoize)
         }
     }
+
+    suspend fun findByIds(
+        ids: List<TID>,
+        findByIdOperation: suspend (TID) -> T?
+    ): List<T> = ids.mapNotNull { id -> findById(id, findByIdOperation) }
 
     suspend fun save(
         value: T,
@@ -68,7 +73,7 @@ class RepositoryMemo<T : Syncable<TID>, TID : UniqueId> internal constructor(
         withContext(dispatchers.io) {
             writeOperation(value)
             memoize(value)
-            dataObserver.post(getSaveEvent(listOf(value)))
+            dataObserver.post(getDataWriteSaveEvent(listOf(value)))
         }
     }
 
@@ -79,7 +84,7 @@ class RepositoryMemo<T : Syncable<TID>, TID : UniqueId> internal constructor(
         withContext(dispatchers.io) {
             writeOperation(values)
             memoize(values)
-            dataObserver.post(getSaveEvent(values))
+            dataObserver.post(getDataWriteSaveEvent(values))
         }
     }
 
@@ -91,7 +96,7 @@ class RepositoryMemo<T : Syncable<TID>, TID : UniqueId> internal constructor(
             _memo.remove(id)
             deleteByIdOperation(id)
             dataObserver.post(
-                getDeleteEvent(DeleteOperation.Just(listOf(id)))
+                getDataWriteDeleteEvent(DeleteOperation.Just(listOf(id)))
             )
         }
     }
@@ -102,7 +107,7 @@ class RepositoryMemo<T : Syncable<TID>, TID : UniqueId> internal constructor(
         withContext(dispatchers.io) {
             _memo.clear()
             deleteAllOperation()
-            dataObserver.post(getDeleteEvent(DeleteOperation.All))
+            dataObserver.post(getDataWriteDeleteEvent(DeleteOperation.All))
         }
     }
 

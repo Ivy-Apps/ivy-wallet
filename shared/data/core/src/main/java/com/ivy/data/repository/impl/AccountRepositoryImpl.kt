@@ -1,6 +1,5 @@
 package com.ivy.data.repository.impl
 
-import com.ivy.base.di.AppCoroutineScope
 import com.ivy.base.threading.DispatchersProvider
 import com.ivy.data.DataWriteEvent
 import com.ivy.data.db.dao.read.AccountDao
@@ -24,8 +23,8 @@ class AccountRepositoryImpl @Inject constructor(
 ) : AccountRepository {
 
     private val memo = memoFactory.createMemo(
-        getSaveEvent = DataWriteEvent::SaveAccounts,
-        getDeleteEvent = DataWriteEvent::DeleteAccounts
+        getDataWriteSaveEvent = DataWriteEvent::SaveAccounts,
+        getDateWriteDeleteEvent = DataWriteEvent::DeleteAccounts
     )
 
     override suspend fun findById(id: AccountId): Account? = memo.findById(
@@ -43,7 +42,7 @@ class AccountRepositoryImpl @Inject constructor(
                 with(mapper) { it.toDomain() }.getOrNull()
             }
         },
-        sortMemo = { it.sortedBy(Account::orderNum) }
+        sortMemo = { sortedBy(Account::orderNum) }
     )
 
     override suspend fun findMaxOrderNum(): Double = if (memo.findAllMemoized) {

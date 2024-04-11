@@ -25,7 +25,6 @@ class FakeTagRepository(
         writeTagDao = writeTagDao,
         writeTagAssociationDao = writeTagAssociationDao,
         dispatchersProvider = TestDispatchersProvider,
-        dataObserver = DataObserver(),
-        appCoroutineScope = TestCoroutineScope,
+        memoFactory = fakeRepositoryMakeFactory(),
     )
 ) : TagsRepository by tagsRepository

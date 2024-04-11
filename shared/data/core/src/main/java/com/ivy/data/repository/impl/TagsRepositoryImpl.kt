@@ -1,25 +1,20 @@
 package com.ivy.data.repository.impl
 
-import com.ivy.base.di.AppCoroutineScope
 import com.ivy.base.threading.DispatchersProvider
-import com.ivy.data.DataObserver
 import com.ivy.data.DataWriteEvent
-import com.ivy.data.DeleteOperation
 import com.ivy.data.db.dao.read.TagAssociationDao
 import com.ivy.data.db.dao.read.TagDao
 import com.ivy.data.db.dao.write.WriteTagAssociationDao
 import com.ivy.data.db.dao.write.WriteTagDao
 import com.ivy.data.model.Tag
 import com.ivy.data.model.TagAssociation
-import com.ivy.data.model.primitive.AssociationId
 import com.ivy.data.model.TagId
+import com.ivy.data.model.primitive.AssociationId
+import com.ivy.data.repository.RepositoryMemoFactory
 import com.ivy.data.repository.TagsRepository
 import com.ivy.data.repository.mapper.TagMapper
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.UUID
 import javax.inject.Inject
@@ -33,42 +28,28 @@ class TagsRepositoryImpl @Inject constructor(
     private val writeTagDao: WriteTagDao,
     private val writeTagAssociationDao: WriteTagAssociationDao,
     private val dispatchersProvider: DispatchersProvider,
-    private val dataObserver: DataObserver,
-    @AppCoroutineScope
-    private val appCoroutineScope: CoroutineScope
+    memoFactory: RepositoryMemoFactory,
 ) : TagsRepository {
 
-    init {
-        appCoroutineScope.launch {
-            dataObserver.writeEvents.collectLatest { event ->
-                when (event) {
-                    DataWriteEvent.AllDataChange -> {
-                        findAllMemoized = false
-                        tagsMemo.clear()
-                    }
+    private val memo = memoFactory.createMemo(
+        getDataWriteSaveEvent = DataWriteEvent::SaveTags,
+        getDateWriteDeleteEvent = DataWriteEvent::DeleteTags,
+    )
 
-                    else -> {
-                        // do nothing
-                    }
-                }
-            }
+    override suspend fun findById(id: TagId): Tag? = memo.findById(
+        id = id,
+        findByIdOperation = ::findByIdOperation
+    )
+
+    override suspend fun findByIds(ids: List<TagId>): List<Tag> = memo.findByIds(
+        ids = ids,
+        findByIdOperation = ::findByIdOperation,
+    )
+
+    private suspend fun findByIdOperation(id: TagId): Tag? = tagDao.findByIds(id.value)
+        ?.let {
+            with(mapper) { it.toDomain().getOrNull() }
         }
-    }
-
-    private val tagsMemo = mutableMapOf<TagId, Tag>()
-    private var findAllMemoized: Boolean = false
-
-    override suspend fun findByIds(id: TagId): Tag? {
-        return tagsMemo[id] ?: withContext(dispatchersProvider.io) {
-            tagDao.findByIds(id.value)?.let {
-                with(mapper) { it.toDomain().getOrNull() } ?: return@withContext null
-            }.also(::memoize)
-        }
-    }
-
-    override suspend fun findByIds(ids: List<TagId>): List<Tag> {
-        return ids.mapNotNull { tagsMemo[it] ?: findByIds(it) }
-    }
 
     override suspend fun findByAssociatedId(id: AssociationId): List<Tag> {
         return withContext(dispatchersProvider.io) {
@@ -104,21 +85,18 @@ class TagsRepositoryImpl @Inject constructor(
             .associate { it.key to it.value }
     }
 
-    override suspend fun findAll(deleted: Boolean): List<Tag> {
-        return if (findAllMemoized) {
-            tagsMemo.values.sortedByDescending { it.creationTimestamp.epochSecond }
-        } else {
-            withContext(dispatchersProvider.io) {
-                tagDao.findAll().let { entities ->
-                    entities.mapNotNull {
-                        with(mapper) { it.toDomain().getOrNull() }
-                    }
+    override suspend fun findAll(deleted: Boolean): List<Tag> = memo.findAll(
+        findAllOperation = {
+            tagDao.findAll().let { entities ->
+                entities.mapNotNull {
+                    with(mapper) { it.toDomain().getOrNull() }
                 }
-            }.also(::memoize).also {
-                findAllMemoized = true
             }
+        },
+        sortMemo = {
+            sortedByDescending { it.creationTimestamp.epochSecond }
         }
-    }
+    )
 
     override suspend fun findByText(text: String): List<Tag> {
         return withContext(dispatchersProvider.io) {
@@ -172,47 +150,22 @@ class TagsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun save(value: Tag) {
-        withContext(dispatchersProvider.io) {
-            writeTagDao.save(with(mapper) { value.toEntity() })
-        }.also {
-            memoize(value)
-            dataObserver.post(DataWriteEvent.SaveTags(listOf(value)))
+    override suspend fun save(value: Tag): Unit = memo.save(value) {
+        writeTagDao.save(with(mapper) { it.toEntity() })
+    }
+
+
+    override suspend fun deleteById(id: TagId) = memo.deleteById(
+        id = id,
+        deleteByIdOperation = {
+            writeTagAssociationDao.deleteAssociationsByTagId(it.value)
+            writeTagDao.deleteById(it.value)
         }
-    }
+    )
 
-    override suspend fun updateTag(tagId: TagId, value: Tag) {
-        withContext(dispatchersProvider.io) {
-            writeTagDao.update(with(mapper) { value.toEntity() })
-            memoize(value)
-            dataObserver.post(DataWriteEvent.SaveTags(listOf(value)))
-        }
-    }
-
-    override suspend fun deleteById(id: TagId) {
-        withContext(dispatchersProvider.io) {
-            writeTagAssociationDao.deleteAssociationsByTagId(id.value)
-            writeTagDao.deleteById(id.value)
-            tagsMemo.remove(id)
-            dataObserver.post(DataWriteEvent.DeleteTags(DeleteOperation.Just(listOf(id))))
-        }
-    }
-
-    override suspend fun deleteAll() {
-        withContext(dispatchersProvider.io) {
-            tagsMemo.clear()
-            writeTagAssociationDao.deleteAll()
-            writeTagDao.deleteAll()
-            dataObserver.post(DataWriteEvent.DeleteTags(DeleteOperation.All))
-        }
-    }
-
-    private fun memoize(tag: Tag?) {
-        tag?.let { tagsMemo[it.id] = it }
-    }
-
-    private fun memoize(tags: List<Tag>) {
-        tags.forEach(::memoize)
+    override suspend fun deleteAll() = memo.deleteAll {
+        writeTagAssociationDao.deleteAll()
+        writeTagDao.deleteAll()
     }
 
     private fun List<TagId>.toRawValues(): List<UUID> = this.map { it.value }
