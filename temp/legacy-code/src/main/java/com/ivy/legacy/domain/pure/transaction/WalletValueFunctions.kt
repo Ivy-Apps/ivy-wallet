@@ -42,7 +42,7 @@ object WalletValueFunctions {
         transaction: Transaction,
         arg: Argument
     ): BigDecimal = with(transaction) {
-        val condition = arg.accounts.any { it.id == this.getAccountId() }
+        val condition = arg.accounts.any { it.id == (this as? Transfer)?.toAccount?.value }
         if (!condition) {
             return BigDecimal.ZERO
         }
