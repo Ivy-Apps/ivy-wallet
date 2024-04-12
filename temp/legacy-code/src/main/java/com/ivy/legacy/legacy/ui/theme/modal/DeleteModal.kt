@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.theme.modal
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -29,16 +30,17 @@ import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.components.IvyNameTextField
 import java.util.UUID
 
+@SuppressLint("ComposeModifierMissing")
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.DeleteModal(
-    id: UUID = UUID.randomUUID(),
     title: String,
     description: String,
     visible: Boolean,
+    dismiss: () -> Unit,
+    id: UUID = UUID.randomUUID(),
     buttonText: String = stringResource(R.string.delete),
     iconStart: Int = R.drawable.ic_delete,
-    dismiss: () -> Unit,
     onDelete: () -> Unit,
 ) {
     IvyModal(
@@ -80,18 +82,19 @@ fun BoxWithConstraintsScope.DeleteModal(
     }
 }
 
+@SuppressLint("ComposeModifierMissing")
 @Composable
 fun BoxWithConstraintsScope.DeleteConfirmationModal(
-    id: UUID = UUID.randomUUID(),
     title: String,
     description: String,
-    hint: String = stringResource(id = R.string.account_name),
     visible: Boolean,
     enableDeletionButton: Boolean,
-    buttonText: String = stringResource(R.string.delete),
-    iconStart: Int = R.drawable.ic_delete,
     onAccountNameChange: (String) -> Unit,
     dismiss: () -> Unit,
+    id: UUID = UUID.randomUUID(),
+    hint: String = stringResource(id = R.string.account_name),
+    buttonText: String = stringResource(R.string.delete),
+    iconStart: Int = R.drawable.ic_delete,
     onDelete: () -> Unit,
 ) {
     var deletionTextFieldValue by remember(this) {
