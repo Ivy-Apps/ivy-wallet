@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.base.model.TransactionType
 import com.ivy.data.model.Category
 import com.ivy.data.model.Tag
+import com.ivy.data.model.TagId
 import com.ivy.design.l0_system.Orange
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -201,7 +202,7 @@ private fun BoxWithConstraintsScope.UI(
     categories: ImmutableList<Category>,
     accounts: ImmutableList<Account>,
     tags: ImmutableList<Tag>,
-    transactionAssociatedTags: ImmutableList<Tag>,
+    transactionAssociatedTags: ImmutableList<TagId>,
     onTitleChanged: (String?) -> Unit,
     onDescriptionChanged: (String?) -> Unit,
     onAmountChanged: (Double) -> Unit,

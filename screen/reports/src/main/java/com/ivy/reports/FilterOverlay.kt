@@ -44,6 +44,7 @@ import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.Tag
+import com.ivy.data.model.TagId
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.domain.legacy.ui.theme.components.ListItem
@@ -411,12 +412,12 @@ fun BoxWithConstraintsScope.FilterOverlay(
         },
         onTagSelected = {
             localFilter = nonNullFilter(localFilter).copy(
-                selectedTags = nonNullFilter(localFilter).selectedTags.plus(it)
+                selectedTags = nonNullFilter(localFilter).selectedTags.plus(it.id)
             )
         },
         onTagDeSelected = {
            localFilter = nonNullFilter(localFilter).copy(
-                selectedTags = nonNullFilter(localFilter).selectedTags.minus(it)
+                selectedTags = nonNullFilter(localFilter).selectedTags.minus(it.id)
             )
         },
         onTagSearch = {
@@ -443,7 +444,7 @@ fun ColumnScope.OthersFilter(
 
 @Composable
 fun ColumnScope.TagFilter(
-    selectedTags: ImmutableList<Tag>,
+    selectedTags: ImmutableList<TagId>,
     onTagButtonClicked: () -> Unit,
     @Suppress("UnusedParameter") modifier: Modifier = Modifier
 ) {
