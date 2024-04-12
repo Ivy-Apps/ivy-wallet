@@ -19,7 +19,7 @@ import com.ivy.data.model.testing.ModelFixtures
 import com.ivy.data.model.testing.accountId
 import com.ivy.data.model.testing.transaction
 import com.ivy.data.model.testing.transactionId
-import com.ivy.data.repository.TagsRepository
+import com.ivy.data.repository.TagRepository
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.data.validTransactionEntity
@@ -47,7 +47,7 @@ class TransactionRepositoryImplTest {
     private val mapper = mockk<TransactionMapper>()
     private val transactionDao = mockk<TransactionDao>()
     private val writeTransactionDao = mockk<WriteTransactionDao>()
-    private val tagRepository = mockk<TagsRepository>(relaxed = true)
+    private val tagRepository = mockk<TagRepository>(relaxed = true)
 
     private lateinit var repository: TransactionRepository
 

@@ -2,7 +2,7 @@ package com.ivy.onboarding.viewmodel
 
 import androidx.compose.runtime.MutableState
 import com.ivy.data.db.dao.read.AccountDao
-import com.ivy.domain.usecase.SyncExchangeRatesUseCase
+import com.ivy.domain.usecase.exchange.SyncExchangeRatesUseCase
 import com.ivy.legacy.LogoutLogic
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.data.model.Category

@@ -44,16 +44,6 @@ class FakeTagDao : TagDao, WriteTagDao {
         items.addAll(value)
     }
 
-    override suspend fun update(value: TagEntity) {
-        items.map {
-            if (it.id == value.id) {
-                value
-            } else {
-                it
-            }
-        }
-    }
-
     override suspend fun deleteById(id: UUID) {
         items.removeIf { it.id == id }
     }

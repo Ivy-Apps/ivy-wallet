@@ -17,7 +17,7 @@ import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.PositiveDouble
 import com.ivy.data.repository.CurrencyRepository
 import com.ivy.data.repository.ExchangeRatesRepository
-import com.ivy.domain.usecase.SyncExchangeRatesUseCase
+import com.ivy.domain.usecase.exchange.SyncExchangeRatesUseCase
 import com.ivy.exchangerates.data.RateUi
 import com.ivy.ui.ComposeViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

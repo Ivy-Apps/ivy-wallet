@@ -19,7 +19,7 @@ import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.CategoryRepository
-import com.ivy.data.repository.TagsRepository
+import com.ivy.data.repository.TagRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.frp.then
 import com.ivy.legacy.IvyWalletCtx
@@ -85,7 +85,7 @@ class TransactionsViewModel @Inject constructor(
     private val categoryWriter: WriteCategoryDao,
     private val plannedPaymentRuleWriter: WritePlannedPaymentRuleDao,
     private val transactionMapper: TransactionMapper,
-    private val tagsRepository: TagsRepository,
+    private val tagRepository: TagRepository
 ) : ComposeViewModel<TransactionsState, TransactionsEvent>() {
 
     private val period = mutableStateOf(ivyContext.selectedPeriod)
@@ -370,7 +370,7 @@ class TransactionsViewModel @Inject constructor(
                             transactions = with(transactionMapper) {
                                 it.map {
                                     val tags =
-                                        tagsRepository.findByIds(it.tags).toImmutableLegacyTags()
+                                        tagRepository.findByIds(it.tags).toImmutableLegacyTags()
                                     it.toEntity().toLegacyDomain(tags = tags)
                                 }
                             }

@@ -145,21 +145,6 @@ abstract class IvyRoomDatabase : RoomDatabase() {
         }
     }
 
-    suspend fun reset() {
-        writeAccountDao.deleteAll()
-        writeTransactionDao.deleteAll()
-        writeCategoryDao.deleteAll()
-        writeSettingsDao.deleteAll()
-        writePlannedPaymentRuleDao.deleteAll()
-        userDao.deleteAll()
-        writeBudgetDao.deleteAll()
-        writeLoanDao.deleteAll()
-        writeLoanRecordDao.deleteAll()
-        writeExchangeRatesDao.deleteALl()
-        writeTagDao.deleteAll()
-        writeTransactionDao.deleteAll()
-    }
-
     @DeleteColumn(tableName = "accounts", columnName = "seAccountId")
     @DeleteColumn(tableName = "transactions", columnName = "seTransactionId")
     @DeleteColumn(tableName = "transactions", columnName = "seAutoCategoryId")

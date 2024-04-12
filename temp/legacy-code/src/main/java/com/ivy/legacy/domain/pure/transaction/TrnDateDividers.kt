@@ -11,7 +11,7 @@ import com.ivy.data.model.Tag
 import com.ivy.data.model.Transaction
 import com.ivy.data.model.TagId
 import com.ivy.data.repository.AccountRepository
-import com.ivy.data.repository.TagsRepository
+import com.ivy.data.repository.TagRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
@@ -39,7 +39,7 @@ suspend fun List<Transaction>.withDateDividers(
     exchangeRatesLogic: ExchangeRatesLogic,
     settingsDao: SettingsDao,
     accountDao: AccountDao,
-    tagsRepository: TagsRepository,
+    tagRepository: TagRepository,
     accountRepository: AccountRepository,
     timeProvider: TimeProvider,
 ): List<TransactionHistoryItem> {
@@ -47,7 +47,7 @@ suspend fun List<Transaction>.withDateDividers(
         transactions = this,
         baseCurrencyCode = settingsDao.findFirst().currency,
         getAccount = accountDao::findById then { it?.toLegacyDomain() },
-        getTags = { tagsIds -> tagsRepository.findByIds(tagsIds) },
+        getTags = { tagsIds -> tagRepository.findByIds(tagsIds) },
         accountRepository = accountRepository,
         timeProvider = timeProvider,
         exchange = { data, amount ->

@@ -20,7 +20,7 @@ data class Tag(
     val creationTimestamp: Instant,
     override val lastUpdated: Instant,
     override val removed: Boolean
-) : Syncable, Reorderable
+) : Syncable<TagId>, Reorderable
 
 @Suppress("DataClassTypedIDs")
 data class TagAssociation(
@@ -28,7 +28,7 @@ data class TagAssociation(
     val associatedId: AssociationId,
     override val lastUpdated: Instant,
     override val removed: Boolean,
-) : Syncable
+) : Syncable<TagId>
 
 @JvmInline
 @Immutable

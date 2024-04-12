@@ -20,5 +20,5 @@ interface WriteExchangeRatesDao {
     )
 
     @Query("DELETE FROM exchange_rates")
-    suspend fun deleteALl()
+    suspend fun deleteAll()
 }

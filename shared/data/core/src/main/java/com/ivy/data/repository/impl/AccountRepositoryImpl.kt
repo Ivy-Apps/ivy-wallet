@@ -1,19 +1,14 @@
 package com.ivy.data.repository.impl
 
-import com.ivy.base.di.AppCoroutineScope
 import com.ivy.base.threading.DispatchersProvider
-import com.ivy.data.DataObserver
 import com.ivy.data.DataWriteEvent
-import com.ivy.data.DeleteOperation
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.write.WriteAccountDao
 import com.ivy.data.model.Account
 import com.ivy.data.model.AccountId
 import com.ivy.data.repository.AccountRepository
+import com.ivy.data.repository.RepositoryMemoFactory
 import com.ivy.data.repository.mapper.AccountMapper
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -24,109 +19,57 @@ class AccountRepositoryImpl @Inject constructor(
     private val accountDao: AccountDao,
     private val writeAccountDao: WriteAccountDao,
     private val dispatchersProvider: DispatchersProvider,
-    private val dataObserver: DataObserver,
-    @AppCoroutineScope
-    private val appCoroutineScope: CoroutineScope,
+    memoFactory: RepositoryMemoFactory,
 ) : AccountRepository {
 
-    init {
-        appCoroutineScope.launch {
-            dataObserver.writeEvents.collectLatest { event ->
-                when (event) {
-                    DataWriteEvent.AllDataChange -> {
-                        findAllMemoized = false
-                        accountsMemo.clear()
-                    }
-                    else -> {
-                        // do nothing
-                    }
-                }
-            }
-        }
-    }
+    private val memo = memoFactory.createMemo(
+        getDataWriteSaveEvent = DataWriteEvent::SaveAccounts,
+        getDateWriteDeleteEvent = DataWriteEvent::DeleteAccounts
+    )
 
-    private val accountsMemo = mutableMapOf<AccountId, Account>()
-    private var findAllMemoized = false
-
-    override suspend fun findById(id: AccountId): Account? {
-        return accountsMemo[id] ?: withContext(dispatchersProvider.io) {
+    override suspend fun findById(id: AccountId): Account? = memo.findById(
+        id = id,
+        findByIdOperation = {
             accountDao.findById(id.value)?.let {
                 with(mapper) { it.toDomain() }.getOrNull()
-            }.also {
-                if (it != null) {
-                    accountsMemo[id] = it
-                }
             }
         }
-    }
+    )
 
-    override suspend fun findAll(deleted: Boolean): List<Account> {
-        return if (findAllMemoized) {
-            accountsMemo.values.sortedBy { it.orderNum }
-        } else {
-            withContext(dispatchersProvider.io) {
-                accountDao.findAll(deleted).mapNotNull {
-                    with(mapper) { it.toDomain() }.getOrNull()
-                }.also {
-                    memoize(it)
-                    findAllMemoized = true
-                }
+    override suspend fun findAll(deleted: Boolean): List<Account> = memo.findAll(
+        findAllOperation = {
+            accountDao.findAll(deleted).mapNotNull {
+                with(mapper) { it.toDomain() }.getOrNull()
             }
-        }
-    }
+        },
+        sortMemo = { sortedBy(Account::orderNum) }
+    )
 
-    override suspend fun findMaxOrderNum(): Double {
-        return if (accountsMemo.isNotEmpty()) {
-            accountsMemo.maxOfOrNull { (_, acc) -> acc.orderNum } ?: 0.0
-        } else {
-            withContext(dispatchersProvider.io) {
-                accountDao.findMaxOrderNum() ?: 0.0
-            }
-        }
-    }
-
-    override suspend fun save(value: Account) {
+    override suspend fun findMaxOrderNum(): Double = if (memo.findAllMemoized) {
+        memo.items.maxOfOrNull { (_, acc) -> acc.orderNum } ?: 0.0
+    } else {
         withContext(dispatchersProvider.io) {
-            writeAccountDao.save(
-                with(mapper) { value.toEntity() }
-            )
-            // Memoize
-            accountsMemo[value.id] = value
-            dataObserver.post(DataWriteEvent.SaveAccounts(listOf(value)))
+            accountDao.findMaxOrderNum() ?: 0.0
         }
     }
 
-    override suspend fun saveMany(values: List<Account>) {
-        withContext(dispatchersProvider.io) {
-            writeAccountDao.saveMany(
-                values.map { with(mapper) { it.toEntity() } }
-            )
-            memoize(values)
-            dataObserver.post(DataWriteEvent.SaveAccounts(values))
-        }
+    override suspend fun save(value: Account): Unit = memo.save(value) {
+        writeAccountDao.save(
+            with(mapper) { it.toEntity() }
+        )
     }
 
-    private fun memoize(accounts: List<Account>) {
-        accounts.forEach {
-            accountsMemo[it.id] = it
-        }
+    override suspend fun saveMany(values: List<Account>): Unit = memo.saveMany(values) {
+        writeAccountDao.saveMany(
+            it.map { with(mapper) { it.toEntity() } }
+        )
     }
 
-    override suspend fun deleteById(id: AccountId) {
-        withContext(dispatchersProvider.io) {
-            accountsMemo.remove(id)
-            writeAccountDao.deleteById(id.value)
-            dataObserver.post(
-                DataWriteEvent.DeleteAccounts(DeleteOperation.Just(listOf(id)))
-            )
-        }
+    override suspend fun deleteById(id: AccountId): Unit = memo.deleteById(id) {
+        writeAccountDao.deleteById(id.value)
     }
 
-    override suspend fun deleteAll() {
-        withContext(dispatchersProvider.io) {
-            accountsMemo.clear()
-            writeAccountDao.deleteAll()
-            dataObserver.post(DataWriteEvent.DeleteAccounts(DeleteOperation.All))
-        }
-    }
+    override suspend fun deleteAll(): Unit = memo.deleteAll(
+        deleteAllOperation = writeAccountDao::deleteAll
+    )
 }

@@ -1,16 +1,15 @@
 package com.ivy.data.repository.impl
 
-import com.ivy.base.TestCoroutineScope
 import com.ivy.base.TestDispatchersProvider
-import com.ivy.data.DataWriteEvent
-import com.ivy.data.DataObserver
-import com.ivy.data.DeleteOperation
 import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.data.db.entity.CategoryEntity
+import com.ivy.data.model.Category
+import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.CategoryRepository
+import com.ivy.data.repository.fake.fakeRepositoryMakeFactory
 import com.ivy.data.repository.mapper.CategoryMapper
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
@@ -27,7 +26,6 @@ import java.util.UUID
 class CategoryRepositoryImplTest {
     private val categoryDao = mockk<CategoryDao>()
     private val writeCategoryDao = mockk<WriteCategoryDao>()
-    private val writeEventBus = mockk<DataObserver>(relaxed = true)
 
     private lateinit var repository: CategoryRepository
 
@@ -38,8 +36,7 @@ class CategoryRepositoryImplTest {
             categoryDao = categoryDao,
             writeCategoryDao = writeCategoryDao,
             dispatchersProvider = TestDispatchersProvider,
-            dataObserver = writeEventBus,
-            appCoroutineScope = TestCoroutineScope,
+            memoFactory = fakeRepositoryMakeFactory(),
         )
     }
 
@@ -95,23 +92,23 @@ class CategoryRepositoryImplTest {
 
         // then
         res shouldBe listOf(
-            com.ivy.data.model.Category(
+            Category(
                 name = NotBlankTrimmedString.unsafe("Home"),
                 color = ColorInt(42),
                 icon = null,
                 orderNum = 0.0,
                 removed = false,
                 lastUpdated = Instant.EPOCH,
-                id = com.ivy.data.model.CategoryId(id1)
+                id = CategoryId(id1)
             ),
-            com.ivy.data.model.Category(
+            Category(
                 name = NotBlankTrimmedString.unsafe("Fun"),
                 color = ColorInt(42),
                 icon = null,
                 orderNum = 2.0,
                 removed = false,
                 lastUpdated = Instant.EPOCH,
-                id = com.ivy.data.model.CategoryId(id3)
+                id = CategoryId(id3)
             )
         )
     }
@@ -123,7 +120,7 @@ class CategoryRepositoryImplTest {
         coEvery { categoryDao.findById(id) } returns null
 
         // when
-        val category = repository.findById(com.ivy.data.model.CategoryId(id))
+        val category = repository.findById(CategoryId(id))
 
         // then
         category shouldBe null
@@ -144,17 +141,17 @@ class CategoryRepositoryImplTest {
         )
 
         // when
-        val category = repository.findById(com.ivy.data.model.CategoryId(id))
+        val category = repository.findById(CategoryId(id))
 
         // then
-        category shouldBe com.ivy.data.model.Category(
+        category shouldBe Category(
             name = NotBlankTrimmedString.unsafe("Home"),
             color = ColorInt(42),
             icon = null,
             orderNum = 0.0,
             removed = false,
             lastUpdated = Instant.EPOCH,
-            id = com.ivy.data.model.CategoryId(id)
+            id = CategoryId(id)
         )
     }
 
@@ -173,7 +170,7 @@ class CategoryRepositoryImplTest {
         )
 
         // when
-        val category = repository.findById(com.ivy.data.model.CategoryId(id))
+        val category = repository.findById(CategoryId(id))
 
         // then
         category shouldBe null
@@ -207,14 +204,14 @@ class CategoryRepositoryImplTest {
     fun save() = runTest {
         // given
         val id = UUID.randomUUID()
-        val category = com.ivy.data.model.Category(
+        val category = Category(
             name = NotBlankTrimmedString.unsafe("Home"),
             color = ColorInt(42),
             icon = null,
             orderNum = 3.0,
             removed = false,
             lastUpdated = Instant.EPOCH,
-            id = com.ivy.data.model.CategoryId(id)
+            id = CategoryId(id)
         )
         coEvery { writeCategoryDao.save(any()) } just runs
 
@@ -235,9 +232,6 @@ class CategoryRepositoryImplTest {
                 )
             )
         }
-        coVerify(exactly = 1) {
-            writeEventBus.post(DataWriteEvent.SaveCategories(listOf(category)))
-        }
     }
 
     @Test
@@ -247,32 +241,32 @@ class CategoryRepositoryImplTest {
         val id2 = UUID.randomUUID()
         val id3 = UUID.randomUUID()
         val categories = listOf(
-            com.ivy.data.model.Category(
+            Category(
                 name = NotBlankTrimmedString.unsafe("Home"),
                 color = ColorInt(42),
                 icon = null,
                 orderNum = 3.0,
                 removed = false,
                 lastUpdated = Instant.EPOCH,
-                id = com.ivy.data.model.CategoryId(id1)
+                id = CategoryId(id1)
             ),
-            com.ivy.data.model.Category(
+            Category(
                 name = NotBlankTrimmedString.unsafe("Fun"),
                 color = ColorInt(42),
                 icon = null,
                 orderNum = 4.0,
                 removed = false,
                 lastUpdated = Instant.EPOCH,
-                id = com.ivy.data.model.CategoryId(id2)
+                id = CategoryId(id2)
             ),
-            com.ivy.data.model.Category(
+            Category(
                 name = NotBlankTrimmedString.unsafe("Health"),
                 color = ColorInt(42),
                 icon = null,
                 orderNum = 5.0,
                 removed = false,
                 lastUpdated = Instant.EPOCH,
-                id = com.ivy.data.model.CategoryId(id3)
+                id = CategoryId(id3)
             )
         )
         coEvery { writeCategoryDao.saveMany(any()) } just runs
@@ -316,15 +310,12 @@ class CategoryRepositoryImplTest {
                 )
             )
         }
-        coVerify(exactly = 1) {
-            writeEventBus.post(DataWriteEvent.SaveCategories(categories))
-        }
     }
 
     @Test
     fun `delete by id`() = runTest {
         // given
-        val categoryId = com.ivy.data.model.CategoryId(UUID.randomUUID())
+        val categoryId = CategoryId(UUID.randomUUID())
         coEvery { writeCategoryDao.deleteById(any()) } just runs
 
         // when
@@ -333,13 +324,6 @@ class CategoryRepositoryImplTest {
         // then
         coVerify(exactly = 1) {
             writeCategoryDao.deleteById(categoryId.value)
-        }
-        coVerify(exactly = 1) {
-            writeEventBus.post(
-                DataWriteEvent.DeleteCategories(
-                    DeleteOperation.Just(listOf(categoryId))
-                )
-            )
         }
     }
 
@@ -354,9 +338,6 @@ class CategoryRepositoryImplTest {
         // then
         coVerify(exactly = 1) {
             writeCategoryDao.deleteAll()
-        }
-        coVerify(exactly = 1) {
-            writeEventBus.post(DataWriteEvent.DeleteCategories(DeleteOperation.All))
         }
     }
 }

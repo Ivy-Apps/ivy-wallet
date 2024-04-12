@@ -1,19 +1,19 @@
 package com.ivy.data.repository.impl
 
-import com.ivy.base.TestCoroutineScope
 import com.ivy.base.TestDispatchersProvider
-import com.ivy.data.DataWriteEvent
 import com.ivy.data.DataObserver
-import com.ivy.data.DeleteOperation
 import com.ivy.data.db.dao.fake.FakeSettingsDao
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.write.WriteAccountDao
 import com.ivy.data.db.entity.AccountEntity
+import com.ivy.data.model.Account
+import com.ivy.data.model.AccountId
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.fake.FakeCurrencyRepository
+import com.ivy.data.repository.fake.fakeRepositoryMakeFactory
 import com.ivy.data.repository.mapper.AccountMapper
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
@@ -42,15 +42,14 @@ class AccountRepositoryImplTest {
             accountDao = accountDao,
             writeAccountDao = writeAccountDao,
             dispatchersProvider = TestDispatchersProvider,
-            dataObserver = writeEventBus,
-            appCoroutineScope = TestCoroutineScope,
+            memoFactory = fakeRepositoryMakeFactory(),
         )
     }
 
     @Test
     fun `find by id - null AccountEntity`() = runTest {
         // given
-        val accountId = com.ivy.data.model.AccountId(UUID.randomUUID())
+        val accountId = AccountId(UUID.randomUUID())
         coEvery { accountDao.findById(accountId.value) } returns null
 
         // when
@@ -63,7 +62,7 @@ class AccountRepositoryImplTest {
     @Test
     fun `find by id - valid AccountEntity`() = runTest {
         // given
-        val accountId = com.ivy.data.model.AccountId(UUID.randomUUID())
+        val accountId = AccountId(UUID.randomUUID())
         coEvery { accountDao.findById(accountId.value) } returns AccountEntity(
             name = "Bank",
             currency = "BGN",
@@ -80,7 +79,7 @@ class AccountRepositoryImplTest {
         val res = repository.findById(accountId)
 
         // then
-        res shouldBe com.ivy.data.model.Account(
+        res shouldBe Account(
             id = accountId,
             name = NotBlankTrimmedString.unsafe("Bank"),
             asset = AssetCode.unsafe("BGN"),
@@ -96,7 +95,7 @@ class AccountRepositoryImplTest {
     @Test
     fun `find by id - invalid AccountEntity`() = runTest {
         // given
-        val accountId = com.ivy.data.model.AccountId(UUID.randomUUID())
+        val accountId = AccountId(UUID.randomUUID())
         coEvery { accountDao.findById(accountId.value) } returns AccountEntity(
             name = " ",
             currency = "BGN",
@@ -131,8 +130,8 @@ class AccountRepositoryImplTest {
     @Test
     fun `find all not deleted - list of valid accounts`() = runTest {
         // given
-        val account1Id = com.ivy.data.model.AccountId(UUID.randomUUID())
-        val account2Id = com.ivy.data.model.AccountId(UUID.randomUUID())
+        val account1Id = AccountId(UUID.randomUUID())
+        val account2Id = AccountId(UUID.randomUUID())
         coEvery { accountDao.findAll(false) } returns listOf(
             AccountEntity(
                 name = "Bank",
@@ -163,7 +162,7 @@ class AccountRepositoryImplTest {
 
         // then
         res shouldBe listOf(
-            com.ivy.data.model.Account(
+            Account(
                 id = account1Id,
                 name = NotBlankTrimmedString.unsafe("Bank"),
                 asset = AssetCode.unsafe("BGN"),
@@ -174,7 +173,7 @@ class AccountRepositoryImplTest {
                 lastUpdated = Instant.EPOCH,
                 removed = false
             ),
-            com.ivy.data.model.Account(
+            Account(
                 id = account2Id,
                 name = NotBlankTrimmedString.unsafe("Cash"),
                 asset = AssetCode.unsafe("BGN"),
@@ -191,8 +190,8 @@ class AccountRepositoryImplTest {
     @Test
     fun `find all not deleted - list with valid and invalid accounts`() = runTest {
         // given
-        val account1Id = com.ivy.data.model.AccountId(UUID.randomUUID())
-        val account2Id = com.ivy.data.model.AccountId(UUID.randomUUID())
+        val account1Id = AccountId(UUID.randomUUID())
+        val account2Id = AccountId(UUID.randomUUID())
         coEvery { accountDao.findAll(false) } returns listOf(
             AccountEntity(
                 name = "Bank",
@@ -223,7 +222,7 @@ class AccountRepositoryImplTest {
 
         // then
         res shouldBe listOf(
-            com.ivy.data.model.Account(
+            Account(
                 id = account1Id,
                 name = NotBlankTrimmedString.unsafe("Bank"),
                 asset = AssetCode.unsafe("BGN"),
@@ -264,9 +263,9 @@ class AccountRepositoryImplTest {
     @Test
     fun save() = runTest {
         // given
-        val accountId = com.ivy.data.model.AccountId(UUID.randomUUID())
+        val accountId = AccountId(UUID.randomUUID())
         coEvery { writeAccountDao.save(any()) } just runs
-        val account = com.ivy.data.model.Account(
+        val account = Account(
             id = accountId,
             name = NotBlankTrimmedString.unsafe("Bank"),
             asset = AssetCode.unsafe("BGN"),
@@ -297,19 +296,16 @@ class AccountRepositoryImplTest {
                 )
             )
         }
-        coVerify(exactly = 1) {
-            writeEventBus.post(DataWriteEvent.SaveAccounts(listOf(account)))
-        }
     }
 
     @Test
     fun `save many`() = runTest {
         // given
-        val account1Id = com.ivy.data.model.AccountId(UUID.randomUUID())
-        val account2Id = com.ivy.data.model.AccountId(UUID.randomUUID())
+        val account1Id = AccountId(UUID.randomUUID())
+        val account2Id = AccountId(UUID.randomUUID())
         coEvery { writeAccountDao.saveMany(any()) } just runs
         val accounts = listOf(
-            com.ivy.data.model.Account(
+            Account(
                 id = account1Id,
                 name = NotBlankTrimmedString.unsafe("Bank"),
                 asset = AssetCode.unsafe("BGN"),
@@ -320,7 +316,7 @@ class AccountRepositoryImplTest {
                 lastUpdated = Instant.EPOCH,
                 removed = false
             ),
-            com.ivy.data.model.Account(
+            Account(
                 id = account2Id,
                 name = NotBlankTrimmedString.unsafe("Cash"),
                 asset = AssetCode.unsafe("BGN"),
@@ -365,15 +361,12 @@ class AccountRepositoryImplTest {
                 )
             )
         }
-        coVerify(exactly = 1) {
-            writeEventBus.post(DataWriteEvent.SaveAccounts(accounts))
-        }
     }
 
     @Test
     fun `delete by id`() = runTest {
         // given
-        val accountId = com.ivy.data.model.AccountId(UUID.randomUUID())
+        val accountId = AccountId(UUID.randomUUID())
         coEvery { writeAccountDao.deleteById(any()) } just runs
 
         // when
@@ -382,13 +375,6 @@ class AccountRepositoryImplTest {
         // then
         coVerify(exactly = 1) {
             writeAccountDao.deleteById(accountId.value)
-        }
-        coVerify(exactly = 1) {
-            writeEventBus.post(
-                DataWriteEvent.DeleteAccounts(
-                    DeleteOperation.Just(listOf(accountId))
-                )
-            )
         }
     }
 
@@ -403,9 +389,6 @@ class AccountRepositoryImplTest {
         // then
         coVerify(exactly = 1) {
             writeAccountDao.deleteAll()
-        }
-        coVerify(exactly = 1) {
-            writeEventBus.post(DataWriteEvent.DeleteAccounts(DeleteOperation.All))
         }
     }
 }

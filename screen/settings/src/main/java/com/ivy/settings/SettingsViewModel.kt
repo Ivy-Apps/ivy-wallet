@@ -15,7 +15,7 @@ import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.domain.RootScreen
-import com.ivy.domain.usecase.SyncExchangeRatesUseCase
+import com.ivy.domain.usecase.exchange.SyncExchangeRatesUseCase
 import com.ivy.domain.usecase.csv.ExportCsvUseCase
 import com.ivy.frp.monad.Res
 import com.ivy.legacy.IvyWalletCtx

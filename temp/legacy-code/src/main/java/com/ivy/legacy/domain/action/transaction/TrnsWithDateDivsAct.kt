@@ -5,7 +5,7 @@ import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.repository.AccountRepository
-import com.ivy.data.repository.TagsRepository
+import com.ivy.data.repository.TagRepository
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.legacy.datamodel.temp.toLegacyDomain
@@ -18,7 +18,7 @@ import javax.inject.Inject
 class TrnsWithDateDivsAct @Inject constructor(
     private val accountDao: AccountDao,
     private val exchangeAct: ExchangeAct,
-    private val tagsRepository: TagsRepository,
+    private val tagRepository: TagRepository,
     private val accountRepository: AccountRepository,
     private val timeProvider: TimeProvider,
 ) : FPAction<TrnsWithDateDivsAct.Input, List<TransactionHistoryItem>>() {
@@ -27,7 +27,7 @@ class TrnsWithDateDivsAct @Inject constructor(
         transactionsWithDateDividers(
             transactions = transactions,
             baseCurrencyCode = baseCurrency,
-            getTags = { tagIds -> tagsRepository.findByIds(tagIds) },
+            getTags = { tagIds -> tagRepository.findByIds(tagIds) },
             getAccount = accountDao::findById then { it?.toLegacyDomain() },
             accountRepository = accountRepository,
             timeProvider = timeProvider,

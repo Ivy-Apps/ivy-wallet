@@ -22,4 +22,4 @@ data class Account(
     override val orderNum: Double,
     override val lastUpdated: Instant,
     override val removed: Boolean,
-) : Syncable, Reorderable
+) : Syncable<AccountId>, Reorderable

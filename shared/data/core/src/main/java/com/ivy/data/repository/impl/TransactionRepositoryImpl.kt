@@ -14,7 +14,7 @@ import com.ivy.data.model.TransactionId
 import com.ivy.data.model.Transfer
 import com.ivy.data.model.primitive.AssociationId
 import com.ivy.data.model.TagId
-import com.ivy.data.repository.TagsRepository
+import com.ivy.data.repository.TagRepository
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import kotlinx.coroutines.async
@@ -28,7 +28,7 @@ class TransactionRepositoryImpl @Inject constructor(
     private val transactionDao: TransactionDao,
     private val writeTransactionDao: WriteTransactionDao,
     private val dispatchersProvider: DispatchersProvider,
-    private val tagRepository: TagsRepository
+    private val tagRepository: TagRepository
 ) : TransactionRepository {
     override suspend fun findAll(): List<Transaction> = withContext(dispatchersProvider.io) {
         val tagMap = async { findAllTagAssociations() }
