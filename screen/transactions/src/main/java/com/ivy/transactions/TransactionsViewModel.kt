@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.viewModelScope
 import arrow.core.toOption
 import com.ivy.base.legacy.SharedPrefs
@@ -86,7 +85,7 @@ class TransactionsViewModel @Inject constructor(
     private val categoryWriter: WriteCategoryDao,
     private val plannedPaymentRuleWriter: WritePlannedPaymentRuleDao,
     private val transactionMapper: TransactionMapper,
-    private val tagsRepository: TagsRepository
+    private val tagsRepository: TagsRepository,
 ) : ComposeViewModel<TransactionsState, TransactionsEvent>() {
 
     private val period = mutableStateOf(ivyContext.selectedPeriod)
@@ -150,7 +149,6 @@ class TransactionsViewModel @Inject constructor(
             overdueExpanded = getOverdueExpanded(),
             overdueIncome = getOverdueIncome(),
             overdueExpenses = getOverdueExpenses(),
-            accountNameConfirmation = getAccountNameConfirmation(),
             enableDeletionButton = getEnableDeletionButton(),
             skipAllModalVisible = getSkipAllModalVisible(),
             deleteModal1Visible = getDeleteModal1Visible(),
@@ -266,11 +264,6 @@ class TransactionsViewModel @Inject constructor(
     @Composable
     private fun getOverdueExpenses(): Double {
         return overdueExpenses.doubleValue
-    }
-
-    @Composable
-    private fun getAccountNameConfirmation(): TextFieldValue {
-        return accountNameConfirmation.value
     }
 
     @Composable
@@ -485,7 +478,7 @@ class TransactionsViewModel @Inject constructor(
     private suspend fun initForCategoryWithTransactions(
         categoryId: UUID,
         accountFilterList: List<UUID>,
-        transactions: List<Transaction>
+        transactions: List<Transaction>,
     ) {
         computationThread {
             initWithTransactions.value = true
@@ -619,7 +612,7 @@ class TransactionsViewModel @Inject constructor(
     private suspend fun initForAccountTransfersCategory(
         categoryId: UUID?,
         accountFilterList: List<UUID>,
-        transactions: List<Transaction>
+        transactions: List<Transaction>,
     ) {
         initWithTransactions.value = true
 
@@ -667,7 +660,7 @@ class TransactionsViewModel @Inject constructor(
 
     private fun setPeriod(
         screen: TransactionsScreen,
-        period: TimePeriod
+        period: TimePeriod,
     ) {
         start(
             screen = screen,
@@ -756,7 +749,7 @@ class TransactionsViewModel @Inject constructor(
     private fun editAccount(
         screen: TransactionsScreen,
         account: LegacyAccount,
-        newBalance: Double
+        newBalance: Double,
     ) {
         viewModelScope.launch {
             accountCreator.editAccount(account, newBalance) {
@@ -817,7 +810,7 @@ class TransactionsViewModel @Inject constructor(
     fun start(
         screen: TransactionsScreen,
         timePeriod: TimePeriod? = ivyContext.selectedPeriod,
-        reset: Boolean = true
+        reset: Boolean = true,
     ) {
         if (reset) {
             reset()
