@@ -2,7 +2,7 @@ package com.ivy.reports
 
 import com.ivy.base.model.TransactionType
 import com.ivy.data.model.Category
-import com.ivy.data.model.Tag
+import com.ivy.data.model.TagId
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.datamodel.Account
 import java.util.UUID
@@ -18,7 +18,7 @@ data class ReportFilter(
     val maxAmount: Double?,
     val includeKeywords: List<String>,
     val excludeKeywords: List<String>,
-    val selectedTags: List<Tag>
+    val selectedTags: List<TagId>
 ) {
     companion object {
         fun emptyFilter(

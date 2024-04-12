@@ -28,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ivy.data.model.Tag
+import com.ivy.data.model.TagId
 import com.ivy.data.repository.mapper.TagMapper.Companion.createNewTagId
 import com.ivy.design.l0_system.Blue2Dark
 import com.ivy.design.l0_system.UI
@@ -56,7 +57,7 @@ import java.util.UUID
 fun BoxWithConstraintsScope.ShowTagModal(
     onDismiss: () -> Unit,
     allTagList: ImmutableList<Tag>,
-    selectedTagList: ImmutableList<Tag>,
+    selectedTagList: ImmutableList<TagId>,
     onTagAdd: (String) -> Unit,
     onTagEdit: (oldTag: Tag, newTag: Tag) -> Unit,
     onTagDelete: (Tag) -> Unit,
@@ -186,7 +187,7 @@ fun BoxWithConstraintsScope.ShowTagModal(
 private fun ColumnScope.TagList(
     transactionTags: ImmutableList<Tag>,
     onAddNewTag: () -> Unit,
-    selectedTagList: ImmutableList<Tag>,
+    selectedTagList: ImmutableList<TagId>,
     selectOnlyMode: Boolean,
     onTagSelected: (Tag) -> Unit = {},
     onTagDeSelected: (Tag) -> Unit = {},
@@ -211,7 +212,7 @@ private fun ColumnScope.TagList(
             is Tag -> {
                 ExistingTag(
                     tag = it,
-                    selected = selectedTagList.contains(it),
+                    selected = selectedTagList.contains(it.id),
                     onClick = { onTagSelected(it) },
                     onLongClick = { onTagLongClick(it) },
                     onDeselect = {

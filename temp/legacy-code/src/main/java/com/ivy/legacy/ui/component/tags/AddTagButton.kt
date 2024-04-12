@@ -6,7 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.ivy.data.model.Tag
+import com.ivy.data.model.TagId
 import com.ivy.design.l0_system.Orange3
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -19,7 +19,7 @@ import com.ivy.ui.R
 
 @Composable
 fun AddTagButton(
-    transactionAssociatedTags: ImmutableList<Tag>,
+    transactionAssociatedTags: ImmutableList<TagId>,
     onClick: () -> Unit
 ) {
     if (transactionAssociatedTags.isNotEmpty()) {
@@ -31,7 +31,7 @@ fun AddTagButton(
 
 @Composable
 private fun ViewTagsButton(
-    transactionTags: ImmutableList<Tag>,
+    transactionTags: ImmutableList<TagId>,
     onClick: () -> Unit,
 ) {
     val contrastColor = findContrastTextColor(Orange3)
