@@ -1,7 +1,6 @@
 package com.ivy.data.repository.impl
 
 import com.ivy.base.TestDispatchersProvider
-import com.ivy.data.DataObserver
 import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.data.db.entity.CategoryEntity
@@ -27,7 +26,6 @@ import java.util.UUID
 class CategoryRepositoryImplTest {
     private val categoryDao = mockk<CategoryDao>()
     private val writeCategoryDao = mockk<WriteCategoryDao>()
-    private val writeEventBus = mockk<DataObserver>(relaxed = true)
 
     private lateinit var repository: CategoryRepository
 

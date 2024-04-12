@@ -1,10 +1,7 @@
 package com.ivy.data.repository.impl
 
-import com.ivy.base.TestCoroutineScope
 import com.ivy.base.TestDispatchersProvider
-import com.ivy.data.DataWriteEvent
 import com.ivy.data.DataObserver
-import com.ivy.data.DeleteOperation
 import com.ivy.data.db.dao.fake.FakeSettingsDao
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.write.WriteAccountDao
