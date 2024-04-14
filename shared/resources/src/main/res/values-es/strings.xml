@@ -392,7 +392,7 @@
     <string name="make_ivy_wallet_better_description">¿Quieres mejorar Ivy Wallet? Escríbenos una reseña. Esa es la única forma en que podemos desarrollar lo que quiere y necesita. También nos ayuda a clasificarnos más alto en PlayStore para que podamos gastar dinero en el producto en lugar de en marketing.\n\nHacemos lo mejor que podemos.\nIvy Team</string>
     <string name="we_need_your_help">¡Necesitamos tu ayuda!</string>
     <string name="we_need_your_help_description">Solo somos un diseñador y un desarrollador trabajando en la aplicación después de nuestros trabajos de 9 a 5. Actualmente, invertimos mucho tiempo y dinero para generar solo pérdidas y agotamiento. Si desea que sigamos desarrollando Ivy Wallet, compártalo con amigos y familiares.\n\nP.D. ¡Las reseñas de Google PlayStore también ayudan mucho!</string>
-    <string name="ivy_wallet_is_opensource">¡Ivy Wallet es de código abierto!</string>
+    <string name="ivy_wallet_is_opensource">Ivy Wallet es de código abierto!</string>
     <string name="ivy_wallet_is_opensource_description">El código de Ivy Wallet está abierto y todos pueden verlo. Creemos que la transparencia y la ética son imprescindibles para todo producto de software. Si te gusta nuestro trabajo y quieres mejorar la aplicación, puedes contribuir en nuestro repositorio público de Github.</string>
     <string name="contribute">Contribuir</string>
     <string name="adjust_balance">Ajustar el saldo</string>
