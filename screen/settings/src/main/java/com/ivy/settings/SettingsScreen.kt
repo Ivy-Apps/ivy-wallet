@@ -42,12 +42,11 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IconScale
 import com.ivy.design.l1_buildingBlocks.IvyIconScaled
+import com.ivy.design.utils.thenIf
 import com.ivy.legacy.Constants
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.rootScreen
-import com.ivy.legacy.utils.OpResult
 import com.ivy.legacy.utils.drawColoredShadow
-import com.ivy.design.utils.thenIf
 import com.ivy.navigation.AttributionsScreen
 import com.ivy.navigation.ContributorsScreen
 import com.ivy.navigation.ExchangeRatesScreen
@@ -56,22 +55,19 @@ import com.ivy.navigation.Navigation
 import com.ivy.navigation.ReleasesScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Gray
-import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.MediumBlack
-import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.Red3
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IvySwitch
 import com.ivy.wallet.ui.theme.components.IvyToolbar
-import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.modal.ChooseStartDateOfMonthModal
 import com.ivy.wallet.ui.theme.modal.CurrencyModal
 import com.ivy.wallet.ui.theme.modal.DeleteModal
@@ -165,7 +161,7 @@ private fun BoxWithConstraintsScope.UI(
     onDeleteAllUserData: () -> Unit = {},
     onDeleteCloudUserData: () -> Unit = {},
 
-) {
+    ) {
     var currencyModalVisible by remember { mutableStateOf(false) }
     var nameModalVisible by remember { mutableStateOf(false) }
     var chooseStartDateOfMonthVisible by remember { mutableStateOf(false) }
@@ -302,7 +298,7 @@ private fun BoxWithConstraintsScope.UI(
 
             SettingsDefaultButton(
                 icon = R.drawable.ic_currency,
-                text = "Exchange rates"
+                text = stringResource(R.string.exchange_rates),
             ) {
                 nav.navigateTo(ExchangeRatesScreen)
             }
@@ -431,13 +427,13 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(12.dp))
 
-            Roadmap()
+            ReportBug()
 
             Spacer(Modifier.height(12.dp))
 
             val rootActivity = rootScreen()
             RequestFeature {
-                rootActivity.openUrlInBrowser(Constants.URL_IVY_TELEGRAM_INVITE)
+                rootActivity.openUrlInBrowser(Constants.URL_GITHUB_NEW_ISSUE)
             }
 
             Spacer(Modifier.height(12.dp))
@@ -619,13 +615,14 @@ private fun HelpCenter() {
 }
 
 @Composable
-private fun Roadmap() {
+private fun ReportBug() {
     val uriHandler = LocalUriHandler.current
     SettingsDefaultButton(
-        icon = R.drawable.ic_custom_rocket_m,
-        text = stringResource(R.string.roadmap),
+        icon = R.drawable.ic_vue_dev_arrow,
+        text = stringResource(R.string.report_bug),
+        iconPadding = 10.dp,
     ) {
-        uriHandler.openUri(Constants.URL_ROADMAP)
+        uriHandler.openUri(Constants.URL_GITHUB_NEW_ISSUE)
     }
 }
 
@@ -656,7 +653,7 @@ private fun ContactSupport() {
 private fun Releases(nav: Navigation) {
     SettingsDefaultButton(
         icon = R.drawable.ic_vue_money_tag,
-        text = "Releases",
+        text = stringResource(R.string.releases),
         iconPadding = 10.dp
     ) {
         nav.navigateTo(ReleasesScreen)
@@ -680,7 +677,7 @@ private fun Attributions() {
 
     SettingsDefaultButton(
         icon = R.drawable.ic_vue_location_global,
-        text = "Attributions",
+        text = stringResource(R.string.attributions),
         iconPadding = 6.dp
     ) {
         nav.navigateTo(AttributionsScreen)
@@ -699,7 +696,7 @@ private fun AppThemeButton(
         backgroundGradient = Gradient.solid(UI.colors.medium),
         textColor = UI.colors.pureInverse,
         iconPadding = 6.dp,
-        description = "Tap to switch theme",
+        description = stringResource(R.string.tap_to_switch_theme),
         onClick = onClick
     )
 }
@@ -845,7 +842,7 @@ private fun ExportCSV(
         icon = R.drawable.ic_vue_pc_printer,
         text = stringResource(R.string.export_to_csv),
         iconPadding = 6.dp,
-        description = "⚠\uFE0F Do not use for backup purposes"
+        description = stringResource(R.string.do_not_use_for_backup_purposes)
     ) {
         onExportToCSV()
     }
@@ -1092,35 +1089,6 @@ private fun SettingsSectionDivider(
                 fontWeight = FontWeight.Bold
             )
         )
-    }
-}
-
-@Composable
-fun FetchMissingTransactionsButton(
-    opFetchTrns: OpResult<Unit>?,
-    onFetchMissingTransactions: () -> Unit
-) {
-    val background = Gradient.solid(
-        when (opFetchTrns) {
-            is OpResult.Failure -> Red
-            OpResult.Loading -> Orange
-            is OpResult.Success -> Green
-            null -> UI.colors.medium
-        }
-    )
-    SettingsPrimaryButton(
-        icon = R.drawable.ic_sync,
-        text = when (opFetchTrns) {
-            is OpResult.Failure -> "Error: ${opFetchTrns.error()}"
-            OpResult.Loading -> "Full sync... wait!"
-            is OpResult.Success -> "Success. Check transactions."
-            else -> "Fetch missing transactions"
-        },
-        backgroundGradient = background,
-        textColor = findContrastTextColor(background.startColor),
-        iconPadding = 0.dp
-    ) {
-        onFetchMissingTransactions()
     }
 }
 

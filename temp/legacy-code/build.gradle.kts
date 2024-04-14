@@ -9,11 +9,11 @@ android {
 
 dependencies {
     implementation(projects.shared.base)
+    implementation(projects.shared.data.core)
     implementation(projects.shared.domain)
-    implementation(projects.shared.resources)
+    implementation(projects.shared.ui.core)
+    implementation(projects.shared.ui.navigation)
     implementation(projects.temp.oldDesign)
-    implementation(projects.shared.navigation)
-    implementation(projects.shared.data)
 
     implementation(libs.bundles.activity)
     implementation(libs.bundles.opencsv)

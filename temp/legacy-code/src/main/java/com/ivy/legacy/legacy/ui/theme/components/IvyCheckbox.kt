@@ -23,7 +23,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.rememberInteractionSource
-import com.ivy.resources.R
+import com.ivy.ui.R
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable

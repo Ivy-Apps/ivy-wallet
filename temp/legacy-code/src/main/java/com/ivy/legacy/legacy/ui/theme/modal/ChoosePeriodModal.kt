@@ -45,7 +45,7 @@ import com.ivy.legacy.utils.dateNowUTC
 import com.ivy.legacy.utils.formatDateOnlyWithYear
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.timeNowUTC
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Gray

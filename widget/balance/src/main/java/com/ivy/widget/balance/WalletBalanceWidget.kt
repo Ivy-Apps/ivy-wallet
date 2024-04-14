@@ -17,11 +17,12 @@ import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.currentState
 import androidx.glance.state.PreferencesGlanceStateDefinition
+import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.model.TransactionType
 import com.ivy.domain.AppStarter
-import com.ivy.base.legacy.SharedPrefs
 import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.legacy.utils.shortenAmount
+import com.ivy.legacy.utils.toCalcBalanceAmount
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.settings.SettingsAct
 import com.ivy.wallet.domain.action.wallet.CalcIncomeExpenseAct
@@ -40,7 +41,7 @@ class WalletBalanceWidget(
     @Composable
     fun formatBalance(balance: String): String {
         val formattedBalance = remember(balance) {
-            val balanceDouble = balance.toDouble()
+            val balanceDouble = balance.toCalcBalanceAmount()
             if (Math.abs(balanceDouble) < THOUSAND) {
                 DecimalFormat("###,###.##").format(balanceDouble)
             } else {
@@ -49,6 +50,7 @@ class WalletBalanceWidget(
         }
         return formattedBalance
     }
+
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {
             val prefs = currentState<Preferences>()
@@ -119,7 +121,7 @@ class WalletBalanceWidgetReceiver : GlanceAppWidgetReceiver() {
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
-        appWidgetIds: IntArray
+        appWidgetIds: IntArray,
     ) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
         updateData(context)
@@ -146,24 +148,26 @@ class WalletBalanceWidgetReceiver : GlanceAppWidgetReceiver() {
                 )
             )
 
-            val glanceId =
-                GlanceAppWidgetManager(context).getGlanceIds(WalletBalanceWidget::class.java)
-                    .firstOrNull()
-            glanceId?.let {
-                updateAppWidgetState(context, PreferencesGlanceStateDefinition, it) { pref ->
-                    pref.toMutablePreferences().apply {
-                        this[booleanPreferencesKey("appLocked")] = appLocked
-                        this[stringPreferencesKey("balance")] =
-                            com.ivy.legacy.utils.shortenAmount(balance.toDouble())
-                        this[stringPreferencesKey("currency")] = currency
-                        this[stringPreferencesKey("income")] =
-                            com.ivy.legacy.utils.shortenAmount(incomeExpense.income.toDouble())
-                        this[stringPreferencesKey("expense")] =
-                            com.ivy.legacy.utils.shortenAmount(incomeExpense.expense.toDouble())
+            GlanceAppWidgetManager(context).getGlanceIds(WalletBalanceWidget::class.java)
+                .forEach {
+                    updateAppWidgetState(
+                        context,
+                        PreferencesGlanceStateDefinition,
+                        it
+                    ) { pref ->
+                        pref.toMutablePreferences().apply {
+                            this[booleanPreferencesKey("appLocked")] = appLocked
+                            this[stringPreferencesKey("balance")] =
+                                shortenAmount(balance.toDouble())
+                            this[stringPreferencesKey("currency")] = currency
+                            this[stringPreferencesKey("income")] =
+                                shortenAmount(incomeExpense.income.toDouble())
+                            this[stringPreferencesKey("expense")] =
+                                shortenAmount(incomeExpense.expense.toDouble())
+                        }
                     }
+                    glanceAppWidget.update(context, it)
                 }
-                glanceAppWidget.update(context, it)
-            }
         }
     }
 }

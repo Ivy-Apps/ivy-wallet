@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.dao.read.SettingsDao
-import com.ivy.base.ComposeViewModel
+import com.ivy.ui.ComposeViewModel
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.data.model.Category

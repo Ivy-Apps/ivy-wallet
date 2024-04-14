@@ -1,0 +1,31 @@
+direction: down
+
+world: "Outside world" {
+    "IO: Network, file system, hardware"
+}
+
+data: "Data Layer" {
+    ds: "Data source (optional)"
+    repo: "Repository"
+
+    ds -> repo: "receives DTOs/entities"
+    repo -> ds: "requests data"
+}
+
+domain: "Domain Layer" {
+    uc: "UseCases (optional)"
+}
+
+ui: "UI Layer" {
+    vm: "ViewModel"
+    c: "Composables"
+
+    vm -> c: "provides UI state"
+    vm <- c: "user input as UI events"
+}
+
+world -> data: receives data
+data -> world: sends data
+data.repo -> domain: "domain model"
+data.repo -> ui.vm: "domain model"
+domain.uc -> ui.vm: "domain model"

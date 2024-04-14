@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -28,13 +29,13 @@ import androidx.compose.ui.unit.dp
 import arrow.core.raise.either
 import com.ivy.data.model.Tag
 import com.ivy.data.model.primitive.NotBlankTrimmedString
-import com.ivy.data.model.primitive.TagId
+import com.ivy.data.model.TagId
 import com.ivy.wallet.ui.theme.components.DeleteButton
 import com.ivy.wallet.ui.theme.components.IvyTitleTextField
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalPositiveButton
 import com.ivy.wallet.ui.theme.modal.ModalTitle
-import com.ivy.resources.R
+import com.ivy.ui.R
 
 @Suppress("DEPRECATION")
 @SuppressLint("ComposeModifierMissing")
@@ -87,7 +88,7 @@ fun BoxWithConstraintsScope.AddOrEditTagModal(
                     }
                     onDismiss()
                 },
-                text = "Done",
+                text = stringResource(R.string.done),
                 iconStart = R.drawable.ic_custom_document_s,
                 enabled = filename.isNotEmpty()
             )

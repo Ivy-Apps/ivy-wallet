@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -47,7 +48,7 @@ import com.ivy.legacy.utils.formatInt
 import com.ivy.legacy.utils.hideKeyboard
 import com.ivy.legacy.utils.localDecimalSeparator
 import com.ivy.legacy.utils.onScreenStart
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.modal.IvyModal
@@ -56,6 +57,7 @@ import com.ivy.wallet.ui.theme.modal.modalPreviewActionRowHeight
 import java.util.UUID
 import kotlin.math.truncate
 
+@SuppressLint("ComposeModifierMissing")
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.AmountModal(
@@ -111,11 +113,7 @@ fun BoxWithConstraintsScope.AmountModal(
                 iconStart = R.drawable.ic_check
             ) {
                 try {
-                    if (amount.isEmpty()) {
-                        onAmountChanged(0.0)
-                    } else {
-                        onAmountChanged(amount.amountToDouble())
-                    }
+                    onAmountChanged(amount.amountToDouble())
                     dismiss()
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -125,7 +123,7 @@ fun BoxWithConstraintsScope.AmountModal(
         SecondaryActions = {
             if (showPlusMinus) {
                 Row {
-                    Spacer(modifier = Modifier.width(34.dp))
+                    Spacer(modifier = Modifier.width(24.dp))
                     KeypadCircleButton(
                         text = "+/-",
                         testTag = "plus_minus",
@@ -136,6 +134,7 @@ fun BoxWithConstraintsScope.AmountModal(
                                 amount.firstOrNull() == '-' -> {
                                     amount = amount.drop(1)
                                 }
+
                                 amount.isNotEmpty() -> {
                                     amount = "-$amount"
                                 }
@@ -186,10 +185,11 @@ fun BoxWithConstraintsScope.AmountModal(
     )
 }
 
+@SuppressLint("ComposeModifierMissing")
 @Composable
 fun AmountCurrency(
     amount: String,
-    currency: String
+    currency: String,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -224,10 +224,11 @@ fun AmountInput(
     decimalCountMax: Int = 2,
     setAmount: (String) -> Unit,
 
-) {
+    ) {
     var firstInput by remember { mutableStateOf(true) }
 
     AmountKeyboard(
+        horizontalPadding = 40.dp,
         forCalculator = false,
         onNumberPressed = {
             if (firstInput) {
@@ -296,22 +297,25 @@ private fun formatNumber(number: String): String? {
     return null
 }
 
+@SuppressLint("ComposeContentEmitterReturningValues", "ComposeMultipleContentEmitters", "ComposeModifierMissing")
 @Composable
 fun AmountKeyboard(
     forCalculator: Boolean,
+    onNumberPressed: (String) -> Unit,
+    onDecimalPoint: () -> Unit,
+    horizontalPadding: Dp = 0.dp,
     ZeroRow: (@Composable RowScope.() -> Unit)? = null,
     FirstRowExtra: (@Composable RowScope.() -> Unit)? = null,
     SecondRowExtra: (@Composable RowScope.() -> Unit)? = null,
     ThirdRowExtra: (@Composable RowScope.() -> Unit)? = null,
     FourthRowExtra: (@Composable RowScope.() -> Unit)? = null,
-
-    onNumberPressed: (String) -> Unit,
-    onDecimalPoint: () -> Unit,
     onBackspace: () -> Unit,
 ) {
     if (ZeroRow != null) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = horizontalPadding),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
@@ -322,7 +326,9 @@ fun AmountKeyboard(
     }
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = horizontalPadding),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly
 
@@ -345,15 +351,15 @@ fun AmountKeyboard(
             onNumberPressed = onNumberPressed
         )
 
-        if (FirstRowExtra != null) {
-            FirstRowExtra.invoke(this)
-        }
+        FirstRowExtra?.invoke(this)
     }
 
     Spacer(Modifier.height(8.dp))
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = horizontalPadding),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
@@ -375,15 +381,15 @@ fun AmountKeyboard(
             onNumberPressed = onNumberPressed
         )
 
-        if (SecondRowExtra != null) {
-            SecondRowExtra.invoke(this)
-        }
+        SecondRowExtra?.invoke(this)
     }
 
     Spacer(Modifier.height(8.dp))
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = horizontalPadding),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
@@ -405,15 +411,15 @@ fun AmountKeyboard(
             onNumberPressed = onNumberPressed
         )
 
-        if (ThirdRowExtra != null) {
-            ThirdRowExtra.invoke(this)
-        }
+        ThirdRowExtra?.invoke(this)
     }
 
     Spacer(Modifier.height(8.dp))
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = horizontalPadding),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
@@ -442,9 +448,7 @@ fun AmountKeyboard(
             tint = Red
         )
 
-        if (FourthRowExtra != null) {
-            FourthRowExtra.invoke(this)
-        }
+        FourthRowExtra?.invoke(this)
     }
 }
 
@@ -467,6 +471,7 @@ fun CircleNumberButton(
     )
 }
 
+@SuppressLint("ComposeModifierMissing")
 @Composable
 fun KeypadCircleButton(
     text: String,
@@ -474,11 +479,10 @@ fun KeypadCircleButton(
     textColor: Color = UI.colors.pureInverse,
     fontSize: TextUnit = 32.sp,
     btnSize: Dp = 80.dp,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Text(
         modifier = circleButtonModifier(size = btnSize, onClick = onClick)
-            .padding(top = 18.dp)
             .testTag(testTag),
         text = text,
         fontSize = fontSize,
@@ -495,21 +499,17 @@ fun KeypadCircleButton(
 @Composable
 private fun circleButtonModifier(
     size: Dp = 80.dp,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ): Modifier {
     return Modifier
         .size(size)
-//        .drawColoredShadow(
-//            color = Black,
-//            alpha = if (UI.colors.isLight) 0.05f else 0.5f,
-//            borderRadius = 32.dp
-//        )
         .clip(CircleShape)
         .clickable(
             onClick = onClick
         )
         .background(UI.colors.pure, UI.shapes.rFull)
         .border(2.dp, UI.colors.medium, UI.shapes.rFull)
+        .wrapContentHeight()
 }
 
 @Preview

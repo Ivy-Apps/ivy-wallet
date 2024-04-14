@@ -8,10 +8,13 @@ import com.ivy.base.TestDispatchersProvider
 import com.ivy.base.di.KotlinxSerializationModule
 import com.ivy.data.db.IvyRoomDatabase
 import com.ivy.data.di.KtorClientModule
+import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.remote.impl.RemoteExchangeRatesDataSourceImpl
 import com.ivy.data.repository.ExchangeRatesRepository
 import com.ivy.data.repository.impl.ExchangeRatesRepositoryImpl
 import com.ivy.data.repository.mapper.ExchangeRateMapper
+import com.ivy.domain.usecase.exchange.SyncExchangeRatesUseCase
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.doubles.shouldBeGreaterThan
 import io.kotest.matchers.nulls.shouldNotBeNull
@@ -42,7 +45,7 @@ class SyncExchangeRatesUseCaseTest {
                     KtorClientModule.provideKtorClient(KotlinxSerializationModule.provideJson())
                 },
             ),
-            dispatchersProvider = TestDispatchersProvider,
+            dispatchers = TestDispatchersProvider,
         )
 
         useCase = SyncExchangeRatesUseCase(repository)
@@ -59,9 +62,10 @@ class SyncExchangeRatesUseCaseTest {
         val exchangeRatesDao = db.exchangeRatesDao
 
         // when
-        useCase.sync("USD")
+        val res = useCase.sync(AssetCode.USD)
 
         // then
+        res.shouldBeRight()
         val savedRates = exchangeRatesDao.findAll().first()
         savedRates.shouldNotBeEmpty()
         println("Saved ${savedRates.size} exchange rates")

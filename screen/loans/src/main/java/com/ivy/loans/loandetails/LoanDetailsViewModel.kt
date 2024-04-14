@@ -8,20 +8,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.model.LoanRecordType
-import com.ivy.data.db.dao.read.AccountDao
-import com.ivy.data.db.dao.read.LoanDao
 import com.ivy.data.db.dao.read.LoanRecordDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.read.TransactionDao
-import com.ivy.base.ComposeViewModel
-import com.ivy.domain.event.AccountUpdatedEvent
-import com.ivy.domain.event.EventBus
 import com.ivy.frp.test.TestIdlingResource
-import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Loan
 import com.ivy.legacy.datamodel.LoanRecord
-import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.datamodel.temp.toLegacyDomain
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.ioThread
@@ -32,6 +26,7 @@ import com.ivy.loans.loandetails.events.LoanModalEvent
 import com.ivy.loans.loandetails.events.LoanRecordModalEvent
 import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.Navigation
+import com.ivy.ui.ComposeViewModel
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.loan.LoanByIdAct
 import com.ivy.wallet.domain.deprecated.logic.LoanCreator
@@ -53,20 +48,16 @@ import javax.inject.Inject
 @Stable
 @HiltViewModel
 class LoanDetailsViewModel @Inject constructor(
-    private val loanDao: LoanDao,
     private val loanRecordDao: LoanRecordDao,
     private val loanCreator: LoanCreator,
     private val loanRecordCreator: LoanRecordCreator,
     private val settingsDao: SettingsDao,
-    private val ivyContext: IvyWalletCtx,
     private val transactionDao: TransactionDao,
-    private val accountDao: AccountDao,
     private val accountCreator: AccountCreator,
     private val loanTransactionsLogic: LoanTransactionsLogic,
     private val nav: Navigation,
     private val accountsAct: AccountsAct,
     private val loanByIdAct: LoanByIdAct,
-    private val eventBus: EventBus,
 ) : ComposeViewModel<LoanDetailsScreenState, LoanDetailsScreenEvent>() {
 
     private val baseCurrency = mutableStateOf("")
@@ -267,7 +258,7 @@ class LoanDetailsViewModel @Inject constructor(
                         )
 
                         DisplayLoanRecord(
-                            it.toDomain(),
+                            it.toLegacyDomain(),
                             account = account,
                             loanRecordTransaction = trans != null,
                             loanRecordCurrencyCode = account?.currency ?: defaultCurrencyCode,
@@ -316,7 +307,7 @@ class LoanDetailsViewModel @Inject constructor(
             }
 
             associatedTransaction = ioThread {
-                transactionDao.findLoanTransaction(loanId = loan.value!!.id)?.toDomain()
+                transactionDao.findLoanTransaction(loanId = loan.value!!.id)?.toLegacyDomain()
             }
 
             associatedTransaction?.let {
@@ -462,7 +453,6 @@ class LoanDetailsViewModel @Inject constructor(
             TestIdlingResource.increment()
 
             accountCreator.createAccount(data) {
-                eventBus.post(AccountUpdatedEvent)
                 accounts.value = accountsAct(Unit)
             }
 

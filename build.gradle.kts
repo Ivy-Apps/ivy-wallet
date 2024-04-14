@@ -4,6 +4,7 @@ plugins {
     // ./gradlew detekt // Simple report in the console
     // ./gradlew detektFormat // To check with enabled auto-correction
     id("ivy.detekt")
+    id("com.jraska.module.graph.assertion")
 
     alias(libs.plugins.gradleWrapperUpgrade)
 

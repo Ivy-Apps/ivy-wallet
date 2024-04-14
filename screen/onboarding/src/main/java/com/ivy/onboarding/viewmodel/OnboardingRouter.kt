@@ -2,10 +2,11 @@ package com.ivy.onboarding.viewmodel
 
 import androidx.compose.runtime.MutableState
 import com.ivy.data.db.dao.read.AccountDao
-import com.ivy.domain.usecase.SyncExchangeRatesUseCase
+import com.ivy.domain.usecase.exchange.SyncExchangeRatesUseCase
 import com.ivy.legacy.LogoutLogic
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.data.model.Category
+import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.repository.CategoryRepository
 import com.ivy.legacy.data.model.AccountBalance
 import com.ivy.legacy.utils.OpResult
@@ -233,9 +234,10 @@ class OnboardingRouter(
         ioThread {
             transactionReminderLogic.scheduleReminder()
 
-            syncExchangeRatesUseCase.sync(
-                baseCurrency = baseCurrency?.code ?: IvyCurrency.getDefault().code
-            )
+            AssetCode.from(baseCurrency?.code ?: IvyCurrency.getDefault().code)
+                .onRight {
+                    syncExchangeRatesUseCase.sync(baseCurrency = it)
+                }
         }
 
         resetState()

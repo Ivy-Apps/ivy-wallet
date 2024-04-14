@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ivy.legacy.rootScreen
-import com.ivy.resources.R
+import com.ivy.ui.R
 
 @Composable
 fun MoneyManagerPraseSteps(

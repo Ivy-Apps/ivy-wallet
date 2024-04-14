@@ -31,7 +31,6 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.legacy.Theme
@@ -39,12 +38,13 @@ import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
-import com.ivy.common.ui.rememberScrollPositionListState
 import com.ivy.data.model.Category
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.utils.thenIf
 import com.ivy.legacy.Constants
 import com.ivy.legacy.data.AppBaseData
+import com.ivy.legacy.data.LegacyDueSection
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.ivyWalletCtx
@@ -54,18 +54,17 @@ import com.ivy.legacy.ui.component.transaction.transactions
 import com.ivy.legacy.utils.balancePrefix
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.horizontalSwipeListener
+import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.legacy.utils.rememberSwipeListenerState
 import com.ivy.legacy.utils.setStatusBarDarkTextCompat
-import com.ivy.design.utils.thenIf
-import com.ivy.legacy.data.LegacyDueSection
-import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
-import com.ivy.resources.R
+import com.ivy.ui.R
+import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.GreenDark
@@ -180,7 +179,6 @@ fun BoxWithConstraintsScope.TransactionsScreen(screen: TransactionsScreen) {
         onSkipAllTransactions = { transactions ->
             viewModel.onEvent(TransactionsEvent.SkipTransactions(screen, transactions))
         },
-        accountNameConfirmation = uiState.accountNameConfirmation,
         updateAccountNameConfirmation = {
             viewModel.onEvent(TransactionsEvent.UpdateAccountDeletionState(it))
         },
@@ -200,6 +198,7 @@ fun BoxWithConstraintsScope.TransactionsScreen(screen: TransactionsScreen) {
     )
 }
 
+@Suppress("LongMethod", "LongParameterList")
 @Composable
 private fun BoxWithConstraintsScope.UI(
     period: TimePeriod,
@@ -211,7 +210,6 @@ private fun BoxWithConstraintsScope.UI(
     account: Account?,
     category: Category?,
 
-    accountNameConfirmation: TextFieldValue,
     updateAccountNameConfirmation: (String) -> Unit,
     enableDeletionButton: Boolean,
 
@@ -252,7 +250,7 @@ private fun BoxWithConstraintsScope.UI(
     onPayOrGet: (Transaction) -> Unit = {},
     onSkipTransaction: (Transaction) -> Unit = {},
     onSkipAllTransactions: (List<Transaction>) -> Unit = {},
-    onChoosePeriodModal: (ChoosePeriodModalData?) -> Unit
+    onChoosePeriodModal: (ChoosePeriodModalData?) -> Unit,
 ) {
     val ivyContext = ivyWalletCtx()
     val itemColor = (account?.color ?: category?.color?.value)?.toComposeColor() ?: Gray
@@ -418,7 +416,6 @@ private fun BoxWithConstraintsScope.UI(
     DeleteModals(
         account = account,
         category = category,
-        accountNameConfirmation = accountNameConfirmation,
         updateAccountNameConfirmation = updateAccountNameConfirmation,
         enableDeletionButton = enableDeletionButton,
         onDelete = onDelete,
@@ -465,7 +462,7 @@ private fun LazyListScope.choosePeriodModal(
     initWithTransactions: Boolean,
     onPreviousMonth: () -> Unit,
     onNextMonth: () -> Unit,
-    onChoosePeriodModal: (ChoosePeriodModalData?) -> Unit
+    onChoosePeriodModal: (ChoosePeriodModalData?) -> Unit,
 ) {
     item {
         // Rounded corners top effect
@@ -503,14 +500,13 @@ private fun BoxWithConstraintsScope.DeleteModals(
     setDeleteModal1Visible: (Boolean) -> Unit,
     account: Account?,
     category: Category?,
-    accountNameConfirmation: TextFieldValue,
     updateAccountNameConfirmation: (String) -> Unit,
     enableDeletionButton: Boolean,
     onDelete: () -> Unit,
     skipAllModalVisible: Boolean,
     onSkipAllModalVisible: (Boolean) -> Unit,
     onSkipAllTransactions: (List<Transaction>) -> Unit,
-    overdue: ImmutableList<Transaction> = persistentListOf()
+    overdue: ImmutableList<Transaction> = persistentListOf(),
 ) {
     var deleteModal3Visible by remember { mutableStateOf(false) }
 
@@ -538,10 +534,9 @@ private fun BoxWithConstraintsScope.DeleteModals(
                 account.name
             )
         } else {
-            "Please type \"${category?.name?.value ?: ""}\" in order to delete your category."
+            stringResource(R.string.please_type_category_name, category?.name?.value ?: "")
         },
         hint = if (account != null) stringResource(id = R.string.account_name) else "Category name",
-        accountName = accountNameConfirmation,
         onAccountNameChange = updateAccountNameConfirmation,
         enableDeletionButton = enableDeletionButton,
         dismiss = {
@@ -752,9 +747,6 @@ private fun Item(
                     Spacer(Modifier.width(8.dp))
 
                     Text(
-                        modifier = Modifier
-                            .align(Alignment.Bottom)
-                            .padding(bottom = 12.dp),
                         text = stringRes(R.string.excluded),
                         style = UI.typo.c.style(
                             color = account.color.toComposeColor().dynamicContrast()
@@ -831,7 +823,6 @@ private fun BoxWithConstraintsScope.Preview_empty() {
             onDelete = {},
             onEditAccount = { _, _ -> },
             onEditCategory = {},
-            accountNameConfirmation = TextFieldValue(),
             updateAccountNameConfirmation = {},
             enableDeletionButton = true,
             deleteModal1Visible = false,
@@ -877,7 +868,6 @@ private fun BoxWithConstraintsScope.Preview_crypto() {
             onDelete = {},
             onEditAccount = { _, _ -> },
             onEditCategory = {},
-            accountNameConfirmation = TextFieldValue(),
             updateAccountNameConfirmation = {},
             enableDeletionButton = true,
             deleteModal1Visible = false,
@@ -925,7 +915,6 @@ private fun BoxWithConstraintsScope.Preview_empty_upcoming() {
                     BigDecimal.valueOf(10L)
                 )
             ),
-            accountNameConfirmation = TextFieldValue(),
             updateAccountNameConfirmation = {},
             enableDeletionButton = true,
             deleteModal1Visible = false,

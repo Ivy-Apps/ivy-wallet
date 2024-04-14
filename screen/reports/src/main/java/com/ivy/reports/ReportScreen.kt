@@ -28,20 +28,17 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
-import com.ivy.common.ui.rememberScrollPositionListState
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
-import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.AppBaseData
 import com.ivy.legacy.data.LegacyDueSection
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.ui.component.IncomeExpensesCards
 import com.ivy.legacy.ui.component.transaction.TransactionsDividerLine
 import com.ivy.legacy.ui.component.transaction.transactions
@@ -50,7 +47,8 @@ import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.navigation.ReportScreen
 import com.ivy.navigation.navigation
-import com.ivy.resources.R
+import com.ivy.ui.R
+import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
@@ -94,9 +92,7 @@ private fun BoxWithConstraintsScope.UI(
     state: ReportScreenState = ReportScreenState(),
     onEventHandler: (ReportScreenEvent) -> Unit = {}
 ) {
-    val transactionMapper = TransactionMapper()
-    val legacyTransactions =
-        with(transactionMapper) { state.transactions.map { it.toEntity().toDomain() } }
+    val legacyTransactions = state.transactions
     val nav = navigation()
     val context = LocalContext.current
 
@@ -237,11 +233,7 @@ private fun BoxWithConstraintsScope.UI(
                 ),
 
                 upcoming = LegacyDueSection(
-                    trns = with(transactionMapper) {
-                        state.upcomingTransactions.map {
-                            it.toEntity().toDomain()
-                        }.toImmutableList()
-                    },
+                    trns = state.upcomingTransactions,
                     stats = IncomeExpensePair(
                         income = state.upcomingIncome.toBigDecimal(),
                         expense = state.upcomingExpenses.toBigDecimal()
@@ -254,11 +246,7 @@ private fun BoxWithConstraintsScope.UI(
                 },
 
                 overdue = LegacyDueSection(
-                    trns = with(transactionMapper) {
-                        state.overdueTransactions.map {
-                            it.toEntity().toDomain()
-                        }.toImmutableList()
-                    },
+                    trns = state.overdueTransactions,
                     stats = IncomeExpensePair(
                         income = state.overdueIncome.toBigDecimal(),
                         expense = state.overdueExpenses.toBigDecimal()

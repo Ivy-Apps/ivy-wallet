@@ -20,7 +20,7 @@ import com.ivy.data.repository.CurrencyRepository
 import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.design.l0_system.Green
 import com.ivy.design.l0_system.IvyDark
-import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.datamodel.temp.toLegacyDomain
 import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.utils.convertLocalToUTC
 import com.ivy.legacy.utils.timeNowUTC
@@ -92,7 +92,7 @@ class CSVImporter @Inject constructor(
         newCategoryColorIndex = 0
         newAccountColorIndex = 0
 
-        accounts = accountDao.findAll().map { it.toDomain() }
+        accounts = accountDao.findAll().map { it.toLegacyDomain() }
         val initialAccountsCount = accounts.size
 
         categories = categoryRepository.findAll()
@@ -472,7 +472,7 @@ class CSVImporter @Inject constructor(
         val domainAccount = newAccount.toDomainAccount(currencyRepository).getOrNull()
             ?: return null
         accountRepository.save(domainAccount)
-        accounts = accountDao.findAll().map { it.toDomain() }
+        accounts = accountDao.findAll().map { it.toLegacyDomain() }
 
         return newAccount
     }

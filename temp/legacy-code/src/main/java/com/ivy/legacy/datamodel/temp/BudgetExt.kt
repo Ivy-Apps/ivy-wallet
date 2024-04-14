@@ -4,7 +4,7 @@ import com.ivy.data.db.entity.BudgetEntity
 import com.ivy.legacy.datamodel.Budget
 import java.util.UUID
 
-fun BudgetEntity.toDomain(): Budget = Budget(
+fun BudgetEntity.toLegacyDomain(): Budget = Budget(
     name = name,
     amount = amount,
     categoryIdsSerialized = categoryIdsSerialized,

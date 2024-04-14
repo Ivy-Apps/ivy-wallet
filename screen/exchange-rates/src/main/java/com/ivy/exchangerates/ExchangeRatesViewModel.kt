@@ -3,22 +3,25 @@ package com.ivy.exchangerates
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.ivy.data.db.dao.read.ExchangeRatesDao
-import com.ivy.data.db.dao.write.WriteExchangeRatesDao
-import com.ivy.data.db.entity.ExchangeRateEntity
-import com.ivy.domain.usecase.SyncExchangeRatesUseCase
-import com.ivy.base.ComposeViewModel
+import arrow.core.raise.either
+import com.ivy.base.Toaster
+import com.ivy.base.threading.DispatchersProvider
+import com.ivy.data.model.ExchangeRate
+import com.ivy.data.model.primitive.AssetCode
+import com.ivy.data.model.primitive.PositiveDouble
+import com.ivy.data.repository.CurrencyRepository
+import com.ivy.data.repository.ExchangeRatesRepository
+import com.ivy.domain.usecase.exchange.SyncExchangeRatesUseCase
 import com.ivy.exchangerates.data.RateUi
-import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
+import com.ivy.ui.ComposeViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -26,58 +29,52 @@ import javax.inject.Inject
 @Stable
 @HiltViewModel
 class ExchangeRatesViewModel @Inject constructor(
-    private val exchangeRatesDao: ExchangeRatesDao,
-    private val baseCurrencyAct: BaseCurrencyAct,
     private val syncExchangeRatesUseCase: SyncExchangeRatesUseCase,
-    private val exchangeRatesWriter: WriteExchangeRatesDao,
+    private val currencyRepo: CurrencyRepository,
+    private val exchangeRatesRepo: ExchangeRatesRepository,
+    private val dispatchers: DispatchersProvider,
+    private val toaster: Toaster,
 ) : ComposeViewModel<RatesState, RatesEvent>() {
-    private val searchQuery = MutableStateFlow("")
-    private val rates = mutableStateOf<List<ExchangeRateEntity>>(persistentListOf())
-    private val baseCurrency = mutableStateOf("")
+    private var searchQuery by mutableStateOf("")
+    private var baseCurrency by mutableStateOf<AssetCode?>(null)
 
-    private fun toUi(entity: ExchangeRateEntity) = RateUi(
-        from = entity.baseCurrency,
-        to = entity.currency,
-        rate = entity.rate
+    private fun toUi(exchangeRate: ExchangeRate): RateUi = RateUi(
+        from = exchangeRate.baseCurrency.code,
+        to = exchangeRate.currency.code,
+        rate = exchangeRate.rate.value
     )
 
     @Composable
     override fun uiState(): RatesState {
         LaunchedEffect(Unit) {
-            onStart()
+            baseCurrency = currencyRepo.getBaseCurrency().also {
+                viewModelScope.launch {
+                    syncExchangeRatesUseCase.sync(it)
+                }
+            }
         }
 
+        val rates = getRates()
+
         return RatesState(
-            baseCurrency = baseCurrency.value,
-            manual = rates.value.filter { it.manualOverride }.map(::toUi).toImmutableList(),
-            automatic = rates.value.filter { !it.manualOverride }.map(::toUi).toImmutableList()
+            baseCurrency = baseCurrency?.code ?: "",
+            manual = rates.filter { it.manualOverride }.map(::toUi).toImmutableList(),
+            automatic = rates.filter { !it.manualOverride }.map(::toUi).toImmutableList()
         )
     }
 
-    private fun onStart() {
-        viewModelScope.launch(Dispatchers.Default) {
-            startInternally()
-        }
-    }
+    @Composable
+    private fun getRates(): List<ExchangeRate> {
+        val rates by remember { exchangeRatesRepo.findAll() }
+            .collectAsState(initial = emptyList())
 
-    private suspend fun startInternally() {
-        baseCurrency.value = baseCurrencyAct(Unit)
-        combine(
-            exchangeRatesDao.findAll(),
-            searchQuery
-        ) { rates, query ->
-            if (query.isNotBlank()) {
-                rates.filter {
-                    it.currency.contains(query, true)
-                }
+        return rates.filter {
+            if (searchQuery.isNotBlank()) {
+                it.currency.code.contains(searchQuery, ignoreCase = true)
             } else {
-                rates
+                true
             }
-        }.map { rates ->
-            rates.filter { it.baseCurrency == baseCurrency.value }
-        }.collect {
-            rates.value = it
-        }
+        }.filter { baseCurrency == it.baseCurrency }
     }
 
     // region Event Handling
@@ -93,51 +90,51 @@ class ExchangeRatesViewModel @Inject constructor(
     }
 
     private suspend fun handleRemoveOverride(event: RatesEvent.RemoveOverride) {
-        withContext(Dispatchers.IO) {
-            exchangeRatesWriter.deleteByBaseCurrencyAndCurrency(
-                baseCurrency = event.rate.from,
-                currency = event.rate.to
-            )
+        withContext(dispatchers.io) {
+            either {
+                exchangeRatesRepo.deleteByBaseCurrencyAndCurrency(
+                    baseCurrency = AssetCode.from(event.rate.from).bind(),
+                    currency = AssetCode.from(event.rate.to).bind()
+                )
+            }.onRight {
+                // Sync to fetch the real rate
+                baseCurrency?.let { syncExchangeRatesUseCase.sync(it) }
+            }.onLeft { toaster.show(it) }
         }
-        sync()
     }
 
     private fun handleSearch(event: RatesEvent.Search) {
-        searchQuery.value = event.query.trim()
+        searchQuery = event.query.trim()
     }
 
     private suspend fun handleUpdateRate(event: RatesEvent.UpdateRate) {
-        withContext(Dispatchers.IO) {
-            if (event.newRate > 0.0) {
-                exchangeRatesWriter.save(
-                    ExchangeRateEntity(
-                        baseCurrency = event.rate.from,
-                        currency = event.rate.to,
-                        rate = event.newRate,
-                        manualOverride = true
-                    )
+        withContext(dispatchers.io) {
+            either {
+                ExchangeRate(
+                    baseCurrency = AssetCode.from(event.rate.from).bind(),
+                    currency = AssetCode.from(event.rate.to).bind(),
+                    rate = PositiveDouble.from(event.newRate).bind(),
+                    manualOverride = true
                 )
-            }
+            }.onRight {
+                exchangeRatesRepo.save(it)
+            }.onLeft { toaster.show(it) }
         }
     }
 
     private suspend fun handleAddRate(event: RatesEvent.AddRate) {
-        withContext(Dispatchers.IO) {
-            if (event.rate.rate > 0.0) {
-                exchangeRatesWriter.save(
-                    ExchangeRateEntity(
-                        baseCurrency = event.rate.from.uppercase().trim(),
-                        currency = event.rate.to.uppercase().trim(),
-                        rate = event.rate.rate,
-                        manualOverride = true
-                    )
+        withContext(dispatchers.io) {
+            either {
+                ExchangeRate(
+                    baseCurrency = AssetCode.from(event.rate.from).bind(),
+                    currency = AssetCode.from(event.rate.to).bind(),
+                    rate = PositiveDouble.from(event.rate.rate).bind(),
+                    manualOverride = true
                 )
-            }
+            }.onRight {
+                exchangeRatesRepo.save(it)
+            }.onLeft { toaster.show(it) }
         }
-    }
-
-    private suspend fun sync() {
-        syncExchangeRatesUseCase.sync(baseCurrencyAct(Unit))
     }
     // endregion
 }

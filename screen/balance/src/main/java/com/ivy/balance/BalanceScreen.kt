@@ -36,7 +36,7 @@ import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.utils.format
 import com.ivy.navigation.BalanceScreen
 import com.ivy.navigation.navigation
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Orange

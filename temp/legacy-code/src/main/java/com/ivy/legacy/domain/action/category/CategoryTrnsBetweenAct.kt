@@ -4,7 +4,7 @@ import com.ivy.base.legacy.Transaction
 import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenMap
-import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.datamodel.temp.toLegacyDomain
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import java.util.UUID
 import javax.inject.Inject
@@ -21,7 +21,7 @@ class CategoryTrnsBetweenAct @Inject constructor(
                 categoryId = categoryId
             )
         }
-    } thenMap { it.toDomain() }
+    } thenMap { it.toLegacyDomain() }
 
     data class Input(
         val categoryId: UUID,

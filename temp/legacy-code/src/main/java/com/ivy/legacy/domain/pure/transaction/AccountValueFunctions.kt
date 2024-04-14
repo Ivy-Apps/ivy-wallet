@@ -52,7 +52,7 @@ object AccountValueFunctions {
         transaction: Transaction,
         accountId: UUID
     ): BigDecimal = with(transaction) {
-        if (this.getAccountId() == accountId && this is Transfer) {
+        if (this is Transfer && this.toAccount.value == accountId) {
             this.toValue.amount.value.toBigDecimal()
         } else {
             BigDecimal.ZERO

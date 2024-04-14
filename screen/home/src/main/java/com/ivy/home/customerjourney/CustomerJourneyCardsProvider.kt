@@ -1,5 +1,6 @@
 package com.ivy.home.customerjourney
 
+import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.dao.read.PlannedPaymentRuleDao
@@ -15,11 +16,10 @@ import com.ivy.design.l0_system.Red
 import com.ivy.design.l0_system.Red3
 import com.ivy.legacy.Constants
 import com.ivy.legacy.IvyWalletCtx
-import com.ivy.base.legacy.SharedPrefs
 import com.ivy.legacy.data.model.MainTab
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.PieChartStatisticScreen
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.widget.transaction.AddTransactionWidgetCompact
 import javax.inject.Inject
 
@@ -65,6 +65,7 @@ class CustomerJourneyCardsProvider @Inject constructor(
             rateUsCard_2(),
             joinTelegram2(),
             ivyWalletIsOpenSource(),
+            bugsApology(),
         )
 
         fun adjustBalanceCard() = CustomerJourneyCardModel(
@@ -126,8 +127,7 @@ class CustomerJourneyCardsProvider @Inject constructor(
                 trnCount >= 7
             },
             title = stringRes(R.string.did_you_know),
-            description = "You can see a PieChart for your expenses!" +
-                " Click the Expense card on the top of the dashboard.",
+            description = stringRes(R.string.you_can_see_a_piechart),
             cta = stringRes(R.string.expenses_piechart),
             ctaIcon = R.drawable.ic_custom_bills_s,
             background = Gradient.solid(Red),
@@ -174,9 +174,9 @@ class CustomerJourneyCardsProvider @Inject constructor(
             condition = { trnCount, _, _ ->
                 trnCount >= 16
             },
-            description = "It looks like that you're enjoying Ivy Wallet! Feel free join our invite-only Ivy Telegram Community and make our app better :)",
-            title = "Ivy Community",
-            cta = "Join now",
+            description = stringRes(R.string.it_looks_like_that_you_are_enjoying),
+            title = stringRes(R.string.ivy_community),
+            cta = stringRes(R.string.join_now),
             ctaIcon = R.drawable.ic_telegram_24dp,
             background = Gradient.solid(Blue),
             hasDismiss = true,
@@ -222,15 +222,36 @@ class CustomerJourneyCardsProvider @Inject constructor(
             condition = { trnCount, _, _ ->
                 trnCount >= 28
             },
-            description = "It looks like that you're enjoying Ivy Wallet! " +
-                "If you haven't yet, feel free join our invite-only Ivy Telegram Community and make our app better :)",
-            title = "Ivy Community",
-            cta = "Join now",
+            description = stringRes(R.string.it_looks_like_that_you_are_enjoying_telegram),
+            title = stringRes(R.string.ivy_community),
+            cta = stringRes(R.string.join_now),
             ctaIcon = R.drawable.ic_telegram_24dp,
             background = Gradient.solid(Blue),
             hasDismiss = true,
             onAction = { _, _, ivyActivity ->
                 ivyActivity.openUrlInBrowser(Constants.URL_IVY_TELEGRAM_INVITE)
+            }
+        )
+
+        fun bugsApology(): CustomerJourneyCardModel = CustomerJourneyCardModel(
+            id = "bugs_apology_1",
+            condition = { trnCount, _, _ ->
+                trnCount > 10
+            },
+            title = "Apologies for the bugs!",
+            description = "Ivy Wallet v4.6.2 had some annoying bugs... " +
+                    "We're sorry for that and we hope that we have fixed them.\n\n" +
+                    "Ivy Wallet is an open-source and community-driven project " +
+                    "that is maintained and develop solely by voluntary contributors. " +
+                    "So to help us and make your experience better, " +
+                    "please report any bugs as a GitHub issue. You can also" +
+                    " join our community and become a contributor!",
+            cta = "Report a bug",
+            ctaIcon = R.drawable.github_logo,
+            background = Gradient.solid(Blue),
+            hasDismiss = true,
+            onAction = { _, _, ivyActivity ->
+                ivyActivity.openUrlInBrowser(Constants.URL_GITHUB_NEW_ISSUE)
             }
         )
     }

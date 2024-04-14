@@ -23,6 +23,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,6 +31,7 @@ import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
+import com.ivy.ui.R
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -53,7 +55,7 @@ private fun AttributionsUI(
         topBar = {
             TopAppBar(
                 title = {
-                    TopAppBarTitle(title = "Attributions")
+                    TopAppBarTitle(title = stringResource(R.string.attributions))
                 },
                 navigationIcon = {
                     BackButton(nav = nav)
@@ -158,7 +160,7 @@ private fun AttributionsSectionDivider(
 @Composable
 private fun AttributionsUIPreview() {
     val attributionItems = persistentListOf<AttributionItem>(
-        AttributionItem.Divider(sectionName = "Icons"),
+        AttributionItem.Divider(sectionName = stringResource(R.string.icons)),
         AttributionItem.Attribution(name = "iconsax", link = "https://iconsax.io"),
         AttributionItem.Attribution(
             name = "Material Symbols Google",
@@ -168,7 +170,7 @@ private fun AttributionsUIPreview() {
             name = "coolicons",
             link = "https://github.com/krystonschwarze/coolicons"
         ),
-        AttributionItem.Divider(sectionName = "Fonts"),
+        AttributionItem.Divider(sectionName = stringResource(R.string.fonts)),
         AttributionItem.Attribution(
             name = "Open Sans",
             link = "https://fonts.google.com/specimen/Open+Sans"

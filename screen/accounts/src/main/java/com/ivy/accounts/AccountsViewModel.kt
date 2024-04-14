@@ -7,17 +7,17 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
-import com.ivy.base.ComposeViewModel
-import com.ivy.domain.event.AccountUpdatedEvent
-import com.ivy.domain.event.EventBus
 import com.ivy.base.legacy.SharedPrefs
+import com.ivy.data.DataObserver
+import com.ivy.data.DataWriteEvent
 import com.ivy.data.repository.AccountRepository
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.model.AccountData
 import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.ioThread
-import com.ivy.resources.R
+import com.ivy.ui.ComposeViewModel
+import com.ivy.ui.R
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.viewmodel.account.AccountDataAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
@@ -26,6 +26,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -40,8 +41,8 @@ class AccountsViewModel @Inject constructor(
     private val calcWalletBalanceAct: CalcWalletBalanceAct,
     private val baseCurrencyAct: BaseCurrencyAct,
     private val accountDataAct: AccountDataAct,
-    private val eventBus: EventBus,
-    private val accountRepository: AccountRepository
+    private val accountRepository: AccountRepository,
+    private val dataObserver: DataObserver,
 ) : ComposeViewModel<AccountsState, AccountsEvent>() {
     private val baseCurrency = mutableStateOf("")
     private val accountsData = mutableStateOf(listOf<AccountData>())
@@ -53,8 +54,16 @@ class AccountsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            eventBus.subscribe(AccountUpdatedEvent) {
-                onStart()
+            dataObserver.writeEvents.collectLatest { event ->
+                when (event) {
+                    is DataWriteEvent.AccountChange -> {
+                        onStart()
+                    }
+
+                    else -> {
+                        // do nothing
+                    }
+                }
             }
         }
     }

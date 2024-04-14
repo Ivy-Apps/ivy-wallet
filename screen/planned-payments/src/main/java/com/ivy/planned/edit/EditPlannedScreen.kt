@@ -32,7 +32,7 @@ import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.screenScopedViewModel
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.ui.edit.core.Category
 import com.ivy.wallet.ui.edit.core.Description
 import com.ivy.wallet.ui.edit.core.EditBottomSheet
@@ -73,13 +73,13 @@ fun BoxWithConstraintsScope.EditPlannedScreen(screen: EditPlannedScreen) {
  * Flow Empty: Type -> Amount -> Category -> Recurring Rule -> Title
  * Flow Amount + Category: Recurring Rule -> Title
  */
-
+@Suppress("LongMethod")
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
     screen: EditPlannedScreen,
     state: EditPlannedScreenState,
-    onEvent: (EditPlannedScreenEvent) -> Unit
+    onEvent: (EditPlannedScreenEvent) -> Unit,
 ) {
     var titleTextFieldValue by remember(state.initialTitle) {
         mutableStateOf(
@@ -396,12 +396,12 @@ private fun BoxWithConstraintsScope.UI(
 
 private fun shouldFocusCategory(
     category: Category?,
-    type: TransactionType
+    type: TransactionType,
 ): Boolean = category == null && type != TransactionType.TRANSFER
 
 private fun shouldFocusTitle(
     titleTextFieldValue: TextFieldValue,
-    type: TransactionType
+    type: TransactionType,
 ): Boolean = titleTextFieldValue.text.isBlank() && type != TransactionType.TRANSFER
 
 private fun shouldFocusRecurring(

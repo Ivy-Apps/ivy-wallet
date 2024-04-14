@@ -7,7 +7,7 @@ import com.ivy.data.model.LoanType
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Loan
 import com.ivy.legacy.datamodel.LoanRecord
-import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.datamodel.temp.toLegacyDomain
 import com.ivy.legacy.domain.deprecated.logic.loantrasactions.LoanTransactionsCore
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.scopedIOThread
@@ -66,7 +66,7 @@ class LTLoanMapper @Inject constructor(
         newLoanAccountId: UUID?,
         loanId: UUID
     ) {
-        val accounts = ltCore.fetchAccounts().map { it.toDomain() }
+        val accounts = ltCore.fetchAccounts().map { it.toLegacyDomain() }
         computationThread {
             if (oldLoanAccountId == newLoanAccountId || oldLoanAccountId.fetchAssociatedCurrencyCode(
                     accounts
@@ -112,7 +112,7 @@ class LTLoanMapper @Inject constructor(
                 accountId = transaction.accountId
             )
 
-            ltCore.saveLoan(modifiedLoan.toDomain())
+            ltCore.saveLoan(modifiedLoan.toLegacyDomain())
         }
         onBackgroundProcessingEnd()
     }
@@ -124,7 +124,7 @@ class LTLoanMapper @Inject constructor(
         return scopedIOThread { scope ->
             val loanRecords =
                 ltCore.fetchAllLoanRecords(loanId = loanId)
-                    .map { it.toDomain() }
+                    .map { it.toLegacyDomain() }
                     .map { loanRecord ->
                         scope.async {
                             val convertedAmount: Double? =
@@ -135,7 +135,7 @@ class LTLoanMapper @Inject constructor(
                                     newLoanRecordAccountID = loanRecord.accountId,
                                     newLoanRecordAmount = loanRecord.amount,
                                     loanAccountId = newAccountId,
-                                    accounts = ltCore.fetchAccounts().map { it.toDomain() },
+                                    accounts = ltCore.fetchAccounts().map { it.toLegacyDomain() },
                                 )
                             loanRecord.copy(convertedAmount = convertedAmount)
                         }

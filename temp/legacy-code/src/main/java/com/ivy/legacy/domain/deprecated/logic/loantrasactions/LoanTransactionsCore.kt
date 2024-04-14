@@ -2,7 +2,6 @@ package com.ivy.legacy.domain.deprecated.logic.loantrasactions
 
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.base.legacy.Transaction
-import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.LoanRecordType
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.dao.read.AccountDao
@@ -25,12 +24,11 @@ import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Loan
 import com.ivy.legacy.datamodel.LoanRecord
-import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.datamodel.temp.toLegacyDomain
 import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeNowUTC
-import com.ivy.resources.R
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -78,9 +76,9 @@ class LoanTransactionsCore @Inject constructor(
             val transactions: List<Transaction?> =
                 if (loanId != null) {
                     transactionDao.findAllByLoanId(loanId = loanId)
-                        .map { it.toDomain() }
+                        .map { it.toLegacyDomain() }
                 } else {
-                    listOf(transactionDao.findLoanRecordTransaction(loanRecordId!!)).map { it?.toDomain() }
+                    listOf(transactionDao.findLoanRecordTransaction(loanRecordId!!)).map { it?.toLegacyDomain() }
                 }
 
             transactions.forEach { trans ->
@@ -228,7 +226,7 @@ class LoanTransactionsCore @Inject constructor(
             addCategoryToDb = true
 
             Category(
-                name = NotBlankTrimmedString.unsafe(stringRes(R.string.loans)),
+                name = NotBlankTrimmedString.unsafe("Loans"),
                 color = ColorInt(IVY_COLOR_PICKER_COLORS_FREE[DEFAULT_COLOR_INDEX].toArgb()),
                 icon = IconAsset.unsafe("loan"),
                 id = CategoryId(UUID.randomUUID()),
@@ -336,7 +334,7 @@ class LoanTransactionsCore @Inject constructor(
     suspend fun fetchLoanRecordTransaction(loanRecordId: UUID?): Transaction? {
         return loanRecordId?.let {
             ioThread {
-                transactionDao.findLoanRecordTransaction(it)?.toDomain()
+                transactionDao.findLoanRecordTransaction(it)?.toLegacyDomain()
             }
         }
     }

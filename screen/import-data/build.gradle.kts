@@ -7,17 +7,14 @@ android {
 }
 
 dependencies {
+    implementation(projects.screen.onboarding)
     implementation(projects.shared.base)
+    implementation(projects.shared.data.core)
     implementation(projects.shared.domain)
-    implementation(projects.shared.resources)
-    implementation(projects.temp.oldDesign)
-    implementation(projects.shared.navigation)
+    implementation(projects.shared.ui.core)
+    implementation(projects.shared.ui.navigation)
     implementation(projects.temp.legacyCode)
-    implementation(projects.shared.data)
-
-    implementation(projects.screen.onboarding) // TODO: Fix that
+    implementation(projects.temp.oldDesign)
 
     implementation(libs.bundles.opencsv)
-
-    testImplementation(projects.shared.testing)
 }

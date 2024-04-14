@@ -1,7 +1,6 @@
 package com.ivy.settings
 
 import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
@@ -14,24 +13,24 @@ import com.ivy.base.legacy.refreshWidget
 import com.ivy.data.backup.BackupDataUseCase
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
-import com.ivy.base.ComposeViewModel
+import com.ivy.data.model.primitive.AssetCode
 import com.ivy.domain.RootScreen
-import com.ivy.domain.usecase.SyncExchangeRatesUseCase
+import com.ivy.domain.usecase.exchange.SyncExchangeRatesUseCase
+import com.ivy.domain.usecase.csv.ExportCsvUseCase
 import com.ivy.frp.monad.Res
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.LogoutLogic
 import com.ivy.legacy.domain.action.settings.UpdateSettingsAct
-import com.ivy.legacy.utils.formatNicelyWithTime
+import com.ivy.legacy.utils.getISOFormattedDateTime
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.uiThread
+import com.ivy.ui.ComposeViewModel
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.action.global.UpdateStartDayOfMonthAct
 import com.ivy.wallet.domain.action.settings.SettingsAct
-import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
 import com.ivy.widget.balance.WalletBalanceWidgetReceiver
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -41,10 +40,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
-    @ApplicationContext
-    private val context: Context,
     private val ivyContext: IvyWalletCtx,
-    private val exportCSVLogic: ExportCSVLogic,
     private val logoutLogic: LogoutLogic,
     private val sharedPrefs: SharedPrefs,
     private val backupDataUseCase: BackupDataUseCase,
@@ -54,6 +50,7 @@ class SettingsViewModel @Inject constructor(
     private val settingsAct: SettingsAct,
     private val updateSettingsAct: UpdateSettingsAct,
     private val settingsWriter: WriteSettingsDao,
+    private val exportCsvUseCase: ExportCsvUseCase,
 ) : ComposeViewModel<SettingsState, SettingsEvent>() {
 
     private val currencyCode = mutableStateOf("")
@@ -236,7 +233,9 @@ class SettingsViewModel @Inject constructor(
                         currency = newCurrency
                     )
                 )
-                syncExchangeRatesUseCase.sync(newCurrency)
+                AssetCode.from(newCurrency).onRight {
+                    syncExchangeRatesUseCase.sync(it)
+                }
             }
         }
     }
@@ -257,14 +256,13 @@ class SettingsViewModel @Inject constructor(
 
     private fun exportToCSV(rootScreen: RootScreen) {
         ivyContext.createNewFile(
-            "Ivy Wallet (${
-                timeNowUTC().formatNicelyWithTime(noWeekDay = true)
-            }).csv"
+            "IvyWalletExport_${
+                timeNowUTC().getISOFormattedDateTime()
+            }.csv"
         ) { fileUri ->
             viewModelScope.launch {
-                exportCSVLogic.exportToFile(
-                    context = context,
-                    fileUri = fileUri
+                exportCsvUseCase.exportToFile(
+                    outputFile = fileUri
                 )
 
                 rootScreen.shareCSVFile(
@@ -276,9 +274,9 @@ class SettingsViewModel @Inject constructor(
 
     private fun exportToZip(rootScreen: RootScreen) {
         ivyContext.createNewFile(
-            "Ivy Wallet (${
-                timeNowUTC().formatNicelyWithTime(noWeekDay = true)
-            }).zip"
+            "IvyWalletBackup_${
+                timeNowUTC().getISOFormattedDateTime()
+            }.zip"
         ) { fileUri ->
             viewModelScope.launch(Dispatchers.IO) {
                 progressState.value = true

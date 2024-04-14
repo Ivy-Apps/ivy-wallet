@@ -8,10 +8,10 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
-import com.ivy.domain.usecase.SyncExchangeRatesUseCase
-import com.ivy.data.repository.mapper.TransactionMapper
-import com.ivy.base.ComposeViewModel
+import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.repository.CategoryRepository
+import com.ivy.data.repository.mapper.TransactionMapper
+import com.ivy.domain.usecase.exchange.SyncExchangeRatesUseCase
 import com.ivy.frp.fixUnit
 import com.ivy.frp.then
 import com.ivy.frp.thenInvokeAfter
@@ -26,7 +26,7 @@ import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Settings
-import com.ivy.legacy.datamodel.temp.toDomain
+import com.ivy.legacy.datamodel.temp.toLegacyDomain
 import com.ivy.legacy.domain.action.settings.UpdateSettingsAct
 import com.ivy.legacy.domain.action.viewmodel.home.ShouldHideIncomeAct
 import com.ivy.legacy.utils.dateNowUTC
@@ -34,6 +34,7 @@ import com.ivy.legacy.utils.ioThread
 import com.ivy.navigation.BalanceScreen
 import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
+import com.ivy.ui.ComposeViewModel
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.action.settings.CalcBufferDiffAct
@@ -357,7 +358,7 @@ class HomeViewModel @Inject constructor(
         upcoming.value = LegacyDueSection(
             trns = with(transactionMapper) {
                 result.upcomingTrns.map {
-                    it.toEntity().toDomain()
+                    it.toEntity().toLegacyDomain()
                 }.toImmutableList()
             },
             stats = result.upcoming,
@@ -369,7 +370,7 @@ class HomeViewModel @Inject constructor(
         overdue.value = LegacyDueSection(
             trns = with(transactionMapper) {
                 result.overdueTrns.map {
-                    it.toEntity().toDomain()
+                    it.toEntity().toLegacyDomain()
                 }.toImmutableList()
             },
             stats = result.overdue,
@@ -447,7 +448,9 @@ class HomeViewModel @Inject constructor(
         )
     } then updateSettingsAct then {
         // update exchange rates from POV of the new base currency
-        syncExchangeRatesUseCase.sync(newCurrency)
+        AssetCode.from(newCurrency).onRight {
+            syncExchangeRatesUseCase.sync(it)
+        }
     } then {
         reload()
     }

@@ -4,10 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.viewModelScope
 import arrow.core.toOption
-import com.ivy.base.ComposeViewModel
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
@@ -21,14 +19,14 @@ import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.CategoryRepository
-import com.ivy.data.repository.TagsRepository
+import com.ivy.data.repository.TagRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.frp.then
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.data.model.toCloseTimeRange
-import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.datamodel.temp.toImmutableLegacyTags
+import com.ivy.legacy.datamodel.temp.toLegacyDomain
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.dateNowUTC
@@ -37,6 +35,7 @@ import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.selectEndTextFieldValue
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.TransactionsScreen
+import com.ivy.ui.ComposeViewModel
 import com.ivy.wallet.domain.action.account.AccTrnsAct
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.account.CalcAccBalanceAct
@@ -86,7 +85,7 @@ class TransactionsViewModel @Inject constructor(
     private val categoryWriter: WriteCategoryDao,
     private val plannedPaymentRuleWriter: WritePlannedPaymentRuleDao,
     private val transactionMapper: TransactionMapper,
-    private val tagsRepository: TagsRepository
+    private val tagRepository: TagRepository
 ) : ComposeViewModel<TransactionsState, TransactionsEvent>() {
 
     private val period = mutableStateOf(ivyContext.selectedPeriod)
@@ -150,7 +149,6 @@ class TransactionsViewModel @Inject constructor(
             overdueExpanded = getOverdueExpanded(),
             overdueIncome = getOverdueIncome(),
             overdueExpenses = getOverdueExpenses(),
-            accountNameConfirmation = getAccountNameConfirmation(),
             enableDeletionButton = getEnableDeletionButton(),
             skipAllModalVisible = getSkipAllModalVisible(),
             deleteModal1Visible = getDeleteModal1Visible(),
@@ -269,11 +267,6 @@ class TransactionsViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getAccountNameConfirmation(): TextFieldValue {
-        return accountNameConfirmation.value
-    }
-
-    @Composable
     private fun getEnableDeletionButton(): Boolean {
         return enableDeletionButton.value
     }
@@ -327,7 +320,7 @@ class TransactionsViewModel @Inject constructor(
 
     private suspend fun initForAccount(accountId: UUID) {
         val initialAccount = ioThread {
-            accountDao.findById(accountId)?.toDomain() ?: error("account not found")
+            accountDao.findById(accountId)?.toLegacyDomain() ?: error("account not found")
         }
         account.value = initialAccount
         val range = period.value.toRange(ivyContext.startDayOfMonth)
@@ -377,8 +370,8 @@ class TransactionsViewModel @Inject constructor(
                             transactions = with(transactionMapper) {
                                 it.map {
                                     val tags =
-                                        tagsRepository.findByIds(it.tags).toImmutableLegacyTags()
-                                    it.toEntity().toDomain(tags = tags)
+                                        tagRepository.findByIds(it.tags).toImmutableLegacyTags()
+                                    it.toEntity().toLegacyDomain(tags = tags)
                                 }
                             }
                         )
@@ -402,7 +395,7 @@ class TransactionsViewModel @Inject constructor(
 
         upcoming.value = ioThread {
             with(transactionMapper) {
-                accountLogic.upcoming(initialAccount, range).map { it.toEntity().toDomain() }
+                accountLogic.upcoming(initialAccount, range).map { it.toEntity().toLegacyDomain() }
             }.toImmutableList()
         }
 
@@ -418,9 +411,8 @@ class TransactionsViewModel @Inject constructor(
         overdue.value = ioThread {
             with(transactionMapper) {
                 accountLogic.overdue(initialAccount, range).map {
-                    it.toEntity().toDomain()
-                }
-                    .toImmutableList()
+                    it.toEntity().toLegacyDomain()
+                }.toImmutableList()
             }
         }
     }
@@ -486,7 +478,7 @@ class TransactionsViewModel @Inject constructor(
     private suspend fun initForCategoryWithTransactions(
         categoryId: UUID,
         accountFilterList: List<UUID>,
-        transactions: List<Transaction>
+        transactions: List<Transaction>,
     ) {
         computationThread {
             initWithTransactions.value = true
@@ -620,7 +612,7 @@ class TransactionsViewModel @Inject constructor(
     private suspend fun initForAccountTransfersCategory(
         categoryId: UUID?,
         accountFilterList: List<UUID>,
-        transactions: List<Transaction>
+        transactions: List<Transaction>,
     ) {
         initWithTransactions.value = true
 
@@ -668,7 +660,7 @@ class TransactionsViewModel @Inject constructor(
 
     private fun setPeriod(
         screen: TransactionsScreen,
-        period: TimePeriod
+        period: TimePeriod,
     ) {
         start(
             screen = screen,
@@ -757,7 +749,7 @@ class TransactionsViewModel @Inject constructor(
     private fun editAccount(
         screen: TransactionsScreen,
         account: LegacyAccount,
-        newBalance: Double
+        newBalance: Double,
     ) {
         viewModelScope.launch {
             accountCreator.editAccount(account, newBalance) {
@@ -818,7 +810,7 @@ class TransactionsViewModel @Inject constructor(
     fun start(
         screen: TransactionsScreen,
         timePeriod: TimePeriod? = ivyContext.selectedPeriod,
-        reset: Boolean = true
+        reset: Boolean = true,
     ) {
         if (reset) {
             reset()

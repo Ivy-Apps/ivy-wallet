@@ -7,11 +7,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Transaction
-import com.ivy.base.ComposeViewModel
+import com.ivy.ui.ComposeViewModel
 import com.ivy.data.repository.CategoryRepository
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.thenInvokeAfter
+import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.utils.ioThread
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.LegacyCategoryIncomeWithAccountFiltersAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
@@ -109,8 +111,8 @@ class CategoriesViewModel @Inject constructor(
     }
 
     private suspend fun initialise() {
-        com.ivy.legacy.utils.ioThread {
-            val range = com.ivy.legacy.data.model.TimePeriod.currentMonth(
+        ioThread {
+            val range = TimePeriod.currentMonth(
                 startDayOfMonth = ivyContext.startDayOfMonth
             ).toRange(ivyContext.startDayOfMonth) // this must be monthly
 
@@ -169,14 +171,14 @@ class CategoriesViewModel @Inject constructor(
         val sortedList = sortList(newOrder, sortOrder).toImmutableList()
 
         if (sortOrder == SortOrder.DEFAULT) {
-            com.ivy.legacy.utils.ioThread {
+            ioThread {
                 sortedList.forEachIndexed { index, categoryData ->
-                    categoryRepository.save(categoryData.category)
+                    categoryRepository.save(categoryData.category.copy(orderNum = index.toDouble()))
                 }
             }
         }
 
-        com.ivy.legacy.utils.ioThread {
+        ioThread {
             sharedPrefs.putInt(SharedPrefs.CATEGORY_SORT_ORDER, sortOrder.orderNum)
         }
 

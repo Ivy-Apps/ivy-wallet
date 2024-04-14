@@ -4,10 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.SharedPrefs
-import com.ivy.data.db.dao.read.SettingsDao
-import com.ivy.domain.event.AccountUpdatedEvent
-import com.ivy.domain.event.EventBus
-import com.ivy.domain.usecase.SyncExchangeRatesUseCase
+import com.ivy.data.repository.CurrencyRepository
+import com.ivy.domain.usecase.exchange.SyncExchangeRatesUseCase
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.model.MainTab
@@ -23,13 +21,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val settingsDao: SettingsDao,
     private val ivyContext: IvyWalletCtx,
     private val nav: Navigation,
     private val syncExchangeRatesUseCase: SyncExchangeRatesUseCase,
     private val accountCreator: AccountCreator,
     private val sharedPrefs: SharedPrefs,
-    private val eventBus: EventBus,
+    private val currencyRepository: CurrencyRepository,
 ) : ViewModel() {
 
     private val _currency = MutableLiveData<String>()
@@ -49,8 +46,8 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            val baseCurrency = ioThread { settingsDao.findFirst().currency }
-            _currency.value = baseCurrency
+            val baseCurrency = currencyRepository.getBaseCurrency()
+            _currency.value = baseCurrency.code
 
             ivyContext.dataBackupCompleted =
                 sharedPrefs.getBoolean(SharedPrefs.DATA_BACKUP_COMPLETED, false)
@@ -72,9 +69,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            accountCreator.createAccount(data) {
-                eventBus.post(AccountUpdatedEvent)
-            }
+            accountCreator.createAccount(data) {}
 
             TestIdlingResource.decrement()
         }

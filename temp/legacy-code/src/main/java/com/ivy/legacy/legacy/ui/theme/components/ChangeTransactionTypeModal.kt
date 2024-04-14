@@ -29,7 +29,7 @@ import com.ivy.base.model.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
-import com.ivy.resources.R
+import com.ivy.ui.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.GradientIvy
@@ -194,7 +194,7 @@ private fun TransactionTypeButton(
             )
 
             Text(
-                text = stringResource(R.string.selected),
+                text = stringResource(R.string.selected_text),
                 style = UI.typo.b2.style(
                     fontWeight = FontWeight.SemiBold,
                     color = textSelectedColor

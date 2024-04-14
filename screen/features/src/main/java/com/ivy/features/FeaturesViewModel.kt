@@ -5,7 +5,7 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.viewModelScope
-import com.ivy.base.ComposeViewModel
+import com.ivy.ui.ComposeViewModel
 import com.ivy.domain.features.Features
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
