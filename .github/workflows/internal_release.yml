@@ -42,7 +42,7 @@ jobs:
 
       #Security
       - name: Validate Gradle Wrapper checksum
-        uses: gradle/wrapper-validation-action@v2
+        uses: gradle/wrapper-validation-action@v3
 
       - name: Make Gradle Wrapper (gradlew) executable
         run: chmod +x gradlew
