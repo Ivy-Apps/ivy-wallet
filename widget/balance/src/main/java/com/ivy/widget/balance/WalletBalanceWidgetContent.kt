@@ -41,20 +41,24 @@ fun WalletBalanceWidgetContent(
     onTransferClick: () -> Unit,
     onWidgetClick: () -> Unit,
 ) {
+    val resources = LocalContext.current.resources
     Box(
         GlanceModifier
             .background(ImageProvider(R.drawable.shape_widget_background))
-            .clickable(onWidgetClick)
+            .clickable(onWidgetClick),
+        contentAlignment = Alignment.Center
     ) {
         Column(
             modifier = GlanceModifier.fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalAlignment = if (appLocked) Alignment.CenterHorizontally else Alignment.Start
         ) {
             if (appLocked) {
                 Text(
-                    modifier = GlanceModifier.fillMaxSize(),
-                    text = "App locked",
+                    modifier = GlanceModifier.padding(8.dp),
+                    text = resources.getString(R.string.app_locked),
                     style = TextStyle(
-                        fontSize = 30.sp,
+                        fontSize = 25.sp,
                         color = ColorProvider(Color.White),
                         textAlign = TextAlign.Center
                     )
@@ -90,11 +94,11 @@ fun RowScope.WidgetClickableItem(
 @Composable
 fun BalanceSection(
     balance: String,
-    currency: String
+    currency: String,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = GlanceModifier.padding(start = 14.dp, top = 14.dp),
+        modifier = GlanceModifier.padding(start = 12.dp, end = 12.dp, top = 12.dp),
     ) {
         Text(
             text = currency,
@@ -119,11 +123,11 @@ fun BalanceSection(
 fun IncomeExpenseSection(
     income: String,
     expense: String,
-    currency: String
+    currency: String,
 ) {
     Row(
         GlanceModifier.fillMaxWidth()
-            .padding(start = 14.dp, end = 14.dp, top = 12.dp, bottom = 12.dp),
+            .padding(horizontal = 12.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         val resources = LocalContext.current.resources
@@ -131,25 +135,16 @@ fun IncomeExpenseSection(
             GlanceModifier
                 .padding(10.dp)
                 .defaultWeight()
-                .background(ImageProvider(R.drawable.income_shape_widget_backgroud)),
+                .background(ImageProvider(R.drawable.income_shape_widget_background)),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(ImageProvider(R.drawable.ic_income_white), resources.getString((R.string.income)))
-            Spacer(GlanceModifier.width(8.dp))
             Text(
-                text = income,
+                text = "$income $currency",
                 style = TextStyle(
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = ColorProvider(Color.White)
-                )
-            )
-            Spacer(GlanceModifier.width(4.dp))
-            Text(
-                text = currency,
-                style = TextStyle(
-                    fontSize = 16.sp,
-                    color = ColorProvider(Color.White),
                 )
             )
         }
@@ -158,27 +153,18 @@ fun IncomeExpenseSection(
             GlanceModifier
                 .padding(10.dp)
                 .defaultWeight()
-                .background(ImageProvider(R.drawable.expense_shape_widget_backgroun)),
+                .background(ImageProvider(R.drawable.expense_shape_widget_background)),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
                 ImageProvider(R.drawable.ic_expense),
                 resources.getString(R.string.expense)
             )
-            Spacer(GlanceModifier.width(8.dp))
             Text(
-                text = expense,
+                text = "$expense $currency",
                 style = TextStyle(
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
-                    color = ColorProvider(Color.Black)
-                )
-            )
-            Spacer(GlanceModifier.width(4.dp))
-            Text(
-                text = currency,
-                style = TextStyle(
-                    fontSize = 16.sp,
                     color = ColorProvider(Color.Black)
                 )
             )
@@ -198,7 +184,7 @@ fun ButtonsSection(
         R.drawable.ic_widget_transfer to R.string.transfer
     )
     Row(
-        GlanceModifier.fillMaxWidth().padding(10.dp),
+        GlanceModifier.fillMaxWidth().padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         buttons.forEach { (image, text) ->

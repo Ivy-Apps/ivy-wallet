@@ -32,6 +32,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.abs
 
 const val THOUSAND = 1000
 
@@ -42,7 +43,7 @@ class WalletBalanceWidget(
     fun formatBalance(balance: String): String {
         val formattedBalance = remember(balance) {
             val balanceDouble = balance.toCalcBalanceAmount()
-            if (Math.abs(balanceDouble) < THOUSAND) {
+            if (abs(balanceDouble) < THOUSAND) {
                 DecimalFormat("###,###.##").format(balanceDouble)
             } else {
                 shortenAmount(balanceDouble)
