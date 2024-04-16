@@ -79,7 +79,7 @@
     <string name="add_account">Adicionar conta</string>
     <string name="income_title">Título do rendimento</string>
     <string name="expense_title">Título da despesa</string>
-    <string name="transfer_title">Transferir título</string>
+    <string name="transfer_title">Título da transferência</string>
     <string name="expense">Despesa</string>
     <string name="add_planned_date_payment">Adicionar data de pagamento planejada</string>
     <string name="pay">Pagar</string>
@@ -152,7 +152,7 @@
     <string name="wallet_description">Acompanhe suas receitas, despesas e orçamento com Ivy.\n\nInterface intuitiva, pagamentos recorrentes e planejados, gerenciamento de múltiplas contas, organização de transações em categorias, estatísticas poderosas, exportação para CSV e muito mais.</string>
     <string name="enter_your_name">Digite seu nome\para personalizar sua\carteira</string>
     <string name="what_is_your_name">Qual o seu nome?</string>
-    <string name="enter">Entrar</string>
+    <string name="enter">Confirmar</string>
     <string name="add_accounts">Adicionar contas</string>
     <string name="next">Próximo</string>
     <string name="add_categories">Adicionar categorias</string>
@@ -353,7 +353,7 @@
     <string name="food_drinks"><![CDATA[Comidas e Bebidas]]></string>
     <string name="bills_fees"><![CDATA[Contas e taxas]]></string>
     <string name="transport">Transporte</string>
-    <string name="groceries">Mertiços</string>
+    <string name="groceries">Guloseimas</string>
     <string name="entertainment">Entretenimento</string>
     <string name="shopping">Compras</string>
     <string name="gifts">Presentes</string>
@@ -374,7 +374,7 @@
     <string name="pet">Animal de estimação</string>
     <string name="sports">Esportes</string>
     <string name="adjust_initial_balance">Ajuste seu saldo inicial</string>
-    <string name="to_accounts">Para contas</string>
+    <string name="to_accounts">Contas</string>
     <string name="adjust_initial_balance_description"><![CDATA[Vamos começar. Vá para \"Contas\" -> Toque em uma conta -> Toque em seu saldo -> Insira o saldo atual. É isso!]]></string>
     <string name="create_first_planned_payment">Crie seu primeiro pagamento planejado</string>
     <string name="create_first_planned_payment_description">Acompanhe suas transações regulares, como assinaturas, aluguel e contracheques. Fique por dentro de suas finanças sabendo antecipadamente quanto você deve ou espera receber.</string>
