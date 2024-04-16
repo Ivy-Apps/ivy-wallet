@@ -35,11 +35,14 @@ import javax.inject.Inject
 import kotlin.math.abs
 
 const val THOUSAND = 1000
-const val APP_LOCKED = "appLocked"
-const val BALANCE_V2 = "balance_v2"
-const val CURRENCY = "currency"
-const val INCOME_V2 = "income_v2"
-const val EXPENSE_V2 = "expense_v2"
+
+object PrefsKey {
+    const val APP_LOCKED = "appLocked"
+    const val BALANCE = "balance_v2"
+    const val CURRENCY = "currency"
+    const val INCOME = "income_v2"
+    const val EXPENSE = "expense_v2"
+}
 
 class WalletBalanceWidget(
     private val getAppStarter: () -> AppStarter,
@@ -59,11 +62,11 @@ class WalletBalanceWidget(
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {
             val prefs = currentState<Preferences>()
-            val appLocked = prefs[booleanPreferencesKey(APP_LOCKED)] ?: false
-            val balance = prefs[doublePreferencesKey(BALANCE_V2)] ?: 0.00
-            val currency = prefs[stringPreferencesKey(CURRENCY)] ?: "USD"
-            val income = prefs[doublePreferencesKey(INCOME_V2)] ?: 0.00
-            val expense = prefs[doublePreferencesKey(EXPENSE_V2)] ?: 0.00
+            val appLocked = prefs[booleanPreferencesKey(PrefsKey.APP_LOCKED)] ?: false
+            val balance = prefs[doublePreferencesKey(PrefsKey.BALANCE)] ?: 0.00
+            val currency = prefs[stringPreferencesKey(PrefsKey.CURRENCY)] ?: "USD"
+            val income = prefs[doublePreferencesKey(PrefsKey.INCOME)] ?: 0.00
+            val expense = prefs[doublePreferencesKey(PrefsKey.EXPENSE)] ?: 0.00
 
             WalletBalanceWidgetContent(
                 appLocked = appLocked,
@@ -161,13 +164,13 @@ class WalletBalanceWidgetReceiver : GlanceAppWidgetReceiver() {
                         it
                     ) { pref ->
                         pref.toMutablePreferences().apply {
-                            this[booleanPreferencesKey(APP_LOCKED)] = appLocked
-                            this[doublePreferencesKey(BALANCE_V2)] =
+                            this[booleanPreferencesKey(PrefsKey.APP_LOCKED)] = appLocked
+                            this[doublePreferencesKey(PrefsKey.BALANCE)] =
                                 balance.toDouble()
-                            this[stringPreferencesKey(CURRENCY)] = currency
-                            this[doublePreferencesKey(INCOME_V2)] =
+                            this[stringPreferencesKey(PrefsKey.CURRENCY)] = currency
+                            this[doublePreferencesKey(PrefsKey.INCOME)] =
                                 incomeExpense.income.toDouble()
-                            this[doublePreferencesKey(EXPENSE_V2)] =
+                            this[doublePreferencesKey(PrefsKey.EXPENSE)] =
                                 incomeExpense.expense.toDouble()
                         }
                     }
