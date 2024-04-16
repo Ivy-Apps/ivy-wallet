@@ -11,6 +11,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -245,7 +246,7 @@ enum class IvyImeAction {
 class InputFieldFocus {
     var requestFocus: Boolean by mutableStateOf(false)
         private set
-    var triggerRecomposition: Int by mutableStateOf(0)
+    var triggerRecomposition: Int by mutableIntStateOf(0)
         private set
 
     fun consumeFocus(): Boolean {

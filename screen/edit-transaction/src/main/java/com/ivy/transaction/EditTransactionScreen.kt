@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -261,7 +262,7 @@ private fun BoxWithConstraintsScope.UI(
     val scrollState = rememberScrollState()
 
     // This is to scroll the column to the customExchangeCard composable when it is shown
-    var customExchangeRatePosition by remember { mutableStateOf(0F) }
+    var customExchangeRatePosition by remember { mutableFloatStateOf(0F) }
     LaunchedEffect(key1 = customExchangeRateState.showCard) {
         val scrollInt =
             if (customExchangeRateState.showCard) customExchangeRatePosition.roundToInt() else 0
