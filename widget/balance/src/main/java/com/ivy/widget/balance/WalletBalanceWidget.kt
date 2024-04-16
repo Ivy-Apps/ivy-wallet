@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.glance.GlanceId
 import androidx.glance.appwidget.GlanceAppWidget
@@ -22,7 +23,6 @@ import com.ivy.base.model.TransactionType
 import com.ivy.domain.AppStarter
 import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.legacy.utils.shortenAmount
-import com.ivy.legacy.utils.toCalcBalanceAmount
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.settings.SettingsAct
 import com.ivy.wallet.domain.action.wallet.CalcIncomeExpenseAct
@@ -32,20 +32,28 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.abs
 
 const val THOUSAND = 1000
+
+object PrefsKey {
+    const val APP_LOCKED = "appLocked"
+    const val BALANCE = "balance_v2"
+    const val CURRENCY = "currency"
+    const val INCOME = "income_v2"
+    const val EXPENSE = "expense_v2"
+}
 
 class WalletBalanceWidget(
     private val getAppStarter: () -> AppStarter,
 ) : GlanceAppWidget() {
     @Composable
-    fun formatBalance(balance: String): String {
+    fun formatBalance(balance: Double): String {
         val formattedBalance = remember(balance) {
-            val balanceDouble = balance.toCalcBalanceAmount()
-            if (Math.abs(balanceDouble) < THOUSAND) {
-                DecimalFormat("###,###.##").format(balanceDouble)
+            if (abs(balance) < THOUSAND) {
+                DecimalFormat("###,###.##").format(balance)
             } else {
-                shortenAmount(balanceDouble)
+                shortenAmount(balance)
             }
         }
         return formattedBalance
@@ -54,18 +62,18 @@ class WalletBalanceWidget(
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {
             val prefs = currentState<Preferences>()
-            val appLocked = prefs[booleanPreferencesKey("appLocked")] ?: false
-            val balance = prefs[stringPreferencesKey("balance")] ?: "0.00"
-            val currency = prefs[stringPreferencesKey("currency")] ?: "USD"
-            val income = prefs[stringPreferencesKey("income")] ?: "0.00"
-            val expense = prefs[stringPreferencesKey("expense")] ?: "0.00"
+            val appLocked = prefs[booleanPreferencesKey(PrefsKey.APP_LOCKED)] ?: false
+            val balance = prefs[doublePreferencesKey(PrefsKey.BALANCE)] ?: 0.00
+            val currency = prefs[stringPreferencesKey(PrefsKey.CURRENCY)] ?: "USD"
+            val income = prefs[doublePreferencesKey(PrefsKey.INCOME)] ?: 0.00
+            val expense = prefs[doublePreferencesKey(PrefsKey.EXPENSE)] ?: 0.00
 
             WalletBalanceWidgetContent(
                 appLocked = appLocked,
                 balance = formatBalance(balance),
                 currency = currency,
-                income = income,
-                expense = expense,
+                income = shortenAmount(income),
+                expense = shortenAmount(expense),
                 onIncomeClick = {
                     getAppStarter().addTransactionStart(TransactionType.INCOME)
                 },
@@ -156,14 +164,14 @@ class WalletBalanceWidgetReceiver : GlanceAppWidgetReceiver() {
                         it
                     ) { pref ->
                         pref.toMutablePreferences().apply {
-                            this[booleanPreferencesKey("appLocked")] = appLocked
-                            this[stringPreferencesKey("balance")] =
-                                shortenAmount(balance.toDouble())
-                            this[stringPreferencesKey("currency")] = currency
-                            this[stringPreferencesKey("income")] =
-                                shortenAmount(incomeExpense.income.toDouble())
-                            this[stringPreferencesKey("expense")] =
-                                shortenAmount(incomeExpense.expense.toDouble())
+                            this[booleanPreferencesKey(PrefsKey.APP_LOCKED)] = appLocked
+                            this[doublePreferencesKey(PrefsKey.BALANCE)] =
+                                balance.toDouble()
+                            this[stringPreferencesKey(PrefsKey.CURRENCY)] = currency
+                            this[doublePreferencesKey(PrefsKey.INCOME)] =
+                                incomeExpense.income.toDouble()
+                            this[doublePreferencesKey(PrefsKey.EXPENSE)] =
+                                incomeExpense.expense.toDouble()
                         }
                     }
                     glanceAppWidget.update(context, it)

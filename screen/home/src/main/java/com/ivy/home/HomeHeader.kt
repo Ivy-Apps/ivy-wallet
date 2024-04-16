@@ -63,7 +63,7 @@ import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 import kotlin.math.absoluteValue
 
 private const val OverflowLengthOfBalance = 7
-private const val OverflowLengthOfMontthRange = 12
+private const val OverflowLengthOfMonthRange = 12
 
 @ExperimentalAnimationApi
 @Composable
@@ -169,7 +169,7 @@ private fun HeaderStickyRow(
                 val overflow by remember(lengthOfCurrencyAndBalance, lengthOfMonthRange) {
                     derivedStateOf {
                         lengthOfCurrencyAndBalance >= OverflowLengthOfBalance &&
-                            lengthOfMonthRange >= OverflowLengthOfMontthRange
+                            lengthOfMonthRange >= OverflowLengthOfMonthRange
                     }
                 }
 

@@ -2,9 +2,10 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:resizeMode="horizontal|vertical"
     android:previewImage="@drawable/preview_widget_wallet_balance"
-    android:minResizeWidth="250dp"
-    android:minWidth="250dp"
-    android:minHeight="110dp"
-    android:minResizeHeight="110dp"
+    android:minResizeWidth="240dp"
+    android:minWidth="240dp"
+    android:minHeight="120dp"
+    android:minResizeHeight="120dp"
     android:widgetCategory="home_screen"
-/>
+    android:updatePeriodMillis="0"
+    />
