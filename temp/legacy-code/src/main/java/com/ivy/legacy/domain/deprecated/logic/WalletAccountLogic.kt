@@ -1,11 +1,14 @@
 package com.ivy.wallet.domain.deprecated.logic
 
+import arrow.core.getOrElse
+import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.Expense
 import com.ivy.data.model.Income
+import com.ivy.data.repository.CurrencyRepository
 import com.ivy.data.temp.migration.getValue
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.legacy.data.model.filterOverdue
@@ -13,8 +16,9 @@ import com.ivy.legacy.data.model.filterUpcoming
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.utils.timeNowUTC
-import java.time.LocalDateTime
-import java.time.ZoneOffset
+import com.ivy.wallet.domain.action.viewmodel.account.AccountDataAct
+import com.ivy.wallet.domain.pure.data.ClosedTimeRange
+import kotlinx.collections.immutable.toImmutableList
 import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.math.absoluteValue
@@ -23,6 +27,9 @@ import kotlin.math.absoluteValue
 class WalletAccountLogic @Inject constructor(
     private val transactionRepository: TransactionRepository,
     private val transactionWriter: WriteTransactionDao,
+    private val accountDataAct: AccountDataAct,
+    private val sharedPrefs: SharedPrefs,
+    private val currencyRepository: CurrencyRepository,
 ) {
 
     suspend fun adjustBalance(
@@ -73,63 +80,27 @@ class WalletAccountLogic @Inject constructor(
     }
 
     suspend fun calculateAccountBalance(
-        account: Account,
-        before: LocalDateTime? = null
+        account: Account
     ): Double {
-        return calculateIncomeWithTransfers(
-            account = account,
-            before = before
-        ) - calculateExpensesWithTransfers(
-            account = account,
-            before = before
+        val accountList = account.toDomainAccount(currencyRepository)
+            .map { a -> listOf(a) }
+            .getOrElse { emptyList() }
+
+        val includeTransfersInCalc =
+            sharedPrefs.getBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, false)
+
+        val accountsDataList = accountDataAct(
+            AccountDataAct.Input(
+                accounts = accountList.toImmutableList(),
+                range = ClosedTimeRange.allTimeIvy(),
+                baseCurrency = currencyRepository.getBaseCurrency().code,
+                includeTransfersInCalc = includeTransfersInCalc
+            )
         )
-    }
 
-    private suspend fun calculateIncomeWithTransfers(
-        account: Account,
-        before: LocalDateTime?
-    ): Double {
-        return transactionRepository.findAllIncomeByAccount(AccountId(account.id))
-            .filterHappenedTransactions(
-                before = before
-            )
-            .sumOf { it.getValue().toDouble() }
-            .plus(
-                // transfers in
-                transactionRepository.findAllTransfersToAccount(AccountId(account.id))
-                    .filterHappenedTransactions(
-                        before = before
-                    )
-                    .sumOf { it.getValue().toDouble() }
-            )
-    }
-
-    private suspend fun calculateExpensesWithTransfers(
-        account: Account,
-        before: LocalDateTime?
-    ): Double {
-        return transactionRepository.findAllExpenseByAccount(AccountId(account.id))
-            .filterHappenedTransactions(
-                before = before
-            )
-            .sumOf { it.getValue().toDouble() }
-            .plus(
-                // transfer out
-                transactionRepository.findAllTransferByAccount(
-                    accountId = AccountId(account.id)
-                )
-                    .filterHappenedTransactions(before = before)
-                    .sumOf { it.getValue().toDouble() }
-            )
-    }
-
-    private fun List<com.ivy.data.model.Transaction>.filterHappenedTransactions(
-        before: LocalDateTime?
-    ): List<com.ivy.data.model.Transaction> {
-        return this.filter {
-            it.settled &&
-                    (before == null || it.time.isBefore(before.toInstant(ZoneOffset.UTC)))
-        }
+        return accountsDataList.firstOrNull()?.let {
+            it.balanceBaseCurrency ?: it.balance
+        } ?: 0.0
     }
 
     suspend fun calculateUpcomingIncome(
