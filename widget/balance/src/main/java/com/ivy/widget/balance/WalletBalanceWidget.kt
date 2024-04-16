@@ -35,6 +35,11 @@ import javax.inject.Inject
 import kotlin.math.abs
 
 const val THOUSAND = 1000
+const val APP_LOCKED = "appLocked"
+const val BALANCE_V2 = "balance_v2"
+const val CURRENCY = "currency"
+const val INCOME_V2 = "income_v2"
+const val EXPENSE_V2 = "expense_v2"
 
 class WalletBalanceWidget(
     private val getAppStarter: () -> AppStarter,
@@ -54,11 +59,11 @@ class WalletBalanceWidget(
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {
             val prefs = currentState<Preferences>()
-            val appLocked = prefs[booleanPreferencesKey("appLocked")] ?: false
-            val balance = prefs[doublePreferencesKey("balance")] ?: 0.00
-            val currency = prefs[stringPreferencesKey("currency")] ?: "USD"
-            val income = prefs[doublePreferencesKey("income")] ?: 0.00
-            val expense = prefs[doublePreferencesKey("expense")] ?: 0.00
+            val appLocked = prefs[booleanPreferencesKey(APP_LOCKED)] ?: false
+            val balance = prefs[doublePreferencesKey(BALANCE_V2)] ?: 0.00
+            val currency = prefs[stringPreferencesKey(CURRENCY)] ?: "USD"
+            val income = prefs[doublePreferencesKey(INCOME_V2)] ?: 0.00
+            val expense = prefs[doublePreferencesKey(EXPENSE_V2)] ?: 0.00
 
             WalletBalanceWidgetContent(
                 appLocked = appLocked,
@@ -156,13 +161,13 @@ class WalletBalanceWidgetReceiver : GlanceAppWidgetReceiver() {
                         it
                     ) { pref ->
                         pref.toMutablePreferences().apply {
-                            this[booleanPreferencesKey("appLocked")] = appLocked
-                            this[doublePreferencesKey("balance")] =
+                            this[booleanPreferencesKey(APP_LOCKED)] = appLocked
+                            this[doublePreferencesKey(BALANCE_V2)] =
                                 balance.toDouble()
-                            this[stringPreferencesKey("currency")] = currency
-                            this[doublePreferencesKey("income")] =
+                            this[stringPreferencesKey(CURRENCY)] = currency
+                            this[doublePreferencesKey(INCOME_V2)] =
                                 incomeExpense.income.toDouble()
-                            this[doublePreferencesKey("expense")] =
+                            this[doublePreferencesKey(EXPENSE_V2)] =
                                 incomeExpense.expense.toDouble()
                         }
                     }
