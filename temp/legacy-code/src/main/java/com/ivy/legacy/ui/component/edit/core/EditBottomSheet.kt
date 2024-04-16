@@ -24,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -136,7 +137,7 @@ fun BoxWithConstraintsScope.EditBottomSheet(
         animationSpec = tween(DURATION_MODAL_ANIM)
     )
 
-    var bottomBarHeight by remember { mutableStateOf(0) }
+    var bottomBarHeight by remember { mutableIntStateOf(0) }
 
     var internalExpanded by remember { mutableStateOf(true) }
     val expanded = internalExpanded && !keyboardShown
