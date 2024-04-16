@@ -7,4 +7,5 @@
     android:minHeight="120dp"
     android:minResizeHeight="120dp"
     android:widgetCategory="home_screen"
+    android:updatePeriodMillis="0"
     />

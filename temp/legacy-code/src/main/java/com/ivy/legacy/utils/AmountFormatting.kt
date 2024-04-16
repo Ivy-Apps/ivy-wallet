@@ -120,15 +120,6 @@ private fun formatShortenedNumber(
     }
 }
 
-fun String.toCalcBalanceAmount(): Double {
-    val amountString = this.lowercase()
-    return when {
-        amountString.contains("k") -> amountString.replace("k", "").toDouble() * THOUSAND
-        amountString.contains("m") -> amountString.replace("m", "").toDouble() * MILLION
-        else -> this.toDouble()
-    }
-}
-
 fun hasSignificantDecimalPart(number: Double): Boolean {
     // TODO: Review, might cause trouble when integrating crypto
     val intPart = number.toInt()
