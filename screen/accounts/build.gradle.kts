@@ -1,5 +1,6 @@
 plugins {
     id("ivy.feature")
+    id("app.cash.paparazzi")
 }
 
 android {
@@ -16,5 +17,6 @@ dependencies {
     implementation(projects.shared.data)
     implementation(projects.shared.commonUi)
 
+    testImplementation(libs.paparazzi)
     testImplementation(projects.shared.testing)
 }

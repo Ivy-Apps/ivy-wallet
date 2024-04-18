@@ -63,6 +63,7 @@ kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref 
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 cashapp-molecule-plugin = { module = "app.cash.molecule:molecule-gradle-plugin", version = "1.3.2" }
 cashapp-turbine = { module = "app.cash.turbine:turbine", version = "1.0.0" }
+junit-vintage = { module = "org.junit.vintage:junit-vintage-engine", version = "5.10.2" }
 
 # Integartion (Android) testing
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test" }
@@ -139,6 +140,10 @@ slack-lint-compose = { module = "com.slack.lint.compose:compose-lint-checks", ve
 # KSP
 ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version = "1.9.22-1.0.17" }
 
+# Papprazi
+paparazzi-plugin = { module = "app.cash.paparazzi:paparazzi-gradle-plugin",  version = "1.3.2" }
+paparazzi = { module = "app.cash.paparazzi:paparazzi",  version = "1.3.2" }
+
 [bundles]
 kotlin = [
     "kotlin-stdlib",
@@ -170,7 +175,8 @@ testing = [
     "kotest-datatest",
     "kotlin-coroutines-test",
     "mockk",
-    "cashapp-turbine"
+    "cashapp-turbine",
+    "junit-vintage"
 ]
 integration-testing = [
     "kotest-assertions",
@@ -224,4 +230,3 @@ opencsv = [
 [plugins]
 gradleWrapperUpgrade = { id = "org.gradle.wrapper-upgrade", version = "0.11.4" }
 koverPlugin = { id = "org.jetbrains.kotlinx.kover", version = "0.7.6" }
-paparazzi = { id = "app.cash.paparazzi", version = "1.3.2" }

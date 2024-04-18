@@ -381,3 +381,8 @@ private fun PreviewAccountsTab() {
         UI(state = state)
     }
 }
+
+@Composable
+fun AccountsTabUITest(){
+    PreviewAccountsTab()
+}
