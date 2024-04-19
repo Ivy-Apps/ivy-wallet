@@ -1,4 +1,4 @@
-package com.ivy.domain.usecase.stat
+package com.ivy.domain.usecase
 
 import com.ivy.data.model.PositiveValue
 import com.ivy.data.model.primitive.AssetCode

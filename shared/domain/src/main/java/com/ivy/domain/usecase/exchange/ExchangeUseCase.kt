@@ -32,6 +32,11 @@ class ExchangeUseCase @Inject constructor(
         TODO("Not implemented")
     }
 
+    /**
+     * Converts a [value] from one currency [to] another.
+     *
+     * @return some value if the conversion was successful or [arrow.core.None]
+     */
     suspend fun convert(
         value: Value,
         to: AssetCode

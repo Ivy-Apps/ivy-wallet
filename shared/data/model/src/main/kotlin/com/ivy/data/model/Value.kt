@@ -1,6 +1,7 @@
 package com.ivy.data.model
 
 import com.ivy.data.model.primitive.AssetCode
+import com.ivy.data.model.primitive.NonNegativeDouble
 import com.ivy.data.model.primitive.NonZeroDouble
 import com.ivy.data.model.primitive.PositiveDouble
 
@@ -9,6 +10,11 @@ import com.ivy.data.model.primitive.PositiveDouble
  */
 data class PositiveValue(
     val amount: PositiveDouble,
+    val asset: AssetCode,
+)
+
+data class NonNegativeValue(
+    val amount: NonNegativeDouble,
     val asset: AssetCode,
 )
 

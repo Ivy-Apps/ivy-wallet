@@ -10,5 +10,8 @@ data class ExchangeResult(
      * Or [arrow.core.None] if there were errors or an empty map was exchanged.
      */
     val exchanged: Option<PositiveValue>,
-    val error: Set<AssetCode>,
+    /**
+     * Assets for which the exchange has failed.
+     */
+    val errors: Set<AssetCode>,
 )
