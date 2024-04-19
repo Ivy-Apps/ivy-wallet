@@ -12,6 +12,7 @@ import com.ivy.domain.usecase.exchange.ExchangeUseCase
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@Suppress("UnusedPrivateProperty", "UnusedParameter")
 class CategoryStatsUseCase @Inject constructor(
     private val dispatchers: DispatchersProvider,
     private val exchangeUseCase: ExchangeUseCase,

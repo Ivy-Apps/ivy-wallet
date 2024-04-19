@@ -1,7 +1,6 @@
 package com.ivy.data.model
 
 import com.ivy.data.model.primitive.AssetCode
-import com.ivy.data.model.primitive.NonNegativeDouble
 import com.ivy.data.model.primitive.NonZeroDouble
 import com.ivy.data.model.primitive.PositiveDouble
 

@@ -17,6 +17,7 @@ import com.ivy.domain.usecase.exchange.ExchangeUseCase
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@Suppress("UnusedPrivateProperty", "UnusedParameter")
 class AccountStatsUseCase @Inject constructor(
     private val dispatchers: DispatchersProvider,
     private val accountRepository: AccountRepository,

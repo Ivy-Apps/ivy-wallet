@@ -9,6 +9,7 @@ import com.ivy.data.repository.TransactionRepository
 import com.ivy.domain.usecase.exchange.ExchangeUseCase
 import javax.inject.Inject
 
+@Suppress("UnusedPrivateProperty", "UnusedParameter")
 class AccountBalanceUseCase @Inject constructor(
     private val transactionRepository: TransactionRepository,
     private val accountStatsUseCase: AccountStatsUseCase,

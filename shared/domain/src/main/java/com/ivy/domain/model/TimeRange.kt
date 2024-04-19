@@ -9,6 +9,7 @@ sealed interface TimeRange {
      * @param time before this point in time (inclusive)
      */
     data class Before(val time: Instant) : TimeRange
+
     /**
      * @param time after this point in time (inclusive)
      */

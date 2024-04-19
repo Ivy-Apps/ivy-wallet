@@ -9,6 +9,7 @@ import com.ivy.domain.model.TimeRange
 import com.ivy.domain.usecase.exchange.ExchangeUseCase
 import javax.inject.Inject
 
+@Suppress("UnusedPrivateProperty", "UnusedParameter")
 class WalletStatsUseCase @Inject constructor(
     private val transactionRepository: TransactionRepository,
     private val exchangeUseCase: ExchangeUseCase,

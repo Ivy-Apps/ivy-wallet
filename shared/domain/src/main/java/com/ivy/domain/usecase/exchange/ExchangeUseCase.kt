@@ -8,6 +8,7 @@ import com.ivy.data.model.primitive.NonZeroDouble
 import com.ivy.data.repository.ExchangeRatesRepository
 import javax.inject.Inject
 
+@Suppress("UnusedPrivateProperty", "UnusedParameter")
 class ExchangeUseCase @Inject constructor(
     private val exchangeRatesRepository: ExchangeRatesRepository,
 ) {
