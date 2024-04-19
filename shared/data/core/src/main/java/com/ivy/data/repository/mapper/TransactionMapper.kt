@@ -15,7 +15,7 @@ import com.ivy.data.model.Transaction
 import com.ivy.data.model.TransactionId
 import com.ivy.data.model.TransactionMetadata
 import com.ivy.data.model.Transfer
-import com.ivy.data.model.Value
+import com.ivy.data.model.PositiveValue
 import com.ivy.data.model.getFromAccount
 import com.ivy.data.model.getToAccount
 import com.ivy.data.model.primitive.NotBlankTrimmedString
@@ -44,7 +44,7 @@ class TransactionMapper @Inject constructor(
         val accountId = AccountId(accountId)
         val sourceAccount = accountRepository.findById(accountId)
         ensureNotNull(sourceAccount) { "No source account for transaction: ${this@toDomain}" }
-        val fromValue = Value(
+        val fromValue = PositiveValue(
             amount = PositiveDouble.from(amount).bind(),
             asset = sourceAccount.asset
         )
@@ -104,7 +104,7 @@ class TransactionMapper @Inject constructor(
                     "No destination account associated with transaction '${this@toDomain}'"
                 }
 
-                val toValue = Value(
+                val toValue = PositiveValue(
                     amount = toAmount?.let(PositiveDouble::from)?.getOrNull()
                         ?: fromValue.amount,
                     asset = toAccount.asset

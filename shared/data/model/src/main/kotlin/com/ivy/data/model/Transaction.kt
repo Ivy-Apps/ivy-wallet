@@ -33,7 +33,7 @@ data class Income(
     override val lastUpdated: Instant,
     override val removed: Boolean,
     override val tags: List<TagId>,
-    val value: Value,
+    val value: PositiveValue,
     val account: AccountId,
 ) : Transaction
 
@@ -48,7 +48,7 @@ data class Expense(
     override val lastUpdated: Instant,
     override val removed: Boolean,
     override val tags: List<TagId>,
-    val value: Value,
+    val value: PositiveValue,
     val account: AccountId,
 ) : Transaction
 
@@ -64,9 +64,9 @@ data class Transfer(
     override val removed: Boolean,
     override val tags: List<TagId>,
     val fromAccount: AccountId,
-    val fromValue: Value,
+    val fromValue: PositiveValue,
     val toAccount: AccountId,
-    val toValue: Value,
+    val toValue: PositiveValue,
 ) : Transaction
 
 @Suppress("DataClassTypedIDs")
@@ -78,7 +78,7 @@ data class TransactionMetadata(
     val loanRecordId: UUID?,
 )
 
-fun Transaction.getFromValue(): Value = when (this) {
+fun Transaction.getFromValue(): PositiveValue = when (this) {
     is Expense -> value
     is Income -> value
     is Transfer -> fromValue

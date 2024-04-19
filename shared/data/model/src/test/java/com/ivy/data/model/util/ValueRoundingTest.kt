@@ -2,7 +2,7 @@ package com.ivy.data.model.util
 
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
-import com.ivy.data.model.Value
+import com.ivy.data.model.PositiveValue
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.PositiveDouble
 import io.kotest.matchers.shouldBe
@@ -42,7 +42,7 @@ class ValueRoundingTest {
         @TestParameter testCase: RoundingTestCase
     ) {
         // given
-        val value = Value(
+        val value = PositiveValue(
             amount = PositiveDouble.unsafe(testCase.double),
             asset = AssetCode.EUR
         )

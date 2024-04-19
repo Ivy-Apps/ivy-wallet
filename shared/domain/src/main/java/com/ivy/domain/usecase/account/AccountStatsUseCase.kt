@@ -1,4 +1,4 @@
-package com.ivy.domain.usecase.stat
+package com.ivy.domain.usecase.account
 
 import com.ivy.base.threading.DispatchersProvider
 import com.ivy.data.model.AccountId
@@ -7,12 +7,14 @@ import com.ivy.data.model.Income
 import com.ivy.data.model.Transaction
 import com.ivy.data.model.Transfer
 import com.ivy.domain.model.AccountStats
+import com.ivy.domain.usecase.stat.StatSummaryBuilder
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class AccountStatsUseCase @Inject constructor(
     private val dispatchers: DispatchersProvider
 ) {
+
     suspend fun calculate(
         account: AccountId,
         transactions: List<Transaction>

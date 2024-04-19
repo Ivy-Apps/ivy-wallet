@@ -1,11 +1,11 @@
 package com.ivy.data.model.util
 
-import com.ivy.data.model.Value
+import com.ivy.data.model.PositiveValue
 import com.ivy.data.model.primitive.PositiveDouble
 import java.math.BigDecimal
 import java.math.RoundingMode
 
-fun Value.round(decimalPlaces: Int): Value = Value(
+fun PositiveValue.round(decimalPlaces: Int): PositiveValue = PositiveValue(
     amount = PositiveDouble.unsafe(amount.value.roundTo(decimalPlaces)),
     asset = asset,
 )
