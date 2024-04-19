@@ -6,7 +6,6 @@ import com.ivy.data.model.Value
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.NonZeroDouble
 import com.ivy.data.repository.ExchangeRatesRepository
-import com.ivy.domain.model.ExchangeResult
 import javax.inject.Inject
 
 class ExchangeUseCase @Inject constructor(
@@ -44,3 +43,15 @@ class ExchangeUseCase @Inject constructor(
         TODO("Not implemented")
     }
 }
+
+data class ExchangeResult(
+    /**
+     * Some value that was exchanged successfully.
+     * Or [arrow.core.None] if there were errors or an empty map was exchanged.
+     */
+    val exchanged: Option<Value>,
+    /**
+     * Assets for which the exchange has failed.
+     */
+    val exchangeErrors: Set<AssetCode>,
+)

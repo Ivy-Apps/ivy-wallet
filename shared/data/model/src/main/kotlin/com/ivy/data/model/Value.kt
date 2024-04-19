@@ -13,11 +13,6 @@ data class PositiveValue(
     val asset: AssetCode,
 )
 
-data class NonNegativeValue(
-    val amount: NonNegativeDouble,
-    val asset: AssetCode,
-)
-
 data class Value(
     val amount: NonZeroDouble,
     val asset: AssetCode,

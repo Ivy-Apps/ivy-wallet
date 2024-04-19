@@ -6,7 +6,7 @@ import com.ivy.data.model.Expense
 import com.ivy.data.model.Income
 import com.ivy.data.model.Transaction
 import com.ivy.data.model.Transfer
-import com.ivy.domain.model.AccountStats
+import com.ivy.domain.model.StatSummary
 import com.ivy.domain.usecase.StatSummaryBuilder
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -51,6 +51,22 @@ class AccountStatsUseCase @Inject constructor(
             expense = expense.build(),
             transfersIn = transfersIn.build(),
             transfersOut = transfersOut.build()
+        )
+    }
+}
+
+data class AccountStats(
+    val income: StatSummary,
+    val expense: StatSummary,
+    val transfersIn: StatSummary,
+    val transfersOut: StatSummary,
+) {
+    companion object {
+        val Zero = AccountStats(
+            income = StatSummary.Zero,
+            expense = StatSummary.Zero,
+            transfersIn = StatSummary.Zero,
+            transfersOut = StatSummary.Zero,
         )
     }
 }

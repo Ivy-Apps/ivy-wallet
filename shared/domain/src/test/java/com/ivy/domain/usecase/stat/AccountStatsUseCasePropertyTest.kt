@@ -5,16 +5,15 @@ import com.ivy.base.TestDispatchersProvider
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.Expense
 import com.ivy.data.model.Income
+import com.ivy.data.model.PositiveValue
 import com.ivy.data.model.Transaction
 import com.ivy.data.model.Transfer
-import com.ivy.data.model.PositiveValue
 import com.ivy.data.model.getFromAccount
 import com.ivy.data.model.getToAccount
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.NonNegativeInt
 import com.ivy.data.model.testing.ModelFixtures
 import com.ivy.data.model.testing.transaction
-import com.ivy.domain.model.AccountStats
 import com.ivy.domain.model.StatSummary
 import com.ivy.domain.model.shouldBeApprox
 import com.ivy.domain.nonEmptyExpenses
@@ -22,6 +21,7 @@ import com.ivy.domain.nonEmptyIncomes
 import com.ivy.domain.nonEmptyTransfersIn
 import com.ivy.domain.nonEmptyTransfersOut
 import com.ivy.domain.sum
+import com.ivy.domain.usecase.account.AccountStats
 import com.ivy.domain.usecase.account.AccountStatsUseCase
 import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
