@@ -1,19 +1,50 @@
 package com.ivy.domain.usecase.account
 
+import arrow.core.Option
 import com.ivy.base.threading.DispatchersProvider
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.Expense
 import com.ivy.data.model.Income
+import com.ivy.data.model.PositiveValue
 import com.ivy.data.model.Transaction
 import com.ivy.data.model.Transfer
+import com.ivy.data.model.primitive.AssetCode
+import com.ivy.data.repository.AccountRepository
 import com.ivy.domain.model.StatSummary
+import com.ivy.domain.model.TimeRange
 import com.ivy.domain.usecase.StatSummaryBuilder
+import com.ivy.domain.usecase.exchange.ExchangeUseCase
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class AccountStatsUseCase @Inject constructor(
-    private val dispatchers: DispatchersProvider
+    private val dispatchers: DispatchersProvider,
+    private val accountRepository: AccountRepository,
+    private val exchangeUseCase: ExchangeUseCase,
 ) {
+
+    suspend fun calculate(
+        account: AccountId,
+        range: TimeRange,
+        outCurrency: AssetCode
+    ): ExchangedAccountStats {
+        TODO("Not implemented")
+    }
+
+    suspend fun calculate(
+        account: AccountId,
+        range: TimeRange,
+        transactions: List<Transaction>,
+    ): ExchangedAccountStats {
+        TODO("Not implemented")
+    }
+
+    suspend fun calculate(
+        account: AccountId,
+        range: TimeRange
+    ): AccountStats {
+        TODO("Not implemented")
+    }
 
     suspend fun calculate(
         account: AccountId,
@@ -70,3 +101,11 @@ data class AccountStats(
         )
     }
 }
+
+data class ExchangedAccountStats(
+    val income: Option<PositiveValue>,
+    val expense: Option<PositiveValue>,
+    val transfersIn: Option<PositiveValue>,
+    val transfersOut: Option<PositiveValue>,
+    val exchangeErrors: Set<AssetCode>,
+)
