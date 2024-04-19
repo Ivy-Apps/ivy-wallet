@@ -4,6 +4,7 @@ digraph G {
 ":app" -> ":screen:budgets"
 ":app" -> ":screen:categories"
 ":app" -> ":screen:contributors"
+":app" -> ":screen:disclaimer"
 ":app" -> ":screen:edit-transaction" [color=red style=bold]
 ":app" -> ":screen:exchange-rates"
 ":app" -> ":screen:features"
@@ -55,6 +56,9 @@ digraph G {
 ":screen:contributors" -> ":shared:domain"
 ":screen:contributors" -> ":shared:ui:core"
 ":screen:contributors" -> ":shared:ui:navigation"
+":screen:disclaimer" -> ":shared:data:core"
+":screen:disclaimer" -> ":shared:ui:core"
+":screen:disclaimer" -> ":shared:ui:navigation"
 ":screen:edit-transaction" -> ":shared:base"
 ":screen:edit-transaction" -> ":shared:data:core"
 ":screen:edit-transaction" -> ":shared:domain"
@@ -202,5 +206,6 @@ digraph G {
 ":ci-actions:issue-assign" -> ":ci-actions:base"
 ":ci-actions:issue-create-comment" -> ":ci-actions:base"
 ":shared:data:core-testing" -> ":shared:data:core"
+":shared:data:model-testing" -> ":shared:data:model"
 ":shared:ui:testing" -> ":shared:ui:core"
 }
