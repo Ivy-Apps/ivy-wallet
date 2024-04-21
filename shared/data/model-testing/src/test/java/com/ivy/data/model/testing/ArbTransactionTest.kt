@@ -4,7 +4,7 @@ import arrow.core.Some
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import com.ivy.data.model.AccountId
-import com.ivy.data.model.Value
+import com.ivy.data.model.PositiveValue
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.PositiveDouble
 import io.kotest.matchers.shouldBe
@@ -59,7 +59,7 @@ class ArbTransactionTest {
             income.settled shouldBe settled
             income.removed shouldBe removed
             income.time shouldBe now
-            income.value shouldBe Value(amount, asset)
+            income.value shouldBe PositiveValue(amount, asset)
         }
     }
 
@@ -103,7 +103,7 @@ class ArbTransactionTest {
             expense.settled shouldBe settled
             expense.removed shouldBe removed
             expense.time shouldBe now
-            expense.value shouldBe Value(amount, asset)
+            expense.value shouldBe PositiveValue(amount, asset)
         }
     }
 
@@ -153,9 +153,9 @@ class ArbTransactionTest {
             transfer.removed shouldBe removed
             transfer.time shouldBe now
             transfer.fromAccount shouldBe fromAccount
-            transfer.fromValue shouldBe Value(fromAmount, fromAsset)
+            transfer.fromValue shouldBe PositiveValue(fromAmount, fromAsset)
             transfer.toAccount shouldBe toAccount
-            transfer.toValue shouldBe Value(toAmount, toAsset)
+            transfer.toValue shouldBe PositiveValue(toAmount, toAsset)
         }
     }
 

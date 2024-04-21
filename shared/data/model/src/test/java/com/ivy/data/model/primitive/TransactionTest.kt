@@ -6,7 +6,7 @@ import com.ivy.data.model.Income
 import com.ivy.data.model.TransactionId
 import com.ivy.data.model.TransactionMetadata
 import com.ivy.data.model.Transfer
-import com.ivy.data.model.Value
+import com.ivy.data.model.PositiveValue
 import com.ivy.data.model.getFromAccount
 import com.ivy.data.model.getFromValue
 import com.ivy.data.model.getToAccount
@@ -144,7 +144,7 @@ class TransactionTest {
             lastUpdated = Instant.EPOCH,
             removed = false,
             tags = listOf(),
-            value = Value(
+            value = PositiveValue(
                 amount = PositiveDouble.unsafe(1.0),
                 asset = AssetCode.EUR
             ),
@@ -166,7 +166,7 @@ class TransactionTest {
             lastUpdated = Instant.EPOCH,
             removed = false,
             tags = listOf(),
-            value = Value(
+            value = PositiveValue(
                 amount = PositiveDouble.unsafe(1.0),
                 asset = AssetCode.EUR
             ),
@@ -189,11 +189,11 @@ class TransactionTest {
             removed = false,
             tags = listOf(),
             fromAccount = AccountId,
-            fromValue = Value(
+            fromValue = PositiveValue(
                 amount = PositiveDouble.unsafe(1.0),
                 asset = AssetCode.EUR
             ),
-            toValue = Value(
+            toValue = PositiveValue(
                 amount = PositiveDouble.unsafe(1.0),
                 asset = AssetCode.EUR
             ),

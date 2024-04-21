@@ -13,7 +13,7 @@ import com.ivy.data.model.Income
 import com.ivy.data.model.TransactionId
 import com.ivy.data.model.TransactionMetadata
 import com.ivy.data.model.Transfer
-import com.ivy.data.model.Value
+import com.ivy.data.model.PositiveValue
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.AssetCode.Companion.EUR
 import com.ivy.data.model.primitive.AssetCode.Companion.USD
@@ -78,7 +78,7 @@ class TransactionMapperTest {
             ),
             lastUpdated = InstantNow,
             removed = removed,
-            value = Value(
+            value = PositiveValue(
                 amount = PositiveDouble.unsafe(100.0),
                 asset = AssetCode.unsafe("NGN")
             ),
@@ -132,7 +132,7 @@ class TransactionMapperTest {
             ),
             lastUpdated = Instant.EPOCH,
             removed = removed,
-            value = Value(
+            value = PositiveValue(
                 amount = PositiveDouble.unsafe(100.0),
                 asset = AssetCode.unsafe("NGN")
             ),
@@ -186,12 +186,12 @@ class TransactionMapperTest {
             ),
             lastUpdated = Instant.EPOCH,
             removed = removed,
-            fromValue = Value(
+            fromValue = PositiveValue(
                 amount = PositiveDouble.unsafe(100.0),
                 asset = AssetCode.unsafe("NGN")
             ),
             fromAccount = AccountId,
-            toValue = Value(
+            toValue = PositiveValue(
                 amount = PositiveDouble.unsafe(100.0),
                 asset = AssetCode.unsafe("NGN")
             ),
@@ -258,7 +258,7 @@ class TransactionMapperTest {
             ),
             lastUpdated = Instant.EPOCH,
             removed = removed,
-            value = Value(
+            value = PositiveValue(
                 amount = PositiveDouble.unsafe(100.0),
                 asset = EUR
             ),
@@ -384,7 +384,7 @@ class TransactionMapperTest {
             ),
             lastUpdated = Instant.EPOCH,
             removed = removed,
-            value = Value(
+            value = PositiveValue(
                 amount = PositiveDouble.unsafe(100.0),
                 asset = EUR
             ),
@@ -515,12 +515,12 @@ class TransactionMapperTest {
             ),
             lastUpdated = Instant.EPOCH,
             removed = removed,
-            fromValue = Value(
+            fromValue = PositiveValue(
                 amount = PositiveDouble.unsafe(50.0),
                 asset = EUR
             ),
             fromAccount = AccountId,
-            toValue = Value(
+            toValue = PositiveValue(
                 amount = PositiveDouble.unsafe(55.0),
                 asset = USD
             ),

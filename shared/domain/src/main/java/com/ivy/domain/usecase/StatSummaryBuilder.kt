@@ -1,6 +1,6 @@
-package com.ivy.domain.usecase.stat
+package com.ivy.domain.usecase
 
-import com.ivy.data.model.Value
+import com.ivy.data.model.PositiveValue
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.NonNegativeInt
 import com.ivy.data.model.primitive.PositiveDouble
@@ -10,7 +10,7 @@ class StatSummaryBuilder {
     private var count = 0
     private val values = mutableMapOf<AssetCode, PositiveDouble>()
 
-    fun process(value: Value) {
+    fun process(value: PositiveValue) {
         count++
         val asset = value.asset
         // Because it might overflow
