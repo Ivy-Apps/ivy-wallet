@@ -5,7 +5,7 @@ ktor = "2.3.10"
 arrow = "1.2.4"
 kotest = "5.8.1"
 # https://developer.android.com/jetpack/androidx/releases/compose
-compose = "1.6.5"
+compose = "1.6.6"
 # https://developer.android.com/jetpack/androidx/releases/compose-kotlin
 compose-compiler = "1.5.11" # It's used! Use compatible with Kotlin one
 compose-material3 = "1.2.1"
@@ -80,7 +80,7 @@ compose-material3-windowsize = { module = "androidx.compose.material3:material3-
 compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
 compose-runtime-livedate-temp = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "compose" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
-compose-activity = { module = "androidx.activity:activity-compose", version = "1.8.2" }
+compose-activity = { module = "androidx.activity:activity-compose", version = "1.9.0" }
 compose-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version = "2.7.0" }
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-coil = { module = "io.coil-kt:coil-compose", version = "2.6.0" }
@@ -95,7 +95,7 @@ room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-testing = { module = "androidx.room:room-testing", version.ref = "room" }
 
-datastore = { module = "androidx.datastore:datastore-preferences", version = "1.0.0" }
+datastore = { module = "androidx.datastore:datastore-preferences", version = "1.1.0" }
 
 # Hilt
 hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
@@ -105,7 +105,7 @@ hilt-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", 
 
 # Google
 google-services-plugin = { module = "com.google.gms:google-services", version = "4.4.1" }
-google-playservices-auth = { module = "com.google.android.gms:play-services-auth", version = "21.0.0" }
+google-playservices-auth = { module = "com.google.android.gms:play-services-auth", version = "21.1.0" }
 google-play-core = { module = "com.google.android.play:core", version = "1.10.3" }
 google-play-core-ktx = { module = "com.google.android.play:core-ktx", version = "1.8.1" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version = "18.6.4" }
@@ -114,7 +114,7 @@ firebase-crashlytics-gradle-plugin = { module = "com.google.firebase:firebase-cr
 # AndroidX
 androidx-security = { module = "androidx.security:security-crypto", version = "1.0.0" }
 androidx-biometrics = { module = "androidx.biometric:biometric", version = "1.2.0-alpha05" }
-androidx-activity = { module = "androidx.activity:activity-ktx", version = "1.8.2" }
+androidx-activity = { module = "androidx.activity:activity-ktx", version = "1.9.0" }
 appcompat-activity = { module = "androidx.appcompat:appcompat", version = "1.7.0-alpha03" }
 androidx-work = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "androidx-work" }
