@@ -30,7 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ivy.ui.rememberScrollPositionListState
+import com.ivy.base.legacy.Theme
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.ColorInt
@@ -47,6 +47,7 @@ import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.GreenLight
 import com.ivy.wallet.ui.theme.components.BalanceRow
@@ -330,8 +331,8 @@ private fun AccountHeader(
 
 @Preview
 @Composable
-private fun PreviewAccountsTab() {
-    IvyWalletPreview {
+private fun PreviewAccountsTab(theme: Theme = Theme.LIGHT) {
+    IvyWalletPreview(theme = theme) {
         val acc1 = com.ivy.data.model.Account(
             id = AccountId(UUID.randomUUID()),
             name = NotBlankTrimmedString.unsafe("Phyre"),
@@ -419,4 +420,14 @@ private fun PreviewAccountsTab() {
         )
         UI(state = state)
     }
+}
+
+/** For screen shot testing **/
+@Composable
+fun AccountsTabUITest(dark: Boolean) {
+    val theme = when (dark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    PreviewAccountsTab(theme)
 }
