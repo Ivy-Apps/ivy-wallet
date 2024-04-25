@@ -88,7 +88,7 @@ class PieChartAct @Inject constructor(
                 type = type,
                 baseCurrency = baseCurrency,
                 allCategories = suspend {
-                    //add null element for unspecified category
+                    // add null element for unspecified category
                     categoryRepository.findAll().plus(null)
                 },
                 transactions = suspend { transactions },
