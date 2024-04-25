@@ -257,7 +257,7 @@ private fun Preview(theme: Theme = Theme.LIGHT) {
 
 /** For screenshot testing */
 @Composable
-fun BalanceScreenUiTest(isDark: Boolean){
+fun BalanceScreenUiTest(isDark: Boolean) {
     val theme = when (isDark) {
         true -> Theme.DARK
         false -> Theme.LIGHT

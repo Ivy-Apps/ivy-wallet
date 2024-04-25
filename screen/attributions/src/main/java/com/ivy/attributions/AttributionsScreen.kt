@@ -192,6 +192,6 @@ private fun AttributionsUIPreview(isDark: Boolean = false) {
 
 /** For screenshot testing */
 @Composable
-fun AttributionScreenUiTest(isDark: Boolean){
+fun AttributionScreenUiTest(isDark: Boolean) {
     AttributionsUIPreview(isDark)
 }

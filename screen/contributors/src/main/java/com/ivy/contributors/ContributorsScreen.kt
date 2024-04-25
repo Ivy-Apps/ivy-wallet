@@ -42,7 +42,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.ivy.base.legacy.Theme
 import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.navigation
@@ -327,7 +326,10 @@ private fun ContributorCard(contributor: Contributor) {
                 Text(
                     text = when (contributor.contributionsCount.toInt()) {
                         1 -> stringResource(R.string.one_contribution)
-                        else -> stringResource(R.string.contributions_number, contributor.contributionsCount)
+                        else -> stringResource(
+                            R.string.contributions_number,
+                            contributor.contributionsCount
+                        )
                     },
                     style = MaterialTheme.typography.bodySmall
                 )
@@ -356,7 +358,7 @@ private fun GitHubButton(
 
 @Preview
 @Composable
-private fun PreviewSuccess(isDark:Boolean = false) {
+private fun PreviewSuccess(isDark: Boolean = false) {
     IvyPreview(isDark) {
         ContributorsUi(
             uiState = ContributorsState(
@@ -413,6 +415,6 @@ private fun PreviewLoading() {
 
 /** For screenshot testing */
 @Composable
-fun ContributorScreenUiTest(isDark: Boolean){
+fun ContributorScreenUiTest(isDark: Boolean) {
     PreviewSuccess(isDark)
 }

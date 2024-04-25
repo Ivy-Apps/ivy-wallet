@@ -432,7 +432,7 @@ private fun Preview_Budgets(theme: Theme) {
 
 /** For screenshot testing */
 @Composable
-fun BudgetScreenUiTest(isDark: Boolean){
+fun BudgetScreenUiTest(isDark: Boolean) {
     val theme = when (isDark) {
         true -> Theme.DARK
         false -> Theme.LIGHT
