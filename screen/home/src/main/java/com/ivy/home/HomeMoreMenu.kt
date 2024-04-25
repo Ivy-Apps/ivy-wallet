@@ -410,7 +410,8 @@ private fun QuickAccess(
 
         Text(
             modifier = Modifier.padding(start = 24.dp),
-            text = stringResource(R.string.quick_access)
+            text = stringResource(R.string.quick_access),
+            style = UI.typo.b2.style()
         )
 
         Spacer(Modifier.height(16.dp))
