@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.base.legacy.Theme
 import com.ivy.budgets.model.DisplayBudget
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -378,8 +379,8 @@ private fun Preview_Empty() {
 
 @Preview
 @Composable
-private fun Preview_Budgets() {
-    com.ivy.legacy.IvyWalletPreview {
+private fun Preview_Budgets(theme: Theme) {
+    com.ivy.legacy.IvyWalletPreview(theme) {
         UI(
             state = BudgetScreenState(
                 timeRange = com.ivy.legacy.data.model.TimePeriod.currentMonth(
@@ -427,4 +428,14 @@ private fun Preview_Budgets() {
             )
         )
     }
+}
+
+/** For screenshot testing */
+@Composable
+fun BudgetScreenUiTest(isDark: Boolean){
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    Preview_Budgets(theme)
 }
