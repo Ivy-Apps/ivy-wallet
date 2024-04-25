@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.base.legacy.Theme
 import com.ivy.base.model.TransactionType
 import com.ivy.data.model.Category
 import com.ivy.data.model.Tag
@@ -37,6 +38,7 @@ import com.ivy.design.l0_system.Orange
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.utils.hideKeyboard
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.EditTransactionDisplayLoan
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.ivyWalletCtx
@@ -648,8 +650,8 @@ private fun shouldFocusAmount(amount: Double) = amount == 0.0
 @ExperimentalFoundationApi
 @Preview
 @Composable
-private fun BoxWithConstraintsScope.Preview() {
-    IvyPreview {
+private fun BoxWithConstraintsScope.Preview(isDark: Boolean = false) {
+    IvyPreview(isDark) {
         UI(
             screen = EditTransactionScreen(null, TransactionType.EXPENSE),
             initialTitle = "",
@@ -689,5 +691,18 @@ private fun BoxWithConstraintsScope.Preview() {
             onSetTime = {},
             onSetTransactionType = {}
         )
+    }
+}
+
+/** For screenshot testing */
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun EditTransactionScreenUiTest(isDark: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    IvyWalletPreview(theme) {
+        Preview(isDark)
     }
 }
