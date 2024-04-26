@@ -4,11 +4,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.viewModelScope
 import arrow.core.toOption
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
+import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.write.WriteCategoryDao
@@ -17,10 +19,14 @@ import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
+import com.ivy.data.model.primitive.ColorInt
+import com.ivy.data.model.primitive.IconAsset
+import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.repository.TagRepository
 import com.ivy.data.repository.mapper.TransactionMapper
+import com.ivy.design.l0_system.RedLight
 import com.ivy.frp.then
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.model.TimePeriod
@@ -36,6 +42,7 @@ import com.ivy.legacy.utils.selectEndTextFieldValue
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.ui.ComposeViewModel
+import com.ivy.ui.R
 import com.ivy.wallet.domain.action.account.AccTrnsAct
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.account.CalcAccBalanceAct
@@ -55,6 +62,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
+import java.time.Instant
 import java.util.UUID
 import javax.inject.Inject
 import com.ivy.legacy.datamodel.Account as LegacyAccount
@@ -85,7 +93,7 @@ class TransactionsViewModel @Inject constructor(
     private val categoryWriter: WriteCategoryDao,
     private val plannedPaymentRuleWriter: WritePlannedPaymentRuleDao,
     private val transactionMapper: TransactionMapper,
-    private val tagRepository: TagRepository
+    private val tagRepository: TagRepository,
 ) : ComposeViewModel<TransactionsState, TransactionsEvent>() {
 
     private val period = mutableStateOf(ivyContext.selectedPeriod)
@@ -610,13 +618,20 @@ class TransactionsViewModel @Inject constructor(
     }
 
     private suspend fun initForAccountTransfersCategory(
-        categoryId: UUID?,
         accountFilterList: List<UUID>,
         transactions: List<Transaction>,
     ) {
         initWithTransactions.value = true
-
-        category.value = categories.value.firstOrNull { it.id.value == categoryId }
+        val accountTransferCategory = Category(
+            name = NotBlankTrimmedString.unsafe(stringRes(R.string.account_transfers)),
+            color = ColorInt(RedLight.toArgb()),
+            icon = IconAsset.unsafe("transfer"),
+            id = CategoryId(UUID.randomUUID()),
+            lastUpdated = Instant.EPOCH,
+            orderNum = 0.0,
+            removed = false,
+        )
+        category.value = accountTransferCategory
         val accountFilterIdSet = accountFilterList.toHashSet()
         val trans = transactions.filter {
             it.categoryId == null && (
@@ -850,7 +865,6 @@ class TransactionsViewModel @Inject constructor(
 
                 screen.unspecifiedCategory == true && screen.transactions.isNotEmpty() -> {
                     initForAccountTransfersCategory(
-                        screen.categoryId,
                         screen.accountIdFilterList,
                         screen.transactions
                     )
