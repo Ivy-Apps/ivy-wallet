@@ -111,6 +111,7 @@ fun BoxWithConstraintsScope.TransactionsScreen(screen: TransactionsScreen) {
     }
 
     UI(
+        screen = screen,
         period = uiState.period,
         baseCurrency = uiState.baseCurrency,
         currency = uiState.currency,
@@ -201,6 +202,7 @@ fun BoxWithConstraintsScope.TransactionsScreen(screen: TransactionsScreen) {
 @Suppress("LongMethod", "LongParameterList")
 @Composable
 private fun BoxWithConstraintsScope.UI(
+    screen: TransactionsScreen,
     period: TimePeriod,
     baseCurrency: String,
     currency: String,
@@ -293,6 +295,7 @@ private fun BoxWithConstraintsScope.UI(
         ) {
             item {
                 Header(
+                    screen = screen,
                     history = history,
                     income = income,
                     expenses = expenses,
@@ -562,8 +565,10 @@ private fun BoxWithConstraintsScope.DeleteModals(
     }
 }
 
+@Suppress("LongParameterList")
 @Composable
 private fun Header(
+    screen: TransactionsScreen,
     history: ImmutableList<TransactionHistoryItem>,
     currency: String,
     baseCurrency: String,
@@ -592,10 +597,15 @@ private fun Header(
     ) {
         Spacer(Modifier.height(20.dp))
 
+        val hideEditAndDeleteButtonForAccountTransfer =
+            screen.transactions.none { it.type == TransactionType.TRANSFER }
+
         ItemStatisticToolbar(
             contrastColor = contrastColor,
             onEdit = onEdit,
-            onDelete = onDelete
+            onDelete = onDelete,
+            showEditButton = hideEditAndDeleteButtonForAccountTransfer,
+            showDeleteButton = hideEditAndDeleteButtonForAccountTransfer,
         )
 
         Spacer(Modifier.height(24.dp))
@@ -830,7 +840,8 @@ private fun BoxWithConstraintsScope.Preview_empty() {
             skipAllModalVisible = false,
             onSkipAllModalVisible = {},
             onChoosePeriodModal = {},
-            choosePeriodModal = null
+            choosePeriodModal = null,
+            screen = TransactionsScreen(),
         )
     }
 }
@@ -875,7 +886,8 @@ private fun BoxWithConstraintsScope.Preview_crypto() {
             skipAllModalVisible = false,
             onSkipAllModalVisible = {},
             onChoosePeriodModal = {},
-            choosePeriodModal = null
+            choosePeriodModal = null,
+            screen = TransactionsScreen(),
         )
     }
 }
@@ -922,7 +934,8 @@ private fun BoxWithConstraintsScope.Preview_empty_upcoming() {
             skipAllModalVisible = false,
             onSkipAllModalVisible = {},
             onChoosePeriodModal = {},
-            choosePeriodModal = null
+            choosePeriodModal = null,
+            screen = TransactionsScreen(),
         )
     }
 }

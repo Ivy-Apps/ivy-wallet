@@ -38,7 +38,7 @@ class PieChartAct @Inject constructor(
     private val trnsWithRangeAndAccFiltersAct: TrnsWithRangeAndAccFiltersAct,
     private val calcTrnsIncomeExpenseAct: LegacyCalcTrnsIncomeExpenseAct,
     private val categoryRepository: CategoryRepository,
-    private val categoryIncomeWithAccountFiltersAct: LegacyCategoryIncomeWithAccountFiltersAct
+    private val categoryIncomeWithAccountFiltersAct: LegacyCategoryIncomeWithAccountFiltersAct,
 ) : FPAction<PieChartAct.Input, PieChartAct.Output>() {
 
     private val accountTransfersCategory =
@@ -127,7 +127,7 @@ class PieChartAct @Inject constructor(
         accountIdFilterList: List<UUID>,
 
         @SideEffect
-        allAccounts: suspend () -> List<Account>
+        allAccounts: suspend () -> List<Account>,
     ): Pair<List<Account>, Set<UUID>> {
         val accountsUsed = if (accountIdFilterList.isEmpty()) {
             allAccounts then ::filterExcluded
@@ -205,26 +205,26 @@ class PieChartAct @Inject constructor(
         treatTransferAsIncExp: Boolean,
 
         @SideEffect
-        incomeExpenseTransfer: suspend () -> IncomeExpenseTransferPair
+        incomeExpenseTransfer: suspend () -> IncomeExpenseTransferPair,
     ): BigDecimal {
         val incExpQuad = incomeExpenseTransfer()
         return when (type) {
             TransactionType.INCOME -> {
                 incExpQuad.income +
-                    if (treatTransferAsIncExp) {
-                        incExpQuad.transferIncome
-                    } else {
-                        BigDecimal.ZERO
-                    }
+                        if (treatTransferAsIncExp) {
+                            incExpQuad.transferIncome
+                        } else {
+                            BigDecimal.ZERO
+                        }
             }
 
             TransactionType.EXPENSE -> {
                 incExpQuad.expense +
-                    if (treatTransferAsIncExp) {
-                        incExpQuad.transferExpense
-                    } else {
-                        BigDecimal.ZERO
-                    }
+                        if (treatTransferAsIncExp) {
+                            incExpQuad.transferExpense
+                        } else {
+                            BigDecimal.ZERO
+                        }
             }
 
             else -> BigDecimal.ZERO
@@ -245,7 +245,7 @@ class PieChartAct @Inject constructor(
         incomeExpenseTransfer: suspend () -> IncomeExpenseTransferPair,
 
         @SideEffect
-        categoryAmounts: suspend () -> List<CategoryAmount>
+        categoryAmounts: suspend () -> List<CategoryAmount>,
     ): List<CategoryAmount> {
         val incExpQuad = incomeExpenseTransfer()
 
@@ -260,7 +260,7 @@ class PieChartAct @Inject constructor(
                 }
 
                 val categoryTrans = transactions().filter {
-                    it.type == TransactionType.TRANSFER && it.categoryId == null
+                    it.type == TransactionType.TRANSFER
                 }.filter {
                     if (type == TransactionType.EXPENSE) {
                         accountIdFilterSet.contains(it.accountId)
@@ -293,7 +293,7 @@ class PieChartAct @Inject constructor(
         val accountIdFilterList: List<UUID>,
         val treatTransferAsIncExp: Boolean = false,
         val showAccountTransfersCategory: Boolean = treatTransferAsIncExp,
-        val existingTransactions: List<Transaction> = emptyList()
+        val existingTransactions: List<Transaction> = emptyList(),
     )
 
     data class Output(val totalAmount: Double, val categoryAmounts: ImmutableList<CategoryAmount>)
