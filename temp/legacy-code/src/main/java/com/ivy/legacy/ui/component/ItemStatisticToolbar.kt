@@ -1,5 +1,6 @@
 package com.ivy.legacy.ui.component
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
@@ -17,12 +18,14 @@ import com.ivy.wallet.ui.theme.components.CircleButton
 import com.ivy.wallet.ui.theme.components.DeleteButton
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
 
+@SuppressLint("ComposeModifierMissing")
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun ItemStatisticToolbar(
     contrastColor: Color,
-
     onEdit: () -> Unit,
+    showEditButton: Boolean = true,
+    showDeleteButton: Boolean = true,
     onDelete: () -> Unit,
 ) {
     Row(
@@ -43,21 +46,25 @@ fun ItemStatisticToolbar(
 
         Spacer(Modifier.weight(1f))
 
-        IvyOutlinedButton(
-            iconStart = R.drawable.ic_edit,
-            text = stringRes(R.string.edit),
-            borderColor = contrastColor,
-            iconTint = contrastColor,
-            textColor = contrastColor,
-            solidBackground = false
-        ) {
-            onEdit()
+        if (showEditButton) {
+            IvyOutlinedButton(
+                iconStart = R.drawable.ic_edit,
+                text = stringRes(R.string.edit),
+                borderColor = contrastColor,
+                iconTint = contrastColor,
+                textColor = contrastColor,
+                solidBackground = false
+            ) {
+                onEdit()
+            }
         }
 
         Spacer(Modifier.width(16.dp))
 
-        DeleteButton {
-            onDelete()
+        if (showDeleteButton) {
+            DeleteButton {
+                onDelete()
+            }
         }
 
         Spacer(Modifier.width(24.dp))
