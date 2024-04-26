@@ -28,12 +28,12 @@ import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.legacy.stringRes
-import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.frp.forward
 import com.ivy.frp.then2
 import com.ivy.home.Constants.SWIPE_HORIZONTAL_THRESHOLD
 import com.ivy.home.customerjourney.CustomerJourney
 import com.ivy.home.customerjourney.CustomerJourneyCardModel
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.AppBaseData
 import com.ivy.legacy.data.BufferInfo
 import com.ivy.legacy.data.LegacyDueSection
@@ -48,6 +48,7 @@ import com.ivy.legacy.utils.verticalSwipeListener
 import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.ui.theme.modal.BufferModal
@@ -383,8 +384,8 @@ fun HomeLazyColumn(
 @ExperimentalFoundationApi
 @Preview
 @Composable
-private fun BoxWithConstraintsScope.PreviewHomeTab() {
-    IvyPreview {
+private fun BoxWithConstraintsScope.PreviewHomeTab(isDark: Boolean = false) {
+    IvyPreview(isDark) {
         HomeUi(
             uiState = HomeState(
                 theme = Theme.AUTO,
@@ -419,5 +420,18 @@ private fun BoxWithConstraintsScope.PreviewHomeTab() {
             ),
             onEvent = {}
         )
+    }
+}
+
+/** For screenshot testing */
+@OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
+@Composable
+fun HomeUiTest(isDark: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    IvyWalletPreview(theme) {
+        PreviewHomeTab(isDark)
     }
 }
