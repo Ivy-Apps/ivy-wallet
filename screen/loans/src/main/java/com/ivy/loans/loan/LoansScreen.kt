@@ -32,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.base.legacy.Theme
 import com.ivy.data.model.LoanType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -397,7 +398,7 @@ private fun NoLoansEmptyState(
 
 @Preview
 @Composable
-private fun Preview() {
+private fun Preview(theme: Theme = Theme.LIGHT) {
     val state = LoanScreenState(
         baseCurrency = "BGN",
         loans = persistentListOf(
@@ -449,9 +450,19 @@ private fun Preview() {
         selectedAccount = null,
         paidOffLoanVisibility = true
     )
-    IvyWalletPreview {
+    IvyWalletPreview(theme) {
         UI(
             state = state
         ) {}
     }
+}
+
+/** For screenshot testing */
+@Composable
+fun LoanScreenUiTest(isDark: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    Preview(theme)
 }
