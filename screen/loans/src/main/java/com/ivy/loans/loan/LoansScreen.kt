@@ -396,6 +396,9 @@ private fun NoLoansEmptyState(
     }
 }
 
+/** For Preview purpose **/
+private val testDateTime = LocalDateTime.of(2024, 4, 20, 0, 35)
+
 @Preview
 @Composable
 private fun Preview(theme: Theme = Theme.LIGHT) {
@@ -409,7 +412,7 @@ private fun Preview(theme: Theme = Theme.LIGHT) {
                     color = Red.toArgb(),
                     amount = 5000.0,
                     type = LoanType.BORROW,
-                    dateTime = LocalDateTime.now()
+                    dateTime = testDateTime
                 ),
                 loanTotalAmount = 5500.0,
                 amountPaid = 0.0,
@@ -422,7 +425,7 @@ private fun Preview(theme: Theme = Theme.LIGHT) {
                     color = Orange.toArgb(),
                     amount = 252.36,
                     type = LoanType.BORROW,
-                    dateTime = LocalDateTime.now()
+                    dateTime = testDateTime
                 ),
                 loanTotalAmount = 252.36,
                 amountPaid = 124.23,
@@ -435,7 +438,7 @@ private fun Preview(theme: Theme = Theme.LIGHT) {
                     color = Blue.toArgb(),
                     amount = 7000.0,
                     type = LoanType.LEND,
-                    dateTime = LocalDateTime.now()
+                    dateTime = testDateTime
                 ),
                 loanTotalAmount = 7000.0,
                 amountPaid = 8000.0,
@@ -445,7 +448,16 @@ private fun Preview(theme: Theme = Theme.LIGHT) {
         accounts = persistentListOf(),
         totalOweAmount = "1000.00 INR",
         totalOwedAmount = "1500.0 INR",
-        loanModalData = LoanModalData(loan = null, baseCurrency = "INR"),
+        loanModalData = LoanModalData(
+            loan = Loan(
+                name = "",
+                color = Blue.toArgb(),
+                amount = 0.0,
+                type = LoanType.LEND,
+                dateTime = testDateTime
+            ),
+            baseCurrency = "INR"
+        ),
         reorderModalVisible = false,
         selectedAccount = null,
         paidOffLoanVisibility = true

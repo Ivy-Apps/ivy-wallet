@@ -205,7 +205,7 @@ private fun SearchField(
 @Preview
 @Composable
 private fun Preview(theme: Theme = Theme.LIGHT) {
-    IvyWalletPreview {
+    IvyWalletPreview(theme) {
         UI(
             state = RatesState(
                 baseCurrency = "BGN",
