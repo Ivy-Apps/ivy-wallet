@@ -55,7 +55,6 @@ import com.ivy.legacy.utils.formatNicelyWithTime
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.legacy.utils.setStatusBarDarkTextCompat
-import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.loans.loan.data.DisplayLoanRecord
 import com.ivy.loans.loandetails.events.DeleteLoanModalEvent
 import com.ivy.loans.loandetails.events.LoanDetailsScreenEvent
@@ -880,6 +879,9 @@ private fun Preview_Empty() {
     }
 }
 
+/** For Preview purpose **/
+private val testDateTime = LocalDateTime.of(2024, 4, 27, 0, 35)
+
 @Preview
 @Composable
 private fun Preview_Records(theme: Theme = Theme.LIGHT) {
@@ -892,13 +894,13 @@ private fun Preview_Records(theme: Theme = Theme.LIGHT) {
                     amount = 4023.54,
                     color = Red.toArgb(),
                     type = LoanType.LEND,
-                    dateTime = LocalDateTime.now()
+                    dateTime = testDateTime,
                 ),
                 displayLoanRecords = persistentListOf(
                     DisplayLoanRecord(
                         LoanRecord(
                             amount = 123.45,
-                            dateTime = timeNowUTC().minusDays(1),
+                            dateTime = testDateTime.minusDays(1),
                             note = "Cash",
                             loanId = UUID.randomUUID(),
                             loanRecordType = LoanRecordType.INCREASE
@@ -907,7 +909,7 @@ private fun Preview_Records(theme: Theme = Theme.LIGHT) {
                     DisplayLoanRecord(
                         LoanRecord(
                             amount = 0.50,
-                            dateTime = timeNowUTC().minusYears(1),
+                            dateTime = testDateTime.minusYears(1),
                             loanId = UUID.randomUUID(),
                             loanRecordType = LoanRecordType.DECREASE
                         )
@@ -915,7 +917,7 @@ private fun Preview_Records(theme: Theme = Theme.LIGHT) {
                     DisplayLoanRecord(
                         LoanRecord(
                             amount = 1000.00,
-                            dateTime = timeNowUTC().minusMonths(1),
+                            dateTime = testDateTime.minusMonths(1),
                             note = "Revolut",
                             loanId = UUID.randomUUID(),
                             loanRecordType = LoanRecordType.INCREASE

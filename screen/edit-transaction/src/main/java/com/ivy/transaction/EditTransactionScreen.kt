@@ -48,7 +48,6 @@ import com.ivy.legacy.ui.component.tags.AddTagButton
 import com.ivy.legacy.ui.component.tags.ShowTagModal
 import com.ivy.legacy.utils.convertUTCtoLocal
 import com.ivy.legacy.utils.onScreenStart
-import com.ivy.legacy.utils.timeNowLocal
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.IvyPreview
@@ -647,6 +646,9 @@ private fun shouldFocusTitle(
 
 private fun shouldFocusAmount(amount: Double) = amount == 0.0
 
+/** For Preview purpose **/
+private val testDateTime = LocalDateTime.of(2024, 4, 27, 0, 35)
+
 @ExperimentalFoundationApi
 @Preview
 @Composable
@@ -659,7 +661,7 @@ private fun BoxWithConstraintsScope.Preview(isDark: Boolean = false) {
             tags = persistentListOf(),
             transactionAssociatedTags = persistentListOf(),
             baseCurrency = "BGN",
-            dateTime = timeNowLocal(),
+            dateTime = testDateTime,
             description = null,
             category = null,
             account = Account(name = "phyre", Orange.toArgb()),

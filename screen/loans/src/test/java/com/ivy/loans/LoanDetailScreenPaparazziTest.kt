@@ -2,7 +2,6 @@ package com.ivy.loans
 
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
-import com.ivy.loans.loan.LoanScreenUiTest
 import com.ivy.loans.loandetails.LoanDetailScreenUiTest
 import com.ivy.ui.testing.PaparazziScreenshotTest
 import com.ivy.ui.testing.PaparazziTheme
