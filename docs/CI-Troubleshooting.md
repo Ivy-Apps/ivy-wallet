@@ -69,3 +69,17 @@ This GitHub Action checks whether your `@Composable` functions are stable (i.e. 
 ./scripts/composeStabilityBaseline.sh
 ```
 Do that only if the failure is in legacy code. If the script is failing, open it and execute the commands inside it manually.
+
+
+## Paparazzi Tests
+Paparazzi is used for automated visual testing. It captures screenshots of various `@Composable` and then compares them against baseline images to detect any visual differences or regressions.
+
+**Fixing Paparazzi issues:**
+
+1. Run `./gradlew verifyPaparazziDebug` locally to execute the Paparazzi tests and identify the specific screens where failures occur.
+2. Upon failure, the system generates detailed reports pinpointing the changes introduced since the last successful test run. Review these reports to understand the nature of the failures.
+3. If the identified changes are intentional, proceed by running `./gradlew {module_name}:recordPaparazziDebug` to update the baseline screenshots specifically for the failed UI components.
+4. After updating the baseline screenshots, rerun `./gradlew {module_name}:verifyPaparazziDebug` to ensure that the tests now pass with the updated baselines.
+5. Repeat this process iteratively for all modules that have failed Paparazzi tests, ensuring thorough validation and updating of baseline images as needed.
+
+> **Note**: Ensure the use of static data only. Dynamic data, such as current time or date, will cause test failures due to its variability.
