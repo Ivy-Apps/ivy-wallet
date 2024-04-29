@@ -26,6 +26,8 @@ import com.ivy.base.legacy.Theme
 import com.ivy.budgets.model.DisplayBudget
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.legacy.data.model.Month
+import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.datamodel.Budget
 import com.ivy.legacy.legacy.ui.theme.components.BudgetBattery
 import com.ivy.legacy.utils.clickableNoIndication
@@ -383,9 +385,7 @@ private fun Preview_Budgets(theme: Theme) {
     com.ivy.legacy.IvyWalletPreview(theme) {
         UI(
             state = BudgetScreenState(
-                timeRange = com.ivy.legacy.data.model.TimePeriod.currentMonth(
-                    startDayOfMonth = 1
-                ).toRange(1), // preview
+                timeRange = TimePeriod(month = Month.monthsList().first()).toRange(1), // preview
                 baseCurrency = "BGN",
                 categories = persistentListOf(),
                 accounts = persistentListOf(),
