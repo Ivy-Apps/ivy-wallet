@@ -2,7 +2,8 @@
 
 ## 1. Fork the repo
 
-You can do that by clicking this badge: 👉 [![Fork Ivy Wallet](https://img.shields.io/github/forks/Ivy-Apps/ivy-wallet?logo=github&style=social)](https://github.com/Ivy-Apps/ivy-wallet/fork) 👈
+1. Install the git Large File Storage plugin, see [here](https://git-lfs.com/) for instructions.
+2. Create a fork by clicking this badge: 👉 [![Fork Ivy Wallet](https://img.shields.io/github/forks/Ivy-Apps/ivy-wallet?logo=github&style=social)](https://github.com/Ivy-Apps/ivy-wallet/fork) 👈
 
 **[How To Fork Guide by GitHub](https://docs.github.com/en/get-started/quickstart/fork-a-repo)**
 
@@ -33,7 +34,7 @@ For your issue, make a feature branch in your forked ivy-wallet repo.
 
 ### Create a new branch
 
-Open a terminal in your cloned forked ivy-wallet repo and run: 
+Open a terminal in your cloned forked ivy-wallet repo and run:
 ```
 git checkout -b fix-issue-YOUR_ISSUE_NUMBER
 ```
