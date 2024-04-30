@@ -34,7 +34,7 @@ import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
 import com.ivy.wallet.ui.edit.core.Category
-import com.ivy.wallet.ui.edit.core.Description
+import com.ivy.legacy.ui.component.edit.core.Description
 import com.ivy.wallet.ui.edit.core.EditBottomSheet
 import com.ivy.wallet.ui.edit.core.Title
 import com.ivy.wallet.ui.edit.core.Toolbar
