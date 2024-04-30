@@ -158,7 +158,7 @@ private fun AttributionsSectionDivider(
 
 @Preview
 @Composable
-private fun AttributionsUIPreview() {
+private fun AttributionsUIPreview(isDark: Boolean = false) {
     val attributionItems = persistentListOf<AttributionItem>(
         AttributionItem.Divider(sectionName = stringResource(R.string.icons)),
         AttributionItem.Attribution(name = "iconsax", link = "https://iconsax.io"),
@@ -185,7 +185,13 @@ private fun AttributionsUIPreview() {
         )
     )
 
-    IvyPreview {
+    IvyPreview(isDark) {
         AttributionsUI(uiState = AttributionsState(attributionItems))
     }
+}
+
+/** For screenshot testing */
+@Composable
+fun AttributionScreenUiTest(isDark: Boolean) {
+    AttributionsUIPreview(isDark)
 }

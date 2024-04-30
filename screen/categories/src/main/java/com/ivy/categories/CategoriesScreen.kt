@@ -39,7 +39,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ivy.ui.rememberScrollPositionListState
+import com.ivy.base.legacy.Theme
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
@@ -52,6 +52,7 @@ import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.wallet.domain.data.SortOrder
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
@@ -102,8 +103,10 @@ private fun BoxWithConstraintsScope.UI(
     if (!state.categories.isEmpty()) {
         listState = rememberScrollPositionListState(
             key = "categories_lazy_column",
-            initialFirstVisibleItemIndex = ivyContext.categoriesListState?.firstVisibleItemIndex ?: 0,
-            initialFirstVisibleItemScrollOffset = ivyContext.categoriesListState?.firstVisibleItemScrollOffset ?: 0
+            initialFirstVisibleItemIndex = ivyContext.categoriesListState?.firstVisibleItemIndex
+                ?: 0,
+            initialFirstVisibleItemScrollOffset = ivyContext.categoriesListState?.firstVisibleItemScrollOffset
+                ?: 0
         )
     }
     LazyColumn(
@@ -554,8 +557,8 @@ private fun SelectTypeButton(
 
 @Preview
 @Composable
-private fun Preview() {
-    com.ivy.legacy.IvyWalletPreview {
+private fun Preview(theme: Theme = Theme.LIGHT) {
+    com.ivy.legacy.IvyWalletPreview(theme) {
         val state = CategoriesScreenState(
             baseCurrency = "BGN",
             categories = persistentListOf(
@@ -592,7 +595,7 @@ private fun Preview() {
                         id = CategoryId(UUID.randomUUID()),
                         name = NotBlankTrimmedString.unsafe("Ivy"),
                         color = ColorInt(IvyDark.toArgb()),
-                        icon = IconAsset.unsafe("icon"),
+                        icon = IconAsset.unsafe("star"),
                         lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
                         removed = false
@@ -630,8 +633,18 @@ private fun Preview() {
                     monthlyIncome = 400.0
                 ),
 
-            )
+                )
         )
         UI(state = state)
     }
+}
+
+/** For screenshot testing */
+@Composable
+fun CategoriesScreenUiTest(isDark: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    Preview(theme)
 }
