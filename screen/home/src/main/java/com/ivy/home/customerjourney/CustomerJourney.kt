@@ -2,6 +2,7 @@ package com.ivy.home.customerjourney
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,12 +15,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.domain.RootScreen
 import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.rootScreen
 import com.ivy.legacy.utils.drawColoredShadow
@@ -41,24 +44,29 @@ fun CustomerJourney(
 ) {
     val ivyContext = ivyWalletCtx()
     val nav = navigation()
-    val rootScreen = rootScreen()
+    // Check is added for Paparazzi Test where context is different
+    if (LocalContext.current is RootScreen) {
+        val rootScreen = rootScreen()
 
-    if (customerJourneyCards.isNotEmpty()) {
-        Spacer(Modifier.height(12.dp))
-    }
-
-    for (card in customerJourneyCards) {
-        Spacer(Modifier.height(12.dp))
-
-        CustomerJourneyCard(
-            modifier = modifier,
-            cardData = card,
-            onDismiss = {
-                onDismiss(card)
-            }
-        ) {
-            card.onAction(nav, ivyContext, rootScreen)
+        if (customerJourneyCards.isNotEmpty()) {
+            Spacer(Modifier.height(12.dp))
         }
+
+        for (card in customerJourneyCards) {
+            Spacer(Modifier.height(12.dp))
+
+            CustomerJourneyCard(
+                modifier = modifier,
+                cardData = card,
+                onDismiss = {
+                    onDismiss(card)
+                }
+            ) {
+                card.onAction(nav, ivyContext, rootScreen)
+            }
+        }
+    } else {
+        Box(modifier)
     }
 }
 

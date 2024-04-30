@@ -15,4 +15,6 @@ dependencies {
     implementation(projects.temp.legacyCode)
     implementation(projects.temp.oldDesign)
     implementation(projects.widget.addTransaction)
+
+    testImplementation(projects.shared.ui.testing)
 }

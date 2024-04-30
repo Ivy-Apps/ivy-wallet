@@ -32,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.base.legacy.Theme
 import com.ivy.data.model.LoanType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -395,9 +396,12 @@ private fun NoLoansEmptyState(
     }
 }
 
+/** For Preview purpose **/
+private val testDateTime = LocalDateTime.of(2023, 4, 20, 0, 35)
+
 @Preview
 @Composable
-private fun Preview() {
+private fun Preview(theme: Theme = Theme.LIGHT) {
     val state = LoanScreenState(
         baseCurrency = "BGN",
         loans = persistentListOf(
@@ -408,7 +412,7 @@ private fun Preview() {
                     color = Red.toArgb(),
                     amount = 5000.0,
                     type = LoanType.BORROW,
-                    dateTime = LocalDateTime.now()
+                    dateTime = testDateTime
                 ),
                 loanTotalAmount = 5500.0,
                 amountPaid = 0.0,
@@ -421,7 +425,7 @@ private fun Preview() {
                     color = Orange.toArgb(),
                     amount = 252.36,
                     type = LoanType.BORROW,
-                    dateTime = LocalDateTime.now()
+                    dateTime = testDateTime
                 ),
                 loanTotalAmount = 252.36,
                 amountPaid = 124.23,
@@ -434,7 +438,7 @@ private fun Preview() {
                     color = Blue.toArgb(),
                     amount = 7000.0,
                     type = LoanType.LEND,
-                    dateTime = LocalDateTime.now()
+                    dateTime = testDateTime
                 ),
                 loanTotalAmount = 7000.0,
                 amountPaid = 8000.0,
@@ -444,14 +448,33 @@ private fun Preview() {
         accounts = persistentListOf(),
         totalOweAmount = "1000.00 INR",
         totalOwedAmount = "1500.0 INR",
-        loanModalData = LoanModalData(loan = null, baseCurrency = "INR"),
+        loanModalData = LoanModalData(
+            loan = Loan(
+                name = "",
+                color = Blue.toArgb(),
+                amount = 0.0,
+                type = LoanType.LEND,
+                dateTime = testDateTime
+            ),
+            baseCurrency = "INR"
+        ),
         reorderModalVisible = false,
         selectedAccount = null,
         paidOffLoanVisibility = true
     )
-    IvyWalletPreview {
+    IvyWalletPreview(theme) {
         UI(
             state = state
         ) {}
     }
+}
+
+/** For screenshot testing */
+@Composable
+fun LoanScreenUiTest(isDark: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    Preview(theme)
 }

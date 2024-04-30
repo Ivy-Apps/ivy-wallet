@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.base.legacy.Theme
 import com.ivy.base.model.LoanRecordType
 import com.ivy.base.model.TransactionType
 import com.ivy.base.model.processByType
@@ -54,7 +55,6 @@ import com.ivy.legacy.utils.formatNicelyWithTime
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.legacy.utils.setStatusBarDarkTextCompat
-import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.loans.loan.data.DisplayLoanRecord
 import com.ivy.loans.loandetails.events.DeleteLoanModalEvent
 import com.ivy.loans.loandetails.events.LoanDetailsScreenEvent
@@ -879,10 +879,13 @@ private fun Preview_Empty() {
     }
 }
 
+/** For Preview purpose **/
+private val testDateTime = LocalDateTime.of(2023, 4, 27, 0, 35)
+
 @Preview
 @Composable
-private fun Preview_Records() {
-    IvyWalletPreview {
+private fun Preview_Records(theme: Theme = Theme.LIGHT) {
+    IvyWalletPreview(theme) {
         UI(
             LoanDetailsScreenState(
                 baseCurrency = "BGN",
@@ -891,13 +894,13 @@ private fun Preview_Records() {
                     amount = 4023.54,
                     color = Red.toArgb(),
                     type = LoanType.LEND,
-                    dateTime = LocalDateTime.now()
+                    dateTime = testDateTime,
                 ),
                 displayLoanRecords = persistentListOf(
                     DisplayLoanRecord(
                         LoanRecord(
                             amount = 123.45,
-                            dateTime = timeNowUTC().minusDays(1),
+                            dateTime = testDateTime.minusDays(1),
                             note = "Cash",
                             loanId = UUID.randomUUID(),
                             loanRecordType = LoanRecordType.INCREASE
@@ -906,7 +909,7 @@ private fun Preview_Records() {
                     DisplayLoanRecord(
                         LoanRecord(
                             amount = 0.50,
-                            dateTime = timeNowUTC().minusYears(1),
+                            dateTime = testDateTime.minusYears(1),
                             loanId = UUID.randomUUID(),
                             loanRecordType = LoanRecordType.DECREASE
                         )
@@ -914,7 +917,7 @@ private fun Preview_Records() {
                     DisplayLoanRecord(
                         LoanRecord(
                             amount = 1000.00,
-                            dateTime = timeNowUTC().minusMonths(1),
+                            dateTime = testDateTime.minusMonths(1),
                             note = "Revolut",
                             loanId = UUID.randomUUID(),
                             loanRecordType = LoanRecordType.INCREASE
@@ -934,4 +937,14 @@ private fun Preview_Records() {
             )
         ) {}
     }
+}
+
+/** For screenshot testing */
+@Composable
+fun LoanDetailScreenUiTest(isDark: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    Preview_Records(theme)
 }

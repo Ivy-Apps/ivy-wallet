@@ -29,9 +29,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.base.legacy.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.data.model.Month
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.utils.format
 import com.ivy.navigation.BalanceScreen
@@ -238,13 +240,11 @@ private fun ColumnScope.CloseButton() {
 
 @Preview
 @Composable
-private fun Preview() {
-    IvyWalletPreview {
+private fun Preview(theme: Theme = Theme.LIGHT) {
+    IvyWalletPreview(theme) {
         UI(
             state = BalanceState(
-                period = TimePeriod.currentMonth(
-                    startDayOfMonth = 1
-                ),
+                period = TimePeriod(month = Month.monthsList().first()),
                 baseCurrencyCode = "BGN",
                 currentBalance = 9326.55,
                 balanceAfterPlannedPayments = 8426.0,
@@ -252,4 +252,14 @@ private fun Preview() {
             )
         )
     }
+}
+
+/** For screenshot testing */
+@Composable
+fun BalanceScreenUiTest(isDark: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    Preview(theme)
 }
