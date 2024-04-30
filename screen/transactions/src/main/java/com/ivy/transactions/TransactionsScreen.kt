@@ -1,5 +1,6 @@
 package com.ivy.transactions
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
@@ -43,8 +44,10 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.utils.thenIf
 import com.ivy.legacy.Constants
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.AppBaseData
 import com.ivy.legacy.data.LegacyDueSection
+import com.ivy.legacy.data.model.Month
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.ivyWalletCtx
@@ -897,9 +900,7 @@ private fun BoxWithConstraintsScope.Preview_crypto() {
 private fun BoxWithConstraintsScope.Preview_empty_upcoming() {
     IvyPreview {
         UI(
-            period = TimePeriod.currentMonth(
-                startDayOfMonth = 1
-            ), // preview
+            period = TimePeriod(month = Month.monthsList().first(), year = 2023),
             baseCurrency = "BGN",
             currency = "BGN",
 
@@ -937,5 +938,18 @@ private fun BoxWithConstraintsScope.Preview_empty_upcoming() {
             choosePeriodModal = null,
             screen = TransactionsScreen(),
         )
+    }
+}
+
+/** For screenshot testing */
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun TransactionsUiTest(isDark: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    IvyWalletPreview(theme) {
+        Preview_empty_upcoming()
     }
 }
