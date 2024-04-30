@@ -2,6 +2,7 @@ package com.ivy.search
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.base.legacy.stringRes
+import com.ivy.base.legacy.Theme
+import com.ivy.design.utils.IvyComponentPreview
 import com.ivy.legacy.data.AppBaseData
 import com.ivy.legacy.ui.SearchInput
 import com.ivy.legacy.ui.component.transaction.transactions
@@ -78,7 +80,11 @@ private fun SearchUi(
         }
 
         Spacer(Modifier.height(16.dp))
-
+        val emptyStateTitle = stringResource(R.string.no_transactions)
+        val emptyStateText = stringResource(
+            R.string.no_transactions_for_query,
+            searchQueryTextFieldValue.text
+        )
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = listState
@@ -96,11 +102,8 @@ private fun SearchUi(
                 setOverdueExpanded = { },
                 history = uiState.transactions,
                 onPayOrGet = { },
-                emptyStateTitle = stringRes(R.string.no_transactions),
-                emptyStateText = stringRes(
-                    R.string.no_transactions_for_query,
-                    searchQueryTextFieldValue.text
-                ),
+                emptyStateTitle = emptyStateTitle,
+                emptyStateText = emptyStateText,
                 dateDividerMarginTop = 16.dp
             )
 
@@ -122,8 +125,8 @@ private fun SearchUi(
 
 @Preview
 @Composable
-private fun Preview() {
-    IvyPreview {
+private fun Preview(isDark: Boolean = false) {
+    IvyPreview(isDark) {
         SearchUi(
             uiState = SearchState(
                 searchQuery = "Transaction",
@@ -134,5 +137,15 @@ private fun Preview() {
             ),
             onEvent = {}
         )
+    }
+}
+
+/** For screenshot testing */
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun SearchUiTest(isDark: Boolean) {
+    val theme = if (isDark) Theme.DARK else Theme.LIGHT
+    IvyComponentPreview(theme = theme) {
+        Preview(isDark)
     }
 }
