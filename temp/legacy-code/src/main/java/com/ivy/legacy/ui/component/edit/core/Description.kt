@@ -57,9 +57,6 @@ private fun DescriptionText(
 
         Text(
             modifier = Modifier
-                //.clickable {
-                //    onClick()
-                //}
                 .padding(horizontal = 24.dp)
                 .testTag("trn_description"),
             text = description,
