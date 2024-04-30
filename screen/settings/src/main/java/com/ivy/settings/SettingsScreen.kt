@@ -1115,8 +1115,8 @@ private fun SettingsDefaultButton(
 @ExperimentalFoundationApi
 @Preview
 @Composable
-private fun Preview() {
-    IvyWalletPreview {
+private fun Preview(theme: Theme = Theme.LIGHT) {
+    IvyWalletPreview(theme) {
         UI(
             nameLocalAccount = null,
             theme = Theme.AUTO,
@@ -1126,4 +1126,15 @@ private fun Preview() {
             onSetCurrency = {},
         )
     }
+}
+
+/** For screenshot testing */
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun SettingsUiTest(isDark: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    Preview(theme)
 }
