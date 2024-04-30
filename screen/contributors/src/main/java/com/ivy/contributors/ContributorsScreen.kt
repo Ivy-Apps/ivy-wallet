@@ -326,7 +326,10 @@ private fun ContributorCard(contributor: Contributor) {
                 Text(
                     text = when (contributor.contributionsCount.toInt()) {
                         1 -> stringResource(R.string.one_contribution)
-                        else -> stringResource(R.string.contributions_number, contributor.contributionsCount)
+                        else -> stringResource(
+                            R.string.contributions_number,
+                            contributor.contributionsCount
+                        )
                     },
                     style = MaterialTheme.typography.bodySmall
                 )
@@ -355,8 +358,8 @@ private fun GitHubButton(
 
 @Preview
 @Composable
-private fun PreviewSuccess() {
-    IvyPreview {
+private fun PreviewSuccess(isDark: Boolean = false) {
+    IvyPreview(isDark) {
         ContributorsUi(
             uiState = ContributorsState(
                 projectResponse = ProjectResponse.Success(
@@ -408,4 +411,10 @@ private fun PreviewLoading() {
             onEvent = {}
         )
     }
+}
+
+/** For screenshot testing */
+@Composable
+fun ContributorScreenUiTest(isDark: Boolean) {
+    PreviewSuccess(isDark)
 }
