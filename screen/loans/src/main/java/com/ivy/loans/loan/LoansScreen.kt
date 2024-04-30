@@ -397,7 +397,7 @@ private fun NoLoansEmptyState(
 }
 
 /** For Preview purpose **/
-private val testDateTime = LocalDateTime.of(2024, 4, 20, 0, 35)
+private val testDateTime = LocalDateTime.of(2023, 4, 20, 0, 35)
 
 @Preview
 @Composable
