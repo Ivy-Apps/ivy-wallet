@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
 import com.ivy.data.model.Category
@@ -402,8 +403,8 @@ private fun Toolbar(
 @ExperimentalFoundationApi
 @Preview
 @Composable
-private fun Preview() {
-    IvyWalletPreview {
+private fun Preview(theme: Theme = Theme.LIGHT) {
+    IvyWalletPreview(theme) {
         val acc1 = Account("Cash", color = Green.toArgb())
         val acc2 = Account("DSK", color = GreenDark.toArgb())
         val cat1 = Category(
@@ -469,8 +470,8 @@ private fun Preview() {
 @ExperimentalFoundationApi
 @Preview
 @Composable
-private fun Preview_NO_FILTER() {
-    IvyWalletPreview {
+private fun Preview_NO_FILTER(theme: Theme = Theme.LIGHT) {
+    IvyWalletPreview(theme) {
         val acc1 = Account("Cash", color = Green.toArgb())
         val acc2 = Account("DSK", color = GreenDark.toArgb())
         val cat1 = Category(
@@ -533,4 +534,20 @@ private fun Preview_NO_FILTER() {
 
         UI(state = state)
     }
+}
+
+/** For screenshot testing */
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun ReportUiTest(isDark: Boolean) {
+    val theme = if (isDark) Theme.DARK else Theme.LIGHT
+    Preview(theme)
+}
+
+/** For screenshot testing */
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun ReportNoFilterUiTest(isDark: Boolean) {
+    val theme = if (isDark) Theme.DARK else Theme.LIGHT
+    Preview_NO_FILTER(theme)
 }

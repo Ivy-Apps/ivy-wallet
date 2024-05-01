@@ -38,6 +38,7 @@ import com.ivy.legacy.data.AppBaseData
 import com.ivy.legacy.data.BufferInfo
 import com.ivy.legacy.data.LegacyDueSection
 import com.ivy.legacy.data.model.MainTab
+import com.ivy.legacy.data.model.Month
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.ui.component.transaction.TransactionsDividerLine
@@ -413,7 +414,7 @@ private fun BoxWithConstraintsScope.PreviewHomeTab(isDark: Boolean = false) {
                     stats = IncomeExpensePair.zero(),
                     expanded = false,
                 ),
-                period = ivyWalletCtx().selectedPeriod,
+                period = TimePeriod(month = Month.monthsList().first(), year = 2023),
                 hideBalance = false,
                 hideIncome = false,
                 expanded = false
