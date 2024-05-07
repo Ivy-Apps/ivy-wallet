@@ -108,8 +108,8 @@ google-services-plugin = { module = "com.google.gms:google-services", version = 
 google-playservices-auth = { module = "com.google.android.gms:play-services-auth", version = "21.1.1" }
 google-play-core = { module = "com.google.android.play:core", version = "1.10.3" }
 google-play-core-ktx = { module = "com.google.android.play:core-ktx", version = "1.8.1" }
-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version = "19.0.0" }
-firebase-crashlytics-gradle-plugin = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "3.0.0" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version = "18.6.4" }
+firebase-crashlytics-gradle-plugin = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.9" }
 
 # AndroidX
 androidx-security = { module = "androidx.security:security-crypto", version = "1.0.0" }
