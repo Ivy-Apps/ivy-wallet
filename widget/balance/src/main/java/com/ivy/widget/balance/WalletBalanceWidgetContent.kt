@@ -201,3 +201,8 @@ fun ButtonsSection(
         }
     }
 }
+
+// Sort categories alphabetically
+fun sortCategoriesAlphabetically(categories: List<String>): List<String> {
+    return categories.sorted()
+}
