@@ -125,12 +125,15 @@ fun IncomeExpenseSection(
     expense: String,
     currency: String,
 ) {
+    val resources = LocalContext.current.resources
+    val sortedIncomeCategories = sortCategoriesAlphabetically(income.split(", "))
+    val sortedExpenseCategories = sortCategoriesAlphabetically(expense.split(", "))
+
     Row(
         GlanceModifier.fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val resources = LocalContext.current.resources
         Row(
             GlanceModifier
                 .padding(10.dp)
@@ -138,9 +141,9 @@ fun IncomeExpenseSection(
                 .background(ImageProvider(R.drawable.income_shape_widget_background)),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Image(ImageProvider(R.drawable.ic_income_white), resources.getString((R.string.income)))
+            Image(ImageProvider(R.drawable.ic_income_white), resources.getString(R.string.income))
             Text(
-                text = "$income $currency",
+                text = sortedIncomeCategories.joinToString(separator = "\n") { "$it $currency" },
                 style = TextStyle(
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
@@ -161,7 +164,7 @@ fun IncomeExpenseSection(
                 resources.getString(R.string.expense)
             )
             Text(
-                text = "$expense $currency",
+                text = sortedExpenseCategories.joinToString(separator = "\n") { "$it $currency" },
                 style = TextStyle(
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
