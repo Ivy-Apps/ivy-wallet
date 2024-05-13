@@ -154,7 +154,7 @@ class EditTransactionViewModel @Inject constructor(
             }
             accounts.value = getAccounts
 
-            categories.value = categoryRepository.findAll().sortedBy { it.name.value }.toImmutableList()
+            categories.value = categoryRepository.findAll().toImmutableList()
 
             reset()
 
@@ -598,7 +598,7 @@ class EditTransactionViewModel @Inject constructor(
     private fun createCategory(data: CreateCategoryData) {
         viewModelScope.launch {
             categoryCreator.createCategory(data) {
-                categories.value = categoryRepository.findAll().sortedBy { it.name.value }.toImmutableList()
+                categories.value = categoryRepository.findAll().toImmutableList()
 
                 // Select the newly created category
                 onCategoryChanged(it)
@@ -632,7 +632,7 @@ class EditTransactionViewModel @Inject constructor(
     private fun editCategory(updatedCategory: Category) {
         viewModelScope.launch {
             categoryCreator.editCategory(updatedCategory) {
-                categories.value = categoryRepository.findAll().sortedBy { it.name.value }.toImmutableList()
+                categories.value = categoryRepository.findAll().toImmutableList()
             }
         }
     }
