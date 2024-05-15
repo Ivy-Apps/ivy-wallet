@@ -50,7 +50,6 @@ import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.navigation.AttributionsScreen
 import com.ivy.navigation.ContributorsScreen
 import com.ivy.navigation.ExchangeRatesScreen
-import com.ivy.navigation.FeaturesScreen
 import com.ivy.navigation.ImportScreen
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.ReleasesScreen
@@ -294,8 +293,8 @@ private fun BoxWithConstraintsScope.UI(
 //            ) {
 //                nav.navigateTo(FeaturesScreen)
 //            }
-
-            Spacer(Modifier.height(12.dp))
+//
+//            Spacer(Modifier.height(12.dp))
 
             SettingsDefaultButton(
                 icon = R.drawable.ic_currency,
