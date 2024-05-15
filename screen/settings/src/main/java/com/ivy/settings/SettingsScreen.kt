@@ -288,12 +288,12 @@ private fun BoxWithConstraintsScope.UI(
             Spacer(Modifier.height(12.dp))
 
             val nav = navigation()
-            SettingsDefaultButton(
-                icon = R.drawable.ic_custom_atom_m,
-                text = "Features"
-            ) {
-                nav.navigateTo(FeaturesScreen)
-            }
+//            SettingsDefaultButton(
+//                icon = R.drawable.ic_custom_atom_m,
+//                text = "Features"
+//            ) {
+//                nav.navigateTo(FeaturesScreen)
+//            }
 
             Spacer(Modifier.height(12.dp))
 
