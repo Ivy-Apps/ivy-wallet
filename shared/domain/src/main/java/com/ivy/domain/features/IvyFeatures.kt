@@ -16,10 +16,17 @@ class IvyFeatures @Inject constructor() : Features {
         description = "Smaller transactions cards" +
             " so you can fit more on your screen."
     )
+    override val sortCategoriesAlphabetically = BoolFeature(
+        key = "sort_categories_alphabetically",
+        name = "Sort Categories Alphabetically",
+        description = "Sort income and expenses" +
+        " categories alphabetically"
+    )
 
     override val allFeatures: List<BoolFeature>
         get() = listOf(
             homeV2,
             compactTransactions,
+            sortCategoriesAlphabetically
         )
 }
