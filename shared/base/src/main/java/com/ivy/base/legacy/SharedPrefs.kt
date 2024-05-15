@@ -26,7 +26,7 @@ class SharedPrefs @Inject constructor(
         const val HIDE_INCOME = "hide_income"
         const val TRANSFERS_AS_INCOME_EXPENSE = "transfers_as_inc_exp"
         // ----------------------------- App Settings -----------------------------------------------
-        const val SORT_CATEGORIES_ALPHABETICALLY = "sort_categories_alphabetically"
+
         // -------------------------------- Customer Journey ----------------------------------------
         const val _CARD_DISMISSED = "_cj_dismissed"
         // -------------------------------- Customer Journey ----------------------------------------
