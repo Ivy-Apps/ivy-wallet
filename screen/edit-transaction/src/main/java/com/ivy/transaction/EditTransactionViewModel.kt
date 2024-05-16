@@ -24,6 +24,7 @@ import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.repository.TagRepository
 import com.ivy.data.repository.mapper.TagMapper
+import com.ivy.domain.features.Features
 import com.ivy.legacy.data.EditTransactionDisplayLoan
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.toEntity
@@ -67,6 +68,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -99,7 +101,8 @@ class EditTransactionViewModel @Inject constructor(
     private val accountByIdAct: AccountByIdAct,
     private val transactionWriter: WriteTransactionDao,
     private val tagRepository: TagRepository,
-    private val tagMapper: TagMapper
+    private val tagMapper: TagMapper,
+    private val features: Features
 ) : ComposeViewModel<EditTransactionState, EditTransactionEvent>() {
 
     private val transactionType = mutableStateOf(TransactionType.EXPENSE)
@@ -154,7 +157,7 @@ class EditTransactionViewModel @Inject constructor(
             }
             accounts.value = getAccounts
 
-            categories.value = categoryRepository.findAll().toImmutableList()
+            categories.value = sortCategories()
 
             reset()
 
@@ -598,7 +601,7 @@ class EditTransactionViewModel @Inject constructor(
     private fun createCategory(data: CreateCategoryData) {
         viewModelScope.launch {
             categoryCreator.createCategory(data) {
-                categories.value = categoryRepository.findAll().toImmutableList()
+                categories.value = sortCategories()
 
                 // Select the newly created category
                 onCategoryChanged(it)
@@ -632,7 +635,7 @@ class EditTransactionViewModel @Inject constructor(
     private fun editCategory(updatedCategory: Category) {
         viewModelScope.launch {
             categoryCreator.editCategory(updatedCategory) {
-                categories.value = categoryRepository.findAll().toImmutableList()
+                categories.value = sortCategories()
             }
         }
     }
@@ -912,5 +915,18 @@ class EditTransactionViewModel @Inject constructor(
             tagRepository.save(newTag)
             tags.value = tagRepository.findAll().toImmutableList()
         }
+    }
+
+    private suspend fun sortCategories(): ImmutableList<Category> {
+        val categories = categoryRepository.findAll()
+        return if (shouldSortCategoriesAlphabetically()) {
+            categories.sortedBy { it.name.value }.toImmutableList()
+        } else {
+            categories.toImmutableList()
+        }
+    }
+
+    private suspend fun shouldSortCategoriesAlphabetically(): Boolean {
+        return features.sortCategoriesAlphabetically.enabled(context).firstOrNull() ?: false
     }
 }
