@@ -29,12 +29,5 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Verify git lfs
-        run: |
-          chmod +x git-hooks/pre-receive
-          git-hooks/pre-receive
-          git lfs install --local
-          git lfs pull
-
       - name: Run Paparazzi screenshot tests
         run: ./gradlew verifyPaparazziDebug
