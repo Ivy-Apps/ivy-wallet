@@ -13,7 +13,9 @@ import com.ivy.base.legacy.refreshWidget
 import com.ivy.data.backup.BackupDataUseCase
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
+import com.ivy.data.model.ExchangeRate
 import com.ivy.data.model.primitive.AssetCode
+import com.ivy.data.repository.ExchangeRatesRepository
 import com.ivy.domain.RootScreen
 import com.ivy.domain.usecase.exchange.SyncExchangeRatesUseCase
 import com.ivy.domain.usecase.csv.ExportCsvUseCase
@@ -51,6 +53,7 @@ class SettingsViewModel @Inject constructor(
     private val updateSettingsAct: UpdateSettingsAct,
     private val settingsWriter: WriteSettingsDao,
     private val exportCsvUseCase: ExportCsvUseCase,
+    private val exchangeRatesRepo: ExchangeRatesRepository
 ) : ComposeViewModel<SettingsState, SettingsEvent>() {
 
     private val currencyCode = mutableStateOf("")
@@ -63,6 +66,7 @@ class SettingsViewModel @Inject constructor(
     private val treatTransfersAsIncomeExpense = mutableStateOf(false)
     private val startDateOfMonth = mutableIntStateOf(1)
     private val progressState = mutableStateOf(false)
+    private val manualExchangeRates = mutableStateOf(listOf<ExchangeRate>())
 
     @Composable
     override fun uiState(): SettingsState {
@@ -80,7 +84,8 @@ class SettingsViewModel @Inject constructor(
             treatTransfersAsIncomeExpense = getTreatTransfersAsIncomeExpense(),
             startDateOfMonth = getStartDateOfMonth(),
             progressState = getProgressState(),
-            hideIncome = getHideIncome()
+            hideIncome = getHideIncome(),
+            manualExchangeRates = getManualExchangeRates()
         )
     }
 
@@ -94,6 +99,7 @@ class SettingsViewModel @Inject constructor(
         initializeHideIncome()
         initializeTransfersAsIncomeExpense()
         initializeStartDateOfMonth()
+        initializeManualExchangeRates()
     }
 
     private suspend fun initializeCurrency() {
@@ -145,6 +151,10 @@ class SettingsViewModel @Inject constructor(
         startDateOfMonth.intValue = startDayOfMonthAct(Unit)
     }
 
+    private suspend fun initializeManualExchangeRates() {
+        manualExchangeRates.value = exchangeRatesRepo.findAllManuallyOverridden()
+    }
+
     @Composable
     private fun getCurrencyCode(): String {
         return currencyCode.value
@@ -193,6 +203,11 @@ class SettingsViewModel @Inject constructor(
     @Composable
     private fun getProgressState(): Boolean {
         return progressState.value
+    }
+
+    @Composable
+    private fun getManualExchangeRates(): List<ExchangeRate> {
+        return manualExchangeRates.value
     }
 
     override fun onEvent(event: SettingsEvent) {
