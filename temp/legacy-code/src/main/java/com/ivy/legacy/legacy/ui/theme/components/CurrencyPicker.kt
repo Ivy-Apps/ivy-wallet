@@ -43,6 +43,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.ivy.data.model.ExchangeRate
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletComponentPreview
@@ -66,6 +67,7 @@ import java.util.Locale
 fun CurrencyPicker(
     modifier: Modifier = Modifier,
     initialSelectedCurrency: IvyCurrency?,
+    manualExchangeRates: List<ExchangeRate> = listOf(),
     preselectedCurrency: IvyCurrency = IvyCurrency.getDefault(),
 
     includeKeyboardShownInsetSpacer: Boolean,
@@ -122,6 +124,7 @@ fun CurrencyPicker(
         CurrencyList(
             searchQueryLowercase = searchTextFieldValue.text.toLowerCase(Locale.getDefault()),
             selectedCurrency = selectedCurrency,
+            manualExchangeRates = manualExchangeRates,
             lastItemSpacer = if (includeKeyboardShownInsetSpacer) {
                 keyboardShownInsetDp + lastItemSpacer
             } else {
@@ -271,9 +274,17 @@ private fun CurrencyList(
     searchQueryLowercase: String,
     selectedCurrency: IvyCurrency,
     lastItemSpacer: Dp,
+    manualExchangeRates: List<ExchangeRate>,
     onCurrencySelected: (IvyCurrency) -> Unit
 ) {
-    val currencies = IvyCurrency.getAvailable()
+    val manualExchangeRatesToIvyCurrency = manualExchangeRates.map {
+        IvyCurrency(
+            code = it.currency.code,
+            name = "",
+            isCrypto = false
+        )
+    }
+    val currencies = IvyCurrency.getAvailable().plus(manualExchangeRatesToIvyCurrency)
         .filter {
             searchQueryLowercase.isBlank() ||
                 it.code.toLowerCaseLocal().startsWith(searchQueryLowercase) ||
@@ -411,7 +422,8 @@ private fun Preview() {
     IvyWalletComponentPreview {
         CurrencyPicker(
             initialSelectedCurrency = null,
-            includeKeyboardShownInsetSpacer = true
+            includeKeyboardShownInsetSpacer = true,
+            manualExchangeRates = listOf()
         ) {
         }
     }

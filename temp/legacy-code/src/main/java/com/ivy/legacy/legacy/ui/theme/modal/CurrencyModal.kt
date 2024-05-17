@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.data.model.ExchangeRate
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
@@ -35,6 +36,7 @@ fun BoxWithConstraintsScope.CurrencyModal(
     visible: Boolean,
     dismiss: () -> Unit,
     id: UUID = UUID.randomUUID(),
+    manualExchangeRates: List<ExchangeRate> = listOf(),
 
     onSetCurrency: (String) -> Unit
 ) {
@@ -89,6 +91,7 @@ fun BoxWithConstraintsScope.CurrencyModal(
             modifier = Modifier
                 .weight(1f),
             initialSelectedCurrency = currency,
+            manualExchangeRates = manualExchangeRates,
 
             includeKeyboardShownInsetSpacer = false,
             lastItemSpacer = 120.dp,
