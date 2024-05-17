@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ivy.base.legacy.Theme
+import com.ivy.data.model.ExchangeRate
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IconScale
@@ -95,6 +96,7 @@ fun BoxWithConstraintsScope.SettingsScreen() {
         treatTransfersAsIncomeExpense = uiState.treatTransfersAsIncomeExpense,
         nameLocalAccount = uiState.name,
         startDateOfMonth = uiState.startDateOfMonth.toInt(),
+        manualExchangeRates = uiState.manualExchangeRates,
         onSetCurrency = {
             viewModel.onEvent(SettingsEvent.SetCurrency(it))
         },
@@ -143,6 +145,7 @@ private fun BoxWithConstraintsScope.UI(
     lockApp: Boolean,
     nameLocalAccount: String?,
     onSetCurrency: (String) -> Unit,
+    manualExchangeRates: List<ExchangeRate>,
     startDateOfMonth: Int = 1,
     showNotifications: Boolean = true,
     hideCurrentBalance: Boolean = false,
@@ -478,6 +481,7 @@ private fun BoxWithConstraintsScope.UI(
     CurrencyModal(
         title = stringResource(R.string.set_currency),
         initialCurrency = IvyCurrency.fromCode(currencyCode),
+        manualExchangeRates = manualExchangeRates,
         visible = currencyModalVisible,
         dismiss = { currencyModalVisible = false }
     ) {
@@ -1124,6 +1128,7 @@ private fun Preview(theme: Theme = Theme.LIGHT) {
             lockApp = false,
             currencyCode = "BGN",
             onSetCurrency = {},
+            manualExchangeRates = listOf()
         )
     }
 }
