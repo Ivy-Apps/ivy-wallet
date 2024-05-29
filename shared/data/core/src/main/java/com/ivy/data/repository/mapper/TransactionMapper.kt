@@ -68,7 +68,8 @@ class TransactionMapper @Inject constructor(
                     metadata = metadata,
                     lastUpdated = Instant.EPOCH,
                     removed = isDeleted,
-                    tags = tags
+                    tags = tags,
+                    paidForDateTime = paidForDateTime
                 )
             }
 
@@ -85,7 +86,8 @@ class TransactionMapper @Inject constructor(
                     metadata = metadata,
                     lastUpdated = Instant.EPOCH,
                     removed = isDeleted,
-                    tags = tags
+                    tags = tags,
+                    paidForDateTime = paidForDateTime
                 )
             }
 
@@ -124,7 +126,8 @@ class TransactionMapper @Inject constructor(
                     fromValue = fromValue,
                     toAccount = toAccountId,
                     toValue = toValue,
-                    tags = tags
+                    tags = tags,
+                    paidForDateTime = paidForDateTime
                 )
             }
         }
@@ -161,6 +164,7 @@ class TransactionMapper @Inject constructor(
             dateTime = dateTime.takeIf { settled },
             categoryId = category?.value,
             dueDate = dateTime.takeIf { !settled },
+            paidForDateTime = paidForDateTime,
             recurringRuleId = metadata.recurringRuleId,
             attachmentUrl = null,
             loanId = metadata.loanId,

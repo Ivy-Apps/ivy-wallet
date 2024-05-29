@@ -4,6 +4,7 @@ import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.sync.Syncable
 import com.ivy.data.model.sync.UniqueId
 import java.time.Instant
+import java.time.LocalDateTime
 import java.util.UUID
 
 @JvmInline
@@ -15,6 +16,7 @@ sealed interface Transaction : Syncable<TransactionId> {
     val description: NotBlankTrimmedString?
     val category: CategoryId?
     val time: Instant
+    val paidForDateTime : LocalDateTime?
     val settled: Boolean
     val metadata: TransactionMetadata
 
@@ -29,6 +31,7 @@ data class Income(
     override val category: CategoryId?,
     override val time: Instant,
     override val settled: Boolean,
+    override val paidForDateTime: LocalDateTime?,
     override val metadata: TransactionMetadata,
     override val lastUpdated: Instant,
     override val removed: Boolean,
@@ -44,6 +47,7 @@ data class Expense(
     override val category: CategoryId?,
     override val time: Instant,
     override val settled: Boolean,
+    override val paidForDateTime: LocalDateTime?,
     override val metadata: TransactionMetadata,
     override val lastUpdated: Instant,
     override val removed: Boolean,
@@ -60,6 +64,7 @@ data class Transfer(
     override val time: Instant,
     override val settled: Boolean,
     override val metadata: TransactionMetadata,
+    override val paidForDateTime: LocalDateTime?,
     override val lastUpdated: Instant,
     override val removed: Boolean,
     override val tags: List<TagId>,

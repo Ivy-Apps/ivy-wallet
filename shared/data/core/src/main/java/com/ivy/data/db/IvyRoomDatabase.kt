@@ -41,6 +41,7 @@ import com.ivy.data.db.entity.UserEntity
 import com.ivy.data.db.migration.Migration123to124_LoanIncludeDateTime
 import com.ivy.data.db.migration.Migration124to125_LoanEditDateTime
 import com.ivy.data.db.migration.Migration126to127_LoanRecordType
+import com.ivy.data.db.migration.Migration127to128_PaidForDateRecord
 import com.ivy.domain.db.RoomTypeConverters
 import com.ivy.domain.db.migration.Migration105to106_TrnRecurringRules
 import com.ivy.domain.db.migration.Migration106to107_Wishlist
@@ -75,7 +76,7 @@ import com.ivy.domain.db.migration.Migration125to126_Tags
             spec = IvyRoomDatabase.DeleteSEMigration::class
         )
     ],
-    version = 127,
+    version = 128,
     exportSchema = true
 )
 @TypeConverters(RoomTypeConverters::class)
@@ -129,7 +130,8 @@ abstract class IvyRoomDatabase : RoomDatabase() {
             Migration123to124_LoanIncludeDateTime(),
             Migration124to125_LoanEditDateTime(),
             Migration125to126_Tags(),
-            Migration126to127_LoanRecordType()
+            Migration126to127_LoanRecordType(),
+            Migration127to128_PaidForDateRecord()
         )
 
         @Suppress("SpreadOperator")

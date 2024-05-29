@@ -112,6 +112,7 @@ class EditTransactionViewModel @Inject constructor(
     private val description = mutableStateOf<String?>(null)
     private val dateTime = mutableStateOf<LocalDateTime?>(null)
     private val dueDate = mutableStateOf<LocalDateTime?>(null)
+    private val paidHistory = mutableStateOf<LocalDateTime?>(null)
     private val date = MutableStateFlow<LocalDate?>(null)
     private val time = MutableStateFlow<LocalTime?>(null)
     private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
@@ -372,6 +373,7 @@ class EditTransactionViewModel @Inject constructor(
         dateTime.value = transaction.dateTime
         description.value = transaction.description
         dueDate.value = transaction.dueDate
+        paidHistory.value = transaction.paidHistory
         val selectedAccount = accountByIdAct(transaction.accountId)!!
         account.value = selectedAccount
         toAccount.value = transaction.toAccountId?.let {
@@ -577,6 +579,7 @@ class EditTransactionViewModel @Inject constructor(
                 syncTransaction = false
             ) { paidTransaction ->
                 loadedTransaction = paidTransaction
+                paidHistory.value = paidTransaction.paidHistory
                 dueDate.value = paidTransaction.dueDate
                 dateTime.value = paidTransaction.dateTime
 
@@ -673,6 +676,7 @@ class EditTransactionViewModel @Inject constructor(
                     amount = amount,
                     type = transactionType.value,
                     dueDate = dueDate.value,
+                    paidHistory = paidHistory.value,
                     dateTime = when {
                         loadedTransaction().dateTime == null &&
                                 dueDate.value == null -> {

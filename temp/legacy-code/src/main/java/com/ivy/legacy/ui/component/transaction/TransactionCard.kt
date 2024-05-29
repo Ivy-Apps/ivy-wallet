@@ -45,6 +45,7 @@ import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.AppBaseData
 import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.utils.capitalizeLocal
 import com.ivy.legacy.utils.dateNowUTC
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.formatNicely
@@ -145,6 +146,7 @@ fun TransactionCard(
             )
         }
 
+
         if (transaction.title.isNotNullOrBlank()) {
             Spacer(
                 Modifier.height(
@@ -162,24 +164,35 @@ fun TransactionCard(
             )
         }
 
-        if (transaction.description.isNotNullOrBlank()) {
-            Spacer(
-                Modifier.height(
-                    if (transaction.title.isNotNullOrBlank()) 4.dp else 8.dp
-                )
+        // description code
+        val textToShow = when {
+            transaction.description.isNotNullOrBlank() -> transaction.description
+            // this condition is to ensure that transaction was recurring
+            transaction.recurringRuleId != null && transaction.dueDate == null -> stringResource(
+                R.string.bill_paid,
+                transaction.paidHistory?.month?.name?.lowercase()?.capitalizeLocal() ?: "",
+                transaction.paidHistory?.year ?: ""
             )
 
-            Text(
-                text = transaction.description!!,
-                modifier = Modifier.padding(horizontal = 24.dp),
-                style = UI.typo.nC.style(
-                    color = UI.colors.gray,
-                    fontWeight = FontWeight.Bold
-                ),
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis
-            )
+            else -> null
         }
+
+        Spacer(
+            Modifier.height(
+                if (transaction.title.isNotNullOrBlank()) 12.dp else 8.dp
+            )
+        )
+
+        Text(
+            text = textToShow ?: "",
+            modifier = Modifier.padding(horizontal = 24.dp),
+            style = UI.typo.nC.style(
+                color = UI.colors.gray,
+                fontWeight = FontWeight.Bold
+            ),
+            maxLines = 3,
+            overflow = TextOverflow.Ellipsis
+        )
 
         if (transaction.dueDate != null) {
             Spacer(Modifier.height(12.dp))
