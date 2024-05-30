@@ -16,7 +16,6 @@ sealed interface Transaction : Syncable<TransactionId> {
     val description: NotBlankTrimmedString?
     val category: CategoryId?
     val time: Instant
-    val paidForDateTime : LocalDateTime?
     val settled: Boolean
     val metadata: TransactionMetadata
 
@@ -31,7 +30,6 @@ data class Income(
     override val category: CategoryId?,
     override val time: Instant,
     override val settled: Boolean,
-    override val paidForDateTime: LocalDateTime?,
     override val metadata: TransactionMetadata,
     override val lastUpdated: Instant,
     override val removed: Boolean,
@@ -47,7 +45,6 @@ data class Expense(
     override val category: CategoryId?,
     override val time: Instant,
     override val settled: Boolean,
-    override val paidForDateTime: LocalDateTime?,
     override val metadata: TransactionMetadata,
     override val lastUpdated: Instant,
     override val removed: Boolean,
@@ -64,7 +61,6 @@ data class Transfer(
     override val time: Instant,
     override val settled: Boolean,
     override val metadata: TransactionMetadata,
-    override val paidForDateTime: LocalDateTime?,
     override val lastUpdated: Instant,
     override val removed: Boolean,
     override val tags: List<TagId>,
@@ -77,6 +73,7 @@ data class Transfer(
 @Suppress("DataClassTypedIDs")
 data class TransactionMetadata(
     val recurringRuleId: UUID?,
+    val paidForDateTime : Instant?,
     // This refers to the loan id that is linked with a transaction
     val loanId: UUID? = null,
     // This refers to the loan record id that is linked with a transaction

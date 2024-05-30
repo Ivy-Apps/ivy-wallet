@@ -170,8 +170,8 @@ fun TransactionCard(
             // this condition is to ensure that transaction was recurring
             transaction.recurringRuleId != null && transaction.dueDate == null -> stringResource(
                 R.string.bill_paid,
-                transaction.paidHistory?.month?.name?.lowercase()?.capitalizeLocal() ?: "",
-                transaction.paidHistory?.year ?: ""
+                transaction.paidFor?.month?.name?.lowercase()?.capitalizeLocal() ?: "",
+                transaction.paidFor?.year ?: ""
             )
 
             else -> null

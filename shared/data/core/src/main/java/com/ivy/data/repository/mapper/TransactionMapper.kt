@@ -35,6 +35,7 @@ class TransactionMapper @Inject constructor(
     ): Either<String, Transaction> = either {
         val metadata = TransactionMetadata(
             recurringRuleId = recurringRuleId,
+            paidForDateTime = paidForDateTime?.atZone(timeProvider.getZoneId())?.toInstant(),
             loanId = loanId,
             loanRecordId = loanRecordId
         )
@@ -69,7 +70,6 @@ class TransactionMapper @Inject constructor(
                     lastUpdated = Instant.EPOCH,
                     removed = isDeleted,
                     tags = tags,
-                    paidForDateTime = paidForDateTime
                 )
             }
 
@@ -87,7 +87,6 @@ class TransactionMapper @Inject constructor(
                     lastUpdated = Instant.EPOCH,
                     removed = isDeleted,
                     tags = tags,
-                    paidForDateTime = paidForDateTime
                 )
             }
 
@@ -127,7 +126,6 @@ class TransactionMapper @Inject constructor(
                     toAccount = toAccountId,
                     toValue = toValue,
                     tags = tags,
-                    paidForDateTime = paidForDateTime
                 )
             }
         }
@@ -164,7 +162,7 @@ class TransactionMapper @Inject constructor(
             dateTime = dateTime.takeIf { settled },
             categoryId = category?.value,
             dueDate = dateTime.takeIf { !settled },
-            paidForDateTime = paidForDateTime,
+            paidForDateTime = metadata.paidForDateTime?.atZone(timeProvider.getZoneId())?.toLocalDateTime(),
             recurringRuleId = metadata.recurringRuleId,
             attachmentUrl = null,
             loanId = metadata.loanId,

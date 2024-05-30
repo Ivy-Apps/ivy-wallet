@@ -374,7 +374,7 @@ class EditTransactionViewModel @Inject constructor(
         dateTime.value = transaction.dateTime
         description.value = transaction.description
         dueDate.value = transaction.dueDate
-        paidHistory.value = transaction.paidHistory
+        paidHistory.value = transaction.paidFor
         val selectedAccount = accountByIdAct(transaction.accountId)!!
         account.value = selectedAccount
         toAccount.value = transaction.toAccountId?.let {
@@ -580,7 +580,7 @@ class EditTransactionViewModel @Inject constructor(
                 syncTransaction = false
             ) { paidTransaction ->
                 loadedTransaction = paidTransaction
-                paidHistory.value = paidTransaction.paidHistory
+                paidHistory.value = paidTransaction.paidFor
                 dueDate.value = paidTransaction.dueDate
                 dateTime.value = paidTransaction.dateTime
 
@@ -677,7 +677,7 @@ class EditTransactionViewModel @Inject constructor(
                     amount = amount,
                     type = transactionType.value,
                     dueDate = dueDate.value,
-                    paidHistory = paidHistory.value,
+                    paidFor = paidHistory.value,
                     dateTime = when {
                         loadedTransaction().dateTime == null &&
                                 dueDate.value == null -> {

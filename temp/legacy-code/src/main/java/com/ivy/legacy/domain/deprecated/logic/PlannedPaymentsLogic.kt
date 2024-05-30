@@ -165,7 +165,7 @@ class PlannedPaymentsLogic @Inject constructor(
         if (transaction.dueDate == null || transaction.dateTime != null) return
 
         val paidTransaction = transaction.copy(
-            paidHistory = transaction.dueDate,
+            paidFor = transaction.dueDate,
             dueDate = null,
             dateTime = timeNowUTC(),
             isSynced = false,
