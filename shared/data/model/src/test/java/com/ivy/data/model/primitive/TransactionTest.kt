@@ -139,6 +139,7 @@ class TransactionTest {
             metadata = TransactionMetadata(
                 recurringRuleId = null,
                 loanId = null,
+                paidForDateTime = null,
                 loanRecordId = null
             ),
             lastUpdated = Instant.EPOCH,
@@ -161,6 +162,7 @@ class TransactionTest {
             metadata = TransactionMetadata(
                 recurringRuleId = null,
                 loanId = null,
+                paidForDateTime = null,
                 loanRecordId = null
             ),
             lastUpdated = Instant.EPOCH,
@@ -183,6 +185,7 @@ class TransactionTest {
             metadata = TransactionMetadata(
                 recurringRuleId = null,
                 loanId = null,
+                paidForDateTime = null,
                 loanRecordId = null
             ),
             lastUpdated = Instant.EPOCH,

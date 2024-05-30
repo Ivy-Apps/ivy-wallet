@@ -11,6 +11,7 @@ import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 import java.util.*
 
+@Suppress("DataClassDefaultValues")
 @Keep
 @Serializable
 @Entity(tableName = "transactions")
@@ -45,7 +46,7 @@ data class TransactionEntity(
     val recurringRuleId: UUID? = null,
     @SerialName("paidForDateTime")
     @Serializable(with = KSerializerLocalDateTime::class)
-    val paidForDateTime: LocalDateTime?,
+    val paidForDateTime: LocalDateTime? = null,
     @SerialName("attachmentUrl")
     val attachmentUrl: String? = null,
     // This refers to the loan id that is linked with a transaction
