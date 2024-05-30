@@ -30,6 +30,7 @@ import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.computationThread
+import com.ivy.legacy.utils.convertUTCToLocal
 import com.ivy.legacy.utils.dateNowLocal
 import com.ivy.legacy.utils.getTrueDate
 import com.ivy.legacy.utils.ioThread
@@ -552,7 +553,7 @@ class EditTransactionViewModel @Inject constructor(
 
     fun onSetTime(newTime: LocalTime) {
         loadedTransaction = loadedTransaction().copy(
-            time = newTime
+            time = newTime.convertUTCToLocal()
         )
         time.value = newTime
         onSetDateTime(
