@@ -4,7 +4,6 @@ import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.sync.Syncable
 import com.ivy.data.model.sync.UniqueId
 import java.time.Instant
-import java.time.LocalDateTime
 import java.util.UUID
 
 @JvmInline
@@ -73,7 +72,7 @@ data class Transfer(
 @Suppress("DataClassTypedIDs")
 data class TransactionMetadata(
     val recurringRuleId: UUID?,
-    val paidForDateTime : Instant?,
+    val paidForDateTime: Instant?,
     // This refers to the loan id that is linked with a transaction
     val loanId: UUID? = null,
     // This refers to the loan record id that is linked with a transaction

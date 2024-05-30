@@ -146,7 +146,6 @@ fun TransactionCard(
             )
         }
 
-
         if (transaction.title.isNotNullOrBlank()) {
             Spacer(
                 Modifier.height(
@@ -165,17 +164,7 @@ fun TransactionCard(
         }
 
         // description code
-        val textToShow = when {
-            transaction.description.isNotNullOrBlank() -> transaction.description
-            // this condition is to ensure that transaction was recurring
-            transaction.recurringRuleId != null && transaction.dueDate == null -> stringResource(
-                R.string.bill_paid,
-                transaction.paidFor?.month?.name?.lowercase()?.capitalizeLocal() ?: "",
-                transaction.paidFor?.year ?: ""
-            )
-
-            else -> null
-        }
+        val textToShow = getDescriptionText(transaction = transaction)
 
         Spacer(
             Modifier.height(
@@ -184,7 +173,7 @@ fun TransactionCard(
         )
 
         Text(
-            text = textToShow ?: "",
+            text = textToShow,
             modifier = Modifier.padding(horizontal = 24.dp),
             style = UI.typo.nC.style(
                 color = UI.colors.gray,
@@ -569,6 +558,20 @@ fun TypeAmountCurrency(
 
         Spacer(Modifier.width(24.dp))
     }
+}
+
+@Composable
+fun getDescriptionText(transaction: Transaction): String {
+    return when {
+        transaction.description.isNotNullOrBlank() -> transaction.description
+        // this condition is to ensure that transaction was recurring
+        transaction.recurringRuleId != null && transaction.dueDate == null -> stringResource(
+            R.string.bill_paid,
+            transaction.paidFor?.month?.name?.lowercase()?.capitalizeLocal() ?: "",
+            transaction.paidFor?.year ?: ""
+        )
+        else -> null
+    } ?: ""
 }
 
 private data class AmountTypeStyle(

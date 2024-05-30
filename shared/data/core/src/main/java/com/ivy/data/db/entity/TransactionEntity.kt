@@ -45,7 +45,7 @@ data class TransactionEntity(
     val recurringRuleId: UUID? = null,
     @SerialName("paidForDateTime")
     @Serializable(with = KSerializerLocalDateTime::class)
-    val paidForDateTime: LocalDateTime? = null,
+    val paidForDateTime: LocalDateTime?,
     @SerialName("attachmentUrl")
     val attachmentUrl: String? = null,
     // This refers to the loan id that is linked with a transaction

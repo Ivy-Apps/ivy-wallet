@@ -29,7 +29,11 @@ data class Transaction(
     val date: LocalDate? = null,
     val time: LocalTime? = null,
     val recurringRuleId: UUID? = null,
-    val paidFor : LocalDateTime? = null,/** to store the date for which the payment was made. */
+
+    /** to store the date for which the payment was made. */
+    @Suppress("DataClassDefaultValues")
+    val paidFor: LocalDateTime? = null,
+
     val attachmentUrl: String? = null,
 
     // This refers to the loan id that is linked with a transaction

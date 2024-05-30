@@ -47,6 +47,7 @@ fun Arb.Companion.income(
         metadata = TransactionMetadata(
             recurringRuleId = null,
             loanId = null,
+            paidForDateTime = null,
             loanRecordId = null
         ),
         lastUpdated = Instant.EPOCH,
@@ -77,6 +78,7 @@ fun Arb.Companion.expense(
         metadata = TransactionMetadata(
             recurringRuleId = null,
             loanId = null,
+            paidForDateTime = null,
             loanRecordId = null
         ),
         lastUpdated = Instant.EPOCH,
@@ -111,6 +113,7 @@ fun Arb.Companion.transfer(
         metadata = TransactionMetadata(
             recurringRuleId = null,
             loanId = null,
+            paidForDateTime = null,
             loanRecordId = null
         ),
         lastUpdated = Instant.EPOCH,
