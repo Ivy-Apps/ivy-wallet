@@ -164,7 +164,12 @@ fun TransactionCard(
         }
 
         // description code
-        val textToShow = getDescriptionText(transaction = transaction)
+        val textToShow = getDescriptionText(
+            description = transaction.description,
+            recurringRuleId = transaction.recurringRuleId,
+            dueDate = transaction.dueDate,
+            paidFor = transaction.paidFor
+        )
 
         Spacer(
             Modifier.height(
@@ -561,14 +566,18 @@ fun TypeAmountCurrency(
 }
 
 @Composable
-fun getDescriptionText(transaction: Transaction): String {
+fun getDescriptionText(
+    description: String?,
+    recurringRuleId: UUID?,
+    dueDate: LocalDateTime?,
+    paidFor: LocalDateTime?
+): String {
     return when {
-        transaction.description.isNotNullOrBlank() -> transaction.description
-        // this condition is to ensure that transaction was recurring
-        transaction.recurringRuleId != null && transaction.dueDate == null -> stringResource(
+        description.isNotNullOrBlank() -> description!!
+        recurringRuleId != null && dueDate == null -> stringResource(
             R.string.bill_paid,
-            transaction.paidFor?.month?.name?.lowercase()?.capitalizeLocal() ?: "",
-            transaction.paidFor?.year ?: ""
+            paidFor?.month?.name?.lowercase()?.capitalizeLocal() ?: "",
+            paidFor?.year ?: ""
         )
         else -> null
     } ?: ""
