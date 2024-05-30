@@ -163,14 +163,6 @@ fun TransactionCard(
             )
         }
 
-        // description code
-        val textToShow = getDescriptionText(
-            description = transaction.description,
-            recurringRuleId = transaction.recurringRuleId,
-            dueDate = transaction.dueDate,
-            paidFor = transaction.paidFor
-        )
-
         Spacer(
             Modifier.height(
                 if (transaction.title.isNotNullOrBlank()) 12.dp else 8.dp
@@ -178,7 +170,7 @@ fun TransactionCard(
         )
 
         Text(
-            text = textToShow,
+            text = getTextToShow(transaction),
             modifier = Modifier.padding(horizontal = 24.dp),
             style = UI.typo.nC.style(
                 color = UI.colors.gray,
@@ -375,6 +367,19 @@ fun CategoryBadgeDisplay(
 }
 
 @Composable
+private fun getTextToShow(transaction: Transaction): String {
+    return when {
+        transaction.description.isNotNullOrBlank() -> transaction.description!!
+        transaction.recurringRuleId != null && transaction.dueDate == null -> stringResource(
+            R.string.bill_paid,
+            transaction.paidFor?.month?.name?.lowercase()?.capitalizeLocal() ?: "",
+            transaction.paidFor?.year ?: ""
+        )
+        else -> ""
+    }
+}
+
+@Composable
 private fun TransactionBadge(
     text: String,
     backgroundColor: Color,
@@ -563,24 +568,6 @@ fun TypeAmountCurrency(
 
         Spacer(Modifier.width(24.dp))
     }
-}
-
-@Composable
-fun getDescriptionText(
-    description: String?,
-    recurringRuleId: UUID?,
-    dueDate: LocalDateTime?,
-    paidFor: LocalDateTime?
-): String {
-    return when {
-        description.isNotNullOrBlank() -> description!!
-        recurringRuleId != null && dueDate == null -> stringResource(
-            R.string.bill_paid,
-            paidFor?.month?.name?.lowercase()?.capitalizeLocal() ?: "",
-            paidFor?.year ?: ""
-        )
-        else -> null
-    } ?: ""
 }
 
 private data class AmountTypeStyle(
