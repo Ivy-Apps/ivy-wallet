@@ -14,6 +14,7 @@ com.ivy.design.utils.keyboardVisibleState
 com.ivy.legacy.ivyWalletCtx
 com.ivy.legacy.rootView
 com.ivy.legacy.rootActivity
+com.ivy.legacy.ui.component.transaction.getTransactionDescription
 com.ivy.legacy.rootScreen
 com.ivy.frp.view.FRP
 com.ivy.wallet.ui.theme.pureBlur

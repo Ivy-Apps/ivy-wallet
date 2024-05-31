@@ -15,6 +15,7 @@ fun Transaction.toEntity(): TransactionEntity = TransactionEntity(
     categoryId = categoryId,
     dueDate = dueDate,
     recurringRuleId = recurringRuleId,
+    paidForDateTime = paidFor,
     attachmentUrl = attachmentUrl,
     loanId = loanId,
     loanRecordId = loanRecordId,

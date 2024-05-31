@@ -86,7 +86,6 @@ class PlannedPaymentsGenerator @Inject constructor(
                 dueDate = dueDate,
                 dateTime = null,
                 toAccountId = null,
-
                 isSynced = false
             ).toEntity()
         )

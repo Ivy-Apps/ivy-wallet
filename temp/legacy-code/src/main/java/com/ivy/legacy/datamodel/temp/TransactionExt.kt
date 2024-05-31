@@ -28,6 +28,7 @@ fun TransactionEntity.toLegacyDomain(
     categoryId = categoryId,
     dueDate = dueDate,
     recurringRuleId = recurringRuleId,
+    paidFor = paidForDateTime,
     attachmentUrl = attachmentUrl,
     loanId = loanId,
     loanRecordId = loanRecordId,

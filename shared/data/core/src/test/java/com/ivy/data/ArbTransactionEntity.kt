@@ -74,6 +74,9 @@ fun Arb.Companion.validTransfer(): Arb<TransactionEntity> = arbitrary {
         dueDate = Arb.localDateTime().bind().takeIf {
             isPlannedPayment || Arb.boolean().bind()
         },
+        paidForDateTime = Arb.localDateTime().bind().takeIf {
+            !isPlannedPayment || Arb.boolean().bind()
+        },
         categoryId = Arb.maybe(Arb.uuid()).bind(),
         recurringRuleId = Arb.maybe(Arb.uuid()).bind(),
         attachmentUrl = Arb.maybe(Arb.string()).bind(),
@@ -127,6 +130,9 @@ fun Arb.Companion.validIncomeOrExpense(): Arb<TransactionEntity> = arbitrary {
         },
         dueDate = Arb.localDateTime().bind().takeIf {
             isPlannedPayment || Arb.boolean().bind()
+        },
+        paidForDateTime = Arb.localDateTime().bind().takeIf {
+            !isPlannedPayment || Arb.boolean().bind()
         },
         categoryId = Arb.maybe(Arb.uuid()).bind(),
         recurringRuleId = Arb.maybe(Arb.uuid()).bind(),

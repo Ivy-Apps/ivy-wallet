@@ -45,6 +45,7 @@ import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.AppBaseData
 import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.utils.capitalizeLocal
 import com.ivy.legacy.utils.dateNowUTC
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.formatNicely
@@ -117,6 +118,8 @@ fun TransactionCard(
             baseData.accounts.find { it.id == transaction.toAccountId }?.currency
                 ?: baseData.baseCurrency
 
+        val transactionDescription = getTransactionDescription(transaction)
+
         Spacer(Modifier.height(20.dp))
 
         TransactionHeaderRow(
@@ -162,7 +165,7 @@ fun TransactionCard(
             )
         }
 
-        if (transaction.description.isNotNullOrBlank()) {
+        if (transactionDescription.isNotNullOrBlank()) {
             Spacer(
                 Modifier.height(
                     if (transaction.title.isNotNullOrBlank()) 4.dp else 8.dp
@@ -170,7 +173,7 @@ fun TransactionCard(
             )
 
             Text(
-                text = transaction.description!!,
+                text = transactionDescription!!,
                 modifier = Modifier.padding(horizontal = 24.dp),
                 style = UI.typo.nC.style(
                     color = UI.colors.gray,
@@ -364,6 +367,19 @@ fun CategoryBadgeDisplay(
                 categoryId = category.id.value
             )
         )
+    }
+}
+
+@Composable
+private fun getTransactionDescription(transaction: Transaction): String? {
+    return when {
+        transaction.description.isNotNullOrBlank() -> transaction.description!!
+        transaction.recurringRuleId != null && transaction.dueDate == null -> stringResource(
+            R.string.bill_paid,
+            transaction.paidFor?.month?.name?.lowercase()?.capitalizeLocal() ?: "",
+            transaction.paidFor?.year ?: ""
+        )
+        else -> null
     }
 }
 

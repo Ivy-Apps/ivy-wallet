@@ -74,6 +74,7 @@ class TransactionMapperTest {
             metadata = TransactionMetadata(
                 recurringRuleId = RecurringRuleId,
                 loanId = LoanId,
+                paidForDateTime = PaidForDateTime,
                 loanRecordId = LoanRecordId
             ),
             lastUpdated = InstantNow,
@@ -102,6 +103,7 @@ class TransactionMapperTest {
             dateTime = dateTime.takeIf { settled },
             categoryId = CategoryId.value,
             dueDate = dateTime.takeIf { !settled },
+            paidForDateTime = PaidForDateTime.atZone(timeProvider.getZoneId()).toLocalDateTime(),
             recurringRuleId = RecurringRuleId,
             attachmentUrl = null,
             loanId = LoanId,
@@ -128,6 +130,7 @@ class TransactionMapperTest {
             metadata = TransactionMetadata(
                 recurringRuleId = RecurringRuleId,
                 loanId = LoanId,
+                paidForDateTime = PaidForDateTime,
                 loanRecordId = LoanRecordId
             ),
             lastUpdated = Instant.EPOCH,
@@ -156,6 +159,7 @@ class TransactionMapperTest {
             dateTime = dateTime.takeIf { settled },
             categoryId = CategoryId.value,
             dueDate = dateTime.takeIf { !settled },
+            paidForDateTime = PaidForDateTime.atZone(timeProvider.getZoneId()).toLocalDateTime(),
             recurringRuleId = RecurringRuleId,
             attachmentUrl = null,
             loanId = LoanId,
@@ -182,6 +186,7 @@ class TransactionMapperTest {
             metadata = TransactionMetadata(
                 recurringRuleId = RecurringRuleId,
                 loanId = LoanId,
+                paidForDateTime = PaidForDateTime,
                 loanRecordId = LoanRecordId
             ),
             lastUpdated = Instant.EPOCH,
@@ -215,6 +220,7 @@ class TransactionMapperTest {
             dateTime = dateTime.takeIf { settled },
             categoryId = CategoryId.value,
             dueDate = dateTime.takeIf { !settled },
+            paidForDateTime = PaidForDateTime.atZone(timeProvider.getZoneId()).toLocalDateTime(),
             recurringRuleId = RecurringRuleId,
             attachmentUrl = null,
             loanId = LoanId,
@@ -254,6 +260,7 @@ class TransactionMapperTest {
             metadata = TransactionMetadata(
                 recurringRuleId = RecurringRuleId,
                 loanId = LoanId,
+                paidForDateTime = PaidForDateTime,
                 loanRecordId = LoanRecordId
             ),
             lastUpdated = Instant.EPOCH,
@@ -380,6 +387,7 @@ class TransactionMapperTest {
             metadata = TransactionMetadata(
                 recurringRuleId = RecurringRuleId,
                 loanId = LoanId,
+                paidForDateTime = PaidForDateTime,
                 loanRecordId = LoanRecordId
             ),
             lastUpdated = Instant.EPOCH,
@@ -511,6 +519,7 @@ class TransactionMapperTest {
             metadata = TransactionMetadata(
                 recurringRuleId = RecurringRuleId,
                 loanId = LoanId,
+                paidForDateTime = PaidForDateTime,
                 loanRecordId = LoanRecordId
             ),
             lastUpdated = Instant.EPOCH,
@@ -691,6 +700,7 @@ class TransactionMapperTest {
         val ToAccountId = AccountId(UUID.randomUUID())
         val CategoryId = CategoryId(UUID.randomUUID())
         val RecurringRuleId = UUID.randomUUID()
+        val PaidForDateTime: Instant = Instant.now()
         val LoanId = UUID.randomUUID()
         val LoanRecordId = UUID.randomUUID()
         val TransactionId = TransactionId(UUID.randomUUID())
@@ -707,6 +717,7 @@ class TransactionMapperTest {
             dateTime = DateTime,
             categoryId = CategoryId.value,
             dueDate = null,
+            paidForDateTime = PaidForDateTime.atZone(ZoneId.of("UTC")).toLocalDateTime(),
             recurringRuleId = RecurringRuleId,
             attachmentUrl = null,
             loanId = LoanId,
@@ -727,6 +738,7 @@ class TransactionMapperTest {
             dateTime = DateTime,
             categoryId = CategoryId.value,
             dueDate = null,
+            paidForDateTime = PaidForDateTime.atZone(ZoneId.of("UTC")).toLocalDateTime(),
             recurringRuleId = RecurringRuleId,
             attachmentUrl = null,
             loanId = LoanId,
@@ -747,6 +759,7 @@ class TransactionMapperTest {
             dateTime = DateTime,
             categoryId = CategoryId.value,
             dueDate = null,
+            paidForDateTime = PaidForDateTime.atZone(ZoneId.of("UTC")).toLocalDateTime(),
             recurringRuleId = RecurringRuleId,
             attachmentUrl = null,
             loanId = LoanId,
