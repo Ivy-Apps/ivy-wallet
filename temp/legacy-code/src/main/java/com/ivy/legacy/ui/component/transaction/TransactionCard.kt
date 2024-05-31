@@ -118,6 +118,8 @@ fun TransactionCard(
             baseData.accounts.find { it.id == transaction.toAccountId }?.currency
                 ?: baseData.baseCurrency
 
+        val transactionDescription = getTransactionDescription(transaction)
+
         Spacer(Modifier.height(20.dp))
 
         TransactionHeaderRow(
@@ -163,22 +165,24 @@ fun TransactionCard(
             )
         }
 
-        Spacer(
-            Modifier.height(
-                if (transaction.title.isNotNullOrBlank()) 12.dp else 8.dp
+        if (transactionDescription.isNotNullOrBlank()) {
+            Spacer(
+                Modifier.height(
+                    if (transaction.title.isNotNullOrBlank()) 4.dp else 8.dp
+                )
             )
-        )
 
-        Text(
-            text = getTextToShow(transaction),
-            modifier = Modifier.padding(horizontal = 24.dp),
-            style = UI.typo.nC.style(
-                color = UI.colors.gray,
-                fontWeight = FontWeight.Bold
-            ),
-            maxLines = 3,
-            overflow = TextOverflow.Ellipsis
-        )
+            Text(
+                text = transactionDescription!!,
+                modifier = Modifier.padding(horizontal = 24.dp),
+                style = UI.typo.nC.style(
+                    color = UI.colors.gray,
+                    fontWeight = FontWeight.Bold
+                ),
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
 
         if (transaction.dueDate != null) {
             Spacer(Modifier.height(12.dp))
@@ -367,7 +371,7 @@ fun CategoryBadgeDisplay(
 }
 
 @Composable
-private fun getTextToShow(transaction: Transaction): String {
+private fun getTransactionDescription(transaction: Transaction): String? {
     return when {
         transaction.description.isNotNullOrBlank() -> transaction.description!!
         transaction.recurringRuleId != null && transaction.dueDate == null -> stringResource(
@@ -375,7 +379,7 @@ private fun getTextToShow(transaction: Transaction): String {
             transaction.paidFor?.month?.name?.lowercase()?.capitalizeLocal() ?: "",
             transaction.paidFor?.year ?: ""
         )
-        else -> ""
+        else -> null
     }
 }
 
