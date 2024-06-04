@@ -10,7 +10,7 @@ import com.ivy.base.legacy.Transaction
 import com.ivy.base.model.LoanRecordType
 import com.ivy.data.db.dao.read.LoanRecordDao
 import com.ivy.data.db.dao.read.SettingsDao
-import com.ivy.data.db.dao.read.TransactionDao
+import com.ivy.data.repository.TransactionRepository
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Loan
@@ -52,7 +52,7 @@ class LoanDetailsViewModel @Inject constructor(
     private val loanCreator: LoanCreator,
     private val loanRecordCreator: LoanRecordCreator,
     private val settingsDao: SettingsDao,
-    private val transactionDao: TransactionDao,
+    private val transactionRepository: TransactionRepository,
     private val accountCreator: AccountCreator,
     private val loanTransactionsLogic: LoanTransactionsLogic,
     private val nav: Navigation,
@@ -247,7 +247,7 @@ class LoanDetailsViewModel @Inject constructor(
                 displayLoanRecords.value =
                     ioThread { loanRecordDao.findAllByLoanId(loanId = loanId) }.map {
                         val trans = ioThread {
-                            transactionDao.findLoanRecordTransaction(
+                            transactionRepository.findLoanRecordTransaction(
                                 it.id
                             )
                         }
@@ -307,7 +307,8 @@ class LoanDetailsViewModel @Inject constructor(
             }
 
             associatedTransaction = ioThread {
-                transactionDao.findLoanTransaction(loanId = loan.value!!.id)?.toLegacyDomain()
+                transactionRepository.findLoanTransaction(loanId = loan.value!!.id)
+                    ?.toLegacyDomain()
             }
 
             associatedTransaction?.let {

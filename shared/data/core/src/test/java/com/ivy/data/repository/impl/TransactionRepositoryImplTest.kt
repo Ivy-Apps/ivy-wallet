@@ -349,6 +349,33 @@ class TransactionRepositoryImplTest {
     }
 
     @Test
+    fun findAllByCategoryAndTypeAndBetween() {
+        val categoryId = ModelFixtures.CategoryId
+        val trnType = TransactionType.EXPENSE
+        val startDate = Arb.localDateTime().next()
+        val endDate = Arb.localDateTime().next()
+
+        transactionsTestCase(
+            daoMethod = {
+                transactionDao.findAllByCategoryAndTypeAndBetween(
+                    categoryId = categoryId.value,
+                    type = trnType,
+                    startDate = startDate,
+                    endDate = endDate,
+                )
+            },
+            repoMethod = {
+                repository.findAllByCategoryAndTypeAndBetween(
+                    categoryId = categoryId.value,
+                    type = trnType,
+                    startDate = startDate,
+                    endDate = endDate,
+                )
+            }
+        )
+    }
+
+    @Test
     fun save() = runTest {
         // given
         repository = newRepository(fakeDao = FakeTransactionDao())
@@ -375,6 +402,23 @@ class TransactionRepositoryImplTest {
         // then
         val savedTrns = repository.findAll()
         savedTrns.toSet() shouldBe setOf(trn1, trn2)
+    }
+
+    @Test
+    fun flagDeletedByAccountId() = runTest {
+        val accountId = ModelFixtures.AccountId
+        // given
+        repository = newRepository(fakeDao = FakeTransactionDao())
+        val trn = mockkFakeTrnMapping(account = accountId)
+        repository.save(trn)
+
+        // when
+        repository.flagDeletedByAccountId(accountId.value)
+
+        // then
+        repository.findAllIncomeByAccount(accountId) shouldBe emptyList()
+        repository.findAllExpenseByAccount(accountId) shouldBe emptyList()
+        repository.findAllTransferByAccount(accountId) shouldBe emptyList()
     }
 
     @Test

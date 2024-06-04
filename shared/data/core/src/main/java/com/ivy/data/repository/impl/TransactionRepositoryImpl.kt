@@ -173,6 +173,68 @@ class TransactionRepositoryImpl @Inject constructor(
         }
     )
 
+    override suspend fun findAllByCategoryAndTypeAndBetween(
+        categoryId: UUID,
+        type: TransactionType,
+        startDate: LocalDateTime,
+        endDate: LocalDateTime
+    ): List<Transaction> = retrieveTrns(
+        dbCall = {
+            transactionDao.findAllByCategoryAndTypeAndBetween(
+                categoryId = categoryId,
+                type = type,
+                startDate = startDate,
+                endDate = endDate
+            )
+        }
+    )
+
+    override suspend fun findAllUnspecifiedAndTypeAndBetween(
+        type: TransactionType,
+        startDate: LocalDateTime,
+        endDate: LocalDateTime
+    ): List<Transaction> = retrieveTrns(
+        dbCall = {
+            transactionDao.findAllUnspecifiedAndTypeAndBetween(
+                type = type,
+                startDate = startDate,
+                endDate = endDate
+            )
+        }
+    )
+
+    override suspend fun findAllUnspecifiedAndBetween(
+        startDate: LocalDateTime,
+        endDate: LocalDateTime
+    ): List<Transaction> = retrieveTrns(
+        dbCall = {
+            transactionDao.findAllUnspecifiedAndBetween(
+                startDate = startDate,
+                endDate = endDate
+            )
+        }
+    )
+
+    override suspend fun findAllByCategoryAndBetween(
+        categoryId: UUID,
+        startDate: LocalDateTime,
+        endDate: LocalDateTime
+    ): List<Transaction> = retrieveTrns(
+        dbCall = {
+            transactionDao.findAllByCategoryAndBetween(
+                categoryId = categoryId,
+                startDate = startDate,
+                endDate = endDate
+            )
+        }
+    )
+
+    override suspend fun flagDeletedByAccountId(accountId: UUID) {
+        withContext(dispatchersProvider.io) {
+            writeTransactionDao.flagDeletedByAccountId(accountId)
+        }
+    }
+
     override suspend fun findById(
         id: TransactionId
     ): Transaction? = withContext(dispatchersProvider.io) {
@@ -217,6 +279,12 @@ class TransactionRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun flagDeletedByRecurringRuleIdAndNoDateTime(recurringRuleId: UUID) {
+        withContext(dispatchersProvider.io) {
+            writeTransactionDao.flagDeletedByRecurringRuleIdAndNoDateTime(recurringRuleId)
+        }
+    }
+
     override suspend fun deleteById(id: TransactionId) {
         withContext(dispatchersProvider.io) {
             writeTransactionDao.deleteById(id.value)
@@ -234,6 +302,21 @@ class TransactionRepositoryImpl @Inject constructor(
             writeTransactionDao.deleteAll()
         }
     }
+
+    override suspend fun findLoanTransaction(loanId: UUID): TransactionEntity? =
+        withContext(dispatchersProvider.io) {
+            transactionDao.findLoanTransaction(loanId)
+        }
+
+    override suspend fun findLoanRecordTransaction(loanRecordId: UUID): TransactionEntity? =
+        withContext(dispatchersProvider.io) {
+            transactionDao.findLoanRecordTransaction(loanRecordId)
+        }
+
+    override suspend fun findAllByLoanId(loanId: UUID): List<TransactionEntity> =
+        withContext(dispatchersProvider.io) {
+            transactionDao.findAllByLoanId(loanId)
+        }
 
     private suspend fun retrieveTrns(
         dbCall: suspend () -> List<TransactionEntity>,

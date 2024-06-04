@@ -1,5 +1,7 @@
 package com.ivy.data.repository
 
+import com.ivy.base.model.TransactionType
+import com.ivy.data.db.entity.TransactionEntity
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.Expense
@@ -8,6 +10,7 @@ import com.ivy.data.model.Transaction
 import com.ivy.data.model.TransactionId
 import com.ivy.data.model.Transfer
 import java.time.LocalDateTime
+import java.util.UUID
 
 interface TransactionRepository {
     suspend fun findById(id: TransactionId): Transaction?
@@ -52,11 +55,50 @@ interface TransactionRepository {
         accountId: AccountId
     ): List<Transaction>
 
+    suspend fun findAllByCategoryAndTypeAndBetween(
+        categoryId: UUID,
+        type: TransactionType,
+        startDate: LocalDateTime,
+        endDate: LocalDateTime
+    ): List<Transaction>
+
+    suspend fun findAllUnspecifiedAndTypeAndBetween(
+        type: TransactionType,
+        startDate: LocalDateTime,
+        endDate: LocalDateTime
+    ): List<Transaction>
+
+    suspend fun findAllUnspecifiedAndBetween(
+        startDate: LocalDateTime,
+        endDate: LocalDateTime
+    ): List<Transaction>
+
+    suspend fun findAllByCategoryAndBetween(
+        categoryId: UUID,
+        startDate: LocalDateTime,
+        endDate: LocalDateTime
+    ): List<Transaction>
+
+    suspend fun flagDeletedByAccountId(accountId: UUID)
+
     suspend fun save(value: Transaction)
     suspend fun saveMany(value: List<Transaction>)
 
     suspend fun flagDeleted(id: TransactionId)
+    suspend fun flagDeletedByRecurringRuleIdAndNoDateTime(recurringRuleId: UUID)
     suspend fun deleteById(id: TransactionId)
     suspend fun deleteAllByAccountId(accountId: AccountId)
     suspend fun deleteAll()
+
+    suspend fun findLoanTransaction(
+        loanId: UUID
+    ): TransactionEntity?
+
+    suspend fun findLoanRecordTransaction(
+        loanRecordId: UUID
+    ): TransactionEntity?
+
+    suspend fun findAllByLoanId(
+        loanId: UUID
+    ): List<TransactionEntity>
 }
