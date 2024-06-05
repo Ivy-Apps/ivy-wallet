@@ -15,10 +15,13 @@ import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.LoanType
+import com.ivy.data.model.TransactionId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.CategoryRepository
+import com.ivy.data.repository.TransactionRepository
+import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.datamodel.Account
@@ -48,7 +51,8 @@ class LoanTransactionsCore @Inject constructor(
     private val settingsDao: SettingsDao,
     private val accountsDao: AccountDao,
     private val exchangeRatesLogic: ExchangeRatesLogic,
-    private val writeTransactionDao: WriteTransactionDao,
+    private val transactionRepo: TransactionRepository,
+    private val transactionMapper: TransactionMapper,
     private val writeLoanRecordDao: WriteLoanRecordDao,
     private val writeLoanDao: WriteLoanDao,
 ) {
@@ -197,14 +201,20 @@ class LoanTransactionsCore @Inject constructor(
             )
 
         ioThread {
-            writeTransactionDao.save(modifiedTransaction.toEntity())
+            modifiedTransaction.let {
+                with(transactionMapper) {
+                    it.toEntity().toDomain()
+                }
+            }.getOrNull()?.let {
+                transactionRepo.save(it) }
+
         }
     }
 
     private suspend fun deleteTransaction(transaction: Transaction?) {
         ioThread {
             transaction?.let {
-                writeTransactionDao.flagDeleted(it.id)
+                transactionRepo.flagDeleted(TransactionId(it.id))
             }
         }
     }
@@ -276,7 +286,7 @@ class LoanTransactionsCore @Inject constructor(
                 }
 
                 reCalculateLoanAmount || loanRecordCurrenciesChanged ||
-                    oldLonRecordConvertedAmount == null -> {
+                        oldLonRecordConvertedAmount == null -> {
                     ioThread {
                         exchangeRatesLogic.convertAmount(
                             baseCurrency = baseCurrency(),

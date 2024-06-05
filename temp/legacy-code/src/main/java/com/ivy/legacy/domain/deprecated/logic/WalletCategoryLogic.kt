@@ -7,7 +7,7 @@ import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
-import com.ivy.data.repository.impl.TransactionRepositoryImpl
+import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.legacy.data.model.filterOverdue
 import com.ivy.legacy.data.model.filterOverdueLegacy
@@ -26,7 +26,7 @@ class WalletCategoryLogic @Inject constructor(
     private val accountDao: AccountDao,
     private val settingsDao: SettingsDao,
     private val exchangeRatesLogic: ExchangeRatesLogic,
-    private val transactionRepository: TransactionRepositoryImpl,
+    private val transactionRepository: TransactionRepository,
     private val transactionMapper: TransactionMapper
 ) {
 

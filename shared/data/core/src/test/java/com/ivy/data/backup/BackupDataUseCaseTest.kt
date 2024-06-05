@@ -11,9 +11,11 @@ import com.ivy.data.db.dao.fake.FakeLoanRecordDao
 import com.ivy.data.db.dao.fake.FakePlannedPaymentDao
 import com.ivy.data.db.dao.fake.FakeSettingsDao
 import com.ivy.data.db.dao.fake.FakeTransactionDao
+import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.fake.FakeAccountRepository
 import com.ivy.data.repository.fake.FakeCurrencyRepository
 import com.ivy.data.repository.mapper.AccountMapper
+import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.data.testResource
 import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
@@ -25,7 +27,7 @@ class BackupDataUseCaseTest {
     private fun newBackupDataUseCase(
         accountDao: FakeAccountDao = FakeAccountDao(),
         categoryDao: FakeCategoryDao = FakeCategoryDao(),
-        transactionDao: FakeTransactionDao = FakeTransactionDao(),
+        transactionRepo : TransactionRepository = mockk<TransactionRepository>(),
         plannedPaymentDao: FakePlannedPaymentDao = FakePlannedPaymentDao(),
         budgetDao: FakeBudgetDao = FakeBudgetDao(),
         settingsDao: FakeSettingsDao = FakeSettingsDao(),
@@ -51,9 +53,17 @@ class BackupDataUseCaseTest {
         loanDao = loanDao,
         plannedPaymentRuleDao = plannedPaymentDao,
         settingsDao = settingsDao,
-        transactionDao = transactionDao,
+        transactionRepo = transactionRepo,
+        transactionMapper = TransactionMapper(
+            accountRepository = FakeAccountRepository(
+                accountDao = accountDao,
+                writeAccountDao = accountDao,
+                settingsDao = settingsDao,
+                writeSettingsDao = settingsDao
+            ),
+            timeProvider = mockk(relaxed = true),
+        ),
         categoryWriter = categoryDao,
-        transactionWriter = transactionDao,
         settingsWriter = settingsDao,
         budgetWriter = budgetDao,
         loanWriter = loanDao,

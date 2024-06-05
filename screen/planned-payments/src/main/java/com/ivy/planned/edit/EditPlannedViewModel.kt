@@ -52,7 +52,7 @@ class EditPlannedViewModel @Inject constructor(
     private val accountCreator: AccountCreator,
     private val accountsAct: AccountsAct,
     private val plannedPaymentRuleWriter: WritePlannedPaymentRuleDao,
-    private val transactionWriter: TransactionRepository
+    private val transactionRepository: TransactionRepository
 ) : ComposeViewModel<EditPlannedScreenState, EditPlannedScreenEvent>() {
 
     private val transactionType = mutableStateOf(TransactionType.INCOME)
@@ -467,7 +467,7 @@ class EditPlannedViewModel @Inject constructor(
             ioThread {
                 loadedRule?.let {
                     plannedPaymentRuleWriter.flagDeleted(it.id)
-                    transactionWriter.flagDeletedByRecurringRuleIdAndNoDateTime(
+                    transactionRepository.flagDeletedByRecurringRuleIdAndNoDateTime(
                         recurringRuleId = it.id
                     )
                 }

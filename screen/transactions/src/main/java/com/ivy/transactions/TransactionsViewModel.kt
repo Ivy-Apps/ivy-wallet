@@ -24,7 +24,7 @@ import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.repository.TagRepository
-import com.ivy.data.repository.impl.TransactionRepositoryImpl
+import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.design.l0_system.RedLight
 import com.ivy.frp.then
@@ -89,7 +89,7 @@ class TransactionsViewModel @Inject constructor(
     private val calcAccIncomeExpenseAct: CalcAccIncomeExpenseAct,
     private val calcTrnsIncomeExpenseAct: LegacyCalcTrnsIncomeExpenseAct,
     private val exchangeAct: ExchangeAct,
-    private val transactionWriter: TransactionRepositoryImpl,
+    private val transactionWriter: TransactionRepository,
     private val categoryWriter: WriteCategoryDao,
     private val plannedPaymentRuleWriter: WritePlannedPaymentRuleDao,
     private val transactionMapper: TransactionMapper,

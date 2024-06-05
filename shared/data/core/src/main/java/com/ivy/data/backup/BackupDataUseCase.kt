@@ -26,7 +26,9 @@ import com.ivy.data.db.dao.write.WriteSettingsDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.file.FileSystem
 import com.ivy.data.repository.AccountRepository
+import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.AccountMapper
+import com.ivy.data.repository.mapper.TransactionMapper
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.async
@@ -47,12 +49,13 @@ class BackupDataUseCase @Inject constructor(
     private val loanDao: LoanDao,
     private val plannedPaymentRuleDao: PlannedPaymentRuleDao,
     private val settingsDao: SettingsDao,
-    private val transactionDao: TransactionDao,
+    private val transactionRepo: TransactionRepository,
+    private val transactionMapper: TransactionMapper,
     private val sharedPrefs: SharedPrefs,
     private val accountRepository: AccountRepository,
     private val accountMapper: AccountMapper,
     private val categoryWriter: WriteCategoryDao,
-    private val transactionWriter: WriteTransactionDao,
+//    private val transactionWriter: WriteTransactionDao,
     private val settingsWriter: WriteSettingsDao,
     private val budgetWriter: WriteBudgetDao,
     private val loanWriter: WriteLoanDao,
@@ -95,7 +98,13 @@ class BackupDataUseCase @Inject constructor(
             val plannedPaymentRules =
                 async { plannedPaymentRuleDao.findAll() }
             val settings = async { settingsDao.findAll() }
-            val transactions = async { transactionDao.findAll() }
+            val transactions = async {
+                transactionRepo.findAll().map {
+                    with(transactionMapper) {
+                        it.toEntity()
+                    }
+                }
+            }
             val sharedPrefs = async { getSharedPrefsData() }
 
             val completeData = IvyWalletCompleteData(
@@ -233,7 +242,11 @@ class BackupDataUseCase @Inject constructor(
         onProgress: suspend (progressPercent: Double) -> Unit = {}
     ) {
         withContext(dispatchersProvider.io) {
-            transactionWriter.saveMany(completeData.transactions)
+            with(transactionMapper){
+                transactionRepo.saveMany(completeData.transactions.mapNotNull {
+                    it.toDomain().getOrNull()
+                })
+            }
             onProgress(0.6)
 
             val accounts = async {

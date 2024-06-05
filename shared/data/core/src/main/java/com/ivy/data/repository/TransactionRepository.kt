@@ -92,13 +92,13 @@ interface TransactionRepository {
 
     suspend fun findLoanTransaction(
         loanId: UUID
-    ): TransactionEntity?
+    ): Transaction?
 
     suspend fun findLoanRecordTransaction(
         loanRecordId: UUID
-    ): TransactionEntity?
+    ): Transaction?
 
     suspend fun findAllByLoanId(
         loanId: UUID
-    ): List<TransactionEntity>
+    ): List<Transaction>
 }

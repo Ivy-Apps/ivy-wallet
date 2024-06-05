@@ -7,15 +7,19 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.ivy.base.TestDispatchersProvider
+import com.ivy.base.TimeProvider
 import com.ivy.base.di.KotlinxSerializationModule
 import com.ivy.base.legacy.SharedPrefs
+import com.ivy.data.DataObserver
 import com.ivy.data.db.IvyRoomDatabase
 import com.ivy.data.file.FileSystem
 import com.ivy.data.repository.fake.FakeAccountRepository
 import com.ivy.data.repository.fake.FakeCurrencyRepository
+import com.ivy.data.repository.fake.FakeTagRepository
+import com.ivy.data.repository.fake.FakeTransactionRepository
 import com.ivy.data.repository.mapper.AccountMapper
-import com.ivy.base.TestDispatchersProvider
-import com.ivy.data.DataObserver
+import com.ivy.data.repository.mapper.TransactionMapper
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.ints.shouldBeGreaterThan
 import kotlinx.coroutines.runBlocking
@@ -44,7 +48,20 @@ class BackupDataUseCaseAndroidTest {
             loanDao = db.loanDao,
             plannedPaymentRuleDao = db.plannedPaymentRuleDao,
             settingsDao = db.settingsDao,
-            transactionDao = db.transactionDao,
+            transactionRepo = FakeTransactionRepository(
+                transactionDao = db.transactionDao,
+                writeTransactionDao = db.writeTransactionDao,
+                accountDao = db.accountDao,
+                writeAccountDao = db.writeAccountDao,
+                settingsDao = db.settingsDao,
+                writeSettingsDao = db.writeSettingsDao,
+                tagRepository = FakeTagRepository(
+                    tagDao = db.tagDao,
+                    tagAssociationDao = db.tagAssociationDao,
+                    writeTagDao = db.writeTagDao,
+                    writeTagAssociationDao = db.writeTagAssociationDao
+                )
+            ),
             sharedPrefs = SharedPrefs(appContext),
             accountRepository = FakeAccountRepository(
                 accountDao = db.accountDao,
@@ -59,7 +76,15 @@ class BackupDataUseCaseAndroidTest {
                 )
             ),
             categoryWriter = db.writeCategoryDao,
-            transactionWriter = db.writeTransactionDao,
+            transactionMapper = TransactionMapper(
+                accountRepository = FakeAccountRepository(
+                    accountDao = db.accountDao,
+                    writeAccountDao = db.writeAccountDao,
+                    settingsDao = db.settingsDao,
+                    writeSettingsDao = db.writeSettingsDao,
+                ),
+                timeProvider = TimeProvider()
+            ),
             settingsWriter = db.writeSettingsDao,
             budgetWriter = db.writeBudgetDao,
             loanWriter = db.writeLoanDao,

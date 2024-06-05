@@ -303,20 +303,25 @@ class TransactionRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun findLoanTransaction(loanId: UUID): TransactionEntity? =
+    override suspend fun findLoanTransaction(loanId: UUID) =
         withContext(dispatchersProvider.io) {
-            transactionDao.findLoanTransaction(loanId)
+            transactionDao.findLoanTransaction(loanId)?.let {
+                with(mapper) { it.toDomain() }.getOrNull()
+            }
         }
 
-    override suspend fun findLoanRecordTransaction(loanRecordId: UUID): TransactionEntity? =
+    override suspend fun findLoanRecordTransaction(loanRecordId: UUID) =
         withContext(dispatchersProvider.io) {
-            transactionDao.findLoanRecordTransaction(loanRecordId)
+            transactionDao.findLoanRecordTransaction(loanRecordId)?.let {
+                with(mapper) { it.toDomain() }.getOrNull()
+            }
         }
 
-    override suspend fun findAllByLoanId(loanId: UUID): List<TransactionEntity> =
-        withContext(dispatchersProvider.io) {
+    override suspend fun findAllByLoanId(loanId: UUID): List<Transaction> = retrieveTrns(
+        dbCall = {
             transactionDao.findAllByLoanId(loanId)
         }
+    )
 
     private suspend fun retrieveTrns(
         dbCall: suspend () -> List<TransactionEntity>,

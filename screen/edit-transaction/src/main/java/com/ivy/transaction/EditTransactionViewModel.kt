@@ -102,7 +102,7 @@ class EditTransactionViewModel @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val trnByIdAct: TrnByIdAct,
     private val accountByIdAct: AccountByIdAct,
-    private val transactionWriter: TransactionRepository,
+    private val transactionRepo: TransactionRepository,
     private val transactionMapper: TransactionMapper,
     private val tagRepository: TagRepository,
     private val tagMapper: TagMapper,
@@ -598,7 +598,7 @@ class EditTransactionViewModel @Inject constructor(
         viewModelScope.launch {
             ioThread {
                 loadedTransaction?.let {
-                    transactionWriter.flagDeleted(TransactionId(it.id))
+                    transactionRepo.flagDeleted(TransactionId(it.id))
                 }
                 closeScreen()
             }
@@ -708,11 +708,13 @@ class EditTransactionViewModel @Inject constructor(
                     // Reset Counter
                     accountsChanged = false
                 }
+                loadedTransaction().let {
+                    with(transactionMapper) {
+                        it.toEntity().toDomain()
+                    }
+                }.getOrNull()?.let {
+                    transactionRepo.save(it) }
 
-                val trans = with(transactionMapper) {
-                    loadedTransaction().toEntity().toDomain()
-                }
-                trans.getOrNull()?.let { transactionWriter.save(it) }
                 refreshWidget(WalletBalanceWidgetReceiver::class.java)
             }
 
