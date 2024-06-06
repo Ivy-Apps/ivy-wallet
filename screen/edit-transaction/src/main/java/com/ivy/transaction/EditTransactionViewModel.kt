@@ -713,7 +713,8 @@ class EditTransactionViewModel @Inject constructor(
                         it.toEntity().toDomain()
                     }
                 }.getOrNull()?.let {
-                    transactionRepo.save(it) }
+                    transactionRepo.save(it)
+                }
 
                 refreshWidget(WalletBalanceWidgetReceiver::class.java)
             }

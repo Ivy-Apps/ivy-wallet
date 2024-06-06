@@ -11,7 +11,6 @@ import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.data.db.dao.write.WriteLoanDao
 import com.ivy.data.db.dao.write.WriteLoanRecordDao
-import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.LoanType
@@ -206,8 +205,8 @@ class LoanTransactionsCore @Inject constructor(
                     it.toEntity().toDomain()
                 }
             }.getOrNull()?.let {
-                transactionRepo.save(it) }
-
+                transactionRepo.save(it)
+            }
         }
     }
 

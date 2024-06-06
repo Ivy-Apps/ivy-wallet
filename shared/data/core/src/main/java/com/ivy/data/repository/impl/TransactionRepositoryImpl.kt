@@ -303,14 +303,18 @@ class TransactionRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun findLoanTransaction(loanId: UUID) =
+    override suspend fun countHappenedTransactions(): Long = withContext(dispatchersProvider.io) {
+        transactionDao.countHappenedTransactions()
+    }
+
+    override suspend fun findLoanTransaction(loanId: UUID): Transaction? =
         withContext(dispatchersProvider.io) {
             transactionDao.findLoanTransaction(loanId)?.let {
                 with(mapper) { it.toDomain() }.getOrNull()
             }
         }
 
-    override suspend fun findLoanRecordTransaction(loanRecordId: UUID) =
+    override suspend fun findLoanRecordTransaction(loanRecordId: UUID): Transaction? =
         withContext(dispatchersProvider.io) {
             transactionDao.findLoanRecordTransaction(loanRecordId)?.let {
                 with(mapper) { it.toDomain() }.getOrNull()

@@ -23,6 +23,7 @@ import com.ivy.data.repository.TagRepository
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.data.validTransactionEntity
+import io.kotest.matchers.longs.shouldBeGreaterThanOrEqual
 import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.arbitrary
@@ -465,6 +466,14 @@ class TransactionRepositoryImplTest {
 
         // then
         repository.findAll() shouldBe listOf(trnAcc2)
+    }
+
+    @Test
+    fun countNumberOfTransactions() = runTest {
+        // given
+        repository = newRepository(fakeDao = FakeTransactionDao())
+
+        repository.countHappenedTransactions() shouldBeGreaterThanOrEqual 0L
     }
 
     @Test

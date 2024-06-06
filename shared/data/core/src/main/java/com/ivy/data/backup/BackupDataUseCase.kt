@@ -16,14 +16,12 @@ import com.ivy.data.db.dao.read.LoanDao
 import com.ivy.data.db.dao.read.LoanRecordDao
 import com.ivy.data.db.dao.read.PlannedPaymentRuleDao
 import com.ivy.data.db.dao.read.SettingsDao
-import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.data.db.dao.write.WriteBudgetDao
 import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.data.db.dao.write.WriteLoanDao
 import com.ivy.data.db.dao.write.WriteLoanRecordDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
-import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.file.FileSystem
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.TransactionRepository
@@ -55,7 +53,6 @@ class BackupDataUseCase @Inject constructor(
     private val accountRepository: AccountRepository,
     private val accountMapper: AccountMapper,
     private val categoryWriter: WriteCategoryDao,
-//    private val transactionWriter: WriteTransactionDao,
     private val settingsWriter: WriteSettingsDao,
     private val budgetWriter: WriteBudgetDao,
     private val loanWriter: WriteLoanDao,
@@ -242,10 +239,12 @@ class BackupDataUseCase @Inject constructor(
         onProgress: suspend (progressPercent: Double) -> Unit = {}
     ) {
         withContext(dispatchersProvider.io) {
-            with(transactionMapper){
-                transactionRepo.saveMany(completeData.transactions.mapNotNull {
-                    it.toDomain().getOrNull()
-                })
+            with(transactionMapper) {
+                transactionRepo.saveMany(
+                    completeData.transactions.mapNotNull {
+                        it.toDomain().getOrNull()
+                    }
+                )
             }
             onProgress(0.6)
 

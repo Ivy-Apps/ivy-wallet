@@ -1,7 +1,6 @@
 package com.ivy.data.repository
 
 import com.ivy.base.model.TransactionType
-import com.ivy.data.db.entity.TransactionEntity
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.Expense
@@ -26,29 +25,35 @@ interface TransactionRepository {
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Transaction>
+
     suspend fun findAllByAccountAndBetween(
         accountId: AccountId,
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Transaction>
+
     suspend fun findAllToAccountAndBetween(
         toAccountId: AccountId,
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Transaction>
+
     suspend fun findAllDueToBetween(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<Transaction>
+
     suspend fun findAllDueToBetweenByCategory(
         startDate: LocalDateTime,
         endDate: LocalDateTime,
         categoryId: CategoryId
     ): List<Transaction>
+
     suspend fun findAllDueToBetweenByCategoryUnspecified(
         startDate: LocalDateTime,
         endDate: LocalDateTime,
     ): List<Transaction>
+
     suspend fun findAllDueToBetweenByAccount(
         startDate: LocalDateTime,
         endDate: LocalDateTime,
@@ -90,6 +95,7 @@ interface TransactionRepository {
     suspend fun deleteAllByAccountId(accountId: AccountId)
     suspend fun deleteAll()
 
+    suspend fun countHappenedTransactions(): Long
     suspend fun findLoanTransaction(
         loanId: UUID
     ): Transaction?

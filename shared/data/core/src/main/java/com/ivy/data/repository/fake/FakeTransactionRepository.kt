@@ -8,6 +8,7 @@ import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.data.db.dao.write.WriteAccountDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
+import com.ivy.data.model.Transaction
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.impl.TransactionRepositoryImpl
 import com.ivy.data.repository.mapper.TransactionMapper
@@ -37,4 +38,12 @@ class FakeTransactionRepository(
         tagRepository = tagRepository,
         dispatchersProvider = TestDispatchersProvider,
     )
-) : TransactionRepository by transactionRepository
+) : TransactionRepository by transactionRepository {
+
+    override suspend fun save(value: Transaction) {
+        TODO("Not yet implemented")
+    }
+    override suspend fun saveMany(values: List<Transaction>) {
+        values.forEach { save(it) }
+    }
+}

@@ -313,7 +313,6 @@ class LoanDetailsViewModel @Inject constructor(
                 transactionRepository.findLoanTransaction(loanId = loan.value!!.id).let {
                     it?.toLegacy(transactionMapper)
                 }
-
             }
 
             associatedTransaction?.let {

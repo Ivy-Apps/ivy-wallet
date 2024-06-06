@@ -10,10 +10,14 @@ import com.ivy.data.db.dao.fake.FakeLoanDao
 import com.ivy.data.db.dao.fake.FakeLoanRecordDao
 import com.ivy.data.db.dao.fake.FakePlannedPaymentDao
 import com.ivy.data.db.dao.fake.FakeSettingsDao
+import com.ivy.data.db.dao.fake.FakeTagAssociationDao
+import com.ivy.data.db.dao.fake.FakeTagDao
 import com.ivy.data.db.dao.fake.FakeTransactionDao
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.fake.FakeAccountRepository
 import com.ivy.data.repository.fake.FakeCurrencyRepository
+import com.ivy.data.repository.fake.FakeTagRepository
+import com.ivy.data.repository.fake.FakeTransactionRepository
 import com.ivy.data.repository.mapper.AccountMapper
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.data.testResource
@@ -27,7 +31,20 @@ class BackupDataUseCaseTest {
     private fun newBackupDataUseCase(
         accountDao: FakeAccountDao = FakeAccountDao(),
         categoryDao: FakeCategoryDao = FakeCategoryDao(),
-        transactionRepo : TransactionRepository = mockk<TransactionRepository>(),
+        transactionRepo: TransactionRepository = FakeTransactionRepository(
+            accountDao = accountDao,
+            writeAccountDao = accountDao,
+            settingsDao = FakeSettingsDao(),
+            writeSettingsDao = FakeSettingsDao(),
+            tagRepository = FakeTagRepository(
+                tagDao = FakeTagDao(),
+                writeTagDao = FakeTagDao(),
+                tagAssociationDao = FakeTagAssociationDao(),
+                writeTagAssociationDao = FakeTagAssociationDao(),
+            ),
+            transactionDao = FakeTransactionDao(),
+            writeTransactionDao = FakeTransactionDao(),
+        ),
         plannedPaymentDao: FakePlannedPaymentDao = FakePlannedPaymentDao(),
         budgetDao: FakeBudgetDao = FakeBudgetDao(),
         settingsDao: FakeSettingsDao = FakeSettingsDao(),
