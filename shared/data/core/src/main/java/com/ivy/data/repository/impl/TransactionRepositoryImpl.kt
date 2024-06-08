@@ -235,7 +235,6 @@ class TransactionRepositoryImpl @Inject constructor(
         }
     )
 
-
     override suspend fun flagDeletedByAccountId(accountId: UUID) {
         withContext(dispatchersProvider.io) {
             writeTransactionDao.flagDeletedByAccountId(accountId)

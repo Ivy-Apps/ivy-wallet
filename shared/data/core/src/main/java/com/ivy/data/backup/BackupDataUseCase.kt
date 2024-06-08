@@ -16,17 +16,17 @@ import com.ivy.data.db.dao.read.LoanDao
 import com.ivy.data.db.dao.read.LoanRecordDao
 import com.ivy.data.db.dao.read.PlannedPaymentRuleDao
 import com.ivy.data.db.dao.read.SettingsDao
+import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.data.db.dao.write.WriteBudgetDao
 import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.data.db.dao.write.WriteLoanDao
 import com.ivy.data.db.dao.write.WriteLoanRecordDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
+import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.file.FileSystem
 import com.ivy.data.repository.AccountRepository
-import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.AccountMapper
-import com.ivy.data.repository.mapper.TransactionMapper
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.async
@@ -47,8 +47,8 @@ class BackupDataUseCase @Inject constructor(
     private val loanDao: LoanDao,
     private val plannedPaymentRuleDao: PlannedPaymentRuleDao,
     private val settingsDao: SettingsDao,
-    private val transactionRepo: TransactionRepository,
-    private val transactionMapper: TransactionMapper,
+    private val transactionDao: TransactionDao,
+    private val transactionWriter: WriteTransactionDao,
     private val sharedPrefs: SharedPrefs,
     private val accountRepository: AccountRepository,
     private val accountMapper: AccountMapper,
@@ -95,13 +95,7 @@ class BackupDataUseCase @Inject constructor(
             val plannedPaymentRules =
                 async { plannedPaymentRuleDao.findAll() }
             val settings = async { settingsDao.findAll() }
-            val transactions = async {
-                transactionRepo.findAll().map {
-                    with(transactionMapper) {
-                        it.toEntity()
-                    }
-                }
-            }
+            val transactions = async { transactionDao.findAll() }
             val sharedPrefs = async { getSharedPrefsData() }
 
             val completeData = IvyWalletCompleteData(
@@ -239,13 +233,7 @@ class BackupDataUseCase @Inject constructor(
         onProgress: suspend (progressPercent: Double) -> Unit = {}
     ) {
         withContext(dispatchersProvider.io) {
-            with(transactionMapper) {
-                transactionRepo.saveMany(
-                    completeData.transactions.mapNotNull {
-                        it.toDomain().getOrNull()
-                    }
-                )
-            }
+            transactionWriter.saveMany(completeData.transactions)
             onProgress(0.6)
 
             val accounts = async {

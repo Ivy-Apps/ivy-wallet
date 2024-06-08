@@ -7,12 +7,11 @@ import com.ivy.data.db.dao.read.PlannedPaymentRuleDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
-import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.IntervalType
 import com.ivy.data.model.TransactionId
-import com.ivy.data.temp.migration.settleNow
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
+import com.ivy.data.temp.migration.settleNow
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.PlannedPaymentRule
 import com.ivy.legacy.datamodel.temp.toLegacyDomain
@@ -183,7 +182,7 @@ class PlannedPaymentsLogic @Inject constructor(
             if (skipTransaction) {
                 transactionRepository.flagDeleted(TransactionId(paidTransaction.id))
             } else {
-                with(transactionMapper){
+                with(transactionMapper) {
                     paidTransaction.toEntity().toDomain().getOrNull()?.let {
                         transactionRepository.save(it)
                     }
@@ -311,7 +310,7 @@ class PlannedPaymentsLogic @Inject constructor(
                 }
             } else {
                 paidTransactions.forEach { paidTransaction ->
-                    with(transactionMapper){
+                    with(transactionMapper) {
                         paidTransaction.toEntity().toDomain().getOrNull()?.let {
                             transactionRepository.save(it)
                         }

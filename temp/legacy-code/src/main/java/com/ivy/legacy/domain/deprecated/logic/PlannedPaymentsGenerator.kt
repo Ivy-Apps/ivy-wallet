@@ -1,8 +1,6 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import com.ivy.base.legacy.Transaction
-import com.ivy.data.db.dao.read.TransactionDao
-import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.legacy.datamodel.PlannedPaymentRule
@@ -76,7 +74,7 @@ class PlannedPaymentsGenerator @Inject constructor(
     }
 
     private suspend fun generateTransaction(rule: PlannedPaymentRule, dueDate: LocalDateTime) {
-        with(transactionMapper){
+        with(transactionMapper) {
             Transaction(
                 type = rule.type,
                 accountId = rule.accountId,

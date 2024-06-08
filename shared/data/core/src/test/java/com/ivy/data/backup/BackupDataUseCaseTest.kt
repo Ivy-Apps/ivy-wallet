@@ -1,6 +1,5 @@
 package com.ivy.data.backup
 
-import android.util.Log
 import com.ivy.base.TestDispatchersProvider
 import com.ivy.base.di.KotlinxSerializationModule
 import com.ivy.data.DataObserver
@@ -11,16 +10,10 @@ import com.ivy.data.db.dao.fake.FakeLoanDao
 import com.ivy.data.db.dao.fake.FakeLoanRecordDao
 import com.ivy.data.db.dao.fake.FakePlannedPaymentDao
 import com.ivy.data.db.dao.fake.FakeSettingsDao
-import com.ivy.data.db.dao.fake.FakeTagAssociationDao
-import com.ivy.data.db.dao.fake.FakeTagDao
 import com.ivy.data.db.dao.fake.FakeTransactionDao
-import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.fake.FakeAccountRepository
 import com.ivy.data.repository.fake.FakeCurrencyRepository
-import com.ivy.data.repository.fake.FakeTagRepository
-import com.ivy.data.repository.fake.FakeTransactionRepository
 import com.ivy.data.repository.mapper.AccountMapper
-import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.data.testResource
 import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
@@ -32,20 +25,7 @@ class BackupDataUseCaseTest {
     private fun newBackupDataUseCase(
         accountDao: FakeAccountDao = FakeAccountDao(),
         categoryDao: FakeCategoryDao = FakeCategoryDao(),
-        transactionRepo: TransactionRepository = FakeTransactionRepository(
-            accountDao = accountDao,
-            writeAccountDao = accountDao,
-            settingsDao = FakeSettingsDao(),
-            writeSettingsDao = FakeSettingsDao(),
-            tagRepository = FakeTagRepository(
-                tagDao = FakeTagDao(),
-                writeTagDao = FakeTagDao(),
-                tagAssociationDao = FakeTagAssociationDao(),
-                writeTagAssociationDao = FakeTagAssociationDao(),
-            ),
-            transactionDao = FakeTransactionDao(),
-            writeTransactionDao = FakeTransactionDao(),
-        ),
+        transactionDao: FakeTransactionDao = FakeTransactionDao(),
         plannedPaymentDao: FakePlannedPaymentDao = FakePlannedPaymentDao(),
         budgetDao: FakeBudgetDao = FakeBudgetDao(),
         settingsDao: FakeSettingsDao = FakeSettingsDao(),
@@ -70,17 +50,9 @@ class BackupDataUseCaseTest {
         loanRecordDao = loanRecordDao,
         loanDao = loanDao,
         plannedPaymentRuleDao = plannedPaymentDao,
+        transactionDao = transactionDao,
+        transactionWriter = transactionDao,
         settingsDao = settingsDao,
-        transactionRepo = transactionRepo,
-        transactionMapper = TransactionMapper(
-            accountRepository = FakeAccountRepository(
-                accountDao = accountDao,
-                writeAccountDao = accountDao,
-                settingsDao = settingsDao,
-                writeSettingsDao = settingsDao
-            ),
-            timeProvider = mockk(relaxed = true),
-        ),
         categoryWriter = categoryDao,
         settingsWriter = settingsDao,
         budgetWriter = budgetDao,
