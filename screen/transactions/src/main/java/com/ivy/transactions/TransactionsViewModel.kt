@@ -89,7 +89,7 @@ class TransactionsViewModel @Inject constructor(
     private val calcAccIncomeExpenseAct: CalcAccIncomeExpenseAct,
     private val calcTrnsIncomeExpenseAct: LegacyCalcTrnsIncomeExpenseAct,
     private val exchangeAct: ExchangeAct,
-    private val transactionWriter: TransactionRepository,
+    private val transactionRepository: TransactionRepository,
     private val categoryWriter: WriteCategoryDao,
     private val plannedPaymentRuleWriter: WritePlannedPaymentRuleDao,
     private val transactionMapper: TransactionMapper,
@@ -728,7 +728,7 @@ class TransactionsViewModel @Inject constructor(
 
     private suspend fun deleteAccount(accountId: UUID) {
         ioThread {
-            transactionWriter.flagDeletedByAccountId(accountId = accountId)
+            transactionRepository.flagDeletedByAccountId(accountId = accountId)
             plannedPaymentRuleWriter.flagDeletedByAccountId(accountId = accountId)
             accountRepository.deleteById(AccountId(accountId))
 

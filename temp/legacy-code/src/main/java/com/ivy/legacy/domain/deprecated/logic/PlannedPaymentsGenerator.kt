@@ -3,6 +3,8 @@ package com.ivy.wallet.domain.deprecated.logic
 import com.ivy.base.legacy.Transaction
 import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
+import com.ivy.data.repository.TransactionRepository
+import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.legacy.datamodel.PlannedPaymentRule
 import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.incrementDate
@@ -10,8 +12,8 @@ import java.time.LocalDateTime
 import javax.inject.Inject
 
 class PlannedPaymentsGenerator @Inject constructor(
-    private val transactionDao: TransactionDao,
-    private val transactionWriter: WriteTransactionDao
+    private val transactionMapper: TransactionMapper,
+    private val transactionRepository: TransactionRepository
 ) {
     companion object {
         private const val GENERATED_INSTANCES_LIMIT = 72
@@ -19,7 +21,7 @@ class PlannedPaymentsGenerator @Inject constructor(
 
     suspend fun generate(rule: PlannedPaymentRule) {
         // delete all not happened transactions
-        transactionWriter.flagDeletedByRecurringRuleIdAndNoDateTime(
+        transactionRepository.flagDeletedByRecurringRuleIdAndNoDateTime(
             recurringRuleId = rule.id
         )
 
@@ -31,7 +33,7 @@ class PlannedPaymentsGenerator @Inject constructor(
     }
 
     private suspend fun generateOneTime(rule: PlannedPaymentRule) {
-        val trns = transactionDao.findAllByRecurringRuleId(recurringRuleId = rule.id)
+        val trns = transactionRepository.findAllByRecurringRuleId(recurringRuleId = rule.id)
 
         if (trns.isEmpty()) {
             generateTransaction(rule, rule.startDate!!)
@@ -42,7 +44,7 @@ class PlannedPaymentsGenerator @Inject constructor(
         val startDate = rule.startDate!!
         val endDate = startDate.plusYears(3)
 
-        val trns = transactionDao.findAllByRecurringRuleId(recurringRuleId = rule.id)
+        val trns = transactionRepository.findAllByRecurringRuleId(recurringRuleId = rule.id)
         var trnsToSkip = trns.size
 
         var generatedTransactions = 0
@@ -74,7 +76,7 @@ class PlannedPaymentsGenerator @Inject constructor(
     }
 
     private suspend fun generateTransaction(rule: PlannedPaymentRule, dueDate: LocalDateTime) {
-        transactionWriter.save(
+        with(transactionMapper){
             Transaction(
                 type = rule.type,
                 accountId = rule.accountId,
@@ -87,7 +89,9 @@ class PlannedPaymentsGenerator @Inject constructor(
                 dateTime = null,
                 toAccountId = null,
                 isSynced = false
-            ).toEntity()
-        )
+            ).toEntity().toDomain().getOrNull()?.let {
+                transactionRepository.save(it)
+            }
+        }
     }
 }

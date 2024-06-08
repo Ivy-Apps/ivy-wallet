@@ -229,6 +229,13 @@ class TransactionRepositoryImpl @Inject constructor(
         }
     )
 
+    override suspend fun findAllByRecurringRuleId(recurringRuleId: UUID): List<Transaction> = retrieveTrns(
+        dbCall = {
+            transactionDao.findAllByRecurringRuleId(recurringRuleId)
+        }
+    )
+
+
     override suspend fun flagDeletedByAccountId(accountId: UUID) {
         withContext(dispatchersProvider.io) {
             writeTransactionDao.flagDeletedByAccountId(accountId)

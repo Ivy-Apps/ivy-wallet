@@ -6,12 +6,21 @@ import com.ivy.data.db.entity.TransactionEntity
 import com.ivy.data.model.Tag
 import com.ivy.data.model.Transaction
 import com.ivy.data.repository.mapper.TransactionMapper
+import com.ivy.legacy.datamodel.toEntity
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 
 fun Transaction.toLegacy(mapper: TransactionMapper): LegacyTransaction {
     return with(mapper) { toEntity().toLegacyDomain() }
+}
+
+suspend fun LegacyTransaction.toDomain(mapper: TransactionMapper): Transaction? {
+   return with(mapper) {
+       toEntity().toDomain().getOrNull()?.let {
+           it
+       }
+    }
 }
 
 fun TransactionEntity.toLegacyDomain(

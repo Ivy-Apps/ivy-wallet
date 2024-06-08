@@ -9,8 +9,10 @@ import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.IntervalType
+import com.ivy.data.model.TransactionId
 import com.ivy.data.temp.migration.settleNow
 import com.ivy.data.repository.TransactionRepository
+import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.PlannedPaymentRule
 import com.ivy.legacy.datamodel.temp.toLegacyDomain
@@ -28,7 +30,7 @@ class PlannedPaymentsLogic @Inject constructor(
     private val settingsDao: SettingsDao,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val accountDao: AccountDao,
-    private val transactionWriter: WriteTransactionDao,
+    private val transactionMapper: TransactionMapper,
     private val plannedPaymentRuleWriter: WritePlannedPaymentRuleDao,
     private val transactionRepository: TransactionRepository
 ) {
@@ -179,9 +181,13 @@ class PlannedPaymentsLogic @Inject constructor(
 
         ioThread {
             if (skipTransaction) {
-                transactionWriter.flagDeleted(paidTransaction.id)
+                transactionRepository.flagDeleted(TransactionId(paidTransaction.id))
             } else {
-                transactionWriter.save(paidTransaction.toEntity())
+                with(transactionMapper){
+                    paidTransaction.toEntity().toDomain().getOrNull()?.let {
+                        transactionRepository.save(it)
+                    }
+                }
             }
 
             if (plannedPaymentRule != null && plannedPaymentRule.oneTime) {
@@ -301,11 +307,15 @@ class PlannedPaymentsLogic @Inject constructor(
         ioThread {
             if (skipTransaction) {
                 paidTransactions.forEach { paidTransaction ->
-                    transactionWriter.flagDeleted(paidTransaction.id)
+                    transactionRepository.flagDeleted(TransactionId(paidTransaction.id))
                 }
             } else {
                 paidTransactions.forEach { paidTransaction ->
-                    transactionWriter.save(paidTransaction.toEntity())
+                    with(transactionMapper){
+                        paidTransaction.toEntity().toDomain().getOrNull()?.let {
+                            transactionRepository.save(it)
+                        }
+                    }
                 }
             }
 

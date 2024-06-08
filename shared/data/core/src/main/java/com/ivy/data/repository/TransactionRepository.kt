@@ -84,6 +84,7 @@ interface TransactionRepository {
         endDate: LocalDateTime
     ): List<Transaction>
 
+    suspend fun findAllByRecurringRuleId(recurringRuleId: UUID): List<Transaction>
     suspend fun flagDeletedByAccountId(accountId: UUID)
 
     suspend fun save(value: Transaction)

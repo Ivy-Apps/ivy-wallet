@@ -1,5 +1,6 @@
 package com.ivy.data.backup
 
+import android.util.Log
 import com.ivy.base.TestDispatchersProvider
 import com.ivy.base.di.KotlinxSerializationModule
 import com.ivy.data.DataObserver
@@ -117,7 +118,6 @@ class BackupDataUseCaseTest {
         // when
         val freshBackupUseCase = newBackupDataUseCase()
         val reImportedDataRes = freshBackupUseCase.importJson(exportedJson, onProgress = {})
-
         // then
         reImportedDataRes shouldBe importedDataRes
 
