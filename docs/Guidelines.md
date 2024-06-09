@@ -38,5 +38,5 @@ To get started read:
 ## References
 
 - **[Yoda Style Architecture guidelines](./archive/Yoda-Style-Architecture.md)**
-- **[Adnroid Developers - Guide to app architecture](https://developer.android.com/topic/architecture)**
+- **[Android Developers - Guide to app architecture](https://developer.android.com/topic/architecture)**
 - **[The Grug Brained Developer](https://grugbrain.dev/)**
