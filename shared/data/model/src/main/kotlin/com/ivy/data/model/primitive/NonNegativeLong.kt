@@ -19,4 +19,3 @@ value class NonNegativeLong private constructor(val value: Long) {
 }
 
 fun Long.toNonNegative(): NonNegativeLong = NonNegativeLong.unsafe(this)
-
