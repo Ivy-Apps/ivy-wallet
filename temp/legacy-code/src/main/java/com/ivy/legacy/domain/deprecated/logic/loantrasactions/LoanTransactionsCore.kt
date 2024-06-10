@@ -26,8 +26,8 @@ import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Loan
 import com.ivy.legacy.datamodel.LoanRecord
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.datamodel.temp.toLegacyDomain
-import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeNowUTC
@@ -200,11 +200,7 @@ class LoanTransactionsCore @Inject constructor(
             )
 
         ioThread {
-            modifiedTransaction.let {
-                with(transactionMapper) {
-                    it.toEntity().toDomain()
-                }
-            }.getOrNull()?.let {
+            modifiedTransaction.toDomain(transactionMapper)?.let {
                 transactionRepo.save(it)
             }
         }
@@ -213,7 +209,7 @@ class LoanTransactionsCore @Inject constructor(
     private suspend fun deleteTransaction(transaction: Transaction?) {
         ioThread {
             transaction?.let {
-                transactionRepo.flagDeleted(TransactionId(it.id))
+                transactionRepo.deleteById(TransactionId(it.id))
             }
         }
     }

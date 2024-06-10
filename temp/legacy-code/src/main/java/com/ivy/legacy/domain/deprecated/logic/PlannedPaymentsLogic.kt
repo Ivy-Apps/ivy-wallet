@@ -14,8 +14,8 @@ import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.data.temp.migration.settleNow
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.PlannedPaymentRule
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.datamodel.temp.toLegacyDomain
-import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
@@ -180,12 +180,10 @@ class PlannedPaymentsLogic @Inject constructor(
 
         ioThread {
             if (skipTransaction) {
-                transactionRepository.flagDeleted(TransactionId(paidTransaction.id))
+                transactionRepository.deleteById(TransactionId(paidTransaction.id))
             } else {
-                with(transactionMapper) {
-                    paidTransaction.toEntity().toDomain().getOrNull()?.let {
-                        transactionRepository.save(it)
-                    }
+                paidTransaction.toDomain(transactionMapper)?.let {
+                    transactionRepository.save(it)
                 }
             }
 
@@ -216,7 +214,7 @@ class PlannedPaymentsLogic @Inject constructor(
 
         ioThread {
             if (skipTransaction) {
-                transactionRepository.flagDeleted(paidTransaction.id)
+                transactionRepository.deleteById(paidTransaction.id)
             } else {
                 transactionRepository.save(paidTransaction)
             }
@@ -256,7 +254,7 @@ class PlannedPaymentsLogic @Inject constructor(
         ioThread {
             if (skipTransaction) {
                 paidTransactions.forEach { paidTransaction ->
-                    transactionRepository.flagDeleted(paidTransaction.id)
+                    transactionRepository.deleteById(paidTransaction.id)
                 }
             } else {
                 paidTransactions.forEach { paidTransaction ->
@@ -306,14 +304,12 @@ class PlannedPaymentsLogic @Inject constructor(
         ioThread {
             if (skipTransaction) {
                 paidTransactions.forEach { paidTransaction ->
-                    transactionRepository.flagDeleted(TransactionId(paidTransaction.id))
+                    transactionRepository.deleteById(TransactionId(paidTransaction.id))
                 }
             } else {
                 paidTransactions.forEach { paidTransaction ->
-                    with(transactionMapper) {
-                        paidTransaction.toEntity().toDomain().getOrNull()?.let {
-                            transactionRepository.save(it)
-                        }
+                    paidTransaction.toDomain(transactionMapper)?.let {
+                        transactionRepository.save(it)
                     }
                 }
             }

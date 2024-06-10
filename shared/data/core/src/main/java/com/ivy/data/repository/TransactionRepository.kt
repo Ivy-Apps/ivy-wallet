@@ -8,6 +8,7 @@ import com.ivy.data.model.Income
 import com.ivy.data.model.Transaction
 import com.ivy.data.model.TransactionId
 import com.ivy.data.model.Transfer
+import com.ivy.data.model.primitive.NonNegativeLong
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -96,7 +97,7 @@ interface TransactionRepository {
     suspend fun deleteAllByAccountId(accountId: AccountId)
     suspend fun deleteAll()
 
-    suspend fun countHappenedTransactions(): Long
+    suspend fun countHappenedTransactions(): NonNegativeLong
     suspend fun findLoanTransaction(
         loanId: UUID
     ): Transaction?

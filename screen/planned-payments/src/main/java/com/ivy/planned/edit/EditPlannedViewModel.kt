@@ -466,7 +466,7 @@ class EditPlannedViewModel @Inject constructor(
             deleteTransactionModalVisible.value = false
             ioThread {
                 loadedRule?.let {
-                    plannedPaymentRuleWriter.flagDeleted(it.id)
+                    plannedPaymentRuleWriter.deleteById(it.id)
                     transactionRepository.flagDeletedByRecurringRuleIdAndNoDateTime(
                         recurringRuleId = it.id
                     )

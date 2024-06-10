@@ -29,7 +29,7 @@ import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.domain.features.Features
 import com.ivy.legacy.data.EditTransactionDisplayLoan
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.toEntity
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.convertUTCToLocal
@@ -598,7 +598,7 @@ class EditTransactionViewModel @Inject constructor(
         viewModelScope.launch {
             ioThread {
                 loadedTransaction?.let {
-                    transactionRepo.flagDeleted(TransactionId(it.id))
+                    transactionRepo.deleteById(TransactionId(it.id))
                 }
                 closeScreen()
             }
@@ -708,11 +708,8 @@ class EditTransactionViewModel @Inject constructor(
                     // Reset Counter
                     accountsChanged = false
                 }
-                loadedTransaction().let {
-                    with(transactionMapper) {
-                        it.toEntity().toDomain()
-                    }
-                }.getOrNull()?.let {
+
+                loadedTransaction().toDomain(transactionMapper)?.let {
                     transactionRepo.save(it)
                 }
 

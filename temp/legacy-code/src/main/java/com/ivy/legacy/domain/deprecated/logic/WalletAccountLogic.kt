@@ -14,7 +14,7 @@ import com.ivy.data.temp.migration.getValue
 import com.ivy.legacy.data.model.filterOverdue
 import com.ivy.legacy.data.model.filterUpcoming
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.toEntity
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.wallet.domain.action.viewmodel.account.AccountDataAct
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
@@ -49,35 +49,31 @@ class WalletAccountLogic @Inject constructor(
         when {
             finalDiff < 0 -> {
                 // add income
-                with(transactionMapper) {
-                    Transaction(
-                        type = TransactionType.INCOME,
-                        title = adjustTransactionTitle,
-                        amount = diff.absoluteValue.toBigDecimal(),
-                        toAmount = diff.absoluteValue.toBigDecimal(),
-                        dateTime = timeNowUTC(),
-                        accountId = account.id,
-                        isSynced = trnIsSyncedFlag
-                    ).toEntity().toDomain().getOrNull()?.let {
-                        transactionRepository.save(it)
-                    }
+                Transaction(
+                    type = TransactionType.INCOME,
+                    title = adjustTransactionTitle,
+                    amount = diff.absoluteValue.toBigDecimal(),
+                    toAmount = diff.absoluteValue.toBigDecimal(),
+                    dateTime = timeNowUTC(),
+                    accountId = account.id,
+                    isSynced = trnIsSyncedFlag
+                ).toDomain(transactionMapper)?.let {
+                    transactionRepository.save(it)
                 }
             }
 
             finalDiff > 0 -> {
                 // add expense
-                with(transactionMapper) {
-                    Transaction(
-                        type = TransactionType.EXPENSE,
-                        title = adjustTransactionTitle,
-                        amount = diff.absoluteValue.toBigDecimal(),
-                        toAmount = diff.absoluteValue.toBigDecimal(),
-                        dateTime = timeNowUTC(),
-                        accountId = account.id,
-                        isSynced = trnIsSyncedFlag
-                    ).toEntity().toDomain().getOrNull()?.let {
-                        transactionRepository.save(it)
-                    }
+                Transaction(
+                    type = TransactionType.EXPENSE,
+                    title = adjustTransactionTitle,
+                    amount = diff.absoluteValue.toBigDecimal(),
+                    toAmount = diff.absoluteValue.toBigDecimal(),
+                    dateTime = timeNowUTC(),
+                    accountId = account.id,
+                    isSynced = trnIsSyncedFlag
+                ).toDomain(transactionMapper)?.let {
+                    transactionRepository.save(it)
                 }
             }
         }

@@ -473,7 +473,7 @@ class TransactionRepositoryImplTest {
         // given
         repository = newRepository(fakeDao = FakeTransactionDao())
 
-        repository.countHappenedTransactions() shouldBeGreaterThanOrEqual 0L
+        repository.countHappenedTransactions().value shouldBeGreaterThanOrEqual 0L
     }
 
     @Test

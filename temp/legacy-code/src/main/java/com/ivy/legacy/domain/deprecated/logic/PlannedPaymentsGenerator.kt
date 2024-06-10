@@ -4,7 +4,7 @@ import com.ivy.base.legacy.Transaction
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.legacy.datamodel.PlannedPaymentRule
-import com.ivy.legacy.datamodel.toEntity
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.incrementDate
 import java.time.LocalDateTime
 import javax.inject.Inject
@@ -74,7 +74,6 @@ class PlannedPaymentsGenerator @Inject constructor(
     }
 
     private suspend fun generateTransaction(rule: PlannedPaymentRule, dueDate: LocalDateTime) {
-        with(transactionMapper) {
             Transaction(
                 type = rule.type,
                 accountId = rule.accountId,
@@ -87,9 +86,8 @@ class PlannedPaymentsGenerator @Inject constructor(
                 dateTime = null,
                 toAccountId = null,
                 isSynced = false
-            ).toEntity().toDomain().getOrNull()?.let {
+            ).toDomain(transactionMapper)?.let {
                 transactionRepository.save(it)
-            }
         }
     }
 }

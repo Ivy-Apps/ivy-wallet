@@ -17,9 +17,7 @@ fun Transaction.toLegacy(mapper: TransactionMapper): LegacyTransaction {
 
 suspend fun LegacyTransaction.toDomain(mapper: TransactionMapper): Transaction? {
    return with(mapper) {
-       toEntity().toDomain().getOrNull()?.let {
-           it
-       }
+       toEntity().toDomain().getOrNull()
     }
 }
 
