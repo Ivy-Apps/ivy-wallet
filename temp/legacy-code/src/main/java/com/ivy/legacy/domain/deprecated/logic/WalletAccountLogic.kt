@@ -4,17 +4,17 @@ import arrow.core.getOrElse
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.model.TransactionType
-import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.Expense
 import com.ivy.data.model.Income
 import com.ivy.data.repository.CurrencyRepository
-import com.ivy.data.temp.migration.getValue
 import com.ivy.data.repository.TransactionRepository
+import com.ivy.data.repository.mapper.TransactionMapper
+import com.ivy.data.temp.migration.getValue
 import com.ivy.legacy.data.model.filterOverdue
 import com.ivy.legacy.data.model.filterUpcoming
 import com.ivy.legacy.datamodel.Account
-import com.ivy.legacy.datamodel.toEntity
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.wallet.domain.action.viewmodel.account.AccountDataAct
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
@@ -26,7 +26,7 @@ import kotlin.math.absoluteValue
 @Deprecated("Migrate to FP Style")
 class WalletAccountLogic @Inject constructor(
     private val transactionRepository: TransactionRepository,
-    private val transactionWriter: WriteTransactionDao,
+    private val transactionMapper: TransactionMapper,
     private val accountDataAct: AccountDataAct,
     private val sharedPrefs: SharedPrefs,
     private val currencyRepository: CurrencyRepository,
@@ -49,32 +49,32 @@ class WalletAccountLogic @Inject constructor(
         when {
             finalDiff < 0 -> {
                 // add income
-                transactionWriter.save(
-                    Transaction(
-                        type = TransactionType.INCOME,
-                        title = adjustTransactionTitle,
-                        amount = diff.absoluteValue.toBigDecimal(),
-                        toAmount = diff.absoluteValue.toBigDecimal(),
-                        dateTime = timeNowUTC(),
-                        accountId = account.id,
-                        isSynced = trnIsSyncedFlag
-                    ).toEntity()
-                )
+                Transaction(
+                    type = TransactionType.INCOME,
+                    title = adjustTransactionTitle,
+                    amount = diff.absoluteValue.toBigDecimal(),
+                    toAmount = diff.absoluteValue.toBigDecimal(),
+                    dateTime = timeNowUTC(),
+                    accountId = account.id,
+                    isSynced = trnIsSyncedFlag
+                ).toDomain(transactionMapper)?.let {
+                    transactionRepository.save(it)
+                }
             }
 
             finalDiff > 0 -> {
                 // add expense
-                transactionWriter.save(
-                    Transaction(
-                        type = TransactionType.EXPENSE,
-                        title = adjustTransactionTitle,
-                        amount = diff.absoluteValue.toBigDecimal(),
-                        toAmount = diff.absoluteValue.toBigDecimal(),
-                        dateTime = timeNowUTC(),
-                        accountId = account.id,
-                        isSynced = trnIsSyncedFlag
-                    ).toEntity()
-                )
+                Transaction(
+                    type = TransactionType.EXPENSE,
+                    title = adjustTransactionTitle,
+                    amount = diff.absoluteValue.toBigDecimal(),
+                    toAmount = diff.absoluteValue.toBigDecimal(),
+                    dateTime = timeNowUTC(),
+                    accountId = account.id,
+                    isSynced = trnIsSyncedFlag
+                ).toDomain(transactionMapper)?.let {
+                    transactionRepository.save(it)
+                }
             }
         }
     }

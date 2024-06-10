@@ -11,21 +11,23 @@ import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.data.db.dao.write.WriteLoanDao
 import com.ivy.data.db.dao.write.WriteLoanRecordDao
-import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.LoanType
+import com.ivy.data.model.TransactionId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.CategoryRepository
+import com.ivy.data.repository.TransactionRepository
+import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Loan
 import com.ivy.legacy.datamodel.LoanRecord
+import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.datamodel.temp.toLegacyDomain
-import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeNowUTC
@@ -48,7 +50,8 @@ class LoanTransactionsCore @Inject constructor(
     private val settingsDao: SettingsDao,
     private val accountsDao: AccountDao,
     private val exchangeRatesLogic: ExchangeRatesLogic,
-    private val writeTransactionDao: WriteTransactionDao,
+    private val transactionRepo: TransactionRepository,
+    private val transactionMapper: TransactionMapper,
     private val writeLoanRecordDao: WriteLoanRecordDao,
     private val writeLoanDao: WriteLoanDao,
 ) {
@@ -197,14 +200,16 @@ class LoanTransactionsCore @Inject constructor(
             )
 
         ioThread {
-            writeTransactionDao.save(modifiedTransaction.toEntity())
+            modifiedTransaction.toDomain(transactionMapper)?.let {
+                transactionRepo.save(it)
+            }
         }
     }
 
     private suspend fun deleteTransaction(transaction: Transaction?) {
         ioThread {
             transaction?.let {
-                writeTransactionDao.flagDeleted(it.id)
+                transactionRepo.deleteById(TransactionId(it.id))
             }
         }
     }
@@ -276,7 +281,7 @@ class LoanTransactionsCore @Inject constructor(
                 }
 
                 reCalculateLoanAmount || loanRecordCurrenciesChanged ||
-                    oldLonRecordConvertedAmount == null -> {
+                        oldLonRecordConvertedAmount == null -> {
                     ioThread {
                         exchangeRatesLogic.convertAmount(
                             baseCurrency = baseCurrency(),

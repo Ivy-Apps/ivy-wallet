@@ -4,7 +4,7 @@ import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.dao.read.PlannedPaymentRuleDao
-import com.ivy.data.db.dao.read.TransactionDao
+import com.ivy.data.repository.TransactionRepository
 import com.ivy.design.l0_system.Blue
 import com.ivy.design.l0_system.Blue3
 import com.ivy.design.l0_system.Gradient
@@ -25,14 +25,14 @@ import javax.inject.Inject
 
 @Deprecated("Legacy code")
 class CustomerJourneyCardsProvider @Inject constructor(
-    private val transactionDao: TransactionDao,
+    private val transactionRepository: TransactionRepository,
     private val plannedPaymentRuleDao: PlannedPaymentRuleDao,
     private val sharedPrefs: SharedPrefs,
     private val ivyContext: IvyWalletCtx
 ) {
 
     suspend fun loadCards(): List<CustomerJourneyCardModel> {
-        val trnCount = transactionDao.countHappenedTransactions()
+        val trnCount = transactionRepository.countHappenedTransactions().value
         val plannedPaymentsCount = plannedPaymentRuleDao.countPlannedPayments()
 
         return ACTIVE_CARDS

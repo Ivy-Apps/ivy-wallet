@@ -8,7 +8,6 @@ import com.ivy.data.backup.CSVRow
 import com.ivy.data.backup.ImportResult
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.SettingsDao
-import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
@@ -17,6 +16,8 @@ import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.repository.CurrencyRepository
+import com.ivy.data.repository.TransactionRepository
+import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.design.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.importdata.csv.ImportantFields
 import com.ivy.importdata.csv.OptionalFields
@@ -38,7 +39,8 @@ import com.ivy.importdata.csv.CSVRow as CSVRowNew
 
 class CSVImporterV2 @Inject constructor(
     private val settingsDao: SettingsDao,
-    private val transactionWriter: WriteTransactionDao,
+    private val transactionRepository: TransactionRepository,
+    private val transactionMapper: TransactionMapper,
     private val accountDao: AccountDao,
     private val categoryRepository: CategoryRepository,
     private val currencyRepository: CurrencyRepository,
@@ -108,7 +110,11 @@ class CSVImporterV2 @Inject constructor(
                 0.0
             }
             onProgress(0.5 + progressPercent / 2)
-            transactionWriter.save(transaction.toEntity())
+            with(transactionMapper) {
+                transaction.toEntity().toDomain().getOrNull()?.let {
+                    transactionRepository.save(it)
+                }
+            }
         }
 
         return ImportResult(

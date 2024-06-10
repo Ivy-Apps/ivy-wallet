@@ -10,11 +10,11 @@ import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.PlannedPaymentRuleDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
-import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.IntervalType
 import com.ivy.data.repository.CategoryRepository
+import com.ivy.data.repository.TransactionRepository
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.PlannedPaymentRule
 import com.ivy.legacy.datamodel.temp.toLegacyDomain
@@ -52,7 +52,7 @@ class EditPlannedViewModel @Inject constructor(
     private val accountCreator: AccountCreator,
     private val accountsAct: AccountsAct,
     private val plannedPaymentRuleWriter: WritePlannedPaymentRuleDao,
-    private val transactionWriter: WriteTransactionDao,
+    private val transactionRepository: TransactionRepository
 ) : ComposeViewModel<EditPlannedScreenState, EditPlannedScreenEvent>() {
 
     private val transactionType = mutableStateOf(TransactionType.INCOME)
@@ -466,8 +466,8 @@ class EditPlannedViewModel @Inject constructor(
             deleteTransactionModalVisible.value = false
             ioThread {
                 loadedRule?.let {
-                    plannedPaymentRuleWriter.flagDeleted(it.id)
-                    transactionWriter.flagDeletedByRecurringRuleIdAndNoDateTime(
+                    plannedPaymentRuleWriter.deleteById(it.id)
+                    transactionRepository.flagDeletedByRecurringRuleIdAndNoDateTime(
                         recurringRuleId = it.id
                     )
                 }

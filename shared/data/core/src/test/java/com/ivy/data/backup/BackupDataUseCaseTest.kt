@@ -50,10 +50,10 @@ class BackupDataUseCaseTest {
         loanRecordDao = loanRecordDao,
         loanDao = loanDao,
         plannedPaymentRuleDao = plannedPaymentDao,
-        settingsDao = settingsDao,
         transactionDao = transactionDao,
-        categoryWriter = categoryDao,
         transactionWriter = transactionDao,
+        settingsDao = settingsDao,
+        categoryWriter = categoryDao,
         settingsWriter = settingsDao,
         budgetWriter = budgetDao,
         loanWriter = loanDao,
@@ -90,7 +90,6 @@ class BackupDataUseCaseTest {
         // when
         val freshBackupUseCase = newBackupDataUseCase()
         val reImportedDataRes = freshBackupUseCase.importJson(exportedJson, onProgress = {})
-
         // then
         reImportedDataRes shouldBe importedDataRes
 

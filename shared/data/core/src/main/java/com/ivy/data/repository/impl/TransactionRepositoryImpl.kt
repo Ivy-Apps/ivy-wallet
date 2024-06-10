@@ -9,11 +9,13 @@ import com.ivy.data.model.AccountId
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.Expense
 import com.ivy.data.model.Income
+import com.ivy.data.model.TagId
 import com.ivy.data.model.Transaction
 import com.ivy.data.model.TransactionId
 import com.ivy.data.model.Transfer
 import com.ivy.data.model.primitive.AssociationId
-import com.ivy.data.model.TagId
+import com.ivy.data.model.primitive.NonNegativeLong
+import com.ivy.data.model.primitive.toNonNegative
 import com.ivy.data.repository.TagRepository
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
@@ -173,6 +175,74 @@ class TransactionRepositoryImpl @Inject constructor(
         }
     )
 
+    override suspend fun findAllByCategoryAndTypeAndBetween(
+        categoryId: UUID,
+        type: TransactionType,
+        startDate: LocalDateTime,
+        endDate: LocalDateTime
+    ): List<Transaction> = retrieveTrns(
+        dbCall = {
+            transactionDao.findAllByCategoryAndTypeAndBetween(
+                categoryId = categoryId,
+                type = type,
+                startDate = startDate,
+                endDate = endDate
+            )
+        }
+    )
+
+    override suspend fun findAllUnspecifiedAndTypeAndBetween(
+        type: TransactionType,
+        startDate: LocalDateTime,
+        endDate: LocalDateTime
+    ): List<Transaction> = retrieveTrns(
+        dbCall = {
+            transactionDao.findAllUnspecifiedAndTypeAndBetween(
+                type = type,
+                startDate = startDate,
+                endDate = endDate
+            )
+        }
+    )
+
+    override suspend fun findAllUnspecifiedAndBetween(
+        startDate: LocalDateTime,
+        endDate: LocalDateTime
+    ): List<Transaction> = retrieveTrns(
+        dbCall = {
+            transactionDao.findAllUnspecifiedAndBetween(
+                startDate = startDate,
+                endDate = endDate
+            )
+        }
+    )
+
+    override suspend fun findAllByCategoryAndBetween(
+        categoryId: UUID,
+        startDate: LocalDateTime,
+        endDate: LocalDateTime
+    ): List<Transaction> = retrieveTrns(
+        dbCall = {
+            transactionDao.findAllByCategoryAndBetween(
+                categoryId = categoryId,
+                startDate = startDate,
+                endDate = endDate
+            )
+        }
+    )
+
+    override suspend fun findAllByRecurringRuleId(recurringRuleId: UUID): List<Transaction> = retrieveTrns(
+        dbCall = {
+            transactionDao.findAllByRecurringRuleId(recurringRuleId)
+        }
+    )
+
+    override suspend fun flagDeletedByAccountId(accountId: UUID) {
+        withContext(dispatchersProvider.io) {
+            writeTransactionDao.flagDeletedByAccountId(accountId)
+        }
+    }
+
     override suspend fun findById(
         id: TransactionId
     ): Transaction? = withContext(dispatchersProvider.io) {
@@ -217,6 +287,12 @@ class TransactionRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun flagDeletedByRecurringRuleIdAndNoDateTime(recurringRuleId: UUID) {
+        withContext(dispatchersProvider.io) {
+            writeTransactionDao.flagDeletedByRecurringRuleIdAndNoDateTime(recurringRuleId)
+        }
+    }
+
     override suspend fun deleteById(id: TransactionId) {
         withContext(dispatchersProvider.io) {
             writeTransactionDao.deleteById(id.value)
@@ -234,6 +310,30 @@ class TransactionRepositoryImpl @Inject constructor(
             writeTransactionDao.deleteAll()
         }
     }
+
+    override suspend fun countHappenedTransactions(): NonNegativeLong = withContext(dispatchersProvider.io) {
+        transactionDao.countHappenedTransactions().toNonNegative()
+    }
+
+    override suspend fun findLoanTransaction(loanId: UUID): Transaction? =
+        withContext(dispatchersProvider.io) {
+            transactionDao.findLoanTransaction(loanId)?.let {
+                with(mapper) { it.toDomain() }.getOrNull()
+            }
+        }
+
+    override suspend fun findLoanRecordTransaction(loanRecordId: UUID): Transaction? =
+        withContext(dispatchersProvider.io) {
+            transactionDao.findLoanRecordTransaction(loanRecordId)?.let {
+                with(mapper) { it.toDomain() }.getOrNull()
+            }
+        }
+
+    override suspend fun findAllByLoanId(loanId: UUID): List<Transaction> = retrieveTrns(
+        dbCall = {
+            transactionDao.findAllByLoanId(loanId)
+        }
+    )
 
     private suspend fun retrieveTrns(
         dbCall: suspend () -> List<TransactionEntity>,
