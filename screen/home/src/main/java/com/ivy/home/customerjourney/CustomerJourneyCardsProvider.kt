@@ -32,7 +32,7 @@ class CustomerJourneyCardsProvider @Inject constructor(
 ) {
 
     suspend fun loadCards(): List<CustomerJourneyCardModel> {
-        val trnCount = transactionRepository.countHappenedTransactions()
+        val trnCount = transactionRepository.countHappenedTransactions().value
         val plannedPaymentsCount = plannedPaymentRuleDao.countPlannedPayments()
 
         return ACTIVE_CARDS
