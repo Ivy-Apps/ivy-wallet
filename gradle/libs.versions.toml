@@ -6,8 +6,6 @@ arrow = "1.2.4"
 kotest = "5.9.1"
 # https://developer.android.com/jetpack/androidx/releases/compose
 compose = "1.6.8"
-# https://developer.android.com/jetpack/androidx/releases/compose-kotlin
-compose-compiler = "1.5.11" # It's used! Use compatible with Kotlin one
 compose-material3 = "1.2.1"
 glance = "1.1.0"
 hilt = "2.51.1"
@@ -73,6 +71,7 @@ androidx-test-ext = { module = "androidx.test.ext:junit-ktx", version = "1.1.5" 
 mockk-android = { module = "io.mockk:mockk-android", version = "1.13.11" }
 
 # Compose
+compose-compiler-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
