@@ -93,7 +93,7 @@ import kotlin.math.roundToInt
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 const val SWIPE_UP_EXPANDED_THRESHOLD = 200
 
-@Suppress("LongMethod", "LongParameterList", "UnusedParameter")
+@Suppress("LongMethod", "LongParameterList", "UnusedParameter", "ParameterNaming")
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.EditBottomSheet(
@@ -365,6 +365,7 @@ private fun BottomBar(
 }
 
 @Composable
+@Suppress("ParameterNaming")
 private fun TransferRowMini(
     percentCollapsed: Float,
     fromAccount: Account?,
@@ -438,6 +439,7 @@ private fun TransferRowMini(
 }
 
 @Composable
+@Suppress("ParameterNaming")
 private fun SheetHeader(
     percentExpanded: Float,
     label: String,
@@ -515,6 +517,7 @@ private fun SheetHeader(
 }
 
 @Composable
+@Suppress("ParameterNaming")
 private fun AccountsRow(
     accounts: List<Account>,
     selectedAccount: Account?,

@@ -231,7 +231,7 @@ private fun BoxWithConstraintsScope.UI(
         dismiss = {
             onEvent(CategoriesScreenEvent.OnSortOrderModalVisible(visible = false))
         },
-        onSortOrderChanged = {
+        onSortOrderChange = {
             onEvent(CategoriesScreenEvent.OnReorder(state.categories, it))
         }
     )
@@ -439,7 +439,7 @@ fun BoxWithConstraintsScope.SortModal(
     visible: Boolean,
     initialType: SortOrder,
     dismiss: () -> Unit,
-    onSortOrderChanged: (SortOrder) -> Unit,
+    onSortOrderChange: (SortOrder) -> Unit,
     modifier: Modifier = Modifier,
     title: String = stringResource(R.string.sort_by),
     id: UUID = UUID.randomUUID()
@@ -449,7 +449,7 @@ fun BoxWithConstraintsScope.SortModal(
     }
 
     val applyChange = {
-        onSortOrderChanged(sortOrder)
+        onSortOrderChange(sortOrder)
         dismiss()
     }
 

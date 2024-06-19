@@ -104,7 +104,7 @@ private fun BoxWithConstraintsScope.UI(
                     )
                 },
 
-                onDone = { onEvent(OnboardingEvent.OnAddAccountsDone) },
+                onDoneClick = { onEvent(OnboardingEvent.OnAddAccountsDone) },
                 onSkip = { onEvent(OnboardingEvent.OnAddAccountsSkip) }
             )
         }
@@ -117,7 +117,7 @@ private fun BoxWithConstraintsScope.UI(
                 onCreateCategory = { onEvent(OnboardingEvent.CreateCategory(it)) },
                 onEditCategory = { onEvent(OnboardingEvent.EditCategory(it)) },
 
-                onDone = { onEvent(OnboardingEvent.OnAddCategoriesDone) },
+                onDoneClick = { onEvent(OnboardingEvent.OnAddCategoriesDone) },
                 onSkip = { onEvent(OnboardingEvent.OnAddCategoriesSkip) }
             )
         }

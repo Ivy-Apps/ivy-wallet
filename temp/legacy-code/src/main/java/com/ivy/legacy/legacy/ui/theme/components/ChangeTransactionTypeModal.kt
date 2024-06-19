@@ -40,6 +40,7 @@ import com.ivy.wallet.ui.theme.modal.ModalTitle
 import java.util.UUID
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
+@Suppress("ParameterNaming")
 @Composable
 fun BoxWithConstraintsScope.ChangeTransactionTypeModal(
     title: String = stringResource(R.string.set_transaction_type),

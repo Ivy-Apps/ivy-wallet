@@ -257,6 +257,7 @@ private fun removeLastBackHandlerSafe(nav: Navigation) {
 }
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
+@Suppress("ParameterNaming")
 @Composable
 fun ModalActionsRow(
     visible: Boolean,

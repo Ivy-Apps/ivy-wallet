@@ -38,6 +38,7 @@ import java.time.LocalDate
 import java.util.UUID
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
+@Suppress("ParameterNaming")
 @Composable
 fun BoxWithConstraintsScope.MonthPickerModal(
     id: UUID = UUID.randomUUID(),
@@ -86,6 +87,7 @@ fun BoxWithConstraintsScope.MonthPickerModal(
 }
 
 @Composable
+@Suppress("ParameterNaming")
 private fun MonthPicker(
     selectedMonth: Int,
     onMonthSelected: (Int) -> Unit

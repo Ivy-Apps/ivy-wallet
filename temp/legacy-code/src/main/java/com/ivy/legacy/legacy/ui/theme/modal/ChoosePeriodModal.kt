@@ -66,6 +66,7 @@ data class ChoosePeriodModalData(
 )
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
+@Suppress("ParameterNaming")
 @Composable
 fun BoxWithConstraintsScope.ChoosePeriodModal(
     modal: ChoosePeriodModalData?,
@@ -154,6 +155,7 @@ fun BoxWithConstraintsScope.ChoosePeriodModal(
 }
 
 @Composable
+@Suppress("ParameterNaming")
 private fun ChooseMonth(
     selectedMonthYear: MonthYear?,
     onSelected: (MonthYear) -> Unit,
@@ -279,6 +281,7 @@ private fun MonthButton(
 }
 
 @Composable
+@Suppress("ParameterNaming")
 private fun FromToRange(
     timeRange: com.ivy.legacy.data.model.FromToTimeRange?,
     onSelected: (com.ivy.legacy.data.model.FromToTimeRange?) -> Unit,
@@ -337,6 +340,7 @@ private fun FromToRange(
 }
 
 @Composable
+@Suppress("ParameterNaming")
 private fun IntervalFromToDate(
     border: IntervalBorder,
     dateTime: LocalDateTime?,
@@ -430,6 +434,7 @@ private enum class IntervalBorder {
 }
 
 @Composable
+@Suppress("ParameterNaming")
 private fun LastNPeriod(
     modalScrollState: ScrollState,
     lastNTimeRange: com.ivy.legacy.data.model.LastNTimeRange?,
@@ -489,6 +494,7 @@ private fun LastNPeriod(
 }
 
 @Composable
+@Suppress("ParameterNaming")
 private fun AllTime(
     timeRange: com.ivy.legacy.data.model.FromToTimeRange?,
     onSelected: (com.ivy.legacy.data.model.FromToTimeRange?) -> Unit,

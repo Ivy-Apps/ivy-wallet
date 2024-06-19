@@ -24,6 +24,7 @@ import com.ivy.wallet.ui.theme.components.IvyTitleTextField
 import java.util.UUID
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
+@Suppress("ParameterNaming")
 @Composable
 fun BoxWithConstraintsScope.NameModal(
     visible: Boolean,

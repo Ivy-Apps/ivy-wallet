@@ -270,7 +270,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
 
             OthersFilter(
                 filter = localFilter,
-                onTagButtonClicked = {
+                onTagButtonClick = {
                     tagModalVisible = true
                 }
             )
@@ -429,7 +429,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
 @Composable
 fun ColumnScope.OthersFilter(
     filter: ReportFilter?,
-    onTagButtonClicked: () -> Unit
+    onTagButtonClick: () -> Unit,
 ) {
     FilterTitleText(
         text = stringResource(R.string.others_optional),
@@ -438,14 +438,14 @@ fun ColumnScope.OthersFilter(
 
     TagFilter(
         selectedTags = filter?.selectedTags?.toImmutableList() ?: persistentListOf(),
-        onTagButtonClicked = onTagButtonClicked
+        onTagButtonClick = onTagButtonClick,
     )
 }
 
 @Composable
 fun ColumnScope.TagFilter(
     selectedTags: ImmutableList<TagId>,
-    onTagButtonClicked: () -> Unit,
+    onTagButtonClick: () -> Unit,
     @Suppress("UnusedParameter") modifier: Modifier = Modifier
 ) {
     Text(
@@ -463,11 +463,11 @@ fun ColumnScope.TagFilter(
             modifier = Modifier.padding(start = 24.dp),
             text = stringResource(R.string.select_tags)
         ) {
-            onTagButtonClicked()
+            onTagButtonClick()
         }
     } else {
         AddTagButton(transactionAssociatedTags = selectedTags) {
-            onTagButtonClicked()
+            onTagButtonClick()
         }
     }
 }

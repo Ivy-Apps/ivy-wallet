@@ -32,6 +32,7 @@ import kotlin.math.roundToInt
  * - handles color must be set Theme XML `accentColor`
  */
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
+@Suppress("ParameterNaming")
 @Composable
 fun InputField(
     modifier: Modifier = Modifier,
