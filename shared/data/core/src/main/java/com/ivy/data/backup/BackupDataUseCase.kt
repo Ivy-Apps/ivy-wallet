@@ -35,6 +35,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import timber.log.Timber
 import java.io.File
+import java.io.FileOutputStream
 import java.util.UUID
 import javax.inject.Inject
 
@@ -80,7 +81,7 @@ class BackupDataUseCase @Inject constructor(
         val outputDir = context.cacheDir
 
         val file = File.createTempFile(fileNamePrefix, fileNameSuffix, outputDir)
-        file.writeText(jsonString, Charsets.UTF_16)
+        FileOutputStream(file).use { it.write(jsonString.toByteArray(Charsets.UTF_16)) }
 
         return file
     }

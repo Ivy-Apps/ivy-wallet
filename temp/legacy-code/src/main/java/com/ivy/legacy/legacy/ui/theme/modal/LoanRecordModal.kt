@@ -427,6 +427,7 @@ private fun save(
 }
 
 @Composable
+@Suppress("ParameterNaming")
 private fun LoanRecordTypeRow(
     selectedRecordType: LoanRecordType?,
     modifier: Modifier = Modifier,
@@ -507,6 +508,7 @@ private fun LoanRecordType(
 }
 
 @Composable
+@Suppress("ParameterNaming")
 private fun AccountsRow(
     modifier: Modifier = Modifier,
     accounts: List<Account>,

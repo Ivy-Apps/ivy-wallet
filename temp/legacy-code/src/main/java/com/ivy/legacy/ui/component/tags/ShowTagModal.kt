@@ -53,6 +53,7 @@ import kotlinx.collections.immutable.ImmutableList
 import java.util.UUID
 
 @ExperimentalFoundationApi
+@Suppress("ParameterNaming")
 @Composable
 fun BoxWithConstraintsScope.ShowTagModal(
     onDismiss: () -> Unit,
@@ -183,6 +184,7 @@ fun BoxWithConstraintsScope.ShowTagModal(
 }
 
 @OptIn(ExperimentalFoundationApi::class)
+@Suppress("ParameterNaming")
 @Composable
 private fun ColumnScope.TagList(
     transactionTags: ImmutableList<Tag>,

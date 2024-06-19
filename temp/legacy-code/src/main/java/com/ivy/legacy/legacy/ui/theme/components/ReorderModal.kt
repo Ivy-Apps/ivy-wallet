@@ -34,7 +34,7 @@ import com.ivy.wallet.ui.theme.modal.IvyModal
 import java.util.*
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
-@Suppress("UNCHECKED_CAST")
+@Suppress("UNCHECKED_CAST", "ParameterNaming")
 @Composable
 fun <T : Reorderable> BoxScope.ReorderModalSingleType(
     visible: Boolean,
@@ -76,6 +76,7 @@ fun <T : Reorderable> BoxScope.ReorderModalSingleType(
 }
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
+@Suppress("ParameterNaming")
 @Composable
 fun <T : Reorderable> BoxScope.ReorderModal(
     visible: Boolean,

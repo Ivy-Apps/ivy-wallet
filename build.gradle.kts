@@ -13,19 +13,20 @@ plugins {
 
 subprojects {
     apply(plugin = "org.jetbrains.kotlinx.kover")
-    koverReport {
-        // filters for all report types of all build variants
-        filters {
-            excludes {
-                classes(
-                    "*Activity",
-                    "*Activity\$*",
-                    "*.BuildConfig",
-                    "dagger.hilt.*",
-                    "hilt_aggregated_deps.*",
-                    "*.Hilt_*"
-                )
-                annotatedBy("@Composable")
+    kover {
+        reports {
+            filters {
+                excludes {
+                    classes(
+                        "*Activity",
+                        "*Activity\$*",
+                        "*.BuildConfig",
+                        "dagger.hilt.*",
+                        "hilt_aggregated_deps.*",
+                        "*.Hilt_*"
+                    )
+                    annotatedBy("@Composable")
+                }
             }
         }
     }

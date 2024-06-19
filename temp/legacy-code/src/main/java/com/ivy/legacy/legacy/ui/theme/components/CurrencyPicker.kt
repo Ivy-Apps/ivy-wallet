@@ -62,6 +62,7 @@ import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_ANIM
 import java.util.Locale
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
+@Suppress("ParameterNaming")
 @Composable
 fun CurrencyPicker(
     modifier: Modifier = Modifier,
@@ -267,6 +268,7 @@ private fun SelectedCurrencyCard(
 }
 
 @Composable
+@Suppress("ParameterNaming")
 private fun CurrencyList(
     searchQueryLowercase: String,
     selectedCurrency: IvyCurrency,

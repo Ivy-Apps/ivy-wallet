@@ -57,6 +57,7 @@ import java.time.Instant
 import java.util.UUID
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
+@Suppress("ParameterNaming")
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.ChooseCategoryModal(
@@ -135,6 +136,7 @@ private fun save(
 }
 
 @ExperimentalFoundationApi
+@Suppress("ParameterNaming")
 @Composable
 private fun CategoryPicker(
     categories: List<Category>,

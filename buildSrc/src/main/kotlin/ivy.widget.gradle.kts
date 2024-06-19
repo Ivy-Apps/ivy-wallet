@@ -1,15 +1,12 @@
 plugins {
     id("ivy.module")
+    org.jetbrains.kotlin.plugin.compose
 }
 
 android {
     // Compose
     buildFeatures {
         compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = catalog.version("compose-compiler")
     }
 }
 

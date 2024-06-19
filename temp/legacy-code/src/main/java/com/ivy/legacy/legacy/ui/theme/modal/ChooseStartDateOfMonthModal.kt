@@ -32,6 +32,7 @@ import com.ivy.wallet.ui.theme.White
 import java.util.UUID
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
+@Suppress("ParameterNaming")
 @Composable
 fun BoxWithConstraintsScope.ChooseStartDateOfMonthModal(
     id: UUID = UUID.randomUUID(),

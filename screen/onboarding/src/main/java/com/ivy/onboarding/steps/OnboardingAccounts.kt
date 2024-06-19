@@ -73,7 +73,7 @@ fun BoxWithConstraintsScope.OnboardingAccounts(
     onEditAccount: (Account, Double) -> Unit = { _, _ -> },
 
     onSkip: () -> Unit = {},
-    onDone: () -> Unit = {}
+    onDoneClick: () -> Unit = {}
 ) {
     var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
 
@@ -199,7 +199,7 @@ fun BoxWithConstraintsScope.OnboardingAccounts(
             hasNext = true,
             enabled = true
         ) {
-            onDone()
+            onDoneClick()
         }
     }
 

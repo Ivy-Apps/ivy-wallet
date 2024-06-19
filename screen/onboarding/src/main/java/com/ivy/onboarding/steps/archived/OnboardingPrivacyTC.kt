@@ -57,7 +57,7 @@ import timber.log.Timber
 
 @Composable
 fun OnboardingPrivacyTC(
-    onAccepted: () -> Unit
+    onAccept: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -119,7 +119,7 @@ fun OnboardingPrivacyTC(
         }
 
         if (tcAccepted && privacyAccepted) {
-            onAccepted()
+            onAccept()
         }
 
         Spacer(Modifier.height(32.dp))
@@ -200,7 +200,7 @@ private fun TextLink(
 private fun SwipeToAgree(
     swipeToAgreeText: String,
     agreedText: String,
-    onAgreed: (Boolean) -> Unit
+    onAgree: (Boolean) -> Unit
 ) {
     val ivyContext = ivyWalletCtx()
 
@@ -211,7 +211,7 @@ private fun SwipeToAgree(
     val agreed = percentSwiped > 0.5f
 
     if (percentSwiped > 0.99f || percentSwiped < 0.01f) {
-        onAgreed(agreed)
+        onAgree(agreed)
     }
 
     Box(
@@ -262,7 +262,7 @@ private fun SwipeToAgree(
                 .offset(x = offsetX.toDensityDp())
                 .drawColoredShadow(color = Green)
                 .background(GradientGreen.asHorizontalBrush(), UI.shapes.r4)
-                .pointerInput(onAgreed) {
+                .pointerInput(onAgree) {
                     detectHorizontalDragGestures(
                         onDragCancel = {
                             if (percentSwiped < 0.9f) {
@@ -298,7 +298,7 @@ private fun SwipeToAgree(
 private fun Preview() {
     IvyWalletPreview {
         OnboardingPrivacyTC(
-            onAccepted = {
+            onAccept = {
             }
         )
     }

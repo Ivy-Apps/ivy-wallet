@@ -36,6 +36,7 @@ import kotlinx.coroutines.launch
 import java.util.UUID
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
+@Suppress("ParameterNaming")
 @Composable
 fun ColumnScope.Title(
     type: TransactionType,

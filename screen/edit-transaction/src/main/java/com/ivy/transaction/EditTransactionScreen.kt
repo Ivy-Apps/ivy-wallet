@@ -128,25 +128,25 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransactionScreen)
         onSetTime = {
             viewModel.onEvent(EditTransactionEvent.OnSetTime(it))
         },
-        onTitleChanged = {
+        onTitleChange = {
             viewModel.onEvent(EditTransactionEvent.OnTitleChanged(it))
         },
-        onDescriptionChanged = {
+        onDescriptionChange = {
             viewModel.onEvent(EditTransactionEvent.OnDescriptionChanged(it))
         },
-        onAmountChanged = {
+        onAmountChange = {
             viewModel.onEvent(EditTransactionEvent.OnAmountChanged(it))
         },
-        onCategoryChanged = {
+        onCategoryChange = {
             viewModel.onEvent(EditTransactionEvent.OnCategoryChanged(it))
         },
-        onAccountChanged = {
+        onAccountChange = {
             viewModel.onEvent(EditTransactionEvent.OnAccountChanged(it))
         },
-        onToAccountChanged = {
+        onToAccountChange = {
             viewModel.onEvent(EditTransactionEvent.OnToAccountChanged(it))
         },
-        onDueDateChanged = {
+        onDueDateChange = {
             viewModel.onEvent(EditTransactionEvent.OnDueDateChanged(it))
         },
         onSetTransactionType = {
@@ -174,7 +174,7 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransactionScreen)
         onCreateAccount = {
             viewModel.onEvent(EditTransactionEvent.CreateAccount(it))
         },
-        onExchangeRateChanged = {
+        onExchangeRateChange = {
             viewModel.onEvent(EditTransactionEvent.UpdateExchangeRate(it))
         },
         onTagOperation = {
@@ -205,13 +205,13 @@ private fun BoxWithConstraintsScope.UI(
     accounts: ImmutableList<Account>,
     tags: ImmutableList<Tag>,
     transactionAssociatedTags: ImmutableList<TagId>,
-    onTitleChanged: (String?) -> Unit,
-    onDescriptionChanged: (String?) -> Unit,
-    onAmountChanged: (Double) -> Unit,
-    onCategoryChanged: (Category?) -> Unit,
-    onAccountChanged: (Account) -> Unit,
-    onToAccountChanged: (Account) -> Unit,
-    onDueDateChanged: (LocalDateTime?) -> Unit,
+    onTitleChange: (String?) -> Unit,
+    onDescriptionChange: (String?) -> Unit,
+    onAmountChange: (Double) -> Unit,
+    onCategoryChange: (Category?) -> Unit,
+    onAccountChange: (Account) -> Unit,
+    onToAccountChange: (Account) -> Unit,
+    onDueDateChange: (LocalDateTime?) -> Unit,
     onSetDate: (LocalDate) -> Unit,
     onSetTime: (LocalTime) -> Unit,
     onSetTransactionType: (TransactionType) -> Unit,
@@ -223,7 +223,7 @@ private fun BoxWithConstraintsScope.UI(
     onSetHasChanges: (hasChanges: Boolean) -> Unit,
     onDelete: () -> Unit,
     onCreateAccount: (CreateAccountData) -> Unit,
-    onExchangeRateChanged: (Double?) -> Unit = { },
+    onExchangeRateChange: (Double?) -> Unit = { },
     onTagOperation: (EditTransactionEvent.TagEvent) -> Unit = {},
     loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(),
     backgroundProcessing: Boolean = false,
@@ -306,7 +306,7 @@ private fun BoxWithConstraintsScope.UI(
             suggestions = titleSuggestions,
             scrollState = scrollState,
 
-            onTitleChanged = onTitleChanged,
+            onTitleChanged = onTitleChange,
             onNext = {
                 when {
                     shouldFocusAmount(amount = amount) -> {
@@ -354,7 +354,7 @@ private fun BoxWithConstraintsScope.UI(
                 ivyContext.datePicker(
                     initialDate = dueDate.toLocalDate()
                 ) {
-                    onDueDateChanged(it.atTime(12, 0))
+                    onDueDateChange(it.atTime(12, 0))
                 }
             }
 
@@ -387,7 +387,7 @@ private fun BoxWithConstraintsScope.UI(
                 exchangeRate = customExchangeRateState.exchangeRate,
                 onRefresh = {
                     // Set exchangeRate to null to reset
-                    onExchangeRateChanged(null)
+                    onExchangeRateChange(null)
                 },
                 modifier = Modifier.onGloballyPositioned { coordinates ->
                     customExchangeRatePosition = coordinates.positionInParent().y * 0.3f
@@ -486,7 +486,7 @@ private fun BoxWithConstraintsScope.UI(
         },
 
         onAmountChanged = {
-            onAmountChanged(it)
+            onAmountChange(it)
             if (shouldFocusCategory(category)) {
                 chooseCategoryModalVisible = true
             } else if (shouldFocusTitle(titleTextFieldValue, transactionType)) {
@@ -498,10 +498,10 @@ private fun BoxWithConstraintsScope.UI(
                 selectedAcc = it
                 accountChangeModal = true
             } else {
-                onAccountChanged(it)
+                onAccountChange(it)
             }
         },
-        onToAccountChanged = onToAccountChanged,
+        onToAccountChanged = onToAccountChange,
         onAddNewAccount = {
             accountModalData = AccountModalData(
                 account = null, baseCurrency = baseCurrency, balance = 0.0
@@ -516,7 +516,7 @@ private fun BoxWithConstraintsScope.UI(
         categories = categories,
         showCategoryModal = { categoryModalData = CategoryModalData(it) },
         onCategoryChanged = {
-            onCategoryChanged(it)
+            onCategoryChange(it)
             if (shouldFocusTitle(titleTextFieldValue, transactionType)) {
                 titleFocus.requestFocus()
             } else if (shouldFocusAmount(amount = amount)) {
@@ -547,7 +547,7 @@ private fun BoxWithConstraintsScope.UI(
     DescriptionModal(
         visible = descriptionModalVisible,
         description = description,
-        onDescriptionChanged = onDescriptionChanged,
+        onDescriptionChanged = onDescriptionChange,
         dismiss = {
             descriptionModalVisible = false
         }
@@ -583,7 +583,7 @@ private fun BoxWithConstraintsScope.UI(
             accountChangeModal = false
         }
     ) {
-        selectedAcc?.let { onAccountChanged(it) }
+        selectedAcc?.let { onAccountChange(it) }
         accountChangeModal = false
     }
 
@@ -601,7 +601,7 @@ private fun BoxWithConstraintsScope.UI(
         dismiss = { exchangeRateAmountModalShown = false },
         decimalCountMax = 4,
         onAmountChanged = {
-            onExchangeRateChanged(it)
+            onExchangeRateChange(it)
         }
     )
 
@@ -674,13 +674,13 @@ private fun BoxWithConstraintsScope.Preview(isDark: Boolean = false) {
             categories = persistentListOf(),
             accounts = persistentListOf(),
 
-            onDueDateChanged = {},
-            onCategoryChanged = {},
-            onAccountChanged = {},
-            onToAccountChanged = {},
-            onDescriptionChanged = {},
-            onTitleChanged = {},
-            onAmountChanged = {},
+            onDueDateChange = {},
+            onCategoryChange = {},
+            onAccountChange = {},
+            onToAccountChange = {},
+            onDescriptionChange = {},
+            onTitleChange = {},
+            onAmountChange = {},
 
             onCreateCategory = { },
             onEditCategory = {},
