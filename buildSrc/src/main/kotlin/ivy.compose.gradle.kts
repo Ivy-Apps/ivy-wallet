@@ -1,4 +1,5 @@
 plugins {
+    org.jetbrains.kotlin.plugin.compose
     id("ivy.module")
     id("app.cash.molecule")
 }
@@ -7,10 +8,6 @@ android {
     // Compose
     buildFeatures {
         compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = catalog.version("compose-compiler")
     }
 
     lint {
@@ -26,22 +23,9 @@ android {
     }
 }
 
-@Suppress("MaximumLineLength", "MaxLineLength")
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions {
-        if (project.findProperty("composeCompilerReports") == "true") {
-            freeCompilerArgs += listOf(
-                "-P",
-                "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${project.buildDir.absolutePath}/compose_compiler"
-            )
-        }
-        if (project.findProperty("composeCompilerMetrics") == "true") {
-            freeCompilerArgs += listOf(
-                "-P",
-                "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=${project.buildDir.absolutePath}/compose_compiler"
-            )
-        }
-    }
+composeCompiler {
+    reportsDestination = layout.buildDirectory.dir("compose_compiler")
+    metricsDestination = layout.buildDirectory.dir("compose_compiler")
 }
 
 dependencies {

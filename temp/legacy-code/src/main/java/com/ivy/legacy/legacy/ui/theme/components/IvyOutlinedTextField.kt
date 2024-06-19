@@ -31,6 +31,7 @@ import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.design.utils.thenIf
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
+@Suppress("ParameterNaming")
 @Composable
 fun IvyOutlinedTextField(
     modifier: Modifier = Modifier,

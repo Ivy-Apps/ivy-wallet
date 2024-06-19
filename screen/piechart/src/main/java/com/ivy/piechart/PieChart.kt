@@ -48,7 +48,7 @@ fun PieChart(
     categoryAmounts: ImmutableList<CategoryAmount>,
     selectedCategory: SelectedCategory?,
     modifier: Modifier = Modifier,
-    onCategoryClicked: (Category?) -> Unit = {}
+    onCategoryClick: (Category?) -> Unit = {}
 ) {
     Box(
         modifier = modifier.fillMaxWidth(),
@@ -79,7 +79,7 @@ fun PieChart(
                 view.display(
                     categoryAmounts = categoryAmounts.sortedByDescending { it.amount },
                     selectedCategory = selectedCategory,
-                    onCategoryClicked = onCategoryClicked
+                    onCategoryClicked = onCategoryClick
                 )
             }
         )

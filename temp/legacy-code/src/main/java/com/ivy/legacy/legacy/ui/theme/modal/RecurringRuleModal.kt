@@ -72,6 +72,7 @@ data class RecurringRuleModalData(
 )
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
+@Suppress("ParameterNaming")
 @Composable
 fun BoxWithConstraintsScope.RecurringRuleModal(
     modal: RecurringRuleModalData?,
@@ -232,6 +233,7 @@ private fun RowScope.TimesSelectorButton(
 }
 
 @Composable
+@Suppress("ParameterNaming")
 private fun OneTime(
     date: LocalDateTime,
     onDatePicked: (LocalDateTime) -> Unit
@@ -320,6 +322,7 @@ private fun MultipleTimes(
 }
 
 @Composable
+@Suppress("ParameterNaming")
 private fun DateRow(
     dateTime: LocalDateTime,
     onDatePicked: (LocalDateTime) -> Unit

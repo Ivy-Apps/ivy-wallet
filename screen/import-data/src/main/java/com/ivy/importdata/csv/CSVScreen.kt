@@ -100,7 +100,7 @@ private fun ImportUI(
             Spacer8()
             Spacer8()
             ImportButton(
-                onFilePicked = {
+                onFilePick = {
                     onEvent(CSVEvent.FilePicked(it))
                 }
             )
@@ -141,7 +141,7 @@ private fun ImportUI(
 
 @Composable
 private fun ImportButton(
-    onFilePicked: (Uri) -> Unit,
+    onFilePick: (Uri) -> Unit,
 ) {
     val ivyContext = com.ivy.legacy.ivyWalletCtx()
     Button(
@@ -150,7 +150,7 @@ private fun ImportButton(
             .height(48.dp),
         onClick = {
             ivyContext.openFile {
-                onFilePicked(it)
+                onFilePick(it)
             }
         }
     ) {

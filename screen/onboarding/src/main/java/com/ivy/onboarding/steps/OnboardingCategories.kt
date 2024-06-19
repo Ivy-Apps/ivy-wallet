@@ -77,7 +77,7 @@ fun BoxWithConstraintsScope.OnboardingCategories(
     onEditCategory: (Category) -> Unit = { _ -> },
 
     onSkip: () -> Unit = {},
-    onDone: () -> Unit = {}
+    onDoneClick: () -> Unit = {}
 ) {
     var categoryModalData: CategoryModalData? by remember { mutableStateOf(null) }
 
@@ -197,7 +197,7 @@ fun BoxWithConstraintsScope.OnboardingCategories(
             hasNext = false,
             enabled = true
         ) {
-            onDone()
+            onDoneClick()
         }
     }
 

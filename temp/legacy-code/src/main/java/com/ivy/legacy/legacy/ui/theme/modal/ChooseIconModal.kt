@@ -49,6 +49,7 @@ import java.util.UUID
 private const val ICON_PICKER_ICONS_PER_ROW = 5
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
+@Suppress("ParameterNaming")
 @Composable
 fun BoxWithConstraintsScope.ChooseIconModal(
     visible: Boolean,
@@ -239,6 +240,7 @@ private fun LazyListScope.addIconsRowIfNotEmpty(
 }
 
 @Composable
+@Suppress("ParameterNaming")
 private fun IconsRow(
     icons: ImmutableList<String>,
     selectedIcon: String?,

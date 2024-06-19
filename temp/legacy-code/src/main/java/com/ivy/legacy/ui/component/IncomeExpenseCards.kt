@@ -38,6 +38,7 @@ import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.isDarkColor
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
+@Suppress("ParameterNaming")
 @Composable
 fun IncomeExpensesCards(
     history: List<TransactionHistoryItem>,
@@ -97,6 +98,7 @@ fun IncomeExpensesCards(
 }
 
 @Composable
+@Suppress("ParameterNaming")
 private fun RowScope.HeaderCard(
     title: String,
     currencyCode: String,

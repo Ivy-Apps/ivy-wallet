@@ -47,6 +47,7 @@ private data class IvyColor(
 )
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
+@Suppress("ParameterNaming")
 @Composable
 fun ColumnScope.IvyColorPicker(
     selectedColor: Color,
@@ -126,6 +127,7 @@ fun ColumnScope.IvyColorPicker(
 }
 
 @Composable
+@Suppress("ParameterNaming")
 private fun ColorItem(
     index: Int,
     ivyColor: IvyColor,

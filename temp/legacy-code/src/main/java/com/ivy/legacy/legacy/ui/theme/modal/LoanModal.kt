@@ -349,6 +349,7 @@ fun BoxWithConstraintsScope.LoanModal(
 }
 
 @Composable
+@Suppress("ParameterNaming")
 private fun AccountsRow(
     modifier: Modifier = Modifier,
     accounts: List<Account>,
@@ -492,6 +493,7 @@ private fun AddAccount(
     Spacer(Modifier.width(8.dp))
 }
 
+@Suppress("ParameterNaming")
 @Composable
 private fun ColumnScope.LoanTypePicker(
     type: LoanType,

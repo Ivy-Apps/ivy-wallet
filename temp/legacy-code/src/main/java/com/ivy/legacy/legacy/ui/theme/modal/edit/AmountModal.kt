@@ -58,6 +58,7 @@ import java.util.UUID
 import kotlin.math.truncate
 
 @SuppressLint("ComposeModifierMissing")
+@Suppress("ParameterNaming")
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.AmountModal(
@@ -297,7 +298,12 @@ private fun formatNumber(number: String): String? {
     return null
 }
 
-@SuppressLint("ComposeContentEmitterReturningValues", "ComposeMultipleContentEmitters", "ComposeModifierMissing")
+@SuppressLint(
+    "ComposeContentEmitterReturningValues",
+    "ComposeMultipleContentEmitters",
+    "ComposeModifierMissing",
+)
+@Suppress("ParameterNaming")
 @Composable
 fun AmountKeyboard(
     forCalculator: Boolean,
@@ -453,6 +459,7 @@ fun AmountKeyboard(
 }
 
 @Composable
+@Suppress("ParameterNaming")
 fun CircleNumberButton(
     forCalculator: Boolean,
     value: String,

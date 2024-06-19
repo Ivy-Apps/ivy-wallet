@@ -456,7 +456,7 @@
     <string name="this_transaction_is_associated_with_loan">* 此交易与贷款关联：%1$s</string>
     <string name="this_transaction_is_associated_with_loan_record">* 此交易与贷款记录关联：%1$s</string>
     <string name="note_transaction_associated_with_loan_record_of_loan">注意：此交易与贷款记录关联：%1$s\n您正在尝试将贷款记录关联的账户更改为不同货币的账户\n贷款记录将根据当天的汇率重新计算</string>
-    <string name="note_you_are_trying_to_change_the_account_associated_with_the_loan">注意：您正在尝试将贷款关联的账户更改为不同货币的账户\n所有贷款记录将根据当天的汇率重新计算</string>
+    <string name="note_you_are_trying_to_change_the_account_associated_with_the_loan">注意：您正在尝试将贷款 %s 关联的账户更改为不同货币的账户\n所有贷款记录将根据当天的汇率重新计算</string>
     <string name="attributions">第三方代码</string>
     <string name="icons">图标</string>
     <string name="fonts">字体</string>

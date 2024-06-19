@@ -157,7 +157,7 @@ fun BoxWithConstraintsScope.HomeUi(
         HomeLazyColumn(
             hideBalance = uiState.hideBalance,
             hideIncome = uiState.hideIncome,
-            onSetExpanded = {
+            onSetExpand = {
                 onEvent(HomeEvent.SetExpanded(it))
             },
             balance = uiState.balance,
@@ -281,7 +281,7 @@ fun BoxWithConstraintsScope.HomeUi(
 fun HomeLazyColumn(
     hideBalance: Boolean,
     hideIncome: Boolean,
-    onSetExpanded: (Boolean) -> Unit,
+    onSetExpand: (Boolean) -> Unit,
     listState: LazyListState,
     period: TimePeriod,
 
@@ -318,7 +318,7 @@ fun HomeLazyColumn(
                 available: Offset,
                 source: NestedScrollSource
             ): Offset {
-                onSetExpanded(listState.firstVisibleItemScrollOffset == 0)
+                onSetExpand(listState.firstVisibleItemScrollOffset == 0)
                 return super.onPostScroll(consumed, available, source)
             }
         }

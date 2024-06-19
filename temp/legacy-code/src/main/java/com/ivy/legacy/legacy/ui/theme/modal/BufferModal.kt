@@ -23,6 +23,7 @@ data class BufferModalData(
 )
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
+@Suppress("ParameterNaming")
 @Composable
 fun BoxWithConstraintsScope.BufferModal(
     modal: BufferModalData?,

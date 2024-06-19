@@ -40,6 +40,7 @@ import com.ivy.wallet.ui.theme.modal.ModalDynamicPrimaryAction
 import java.util.UUID
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
+@Suppress("ParameterNaming")
 @Composable
 fun BoxWithConstraintsScope.DescriptionModal(
     id: UUID = UUID.randomUUID(),
