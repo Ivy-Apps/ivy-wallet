@@ -118,8 +118,6 @@ fun TransactionCard(
             baseData.accounts.find { it.id == transaction.toAccountId }?.currency
                 ?: baseData.baseCurrency
 
-        val transactionDescription = getTransactionDescription(transaction)
-
         Spacer(Modifier.height(20.dp))
 
         TransactionHeaderRow(
@@ -165,15 +163,11 @@ fun TransactionCard(
             )
         }
 
-        if (transactionDescription.isNotNullOrBlank()) {
-            Spacer(
-                Modifier.height(
-                    if (transaction.title.isNotNullOrBlank()) 4.dp else 8.dp
-                )
-            )
-
+        val description = getTransactionDescription(transaction)
+        if (!description.isNullOrBlank()) {
+            Spacer(Modifier.height(if (transaction.title.isNotNullOrBlank()) 4.dp else 8.dp))
             Text(
-                text = transactionDescription!!,
+                text = description,
                 modifier = Modifier.padding(horizontal = 24.dp),
                 style = UI.typo.nC.style(
                     color = UI.colors.gray,
@@ -372,13 +366,17 @@ fun CategoryBadgeDisplay(
 
 @Composable
 private fun getTransactionDescription(transaction: Transaction): String? {
+    val paidFor = transaction.paidFor
     return when {
         transaction.description.isNotNullOrBlank() -> transaction.description!!
-        transaction.recurringRuleId != null && transaction.dueDate == null -> stringResource(
+        transaction.recurringRuleId != null &&
+                transaction.dueDate == null &&
+                paidFor != null -> stringResource(
             R.string.bill_paid,
-            transaction.paidFor?.month?.name?.lowercase()?.capitalizeLocal() ?: "",
-            transaction.paidFor?.year ?: ""
+            paidFor.month.name.lowercase().capitalizeLocal(),
+            transaction.paidFor?.year.toString()
         )
+
         else -> null
     }
 }
