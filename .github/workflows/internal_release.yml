@@ -1,25 +1,15 @@
 name: Internal Release
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push of version tag
   push:
     tags:
       - 'v*'
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   internal_release:
-    # The type of runner that the job will run on
-    # Runs on macos-latest because Android Emulator won't HAXM hardware acceleration on Ubuntu
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout GIT
         uses: actions/checkout@v4
         with:
@@ -49,7 +39,7 @@ jobs:
       #----------------------------------------------------
 
       #Optimization
-      - name: Enable Gradle Wrapper caching (optmization)
+      - name: Enable Gradle Wrapper caching (optimization)
         uses: actions/cache@v4
         with:
           path: |
@@ -59,12 +49,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       #---------------------------------------------------
-
-      #Run Unit Tests (Unit tests can be run by Fastlane)
-      #- name: Run Unit tests
-      #  working-directory: ./app
-      #  run: ./gradlew testDebugUnitTest
-      #-------------------------------------------------------------------
 
       #Decode Secrets for production build
       - name: Create JKS for prod signing
@@ -85,28 +69,14 @@ jobs:
         run: ls -ll
       #--------------------------------------------------------------------------------
 
-      #Run UI tests & Lint analysis
       - name: Verify that the code is release-able ("lintRelease")
-        run: bundle exec fastlane lint_release
+        run: ./gradlew lintRelease
 
       - name: Upload Lint Release report to GitHub
         uses: actions/upload-artifact@v4
         with:
           name: lint-release-report.html
           path: app/build/reports/lint-results-release.html
-
-      #- name: Run UI Tests
-      #  uses: reactivecircus/android-emulator-runner@v2
-      #  with:
-      #    api-level: 29
-      #    script: bundle exec fastlane ui_tests
-
-      #- name: Upload Android Tests report to GitHub
-      #  uses: actions/upload-artifact@v4
-      #  with:
-      #    name: android-tests-report
-      #    path: app/build/reports/androidTests/connected
-      #--------------------------------------------------------------------------
 
       #Fastlane: Build production .aab and release it to Internal Testing
       - name: Build production App Bundle

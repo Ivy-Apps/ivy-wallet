@@ -23,15 +23,6 @@ platform :android do
         )
     end
 
-    desc "Verify that the code is release-able."
-    lane :lint_release do
-        #verify code quality for "Release" buildType
-        gradle(
-            task: "lint",
-            build_type: "Release"
-        )
-    end
-
     desc "Builds release app bundle (AAB) for the Google Play Store."
     lane :production_build do
         gradle(
