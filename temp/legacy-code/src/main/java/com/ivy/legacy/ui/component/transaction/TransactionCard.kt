@@ -625,6 +625,46 @@ private fun PreviewUpcomingExpense() {
 
 @Preview
 @Composable
+private fun PreviewUpcomingExpenseBadgeSecondRow() {
+    IvyWalletPreview {
+        LazyColumn(Modifier.fillMaxSize()) {
+            val cash = Account(name = "Cash", Green.toArgb())
+            val food = Category(
+                name = NotBlankTrimmedString.unsafe("Food-Travel-Entertaiment-Food"),
+                color = ColorInt(Blue.toArgb()),
+                icon = null,
+                id = CategoryId(UUID.randomUUID()),
+                lastUpdated = Instant.EPOCH,
+                orderNum = 0.0,
+                removed = false,
+            )
+
+            item {
+                TransactionCard(
+                    baseData = AppBaseData(
+                        baseCurrency = "BGN",
+                        categories = persistentListOf(food),
+                        accounts = persistentListOf(cash)
+                    ),
+                    transaction = Transaction(
+                        accountId = cash.id,
+                        title = "Lidl pazar",
+                        categoryId = food.id.value,
+                        amount = 250.75.toBigDecimal(),
+                        dueDate = timeNowUTC().plusDays(5),
+                        dateTime = null,
+                        type = TransactionType.EXPENSE,
+                    ),
+                    onPayOrGet = {},
+                ) {
+                }
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
 private fun PreviewOverdueExpense() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
