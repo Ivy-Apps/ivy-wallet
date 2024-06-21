@@ -8,6 +8,8 @@ on:
 jobs:
   internal_release:
     runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
 
     steps:
       - name: Checkout GIT
