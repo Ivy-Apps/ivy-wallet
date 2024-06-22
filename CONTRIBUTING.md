@@ -23,7 +23,7 @@ What do you want to work on? [Choose an issue](https://github.com/Ivy-Apps/ivy-w
 
 1. Comment **"I'm on it"** to take an issue.
 2. Want to work on something else? Just **[create a new issue](https://github.com/Ivy-Apps/ivy-wallet/issues/new/choose)**.
-3. Do **not** work on already assigned issues. Ask the assignee first.
+3. Do **not** work on already assigned issues. Ask the assignee first. If more than 7 days have passed, comment and tag @ILIYANGERMANOV to unassign it.
 4. Only one issue per contributor at a time.
 
 > **Reminder:** If you take an issue, you're blocking others from working on it. Finish it fast or unassign yourself.

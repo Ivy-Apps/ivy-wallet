@@ -1,25 +1,17 @@
 name: Internal Release
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push of version tag
   push:
     tags:
       - 'v*'
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   internal_release:
-    # The type of runner that the job will run on
-    # Runs on macos-latest because Android Emulator won't HAXM hardware acceleration on Ubuntu
     runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout GIT
         uses: actions/checkout@v4
         with:
@@ -49,7 +41,7 @@ jobs:
       #----------------------------------------------------
 
       #Optimization
-      - name: Enable Gradle Wrapper caching (optmization)
+      - name: Enable Gradle Wrapper caching (optimization)
         uses: actions/cache@v4
         with:
           path: |
@@ -59,12 +51,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       #---------------------------------------------------
-
-      #Run Unit Tests (Unit tests can be run by Fastlane)
-      #- name: Run Unit tests
-      #  working-directory: ./app
-      #  run: ./gradlew testDebugUnitTest
-      #-------------------------------------------------------------------
 
       #Decode Secrets for production build
       - name: Create JKS for prod signing
@@ -80,33 +66,16 @@ jobs:
           base64 -d -i play_config.json.b64 > google-play-console-user.json
         env:
           PLAY_CONFIG_JSON: ${{ secrets.GOOGLE_PLAY_CONSOLE_JSON }}
-
-      - name: List created files for DEBUG purposes
-        run: ls -ll
       #--------------------------------------------------------------------------------
 
-      #Run UI tests & Lint analysis
       - name: Verify that the code is release-able ("lintRelease")
-        run: bundle exec fastlane lint_release
+        run: ./gradlew lintRelease
 
       - name: Upload Lint Release report to GitHub
         uses: actions/upload-artifact@v4
         with:
           name: lint-release-report.html
           path: app/build/reports/lint-results-release.html
-
-      #- name: Run UI Tests
-      #  uses: reactivecircus/android-emulator-runner@v2
-      #  with:
-      #    api-level: 29
-      #    script: bundle exec fastlane ui_tests
-
-      #- name: Upload Android Tests report to GitHub
-      #  uses: actions/upload-artifact@v4
-      #  with:
-      #    name: android-tests-report
-      #    path: app/build/reports/androidTests/connected
-      #--------------------------------------------------------------------------
 
       #Fastlane: Build production .aab and release it to Internal Testing
       - name: Build production App Bundle
@@ -151,3 +120,61 @@ jobs:
             ${{ steps.Changelog.outputs.changelog }}
           draft: false
           prerelease: false
+
+  build_demo_apk_and_announce:
+    runs-on: ubuntu-latest
+    needs: internal_release
+
+    steps:
+      - name: Checkout GIT
+        uses: actions/checkout@v4
+
+      - name: Setup Java SDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'adopt'
+          java-version: '18'
+
+      - name: Make Gradle Wrapper (gradlew) executable
+        run: chmod +x gradlew
+
+      - name: Enable Gradle Wrapper caching (optimization)
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Build Demo APK
+        run: ./gradlew assembleDemo
+
+      - name: Upload APK to Github Actions
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ivy-Wallet-Demo.apk
+          path: app/build/outputs/apk/demo/app-demo.apk
+
+      - name: Upload Demo APK to GitHub Release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ needs.internal_release.outputs.upload_url }}
+          asset_path: app/build/outputs/apk/demo/app-demo.apk
+          asset_name: Ivy-Wallet-Demo.apk
+          asset_content_type: application/vnd.android.package-archive
+
+      - name: Announce in Telegram group
+        if: |
+          github.ref == 'refs/heads/main'
+        run: |
+          COMMIT_LINK="https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}"
+          RELEASE_TAG=$(echo ${GITHUB_REF} | sed 's/refs\/tags\///')
+          CAPTION=$'🔥 Ivy Wallet '"$RELEASE_TAG"$' release from commit at: '"$COMMIT_LINK"
+          
+          curl -F "chat_id=-1001647280565" \
+               -F "document=@app/build/outputs/apk/demo/app-demo.apk" \
+               -F "reply_to_message_id=16118" \
+               -F "caption=$CAPTION" \
+               https://api.telegram.org/bot${{ secrets.BOTFATHER_TELEGRAM_BOT_TOKEN }}/sendDocument
