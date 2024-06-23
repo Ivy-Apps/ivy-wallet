@@ -3,8 +3,11 @@ package com.ivy.legacy.ui.component.transaction
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -283,6 +286,7 @@ private fun ColumnScope.TransactionTags(tags: ImmutableList<LegacyTag>) {
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun TransactionHeaderRow(
     transaction: Transaction,
@@ -310,13 +314,13 @@ private fun TransactionHeaderRow(
             )
         }
     } else {
-        Row(
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier.padding(horizontal = 20.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             if (category != null) {
                 CategoryBadgeDisplay(category, nav)
-                Spacer(Modifier.width(12.dp))
             }
 
             val account = account(
@@ -397,7 +401,7 @@ private fun TransactionBadge(
             .background(backgroundColor, UI.shapes.rFull)
             .clickable {
                 onClick()
-            },
+            }.padding(end = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         SpacerHor(width = 8.dp)
@@ -587,6 +591,46 @@ private fun PreviewUpcomingExpense() {
             val cash = Account(name = "Cash", Green.toArgb())
             val food = Category(
                 name = NotBlankTrimmedString.unsafe("Food"),
+                color = ColorInt(Blue.toArgb()),
+                icon = null,
+                id = CategoryId(UUID.randomUUID()),
+                lastUpdated = Instant.EPOCH,
+                orderNum = 0.0,
+                removed = false,
+            )
+
+            item {
+                TransactionCard(
+                    baseData = AppBaseData(
+                        baseCurrency = "BGN",
+                        categories = persistentListOf(food),
+                        accounts = persistentListOf(cash)
+                    ),
+                    transaction = Transaction(
+                        accountId = cash.id,
+                        title = "Lidl pazar",
+                        categoryId = food.id.value,
+                        amount = 250.75.toBigDecimal(),
+                        dueDate = timeNowUTC().plusDays(5),
+                        dateTime = null,
+                        type = TransactionType.EXPENSE,
+                    ),
+                    onPayOrGet = {},
+                ) {
+                }
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewUpcomingExpenseBadgeSecondRow() {
+    IvyWalletPreview {
+        LazyColumn(Modifier.fillMaxSize()) {
+            val cash = Account(name = "Cash", Green.toArgb())
+            val food = Category(
+                name = NotBlankTrimmedString.unsafe("Food-Travel-Entertaiment-Food"),
                 color = ColorInt(Blue.toArgb()),
                 icon = null,
                 id = CategoryId(UUID.randomUUID()),
