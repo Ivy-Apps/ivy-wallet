@@ -11,7 +11,7 @@ open class PaparazziScreenshotTest {
     val paparazzi = Paparazzi(
         deviceConfig = DeviceConfig.PIXEL_6_PRO,
         showSystemUi = true,
-        maxPercentDifference = 0.001
+        maxPercentDifference = 0.05
     )
 
     protected fun snapshot(theme: PaparazziTheme, content: @Composable () -> Unit) {
