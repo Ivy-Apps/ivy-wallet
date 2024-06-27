@@ -114,7 +114,7 @@ firebase-crashlytics-gradle-plugin = { module = "com.google.firebase:firebase-cr
 
 # AndroidX
 androidx-security = { module = "androidx.security:security-crypto", version = "1.0.0" }
-androidx-biometrics = { module = "androidx.biometric:biometric", version = "1.4.0-alpha01" }
+androidx-biometrics = { module = "androidx.biometric:biometric", version = "1.2.0-alpha05" }
 androidx-activity = { module = "androidx.activity:activity-ktx", version = "1.9.0" }
 appcompat-activity = { module = "androidx.appcompat:appcompat", version = "1.7.0" }
 androidx-work = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
