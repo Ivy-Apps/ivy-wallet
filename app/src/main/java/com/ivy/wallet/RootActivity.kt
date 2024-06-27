@@ -435,16 +435,18 @@ class RootActivity : AppCompatActivity(), RootScreen {
             if (task.isSuccessful) {
                 // We got the ReviewInfo object
                 val reviewInfo = task.result
-                val flow = manager.launchReviewFlow(this, reviewInfo)
-                flow.addOnCompleteListener {
-                    // The flow has finished. The API does not indicate whether the user
-                    // reviewed or not, or even whether the review dialog was shown. Thus, no
-                    // matter the result, we continue our app flow.
-                    if (dismissReviewCard) {
-                        customerJourneyLogic.dismissCard(CustomerJourneyCardsProvider.rateUsCard())
-                    }
+                reviewInfo.let { review ->
+                    val flow = manager.launchReviewFlow(this, review!!)
+                    flow.addOnCompleteListener {
+                        // The flow has finished. The API does not indicate whether the user
+                        // reviewed or not, or even whether the review dialog was shown. Thus, no
+                        // matter the result, we continue our app flow.
+                        if (dismissReviewCard) {
+                            customerJourneyLogic.dismissCard(CustomerJourneyCardsProvider.rateUsCard())
+                        }
 
-                    openGooglePlayAppPage(packageName)
+                        openGooglePlayAppPage(packageName)
+                    }
                 }
             } else {
                 openGooglePlayAppPage(packageName)
