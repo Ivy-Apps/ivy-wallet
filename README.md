@@ -92,7 +92,7 @@ Make sure to check out our short **[Developer Guidelines 🏗️](docs/Guideline
 - [Gradle KTS](https://docs.gradle.org/current/userguide/kotlin_dsl.html) (Kotlin DSL)
 - [Gradle convention plugins](https://docs.gradle.org/current/samples/sample_convention_plugins.html) (build logic)
 - [Gradle version catalogs](https://developer.android.com/build/migrate-to-catalogs) (dependencies versions)
-- [Github Actions](https://github.com/Ivy-Apps/ivy-wallet/actions) (CI/CD)
+- [GitHub Actions](https://github.com/Ivy-Apps/ivy-wallet/actions) (CI/CD)
 - [Fastlane](https://fastlane.tools/) (uploads the app to the Google Play Store)
 
 ### Other
