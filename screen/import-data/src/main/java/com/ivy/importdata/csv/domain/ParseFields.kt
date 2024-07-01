@@ -7,6 +7,7 @@ import com.ivy.importdata.csv.DateMetadata
 import com.ivy.importdata.csv.TrnTypeMetadata
 import java.text.DecimalFormat
 import java.text.NumberFormat
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -111,6 +112,12 @@ fun parseDate(
             return@tryParse LocalDateTime.parse(cleanedValue, DateTimeFormatter.ofPattern(format))
         } catch (e: DateTimeParseException) {
             // Ignore and continue trying other formats
+            try {
+                return@tryParse LocalDate.parse(cleanedValue, DateTimeFormatter.ofPattern(format))
+                    .atStartOfDay()
+            } catch (e: DateTimeParseException) {
+                // Ignore and continue trying other formats
+            }
         }
     }
     null
