@@ -8,7 +8,7 @@ Ivy Wallet follows a less constrained version of [the official Android Developer
 
 > "Programming is a game of information. We receive/send data on which we perform arbitrary transformations and logic." — Iliyan Germanov
 
-**Architecture:** _Data Layer → Domain Layer (optional) → UI layer_
+**Architecture:** _Data layer → Domain layer (optional) → UI layer_
 
 ![architecture](../assets/architecture.svg)
 
@@ -24,7 +24,7 @@ Wraps an IO operation (e.g. a Ktor http call) and ensures that it won't throw ex
 
 ### Domain Mapper classes (optional)
 
-A classes responsible for transforming and validating raw models (e.g. DTOs, entities) to domain ones. These validations can fail so mappers usually return `Either<Error, DomainModel>`.
+A class responsible for transforming and validating raw models (e.g. DTOs, entities) to domain ones. These validations can fail so mappers usually return `Either<Error, DomainModel>`.
 
 ### Repository
 
@@ -44,13 +44,13 @@ The user of the app sees and interacts only with the UI layer. The UI layer cons
 
 ### ViewModel
 
-The ViewModel combines the data from uses-cases and repositories and transforms it into view-state representation that's formatted and ready to display in your Compose UI. It also handles user interactions and translates them into data/domain layer calls.
+The ViewModel combines the data from use cases and repositories and transforms it into view-state representation that's formatted and ready to display in your Compose UI. It also handles user interactions and translates them into data/domain layer calls.
 
 > Simply said, the viewmodel is translator between the UI (user) and the domain. It's like an adapter - adapts domain models to view-state and adapts user interactions into domain calls.
 
 ### ViewState Mapper classes (optional)
 
-In more complex cases, it becomes impractical to put all domain -> view-state mapping in the ViewModel. Also, it's common multiple viewmodels to map the same domain model to the same view-state. In that case, it's good to extract the view-state mapping logic in a separate class that we call a `SomethingViewStateMapper`.
+In more complex cases, it becomes impractical to put all domain -> view-state mapping in the ViewModel. Also, it's common for multiple viewmodels to map the same domain model to the same view-state. In that case, it's good to extract the view-state mapping logic in a separate class that we call a `SomethingViewStateMapper`.
 
 ### Composables
 
