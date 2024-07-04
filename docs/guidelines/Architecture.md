@@ -6,7 +6,7 @@ Ivy Wallet follows a less constrained version of [the official Android Developer
 
 ![data-mapping](../assets/data-mapping.svg)
 
-> "Programming is a game of information. We receive/send data on which we perform arbitrary transformations and logic." — Iliyan Germanov
+> "Programming is a game of information. We receive and send data, on which we perform arbitrary transformations and logic." — Iliyan Germanov
 
 **Architecture:** _Data layer → Domain layer (optional) → UI layer_
 
@@ -18,21 +18,21 @@ The Data Layer is responsible for dealing with the outside world and mapping it 
 
 ### Data source (optional)
 
-Wraps an IO operation (e.g. a Ktor http call) and ensures that it won't throw exceptions by making it a total function (i.e. wraps with `try-catch` and returns `Either<ErrorDto, DataDto>` of some raw data model). 
+Wraps an IO operation (e.g., a Ktor http call) and ensures that it won't throw exceptions by making it a total function (i.e. wraps with `try-catch` and returns `Either<ErrorDto, DataDto>` of some raw data model).
 
 > A data source isn't always needed if it'll do nothing useful. For example, there's no point wrapping Room DB DAOs.
 
 ### Domain Mapper classes (optional)
 
-A class responsible for transforming and validating raw models (e.g. DTOs, entities) to domain ones. These validations can fail so mappers usually return `Either<Error, DomainModel>`.
+A class responsible for transforming and validating raw models (e.g., DTOs, entities) to domain ones. These validations can fail, so mappers usually return `Either<Error, DomainModel>`.
 
 ### Repository
 
-Combines one or many data sources to implement [CRUD operations](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) and provide validated domain data. Repository functions must be **main-safe** (not blocking the main UI thread) or simply said they must move work on a background thread (e.g. `withContext(Disparchers.IO)`)
+Combines one or many data sources to implement [CRUD operations](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) and provide validated domain data. Repository functions must be **main-safe** (not blocking the main UI thread), or simply said, they must move work on a background thread (e.g., `withContext(Disparchers.IO)`)
 
 ## Domain Layer (optional)
 
-Optional architecture layer for more complex domain logic that combines one or many repositories with business logic and rules (e.g. calculating the balance in Ivy Wallet).
+Optional architecture layer for more complex domain logic that combines one or many repositories with business logic and rules (e.g., calculating the balance in Ivy Wallet).
 
 ### UseCases
 
