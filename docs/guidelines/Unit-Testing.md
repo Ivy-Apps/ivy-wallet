@@ -2,10 +2,10 @@
 
 Unit tests are the proof that your code works. While often seen as boring and a waste of time, 
 automated tests are the things that guarantee correctness under the test cases and
-assumptions that you've setup.
+assumptions that you've set up.
 
-A good unit test is short and simple. If you're test case doesn't fit 
-on half the screen then it's likely bad. Also, if you can't understand what's happening
+A good unit test is short and simple. If your test case doesn't fit 
+on half the screen then, it's likely bad. Also, if you can't understand what's happening
 in a test at a glance, then it's bad again.
 
 ## Unit test structure
