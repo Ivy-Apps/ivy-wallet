@@ -159,7 +159,13 @@ class RootActivity : AppCompatActivity(), RootScreen {
                 onDatePicked ->
             val datePicker =
                 MaterialDatePicker.Builder.datePicker()
-                    .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                    .setSelection(
+                        if (initialDate != null) {
+                            initialDate.toEpochDay() * MILLISECONDS_IN_DAY
+                        } else {
+                            MaterialDatePicker.todayInUtcMilliseconds()
+                        }
+                    )
                     .build()
             datePicker.show(supportFragmentManager, "datePicker")
             datePicker.addOnPositiveButtonClickListener {
