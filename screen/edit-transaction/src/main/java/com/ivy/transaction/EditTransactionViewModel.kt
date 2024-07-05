@@ -540,7 +540,7 @@ class EditTransactionViewModel @Inject constructor(
         saveIfEditMode()
     }
 
-    private fun onSetDate(newDate: LocalDate) {
+    fun onSetDate(newDate: LocalDate) {
         loadedTransaction = loadedTransaction().copy(
             date = newDate
         )
@@ -554,7 +554,7 @@ class EditTransactionViewModel @Inject constructor(
         )
     }
 
-    private fun onSetTime(newTime: LocalTime) {
+    fun onSetTime(newTime: LocalTime) {
         loadedTransaction = loadedTransaction().copy(
             time = newTime.convertUTCToLocal()
         )
