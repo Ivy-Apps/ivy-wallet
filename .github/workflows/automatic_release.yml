@@ -37,7 +37,7 @@ jobs:
       - name: Commit and push changes
         run: |
           git add gradle/libs.versions.toml
-          git commit -m "Automatic release - v${{ env.NEW_VERSION_NAME }} (${{ NEW_VERSION_CODE }})"
+          git commit -m "Automatic release - v${{ env.NEW_VERSION_NAME }} (${{ env.NEW_VERSION_CODE }})"
           git push
 
       - name: Create and push tag
