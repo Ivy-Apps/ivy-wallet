@@ -4,7 +4,8 @@ Please check if your pull request fulfills the following requirements:
 - [ ] I've read the [Contribution Guidelines](https://github.com/Ivy-Apps/ivy-wallet/blob/main/CONTRIBUTING.md) and my PR doesn't break the rules.
 - [ ] I've read and understand the [Developer Guidelines](https://github.com/Ivy-Apps/ivy-wallet/blob/main/docs/Guidelines.md).
 - [ ] I confirm that I've run the code locally and everything works as expected.
-- [ ] 🎬 I've attached a **screen recoding** of the changes. 
+- [ ] 🎬 I've attached a **screen recoding** of the changes.
+- [ ] My PR includes only the necessary changes to fix the issue (i.e., no unnecessary files or lines of code are changed).
 
 > Tip: drag & drop the video to the PR description.
 
