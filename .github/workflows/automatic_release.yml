@@ -1,0 +1,46 @@
+name: Automatic Release
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Runs every Sunday at midnight UTC
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  update_version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for all branches and tags
+
+      - name: Set up Git
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+
+      - name: Update version in libs.versions.toml
+        id: update_version
+        run: |
+          VERSION_FILE="gradle/libs.versions.toml"
+          CURRENT_DATE=$(date +'%Y.%m.%d')
+          VERSION_CODE=$(grep 'version-code =' $VERSION_FILE | awk -F'=' '{print $2}' | tr -d ' "')
+          NEW_VERSION_CODE=$((VERSION_CODE + 1))
+  
+          sed -i '' "s/version-name = \".*\"/version-name = \"$CURRENT_DATE\"/" $VERSION_FILE
+          sed -i '' "s/version-code = \".*\"/version-code = \"$NEW_VERSION_CODE\"/" $VERSION_FILE
+  
+          echo "NEW_VERSION_NAME=$CURRENT_DATE" >> $GITHUB_ENV
+          echo "NEW_VERSION_CODE=$NEW_VERSION_CODE" >> $GITHUB_ENV
+
+      - name: Commit and push changes
+        run: |
+          git add gradle/libs.versions.toml
+          git commit -m "Automatic release - v${{ env.NEW_VERSION_NAME }}"
+          git push
+
+      - name: Create and push tag
+        run: |
+          git tag v${{ env.NEW_VERSION_NAME }}
+          git push origin v${{ env.NEW_VERSION_NAME }}
