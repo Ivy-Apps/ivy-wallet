@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for all branches and tags
 
       - name: Set up Git
         run: |
@@ -32,24 +34,17 @@ jobs:
           echo "NEW_VERSION_NAME=$CURRENT_DATE" >> $GITHUB_ENV
           echo "NEW_VERSION_CODE=$NEW_VERSION_CODE" >> $GITHUB_ENV
 
-      - name: Create a new branch, commit and push changes
-        run: |
-          export NEW_BRANCH="auto-update-$(date +'%Y%m%d%H%M%S')"
-          git checkout -b $NEW_BRANCH
-          git add gradle/libs.versions.toml
-          git commit -m "Automatic release: v${{ env.NEW_VERSION_NAME }} (${{ env.NEW_VERSION_CODE }})"
-          git show --stat
-          git push --set-upstream origin $NEW_BRANCH
-          echo "NEW_BRANCH=$NEW_BRANCH" >> $GITHUB_ENV
-
       - name: Create a Pull Request
-        if: false
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "Automatic release - v${{ env.NEW_VERSION_NAME }} (${{ env.NEW_VERSION_CODE }})"
+          commit-message: "Automatic release: v${{ env.NEW_VERSION_NAME }} (${{ env.NEW_VERSION_CODE }})"
           base: "main"
-          branch: ${{ env.NEW_BRANCH }}
-          title: "Automatic release - v${{ env.NEW_VERSION_NAME }} (${{ env.NEW_VERSION_CODE }})"
+          branch: "auto-update-$(date +'%Y%m%d%H%M%S')"
+          title: "Automatic release: v${{ env.NEW_VERSION_NAME }} (${{ env.NEW_VERSION_CODE }})"
           body: "This PR updates the version-name to v${{ env.NEW_VERSION_NAME }} and increments the version-code to ${{ env.NEW_VERSION_CODE }}."
           labels: auto-update
+          paths: |
+            gradle/libs.versions.toml
+          author: "GitHub Actions <actions@github.com>"
+          committer: "GitHub Actions <actions@github.com>"
