@@ -9,13 +9,13 @@ jobs:
   internal_release:
     runs-on: ubuntu-latest
     outputs:
-      github_release_url: ${{ steps.create_release.outputs.github_release_url }}
+      github_release_url: ${{ steps.create_release.outputs.upload_url }}
 
     steps:
       - name: Checkout GIT
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 #Fetch all history for all branches and tags
+          fetch-depth: 0 # Fetch all history for all branches and tags
 
       - name: Setup Java SDK
         uses: actions/setup-java@v4
@@ -32,7 +32,7 @@ jobs:
         run: bundle install
       #----------------------------------------------------
 
-      #Security
+      # Security
       - name: Validate Gradle Wrapper checksum
         uses: gradle/wrapper-validation-action@v3
 
@@ -40,7 +40,7 @@ jobs:
         run: chmod +x gradlew
       #----------------------------------------------------
 
-      #Optimization
+      # Optimization
       - name: Enable Gradle Wrapper caching (optimization)
         uses: actions/cache@v4
         with:
@@ -52,7 +52,7 @@ jobs:
             ${{ runner.os }}-gradle-
       #---------------------------------------------------
 
-      #Decode Secrets for production build
+      # Decode Secrets for production build
       - name: Create JKS for prod signing
         run: |
           echo "$SIGNING_KEYSTORE_JKS" > sign.jks.b64
@@ -77,7 +77,7 @@ jobs:
           name: lint-release-report.html
           path: app/build/reports/lint-results-release.html
 
-      #Fastlane: Build production .aab and release it to Internal Testing
+      # Fastlane: Build production .aab and release it to Internal Testing
       - name: Build production App Bundle
         run: bundle exec fastlane production_build
         env:
@@ -99,8 +99,7 @@ jobs:
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
       #--------------------------------------------------------------------------
 
-      #Create GitHub release
-      # Bullrich/generate-release-changelog@master doesn't run on macos-latest
+      # Create GitHub release
       - name: Prepare changelog for GitHub Release
         uses: Bullrich/generate-release-changelog@master
         id: Changelog
@@ -108,7 +107,7 @@ jobs:
           REPO: ${{ github.repository }}
 
       - name: Create GitHub Release
-        if: always() #Execute even the generation of changelog has failed
+        if: always() # Execute even if the generation of changelog has failed
         id: create_release
         uses: actions/create-release@latest
         env:
@@ -120,7 +119,6 @@ jobs:
             ${{ steps.Changelog.outputs.changelog }}
           draft: false
           prerelease: false
-        run: echo "github_release_url=${{ steps.create_release.outputs.upload_url }}" >> $GITHUB_ENV
 
   build_demo_apk_and_announce:
     runs-on: ubuntu-latest
