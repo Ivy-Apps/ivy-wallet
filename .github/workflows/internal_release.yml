@@ -1,15 +1,13 @@
 name: Internal Release
 
 on:
-  create:
-    tags:
-      - 'v*'
+  pull_request:
+    types: [closed]
 
 jobs:
   internal_release:
+    if: github.event.pull_request.merged == true && github.ref == 'refs/heads/main' && contains(github.event.pull_request.labels.*.name, 'auto-update')
     runs-on: ubuntu-latest
-    outputs:
-      github_release_url: ${{ steps.share_release_url_output.outputs.github_release_url }}
 
     steps:
       - name: Checkout GIT
@@ -99,7 +97,23 @@ jobs:
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
       #--------------------------------------------------------------------------
 
-      # Create GitHub release
+      - name: Get version name and code from file
+        id: get_version
+        run: |
+          VERSION_NAME=$(grep 'version-name =' gradle/libs.versions.toml | awk -F'=' '{print $2}' | tr -d ' "')
+          VERSION_CODE=$(grep 'version-code =' gradle/libs.versions.toml | awk -F'=' '{print $2}' | tr -d ' "')
+          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
+          echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
+
+      - name: Create and push tag
+        env:
+          PAT_TOKEN: ${{ secrets.IVYWALLET_BOT_GITHUB_PAT_2 }}
+        run: |
+          TAG_NAME="v${{ env.VERSION_NAME }}-${{ env.VERSION_CODE }}"
+          git tag $TAG_NAME
+          git push https://x-access-token:${{ env.PAT_TOKEN }}@github.com/${{ github.repository }} $TAG_NAME
+          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
+
       - name: Prepare changelog for GitHub Release
         uses: Bullrich/generate-release-changelog@master
         id: Changelog
@@ -113,8 +127,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: ${{ env.TAG_NAME }}
+          release_name: Release ${{ env.TAG_NAME }}
           body: |
             ${{ steps.Changelog.outputs.changelog }}
           draft: false
