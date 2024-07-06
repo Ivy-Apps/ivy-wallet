@@ -34,13 +34,20 @@ jobs:
           echo "NEW_VERSION_NAME=$CURRENT_DATE" >> $GITHUB_ENV
           echo "NEW_VERSION_CODE=$NEW_VERSION_CODE" >> $GITHUB_ENV    
 
-      - name: Commit and push changes
+      - name: Create a new branch, commit and push changes
         run: |
+          NEW_BRANCH="auto-update-$(date +'%Y%m%d%H%M%S')"
+          git checkout -b $NEW_BRANCH
           git add gradle/libs.versions.toml
           git commit -m "Automatic release - v${{ env.NEW_VERSION_NAME }} (${{ env.NEW_VERSION_CODE }})"
-          git push
+          git push --set-upstream origin $NEW_BRANCH
 
-      - name: Create and push tag
-        run: |
-          git tag v${{ env.NEW_VERSION_NAME }}-${{ env.NEW_VERSION_CODE }}
-          git push origin v${{ env.NEW_VERSION_NAME }}-${{ env.NEW_VERSION_CODE }}
+      - name: Create a Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Automatic release - v${{ env.NEW_VERSION_NAME }} (${{ env.NEW_VERSION_CODE }})"
+          branch: $NEW_BRANCH
+          title: "Automatic release - v${{ env.NEW_VERSION_NAME }} (${{ env.NEW_VERSION_CODE }})"
+          body: "This PR updates the version-name to v${{ env.NEW_VERSION_NAME }} and increments the version-code to ${{ env.NEW_VERSION_CODE }}."
+          labels: auto-update
