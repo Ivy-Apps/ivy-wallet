@@ -8,8 +8,6 @@ jobs:
   create_tag:
     if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'auto-update')
     runs-on: ubuntu-latest
-    permissions:
-      contents: write  # Ensure write permission to contents
 
     steps:
       - name: Checkout repository
