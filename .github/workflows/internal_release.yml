@@ -9,7 +9,7 @@ jobs:
   internal_release:
     runs-on: ubuntu-latest
     outputs:
-      github_release_url: ${{ steps.create_release.outputs.upload_url }}
+      github_release_url: ${{ steps.share_release_url_output.outputs.github_release_url }}
 
     steps:
       - name: Checkout GIT
@@ -120,7 +120,11 @@ jobs:
           draft: false
           prerelease: false
 
-  build_demo_apk_and_announce:
+      - name: Share GitHub Release URL as output
+        id: share_release_url_output
+        run: echo "github_release_url=steps.create_release.outputs.upload_url" >> "$GITHUB_OUTPUT"
+
+  upload_apk_and_announce:
     runs-on: ubuntu-latest
     needs: internal_release
 
@@ -168,9 +172,9 @@ jobs:
         if: |
           github.ref == 'refs/heads/main'
         run: |
-          COMMIT_LINK="https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}"
           RELEASE_TAG=$(echo ${GITHUB_REF} | sed 's/refs\/tags\///')
-          CAPTION=$'🔥 Ivy Wallet '"$RELEASE_TAG"$' release from commit at: '"$COMMIT_LINK"
+          RELEASE_URL="https://github.com/${GITHUB_REPOSITORY}/releases/tag/${RELEASE_TAG}"
+          CAPTION=$'🔥 Ivy Wallet '"$RELEASE_TAG"$' release\n\n'"$RELEASE_URL"
           
           curl -F "chat_id=-1001647280565" \
                -F "document=@app/build/outputs/apk/demo/app-demo.apk" \
