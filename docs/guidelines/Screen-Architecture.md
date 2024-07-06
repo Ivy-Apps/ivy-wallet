@@ -16,7 +16,7 @@ Repeat ♻️
 
 A class that adapts the domain model to a view-state model that the Compose UI can directly display. It combines data from one or many repositories/use-cases and transforms it into a view-state representation consisting of primitives and `@Immutable` structures that composables can draw efficiently.
 
-Let's address the elephant in the room, why use Compose in the ViewModel? The short answer: because it's way more convenient and equally efficient compared to using Flow/LiveData.
+Let's address the elephant in the room - why use Compose in the ViewModel? The short answer: because it's way more convenient and equally efficient compared to using Flow/LiveData.
 
 ### FAQ
 
