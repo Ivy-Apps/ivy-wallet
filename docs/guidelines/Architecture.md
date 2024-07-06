@@ -55,5 +55,5 @@ In more complex cases, it becomes impractical to put all domain -> view-state ma
 ### Composables
 
 Composables are the screens and UI components that the user sees and interacts with. They should be dumb as fck. Their responsibility and logic should be limited to:
-- displaying the already formatted view-state provided by the VM
-- send UI interactions to the VM in the form of events
+- Displaying the already formatted view-state provided by the VM.
+- Sending UI interactions to the VM in the form of events.
