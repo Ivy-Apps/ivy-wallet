@@ -28,6 +28,11 @@ jobs:
           echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
           echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
 
+      - name: Fetch latest commit from main branch
+        run: |
+          git fetch origin main
+          git checkout origin/main
+
       - name: Create and push tag
         run: |
           TAG_NAME="v${{ env.VERSION_NAME }}-${{ env.VERSION_CODE }}"

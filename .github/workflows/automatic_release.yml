@@ -52,3 +52,4 @@ jobs:
           labels: auto-update
           author: "GitHub Actions <actions@github.com>"
           committer: "GitHub Actions <actions@github.com>"
+          delete-branch: true
