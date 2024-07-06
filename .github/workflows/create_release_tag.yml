@@ -1,12 +1,12 @@
 name: Create Tag for Release
 
 on:
-  pull_request:
-    types: [closed]
+  push:
+    branches:
+      - main
 
 jobs:
   create_tag:
-    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'auto-update')
     runs-on: ubuntu-latest
 
     steps:
@@ -20,7 +20,17 @@ jobs:
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
 
+      - name: Check for auto-update identifier
+        id: check_auto_update
+        run: |
+          if git log -1 --pretty=%B | grep -q "Automatic release"; then
+            echo "AUTO_UPDATE=true" >> $GITHUB_ENV
+          else
+            echo "AUTO_UPDATE=false" >> $GITHUB_ENV
+          fi
+
       - name: Get version name and code from file
+        if: env.AUTO_UPDATE == 'true'
         id: get_version
         run: |
           VERSION_NAME=$(grep 'version-name =' gradle/libs.versions.toml | awk -F'=' '{print $2}' | tr -d ' "')
@@ -28,12 +38,8 @@ jobs:
           echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
           echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
 
-      - name: Fetch latest commit from main branch
-        run: |
-          git fetch origin main
-          git checkout origin/main
-
       - name: Create and push tag
+        if: env.AUTO_UPDATE == 'true'
         run: |
           TAG_NAME="v${{ env.VERSION_NAME }}-${{ env.VERSION_CODE }}"
           git tag $TAG_NAME

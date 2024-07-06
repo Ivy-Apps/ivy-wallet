@@ -1,8 +1,9 @@
 name: Internal Release
 
 on:
-  pull_request:
-    types: [closed]
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   internal_release:
