@@ -367,17 +367,22 @@ private fun BoxWithConstraintsScope.UI(
             onEditDescription = { descriptionModalVisible = true }
         )
 
-        TransactionDateTime(dateTime = dateTime, dueDateTime = dueDate, onEditDate = {
-            ivyContext.datePicker(
-                initialDate = dateTime?.convertUTCtoLocal()?.toLocalDate()
-            ) { date ->
-                onSetDate((date))
+        TransactionDateTime(
+            dateTime = dateTime,
+            dueDateTime = dueDate,
+            onEditDate = {
+                ivyContext.datePicker(
+                    initialDate = dateTime?.convertUTCtoLocal()?.toLocalDate()
+                ) { date ->
+                    onSetDate((date))
+                }
+            },
+            onEditTime = {
+                ivyContext.timePicker { time ->
+                    onSetTime(time)
+                }
             }
-        }, onEditTime = {
-            ivyContext.timePicker { time ->
-                onSetTime(time)
-            }
-        })
+        )
 
         if (transactionType == TransactionType.TRANSFER && customExchangeRateState.showCard) {
             Spacer(Modifier.height(12.dp))
