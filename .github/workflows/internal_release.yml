@@ -90,7 +90,7 @@ jobs:
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
       #--------------------------------------------------------------------------
 
-      - name: Get version name and code from file
+      - name: Get version name and code from libs.versions.toml
         id: get_version
         run: |
           VERSION_NAME=$(grep 'version-name =' gradle/libs.versions.toml | awk -F'=' '{print $2}' | tr -d ' "')
