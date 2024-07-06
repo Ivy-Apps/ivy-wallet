@@ -44,7 +44,5 @@ jobs:
           title: "Automatic release: v${{ env.NEW_VERSION_NAME }} (${{ env.NEW_VERSION_CODE }})"
           body: "This PR updates the version-name to v${{ env.NEW_VERSION_NAME }} and increments the version-code to ${{ env.NEW_VERSION_CODE }}."
           labels: auto-update
-          paths: |
-            gradle/libs.versions.toml
           author: "GitHub Actions <actions@github.com>"
           committer: "GitHub Actions <actions@github.com>"
