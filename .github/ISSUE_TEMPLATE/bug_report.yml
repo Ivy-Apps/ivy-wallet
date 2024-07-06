@@ -50,8 +50,8 @@ body:
     id: app_version
     attributes:
       label: App version
-      description: Specify the version of the Ivy Wallet app.
-      placeholder: 4.6.0 (160) from Google Play or 4.6.3 (163) from GitHub
+      description: Specify the exact version of the Ivy Wallet app. You can see it on the top right of the Settings screen.
+      placeholder: v2024.06.07 (181) from Google Play
     validations:
       required: true
   - type: input
