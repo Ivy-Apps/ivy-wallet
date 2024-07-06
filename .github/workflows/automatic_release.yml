@@ -34,13 +34,19 @@ jobs:
           echo "NEW_VERSION_NAME=$CURRENT_DATE" >> $GITHUB_ENV
           echo "NEW_VERSION_CODE=$NEW_VERSION_CODE" >> $GITHUB_ENV
 
+      - name: Set branch name
+        id: set_branch_name
+        run: |
+          BRANCH_NAME="auto-update-$(date +'%Y%m%d%H%M%S')"
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+
       - name: Create a Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "Automatic release: v${{ env.NEW_VERSION_NAME }} (${{ env.NEW_VERSION_CODE }})"
           base: "main"
-          branch: "auto-update-$(date +'%Y%m%d%H%M%S')"
+          branch: ${{ env.BRANCH_NAME }}
           title: "Automatic release: v${{ env.NEW_VERSION_NAME }} (${{ env.NEW_VERSION_CODE }})"
           body: "This PR updates the version-name to v${{ env.NEW_VERSION_NAME }} and increments the version-code to ${{ env.NEW_VERSION_CODE }}."
           labels: auto-update
