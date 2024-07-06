@@ -9,7 +9,7 @@ jobs:
   internal_release:
     runs-on: ubuntu-latest
     outputs:
-      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      github_release_url: ${{ steps.create_release.outputs.github_release_url }}
 
     steps:
       - name: Checkout GIT
@@ -112,7 +112,7 @@ jobs:
         id: create_release
         uses: actions/create-release@latest
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
@@ -120,6 +120,7 @@ jobs:
             ${{ steps.Changelog.outputs.changelog }}
           draft: false
           prerelease: false
+        run: echo "github_release_url=${{ steps.create_release.outputs.upload_url }}" >> $GITHUB_ENV
 
   build_demo_apk_and_announce:
     runs-on: ubuntu-latest
@@ -160,7 +161,7 @@ jobs:
       - name: Upload Demo APK to GitHub Release
         uses: actions/upload-release-asset@v1
         with:
-          upload_url: ${{ needs.internal_release.outputs.upload_url }}
+          upload_url: ${{ needs.internal_release.outputs.github_release_url }}
           asset_path: app/build/outputs/apk/demo/app-demo.apk
           asset_name: Ivy-Wallet-Demo.apk
           asset_content_type: application/vnd.android.package-archive
