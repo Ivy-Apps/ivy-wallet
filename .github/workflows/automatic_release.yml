@@ -12,8 +12,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Fetch all history for all branches and tags
 
       - name: Set up Git
         run: |
@@ -39,17 +37,10 @@ jobs:
           export NEW_BRANCH="auto-update-$(date +'%Y%m%d%H%M%S')"
           git checkout -b $NEW_BRANCH
           git add gradle/libs.versions.toml
-          git commit -m "Automatic release - v${{ env.NEW_VERSION_NAME }} (${{ env.NEW_VERSION_CODE }})"
+          git commit -m "Automatic release: v${{ env.NEW_VERSION_NAME }} (${{ env.NEW_VERSION_CODE }})"
           git show --stat
-          git push origin $NEW_BRANCH
+          git push --set-upstream origin $NEW_BRANCH
           echo "NEW_BRANCH=$NEW_BRANCH" >> $GITHUB_ENV
-
-      - name: Debug - Show branches and commits
-        run: |
-          git branch -a
-          git log --oneline --graph --decorate
-          git diff HEAD^ HEAD
-          ls -l gradle/libs.versions.toml
 
       - name: Create a Pull Request
         uses: peter-evans/create-pull-request@v5
