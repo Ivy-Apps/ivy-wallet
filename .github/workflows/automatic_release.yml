@@ -27,20 +27,20 @@ jobs:
           CURRENT_DATE=$(date +'%Y.%m.%d')
           VERSION_CODE=$(grep 'version-code =' $VERSION_FILE | awk -F'=' '{print $2}' | tr -d ' "')
           NEW_VERSION_CODE=$((VERSION_CODE + 1))
-  
-          sed -i '' "s/version-name = \".*\"/version-name = \"$CURRENT_DATE\"/" $VERSION_FILE
-          sed -i '' "s/version-code = \".*\"/version-code = \"$NEW_VERSION_CODE\"/" $VERSION_FILE
-  
+          
+          sed -i "s/version-name = \".*\"/version-name = \"$CURRENT_DATE\"/" $VERSION_FILE
+          sed -i "s/version-code = \".*\"/version-code = \"$NEW_VERSION_CODE\"/" $VERSION_FILE
+          
           echo "NEW_VERSION_NAME=$CURRENT_DATE" >> $GITHUB_ENV
-          echo "NEW_VERSION_CODE=$NEW_VERSION_CODE" >> $GITHUB_ENV
+          echo "NEW_VERSION_CODE=$NEW_VERSION_CODE" >> $GITHUB_ENV    
 
       - name: Commit and push changes
         run: |
           git add gradle/libs.versions.toml
-          git commit -m "Automatic release - v${{ env.NEW_VERSION_NAME }}"
+          git commit -m "Automatic release - v${{ env.NEW_VERSION_NAME }} (${{ NEW_VERSION_CODE }})"
           git push
 
       - name: Create and push tag
         run: |
-          git tag v${{ env.NEW_VERSION_NAME }}
-          git push origin v${{ env.NEW_VERSION_NAME }}
+          git tag v${{ env.NEW_VERSION_NAME }}-${{ env.NEW_VERSION_CODE }}
+          git push origin v${{ env.NEW_VERSION_NAME }}-${{ env.NEW_VERSION_CODE }}
