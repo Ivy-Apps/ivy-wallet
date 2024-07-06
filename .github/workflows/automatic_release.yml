@@ -48,6 +48,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "Automatic release - v${{ env.NEW_VERSION_NAME }} (${{ env.NEW_VERSION_CODE }})"
+          base: "main"
           branch: ${{ env.NEW_BRANCH }}
           title: "Automatic release - v${{ env.NEW_VERSION_NAME }} (${{ env.NEW_VERSION_CODE }})"
           body: "This PR updates the version-name to v${{ env.NEW_VERSION_NAME }} and increments the version-code to ${{ env.NEW_VERSION_CODE }}."
