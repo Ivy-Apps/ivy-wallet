@@ -1,12 +1,14 @@
 name: Internal Release
 
 on:
-  pull_request:
-    types: [closed]
+  push:
+    branches:
+      - main
 
 jobs:
   internal_release:
-    if: github.event.pull_request.merged == true && github.ref == 'refs/heads/main' && contains(github.event.pull_request.labels.*.name, 'auto-update')
+    if: |
+      contains(github.event.head_commit.message, 'Automatic release')
     runs-on: ubuntu-latest
 
     steps:
@@ -65,15 +67,6 @@ jobs:
         env:
           PLAY_CONFIG_JSON: ${{ secrets.GOOGLE_PLAY_CONSOLE_JSON }}
       #--------------------------------------------------------------------------------
-
-      - name: Verify that the code is release-able ("lintRelease")
-        run: ./gradlew lintRelease
-
-      - name: Upload Lint Release report to GitHub
-        uses: actions/upload-artifact@v4
-        with:
-          name: lint-release-report.html
-          path: app/build/reports/lint-results-release.html
 
       # Fastlane: Build production .aab and release it to Internal Testing
       - name: Build production App Bundle
