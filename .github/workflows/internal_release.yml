@@ -9,6 +9,9 @@ jobs:
   internal_release:
     if: |
       contains(github.event.head_commit.message, 'Automatic release')
+    permissions:
+      contents: write
+
     runs-on: ubuntu-latest
 
     steps:
@@ -68,28 +71,6 @@ jobs:
           PLAY_CONFIG_JSON: ${{ secrets.GOOGLE_PLAY_CONSOLE_JSON }}
       #--------------------------------------------------------------------------------
 
-      # Fastlane: Build production .aab and release it to Internal Testing
-      - name: Build production App Bundle
-        run: bundle exec fastlane production_build
-        env:
-          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
-          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
-
-      - name: Upload App Bundle to GitHub
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release.aab
-          path: app/build/outputs/bundle/release/app-release.aab
-
-      - name: Release App Bundle to Internal Testing
-        run: bundle exec fastlane internal_release
-        env:
-          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
-          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
-      #--------------------------------------------------------------------------
-
       - name: Get version name and code from libs.versions.toml
         id: get_version
         run: |
@@ -106,6 +87,28 @@ jobs:
           git tag $TAG_NAME
           git push https://x-access-token:${{ env.PAT_TOKEN }}@github.com/${{ github.repository }} $TAG_NAME
           echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
+
+      # Fastlane: Build production .aab and release it to Internal Testing
+      - name: Build production App Bundle
+        run: bundle exec fastlane production_build
+        env:
+          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+
+      - name: Upload App Bundle to GitHub
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release.aab
+          path: app/build/outputs/bundle/release/app-release.aab
+
+      - name: Release App Bundle to Google PlayStore Internal Testing
+        run: bundle exec fastlane internal_release
+        env:
+          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+      #--------------------------------------------------------------------------
 
       - name: Prepare changelog for GitHub Release
         uses: Bullrich/generate-release-changelog@master
