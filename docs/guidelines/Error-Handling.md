@@ -1,11 +1,10 @@
 # Error Handling
 
 It's common for operations to fail and we should expect that.
-In Ivy Wallet we **do not throw exceptions** but rather make functions that
-can fail return [Either<Error, Data>](https://arrow-kt.io/learn/typed-errors/working-with-typed-errors/).
+In Ivy Wallet we **do not throw exceptions** but rather make functions that can fail to return [Either<Error, Data>](https://arrow-kt.io/learn/typed-errors/working-with-typed-errors/).
 
 Either is a generic data type that models two possible cases:
-- `Either.Left` for the unhappy path (e.g. request failing, invalid input, no network connection)
+- `Either.Left` for the unhappy path (e.g., request failing, invalid input, no network connection)
 - `Either.Right` for the happy path
 
 Simplified, `Either` is just:
@@ -24,7 +23,7 @@ fun <E,A,B> Either<E, A>.fold(
   Either.Right -> mapRight(data)
 }
 
-// a bunch more extension functions and utils
+// a bunch of more extension functions and utils
 ```
 
 So in Ivy, operations that can fail (logically or for some other reason) we'll model using **Either**.
@@ -45,7 +44,7 @@ interface BtcDataSource {
 }
 
 interface MyBank {
-  suspend fun currentblBalanceUSD(): Either<Unit, PositiveDouble>
+  suspend fun currentBalanceUSD(): Either<Unit, PositiveDouble>
 }
 
 class CryptoInvestor @Inject constructor(
@@ -54,7 +53,7 @@ class CryptoInvestor @Inject constructor(
 ) {
   suspend fun buyIfCheap(): Either<String, PositiveDouble> = either {
     val btcPrice = btcDataSource.fetchCurrentPriceUSD().bind()
-    // .bind() - if it fails returns Either.Left and short-circuits the function
+    // .bind() - if it fails, returns Either.Left and short-circuits the function
     if(btcPrice.value > 50_000) {
       // short-circuits and returns Either.Left with the msg below
       raise("BTC is expensive! Won't buy.")
@@ -76,7 +75,7 @@ class CryptoInvestor @Inject constructor(
 
 Let's analyze, simplified:
 - `either {}` puts us into a "special" scope where the last line returns `Either.Right` and also gives us access to some functions:
-  - `Operation.bind()`: if the operation fails terminates the `either {}` with operation's `Left` value, otherwise `.bind()` returns the operation's `Right` value
+  - `Operation.bind()`: if the operation fails, it terminates the `either {}` with operation's `Left` value; otherwise, `.bind()` returns the operation's `Right` value
   - `raise(E)`: like **throw** but for `either {}` - terminates the function with `Left(E)`
 - `Either.mapLeft {}`: transforms the `Left` (error type) of the `Either`. In the example, we do it so we can match the left type of the `either {}`
 
@@ -99,7 +98,7 @@ I strongly recommend allocating some time to also go through [Arrow's Working wi
 
 - Either is a [monad](https://en.wikipedia.org/wiki/Monad_(functional_programming)).
 - `Either<Throwable, T>` is equivalent to Kotlin's std `Result` type.
-- Many projects create a custom `Result<E, T>` while they can just use `Either` with all of its built-in features.
+- Many projects create a custom `Result<E, T>` while they can just use `Either` with all its built-in features.
 
-> In some rare cases it's okay to `throw` a runtime exception. Those are the cases in which you're okay and want the app to crash
-> (e.g. not enough disk space to write in Room DB / local storage).
+> In some rare cases, it's okay to `throw` a runtime exception. These are the cases in which you're okay and want the app to crash
+> (e.g., not enough disk space to write in Room DB / local storage).

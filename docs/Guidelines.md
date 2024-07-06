@@ -5,7 +5,7 @@ The biggest challenge in software engineering is the fight against **complexity*
 1. Your PR works and doesn't break anything.
 2. Your PR is simple and doesn't add complexity.
 
-Software engineering is also about **thinking**. Don't just follow blindly best practices and strive to do the "right" thing. Instead, ask yourself:
+Software engineering is also about **thinking**. Don't just blindly follow best practices and strive to do the "right" thing. Instead, ask yourself:
 
 - Is this the simplest solution?
 - Am I over-engineering? What does this give me?
