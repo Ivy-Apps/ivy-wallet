@@ -11,7 +11,8 @@ jobs:
       contains(github.event.head_commit.message, 'Automatic release')
     permissions:
       contents: write
-
+    outputs:
+      github_release_url: ${{ steps.share_release_url_output.outputs.github_release_url }}
     runs-on: ubuntu-latest
 
     steps:
