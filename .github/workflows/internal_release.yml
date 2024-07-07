@@ -14,8 +14,6 @@ jobs:
     steps:
       - name: Checkout GIT
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # Fetch all history for all branches and tags
 
       - name: Setup Java SDK
         uses: actions/setup-java@v4
@@ -90,6 +88,8 @@ jobs:
     steps:
       - name: Checkout GIT
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch all history for all branches and tags
 
       - name: Setup Java SDK
         uses: actions/setup-java@v4
@@ -140,7 +140,7 @@ jobs:
 
       - name: Create GitHub Release
         id: create_github_release
-        uses: actions/create-release@latest
+        uses: actions/create-release@v1.1.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -153,6 +153,8 @@ jobs:
 
       - name: Upload APK to GitHub Release
         uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_github_release.outputs.upload_url }}
           asset_path: app/build/outputs/apk/demo/app-demo.apk
