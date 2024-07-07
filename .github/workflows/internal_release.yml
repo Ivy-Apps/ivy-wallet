@@ -163,12 +163,14 @@ jobs:
 
       - name: Announce in Telegram group
         run: |
-          RELEASE_TAG=$(echo ${GITHUB_REF} | sed 's/refs\/tags\///')
+          RELEASE_TAG=${{ env.TAG_NAME }}
           RELEASE_URL="https://github.com/${GITHUB_REPOSITORY}/releases/tag/${RELEASE_TAG}"
-          CAPTION=$'🔥 Ivy Wallet '"$RELEASE_TAG"$' release\n\n'"$RELEASE_URL"
-          
+          CAPTION=$'🚀 **Ivy Wallet '"$RELEASE_TAG"$' release**\n\nCheck it out here: **[Release Link]('"$RELEASE_URL"')**'
+          CAPTION=$(echo $CAPTION | sed 's/\./\\./g; s/-/\\-/g; s/_/\\_/g; s/!/\\!/g; s/(/\\(/g; s/)/\\)/g')
+
           curl -F "chat_id=-1001647280565" \
                -F "document=@app/build/outputs/apk/demo/app-demo.apk" \
                -F "reply_to_message_id=16118" \
+               -F "parse_mode=MarkdownV2" \
                -F "caption=$CAPTION" \
                https://api.telegram.org/bot${{ secrets.BOTFATHER_TELEGRAM_BOT_TOKEN }}/sendDocument
