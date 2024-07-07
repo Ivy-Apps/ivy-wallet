@@ -8,6 +8,7 @@ on:
 jobs:
   google_play_release:
     if: |
+      github.actor == 'github-actions[bot]' && 
       contains(github.event.head_commit.message, 'Automatic release')
     runs-on: ubuntu-latest
 
@@ -80,6 +81,7 @@ jobs:
 
   github_release:
     if: |
+      github.actor == 'github-actions[bot]' && 
       contains(github.event.head_commit.message, 'Automatic release')
     runs-on: ubuntu-latest
     permissions:
@@ -165,12 +167,10 @@ jobs:
         run: |
           RELEASE_TAG=${{ env.TAG_NAME }}
           RELEASE_URL="https://github.com/${GITHUB_REPOSITORY}/releases/tag/${RELEASE_TAG}"
-          CAPTION=$'🚀 **Ivy Wallet '"$RELEASE_TAG"$' release**\n\nCheck it out here: **[Release Link]('"$RELEASE_URL"')**'
-          CAPTION=$(echo $CAPTION | sed 's/\./\\./g; s/-/\\-/g; s/_/\\_/g; s/!/\\!/g; s/(/\\(/g; s/)/\\)/g')
+          CAPTION=$'🚀 Ivy Wallet '"$RELEASE_TAG"$' release\n\nCheck it out here: '"$RELEASE_URL"'\n\n🚢 Please, test the release candidate before we ship it.'
 
           curl -F "chat_id=-1001647280565" \
                -F "document=@app/build/outputs/apk/demo/app-demo.apk" \
                -F "reply_to_message_id=16118" \
-               -F "parse_mode=MarkdownV2" \
                -F "caption=$CAPTION" \
                https://api.telegram.org/bot${{ secrets.BOTFATHER_TELEGRAM_BOT_TOKEN }}/sendDocument
