@@ -8,6 +8,7 @@ on:
 jobs:
   google_play_release:
     if: |
+      github.actor == 'github-actions[bot]' && 
       contains(github.event.head_commit.message, 'Automatic release')
     runs-on: ubuntu-latest
 
@@ -80,6 +81,7 @@ jobs:
 
   github_release:
     if: |
+      github.actor == 'github-actions[bot]' && 
       contains(github.event.head_commit.message, 'Automatic release')
     runs-on: ubuntu-latest
     permissions:
