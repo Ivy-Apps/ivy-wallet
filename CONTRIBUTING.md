@@ -1,8 +1,13 @@
 # Contributing to Ivy Wallet
 
 
-## 1. Pick an issue
+## 1. Fork the repo
+Fork of the official Ivy Wallet repo by clicking on the badge -> [![Fork Ivy Wallet](https://img.shields.io/github/forks/Ivy-Apps/ivy-wallet?logo=github&style=social)](https://github.com/Ivy-Apps/ivy-wallet/fork).
 
+**[Forking - GitHub tutorial](https://docs.github.com/en/get-started/quickstart/fork-a-repo)**
+
+
+## 2. Pick an issue
 ### Workflow:
 1. Browse **[Ivy Wallet Issues](https://github.com/Ivy-Apps/ivy-wallet/issues)**.
 2. Choose an issue that you understand and like.
@@ -16,12 +21,6 @@
 3. You can only work on one issue at a time.
 
 
-## 2. Fork the repo
-Create a [fork of the official Ivy Wallet repo](https://github.com/Ivy-Apps/ivy-wallet/fork).
-
-**[Forking - GitHub tutorial](https://docs.github.com/en/get-started/quickstart/fork-a-repo)**
-
-
 ## 3. Create a feature branch in your fork
 Open your forked `ivy-wallet` folder in the terminal and create your issue's branch:
 ```
@@ -32,6 +31,7 @@ git checkout -b fix-issue-{YOUR_ISSUE_NUMBER}
 
 ## 4. Time to work
 ### ⚠️ Very important - read the [Developer Guidelines 🏗️](docs/Guidelines.md) before you begin.
+
 ### Workflow:
 - Make commits.
 - Refactor your code.
@@ -47,6 +47,7 @@ git checkout -b fix-issue-{YOUR_ISSUE_NUMBER}
 - Is that the simplest solution?
 - Can I do it with less code and changes?
 - Does it work in all cases?
+
 
 ## 5. Submit a pull request to `main` branch
 So far, you should have pushed your work to your feature branch and have tested
