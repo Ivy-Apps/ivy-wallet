@@ -162,7 +162,7 @@
     <string name="opensource">#開源</字串>
     <string name="google_error_try_again">錯誤。再試一次:%1$s</string>
     <string name="google_signing_in">正在登入...</string>
-    <string name="google_signing_in_success">成功!
+    <string name="google_signing_in_success">成功!</string>
     <string name="login_with_google">使用 Google 登入</string>
     <string name="offline_account">離線帳戶</string>
     <string name="sync_data_ivy_cloud">在 IVY 雲端同步您的資料</string>
@@ -329,7 +329,7 @@
     <string name="starts_on">開始</string>
     <string name="repeats_every_text">重複每個</string>
     <string name="submit">交付</string>
-    <string name="what_do_you_need">你需要什麼?
+    <string name="what_do_you_need">你需要什麼?</string>
     <string name="explain_it_in_one_sentence">用一句話解釋一下。(支援 Markdown)</string>
     <string name="last_12_months">過去 12 個月</string>
     <string name="last_6_months">過去 6 個月</string>
@@ -391,8 +391,8 @@
     <string name="make_ivy_wallet_better_description">您想改進 Ivy 皮夾嗎?給我們寫評論。這是我們開發您想要和需要的產品的唯一方法。它也幫助我們在 PlayStore 上排名更高，這樣我們就可以把錢花在產品上，而不是行銷上。</string>
     <string name="we_need_your_help">我們需要您的幫助!</string>
     <string name="we_need_your_help_description">我們只是朝九晚五的工作之後從事應用程式的設計師和開發人員，目前，我們投入了大量的時間和金錢，卻只產生了損失和倦怠。如果您希望我們繼續開發 Ivy Wallet ，請與朋友和家人分享。Google PlayStore 評論也很有幫助!</string>
-    <string name="ivy_wallet_is_opensource"> Ivy Wallet 開源了!</string>
-    <string name="ivy_wallet_is_opensource_description"> Ivy Wallet 代碼是開放的，每個人都可以看到。我們相信透明度和道德對於每個軟體產品都至關重要。如果您喜歡我們的工作並希望改進應用程序，您可以為我們的公共 Github 存儲庫做出貢獻。</string>
+    <string name="ivy_wallet_is_opensource">Ivy Wallet 開源了!</string>
+    <string name="ivy_wallet_is_opensource_description">Ivy Wallet 代碼是開放的，每個人都可以看到。我們相信透明度和道德對於每個軟體產品都至關重要。如果您喜歡我們的工作並希望改進應用程序，您可以為我們的公共 Github 存儲庫做出貢獻。</string>
     <string name="contribute">貢獻</string>
     <string name="adjust_balance">調整平衡</string>
     <string name="authentication_required">需要身份驗證</string>
