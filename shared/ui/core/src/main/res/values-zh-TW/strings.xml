@@ -83,7 +83,7 @@
     <string name="expense">費用</string>
     <string name="add_planned_date_payment">新增預計付款日期</string>
     <string name="pay">薪水</string>
-    <string name="get">取得</字符串>
+    <string name="get">取得</string>
     <string name="confirm_deletion">確認刪除</string>
     <string name="transaction_confirm_deletion_description">刪除此交易將從交易歷史記錄中刪除它並相應地更新餘額。</string>
     <string name="confirm_account_change">確認帳戶更改</string>
@@ -247,7 +247,7 @@
     <string name="product">產品</string>
     <string name="danger_zone">危險區域</string>
     <string name="delete_all_user_data">刪除所有用戶資料</string>
-    <string name="delete_all_user_data_question">刪除所有用戶資料?
+    <string name="delete_all_user_data_question">刪除所有用戶資料?</string>
     <string name="delete_all_user_data_warning">警告!此操作將永久刪除 %1$s 上的所有數據，並且您將無法恢復它。</string>
     <string name="your_account">您的帳戶</string>
     <string name="confirm_all_userd_data_deletion">確認永久刪除\'%1$s\'</string>
