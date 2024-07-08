@@ -4,7 +4,7 @@
     <string name="total">總計: %1$s %2$s</string>
     <string name="month_income">本月營收</string>
     <string name="month_expenses">本月費用</string>
-    <string name="excluded">（排除）</string>
+    <string name="excluded">(排除)</string>
     <string name="income_uppercase">收入</string>
     <string name="expenses_uppercase">費用</string>
     <string name="app_locked">應用程式已鎖定</string>
