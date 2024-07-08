@@ -2,7 +2,7 @@
 
 
 ## 1. Fork the repo
-Fork of the official Ivy Wallet repo by clicking on the badge -> [![Fork Ivy Wallet](https://img.shields.io/github/forks/Ivy-Apps/ivy-wallet?logo=github&style=social)](https://github.com/Ivy-Apps/ivy-wallet/fork).
+Fork of the official Ivy Wallet repo by clicking on the badge: [![Fork Ivy Wallet](https://img.shields.io/github/forks/Ivy-Apps/ivy-wallet?logo=github&style=social)](https://github.com/Ivy-Apps/ivy-wallet/fork).
 
 **[Forking - GitHub tutorial](https://docs.github.com/en/get-started/quickstart/fork-a-repo)**
 
