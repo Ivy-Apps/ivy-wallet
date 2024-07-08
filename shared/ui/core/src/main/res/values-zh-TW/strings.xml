@@ -476,7 +476,7 @@
     <string name="ivy_community">Ivy Wallet 社群</string>
     <string name="join_now">立即加入</string>
     <string name="it_looks_like_that_you_are_enjoying_telegram">看起來您很喜歡 Ivy Wallet! 如果您還沒有加入我們的邀請制 Ivy Telegram 社群，請隨時加入我們，讓我們的應用程式變得更好:)</string>
-    <string name="please_type_category_name">請輸入 \"%1$s\" 以刪除您的類別。
+    <string name="please_type_category_name">請輸入 \"%1$s\" 以刪除您的類別。</string>
     <string name="releases">發布</string>
     <string name="enter_with_offline_account">使用離線帳戶輸入</string>
     <string name="your_data_will_be_saved_only_locally">您的資料將僅保存在您的手機本地。如果您卸載應用程式或更換設備，您可能會面臨遺失資料的風險。為了防止資料遺失，我們建議定期從設定中匯出備份。</string>
