@@ -39,7 +39,7 @@
     <string name="export_csv_file_standard">使用標準選項匯出 CSV 檔案</string>
     <string name="export_csv_file_standard_description">請使用標準選項並確保包含標頭。</string>
     <string name="how_to_import">如何導入</string>
-    <string name="open">打開</字串>
+    <string name="open">打開</string>
     <string name="steps">步驟</string>
     <string name="how_to">如何</string>
     <string name="video">影片</string>
@@ -75,7 +75,7 @@
     <string name="pay_with">付款方式</string>
     <string name="from">來自</string>
     <string name="account">帳號</string>
-    <string name="to">至</字串>
+    <string name="to">至</string>
     <string name="add_account">新增帳戶</string>
     <string name="income_title">收入標題</string>
     <string name="expense_title">費用標題</string>
@@ -83,7 +83,7 @@
     <string name="expense">費用</string>
     <string name="add_planned_date_payment">新增計畫付款日期</string>
     <string name="pay">支付</string>
-    <string name="get">取得</字串>
+    <string name="get">取得</string>
     <string name="confirm_deletion">確認刪除</string>
     <string name="transaction_confirm_deletion_description">刪除此交易將從交易歷史記錄中刪除它並相應地更新餘額。</string>
     <string name="confirm_account_change">確認帳戶更改</string>
@@ -152,15 +152,15 @@
     <string name="wallet_description">使用 Ivy 追蹤您的收入、支出和預算。</string>
     <string name="enter_your_name">輸入您的姓名\以個性化您的\錢包</string>
     <string name="what_is_your_name">你叫什麼名字?</string>
-    <string name="enter">輸入</字串>
+    <string name="enter">輸入</string>
     <string name="add_accounts">新增帳戶</string>
     <string name="suggestion">建議</string>
-    <string name="next">下一個</字串>
+    <string name="next">下一個</string>
     <string name="add_categories">新增類別</string>
     <string name="suggestions">建議</string>
-    <string name="set">設定</字串>
+    <string name="set">設定</string>
     <string name="your_personal_money_manager">您的個人資金經理</string>
-    <string name="opensource">#開源</字串>
+    <string name="opensource">#開源</string>
     <string name="google_error_try_again">錯誤。再試一次: %1$s</string>
     <string name="google_signing_in">正在登入...</string>
     <string name="google_signing_in_success">成功！</string>
@@ -225,7 +225,7 @@
     <string name="select_all">選擇全部</string>
     <string name="amount_optional">金額 (可選)</string>
     <string name="keywords_optional">關鍵字 (可選)</string>
-    <string name="includes_uppercase">包括</字串>
+    <string name="includes_uppercase">包括</string>
     <string name="add_keyword">新增關鍵字</string>
     <string name="excludes_uppercase">排除</string>
     <string name="no_transactions_for_your_filter">您的過濾器沒有任何交易。</string>
@@ -266,7 +266,7 @@
     <string name="request_a_feature">請求功能</string>
     <string name="contact_support">社區支持</string>
     <string name="project_contributors">貢獻者</string>
-    <string name="account_uppercase">帳戶</字串>
+    <string name="account_uppercase">帳戶</string>
     <string name="logout">登出</string>
     <string name="login">登入</string>
     <string name="syncing">正在同步…</string>
@@ -287,7 +287,7 @@
     <string name="exchange_rate">匯率</string>
     <string name="choose_color">選擇顏色</string>
     <string name="reorder">重新排序</string>
-    <string name="keyword">關鍵字</字串>
+    <string name="keyword">關鍵字</string>
     <string name="edit_budget">編輯預算</string>
     <string name="create_budget">建立預算</string>
     <string name="budget_name">預算名稱</string>
@@ -345,9 +345,9 @@
     <string name="expired">已過期</string>
     <string name="authentication_succeeded">認證成功!</string>
     <string name="authentication_failed">身份驗證失敗。</string>
-    <string name="notification_1">今天您有進行任何交易嗎? 🏁</字串>
-    <string name="notification_2">今天的開銷你統計了嗎? 💸</字串>
-    <string name="notification_3">您今天的交易記錄了嗎? 🏁</字串>
+    <string name="notification_1">今天您有進行任何交易嗎? 🏁</string>
+    <string name="notification_2">今天的開銷你統計了嗎? 💸</string>
+    <string name="notification_3">您今天的交易記錄了嗎? 🏁</string>
     <string name="cash">現金</string>
     <string name="bank">銀行</string>
     <string name="revoult">revoult</string>
@@ -425,7 +425,7 @@
     <string name="months">月</string>
     <string name="month">月</string>
     <string name="years">年</string>
-    <string name="year">年</字串>
+    <string name="year">年</string>
     <string name="transfers_as_income_expense"><![CDATA[作為收入和支出轉移]]></string>
     <string name="transfers_as_income_expense_description">在帳戶畫面中將帳戶轉帳視為收入或支出</string>
     <string name="home_category">首頁</string>
@@ -466,7 +466,7 @@
     <string name="do_not_use_for_backup_purposes">⚠\uFE0F 不要用於備份目的</string>
     <string name="done">完成</string>
     <string name="contributors_number">%1$s 貢獻者</string>
-    <string name="error">錯誤</字串>
+    <string name="error">錯誤</string>
     <string name="loading">正在加載...</string>
     <string name="try_again">再試一次</string>
     <string name="one_contribution">1 貢獻</string>
