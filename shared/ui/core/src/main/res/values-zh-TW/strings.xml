@@ -19,7 +19,7 @@
     <string name="remove_customer">刪除客戶端</string>
     <string name="add_budget">加引號</string>
     <string name="no_budgets">沒有預算</string>
-    <string name="no_budgets_text">您沒有設定預算。 \n點按“+ 新增預算”即可新增預算。
+    <string name="no_budgets_text">您沒有設定預算。\n點按“+ 新增預算”即可新增預算。
     <string name="budgets">預算</string>
     <string name="for_categories">%1$s %2$s 按類別</string>
     <string name="app_budget">%1$s %2$s 應用程式預算</string>
@@ -54,7 +54,7 @@
     <string name="convert_xls_to_csv_description">!注意:如果匯出的檔案沒有“.xls”副檔名，請透過手動重新命名檔案來新增它。
     <string name="online_csv_converter_free">免費線上 CSV 轉換器</string>
     <string name="check_email_spam">檢查電子郵件中的“促銷”和“垃圾郵件”資料夾</string>
-    <string name="download_email_file">下載電子郵件附件中的“transactions_export…”檔案。
+    <string name="download_email_file">下載電子郵件附件中的\“transactions_export…”檔案。
     <string name="download_email_file_description">如果您有多種貨幣，則需要下載每個“transactions_export...”檔案並將其匯入 Ivy 中。
     <string name="import_from">導入自</string>
     <string name="please_wait">請稍候</string>
