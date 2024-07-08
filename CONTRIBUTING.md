@@ -1,87 +1,68 @@
 # Contributing to Ivy Wallet
 
+
 ## 1. Fork the repo
+Fork of the official Ivy Wallet repo by clicking on the badge: [![Fork Ivy Wallet](https://img.shields.io/github/forks/Ivy-Apps/ivy-wallet?logo=github&style=social)](https://github.com/Ivy-Apps/ivy-wallet/fork).
 
-1. Install the git Large File Storage plugin, see [here](https://git-lfs.com/) for instructions.
-2. Create a fork by clicking this badge: 👉 [![Fork Ivy Wallet](https://img.shields.io/github/forks/Ivy-Apps/ivy-wallet?logo=github&style=social)](https://github.com/Ivy-Apps/ivy-wallet/fork) 👈
+**[Forking - GitHub tutorial](https://docs.github.com/en/get-started/quickstart/fork-a-repo)**
 
-**[How To Fork Guide by GitHub](https://docs.github.com/en/get-started/quickstart/fork-a-repo)**
 
 ## 2. Pick an issue
-
-What do you want to work on? [Choose an issue](https://github.com/Ivy-Apps/ivy-wallet/issues) that you'd like to contribute to.
-
 ### Workflow:
-
 1. Browse **[Ivy Wallet Issues](https://github.com/Ivy-Apps/ivy-wallet/issues)**.
 2. Choose an issue that you understand and like.
-3. Comment **`I'm on it`** on the issue so GitHub Actions can automatically assign it to you.
+> Didn't find anything fitting? Try **[creating a new issue](https://github.com/Ivy-Apps/ivy-wallet/issues/new/choose)**.
+3. ⚠️ Comment **exactly** **`I'm on it`** on that issue for GitHub Actions to automatically assign it to you.
+> Note: Automated assigning can take up to 5 minutes to take place.
 
-> ⚠️ Comment exactly **`"I'm on it"`** to take an issue, otherwise the CI automation won't work.
+### Contributing rules:
+1. Do **not** work on already assigned issues. Ask the assignee first. If more than 7 days have passed, comment and tag [@ILIYANGERMANOV](https://github.com/ILIYANGERMANOV) to unassign it.
+2. Fix your issue quickly or unassign yourself if you're unable to, in order to not block other contributors.
+3. You can only work on one issue at a time.
 
-### Contributing Rules:
-
-1. Comment **"I'm on it"** to take an issue.
-2. Want to work on something else? Just **[create a new issue](https://github.com/Ivy-Apps/ivy-wallet/issues/new/choose)**.
-3. Do **not** work on already assigned issues. Ask the assignee first. If more than 7 days have passed, comment and tag @ILIYANGERMANOV to unassign it.
-4. Only one issue per contributor at a time.
-
-> **Reminder:** If you take an issue, you're blocking others from working on it. Finish it fast or unassign yourself.
 
 ## 3. Create a feature branch in your fork
-
-For your issue, make a feature branch in your forked ivy-wallet repo.
-
-### Create a new branch
-
-Open a terminal in your cloned forked ivy-wallet repo and run:
+Open your forked `ivy-wallet` folder in the terminal and create your issue's branch:
 ```
-git checkout -b fix-issue-YOUR_ISSUE_NUMBER
+git checkout -b fix-issue-{YOUR_ISSUE_NUMBER}
 ```
+> Replace {YOUR_ISSUE_NUMBER} with the ID/number of your issue.
 
-_Replace "YOUR_ISSUE_NUMBER" with the id/number of your issue._
 
+## 4. Time to work
+### ⚠️ Very important - read the [Developer Guidelines 🏗️](docs/Guidelines.md) before you begin.
 
-### Time to work
-
-Make sure to read the **[Developer Guidelines 🏗️](docs/Guidelines.md)** before you begin.
-
-**🔨 Workflow:**
-
+### Workflow:
 - Make commits.
 - Refactor your code.
 - Verify that your implementation works.
 - Build often and test that you haven't broken existing features.
 
-**💡 Tips:**
-
+### Tips:
 - Make sure that you don't break anything with your changes.
 - Keep it simple.
 - "Don't walk away from complexity, run!"
 
-**❓ Ask yourself:**
+### Ask Yourself:
+- Is that the simplest solution?
+- Can I do it with less code and changes?
+- Does it work in all cases?
 
-- "Is that the simplest solution?"
-- "Can I do it with less code and changes?"
-- "Does it work in all cases?"
 
-## 4. Submit a PR to `main` branch
-
+## 5. Submit a pull request to `main` branch
 So far, you should have pushed your work to your feature branch and have tested
 that it works on a real Android device.
-Then final step is to open a pull request to the `main` branch of the
-official [Ivy Wallet repo.](https://github.com/Ivy-Apps/ivy-wallet/pulls)
+The final step is to [open a pull request](https://github.com/Ivy-Apps/ivy-wallet/pulls) to the `main` branch of the
+official Ivy Wallet repo.
 
-**[How To Submit a PR Guide by GitHub](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)**
+**[Submitting a PR - GitHub tutorial](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)**
 
 ### IMPORTANT:
-
-- Make sure that on the base repository's base the `main` branch is chosen as "base".
+- Make sure the base repository is set to `Ivy-Apps/ivy-wallet` and its base is set to `main`.
 - Pull requests to other branches will be rejected.
-- Ivy Wallet doesn't have QA so **you are the QA!** Please test your implementation carefully.
+- Ivy Wallet doesn't have QA, so **you are the QA!** Please test your implementation carefully.
 
 ### Questions?
-
 Ask them in [our private Telegram community](https://t.me/+ETavgioAvWg4NThk).
 
 [![Telegram Group](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/+ETavgioAvWg4NThk)
