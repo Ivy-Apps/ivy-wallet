@@ -70,6 +70,11 @@ android {
 
             applicationIdSuffix = ".debug"
             resValue("string", "app_name", "Ivy Wallet Debug")
+
+            firebaseCrashlytics {
+                mappingFileUploadEnabled = false
+                nativeSymbolUploadEnabled = false
+            }
         }
 
         create("demo") {
