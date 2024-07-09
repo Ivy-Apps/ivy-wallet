@@ -21,8 +21,10 @@ data class CategoryEntity(
     @SerialName("orderNum")
     val orderNum: Double = 0.0,
 
+    @Deprecated("Obsolete field used for cloud sync. Can't be deleted because of backwards compatibility")
     @SerialName("isSynced")
     val isSynced: Boolean = false,
+    @Deprecated("Obsolete field used for cloud sync. Can't be deleted because of backwards compatibility")
     @SerialName("isDeleted")
     val isDeleted: Boolean = false,
 

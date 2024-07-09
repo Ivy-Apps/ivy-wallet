@@ -21,10 +21,12 @@ data class TagAssociationEntity(
     @Serializable(with = KSerializerUUID::class)
     val associatedId: UUID,
 
+    @Deprecated("Obsolete field used for cloud sync. Can't be deleted because of backwards compatibility")
     @SerialName("lastSyncTime")
     @Serializable(with = KSerializerInstant::class)
     val lastSyncedTime: Instant,
 
+    @Deprecated("Obsolete field used for cloud sync. Can't be deleted because of backwards compatibility")
     @SerialName("isDeleted")
     val isDeleted: Boolean
 )

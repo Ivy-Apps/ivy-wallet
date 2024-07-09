@@ -22,8 +22,10 @@ data class BudgetEntity(
     @SerialName("accountIdsSerialized")
     val accountIdsSerialized: String?,
 
+    @Deprecated("Obsolete field used for cloud sync. Can't be deleted because of backwards compatibility")
     @SerialName("isSynced")
     val isSynced: Boolean = false,
+    @Deprecated("Obsolete field used for cloud sync. Can't be deleted because of backwards compatibility")
     @SerialName("isDeleted")
     val isDeleted: Boolean = false,
 
