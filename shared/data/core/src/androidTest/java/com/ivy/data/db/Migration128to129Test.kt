@@ -1,5 +1,6 @@
 package com.ivy.data.db
 
+import android.database.Cursor
 import androidx.room.testing.MigrationTestHelper
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
@@ -25,9 +26,9 @@ class Migration128to129Test {
     private val migration = Migration128to129_DeleteIsDeleted()
 
     @Test
-    fun deletesDeletedTransactions() {
-        // Given
-        helper.createDatabase(TestDb, 128).apply {
+    fun deletesDeletedTransactions() = migrationTestCase(
+        tableName = "transactions",
+        dataBeforeMigration = {
             insertTransaction(
                 title = "Trn 1",
                 isDeleted = false,
@@ -36,25 +37,13 @@ class Migration128to129Test {
                 title = "Trn 2",
                 isDeleted = true,
             )
-            close()
-        }
-
-        // When
-        val newDb = helper.runMigrationsAndValidate(
-            TestDb,
-            129,
-            true,
-            migration,
-        )
-
-        // Then
-        newDb.query("SELECT * FROM transactions").apply {
+        },
+        dataAfterMigration = {
             moveToFirst() shouldBe true
             getString(getColumnIndexOrThrow("title")) shouldBe "Trn 1"
             moveToNext() shouldBe false
         }
-        newDb.close()
-    }
+    )
 
     private fun SupportSQLiteDatabase.insertTransaction(
         title: String,
@@ -98,6 +87,87 @@ class Migration128to129Test {
         statement.bindString(18, id.toString())
 
         statement.executeInsert()
+    }
+
+    @Test
+    fun deleteDeletedAccounts() = migrationTestCase(
+        tableName = "accounts",
+        dataBeforeMigration = {
+            insertAccount(
+                name = "Acc 1",
+                isDeleted = true,
+            )
+            insertAccount(
+                name = "Acc 2",
+                isDeleted = false,
+            )
+        },
+        dataAfterMigration = {
+            moveToFirst() shouldBe true
+            getString(getColumnIndexOrThrow("name")) shouldBe "Acc 2"
+            moveToNext() shouldBe false
+        }
+    )
+
+    private fun SupportSQLiteDatabase.insertAccount(
+        name: String,
+        isDeleted: Boolean,
+    ) {
+        val sql = """
+        INSERT INTO accounts (
+            name, currency, color, icon, orderNum, includeInBalance, 
+            isSynced, isDeleted, id
+        ) VALUES (
+            ?, ?, ?, ?, ?, ?, ?, ?, ?
+        )
+        """.trimIndent()
+        val statement = this.compileStatement(sql)
+
+        val id = UUID.randomUUID()
+        val currency = "USD" // Dummy currency
+        val color = 0xFFFFFF // Dummy color (white)
+        val icon = "default_icon" // Dummy icon
+        val orderNum = 1.0
+        val includeInBalance = true
+        val isSynced = true
+
+        statement.bindString(1, name)
+        statement.bindString(2, currency)
+        statement.bindLong(3, color.toLong())
+        statement.bindString(4, icon)
+        statement.bindDouble(5, orderNum)
+        statement.bindLong(6, if (includeInBalance) 1 else 0)
+        statement.bindLong(7, if (isSynced) 1 else 0)
+        statement.bindLong(8, if (isDeleted) 1 else 0)
+        statement.bindString(9, id.toString())
+
+        statement.executeInsert()
+    }
+
+    private fun migrationTestCase(
+        tableName: String,
+        dataBeforeMigration: SupportSQLiteDatabase.() -> Unit,
+        dataAfterMigration: Cursor.() -> Unit,
+    ) {
+        // Given
+        helper.createDatabase(TestDb, 128).apply {
+            dataBeforeMigration()
+            close()
+        }
+
+        // When
+        val newDb = helper.runMigrationsAndValidate(
+            TestDb,
+            129,
+            true,
+            migration,
+        )
+
+        // Then
+        newDb.query("SELECT * FROM $tableName").apply {
+            dataAfterMigration()
+        }
+        newDb.close()
     }
 
     companion object {
