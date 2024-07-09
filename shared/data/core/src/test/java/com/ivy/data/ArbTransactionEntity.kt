@@ -83,7 +83,7 @@ fun Arb.Companion.validTransfer(): Arb<TransactionEntity> = arbitrary {
         loanId = Arb.maybe(Arb.uuid()).bind(),
         loanRecordId = Arb.maybe(Arb.uuid()).bind(),
         isSynced = Arb.boolean().bind(),
-        isDeleted = Arb.boolean().bind(),
+        isDeleted = false,
         id = Arb.uuid().bind()
     )
 }
@@ -140,7 +140,7 @@ fun Arb.Companion.validIncomeOrExpense(): Arb<TransactionEntity> = arbitrary {
         loanId = Arb.maybe(Arb.uuid()).bind(),
         loanRecordId = Arb.maybe(Arb.uuid()).bind(),
         isSynced = Arb.boolean().bind(),
-        isDeleted = Arb.boolean().bind(),
+        isDeleted = false,
         id = Arb.uuid().bind()
     )
 }

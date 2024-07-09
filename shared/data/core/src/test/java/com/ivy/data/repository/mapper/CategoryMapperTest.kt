@@ -75,6 +75,18 @@ class CategoryMapperTest {
     }
 
     @Test
+    fun `maps entity to domain - deleted categories are not valid`() {
+        // given
+        val corruptedEntity = ValidEntity.copy(isDeleted = true)
+
+        // when
+        val res = with(mapper) { corruptedEntity.toDomain() }
+
+        // then
+        res.shouldBeLeft()
+    }
+
+    @Test
     fun `maps entity to domain - missing icon is okay`() {
         // given
         val missingIconEntity = ValidEntity.copy(icon = null)
@@ -99,7 +111,7 @@ class CategoryMapperTest {
     }
 
     companion object {
-        val CategoryId = com.ivy.data.model.CategoryId(UUID.randomUUID())
+        val CategoryId = CategoryId(UUID.randomUUID())
 
         val ValidEntity = CategoryEntity(
             name = "Home",

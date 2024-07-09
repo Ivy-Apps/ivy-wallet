@@ -2,6 +2,7 @@ package com.ivy.data.repository.mapper
 
 import arrow.core.Either
 import arrow.core.raise.either
+import arrow.core.raise.ensure
 import com.ivy.data.db.entity.CategoryEntity
 import com.ivy.data.model.Category
 import com.ivy.data.model.primitive.ColorInt
@@ -11,6 +12,8 @@ import javax.inject.Inject
 
 class CategoryMapper @Inject constructor() {
     fun CategoryEntity.toDomain(): Either<String, Category> = either {
+        ensure(!isDeleted) { "Category is deleted" }
+
         Category(
             id = com.ivy.data.model.CategoryId(id),
             name = NotBlankTrimmedString.from(name).bind(),
