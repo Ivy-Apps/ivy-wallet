@@ -303,32 +303,6 @@ class FakeAccountDaoTest {
     }
 
     @Test
-    fun `flag deleted`() = runTest {
-        // given
-        val id = UUID.randomUUID()
-        val account = AccountEntity(
-            id = id,
-            name = "Bank",
-            currency = "BGN",
-            color = 1,
-            icon = null,
-            includeInBalance = true,
-            orderNum = 1.0,
-            isDeleted = false
-        )
-
-        // when
-        dao.save(account)
-        dao.flagDeleted(id)
-        val notDeleted = dao.findAll(false)
-        val deleted = dao.findAll(true)
-
-        // then
-        notDeleted shouldBe emptyList()
-        deleted shouldBe listOf(account.copy(isDeleted = true))
-    }
-
-    @Test
     fun `delete by id`() = runTest {
         // given
         val id = UUID.randomUUID()

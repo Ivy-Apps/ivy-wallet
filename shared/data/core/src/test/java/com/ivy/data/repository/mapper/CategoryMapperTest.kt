@@ -29,8 +29,6 @@ class CategoryMapperTest {
             color = ColorInt(42),
             icon = null,
             orderNum = 1.0,
-            removed = false,
-            lastUpdated = Instant.EPOCH,
             id = CategoryId
         )
 
@@ -60,8 +58,6 @@ class CategoryMapperTest {
             color = ColorInt(42),
             icon = null,
             orderNum = 1.0,
-            removed = false,
-            lastUpdated = Instant.EPOCH,
             id = CategoryId
         )
     }

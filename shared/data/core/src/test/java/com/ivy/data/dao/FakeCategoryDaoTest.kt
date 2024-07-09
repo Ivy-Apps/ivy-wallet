@@ -299,50 +299,6 @@ class FakeCategoryDaoTest {
     }
 
     @Test
-    fun `flag deleted - existing id`() = runTest {
-        // given
-        val id = UUID.randomUUID()
-        val category = CategoryEntity(
-            name = "Home",
-            color = 42,
-            icon = null,
-            orderNum = 1.0,
-            isDeleted = false,
-            id = id
-        )
-
-        // when
-        dao.save(category)
-        dao.flagDeleted(id)
-        val res = dao.findById(id)
-
-        // then
-        res shouldBe category.copy(isDeleted = true)
-    }
-
-    @Test
-    fun `flag deleted - not existing id`() = runTest {
-        // given
-        val id = UUID.randomUUID()
-        val category = CategoryEntity(
-            name = "Home",
-            color = 42,
-            icon = null,
-            orderNum = 1.0,
-            isDeleted = false,
-            id = id
-        )
-
-        // when
-        dao.save(category)
-        dao.flagDeleted(UUID.randomUUID())
-        val res = dao.findById(id)
-
-        // then
-        res shouldBe category
-    }
-
-    @Test
     fun `delete by id`() = runTest {
         // given
         val id1 = UUID.randomUUID()

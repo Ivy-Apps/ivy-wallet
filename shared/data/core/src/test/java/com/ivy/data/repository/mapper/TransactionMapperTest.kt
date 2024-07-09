@@ -61,7 +61,6 @@ class TransactionMapperTest {
     @Test
     fun `maps domain income to entity`(
         @TestParameter settled: Boolean,
-        @TestParameter removed: Boolean,
     ) {
         // given
         val income = Income(
@@ -77,8 +76,6 @@ class TransactionMapperTest {
                 paidForDateTime = PaidForDateTime,
                 loanRecordId = LoanRecordId
             ),
-            lastUpdated = InstantNow,
-            removed = removed,
             value = PositiveValue(
                 amount = PositiveDouble.unsafe(100.0),
                 asset = AssetCode.unsafe("NGN")
@@ -109,7 +106,7 @@ class TransactionMapperTest {
             loanId = LoanId,
             loanRecordId = LoanRecordId,
             isSynced = true,
-            isDeleted = removed,
+            isDeleted = false,
             id = TransactionId.value
         )
     }
@@ -117,7 +114,6 @@ class TransactionMapperTest {
     @Test
     fun `maps domain expense to entity`(
         @TestParameter settled: Boolean,
-        @TestParameter removed: Boolean,
     ) {
         // given
         val expense = Expense(
@@ -133,8 +129,6 @@ class TransactionMapperTest {
                 paidForDateTime = PaidForDateTime,
                 loanRecordId = LoanRecordId
             ),
-            lastUpdated = Instant.EPOCH,
-            removed = removed,
             value = PositiveValue(
                 amount = PositiveDouble.unsafe(100.0),
                 asset = AssetCode.unsafe("NGN")
@@ -165,7 +159,7 @@ class TransactionMapperTest {
             loanId = LoanId,
             loanRecordId = LoanRecordId,
             isSynced = true,
-            isDeleted = removed,
+            isDeleted = false,
             id = TransactionId.value
         )
     }
@@ -173,7 +167,6 @@ class TransactionMapperTest {
     @Test
     fun `maps domain transfer to entity`(
         @TestParameter settled: Boolean,
-        @TestParameter removed: Boolean,
     ) {
         // given
         val transfer = Transfer(
@@ -189,8 +182,6 @@ class TransactionMapperTest {
                 paidForDateTime = PaidForDateTime,
                 loanRecordId = LoanRecordId
             ),
-            lastUpdated = Instant.EPOCH,
-            removed = removed,
             fromValue = PositiveValue(
                 amount = PositiveDouble.unsafe(100.0),
                 asset = AssetCode.unsafe("NGN")
@@ -226,7 +217,7 @@ class TransactionMapperTest {
             loanId = LoanId,
             loanRecordId = LoanRecordId,
             isSynced = true,
-            isDeleted = removed,
+            isDeleted = false,
             id = TransactionId.value
         )
     }
@@ -263,8 +254,6 @@ class TransactionMapperTest {
                 paidForDateTime = PaidForDateTime,
                 loanRecordId = LoanRecordId
             ),
-            lastUpdated = Instant.EPOCH,
-            removed = removed,
             value = PositiveValue(
                 amount = PositiveDouble.unsafe(100.0),
                 asset = EUR
@@ -390,8 +379,6 @@ class TransactionMapperTest {
                 paidForDateTime = PaidForDateTime,
                 loanRecordId = LoanRecordId
             ),
-            lastUpdated = Instant.EPOCH,
-            removed = removed,
             value = PositiveValue(
                 amount = PositiveDouble.unsafe(100.0),
                 asset = EUR
@@ -522,8 +509,6 @@ class TransactionMapperTest {
                 paidForDateTime = PaidForDateTime,
                 loanRecordId = LoanRecordId
             ),
-            lastUpdated = Instant.EPOCH,
-            removed = removed,
             fromValue = PositiveValue(
                 amount = PositiveDouble.unsafe(50.0),
                 asset = EUR

@@ -44,7 +44,7 @@ class CategoryRepositoryTest {
         coEvery { categoryDao.findAll(false) } returns emptyList()
 
         // when
-        val res = repository.findAll(false)
+        val res = repository.findAll()
 
         // then
         res shouldBe emptyList()
@@ -86,7 +86,7 @@ class CategoryRepositoryTest {
         )
 
         // when
-        val res = repository.findAll(false)
+        val res = repository.findAll()
 
         // then
         res shouldBe listOf(

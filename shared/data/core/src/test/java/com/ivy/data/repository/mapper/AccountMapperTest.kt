@@ -49,8 +49,6 @@ class AccountMapperTest {
             icon = IconAsset.unsafe("icon"),
             includeInBalance = includeInBalance,
             orderNum = 3.14,
-            lastUpdated = Instant.EPOCH,
-            removed = removed
         )
 
         // when
@@ -95,8 +93,6 @@ class AccountMapperTest {
             icon = IconAsset.unsafe("icon"),
             includeInBalance = includeInBalance,
             orderNum = 42.0,
-            lastUpdated = Instant.EPOCH,
-            removed = removed
         )
     }
 
