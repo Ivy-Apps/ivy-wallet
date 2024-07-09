@@ -20,7 +20,6 @@ import com.ivy.data.model.testing.accountId
 import com.ivy.data.model.testing.transaction
 import com.ivy.data.model.testing.transactionId
 import com.ivy.data.repository.TagRepository
-import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.data.validTransactionEntity
 import io.kotest.matchers.longs.shouldBeGreaterThanOrEqual
@@ -43,7 +42,7 @@ import org.junit.Test
 
 typealias TrnMappingRow = Pair<TransactionEntity, Either<String, Transaction>>
 
-class TransactionRepositoryImplTest {
+class TransactionRepositoryTest {
 
     private val mapper = mockk<TransactionMapper>()
     private val transactionDao = mockk<TransactionDao>()
@@ -59,7 +58,7 @@ class TransactionRepositoryImplTest {
 
     private fun newRepository(
         fakeDao: FakeTransactionDao?,
-    ): TransactionRepository = TransactionRepositoryImpl(
+    ): TransactionRepository = TransactionRepository(
         mapper = mapper,
         transactionDao = fakeDao ?: transactionDao,
         writeTransactionDao = fakeDao ?: writeTransactionDao,

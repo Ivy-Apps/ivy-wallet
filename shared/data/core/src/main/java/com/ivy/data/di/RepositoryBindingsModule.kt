@@ -6,14 +6,13 @@ import com.ivy.data.repository.CurrencyRepository
 import com.ivy.data.repository.ExchangeRatesRepository
 import com.ivy.data.repository.LegalRepository
 import com.ivy.data.repository.TagRepository
-import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.impl.AccountRepositoryImpl
 import com.ivy.data.repository.impl.CategoryRepositoryImpl
 import com.ivy.data.repository.impl.CurrencyRepositoryImpl
 import com.ivy.data.repository.impl.ExchangeRatesRepositoryImpl
 import com.ivy.data.repository.impl.LegalRepositoryImpl
 import com.ivy.data.repository.impl.TagRepositoryImpl
-import com.ivy.data.repository.impl.TransactionRepositoryImpl
+import com.ivy.data.repository.impl.TransactionRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -29,7 +28,7 @@ abstract class RepositoryBindingsModule {
     abstract fun bindCategoryRepo(repo: CategoryRepositoryImpl): CategoryRepository
 
     @Binds
-    abstract fun bindTransactionRepo(repo: TransactionRepositoryImpl): TransactionRepository
+    abstract fun bindTransactionRepo(repo: TransactionRepository): TransactionRepository
 
     @Binds
     abstract fun bindExchangeRatesRepo(repo: ExchangeRatesRepositoryImpl): ExchangeRatesRepository
