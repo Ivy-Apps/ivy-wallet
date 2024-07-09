@@ -50,7 +50,7 @@ class Migration128to129Test {
         // Then
         newDb.query("SELECT * FROM transactions").apply {
             moveToFirst() shouldBe true
-            getString(6) shouldBe "Trn 1"
+            getString(getColumnIndexOrThrow("title")) shouldBe "Trn 1"
             moveToNext() shouldBe false
         }
         newDb.close()
@@ -69,7 +69,7 @@ class Migration128to129Test {
         ) VALUES (
             ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
         )
-        """.trimIndent()
+    """.trimIndent()
         val statement = this.compileStatement(sql)
 
         val id = UUID.randomUUID()
@@ -85,7 +85,7 @@ class Migration128to129Test {
         statement.bindNull(5)
         statement.bindString(6, title)
         statement.bindNull(7)
-        statement.bindLong(8, Instant.EPOCH.toEpochMilli())
+        statement.bindLong(8, Instant.EPOCH.toEpochMilli()) // Use the correct format for dateTime
         statement.bindNull(9)
         statement.bindNull(10)
         statement.bindNull(11)
