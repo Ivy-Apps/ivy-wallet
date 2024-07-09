@@ -96,8 +96,6 @@ class CategoryRepositoryTest {
                 color = ColorInt(42),
                 icon = null,
                 orderNum = 0.0,
-                removed = false,
-                lastUpdated = Instant.EPOCH,
                 id = CategoryId(id1)
             ),
             Category(
@@ -105,8 +103,6 @@ class CategoryRepositoryTest {
                 color = ColorInt(42),
                 icon = null,
                 orderNum = 2.0,
-                removed = false,
-                lastUpdated = Instant.EPOCH,
                 id = CategoryId(id3)
             )
         )
@@ -148,8 +144,6 @@ class CategoryRepositoryTest {
             color = ColorInt(42),
             icon = null,
             orderNum = 0.0,
-            removed = false,
-            lastUpdated = Instant.EPOCH,
             id = CategoryId(id)
         )
     }
@@ -208,8 +202,6 @@ class CategoryRepositoryTest {
             color = ColorInt(42),
             icon = null,
             orderNum = 3.0,
-            removed = false,
-            lastUpdated = Instant.EPOCH,
             id = CategoryId(id)
         )
         coEvery { writeCategoryDao.save(any()) } just runs
@@ -245,8 +237,6 @@ class CategoryRepositoryTest {
                 color = ColorInt(42),
                 icon = null,
                 orderNum = 3.0,
-                removed = false,
-                lastUpdated = Instant.EPOCH,
                 id = CategoryId(id1)
             ),
             Category(
@@ -254,8 +244,6 @@ class CategoryRepositoryTest {
                 color = ColorInt(42),
                 icon = null,
                 orderNum = 4.0,
-                removed = false,
-                lastUpdated = Instant.EPOCH,
                 id = CategoryId(id2)
             ),
             Category(
@@ -263,8 +251,6 @@ class CategoryRepositoryTest {
                 color = ColorInt(42),
                 icon = null,
                 orderNum = 5.0,
-                removed = false,
-                lastUpdated = Instant.EPOCH,
                 id = CategoryId(id3)
             )
         )

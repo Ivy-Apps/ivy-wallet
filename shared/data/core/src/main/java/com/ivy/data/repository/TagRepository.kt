@@ -82,7 +82,7 @@ class TagRepository @Inject constructor(
             .associate { it.key to it.value }
     }
 
-    suspend fun findAll(deleted: Boolean): List<Tag> = memo.findAll(
+    suspend fun findAll(): List<Tag> = memo.findAll(
         findAllOperation = {
             tagDao.findAll().let { entities ->
                 entities.mapNotNull {

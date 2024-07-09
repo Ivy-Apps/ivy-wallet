@@ -33,9 +33,9 @@ class AccountRepository @Inject constructor(
         }
     )
 
-    suspend fun findAll(deleted: Boolean): List<Account> = memo.findAll(
+    suspend fun findAll(): List<Account> = memo.findAll(
         findAllOperation = {
-            accountDao.findAll(deleted).mapNotNull {
+            accountDao.findAll().mapNotNull {
                 with(mapper) { it.toDomain() }.getOrNull()
             }
         },

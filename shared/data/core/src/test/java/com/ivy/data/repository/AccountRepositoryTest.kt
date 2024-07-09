@@ -36,7 +36,13 @@ class AccountRepositoryTest {
     fun setup() {
         val settingsDao = FakeSettingsDao()
         repository = AccountRepository(
-            mapper = AccountMapper(FakeCurrencyRepository(settingsDao, settingsDao)),
+            mapper = AccountMapper(
+                CurrencyRepository(
+                    settingsDao = settingsDao,
+                    writeSettingsDao = settingsDao,
+                    dispatchersProvider = TestDispatchersProvider
+                )
+            ),
             accountDao = accountDao,
             writeAccountDao = writeAccountDao,
             dispatchersProvider = TestDispatchersProvider,

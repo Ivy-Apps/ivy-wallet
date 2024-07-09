@@ -24,9 +24,9 @@ class CategoryRepository @Inject constructor(
         getDateWriteDeleteEvent = DataWriteEvent::DeleteCategories,
     )
 
-    suspend fun findAll(deleted: Boolean): List<Category> = memo.findAll(
+    suspend fun findAll(): List<Category> = memo.findAll(
         findAllOperation = {
-            categoryDao.findAll(deleted).mapNotNull {
+            categoryDao.findAll().mapNotNull {
                 with(mapper) { it.toDomain() }.getOrNull()
             }
         },
