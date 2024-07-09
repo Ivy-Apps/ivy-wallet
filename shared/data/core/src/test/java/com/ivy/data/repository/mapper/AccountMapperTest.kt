@@ -38,7 +38,6 @@ class AccountMapperTest {
     @Test
     fun `maps domain to entity`(
         @TestParameter includeInBalance: Boolean,
-        @TestParameter removed: Boolean,
     ) {
         // given
         val account = Account(
@@ -63,7 +62,7 @@ class AccountMapperTest {
             includeInBalance = includeInBalance,
             orderNum = 3.14,
             isSynced = true,
-            isDeleted = removed,
+            isDeleted = false,
             id = ModelFixtures.AccountId.value,
         )
     }
@@ -85,15 +84,19 @@ class AccountMapperTest {
         val result = with(mapper) { entity.toDomain() }
 
         // then
-        result.shouldBeRight() shouldBe Account(
-            id = AccountId(entity.id),
-            name = NotBlankTrimmedString.unsafe("Test"),
-            asset = AssetCode.unsafe("USD"),
-            color = ColorInt(value = 42),
-            icon = IconAsset.unsafe("icon"),
-            includeInBalance = includeInBalance,
-            orderNum = 42.0,
-        )
+        if (removed) {
+            result.shouldBeLeft()
+        } else {
+            result.shouldBeRight() shouldBe Account(
+                id = AccountId(entity.id),
+                name = NotBlankTrimmedString.unsafe("Test"),
+                asset = AssetCode.unsafe("USD"),
+                color = ColorInt(value = 42),
+                icon = IconAsset.unsafe("icon"),
+                includeInBalance = includeInBalance,
+                orderNum = 42.0,
+            )
+        }
     }
 
     @Test

@@ -2,6 +2,7 @@ package com.ivy.data.repository.mapper
 
 import arrow.core.Either
 import arrow.core.raise.either
+import arrow.core.raise.ensure
 import com.ivy.data.db.entity.AccountEntity
 import com.ivy.data.model.Account
 import com.ivy.data.model.AccountId
@@ -16,6 +17,8 @@ class AccountMapper @Inject constructor(
     private val currencyRepository: CurrencyRepository
 ) {
     suspend fun AccountEntity.toDomain(): Either<String, Account> = either {
+        ensure(!isDeleted) { "Account is deleted" }
+
         Account(
             id = AccountId(id),
             name = NotBlankTrimmedString.from(name).bind(),
