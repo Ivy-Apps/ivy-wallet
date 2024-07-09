@@ -31,7 +31,6 @@ import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.IvyDark
 import kotlinx.collections.immutable.toImmutableList
-import java.time.Instant
 import java.util.UUID
 import javax.inject.Inject
 import kotlin.math.absoluteValue
@@ -334,8 +333,6 @@ class CSVImporterV2 @Inject constructor(
                 color = ColorInt(colorArgb),
                 icon = icon?.let(IconAsset::from)?.getOrNull(),
                 orderNum = orderNum ?: categoryRepository.findMaxOrderNum().nextOrderNum(),
-                lastUpdated = Instant.EPOCH,
-                removed = false
             )
         }.getOrNull()
 
