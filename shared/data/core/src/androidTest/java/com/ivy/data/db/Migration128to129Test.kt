@@ -7,10 +7,13 @@ import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.platform.app.InstrumentationRegistry
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.migration.Migration128to129_DeleteIsDeleted
+import com.ivy.data.model.LoanType
 import io.kotest.matchers.shouldBe
 import org.junit.Rule
 import org.junit.Test
 import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 import java.util.UUID
 
 class Migration128to129Test {
@@ -198,6 +201,66 @@ class Migration128to129Test {
         statement.bindLong(5, if (isSynced) 1 else 0)
         statement.bindLong(6, if (isDeleted) 1 else 0)
         statement.bindString(7, id.toString())
+
+        statement.executeInsert()
+    }
+
+    @Test
+    fun deleteDeletedLoans() = migrationTestCase(
+        tableName = "loans",
+        dataBeforeMigration = {
+            insertLoan(
+                name = "Loan 1",
+                isDeleted = false,
+            )
+            insertLoan(
+                name = "Loan 2",
+                isDeleted = true,
+            )
+        },
+        dataAfterMigration = {
+            moveToFirst() shouldBe true
+            getString(getColumnIndexOrThrow("name")) shouldBe "Loan 1"
+            moveToNext() shouldBe false
+        }
+    )
+
+    private fun SupportSQLiteDatabase.insertLoan(
+        name: String,
+        isDeleted: Boolean,
+        type: LoanType = LoanType.LEND,
+        amount: Double = 10.0,
+    ) {
+        val sql = """
+        INSERT INTO loans (
+            name, amount, type, color, icon, orderNum, accountId, 
+            isSynced, isDeleted, dateTime, id
+        ) VALUES (
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+        )
+        """.trimIndent()
+        val statement = this.compileStatement(sql)
+
+        val id = UUID.randomUUID()
+        val color = 0xFFFFFF // Dummy color (white)
+        val icon = "default_icon" // Dummy icon
+        val orderNum = 1.0
+        val accountId = UUID.randomUUID() // Dummy accountId
+        val isSynced = true
+        // Convert LocalDateTime to epoch milli
+        val dateTime = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) * 1000
+
+        statement.bindString(1, name)
+        statement.bindDouble(2, amount)
+        statement.bindString(3, type.name)
+        statement.bindLong(4, color.toLong())
+        statement.bindString(5, icon)
+        statement.bindDouble(6, orderNum)
+        statement.bindString(7, accountId.toString())
+        statement.bindLong(8, if (isSynced) 1 else 0)
+        statement.bindLong(9, if (isDeleted) 1 else 0)
+        statement.bindLong(10, dateTime)
+        statement.bindString(11, id.toString())
 
         statement.executeInsert()
     }
