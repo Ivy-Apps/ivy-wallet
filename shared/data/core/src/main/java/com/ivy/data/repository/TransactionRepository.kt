@@ -235,12 +235,6 @@ class TransactionRepository @Inject constructor(
         }
     )
 
-    suspend fun flagDeletedByAccountId(accountId: UUID) {
-        withContext(dispatchersProvider.io) {
-            writeTransactionDao.flagDeletedByAccountId(accountId)
-        }
-    }
-
     suspend fun findById(
         id: TransactionId
     ): Transaction? = withContext(dispatchersProvider.io) {
@@ -276,18 +270,6 @@ class TransactionRepository @Inject constructor(
             writeTransactionDao.saveMany(
                 value.map { with(mapper) { it.toEntity() } }
             )
-        }
-    }
-
-    suspend fun flagDeleted(id: TransactionId) {
-        withContext(dispatchersProvider.io) {
-            writeTransactionDao.flagDeleted(id.value)
-        }
-    }
-
-    suspend fun flagDeletedByRecurringRuleIdAndNoDateTime(recurringRuleId: UUID) {
-        withContext(dispatchersProvider.io) {
-            writeTransactionDao.flagDeletedByRecurringRuleIdAndNoDateTime(recurringRuleId)
         }
     }
 

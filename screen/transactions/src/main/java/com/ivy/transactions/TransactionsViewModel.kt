@@ -627,9 +627,7 @@ class TransactionsViewModel @Inject constructor(
             color = ColorInt(RedLight.toArgb()),
             icon = IconAsset.unsafe("transfer"),
             id = CategoryId(UUID.randomUUID()),
-            lastUpdated = Instant.EPOCH,
             orderNum = 0.0,
-            removed = false,
         )
         category.value = accountTransferCategory
         val accountFilterIdSet = accountFilterList.toHashSet()
@@ -728,8 +726,8 @@ class TransactionsViewModel @Inject constructor(
 
     private suspend fun deleteAccount(accountId: UUID) {
         ioThread {
-            transactionRepository.flagDeletedByAccountId(accountId = accountId)
-            plannedPaymentRuleWriter.flagDeletedByAccountId(accountId = accountId)
+            transactionRepository.deleteAllByAccountId(accountId = AccountId(accountId))
+            plannedPaymentRuleWriter.deletedByAccountId(accountId = accountId)
             accountRepository.deleteById(AccountId(accountId))
 
             nav.back()

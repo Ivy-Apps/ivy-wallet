@@ -419,20 +419,6 @@ class TransactionRepositoryTest {
     }
 
     @Test
-    fun flagDeleted() = runTest {
-        // given
-        repository = newRepository(fakeDao = FakeTransactionDao())
-        val trn = mockkFakeTrnMapping()
-        repository.save(trn)
-
-        // when
-        repository.flagDeleted(trn.id)
-
-        // then
-        repository.findById(trn.id) shouldBe null
-    }
-
-    @Test
     fun deleteById() = runTest {
         // given
         repository = newRepository(fakeDao = FakeTransactionDao())
