@@ -35,16 +35,6 @@ class FakeCategoryDao : CategoryDao, WriteCategoryDao {
         values.forEach { save(it) }
     }
 
-    override suspend fun flagDeleted(id: UUID) {
-        items.replaceAll { categoryEntity ->
-            if (categoryEntity.id == id) {
-                categoryEntity.copy(isDeleted = true)
-            } else {
-                categoryEntity
-            }
-        }
-    }
-
     override suspend fun deleteById(id: UUID) {
         items.removeIf { it.id == id }
     }

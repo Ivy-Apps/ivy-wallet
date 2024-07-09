@@ -402,23 +402,6 @@ class TransactionRepositoryTest {
     }
 
     @Test
-    fun flagDeletedByAccountId() = runTest {
-        val accountId = ModelFixtures.AccountId
-        // given
-        repository = newRepository(fakeDao = FakeTransactionDao())
-        val trn = mockkFakeTrnMapping(account = accountId)
-        repository.save(trn)
-
-        // when
-        repository.flagDeletedByAccountId(accountId.value)
-
-        // then
-        repository.findAllIncomeByAccount(accountId) shouldBe emptyList()
-        repository.findAllExpenseByAccount(accountId) shouldBe emptyList()
-        repository.findAllTransferByAccount(accountId) shouldBe emptyList()
-    }
-
-    @Test
     fun deleteById() = runTest {
         // given
         repository = newRepository(fakeDao = FakeTransactionDao())

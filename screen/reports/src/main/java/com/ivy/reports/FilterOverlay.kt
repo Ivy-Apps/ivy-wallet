@@ -990,9 +990,7 @@ private fun Preview() {
             color = ColorInt(Purple1Dark.toArgb()),
             icon = IconAsset.unsafe("atom"),
             id = CategoryId(UUID.randomUUID()),
-            lastUpdated = Instant.EPOCH,
             orderNum = 0.0,
-            removed = false,
         )
 
         FilterOverlay(
@@ -1012,18 +1010,14 @@ private fun Preview() {
                     color = ColorInt(Red3Light.toArgb()),
                     icon = IconAsset.unsafe("pet"),
                     id = CategoryId(UUID.randomUUID()),
-                    lastUpdated = Instant.EPOCH,
                     orderNum = 0.0,
-                    removed = false,
                 ),
                 Category(
                     name = NotBlankTrimmedString.unsafe("Home"),
                     color = ColorInt(Green.toArgb()),
                     icon = null,
                     id = CategoryId(UUID.randomUUID()),
-                    lastUpdated = Instant.EPOCH,
                     orderNum = 0.0,
-                    removed = false,
                 ),
             ),
 

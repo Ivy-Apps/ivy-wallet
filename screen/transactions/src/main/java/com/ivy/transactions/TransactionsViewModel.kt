@@ -62,7 +62,6 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
-import java.time.Instant
 import java.util.UUID
 import javax.inject.Inject
 import com.ivy.legacy.datamodel.Account as LegacyAccount
@@ -736,7 +735,7 @@ class TransactionsViewModel @Inject constructor(
 
     private suspend fun deleteCategory(categoryId: UUID) {
         ioThread {
-            categoryWriter.flagDeleted(categoryId)
+            categoryWriter.deleteById(categoryId)
             categoryRepository.deleteById(CategoryId(categoryId))
 
             nav.back()

@@ -72,7 +72,7 @@ class LoanRecordCreator @Inject constructor(
     ) {
         try {
             ioThread {
-                loanRecordWriter.flagDeleted(item.id)
+                loanRecordWriter.deleteById(item.id)
             }
 
             onRefreshUI()

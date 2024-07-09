@@ -69,8 +69,6 @@ class TransactionMapper @Inject constructor(
                     time = time,
                     settled = settled,
                     metadata = metadata,
-                    lastUpdated = Instant.EPOCH,
-                    removed = isDeleted,
                     tags = tags,
                 )
             }
@@ -86,8 +84,6 @@ class TransactionMapper @Inject constructor(
                     time = time,
                     settled = settled,
                     metadata = metadata,
-                    lastUpdated = Instant.EPOCH,
-                    removed = isDeleted,
                     tags = tags,
                 )
             }
@@ -121,8 +117,6 @@ class TransactionMapper @Inject constructor(
                     time = time,
                     settled = settled,
                     metadata = metadata,
-                    lastUpdated = Instant.EPOCH,
-                    removed = isDeleted,
                     fromAccount = accountId,
                     fromValue = fromValue,
                     toAccount = toAccountId,
@@ -170,7 +164,7 @@ class TransactionMapper @Inject constructor(
             loanId = metadata.loanId,
             loanRecordId = metadata.loanRecordId,
             isSynced = true,
-            isDeleted = removed,
+            isDeleted = false,
             id = id.value
         )
     }

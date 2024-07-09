@@ -30,8 +30,6 @@ class TagMapper @Inject constructor() {
             icon = icon?.let(IconAsset::from)?.getOrNull(),
             orderNum = orderNum,
             creationTimestamp = dateTime,
-            lastUpdated = lastSyncedTime,
-            removed = isDeleted
         )
     }
 
@@ -44,8 +42,8 @@ class TagMapper @Inject constructor() {
             icon = icon?.id,
             orderNum = orderNum,
             dateTime = creationTimestamp,
-            lastSyncedTime = lastUpdated,
-            isDeleted = removed
+            lastSyncedTime = Instant.EPOCH,
+            isDeleted = false,
         )
     }
 
@@ -53,8 +51,8 @@ class TagMapper @Inject constructor() {
         return TagAssociationEntity(
             tagId = id.value,
             associatedId = associatedId.value,
-            lastSyncedTime = lastUpdated,
-            isDeleted = removed
+            lastSyncedTime = Instant.EPOCH,
+            isDeleted = false,
         )
     }
 
@@ -62,8 +60,6 @@ class TagMapper @Inject constructor() {
         return TagAssociation(
             id = TagId(tagId),
             associatedId = AssociationId(associatedId),
-            lastUpdated = lastSyncedTime,
-            removed = isDeleted
         )
     }
 
@@ -76,8 +72,6 @@ class TagMapper @Inject constructor() {
             icon = null,
             orderNum = 0.0,
             creationTimestamp = Instant.now(),
-            lastUpdated = Instant.EPOCH,
-            removed = false
         )
     }
 
@@ -85,8 +79,6 @@ class TagMapper @Inject constructor() {
         return TagAssociation(
             id = tagId,
             associatedId = associationId,
-            lastUpdated = Instant.EPOCH,
-            removed = false
         )
     }
 }

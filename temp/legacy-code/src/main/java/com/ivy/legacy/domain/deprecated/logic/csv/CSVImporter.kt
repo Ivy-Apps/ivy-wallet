@@ -526,8 +526,6 @@ class CSVImporter @Inject constructor(
                 icon = icon?.let(IconAsset::from)?.getOrNull(),
                 orderNum = orderNum ?: categoryRepository.findMaxOrderNum().nextOrderNum(),
                 id = CategoryId(UUID.randomUUID()),
-                lastUpdated = Instant.EPOCH,
-                removed = false,
             )
         }.getOrNull()
 

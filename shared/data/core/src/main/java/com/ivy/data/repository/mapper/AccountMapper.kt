@@ -26,8 +26,6 @@ class AccountMapper @Inject constructor(
             icon = icon?.let(IconAsset::from)?.getOrNull(),
             includeInBalance = includeInBalance,
             orderNum = orderNum,
-            lastUpdated = Instant.EPOCH, // TODO: Wire this
-            removed = isDeleted,
         )
     }
 
@@ -39,7 +37,6 @@ class AccountMapper @Inject constructor(
             icon = icon?.id,
             orderNum = orderNum,
             includeInBalance = includeInBalance,
-            isDeleted = removed,
             id = id.value,
             isSynced = true, // TODO: Delete this
         )

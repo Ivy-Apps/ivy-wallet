@@ -285,6 +285,12 @@ class TransactionRepository @Inject constructor(
         }
     }
 
+    suspend fun deletedByRecurringRuleIdAndNoDateTime(recurringRuleId: UUID) {
+        withContext(dispatchersProvider.io) {
+            writeTransactionDao.deletedByRecurringRuleIdAndNoDateTime(recurringRuleId)
+        }
+    }
+
     suspend fun deleteAll() {
         withContext(dispatchersProvider.io) {
             writeTransactionDao.deleteAll()

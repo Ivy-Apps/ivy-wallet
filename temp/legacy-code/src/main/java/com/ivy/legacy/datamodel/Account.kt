@@ -56,8 +56,6 @@ data class Account(
                 icon = icon?.let(IconAsset::from)?.getOrNull(),
                 includeInBalance = includeInBalance,
                 orderNum = orderNum,
-                lastUpdated = Instant.now(),
-                removed = isDeleted,
             )
         }
     }

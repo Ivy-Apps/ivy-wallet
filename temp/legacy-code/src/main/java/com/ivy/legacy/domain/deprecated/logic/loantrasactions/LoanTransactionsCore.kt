@@ -35,7 +35,6 @@ import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.time.Instant
 import java.time.LocalDateTime
 import java.util.Locale
 import java.util.UUID
@@ -235,9 +234,7 @@ class LoanTransactionsCore @Inject constructor(
                 color = ColorInt(IVY_COLOR_PICKER_COLORS_FREE[DEFAULT_COLOR_INDEX].toArgb()),
                 icon = IconAsset.unsafe("loan"),
                 id = CategoryId(UUID.randomUUID()),
-                lastUpdated = Instant.EPOCH,
                 orderNum = 0.0,
-                removed = false,
             )
         } else {
             null

@@ -284,9 +284,7 @@ private fun Preview() {
                             color = ColorInt(Green.toArgb()),
                             icon = null,
                             id = CategoryId(UUID.randomUUID()),
-                            lastUpdated = Instant.EPOCH,
                             orderNum = 0.0,
-                            removed = false,
                             ),
                         amount = 791.0
                     ),
@@ -296,9 +294,7 @@ private fun Preview() {
                             color = ColorInt(Green.toArgb()),
                             icon = null,
                             id = CategoryId(UUID.randomUUID()),
-                            lastUpdated = Instant.EPOCH,
                             orderNum = 0.0,
-                            removed = false,
                             ),
                         amount = 411.93
                     ),
@@ -308,9 +304,7 @@ private fun Preview() {
                             color = ColorInt(IvyDark.toArgb()),
                             icon = null,
                             id = CategoryId(UUID.randomUUID()),
-                            lastUpdated = Instant.EPOCH,
                             orderNum = 0.0,
-                            removed = false,
                         ),
                         amount = 260.03
                     ),
@@ -320,9 +314,7 @@ private fun Preview() {
                             color = ColorInt(RedLight.toArgb()),
                             icon = null,
                             id = CategoryId(UUID.randomUUID()),
-                            lastUpdated = Instant.EPOCH,
                             orderNum = 0.0,
-                            removed = false,
                         ),
                         amount = 160.0
                     ),
