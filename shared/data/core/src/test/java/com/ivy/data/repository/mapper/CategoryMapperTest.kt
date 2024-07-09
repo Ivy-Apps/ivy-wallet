@@ -1,7 +1,6 @@
 package com.ivy.data.repository.mapper
 
 import com.ivy.data.db.entity.CategoryEntity
-import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.NotBlankTrimmedString
@@ -10,7 +9,6 @@ import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.shouldBe
 import org.junit.Before
 import org.junit.Test
-import java.time.Instant
 import java.util.UUID
 
 class CategoryMapperTest {
@@ -29,8 +27,6 @@ class CategoryMapperTest {
             color = ColorInt(42),
             icon = null,
             orderNum = 1.0,
-            removed = false,
-            lastUpdated = Instant.EPOCH,
             id = CategoryId
         )
 
@@ -60,8 +56,6 @@ class CategoryMapperTest {
             color = ColorInt(42),
             icon = null,
             orderNum = 1.0,
-            removed = false,
-            lastUpdated = Instant.EPOCH,
             id = CategoryId
         )
     }
@@ -70,6 +64,18 @@ class CategoryMapperTest {
     fun `maps entity to domain - name missing`() {
         // given
         val corruptedEntity = ValidEntity.copy(name = "")
+
+        // when
+        val res = with(mapper) { corruptedEntity.toDomain() }
+
+        // then
+        res.shouldBeLeft()
+    }
+
+    @Test
+    fun `maps entity to domain - deleted categories are not valid`() {
+        // given
+        val corruptedEntity = ValidEntity.copy(isDeleted = true)
 
         // when
         val res = with(mapper) { corruptedEntity.toDomain() }
@@ -103,7 +109,7 @@ class CategoryMapperTest {
     }
 
     companion object {
-        val CategoryId = com.ivy.data.model.CategoryId(UUID.randomUUID())
+        val CategoryId = CategoryId(UUID.randomUUID())
 
         val ValidEntity = CategoryEntity(
             name = "Home",

@@ -9,6 +9,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.util.*
 
+@Suppress("DataClassDefaultValues")
 @Deprecated("Legacy concept - migrate to DataStore and get rid of it.")
 @Keep
 @Serializable
@@ -23,8 +24,10 @@ data class SettingsEntity(
     @SerialName("name")
     val name: String,
 
+    @Deprecated("Obsolete field used for cloud sync. Can't be deleted because of backwards compatibility")
     @SerialName("isSynced")
     val isSynced: Boolean = false,
+    @Deprecated("Obsolete field used for cloud sync. Can't be deleted because of backwards compatibility")
     @SerialName("isDeleted")
     val isDeleted: Boolean = false,
 

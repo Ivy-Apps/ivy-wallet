@@ -78,7 +78,6 @@ import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import java.time.Instant
 import java.util.UUID
 
 @Composable
@@ -568,9 +567,7 @@ private fun Preview(theme: Theme = Theme.LIGHT) {
                         name = NotBlankTrimmedString.unsafe("Groceries"),
                         color = ColorInt(Green.toArgb()),
                         icon = IconAsset.unsafe("groceries"),
-                        lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
-                        removed = false
                     ),
                     monthlyBalance = 2125.0,
                     monthlyExpenses = 920.0,
@@ -582,9 +579,7 @@ private fun Preview(theme: Theme = Theme.LIGHT) {
                         name = NotBlankTrimmedString.unsafe("Fun"),
                         color = ColorInt(Orange.toArgb()),
                         icon = IconAsset.unsafe("game"),
-                        lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
-                        removed = false
                     ),
                     monthlyBalance = 1200.0,
                     monthlyExpenses = 750.0,
@@ -596,9 +591,7 @@ private fun Preview(theme: Theme = Theme.LIGHT) {
                         name = NotBlankTrimmedString.unsafe("Ivy"),
                         color = ColorInt(IvyDark.toArgb()),
                         icon = IconAsset.unsafe("star"),
-                        lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
-                        removed = false
                     ),
                     monthlyBalance = 1200.0,
                     monthlyExpenses = 0.0,
@@ -610,9 +603,7 @@ private fun Preview(theme: Theme = Theme.LIGHT) {
                         name = NotBlankTrimmedString.unsafe("Food"),
                         color = ColorInt(GreenLight.toArgb()),
                         icon = IconAsset.unsafe("atom"),
-                        lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
-                        removed = false
                     ),
                     monthlyBalance = 12125.21,
                     monthlyExpenses = 1350.50,
@@ -624,9 +615,7 @@ private fun Preview(theme: Theme = Theme.LIGHT) {
                         name = NotBlankTrimmedString.unsafe("Shisha"),
                         color = ColorInt(GreenDark.toArgb()),
                         icon = IconAsset.unsafe("drink"),
-                        lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
-                        removed = false
                     ),
                     monthlyBalance = 820.0,
                     monthlyExpenses = 340.0,

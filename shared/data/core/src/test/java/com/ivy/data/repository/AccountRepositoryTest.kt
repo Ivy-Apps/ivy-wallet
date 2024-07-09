@@ -1,4 +1,4 @@
-package com.ivy.data.repository.impl
+package com.ivy.data.repository
 
 import com.ivy.base.TestDispatchersProvider
 import com.ivy.data.DataObserver
@@ -11,9 +11,7 @@ import com.ivy.data.model.AccountId
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.NotBlankTrimmedString
-import com.ivy.data.repository.AccountRepository
-import com.ivy.data.repository.fake.FakeCurrencyRepository
-import com.ivy.data.repository.fake.fakeRepositoryMakeFactory
+import com.ivy.data.repository.fake.fakeRepositoryMemoFactory
 import com.ivy.data.repository.mapper.AccountMapper
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
@@ -24,10 +22,9 @@ import io.mockk.runs
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import java.time.Instant
 import java.util.UUID
 
-class AccountRepositoryImplTest {
+class AccountRepositoryTest {
     val accountDao = mockk<AccountDao>()
     val writeAccountDao = mockk<WriteAccountDao>()
     val writeEventBus = mockk<DataObserver>(relaxed = true)
@@ -37,12 +34,18 @@ class AccountRepositoryImplTest {
     @Before
     fun setup() {
         val settingsDao = FakeSettingsDao()
-        repository = AccountRepositoryImpl(
-            mapper = AccountMapper(FakeCurrencyRepository(settingsDao, settingsDao)),
+        repository = AccountRepository(
+            mapper = AccountMapper(
+                CurrencyRepository(
+                    settingsDao = settingsDao,
+                    writeSettingsDao = settingsDao,
+                    dispatchersProvider = TestDispatchersProvider
+                )
+            ),
             accountDao = accountDao,
             writeAccountDao = writeAccountDao,
             dispatchersProvider = TestDispatchersProvider,
-            memoFactory = fakeRepositoryMakeFactory(),
+            memoFactory = fakeRepositoryMemoFactory(),
         )
     }
 
@@ -87,8 +90,6 @@ class AccountRepositoryImplTest {
             icon = null,
             includeInBalance = true,
             orderNum = 1.0,
-            lastUpdated = Instant.EPOCH,
-            removed = false
         )
     }
 
@@ -121,7 +122,7 @@ class AccountRepositoryImplTest {
         coEvery { accountDao.findAll(false) } returns emptyList()
 
         // when
-        val res = repository.findAll(false)
+        val res = repository.findAll()
 
         // then
         res shouldBe emptyList()
@@ -158,7 +159,7 @@ class AccountRepositoryImplTest {
         )
 
         // when
-        val res = repository.findAll(false)
+        val res = repository.findAll()
 
         // then
         res shouldBe listOf(
@@ -170,8 +171,6 @@ class AccountRepositoryImplTest {
                 icon = null,
                 includeInBalance = true,
                 orderNum = 1.0,
-                lastUpdated = Instant.EPOCH,
-                removed = false
             ),
             Account(
                 id = account2Id,
@@ -181,8 +180,6 @@ class AccountRepositoryImplTest {
                 icon = null,
                 includeInBalance = true,
                 orderNum = 2.0,
-                lastUpdated = Instant.EPOCH,
-                removed = false
             )
         )
     }
@@ -218,7 +215,7 @@ class AccountRepositoryImplTest {
         )
 
         // when
-        val res = repository.findAll(false)
+        val res = repository.findAll()
 
         // then
         res shouldBe listOf(
@@ -230,8 +227,6 @@ class AccountRepositoryImplTest {
                 icon = null,
                 includeInBalance = true,
                 orderNum = 1.0,
-                lastUpdated = Instant.EPOCH,
-                removed = false
             )
         )
     }
@@ -273,8 +268,6 @@ class AccountRepositoryImplTest {
             icon = null,
             includeInBalance = true,
             orderNum = 1.0,
-            lastUpdated = Instant.EPOCH,
-            removed = false
         )
 
         // when
@@ -313,8 +306,6 @@ class AccountRepositoryImplTest {
                 icon = null,
                 includeInBalance = true,
                 orderNum = 1.0,
-                lastUpdated = Instant.EPOCH,
-                removed = false
             ),
             Account(
                 id = account2Id,
@@ -324,8 +315,6 @@ class AccountRepositoryImplTest {
                 icon = null,
                 includeInBalance = true,
                 orderNum = 2.0,
-                lastUpdated = Instant.EPOCH,
-                removed = false
             )
         )
 

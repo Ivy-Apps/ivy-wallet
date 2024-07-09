@@ -64,7 +64,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.math.BigDecimal
-import java.time.Instant
 import java.time.ZoneId
 import java.util.UUID
 import javax.inject.Inject
@@ -91,9 +90,7 @@ class ReportViewModel @Inject constructor(
             color = ColorInt(Gray.toArgb()),
             icon = null,
             id = CategoryId(UUID.randomUUID()),
-            lastUpdated = Instant.EPOCH,
             orderNum = 0.0,
-            removed = false,
         )
     private val baseCurrency = mutableStateOf("")
     private val categories = mutableStateOf<ImmutableList<Category>>(persistentListOf())

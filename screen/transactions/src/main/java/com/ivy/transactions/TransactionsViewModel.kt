@@ -62,7 +62,6 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
-import java.time.Instant
 import java.util.UUID
 import javax.inject.Inject
 import com.ivy.legacy.datamodel.Account as LegacyAccount
@@ -627,9 +626,7 @@ class TransactionsViewModel @Inject constructor(
             color = ColorInt(RedLight.toArgb()),
             icon = IconAsset.unsafe("transfer"),
             id = CategoryId(UUID.randomUUID()),
-            lastUpdated = Instant.EPOCH,
             orderNum = 0.0,
-            removed = false,
         )
         category.value = accountTransferCategory
         val accountFilterIdSet = accountFilterList.toHashSet()
@@ -728,8 +725,8 @@ class TransactionsViewModel @Inject constructor(
 
     private suspend fun deleteAccount(accountId: UUID) {
         ioThread {
-            transactionRepository.flagDeletedByAccountId(accountId = accountId)
-            plannedPaymentRuleWriter.flagDeletedByAccountId(accountId = accountId)
+            transactionRepository.deleteAllByAccountId(accountId = AccountId(accountId))
+            plannedPaymentRuleWriter.deletedByAccountId(accountId = accountId)
             accountRepository.deleteById(AccountId(accountId))
 
             nav.back()
@@ -738,7 +735,7 @@ class TransactionsViewModel @Inject constructor(
 
     private suspend fun deleteCategory(categoryId: UUID) {
         ioThread {
-            categoryWriter.flagDeleted(categoryId)
+            categoryWriter.deleteById(categoryId)
             categoryRepository.deleteById(CategoryId(categoryId))
 
             nav.back()

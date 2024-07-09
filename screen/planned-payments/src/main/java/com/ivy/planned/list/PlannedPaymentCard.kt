@@ -56,7 +56,6 @@ import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.toComposeColor
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import java.time.Instant
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -275,9 +274,7 @@ private fun Preview_oneTime() {
                 color = ColorInt(Blue.toArgb()),
                 icon = null,
                 id = CategoryId(UUID.randomUUID()),
-                lastUpdated = Instant.EPOCH,
                 orderNum = 0.0,
-                removed = false,
             )
 
             item {
@@ -315,9 +312,7 @@ private fun Preview_recurring() {
                 color = ColorInt(Orange.toArgb()),
                 icon = null,
                 id = CategoryId(UUID.randomUUID()),
-                lastUpdated = Instant.EPOCH,
                 orderNum = 0.0,
-                removed = false,
             )
 
             item {
@@ -355,9 +350,7 @@ private fun Preview_recurringError() {
                 color = ColorInt(Orange.toArgb()),
                 icon = null,
                 id = CategoryId(UUID.randomUUID()),
-                lastUpdated = Instant.EPOCH,
                 orderNum = 0.0,
-                removed = false,
             )
 
             item {

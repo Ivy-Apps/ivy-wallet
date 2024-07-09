@@ -34,6 +34,8 @@ class TransactionMapper @Inject constructor(
     suspend fun TransactionEntity.toDomain(
         tags: List<TagId> = emptyList()
     ): Either<String, Transaction> = either {
+        ensure(!isDeleted) { "Transaction is deleted" }
+
         val metadata = TransactionMetadata(
             recurringRuleId = recurringRuleId,
             paidForDateTime = paidForDateTime?.toInstant(ZoneOffset.UTC),
@@ -69,8 +71,6 @@ class TransactionMapper @Inject constructor(
                     time = time,
                     settled = settled,
                     metadata = metadata,
-                    lastUpdated = Instant.EPOCH,
-                    removed = isDeleted,
                     tags = tags,
                 )
             }
@@ -86,8 +86,6 @@ class TransactionMapper @Inject constructor(
                     time = time,
                     settled = settled,
                     metadata = metadata,
-                    lastUpdated = Instant.EPOCH,
-                    removed = isDeleted,
                     tags = tags,
                 )
             }
@@ -121,8 +119,6 @@ class TransactionMapper @Inject constructor(
                     time = time,
                     settled = settled,
                     metadata = metadata,
-                    lastUpdated = Instant.EPOCH,
-                    removed = isDeleted,
                     fromAccount = accountId,
                     fromValue = fromValue,
                     toAccount = toAccountId,
@@ -164,13 +160,14 @@ class TransactionMapper @Inject constructor(
             dateTime = dateTime.takeIf { settled },
             categoryId = category?.value,
             dueDate = dateTime.takeIf { !settled },
-            paidForDateTime = metadata.paidForDateTime?.atZone(timeProvider.getZoneId())?.toLocalDateTime(),
+            paidForDateTime = metadata.paidForDateTime?.atZone(timeProvider.getZoneId())
+                ?.toLocalDateTime(),
             recurringRuleId = metadata.recurringRuleId,
             attachmentUrl = null,
             loanId = metadata.loanId,
             loanRecordId = metadata.loanRecordId,
             isSynced = true,
-            isDeleted = removed,
+            isDeleted = false,
             id = id.value
         )
     }

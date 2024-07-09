@@ -69,7 +69,7 @@ class BudgetCreator @Inject constructor(
     ) {
         try {
             ioThread {
-                budgetWriter.flagDeleted(budget.id)
+                budgetWriter.deleteById(budget.id)
             }
 
             onRefreshUI()

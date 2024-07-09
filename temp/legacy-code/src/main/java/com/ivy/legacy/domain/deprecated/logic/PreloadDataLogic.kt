@@ -43,7 +43,6 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
-import java.time.Instant
 import java.util.UUID
 import javax.inject.Inject
 
@@ -187,8 +186,6 @@ class PreloadDataLogic @Inject constructor(
                 icon = data.icon?.let(IconAsset::from)?.getOrNull(),
                 orderNum = categoryOrderNum++,
                 id = CategoryId(UUID.randomUUID()),
-                lastUpdated = Instant.EPOCH,
-                removed = false,
             )
         }.getOrNull()
 

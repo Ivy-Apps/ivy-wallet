@@ -46,11 +46,11 @@ import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.utils.thenIf
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.horizontalSwipeListener
 import com.ivy.legacy.utils.rememberSwipeListenerState
-import com.ivy.design.utils.thenIf
 import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.navigation.TransactionsScreen
@@ -80,7 +80,6 @@ import com.ivy.wallet.ui.theme.pureBlur
 import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1Row
 import kotlinx.collections.immutable.persistentListOf
-import java.time.Instant
 import java.util.UUID
 
 @ExperimentalFoundationApi
@@ -482,9 +481,7 @@ private fun Preview_Expense() {
                         color = ColorInt(Green.toArgb()),
                         icon = IconAsset.unsafe("bills"),
                         id = CategoryId(UUID.randomUUID()),
-                        lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
-                        removed = false,
                     ),
                     amount = 791.0
                 ),
@@ -499,9 +496,7 @@ private fun Preview_Expense() {
                         color = ColorInt(Orange.toArgb()),
                         icon = IconAsset.unsafe("trees"),
                         id = CategoryId(UUID.randomUUID()),
-                        lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
-                        removed = false,
                     ),
                     amount = 411.93
                 ),
@@ -511,9 +506,7 @@ private fun Preview_Expense() {
                         color = ColorInt(IvyDark.toArgb()),
                         icon = null,
                         id = CategoryId(UUID.randomUUID()),
-                        lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
-                        removed = false,
                     ),
                     amount = 260.03
                 ),
@@ -523,9 +516,7 @@ private fun Preview_Expense() {
                         color = ColorInt(RedLight.toArgb()),
                         icon = null,
                         id = CategoryId(UUID.randomUUID()),
-                        lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
-                        removed = false,
                     ),
                     amount = 160.0
                 ),
@@ -535,9 +526,7 @@ private fun Preview_Expense() {
                         color = ColorInt(Red.toArgb()),
                         icon = null,
                         id = CategoryId(UUID.randomUUID()),
-                        lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
-                        removed = false,
                     ),
                     amount = 2.0
                 ),
@@ -547,9 +536,7 @@ private fun Preview_Expense() {
                         color = ColorInt(IvyLight.toArgb()),
                         icon = IconAsset.unsafe("work"),
                         id = CategoryId(UUID.randomUUID()),
-                        lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
-                        removed = false,
                     ),
                     amount = 2.0
                 ),
@@ -585,9 +572,7 @@ private fun Preview_Income() {
                         color = ColorInt(Green.toArgb()),
                         icon = IconAsset.unsafe("bills"),
                         id = CategoryId(UUID.randomUUID()),
-                        lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
-                        removed = false,
                     ),
                     amount = 791.0
                 ),
@@ -602,9 +587,7 @@ private fun Preview_Income() {
                         color = ColorInt(Orange.toArgb()),
                         icon = IconAsset.unsafe("trees"),
                         id = CategoryId(UUID.randomUUID()),
-                        lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
-                        removed = false,
                     ),
                     amount = 411.93
                 ),
@@ -614,9 +597,7 @@ private fun Preview_Income() {
                         color = ColorInt(IvyDark.toArgb()),
                         icon = null,
                         id = CategoryId(UUID.randomUUID()),
-                        lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
-                        removed = false,
                     ),
                     amount = 260.03
                 ),
@@ -626,9 +607,7 @@ private fun Preview_Income() {
                         color = ColorInt(RedLight.toArgb()),
                         icon = null,
                         id = CategoryId(UUID.randomUUID()),
-                        lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
-                        removed = false,
                     ),
                     amount = 160.0
                 ),
@@ -638,9 +617,7 @@ private fun Preview_Income() {
                         color = ColorInt(Red.toArgb()),
                         icon = null,
                         id = CategoryId(UUID.randomUUID()),
-                        lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
-                        removed = false,
                     ),
                     amount = 2.0
                 ),
@@ -650,9 +627,7 @@ private fun Preview_Income() {
                         color = ColorInt(IvyLight.toArgb()),
                         icon = IconAsset.unsafe("work"),
                         id = CategoryId(UUID.randomUUID()),
-                        lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
-                        removed = false,
                     ),
                     amount = 2.0
                 ),

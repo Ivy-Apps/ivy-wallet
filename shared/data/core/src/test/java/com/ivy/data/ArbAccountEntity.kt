@@ -30,7 +30,7 @@ fun Arb.Companion.validAccountEntity(): Arb<AccountEntity> = arbitrary {
         orderNum = Arb.double().removeEdgecases().bind(),
         includeInBalance = Arb.boolean().bind(),
         isSynced = Arb.boolean().bind(),
-        isDeleted = Arb.boolean().bind(),
+        isDeleted = false,
         id = Arb.uuid().bind()
     )
 }

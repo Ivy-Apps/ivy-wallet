@@ -17,9 +17,6 @@ interface WriteCategoryDao {
     @Query("DELETE FROM categories WHERE id = :id")
     suspend fun deleteById(id: UUID)
 
-    @Query("UPDATE categories SET isDeleted = 1, isSynced = 0 WHERE id = :id")
-    suspend fun flagDeleted(id: UUID)
-
     @Query("DELETE FROM categories")
     suspend fun deleteAll()
 }

@@ -40,11 +40,11 @@ import androidx.compose.ui.zIndex
 import com.ivy.base.model.TransactionType
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
+import com.ivy.data.model.Tag
+import com.ivy.data.model.TagId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
-import com.ivy.data.model.Tag
-import com.ivy.data.model.TagId
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.domain.legacy.ui.theme.components.ListItem
@@ -82,7 +82,6 @@ import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1Row
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
-import java.time.Instant
 import java.util.UUID
 import kotlin.math.roundToInt
 
@@ -990,9 +989,7 @@ private fun Preview() {
             color = ColorInt(Purple1Dark.toArgb()),
             icon = IconAsset.unsafe("atom"),
             id = CategoryId(UUID.randomUUID()),
-            lastUpdated = Instant.EPOCH,
             orderNum = 0.0,
-            removed = false,
         )
 
         FilterOverlay(
@@ -1012,18 +1009,14 @@ private fun Preview() {
                     color = ColorInt(Red3Light.toArgb()),
                     icon = IconAsset.unsafe("pet"),
                     id = CategoryId(UUID.randomUUID()),
-                    lastUpdated = Instant.EPOCH,
                     orderNum = 0.0,
-                    removed = false,
                 ),
                 Category(
                     name = NotBlankTrimmedString.unsafe("Home"),
                     color = ColorInt(Green.toArgb()),
                     icon = null,
                     id = CategoryId(UUID.randomUUID()),
-                    lastUpdated = Instant.EPOCH,
                     orderNum = 0.0,
-                    removed = false,
                 ),
             ),
 

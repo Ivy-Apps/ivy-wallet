@@ -5,7 +5,7 @@ import com.ivy.data.model.primitive.AssociationId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
-import com.ivy.data.model.sync.Syncable
+import com.ivy.data.model.sync.Identifiable
 import com.ivy.data.model.sync.UniqueId
 import java.time.Instant
 import java.util.UUID
@@ -18,17 +18,13 @@ data class Tag(
     val icon: IconAsset?,
     override val orderNum: Double,
     val creationTimestamp: Instant,
-    override val lastUpdated: Instant,
-    override val removed: Boolean
-) : Syncable<TagId>, Reorderable
+) : Identifiable<TagId>, Reorderable
 
 @Suppress("DataClassTypedIDs")
 data class TagAssociation(
     override val id: TagId,
     val associatedId: AssociationId,
-    override val lastUpdated: Instant,
-    override val removed: Boolean,
-) : Syncable<TagId>
+) : Identifiable<TagId>
 
 @JvmInline
 @Immutable

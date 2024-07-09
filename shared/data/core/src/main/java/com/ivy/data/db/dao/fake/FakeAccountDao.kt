@@ -30,11 +30,6 @@ class FakeAccountDao : AccountDao, WriteAccountDao {
         values.forEach { save(it) }
     }
 
-    override suspend fun flagDeleted(id: UUID) {
-        val acc = accounts[id] ?: return
-        accounts[id] = acc.copy(isDeleted = true)
-    }
-
     override suspend fun deleteById(id: UUID) {
         accounts.remove(id)
     }

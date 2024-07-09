@@ -14,9 +14,6 @@ interface WriteAccountDao {
     @Upsert
     suspend fun saveMany(values: List<AccountEntity>)
 
-    @Query("UPDATE accounts SET isDeleted = 1, isSynced = 0 WHERE id = :id")
-    suspend fun flagDeleted(id: UUID)
-
     @Query("DELETE FROM accounts WHERE id = :id")
     suspend fun deleteById(id: UUID)
 

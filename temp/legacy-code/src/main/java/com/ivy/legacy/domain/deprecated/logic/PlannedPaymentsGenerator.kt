@@ -19,7 +19,7 @@ class PlannedPaymentsGenerator @Inject constructor(
 
     suspend fun generate(rule: PlannedPaymentRule) {
         // delete all not happened transactions
-        transactionRepository.flagDeletedByRecurringRuleIdAndNoDateTime(
+        transactionRepository.deletedByRecurringRuleIdAndNoDateTime(
             recurringRuleId = rule.id
         )
 

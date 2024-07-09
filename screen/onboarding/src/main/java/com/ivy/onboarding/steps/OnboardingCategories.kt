@@ -64,7 +64,6 @@ import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import com.ivy.wallet.ui.theme.toComposeColor
-import java.time.Instant
 import java.util.UUID
 
 @ExperimentalFoundationApi
@@ -404,9 +403,7 @@ private fun Preview_Categories() {
                     color = ColorInt(Orange.toArgb()),
                     icon = IconAsset.unsafe("fooddrinks"),
                     id = CategoryId(UUID.randomUUID()),
-                    lastUpdated = Instant.EPOCH,
                     orderNum = 0.0,
-                    removed = false,
                 )
             )
         )
@@ -480,9 +477,7 @@ private fun Preview_Premium() {
                     color = ColorInt(Orange.toArgb()),
                     icon = IconAsset.unsafe("fooddrinks"),
                     id = CategoryId(UUID.randomUUID()),
-                    lastUpdated = Instant.EPOCH,
                     orderNum = 0.0,
-                    removed = false,
                 )
             }
         )
