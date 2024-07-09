@@ -10,10 +10,10 @@ import com.ivy.data.model.AccountId
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.Expense
 import com.ivy.data.model.Income
+import com.ivy.data.model.PositiveValue
 import com.ivy.data.model.TransactionId
 import com.ivy.data.model.TransactionMetadata
 import com.ivy.data.model.Transfer
-import com.ivy.data.model.PositiveValue
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.AssetCode.Companion.EUR
 import com.ivy.data.model.primitive.AssetCode.Companion.USD
@@ -241,26 +241,30 @@ class TransactionMapperTest {
         val income = with(mapper) { entity.toDomain() }
 
         // then
-        income.shouldBeRight() shouldBe Income(
-            id = TransactionId,
-            title = NotBlankTrimmedString.unsafe("Income"),
-            description = NotBlankTrimmedString.unsafe("Income desc"),
-            category = CategoryId,
-            time = DateTime.atZone(timeProvider.getZoneId()).toInstant(),
-            settled = settled,
-            metadata = TransactionMetadata(
-                recurringRuleId = RecurringRuleId,
-                loanId = LoanId,
-                paidForDateTime = PaidForDateTime,
-                loanRecordId = LoanRecordId
-            ),
-            value = PositiveValue(
-                amount = PositiveDouble.unsafe(100.0),
-                asset = EUR
-            ),
-            account = AccountId,
-            tags = persistentListOf()
-        )
+        if (removed) {
+            income.shouldBeLeft()
+        } else {
+            income.shouldBeRight() shouldBe Income(
+                id = TransactionId,
+                title = NotBlankTrimmedString.unsafe("Income"),
+                description = NotBlankTrimmedString.unsafe("Income desc"),
+                category = CategoryId,
+                time = DateTime.atZone(timeProvider.getZoneId()).toInstant(),
+                settled = settled,
+                metadata = TransactionMetadata(
+                    recurringRuleId = RecurringRuleId,
+                    loanId = LoanId,
+                    paidForDateTime = PaidForDateTime,
+                    loanRecordId = LoanRecordId
+                ),
+                value = PositiveValue(
+                    amount = PositiveDouble.unsafe(100.0),
+                    asset = EUR
+                ),
+                account = AccountId,
+                tags = persistentListOf()
+            )
+        }
     }
 
     @Test
@@ -366,26 +370,30 @@ class TransactionMapperTest {
         val expense = with(mapper) { entity.toDomain() }
 
         // then
-        expense.shouldBeRight() shouldBe Expense(
-            id = TransactionId,
-            title = NotBlankTrimmedString.unsafe("Expense"),
-            description = NotBlankTrimmedString.unsafe("Expense desc"),
-            category = CategoryId,
-            time = DateTime.atZone(timeProvider.getZoneId()).toInstant(),
-            settled = settled,
-            metadata = TransactionMetadata(
-                recurringRuleId = RecurringRuleId,
-                loanId = LoanId,
-                paidForDateTime = PaidForDateTime,
-                loanRecordId = LoanRecordId
-            ),
-            value = PositiveValue(
-                amount = PositiveDouble.unsafe(100.0),
-                asset = EUR
-            ),
-            account = AccountId,
-            tags = persistentListOf()
-        )
+        if (removed) {
+            expense.shouldBeLeft()
+        } else {
+            expense.shouldBeRight() shouldBe Expense(
+                id = TransactionId,
+                title = NotBlankTrimmedString.unsafe("Expense"),
+                description = NotBlankTrimmedString.unsafe("Expense desc"),
+                category = CategoryId,
+                time = DateTime.atZone(timeProvider.getZoneId()).toInstant(),
+                settled = settled,
+                metadata = TransactionMetadata(
+                    recurringRuleId = RecurringRuleId,
+                    loanId = LoanId,
+                    paidForDateTime = PaidForDateTime,
+                    loanRecordId = LoanRecordId
+                ),
+                value = PositiveValue(
+                    amount = PositiveDouble.unsafe(100.0),
+                    asset = EUR
+                ),
+                account = AccountId,
+                tags = persistentListOf()
+            )
+        }
     }
 
     @Test
@@ -496,31 +504,35 @@ class TransactionMapperTest {
         val transfer = with(mapper) { entity.toDomain() }
 
         // then
-        transfer.shouldBeRight() shouldBe Transfer(
-            id = TransactionId,
-            title = NotBlankTrimmedString.unsafe("Transfer"),
-            description = NotBlankTrimmedString.unsafe("Transfer desc"),
-            category = CategoryId,
-            time = DateTime.atZone(timeProvider.getZoneId()).toInstant(),
-            settled = settled,
-            metadata = TransactionMetadata(
-                recurringRuleId = RecurringRuleId,
-                loanId = LoanId,
-                paidForDateTime = PaidForDateTime,
-                loanRecordId = LoanRecordId
-            ),
-            fromValue = PositiveValue(
-                amount = PositiveDouble.unsafe(50.0),
-                asset = EUR
-            ),
-            fromAccount = AccountId,
-            toValue = PositiveValue(
-                amount = PositiveDouble.unsafe(55.0),
-                asset = USD
-            ),
-            toAccount = ToAccountId,
-            tags = persistentListOf()
-        )
+        if (removed) {
+            transfer.shouldBeLeft()
+        } else {
+            transfer.shouldBeRight() shouldBe Transfer(
+                id = TransactionId,
+                title = NotBlankTrimmedString.unsafe("Transfer"),
+                description = NotBlankTrimmedString.unsafe("Transfer desc"),
+                category = CategoryId,
+                time = DateTime.atZone(timeProvider.getZoneId()).toInstant(),
+                settled = settled,
+                metadata = TransactionMetadata(
+                    recurringRuleId = RecurringRuleId,
+                    loanId = LoanId,
+                    paidForDateTime = PaidForDateTime,
+                    loanRecordId = LoanRecordId
+                ),
+                fromValue = PositiveValue(
+                    amount = PositiveDouble.unsafe(50.0),
+                    asset = EUR
+                ),
+                fromAccount = AccountId,
+                toValue = PositiveValue(
+                    amount = PositiveDouble.unsafe(55.0),
+                    asset = USD
+                ),
+                toAccount = ToAccountId,
+                tags = persistentListOf()
+            )
+        }
     }
 
     @Test
