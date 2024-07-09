@@ -12,6 +12,7 @@ import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 import java.util.*
 
+@Suppress("DataClassDefaultValues")
 @Keep
 @Serializable
 @Entity(tableName = "planned_payment_rules")

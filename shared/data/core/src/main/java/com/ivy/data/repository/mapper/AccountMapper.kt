@@ -10,7 +10,6 @@ import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.CurrencyRepository
-import java.time.Instant
 import javax.inject.Inject
 
 class AccountMapper @Inject constructor(

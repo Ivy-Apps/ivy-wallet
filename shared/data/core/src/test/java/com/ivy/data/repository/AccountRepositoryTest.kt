@@ -11,7 +11,6 @@ import com.ivy.data.model.AccountId
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.NotBlankTrimmedString
-import com.ivy.data.repository.fake.FakeCurrencyRepository
 import com.ivy.data.repository.fake.fakeRepositoryMemoFactory
 import com.ivy.data.repository.mapper.AccountMapper
 import io.kotest.matchers.shouldBe
@@ -123,7 +122,7 @@ class AccountRepositoryTest {
         coEvery { accountDao.findAll(false) } returns emptyList()
 
         // when
-        val res = repository.findAll(false)
+        val res = repository.findAll()
 
         // then
         res shouldBe emptyList()
@@ -160,7 +159,7 @@ class AccountRepositoryTest {
         )
 
         // when
-        val res = repository.findAll(false)
+        val res = repository.findAll()
 
         // then
         res shouldBe listOf(
@@ -216,7 +215,7 @@ class AccountRepositoryTest {
         )
 
         // when
-        val res = repository.findAll(false)
+        val res = repository.findAll()
 
         // then
         res shouldBe listOf(

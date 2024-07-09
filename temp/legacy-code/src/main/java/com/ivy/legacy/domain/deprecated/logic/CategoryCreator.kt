@@ -11,7 +11,6 @@ import com.ivy.data.repository.CategoryRepository
 import com.ivy.legacy.utils.ioThread
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.pure.util.nextOrderNum
-import java.time.Instant
 import java.util.UUID
 import javax.inject.Inject
 

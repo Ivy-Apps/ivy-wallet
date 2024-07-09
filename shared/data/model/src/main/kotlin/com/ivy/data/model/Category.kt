@@ -5,7 +5,6 @@ import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.sync.Identifiable
 import com.ivy.data.model.sync.UniqueId
-import java.time.Instant
 import java.util.UUID
 
 @JvmInline

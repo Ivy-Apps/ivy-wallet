@@ -9,6 +9,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.util.*
 
+@Suppress("DataClassDefaultValues")
 @Deprecated("Legacy concept - migrate to DataStore and get rid of it.")
 @Keep
 @Serializable
