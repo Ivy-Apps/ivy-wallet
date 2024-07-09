@@ -82,7 +82,7 @@ class IvyRoomDatabaseMigrationTest {
     @Test
     fun migrate126to127_LoanRecordType() {
         // given
-        val loanId = java.util.UUID.randomUUID().toString()
+        val loanId = UUID.randomUUID().toString()
         val noteString = "here is your note"
         helper.createDatabase(TestDb, 126).apply {
             // Database has schema version 1. Insert some data using SQL queries.
@@ -110,12 +110,6 @@ class IvyRoomDatabaseMigrationTest {
         }
 
         // when
-        helper.runMigrationsAndValidate(
-            TestDb,
-            126,
-            true,
-            Migration126to127_LoanRecordType()
-        )
         val newDb = helper.runMigrationsAndValidate(
             TestDb,
             127,
