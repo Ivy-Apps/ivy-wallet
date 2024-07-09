@@ -1,7 +1,6 @@
 package com.ivy.data.repository.mapper
 
 import com.ivy.data.db.entity.CategoryEntity
-import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.NotBlankTrimmedString
@@ -10,7 +9,6 @@ import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.shouldBe
 import org.junit.Before
 import org.junit.Test
-import java.time.Instant
 import java.util.UUID
 
 class CategoryMapperTest {

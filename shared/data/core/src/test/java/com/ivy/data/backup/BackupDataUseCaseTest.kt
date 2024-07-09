@@ -13,7 +13,6 @@ import com.ivy.data.db.dao.fake.FakeSettingsDao
 import com.ivy.data.db.dao.fake.FakeTransactionDao
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.CurrencyRepository
-import com.ivy.data.repository.RepositoryMemoFactory
 import com.ivy.data.repository.fake.fakeRepositoryMemoFactory
 import com.ivy.data.repository.mapper.AccountMapper
 import com.ivy.data.testResource
