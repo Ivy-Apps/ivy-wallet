@@ -53,7 +53,7 @@ class ExportCsvUseCasePropertyTest {
             }.map {
                 Arb.account(accountId = Some(it)).next()
             }
-            coEvery { accountRepository.findAll(any()) } returns accounts
+            coEvery { accountRepository.findAll() } returns accounts
             val categories = trns
                 .mapNotNull(Transaction::category)
                 .map {
@@ -65,7 +65,7 @@ class ExportCsvUseCasePropertyTest {
                         this
                     }
                 }
-            coEvery { categoryRepository.findAll(any()) } returns categories
+            coEvery { categoryRepository.findAll() } returns categories
 
             // when
             val csv = useCase.exportCsv { trns }

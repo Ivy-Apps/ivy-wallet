@@ -29,7 +29,6 @@ class ArbTransactionTest {
     @Test
     fun `arb income respects passed params`(
         @TestParameter settled: Boolean,
-        @TestParameter removed: Boolean,
     ) = runTest {
         // given
         val transactionId = ModelFixtures.TransactionId
@@ -46,7 +45,6 @@ class ArbTransactionTest {
                 categoryId = Some(categoryId),
                 settled = Some(settled),
                 time = Some(ArbTime.Exactly(now)),
-                removed = Some(removed),
                 amount = Some(amount),
                 asset = Some(asset),
                 id = Some(transactionId),
@@ -57,7 +55,6 @@ class ArbTransactionTest {
             income.account shouldBe accountId
             income.category shouldBe categoryId
             income.settled shouldBe settled
-            income.removed shouldBe removed
             income.time shouldBe now
             income.value shouldBe PositiveValue(amount, asset)
         }
@@ -73,7 +70,6 @@ class ArbTransactionTest {
     @Test
     fun `arb expense respects passed params`(
         @TestParameter settled: Boolean,
-        @TestParameter removed: Boolean,
     ) = runTest {
         // given
         val transactionId = ModelFixtures.TransactionId
@@ -90,7 +86,6 @@ class ArbTransactionTest {
                 categoryId = Some(categoryId),
                 settled = Some(settled),
                 time = Some(ArbTime.Exactly(now)),
-                removed = Some(removed),
                 amount = Some(amount),
                 asset = Some(asset),
                 id = Some(transactionId),
@@ -101,7 +96,6 @@ class ArbTransactionTest {
             expense.account shouldBe accountId
             expense.category shouldBe categoryId
             expense.settled shouldBe settled
-            expense.removed shouldBe removed
             expense.time shouldBe now
             expense.value shouldBe PositiveValue(amount, asset)
         }
@@ -117,7 +111,6 @@ class ArbTransactionTest {
     @Test
     fun `arb transfer respects passed params`(
         @TestParameter settled: Boolean,
-        @TestParameter removed: Boolean,
     ) = runTest {
         // given
         val transactionId = ModelFixtures.TransactionId
@@ -136,7 +129,6 @@ class ArbTransactionTest {
                 categoryId = Some(categoryId),
                 settled = Some(settled),
                 time = Some(ArbTime.Exactly(now)),
-                removed = Some(removed),
                 id = Some(transactionId),
                 fromAccount = Some(fromAccount),
                 fromAmount = Some(fromAmount),
@@ -150,7 +142,6 @@ class ArbTransactionTest {
             transfer.id shouldBe transactionId
             transfer.category shouldBe categoryId
             transfer.settled shouldBe settled
-            transfer.removed shouldBe removed
             transfer.time shouldBe now
             transfer.fromAccount shouldBe fromAccount
             transfer.fromValue shouldBe PositiveValue(fromAmount, fromAsset)
