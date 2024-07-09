@@ -37,6 +37,10 @@ class Migration128to129Test {
                 title = "Trn 2",
                 isDeleted = true,
             )
+            insertTransaction(
+                title = "Trn 3",
+                isDeleted = true,
+            )
         },
         dataAfterMigration = {
             moveToFirst() shouldBe true
@@ -101,6 +105,10 @@ class Migration128to129Test {
                 name = "Acc 2",
                 isDeleted = false,
             )
+            insertAccount(
+                name = "Acc 3",
+                isDeleted = true,
+            )
         },
         dataAfterMigration = {
             moveToFirst() shouldBe true
@@ -140,6 +148,56 @@ class Migration128to129Test {
         statement.bindLong(7, if (isSynced) 1 else 0)
         statement.bindLong(8, if (isDeleted) 1 else 0)
         statement.bindString(9, id.toString())
+
+        statement.executeInsert()
+    }
+
+    @Test
+    fun deleteDeletedCategories() = migrationTestCase(
+        tableName = "categories",
+        dataBeforeMigration = {
+            insertCategory(
+                name = "Category 1",
+                isDeleted = true,
+            )
+            insertCategory(
+                name = "Category 2",
+                isDeleted = false,
+            )
+        },
+        dataAfterMigration = {
+            moveToFirst() shouldBe true
+            getString(getColumnIndexOrThrow("name")) shouldBe "Category 2"
+            moveToNext() shouldBe false
+        }
+    )
+
+    private fun SupportSQLiteDatabase.insertCategory(
+        name: String,
+        isDeleted: Boolean,
+    ) {
+        val sql = """
+        INSERT INTO categories (
+            name, color, icon, orderNum, isSynced, isDeleted, id
+        ) VALUES (
+            ?, ?, ?, ?, ?, ?, ?
+        )
+        """.trimIndent()
+        val statement = this.compileStatement(sql)
+
+        val id = UUID.randomUUID()
+        val color = 0xFFFFFF // Dummy color (white)
+        val icon = "default_icon" // Dummy icon
+        val orderNum = 1.0
+        val isSynced = true
+
+        statement.bindString(1, name)
+        statement.bindLong(2, color.toLong())
+        statement.bindString(3, icon)
+        statement.bindDouble(4, orderNum)
+        statement.bindLong(5, if (isSynced) 1 else 0)
+        statement.bindLong(6, if (isDeleted) 1 else 0)
+        statement.bindString(7, id.toString())
 
         statement.executeInsert()
     }
