@@ -1,4 +1,4 @@
-package com.ivy.data.repository.impl
+package com.ivy.data.repository
 
 import com.ivy.base.model.TransactionType
 import com.ivy.base.threading.DispatchersProvider
@@ -16,7 +16,6 @@ import com.ivy.data.model.Transfer
 import com.ivy.data.model.primitive.AssociationId
 import com.ivy.data.model.primitive.NonNegativeLong
 import com.ivy.data.model.primitive.toNonNegative
-import com.ivy.data.repository.TagRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext

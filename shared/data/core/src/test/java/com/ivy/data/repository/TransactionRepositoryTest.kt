@@ -1,4 +1,4 @@
-package com.ivy.data.repository.impl
+package com.ivy.data.repository
 
 import arrow.core.Either
 import arrow.core.Some
@@ -19,7 +19,6 @@ import com.ivy.data.model.testing.ModelFixtures
 import com.ivy.data.model.testing.accountId
 import com.ivy.data.model.testing.transaction
 import com.ivy.data.model.testing.transactionId
-import com.ivy.data.repository.TagRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.data.validTransactionEntity
 import io.kotest.matchers.longs.shouldBeGreaterThanOrEqual
@@ -39,8 +38,6 @@ import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-
-typealias TrnMappingRow = Pair<TransactionEntity, Either<String, Transaction>>
 
 class TransactionRepositoryTest {
 
@@ -544,3 +541,5 @@ class TransactionRepositoryTest {
         }
     }
 }
+
+typealias TrnMappingRow = Pair<TransactionEntity, Either<String, Transaction>>
