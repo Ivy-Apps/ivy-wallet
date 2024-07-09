@@ -1,4 +1,4 @@
-package com.ivy.data.repository.impl
+package com.ivy.data.repository
 
 import com.ivy.base.TestDispatchersProvider
 import com.ivy.data.db.dao.read.CategoryDao
@@ -8,8 +8,7 @@ import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.NotBlankTrimmedString
-import com.ivy.data.repository.CategoryRepository
-import com.ivy.data.repository.fake.fakeRepositoryMakeFactory
+import com.ivy.data.repository.fake.fakeRepositoryMemoFactory
 import com.ivy.data.repository.mapper.CategoryMapper
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
@@ -23,7 +22,7 @@ import org.junit.Test
 import java.time.Instant
 import java.util.UUID
 
-class CategoryRepositoryImplTest {
+class CategoryRepositoryTest {
     private val categoryDao = mockk<CategoryDao>()
     private val writeCategoryDao = mockk<WriteCategoryDao>()
 
@@ -31,12 +30,12 @@ class CategoryRepositoryImplTest {
 
     @Before
     fun setup() {
-        repository = CategoryRepositoryImpl(
+        repository = CategoryRepository(
             mapper = CategoryMapper(),
             categoryDao = categoryDao,
             writeCategoryDao = writeCategoryDao,
             dispatchersProvider = TestDispatchersProvider,
-            memoFactory = fakeRepositoryMakeFactory(),
+            memoFactory = fakeRepositoryMemoFactory(),
         )
     }
 

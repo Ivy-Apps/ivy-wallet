@@ -6,17 +6,16 @@ import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteAccountDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
 import com.ivy.data.repository.AccountRepository
-import com.ivy.data.repository.impl.AccountRepositoryImpl
 import com.ivy.data.repository.mapper.AccountMapper
 import org.jetbrains.annotations.VisibleForTesting
 
 @VisibleForTesting
-class FakeAccountRepository(
+fun fakeAccountRepository(
     accountDao: AccountDao,
     writeAccountDao: WriteAccountDao,
     settingsDao: SettingsDao,
     writeSettingsDao: WriteSettingsDao,
-    private val accountRepository: AccountRepository = AccountRepositoryImpl(
+    private val accountRepository: AccountRepository = AccountRepository(
         mapper = AccountMapper(
             FakeCurrencyRepository(
                 settingsDao = settingsDao,
@@ -26,6 +25,6 @@ class FakeAccountRepository(
         accountDao = accountDao,
         writeAccountDao = writeAccountDao,
         dispatchersProvider = TestDispatchersProvider,
-        memoFactory = fakeRepositoryMakeFactory()
+        memoFactory = fakeRepositoryMemoFactory()
     )
-) : AccountRepository by accountRepository
+) : AccountRepository

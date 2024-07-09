@@ -6,7 +6,6 @@ import com.ivy.data.db.dao.read.TagDao
 import com.ivy.data.db.dao.write.WriteTagAssociationDao
 import com.ivy.data.db.dao.write.WriteTagDao
 import com.ivy.data.repository.TagRepository
-import com.ivy.data.repository.impl.TagRepositoryImpl
 import com.ivy.data.repository.mapper.TagMapper
 import org.jetbrains.annotations.VisibleForTesting
 
@@ -16,13 +15,13 @@ class FakeTagRepository(
     tagAssociationDao: TagAssociationDao,
     writeTagDao: WriteTagDao,
     writeTagAssociationDao: WriteTagAssociationDao,
-    private val tagRepository: TagRepository = TagRepositoryImpl(
+    private val tagRepository: TagRepository = TagRepository(
         mapper = TagMapper(),
         tagDao = tagDao,
         tagAssociationDao = tagAssociationDao,
         writeTagDao = writeTagDao,
         writeTagAssociationDao = writeTagAssociationDao,
         dispatchersProvider = TestDispatchersProvider,
-        memoFactory = fakeRepositoryMakeFactory(),
+        memoFactory = fakeRepositoryMemoFactory(),
     )
 ) : TagRepository by tagRepository
