@@ -1,3 +1,6 @@
+import com.google.gms.googleservices.GoogleServicesPlugin
+import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsPlugin
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -6,8 +9,8 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("org.jetbrains.kotlin.plugin.serialization")
     id("com.google.devtools.ksp")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
+    id("com.google.gms.google-services") apply false
+    id("com.google.firebase.crashlytics") apply false
 }
 
 android {
@@ -57,6 +60,9 @@ android {
             signingConfig = signingConfigs.getByName("release")
 
             resValue("string", "app_name", "Ivy Wallet")
+
+            apply<GoogleServicesPlugin>()
+            apply<CrashlyticsPlugin>()
         }
 
         debug {
@@ -70,11 +76,6 @@ android {
 
             applicationIdSuffix = ".debug"
             resValue("string", "app_name", "Ivy Wallet Debug")
-
-            firebaseCrashlytics {
-                mappingFileUploadEnabled = false
-                nativeSymbolUploadEnabled = false
-            }
         }
 
         create("demo") {
@@ -164,7 +165,7 @@ dependencies {
     implementation(libs.bundles.compose)
     implementation(libs.bundles.activity)
     implementation(libs.bundles.google)
-    implementation(libs.bundles.firebase)
+    releaseImplementation(libs.bundles.firebase)
     implementation(libs.datastore)
     implementation(libs.androidx.security)
     implementation(libs.androidx.biometrics)

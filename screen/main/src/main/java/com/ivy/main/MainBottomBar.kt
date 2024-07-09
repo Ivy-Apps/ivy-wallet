@@ -256,8 +256,7 @@ fun BoxWithConstraintsScope.BottomBar(
     ) {
         when (tab) {
             MainTab.HOME -> {
-                throw RuntimeException("Test exception")
-//                expanded = !expanded
+                expanded = !expanded
             }
 
             MainTab.ACCOUNTS -> {

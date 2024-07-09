@@ -3,8 +3,6 @@ package com.ivy.wallet
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import com.google.firebase.crashlytics.ktx.crashlytics
-import com.google.firebase.ktx.Firebase
 import com.ivy.base.legacy.appContext
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
@@ -29,10 +27,7 @@ class IvyAndroidApp : Application(), Configuration.Provider {
         appContext = this
 
         if (BuildConfig.DEBUG) {
-            Firebase.crashlytics.setCrashlyticsCollectionEnabled(false)
             Timber.plant(DebugTree())
-        } else {
-            Firebase.crashlytics.setCrashlyticsCollectionEnabled(true)
         }
     }
 }
