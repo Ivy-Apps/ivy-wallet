@@ -21,7 +21,7 @@ Please check if your pull request fulfills the following requirements:
 ## What's changed?
 Describe with a few bullets **what's new:**
 
-<!-- 💡 Tip: Please, after each point, show your changes with screenshots or screen recordings by replacing {media} and make sure there are no spaces between images and pipes ( | ) for it to work. In the end it should look like that:
+<!-- 💡 Tip: Please, after each more important point leave one line empty and show your changes in markdown table with screenshots or screen recordings replacing {media}. In the end, it should look like this:
 
 - I've fixed...
 
