@@ -11,6 +11,9 @@ data class IvyCurrency(
     val isCrypto: Boolean
 ) {
     companion object {
+        private const val CRYPTO_DECIMAL = 18
+        private const val FIAT_DECIMAL = 2
+
         private val CRYPTO = setOf(
             IvyCurrency(
                 code = "BTC",
@@ -213,17 +216,7 @@ data class IvyCurrency(
             if (code.isBlank()) return 0
 
             val crypto = CRYPTO.find { it.code == code }
-            if (crypto != null) {
-                return 18
-            }
-
-            return try {
-                Currency.getInstance(code)
-                2
-            } catch (e: Exception) {
-                e.printStackTrace()
-                0
-            }
+            return if (crypto != null) CRYPTO_DECIMAL else FIAT_DECIMAL
         }
     }
 
