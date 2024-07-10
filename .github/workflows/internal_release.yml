@@ -183,7 +183,7 @@ jobs:
         run: |
           RELEASE_TAG=${{ env.TAG_NAME }}
           RELEASE_URL="https://github.com/${GITHUB_REPOSITORY}/releases/tag/${RELEASE_TAG}"
-          CAPTION=$'🚀 Ivy Wallet '"$RELEASE_TAG"$' release\n\nCheck it out here: '"$RELEASE_URL"' \n\n🚢 Please, test the release candidate before we ship it.'
+          CAPTION=$'🚀 Ivy Wallet '"$RELEASE_TAG"$' release\n\nCheck it out here: '"$RELEASE_URL"' \n\n 🚢 Please, test the release candidate before we ship it.'
 
           curl -F "chat_id=-1001647280565" \
                -F "document=@app/build/outputs/apk/demo/app-demo.apk" \
