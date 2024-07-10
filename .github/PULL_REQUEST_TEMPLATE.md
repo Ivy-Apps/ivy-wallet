@@ -2,7 +2,7 @@
 
 Please check if your pull request fulfills the following requirements:
 
-<!-- 💡 Tip: Please tick checkboxes in preview mode. -->
+<!-- 💡 Tip: Please tick checkboxes like this: [✅]. -->
 
 - [ ] The PR is submitted to the `main` branch.
 - [ ] I've read the [Contribution Guidelines](https://github.com/Ivy-Apps/ivy-wallet/blob/main/CONTRIBUTING.md) and my PR doesn't break the rules.
