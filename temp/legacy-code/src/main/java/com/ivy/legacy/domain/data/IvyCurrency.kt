@@ -208,6 +208,23 @@ data class IvyCurrency(
         fun getDefault(): IvyCurrency = IvyCurrency(
             fiatCurrency = getDefaultFIATCurrency()
         )
+
+        fun getDecimalPlaces(code: String): Int {
+            if (code.isBlank()) return 0
+
+            val crypto = CRYPTO.find { it.code == code }
+            if (crypto != null) {
+                return 18
+            }
+
+            return try {
+                Currency.getInstance(code)
+                2
+            } catch (e: Exception) {
+                e.printStackTrace()
+                0
+            }
+        }
     }
 
     constructor(fiatCurrency: Currency) : this(

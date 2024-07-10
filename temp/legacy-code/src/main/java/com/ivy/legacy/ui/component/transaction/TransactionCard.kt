@@ -58,6 +58,7 @@ import com.ivy.navigation.Navigation
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.ui.R
+import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
@@ -196,7 +197,10 @@ fun TransactionCard(
         if (transaction.type == TransactionType.TRANSFER && toAccountCurrency != transactionCurrency) {
             Text(
                 modifier = Modifier.padding(start = 68.dp),
-                text = "${transaction.toAmount.toDouble().format(2)} $toAccountCurrency",
+                text = "${
+                    transaction.toAmount.toDouble()
+                        .format(IvyCurrency.getDecimalPlaces(toAccountCurrency))
+                } $toAccountCurrency",
                 style = UI.typo.nB2.style(
                     color = Gray,
                     fontWeight = FontWeight.Normal

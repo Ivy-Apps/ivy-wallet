@@ -24,18 +24,19 @@ import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.legacy.utils.format
 import com.ivy.ui.R
+import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.ui.theme.Orange
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun CustomExchangeRateCard(
-    modifier: Modifier = Modifier,
-    title: String = stringResource(R.string.exchange_rate),
     fromCurrencyCode: String,
     toCurrencyCode: String,
     exchangeRate: Double,
+    modifier: Modifier = Modifier,
+    title: String = stringResource(R.string.exchange_rate),
     onRefresh: () -> Unit = {},
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -80,14 +81,29 @@ fun CustomExchangeRateCard(
                 )
                 IvyIcon(icon = R.drawable.ic_arrow_right, tint = Orange)
                 Text(
-                    text = "$toCurrencyCode \t\t:\t\t",
+                    text = toCurrencyCode,
                     style = UI.typo.nB2.style(
                         fontWeight = FontWeight.ExtraBold,
                         color = Orange
                     )
                 )
+            }
+
+            Spacer(Modifier.height(4.dp))
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
-                    text = exchangeRate.format(4),
+                    text = "1",
+                    style = UI.typo.nB2.style(
+                        fontWeight = FontWeight.ExtraBold,
+                        color = Orange
+                    )
+                )
+                IvyIcon(icon = R.drawable.ic_arrow_right, tint = Orange)
+                Text(
+                    text = exchangeRate.format(IvyCurrency.getDecimalPlaces(toCurrencyCode)),
                     style = UI.typo.nB2.style(
                         fontWeight = FontWeight.ExtraBold,
                         color = Orange
