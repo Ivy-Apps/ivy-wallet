@@ -99,6 +99,10 @@ class RootActivity : AppCompatActivity(), RootScreen {
         setupDatePicker()
         setupTimePicker()
 
+        createNotificationChannel(this)
+        scheduleDailyReminder(this)
+
+
         AddTransactionWidget.updateBroadcast(this)
         AddTransactionWidgetCompact.updateBroadcast(this)
         WalletBalanceWidgetReceiver.updateBroadcast(this)
@@ -465,4 +469,78 @@ class RootActivity : AppCompatActivity(), RootScreen {
         val addTransactionWidget = ComponentName(this, widget)
         appWidgetManager.requestPinAppWidget(addTransactionWidget, null, null)
     }
+
 }
+//For pushing Notification to the user as a reminder at every 12AM
+// urging to fill in expenses, transactions and incomes
+fun createNotificationChannel(context: Context) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val name = "DailyReminderChannel"
+        val descriptionText = "Channel for daily reminders"
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        val channel = NotificationChannel("DAILY_REMINDER_CHANNEL_ID", name, importance).apply {
+            description = descriptionText
+        }
+        val notificationManager: NotificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
+    }
+}
+fun sendNotification(context: Context) {
+    val intent = Intent(context, MainActivity::class.java).apply {
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+    }
+    val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent,
+        PendingIntent.FLAG_IMMUTABLE)
+
+    val builder = NotificationCompat.Builder(context, "DAILY_REMINDER_CHANNEL_ID")
+        .setSmallIcon(R.drawable.ic_launcher-playstore)
+        .setContentTitle("EveryDay Reminder")
+        .setContentText("Fill in todays expences,transactions and incomes.")
+        .setPriority(NotificationCompat.PRIORITY_HIGH)
+        .setContentIntent(pendingIntent)
+        .setAutoCancel(true)
+
+    with(NotificationManagerCompat.from(context)) {
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        notify(0, builder.build())
+    }
+}
+fun scheduleDailyReminder(context: Context) {
+    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    val intent = Intent(context, ReminderBroadcastReceiver::class.java)
+    val pendingIntent = PendingIntent.getBroadcast(context, 0, intent,
+        PendingIntent.FLAG_IMMUTABLE)
+
+    val calendar: Calendar = Calendar.getInstance().apply {
+        timeInMillis = System.currentTimeMillis()
+        set(Calendar.HOUR_OF_DAY, 12)
+        set(Calendar.MINUTE, 00)
+    }
+
+    if (calendar.timeInMillis < System.currentTimeMillis()) {
+        calendar.add(Calendar.DAY_OF_YEAR, 1)
+    }
+
+    alarmManager.setInexactRepeating(
+        AlarmManager.RTC_WAKEUP,
+        calendar.timeInMillis,
+        AlarmManager.INTERVAL_DAY,
+        pendingIntent
+    )
+}
+class ReminderBroadcastReceiver : BroadcastReceiver() {
+    override fun onReceive(context: Context?, intent: Intent?) {
+        if (context != null) {
+            sendNotification(context)
+        }
+    }
+
+}
+

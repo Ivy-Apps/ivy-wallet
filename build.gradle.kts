@@ -9,7 +9,10 @@ plugins {
     alias(libs.plugins.gradleWrapperUpgrade)
 
     alias(libs.plugins.koverPlugin)
+
+
 }
+
 
 subprojects {
     apply(plugin = "org.jetbrains.kotlinx.kover")
