@@ -67,6 +67,7 @@ import com.ivy.base.model.TransactionType
 import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.legacy.utils.rememberSwipeListenerState
 import com.ivy.ui.R
+import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.GreenDark
@@ -150,7 +151,15 @@ fun BoxWithConstraintsScope.EditBottomSheet(
 
     val showConvertedAmountText by remember(convertedAmount) {
         if (type == TransactionType.TRANSFER && convertedAmount != null && convertedAmountCurrencyCode != null) {
-            mutableStateOf("${convertedAmount.format(2)} $convertedAmountCurrencyCode")
+            mutableStateOf(
+                "${
+                    convertedAmount.format(
+                        IvyCurrency.getDecimalPlaces(
+                            convertedAmountCurrencyCode
+                        )
+                    )
+                } $convertedAmountCurrencyCode"
+            )
         } else {
             mutableStateOf(null)
         }
