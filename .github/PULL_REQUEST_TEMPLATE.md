@@ -2,7 +2,7 @@
 
 Please check if your pull request fulfills the following requirements:
 
-<!-- 💡 Tip: Please tick checkboxes like this: [✅]. -->
+<!-- 💡 Tip: Tick checkboxes like this: [✅]. -->
 
 - [ ] The PR is submitted to the `main` branch.
 - [ ] I've read the [Contribution Guidelines](https://github.com/Ivy-Apps/ivy-wallet/blob/main/CONTRIBUTING.md) and my PR doesn't break the rules.
@@ -21,7 +21,7 @@ Please check if your pull request fulfills the following requirements:
 ## What's changed?
 Describe with a few bullets **what's new:**
 
-<!-- 💡 Tip: Please, after each more important point leave one line empty and show your changes in markdown table with screenshots or screen recordings replacing {media}. In the end, it should look like this:
+<!-- 💡 Tip: After each more important point leave one line empty and show your changes in markdown table with screenshots or screen recordings replacing {media}. In the end, it should look like this:
 
 - I've fixed...
 
