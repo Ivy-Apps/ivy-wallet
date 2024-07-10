@@ -1,1 +1,1 @@
-Ivy Wallet internal testing release, please refer to (https://github.com/Ivy-Apps/ivy-wallet/releases) for changelog.
+Ivy Wallet periodic release, refer to (https://github.com/Ivy-Apps/ivy-wallet/releases) for changelog. If you find any issues, please report them in our GitHub repository.
