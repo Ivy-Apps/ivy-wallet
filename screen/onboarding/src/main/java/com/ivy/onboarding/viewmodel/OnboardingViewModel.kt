@@ -150,7 +150,6 @@ class OnboardingViewModel @Inject constructor(
                 is OnboardingEvent.ImportFinished -> importFinished(event.success)
                 OnboardingEvent.ImportSkip -> importSkip()
                 OnboardingEvent.LoginOfflineAccount -> loginOfflineAccount()
-                OnboardingEvent.LoginWithGoogle -> loginWithGoogle()
                 OnboardingEvent.OnAddAccountsDone -> onAddAccountsDone()
                 OnboardingEvent.OnAddAccountsSkip -> onAddAccountsSkip()
                 OnboardingEvent.OnAddCategoriesDone -> onAddCategoriesDone()
@@ -158,30 +157,6 @@ class OnboardingViewModel @Inject constructor(
                 is OnboardingEvent.SetBaseCurrency -> setBaseCurrency(event.baseCurrency)
                 OnboardingEvent.StartFresh -> startFresh()
                 OnboardingEvent.StartImport -> startImport()
-            }
-        }
-    }
-
-    // Step 1 ---------------------------------------------------------------------------------------
-    private suspend fun loginWithGoogle() {
-        ivyContext.googleSignIn { idToken ->
-            if (idToken != null) {
-                _opGoogleSignIn.value = OpResult.loading()
-                viewModelScope.launch {
-                    try {
-                        router.googleLoginNext()
-                        _opGoogleSignIn.value = null // reset login with Google operation state
-                    } catch (e: Exception) {
-                        e.sendToCrashlytics("GOOGLE_SIGN_IN ERROR: generic exception when logging with GOOGLE")
-                        e.printStackTrace()
-                        Timber.e("Login with Google failed on Ivy server - ${e.message}")
-                        _opGoogleSignIn.value = OpResult.failure(e)
-                    }
-                }
-            } else {
-                sendToCrashlytics("GOOGLE_SIGN_IN ERROR: idToken is null!!")
-                Timber.e("Login with Google failed while getting idToken")
-                _opGoogleSignIn.value = OpResult.faliure("Login with Google failed, try again.")
             }
         }
     }
