@@ -175,6 +175,11 @@ data class IvyCurrency(
                 name = "Tron",
                 isCrypto = true
             ),
+            IvyCurrency(
+                code = "TON",
+                name = "Tonchain",
+                isCrypto = true
+            ),
         )
 
         fun getAvailable(): List<IvyCurrency> {
