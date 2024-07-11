@@ -200,7 +200,7 @@ fun AmountCurrency(
 
         Text(
             text = amount.ifBlank { "0" },
-            style = UI.typo.nH1.style(
+            style = UI.typo.nH2.style(
                 fontWeight = FontWeight.Bold,
                 color = UI.colors.pureInverse
             )
