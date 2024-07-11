@@ -26,10 +26,6 @@ import androidx.compose.runtime.getValue
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -72,7 +68,6 @@ class RootActivity : AppCompatActivity(), RootScreen {
     @Inject
     lateinit var customerJourneyLogic: CustomerJourneyCardsProvider
 
-    private lateinit var googleSignInLauncher: ActivityResultLauncher<GoogleSignInClient>
     private lateinit var onGoogleSignInIdTokenResult: (idToken: String?) -> Unit
 
     private lateinit var createFileLauncher: ActivityResultLauncher<String>
@@ -209,45 +204,10 @@ class RootActivity : AppCompatActivity(), RootScreen {
     }
 
     private fun setupActivityForResultLaunchers() {
-        googleSignInLauncher()
 
         createFileLauncher()
 
         openFileLauncher()
-    }
-
-    private fun googleSignInLauncher() {
-        googleSignInLauncher = activityForResultLauncher(
-            createIntent = { _, client ->
-                client.signInIntent
-            }
-        ) { _, intent ->
-            try {
-                val task: Task<GoogleSignInAccount> =
-                    GoogleSignIn.getSignedInAccountFromIntent(intent)
-                val account: GoogleSignInAccount = task.getResult(ApiException::class.java)
-                val idToken = account.idToken
-                Timber.d("idToken = $idToken")
-
-                onGoogleSignInIdTokenResult(idToken)
-            } catch (e: ApiException) {
-                e.sendToCrashlytics("GOOGLE_SIGN_IN - registerGoogleSignInContract(): ApiException")
-                e.printStackTrace()
-                onGoogleSignInIdTokenResult(null)
-            }
-        }
-
-        ivyContext.googleSignIn = { idTokenResult: (String?) -> Unit ->
-            onGoogleSignInIdTokenResult = idTokenResult
-
-            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .requestProfile()
-                .requestIdToken("364763737033-t1d2qe7s0s8597k7anu3sb2nq79ot5tp.apps.googleusercontent.com")
-                .build()
-            val googleSignInClient = GoogleSignIn.getClient(this, gso)
-            googleSignInLauncher.launch(googleSignInClient)
-        }
     }
 
     private fun createFileLauncher() {
