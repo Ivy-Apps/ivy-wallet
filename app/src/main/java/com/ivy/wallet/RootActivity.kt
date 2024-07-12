@@ -319,7 +319,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
         }
     }
 
-    @Suppress("TooGenericExceptionCaught,PrintStackTrace")
+    @Suppress("TooGenericExceptionCaught", "PrintStackTrace")
     override fun openUrlInBrowser(url: String) {
         try {
             val browserIntent = Intent(Intent.ACTION_VIEW)

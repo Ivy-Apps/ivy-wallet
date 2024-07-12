@@ -40,7 +40,7 @@ import com.ivy.wallet.ui.theme.components.IvyButton
 
 @SuppressLint("ComposeModifierMissing")
 @Composable
-@Suppress("LongMethod,FunctionNaming")
+@Suppress("LongMethod", "FunctionNaming")
 fun BoxWithConstraintsScope.AppLockedScreen(
     onShowOSBiometricsModal: () -> Unit,
     onContinueWithoutAuthentication: () -> Unit
@@ -138,7 +138,7 @@ private fun osAuthentication(
 
 @Preview
 @Composable
-@Suppress("FunctionNaming,UnusedPrivateMember")
+@Suppress("FunctionNaming", "UnusedPrivateMember")
 private fun Preview_Locked() {
     IvyWalletPreview {
         AppLockedScreen(

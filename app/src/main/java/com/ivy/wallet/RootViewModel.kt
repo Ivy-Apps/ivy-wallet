@@ -34,7 +34,7 @@ import java.util.concurrent.atomic.AtomicLong
 import javax.inject.Inject
 
 @HiltViewModel
-@Suppress("LongParameterList,TooManyFunctions")
+@Suppress("LongParameterList", "TooManyFunctions")
 class RootViewModel @Inject constructor(
     private val ivyContext: IvyWalletCtx,
     private val nav: Navigation,
