@@ -12,5 +12,6 @@ data class SettingsState(
     val hideIncome: Boolean,
     val treatTransfersAsIncomeExpense: Boolean,
     val startDateOfMonth: String,
-    val progressState: Boolean
+    val progressState: Boolean,
+    val languageOptionVisible: Boolean
 )

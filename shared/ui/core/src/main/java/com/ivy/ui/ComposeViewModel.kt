@@ -2,8 +2,6 @@ package com.ivy.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 /**
@@ -24,12 +22,4 @@ abstract class ComposeViewModel<UiState, UiEvent> : ViewModel() {
      * in the UI to be processed in the ViewModel.
      */
     abstract fun onEvent(event: UiEvent)
-
-    private val observableEvents = MutableLiveData<ViewModelEvent>()
-
-    fun observeViewModelEvents(): LiveData<ViewModelEvent> = observableEvents
-
-    protected fun postViewModelEvent(event: ViewModelEvent) {
-        observableEvents.postValue(event)
-    }
 }

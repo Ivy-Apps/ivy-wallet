@@ -1,6 +1,5 @@
 package com.ivy.settings
 
-import android.os.Build
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -97,6 +96,7 @@ fun BoxWithConstraintsScope.SettingsScreen() {
         treatTransfersAsIncomeExpense = uiState.treatTransfersAsIncomeExpense,
         nameLocalAccount = uiState.name,
         startDateOfMonth = uiState.startDateOfMonth.toInt(),
+        languageOptionVisible = uiState.languageOptionVisible,
         onSetCurrency = {
             viewModel.onEvent(SettingsEvent.SetCurrency(it))
         },
@@ -148,6 +148,7 @@ private fun BoxWithConstraintsScope.UI(
     onSwitchTheme: () -> Unit,
     lockApp: Boolean,
     nameLocalAccount: String?,
+    languageOptionVisible: Boolean,
     onSetCurrency: (String) -> Unit,
     startDateOfMonth: Int = 1,
     showNotifications: Boolean = true,
@@ -174,9 +175,6 @@ private fun BoxWithConstraintsScope.UI(
     var deleteCloudDataModalVisible by remember { mutableStateOf(false) }
     var deleteAllDataModalVisible by remember { mutableStateOf(false) }
     var deleteAllDataModalFinalVisible by remember { mutableStateOf(false) }
-    val languageOptionVisible by remember {
-        mutableStateOf(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-    }
     val nav = navigation()
 
     LazyColumn(
@@ -1145,6 +1143,7 @@ private fun Preview(theme: Theme = Theme.LIGHT) {
             lockApp = false,
             currencyCode = "BGN",
             onSetCurrency = {},
+            languageOptionVisible = true
         )
     }
 }

@@ -48,7 +48,6 @@ import com.ivy.navigation.Navigation
 import com.ivy.navigation.NavigationRoot
 import com.ivy.settings.SettingsViewModel
 import com.ivy.ui.R
-import com.ivy.ui.ViewModelEvent
 import com.ivy.wallet.ui.applocked.AppLockedScreen
 import com.ivy.widget.balance.WalletBalanceWidgetReceiver
 import com.ivy.widget.transaction.AddTransactionWidget
@@ -77,7 +76,6 @@ class RootActivity : AppCompatActivity(), RootScreen {
     private lateinit var onFileOpened: (fileUri: Uri) -> Unit
 
     private val viewModel: RootViewModel by viewModels()
-    private val settingsViewModel: SettingsViewModel by viewModels()
 
     @OptIn(
         ExperimentalAnimationApi::class,
@@ -86,10 +84,6 @@ class RootActivity : AppCompatActivity(), RootScreen {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-
-        settingsViewModel.observeViewModelEvents().observe(this) { event ->
-            handleViewModelEvents(event)
-        }
 
         setupActivityForResultLaunchers()
 
@@ -150,20 +144,6 @@ class RootActivity : AppCompatActivity(), RootScreen {
 
     private companion object {
         private const val MILLISECONDS_IN_DAY = 24 * 60 * 60 * 1000
-    }
-
-    private fun handleViewModelEvents(event: ViewModelEvent) {
-        when (event) {
-            is ViewModelEvent.StartLocaleActivity -> startAppLocaleActivity()
-        }
-    }
-
-    private fun startAppLocaleActivity() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            val intent = Intent(Settings.ACTION_APP_LOCALE_SETTINGS)
-            intent.data = Uri.fromParts("package", BuildConfig.APPLICATION_ID, null)
-            startActivity(intent)
-        }
     }
 
     private fun setupDatePicker() {
