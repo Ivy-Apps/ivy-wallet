@@ -104,7 +104,6 @@ hilt-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", 
 
 # Google
 google-services-plugin = { module = "com.google.gms:google-services", version = "4.4.2" }
-google-playservices-auth = { module = "com.google.android.gms:play-services-auth", version = "21.2.0" }
 google-play-update = { module = "com.google.android.play:app-update", version = "2.1.0" }
 google-play-services = { module = "com.google.android.gms:play-services-tasks", version = "18.2.0" }
 google-play-review = { module = "com.google.android.play:review-ktx", version = "2.0.1" }
@@ -209,7 +208,6 @@ glance = [
     "glance-material3"
 ]
 google = [
-    "google-playservices-auth",
     "google-play-update",
     "google-play-services",
     "google-play-review"

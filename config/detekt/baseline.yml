@@ -10637,7 +10637,6 @@
     <ID>UnusedParameter:Title.kt$initialTransactionId: UUID?</ID>
     <ID>UnusedPrivateMember:EditTransactionViewModel.kt$EditTransactionViewModel$private suspend fun transferToAmount( amount: Double ): Double?</ID>
     <ID>UnusedPrivateMember:Migration109to110_PlannedPayments.kt$Migration109to110_PlannedPayments$private fun SupportSQLiteDatabase.addSyncColumns(tableName: String)</ID>
-    <ID>UnusedPrivateMember:OnboardingSplashLogin.kt$@Composable private fun LoginWithGoogleExplanation()</ID>
     <ID>UnusedPrivateMember:SettingsScreen.kt$@Composable private fun AccountCardButton( @DrawableRes icon: Int, text: String, onClick: () -&gt; Unit )</ID>
     <ID>UnusedPrivateProperty:AccountModal.kt$val context = LocalContext.current</ID>
     <ID>UnusedPrivateProperty:DateExt.kt$val seconds = TimeUnit.MILLISECONDS.toSeconds(timeLeftAfterCalculations)</ID>

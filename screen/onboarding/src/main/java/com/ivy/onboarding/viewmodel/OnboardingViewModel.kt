@@ -12,7 +12,6 @@ import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
 import com.ivy.ui.ComposeViewModel
 import com.ivy.domain.usecase.exchange.SyncExchangeRatesUseCase
-import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.LogoutLogic
 import com.ivy.data.model.Category
 import com.ivy.data.repository.CategoryRepository
@@ -22,7 +21,6 @@ import com.ivy.legacy.datamodel.Settings
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.OpResult
 import com.ivy.legacy.utils.ioThread
-import com.ivy.legacy.utils.sendToCrashlytics
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.OnboardingScreen
 import com.ivy.onboarding.OnboardingDetailState
@@ -40,13 +38,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @Stable
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
-    private val ivyContext: IvyWalletCtx,
     private val nav: Navigation,
     private val accountDao: AccountDao,
     private val settingsDao: SettingsDao,
@@ -150,7 +146,6 @@ class OnboardingViewModel @Inject constructor(
                 is OnboardingEvent.ImportFinished -> importFinished(event.success)
                 OnboardingEvent.ImportSkip -> importSkip()
                 OnboardingEvent.LoginOfflineAccount -> loginOfflineAccount()
-                OnboardingEvent.LoginWithGoogle -> loginWithGoogle()
                 OnboardingEvent.OnAddAccountsDone -> onAddAccountsDone()
                 OnboardingEvent.OnAddAccountsSkip -> onAddAccountsSkip()
                 OnboardingEvent.OnAddCategoriesDone -> onAddCategoriesDone()
@@ -158,30 +153,6 @@ class OnboardingViewModel @Inject constructor(
                 is OnboardingEvent.SetBaseCurrency -> setBaseCurrency(event.baseCurrency)
                 OnboardingEvent.StartFresh -> startFresh()
                 OnboardingEvent.StartImport -> startImport()
-            }
-        }
-    }
-
-    // Step 1 ---------------------------------------------------------------------------------------
-    private suspend fun loginWithGoogle() {
-        ivyContext.googleSignIn { idToken ->
-            if (idToken != null) {
-                _opGoogleSignIn.value = OpResult.loading()
-                viewModelScope.launch {
-                    try {
-                        router.googleLoginNext()
-                        _opGoogleSignIn.value = null // reset login with Google operation state
-                    } catch (e: Exception) {
-                        e.sendToCrashlytics("GOOGLE_SIGN_IN ERROR: generic exception when logging with GOOGLE")
-                        e.printStackTrace()
-                        Timber.e("Login with Google failed on Ivy server - ${e.message}")
-                        _opGoogleSignIn.value = OpResult.failure(e)
-                    }
-                }
-            } else {
-                sendToCrashlytics("GOOGLE_SIGN_IN ERROR: idToken is null!!")
-                Timber.e("Login with Google failed while getting idToken")
-                _opGoogleSignIn.value = OpResult.faliure("Login with Google failed, try again.")
             }
         }
     }

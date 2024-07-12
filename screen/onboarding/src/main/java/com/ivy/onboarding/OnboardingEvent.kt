@@ -8,7 +8,6 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 
 sealed interface OnboardingEvent {
 
-    data object LoginWithGoogle : OnboardingEvent
     data object LoginOfflineAccount : OnboardingEvent
     data object StartImport : OnboardingEvent
     data object ImportSkip : OnboardingEvent

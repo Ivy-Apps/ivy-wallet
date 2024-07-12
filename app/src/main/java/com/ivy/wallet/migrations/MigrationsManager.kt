@@ -25,6 +25,7 @@ class MigrationsManager @Inject constructor(
         )
     }
 
+    @Suppress("TooGenericExceptionCaught", "PrintStackTrace", "MagicNumber")
     suspend fun executeMigrations() {
         delay(2_000L) // to not the make the app start slower
 

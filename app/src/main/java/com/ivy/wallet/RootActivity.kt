@@ -26,12 +26,6 @@ import androidx.compose.runtime.getValue
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -56,12 +50,12 @@ import com.ivy.widget.balance.WalletBalanceWidgetReceiver
 import com.ivy.widget.transaction.AddTransactionWidget
 import com.ivy.widget.transaction.AddTransactionWidgetCompact
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
 
 @AndroidEntryPoint
+@Suppress("TooManyFunctions")
 class RootActivity : AppCompatActivity(), RootScreen {
     @Inject
     lateinit var ivyContext: IvyWalletCtx
@@ -71,9 +65,6 @@ class RootActivity : AppCompatActivity(), RootScreen {
 
     @Inject
     lateinit var customerJourneyLogic: CustomerJourneyCardsProvider
-
-    private lateinit var googleSignInLauncher: ActivityResultLauncher<GoogleSignInClient>
-    private lateinit var onGoogleSignInIdTokenResult: (idToken: String?) -> Unit
 
     private lateinit var createFileLauncher: ActivityResultLauncher<String>
     private lateinit var onFileCreated: (fileUri: Uri) -> Unit
@@ -154,9 +145,9 @@ class RootActivity : AppCompatActivity(), RootScreen {
 
     private fun setupDatePicker() {
         ivyContext.onShowDatePicker = { minDate,
-                maxDate,
-                initialDate,
-                onDatePicked ->
+                                        maxDate,
+                                        initialDate,
+                                        onDatePicked ->
             val datePicker =
                 MaterialDatePicker.Builder.datePicker()
                     .setSelection(
@@ -203,51 +194,17 @@ class RootActivity : AppCompatActivity(), RootScreen {
                     .build()
             picker.show(supportFragmentManager, "timePicker")
             picker.addOnPositiveButtonClickListener {
-                onTimePicked(LocalTime.of(picker.hour, picker.minute).convertLocalToUTC().withSecond(0))
+                onTimePicked(
+                    LocalTime.of(picker.hour, picker.minute).convertLocalToUTC().withSecond(0)
+                )
             }
         }
     }
 
     private fun setupActivityForResultLaunchers() {
-        googleSignInLauncher()
-
         createFileLauncher()
 
         openFileLauncher()
-    }
-
-    private fun googleSignInLauncher() {
-        googleSignInLauncher = activityForResultLauncher(
-            createIntent = { _, client ->
-                client.signInIntent
-            }
-        ) { _, intent ->
-            try {
-                val task: Task<GoogleSignInAccount> =
-                    GoogleSignIn.getSignedInAccountFromIntent(intent)
-                val account: GoogleSignInAccount = task.getResult(ApiException::class.java)
-                val idToken = account.idToken
-                Timber.d("idToken = $idToken")
-
-                onGoogleSignInIdTokenResult(idToken)
-            } catch (e: ApiException) {
-                e.sendToCrashlytics("GOOGLE_SIGN_IN - registerGoogleSignInContract(): ApiException")
-                e.printStackTrace()
-                onGoogleSignInIdTokenResult(null)
-            }
-        }
-
-        ivyContext.googleSignIn = { idTokenResult: (String?) -> Unit ->
-            onGoogleSignInIdTokenResult = idTokenResult
-
-            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .requestProfile()
-                .requestIdToken("364763737033-t1d2qe7s0s8597k7anu3sb2nq79ot5tp.apps.googleusercontent.com")
-                .build()
-            val googleSignInClient = GoogleSignIn.getClient(this, gso)
-            googleSignInLauncher.launch(googleSignInClient)
-        }
     }
 
     private fun createFileLauncher() {
@@ -344,7 +301,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
             )
             .setAllowedAuthenticators(
                 BiometricManager.Authenticators.BIOMETRIC_WEAK or
-                    BiometricManager.Authenticators.DEVICE_CREDENTIAL
+                        BiometricManager.Authenticators.DEVICE_CREDENTIAL
             )
             .setConfirmationRequired(false)
             .build()
@@ -362,6 +319,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
         }
     }
 
+    @Suppress("TooGenericExceptionCaught", "PrintStackTrace")
     override fun openUrlInBrowser(url: String) {
         try {
             val browserIntent = Intent(Intent.ACTION_VIEW)
@@ -390,6 +348,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
         startActivity(share)
     }
 
+    @Suppress("SwallowedException")
     override fun openGooglePlayAppPage(appId: String) {
         try {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appId")))

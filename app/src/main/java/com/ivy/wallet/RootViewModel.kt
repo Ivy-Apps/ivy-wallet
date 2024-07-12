@@ -34,6 +34,7 @@ import java.util.concurrent.atomic.AtomicLong
 import javax.inject.Inject
 
 @HiltViewModel
+@Suppress("LongParameterList", "TooManyFunctions")
 class RootViewModel @Inject constructor(
     private val ivyContext: IvyWalletCtx,
     private val nav: Navigation,
@@ -103,6 +104,7 @@ class RootViewModel @Inject constructor(
         }
     }
 
+    @Suppress("SwallowedException")
     private fun handleSpecialStart(intent: Intent): Boolean {
         val addTrnType: TransactionType? = try {
             intent.getSerializableExtra(EXTRA_ADD_TRANSACTION_TYPE) as? TransactionType
@@ -125,6 +127,7 @@ class RootViewModel @Inject constructor(
         return false
     }
 
+    @Suppress("EmptyFunctionBlock")
     fun handleBiometricAuthResult(
         onAuthSuccess: () -> Unit = {}
     ): BiometricPrompt.AuthenticationCallback {
@@ -169,6 +172,7 @@ class RootViewModel @Inject constructor(
     private val userInactiveTime = AtomicLong(0)
     private var userInactiveJob: Job? = null
 
+    @Suppress("MagicNumber")
     fun startUserInactiveTimeCounter() {
         if (userInactiveJob != null && userInactiveJob!!.isActive) return
 
