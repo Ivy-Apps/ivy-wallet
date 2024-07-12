@@ -74,7 +74,7 @@ fun BoxWithConstraintsScope.AccountsTab() {
 }
 
 @Composable
-private fun BoxWithConstraintsScope.UI(
+internal fun BoxWithConstraintsScope.UI(
     state: AccountsState,
     onEvent: (AccountsEvent) -> Unit = {}
 ) {

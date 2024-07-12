@@ -1,9 +1,11 @@
 plugins {
     id("ivy.feature")
+    alias(libs.plugins.screenshot)
 }
 
 android {
     namespace = "com.ivy.piechart"
+    experimentalProperties["android.experimental.enableScreenshotTest"] = true
 }
 
 dependencies {
@@ -14,4 +16,6 @@ dependencies {
     implementation(projects.shared.ui.navigation)
     implementation(projects.temp.legacyCode)
     implementation(projects.temp.oldDesign)
+
+    screenshotTestImplementation(libs.androidx.compose.ui.tooling)
 }
