@@ -55,6 +55,7 @@ import java.time.LocalTime
 import javax.inject.Inject
 
 @AndroidEntryPoint
+@Suppress("TooManyFunctions")
 class RootActivity : AppCompatActivity(), RootScreen {
     @Inject
     lateinit var ivyContext: IvyWalletCtx
@@ -144,9 +145,9 @@ class RootActivity : AppCompatActivity(), RootScreen {
 
     private fun setupDatePicker() {
         ivyContext.onShowDatePicker = { minDate,
-                maxDate,
-                initialDate,
-                onDatePicked ->
+                                        maxDate,
+                                        initialDate,
+                                        onDatePicked ->
             val datePicker =
                 MaterialDatePicker.Builder.datePicker()
                     .setSelection(
@@ -193,7 +194,9 @@ class RootActivity : AppCompatActivity(), RootScreen {
                     .build()
             picker.show(supportFragmentManager, "timePicker")
             picker.addOnPositiveButtonClickListener {
-                onTimePicked(LocalTime.of(picker.hour, picker.minute).convertLocalToUTC().withSecond(0))
+                onTimePicked(
+                    LocalTime.of(picker.hour, picker.minute).convertLocalToUTC().withSecond(0)
+                )
             }
         }
     }
@@ -298,7 +301,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
             )
             .setAllowedAuthenticators(
                 BiometricManager.Authenticators.BIOMETRIC_WEAK or
-                    BiometricManager.Authenticators.DEVICE_CREDENTIAL
+                        BiometricManager.Authenticators.DEVICE_CREDENTIAL
             )
             .setConfirmationRequired(false)
             .build()
@@ -316,6 +319,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
         }
     }
 
+    @Suppress("TooGenericExceptionCaught,PrintStackTrace")
     override fun openUrlInBrowser(url: String) {
         try {
             val browserIntent = Intent(Intent.ACTION_VIEW)
@@ -344,6 +348,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
         startActivity(share)
     }
 
+    @Suppress("SwallowedException")
     override fun openGooglePlayAppPage(appId: String) {
         try {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appId")))
