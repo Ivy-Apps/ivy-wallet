@@ -26,8 +26,6 @@ import androidx.compose.runtime.getValue
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -52,7 +50,6 @@ import com.ivy.widget.balance.WalletBalanceWidgetReceiver
 import com.ivy.widget.transaction.AddTransactionWidget
 import com.ivy.widget.transaction.AddTransactionWidgetCompact
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
@@ -67,8 +64,6 @@ class RootActivity : AppCompatActivity(), RootScreen {
 
     @Inject
     lateinit var customerJourneyLogic: CustomerJourneyCardsProvider
-
-    private lateinit var onGoogleSignInIdTokenResult: (idToken: String?) -> Unit
 
     private lateinit var createFileLauncher: ActivityResultLauncher<String>
     private lateinit var onFileCreated: (fileUri: Uri) -> Unit
@@ -204,7 +199,6 @@ class RootActivity : AppCompatActivity(), RootScreen {
     }
 
     private fun setupActivityForResultLaunchers() {
-
         createFileLauncher()
 
         openFileLauncher()

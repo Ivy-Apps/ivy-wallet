@@ -22,7 +22,6 @@ import com.ivy.legacy.datamodel.Settings
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.OpResult
 import com.ivy.legacy.utils.ioThread
-import com.ivy.legacy.utils.sendToCrashlytics
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.OnboardingScreen
 import com.ivy.onboarding.OnboardingDetailState
@@ -40,13 +39,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @Stable
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
-    private val ivyContext: IvyWalletCtx,
     private val nav: Navigation,
     private val accountDao: AccountDao,
     private val settingsDao: SettingsDao,
