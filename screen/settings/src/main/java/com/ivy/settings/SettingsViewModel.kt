@@ -36,7 +36,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @Stable
 @SuppressLint("StaticFieldLeak")
 @HiltViewModel

@@ -141,6 +141,7 @@ fun BoxWithConstraintsScope.SettingsScreen() {
 
 @ExperimentalFoundationApi
 @Composable
+@Suppress("LongMethod")
 private fun BoxWithConstraintsScope.UI(
     currencyCode: String,
     theme: Theme,
@@ -166,7 +167,7 @@ private fun BoxWithConstraintsScope.UI(
     onDeleteAllUserData: () -> Unit = {},
     onDeleteCloudUserData: () -> Unit = {},
     onSwitchLanguage: () -> Unit = {}
-    ) {
+) {
     var currencyModalVisible by remember { mutableStateOf(false) }
     var nameModalVisible by remember { mutableStateOf(false) }
     var chooseStartDateOfMonthVisible by remember { mutableStateOf(false) }
@@ -304,7 +305,7 @@ private fun BoxWithConstraintsScope.UI(
 //
 //            Spacer(Modifier.height(12.dp))
 
-            if(languageOptionVisible) {
+            if (languageOptionVisible) {
                 SettingsDefaultButton(
                     icon = R.drawable.ic_vue_location_global,
                     text = stringResource(R.string.language),
