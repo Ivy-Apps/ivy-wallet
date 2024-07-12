@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.applocked
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -37,7 +38,9 @@ import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IvyButton
 
+@SuppressLint("ComposeModifierMissing")
 @Composable
+@Suppress("LongMethod", "FunctionNaming")
 fun BoxWithConstraintsScope.AppLockedScreen(
     onShowOSBiometricsModal: () -> Unit,
     onContinueWithoutAuthentication: () -> Unit
@@ -135,6 +138,7 @@ private fun osAuthentication(
 
 @Preview
 @Composable
+@Suppress("FunctionNaming", "UnusedPrivateMember")
 private fun Preview_Locked() {
     IvyWalletPreview {
         AppLockedScreen(

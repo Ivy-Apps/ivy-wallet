@@ -293,42 +293,6 @@ private fun LoginSection(
 }
 
 @Composable
-private fun LoginWithGoogleExplanation() {
-    Row(
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Spacer(Modifier.width(24.dp))
-
-        IvyIcon(
-            icon = R.drawable.ic_secure,
-            tint = Green
-        )
-
-        Spacer(Modifier.width(4.dp))
-
-        Column {
-            Text(
-                text = stringResource(R.string.sync_data_ivy_cloud),
-                style = UI.typo.c.style(
-                    color = Green,
-                    fontWeight = FontWeight.ExtraBold
-                )
-            )
-
-            Spacer(Modifier.height(2.dp))
-
-            Text(
-                text = stringResource(R.string.data_integrity_protection_warning),
-                style = UI.typo.c.style(
-                    color = UI.colors.pureInverse,
-                    fontWeight = FontWeight.Medium
-                )
-            )
-        }
-    }
-}
-
-@Composable
 private fun LocalAccountExplanation() {
     Text(
         modifier = Modifier.padding(start = 32.dp),

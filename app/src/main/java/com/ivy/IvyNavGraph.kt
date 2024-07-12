@@ -55,6 +55,7 @@ import com.ivy.transactions.TransactionsScreen
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @Composable
+@Suppress("CyclomaticComplexMethod", "FunctionNaming")
 fun BoxWithConstraintsScope.IvyNavGraph(screen: Screen?) {
     when (screen) {
         null -> {

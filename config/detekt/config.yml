@@ -509,12 +509,6 @@ style:
     active: false
     singleLine: 'never'
     multiLine: 'always'
-  # OptionalWhenBraces is the deprecated rule, use OptionalWhenBraces instead.
-  # Use it now because BracesOnWhenStatements doesn't work as expected
-  # https://github.com/detekt/detekt/issues/6377
-  # Delete OptionalWhenBraces rule config after detekt#6377 fix
-  OptionalWhenBraces:
-    active: false
   BracesOnWhenStatements:
     active: false
     singleLine: 'necessary'
