@@ -486,4 +486,5 @@
     <string name="import_csv_continue">Tiếp tục</string>
     <string name="warning_import_csv_file">"\n!!!⚠️CẢNH BÁO: Việc tải tệp lên có thể gây ra trùng lặp các giao dịch!!!\nGiao dịch trùng lặp KHÔNG thể dễ dàng xóa và bạn sẽ cần phải xóa từng giao dịch một cách thủ công!\nLý do: Chúng tôi không thể phân tích các ID giao dịch vì Ivy Wallet chỉ hoạt động với UUID và các ứng dụng khác không.\nNếu bạn chọn Bắt đầu, không cần lo lắng - vui lòng bỏ qua thông báo này.\n                    "</string>
     <string name="select_tags">Chọn thẻ</string>
+    <string name="language">Ngôn ngữ</string>
 </resources>

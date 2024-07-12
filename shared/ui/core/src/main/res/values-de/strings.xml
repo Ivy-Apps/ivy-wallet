@@ -487,4 +487,5 @@
     <string name="import_csv_continue">Fortsetzen</string>
     <string name="warning_import_csv_file">" !!!⚠️ACHTUNG: Ein Import kann zu doppelten Einträgen führen!!! Ivy Wallet kann diese NICHT automatisch entfernt und alle Einträge müssen manuell geprüft werden! Wenn du noch keine Einträge erfasst hast, kannst du diese Meldung ignorieren."</string>
     <string name="select_tags">Tags auswählen</string>
+    <string name="language">Sprache</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.ivy.settings
 
+import android.os.Build
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -73,6 +74,7 @@ import com.ivy.wallet.ui.theme.modal.CurrencyModal
 import com.ivy.wallet.ui.theme.modal.DeleteModal
 import com.ivy.wallet.ui.theme.modal.NameModal
 import com.ivy.wallet.ui.theme.modal.ProgressModal
+import java.util.Locale
 
 @ExperimentalFoundationApi
 @Composable
@@ -131,6 +133,9 @@ fun BoxWithConstraintsScope.SettingsScreen() {
         onDeleteCloudUserData = {
             viewModel.onEvent(SettingsEvent.DeleteCloudUserData)
         },
+        onSwitchLanguage = {
+            viewModel.onEvent(SettingsEvent.SwitchLanguage)
+        }
     )
 }
 
@@ -160,7 +165,7 @@ private fun BoxWithConstraintsScope.UI(
     onSetStartDateOfMonth: (Int) -> Unit = {},
     onDeleteAllUserData: () -> Unit = {},
     onDeleteCloudUserData: () -> Unit = {},
-
+    onSwitchLanguage: () -> Unit = {}
     ) {
     var currencyModalVisible by remember { mutableStateOf(false) }
     var nameModalVisible by remember { mutableStateOf(false) }
@@ -168,6 +173,9 @@ private fun BoxWithConstraintsScope.UI(
     var deleteCloudDataModalVisible by remember { mutableStateOf(false) }
     var deleteAllDataModalVisible by remember { mutableStateOf(false) }
     var deleteAllDataModalFinalVisible by remember { mutableStateOf(false) }
+    val languageOptionVisible by remember {
+        mutableStateOf(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+    }
     val nav = navigation()
 
     LazyColumn(
@@ -295,6 +303,18 @@ private fun BoxWithConstraintsScope.UI(
 //            }
 //
 //            Spacer(Modifier.height(12.dp))
+
+            if(languageOptionVisible) {
+                SettingsDefaultButton(
+                    icon = R.drawable.ic_vue_location_global,
+                    text = stringResource(R.string.language),
+                    description = Locale.getDefault().displayName
+                ) {
+                    onSwitchLanguage()
+                }
+
+                Spacer(Modifier.height(12.dp))
+            }
 
             SettingsDefaultButton(
                 icon = R.drawable.ic_currency,

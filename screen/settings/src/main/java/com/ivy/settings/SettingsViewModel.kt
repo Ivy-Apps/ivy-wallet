@@ -15,8 +15,8 @@ import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteSettingsDao
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.domain.RootScreen
-import com.ivy.domain.usecase.exchange.SyncExchangeRatesUseCase
 import com.ivy.domain.usecase.csv.ExportCsvUseCase
+import com.ivy.domain.usecase.exchange.SyncExchangeRatesUseCase
 import com.ivy.frp.monad.Res
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.LogoutLogic
@@ -26,6 +26,7 @@ import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.uiThread
 import com.ivy.ui.ComposeViewModel
+import com.ivy.ui.ViewModelEvent
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.action.global.UpdateStartDayOfMonthAct
 import com.ivy.wallet.domain.action.settings.SettingsAct
@@ -34,6 +35,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 @Stable
 @SuppressLint("StaticFieldLeak")
@@ -220,6 +222,7 @@ class SettingsViewModel @Inject constructor(
 
             SettingsEvent.DeleteCloudUserData -> deleteCloudUserData()
             SettingsEvent.DeleteAllUserData -> deleteAllUserData()
+            SettingsEvent.SwitchLanguage -> switchLanguage()
         }
     }
 
@@ -382,5 +385,9 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             logoutLogic.logout()
         }
+    }
+
+    private fun switchLanguage() {
+        postViewModelEvent(ViewModelEvent.StartLocaleActivity)
     }
 }

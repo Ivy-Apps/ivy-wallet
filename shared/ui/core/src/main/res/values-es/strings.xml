@@ -440,4 +440,5 @@
     <string name="total_balance">Total Balance</string>
     <string name="total_balance_excluded">Total Balance (excluido)</string>
     <string name="search_tags">Etiquetas de búsqueda</string>
+    <string name="language">Idioma</string>
 </resources>
