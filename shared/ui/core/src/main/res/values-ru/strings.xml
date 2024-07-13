@@ -440,4 +440,5 @@
     <string name="total_balance">Итого БАЛАНС</string>
     <string name="total_balance_excluded">Итого БАЛАНС (исключенный)</string>
     <string name="search_tags">Теги поиска</string>
+    <string name="language">Язык</string>
 </resources>

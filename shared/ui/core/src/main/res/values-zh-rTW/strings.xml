@@ -489,4 +489,5 @@
     <string name="warning_import_csv_file">"\n!!!⚠️警告: 導入可能會重複交易!!!\n重複的交易無法輕易刪除，您需要手動刪除其中的每一項!\n原因: 我們無法解析交易 ID，因為 Ivy 錢包僅適用於 UUID，而其他應用程式則不能。\n如果您剛開始，不用擔心 -請忽略此訊息。"</string>
     <string name="select_tags">選擇標籤</string>
     <string name="bill_paid">您的 %1$s %2$s 帳單已支付</string>
+    <string name="language">语言</string>
 </resources>

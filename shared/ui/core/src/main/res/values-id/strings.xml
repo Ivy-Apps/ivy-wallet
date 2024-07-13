@@ -443,4 +443,5 @@
     <string name="total_balance">Total dompet</string>
     <string name="total_balance_excluded">Total dompet (tidak termasuk)</string>
     <string name="search_tags">Tag Pencarian</string>
+    <string name="language">Bahasa</string>
 </resources>

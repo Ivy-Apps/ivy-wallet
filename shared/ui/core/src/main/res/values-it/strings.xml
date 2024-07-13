@@ -480,4 +480,5 @@
     <string name="your_data_will_be_saved_only_locally">I tuoi dati saranno salvati localmente sul tuo dispositivo. Rischi di perdere i tuoi dati se disinstalli l\'app o se cambi dispositivo. Per prevenire perdite di dati, raccomandiamo di esportare regolarmente un backup dalle impostazioni.</string>
     <string name="you_owe">Sei in debito di: %1$s</string>
     <string name="you_are_owed">Ti sono dovuti %1$s</string>
+    <string name="language">Lingua</string>
 </resources>

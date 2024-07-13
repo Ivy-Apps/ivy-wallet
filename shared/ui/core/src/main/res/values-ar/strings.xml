@@ -440,4 +440,5 @@
     <string name="total_balance">المجموع المحفظة</string>
     <string name="total_balance_excluded">المجموع المحفظة(مستبعد)</string>
     <string name="search_tags">وسوم البحث</string>
+    <string name="language">لغة</string>
 </resources>
