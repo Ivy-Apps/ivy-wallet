@@ -29,5 +29,5 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Run Paparazzi screenshot tests
+      - name: Run Compose preview screenshot tests
         run: ./gradlew validateDebugScreenshotTest
