@@ -30,4 +30,4 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Run Paparazzi screenshot tests
-        run: ./gradlew verifyPaparazziDebug
+        run: ./gradlew validateDebugScreenshotTest
