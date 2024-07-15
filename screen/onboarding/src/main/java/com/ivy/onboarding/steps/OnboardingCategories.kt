@@ -33,6 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.base.legacy.Theme
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
@@ -54,6 +55,7 @@ import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.IvyDark
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.OrangeLight
+import com.ivy.wallet.ui.theme.Purple1Dark
 import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.RedLight
 import com.ivy.wallet.ui.theme.White
@@ -76,7 +78,7 @@ fun BoxWithConstraintsScope.OnboardingCategories(
     onEditCategory: (Category) -> Unit = { _ -> },
 
     onSkip: () -> Unit = {},
-    onDoneClick: () -> Unit = {}
+    onDoneClick: () -> Unit = {},
 ) {
     var categoryModalData: CategoryModalData? by remember { mutableStateOf(null) }
 
@@ -213,7 +215,7 @@ fun BoxWithConstraintsScope.OnboardingCategories(
 @Composable
 private fun Categories(
     categories: List<Category>,
-    onClick: (Category) -> Unit
+    onClick: (Category) -> Unit,
 ) {
     for (category in categories) {
         CategoryCard(
@@ -229,7 +231,7 @@ private fun Categories(
 @Composable
 private fun CategoryCard(
     category: Category,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     val categoryColor = category.color.value.toComposeColor()
 
@@ -273,8 +275,8 @@ private fun CategoryCard(
 @ExperimentalFoundationApi
 @Preview
 @Composable
-private fun Preview_Empty() {
-    IvyWalletPreview {
+private fun OnboardingCategoriesEmpty(theme: Theme = Theme.LIGHT) {
+    IvyWalletPreview(theme) {
         OnboardingCategories(
             suggestions = listOf(
                 CreateCategoryData(
@@ -339,8 +341,8 @@ private fun Preview_Empty() {
 @ExperimentalFoundationApi
 @Preview
 @Composable
-private fun Preview_Categories() {
-    IvyWalletPreview {
+private fun OnboardingCategoriesNotEmpty(theme: Theme = Theme.LIGHT) {
+    IvyWalletPreview(theme) {
         OnboardingCategories(
             suggestions = listOf(
                 CreateCategoryData(
@@ -399,87 +401,34 @@ private fun Preview_Categories() {
             ),
             categories = listOf(
                 Category(
-                    name = NotBlankTrimmedString.unsafe("Food & Drinks"),
-                    color = ColorInt(Orange.toArgb()),
-                    icon = IconAsset.unsafe("fooddrinks"),
+                    name = NotBlankTrimmedString.unsafe("Science"),
+                    color = ColorInt(Purple1Dark.toArgb()),
+                    icon = IconAsset.unsafe("atom"),
                     id = CategoryId(UUID.randomUUID()),
                     orderNum = 0.0,
-                )
+                ),
+                Category(
+                    id = CategoryId(UUID.randomUUID()),
+                    name = NotBlankTrimmedString.unsafe("Ivy"),
+                    color = ColorInt(IvyDark.toArgb()),
+                    icon = IconAsset.unsafe("star"),
+                    orderNum = 0.0,
+                ),
             )
         )
     }
 }
 
-@ExperimentalFoundationApi
-@Preview
+/** For screenshot testing */
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun Preview_Premium() {
-    IvyWalletPreview {
-        OnboardingCategories(
-            suggestions = listOf(
-                CreateCategoryData(
-                    name = "Food & Drinks",
-                    color = Green,
-                    icon = "fooddrink"
-                ),
-
-                CreateCategoryData(
-                    name = "Bills & Fees",
-                    color = Red,
-                    icon = "bills"
-                ),
-
-                CreateCategoryData(
-                    name = "Transport",
-                    color = OrangeLight,
-                    icon = "transport"
-                ),
-
-                CreateCategoryData(
-                    name = "Groceries",
-                    color = Color(0xFF75ff4d),
-                    icon = "groceries"
-                ),
-
-                CreateCategoryData(
-                    name = "Entertainment",
-                    color = Orange,
-                    icon = "game"
-                ),
-
-                CreateCategoryData(
-                    name = "Shopping",
-                    color = Ivy,
-                    icon = "shopping"
-                ),
-
-                CreateCategoryData(
-                    name = "Gifts",
-                    color = RedLight,
-                    icon = "gift"
-                ),
-
-                CreateCategoryData(
-                    name = "Health",
-                    color = Color(0xFF4dfff3),
-                    icon = "health"
-                ),
-
-                CreateCategoryData(
-                    name = "Investments",
-                    color = Color(0xFF1e5166),
-                    icon = "leaf"
-                ),
-            ),
-            categories = List(12) {
-                Category(
-                    name = NotBlankTrimmedString.unsafe("Food & Drinks"),
-                    color = ColorInt(Orange.toArgb()),
-                    icon = IconAsset.unsafe("fooddrinks"),
-                    id = CategoryId(UUID.randomUUID()),
-                    orderNum = 0.0,
-                )
-            }
-        )
+fun OnboardingCategoriesUiTest(isDark: Boolean, isEmptyState: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
     }
+    if (isEmptyState) {
+        OnboardingCategoriesEmpty(theme)
+    } else
+        OnboardingCategoriesNotEmpty(theme)
 }

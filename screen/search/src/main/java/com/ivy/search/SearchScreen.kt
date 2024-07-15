@@ -21,7 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.legacy.Theme
-import com.ivy.design.utils.IvyComponentPreview
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.AppBaseData
 import com.ivy.legacy.ui.SearchInput
 import com.ivy.legacy.ui.component.transaction.transactions
@@ -29,7 +29,6 @@ import com.ivy.legacy.utils.densityScope
 import com.ivy.legacy.utils.keyboardOnlyWindowInsets
 import com.ivy.legacy.utils.keyboardVisibleState
 import com.ivy.legacy.utils.selectEndTextFieldValue
-import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.SearchScreen
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
@@ -50,7 +49,7 @@ fun SearchScreen(screen: SearchScreen) {
 @Composable
 private fun SearchUi(
     uiState: SearchState,
-    onEvent: (SearchEvent) -> Unit
+    onEvent: (SearchEvent) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -125,8 +124,8 @@ private fun SearchUi(
 
 @Preview
 @Composable
-private fun Preview(isDark: Boolean = false) {
-    IvyPreview(isDark) {
+private fun SearchScreenPreview(theme: Theme = Theme.LIGHT) {
+    IvyWalletPreview(theme) {
         SearchUi(
             uiState = SearchState(
                 searchQuery = "Transaction",
@@ -141,11 +140,8 @@ private fun Preview(isDark: Boolean = false) {
 }
 
 /** For screenshot testing */
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SearchUiTest(isDark: Boolean) {
     val theme = if (isDark) Theme.DARK else Theme.LIGHT
-    IvyComponentPreview(theme = theme) {
-        Preview(isDark)
-    }
+    SearchScreenPreview(theme)
 }

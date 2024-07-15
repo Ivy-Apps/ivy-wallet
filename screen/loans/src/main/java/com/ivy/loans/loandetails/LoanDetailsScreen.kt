@@ -38,6 +38,7 @@ import com.ivy.base.model.LoanRecordType
 import com.ivy.base.model.TransactionType
 import com.ivy.base.model.processByType
 import com.ivy.data.model.LoanType
+import com.ivy.design.l0_system.BlueLight
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
@@ -859,7 +860,7 @@ private fun Preview_Empty() {
                 loan = Loan(
                     name = "Loan 1",
                     amount = 4023.54,
-                    color = Red.toArgb(),
+                    color = BlueLight.toArgb(),
                     type = LoanType.LEND,
                     dateTime = LocalDateTime.now()
                 ),
@@ -892,7 +893,7 @@ private fun Preview_Records(theme: Theme = Theme.LIGHT) {
                 loan = Loan(
                     name = "Loan 1",
                     amount = 4023.54,
-                    color = Red.toArgb(),
+                    color = BlueLight.toArgb(),
                     type = LoanType.LEND,
                     dateTime = testDateTime,
                 ),

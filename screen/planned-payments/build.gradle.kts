@@ -17,5 +17,5 @@ dependencies {
     implementation(projects.temp.legacyCode)
     implementation(projects.temp.oldDesign)
 
-    screenshotTestImplementation(libs.androidx.compose.ui.tooling)
+    screenshotTestImplementation(projects.shared.ui.testing)
 }

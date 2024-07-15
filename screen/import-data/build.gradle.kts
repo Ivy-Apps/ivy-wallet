@@ -19,5 +19,5 @@ dependencies {
     implementation(projects.temp.oldDesign)
 
     implementation(libs.bundles.opencsv)
-    screenshotTestImplementation(libs.androidx.compose.ui.tooling)
+    screenshotTestImplementation(projects.shared.ui.testing)
 }

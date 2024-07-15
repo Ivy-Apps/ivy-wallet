@@ -33,6 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.base.legacy.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
@@ -73,7 +74,7 @@ fun BoxWithConstraintsScope.OnboardingAccounts(
     onEditAccount: (Account, Double) -> Unit = { _, _ -> },
 
     onSkip: () -> Unit = {},
-    onDoneClick: () -> Unit = {}
+    onDoneClick: () -> Unit = {},
 ) {
     var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
 
@@ -217,7 +218,7 @@ fun BoxWithConstraintsScope.OnboardingAccounts(
 private fun Accounts(
     baseCurrency: String,
     accounts: List<AccountBalance>,
-    onClick: (AccountBalance) -> Unit
+    onClick: (AccountBalance) -> Unit,
 ) {
     for (account in accounts) {
         AccountCard(
@@ -235,7 +236,7 @@ private fun Accounts(
 private fun AccountCard(
     baseCurrency: String,
     accountBalance: AccountBalance,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     val account = accountBalance.account
     val accountColor = account.color.toComposeColor()
@@ -289,8 +290,8 @@ private fun AccountCard(
 @ExperimentalFoundationApi
 @Preview
 @Composable
-private fun Preview_Empty() {
-    IvyWalletPreview {
+private fun OnboardingAccountEmpty(theme: Theme = Theme.LIGHT) {
+    IvyWalletPreview(theme) {
         val baseCurrency = "BGN"
         OnboardingAccounts(
             baseCurrency = baseCurrency,
@@ -325,53 +326,8 @@ private fun Preview_Empty() {
 @ExperimentalFoundationApi
 @Preview
 @Composable
-private fun Preview_Accounts() {
-    IvyWalletPreview {
-        val baseCurrency = "BGN"
-        OnboardingAccounts(
-            baseCurrency = baseCurrency,
-            suggestions = listOf(
-                CreateAccountData(
-                    name = "Cash",
-                    currency = baseCurrency,
-                    color = Green,
-                    icon = "cash",
-                    balance = 0.0
-                ),
-                CreateAccountData(
-                    name = "Bank",
-                    currency = baseCurrency,
-                    color = Ivy,
-                    icon = "bank",
-                    balance = 0.0
-                ),
-                CreateAccountData(
-                    name = "Revolut",
-                    currency = baseCurrency,
-                    color = Color(0xFF4DCAFF),
-                    icon = "revolut",
-                    balance = 0.0
-                ),
-            ),
-            accounts = listOf(
-                AccountBalance(
-                    account = Account(
-                        name = "Cash",
-                        color = Green.toArgb(),
-                        icon = "cash"
-                    ),
-                    balance = 0.0
-                )
-            )
-        )
-    }
-}
-
-@ExperimentalFoundationApi
-@Preview
-@Composable
-private fun Preview_Premium() {
-    IvyWalletPreview {
+private fun OnboardingAccountNotEmpty(theme: Theme = Theme.LIGHT) {
+    IvyWalletPreview(theme) {
         val baseCurrency = "BGN"
         OnboardingAccounts(
             baseCurrency = baseCurrency,
@@ -426,4 +382,20 @@ private fun Preview_Premium() {
             )
         )
     }
+}
+
+/** For screenshot testing */
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun OnboardingAccountUiTest(isDark: Boolean, isEmptyState: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    if (isEmptyState) {
+        OnboardingAccountEmpty(theme)
+    } else {
+        OnboardingAccountNotEmpty(theme)
+    }
+
 }

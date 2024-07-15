@@ -46,7 +46,6 @@ import com.ivy.legacy.ui.component.transaction.transactions
 import com.ivy.legacy.utils.horizontalSwipeListener
 import com.ivy.legacy.utils.rememberSwipeListenerState
 import com.ivy.legacy.utils.verticalSwipeListener
-import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
 import com.ivy.ui.rememberScrollPositionListState
@@ -307,7 +306,7 @@ fun HomeLazyColumn(
     onHiddenIncomeClick: () -> Unit,
     onSkipTransaction: (Transaction) -> Unit,
     onSkipAllTransactions: (List<Transaction>) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val ivyContext = ivyWalletCtx()
 
@@ -316,7 +315,7 @@ fun HomeLazyColumn(
             override fun onPostScroll(
                 consumed: Offset,
                 available: Offset,
-                source: NestedScrollSource
+                source: NestedScrollSource,
             ): Offset {
                 onSetExpand(listState.firstVisibleItemScrollOffset == 0)
                 return super.onPostScroll(consumed, available, source)
@@ -385,11 +384,11 @@ fun HomeLazyColumn(
 @ExperimentalFoundationApi
 @Preview
 @Composable
-private fun BoxWithConstraintsScope.PreviewHomeTab(isDark: Boolean = false) {
-    IvyPreview(isDark) {
+private fun PreviewHomeTab(theme: Theme = Theme.LIGHT) {
+    IvyWalletPreview(theme) {
         HomeUi(
             uiState = HomeState(
-                theme = Theme.AUTO,
+                theme = theme,
                 name = "",
                 baseData = AppBaseData(
                     baseCurrency = "",
@@ -432,7 +431,5 @@ fun HomeUiTest(isDark: Boolean) {
         true -> Theme.DARK
         false -> Theme.LIGHT
     }
-    IvyWalletPreview(theme) {
-        PreviewHomeTab(isDark)
-    }
+    PreviewHomeTab(theme)
 }

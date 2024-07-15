@@ -64,7 +64,7 @@ private fun BoxWithConstraintsScope.UI(
     categorySuggestions: ImmutableList<CreateCategoryData>,
     categories: ImmutableList<Category>,
 
-    onEvent: (OnboardingEvent) -> Unit = {}
+    onEvent: (OnboardingEvent) -> Unit = {},
 ) {
     when (onboardingState) {
         OnboardingState.SPLASH, OnboardingState.LOGIN -> {

@@ -16,5 +16,5 @@ dependencies {
 
     implementation(libs.bundles.ktor)
 
-    screenshotTestImplementation(libs.androidx.compose.ui.tooling)
+    screenshotTestImplementation(projects.shared.ui.testing)
 }

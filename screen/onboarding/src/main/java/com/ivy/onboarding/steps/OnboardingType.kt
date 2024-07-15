@@ -20,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.base.legacy.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
@@ -136,11 +137,20 @@ fun OnboardingType(
 
 @Preview
 @Composable
-private fun Preview() {
+private fun OnboardingImportCSVFile(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview {
         OnboardingType(
             onStartImport = {}
         ) {
         }
     }
+}
+
+@Composable
+fun OnboardingImportCSVFileUiTest(isDark: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    OnboardingImportCSVFile(theme)
 }

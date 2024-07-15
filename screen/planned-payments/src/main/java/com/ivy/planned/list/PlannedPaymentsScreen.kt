@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.base.legacy.Theme
 import com.ivy.base.model.TransactionType
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
@@ -50,7 +51,7 @@ fun BoxWithConstraintsScope.PlannedPaymentsScreen(screen: PlannedPaymentsScreen)
 @Composable
 private fun BoxWithConstraintsScope.UI(
     state: PlannedPaymentsScreenState,
-    onEvent: (PlannedPaymentsScreenEvent) -> Unit = {}
+    onEvent: (PlannedPaymentsScreenEvent) -> Unit = {},
 ) {
     PlannedPaymentsLazyColumn(
         Header = {
@@ -105,8 +106,8 @@ private fun BoxWithConstraintsScope.UI(
 
 @Preview
 @Composable
-private fun Preview() {
-    IvyWalletPreview {
+private fun PlannedPaymentsScreenPreview(theme: Theme = Theme.LIGHT) {
+    IvyWalletPreview(theme) {
         val account = Account(name = "Cash", Green.toArgb())
         val food = Category(
             name = NotBlankTrimmedString.unsafe("Food"),
@@ -163,4 +164,14 @@ private fun Preview() {
             )
         )
     }
+}
+
+/** For screenshot testing */
+@Composable
+fun PlannedPaymentScreenUiTest(isDark: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    PlannedPaymentsScreenPreview(theme)
 }

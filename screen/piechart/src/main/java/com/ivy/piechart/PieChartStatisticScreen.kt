@@ -38,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ivy.base.legacy.Theme
 import com.ivy.base.model.TransactionType
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
@@ -47,6 +48,8 @@ import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.utils.thenIf
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.horizontalSwipeListener
@@ -465,11 +468,11 @@ private fun PercentText(
 @ExperimentalFoundationApi
 @Preview
 @Composable
-private fun Preview_Expense() {
-    com.ivy.legacy.IvyWalletPreview {
+private fun PieChartExpensePreview(theme : Theme = Theme.LIGHT) {
+    IvyWalletPreview(theme) {
         val state = PieChartStatisticState(
             transactionType = TransactionType.EXPENSE,
-            period = com.ivy.legacy.data.model.TimePeriod.currentMonth(
+            period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
             ), // preview
             baseCurrency = "BGN",
@@ -553,93 +556,14 @@ private fun Preview_Expense() {
     }
 }
 
-@ExperimentalFoundationApi
-@Preview
+/** For screenshot testing */
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun Preview_Income() {
-    com.ivy.legacy.IvyWalletPreview {
-        val state = PieChartStatisticState(
-            transactionType = TransactionType.INCOME,
-            period = com.ivy.legacy.data.model.TimePeriod.currentMonth(
-                startDayOfMonth = 1
-            ), // preview
-            baseCurrency = "BGN",
-            totalAmount = 1828.0,
-            categoryAmounts = persistentListOf(
-                CategoryAmount(
-                    category = Category(
-                        name = NotBlankTrimmedString.unsafe("Bills"),
-                        color = ColorInt(Green.toArgb()),
-                        icon = IconAsset.unsafe("bills"),
-                        id = CategoryId(UUID.randomUUID()),
-                        orderNum = 0.0,
-                    ),
-                    amount = 791.0
-                ),
-                CategoryAmount(
-                    category = null,
-                    amount = 497.0,
-                    isCategoryUnspecified = true
-                ),
-                CategoryAmount(
-                    category = Category(
-                        name = NotBlankTrimmedString.unsafe("Shisha"),
-                        color = ColorInt(Orange.toArgb()),
-                        icon = IconAsset.unsafe("trees"),
-                        id = CategoryId(UUID.randomUUID()),
-                        orderNum = 0.0,
-                    ),
-                    amount = 411.93
-                ),
-                CategoryAmount(
-                    category = Category(
-                        name = NotBlankTrimmedString.unsafe("Food & Drink"),
-                        color = ColorInt(IvyDark.toArgb()),
-                        icon = null,
-                        id = CategoryId(UUID.randomUUID()),
-                        orderNum = 0.0,
-                    ),
-                    amount = 260.03
-                ),
-                CategoryAmount(
-                    category = Category(
-                        name = NotBlankTrimmedString.unsafe("Gifts"),
-                        color = ColorInt(RedLight.toArgb()),
-                        icon = null,
-                        id = CategoryId(UUID.randomUUID()),
-                        orderNum = 0.0,
-                    ),
-                    amount = 160.0
-                ),
-                CategoryAmount(
-                    category = Category(
-                        name = NotBlankTrimmedString.unsafe("Clothes & Jewelery Fancy"),
-                        color = ColorInt(Red.toArgb()),
-                        icon = null,
-                        id = CategoryId(UUID.randomUUID()),
-                        orderNum = 0.0,
-                    ),
-                    amount = 2.0
-                ),
-                CategoryAmount(
-                    category = Category(
-                        name = NotBlankTrimmedString.unsafe("Finances, Burocracy & Governance"),
-                        color = ColorInt(IvyLight.toArgb()),
-                        icon = IconAsset.unsafe("work"),
-                        id = CategoryId(UUID.randomUUID()),
-                        orderNum = 0.0,
-                    ),
-                    amount = 2.0
-                ),
-            ),
-            selectedCategory = null,
-            accountIdFilterList = persistentListOf(),
-            choosePeriodModal = null,
-            filterExcluded = false,
-            showCloseButtonOnly = false,
-            transactions = persistentListOf()
-        )
-
-        UI(state = state)
+fun PieChartStatisticScreenUiTest(isDark: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
     }
+    PieChartExpensePreview(theme)
 }
+

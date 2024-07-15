@@ -117,7 +117,7 @@ private fun BoxWithConstraintsScope.UI(
         }
     ) {
         Text(
-            modifier = Modifier.padding(vertical = 16.dp),
+            modifier = Modifier.padding(vertical = 8.dp, horizontal = 8.dp),
             text = "Add rate",
             style = UI.typo.b1.style(
                 color = White

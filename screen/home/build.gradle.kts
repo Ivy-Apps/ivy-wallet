@@ -19,5 +19,5 @@ dependencies {
     implementation(projects.widget.addTransaction)
 
     testImplementation(projects.shared.ui.testing)
-    screenshotTestImplementation(libs.androidx.compose.ui.tooling)
+    screenshotTestImplementation(projects.shared.ui.testing)
 }

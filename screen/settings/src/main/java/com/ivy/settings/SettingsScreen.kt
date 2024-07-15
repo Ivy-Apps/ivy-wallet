@@ -43,6 +43,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IconScale
 import com.ivy.design.l1_buildingBlocks.IvyIconScaled
 import com.ivy.design.utils.thenIf
+import com.ivy.domain.RootScreen
 import com.ivy.legacy.Constants
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.rootScreen
@@ -150,6 +151,7 @@ private fun BoxWithConstraintsScope.UI(
     nameLocalAccount: String?,
     languageOptionVisible: Boolean,
     onSetCurrency: (String) -> Unit,
+    rootScreen: RootScreen = rootScreen(),
     startDateOfMonth: Int = 1,
     showNotifications: Boolean = true,
     hideCurrentBalance: Boolean = false,
@@ -190,7 +192,6 @@ private fun BoxWithConstraintsScope.UI(
             ) {
                 Spacer(Modifier.weight(1f))
 
-                val rootScreen = rootScreen()
                 Text(
                     modifier = Modifier.clickable {
                         nav.navigateTo(ReleasesScreen)
@@ -570,7 +571,7 @@ private fun BoxWithConstraintsScope.UI(
 @Composable
 private fun StartDateOfMonth(
     startDateOfMonth: Int,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     SettingsButtonRow(
         onClick = onClick
@@ -647,7 +648,7 @@ private fun ReportBug() {
 
 @Composable
 private fun RequestFeature(
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     SettingsDefaultButton(
         icon = R.drawable.ic_custom_programming_m,
@@ -707,7 +708,7 @@ private fun Attributions() {
 private fun AppThemeButton(
     @DrawableRes icon: Int,
     label: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     SettingsPrimaryButton(
         icon = icon,
@@ -781,7 +782,7 @@ private fun AppSwitch(
 @Composable
 private fun AccountCard(
     nameLocalAccount: String?,
-    onCardClick: () -> Unit
+    onCardClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -825,7 +826,7 @@ private fun AccountCard(
 
 @Composable
 private fun AccountCardLocalAccount(
-    name: String?
+    name: String?,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -855,7 +856,7 @@ private fun AccountCardLocalAccount(
 
 @Composable
 private fun ExportCSV(
-    onExportToCSV: () -> Unit
+    onExportToCSV: () -> Unit,
 ) {
     SettingsDefaultButton(
         icon = R.drawable.ic_vue_pc_printer,
@@ -927,7 +928,7 @@ private fun SettingsPrimaryButton(
     textColor: Color = White,
     iconPadding: Dp = 0.dp,
     description: String? = null,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     SettingsButtonRow(
         hasShadow = hasShadow,
@@ -976,7 +977,7 @@ private fun SettingsButtonRow(
     onClick: (() -> Unit)?,
     hasShadow: Boolean = false,
     backgroundGradient: Gradient = Gradient.solid(UI.colors.medium),
-    content: @Composable RowScope.() -> Unit
+    content: @Composable RowScope.() -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -1002,7 +1003,7 @@ private fun SettingsButtonRow(
 private fun AccountCardButton(
     @DrawableRes icon: Int,
     text: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -1039,7 +1040,7 @@ private fun AccountCardButton(
 @Composable
 private fun CurrencyButton(
     currency: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -1095,7 +1096,7 @@ private fun CurrencyButton(
 @Composable
 private fun SettingsSectionDivider(
     text: String,
-    color: Color = Gray
+    color: Color = Gray,
 ) {
     Column {
         Spacer(Modifier.height(32.dp))
@@ -1134,15 +1135,23 @@ private fun SettingsDefaultButton(
 @ExperimentalFoundationApi
 @Preview
 @Composable
-private fun Preview(theme: Theme = Theme.LIGHT) {
+private fun SettingsScreenPreview(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme) {
         UI(
-            nameLocalAccount = null,
-            theme = Theme.AUTO,
+            currencyCode = "USD",
+            theme = theme,
             onSwitchTheme = {},
             lockApp = false,
-            currencyCode = "BGN",
-            onSetCurrency = {},
+            nameLocalAccount = "Ivy",
+            startDateOfMonth = 1,
+            showNotifications = true,
+            hideCurrentBalance = false,
+            hideIncome = false,
+            progressState = false,
+            treatTransfersAsIncomeExpense = false,
+            onSetCurrency = {
+
+            },
             languageOptionVisible = true
         )
     }
@@ -1156,5 +1165,5 @@ fun SettingsUiTest(isDark: Boolean) {
         true -> Theme.DARK
         false -> Theme.LIGHT
     }
-    Preview(theme)
+    SettingsScreenPreview(theme)
 }

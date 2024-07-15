@@ -159,7 +159,7 @@ private fun AttributionsSectionDivider(
 @Preview
 @Composable
 private fun AttributionsUIPreview(isDark: Boolean = false) {
-    val attributionItems = persistentListOf<AttributionItem>(
+    val attributionItems = persistentListOf(
         AttributionItem.Divider(sectionName = stringResource(R.string.icons)),
         AttributionItem.Attribution(name = "iconsax", link = "https://iconsax.io"),
         AttributionItem.Attribution(

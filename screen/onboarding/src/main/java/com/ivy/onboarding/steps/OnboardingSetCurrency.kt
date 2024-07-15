@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.base.legacy.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
@@ -38,7 +39,7 @@ import com.ivy.wallet.ui.theme.components.OnboardingButton
 @Composable
 fun BoxWithConstraintsScope.OnboardingSetCurrency(
     preselectedCurrency: IvyCurrency,
-    onSetCurrency: (IvyCurrency) -> Unit
+    onSetCurrency: (IvyCurrency) -> Unit,
 ) {
     setStatusBarDarkTextCompat(darkText = UI.colors.isLight)
 
@@ -116,11 +117,21 @@ fun BoxWithConstraintsScope.OnboardingSetCurrency(
 
 @Preview
 @Composable
-private fun Preview() {
-    IvyWalletPreview {
+private fun OnboardingSetCurrencyPreview(theme: Theme = Theme.LIGHT) {
+    IvyWalletPreview(theme) {
         OnboardingSetCurrency(
             preselectedCurrency = IvyCurrency.getDefault()
         ) {
         }
     }
+}
+
+/** For screenshot testing */
+@Composable
+fun OnboardingSetCurrencyUiTest(isDark: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    OnboardingSetCurrencyPreview(theme)
 }

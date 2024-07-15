@@ -44,22 +44,21 @@ import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.rootView
 import com.ivy.legacy.ui.component.edit.TransactionDateTime
+import com.ivy.legacy.ui.component.edit.core.Description
 import com.ivy.legacy.ui.component.tags.AddTagButton
 import com.ivy.legacy.ui.component.tags.ShowTagModal
 import com.ivy.legacy.utils.convertUTCtoLocal
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.EditTransactionScreen
-import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
 import com.ivy.wallet.domain.data.CustomExchangeRateState
+import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.edit.core.Category
-import com.ivy.legacy.ui.component.edit.core.Description
-import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.ui.edit.core.DueDate
 import com.ivy.wallet.ui.edit.core.EditBottomSheet
 import com.ivy.wallet.ui.edit.core.Title
@@ -655,7 +654,7 @@ private fun shouldFocusCategory(
 
 private fun shouldFocusTitle(
     titleTextFieldValue: TextFieldValue,
-    type: TransactionType
+    type: TransactionType,
 ): Boolean = titleTextFieldValue.text.isBlank() && type != TransactionType.TRANSFER
 
 private fun shouldFocusAmount(amount: Double) = amount == 0.0
@@ -666,8 +665,8 @@ private val testDateTime = LocalDateTime.of(2023, 4, 27, 0, 35)
 @ExperimentalFoundationApi
 @Preview
 @Composable
-private fun BoxWithConstraintsScope.Preview(isDark: Boolean = false) {
-    IvyPreview(isDark) {
+private fun EditTransactionScreenPreview(theme: Theme = Theme.LIGHT) {
+    IvyWalletPreview(theme) {
         UI(
             screen = EditTransactionScreen(null, TransactionType.EXPENSE),
             initialTitle = "",
@@ -712,14 +711,12 @@ private fun BoxWithConstraintsScope.Preview(isDark: Boolean = false) {
 }
 
 /** For screenshot testing */
-@OptIn(ExperimentalFoundationApi::class)
+@ExperimentalFoundationApi
 @Composable
 fun EditTransactionScreenUiTest(isDark: Boolean) {
     val theme = when (isDark) {
         true -> Theme.DARK
         false -> Theme.LIGHT
     }
-    IvyWalletPreview(theme) {
-        Preview(isDark)
-    }
+    EditTransactionScreenPreview(theme = theme)
 }

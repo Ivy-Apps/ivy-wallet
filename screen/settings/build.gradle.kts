@@ -1,11 +1,9 @@
 plugins {
     id("ivy.feature")
-    alias(libs.plugins.screenshot)
 }
 
 android {
     namespace = "com.ivy.settings"
-    experimentalProperties["android.experimental.enableScreenshotTest"] = true
 }
 
 dependencies {
@@ -17,7 +15,5 @@ dependencies {
     implementation(projects.temp.legacyCode)
     implementation(projects.temp.oldDesign)
     implementation(projects.widget.balance)
-
     testImplementation(projects.shared.ui.testing)
-    screenshotTestImplementation(libs.androidx.compose.ui.tooling)
 }

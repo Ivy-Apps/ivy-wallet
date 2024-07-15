@@ -14,5 +14,5 @@ dependencies {
     implementation(projects.shared.ui.core)
     implementation(projects.shared.ui.core)
     implementation(projects.shared.ui.navigation)
-    screenshotTestImplementation(libs.androidx.compose.ui.tooling)
+    screenshotTestImplementation(projects.shared.ui.testing)
 }
