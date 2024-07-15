@@ -25,7 +25,6 @@ dependencies {
     implementation(libs.ksp.plugin)
     implementation(libs.cashapp.molecule.plugin)
     implementation(libs.room.plugin)
-    implementation(libs.paparazzi.plugin)
     implementation(libs.module.graph.plugin)
 
     // Make version catalog available in precompiled scripts

@@ -134,6 +134,7 @@ fun BoxWithConstraintsScope.SettingsScreen() {
         onDeleteCloudUserData = {
             viewModel.onEvent(SettingsEvent.DeleteCloudUserData)
         },
+        rootScreen = rootScreen,
         onSwitchLanguage = {
             viewModel.onEvent(SettingsEvent.SwitchLanguage)
         }
@@ -151,7 +152,7 @@ private fun BoxWithConstraintsScope.UI(
     nameLocalAccount: String?,
     languageOptionVisible: Boolean,
     onSetCurrency: (String) -> Unit,
-    rootScreen: RootScreen = rootScreen(),
+    rootScreen: RootScreen?,
     startDateOfMonth: Int = 1,
     showNotifications: Boolean = true,
     hideCurrentBalance: Boolean = false,
@@ -192,16 +193,18 @@ private fun BoxWithConstraintsScope.UI(
             ) {
                 Spacer(Modifier.weight(1f))
 
-                Text(
-                    modifier = Modifier.clickable {
-                        nav.navigateTo(ReleasesScreen)
-                    },
-                    text = "${rootScreen.buildVersionName} (${rootScreen.buildVersionCode})",
-                    style = UI.typo.nC.style(
-                        color = UI.colors.gray,
-                        fontWeight = FontWeight.Bold
+                rootScreen?.let {
+                    Text(
+                        modifier = Modifier.clickable {
+                            nav.navigateTo(ReleasesScreen)
+                        },
+                        text = "${rootScreen.buildVersionName} (${rootScreen.buildVersionCode})",
+                        style = UI.typo.nC.style(
+                            color = UI.colors.gray,
+                            fontWeight = FontWeight.Bold
+                        )
                     )
-                )
+                }
 
                 Spacer(Modifier.width(32.dp))
             }
@@ -1149,9 +1152,8 @@ private fun SettingsScreenPreview(theme: Theme = Theme.LIGHT) {
             hideIncome = false,
             progressState = false,
             treatTransfersAsIncomeExpense = false,
-            onSetCurrency = {
-
-            },
+            onSetCurrency = {},
+            rootScreen = null,
             languageOptionVisible = true
         )
     }
