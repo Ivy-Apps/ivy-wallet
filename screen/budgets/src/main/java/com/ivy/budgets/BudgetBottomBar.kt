@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.components.BackBottomBar
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -17,7 +17,7 @@ import com.ivy.wallet.ui.theme.components.IvyButton
 @Composable
 internal fun BoxWithConstraintsScope.BudgetBottomBar(
     onClose: () -> Unit,
-    onAdd: () -> Unit
+    onAdd: () -> Unit,
 ) {
     BackBottomBar(onBack = onClose) {
         IvyButton(
@@ -29,10 +29,11 @@ internal fun BoxWithConstraintsScope.BudgetBottomBar(
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun PreviewBottomBar() {
-    com.ivy.legacy.IvyWalletPreview {
+    IvyWalletPreview {
         Column(
             Modifier
                 .fillMaxSize()

@@ -35,7 +35,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ivy.base.legacy.Theme
@@ -60,6 +59,7 @@ import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
@@ -88,7 +88,7 @@ import java.util.UUID
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.PieChartStatisticScreen(
-    screen: PieChartStatisticScreen
+    screen: PieChartStatisticScreen,
 ) {
     val viewModel: PieChartStatisticViewModel = screenScopedViewModel()
     val uiState = viewModel.uiState()
@@ -107,7 +107,7 @@ fun BoxWithConstraintsScope.PieChartStatisticScreen(
 @Composable
 private fun BoxWithConstraintsScope.UI(
     state: PieChartStatisticState,
-    onEvent: (PieChartStatisticEvent) -> Unit = {}
+    onEvent: (PieChartStatisticEvent) -> Unit = {},
 ) {
     val nav = navigation()
     val lazyState = rememberLazyListState()
@@ -255,7 +255,7 @@ private fun Header(
 
     onClose: () -> Unit,
     onAdd: (TransactionType) -> Unit,
-    showCloseButtonOnly: Boolean = false
+    showCloseButtonOnly: Boolean = false,
 ) {
     Row(
         modifier = Modifier
@@ -344,7 +344,7 @@ private fun CategoryAmountCard(
 
     selectedCategory: SelectedCategory?,
 
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     val category = categoryAmount.category
     val amount = categoryAmount.amount
@@ -450,7 +450,7 @@ private fun PercentText(
     amount: Double,
     totalAmount: Double,
     selectedState: Boolean,
-    contrastColor: Color
+    contrastColor: Color,
 ) {
     Text(
         text = if (totalAmount != 0.0) {
@@ -466,9 +466,9 @@ private fun PercentText(
 }
 
 @ExperimentalFoundationApi
-@Preview
+@IvyPreviews
 @Composable
-private fun PieChartExpensePreview(theme : Theme = Theme.LIGHT) {
+private fun PieChartExpensePreview(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme) {
         val state = PieChartStatisticState(
             transactionType = TransactionType.EXPENSE,
@@ -566,4 +566,3 @@ fun PieChartStatisticScreenUiTest(isDark: Boolean) {
     }
     PieChartExpensePreview(theme)
 }
-

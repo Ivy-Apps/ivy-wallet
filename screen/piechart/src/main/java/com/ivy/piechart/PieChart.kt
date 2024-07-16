@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.ivy.base.legacy.toEpochMilli
@@ -35,6 +34,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.ui.theme.Black
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Gray
@@ -59,7 +59,7 @@ fun PieChart(
     categoryAmounts: ImmutableList<CategoryAmount>,
     selectedCategory: SelectedCategory?,
     modifier: Modifier = Modifier,
-    onCategoryClick: (Category?) -> Unit = {}
+    onCategoryClick: (Category?) -> Unit = {},
 ) {
     Box(
         modifier = modifier.fillMaxWidth(),
@@ -124,7 +124,7 @@ private class PieChartView(context: Context) : View(context) {
     fun display(
         categoryAmounts: List<CategoryAmount>,
         selectedCategory: SelectedCategory?,
-        onCategoryClicked: (Category?) -> Unit
+        onCategoryClicked: (Category?) -> Unit,
     ) {
         this.onCategoryClicked = onCategoryClicked
 
@@ -248,7 +248,7 @@ private class PieChartView(context: Context) : View(context) {
         touchX: Float,
         touchY: Float,
         centerX: Float,
-        centerY: Float
+        centerY: Float,
     ): Double {
         val angle: Double
         val x2 = touchX - centerX
@@ -270,14 +270,15 @@ private class PieChartView(context: Context) : View(context) {
     private data class Zone(
         val startAngle: Double,
         val endAngle: Double,
-        val category: Category?
+        val category: Category?,
     ) {
         fun contains(angle: Double): Boolean =
             angle > startAngle && angle < endAngle
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun Preview() {
     com.ivy.legacy.IvyWalletComponentPreview {
@@ -296,7 +297,7 @@ private fun Preview() {
                             icon = null,
                             id = CategoryId(UUID.randomUUID()),
                             orderNum = 0.0,
-                            ),
+                        ),
                         amount = 791.0
                     ),
                     CategoryAmount(
@@ -306,7 +307,7 @@ private fun Preview() {
                             icon = null,
                             id = CategoryId(UUID.randomUUID()),
                             orderNum = 0.0,
-                            ),
+                        ),
                         amount = 411.93
                     ),
                     CategoryAmount(

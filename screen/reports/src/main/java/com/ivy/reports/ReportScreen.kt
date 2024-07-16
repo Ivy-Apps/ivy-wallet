@@ -49,6 +49,7 @@ import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.navigation.ReportScreen
 import com.ivy.navigation.navigation
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.ui.theme.Gray
@@ -400,7 +401,7 @@ private fun Toolbar(
 }
 
 @ExperimentalFoundationApi
-@Preview
+@IvyPreviews
 @Composable
 private fun Preview(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme) {
@@ -461,7 +462,7 @@ private fun Preview(theme: Theme = Theme.LIGHT) {
 }
 
 @ExperimentalFoundationApi
-@Preview
+@IvyPreviews
 @Composable
 private fun Preview_NO_FILTER(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme) {

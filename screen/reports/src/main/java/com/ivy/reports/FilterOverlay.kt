@@ -34,7 +34,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.ivy.base.model.TransactionType
@@ -56,6 +55,7 @@ import com.ivy.legacy.ui.component.tags.ShowTagModal
 import com.ivy.legacy.utils.capitalizeLocal
 import com.ivy.legacy.utils.springBounce
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.GreenDark
@@ -99,7 +99,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
     filter: ReportFilter?,
     onClose: () -> Unit,
     onSetFilter: (ReportFilter?) -> Unit,
-    onTagSearch: (String) -> Unit
+    onTagSearch: (String) -> Unit,
 ) {
     val percentVisible by animateFloatAsState(
         targetValue = if (visible) 1f else 0f,
@@ -401,13 +401,13 @@ fun BoxWithConstraintsScope.FilterOverlay(
         allTagList = allTags,
         selectedTagList = selectedTags,
         onTagAdd = {
-                   // Do Nothing
+            // Do Nothing
         },
         onTagEdit = { oldTag, newTag ->
-                    // Do Nothing
+            // Do Nothing
         },
         onTagDelete = {
-                      // Do Nothing
+            // Do Nothing
         },
         onTagSelected = {
             localFilter = nonNullFilter(localFilter).copy(
@@ -415,7 +415,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
             )
         },
         onTagDeSelected = {
-           localFilter = nonNullFilter(localFilter).copy(
+            localFilter = nonNullFilter(localFilter).copy(
                 selectedTags = nonNullFilter(localFilter).selectedTags.minus(it.id)
             )
         },
@@ -445,7 +445,7 @@ fun ColumnScope.OthersFilter(
 fun ColumnScope.TagFilter(
     selectedTags: ImmutableList<TagId>,
     onTagButtonClick: () -> Unit,
-    @Suppress("UnusedParameter") modifier: Modifier = Modifier
+    @Suppress("UnusedParameter") modifier: Modifier = Modifier,
 ) {
     Text(
         modifier = Modifier.padding(start = 32.dp, top = 16.dp),
@@ -475,7 +475,7 @@ fun ColumnScope.TagFilter(
 private fun TypeFilter(
     filter: ReportFilter?,
     nonNullFilter: (ReportFilter?) -> ReportFilter,
-    onSetFilter: (ReportFilter) -> Unit
+    onSetFilter: (ReportFilter) -> Unit,
 ) {
     FilterTitleText(
         text = stringResource(R.string.by_type),
@@ -524,7 +524,7 @@ private fun TypeFilterCheckbox(
     trnType: TransactionType,
     filter: ReportFilter?,
     nonFilter: (ReportFilter?) -> ReportFilter,
-    onSetFilter: (ReportFilter) -> Unit
+    onSetFilter: (ReportFilter) -> Unit,
 ) {
     IvyCheckboxWithText(
         modifier = modifier,
@@ -556,7 +556,7 @@ private fun TypeFilterCheckbox(
 @Composable
 private fun PeriodFilter(
     filter: ReportFilter?,
-    onShowPeriodChooserModal: () -> Unit
+    onShowPeriodChooserModal: () -> Unit,
 ) {
     FilterTitleText(
         text = stringResource(R.string.time_period),
@@ -585,7 +585,7 @@ private fun AccountsFilter(
     allAccounts: List<Account>,
     filter: ReportFilter?,
     nonNullFilter: (ReportFilter?) -> ReportFilter,
-    onSetFilter: (ReportFilter) -> Unit
+    onSetFilter: (ReportFilter) -> Unit,
 ) {
     ListFilterTitle(
         text = stringResource(R.string.accounts_number, filter?.accounts?.size ?: 0),
@@ -653,7 +653,7 @@ private fun CategoriesFilter(
     allCategories: List<Category>,
     filter: ReportFilter?,
     nonNullFilter: (ReportFilter?) -> ReportFilter,
-    onSetFilter: (ReportFilter) -> Unit
+    onSetFilter: (ReportFilter) -> Unit,
 ) {
     val myNonNullFilter = nonNullFilter(filter)
     val selectedItemsCount = filter?.categories?.size ?: 0
@@ -725,7 +725,7 @@ private fun ListFilterTitle(
     active: Boolean,
     itemsSelected: Int,
     onClearAll: () -> Unit,
-    onSelectAll: () -> Unit
+    onSelectAll: () -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -834,7 +834,7 @@ private fun KeywordsFilter(
     FilterTitleText(
         text = stringResource(R.string.keywords_optional),
         active = filter != null &&
-            (filter.includeKeywords.isNotEmpty() || filter.excludeKeywords.isNotEmpty())
+                (filter.includeKeywords.isNotEmpty() || filter.excludeKeywords.isNotEmpty())
     )
 
     Spacer(Modifier.height(12.dp))
@@ -966,7 +966,7 @@ private fun FilterDivider() {
 private fun FilterTitleText(
     text: String,
     active: Boolean,
-    inactiveColor: Color = Color.Gray
+    inactiveColor: Color = Color.Gray,
 ) {
     Text(
         modifier = Modifier.padding(start = 32.dp),
@@ -978,7 +978,8 @@ private fun FilterTitleText(
     )
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun Preview() {
     IvyWalletPreview {

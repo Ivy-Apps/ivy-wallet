@@ -22,7 +22,6 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.Transaction
@@ -48,6 +47,7 @@ import com.ivy.legacy.utils.rememberSwipeListenerState
 import com.ivy.legacy.utils.verticalSwipeListener
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
@@ -382,7 +382,7 @@ fun HomeLazyColumn(
 
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
-@Preview
+@IvyPreviews
 @Composable
 private fun PreviewHomeTab(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme) {

@@ -25,19 +25,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun AttributionsScreenImpl(
-    viewModel: AttributionsViewModel = screenScopedViewModel()
+    viewModel: AttributionsViewModel = screenScopedViewModel(),
 ) {
     val uiState = viewModel.uiState()
 
@@ -47,7 +47,7 @@ fun AttributionsScreenImpl(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AttributionsUI(
-    uiState: AttributionsState
+    uiState: AttributionsState,
 ) {
     val nav = navigation()
 
@@ -92,7 +92,7 @@ private fun BackButton(nav: Navigation) {
 @Composable
 private fun AttributionsContent(
     paddingValues: PaddingValues,
-    attributionItems: ImmutableList<AttributionItem>
+    attributionItems: ImmutableList<AttributionItem>,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -109,7 +109,7 @@ private fun AttributionsContent(
 
 @Composable
 private fun AttributionLayout(
-    attributionItem: AttributionItem
+    attributionItem: AttributionItem,
 ) {
     when (attributionItem) {
         is AttributionItem.Attribution -> {
@@ -146,7 +146,7 @@ private fun AttributionCard(attribution: AttributionItem.Attribution) {
 
 @Composable
 private fun AttributionsSectionDivider(
-    text: String
+    text: String,
 ) {
     Text(
         modifier = Modifier.padding(start = 12.dp),
@@ -156,7 +156,7 @@ private fun AttributionsSectionDivider(
     )
 }
 
-@Preview
+@IvyPreviews
 @Composable
 private fun AttributionsUIPreview(isDark: Boolean = false) {
     val attributionItems = persistentListOf(

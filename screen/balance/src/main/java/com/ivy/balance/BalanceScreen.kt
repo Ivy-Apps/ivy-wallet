@@ -39,6 +39,7 @@ import com.ivy.legacy.utils.format
 import com.ivy.navigation.BalanceScreen
 import com.ivy.navigation.navigation
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Orange
@@ -238,7 +239,7 @@ private fun ColumnScope.CloseButton() {
     }
 }
 
-@Preview
+@IvyPreviews
 @Composable
 private fun Preview(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme) {

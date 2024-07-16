@@ -13,7 +13,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.R
 import com.ivy.design.l0_system.UI
@@ -23,6 +22,7 @@ import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.utils.IvyComponentPreview
 import com.ivy.design.utils.clickableNoIndication
 import com.ivy.design.utils.rememberInteractionSource
+import com.ivy.ui.annotation.IvyPreviews
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
@@ -30,7 +30,7 @@ fun Checkbox(
     modifier: Modifier = Modifier,
     checked: Boolean,
     contentDescription: String = "checkbox",
-    onCheckedChange: (checked: Boolean) -> Unit
+    onCheckedChange: (checked: Boolean) -> Unit,
 ) {
     IvyIcon(
         modifier = modifier
@@ -56,7 +56,7 @@ fun CheckboxWithText(
         color = UI.colors.pureInverse,
         fontWeight = FontWeight.SemiBold
     ),
-    onCheckedChange: (checked: Boolean) -> Unit
+    onCheckedChange: (checked: Boolean) -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -80,7 +80,8 @@ fun CheckboxWithText(
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun PreviewIvyCheckboxWithText() {
     IvyComponentPreview {

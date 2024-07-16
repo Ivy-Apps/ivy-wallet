@@ -1,17 +1,24 @@
 package com.ivy.design.l1_buildingBlocks
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.utils.IvyComponentPreview
 import com.ivy.design.utils.thenWhen
+import com.ivy.ui.annotation.IvyPreviews
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
@@ -21,7 +28,7 @@ fun DividerH(
     ),
     width: Dp = 1.dp,
     color: Color = UI.colors.gray,
-    shape: Shape = UI.shapes.rFull
+    shape: Shape = UI.shapes.rFull,
 ) {
     Spacer(
         modifier = Modifier
@@ -31,6 +38,7 @@ fun DividerH(
                         fillMaxWidth()
                             .padding(horizontal = size.padding)
                     }
+
                     is DividerSize.Fixed -> {
                         this.width(size.size)
                     }
@@ -49,7 +57,7 @@ fun DividerV(
     ),
     width: Dp = 1.dp,
     color: Color = UI.colors.gray,
-    shape: Shape = UI.shapes.rFull
+    shape: Shape = UI.shapes.rFull,
 ) {
     Spacer(
         modifier = Modifier
@@ -59,6 +67,7 @@ fun DividerV(
                         fillMaxHeight()
                             .padding(vertical = size.padding)
                     }
+
                     is DividerSize.Fixed -> {
                         this.height(size.size)
                     }
@@ -75,7 +84,7 @@ fun RowScope.DividerW(
     weight: Float = 1f,
     height: Dp = 1.dp,
     color: Color = UI.colors.gray,
-    shape: Shape = UI.shapes.rFull
+    shape: Shape = UI.shapes.rFull,
 ) {
     Divider(
         modifier = Modifier
@@ -91,7 +100,7 @@ fun RowScope.DividerW(
 fun Divider(
     modifier: Modifier = Modifier,
     color: Color = UI.colors.gray,
-    shape: Shape = UI.shapes.rFull
+    shape: Shape = UI.shapes.rFull,
 ) {
     Spacer(
         modifier = modifier
@@ -108,7 +117,8 @@ sealed class DividerSize {
     data class FillMax(val padding: Dp) : DividerSize()
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun PreviewHorizontalDivider_fillMax() {
     IvyComponentPreview {
@@ -120,7 +130,8 @@ private fun PreviewHorizontalDivider_fillMax() {
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun PreviewHorizontalDivider_fixed() {
     IvyComponentPreview {
@@ -132,7 +143,8 @@ private fun PreviewHorizontalDivider_fixed() {
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun PreviewVerticalDivider_fillMax() {
     IvyComponentPreview {
@@ -144,7 +156,8 @@ private fun PreviewVerticalDivider_fillMax() {
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun PreviewVerticalDivider_fixed() {
     IvyComponentPreview {
@@ -156,7 +169,8 @@ private fun PreviewVerticalDivider_fixed() {
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun PreviewDivider() {
     IvyComponentPreview {

@@ -41,7 +41,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.legacy.Theme
 import com.ivy.design.l0_system.UI
@@ -61,6 +60,7 @@ import com.ivy.legacy.utils.toDensityDp
 import com.ivy.legacy.utils.toDensityPx
 import com.ivy.onboarding.OnboardingState
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
@@ -430,7 +430,7 @@ private fun LoginButton(
     }
 }
 
-@Preview
+@IvyPreviews
 @Composable
 private fun OnboardingSplashLoginPreview(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme) {

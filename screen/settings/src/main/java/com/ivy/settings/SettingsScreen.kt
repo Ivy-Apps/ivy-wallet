@@ -33,7 +33,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -57,6 +56,7 @@ import com.ivy.navigation.ReleasesScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gradient
@@ -1002,6 +1002,7 @@ private fun SettingsButtonRow(
     }
 }
 
+@Suppress("UnusedPrivateMember")
 @Composable
 private fun AccountCardButton(
     @DrawableRes icon: Int,
@@ -1136,7 +1137,7 @@ private fun SettingsDefaultButton(
 }
 
 @ExperimentalFoundationApi
-@Preview
+@IvyPreviews
 @Composable
 private fun SettingsScreenPreview(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme) {

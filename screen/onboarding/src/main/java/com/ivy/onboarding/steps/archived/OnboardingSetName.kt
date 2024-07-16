@@ -31,7 +31,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -43,6 +42,7 @@ import com.ivy.legacy.utils.keyboardOnlyWindowInsets
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.springBounceSlow
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IvyOutlinedTextField
@@ -50,7 +50,7 @@ import com.ivy.wallet.ui.theme.components.OnboardingButton
 
 @Composable
 fun OnboardingSetName(
-    onNameSet: (String) -> Unit
+    onNameSet: (String) -> Unit,
 ) {
     val rootView = LocalView.current
     var keyboardShown by remember { mutableStateOf(false) }
@@ -155,7 +155,8 @@ fun OnboardingSetName(
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun Preview() {
     IvyWalletPreview {

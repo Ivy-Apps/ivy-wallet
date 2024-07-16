@@ -1,19 +1,18 @@
-package com.ivy.ui.testing
+package com.ivy.ui.annotation
 
 import androidx.compose.ui.tooling.preview.Preview
 
+@Suppress("PreviewAnnotationNaming")
 @Retention(AnnotationRetention.BINARY)
 @Target(
     AnnotationTarget.ANNOTATION_CLASS,
     AnnotationTarget.FUNCTION
 )
 @Preview(
-    apiLevel = 34,
-    name = "Medium Phone",
-    device = "spec:id=reference_phone,shape=Normal,width=411,height=891,unit=dp,dpi=420",
+    name = "Small Phone",
+    device = "id:Nexus One",
 )
 @Preview(
-    apiLevel = 34,
     name = "Large Phone",
     device = "id:pixel_8_pro",
 )

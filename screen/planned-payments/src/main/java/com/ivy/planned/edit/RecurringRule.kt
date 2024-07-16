@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.data.model.IntervalType
 import com.ivy.design.l0_system.UI
@@ -27,6 +26,7 @@ import com.ivy.legacy.utils.formatDateOnly
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.uppercaseLocal
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.components.AddPrimaryAttributeButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -73,7 +73,7 @@ fun hasRecurringRule(
     oneTime: Boolean,
 ): Boolean {
     return startDate != null &&
-        ((intervalN != null && intervalType != null) || oneTime)
+            ((intervalN != null && intervalType != null) || oneTime)
 }
 
 @Composable
@@ -136,7 +136,8 @@ private fun RecurringRuleCard(
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun Preview_Empty() {
     IvyWalletComponentPreview {
@@ -150,7 +151,8 @@ private fun Preview_Empty() {
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun Preview_Repeat() {
     IvyWalletComponentPreview {
@@ -164,7 +166,8 @@ private fun Preview_Repeat() {
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun Preview_OneTime() {
     IvyWalletComponentPreview {

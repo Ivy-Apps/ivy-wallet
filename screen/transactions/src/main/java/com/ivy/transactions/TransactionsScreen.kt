@@ -32,7 +32,6 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.Transaction
@@ -69,6 +68,7 @@ import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.ui.theme.Gray
@@ -809,7 +809,8 @@ private fun Item(
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun Preview_empty() {
     IvyWalletPreview {
@@ -850,9 +851,10 @@ private fun Preview_empty() {
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
-private fun BoxWithConstraintsScope.Preview_crypto() {
+private fun Preview_crypto() {
     IvyWalletPreview {
         UI(
             period = TimePeriod.currentMonth(
@@ -896,7 +898,7 @@ private fun BoxWithConstraintsScope.Preview_crypto() {
     }
 }
 
-@Preview
+@IvyPreviews
 @Composable
 private fun TransactionScreenUpcoming(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme) {

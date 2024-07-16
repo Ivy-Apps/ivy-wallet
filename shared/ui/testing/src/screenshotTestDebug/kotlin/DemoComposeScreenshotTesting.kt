@@ -5,8 +5,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.ivy.ui.testing.IvyPreviews
+import com.ivy.ui.annotation.IvyPreviews
 
+@Suppress("UnusedPrivateMember")
 @IvyPreviews
 @Composable
 private fun DemoComposeScreenTesting() {

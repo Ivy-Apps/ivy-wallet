@@ -9,7 +9,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
@@ -17,6 +16,7 @@ import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.utils.navigationBarInset
 import com.ivy.legacy.utils.toDensityDp
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.ui.theme.components.ActionsRow
 import com.ivy.wallet.ui.theme.components.CloseButton
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
@@ -26,7 +26,7 @@ import com.ivy.wallet.ui.theme.gradientCutBackgroundTop
 fun BoxWithConstraintsScope.PlannedPaymentsBottomBar(
     bottomInset: Dp = navigationBarInset().toDensityDp(),
     onClose: () -> Unit,
-    onAdd: () -> Unit
+    onAdd: () -> Unit,
 ) {
     ActionsRow(
         modifier = Modifier
@@ -55,7 +55,8 @@ fun BoxWithConstraintsScope.PlannedPaymentsBottomBar(
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun PreviewBottomBar() {
     IvyWalletPreview {

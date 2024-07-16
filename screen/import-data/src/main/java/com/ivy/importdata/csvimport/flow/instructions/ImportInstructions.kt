@@ -28,7 +28,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -38,6 +37,7 @@ import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.navigation.navigation
 import com.ivy.onboarding.components.OnboardingToolbar
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.White
@@ -134,7 +134,7 @@ fun BoxWithConstraintsScope.ImportInstructions(
 @Composable
 fun VideoArticleRow(
     videoUrl: String?,
-    articleUrl: String?
+    articleUrl: String?,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -170,7 +170,7 @@ fun VideoArticleRow(
 @Composable
 fun VideoButton(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     InstructionButton(
         modifier = modifier,
@@ -185,7 +185,7 @@ fun VideoButton(
 @Composable
 fun ArticleButton(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     InstructionButton(
         modifier = modifier,
@@ -204,7 +204,7 @@ fun InstructionButton(
     caption: String,
     text: String,
 
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -254,7 +254,7 @@ fun UploadFileStep(
     stepNumber: Int,
     text: String = stringResource(R.string.upload_csv_file),
     btnTitle: String = text,
-    onUploadClick: () -> Unit
+    onUploadClick: () -> Unit,
 ) {
     StepTitle(
         number = stepNumber,
@@ -326,7 +326,7 @@ fun StepTitle(
 
 @Composable
 private fun App(
-    importType: ImportType
+    importType: ImportType,
 ) {
     val rootScreen = com.ivy.legacy.rootScreen()
 
@@ -359,8 +359,9 @@ private fun App(
     }
 }
 
+@Suppress("UnusedPrivateMember")
 @ExperimentalFoundationApi
-@Preview
+@IvyPreviews
 @Composable
 private fun Preview() {
     com.ivy.legacy.IvyWalletPreview {

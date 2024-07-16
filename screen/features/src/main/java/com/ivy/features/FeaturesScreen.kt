@@ -27,11 +27,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
+import com.ivy.ui.annotation.IvyPreviews
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -161,7 +161,7 @@ private fun FeatureRow(
     }
 }
 
-@Preview
+@IvyPreviews
 @Composable
 private fun FeatureScreenPreview(isDark: Boolean = false) {
     IvyPreview(isDark) {
@@ -190,9 +190,7 @@ private fun FeatureScreenPreview(isDark: Boolean = false) {
                     ),
                 )
             ),
-            onEvent = {
-
-            }
+            onEvent = {},
         )
     }
 }

@@ -6,20 +6,28 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerWeight
 import com.ivy.design.utils.IvyComponentPreview
 import com.ivy.design.utils.springBounce
+import com.ivy.ui.annotation.IvyPreviews
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
@@ -30,7 +38,7 @@ fun Switch(
     disabledColor: Color = UI.colors.gray,
     animationColor: AnimationSpec<Color> = springBounce(),
     animationMove: AnimationSpec<Float> = springBounce(),
-    onEnabledChange: (checked: Boolean) -> Unit
+    onEnabledChange: (checked: Boolean) -> Unit,
 ) {
     val color by animateColorAsState(
         targetValue = if (enabled) enabledColor else disabledColor,
@@ -75,7 +83,8 @@ fun Switch(
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun PreviewIvySwitch() {
     IvyComponentPreview {

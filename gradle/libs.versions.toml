@@ -61,7 +61,7 @@ kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-te
 cashapp-molecule-plugin = { module = "app.cash.molecule:molecule-gradle-plugin", version = "1.4.3" }
 cashapp-turbine = { module = "app.cash.turbine:turbine", version = "1.1.0" }
 google-testparameterinjector = { module = "com.google.testparameterinjector:test-parameter-injector", version = "1.16" }
-androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling"}
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 
 # Integartion (Android) testing
 androidx-test-runner = { module = "androidx.test:runner", version = "1.6.1" }
@@ -144,6 +144,8 @@ ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.
 # Modules Graph
 module-graph-plugin = { module = "com.jraska.module.graph.assertion:plugin", version = "2.5.0" }
 
+# Compose Preview Testing
+compose-screenshot-plugin = { module = "com.android.compose.screenshot:com.android.compose.screenshot.gradle.plugin", version.ref = "screenshot" }
 
 [bundles]
 kotlin = [
@@ -232,4 +234,3 @@ opencsv = [
 [plugins]
 gradleWrapperUpgrade = { id = "org.gradle.wrapper-upgrade", version = "0.11.4" }
 koverPlugin = { id = "org.jetbrains.kotlinx.kover", version = "0.8.2" }
-screenshot = { id = "com.android.compose.screenshot", version.ref = "screenshot"}

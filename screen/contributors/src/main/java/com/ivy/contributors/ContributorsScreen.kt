@@ -39,7 +39,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.ivy.navigation.IvyPreview
@@ -47,6 +46,7 @@ import com.ivy.navigation.Navigation
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
@@ -66,7 +66,7 @@ fun ContributorsScreenImpl() {
 @Composable
 private fun ContributorsUi(
     uiState: ContributorsState,
-    onEvent: (ContributorsEvent) -> Unit
+    onEvent: (ContributorsEvent) -> Unit,
 ) {
     val nav = navigation()
     val browser = LocalUriHandler.current
@@ -135,7 +135,7 @@ private fun BackButton(nav: Navigation) {
 private fun ScreenContent(
     paddingValues: PaddingValues,
     contributorsState: ContributorsState,
-    onEvent: (ContributorsEvent) -> Unit
+    onEvent: (ContributorsEvent) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -153,7 +153,7 @@ private fun ScreenContent(
 
 private fun LazyListScope.content(
     contributorsState: ContributorsState,
-    onEvent: (ContributorsEvent) -> Unit
+    onEvent: (ContributorsEvent) -> Unit,
 ) {
     when (contributorsState.contributorsResponse) {
         is ContributorsResponse.Error -> item(key = "Error") {
@@ -184,7 +184,8 @@ private fun LazyListScope.content(
 private fun ProjectInfoContent(contributorsState: ContributorsState) {
     when (contributorsState.projectResponse) {
         ProjectResponse.Error,
-        ProjectResponse.Loading -> {
+        ProjectResponse.Loading,
+        -> {
             // show nothing
         }
 
@@ -197,7 +198,7 @@ private fun ProjectInfoContent(contributorsState: ContributorsState) {
 @Composable
 private fun ProjectInfoRow(
     projectRepositoryInfo: ProjectResponse.Success,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val browser = LocalUriHandler.current
 
@@ -239,7 +240,7 @@ private fun ProjectInfoButton(
     icon: @Composable () -> Unit,
     info: String,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     OutlinedButton(
         modifier = modifier,
@@ -257,7 +258,7 @@ private fun ProjectInfoButton(
 private fun ContributorsErrorState(
     message: String,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
@@ -341,7 +342,7 @@ private fun ContributorCard(contributor: Contributor) {
 @Composable
 private fun GitHubButton(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     FloatingActionButton(
         modifier = modifier,
@@ -356,7 +357,7 @@ private fun GitHubButton(
     }
 }
 
-@Preview
+@IvyPreviews
 @Composable
 private fun PreviewSuccess(isDark: Boolean = false) {
     IvyPreview(isDark) {
@@ -385,7 +386,8 @@ private fun PreviewSuccess(isDark: Boolean = false) {
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun PreviewError() {
     IvyPreview {
@@ -399,7 +401,8 @@ private fun PreviewError() {
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun PreviewLoading() {
     IvyPreview {

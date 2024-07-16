@@ -1,5 +1,6 @@
 package com.ivy.design.utils
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -15,12 +16,13 @@ import com.ivy.design.api.IvyUI
 import com.ivy.design.api.systems.IvyWalletDesign
 import com.ivy.design.l0_system.UI
 
+@SuppressLint("ComposeModifierMissing")
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun IvyComponentPreview(
     design: IvyDesign = defaultDesign(),
     theme: Theme = Theme.LIGHT,
-    content: @Composable BoxScope.() -> Unit
+    content: @Composable BoxScope.() -> Unit,
 ) {
     IvyPreview(
         design = design,
@@ -40,14 +42,14 @@ fun IvyComponentPreview(
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun IvyPreview(
-    theme: Theme = Theme.LIGHT,
     design: IvyDesign,
-    Content: @Composable BoxWithConstraintsScope.() -> Unit
+    theme: Theme = Theme.LIGHT,
+    content: @Composable BoxWithConstraintsScope.() -> Unit,
 ) {
     design.context().switchTheme(theme = theme)
     IvyUI(
         design = design,
-        content = Content
+        content = content
     )
 }
 

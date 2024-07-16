@@ -30,12 +30,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.navigation
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
@@ -253,7 +253,7 @@ private fun GitHubButton(
     }
 }
 
-@Preview
+@IvyPreviews
 @Composable
 private fun ReleaseScreenPreview(isDark: Boolean = false) {
     val state = ReleasesState.Success(
@@ -287,12 +287,14 @@ private fun ReleaseScreenPreview(isDark: Boolean = false) {
                 releaseCommits = persistentListOf("Commit A", "Commit B", "Commit C"),
                 releaseUrl = "",
                 releaseDate = "12/07/2024"
-            ), ReleaseInfo(
+            ),
+            ReleaseInfo(
                 releaseName = "Release Name",
                 releaseCommits = persistentListOf("Commit A", "Commit B", "Commit C"),
                 releaseUrl = "",
                 releaseDate = "12/07/2024"
-            ), ReleaseInfo(
+            ),
+            ReleaseInfo(
                 releaseName = "Release Name",
                 releaseCommits = persistentListOf("Commit A", "Commit B", "Commit C"),
                 releaseUrl = "",

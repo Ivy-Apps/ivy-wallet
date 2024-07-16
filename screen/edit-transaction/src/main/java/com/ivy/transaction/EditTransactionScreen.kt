@@ -27,7 +27,6 @@ import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.legacy.Theme
 import com.ivy.base.model.TransactionType
@@ -54,6 +53,7 @@ import com.ivy.navigation.EditTransactionScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.domain.data.CustomExchangeRateState
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
@@ -663,7 +663,7 @@ private fun shouldFocusAmount(amount: Double) = amount == 0.0
 private val testDateTime = LocalDateTime.of(2023, 4, 27, 0, 35)
 
 @ExperimentalFoundationApi
-@Preview
+@IvyPreviews
 @Composable
 private fun EditTransactionScreenPreview(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme) {

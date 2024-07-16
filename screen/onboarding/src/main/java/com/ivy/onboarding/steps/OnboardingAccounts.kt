@@ -31,7 +31,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.legacy.Theme
 import com.ivy.design.l0_system.UI
@@ -45,6 +44,7 @@ import com.ivy.onboarding.components.OnboardingProgressSlider
 import com.ivy.onboarding.components.OnboardingToolbar
 import com.ivy.onboarding.components.Suggestions
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Green
@@ -288,7 +288,7 @@ private fun AccountCard(
 }
 
 @ExperimentalFoundationApi
-@Preview
+@IvyPreviews
 @Composable
 private fun OnboardingAccountEmpty(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme) {
@@ -324,7 +324,7 @@ private fun OnboardingAccountEmpty(theme: Theme = Theme.LIGHT) {
 }
 
 @ExperimentalFoundationApi
-@Preview
+@IvyPreviews
 @Composable
 private fun OnboardingAccountNotEmpty(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme) {
@@ -397,5 +397,4 @@ fun OnboardingAccountUiTest(isDark: Boolean, isEmptyState: Boolean) {
     } else {
         OnboardingAccountNotEmpty(theme)
     }
-
 }

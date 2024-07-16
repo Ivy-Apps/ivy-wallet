@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.disclaimer.composables.AcceptTermsText
 import com.ivy.disclaimer.composables.AgreeButton
@@ -16,6 +15,7 @@ import com.ivy.disclaimer.composables.AgreementCheckBox
 import com.ivy.disclaimer.composables.DisclaimerTopAppBar
 import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.screenScopedViewModel
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.ui.component.OpenSourceCard
 
 @Composable
@@ -84,7 +84,7 @@ private fun Content(
     }
 }
 
-@Preview
+@IvyPreviews
 @Composable
 private fun PreviewDisclaimerScreen(isDark: Boolean = false) {
     IvyPreview(isDark) {

@@ -42,7 +42,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -74,6 +73,7 @@ import com.ivy.navigation.SearchScreen
 import com.ivy.navigation.SettingsScreen
 import com.ivy.navigation.navigation
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.BufferBattery
@@ -267,7 +267,7 @@ private fun ColumnScope.Content(
 
 @Composable
 private fun SearchButton(
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -356,7 +356,7 @@ private fun ColumnScope.Buffer(
     buffer: Double,
     currency: String,
     balance: Double,
-    onBufferClick: () -> Unit
+    onBufferClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -403,7 +403,7 @@ private fun ColumnScope.Buffer(
 @Composable
 private fun QuickAccess(
     theme: Theme,
-    onSwitchTheme: () -> Unit
+    onSwitchTheme: () -> Unit,
 ) {
     Column {
         val nav = navigation()
@@ -545,7 +545,7 @@ private fun MoreMenuButton(
     tint: Color = UI.colors.pureInverse,
     expandPadding: Dp = 14.dp,
 
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -576,7 +576,8 @@ private fun MoreMenuButton(
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun BoxWithConstraintsScope.Preview_Expanded() {
     IvyPreview {
@@ -595,7 +596,8 @@ private fun BoxWithConstraintsScope.Preview_Expanded() {
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun BoxWithConstraintsScope.Preview() {
     IvyPreview {

@@ -45,6 +45,7 @@ import com.ivy.legacy.utils.uppercaseLocal
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Green
@@ -79,7 +80,10 @@ fun LazyItemScope.PlannedPaymentCard(
                     onClick(plannedPayment)
                 }
             }
-            .background(UI.colors.medium, UI.shapes.r4)
+            .background(
+                UI.colors.medium,
+                UI.shapes.r4,
+            )
             .testTag("planned_payment_card")
     ) {
         val currency = accounts.find { it.id == plannedPayment.accountId }?.currency ?: baseCurrency
@@ -89,7 +93,7 @@ fun LazyItemScope.PlannedPaymentCard(
         PlannedPaymentHeaderRow(
             plannedPayment = plannedPayment,
             categories = categories,
-            accounts = accounts
+            accounts = accounts,
         )
 
         Spacer(Modifier.height(16.dp))
@@ -109,8 +113,8 @@ fun LazyItemScope.PlannedPaymentCard(
                 text = plannedPayment.title!!,
                 style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
-                    color = UI.colors.pureInverse
-                )
+                    color = UI.colors.pureInverse,
+                ),
             )
         }
 
@@ -131,7 +135,7 @@ fun LazyItemScope.PlannedPaymentCard(
 private fun PlannedPaymentHeaderRow(
     plannedPayment: PlannedPaymentRule,
     categories: ImmutableList<Category>,
-    accounts: ImmutableList<Account>
+    accounts: ImmutableList<Account>,
 ) {
     val nav = navigation()
 
@@ -142,28 +146,26 @@ private fun PlannedPaymentHeaderRow(
             Spacer(Modifier.width(20.dp))
 
             IvyIcon(
-                modifier = Modifier
-                    .background(UI.colors.pure, CircleShape),
+                modifier = Modifier.background(UI.colors.pure, CircleShape),
                 icon = R.drawable.ic_planned_payments,
                 tint = UI.colors.pureInverse
             )
 
             Spacer(Modifier.width(12.dp))
 
-            val category =
-                plannedPayment.categoryId?.let { targetId -> categories.find { it.id.value == targetId } }
+            val category = plannedPayment.categoryId?.let { targetId -> categories.find { it.id.value == targetId } }
             if (category != null) {
                 IvyButton(
                     iconTint = findContrastTextColor(category.color.value.toComposeColor()),
                     iconStart = getCustomIconIdS(
                         category.icon?.id,
-                        R.drawable.ic_custom_category_s
+                        R.drawable.ic_custom_category_s,
                     ),
                     text = category.name.value,
                     backgroundGradient = Gradient.solid(category.color.value.toComposeColor()),
                     textStyle = UI.typo.c.style(
                         color = findContrastTextColor(category.color.value.toComposeColor()),
-                        fontWeight = FontWeight.ExtraBold
+                        fontWeight = FontWeight.ExtraBold,
                     ),
                     padding = 8.dp,
                     iconEdgePadding = 10.dp
@@ -171,7 +173,7 @@ private fun PlannedPaymentHeaderRow(
                     nav.navigateTo(
                         TransactionsScreen(
                             accountId = null,
-                            categoryId = category.id.value
+                            categoryId = category.id.value,
                         )
                     )
                 }
@@ -184,19 +186,22 @@ private fun PlannedPaymentHeaderRow(
                 backgroundGradient = Gradient.solid(UI.colors.pure),
                 text = account?.name ?: stringResource(R.string.deleted),
                 iconTint = UI.colors.pureInverse,
-                iconStart = getCustomIconIdS(account?.icon, R.drawable.ic_custom_account_s),
+                iconStart = getCustomIconIdS(
+                    account?.icon,
+                    R.drawable.ic_custom_account_s,
+                ),
                 textStyle = UI.typo.c.style(
                     color = UI.colors.pureInverse,
-                    fontWeight = FontWeight.ExtraBold
+                    fontWeight = FontWeight.ExtraBold,
                 ),
                 padding = 8.dp,
-                iconEdgePadding = 10.dp
+                iconEdgePadding = 10.dp,
             ) {
                 account?.let {
                     nav.navigateTo(
                         TransactionsScreen(
                             accountId = account.id,
-                            categoryId = null
+                            categoryId = null,
                         )
                     )
                 }
@@ -210,11 +215,11 @@ private fun RuleTextRow(
     oneTime: Boolean,
     startDate: LocalDateTime?,
     intervalN: Int?,
-    intervalType: IntervalType?
+    intervalType: IntervalType?,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Spacer(Modifier.width(24.dp))
 
@@ -223,7 +228,7 @@ private fun RuleTextRow(
                 text = stringResource(R.string.planned_for_uppercase),
                 style = UI.typo.nC.style(
                     color = Orange,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.SemiBold,
                 )
             )
             Text(
@@ -232,7 +237,7 @@ private fun RuleTextRow(
                     ?: stringResource(R.string.null_text),
                 style = UI.typo.nC.style(
                     color = Orange,
-                    fontWeight = FontWeight.ExtraBold
+                    fontWeight = FontWeight.ExtraBold,
                 )
             )
         } else {
@@ -241,8 +246,8 @@ private fun RuleTextRow(
                 text = stringResource(R.string.starts_date, startDateFormatted ?: ""),
                 style = UI.typo.nC.style(
                     color = Orange,
-                    fontWeight = FontWeight.SemiBold
-                )
+                    fontWeight = FontWeight.SemiBold,
+                ),
             )
             val intervalTypeFormatted = intervalType?.forDisplay(intervalN ?: 0)?.uppercaseLocal()
             Text(
@@ -250,12 +255,12 @@ private fun RuleTextRow(
                 text = stringResource(
                     R.string.repeats_every,
                     intervalN ?: 0,
-                    intervalTypeFormatted ?: ""
+                    intervalTypeFormatted ?: "",
                 ),
                 style = UI.typo.nC.style(
                     color = Orange,
-                    fontWeight = FontWeight.ExtraBold
-                )
+                    fontWeight = FontWeight.ExtraBold,
+                ),
             )
         }
 
@@ -264,6 +269,7 @@ private fun RuleTextRow(
 }
 
 @Preview
+@IvyPreviews
 @Composable
 private fun Preview_oneTime() {
     IvyWalletPreview {
@@ -301,7 +307,8 @@ private fun Preview_oneTime() {
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun Preview_recurring() {
     IvyWalletPreview {
@@ -339,7 +346,8 @@ private fun Preview_recurring() {
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun Preview_recurringError() {
     IvyWalletPreview {

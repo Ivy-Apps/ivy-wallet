@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.R
@@ -28,6 +27,7 @@ import com.ivy.design.l1_buildingBlocks.data.background
 import com.ivy.design.l1_buildingBlocks.data.clipBackground
 import com.ivy.design.utils.IvyComponentPreview
 import com.ivy.design.utils.padding
+import com.ivy.ui.annotation.IvyPreviews
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
@@ -51,7 +51,7 @@ fun Button(
     @DrawableRes iconRight: Int? = null,
     iconTint: Color = White,
     iconPadding: Dp = 12.dp,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -95,7 +95,8 @@ enum class Mode {
     WRAP_CONTENT, FILL_MAX_WIDTH
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun Preview_IconLeft_Wrap() {
     IvyComponentPreview {
@@ -108,7 +109,8 @@ private fun Preview_IconLeft_Wrap() {
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun Preview_IconRight_Wrap() {
     IvyComponentPreview {
@@ -121,7 +123,8 @@ private fun Preview_IconRight_Wrap() {
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun Preview_IconLeft_FillMax() {
     IvyComponentPreview {
@@ -137,7 +140,8 @@ private fun Preview_IconLeft_FillMax() {
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun Preview_IconRight_FillMax() {
     IvyComponentPreview {

@@ -1,10 +1,12 @@
+@file:Suppress("UnusedPrivateMember")
+
 import androidx.compose.runtime.Composable
 import com.ivy.onboarding.steps.OnboardingAccountUiTest
 import com.ivy.onboarding.steps.OnboardingCategoriesUiTest
 import com.ivy.onboarding.steps.OnboardingImportCSVFileUiTest
 import com.ivy.onboarding.steps.OnboardingSetCurrencyUiTest
 import com.ivy.onboarding.steps.OnboardingSplashLoginUiTest
-import com.ivy.ui.testing.IvyPreviews
+import com.ivy.ui.annotation.IvyPreviews
 
 @IvyPreviews
 @Composable

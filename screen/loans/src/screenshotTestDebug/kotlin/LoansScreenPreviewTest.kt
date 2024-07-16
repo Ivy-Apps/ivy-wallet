@@ -1,7 +1,9 @@
+@file:Suppress("UnusedPrivateMember")
+
 import androidx.compose.runtime.Composable
 import com.ivy.loans.loan.LoanScreenUiTest
 import com.ivy.loans.loandetails.LoanDetailScreenUiTest
-import com.ivy.ui.testing.IvyPreviews
+import com.ivy.ui.annotation.IvyPreviews
 
 @IvyPreviews
 @Composable

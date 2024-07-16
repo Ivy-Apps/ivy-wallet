@@ -47,11 +47,13 @@ import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.navigation.CategoriesScreen
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.wallet.domain.data.SortOrder
 import com.ivy.wallet.ui.theme.Gradient
@@ -554,10 +556,10 @@ private fun SelectTypeButton(
     }
 }
 
-@Preview
+@IvyPreviews
 @Composable
 private fun Preview(theme: Theme = Theme.LIGHT) {
-    com.ivy.legacy.IvyWalletPreview(theme) {
+    IvyWalletPreview(theme) {
         val state = CategoriesScreenState(
             baseCurrency = "BGN",
             categories = persistentListOf(

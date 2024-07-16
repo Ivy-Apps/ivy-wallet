@@ -19,11 +19,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.widget.addTextChangedListener
-import com.ivy.design.l0_system.*
-import com.ivy.design.utils.*
+import com.ivy.design.l0_system.Purple1Dark
+import com.ivy.design.l0_system.Purple1Light
+import com.ivy.design.l0_system.Transparent
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
+import com.ivy.design.utils.IvyComponentPreview
+import com.ivy.design.utils.dpToPx
+import com.ivy.design.utils.hideKeyboard
+import com.ivy.design.utils.postDelayed
+import com.ivy.design.utils.showKeyboard
+import com.ivy.ui.annotation.IvyPreviews
 import kotlin.math.roundToInt
 
 /**
@@ -52,7 +60,7 @@ fun InputField(
     cursorColor: Color = UI.colors.pureInverse,
     highlightColor: Color = if (UI.colors.isLight) Purple1Light else Purple1Dark,
     focus: InputFieldFocus? = null,
-    onTextChanged: (String) -> Unit
+    onTextChanged: (String) -> Unit,
 ) {
     AndroidView(
         modifier = modifier,
@@ -97,13 +105,15 @@ fun InputField(
 
             when (inputType) {
                 IvyInputType.PASSWORD, IvyInputType.PASSWORD_NUMBER,
-                IvyInputType.PASSWORD_VISIBLE, IvyInputType.PASSWORD_NUMBER_VISIBLE -> {
+                IvyInputType.PASSWORD_VISIBLE, IvyInputType.PASSWORD_NUMBER_VISIBLE,
+                -> {
                     it.setupInputType(
                         inputType = inputType,
                         imeAction = imeAction,
                         onImeActionListener = onImeActionListener
                     )
                 }
+
                 else -> {
                     // do nothing, no need to set input type
                 }
@@ -155,37 +165,46 @@ private fun EditText.dynamicStyle(
 fun EditText.setupInputType(
     inputType: IvyInputType,
     imeAction: IvyImeAction,
-    onImeActionListener: ((EditText) -> Unit)?
+    onImeActionListener: ((EditText) -> Unit)?,
 ) {
     this.inputType = when (inputType) {
         IvyInputType.SHORT_TEXT -> {
             InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
         }
+
         IvyInputType.LONG_TEXT -> {
             InputType.TYPE_CLASS_TEXT or
-                InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
+                    InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
         }
+
         IvyInputType.NAMES -> {
             InputType.TYPE_TEXT_VARIATION_PERSON_NAME or InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
         }
+
         IvyInputType.EMAIL -> {
             InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS or InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
         }
+
         IvyInputType.PHONE -> {
             InputType.TYPE_CLASS_PHONE or InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
         }
+
         IvyInputType.NUMBER -> {
             InputType.TYPE_CLASS_NUMBER
         }
+
         IvyInputType.PASSWORD -> {
             InputType.TYPE_TEXT_VARIATION_PASSWORD
         }
+
         IvyInputType.PASSWORD_NUMBER -> {
             InputType.TYPE_NUMBER_VARIATION_PASSWORD
         }
+
         IvyInputType.PASSWORD_VISIBLE -> {
             InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
         }
+
         IvyInputType.PASSWORD_NUMBER_VISIBLE -> {
             InputType.TYPE_CLASS_NUMBER
         }
@@ -212,6 +231,7 @@ fun EditText.setupInputType(
             isSingleLine = false
             imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
         }
+
         else -> {
             // do nothing
         }
@@ -276,7 +296,7 @@ fun EditText.setCursorColor(color: Color) {
 private fun cursorDrawable(
     context: Context,
     widthDp: Float = 3f,
-    color: Color
+    color: Color,
 ): GradientDrawable {
     return GradientDrawable().apply {
 //            <size android:width="3dp" />
@@ -286,7 +306,8 @@ private fun cursorDrawable(
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun Preview() {
     IvyComponentPreview {

@@ -27,10 +27,10 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ivy.base.legacy.Theme
+import com.ivy.data.model.Account
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.ColorInt
@@ -48,6 +48,7 @@ import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.GreenLight
@@ -76,7 +77,7 @@ fun BoxWithConstraintsScope.AccountsTab() {
 @Composable
 internal fun BoxWithConstraintsScope.UI(
     state: AccountsState,
-    onEvent: (AccountsEvent) -> Unit = {}
+    onEvent: (AccountsEvent) -> Unit = {},
 ) {
     val nav = navigation()
     val ivyContext = com.ivy.legacy.ivyWalletCtx()
@@ -203,7 +204,7 @@ private fun AccountCard(
     baseCurrency: String,
     accountData: AccountData,
     onBalanceClick: () -> Unit,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -248,7 +249,7 @@ private fun AccountHeader(
     currency: String,
     baseCurrency: String,
     contrastColor: Color,
-    onBalanceClick: () -> Unit
+    onBalanceClick: () -> Unit,
 ) {
     val account = accountData.account
 
@@ -329,11 +330,11 @@ private fun AccountHeader(
     }
 }
 
-@Preview
+@IvyPreviews
 @Composable
-private fun PreviewAccountsTab(theme: Theme = Theme.LIGHT) {
+private fun PreviewAccountsTab(theme: Theme = Theme.DARK) {
     IvyWalletPreview(theme = theme) {
-        val acc1 = com.ivy.data.model.Account(
+        val acc1 = Account(
             id = AccountId(UUID.randomUUID()),
             name = NotBlankTrimmedString.unsafe("Phyre"),
             color = ColorInt(Green.toArgb()),
@@ -343,7 +344,7 @@ private fun PreviewAccountsTab(theme: Theme = Theme.LIGHT) {
             orderNum = 0.0,
         )
 
-        val acc2 = com.ivy.data.model.Account(
+        val acc2 = Account(
             id = AccountId(UUID.randomUUID()),
             name = NotBlankTrimmedString.unsafe("DSK"),
             color = ColorInt(GreenLight.toArgb()),
@@ -353,7 +354,7 @@ private fun PreviewAccountsTab(theme: Theme = Theme.LIGHT) {
             orderNum = 0.0,
         )
 
-        val acc3 = com.ivy.data.model.Account(
+        val acc3 = Account(
             id = AccountId(UUID.randomUUID()),
             name = NotBlankTrimmedString.unsafe("Revolut"),
             color = ColorInt(Green.toArgb()),
@@ -363,7 +364,7 @@ private fun PreviewAccountsTab(theme: Theme = Theme.LIGHT) {
             orderNum = 0.0,
         )
 
-        val acc4 = com.ivy.data.model.Account(
+        val acc4 = Account(
             id = AccountId(UUID.randomUUID()),
             name = NotBlankTrimmedString.unsafe("Cash"),
             color = ColorInt(Green.toArgb()),

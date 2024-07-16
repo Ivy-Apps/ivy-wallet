@@ -11,10 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.components.BackBottomBar
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -25,7 +25,7 @@ internal fun BoxWithConstraintsScope.LoanBottomBar(
     isPaidOffLoanVisible: Boolean,
     onClose: () -> Unit,
     onAdd: () -> Unit,
-    onTogglePaidOffLoanVisibility: () -> Unit
+    onTogglePaidOffLoanVisibility: () -> Unit,
 ) {
     BackBottomBar(onBack = onClose) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -52,7 +52,8 @@ internal fun BoxWithConstraintsScope.LoanBottomBar(
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun PreviewBottomBar() {
     IvyWalletPreview {

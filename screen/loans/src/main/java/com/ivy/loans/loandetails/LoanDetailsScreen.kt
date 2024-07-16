@@ -24,13 +24,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.legacy.Theme
@@ -65,6 +63,7 @@ import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Gray
@@ -253,7 +252,7 @@ private fun Header(
     onDeleteLoan: () -> Unit,
     loanAmountPaid: Double = 0.0,
     selectedLoanAccount: Account? = null,
-    onAddRecord: () -> Unit
+    onAddRecord: () -> Unit,
 ) {
     val contrastColor = findContrastTextColor(itemColor)
 
@@ -378,7 +377,7 @@ private fun LoanInfoCard(
     loanAmountPaid: Double = 0.0,
     selectedLoanAccount: Account? = null,
 
-    onAddRecord: () -> Unit
+    onAddRecord: () -> Unit,
 ) {
     val backgroundColor = if (isDarkColor(loan.color)) {
         MediumBlack.copy(alpha = 0.9f)
@@ -600,7 +599,7 @@ private fun LoanInfoCard(
 fun LazyListScope.loanRecords(
     loan: Loan,
     displayLoanRecords: List<DisplayLoanRecord> = emptyList(),
-    onClick: (DisplayLoanRecord) -> Unit
+    onClick: (DisplayLoanRecord) -> Unit,
 ) {
     items(items = displayLoanRecords) { displayLoanRecord ->
         LoanRecordItem(
@@ -624,7 +623,7 @@ private fun LoanRecordItem(
     baseCurrency: String,
     loanBaseCurrency: String = "",
     account: Account? = null,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     val nav = navigation()
     Column(
@@ -850,7 +849,8 @@ private fun NoLoanRecordsEmptyState() {
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun Preview_Empty() {
     IvyWalletPreview {
@@ -883,7 +883,7 @@ private fun Preview_Empty() {
 /** For Preview purpose **/
 private val testDateTime = LocalDateTime.of(2023, 4, 27, 0, 35)
 
-@Preview
+@IvyPreviews
 @Composable
 private fun Preview_Records(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme) {

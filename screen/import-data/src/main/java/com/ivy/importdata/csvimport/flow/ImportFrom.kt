@@ -25,15 +25,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.domain.deprecated.logic.csv.model.ImportType
 import com.ivy.navigation.CSVScreen
 import com.ivy.navigation.navigation
 import com.ivy.onboarding.components.OnboardingToolbar
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.ui.theme.components.GradientCutBottom
 import com.ivy.wallet.ui.theme.components.IvyIcon
 
@@ -157,11 +158,12 @@ private fun ImportOption(
     Spacer(Modifier.height(8.dp))
 }
 
+@Suppress("UnusedPrivateMember")
 @ExperimentalFoundationApi
-@Preview
+@IvyPreviews
 @Composable
 private fun Preview() {
-    com.ivy.legacy.IvyWalletPreview {
+    IvyWalletPreview {
         ImportFrom(
             hasSkip = true,
             launchedFromOnboarding = false,

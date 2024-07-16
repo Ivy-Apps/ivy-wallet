@@ -20,12 +20,12 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.legacy.Theme
 import com.ivy.budgets.model.DisplayBudget
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.model.Month
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.datamodel.Budget
@@ -37,6 +37,7 @@ import com.ivy.navigation.BudgetScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.ReorderButton
@@ -58,7 +59,7 @@ fun BoxWithConstraintsScope.BudgetScreen(screen: BudgetScreen) {
 @Composable
 private fun BoxWithConstraintsScope.UI(
     state: BudgetScreenState,
-    onEvent: (BudgetScreenEvent) -> Unit = {}
+    onEvent: (BudgetScreenEvent) -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -172,7 +173,7 @@ private fun Toolbar(
     baseCurrency: String,
     appBudgetMax: Double,
     categoryBudgetsTotal: Double,
-    setReorderModalVisible: (Boolean) -> Unit
+    setReorderModalVisible: (Boolean) -> Unit,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -259,7 +260,7 @@ private fun Toolbar(
 private fun BudgetItem(
     displayBudget: DisplayBudget,
     baseCurrency: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -318,7 +319,7 @@ private fun BudgetItem(
 private fun NoBudgetsEmptyState(
     emptyStateTitle: String,
     emptyStateText: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -357,10 +358,11 @@ private fun NoBudgetsEmptyState(
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun Preview_Empty() {
-    com.ivy.legacy.IvyWalletPreview {
+    IvyWalletPreview {
         UI(
             state = BudgetScreenState(
                 timeRange = com.ivy.legacy.data.model.TimePeriod.currentMonth(
@@ -379,10 +381,10 @@ private fun Preview_Empty() {
     }
 }
 
-@Preview
+@IvyPreviews
 @Composable
-private fun Preview_Budgets(theme: Theme) {
-    com.ivy.legacy.IvyWalletPreview(theme) {
+private fun Preview_Budgets(theme: Theme = Theme.LIGHT) {
+    IvyWalletPreview(theme) {
         UI(
             state = BudgetScreenState(
                 timeRange = TimePeriod(month = Month.monthsList().first()).toRange(1), // preview

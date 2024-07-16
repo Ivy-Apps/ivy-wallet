@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.data.backup.ImportResult
 import com.ivy.design.l0_system.UI
@@ -25,6 +24,7 @@ import com.ivy.legacy.utils.format
 import com.ivy.navigation.CSVScreen
 import com.ivy.navigation.navigation
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
@@ -263,7 +263,8 @@ private fun FailedSectionUI(
     }
 }
 
-@Preview(device = "id:pixel_3", showBackground = true, showSystemUi = true)
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun Preview() {
     com.ivy.legacy.IvyWalletPreview {

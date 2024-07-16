@@ -2,7 +2,6 @@ package com.ivy.search
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.legacy.Theme
 import com.ivy.legacy.IvyWalletPreview
@@ -32,6 +30,7 @@ import com.ivy.legacy.utils.selectEndTextFieldValue
 import com.ivy.navigation.SearchScreen
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_ANIM
 import kotlinx.collections.immutable.persistentListOf
 
@@ -122,7 +121,7 @@ private fun SearchUi(
     }
 }
 
-@Preview
+@IvyPreviews
 @Composable
 private fun SearchScreenPreview(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme) {

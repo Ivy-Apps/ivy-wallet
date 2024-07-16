@@ -1,6 +1,8 @@
+@file:Suppress("UnusedPrivateMember")
+
 import androidx.compose.runtime.Composable
 import com.ivy.balance.BalanceScreenUiTest
-import com.ivy.ui.testing.IvyPreviews
+import com.ivy.ui.annotation.IvyPreviews
 
 @IvyPreviews
 @Composable

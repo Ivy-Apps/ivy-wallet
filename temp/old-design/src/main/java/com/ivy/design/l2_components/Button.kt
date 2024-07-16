@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.White
@@ -19,6 +18,7 @@ import com.ivy.design.l1_buildingBlocks.data.background
 import com.ivy.design.l1_buildingBlocks.data.clipBackground
 import com.ivy.design.utils.IvyComponentPreview
 import com.ivy.design.utils.padding
+import com.ivy.ui.annotation.IvyPreviews
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
@@ -37,7 +37,7 @@ fun Button(
         color = White,
         textAlign = TextAlign.Center
     ),
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Text(
         modifier = modifier
@@ -51,7 +51,8 @@ fun Button(
     )
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun Preview_Solid() {
     IvyComponentPreview {
@@ -71,7 +72,8 @@ private fun Preview_Solid() {
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun Preview_Outlined() {
     IvyComponentPreview {
@@ -92,7 +94,8 @@ private fun Preview_Outlined() {
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun Preview_FillMaxWidth() {
     IvyComponentPreview {

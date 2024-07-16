@@ -10,15 +10,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.base.model.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.utils.navigationBarInset
 import com.ivy.legacy.utils.toDensityDp
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.White
@@ -33,7 +34,7 @@ fun BoxWithConstraintsScope.PieChartStatisticBottomBar(
     onClose: () -> Unit,
     onAdd: (TransactionType) -> Unit,
     modifier: Modifier = Modifier,
-    bottomInset: Dp = navigationBarInset().toDensityDp()
+    bottomInset: Dp = navigationBarInset().toDensityDp(),
 ) {
     ActionsRow(
         modifier = modifier
@@ -74,10 +75,11 @@ fun BoxWithConstraintsScope.PieChartStatisticBottomBar(
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun PreviewBottomBar() {
-    com.ivy.legacy.IvyWalletPreview {
+    IvyWalletPreview {
         PieChartStatisticBottomBar(
             type = TransactionType.INCOME,
             bottomInset = 16.dp,
