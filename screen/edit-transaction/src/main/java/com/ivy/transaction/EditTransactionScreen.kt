@@ -172,6 +172,9 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransactionScreen)
         onDelete = {
             viewModel.onEvent(EditTransactionEvent.Delete)
         },
+        onDuplicated = {
+            // todo
+        },
         onCreateAccount = {
             viewModel.onEvent(EditTransactionEvent.CreateAccount(it))
         },
@@ -223,6 +226,7 @@ private fun BoxWithConstraintsScope.UI(
     onSave: (closeScreen: Boolean) -> Unit,
     onSetHasChanges: (hasChanges: Boolean) -> Unit,
     onDelete: () -> Unit,
+    onDuplicated: () -> Unit,
     onCreateAccount: (CreateAccountData) -> Unit,
     onExchangeRateChange: (Double?) -> Unit = { },
     onTagOperation: (EditTransactionEvent.TagEvent) -> Unit = {},
@@ -290,6 +294,10 @@ private fun BoxWithConstraintsScope.UI(
             },
             onChangeTransactionTypeModal = {
                 changeTransactionTypeModalVisible = true
+            },
+            showDuplicateButton = true,
+            onDuplicate = {
+                onDuplicated()
             }
         )
 
@@ -696,6 +704,7 @@ private fun BoxWithConstraintsScope.Preview(isDark: Boolean = false) {
             onSave = {},
             onSetHasChanges = {},
             onDelete = {},
+            onDuplicated = {},
             onCreateAccount = { },
             onSetDate = {},
             onSetTime = {},

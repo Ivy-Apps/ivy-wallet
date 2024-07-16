@@ -76,6 +76,7 @@ compose-animation = { module = "androidx.compose.animation:animation", version.r
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 compose-material3-windowsize = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "compose-material3" }
+compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose" }
 compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
 compose-runtime-livedate-temp = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "compose" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
@@ -190,6 +191,7 @@ compose = [
     "compose-foundation",
     "compose-material3",
     "compose-material3-windowsize",
+    "compose-material-icons-extended",
     "compose-runtime",
     "compose-ui",
     "compose-activity",
