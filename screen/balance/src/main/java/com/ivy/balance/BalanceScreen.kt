@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
@@ -67,7 +66,7 @@ fun BoxWithConstraintsScope.BalanceScreen(screen: BalanceScreen) {
 @Composable
 private fun BoxWithConstraintsScope.UI(
     state: BalanceState,
-    onEvent: (BalanceEvent) -> Unit = {}
+    onEvent: (BalanceEvent) -> Unit = {},
 ) {
     var choosePeriodModal: ChoosePeriodModalData? by remember { mutableStateOf(null) }
 
@@ -133,7 +132,7 @@ private fun BoxWithConstraintsScope.UI(
 @Composable
 private fun ColumnScope.CurrentBalance(
     currency: String,
-    currentBalance: Double
+    currentBalance: Double,
 ) {
     Text(
         modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -158,7 +157,7 @@ private fun ColumnScope.BalanceAfterPlannedPayments(
     currency: String,
     currentBalance: Double,
     plannedPaymentsAmount: Double,
-    balanceAfterPlannedPayments: Double
+    balanceAfterPlannedPayments: Double,
 ) {
     Text(
         modifier = Modifier
