@@ -24,6 +24,7 @@ sealed interface EditTransactionEvent {
     data class OnSetTransactionType(val newTransactionType: TransactionType) : EditTransactionEvent
     data object OnPayPlannedPayment : EditTransactionEvent
     data object Delete : EditTransactionEvent
+    data object Duplicate : EditTransactionEvent
     data class CreateCategory(val data: CreateCategoryData) : EditTransactionEvent
     data class EditCategory(val updatedCategory: Category) : EditTransactionEvent
     data class CreateAccount(val data: CreateAccountData) : EditTransactionEvent
