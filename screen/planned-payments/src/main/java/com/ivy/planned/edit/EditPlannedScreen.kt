@@ -107,7 +107,9 @@ private fun BoxWithConstraintsScope.UI(
             },
             onChangeTransactionTypeModal = {
                 onEvent(EditPlannedScreenEvent.OnTransactionTypeModalVisible(true))
-            }
+            },
+            showDuplicateButton = false,
+            onDuplicate = {}
         )
 
         Spacer(Modifier.height(32.dp))

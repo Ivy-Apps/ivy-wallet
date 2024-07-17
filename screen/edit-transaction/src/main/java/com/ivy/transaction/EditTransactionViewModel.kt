@@ -313,6 +313,7 @@ class EditTransactionViewModel @Inject constructor(
             is EditTransactionEvent.CreateAccount -> createAccount(event.data)
             is EditTransactionEvent.CreateCategory -> createCategory(event.data)
             EditTransactionEvent.Delete -> delete()
+            EditTransactionEvent.Duplicate -> duplicate()
             is EditTransactionEvent.EditCategory -> editCategory(event.updatedCategory)
             is EditTransactionEvent.OnAccountChanged -> onAccountChanged(event.newAccount)
             is EditTransactionEvent.OnAmountChanged -> onAmountChanged(event.newAmount)
@@ -602,6 +603,24 @@ class EditTransactionViewModel @Inject constructor(
                 }
                 closeScreen()
             }
+        }
+    }
+
+    private fun duplicate() {
+        viewModelScope.launch {
+            ioThread {
+                loadedTransaction()
+                    .copy(
+                        id = UUID.randomUUID(),
+                        dateTime = timeNowLocal()
+                    )
+                    .toDomain(transactionMapper)
+                    ?.let {
+                        transactionRepo.save(it)
+                    }
+                refreshWidget(WalletBalanceWidgetReceiver::class.java)
+            }
+            closeScreen()
         }
     }
 
