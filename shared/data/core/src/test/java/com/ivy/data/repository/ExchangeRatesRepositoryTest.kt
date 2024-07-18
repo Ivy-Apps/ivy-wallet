@@ -1,4 +1,4 @@
-package com.ivy.data.repository.impl
+package com.ivy.data.repository
 
 import arrow.core.Either
 import arrow.core.left
@@ -8,7 +8,6 @@ import com.ivy.data.db.dao.write.WriteExchangeRatesDao
 import com.ivy.data.model.ExchangeRate
 import com.ivy.data.remote.RemoteExchangeRatesDataSource
 import com.ivy.data.remote.responses.ExchangeRatesResponse
-import com.ivy.data.repository.ExchangeRatesRepository
 import com.ivy.data.repository.mapper.ExchangeRateMapper
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
@@ -20,7 +19,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
-class ExchangeRatesRepositoryImplTest {
+class ExchangeRatesRepositoryTest {
     private val mapper = mockk<ExchangeRateMapper>()
     private val exchangeRatesDao = mockk<ExchangeRatesDao>()
     private val writeExchangeRatesDao = mockk<WriteExchangeRatesDao>()
@@ -30,7 +29,7 @@ class ExchangeRatesRepositoryImplTest {
 
     @Before
     fun setup() {
-        repository = ExchangeRatesRepositoryImpl(
+        repository = ExchangeRatesRepository(
             mapper = mapper,
             exchangeRatesDao = exchangeRatesDao,
             writeExchangeRatesDao = writeExchangeRatesDao,

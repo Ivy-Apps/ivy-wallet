@@ -189,7 +189,7 @@ class PlannedPaymentsLogic @Inject constructor(
 
             if (plannedPaymentRule != null && plannedPaymentRule.oneTime) {
                 // delete paid oneTime planned payment rules
-                plannedPaymentRuleWriter.flagDeleted(plannedPaymentRule.id)
+                plannedPaymentRuleWriter.deleteById(plannedPaymentRule.id)
             }
         }
 
@@ -221,7 +221,7 @@ class PlannedPaymentsLogic @Inject constructor(
 
             if (plannedPaymentRule != null && plannedPaymentRule.oneTime) {
                 // delete paid oneTime planned payment rules
-                plannedPaymentRuleWriter.flagDeleted(plannedPaymentRule.id)
+                plannedPaymentRuleWriter.deleteById(plannedPaymentRule.id)
             }
         }
 
@@ -265,7 +265,7 @@ class PlannedPaymentsLogic @Inject constructor(
             plannedPaymentRules.forEach { plannedPaymentRule ->
                 if (plannedPaymentRule != null && plannedPaymentRule.oneTime) {
                     // delete paid oneTime planned payment rules
-                    plannedPaymentRuleWriter.flagDeleted(plannedPaymentRule.id)
+                    plannedPaymentRuleWriter.deleteById(plannedPaymentRule.id)
                 }
             }
         }
@@ -317,7 +317,7 @@ class PlannedPaymentsLogic @Inject constructor(
             plannedPaymentRules.forEach { plannedPaymentRule ->
                 if (plannedPaymentRule != null && plannedPaymentRule.oneTime) {
                     // delete paid oneTime planned payment rules
-                    plannedPaymentRuleWriter.flagDeleted(plannedPaymentRule.id)
+                    plannedPaymentRuleWriter.deleteById(plannedPaymentRule.id)
                 }
             }
         }

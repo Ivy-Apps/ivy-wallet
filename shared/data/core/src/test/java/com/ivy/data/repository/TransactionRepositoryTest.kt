@@ -1,4 +1,4 @@
-package com.ivy.data.repository.impl
+package com.ivy.data.repository
 
 import arrow.core.Either
 import arrow.core.Some
@@ -19,8 +19,6 @@ import com.ivy.data.model.testing.ModelFixtures
 import com.ivy.data.model.testing.accountId
 import com.ivy.data.model.testing.transaction
 import com.ivy.data.model.testing.transactionId
-import com.ivy.data.repository.TagRepository
-import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.data.validTransactionEntity
 import io.kotest.matchers.longs.shouldBeGreaterThanOrEqual
@@ -41,9 +39,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
-typealias TrnMappingRow = Pair<TransactionEntity, Either<String, Transaction>>
-
-class TransactionRepositoryImplTest {
+class TransactionRepositoryTest {
 
     private val mapper = mockk<TransactionMapper>()
     private val transactionDao = mockk<TransactionDao>()
@@ -59,7 +55,7 @@ class TransactionRepositoryImplTest {
 
     private fun newRepository(
         fakeDao: FakeTransactionDao?,
-    ): TransactionRepository = TransactionRepositoryImpl(
+    ): TransactionRepository = TransactionRepository(
         mapper = mapper,
         transactionDao = fakeDao ?: transactionDao,
         writeTransactionDao = fakeDao ?: writeTransactionDao,
@@ -406,37 +402,6 @@ class TransactionRepositoryImplTest {
     }
 
     @Test
-    fun flagDeletedByAccountId() = runTest {
-        val accountId = ModelFixtures.AccountId
-        // given
-        repository = newRepository(fakeDao = FakeTransactionDao())
-        val trn = mockkFakeTrnMapping(account = accountId)
-        repository.save(trn)
-
-        // when
-        repository.flagDeletedByAccountId(accountId.value)
-
-        // then
-        repository.findAllIncomeByAccount(accountId) shouldBe emptyList()
-        repository.findAllExpenseByAccount(accountId) shouldBe emptyList()
-        repository.findAllTransferByAccount(accountId) shouldBe emptyList()
-    }
-
-    @Test
-    fun flagDeleted() = runTest {
-        // given
-        repository = newRepository(fakeDao = FakeTransactionDao())
-        val trn = mockkFakeTrnMapping()
-        repository.save(trn)
-
-        // when
-        repository.flagDeleted(trn.id)
-
-        // then
-        repository.findById(trn.id) shouldBe null
-    }
-
-    @Test
     fun deleteById() = runTest {
         // given
         repository = newRepository(fakeDao = FakeTransactionDao())
@@ -545,3 +510,5 @@ class TransactionRepositoryImplTest {
         }
     }
 }
+
+typealias TrnMappingRow = Pair<TransactionEntity, Either<String, Transaction>>

@@ -39,8 +39,10 @@ data class LoanRecordEntity(
     @SerialName("loanRecordType")
     val loanRecordType: LoanRecordType = LoanRecordType.DECREASE,
 
+    @Deprecated("Obsolete field used for cloud sync. Can't be deleted because of backwards compatibility")
     @SerialName("isSynced")
     val isSynced: Boolean = false,
+    @Deprecated("Obsolete field used for cloud sync. Can't be deleted because of backwards compatibility")
     @SerialName("isDeleted")
     val isDeleted: Boolean = false,
 

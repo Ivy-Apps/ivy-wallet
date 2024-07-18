@@ -8,7 +8,13 @@ import android.graphics.RectF
 import android.view.MotionEvent
 import android.view.View
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,12 +35,17 @@ import com.ivy.design.l0_system.UI
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.ui.R
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.Black
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.Green
+import com.ivy.wallet.ui.theme.IvyDark
+import com.ivy.wallet.ui.theme.RedLight
 import com.ivy.wallet.ui.theme.components.IvyIcon
+import com.ivy.wallet.ui.theme.toComposeColor
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import timber.log.Timber
-import java.time.Instant
 import java.util.UUID
 import kotlin.math.acos
 import kotlin.math.sqrt
@@ -284,9 +295,7 @@ private fun Preview() {
                             color = ColorInt(Green.toArgb()),
                             icon = null,
                             id = CategoryId(UUID.randomUUID()),
-                            lastUpdated = Instant.EPOCH,
                             orderNum = 0.0,
-                            removed = false,
                             ),
                         amount = 791.0
                     ),
@@ -296,9 +305,7 @@ private fun Preview() {
                             color = ColorInt(Green.toArgb()),
                             icon = null,
                             id = CategoryId(UUID.randomUUID()),
-                            lastUpdated = Instant.EPOCH,
                             orderNum = 0.0,
-                            removed = false,
                             ),
                         amount = 411.93
                     ),
@@ -308,9 +315,7 @@ private fun Preview() {
                             color = ColorInt(IvyDark.toArgb()),
                             icon = null,
                             id = CategoryId(UUID.randomUUID()),
-                            lastUpdated = Instant.EPOCH,
                             orderNum = 0.0,
-                            removed = false,
                         ),
                         amount = 260.03
                     ),
@@ -320,9 +325,7 @@ private fun Preview() {
                             color = ColorInt(RedLight.toArgb()),
                             icon = null,
                             id = CategoryId(UUID.randomUUID()),
-                            lastUpdated = Instant.EPOCH,
                             orderNum = 0.0,
-                            removed = false,
                         ),
                         amount = 160.0
                     ),

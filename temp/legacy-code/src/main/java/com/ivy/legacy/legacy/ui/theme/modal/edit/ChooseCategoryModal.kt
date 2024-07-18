@@ -53,7 +53,6 @@ import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalSkip
 import com.ivy.wallet.ui.theme.modal.ModalTitle
 import com.ivy.wallet.ui.theme.toComposeColor
-import java.time.Instant
 import java.util.UUID
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
@@ -296,27 +295,21 @@ private fun PreviewChooseCategoryModal() {
                 color = ColorInt(Ivy.toArgb()),
                 icon = null,
                 id = CategoryId(UUID.randomUUID()),
-                lastUpdated = Instant.EPOCH,
                 orderNum = 0.0,
-                removed = false,
             ),
             Category(
                 name = NotBlankTrimmedString.unsafe("Second"),
                 color = ColorInt(Orange.toArgb()),
                 icon = null,
                 id = CategoryId(UUID.randomUUID()),
-                lastUpdated = Instant.EPOCH,
                 orderNum = 0.0,
-                removed = false,
             ),
             Category(
                 name = NotBlankTrimmedString.unsafe("Third"),
                 color = ColorInt(Red.toArgb()),
                 icon = null,
                 id = CategoryId(UUID.randomUUID()),
-                lastUpdated = Instant.EPOCH,
                 orderNum = 0.0,
-                removed = false,
             ),
         )
 

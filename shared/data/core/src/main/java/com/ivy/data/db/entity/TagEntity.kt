@@ -31,13 +31,15 @@ data class TagEntity(
     @SerialName("orderNum")
     val orderNum: Double,
 
-    @SerialName("isDeleted")
-    val isDeleted: Boolean,
-
     @SerialName("creationTime")
     @Serializable(with = KSerializerInstant::class)
     val dateTime: Instant,
 
+    @Deprecated("Obsolete field used for cloud sync. Can't be deleted because of backwards compatibility")
+    @SerialName("isDeleted")
+    val isDeleted: Boolean,
+
+    @Deprecated("Obsolete field used for cloud sync. Can't be deleted because of backwards compatibility")
     @SerialName("lastSyncTime")
     @Serializable(with = KSerializerInstant::class)
     val lastSyncedTime: Instant

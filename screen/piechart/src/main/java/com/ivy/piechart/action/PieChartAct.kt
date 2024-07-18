@@ -29,7 +29,6 @@ import com.ivy.wallet.domain.pure.data.IncomeExpenseTransferPair
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import java.math.BigDecimal
-import java.time.Instant
 import java.util.UUID
 import javax.inject.Inject
 
@@ -47,9 +46,7 @@ class PieChartAct @Inject constructor(
             color = ColorInt(RedLight.toArgb()),
             icon = IconAsset.unsafe("transfer"),
             id = CategoryId(UUID.randomUUID()),
-            lastUpdated = Instant.EPOCH,
             orderNum = 0.0,
-            removed = false,
         )
 
     override suspend fun Input.compose(): suspend () -> Output = suspend {

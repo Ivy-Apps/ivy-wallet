@@ -11,6 +11,9 @@ data class IvyCurrency(
     val isCrypto: Boolean
 ) {
     companion object {
+        private const val CRYPTO_DECIMAL = 18
+        private const val FIAT_DECIMAL = 2
+
         private val CRYPTO = setOf(
             IvyCurrency(
                 code = "BTC",
@@ -172,6 +175,11 @@ data class IvyCurrency(
                 name = "Tron",
                 isCrypto = true
             ),
+            IvyCurrency(
+                code = "TON",
+                name = "Tonchain",
+                isCrypto = true
+            ),
         )
 
         fun getAvailable(): List<IvyCurrency> {
@@ -208,6 +216,9 @@ data class IvyCurrency(
         fun getDefault(): IvyCurrency = IvyCurrency(
             fiatCurrency = getDefaultFIATCurrency()
         )
+
+        fun getDecimalPlaces(assetCode: String): Int =
+            if (fromCode(assetCode) in CRYPTO) CRYPTO_DECIMAL else FIAT_DECIMAL
     }
 
     constructor(fiatCurrency: Currency) : this(

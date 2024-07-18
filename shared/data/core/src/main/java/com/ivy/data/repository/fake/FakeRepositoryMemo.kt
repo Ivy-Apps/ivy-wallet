@@ -6,7 +6,7 @@ import com.ivy.data.repository.RepositoryMemoFactory
 import org.jetbrains.annotations.VisibleForTesting
 
 @VisibleForTesting
-fun fakeRepositoryMakeFactory(): RepositoryMemoFactory = RepositoryMemoFactory(
+fun fakeRepositoryMemoFactory(): RepositoryMemoFactory = RepositoryMemoFactory(
     dataObserver = DataObserver(),
     dispatchers = TestDispatchersProvider
 )

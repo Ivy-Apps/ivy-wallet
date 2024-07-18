@@ -70,7 +70,6 @@ import com.ivy.wallet.ui.theme.components.IvyToolbar
 import com.ivy.wallet.ui.theme.pureBlur
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
-import java.time.Instant
 import java.util.UUID
 
 @ExperimentalFoundationApi
@@ -412,9 +411,7 @@ private fun Preview(theme: Theme = Theme.LIGHT) {
             color = ColorInt(Purple1Dark.toArgb()),
             icon = IconAsset.unsafe("atom"),
             id = CategoryId(UUID.randomUUID()),
-            lastUpdated = Instant.EPOCH,
             orderNum = 0.0,
-            removed = false,
         )
         val state = ReportScreenState(
             baseCurrency = "BGN",
@@ -447,18 +444,14 @@ private fun Preview(theme: Theme = Theme.LIGHT) {
                     color = ColorInt(Red3Light.toArgb()),
                     icon = IconAsset.unsafe("pet"),
                     id = CategoryId(UUID.randomUUID()),
-                    lastUpdated = Instant.EPOCH,
                     orderNum = 0.0,
-                    removed = false,
                 ),
                 Category(
                     name = NotBlankTrimmedString.unsafe("Home"),
                     color = ColorInt(Green.toArgb()),
                     icon = null,
                     id = CategoryId(UUID.randomUUID()),
-                    lastUpdated = Instant.EPOCH,
                     orderNum = 0.0,
-                    removed = false,
                 ),
             ),
         )
@@ -479,9 +472,7 @@ private fun Preview_NO_FILTER(theme: Theme = Theme.LIGHT) {
             color = ColorInt(Purple1Dark.toArgb()),
             icon = IconAsset.unsafe("atom"),
             id = CategoryId(UUID.randomUUID()),
-            lastUpdated = Instant.EPOCH,
             orderNum = 0.0,
-            removed = false,
         )
         val state = ReportScreenState(
             baseCurrency = "BGN",
@@ -516,18 +507,14 @@ private fun Preview_NO_FILTER(theme: Theme = Theme.LIGHT) {
                     color = ColorInt(Red3Light.toArgb()),
                     icon = IconAsset.unsafe("pet"),
                     id = CategoryId(UUID.randomUUID()),
-                    lastUpdated = Instant.EPOCH,
                     orderNum = 0.0,
-                    removed = false,
                 ),
                 Category(
                     name = NotBlankTrimmedString.unsafe("Home"),
                     color = ColorInt(Green.toArgb()),
                     icon = null,
                     id = CategoryId(UUID.randomUUID()),
-                    lastUpdated = Instant.EPOCH,
                     orderNum = 0.0,
-                    removed = false,
                 ),
             ),
         )

@@ -11,7 +11,6 @@ import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.repository.CurrencyRepository
-import java.time.Instant
 import java.util.UUID
 import com.ivy.data.model.Account as DomainAccount
 
@@ -56,8 +55,6 @@ data class Account(
                 icon = icon?.let(IconAsset::from)?.getOrNull(),
                 includeInBalance = includeInBalance,
                 orderNum = orderNum,
-                lastUpdated = Instant.now(),
-                removed = isDeleted,
             )
         }
     }

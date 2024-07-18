@@ -11,6 +11,7 @@ import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 import java.util.*
 
+@Suppress("DataClassDefaultValues")
 @Keep
 @Serializable
 @Entity(tableName = "loans")
@@ -31,10 +32,13 @@ data class LoanEntity(
     @Serializable(with = KSerializerUUID::class)
     val accountId: UUID? = null,
 
+    @Deprecated("Obsolete field used for cloud sync. Can't be deleted because of backwards compatibility")
     @SerialName("isSynced")
     val isSynced: Boolean = false,
+    @Deprecated("Obsolete field used for cloud sync. Can't be deleted because of backwards compatibility")
     @SerialName("isDeleted")
     val isDeleted: Boolean = false,
+
     @SerialName("dateTime")
     @Serializable(with = KSerializerLocalDateTime::class)
     val dateTime: LocalDateTime? = null,

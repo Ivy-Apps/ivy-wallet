@@ -1,7 +1,7 @@
 package com.ivy.data.model
 
 import com.ivy.data.model.primitive.NotBlankTrimmedString
-import com.ivy.data.model.sync.Syncable
+import com.ivy.data.model.sync.Identifiable
 import com.ivy.data.model.sync.UniqueId
 import java.time.Instant
 import java.util.UUID
@@ -9,7 +9,7 @@ import java.util.UUID
 @JvmInline
 value class TransactionId(override val value: UUID) : UniqueId
 
-sealed interface Transaction : Syncable<TransactionId> {
+sealed interface Transaction : Identifiable<TransactionId> {
     override val id: TransactionId
     val title: NotBlankTrimmedString?
     val description: NotBlankTrimmedString?
@@ -30,8 +30,6 @@ data class Income(
     override val time: Instant,
     override val settled: Boolean,
     override val metadata: TransactionMetadata,
-    override val lastUpdated: Instant,
-    override val removed: Boolean,
     override val tags: List<TagId>,
     val value: PositiveValue,
     val account: AccountId,
@@ -45,8 +43,6 @@ data class Expense(
     override val time: Instant,
     override val settled: Boolean,
     override val metadata: TransactionMetadata,
-    override val lastUpdated: Instant,
-    override val removed: Boolean,
     override val tags: List<TagId>,
     val value: PositiveValue,
     val account: AccountId,
@@ -60,8 +56,6 @@ data class Transfer(
     override val time: Instant,
     override val settled: Boolean,
     override val metadata: TransactionMetadata,
-    override val lastUpdated: Instant,
-    override val removed: Boolean,
     override val tags: List<TagId>,
     val fromAccount: AccountId,
     val fromValue: PositiveValue,

@@ -50,7 +50,6 @@ import com.ivy.wallet.ui.theme.modal.ModalDelete
 import com.ivy.wallet.ui.theme.modal.ModalTitle
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import com.ivy.wallet.ui.theme.toComposeColor
-import java.time.Instant
 import java.util.UUID
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
@@ -274,9 +273,7 @@ private fun Preview_create() {
             color = ColorInt(Purple1Dark.toArgb()),
             icon = IconAsset.unsafe("atom"),
             id = CategoryId(UUID.randomUUID()),
-            lastUpdated = Instant.EPOCH,
             orderNum = 0.0,
-            removed = false,
         )
 
         BudgetModal(
@@ -290,18 +287,14 @@ private fun Preview_create() {
                         color = ColorInt(Red3Light.toArgb()),
                         icon = IconAsset.unsafe("pet"),
                         id = CategoryId(UUID.randomUUID()),
-                        lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
-                        removed = false,
                     ),
                     Category(
                         name = NotBlankTrimmedString.unsafe("Home"),
                         color = ColorInt(Green.toArgb()),
                         icon = null,
                         id = CategoryId(UUID.randomUUID()),
-                        lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
-                        removed = false,
                     ),
                 ),
                 accounts = emptyList()
@@ -323,9 +316,7 @@ private fun Preview_edit() {
             color = ColorInt(Purple1Dark.toArgb()),
             icon = IconAsset.unsafe("atom"),
             id = CategoryId(UUID.randomUUID()),
-            lastUpdated = Instant.EPOCH,
             orderNum = 0.0,
-            removed = false,
         )
 
         BudgetModal(
@@ -345,18 +336,14 @@ private fun Preview_edit() {
                         color = ColorInt(Red3Light.toArgb()),
                         icon = IconAsset.unsafe("pet"),
                         id = CategoryId(UUID.randomUUID()),
-                        lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
-                        removed = false,
                     ),
                     Category(
                         name = NotBlankTrimmedString.unsafe("Home"),
                         color = ColorInt(Green.toArgb()),
                         icon = null,
                         id = CategoryId(UUID.randomUUID()),
-                        lastUpdated = Instant.EPOCH,
                         orderNum = 0.0,
-                        removed = false,
                     ),
                 ),
                 accounts = emptyList()

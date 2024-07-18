@@ -440,4 +440,5 @@
     <string name="total_balance">Нийт ҮЛДЭГДЭЛ</string>
     <string name="total_balance_excluded">Нийт ҮЛДЭГДЭЛ (үлдэгдэл тооцохгүй)</string>
     <string name="search_tags">Хайлтын тагууд</string>
+    <string name="language">Хэл</string>
 </resources>

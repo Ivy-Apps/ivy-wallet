@@ -1,4 +1,4 @@
-package com.ivy.data.repository.impl
+package com.ivy.data.repository
 
 import com.ivy.base.TestDispatchersProvider
 import com.ivy.data.db.dao.read.CategoryDao
@@ -8,8 +8,7 @@ import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.NotBlankTrimmedString
-import com.ivy.data.repository.CategoryRepository
-import com.ivy.data.repository.fake.fakeRepositoryMakeFactory
+import com.ivy.data.repository.fake.fakeRepositoryMemoFactory
 import com.ivy.data.repository.mapper.CategoryMapper
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
@@ -20,10 +19,9 @@ import io.mockk.runs
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import java.time.Instant
 import java.util.UUID
 
-class CategoryRepositoryImplTest {
+class CategoryRepositoryTest {
     private val categoryDao = mockk<CategoryDao>()
     private val writeCategoryDao = mockk<WriteCategoryDao>()
 
@@ -31,12 +29,12 @@ class CategoryRepositoryImplTest {
 
     @Before
     fun setup() {
-        repository = CategoryRepositoryImpl(
+        repository = CategoryRepository(
             mapper = CategoryMapper(),
             categoryDao = categoryDao,
             writeCategoryDao = writeCategoryDao,
             dispatchersProvider = TestDispatchersProvider,
-            memoFactory = fakeRepositoryMakeFactory(),
+            memoFactory = fakeRepositoryMemoFactory(),
         )
     }
 
@@ -46,7 +44,7 @@ class CategoryRepositoryImplTest {
         coEvery { categoryDao.findAll(false) } returns emptyList()
 
         // when
-        val res = repository.findAll(false)
+        val res = repository.findAll()
 
         // then
         res shouldBe emptyList()
@@ -88,7 +86,7 @@ class CategoryRepositoryImplTest {
         )
 
         // when
-        val res = repository.findAll(false)
+        val res = repository.findAll()
 
         // then
         res shouldBe listOf(
@@ -97,8 +95,6 @@ class CategoryRepositoryImplTest {
                 color = ColorInt(42),
                 icon = null,
                 orderNum = 0.0,
-                removed = false,
-                lastUpdated = Instant.EPOCH,
                 id = CategoryId(id1)
             ),
             Category(
@@ -106,8 +102,6 @@ class CategoryRepositoryImplTest {
                 color = ColorInt(42),
                 icon = null,
                 orderNum = 2.0,
-                removed = false,
-                lastUpdated = Instant.EPOCH,
                 id = CategoryId(id3)
             )
         )
@@ -149,8 +143,6 @@ class CategoryRepositoryImplTest {
             color = ColorInt(42),
             icon = null,
             orderNum = 0.0,
-            removed = false,
-            lastUpdated = Instant.EPOCH,
             id = CategoryId(id)
         )
     }
@@ -209,8 +201,6 @@ class CategoryRepositoryImplTest {
             color = ColorInt(42),
             icon = null,
             orderNum = 3.0,
-            removed = false,
-            lastUpdated = Instant.EPOCH,
             id = CategoryId(id)
         )
         coEvery { writeCategoryDao.save(any()) } just runs
@@ -246,8 +236,6 @@ class CategoryRepositoryImplTest {
                 color = ColorInt(42),
                 icon = null,
                 orderNum = 3.0,
-                removed = false,
-                lastUpdated = Instant.EPOCH,
                 id = CategoryId(id1)
             ),
             Category(
@@ -255,8 +243,6 @@ class CategoryRepositoryImplTest {
                 color = ColorInt(42),
                 icon = null,
                 orderNum = 4.0,
-                removed = false,
-                lastUpdated = Instant.EPOCH,
                 id = CategoryId(id2)
             ),
             Category(
@@ -264,8 +250,6 @@ class CategoryRepositoryImplTest {
                 color = ColorInt(42),
                 icon = null,
                 orderNum = 5.0,
-                removed = false,
-                lastUpdated = Instant.EPOCH,
                 id = CategoryId(id3)
             )
         )

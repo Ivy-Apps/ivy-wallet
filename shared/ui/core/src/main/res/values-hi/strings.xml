@@ -440,4 +440,5 @@
     <string name="total_balance">कुल बैलेंस</string>
     <string name="total_balance_excluded">कुल बैलेंस (छोड़ा गया)</string>
     <string name="search_tags">\"खोज टैग्स</string>
+    <string name="language">भाषा</string>
 </resources>

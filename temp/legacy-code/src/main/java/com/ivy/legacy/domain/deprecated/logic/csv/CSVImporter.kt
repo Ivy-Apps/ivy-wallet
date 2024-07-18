@@ -35,7 +35,6 @@ import com.opencsv.validators.RowValidator
 import kotlinx.collections.immutable.persistentListOf
 import timber.log.Timber
 import java.io.StringReader
-import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -526,8 +525,6 @@ class CSVImporter @Inject constructor(
                 icon = icon?.let(IconAsset::from)?.getOrNull(),
                 orderNum = orderNum ?: categoryRepository.findMaxOrderNum().nextOrderNum(),
                 id = CategoryId(UUID.randomUUID()),
-                lastUpdated = Instant.EPOCH,
-                removed = false,
             )
         }.getOrNull()
 

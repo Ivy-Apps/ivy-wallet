@@ -12,11 +12,9 @@ import io.kotest.property.arbitrary.boolean
 import io.kotest.property.arbitrary.double
 import io.kotest.property.arbitrary.map
 import io.kotest.property.arbitrary.uuid
-import java.time.Instant
 
 fun Arb.Companion.account(
     accountId: Option<AccountId> = None,
-    removed: Option<Boolean> = None,
     asset: Option<AssetCode> = None,
     includeInBalance: Option<Boolean> = None,
     orderNum: Option<Double> = None,
@@ -29,8 +27,6 @@ fun Arb.Companion.account(
         icon = Arb.maybe(Arb.iconAsset()).bind(),
         includeInBalance = includeInBalance.getOrElse { Arb.boolean().bind() },
         orderNum = orderNum.getOrElse { Arb.double().bind() },
-        lastUpdated = Instant.EPOCH,
-        removed = removed.getOrElse { Arb.boolean().bind() }
     )
 }
 

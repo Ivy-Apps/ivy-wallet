@@ -73,6 +73,7 @@ import com.ivy.wallet.ui.theme.modal.CurrencyModal
 import com.ivy.wallet.ui.theme.modal.DeleteModal
 import com.ivy.wallet.ui.theme.modal.NameModal
 import com.ivy.wallet.ui.theme.modal.ProgressModal
+import java.util.Locale
 
 @ExperimentalFoundationApi
 @Composable
@@ -95,6 +96,7 @@ fun BoxWithConstraintsScope.SettingsScreen() {
         treatTransfersAsIncomeExpense = uiState.treatTransfersAsIncomeExpense,
         nameLocalAccount = uiState.name,
         startDateOfMonth = uiState.startDateOfMonth.toInt(),
+        languageOptionVisible = uiState.languageOptionVisible,
         onSetCurrency = {
             viewModel.onEvent(SettingsEvent.SetCurrency(it))
         },
@@ -131,17 +133,22 @@ fun BoxWithConstraintsScope.SettingsScreen() {
         onDeleteCloudUserData = {
             viewModel.onEvent(SettingsEvent.DeleteCloudUserData)
         },
+        onSwitchLanguage = {
+            viewModel.onEvent(SettingsEvent.SwitchLanguage)
+        }
     )
 }
 
 @ExperimentalFoundationApi
 @Composable
+@Suppress("LongMethod")
 private fun BoxWithConstraintsScope.UI(
     currencyCode: String,
     theme: Theme,
     onSwitchTheme: () -> Unit,
     lockApp: Boolean,
     nameLocalAccount: String?,
+    languageOptionVisible: Boolean,
     onSetCurrency: (String) -> Unit,
     startDateOfMonth: Int = 1,
     showNotifications: Boolean = true,
@@ -160,8 +167,8 @@ private fun BoxWithConstraintsScope.UI(
     onSetStartDateOfMonth: (Int) -> Unit = {},
     onDeleteAllUserData: () -> Unit = {},
     onDeleteCloudUserData: () -> Unit = {},
-
-    ) {
+    onSwitchLanguage: () -> Unit = {}
+) {
     var currencyModalVisible by remember { mutableStateOf(false) }
     var nameModalVisible by remember { mutableStateOf(false) }
     var chooseStartDateOfMonthVisible by remember { mutableStateOf(false) }
@@ -295,6 +302,18 @@ private fun BoxWithConstraintsScope.UI(
 //            }
 //
 //            Spacer(Modifier.height(12.dp))
+
+            if (languageOptionVisible) {
+                SettingsDefaultButton(
+                    icon = R.drawable.ic_vue_location_global,
+                    text = stringResource(R.string.language),
+                    description = Locale.getDefault().displayName
+                ) {
+                    onSwitchLanguage()
+                }
+
+                Spacer(Modifier.height(12.dp))
+            }
 
             SettingsDefaultButton(
                 icon = R.drawable.ic_currency,
@@ -1124,6 +1143,7 @@ private fun Preview(theme: Theme = Theme.LIGHT) {
             lockApp = false,
             currencyCode = "BGN",
             onSetCurrency = {},
+            languageOptionVisible = true
         )
     }
 }

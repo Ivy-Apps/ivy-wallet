@@ -58,6 +58,7 @@ import com.ivy.navigation.Navigation
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.ui.R
+import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
@@ -81,7 +82,6 @@ import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import java.time.Instant
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -197,7 +197,10 @@ fun TransactionCard(
         if (transaction.type == TransactionType.TRANSFER && toAccountCurrency != transactionCurrency) {
             Text(
                 modifier = Modifier.padding(start = 68.dp),
-                text = "${transaction.toAmount.toDouble().format(2)} $toAccountCurrency",
+                text = "${
+                    transaction.toAmount.toDouble()
+                        .format(IvyCurrency.getDecimalPlaces(toAccountCurrency))
+                } $toAccountCurrency",
                 style = UI.typo.nB2.style(
                     color = Gray,
                     fontWeight = FontWeight.Normal
@@ -401,7 +404,8 @@ private fun TransactionBadge(
             .background(backgroundColor, UI.shapes.rFull)
             .clickable {
                 onClick()
-            }.padding(end = 10.dp),
+            }
+            .padding(end = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         SpacerHor(width = 8.dp)
@@ -594,9 +598,7 @@ private fun PreviewUpcomingExpense() {
                 color = ColorInt(Blue.toArgb()),
                 icon = null,
                 id = CategoryId(UUID.randomUUID()),
-                lastUpdated = Instant.EPOCH,
                 orderNum = 0.0,
-                removed = false,
             )
 
             item {
@@ -634,9 +636,7 @@ private fun PreviewUpcomingExpenseBadgeSecondRow() {
                 color = ColorInt(Blue.toArgb()),
                 icon = null,
                 id = CategoryId(UUID.randomUUID()),
-                lastUpdated = Instant.EPOCH,
                 orderNum = 0.0,
-                removed = false,
             )
 
             item {
@@ -674,9 +674,7 @@ private fun PreviewOverdueExpense() {
                 color = ColorInt(Green.toArgb()),
                 icon = null,
                 id = CategoryId(UUID.randomUUID()),
-                lastUpdated = Instant.EPOCH,
                 orderNum = 0.0,
-                removed = false,
             )
 
             item {
@@ -714,9 +712,7 @@ private fun PreviewNormalExpense() {
                 color = ColorInt(Orange.toArgb()),
                 icon = IconAsset.unsafe("groceries"),
                 id = CategoryId(UUID.randomUUID()),
-                lastUpdated = Instant.EPOCH,
                 orderNum = 0.0,
-                removed = false,
             )
 
             item {
@@ -753,9 +749,7 @@ private fun PreviewIncome() {
                 color = ColorInt(GreenDark.toArgb()),
                 icon = null,
                 id = CategoryId(UUID.randomUUID()),
-                lastUpdated = Instant.EPOCH,
                 orderNum = 0.0,
-                removed = false,
             )
 
             item {

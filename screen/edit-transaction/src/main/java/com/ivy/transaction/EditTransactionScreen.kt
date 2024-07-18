@@ -59,6 +59,7 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.edit.core.Category
 import com.ivy.legacy.ui.component.edit.core.Description
+import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.ui.edit.core.DueDate
 import com.ivy.wallet.ui.edit.core.EditBottomSheet
 import com.ivy.wallet.ui.edit.core.Title
@@ -171,6 +172,9 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransactionScreen)
         onDelete = {
             viewModel.onEvent(EditTransactionEvent.Delete)
         },
+        onDuplicate = {
+            viewModel.onEvent(EditTransactionEvent.Duplicate)
+        },
         onCreateAccount = {
             viewModel.onEvent(EditTransactionEvent.CreateAccount(it))
         },
@@ -222,6 +226,7 @@ private fun BoxWithConstraintsScope.UI(
     onSave: (closeScreen: Boolean) -> Unit,
     onSetHasChanges: (hasChanges: Boolean) -> Unit,
     onDelete: () -> Unit,
+    onDuplicate: () -> Unit,
     onCreateAccount: (CreateAccountData) -> Unit,
     onExchangeRateChange: (Double?) -> Unit = { },
     onTagOperation: (EditTransactionEvent.TagEvent) -> Unit = {},
@@ -289,7 +294,9 @@ private fun BoxWithConstraintsScope.UI(
             },
             onChangeTransactionTypeModal = {
                 changeTransactionTypeModalVisible = true
-            }
+            },
+            showDuplicateButton = true,
+            onDuplicate = onDuplicate
         )
 
         Spacer(Modifier.height(32.dp))
@@ -604,7 +611,9 @@ private fun BoxWithConstraintsScope.UI(
         currency = "",
         initialAmount = customExchangeRateState.exchangeRate,
         dismiss = { exchangeRateAmountModalShown = false },
-        decimalCountMax = 4,
+        decimalCountMax = IvyCurrency.getDecimalPlaces(
+            customExchangeRateState.toCurrencyCode ?: baseCurrency
+        ),
         onAmountChanged = {
             onExchangeRateChange(it)
         }
@@ -693,6 +702,7 @@ private fun BoxWithConstraintsScope.Preview(isDark: Boolean = false) {
             onSave = {},
             onSetHasChanges = {},
             onDelete = {},
+            onDuplicate = {},
             onCreateAccount = { },
             onSetDate = {},
             onSetTime = {},

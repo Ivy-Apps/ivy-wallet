@@ -8,6 +8,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.util.*
 
+@Suppress("DataClassDefaultValues")
 @Keep
 @Serializable
 @Entity(tableName = "budgets")
@@ -22,8 +23,10 @@ data class BudgetEntity(
     @SerialName("accountIdsSerialized")
     val accountIdsSerialized: String?,
 
+    @Deprecated("Obsolete field used for cloud sync. Can't be deleted because of backwards compatibility")
     @SerialName("isSynced")
     val isSynced: Boolean = false,
+    @Deprecated("Obsolete field used for cloud sync. Can't be deleted because of backwards compatibility")
     @SerialName("isDeleted")
     val isDeleted: Boolean = false,
 

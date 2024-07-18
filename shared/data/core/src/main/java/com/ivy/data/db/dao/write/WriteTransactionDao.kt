@@ -14,17 +14,8 @@ interface WriteTransactionDao {
     @Upsert
     suspend fun saveMany(value: List<TransactionEntity>)
 
-    @Query("UPDATE transactions SET isDeleted = 1, isSynced = 0 WHERE id = :id")
-    suspend fun flagDeleted(id: UUID)
-
-    @Query(
-        "UPDATE transactions SET isDeleted = 1, isSynced = 0 WHERE" +
-            " recurringRuleId = :recurringRuleId AND dateTime IS NULL"
-    )
-    suspend fun flagDeletedByRecurringRuleIdAndNoDateTime(recurringRuleId: UUID)
-
-    @Query("UPDATE transactions SET isDeleted = 1, isSynced = 0 WHERE accountId = :accountId")
-    suspend fun flagDeletedByAccountId(accountId: UUID)
+    @Query("DELETE FROM transactions WHERE recurringRuleId = :recurringRuleId AND dateTime IS NULL")
+    suspend fun deletedByRecurringRuleIdAndNoDateTime(recurringRuleId: UUID)
 
     @Query("DELETE FROM transactions WHERE id = :id")
     suspend fun deleteById(id: UUID)

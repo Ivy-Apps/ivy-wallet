@@ -309,34 +309,8 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
         values.forEach { save(it) }
     }
 
-    override suspend fun flagDeleted(id: UUID) {
-        items.replaceAll {
-            if (it.id == id) {
-                it.copy(isDeleted = true)
-            } else {
-                it
-            }
-        }
-    }
-
-    override suspend fun flagDeletedByRecurringRuleIdAndNoDateTime(recurringRuleId: UUID) {
-        items.replaceAll {
-            if (it.recurringRuleId == recurringRuleId && it.dateTime == null) {
-                it.copy(isDeleted = true)
-            } else {
-                it
-            }
-        }
-    }
-
-    override suspend fun flagDeletedByAccountId(accountId: UUID) {
-        items.replaceAll {
-            if (it.accountId == accountId) {
-                it.copy(isDeleted = true)
-            } else {
-                it
-            }
-        }
+    override suspend fun deletedByRecurringRuleIdAndNoDateTime(recurringRuleId: UUID) {
+        items.removeIf { it.recurringRuleId == recurringRuleId }
     }
 
     override suspend fun deleteById(id: UUID) {

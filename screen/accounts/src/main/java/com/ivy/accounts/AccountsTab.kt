@@ -39,6 +39,7 @@ import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.data.model.AccountData
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.horizontalSwipeListener
 import com.ivy.legacy.utils.rememberInteractionSource
@@ -59,7 +60,6 @@ import com.ivy.wallet.ui.theme.dynamicContrast
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.toComposeColor
 import kotlinx.collections.immutable.persistentListOf
-import java.time.Instant
 import java.util.UUID
 
 @Composable
@@ -201,7 +201,7 @@ private fun BoxWithConstraintsScope.UI(
 @Composable
 private fun AccountCard(
     baseCurrency: String,
-    accountData: com.ivy.legacy.data.model.AccountData,
+    accountData: AccountData,
     onBalanceClick: () -> Unit,
     onClick: () -> Unit
 ) {
@@ -244,7 +244,7 @@ private fun AccountCard(
 
 @Composable
 private fun AccountHeader(
-    accountData: com.ivy.legacy.data.model.AccountData,
+    accountData: AccountData,
     currency: String,
     baseCurrency: String,
     contrastColor: Color,
@@ -341,8 +341,6 @@ private fun PreviewAccountsTab(theme: Theme = Theme.LIGHT) {
             icon = null,
             includeInBalance = true,
             orderNum = 0.0,
-            lastUpdated = Instant.EPOCH,
-            removed = false
         )
 
         val acc2 = com.ivy.data.model.Account(
@@ -353,8 +351,6 @@ private fun PreviewAccountsTab(theme: Theme = Theme.LIGHT) {
             icon = null,
             includeInBalance = true,
             orderNum = 0.0,
-            lastUpdated = Instant.EPOCH,
-            removed = false
         )
 
         val acc3 = com.ivy.data.model.Account(
@@ -365,8 +361,6 @@ private fun PreviewAccountsTab(theme: Theme = Theme.LIGHT) {
             icon = IconAsset.unsafe("revolut"),
             includeInBalance = true,
             orderNum = 0.0,
-            lastUpdated = Instant.EPOCH,
-            removed = false
         )
 
         val acc4 = com.ivy.data.model.Account(
@@ -377,34 +371,32 @@ private fun PreviewAccountsTab(theme: Theme = Theme.LIGHT) {
             icon = IconAsset.unsafe("cash"),
             includeInBalance = true,
             orderNum = 0.0,
-            lastUpdated = Instant.EPOCH,
-            removed = false
         )
         val state = AccountsState(
             baseCurrency = "BGN",
             accountsData = persistentListOf(
-                com.ivy.legacy.data.model.AccountData(
+                AccountData(
                     account = acc1,
                     balance = 2125.0,
                     balanceBaseCurrency = null,
                     monthlyExpenses = 920.0,
                     monthlyIncome = 3045.0
                 ),
-                com.ivy.legacy.data.model.AccountData(
+                AccountData(
                     account = acc2,
                     balance = 12125.21,
                     balanceBaseCurrency = null,
                     monthlyExpenses = 1350.50,
                     monthlyIncome = 8000.48
                 ),
-                com.ivy.legacy.data.model.AccountData(
+                AccountData(
                     account = acc3,
                     balance = 1200.0,
                     balanceBaseCurrency = 1979.64,
                     monthlyExpenses = 750.0,
                     monthlyIncome = 1000.30
                 ),
-                com.ivy.legacy.data.model.AccountData(
+                AccountData(
                     account = acc4,
                     balance = 820.0,
                     balanceBaseCurrency = null,

@@ -443,4 +443,5 @@
     <string name="total_balance">Łącznie Saldo</string>
     <string name="total_balance_excluded">Łącznie Saldo (wykluczony)</string>
     <string name="search_tags">Tagi wyszukiwania</string>
+    <string name="language">Język</string>
 </resources>

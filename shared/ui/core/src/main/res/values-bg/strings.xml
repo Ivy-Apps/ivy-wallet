@@ -440,4 +440,5 @@
     <string name="total_balance">Общо БАЛАНС</string>
     <string name="total_balance_excluded">Общо БАЛАНС (изключен)</string>
     <string name="search_tags">Търсени етикети</string>
+    <string name="language">Eзик</string>
 </resources>

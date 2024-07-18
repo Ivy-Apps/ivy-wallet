@@ -37,10 +37,6 @@ class FakeBudgetDao : BudgetDao, WriteBudgetDao {
         values.forEach { save(it) }
     }
 
-    override suspend fun flagDeleted(id: UUID) {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun deleteById(id: UUID) {
         items.removeIf { it.id == id }
     }
