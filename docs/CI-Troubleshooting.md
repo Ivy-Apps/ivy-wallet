@@ -71,15 +71,19 @@ This GitHub Action checks whether your `@Composable` functions are stable (i.e. 
 Do that only if the failure is in legacy code. If the script is failing, open it and execute the commands inside it manually.
 
 
-## Paparazzi Tests
-Paparazzi is used for automated visual testing. It captures screenshots of various `@Composable` and then compares them against baseline images to detect any visual differences or regressions.
+## Compose preview screenshot testing
 
-**Fixing Paparazzi issues:**
+Screenshot testing is an effective way to verify how your UI looks to users. The Compose Preview Screenshot Testing tool combines the simplicity and features of composable previews with the productivity gains of running host-side screenshot tests. Compose Preview Screenshot Testing is designed to be as easy to use as composable previews.
 
-1. Run `./gradlew verifyPaparazziDebug` locally to execute the Paparazzi tests and identify the specific screens where failures occur.
-2. Upon failure, the system generates detailed reports pinpointing the changes introduced since the last successful test run. Review these reports to understand the nature of the failures.
-3. If the identified changes are intentional, proceed by running `./gradlew {module_name}:recordPaparazziDebug` to update the baseline screenshots specifically for the failed UI components.
-4. After updating the baseline screenshots, rerun `./gradlew {module_name}:verifyPaparazziDebug` to ensure that the tests now pass with the updated baselines.
-5. Repeat this process iteratively for all modules that have failed Paparazzi tests, ensuring thorough validation and updating of baseline images as needed.
+A screenshot test is an automated test that takes a screenshot of a piece of UI and then compares it against a previously approved reference image. If the images don't match, the test fails and produces an HTML report to help you compare and find the differences.
+
+We also create an annotation called @IvyPreviews to serve the purpose of exporting and checking images for large-sized devices and small-sized devices. 
+
+1. Run `./gradlew validateDebugScreenshotTest` locally to execute the screenshot testing and identify the specific screens where failures occur.
+2. Upon failure, the system generates detailed reports pinpointing the changes introduced since the last successful test run. Review these reports to understand the nature of the failures. You can find the report at the following path: {module}/build/reports/screenshotTest/preview/{variant}/index.html
+   For example: screen/balance/build/reports/screenshotTest/preview/debug/index.html
+3. If the identified changes are intentional, proceed by running `./gradlew {:module:}update{Variant}ScreenshotTest` to update the baseline screenshots specifically for the failed UI components. For example : `./gradlew :screen:balance:updateDebugScreenshotTest`
+4. After updating the baseline screenshots, rerun `./gradlew {:module:}validate{Variant}ScreenshotTest` to ensure that the tests now pass with the updated baselines. For example : `./gradlew :screen:balance:validateDebugScreenshotTest`
+5. Repeat this process iteratively for all modules that have failed compose preview screenshot testing, ensuring thorough validation and updating of baseline images as needed.
 
 > **Note**: Ensure the use of static data only. Dynamic data, such as current time or date, will cause test failures due to its variability.
