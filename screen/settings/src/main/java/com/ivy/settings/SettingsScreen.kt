@@ -42,7 +42,6 @@ import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IconScale
 import com.ivy.design.l1_buildingBlocks.IvyIconScaled
 import com.ivy.design.utils.thenIf
-import com.ivy.domain.RootScreen
 import com.ivy.legacy.Constants
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.rootScreen
@@ -134,7 +133,6 @@ fun BoxWithConstraintsScope.SettingsScreen() {
         onDeleteCloudUserData = {
             viewModel.onEvent(SettingsEvent.DeleteCloudUserData)
         },
-        rootScreen = rootScreen,
         onSwitchLanguage = {
             viewModel.onEvent(SettingsEvent.SwitchLanguage)
         }
@@ -152,7 +150,6 @@ private fun BoxWithConstraintsScope.UI(
     nameLocalAccount: String?,
     languageOptionVisible: Boolean,
     onSetCurrency: (String) -> Unit,
-    rootScreen: RootScreen?,
     startDateOfMonth: Int = 1,
     showNotifications: Boolean = true,
     hideCurrentBalance: Boolean = false,
@@ -170,7 +167,7 @@ private fun BoxWithConstraintsScope.UI(
     onSetStartDateOfMonth: (Int) -> Unit = {},
     onDeleteAllUserData: () -> Unit = {},
     onDeleteCloudUserData: () -> Unit = {},
-    onSwitchLanguage: () -> Unit = {}
+    onSwitchLanguage: () -> Unit = {},
 ) {
     var currencyModalVisible by remember { mutableStateOf(false) }
     var nameModalVisible by remember { mutableStateOf(false) }
@@ -193,18 +190,17 @@ private fun BoxWithConstraintsScope.UI(
             ) {
                 Spacer(Modifier.weight(1f))
 
-                rootScreen?.let {
-                    Text(
-                        modifier = Modifier.clickable {
-                            nav.navigateTo(ReleasesScreen)
-                        },
-                        text = "${rootScreen.buildVersionName} (${rootScreen.buildVersionCode})",
-                        style = UI.typo.nC.style(
-                            color = UI.colors.gray,
-                            fontWeight = FontWeight.Bold
-                        )
+                val rootScreen = rootScreen()
+                Text(
+                    modifier = Modifier.clickable {
+                        nav.navigateTo(ReleasesScreen)
+                    },
+                    text = "${rootScreen.buildVersionName} (${rootScreen.buildVersionCode})",
+                    style = UI.typo.nC.style(
+                        color = UI.colors.gray,
+                        fontWeight = FontWeight.Bold
                     )
-                }
+                )
 
                 Spacer(Modifier.width(32.dp))
             }
@@ -1154,7 +1150,6 @@ private fun SettingsScreenPreview(theme: Theme = Theme.LIGHT) {
             progressState = false,
             treatTransfersAsIncomeExpense = false,
             onSetCurrency = {},
-            rootScreen = null,
             languageOptionVisible = true
         )
     }

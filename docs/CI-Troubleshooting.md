@@ -82,8 +82,8 @@ We also create an annotation called @IvyPreviews to serve the purpose of exporti
 1. Run `./gradlew validateDebugScreenshotTest` locally to execute the screenshot testing and identify the specific screens where failures occur.
 2. Upon failure, the system generates detailed reports pinpointing the changes introduced since the last successful test run. Review these reports to understand the nature of the failures. You can find the report at the following path: {module}/build/reports/screenshotTest/preview/{variant}/index.html
    For example: screen/balance/build/reports/screenshotTest/preview/debug/index.html
-3. If the identified changes are intentional, proceed by running `./gradlew {:module:}update{Variant}ScreenshotTest` to update the baseline screenshots specifically for the failed UI components. For example : `./gradlew :screen:balance:updateDebugScreenshotTest`
-4. After updating the baseline screenshots, rerun `./gradlew {:module:}validate{Variant}ScreenshotTest` to ensure that the tests now pass with the updated baselines. For example : `./gradlew :screen:balance:validateDebugScreenshotTest`
+3. If the identified changes are intentional, proceed by running `./gradlew :module:update{Variant}ScreenshotTest` to update the baseline screenshots specifically for the failed UI components. For example : `./gradlew :screen:balance:updateDebugScreenshotTest`
+4. After updating the baseline screenshots, rerun `./gradlew :module:validate{Variant}ScreenshotTest` to ensure that the tests now pass with the updated baselines. For example : `./gradlew :screen:balance:validateDebugScreenshotTest`
 5. Repeat this process iteratively for all modules that have failed compose preview screenshot testing, ensuring thorough validation and updating of baseline images as needed.
 
 > **Note**: Ensure the use of static data only. Dynamic data, such as current time or date, will cause test failures due to its variability.
