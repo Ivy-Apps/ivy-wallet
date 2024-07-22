@@ -178,6 +178,7 @@ fun BoxWithConstraintsScope.CalculatorModal(
         Spacer(Modifier.height(24.dp))
     }
 }
+
 private fun handleOperator(expression: String, operator: String): String {
     return if (expression.isNotEmpty() && expression.last().isOperator()) {
         expression.dropLast(1) + operator
@@ -186,8 +187,9 @@ private fun handleOperator(expression: String, operator: String): String {
     }
 }
 
-private fun Char.isOperator(): Boolean {
-    return this == '+' || this == '−' || this == '×' || this == '÷'
+fun Char.isOperator(): Boolean = when(this) {
+    '+', '−','×', '÷' -> true
+    else -> false
 }
 
 private fun formatExpression(expression: String, currency: String): String {
