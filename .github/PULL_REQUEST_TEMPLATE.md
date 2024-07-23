@@ -13,7 +13,6 @@ Please check if your pull request fulfills the following requirements:
 ## What's changed?
 Describe with a few bullets **what's new:**
 - I've fixed...
-- 
 
 Before|After
 ---|---
@@ -33,11 +32,11 @@ Before|After
 - Closes #{ISSUE_NUMBER}
 
 <!--❗For example: - Closes #123 ❗-->
-<!--💡 Tip: Replace {ISSUE_NUMBER} with the number of Ivy Wallet ISSUE (https://github.com/Ivy-Apps/ivy-wallet/issues)(❗NOT PR❗) which this pull request fixes. If done correctly, you'll see the issue title linked on PR preview. 💡-->
+<!--⚠️ If done correctly, you'll see the issue title linked on the PR preview. ⚠️-->
 <!--💡 Tip: Multiple issues:
 - Closes #{ISSUE_NUMBER_1}, closes #{ISSUE_NUMBER_2}, closes #{ISSUE_NUMBER_3}
-💡-->
-<!--💡If the PR doesn't close any GitHub issues, type "Closes N/A" to pass the CI check. 💡-->
+-->
+<!-- If the PR doesn't close any GitHub issues, type "Closes N/A" to pass the CI check. -->
 
 ## Troubleshooting GitHub Actions (CI) failures ❌
 Pull request checks failing? Read our [CI Troubleshooting guide](https://github.com/Ivy-Apps/ivy-wallet/blob/main/docs/CI-Troubleshooting.md).
