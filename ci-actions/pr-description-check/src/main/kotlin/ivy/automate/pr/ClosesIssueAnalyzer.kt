@@ -20,7 +20,7 @@ class ClosesIssueAnalyzer : PRDescriptionAnalyzer {
 
     companion object {
         val MissingClosesProblem = buildString {
-            append("# Problem: Missing Closes GitHub Issue section\n\n")
+            append("[PROBLEM] Missing Closes GitHub Issue section\n")
             append("This PR does not close any GitHub issues. ")
             append("Add \"Closes #123\" where 123 is the issue number ")
             append("or \"Closes N/A\" if doesn't close any issue.")

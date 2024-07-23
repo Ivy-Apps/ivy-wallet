@@ -1,5 +1,6 @@
 package ivy.automate.pr
 
+import arrow.core.raise.catch
 import kotlinx.coroutines.runBlocking
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
@@ -7,9 +8,11 @@ import kotlin.io.encoding.ExperimentalEncodingApi
 @OptIn(ExperimentalEncodingApi::class)
 fun main(args: Array<String>): Unit = runBlocking {
     if (args.size != 1) {
-        error("CI error: Missing PR description argument")
+        throw IllegalArgumentException("CI error: Missing PR description argument")
     }
-    val description = String(Base64.decode(args.first()))
+    val description = catch({ String(Base64.decode(args.first())) }) { e ->
+        throw IllegalArgumentException("CI error: Base 64 decoding failed! $e")
+    }
     println("Analyzing PR description:")
     println(description)
     println("------")
@@ -22,10 +25,11 @@ fun main(args: Array<String>): Unit = runBlocking {
         it.analyze(description).leftOrNull()
     }
     if (problems.isNotEmpty()) {
-        error(
+        throw PRDescriptionError(
             buildString {
-                append("We found problems in your PR (Pull Request) description. ")
-                append("Please, follow our PR template:")
+                append("\nWe found problems in your PR (Pull Request) description. ")
+                append("Please, follow our PR template:\n")
+                append("https://github.com/Ivy-Apps/ivy-wallet/blob/main/.github/PULL_REQUEST_TEMPLATE.md\n")
                 problems.forEach {
                     append(it)
                     append("\n\n")
@@ -36,4 +40,6 @@ fun main(args: Array<String>): Unit = runBlocking {
 
     println("All good! The PR description looks fine.")
 }
+
+class PRDescriptionError(msg: String) : Exception(msg)
 
