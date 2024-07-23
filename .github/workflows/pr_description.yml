@@ -3,6 +3,7 @@ name: PR Description Check
 on:
   pull_request:
     types:
+      - opened
       - edited
 
 jobs:
