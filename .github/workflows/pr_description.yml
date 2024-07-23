@@ -2,10 +2,6 @@ name: PR description check
 
 on:
   pull_request:
-    types:
-      - opened
-      - reopened
-      - edited
 
 jobs:
   pr-description-check:
