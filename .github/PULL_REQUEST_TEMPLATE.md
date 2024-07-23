@@ -6,20 +6,19 @@ Please check if your pull request fulfills the following requirements:
 - [ ] I confirm that I've run the code locally and everything works as expected.
 - [ ] My PR includes only the necessary changes to fix the issue (i.e., no unnecessary files or lines of code are changed).
 - [ ] 🎬 I've attached a **screen recording** of using the new code to the next paragraph (if applicable).
+
 ## Screen recording of interacting with your changes:
 <!--💡 Tip: Drag & drop the video here. 💡-->
 
 ## What's changed?
 Describe with a few bullets **what's new:**
-<!--💡 Tip: After each more important point leave one line empty and show your changes in markdown table with screenshots or screen recordings replacing {media}. In the end, it should look like this: 💡-->
 - I've fixed...
 
 Before|After
----------|---------
+---|---
 {media}|{media}
 {media}|{media}
-- ...
-- ...
+
 ## Risk factors
 **What may go wrong if we merge your PR?**
 - ...
@@ -28,12 +27,16 @@ Before|After
 **In what cases won't your code work?**
 - ...
 - ...
-## Does this PR close any GitHub issues?
+
+## Does this PR close any GitHub issues? (do not delete)
 - Closes #{ISSUE_NUMBER}
+
 <!--❗For example: - Closes #123 ❗-->
-<!--💡 Tip: Replace {ISSUE_NUMBER} with the number of Ivy Wallet ISSUE (https://github.com/Ivy-Apps/ivy-wallet/issues)(❗NOT PR❗) which this pull request fixes. If done correctly, you'll see the issue title linked on PR preview. 💡-->
+<!--⚠️ If done correctly, you'll see the issue title linked on the PR preview. ⚠️-->
 <!--💡 Tip: Multiple issues:
 - Closes #{ISSUE_NUMBER_1}, closes #{ISSUE_NUMBER_2}, closes #{ISSUE_NUMBER_3}
-💡-->
-## Troubleshooting CI failures ❌
+-->
+<!-- If the PR doesn't close any GitHub issues, type "Closes N/A" to pass the CI check. -->
+
+## Troubleshooting GitHub Actions (CI) failures ❌
 Pull request checks failing? Read our [CI Troubleshooting guide](https://github.com/Ivy-Apps/ivy-wallet/blob/main/docs/CI-Troubleshooting.md).
