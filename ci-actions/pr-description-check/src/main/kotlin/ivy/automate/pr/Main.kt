@@ -7,9 +7,7 @@ import kotlin.io.encoding.ExperimentalEncodingApi
 
 @OptIn(ExperimentalEncodingApi::class)
 fun main(args: Array<String>): Unit = runBlocking {
-    if (args.size != 1) {
-        throw IllegalArgumentException("CI error: Missing PR description argument")
-    }
+    require(args.size == 1) { "CI error: Missing PR description argument" }
     val description = catch({ String(Base64.decode(args.first())) }) { e ->
         throw IllegalArgumentException("CI error: Base 64 decoding failed! $e")
     }
@@ -42,4 +40,3 @@ fun main(args: Array<String>): Unit = runBlocking {
 }
 
 class PRDescriptionError(msg: String) : Exception(msg)
-
