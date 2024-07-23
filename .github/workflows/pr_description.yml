@@ -1,0 +1,36 @@
+name: PR Description Check
+
+on:
+  pull_request:
+    types:
+      - edited
+
+jobs:
+  pr-description-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GIT
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'adopt'
+          java-version: '18'
+
+      - name: Enable Gradle Wrapper caching (optimization)
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Extract PR description
+        id: extract_description
+        run: echo "PR_DESCRIPTION=$(jq -r '.pull_request.body' $GITHUB_EVENT_PATH)" >> $GITHUB_ENV
+
+      - name: Run PR Description Check
+        run: ./gradlew :ci-actions:pr-description-check --args="${{ env.PR_DESCRIPTION }}"
