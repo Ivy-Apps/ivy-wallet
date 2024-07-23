@@ -32,7 +32,7 @@ jobs:
 
       - name: Extract PR description (base 64)
         id: extract_description
-        run: echo "PR_DESCRIPTION=$(jq -r '.pull_request.body' $GITHUB_EVENT_PATH | base64)" >> $GITHUB_ENV
+        run: echo "PR_DESCRIPTION=$(jq -r '.pull_request.body' $GITHUB_EVENT_PATH | base64 | tr -d '\n')" >> $GITHUB_ENV
 
       - name: Run PR Description Check
         run: ./gradlew :ci-actions:pr-description-check --args="${{ env.PR_DESCRIPTION }}"
