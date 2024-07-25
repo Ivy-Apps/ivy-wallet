@@ -15,6 +15,7 @@ data class BudgetScreenState(
     val accounts: ImmutableList<Account>,
     val categoryBudgetsTotal: Double,
     val appBudgetMax: Double,
+    val totalRemainingBudget: Double,
     val timeRange: FromToTimeRange?,
     val reorderModalVisible: Boolean,
     val budgetModalData: BudgetModalData?

@@ -62,6 +62,7 @@ class BudgetViewModel @Inject constructor(
     private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
     private val categoryBudgetsTotal = mutableDoubleStateOf(0.0)
     private val appBudgetMax = mutableDoubleStateOf(0.0)
+    private val totalRemainingBudget = mutableDoubleStateOf(0.0)
     private val reorderModalVisible = mutableStateOf(false)
     private val budgetModalData = mutableStateOf<BudgetModalData?>(null)
 
@@ -78,6 +79,7 @@ class BudgetViewModel @Inject constructor(
             budgets = getBudgets(),
             categoryBudgetsTotal = getCategoryBudgetsTotal(),
             appBudgetMax = getAppBudgetMax(),
+            totalRemainingBudget = getTotalRemainingBudget(),
             timeRange = getTimeRange(),
             reorderModalVisible = getReorderModalVisible(),
             budgetModalData = getBudgetModalData()
@@ -122,6 +124,11 @@ class BudgetViewModel @Inject constructor(
     @Composable
     private fun getAppBudgetMax(): Double {
         return appBudgetMax.doubleValue
+    }
+    
+    @Composable
+    private fun getTotalRemainingBudget(): Double {
+        return totalRemainingBudget.doubleValue
     }
 
     @Composable
@@ -176,6 +183,10 @@ class BudgetViewModel @Inject constructor(
                     )
                 }.toImmutableList()
             }
+            this@BudgetViewModel.totalRemainingBudget.doubleValue = calculateTotalRemainingBudget(
+                budgets = this@BudgetViewModel.budgets.value,
+                categoryBudgetsTotal = categoryBudgetsTotal.doubleValue
+            )
             this@BudgetViewModel.accounts.value = accounts
             this@BudgetViewModel.baseCurrency.value = baseCurrency
             this@BudgetViewModel.timeRange.value = timeRange
@@ -262,3 +273,12 @@ class BudgetViewModel @Inject constructor(
         }
     }
 }
+
+    fun calculateTotalRemainingBudget(
+        budgets: ImmutableList<DisplayBudget>,
+        categoryBudgetsTotal: Double
+    ): Double {
+        return categoryBudgetsTotal - budgets
+            .filter { !it.budget.categoryIdsSerialized.isNullOrBlank() }
+            .sumOf { it.spentAmount }
+    }
