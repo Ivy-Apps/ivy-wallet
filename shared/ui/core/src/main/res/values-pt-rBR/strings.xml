@@ -489,5 +489,5 @@
     <string name="warning_import_csv_file">"\n!!!⚠️AVISO: A importação pode duplicar transações!!!\nTransações duplicadas NÃO podem ser excluídas facilmente e você precisará remover manualmente cada uma delas! \nMotivo: podemos Não analisamos IDs de transação porque o Ivy Wallet funciona apenas com UUID e outros aplicativos não.\nSe você está começando do zero, não se preocupe. Por favor, ignore esta mensagem."</string>
     <string name="select_tags">Selecionar tags</string>
     <string name="language">Linguagem</string>
-    <string name="budget_exceeded_info">"Orçamento excedido por %1$s %2$s"</string>
+    <string name="budget_exceeded_info">Orçamento excedido por %1$s %2$s</string>
 </resources>

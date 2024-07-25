@@ -442,5 +442,5 @@
     <string name="total_balance_excluded">Итого БАЛАНС (исключенный)</string>
     <string name="search_tags">Теги поиска</string>
     <string name="language">Язык</string>
-    <string name="budget_exceeded_info">"Бюджет превышен на %1$s %2$s"</string>
+    <string name="budget_exceeded_info">Бюджет превышен на %1$s %2$s</string>
 </resources>

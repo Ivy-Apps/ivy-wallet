@@ -442,5 +442,5 @@
     <string name="total_balance_excluded">Total Balance (excluido)</string>
     <string name="search_tags">Etiquetas de búsqueda</string>
     <string name="language">Idioma</string>
-    <string name="budget_exceeded_info">"Presupuesto excedido por %1$s %2$s"</string>
+    <string name="budget_exceeded_info">Presupuesto excedido por %1$s %2$s</string>
 </resources>

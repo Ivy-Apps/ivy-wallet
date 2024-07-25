@@ -445,5 +445,5 @@
     <string name="total_balance_excluded">Total dompet (tidak termasuk)</string>
     <string name="search_tags">Tag Pencarian</string>
     <string name="language">Bahasa</string>
-    <string name="budget_exceeded_info">"Anggaran terlampaui sebesar %1$s %2$s"</string>
+    <string name="budget_exceeded_info">Anggaran terlampaui sebesar %1$s %2$s</string>
 </resources>

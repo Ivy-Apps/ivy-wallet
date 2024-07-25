@@ -442,5 +442,5 @@
     <string name="total_balance_excluded">Общо БАЛАНС (изключен)</string>
     <string name="search_tags">Търсени етикети</string>
     <string name="language">Eзик</string>
-    <string name="budget_exceeded_info">"Бюджетът е надвишен с %1$s %2$s"</string>
+    <string name="budget_exceeded_info">Бюджетът е надвишен с %1$s %2$s</string>
 </resources>

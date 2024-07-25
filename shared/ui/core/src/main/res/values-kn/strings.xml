@@ -442,5 +442,5 @@
     <string name="total_balance_excluded">ಒಟ್ಟು ಮೊತ್ತ (ಹೊರತುಪಡಿಸಿ)</string>
     <string name="search_tags">ಹುಡುಕಿನ ಟ್ಯಾಗ್‌ಗಳು</string>
     <string name="language">ಭಾಷೆ</string>
-    <string name="budget_exceeded_info">"ಬಜೆಟ್ %1$s %2$s ಹೆಚ್ಚಾಗಿದೆ"</string>
+    <string name="budget_exceeded_info">ಬಜೆಟ್ %1$s %2$s ಹೆಚ್ಚಾಗಿದೆ</string>
 </resources>
