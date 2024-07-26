@@ -5,6 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.budgets.model.DisplayBudget
@@ -24,7 +25,9 @@ import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Budget
 import com.ivy.legacy.domain.deprecated.logic.BudgetCreator
+import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.isNotNullOrBlank
+import com.ivy.ui.R
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.budget.BudgetsAct
 import com.ivy.wallet.domain.action.exchange.ExchangeAct
@@ -39,6 +42,7 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.abs
 
 @Stable
 @HiltViewModel
@@ -63,6 +67,7 @@ class BudgetViewModel @Inject constructor(
     private val categoryBudgetsTotal = mutableDoubleStateOf(0.0)
     private val appBudgetMax = mutableDoubleStateOf(0.0)
     private val totalRemainingBudget = mutableDoubleStateOf(0.0)
+    private val totalRemainingBudgetText = mutableStateOf<String?>("")
     private val reorderModalVisible = mutableStateOf(false)
     private val budgetModalData = mutableStateOf<BudgetModalData?>(null)
 
@@ -79,7 +84,7 @@ class BudgetViewModel @Inject constructor(
             budgets = getBudgets(),
             categoryBudgetsTotal = getCategoryBudgetsTotal(),
             appBudgetMax = getAppBudgetMax(),
-            totalRemainingBudget = getTotalRemainingBudget(),
+            totalRemainingBudgetText = getTotalRemainingBudgetText(),
             timeRange = getTimeRange(),
             reorderModalVisible = getReorderModalVisible(),
             budgetModalData = getBudgetModalData()
@@ -125,10 +130,19 @@ class BudgetViewModel @Inject constructor(
     private fun getAppBudgetMax(): Double {
         return appBudgetMax.doubleValue
     }
-    
+
     @Composable
-    private fun getTotalRemainingBudget(): Double {
-        return totalRemainingBudget.doubleValue
+    private fun getTotalRemainingBudgetText(): String? {
+        val budgetExceeded = totalRemainingBudget.doubleValue < 0
+        totalRemainingBudgetText.value = when {
+            categoryBudgetsTotal.doubleValue > 0 -> stringResource(
+                if (budgetExceeded) R.string.budget_exceeded_info else R.string.total_budget_info,
+                abs(totalRemainingBudget.doubleValue).format(baseCurrency.value),
+                baseCurrency.value
+            )
+            else -> null
+        }
+        return totalRemainingBudgetText.value
     }
 
     @Composable
@@ -183,7 +197,7 @@ class BudgetViewModel @Inject constructor(
                     )
                 }.toImmutableList()
             }
-            this@BudgetViewModel.totalRemainingBudget.doubleValue = calculateTotalRemainingBudget(
+            totalRemainingBudget.doubleValue = calculateTotalRemainingBudget(
                 budgets = this@BudgetViewModel.budgets.value,
                 categoryBudgetsTotal = categoryBudgetsTotal.doubleValue
             )
@@ -279,6 +293,6 @@ class BudgetViewModel @Inject constructor(
         categoryBudgetsTotal: Double
     ): Double {
         return categoryBudgetsTotal - budgets
-            .filter { !it.budget.categoryIdsSerialized.isNullOrBlank() }
+            .filter { it.budget.categoryIdsSerialized.isNotNullOrBlank() }
             .sumOf { it.spentAmount }
     }
