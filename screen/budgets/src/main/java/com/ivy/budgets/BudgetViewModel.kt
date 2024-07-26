@@ -67,7 +67,6 @@ class BudgetViewModel @Inject constructor(
     private val categoryBudgetsTotal = mutableDoubleStateOf(0.0)
     private val appBudgetMax = mutableDoubleStateOf(0.0)
     private val totalRemainingBudget = mutableDoubleStateOf(0.0)
-    private val totalRemainingBudgetText = mutableStateOf<String?>("")
     private val reorderModalVisible = mutableStateOf(false)
     private val budgetModalData = mutableStateOf<BudgetModalData?>(null)
 
@@ -134,7 +133,7 @@ class BudgetViewModel @Inject constructor(
     @Composable
     private fun getTotalRemainingBudgetText(): String? {
         val budgetExceeded = totalRemainingBudget.doubleValue < 0
-        totalRemainingBudgetText.value = when {
+        return when {
             categoryBudgetsTotal.doubleValue > 0 -> stringResource(
                 if (budgetExceeded) R.string.budget_exceeded_info else R.string.total_budget_info,
                 abs(totalRemainingBudget.doubleValue).format(baseCurrency.value),
@@ -142,7 +141,6 @@ class BudgetViewModel @Inject constructor(
             )
             else -> null
         }
-        return totalRemainingBudgetText.value
     }
 
     @Composable

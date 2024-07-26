@@ -247,7 +247,7 @@ private fun Toolbar(
                     )
                 )
 
-                if (totalRemainingBudgetText!=null) {
+                if (totalRemainingBudgetText != null) {
                     Text(
                         text = totalRemainingBudgetText,
                         style = UI.typo.nC.style(
