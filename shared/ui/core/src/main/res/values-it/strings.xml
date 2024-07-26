@@ -25,6 +25,7 @@
     <string name="app_budget">%1$s %2$s budget dell\'app</string>
     <string name="budget_info_both">Informazioni sul budget: %1$s / %2$s</string>
     <string name="budget_info">Info sul budget %1$s%2$s</string>
+    <string name="total_budget_info">Budget rimanente totale: %1$s %2$s</string>
     <string name="add_category">Aggiungi categoria</string>
     <string name="expenses">Uscite</string>
     <string name="expenses_count">Numero uscite</string>
@@ -481,4 +482,5 @@
     <string name="you_owe">Sei in debito di: %1$s</string>
     <string name="you_are_owed">Ti sono dovuti %1$s</string>
     <string name="language">Lingua</string>
+    <string name="budget_exceeded_info">Budget superato di %1$s %2$s</string>
 </resources>

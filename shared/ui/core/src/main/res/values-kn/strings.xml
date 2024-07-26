@@ -25,6 +25,7 @@
     <string name="app_budget">%1$s %2$s ಅಪ್ಲಿಕೇಶನ್ ಬಜೆಟ್</string>
     <string name="budget_info_both">ಬಜೆಟ್ ಮಾಹಿತಿ: %1$s / %2$s</string>
     <string name="budget_info">ಬಜೆಟ್ ಮಾಹಿತಿ: %1$s%2$s</string>
+    <string name="total_budget_info">ಒಟ್ಟು ಉಳಿದಿರುವ ಬಜೆಟ್: %1$s %2$s</string>
     <string name="add_category">ವರ್ಗವನ್ನು ಸೇರಿಸಿ</string>
     <string name="expenses">ಖರ್ಚು</string>
     <string name="expenses_count">ಖರ್ಚುಗಳ ಎಣಿಕೆ</string>
@@ -441,4 +442,5 @@
     <string name="total_balance_excluded">ಒಟ್ಟು ಮೊತ್ತ (ಹೊರತುಪಡಿಸಿ)</string>
     <string name="search_tags">ಹುಡುಕಿನ ಟ್ಯಾಗ್‌ಗಳು</string>
     <string name="language">ಭಾಷೆ</string>
+    <string name="budget_exceeded_info">ಬಜೆಟ್ %1$s %2$s ಹೆಚ್ಚಾಗಿದೆ</string>
 </resources>

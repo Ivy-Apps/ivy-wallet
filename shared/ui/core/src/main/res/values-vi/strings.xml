@@ -25,6 +25,7 @@
     <string name="app_budget">%1$s %2$s ngân sách ứng dụng</string>
     <string name="budget_info_both">Thông tin ngân sách: %1$s/ %2$s</string>
     <string name="budget_info">Thông tin ngân sách: %1$s%2$s</string>
+    <string name="total_budget_info">Tổng ngân sách còn lại: %1$s %2$s</string>
     <string name="add_category">Thêm danh mục</string>
     <string name="expenses">Khoản chi</string>
     <string name="expenses_count">Số lần chi</string>
@@ -487,4 +488,5 @@
     <string name="warning_import_csv_file">"\n!!!⚠️CẢNH BÁO: Việc tải tệp lên có thể gây ra trùng lặp các giao dịch!!!\nGiao dịch trùng lặp KHÔNG thể dễ dàng xóa và bạn sẽ cần phải xóa từng giao dịch một cách thủ công!\nLý do: Chúng tôi không thể phân tích các ID giao dịch vì Ivy Wallet chỉ hoạt động với UUID và các ứng dụng khác không.\nNếu bạn chọn Bắt đầu, không cần lo lắng - vui lòng bỏ qua thông báo này.\n                    "</string>
     <string name="select_tags">Chọn thẻ</string>
     <string name="language">Ngôn ngữ</string>
+    <string name="budget_exceeded_info">Ngân sách vượt quá %1$s %2$s</string>
 </resources>

@@ -25,6 +25,7 @@
     <string name="app_budget">%1$s %2$s anggaran aplikasi</string>
     <string name="budget_info_both">Info anggaran: %1$s / %2$s</string>
     <string name="budget_info">Info anggaran: %1$s%2$s</string>
+    <string name="total_budget_info">Total Anggaran Tersisa: %1$s %2$s</string>
     <string name="add_category">Tambahkan kategori</string>
     <string name="expenses">Pengeluaran</string>
     <string name="expenses_count">Jumlah pengeluaran</string>
@@ -444,4 +445,5 @@
     <string name="total_balance_excluded">Total dompet (tidak termasuk)</string>
     <string name="search_tags">Tag Pencarian</string>
     <string name="language">Bahasa</string>
+    <string name="budget_exceeded_info">Anggaran terlampaui sebesar %1$s %2$s</string>
 </resources>

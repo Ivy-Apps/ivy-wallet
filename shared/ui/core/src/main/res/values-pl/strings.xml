@@ -25,6 +25,7 @@
     <string name="app_budget">%1$s %2$s aplikacja do budżetu</string>
     <string name="budget_info_both">Informacja o budżetach: %1$s / %2$s</string>
     <string name="budget_info">Informacja o budżecie: %1$s%2$s</string>
+    <string name="total_budget_info">Całkowity pozostały budżet: %1$s %2$s</string>
     <string name="add_category">Dodaj kategorię</string>
     <string name="expenses">Wydatki</string>
     <string name="expenses_count">Ilość wydatków</string>
@@ -444,4 +445,5 @@
     <string name="total_balance_excluded">Łącznie Saldo (wykluczony)</string>
     <string name="search_tags">Tagi wyszukiwania</string>
     <string name="language">Język</string>
+    <string name="budget_exceeded_info">Budżet przekroczony o %1$s %2$s</string>
 </resources>

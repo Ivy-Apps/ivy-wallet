@@ -25,6 +25,7 @@
     <string name="app_budget">%1$s %2$s 應用預算</string>
     <string name="budget_info_both">預算資訊: %1$s /%2$s</string>
     <string name="budget_info">預算資訊: %1$s%2$s</string>
+    <string name="total_budget_info">總剩餘預算：%1$s %2$s</string>
     <string name="add_category">新增類別</string>
     <string name="expenses">費用</string>
     <string name="expenses_count">費用計數</string>
@@ -490,4 +491,5 @@
     <string name="select_tags">選擇標籤</string>
     <string name="bill_paid">您的 %1$s %2$s 帳單已支付</string>
     <string name="language">语言</string>
+    <string name="budget_exceeded_info">預算超出 %1$s %2$s</string>
 </resources>

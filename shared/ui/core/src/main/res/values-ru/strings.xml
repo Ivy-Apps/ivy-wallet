@@ -25,6 +25,7 @@
     <string name="app_budget">%1$s %2$s бюджет приложения</string>
     <string name="budget_info_both">Информация о бюджете: %1$s / %2$s</string>
     <string name="budget_info">Информация о бюджете: %1$s%2$s</string>
+    <string name="total_budget_info">Общий оставшийся бюджет: %1$s %2$s</string>
     <string name="add_category">Добавить категорию</string>
     <string name="expenses">Расходы</string>
     <string name="expenses_count">Количество расходов</string>
@@ -441,4 +442,5 @@
     <string name="total_balance_excluded">Итого БАЛАНС (исключенный)</string>
     <string name="search_tags">Теги поиска</string>
     <string name="language">Язык</string>
+    <string name="budget_exceeded_info">Бюджет превышен на %1$s %2$s</string>
 </resources>

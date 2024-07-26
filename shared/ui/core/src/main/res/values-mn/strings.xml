@@ -25,6 +25,7 @@
     <string name="app_budget">%1$s %2$s нийт</string>
     <string name="budget_info_both">Төсөв: %1$s / %2$s</string>
     <string name="budget_info">Төсвийн задаргаа: %1$s%2$s</string>
+    <string name="total_budget_info">Нийт үлдэгдэл төсөв: %1$s %2$s</string>
     <string name="add_category">Ангилал нэмэх</string>
     <string name="expenses">Зарлага</string>
     <string name="expenses_count">Зарлагын тоо</string>
@@ -441,4 +442,5 @@
     <string name="total_balance_excluded">Нийт ҮЛДЭГДЭЛ (үлдэгдэл тооцохгүй)</string>
     <string name="search_tags">Хайлтын тагууд</string>
     <string name="language">Хэл</string>
+    <string name="budget_exceeded_info">Төсөв %1$s %2$s-аар хэтэрсэн байна</string>
 </resources>

@@ -25,6 +25,7 @@
     <string name="app_budget">%1$s %2$s App-Budget</string>
     <string name="budget_info_both">Budget-Infos: %1$s / %2$s</string>
     <string name="budget_info">Budget-Infos: %1$s%2$s</string>
+    <string name="total_budget_info">Gesamtes verbleibendes Budget: %1$s %2$s</string>
     <string name="add_category">Kategorie hinzufügen</string>
     <string name="expenses">Ausgaben</string>
     <string name="expenses_count">Ausgabenzählung</string>
@@ -488,4 +489,5 @@
     <string name="warning_import_csv_file">" !!!⚠️ACHTUNG: Ein Import kann zu doppelten Einträgen führen!!! Ivy Wallet kann diese NICHT automatisch entfernt und alle Einträge müssen manuell geprüft werden! Wenn du noch keine Einträge erfasst hast, kannst du diese Meldung ignorieren."</string>
     <string name="select_tags">Tags auswählen</string>
     <string name="language">Sprache</string>
+    <string name="budget_exceeded_info">Budget überschritten um %1$s %2$s</string>
 </resources>

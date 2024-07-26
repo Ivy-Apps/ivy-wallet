@@ -25,6 +25,7 @@
     <string name="app_budget">%1$s %2$s бюджет</string>
     <string name="budget_info_both">Бюджет: %1$s / %2$s</string>
     <string name="budget_info">Бюджет: %1$s%2$s</string>
+    <string name="total_budget_info">Общ останал бюджет: %1$s %2$s</string>
     <string name="add_category">Добави категория</string>
     <string name="expenses">Разходи</string>
     <string name="expenses_count">Брой разходи</string>
@@ -441,4 +442,5 @@
     <string name="total_balance_excluded">Общо БАЛАНС (изключен)</string>
     <string name="search_tags">Търсени етикети</string>
     <string name="language">Eзик</string>
+    <string name="budget_exceeded_info">Бюджетът е надвишен с %1$s %2$s</string>
 </resources>
