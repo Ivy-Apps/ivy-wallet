@@ -58,6 +58,7 @@ fun IntervalPickerRow(
 
         IvyNumberTextField(
             modifier = Modifier
+                .width(125.dp)
                 .background(
                     brush = if (validInput) {
                         GradientIvy.asHorizontalBrush()
@@ -73,13 +74,14 @@ fun IntervalPickerRow(
             textColor = if (validInput) White else UI.colors.pureInverse,
             hint = "0"
         ) {
+            val filteredText = if (it.text.length <= 3) it.text else it.text.take(3)
             if (it.text != interNTextFieldValue.text) {
                 try {
-                    onSetIntervalN(it.text.toInt())
+                    onSetIntervalN(filteredText.toInt())
                 } catch (e: Exception) {
                 }
             }
-            interNTextFieldValue = it
+            interNTextFieldValue = it.copy(text = filteredText)
         }
 
         Spacer(Modifier.width(12.dp))
