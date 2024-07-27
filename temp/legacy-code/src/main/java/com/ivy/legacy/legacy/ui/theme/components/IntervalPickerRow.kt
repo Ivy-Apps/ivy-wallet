@@ -60,7 +60,6 @@ fun IntervalPickerRow(
 
         IvyNumberTextField(
             modifier = Modifier
-                .width(125.dp)
                 .background(
                     brush = if (validInput) {
                         GradientIvy.asHorizontalBrush()
