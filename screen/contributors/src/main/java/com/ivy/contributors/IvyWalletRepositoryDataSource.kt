@@ -59,6 +59,7 @@ class IvyWalletRepositoryDataSource @Inject constructor(
             val contributors = try {
                 httpClient
                     .get("https://api.github.com/repos/Ivy-Apps/ivy-wallet/contributors") {
+                        parameter("anon", DISPLAY_ANONYMOUS_CONTRIBUTORS)
                         parameter("per_page", CONTRIBUTORS_PER_PAGE)
                         parameter("page", currentPage)
                     }

@@ -49,22 +49,18 @@ class ContributorsViewModel @Inject constructor(
     }
 
     private suspend fun fetchContributors() {
-        val contributors = ivyWalletRepositoryDataSource.fetchContributors()?.map {
+        val contributors = ivyWalletRepositoryDataSource.fetchContributors().map {
             Contributor(
-                name = it.login,
-                photoUrl = it.avatarUrl,
+                name = it.login ?: "Anonymous",
+                photoUrl = it.avatarUrl ?: "",
                 contributionsCount = it.contributions.toString(),
-                githubProfileUrl = it.link
+                githubProfileUrl = it.link ?: ""
             )
         }
 
-        if (contributors != null) {
-            contributorsResponse.value = ContributorsResponse.Success(
-                contributors.toImmutableList()
-            )
-        } else {
-            contributorsResponse.value = ContributorsResponse.Error("Error")
-        }
+        contributorsResponse.value = ContributorsResponse.Success(
+            contributors.toImmutableList()
+        )
     }
 
     private suspend fun fetchProjectInfo() {
