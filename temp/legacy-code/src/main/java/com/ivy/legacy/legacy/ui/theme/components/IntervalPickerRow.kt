@@ -36,6 +36,8 @@ import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.White
 
+private const val RepeatIntervalCharLimit = 5
+
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun IntervalPickerRow(
@@ -73,13 +75,14 @@ fun IntervalPickerRow(
             textColor = if (validInput) White else UI.colors.pureInverse,
             hint = "0"
         ) {
+            val filteredText = it.text.take(RepeatIntervalCharLimit)
             if (it.text != interNTextFieldValue.text) {
                 try {
-                    onSetIntervalN(it.text.toInt())
+                    onSetIntervalN(filteredText.toInt())
                 } catch (e: Exception) {
                 }
             }
-            interNTextFieldValue = it
+            interNTextFieldValue = it.copy(text = filteredText)
         }
 
         Spacer(Modifier.width(12.dp))
