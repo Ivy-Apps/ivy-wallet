@@ -78,7 +78,7 @@ class ContributorsViewModelTest : ComposeViewModelTest() {
     @Test
     fun `unhappy path, both error`() {
         // given
-        coEvery { repoDataSource.fetchContributors() } returns null
+        coEvery { repoDataSource.fetchContributors() } returns emptyList()
         coEvery { repoDataSource.fetchRepositoryInfo() } returns null
 
         viewModel.runTest {
