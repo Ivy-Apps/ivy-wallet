@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import timber.log.Timber
 import javax.inject.Inject
 
 class IvyWalletRepositoryDataSource @Inject constructor(
@@ -38,19 +39,47 @@ class IvyWalletRepositoryDataSource @Inject constructor(
 
     companion object {
         private const val CONTRIBUTORS_PER_PAGE = 100
+        private const val DISPLAY_ANONYMOUS_CONTRIBUTORS = true
+        private const val INITIAL_PAGE = 1
     }
 
-    suspend fun fetchContributors(): List<ContributorDto>? {
-        return try {
-            withContext(Dispatchers.IO) {
+    suspend fun fetchContributors(): List<ContributorDto> {
+        return withContext(Dispatchers.IO) {
+            val contributors = mutableListOf<ContributorDto>()
+            paging(addContributors = { results ->
+                results?.forEach { contributor -> contributors.add(contributor) }
+            })
+            contributors.toList()
+        }
+    }
+
+    private suspend fun paging(addContributors: (List<ContributorDto>?) -> Unit) {
+        var currentPage: Int? = INITIAL_PAGE
+        while (currentPage != null) {
+            val contributors = try {
                 httpClient
                     .get("https://api.github.com/repos/Ivy-Apps/ivy-wallet/contributors") {
                         parameter("per_page", CONTRIBUTORS_PER_PAGE)
+                        parameter("page", currentPage)
                     }
                     .body<List<ContributorDto>>()
+            } catch (e: Exception) {
+                Timber.tag("FETCH_CONTRIBUTORS").d(e)
+                null
             }
-        } catch (e: Exception) {
+            currentPage = getCurrentPage(contributors, currentPage)
+            currentPage?.let { addContributors(contributors) }
+        }
+    }
+
+    private fun getCurrentPage(
+        contributors: List<ContributorDto>?,
+        currentPage: Int
+    ): Int? {
+        return if (contributors?.isEmpty() == true) {
             null
+        } else {
+            currentPage + 1
         }
     }
 
