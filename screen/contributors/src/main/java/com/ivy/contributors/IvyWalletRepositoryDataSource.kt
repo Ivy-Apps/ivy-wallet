@@ -17,12 +17,12 @@ class IvyWalletRepositoryDataSource @Inject constructor(
     @Keep
     @Serializable
     data class ContributorDto(
-        val login: String,
+        val login: String? = null,
         @SerialName("avatar_url")
-        val avatarUrl: String,
+        val avatarUrl: String? = null,
         val contributions: Int,
         @SerialName("html_url")
-        val link: String
+        val link: String? = null,
     )
 
     @Keep
