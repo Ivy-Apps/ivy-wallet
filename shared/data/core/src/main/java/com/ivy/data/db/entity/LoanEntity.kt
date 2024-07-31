@@ -31,6 +31,8 @@ data class LoanEntity(
     @SerialName("accountId")
     @Serializable(with = KSerializerUUID::class)
     val accountId: UUID? = null,
+    @SerialName("note")
+    val note: String? = null,
 
     @Deprecated("Obsolete field used for cloud sync. Can't be deleted because of backwards compatibility")
     @SerialName("isSynced")

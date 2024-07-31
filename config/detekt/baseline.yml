@@ -239,6 +239,7 @@
     <ID>ClassNaming:Migration122to123_ExchangeRates.kt$Migration122to123_ExchangeRates : Migration</ID>
     <ID>ClassNaming:Migration123to124_LoanIncludeDateTime.kt$Migration123to124_LoanIncludeDateTime : Migration</ID>
     <ID>ClassNaming:Migration124to125_LoanEditDateTime.kt$Migration124to125_LoanEditDateTime : Migration</ID>
+    <ID>ClassNaming:Migration129to130_LoanIncludeNote.kt$Migration129to130_LoanIncludeNote : Migration</ID>
     <ID>ComplexCondition:EditTransactionViewModel.kt$EditTransactionViewModel$customExchangeRateState.value.showCard &amp;&amp; toAccCurrencyCode == customExchangeRateState.value.toCurrencyCode &amp;&amp; fromAccCurrencyCode == customExchangeRateState.value.fromCurrencyCode &amp;&amp; !resetRate</ID>
     <ID>ComplexCondition:Transactions.kt$(upcoming == null || upcoming.trns.isEmpty()) &amp;&amp; (overdue == null || overdue.trns.isEmpty()) &amp;&amp; history.isEmpty()</ID>
     <ID>ComposableNaming:Compose.kt$onEvent</ID>
@@ -2722,6 +2723,8 @@
     <ID>MagicNumber:Migration122to123_ExchangeRates.kt$Migration122to123_ExchangeRates$123</ID>
     <ID>MagicNumber:Migration123to124_LoanIncludeDateTime.kt$Migration123to124_LoanIncludeDateTime$123</ID>
     <ID>MagicNumber:Migration123to124_LoanIncludeDateTime.kt$Migration123to124_LoanIncludeDateTime$124</ID>
+    <ID>MagicNumber:Migration129to130_LoanIncludeNote.kt$Migration129to130_LoanIncludeNote$129</ID>
+    <ID>MagicNumber:Migration129to130_LoanIncludeNote.kt$Migration129to130_LoanIncludeNote$130</ID>
     <ID>MagicNumber:Migration124to125_LoanEditDateTime.kt$Migration124to125_LoanEditDateTime$124</ID>
     <ID>MagicNumber:Migration124to125_LoanEditDateTime.kt$Migration124to125_LoanEditDateTime$125</ID>
     <ID>MagicNumber:MigrationsManager.kt$MigrationsManager$2_000L</ID>
