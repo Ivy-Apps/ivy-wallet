@@ -1,6 +1,8 @@
 package com.ivy.contributors
 
 import androidx.annotation.Keep
+import arrow.core.raise.either
+import com.ivy.base.threading.DispatchersProvider
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -9,11 +11,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import timber.log.Timber
 import javax.inject.Inject
 
 class IvyWalletRepositoryDataSource @Inject constructor(
-    private val httpClient: HttpClient
+    private val httpClient: HttpClient,
+    private val dispatchersProvider: DispatchersProvider,
 ) {
     @Keep
     @Serializable
@@ -34,7 +36,7 @@ class IvyWalletRepositoryDataSource @Inject constructor(
         @SerialName("stargazers_count")
         val stars: Int,
         @SerialName("html_url")
-        val url: String
+        val url: String,
     )
 
     companion object {
@@ -43,20 +45,40 @@ class IvyWalletRepositoryDataSource @Inject constructor(
         private const val INITIAL_PAGE = 1
     }
 
-    suspend fun fetchContributors(): List<ContributorDto> {
-        return withContext(Dispatchers.IO) {
-            val contributors = mutableListOf<ContributorDto>()
-            paging(addContributors = { results ->
-                results?.forEach { contributor -> contributors.add(contributor) }
-            })
-            contributors.toList()
+    suspend fun fetchContributors() = either {
+        withContext(dispatchersProvider.io) {
+            try {
+                pagingSource().bind()
+            } catch (e: Exception) {
+                raise(e.message ?: "Unknown Error")
+            }
         }
     }
 
-    private suspend fun paging(addContributors: (List<ContributorDto>?) -> Unit) {
+
+
+    private suspend fun pagingSource() = either {
+        val contributorsSource = mutableListOf<ContributorDto>()
         var currentPage: Int? = INITIAL_PAGE
         while (currentPage != null) {
-            val contributors = try {
+            val contributorsResult = getContributorsFromRequest(currentPage)
+            contributorsResult.fold({ errorMessage ->
+                currentPage = null
+                raise(errorMessage)
+            }, { results ->
+                currentPage = getNextPage(results, currentPage)
+                currentPage?.let { contributorsSource.addAll(results) }
+            })
+            if(currentPage == null) {
+                break
+            }
+        }
+        contributorsSource.toList()
+    }
+
+    private suspend fun getContributorsFromRequest(currentPage: Int) =
+        either {
+            try {
                 httpClient
                     .get("https://api.github.com/repos/Ivy-Apps/ivy-wallet/contributors") {
                         parameter("anon", DISPLAY_ANONYMOUS_CONTRIBUTORS)
@@ -65,24 +87,16 @@ class IvyWalletRepositoryDataSource @Inject constructor(
                     }
                     .body<List<ContributorDto>>()
             } catch (e: Exception) {
-                Timber.tag("FETCH_CONTRIBUTORS").d(e)
-                null
+                raise(e.message ?: "Unknown Error")
             }
-            currentPage = getCurrentPage(contributors, currentPage)
-            currentPage?.let { addContributors(contributors) }
         }
-    }
 
-    private fun getCurrentPage(
+
+    private fun getNextPage(
         contributors: List<ContributorDto>?,
-        currentPage: Int
-    ): Int? {
-        return if (contributors?.isEmpty() == true) {
-            null
-        } else {
-            currentPage + 1
-        }
-    }
+        currentPage: Int?,
+    ): Int? = if (contributors?.isEmpty() == true) null else currentPage?.plus(1)
+
 
     suspend fun fetchRepositoryInfo(): IvyWalletRepositoryInfo? {
         return try {

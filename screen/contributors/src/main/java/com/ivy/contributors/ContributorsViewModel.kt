@@ -14,7 +14,7 @@ import javax.inject.Inject
 @Stable
 @HiltViewModel
 class ContributorsViewModel @Inject constructor(
-    private val ivyWalletRepositoryDataSource: IvyWalletRepositoryDataSource
+    private val ivyWalletRepositoryDataSource: IvyWalletRepositoryDataSource,
 ) : ComposeViewModel<ContributorsState, ContributorsEvent>() {
 
     private val projectResponse = mutableStateOf<ProjectResponse>(ProjectResponse.Loading)
@@ -49,18 +49,27 @@ class ContributorsViewModel @Inject constructor(
     }
 
     private suspend fun fetchContributors() {
-        val contributors = ivyWalletRepositoryDataSource.fetchContributors().map {
-            Contributor(
-                name = it.login ?: "Anonymous",
-                photoUrl = it.avatarUrl ?: "",
-                contributionsCount = it.contributions.toString(),
-                githubProfileUrl = it.link ?: ""
-            )
-        }
 
-        contributorsResponse.value = ContributorsResponse.Success(
-            contributors.toImmutableList()
-        )
+        val contributorsResult = ivyWalletRepositoryDataSource.fetchContributors()
+
+        contributorsResult.fold({ errorMessage ->
+            contributorsResponse.value = ContributorsResponse.Error(
+                errorMessage
+            )
+        }, { contributorsDto ->
+            val contributors = contributorsDto.map {
+                Contributor(
+                    name = it.login ?: "Anonymous",
+                    photoUrl = it.avatarUrl ?: "",
+                    contributionsCount = it.contributions.toString(),
+                    githubProfileUrl = it.link ?: ""
+                )
+            }
+            contributorsResponse.value = ContributorsResponse.Success(
+                contributors.toImmutableList()
+            )
+        })
+
     }
 
     private suspend fun fetchProjectInfo() {
