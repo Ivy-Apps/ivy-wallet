@@ -800,7 +800,20 @@ private fun InitialRecordItem(
             )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        if (loan.note.isNotNullOrBlank()) {
+            Text(
+                modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
+                text = loan.note!!,
+                style = UI.typo.b1.style(
+                    fontWeight = FontWeight.ExtraBold,
+                    color = UI.colors.pureInverse
+                )
+            )
+        }
+
+        if (loan.note.isNullOrEmpty()) {
+            Spacer(Modifier.height(16.dp))
+        }
 
         TypeAmountCurrency(
             transactionType = if (loan.type == LoanType.LEND) TransactionType.EXPENSE else TransactionType.INCOME,

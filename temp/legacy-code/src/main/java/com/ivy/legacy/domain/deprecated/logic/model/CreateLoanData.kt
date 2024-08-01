@@ -12,6 +12,7 @@ data class CreateLoanData(
     val color: Color,
     val icon: String?,
     val account: Account? = null,
+    val note: String?,
     val createLoanTransaction: Boolean = false,
     val dateTime: LocalDateTime
 )
