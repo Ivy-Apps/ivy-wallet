@@ -6,6 +6,7 @@ import com.ivy.data.model.LoanType
 import java.time.LocalDateTime
 import java.util.UUID
 
+@Suppress("DataClassDefaultValues")
 @Deprecated("Legacy data model. Will be deleted")
 @Immutable
 data class Loan(
@@ -16,6 +17,7 @@ data class Loan(
     val icon: String? = null,
     val orderNum: Double = 0.0,
     val accountId: UUID? = null,
+    val note: String? = null,
 
     val isSynced: Boolean = false,
     val isDeleted: Boolean = false,
@@ -31,6 +33,7 @@ data class Loan(
         icon = icon,
         orderNum = orderNum,
         accountId = accountId,
+        note = note,
         isSynced = isSynced,
         isDeleted = isDeleted,
         id = id,
