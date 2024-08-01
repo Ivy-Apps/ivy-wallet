@@ -29,9 +29,7 @@ class IvyRoomDatabaseMigrationTest {
 
     @Test
     fun migrate129to130_LoanIncludeNote() {
-
         helper.createDatabase(TestDb, 129).apply {
-
             val insertSql = """
                 INSERT INTO loans (name, amount, type, color, icon, orderNum, accountId, isSynced, isDeleted, dateTime, id) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);

@@ -6,6 +6,7 @@ import com.ivy.data.model.LoanType
 import java.time.LocalDateTime
 import java.util.UUID
 
+@Suppress("DataClassDefaultValues")
 @Deprecated("Legacy data model. Will be deleted")
 @Immutable
 data class Loan(
