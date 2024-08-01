@@ -1,6 +1,7 @@
 package com.ivy.contributors
 
 import androidx.annotation.Keep
+import arrow.core.Either
 import arrow.core.raise.either
 import com.ivy.base.threading.DispatchersProvider
 import io.ktor.client.HttpClient
@@ -19,6 +20,7 @@ class IvyWalletRepositoryDataSource @Inject constructor(
 ) {
     @Keep
     @Serializable
+    @Suppress("DataClassDefaultValues")
     data class ContributorDto(
         val login: String? = null,
         @SerialName("avatar_url")
@@ -45,7 +47,7 @@ class IvyWalletRepositoryDataSource @Inject constructor(
         private const val INITIAL_PAGE = 1
     }
 
-    suspend fun fetchContributors() = either {
+    suspend fun fetchContributors(): Either<String, List<ContributorDto>> = either {
         withContext(dispatchersProvider.io) {
             try {
                 pagingSource().bind()
@@ -55,9 +57,7 @@ class IvyWalletRepositoryDataSource @Inject constructor(
         }
     }
 
-
-
-    private suspend fun pagingSource() = either {
+    private suspend fun pagingSource(): Either<String, List<ContributorDto>> = either {
         val contributorsSource = mutableListOf<ContributorDto>()
         var currentPage: Int? = INITIAL_PAGE
         while (currentPage != null) {
@@ -69,14 +69,12 @@ class IvyWalletRepositoryDataSource @Inject constructor(
                 currentPage = getNextPage(results, currentPage)
                 currentPage?.let { contributorsSource.addAll(results) }
             })
-            if(currentPage == null) {
-                break
-            }
+            if (currentPage == null) { break }
         }
         contributorsSource.toList()
     }
 
-    private suspend fun getContributorsFromRequest(currentPage: Int) =
+    private suspend fun getContributorsFromRequest(currentPage: Int): Either<String, List<ContributorDto>> =
         either {
             try {
                 httpClient
@@ -91,12 +89,10 @@ class IvyWalletRepositoryDataSource @Inject constructor(
             }
         }
 
-
     private fun getNextPage(
         contributors: List<ContributorDto>?,
         currentPage: Int?,
     ): Int? = if (contributors?.isEmpty() == true) null else currentPage?.plus(1)
-
 
     suspend fun fetchRepositoryInfo(): IvyWalletRepositoryInfo? {
         return try {

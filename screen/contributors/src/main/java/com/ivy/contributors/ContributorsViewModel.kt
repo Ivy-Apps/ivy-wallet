@@ -49,7 +49,6 @@ class ContributorsViewModel @Inject constructor(
     }
 
     private suspend fun fetchContributors() {
-
         val contributorsResult = ivyWalletRepositoryDataSource.fetchContributors()
 
         contributorsResult.fold({ errorMessage ->
@@ -69,7 +68,6 @@ class ContributorsViewModel @Inject constructor(
                 contributors.toImmutableList()
             )
         })
-
     }
 
     private suspend fun fetchProjectInfo() {
