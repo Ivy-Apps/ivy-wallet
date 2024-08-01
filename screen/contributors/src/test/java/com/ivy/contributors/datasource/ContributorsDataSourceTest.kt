@@ -86,6 +86,34 @@ class ContributorsDataSourceTest {
         result shouldBe Either.Left("Error")
     }
 
+    @Test
+    fun `Fetch Contributors, happy path`() = runTest {
+        val expected = Either.Right(
+            listOf(
+                ContributorDto(
+                    login = "a_login",
+                    avatarUrl = "a_avatar",
+                    contributions = 685,
+                    link = "a_link"
+                ),
+                ContributorDto(
+                    login = "b_login",
+                    avatarUrl = "b_avatar",
+                    contributions = 101,
+                    link = "b_link"
+                ),
+            )
+        )
+        coEvery { dataSource.pagingSource() } returns expected
+        dataSource.fetchContributors() shouldBe expected
+    }
+
+    @Test
+    fun `Fetch Contributors, unhappy path`() = runTest {
+        coEvery { dataSource.pagingSource() } returns Either.Left("Error")
+        dataSource.fetchContributors() shouldBe Either.Left("Error")
+    }
+
     companion object {
         private const val WRONG_QUERY = -1
         private const val PAGE_WITH_RESULT = 1
