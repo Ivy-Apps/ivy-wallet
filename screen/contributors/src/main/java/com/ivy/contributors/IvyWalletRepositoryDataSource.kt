@@ -2,6 +2,7 @@ package com.ivy.contributors
 
 import androidx.annotation.Keep
 import arrow.core.Either
+import arrow.core.raise.catch
 import arrow.core.raise.either
 import com.ivy.base.threading.DispatchersProvider
 import io.ktor.client.HttpClient
@@ -49,11 +50,7 @@ class IvyWalletRepositoryDataSource @Inject constructor(
 
     suspend fun fetchContributors(): Either<String, List<ContributorDto>> = either {
         withContext(dispatchersProvider.io) {
-            try {
-                pagingSource().bind()
-            } catch (e: Exception) {
-                raise(e.message ?: "Unknown Error")
-            }
+            pagingSource().bind()
         }
     }
 
@@ -62,13 +59,14 @@ class IvyWalletRepositoryDataSource @Inject constructor(
         var currentPage: Int? = INITIAL_PAGE
         while (currentPage != null) {
             val contributorsResult = getContributorsFromRequest(currentPage)
-            contributorsResult.fold({ errorMessage ->
+            contributorsResult.onLeft { errorMessage ->
                 currentPage = null
                 raise(errorMessage)
-            }, { results ->
+            }
+            contributorsResult.onRight { results ->
                 currentPage = getNextPage(results, currentPage)
                 currentPage?.let { contributorsSource.addAll(results) }
-            })
+            }
             if (currentPage == null) { break }
         }
         contributorsSource.toList()
@@ -76,17 +74,17 @@ class IvyWalletRepositoryDataSource @Inject constructor(
 
     private suspend fun getContributorsFromRequest(currentPage: Int): Either<String, List<ContributorDto>> =
         either {
-            try {
-                httpClient
-                    .get("https://api.github.com/repos/Ivy-Apps/ivy-wallet/contributors") {
-                        parameter("anon", DISPLAY_ANONYMOUS_CONTRIBUTORS)
-                        parameter("per_page", CONTRIBUTORS_PER_PAGE)
-                        parameter("page", currentPage)
-                    }
-                    .body<List<ContributorDto>>()
-            } catch (e: Exception) {
-                raise(e.message ?: "Unknown Error")
-            }
+           catch({
+               httpClient
+                   .get("https://api.github.com/repos/Ivy-Apps/ivy-wallet/contributors") {
+                       parameter("anon", DISPLAY_ANONYMOUS_CONTRIBUTORS)
+                       parameter("per_page", CONTRIBUTORS_PER_PAGE)
+                       parameter("page", currentPage)
+                   }
+                   .body<List<ContributorDto>>()
+           }) { e ->
+               raise(e.message ?: "Unknown Error")
+           }
         }
 
     private fun getNextPage(

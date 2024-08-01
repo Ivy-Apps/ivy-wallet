@@ -1,6 +1,6 @@
 package com.ivy.contributors
 
-import arrow.core.raise.either
+import arrow.core.Either
 import com.ivy.contributors.IvyWalletRepositoryDataSource.ContributorDto
 import com.ivy.contributors.IvyWalletRepositoryDataSource.IvyWalletRepositoryInfo
 import com.ivy.ui.testing.ComposeViewModelTest
@@ -27,7 +27,7 @@ class ContributorsViewModelTest : ComposeViewModelTest() {
     @Test
     fun `happy path, both success`() {
         // given
-        coEvery { repoDataSource.fetchContributors() } returns either {
+        coEvery { repoDataSource.fetchContributors() } returns Either.Right(
             listOf(
                 ContributorDto(
                     login = "a",
@@ -42,7 +42,7 @@ class ContributorsViewModelTest : ComposeViewModelTest() {
                     link = "b_link"
                 ),
             )
-        }
+        )
         coEvery { repoDataSource.fetchRepositoryInfo() } returns IvyWalletRepositoryInfo(
             forks = 300,
             stars = 2_000,
@@ -81,7 +81,7 @@ class ContributorsViewModelTest : ComposeViewModelTest() {
     @Test
     fun `unhappy path, both error`() {
         // given
-        coEvery { repoDataSource.fetchContributors() } returns either { raise("Error") }
+        coEvery { repoDataSource.fetchContributors() } returns Either.Left("Error")
         coEvery { repoDataSource.fetchRepositoryInfo() } returns null
 
         viewModel.runTest {
