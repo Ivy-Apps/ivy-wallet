@@ -18,8 +18,6 @@ import kotlinx.coroutines.withContext
 class FakeDataSource(private val httpClient: HttpClient, private val dispatchersProvider: DispatchersProvider) {
 
     companion object {
-        private const val CONTRIBUTORS_PER_PAGE = 100
-        private const val DISPLAY_ANONYMOUS_CONTRIBUTORS = true
         private const val INITIAL_PAGE = 1
     }
 
