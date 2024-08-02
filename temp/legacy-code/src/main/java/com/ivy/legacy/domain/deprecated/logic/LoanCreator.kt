@@ -32,6 +32,7 @@ class LoanCreator @Inject constructor(
                     type = data.type,
                     color = data.color.toArgb(),
                     icon = data.icon,
+                    note = data.note,
                     orderNum = dao.findMaxOrderNum().nextOrderNum(),
                     isSynced = false,
                     accountId = data.account?.id,

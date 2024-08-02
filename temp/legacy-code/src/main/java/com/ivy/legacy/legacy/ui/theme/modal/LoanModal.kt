@@ -35,6 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.data.model.LoanType
+import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.domain.legacy.ui.IvyColorPicker
@@ -48,6 +49,7 @@ import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.selectEndTextFieldValue
 import com.ivy.design.utils.thenIf
+import com.ivy.legacy.legacy.ui.theme.modal.ModalNameInput
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.ui.R
 import com.ivy.wallet.domain.data.IvyCurrency
@@ -112,6 +114,9 @@ fun BoxWithConstraintsScope.LoanModal(
     var icon by remember(modal) {
         mutableStateOf(loan?.icon)
     }
+    var noteTextFieldValue by remember(modal) {
+        mutableStateOf(selectEndTextFieldValue(loan?.note))
+    }
     var currencyCode by remember(modal) {
         mutableStateOf(modal?.baseCurrency ?: "")
     }
@@ -155,6 +160,7 @@ fun BoxWithConstraintsScope.LoanModal(
                         loan = loan,
                         nameTextFieldValue = nameTextFieldValue,
                         dateTime = dateTime,
+                        noteTextFieldValue = noteTextFieldValue,
                         type = type,
                         color = color,
                         icon = icon,
@@ -220,6 +226,28 @@ fun BoxWithConstraintsScope.LoanModal(
         IvyColorPicker(
             selectedColor = color,
             onColorSelected = { color = it }
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Text(
+            modifier = Modifier.padding(horizontal = 32.dp),
+            text = stringResource(R.string.note),
+            style = UI.typo.b2.style(
+                color = UI.colors.pureInverse,
+                fontWeight = FontWeight.ExtraBold
+            )
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        ModalNameInput(
+            hint = stringResource(R.string.description_text_field_hint),
+            autoFocusKeyboard = false,
+            textFieldValue = noteTextFieldValue,
+            setTextFieldValue = {
+                noteTextFieldValue = it
+            }
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -333,6 +361,7 @@ fun BoxWithConstraintsScope.LoanModal(
             loan = loan,
             nameTextFieldValue = nameTextFieldValue,
             dateTime = dateTime,
+            noteTextFieldValue = noteTextFieldValue,
             type = type,
             color = color,
             icon = icon,
@@ -571,6 +600,7 @@ private fun save(
     loan: Loan?,
     nameTextFieldValue: TextFieldValue,
     dateTime: LocalDateTime,
+    noteTextFieldValue: TextFieldValue,
     type: LoanType,
     color: Color,
     icon: String?,
@@ -587,6 +617,7 @@ private fun save(
             loan.copy(
                 name = nameTextFieldValue.text.trim(),
                 dateTime = dateTime,
+                note = NotBlankTrimmedString.from(noteTextFieldValue.text).getOrNull()?.value,
                 type = type,
                 amount = amount,
                 color = color.toArgb(),
@@ -605,7 +636,8 @@ private fun save(
                 icon = icon,
                 account = selectedAccount,
                 createLoanTransaction = createLoanTransaction,
-                dateTime = dateTime
+                dateTime = dateTime,
+                note = NotBlankTrimmedString.from(noteTextFieldValue.text).getOrNull()?.value
             )
         )
     }
