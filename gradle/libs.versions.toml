@@ -47,7 +47,6 @@ ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", versi
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
 ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
-ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor"}
 
 # Arrow
 arrowkt-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
@@ -168,7 +167,6 @@ ktor = [
     "ktor-client-core",
     "ktor-client-serialization",
     "ktor-logging",
-    "ktor-client-mock"
 ]
 testing = [
     "kotest-assertions",
