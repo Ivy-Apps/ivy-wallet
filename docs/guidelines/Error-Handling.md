@@ -99,6 +99,7 @@ I strongly recommend allocating some time to also go through [Arrow's Working wi
 - Either is a [monad](https://en.wikipedia.org/wiki/Monad_(functional_programming)).
 - `Either<Throwable, T>` is equivalent to Kotlin's std `Result` type.
 - Many projects create a custom `Result<E, T>` while they can just use `Either` with all its built-in features.
+- It's similar to the [Kotlin `Result`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-result/) but it's better because the error type isn't constraint only to `Throwable`. In fact, `Either<Throwable, V>` is equivalent to `Result<V>`
 
 > In some rare cases, it's okay to `throw` a runtime exception. These are the cases in which you're okay and want the app to crash
 > (e.g., not enough disk space to write in Room DB / local storage).
