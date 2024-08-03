@@ -2,6 +2,12 @@
 
 If you see any of the PR checks failing (❌) go to [Actions](https://github.com/Ivy-Apps/ivy-wallet/actions) and find it there. Or simply click "Details" next to the failed check and explore the logs to see why it has failed.
 
+## PR description check
+
+It means that you didn't follow our [official PR template](../.github/PULL_REQUEST_TEMPLATE.md).
+Update your PR description with all necessary information. You can also check the exact error by
+clicking "Details" on the failing (❌) check.
+
 ## Detekt
 [Detekt](https://detekt.dev/) is a static code analyzer for Kotlin that we use to enforce code readability and good practices.
 

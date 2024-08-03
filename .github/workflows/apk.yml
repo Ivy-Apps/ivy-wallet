@@ -19,7 +19,7 @@ jobs:
           distribution: 'adopt'
           java-version: '18'
 
-      - name: Enable Gradle Wrapper caching (optmization)
+      - name: Enable Gradle Wrapper caching (optimization)
         uses: actions/cache@v4
         with:
           path: |

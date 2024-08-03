@@ -70,6 +70,7 @@ private fun BoxWithConstraintsScope.UI(
 
         Toolbar(
             timeRange = state.timeRange,
+            totalRemainingBudgetText = state.totalRemainingBudgetText,
             baseCurrency = state.baseCurrency,
             appBudgetMax = state.appBudgetMax,
             categoryBudgetsTotal = state.categoryBudgetsTotal,
@@ -169,6 +170,7 @@ private fun BoxWithConstraintsScope.UI(
 @Composable
 private fun Toolbar(
     timeRange: com.ivy.legacy.data.model.FromToTimeRange?,
+    totalRemainingBudgetText: String?,
     baseCurrency: String,
     appBudgetMax: Double,
     categoryBudgetsTotal: Double,
@@ -244,6 +246,16 @@ private fun Toolbar(
                         fontWeight = FontWeight.ExtraBold
                     )
                 )
+
+                if (totalRemainingBudgetText != null) {
+                    Text(
+                        text = totalRemainingBudgetText,
+                        style = UI.typo.nC.style(
+                            color = Gray,
+                            fontWeight = FontWeight.ExtraBold
+                        )
+                    )
+                }
             }
         }
 
@@ -372,6 +384,7 @@ private fun Preview_Empty() {
                 budgets = persistentListOf(),
                 appBudgetMax = 5000.0,
                 categoryBudgetsTotal = 2400.0,
+                totalRemainingBudgetText = "Total Remaining Budget: 150.00 BGN",
                 budgetModalData = null,
                 reorderModalVisible = false
             )
@@ -391,6 +404,7 @@ private fun Preview_Budgets(theme: Theme) {
                 accounts = persistentListOf(),
                 appBudgetMax = 5000.0,
                 categoryBudgetsTotal = 0.0,
+                totalRemainingBudgetText = "Budget exceeded by 50.00 BGN",
                 budgetModalData = null,
                 reorderModalVisible = false,
                 budgets = persistentListOf(

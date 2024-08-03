@@ -25,6 +25,7 @@
     <string name="app_budget">%1$s %2$s 应用预算</string>
     <string name="budget_info_both">预算：%1$s / %2$s</string>
     <string name="budget_info">预算：%1$s%2$s</string>
+    <string name="total_budget_info">剩余总预算：%1$s %2$s</string>
     <string name="add_category">添加类别</string>
     <string name="expenses">支出</string>
     <string name="expenses_count">支出次数</string>
@@ -488,4 +489,5 @@
     <string name="warning_import_csv_file">"\n!!!⚠️警告：导入可能会导致交易重复！！！\n重复的交易无法轻松删除，您需要手动删除每一笔重复的交易！\n原因：我们无法解析交易 ID，因为 Ivy Wallet 仅使用 UUID，而其他应用程序不使用。\n如果您是从头开始的，不用担心-请忽略此消息。"</string>
     <string name="select_tags">选择标签</string>
     <string name="language">语言</string>
+    <string name="budget_exceeded_info">预算超出 %1$s %2$s</string>
 </resources>

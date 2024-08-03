@@ -25,6 +25,7 @@
     <string name="app_budget">%1$s %2$s ऐप बजट</string>
     <string name="budget_info_both">बजट की जानकारी: %1$s / %2$s</string>
     <string name="budget_info">बजट की जानकारी: %1$s%2$s</string>
+    <string name="total_budget_info">कुल शेष बजट: %1$s %2$s</string>
     <string name="add_category">कैटेगरी जोड़े</string>
     <string name="expenses">खर्च</string>
     <string name="expenses_count">खर्च की गिनती</string>
@@ -441,4 +442,5 @@
     <string name="total_balance_excluded">कुल बैलेंस (छोड़ा गया)</string>
     <string name="search_tags">\"खोज टैग्स</string>
     <string name="language">भाषा</string>
+    <string name="budget_exceeded_info">बजट %1$s %2$s से अधिक हो गया है</string>
 </resources>

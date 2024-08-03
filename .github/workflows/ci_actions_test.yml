@@ -40,3 +40,6 @@ jobs:
 
       - name: Test the CI "compose_stability" action
         run: ./gradlew :ci-actions:compose-stability:test
+
+      - name: Test the CI "pr-description-check" action
+        run: ./gradlew :ci-actions:pr-description-check:test

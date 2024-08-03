@@ -117,7 +117,7 @@ fun BoxWithConstraintsScope.CalculatorModal(
                     text = "÷",
                     testTag = "key_/"
                 ) {
-                    expression += "÷"
+                    expression = handleOperator(expression, "÷")
                 }
             },
             FirstRowExtra = {
@@ -125,7 +125,7 @@ fun BoxWithConstraintsScope.CalculatorModal(
                     text = "×",
                     testTag = "key_*"
                 ) {
-                    expression += "×"
+                    expression = handleOperator(expression, "×")
                 }
             },
             SecondRowExtra = {
@@ -133,7 +133,7 @@ fun BoxWithConstraintsScope.CalculatorModal(
                     text = "−",
                     testTag = "key_-"
                 ) {
-                    expression += "−"
+                    expression = handleOperator(expression, "−")
                 }
             },
             ThirdRowExtra = {
@@ -141,7 +141,7 @@ fun BoxWithConstraintsScope.CalculatorModal(
                     text = "+",
                     testTag = "key_+"
                 ) {
-                    expression += "+"
+                    expression = handleOperator(expression, "+")
                 }
             },
             FourthRowExtra = {
@@ -177,6 +177,19 @@ fun BoxWithConstraintsScope.CalculatorModal(
 
         Spacer(Modifier.height(24.dp))
     }
+}
+
+private fun handleOperator(expression: String, operator: String): String {
+    return if (expression.isNotEmpty() && expression.last().isOperator()) {
+        expression.dropLast(1) + operator
+    } else {
+        expression + operator
+    }
+}
+
+fun Char.isOperator(): Boolean = when (this) {
+    '+', '−', '×', '÷' -> true
+    else -> false
 }
 
 private fun formatExpression(expression: String, currency: String): String {

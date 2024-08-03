@@ -25,6 +25,8 @@
     <string name="app_budget">%1$s %2$s app budget</string>
     <string name="budget_info_both">Budget info: %1$s / %2$s</string>
     <string name="budget_info">Budget info: %1$s%2$s</string>
+    <string name="total_budget_info">Total Remaining Budget: %1$s %2$s</string>
+    <string name="budget_exceeded_info">Budget exceeded by %1$s %2$s</string>
     <string name="add_category">Add category</string>
     <string name="expenses">Expenses</string>
     <string name="expenses_count">Expenses count</string>

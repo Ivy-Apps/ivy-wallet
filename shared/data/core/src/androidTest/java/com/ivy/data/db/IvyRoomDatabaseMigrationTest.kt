@@ -8,6 +8,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.ivy.data.db.migration.Migration123to124_LoanIncludeDateTime
 import com.ivy.data.db.migration.Migration124to125_LoanEditDateTime
 import com.ivy.data.db.migration.Migration126to127_LoanRecordType
+import com.ivy.data.db.migration.Migration129to130_LoanIncludeNote
 import com.ivy.data.model.LoanType
 import io.kotest.matchers.shouldBe
 import org.junit.Rule
@@ -25,6 +26,48 @@ class IvyRoomDatabaseMigrationTest {
         listOf(IvyRoomDatabase.DeleteSEMigration()),
         FrameworkSQLiteOpenHelperFactory()
     )
+
+    @Test
+    fun migrate129to130_LoanIncludeNote() {
+        helper.createDatabase(TestDb, 129).apply {
+            val insertSql = """
+                INSERT INTO loans (name, amount, type, color, icon, orderNum, accountId, isSynced, isDeleted, dateTime, id) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            """.trimIndent()
+
+            val preparedStatement = compileStatement(insertSql).apply {
+                // Bind values
+                bindString(1, "Loan 1")
+                bindDouble(2, 123.50)
+                bindString(3, LoanType.BORROW.name) // Assuming you store enum as name
+                bindLong(4, 13)
+                bindString(5, "ic")
+                bindDouble(6, 3.14)
+                bindString(7, UUID.randomUUID().toString())
+                bindLong(8, 1)
+                bindLong(9, 0)
+                bindString(10, "")
+                bindString(11, UUID.randomUUID().toString())
+            }
+            preparedStatement.executeInsert()
+            close()
+        }
+
+        val newDb = helper.runMigrationsAndValidate(
+            TestDb,
+            130,
+            true,
+            Migration129to130_LoanIncludeNote()
+        )
+
+        newDb.query("SELECT * FROM loans").apply {
+            moveToFirst() shouldBe true
+            getString(0) shouldBe "Loan 1"
+            getDouble(1) shouldBe 123.50
+            getString(2) shouldBe LoanType.BORROW.name
+        }
+        newDb.close()
+    }
 
     @Test
     fun migrate123to125_LoanDateTime() {

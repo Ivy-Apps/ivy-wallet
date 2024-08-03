@@ -25,6 +25,7 @@
     <string name="app_budget">%1$s %2$s ميزانية التطبيق</string>
     <string name="budget_info_both">معلومات الميزانية: %1$s / %2$s</string>
     <string name="budget_info">%2$s معلومات الميزانية: %1$s</string>
+    <string name="total_budget_info"> إجمالي الميزانية المتبقية: %1$s %2$s</string>
     <string name="add_category">أضف فئة</string>
     <string name="expenses">الإنفاق</string>
     <string name="expenses_count">عدد الإنفاق</string>
@@ -441,4 +442,5 @@
     <string name="total_balance_excluded">المجموع المحفظة(مستبعد)</string>
     <string name="search_tags">وسوم البحث</string>
     <string name="language">لغة</string>
+    <string name="budget_exceeded_info">تم تجاوز الميزانية بـ %2$s %1$s</string>
 </resources>

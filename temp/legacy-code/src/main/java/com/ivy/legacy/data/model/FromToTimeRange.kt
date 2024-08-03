@@ -3,6 +3,7 @@ package com.ivy.legacy.data.model
 import androidx.compose.runtime.Immutable
 import com.ivy.base.legacy.Transaction
 import com.ivy.legacy.utils.beginningOfIvyTime
+import com.ivy.legacy.utils.convertLocalToUTC
 import com.ivy.legacy.utils.dateNowUTC
 import com.ivy.legacy.utils.formatDateOnly
 import com.ivy.legacy.utils.startOfDayNowUTC
@@ -105,5 +106,12 @@ fun FromToTimeRange.toCloseTimeRange(): ClosedTimeRange {
     return ClosedTimeRange(
         from = from ?: beginningOfIvyTime(),
         to = to ?: toIvyFutureTime()
+    )
+}
+
+fun FromToTimeRange.toUTCCloseTimeRange(): ClosedTimeRange {
+    return ClosedTimeRange(
+        from = from?.convertLocalToUTC() ?: beginningOfIvyTime(),
+        to = to?.convertLocalToUTC() ?: toIvyFutureTime()
     )
 }
