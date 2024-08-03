@@ -23,7 +23,7 @@ import com.ivy.legacy.data.BufferInfo
 import com.ivy.legacy.data.LegacyDueSection
 import com.ivy.legacy.data.model.MainTab
 import com.ivy.legacy.data.model.TimePeriod
-import com.ivy.legacy.data.model.toCloseTimeRange
+import com.ivy.legacy.data.model.toUTCCloseTimeRange
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Settings
 import com.ivy.legacy.datamodel.temp.toLegacyDomain
@@ -268,7 +268,7 @@ class HomeViewModel @Inject constructor(
         // This method is used to restore the theme when user imports locally backed up data
         ivyContext.switchTheme(theme = settings.theme)
 
-        Pair(settings, period.value.toRange(ivyContext.startDayOfMonth).toCloseTimeRange())
+        Pair(settings, period.value.toRange(ivyContext.startDayOfMonth).toUTCCloseTimeRange())
     } then ::loadAppBaseData then ::loadIncomeExpenseBalance then
             ::loadBuffer then ::loadTrnHistory then
             ::loadDueTrns thenInvokeAfter ::loadCustomerJourney

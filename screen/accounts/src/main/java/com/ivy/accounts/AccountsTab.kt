@@ -224,7 +224,6 @@ private fun AccountCard(
             currency = currency,
             baseCurrency = baseCurrency,
             contrastColor = contrastColor,
-
             onBalanceClick = onBalanceClick
         )
 
