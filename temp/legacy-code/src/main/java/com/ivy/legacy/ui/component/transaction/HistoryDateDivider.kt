@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletComponentPreview
+import com.ivy.legacy.utils.dateNowLocal
 import com.ivy.legacy.utils.dateNowUTC
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.formatLocal
@@ -44,7 +45,7 @@ fun HistoryDateDivider(
     ) {
         Spacer(Modifier.width(24.dp))
 
-        val today = dateNowUTC()
+        val today = dateNowLocal()
 
         Column {
             Text(
