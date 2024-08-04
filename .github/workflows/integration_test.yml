@@ -41,9 +41,9 @@ jobs:
           sudo udevadm trigger --name-match=kvm
 
       - name: Run android tests on Emulator
-        uses: reactivecircus/android-emulator-runner@v2
+        uses: reactivecircus/android-emulator-runner@v2.32.0
         with:
-          api-level: 29
+          api-level: 34
           script: |
             ./gradlew :shared:data:core:connectedDebugAndroidTest
             ./gradlew :shared:domain:connectedDebugAndroidTest
