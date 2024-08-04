@@ -1,6 +1,5 @@
 package com.ivy.base.time.impl
 
-import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import com.ivy.base.time.TimeConverter
 import com.ivy.base.time.TimeProvider
 import io.kotest.common.runBlocking
@@ -14,9 +13,7 @@ import io.mockk.every
 import io.mockk.mockk
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
 
-@RunWith(TestParameterInjector::class)
 class StandardTimeConvertPropertyTest {
 
     private val timeProvider = mockk<TimeProvider>()
