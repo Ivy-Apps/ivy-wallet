@@ -8,7 +8,7 @@ Please check if your pull request fulfills the following requirements:
 - [ ] My PR includes only the necessary changes to fix the issue (i.e., no unnecessary files or lines of code are changed).
 - [ ] 🎬 I've attached a **screen recording** of using the new code to the next paragraph (if applicable).
 
-## Screen recording of interacting with your changes:
+## Screen recording of your changes (if applicable):
 <!--💡 Tip: Drag & drop the video here. 💡-->
 
 ## What's changed?
