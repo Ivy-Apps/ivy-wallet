@@ -33,7 +33,7 @@ fun timeUTC(): LocalTime = LocalTime.now(ZoneOffset.UTC)
 fun dateNowUTC(): LocalDate = LocalDate.now(ZoneOffset.UTC)
 
 @Deprecated("Use the TimeProvider interface via DI + atStartOfDay()")
-fun startOfDayNowUTC() = dateNowUTC().atStartOfDay()
+fun startOfDayNowUTC(): LocalDateTime = dateNowUTC().atStartOfDay()
 
 fun LocalDateTime.toEpochSeconds() = this.toEpochSecond(ZoneOffset.UTC)
 
