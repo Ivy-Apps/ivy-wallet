@@ -1,4 +1,5 @@
 ## Pull request (PR) checklist
+
 Please check if your pull request fulfills the following requirements:
 <!--💡 Tip: Tick checkboxes like this: [x] 💡-->
 - [ ] I've read the [Contribution Guidelines](https://github.com/Ivy-Apps/ivy-wallet/blob/main/CONTRIBUTING.md) and my PR doesn't break the rules.
@@ -11,6 +12,7 @@ Please check if your pull request fulfills the following requirements:
 <!--💡 Tip: Drag & drop the video here. 💡-->
 
 ## What's changed?
+
 Describe with a few bullets **what's new:**
 - I've fixed...
 
@@ -20,6 +22,7 @@ Before|After
 {media}|{media}
 
 ## Risk factors
+
 **What may go wrong if we merge your PR?**
 - ...
 - ...
@@ -29,6 +32,7 @@ Before|After
 - ...
 
 ## Does this PR close any GitHub issues? (do not delete)
+
 - Closes #{ISSUE_NUMBER}
 
 <!--❗For example: - Closes #123 ❗-->
