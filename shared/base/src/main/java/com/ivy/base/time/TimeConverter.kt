@@ -1,4 +1,4 @@
-package com.ivy.domain.time
+package com.ivy.base.time
 
 import java.time.Instant
 import java.time.LocalDate

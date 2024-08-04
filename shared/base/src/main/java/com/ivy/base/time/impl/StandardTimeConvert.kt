@@ -1,14 +1,14 @@
-package com.ivy.domain.time.impl
+package com.ivy.base.time.impl
 
-import com.ivy.domain.time.TimeConverter
-import com.ivy.domain.time.TimeZoneProvider
+import com.ivy.base.time.TimeConverter
+import com.ivy.base.time.TimeProvider
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
 
 class StandardTimeConvert @Inject constructor(
-    private val timeZoneProvider: TimeZoneProvider
+    private val timeZoneProvider: TimeProvider
 ) : TimeConverter {
 
     override fun Instant.toLocalDateTime(): LocalDateTime {

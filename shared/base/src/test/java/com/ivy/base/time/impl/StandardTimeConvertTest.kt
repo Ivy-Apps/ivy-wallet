@@ -1,9 +1,9 @@
-package com.ivy.domain.time.impl
+package com.ivy.base.time.impl
 
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
-import com.ivy.domain.time.TimeConverter
-import com.ivy.domain.time.TimeZoneProvider
+import com.ivy.base.time.TimeConverter
+import com.ivy.base.time.TimeProvider
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
@@ -17,14 +17,14 @@ import java.time.ZoneOffset
 @RunWith(TestParameterInjector::class)
 class StandardTimeConvertTest {
 
-    private val timeZoneProvider = mockk<TimeZoneProvider>()
+    private val timeProvider = mockk<TimeProvider>()
 
     private lateinit var converter: TimeConverter
 
     @Before
     fun setup() {
         converter = StandardTimeConvert(
-            timeZoneProvider = timeZoneProvider
+            timeZoneProvider = timeProvider
         )
     }
 
@@ -106,7 +106,7 @@ class StandardTimeConvertTest {
     ) {
         // Given
         val instant = testCase.instant
-        every { timeZoneProvider.getZoneId() } returns testCase.zoneOffset
+        every { timeProvider.getZoneId() } returns testCase.zoneOffset
 
         // When
         val local = with(converter) { instant.toLocalDateTime() }
