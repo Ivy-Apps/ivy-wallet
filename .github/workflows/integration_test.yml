@@ -22,6 +22,12 @@ jobs:
       - name: Gradle cache
         uses: gradle/actions/setup-gradle@v3
 
+      - name: Enable KVM (emulator optimization)
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
       - name: AVD cache
         uses: actions/cache@v4
         id: avd-cache
@@ -35,7 +41,9 @@ jobs:
         if: steps.avd-cache.outputs.cache-hit != 'true'
         uses: reactivecircus/android-emulator-runner@v2.32.0
         with:
-          api-level: 29
+          api-level: 34
+          target: google_apis
+          arch: x86_64
           force-avd-creation: false
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: false
@@ -46,16 +54,12 @@ jobs:
           ./gradlew :shared:data:core:assembleDebug :shared:data:core:assembleAndroidTest
           ./gradlew :shared:domain:assembleDebug :shared:domain:assembleAndroidTest
 
-      - name: Enable KVM (emulator optimization)
-        run: |
-          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-          sudo udevadm control --reload-rules
-          sudo udevadm trigger --name-match=kvm
-
       - name: Run androidTest on emulator
         uses: reactivecircus/android-emulator-runner@v2.32.0
         with:
-          api-level: 29
+          api-level: 34
+          target: google_apis
+          arch: x86_64
           script: |
             ./gradlew :shared:data:core:connectedDebugAndroidTest
             ./gradlew :shared:domain:connectedDebugAndroidTest
