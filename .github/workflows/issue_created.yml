@@ -17,15 +17,8 @@ jobs:
           distribution: 'adopt'
           java-version: '18'
 
-      - name: Enable Gradle Wrapper caching (optimization)
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+      - name: Gradle cache
+        uses: gradle/actions/setup-gradle@v4
 
       - name: Execute the "Issue Created" automation
         run: ./gradlew :ci-actions:issue-create-comment:run --args='issueNumber=${{ github.event.issue.number }} gitHubPAT=${{ secrets.IVYWALLET_BOT_GITHUB_PAT_2 }}'
