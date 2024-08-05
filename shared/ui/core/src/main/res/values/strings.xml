@@ -492,4 +492,5 @@
     <string name="select_tags">Select Tags</string>
     <string name="bill_paid">Your bill for %1$s %2$s has been paid</string>
     <string name="language">Language</string>
+    <string name="advanced_features">Advanced features</string>
 </resources>

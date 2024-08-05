@@ -50,6 +50,7 @@ import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.navigation.AttributionsScreen
 import com.ivy.navigation.ContributorsScreen
 import com.ivy.navigation.ExchangeRatesScreen
+import com.ivy.navigation.FeaturesScreen
 import com.ivy.navigation.ImportScreen
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.ReleasesScreen
@@ -377,6 +378,12 @@ private fun BoxWithConstraintsScope.UI(
             ) {
                 chooseStartDateOfMonthVisible = true
             }
+
+            Spacer(Modifier.height(12.dp))
+
+            CustomFeatures(
+                onClick = { nav.navigateTo(FeaturesScreen) }
+            )
         }
 
 //        item {
@@ -606,6 +613,35 @@ private fun StartDateOfMonth(
         )
 
         Spacer(Modifier.width(32.dp))
+    }
+}
+
+@Composable
+private fun CustomFeatures(
+    onClick: () -> Unit
+) {
+    SettingsButtonRow(
+        onClick = onClick
+    ) {
+        Spacer(Modifier.width(12.dp))
+
+        IvyIconScaled(
+            icon = R.drawable.ic_custom_programming_m,
+            tint = UI.colors.pureInverse,
+            iconScale = IconScale.M,
+            padding = 0.dp
+        )
+
+        Spacer(modifier = Modifier.width(8.dp))
+
+        Text(
+            modifier = Modifier.padding(vertical = 20.dp),
+            text = stringResource(R.string.advanced_features),
+            style = UI.typo.b2.style(
+                color = UI.colors.pureInverse,
+                fontWeight = FontWeight.Bold
+            )
+        )
     }
 }
 

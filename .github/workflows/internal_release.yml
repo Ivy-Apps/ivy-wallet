@@ -39,17 +39,8 @@ jobs:
         run: bundle install
       #----------------------------------------------------
 
-      # Optimization
-      - name: Enable Gradle Wrapper caching (optimization)
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-      #---------------------------------------------------
+      - name: Gradle cache
+        uses: gradle/actions/setup-gradle@v4
 
       # Decode Secrets for production build
       - name: Create JKS for prod signing
