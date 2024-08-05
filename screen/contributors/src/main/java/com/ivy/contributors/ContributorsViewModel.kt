@@ -51,9 +51,9 @@ class ContributorsViewModel @Inject constructor(
     private suspend fun fetchContributors() {
         val contributorsResult = ivyWalletRepositoryDataSource.fetchContributors()
 
-        contributorsResult.fold(
+        contributorsResponse.value = contributorsResult.fold(
             ifLeft = { errorMessage ->
-                contributorsResponse.value = ContributorsResponse.Error(
+                ContributorsResponse.Error(
                     errorMessage
                 )
             },
@@ -66,7 +66,7 @@ class ContributorsViewModel @Inject constructor(
                         githubProfileUrl = it.link ?: ""
                     )
                 }
-                contributorsResponse.value = ContributorsResponse.Success(
+                ContributorsResponse.Success(
                     contributors.toImmutableList()
                 )
             }
