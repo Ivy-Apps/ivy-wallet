@@ -14,7 +14,7 @@ import javax.inject.Inject
 @Stable
 @HiltViewModel
 class ContributorsViewModel @Inject constructor(
-    private val ivyWalletRepositoryDataSource: IvyWalletRepositoryDataSource
+    private val ivyWalletRepositoryDataSource: IvyWalletRepositoryDataSource,
 ) : ComposeViewModel<ContributorsState, ContributorsEvent>() {
 
     private val projectResponse = mutableStateOf<ProjectResponse>(ProjectResponse.Loading)
@@ -49,22 +49,28 @@ class ContributorsViewModel @Inject constructor(
     }
 
     private suspend fun fetchContributors() {
-        val contributors = ivyWalletRepositoryDataSource.fetchContributors()?.map {
-            Contributor(
-                name = it.login,
-                photoUrl = it.avatarUrl,
-                contributionsCount = it.contributions.toString(),
-                githubProfileUrl = it.link
-            )
-        }
+        val contributorsResult = ivyWalletRepositoryDataSource.fetchContributors()
 
-        if (contributors != null) {
-            contributorsResponse.value = ContributorsResponse.Success(
-                contributors.toImmutableList()
-            )
-        } else {
-            contributorsResponse.value = ContributorsResponse.Error("Error")
-        }
+        contributorsResponse.value = contributorsResult.fold(
+            ifLeft = { errorMessage ->
+                ContributorsResponse.Error(
+                    errorMessage
+                )
+            },
+            ifRight = { contributorsDto ->
+                val contributors = contributorsDto.map {
+                    Contributor(
+                        name = it.login ?: "Anonymous",
+                        photoUrl = it.avatarUrl ?: "",
+                        contributionsCount = it.contributions.toString(),
+                        githubProfileUrl = it.link ?: ""
+                    )
+                }
+                ContributorsResponse.Success(
+                    contributors.toImmutableList()
+                )
+            }
+        )
     }
 
     private suspend fun fetchProjectInfo() {
