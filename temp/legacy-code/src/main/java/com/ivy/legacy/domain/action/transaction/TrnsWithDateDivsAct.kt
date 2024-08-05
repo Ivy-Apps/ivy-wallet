@@ -1,8 +1,8 @@
 package com.ivy.wallet.domain.action.transaction
 
-import com.ivy.base.TimeProvider
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
+import com.ivy.base.time.TimeProvider
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.TagRepository

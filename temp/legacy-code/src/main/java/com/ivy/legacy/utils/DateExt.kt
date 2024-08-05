@@ -14,25 +14,26 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
+@Deprecated("Use the TimeProvider interface via DI")
 fun timeNowLocal(): LocalDateTime = LocalDateTime.now()
 
+@Deprecated("Use the TimeProvider interface via DI")
 fun dateNowLocal(): LocalDate = LocalDate.now()
 
+@Deprecated("Use the TimeProvider interface via DI")
 @Total
 fun timeNowUTC(): LocalDateTime = LocalDateTime.now(ZoneOffset.UTC)
 
+@Deprecated("Use the TimeProvider interface via DI")
 @Total
 fun timeUTC(): LocalTime = LocalTime.now(ZoneOffset.UTC)
 
+@Deprecated("Use the TimeProvider interface via DI")
 @Total
 fun dateNowUTC(): LocalDate = LocalDate.now(ZoneOffset.UTC)
 
-fun startOfDayNowUTC() = dateNowUTC().atStartOfDay()
-
-fun endOfDayNowUTC() = dateNowUTC().atEndOfDay()
-
-fun Long.epochSecondToDateTime(): LocalDateTime =
-    LocalDateTime.ofEpochSecond(this, 0, ZoneOffset.UTC)
+@Deprecated("Use the TimeProvider interface via DI + atStartOfDay()")
+fun startOfDayNowUTC(): LocalDateTime = dateNowUTC().atStartOfDay()
 
 fun LocalDateTime.toEpochSeconds() = this.toEpochSecond(ZoneOffset.UTC)
 
@@ -197,24 +198,29 @@ fun LocalDateTime.format(
     )
 }
 
+@Deprecated("Use the TimeConverter interface via DI")
 fun LocalDateTime.convertUTCtoLocal(zone: ZoneId = ZoneOffset.systemDefault()): LocalDateTime {
     return this.convertUTCto(zone)
 }
 
+@Deprecated("Use the TimeConverter interface via DI")
 fun LocalDateTime.convertUTCto(zone: ZoneId): LocalDateTime {
     return plusSeconds(atZone(zone).offset.totalSeconds.toLong())
 }
 
+@Deprecated("Use the TimeConverter interface via DI")
 fun LocalTime.convertLocalToUTC(): LocalTime {
     val offset = timeNowLocal().atZone(ZoneOffset.systemDefault()).offset.totalSeconds.toLong()
     return this.minusSeconds(offset)
 }
 
+@Deprecated("Use the TimeConverter interface via DI")
 fun LocalTime.convertUTCToLocal(): LocalTime {
     val offset = timeNowLocal().atZone(ZoneOffset.systemDefault()).offset.totalSeconds.toLong()
     return this.plusSeconds(offset)
 }
 
+@Deprecated("Use the TimeConverter interface via DI")
 fun LocalDateTime.convertLocalToUTC(): LocalDateTime {
     val offset = timeNowLocal().atZone(ZoneOffset.systemDefault()).offset.totalSeconds.toLong()
     return this.minusSeconds(offset)

@@ -12,7 +12,7 @@ in a test at a glance, then it's bad again.
 
 Most good unit tests share a similar structure/pattern. They start with a simple
 name that reads like a sentence and tells you what's being tested. Then inside
-the test function's body, they're split into three parts.
+the test function's body, they're split into three parts: Given-When-Then.
 
 ```kotlin
 class CurrencyConverterTest {
@@ -31,19 +31,19 @@ class CurrencyConverterTest {
 
     @Test
     fun `converts BTC to USD, happy path`() = runTest {
-        // given
+        // Given
         coEvery {
             exchangeRatesRepo.findRate(BTC, USD)
         } returns PositiveDouble.unsafe(50_000.0)
         val btcHolding = value(2.0, BTC)
 
-        // when
+        // When
         val usdMoney = converter.convert(
             from = btcHolding,
             to = USD
         )
 
-        // then
+        // Then
         usdMoney shouldBe value(100_000.0, USD)
     }
 
