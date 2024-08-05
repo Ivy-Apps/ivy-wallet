@@ -166,7 +166,7 @@ ktor = [
     "ktor-serialization",
     "ktor-client-core",
     "ktor-client-serialization",
-    "ktor-logging"
+    "ktor-logging",
 ]
 testing = [
     "kotest-assertions",

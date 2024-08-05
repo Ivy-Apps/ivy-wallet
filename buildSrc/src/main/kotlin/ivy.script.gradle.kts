@@ -12,8 +12,8 @@ kotlin {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions {
-        freeCompilerArgs += "-XXLanguage:+ContextReceivers"
+    compilerOptions {
+        freeCompilerArgs.add("-XXLanguage:+ContextReceivers")
     }
 }
 
