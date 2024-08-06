@@ -37,6 +37,7 @@ import com.ivy.legacy.utils.dateNowLocal
 import com.ivy.legacy.utils.getTrueDate
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeNowLocal
+import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.timeUTC
 import com.ivy.legacy.utils.toLowerCaseLocal
 import com.ivy.legacy.utils.uiThread
@@ -703,7 +704,7 @@ class EditTransactionViewModel @Inject constructor(
                     dateTime = when {
                         loadedTransaction().dateTime == null &&
                                 dueDate.value == null -> {
-                            timeNowLocal()
+                            timeNowUTC()
                         }
 
                         else -> loadedTransaction().dateTime
