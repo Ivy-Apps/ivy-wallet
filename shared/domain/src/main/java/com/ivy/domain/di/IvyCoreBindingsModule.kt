@@ -9,7 +9,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class IvyCoreBindingsModule {
+interface IvyCoreBindingsModule {
     @Binds
-    abstract fun bindFeatures(features: IvyFeatures): Features
+    fun bindFeatures(features: IvyFeatures): Features
 }

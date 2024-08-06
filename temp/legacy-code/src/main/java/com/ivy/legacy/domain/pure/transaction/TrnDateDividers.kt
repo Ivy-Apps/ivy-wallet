@@ -2,14 +2,14 @@ package com.ivy.legacy.domain.pure.transaction
 
 import arrow.core.Option
 import arrow.core.toOption
-import com.ivy.base.TimeProvider
 import com.ivy.base.legacy.TransactionHistoryItem
+import com.ivy.base.time.TimeProvider
 import com.ivy.base.time.convertToLocal
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.model.Tag
-import com.ivy.data.model.Transaction
 import com.ivy.data.model.TagId
+import com.ivy.data.model.Transaction
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.TagRepository
 import com.ivy.data.repository.mapper.TransactionMapper

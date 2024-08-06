@@ -39,17 +39,8 @@ jobs:
         run: bundle install
       #----------------------------------------------------
 
-      # Optimization
-      - name: Enable Gradle Wrapper caching (optimization)
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-      #---------------------------------------------------
+      - name: Gradle cache
+        uses: gradle/actions/setup-gradle@v4
 
       # Decode Secrets for production build
       - name: Create JKS for prod signing
@@ -176,14 +167,14 @@ jobs:
         with:
           upload_url: ${{ steps.create_github_release.outputs.upload_url }}
           asset_path: app/build/outputs/apk/demo/app-demo.apk
-          asset_name: Ivy-Wallet-Demo.apk
+          asset_name: Ivy-Wallet-${{ env.TAG_NAME }}.apk
           asset_content_type: application/vnd.android.package-archive
 
       - name: Announce in Telegram group
         run: |
           RELEASE_TAG=${{ env.TAG_NAME }}
           RELEASE_URL="https://github.com/${GITHUB_REPOSITORY}/releases/tag/${RELEASE_TAG}"
-          CAPTION=$'🚀 Ivy Wallet '"$RELEASE_TAG"$' release\n\nCheck it out here: '"$RELEASE_URL"' \n\n 🚢 Please, test the release candidate before we ship it.'
+          CAPTION=$'🚀 Ivy Wallet '"$RELEASE_TAG"$' release\n\nCheck it out here: '"$RELEASE_URL"'    🚢 Please, test the release candidate before we ship it.'
 
           curl -F "chat_id=-1001647280565" \
                -F "document=@app/build/outputs/apk/demo/app-demo.apk" \

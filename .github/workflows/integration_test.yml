@@ -19,20 +19,8 @@ jobs:
           distribution: 'adopt'
           java-version: '18'
 
-      - name: Enable Gradle Wrapper caching (optimization)
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - name: Build Ivy Wallet's code
-        run: |
-          ./gradlew :shared:data:core:assembleDebug :shared:data:core:assembleAndroidTest
-          ./gradlew :shared:domain:assembleDebug :shared:domain:assembleAndroidTest
+      - name: Gradle cache
+        uses: gradle/actions/setup-gradle@v4
 
       - name: Enable KVM (emulator optimization)
         run: |
@@ -40,10 +28,38 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
-      - name: Run android tests on Emulator
-        uses: reactivecircus/android-emulator-runner@v2
+      - name: AVD cache
+        uses: actions/cache@v4
+        id: avd-cache
         with:
-          api-level: 29
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-${{ matrix.api-level }}
+
+      - name: create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2.32.0
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: false
+          script: echo "Generated AVD snapshot for caching."
+
+      - name: Build Ivy Wallet's code
+        run: |
+          ./gradlew :shared:data:core:assembleDebug :shared:data:core:assembleAndroidTest
+          ./gradlew :shared:domain:assembleDebug :shared:domain:assembleAndroidTest
+
+      - name: Run androidTest on emulator
+        uses: reactivecircus/android-emulator-runner@v2.32.0
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
           script: |
             ./gradlew :shared:data:core:connectedDebugAndroidTest
             ./gradlew :shared:domain:connectedDebugAndroidTest

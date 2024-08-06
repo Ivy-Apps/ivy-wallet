@@ -4,8 +4,8 @@ import arrow.core.Either
 import arrow.core.raise.either
 import arrow.core.raise.ensure
 import arrow.core.raise.ensureNotNull
-import com.ivy.base.TimeProvider
 import com.ivy.base.model.TransactionType
+import com.ivy.base.time.TimeProvider
 import com.ivy.data.db.entity.TransactionEntity
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.CategoryId
