@@ -195,7 +195,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
             picker.show(supportFragmentManager, "timePicker")
             picker.addOnPositiveButtonClickListener {
                 onTimePicked(
-                    LocalTime.of(picker.hour, picker.minute).convertLocalToUTC().withSecond(0)
+                    LocalTime.of(picker.hour, picker.minute).withSecond(0)
                 )
             }
         }
