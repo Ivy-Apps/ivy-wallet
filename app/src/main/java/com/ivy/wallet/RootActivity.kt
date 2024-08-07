@@ -184,11 +184,15 @@ class RootActivity : AppCompatActivity(), RootScreen {
     }
 
     private fun setupTimePicker() {
-        ivyContext.onShowTimePicker = { onTimePicked ->
-            val nowLocal = timeNowLocal()
+        ivyContext.onShowTimePicker = { initialTime,
+                                        onTimePicked ->
+            val nowLocal = initialTime ?: timeNowLocal().toLocalTime()
+            val is24Hour = android.text.format.DateFormat.is24HourFormat(this)
+            val timeFormat = if (is24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
+
             val picker =
                 MaterialTimePicker.Builder()
-                    .setTimeFormat(TimeFormat.CLOCK_12H)
+                    .setTimeFormat(timeFormat)
                     .setHour(nowLocal.hour)
                     .setMinute(nowLocal.minute)
                     .build()
