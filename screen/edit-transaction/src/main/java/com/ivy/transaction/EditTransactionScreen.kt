@@ -385,7 +385,9 @@ private fun BoxWithConstraintsScope.UI(
                 }
             },
             onEditTime = {
-                ivyContext.timePicker { time ->
+                ivyContext.timePicker(
+                    initialTime = dateTime?.toLocalTime()
+                ) { time ->
                     onSetTime(time)
                 }
             }

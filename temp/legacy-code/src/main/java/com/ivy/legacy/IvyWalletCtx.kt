@@ -114,7 +114,10 @@ class IvyWalletCtx @Inject constructor() : IvyContext() {
         initialDate: LocalDate?,
         onDatePicked: (LocalDate) -> Unit
     ) -> Unit
-    lateinit var onShowTimePicker: (onDatePicked: (LocalTime) -> Unit) -> Unit
+    lateinit var onShowTimePicker: (
+        initialTime: LocalTime?,
+        onDatePicked: (LocalTime) -> Unit
+    ) -> Unit
 
     @Deprecated("Legacy code. Don't use it, please.")
     fun datePicker(
@@ -127,8 +130,11 @@ class IvyWalletCtx @Inject constructor() : IvyContext() {
     }
 
     @Deprecated("Legacy code. Don't use it, please.")
-    fun timePicker(onTimePicked: (LocalTime) -> Unit) {
-        onShowTimePicker(onTimePicked)
+    fun timePicker(
+        initialTime: LocalTime?,
+        onTimePicked: (LocalTime) -> Unit
+    ) {
+        onShowTimePicker(initialTime, onTimePicked)
     }
     // Activity help -------------------------------------------------------------------------------
 

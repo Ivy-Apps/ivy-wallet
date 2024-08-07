@@ -48,7 +48,9 @@ fun DateTimeRow(
             text = dateTime.formatLocalTime(),
             iconStart = R.drawable.ic_date
         ) {
-            ivyContext.timePicker {
+            ivyContext.timePicker(
+                initialTime = dateTime.convertUTCtoLocal().toLocalTime()
+            ) {
                 onSetDateTime(getTrueDate(dateTime.convertUTCtoLocal().toLocalDate(), it))
             }
         }
