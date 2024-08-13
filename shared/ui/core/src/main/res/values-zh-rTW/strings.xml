@@ -96,7 +96,7 @@
     <string name="hi_name">你好 %1$s</string>
     <string name="cashflow">現金流: %1$s%2$s %3$s</string>
     <string name="search_transactions">搜尋交易</string>
-    <string name="ivy_wallet_open_source">Ivy 錢包是開源的</string>
+    <string name="ivy_wallet_open_source">Ivy wallet 是開源的</string>
     <string name="savings_goal">儲蓄目標</string>
     <string name="quick_access">快速存取</string>
     <string name="settings">設定</string>
@@ -390,11 +390,11 @@
     <string name="expenses_piechart">支出圓餅圖</string>
     <string name="review_ivy_wallet">發表評論</string>
     <string name="review_ivy_wallet_description">給我們您的回饋!透過留下評論來幫助 Ivy Wallet 改進和發展。我們歡迎讚美、想法和批評!您的意見對於我們不斷改進應用程式的努力非常寶貴。\n\nCheers,\nIvy Team</string>
-    <string name="help_us_grow">幫助我們成長，以便我們可以在開發上投入更多資金，讓應用程式更適合您。透過分享 Ivy 錢包，您將使所有貢獻者感到高興，並幫助朋友掌控他們的財務。</string>
+    <string name="help_us_grow">幫助我們成長，以便我們可以在開發上投入更多資金，讓應用程式更適合您。透過分享 Ivy wallet，您將使所有貢獻者感到高興，並幫助朋友掌控他們的財務。</string>
     <string name="share_with_friends">與朋友分享</string>
     <string name="make_a_report_description">您可以產生報告以深入了解您的收入和支出。按類型、時間段、類別、帳戶、金額、關鍵字等過濾您的交易，以便更好地管理您的財務狀況。</string>
     <string name="make_a_report">製作報表</string>
-    <string name="make_ivy_wallet_better_description">您想讓 Ivy 錢包變得更好嗎？給我們寫評論。這是我們實現您的需求的唯一方法。它還幫助我們在 Play 商店中排名更高，這樣我們就可以把錢花在產品上，而不是行銷上。\n\n我們盡力而為。\nIvy wallet 團隊。</string>
+    <string name="make_ivy_wallet_better_description">您想讓 Ivy Wallet 變得更好嗎？給我們寫評論。這是我們實現您的需求的唯一方法。它還幫助我們在 Play 商店中排名更高，這樣我們就可以把錢花在產品上，而不是行銷上。\n\n我們盡力而為。\nIvy wallet 團隊。</string>
     <string name="we_need_your_help">我們需要您的幫助!</string>
     <string name="we_need_your_help_description">我們需要您的支持來不斷改進該應用程式。請與您的朋友和家人分享 Ivy Wallet，並考慮在 Google Play 商店上留下評論。您的貢獻將幫助我們繼續我們的使命。</string>
     <string name="ivy_wallet_is_opensource">Ivy Wallet 開源了!</string>
@@ -488,7 +488,7 @@
     <string name="csv_import_failed">如果這不起作用，請嘗試手動 CSV 匯入。</string>
     <string name="import_a_csv_file_to_continue">匯入 CSV 檔案以繼續。</string>
     <string name="import_csv_continue">繼續</string>
-    <string name="warning_import_csv_file">"\n!!!⚠️警告: 導入可能會重複交易!!!\n重複的交易無法輕易刪除，您需要手動刪除其中的每一項!\n原因: 我們無法解析交易 ID，因為 Ivy 錢包僅適用於 UUID，而其他應用程式則不能。\n如果您剛開始，不用擔心 -請忽略此訊息。"</string>
+    <string name="warning_import_csv_file">"\n!!!⚠️警告: 導入可能會重複交易!!!\n重複的交易無法輕易刪除，您需要手動刪除其中的每一項!\n原因: 我們無法解析交易 ID，因為 Ivy wallet 僅適用於 UUID，而其他應用程式則不能。\n如果您剛開始，不用擔心 -請忽略此訊息。"</string>
     <string name="select_tags">選擇標籤</string>
     <string name="bill_paid">您的 %1$s %2$s 帳單已支付</string>
     <string name="language">語言</string>
