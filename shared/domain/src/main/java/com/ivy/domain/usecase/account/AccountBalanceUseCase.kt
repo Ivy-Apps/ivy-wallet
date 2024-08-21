@@ -33,9 +33,33 @@ class AccountBalanceUseCase @Inject constructor(
     suspend fun calculate(
         account: AccountId,
     ): Map<AssetCode, NonZeroDouble> {
-        TODO("Not implemented")
+
+        val transactions = transactionRepository.findAll()
+        val accountStats = accountStatsUseCase.calculate(account = account, transactions = transactions)
+
+        val balance = hashMapOf<AssetCode, NonZeroDouble>()
+
+        val income = accountStats.income
+        val transfersIn = accountStats.transfersIn
+        val expense = accountStats.expense
+        val transfersOut = accountStats.transfersOut
+
+        val amountIn = income.values.map {
+            it.key to transfersIn.values[it.key]?.value?.plus(it.value.value)
+        }.toMap()
+
+        val amountOut = expense.values.map {
+            it.key to transfersOut.values[it.key]?.value?.plus(it.value.value)
+        }.toMap()
+
+        amountIn.map {
+            balance[it.key] = NonZeroDouble.unsafe(it.value?.minus(amountOut[it.key]!!)!!)
+        }
+
+        return balance
     }
 }
+
 
 data class ExchangedAccountBalance(
     val balance: Option<Value>,
