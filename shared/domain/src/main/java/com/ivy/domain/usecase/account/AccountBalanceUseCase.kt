@@ -62,6 +62,13 @@ class AccountBalanceUseCase @Inject constructor(
 
 
 data class ExchangedAccountBalance(
-    val balance: Option<Value>,
-    val exchangeErrors: Set<AssetCode>
-)
+    val balance: Option<Value>?,
+    val exchangeErrors: Set<AssetCode>?
+) {
+    companion object {
+        val None = ExchangedAccountBalance(
+            balance = null,
+            exchangeErrors = null
+        )
+    }
+}
