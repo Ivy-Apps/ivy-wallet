@@ -23,7 +23,13 @@ class AccountBalanceUseCase @Inject constructor(
         account: AccountId,
         outCurrency: AssetCode
     ): ExchangedAccountBalance {
-        TODO("Not implemented")
+        val balance = calculate(account)
+        val exchangeResult = exchangeUseCase.convert(values = balance, to = outCurrency)
+        return if(balance.keys.size == exchangeResult.exchangeErrors.size || balance.values.sumOf { it.value } == 0.0) {
+            ExchangedAccountBalance.None
+        } else {
+            ExchangedAccountBalance(balance = exchangeResult.exchanged, exchangeErrors = exchangeResult.exchangeErrors)
+        }
     }
 
     /**
