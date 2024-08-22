@@ -26,11 +26,15 @@ class AccountBalanceUseCase @Inject constructor(
         outCurrency: AssetCode,
     ): ExchangedAccountBalance {
         val balance = calculate(account)
-        val exchangeResult = exchangeUseCase.convert(values = balance, to = outCurrency)
-        return ExchangedAccountBalance(
-            balance = exchangeResult.exchanged,
-            exchangeErrors = exchangeResult.exchangeErrors
-        )
+        return if(balance.isEmpty()) {
+            ExchangedAccountBalance.NoneBalance
+        } else {
+            val exchangeResult = exchangeUseCase.convert(values = balance, to = outCurrency)
+            ExchangedAccountBalance(
+                balance = exchangeResult.exchanged,
+                exchangeErrors = exchangeResult.exchangeErrors
+            )
+        }
     }
 
     /**
