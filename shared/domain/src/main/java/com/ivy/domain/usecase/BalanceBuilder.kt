@@ -8,6 +8,12 @@ class BalanceBuilder {
 
     private val balance = mutableMapOf<AssetCode, NonZeroDouble>()
 
+    /**
+     * Updates `balance` with deposits from income and transfers in.
+     *
+     * @param incomes Deposit amounts from income sources.
+     * @param transferIn Deposit amounts from transfer in sources.
+     */
     fun processDeposits(
         incomes: Map<AssetCode, PositiveDouble>,
         transferIn: Map<AssetCode, PositiveDouble>,
@@ -21,6 +27,12 @@ class BalanceBuilder {
         }
     }
 
+    /**
+     * Updates `balance` with withdrawals from expenses and transfers out.
+     *
+     * @param expenses Deposit amounts from expense sources.
+     * @param transferOut Deposit amounts from transfer out sources.
+     */
     fun processWithdrawals(
         expenses: Map<AssetCode, PositiveDouble>,
         transferOut: Map<AssetCode, PositiveDouble>,
@@ -34,9 +46,17 @@ class BalanceBuilder {
         }
     }
 
+    /**
+     * Combines two maps by summing their values. If the sum results in an error,
+     * the value from the `c` map is used.
+     *
+     * Note: `c` is a copy of `a`.
+     *
+     * @return A map with combined values from the two input maps.
+     */
     private fun combine(
         a: Map<AssetCode, PositiveDouble>,
-        b: Map<AssetCode, PositiveDouble>
+        b: Map<AssetCode, PositiveDouble>,
     ): Map<AssetCode, PositiveDouble> {
         val c = a.toMutableMap()
         b.forEach { (asset, amount) ->
@@ -44,7 +64,7 @@ class BalanceBuilder {
                 PositiveDouble
                     .from(b.value + c.value)
                     .fold(
-                        ifLeft = { PositiveDouble.unsafe(0.0) },
+                        ifLeft = { c },
                         ifRight = { it }
                     )
             }
