@@ -12,8 +12,7 @@ class BalanceBuilder {
         incomes: Map<AssetCode, PositiveDouble>,
         transferIn: Map<AssetCode, PositiveDouble>,
     ) {
-        val result = combineAndGet(incomes, transferIn)
-        result.forEach { (asset, value) ->
+        combineAndGetAmount(incomes, transferIn).forEach { (asset, value) ->
             NonZeroDouble
                 .from((balance[asset]?.value ?: 0.0) + value.value)
                 .onRight { newValue ->
@@ -26,8 +25,7 @@ class BalanceBuilder {
         expenses: Map<AssetCode, PositiveDouble>,
         transferOut: Map<AssetCode, PositiveDouble>,
     ) {
-        val result = combineAndGet(expenses, transferOut)
-        result.forEach { (asset, value) ->
+        combineAndGetAmount(expenses, transferOut).forEach { (asset, value) ->
             NonZeroDouble
                 .from((balance[asset]?.value ?: 0.0) + (-value.value))
                 .onRight { newValue ->
@@ -36,7 +34,7 @@ class BalanceBuilder {
         }
     }
 
-    private fun combineAndGet(
+    private fun combineAndGetAmount(
         firstMap: Map<AssetCode, PositiveDouble>,
         secondMap: Map<AssetCode, PositiveDouble>,
     ): Map<AssetCode, PositiveDouble> {
