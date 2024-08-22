@@ -35,20 +35,20 @@ class BalanceBuilder {
     }
 
     private fun getAmount(
-        firstMap: Map<AssetCode, PositiveDouble>,
-        secondMap: Map<AssetCode, PositiveDouble>,
+        a: Map<AssetCode, PositiveDouble>,
+        b: Map<AssetCode, PositiveDouble>,
     ): Map<AssetCode, PositiveDouble> {
-        val amount = firstMap.toMutableMap()
-        combine(amount, secondMap)
+        val amount = a.toMutableMap()
+        combine(amount, b)
         return amount
     }
 
     private fun combine(
-        amount: MutableMap<AssetCode, PositiveDouble>,
-        secondMap: Map<AssetCode, PositiveDouble>
+        a: MutableMap<AssetCode, PositiveDouble>,
+        b: Map<AssetCode, PositiveDouble>
     ) {
-        secondMap.forEach { (asset, value) ->
-            amount.merge(asset, value) { firstMap, secondMap ->
+        b.forEach { (asset, value) ->
+            a.merge(asset, value) { firstMap, secondMap ->
                 PositiveDouble
                     .from(firstMap.value + secondMap.value)
                     .fold(
