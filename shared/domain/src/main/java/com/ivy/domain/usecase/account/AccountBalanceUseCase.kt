@@ -6,6 +6,7 @@ import com.ivy.data.model.Value
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.NonZeroDouble
 import com.ivy.data.repository.TransactionRepository
+import com.ivy.domain.usecase.BalanceBuilder
 import com.ivy.domain.usecase.exchange.ExchangeUseCase
 import javax.inject.Inject
 
@@ -21,15 +22,14 @@ class AccountBalanceUseCase @Inject constructor(
      */
     suspend fun calculate(
         account: AccountId,
-        outCurrency: AssetCode
+        outCurrency: AssetCode,
     ): ExchangedAccountBalance {
         val balance = calculate(account)
         val exchangeResult = exchangeUseCase.convert(values = balance, to = outCurrency)
-        return if(balance.keys.size == exchangeResult.exchangeErrors.size || balance.values.sumOf { it.value } == 0.0) {
-            ExchangedAccountBalance.None
-        } else {
-            ExchangedAccountBalance(balance = exchangeResult.exchanged, exchangeErrors = exchangeResult.exchangeErrors)
-        }
+        return ExchangedAccountBalance(
+            balance = exchangeResult.exchanged,
+            exchangeErrors = exchangeResult.exchangeErrors
+        )
     }
 
     /**
@@ -40,41 +40,29 @@ class AccountBalanceUseCase @Inject constructor(
         account: AccountId,
     ): Map<AssetCode, NonZeroDouble> {
 
-        val transactions = transactionRepository.findAll()
-        val accountStats = accountStatsUseCase.calculate(account = account, transactions = transactions)
+        val accountStats = accountStatsUseCase.calculate(
+            account = account,
+            transactions = transactionRepository.findAll()
+        )
 
-        val balance = hashMapOf<AssetCode, NonZeroDouble>()
+        val balance = BalanceBuilder()
 
-        val income = accountStats.income
-        val transfersIn = accountStats.transfersIn
-        val expense = accountStats.expense
-        val transfersOut = accountStats.transfersOut
+        balance.processIncomes(
+            incomes = accountStats.income.values,
+            transferIn = accountStats.transfersIn.values
+        )
 
-        val amountIn = income.values.map {
-            it.key to transfersIn.values[it.key]?.value?.plus(it.value.value)
-        }.toMap()
+        balance.processOutcomes(
+            expenses = accountStats.expense.values,
+            transferOut = accountStats.transfersOut.values
+        )
 
-        val amountOut = expense.values.map {
-            it.key to transfersOut.values[it.key]?.value?.plus(it.value.value)
-        }.toMap()
-
-        amountIn.map {
-            balance[it.key] = NonZeroDouble.unsafe(it.value?.minus(amountOut[it.key]!!)!!)
-        }
-
-        return balance
+        return balance.build()
     }
 }
 
 
 data class ExchangedAccountBalance(
-    val balance: Option<Value>?,
-    val exchangeErrors: Set<AssetCode>?
-) {
-    companion object {
-        val None = ExchangedAccountBalance(
-            balance = null,
-            exchangeErrors = null
-        )
-    }
-}
+    val balance: Option<Value>,
+    val exchangeErrors: Set<AssetCode>,
+)
