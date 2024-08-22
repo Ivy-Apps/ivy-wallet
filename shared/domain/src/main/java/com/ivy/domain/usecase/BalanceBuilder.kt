@@ -8,47 +8,39 @@ class BalanceBuilder {
 
     private val balance = mutableMapOf<AssetCode, NonZeroDouble>()
 
-    fun processDeposit(
+    fun processDeposits(
         incomes: Map<AssetCode, PositiveDouble>,
         transferIn: Map<AssetCode, PositiveDouble>,
     ) {
-        getAmount(incomes, transferIn).forEach { (asset, value) ->
+        combine(incomes, transferIn).forEach { (asset, amount) ->
             NonZeroDouble
-                .from((balance[asset]?.value ?: 0.0) + value.value)
+                .from((balance[asset]?.value ?: 0.0) + amount.value)
                 .onRight { newValue ->
                     balance[asset] = newValue
                 }
         }
     }
 
-    fun processWithdrawal(
+    fun processWithdrawals(
         expenses: Map<AssetCode, PositiveDouble>,
         transferOut: Map<AssetCode, PositiveDouble>,
     ) {
-        getAmount(expenses, transferOut).forEach { (asset, value) ->
+        combine(expenses, transferOut).forEach { (asset, amount) ->
             NonZeroDouble
-                .from((balance[asset]?.value ?: 0.0) + (-value.value))
+                .from((balance[asset]?.value ?: 0.0) - amount.value)
                 .onRight { newValue ->
                     balance[asset] = newValue
                 }
         }
     }
 
-    private fun getAmount(
-        a: Map<AssetCode, PositiveDouble>,
-        b: Map<AssetCode, PositiveDouble>,
-    ): Map<AssetCode, PositiveDouble> {
-        val amount = a.toMutableMap()
-        combine(amount, b)
-        return amount
-    }
-
     private fun combine(
-        a: MutableMap<AssetCode, PositiveDouble>,
+        a: Map<AssetCode, PositiveDouble>,
         b: Map<AssetCode, PositiveDouble>
-    ) {
-        b.forEach { (asset, value) ->
-            a.merge(asset, value) { firstMap, secondMap ->
+    ): Map<AssetCode, PositiveDouble> {
+        val c = a.toMutableMap()
+        b.forEach { (asset, amount) ->
+            c.merge(asset, amount) { firstMap, secondMap ->
                 PositiveDouble
                     .from(firstMap.value + secondMap.value)
                     .fold(
@@ -57,6 +49,7 @@ class BalanceBuilder {
                     )
             }
         }
+        return c
     }
 
     fun build(): Map<AssetCode, NonZeroDouble> = balance
