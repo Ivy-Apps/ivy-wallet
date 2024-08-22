@@ -40,9 +40,9 @@ class BalanceBuilder {
     ): Map<AssetCode, PositiveDouble> {
         val c = a.toMutableMap()
         b.forEach { (asset, amount) ->
-            c.merge(asset, amount) { firstMap, secondMap ->
+            c.merge(asset, amount) { b, c ->
                 PositiveDouble
-                    .from(firstMap.value + secondMap.value)
+                    .from(b.value + c.value)
                     .fold(
                         ifLeft = { PositiveDouble.unsafe(0.0) },
                         ifRight = { it }
