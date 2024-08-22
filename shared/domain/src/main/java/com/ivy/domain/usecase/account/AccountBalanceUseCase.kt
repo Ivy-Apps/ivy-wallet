@@ -26,7 +26,7 @@ class AccountBalanceUseCase @Inject constructor(
         outCurrency: AssetCode,
     ): ExchangedAccountBalance {
         val balance = calculate(account)
-        return if(balance.isEmpty()) {
+        return if (balance.isEmpty()) {
             ExchangedAccountBalance.NoneBalance
         } else {
             val exchangeResult = exchangeUseCase.convert(values = balance, to = outCurrency)
@@ -44,7 +44,6 @@ class AccountBalanceUseCase @Inject constructor(
     suspend fun calculate(
         account: AccountId,
     ): Map<AssetCode, NonZeroDouble> {
-
         val accountStats = accountStatsUseCase.calculate(
             account = account,
             transactions = transactionRepository.findAll()
@@ -65,7 +64,6 @@ class AccountBalanceUseCase @Inject constructor(
         return balance.build()
     }
 }
-
 
 data class ExchangedAccountBalance(
     val balance: Option<Value>,
