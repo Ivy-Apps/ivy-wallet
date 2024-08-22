@@ -52,12 +52,12 @@ class AccountBalanceUseCase @Inject constructor(
 
         val balance = BalanceBuilder()
 
-        balance.processIncomes(
+        balance.processDeposit(
             incomes = accountStats.income.values,
             transferIn = accountStats.transfersIn.values
         )
 
-        balance.processOutcomes(
+        balance.processWithdrawal(
             expenses = accountStats.expense.values,
             transferOut = accountStats.transfersOut.values
         )
