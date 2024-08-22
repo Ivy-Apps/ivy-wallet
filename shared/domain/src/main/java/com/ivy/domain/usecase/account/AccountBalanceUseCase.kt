@@ -1,6 +1,8 @@
 package com.ivy.domain.usecase.account
 
+import arrow.core.None
 import arrow.core.Option
+import arrow.core.toOption
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.Value
 import com.ivy.data.model.primitive.AssetCode
@@ -56,7 +58,7 @@ class AccountBalanceUseCase @Inject constructor(
             expenses = accountStats.expense.values,
             transferOut = accountStats.transfersOut.values
         )
-
+        Option.toOption()
         return balance.build()
     }
 }
@@ -65,4 +67,11 @@ class AccountBalanceUseCase @Inject constructor(
 data class ExchangedAccountBalance(
     val balance: Option<Value>,
     val exchangeErrors: Set<AssetCode>,
-)
+) {
+    companion object {
+        val NoneBalance = ExchangedAccountBalance(
+            balance = None,
+            exchangeErrors = emptySet()
+        )
+    }
+}
