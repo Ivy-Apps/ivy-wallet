@@ -49,19 +49,17 @@ class AccountBalanceUseCase @Inject constructor(
             transactions = transactionRepository.findAll()
         )
 
-        val balance = BalanceBuilder()
-
-        balance.processDeposits(
-            incomes = accountStats.income.values,
-            transferIn = accountStats.transfersIn.values
-        )
-
-        balance.processWithdrawals(
-            expenses = accountStats.expense.values,
-            transferOut = accountStats.transfersOut.values
-        )
-
-        return balance.build()
+        return BalanceBuilder().run {
+            processDeposits(
+                incomes = accountStats.income.values,
+                transfersIn = accountStats.transfersIn.values
+            )
+            processWithdrawals(
+                expenses = accountStats.expense.values,
+                transfersOut = accountStats.transfersOut.values
+            )
+            build()
+        }
     }
 }
 

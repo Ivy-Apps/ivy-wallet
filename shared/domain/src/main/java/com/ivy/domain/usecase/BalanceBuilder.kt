@@ -12,13 +12,13 @@ class BalanceBuilder {
      * Updates `balance` with deposits from income and transfers in.
      *
      * @param incomes Deposit amounts from income sources.
-     * @param transferIn Deposit amounts from transfer in sources.
+     * @param transfersIn Deposit amounts from transfer in sources.
      */
     fun processDeposits(
         incomes: Map<AssetCode, PositiveDouble>,
-        transferIn: Map<AssetCode, PositiveDouble>,
+        transfersIn: Map<AssetCode, PositiveDouble>,
     ) {
-        combine(incomes, transferIn).forEach { (asset, amount) ->
+        combine(incomes, transfersIn).forEach { (asset, amount) ->
             NonZeroDouble
                 .from((balance[asset]?.value ?: 0.0) + amount.value)
                 .onRight { newValue ->
@@ -31,13 +31,13 @@ class BalanceBuilder {
      * Updates `balance` with withdrawals from expenses and transfers out.
      *
      * @param expenses Deposit amounts from expense sources.
-     * @param transferOut Deposit amounts from transfer out sources.
+     * @param transfersOut Deposit amounts from transfer out sources.
      */
     fun processWithdrawals(
         expenses: Map<AssetCode, PositiveDouble>,
-        transferOut: Map<AssetCode, PositiveDouble>,
+        transfersOut: Map<AssetCode, PositiveDouble>,
     ) {
-        combine(expenses, transferOut).forEach { (asset, amount) ->
+        combine(expenses, transfersOut).forEach { (asset, amount) ->
             NonZeroDouble
                 .from((balance[asset]?.value ?: 0.0) - amount.value)
                 .onRight { newValue ->
@@ -48,9 +48,7 @@ class BalanceBuilder {
 
     /**
      * Combines two maps by summing their values. If the sum results in an error,
-     * the value from the `c` map is used.
-     *
-     * Note: `c` is a copy of `a`.
+     * the value from the `a` map is used.
      *
      * @return A map with combined values from the two input maps.
      */
