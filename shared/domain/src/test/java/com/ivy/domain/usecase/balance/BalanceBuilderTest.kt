@@ -18,10 +18,22 @@ class BalanceBuilderTest {
     ) {
         Empty(
             values = AccountStats(
-                income = StatSummary(trnCount = NonNegativeInt.Zero, values = StatSummaryBuilderTest.ValuesTestCase.Empty.expected.values),
-                transfersIn = StatSummary(trnCount = NonNegativeInt.Zero, values = StatSummaryBuilderTest.ValuesTestCase.Empty.expected.values),
-                expense = StatSummary(trnCount = NonNegativeInt.Zero, values = StatSummaryBuilderTest.ValuesTestCase.Empty.expected.values),
-                transfersOut = StatSummary(trnCount = NonNegativeInt.Zero, values = StatSummaryBuilderTest.ValuesTestCase.Empty.expected.values),
+                income = StatSummary(
+                    trnCount = NonNegativeInt.Zero,
+                    values = StatSummaryBuilderTest.ValuesTestCase.Empty.expected.values
+                ),
+                transfersIn = StatSummary(
+                    trnCount = NonNegativeInt.Zero,
+                    values = StatSummaryBuilderTest.ValuesTestCase.Empty.expected.values
+                ),
+                expense = StatSummary(
+                    trnCount = NonNegativeInt.Zero,
+                    values = StatSummaryBuilderTest.ValuesTestCase.Empty.expected.values
+                ),
+                transfersOut = StatSummary(
+                    trnCount = NonNegativeInt.Zero,
+                    values = StatSummaryBuilderTest.ValuesTestCase.Empty.expected.values
+                ),
             ),
             expected = emptyMap()
         ),
@@ -36,8 +48,14 @@ class BalanceBuilderTest {
         // when
         val stats = testCase.values
 
-        balanceBuilder.processDeposits(incomes = stats.income.values, transfersIn = stats.transfersIn.values)
-        balanceBuilder.processWithdrawals(expenses = stats.expense.values, transfersOut = stats.transfersOut.values)
+        balanceBuilder.processDeposits(
+            incomes = stats.income.values,
+            transfersIn = stats.transfersIn.values
+        )
+        balanceBuilder.processWithdrawals(
+            expenses = stats.expense.values,
+            transfersOut = stats.transfersOut.values
+        )
         val balance = balanceBuilder.build()
 
         // then
