@@ -704,7 +704,7 @@ class EditTransactionViewModel @Inject constructor(
                     dateTime = when {
                         loadedTransaction().dateTime == null &&
                                 dueDate.value == null -> {
-                            timeNowUTC()
+                            getTrueDate(LocalDate.now(),timeNowLocal().toLocalTime())
                         }
 
                         else -> loadedTransaction().dateTime
