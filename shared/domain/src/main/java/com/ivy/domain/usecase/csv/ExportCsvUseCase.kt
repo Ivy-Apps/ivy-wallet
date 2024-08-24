@@ -74,7 +74,7 @@ class ExportCsvUseCase @Inject constructor(
         categoriesMap: Map<CategoryId, Category>,
     ): String = csvRow {
         // Date
-        csvAppend(date?.csvFormat())
+        csvAppend(date?.toString())
         // Title
         csvAppend(title?.value)
         // Category
@@ -100,7 +100,7 @@ class ExportCsvUseCase @Inject constructor(
         // Description
         csvAppend(description?.value)
         // Due Date
-        csvAppend(dueData?.csvFormat())
+        csvAppend(dueData?.toString())
         // ID
         csvAppend(id.value.toString())
     }
