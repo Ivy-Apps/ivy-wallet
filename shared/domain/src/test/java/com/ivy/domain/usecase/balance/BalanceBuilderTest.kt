@@ -1,6 +1,5 @@
 package com.ivy.domain.usecase.balance
 
-import com.ivy.data.model.Value
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.AssetCode.Companion.EUR
 import com.ivy.data.model.primitive.AssetCode.Companion.GBP
@@ -44,8 +43,8 @@ class BalanceBuilderTest {
         OneDepositFromIncome(
             values = AccountStats(
                 income = StatSummary(
-                    trnCount =  count(1),
-                    values =  mapOf(EUR to positiveDouble(1.0))
+                    trnCount = count(1),
+                    values = mapOf(EUR to positiveDouble(1.0))
                 ),
                 transfersIn = StatSummary(
                     trnCount = NonNegativeInt.Zero,
@@ -67,8 +66,8 @@ class BalanceBuilderTest {
         TwoInDiffCurrencyDepositsFromIncome(
             values = AccountStats(
                 income = StatSummary(
-                    trnCount =  count(2),
-                    values =  mapOf(
+                    trnCount = count(2),
+                    values = mapOf(
                         EUR to positiveDouble(3.14),
                         USD to positiveDouble(42.0)
                     )
@@ -94,8 +93,8 @@ class BalanceBuilderTest {
         TwoInSameCurrencyDepositsFromIncomeAndTransfersIn(
             values = AccountStats(
                 income = StatSummary(
-                    trnCount =  count(1),
-                    values =  mapOf(EUR to positiveDouble(6.0))
+                    trnCount = count(1),
+                    values = mapOf(EUR to positiveDouble(6.0))
                 ),
                 transfersIn = StatSummary(
                     trnCount = count(1),
@@ -117,8 +116,8 @@ class BalanceBuilderTest {
         TwoInDiffCurrencyDepositsFromIncomeAndTransfersIn(
             values = AccountStats(
                 income = StatSummary(
-                    trnCount =  count(2),
-                    values =  mapOf(
+                    trnCount = count(2),
+                    values = mapOf(
                         EUR to positiveDouble(3.14)
                     )
                 ),
@@ -138,6 +137,36 @@ class BalanceBuilderTest {
             expected = mapOf(
                 EUR to nonZeroDouble(10.0),
                 USD to nonZeroDouble(50.0)
+            )
+        ),
+        TwoDepositsInDiffCurrencyIncomeAndOneTransferIn(
+            values = AccountStats(
+                income = StatSummary(
+                    trnCount = count(2),
+                    values = mapOf(
+                        USD to positiveDouble(50.0),
+                        EUR to positiveDouble(3.14)
+                    )
+                ),
+                transfersIn = StatSummary(
+                    trnCount = count(1),
+                    values = mapOf(
+                        GBP to positiveDouble(0.5)
+                    )
+                ),
+                expense = StatSummary(
+                    trnCount = NonNegativeInt.Zero,
+                    values = StatSummary.Zero.values
+                ),
+                transfersOut = StatSummary(
+                    trnCount = NonNegativeInt.Zero,
+                    values = StatSummary.Zero.values
+                ),
+            ),
+            expected = mapOf(
+                EUR to nonZeroDouble(3.14),
+                USD to nonZeroDouble(50.0),
+                GBP to nonZeroDouble(0.5)
             )
         )
     }
@@ -241,11 +270,26 @@ class BalanceBuilderTest {
         balance shouldBe testCase.expected
     }
 
+    @Test
+    fun `process two deposits in different currencies come from incomes and one transfersIn`() {
+        // given
+        val testCase = ValuesTestCase.TwoDepositsInDiffCurrencyIncomeAndOneTransferIn
+        val balanceBuilder = BalanceBuilder()
+
+        // when
+        val stats = testCase.values
+
+        balanceBuilder.processDeposits(
+            incomes = stats.income.values,
+            transfersIn = stats.transfersIn.values
+        )
+        val balance = balanceBuilder.build()
+
+        // then
+        balance shouldBe testCase.expected
+    }
+
     companion object {
-        private fun value(
-            amount: Double,
-            asset: AssetCode
-        ): Value = Value(NonZeroDouble.unsafe(amount), asset)
 
         private fun count(count: Int): NonNegativeInt = NonNegativeInt.unsafe(count)
 
