@@ -1,12 +1,16 @@
 package com.ivy.domain.usecase.balance
 
+import com.ivy.data.model.Value
 import com.ivy.data.model.primitive.AssetCode
+import com.ivy.data.model.primitive.AssetCode.Companion.EUR
+import com.ivy.data.model.primitive.AssetCode.Companion.GBP
+import com.ivy.data.model.primitive.AssetCode.Companion.USD
 import com.ivy.data.model.primitive.NonNegativeInt
 import com.ivy.data.model.primitive.NonZeroDouble
+import com.ivy.data.model.primitive.PositiveDouble
 import com.ivy.domain.model.StatSummary
 import com.ivy.domain.usecase.BalanceBuilder
 import com.ivy.domain.usecase.account.AccountStats
-import com.ivy.domain.usecase.stat.StatSummaryBuilderTest
 import io.kotest.matchers.shouldBe
 import org.junit.Test
 
@@ -20,23 +24,23 @@ class BalanceBuilderTest {
             values = AccountStats(
                 income = StatSummary(
                     trnCount = NonNegativeInt.Zero,
-                    values = StatSummaryBuilderTest.ValuesTestCase.Empty.expected.values
+                    values = StatSummary.Zero.values
                 ),
                 transfersIn = StatSummary(
                     trnCount = NonNegativeInt.Zero,
-                    values = StatSummaryBuilderTest.ValuesTestCase.Empty.expected.values
+                    values = StatSummary.Zero.values
                 ),
                 expense = StatSummary(
                     trnCount = NonNegativeInt.Zero,
-                    values = StatSummaryBuilderTest.ValuesTestCase.Empty.expected.values
+                    values = StatSummary.Zero.values
                 ),
                 transfersOut = StatSummary(
                     trnCount = NonNegativeInt.Zero,
-                    values = StatSummaryBuilderTest.ValuesTestCase.Empty.expected.values
+                    values = StatSummary.Zero.values
                 ),
             ),
             expected = emptyMap()
-        ),
+        )
     }
 
     @Test
@@ -60,5 +64,18 @@ class BalanceBuilderTest {
 
         // then
         balance shouldBe testCase.expected
+    }
+
+    companion object {
+        private fun value(
+            amount: Double,
+            asset: AssetCode
+        ): Value = Value(NonZeroDouble.unsafe(amount), asset)
+
+        private fun count(count: Int): NonNegativeInt = NonNegativeInt.unsafe(count)
+
+        private fun positiveDouble(amount: Double): PositiveDouble = PositiveDouble.unsafe(amount)
+
+        private fun nonZeroDouble(amount: Double): NonZeroDouble = NonZeroDouble.unsafe(amount)
     }
 }
