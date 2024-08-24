@@ -63,6 +63,33 @@ class BalanceBuilderTest {
             expected = mapOf(
                 EUR to nonZeroDouble(1.0)
             )
+        ),
+        TwoInDiffCurrencyDepositsFromIncome(
+            values = AccountStats(
+                income = StatSummary(
+                    trnCount =  count(2),
+                    values =  mapOf(
+                        EUR to positiveDouble(3.14),
+                        USD to positiveDouble(42.0)
+                    )
+                ),
+                transfersIn = StatSummary(
+                    trnCount = NonNegativeInt.Zero,
+                    values = StatSummary.Zero.values
+                ),
+                expense = StatSummary(
+                    trnCount = NonNegativeInt.Zero,
+                    values = StatSummary.Zero.values
+                ),
+                transfersOut = StatSummary(
+                    trnCount = NonNegativeInt.Zero,
+                    values = StatSummary.Zero.values
+                ),
+            ),
+            expected = mapOf(
+                EUR to nonZeroDouble(3.14),
+                USD to nonZeroDouble(42.0)
+            )
         )
     }
 
@@ -93,6 +120,25 @@ class BalanceBuilderTest {
     fun `process one deposit come from incomes`() {
         // given
         val testCase = ValuesTestCase.OneDepositFromIncome
+        val balanceBuilder = BalanceBuilder()
+
+        // when
+        val stats = testCase.values
+
+        balanceBuilder.processDeposits(
+            incomes = stats.income.values,
+            transfersIn = stats.transfersIn.values
+        )
+        val balance = balanceBuilder.build()
+
+        // then
+        balance shouldBe testCase.expected
+    }
+
+    @Test
+    fun `process two deposits in different currencies come from incomes`() {
+        // given
+        val testCase = ValuesTestCase.TwoInDiffCurrencyDepositsFromIncome
         val balanceBuilder = BalanceBuilder()
 
         // when
