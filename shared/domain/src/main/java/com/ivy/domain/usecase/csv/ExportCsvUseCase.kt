@@ -4,7 +4,6 @@ import android.net.Uri
 import arrow.core.Either
 import com.ivy.base.model.TransactionType
 import com.ivy.base.threading.DispatchersProvider
-import com.ivy.base.time.convertToLocal
 import com.ivy.data.file.FileSystem
 import com.ivy.data.model.Account
 import com.ivy.data.model.AccountId
@@ -24,6 +23,7 @@ import org.apache.commons.text.StringEscapeUtils
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.time.Instant
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import javax.inject.Inject
@@ -74,7 +74,7 @@ class ExportCsvUseCase @Inject constructor(
         categoriesMap: Map<CategoryId, Category>,
     ): String = csvRow {
         // Date
-        csvAppend(date?.toString())
+        csvAppend(date?.csvFormat())
         // Title
         csvAppend(title?.value)
         // Category
@@ -100,7 +100,7 @@ class ExportCsvUseCase @Inject constructor(
         // Description
         csvAppend(description?.value)
         // Due Date
-        csvAppend(dueData?.toString())
+        csvAppend(dueData?.csvFormat())
         // ID
         csvAppend(id.value.toString())
     }
@@ -187,8 +187,11 @@ class ExportCsvUseCase @Inject constructor(
         id = id
     )
 
-    private fun Instant.csvFormat(): String = convertToLocal()
-        .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+    private fun Instant.csvFormat(): String {
+        return Instant.ofEpochMilli(this.toEpochMilli())
+            .atZone(ZoneId.of("UTC"))
+            .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+    }
 
     private fun Double.csvFormat(): String = DecimalFormat(NUMBER_FORMAT).apply {
         decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.ENGLISH)
