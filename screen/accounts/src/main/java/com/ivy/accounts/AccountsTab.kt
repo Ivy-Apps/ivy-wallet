@@ -203,7 +203,7 @@ private fun BoxWithConstraintsScope.UI(
 private fun AccountCard(
     baseCurrency: String,
     accountData: AccountData,
-    compactModeEnabled:Boolean,
+    compactModeEnabled: Boolean,
     onBalanceClick: () -> Unit,
     onClick: () -> Unit
 ) {
@@ -229,7 +229,7 @@ private fun AccountCard(
             onBalanceClick = onBalanceClick
         )
 
-        if(!compactModeEnabled){
+        if (!compactModeEnabled) {
             Spacer(Modifier.height(12.dp))
 
             IncomeExpensesRow(
