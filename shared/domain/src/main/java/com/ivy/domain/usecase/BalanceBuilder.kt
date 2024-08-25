@@ -38,8 +38,14 @@ class BalanceBuilder {
         transfersOut: Map<AssetCode, PositiveDouble>,
     ) {
         combine(expenses, transfersOut).forEach { (asset, amount) ->
+            val sub = (balance[asset]?.value ?: 0.0) - amount.value
             NonZeroDouble
-                .from((balance[asset]?.value ?: 0.0) - amount.value)
+                .from(sub)
+                .onLeft {
+                    if (sub == 0.0) {
+                        balance.clear()
+                    }
+                }
                 .onRight { newValue ->
                     balance[asset] = newValue
                 }
