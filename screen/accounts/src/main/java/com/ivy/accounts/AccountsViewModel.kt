@@ -86,12 +86,12 @@ class AccountsViewModel @Inject constructor(
             totalBalanceWithoutExcluded = getTotalBalanceWithoutExcluded(),
             totalBalanceWithoutExcludedText = getTotalBalanceWithoutExcludedText(),
             reorderVisible = getReorderVisible(),
-            showCompactAccounts = getShowCompactAccounts()
+            compactAccountsModeEnabled = getShowCompactAccounts()
         )
     }
 
     private suspend fun shouldShowCompactAccounts(): Boolean {
-        return features.compactAccounts.enabled(context).firstOrNull() ?: false
+        return features.compactAccountsMode.enabled(context).firstOrNull() ?: false
     }
 
     @Composable

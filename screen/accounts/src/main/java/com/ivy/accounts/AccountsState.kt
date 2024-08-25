@@ -13,5 +13,5 @@ data class AccountsState(
     val totalBalanceWithoutExcluded: String,
     val totalBalanceWithoutExcludedText: String,
     val reorderVisible: Boolean,
-    val showCompactAccounts: Boolean
+    val compactAccountsModeEnabled: Boolean
 )

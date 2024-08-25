@@ -152,7 +152,7 @@ private fun BoxWithConstraintsScope.UI(
             AccountCard(
                 baseCurrency = state.baseCurrency,
                 accountData = it,
-                compactModeEnabled = state.showCompactAccounts,
+                compactModeEnabled = state.compactAccountsModeEnabled,
                 onBalanceClick = {
                     nav.navigateTo(
                         TransactionsScreen(
@@ -413,7 +413,7 @@ private fun PreviewAccountsTabCompactModeDisabled(theme: Theme = Theme.LIGHT) {
             totalBalanceWithoutExcluded = "25.54",
             totalBalanceWithoutExcludedText = "BGN 25.54",
             reorderVisible = false,
-            showCompactAccounts = false
+            compactAccountsModeEnabled = false
         )
         UI(state = state)
     }
@@ -499,7 +499,7 @@ private fun PreviewAccountsTabCompactModeEnabled(theme: Theme = Theme.LIGHT) {
             totalBalanceWithoutExcluded = "25.54",
             totalBalanceWithoutExcludedText = "BGN 25.54",
             reorderVisible = false,
-            showCompactAccounts = true
+            compactAccountsModeEnabled = true
         )
         UI(state = state)
     }
