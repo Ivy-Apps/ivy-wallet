@@ -13,9 +13,16 @@ class AccountsTabPaparazziTest(
     private val theme: PaparazziTheme,
 ) : PaparazziScreenshotTest() {
     @Test
-    fun `snapshot accountTab composable`() {
+    fun `snapshot accountTab nonCompact composable`() {
         snapshot(theme) {
-            AccountsTabUITest(theme == PaparazziTheme.Dark)
+            AccountsTabNonCompactUITest(theme == PaparazziTheme.Dark)
+        }
+    }
+
+    @Test
+    fun `snapshot accountTab compact composable`() {
+        snapshot(theme) {
+            AccountsTabCompactUITest(theme == PaparazziTheme.Dark)
         }
     }
 }
