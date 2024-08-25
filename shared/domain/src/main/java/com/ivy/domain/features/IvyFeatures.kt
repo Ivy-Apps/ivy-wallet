@@ -11,12 +11,11 @@ class IvyFeatures @Inject constructor() : Features {
         description = "Sort income and expenses" +
                 " categories alphabetically"
     )
-    override val showCompactAccounts =  BoolFeature(
+    override val showCompactAccounts = BoolFeature(
         key = "show_compact_accounts",
         name = "Show Compact Accounts",
-        description = "Loads accounts in 'Dense Account' mode"
+        description = "Loads accounts in Dense Account mode"
     )
-
 
     override val allFeatures: List<BoolFeature>
         get() = listOf(

@@ -193,7 +193,6 @@ class AccountsViewModel @Inject constructor(
             )
         ).toDouble()
 
-
         baseCurrency.value = baseCurrencyCode
         accountsData.value = accountsDataList
         totalBalanceWithExcluded.value = totalBalanceWithExcludedAccounts.toString()
