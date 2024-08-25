@@ -28,7 +28,6 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -54,7 +53,6 @@ class AccountsViewModel @Inject constructor(
     private val totalBalanceWithoutExcluded = mutableStateOf("")
     private val totalBalanceWithoutExcludedText = mutableStateOf("")
     private val reorderVisible = mutableStateOf(false)
-    private val showCompactAccounts = mutableStateOf(false)
 
     init {
         viewModelScope.launch {
@@ -86,12 +84,8 @@ class AccountsViewModel @Inject constructor(
             totalBalanceWithoutExcluded = getTotalBalanceWithoutExcluded(),
             totalBalanceWithoutExcludedText = getTotalBalanceWithoutExcludedText(),
             reorderVisible = getReorderVisible(),
-            compactAccountsModeEnabled = getShowCompactAccounts()
+            compactAccountsModeEnabled = getCompactAccountsMode()
         )
-    }
-
-    private suspend fun shouldShowCompactAccounts(): Boolean {
-        return features.compactAccountsMode.enabled(context).firstOrNull() ?: false
     }
 
     @Composable
@@ -130,8 +124,8 @@ class AccountsViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getShowCompactAccounts(): Boolean {
-        return showCompactAccounts.value
+    private fun getCompactAccountsMode(): Boolean {
+        return features.compactAccountsMode.asEnabledState()
     }
 
     override fun onEvent(event: AccountsEvent) {
@@ -211,7 +205,6 @@ class AccountsViewModel @Inject constructor(
                 baseCurrencyCode
             )
         )
-        showCompactAccounts.value = shouldShowCompactAccounts()
     }
 
     private fun reorderModalVisible(visible: Boolean) {
