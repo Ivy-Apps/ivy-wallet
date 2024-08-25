@@ -43,7 +43,7 @@ class BalanceBuilder {
                 .from(sub)
                 .onLeft {
                     if (sub == 0.0) {
-                        balance.clear()
+                        balance.remove(asset)
                     }
                 }
                 .onRight { newValue ->
