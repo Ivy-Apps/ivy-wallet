@@ -1,5 +1,7 @@
 package com.ivy.domain.usecase.balance
 
+import com.google.testing.junit.testparameterinjector.TestParameter
+import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.AssetCode.Companion.EUR
 import com.ivy.data.model.primitive.AssetCode.Companion.GBP
@@ -12,7 +14,9 @@ import com.ivy.domain.usecase.BalanceBuilder
 import com.ivy.domain.usecase.account.AccountStats
 import io.kotest.matchers.shouldBe
 import org.junit.Test
+import org.junit.runner.RunWith
 
+@RunWith(TestParameterInjector::class)
 class BalanceBuilderTest {
 
     enum class ValuesTestCase(
@@ -135,7 +139,7 @@ class BalanceBuilderTest {
                 ),
             ),
             expected = mapOf(
-                EUR to nonZeroDouble(10.0),
+                EUR to nonZeroDouble(3.14),
                 USD to nonZeroDouble(50.0)
             )
         ),
@@ -168,18 +172,74 @@ class BalanceBuilderTest {
                 USD to nonZeroDouble(50.0),
                 GBP to nonZeroDouble(0.5)
             )
+        ),
+        TwoWithdrawalsCurrencyExpensesAndTransferOut(
+            values = AccountStats(
+                income = StatSummary(
+                    trnCount = NonNegativeInt.Zero,
+                    values = emptyMap()
+                ),
+                transfersIn = StatSummary(
+                    trnCount = NonNegativeInt.Zero,
+                    values = emptyMap()
+                ),
+                expense = StatSummary(
+                    trnCount = count(1),
+                    values = mapOf(
+                        USD to positiveDouble(50.0)
+                    )
+                ),
+                transfersOut = StatSummary(
+                    trnCount = count(1),
+                    values = mapOf(
+                        USD to positiveDouble(0.5)
+                    )
+                ),
+            ),
+            expected = mapOf(
+                USD to nonZeroDouble(-50.5),
+            )
+        ),
+        TwoDepositsAndTwoWithdrawals(
+            values = AccountStats(
+                income = StatSummary(
+                    trnCount = count(1),
+                    values = mapOf(
+                        USD to positiveDouble(50.0)
+                    )
+                ),
+                transfersIn = StatSummary(
+                    trnCount = count(1),
+                    values = mapOf(
+                        USD to positiveDouble(0.5)
+                    )
+                ),
+                expense = StatSummary(
+                    trnCount = count(1),
+                    values = mapOf(
+                        USD to positiveDouble(50.0)
+                    )
+                ),
+                transfersOut = StatSummary(
+                    trnCount = count(1),
+                    values = mapOf(
+                        USD to positiveDouble(0.5)
+                    )
+                ),
+            ),
+            expected = emptyMap()
         )
     }
 
     @Test
-    fun `when stats are empty`() {
+    fun `builds balance`(
+        @TestParameter testCase: ValuesTestCase
+    ) {
         // given
-        val testCase = ValuesTestCase.Empty
+        val stats = testCase.values
         val balanceBuilder = BalanceBuilder()
 
         // when
-        val stats = testCase.values
-
         balanceBuilder.processDeposits(
             incomes = stats.income.values,
             transfersIn = stats.transfersIn.values
@@ -187,101 +247,6 @@ class BalanceBuilderTest {
         balanceBuilder.processWithdrawals(
             expenses = stats.expense.values,
             transfersOut = stats.transfersOut.values
-        )
-        val balance = balanceBuilder.build()
-
-        // then
-        balance shouldBe testCase.expected
-    }
-
-    @Test
-    fun `process one deposit come from incomes`() {
-        // given
-        val testCase = ValuesTestCase.OneDepositFromIncome
-        val balanceBuilder = BalanceBuilder()
-
-        // when
-        val stats = testCase.values
-
-        balanceBuilder.processDeposits(
-            incomes = stats.income.values,
-            transfersIn = stats.transfersIn.values
-        )
-        val balance = balanceBuilder.build()
-
-        // then
-        balance shouldBe testCase.expected
-    }
-
-    @Test
-    fun `process two deposits in different currencies come from incomes`() {
-        // given
-        val testCase = ValuesTestCase.TwoInDiffCurrencyDepositsFromIncome
-        val balanceBuilder = BalanceBuilder()
-
-        // when
-        val stats = testCase.values
-
-        balanceBuilder.processDeposits(
-            incomes = stats.income.values,
-            transfersIn = stats.transfersIn.values
-        )
-        val balance = balanceBuilder.build()
-
-        // then
-        balance shouldBe testCase.expected
-    }
-
-    @Test
-    fun `process two deposits in same currency come from incomes and transfersIn`() {
-        // given
-        val testCase = ValuesTestCase.TwoInSameCurrencyDepositsFromIncomeAndTransfersIn
-        val balanceBuilder = BalanceBuilder()
-
-        // when
-        val stats = testCase.values
-
-        balanceBuilder.processDeposits(
-            incomes = stats.income.values,
-            transfersIn = stats.transfersIn.values
-        )
-        val balance = balanceBuilder.build()
-
-        // then
-        balance shouldBe testCase.expected
-    }
-
-    @Test
-    fun `process two deposits in different currencies come from incomes and transfersIn`() {
-        // given
-        val testCase = ValuesTestCase.TwoInDiffCurrencyDepositsFromIncomeAndTransfersIn
-        val balanceBuilder = BalanceBuilder()
-
-        // when
-        val stats = testCase.values
-
-        balanceBuilder.processDeposits(
-            incomes = stats.income.values,
-            transfersIn = stats.transfersIn.values
-        )
-        val balance = balanceBuilder.build()
-
-        // then
-        balance shouldBe testCase.expected
-    }
-
-    @Test
-    fun `process two deposits in different currencies come from incomes and one transfersIn`() {
-        // given
-        val testCase = ValuesTestCase.TwoDepositsInDiffCurrencyIncomeAndOneTransferIn
-        val balanceBuilder = BalanceBuilder()
-
-        // when
-        val stats = testCase.values
-
-        balanceBuilder.processDeposits(
-            incomes = stats.income.values,
-            transfersIn = stats.transfersIn.values
         )
         val balance = balanceBuilder.build()
 
