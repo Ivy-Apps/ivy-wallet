@@ -375,7 +375,8 @@ private fun PreviewAccountsTab(theme: Theme = Theme.LIGHT) {
             totalBalanceWithExcludedText = "BGN 25.54",
             totalBalanceWithoutExcluded = "25.54",
             totalBalanceWithoutExcludedText = "BGN 25.54",
-            reorderVisible = false
+            reorderVisible = false,
+            showCompactAccounts = false
         )
         UI(state = state)
     }

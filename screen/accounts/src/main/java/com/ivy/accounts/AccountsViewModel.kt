@@ -11,6 +11,7 @@ import com.ivy.base.legacy.SharedPrefs
 import com.ivy.data.DataObserver
 import com.ivy.data.DataWriteEvent
 import com.ivy.data.repository.AccountRepository
+import com.ivy.domain.features.Features
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.model.AccountData
 import com.ivy.legacy.data.model.toCloseTimeRange
@@ -27,6 +28,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -43,6 +45,7 @@ class AccountsViewModel @Inject constructor(
     private val accountDataAct: AccountDataAct,
     private val accountRepository: AccountRepository,
     private val dataObserver: DataObserver,
+    private val features: Features,
 ) : ComposeViewModel<AccountsState, AccountsEvent>() {
     private val baseCurrency = mutableStateOf("")
     private val accountsData = mutableStateOf(listOf<AccountData>())
@@ -51,6 +54,7 @@ class AccountsViewModel @Inject constructor(
     private val totalBalanceWithoutExcluded = mutableStateOf("")
     private val totalBalanceWithoutExcludedText = mutableStateOf("")
     private val reorderVisible = mutableStateOf(false)
+    private val showCompactAccounts = mutableStateOf(false)
 
     init {
         viewModelScope.launch {
@@ -81,8 +85,13 @@ class AccountsViewModel @Inject constructor(
             totalBalanceWithExcludedText = getTotalBalanceWithExcludedText(),
             totalBalanceWithoutExcluded = getTotalBalanceWithoutExcluded(),
             totalBalanceWithoutExcludedText = getTotalBalanceWithoutExcludedText(),
-            reorderVisible = getReorderVisible()
+            reorderVisible = getReorderVisible(),
+            showCompactAccounts = getShowCompactAccounts()
         )
+    }
+
+    private suspend fun shouldShowCompactAccounts(): Boolean {
+        return features.showCompactAccounts.enabled(context).firstOrNull() ?: false
     }
 
     @Composable
@@ -118,6 +127,11 @@ class AccountsViewModel @Inject constructor(
     @Composable
     private fun getReorderVisible(): Boolean {
         return reorderVisible.value
+    }
+
+    @Composable
+    private fun getShowCompactAccounts(): Boolean {
+        return showCompactAccounts.value
     }
 
     override fun onEvent(event: AccountsEvent) {
@@ -179,6 +193,7 @@ class AccountsViewModel @Inject constructor(
             )
         ).toDouble()
 
+
         baseCurrency.value = baseCurrencyCode
         accountsData.value = accountsDataList
         totalBalanceWithExcluded.value = totalBalanceWithExcludedAccounts.toString()
@@ -197,6 +212,7 @@ class AccountsViewModel @Inject constructor(
                 baseCurrencyCode
             )
         )
+        showCompactAccounts.value = shouldShowCompactAccounts()
     }
 
     private fun reorderModalVisible(visible: Boolean) {
