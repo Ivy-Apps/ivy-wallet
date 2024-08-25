@@ -228,6 +228,74 @@ class BalanceBuilderTest {
                 ),
             ),
             expected = emptyMap()
+        ),
+        TwoDepositsAndTwoExpensesInDiffCurrencyAndTwoTransferOutInSame(
+            values = AccountStats(
+                income = StatSummary(
+                    trnCount = count(1),
+                    values = mapOf(
+                        USD to positiveDouble(50.0)
+                    )
+                ),
+                transfersIn = StatSummary(
+                    trnCount = count(1),
+                    values = mapOf(
+                        USD to positiveDouble(0.5)
+                    )
+                ),
+                expense = StatSummary(
+                    trnCount = count(3),
+                    values = mapOf(
+                        USD to positiveDouble(50.0),
+                        EUR to positiveDouble(40.0),
+                        GBP to positiveDouble(3.15),
+                    )
+                ),
+                transfersOut = StatSummary(
+                    trnCount = count(1),
+                    values = mapOf(
+                        GBP to positiveDouble(4.45)
+                    )
+                ),
+            ),
+            expected = mapOf(
+                USD to nonZeroDouble(0.5),
+                EUR to nonZeroDouble(-40.0),
+                GBP to nonZeroDouble(-7.60)
+            )
+        ),
+        WhenBalanceIsZeroInAtLeastOneCurrency(
+            values = AccountStats(
+                income = StatSummary(
+                    trnCount = count(1),
+                    values = mapOf(
+                        USD to positiveDouble(50.0)
+                    )
+                ),
+                transfersIn = StatSummary(
+                    trnCount = count(2),
+                    values = mapOf(
+                        USD to positiveDouble(50.0),
+                        EUR to positiveDouble(80.0)
+                    )
+                ),
+                expense = StatSummary(
+                    trnCount = count(2),
+                    values = mapOf(
+                        USD to positiveDouble(50.0),
+                        EUR to positiveDouble(40.0)
+                    )
+                ),
+                transfersOut = StatSummary(
+                    trnCount = count(1),
+                    values = mapOf(
+                        USD to positiveDouble(50.0),
+                    )
+                ),
+            ),
+            expected = mapOf(
+                EUR to nonZeroDouble(40.0)
+            )
         )
     }
 
