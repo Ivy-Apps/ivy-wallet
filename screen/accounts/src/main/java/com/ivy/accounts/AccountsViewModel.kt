@@ -91,7 +91,7 @@ class AccountsViewModel @Inject constructor(
     }
 
     private suspend fun shouldShowCompactAccounts(): Boolean {
-        return features.showCompactAccounts.enabled(context).firstOrNull() ?: false
+        return features.compactAccounts.enabled(context).firstOrNull() ?: false
     }
 
     @Composable

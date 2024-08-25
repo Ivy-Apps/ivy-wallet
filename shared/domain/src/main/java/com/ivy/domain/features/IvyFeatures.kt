@@ -11,15 +11,15 @@ class IvyFeatures @Inject constructor() : Features {
         description = "Sort income and expenses" +
                 " categories alphabetically"
     )
-    override val showCompactAccounts = BoolFeature(
-        key = "show_compact_accounts",
-        name = "Show Compact Accounts",
-        description = "Loads accounts in Dense Account mode"
+    override val compactAccounts = BoolFeature(
+        key = "compact_account_ui",
+        name = "Compact account UI",
+        description = "Enables more compact and dense UI for the \"Accounts\" tab"
     )
 
     override val allFeatures: List<BoolFeature>
         get() = listOf(
             sortCategoriesAlphabetically,
-            showCompactAccounts
+            compactAccounts
         )
 }

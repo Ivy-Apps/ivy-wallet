@@ -31,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ivy.base.legacy.Theme
+import com.ivy.data.model.Account
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.primitive.ColorInt
@@ -336,7 +337,7 @@ private fun AccountHeader(
 @Composable
 private fun PreviewAccountsTabCompactModeDisabled(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme = theme) {
-        val acc1 = com.ivy.data.model.Account(
+        val acc1 = Account(
             id = AccountId(UUID.randomUUID()),
             name = NotBlankTrimmedString.unsafe("Phyre"),
             color = ColorInt(Green.toArgb()),
@@ -346,7 +347,7 @@ private fun PreviewAccountsTabCompactModeDisabled(theme: Theme = Theme.LIGHT) {
             orderNum = 0.0,
         )
 
-        val acc2 = com.ivy.data.model.Account(
+        val acc2 = Account(
             id = AccountId(UUID.randomUUID()),
             name = NotBlankTrimmedString.unsafe("DSK"),
             color = ColorInt(GreenLight.toArgb()),
@@ -356,7 +357,7 @@ private fun PreviewAccountsTabCompactModeDisabled(theme: Theme = Theme.LIGHT) {
             orderNum = 0.0,
         )
 
-        val acc3 = com.ivy.data.model.Account(
+        val acc3 = Account(
             id = AccountId(UUID.randomUUID()),
             name = NotBlankTrimmedString.unsafe("Revolut"),
             color = ColorInt(Green.toArgb()),
@@ -366,7 +367,7 @@ private fun PreviewAccountsTabCompactModeDisabled(theme: Theme = Theme.LIGHT) {
             orderNum = 0.0,
         )
 
-        val acc4 = com.ivy.data.model.Account(
+        val acc4 = Account(
             id = AccountId(UUID.randomUUID()),
             name = NotBlankTrimmedString.unsafe("Cash"),
             color = ColorInt(Green.toArgb()),
@@ -422,7 +423,7 @@ private fun PreviewAccountsTabCompactModeDisabled(theme: Theme = Theme.LIGHT) {
 @Composable
 private fun PreviewAccountsTabCompactModeEnabled(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme = theme) {
-        val acc1 = com.ivy.data.model.Account(
+        val acc1 = Account(
             id = AccountId(UUID.randomUUID()),
             name = NotBlankTrimmedString.unsafe("Phyre"),
             color = ColorInt(Green.toArgb()),
@@ -432,7 +433,7 @@ private fun PreviewAccountsTabCompactModeEnabled(theme: Theme = Theme.LIGHT) {
             orderNum = 0.0,
         )
 
-        val acc2 = com.ivy.data.model.Account(
+        val acc2 = Account(
             id = AccountId(UUID.randomUUID()),
             name = NotBlankTrimmedString.unsafe("DSK"),
             color = ColorInt(GreenLight.toArgb()),
@@ -442,7 +443,7 @@ private fun PreviewAccountsTabCompactModeEnabled(theme: Theme = Theme.LIGHT) {
             orderNum = 0.0,
         )
 
-        val acc3 = com.ivy.data.model.Account(
+        val acc3 = Account(
             id = AccountId(UUID.randomUUID()),
             name = NotBlankTrimmedString.unsafe("Revolut"),
             color = ColorInt(Green.toArgb()),
@@ -452,7 +453,7 @@ private fun PreviewAccountsTabCompactModeEnabled(theme: Theme = Theme.LIGHT) {
             orderNum = 0.0,
         )
 
-        val acc4 = com.ivy.data.model.Account(
+        val acc4 = Account(
             id = AccountId(UUID.randomUUID()),
             name = NotBlankTrimmedString.unsafe("Cash"),
             color = ColorInt(Green.toArgb()),
