@@ -28,6 +28,7 @@ import com.ivy.ui.R
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import java.time.LocalDateTime
 
+@Suppress("MultipleEmitters")
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun TransactionDateTime(
