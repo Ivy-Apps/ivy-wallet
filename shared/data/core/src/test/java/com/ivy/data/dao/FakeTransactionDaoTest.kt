@@ -1001,7 +1001,6 @@ class FakeTransactionDaoTest {
         res shouldBe emptyList()
     }
 
-
     @Test
     fun `find all between and by recurring rule id - empty transactions`() = runTest {
         // given
