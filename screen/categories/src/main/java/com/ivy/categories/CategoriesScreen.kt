@@ -4,6 +4,8 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,12 +16,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -47,6 +51,7 @@ import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.legacy.utils.format
 import com.ivy.navigation.CategoriesScreen
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
@@ -155,10 +160,10 @@ private fun BoxWithConstraintsScope.UI(
         }
 
         items(state.categories, key = { it.category.id.value }) { categoryData ->
-            Spacer(Modifier.height(16.dp))
             CategoryCard(
                 currency = state.baseCurrency,
                 categoryData = categoryData,
+                compactModeEnabled = state.compactCategoriesModeEnabled,
                 onLongClick = {
                     onEvent(CategoriesScreenEvent.OnReorderModalVisible(true))
                 }
@@ -240,35 +245,135 @@ private fun BoxWithConstraintsScope.UI(
 private fun CategoryCard(
     currency: String,
     categoryData: CategoryData,
+    compactModeEnabled: Boolean,
     onLongClick: () -> Unit,
     onClick: () -> Unit
 ) {
-    Column(
+
+    val contrastColor = findContrastTextColor(categoryData.category.color.value.toComposeColor())
+
+    if (!compactModeEnabled) {
+        Spacer(Modifier.height(10.dp))
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .fillMaxWidth()
+                .clip(UI.shapes.r4)
+                .border(2.dp, UI.colors.medium, UI.shapes.r4)
+                .clickable(
+                    onClick = onClick
+                )
+        ) {
+            CategoryHeader(
+                categoryData = categoryData,
+                currency = currency,
+                contrastColor = findContrastTextColor(categoryData.category.color.value.toComposeColor())
+            )
+
+            Spacer(Modifier.height(12.dp))
+
+            // Emitting content
+            AddedSpent(
+                currency = currency,
+                monthlyIncome = categoryData.monthlyIncome,
+                monthlyExpenses = categoryData.monthlyExpenses
+            )
+
+            Spacer(Modifier.height(12.dp))
+        }
+
+    }
+
+    if (compactModeEnabled) {
+        Spacer(Modifier.height(8.dp))
+        CompactCategoryCard(
+            categoryData = categoryData,
+            contrastColor = contrastColor,
+            currency = currency,
+            onClick = onClick
+        )
+    }
+
+}
+
+@Composable
+private fun CompactCategoryCard(
+    categoryData: CategoryData,
+    contrastColor: Color,
+    currency: String,
+    onClick: () -> Unit
+) {
+    val category = categoryData.category
+
+    Box(
         modifier = Modifier
             .padding(horizontal = 16.dp)
-            .fillMaxWidth()
-            .clip(UI.shapes.r4)
             .border(2.dp, UI.colors.medium, UI.shapes.r4)
             .clickable(
                 onClick = onClick
-            )
+            ),
     ) {
-        CategoryHeader(
-            categoryData = categoryData,
-            currency = currency,
-            contrastColor = findContrastTextColor(categoryData.category.color.value.toComposeColor())
-        )
 
-        Spacer(Modifier.height(12.dp))
+        Row(
+            modifier = Modifier
+                .padding(all = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(category.color.value.toComposeColor()),
+                contentAlignment = Alignment.Center,
+            ) {
+                ItemIconSDefaultIcon(
+                    iconName = category.icon?.id,
+                    defaultIcon = R.drawable.ic_custom_account_s,
+                    tint = contrastColor
+                )
+            }
 
-        // Emitting content
-        AddedSpent(
-            currency = currency,
-            monthlyIncome = categoryData.monthlyIncome,
-            monthlyExpenses = categoryData.monthlyExpenses
-        )
 
-        Spacer(Modifier.height(12.dp))
+            Row(
+                modifier =
+                Modifier
+                    .padding(horizontal = 8.dp)
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = category.name.value,
+                    style = UI.typo.b2.style(
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = categoryData.monthlyBalance.format(currency),
+                        style = UI.typo.nB1.style(
+                            color = UI.colors.pureInverse,
+                            fontWeight = FontWeight.Bold
+                        )
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = currency,
+                        style = UI.typo.nB2.style(
+                            color = UI.colors.pureInverse,
+                            fontWeight = FontWeight.Medium
+                        )
+                    )
+                }
+
+
+            }
+        }
+
     }
 }
 
@@ -556,10 +661,18 @@ private fun SelectTypeButton(
 
 @Preview
 @Composable
-private fun Preview(theme: Theme = Theme.LIGHT) {
+private fun PreviewCategoriesCompactModeEnabled(theme: Theme = Theme.LIGHT) {
+    Preview(theme = theme, compactModeEnabled = true)
+}
+
+
+@Preview
+@Composable
+private fun Preview(theme: Theme = Theme.LIGHT, compactModeEnabled: Boolean = false) {
     com.ivy.legacy.IvyWalletPreview(theme) {
         val state = CategoriesScreenState(
             baseCurrency = "BGN",
+            compactCategoriesModeEnabled = compactModeEnabled,
             categories = persistentListOf(
                 CategoryData(
                     category = Category(
@@ -637,3 +750,15 @@ fun CategoriesScreenUiTest(isDark: Boolean) {
     }
     Preview(theme)
 }
+
+/** For screenshot testing */
+@Composable
+fun CategoriesScreenCompactUiTest(isDark: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    Preview(theme, compactModeEnabled = true)
+}
+
+
