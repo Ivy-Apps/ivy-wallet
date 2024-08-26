@@ -374,7 +374,7 @@ private fun BottomBar(
 }
 
 @Composable
-@Suppress("ParameterNaming")
+@Suppress("ParameterNaming", "MultipleEmitters")
 private fun TransferRowMini(
     percentCollapsed: Float,
     fromAccount: Account?,
