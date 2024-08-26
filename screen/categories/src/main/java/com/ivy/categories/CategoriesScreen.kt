@@ -252,37 +252,9 @@ private fun CategoryCard(
     val contrastColor = findContrastTextColor(categoryData.category.color.value.toComposeColor())
 
     if (!compactModeEnabled) {
-        Spacer(Modifier.height(10.dp))
-        Column(
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .fillMaxWidth()
-                .clip(UI.shapes.r4)
-                .border(2.dp, UI.colors.medium, UI.shapes.r4)
-                .clickable(
-                    onClick = onClick
-                )
-        ) {
-            CategoryHeader(
-                categoryData = categoryData,
-                currency = currency,
-                contrastColor = findContrastTextColor(categoryData.category.color.value.toComposeColor())
-            )
-
-            Spacer(Modifier.height(12.dp))
-
-            // Emitting content
-            AddedSpent(
-                currency = currency,
-                monthlyIncome = categoryData.monthlyIncome,
-                monthlyExpenses = categoryData.monthlyExpenses
-            )
-
-            Spacer(Modifier.height(12.dp))
-        }
-    }
-
-    if (compactModeEnabled) {
+        Spacer(Modifier.height(16.dp))
+        DefaultCategoryCard(onClick, categoryData, currency)
+    } else {
         Spacer(Modifier.height(8.dp))
         CompactCategoryCard(
             categoryData = categoryData,
@@ -290,6 +262,41 @@ private fun CategoryCard(
             currency = currency,
             onClick = onClick
         )
+    }
+}
+
+@Composable
+private fun DefaultCategoryCard(
+    onClick: () -> Unit,
+    categoryData: CategoryData,
+    currency: String
+) {
+    Column(
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .fillMaxWidth()
+            .clip(UI.shapes.r4)
+            .border(2.dp, UI.colors.medium, UI.shapes.r4)
+            .clickable(
+                onClick = onClick
+            )
+    ) {
+        CategoryHeader(
+            categoryData = categoryData,
+            currency = currency,
+            contrastColor = findContrastTextColor(categoryData.category.color.value.toComposeColor())
+        )
+
+        Spacer(Modifier.height(12.dp))
+
+        // Emitting content
+        AddedSpent(
+            currency = currency,
+            monthlyIncome = categoryData.monthlyIncome,
+            monthlyExpenses = categoryData.monthlyExpenses
+        )
+
+        Spacer(Modifier.height(12.dp))
     }
 }
 
