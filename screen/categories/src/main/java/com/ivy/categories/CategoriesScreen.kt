@@ -98,7 +98,7 @@ fun BoxWithConstraintsScope.CategoriesScreen(screen: CategoriesScreen) {
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    state: CategoriesScreenState = CategoriesScreenState(),
+    state: CategoriesScreenState = CategoriesScreenState(compactCategoriesModeEnabled = false),
     onEvent: (CategoriesScreenEvent) -> Unit = {}
 ) {
     val nav = navigation()
@@ -249,7 +249,6 @@ private fun CategoryCard(
     onLongClick: () -> Unit,
     onClick: () -> Unit
 ) {
-
     val contrastColor = findContrastTextColor(categoryData.category.color.value.toComposeColor())
 
     if (!compactModeEnabled) {
@@ -281,7 +280,6 @@ private fun CategoryCard(
 
             Spacer(Modifier.height(12.dp))
         }
-
     }
 
     if (compactModeEnabled) {
@@ -293,7 +291,6 @@ private fun CategoryCard(
             onClick = onClick
         )
     }
-
 }
 
 @Composable
@@ -313,7 +310,6 @@ private fun CompactCategoryCard(
                 onClick = onClick
             ),
     ) {
-
         Row(
             modifier = Modifier
                 .padding(all = 10.dp),
@@ -332,7 +328,6 @@ private fun CompactCategoryCard(
                     tint = contrastColor
                 )
             }
-
 
             Row(
                 modifier =
@@ -369,11 +364,8 @@ private fun CompactCategoryCard(
                         )
                     )
                 }
-
-
             }
         }
-
     }
 }
 
@@ -665,7 +657,6 @@ private fun PreviewCategoriesCompactModeEnabled(theme: Theme = Theme.LIGHT) {
     Preview(theme = theme, compactModeEnabled = true)
 }
 
-
 @Preview
 @Composable
 private fun Preview(theme: Theme = Theme.LIGHT, compactModeEnabled: Boolean = false) {
@@ -760,5 +751,3 @@ fun CategoriesScreenCompactUiTest(isDark: Boolean) {
     }
     Preview(theme, compactModeEnabled = true)
 }
-
-

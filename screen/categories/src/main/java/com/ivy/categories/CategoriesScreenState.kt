@@ -14,5 +14,5 @@ data class CategoriesScreenState(
     val sortModalVisible: Boolean = false,
     val sortOrderItems: ImmutableList<SortOrder> = SortOrder.values().toList().toImmutableList(),
     val sortOrder: SortOrder = SortOrder.DEFAULT,
-    val compactCategoriesModeEnabled: Boolean = false,
+    val compactCategoriesModeEnabled: Boolean,
 )

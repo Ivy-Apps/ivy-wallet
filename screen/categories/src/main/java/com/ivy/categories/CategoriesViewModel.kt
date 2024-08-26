@@ -78,7 +78,6 @@ class CategoriesViewModel @Inject constructor(
         return features.compactCategoriesMode.asEnabledState()
     }
 
-
     @Composable
     private fun getBaseCurrency(): String {
         return baseCurrency.value
