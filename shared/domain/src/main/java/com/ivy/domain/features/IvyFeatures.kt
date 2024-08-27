@@ -22,7 +22,7 @@ class IvyFeatures @Inject constructor() : Features {
     override val compactCategoriesMode = BoolFeature(
         key = "compact_categories_ui",
         name = "Compact category UI",
-        description = "Activates a more streamlined and space-efficient interface for the \"Categories\" tab"
+        description = "Activates a more streamlined and space-efficient interface for the \"Categories\" Screen"
     )
 
     override val allFeatures: List<BoolFeature>

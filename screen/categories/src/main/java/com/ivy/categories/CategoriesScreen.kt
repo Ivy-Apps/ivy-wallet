@@ -51,6 +51,8 @@ import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.legacy.utils.balancePrefix
+import com.ivy.legacy.utils.compactBalancePrefix
 import com.ivy.legacy.utils.format
 import com.ivy.navigation.CategoriesScreen
 import com.ivy.navigation.TransactionsScreen
@@ -308,6 +310,10 @@ private fun CompactCategoryCard(
     onClick: () -> Unit
 ) {
     val category = categoryData.category
+    val balancePrefixValue = compactBalancePrefix(
+        income = categoryData.monthlyIncome,
+        expenses = categoryData.monthlyExpenses
+    )
 
     Box(
         modifier = Modifier
@@ -355,8 +361,10 @@ private fun CompactCategoryCard(
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    val currencyFormatted = categoryData.monthlyBalance.format(currency)
+
                     Text(
-                        text = categoryData.monthlyBalance.format(currency),
+                        text = "$balancePrefixValue $currencyFormatted",
                         style = UI.typo.nB1.style(
                             color = UI.colors.pureInverse,
                             fontWeight = FontWeight.Bold
@@ -482,6 +490,10 @@ private fun CategoryHeader(
     contrastColor: Color,
 ) {
     val category = categoryData.category
+    val balancePrefixValue = balancePrefix(
+        income = categoryData.monthlyIncome,
+        expenses = categoryData.monthlyExpenses
+    )
 
     Column(
         modifier = Modifier
@@ -525,10 +537,7 @@ private fun CategoryHeader(
             currencyFontSize = 30.sp,
 
             currencyUpfront = false,
-            balanceAmountPrefix = com.ivy.legacy.utils.balancePrefix(
-                income = categoryData.monthlyIncome,
-                expenses = categoryData.monthlyExpenses
-            )
+            balanceAmountPrefix = balancePrefixValue
         )
 
         Spacer(Modifier.height(16.dp))
