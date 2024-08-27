@@ -188,9 +188,7 @@ class ExportCsvUseCase @Inject constructor(
     )
 
     private fun Instant.csvFormat(): String {
-        return Instant.ofEpochMilli(this.toEpochMilli())
-            .atZone(ZoneId.of("UTC"))
-            .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        return this.atZone(ZoneId.of("UTC")).toLocalDateTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
     }
 
     private fun Double.csvFormat(): String = DecimalFormat(NUMBER_FORMAT).apply {
