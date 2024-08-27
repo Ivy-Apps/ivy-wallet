@@ -11,6 +11,7 @@ import com.ivy.base.legacy.SharedPrefs
 import com.ivy.data.DataObserver
 import com.ivy.data.DataWriteEvent
 import com.ivy.data.repository.AccountRepository
+import com.ivy.domain.features.Features
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.model.AccountData
 import com.ivy.legacy.data.model.toCloseTimeRange
@@ -43,6 +44,7 @@ class AccountsViewModel @Inject constructor(
     private val accountDataAct: AccountDataAct,
     private val accountRepository: AccountRepository,
     private val dataObserver: DataObserver,
+    private val features: Features,
 ) : ComposeViewModel<AccountsState, AccountsEvent>() {
     private val baseCurrency = mutableStateOf("")
     private val accountsData = mutableStateOf(listOf<AccountData>())
@@ -81,7 +83,8 @@ class AccountsViewModel @Inject constructor(
             totalBalanceWithExcludedText = getTotalBalanceWithExcludedText(),
             totalBalanceWithoutExcluded = getTotalBalanceWithoutExcluded(),
             totalBalanceWithoutExcludedText = getTotalBalanceWithoutExcludedText(),
-            reorderVisible = getReorderVisible()
+            reorderVisible = getReorderVisible(),
+            compactAccountsModeEnabled = getCompactAccountsMode()
         )
     }
 
@@ -118,6 +121,11 @@ class AccountsViewModel @Inject constructor(
     @Composable
     private fun getReorderVisible(): Boolean {
         return reorderVisible.value
+    }
+
+    @Composable
+    private fun getCompactAccountsMode(): Boolean {
+        return features.compactAccountsMode.asEnabledState()
     }
 
     override fun onEvent(event: AccountsEvent) {
