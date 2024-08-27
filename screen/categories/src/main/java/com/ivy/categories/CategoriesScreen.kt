@@ -364,7 +364,7 @@ private fun CompactCategoryCard(
                     val currencyFormatted = categoryData.monthlyBalance.format(currency)
 
                     Text(
-                        text = "$balancePrefixValue $currencyFormatted",
+                        text = "$balancePrefixValue$currencyFormatted",
                         style = UI.typo.nB1.style(
                             color = UI.colors.pureInverse,
                             fontWeight = FontWeight.Bold
