@@ -12,6 +12,7 @@ import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.refreshWidget
 import com.ivy.base.model.TransactionType
+import com.ivy.base.time.TimeProvider
 import com.ivy.data.db.dao.read.LoanDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.model.Category
@@ -37,7 +38,6 @@ import com.ivy.legacy.utils.dateNowLocal
 import com.ivy.legacy.utils.getTrueDate
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeNowLocal
-import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.timeUTC
 import com.ivy.legacy.utils.toLowerCaseLocal
 import com.ivy.legacy.utils.uiThread
@@ -107,7 +107,8 @@ class EditTransactionViewModel @Inject constructor(
     private val transactionMapper: TransactionMapper,
     private val tagRepository: TagRepository,
     private val tagMapper: TagMapper,
-    private val features: Features
+    private val features: Features,
+    private val timeProvider: TimeProvider
 ) : ComposeViewModel<EditTransactionState, EditTransactionEvent>() {
 
     private val transactionType = mutableStateOf(TransactionType.EXPENSE)
@@ -704,7 +705,7 @@ class EditTransactionViewModel @Inject constructor(
                     dateTime = when {
                         loadedTransaction().dateTime == null &&
                                 dueDate.value == null -> {
-                            timeNowUTC()
+                            timeProvider.utcNow().atZone(timeProvider.getZoneId()).toLocalDateTime()
                         }
 
                         else -> loadedTransaction().dateTime
