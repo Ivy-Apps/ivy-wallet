@@ -361,7 +361,11 @@ private fun CompactCategoryCard(
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    val currencyFormatted = categoryData.monthlyBalance.format(currency)
+                    // Format the monthly balance according to the currency format and remove
+                    // any '+' or '-' signs that might be included from the prefix to ensure
+                    // a clean and consistent representation.
+                    val currencyFormatted =
+                        categoryData.monthlyBalance.format(currency).replace(Regex("[+-]"), "")
 
                     Text(
                         text = "$balancePrefixValue$currencyFormatted",
