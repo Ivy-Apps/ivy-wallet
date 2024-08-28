@@ -500,7 +500,7 @@ private fun AllTime(
     onSelected: (com.ivy.legacy.data.model.FromToTimeRange?) -> Unit,
 ) {
     val active = timeRange != null && timeRange.from == null &&
-        timeRange.to != null && timeRange.to!!.isAfter(timeNowUTC())
+            timeRange.to != null && timeRange.to!!.isAfter(timeNowUTC())
 
     Text(
         modifier = Modifier

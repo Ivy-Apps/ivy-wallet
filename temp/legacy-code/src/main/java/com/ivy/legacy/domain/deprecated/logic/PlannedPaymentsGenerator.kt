@@ -6,6 +6,7 @@ import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.legacy.datamodel.PlannedPaymentRule
 import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.incrementDate
+import java.time.Instant
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -40,7 +41,7 @@ class PlannedPaymentsGenerator @Inject constructor(
 
     private suspend fun generateRecurring(rule: PlannedPaymentRule) {
         val startDate = rule.startDate!!
-        val endDate = startDate.plusYears(3)
+        val endDate = startDate.plusSeconds(94_608_000)
 
         val trns = transactionRepository.findAllByRecurringRuleId(recurringRuleId = rule.id)
         var trnsToSkip = trns.size
@@ -73,7 +74,7 @@ class PlannedPaymentsGenerator @Inject constructor(
         }
     }
 
-    private suspend fun generateTransaction(rule: PlannedPaymentRule, dueDate: LocalDateTime) {
+    private suspend fun generateTransaction(rule: PlannedPaymentRule, dueDate: Instant) {
             Transaction(
                 type = rule.type,
                 accountId = rule.accountId,

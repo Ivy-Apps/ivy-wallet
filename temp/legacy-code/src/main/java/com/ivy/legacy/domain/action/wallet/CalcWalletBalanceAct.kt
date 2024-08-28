@@ -66,7 +66,7 @@ class CalcWalletBalanceAct @Inject constructor(
     data class Input(
         val baseCurrency: String,
         val balanceCurrency: String = baseCurrency,
-        val range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
+        val range: ClosedTimeRange? = null,
         val withExcluded: Boolean = false
     )
 }

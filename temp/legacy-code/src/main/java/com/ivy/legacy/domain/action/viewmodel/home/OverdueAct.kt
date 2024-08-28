@@ -6,6 +6,7 @@ import com.ivy.legacy.utils.beginningOfIvyTime
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.domain.pure.transaction.isOverdue
+import java.time.Instant
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -30,7 +31,7 @@ class OverdueAct @Inject constructor(
     }
 
     data class Input(
-        val toRange: LocalDateTime,
+        val toRange: Instant,
         val baseCurrency: String
     )
 

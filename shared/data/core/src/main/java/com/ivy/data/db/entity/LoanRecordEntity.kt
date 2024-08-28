@@ -3,13 +3,13 @@ package com.ivy.data.db.entity
 import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.ivy.base.kotlinxserilzation.KSerializerLocalDateTime
+import com.ivy.base.kotlinxserilzation.KSerializerInstant
 import com.ivy.base.kotlinxserilzation.KSerializerUUID
 import com.ivy.base.model.LoanRecordType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.time.LocalDateTime
-import java.util.*
+import java.time.Instant
+import java.util.UUID
 
 @Suppress("DataClassDefaultValues")
 @Keep
@@ -24,8 +24,8 @@ data class LoanRecordEntity(
     @SerialName("note")
     val note: String? = null,
     @SerialName("dateTime")
-    @Serializable(with = KSerializerLocalDateTime::class)
-    val dateTime: LocalDateTime,
+    @Serializable(with = KSerializerInstant::class)
+    val dateTime: Instant,
     @SerialName("interest")
     val interest: Boolean = false,
     @SerialName("accountId")

@@ -2,9 +2,9 @@ package com.ivy.legacy.data.model
 
 import androidx.compose.runtime.Immutable
 import com.ivy.base.legacy.Transaction
+import com.ivy.base.time.TimeConverter
 import com.ivy.base.time.TimeProvider
 import com.ivy.legacy.utils.beginningOfIvyTime
-import com.ivy.legacy.utils.convertLocalToUTC
 import com.ivy.legacy.utils.dateNowUTC
 import com.ivy.legacy.utils.toIvyFutureTime
 import com.ivy.ui.time.TimeFormatter
@@ -65,12 +65,14 @@ data class FromToTimeRange(
 }
 
 @Deprecated("Uses legacy Transaction")
-fun Iterable<Transaction>.filterUpcomingLegacy(): List<Transaction> {
-    val todayStartOfDayUTC = dateNowUTC().atStartOfDay()
-
+fun Iterable<Transaction>.filterUpcomingLegacy(
+    timeProvider: TimeProvider,
+    timeConverter: TimeConverter,
+): List<Transaction> {
+    val todayStartOfDayUtc = todayStartOfDayUtc(timeProvider, timeConverter)
     return filter {
         // make sure that it's in the future
-        it.dueDate != null && it.dueDate!!.isAfter(todayStartOfDayUTC)
+        it.dueDate != null && it.dueDate!!.isAfter(todayStartOfDayUtc)
     }
 }
 
@@ -84,13 +86,25 @@ fun Iterable<com.ivy.data.model.Transaction>.filterUpcoming(): List<com.ivy.data
 }
 
 @Deprecated("Uses legacy Transaction")
-fun Iterable<Transaction>.filterOverdueLegacy(): List<Transaction> {
-    val todayStartOfDayUTC = dateNowUTC().atStartOfDay()
-
+fun Iterable<Transaction>.filterOverdueLegacy(
+    timeProvider: TimeProvider,
+    timeConverter: TimeConverter,
+): List<Transaction> {
+    val todayStartOfDayUTC = todayStartOfDayUtc(timeProvider, timeConverter)
     return filter {
         // make sure that it's in the past
         it.dueDate != null && it.dueDate!!.isBefore(todayStartOfDayUTC)
     }
+}
+
+fun todayStartOfDayUtc(
+    timeProvider: TimeProvider,
+    timeConverter: TimeConverter,
+): Instant = with(timeConverter) {
+    timeProvider.localNow()
+        .withHour(0)
+        .withDayOfMonth(0)
+        .toUTC()
 }
 
 fun Iterable<com.ivy.data.model.Transaction>.filterOverdue(): List<com.ivy.data.model.Transaction> {

@@ -2,6 +2,7 @@ package com.ivy.wallet.domain.deprecated.logic
 
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.model.TransactionType
+import com.ivy.base.time.TimeProvider
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.PlannedPaymentRuleDao
 import com.ivy.data.db.dao.read.SettingsDao
@@ -17,7 +18,6 @@ import com.ivy.legacy.datamodel.PlannedPaymentRule
 import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.datamodel.temp.toLegacyDomain
 import com.ivy.legacy.utils.ioThread
-import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.sumByDoublePlannedInBaseCurrency
 import javax.inject.Inject
@@ -31,7 +31,8 @@ class PlannedPaymentsLogic @Inject constructor(
     private val accountDao: AccountDao,
     private val transactionMapper: TransactionMapper,
     private val plannedPaymentRuleWriter: WritePlannedPaymentRuleDao,
-    private val transactionRepository: TransactionRepository
+    private val transactionRepository: TransactionRepository,
+    private val timeProvider: TimeProvider,
 ) {
     companion object {
         private const val AVG_DAYS_IN_MONTH = 30.436875
@@ -168,7 +169,7 @@ class PlannedPaymentsLogic @Inject constructor(
         val paidTransaction = transaction.copy(
             paidFor = transaction.dueDate,
             dueDate = null,
-            dateTime = timeNowUTC(),
+            dateTime = timeProvider.utcNow(),
             isSynced = false,
         )
 
@@ -288,7 +289,7 @@ class PlannedPaymentsLogic @Inject constructor(
         paidTransactions.map {
             it.copy(
                 dueDate = null,
-                dateTime = timeNowUTC(),
+                dateTime = timeProvider.utcNow(),
                 isSynced = false
             )
         }

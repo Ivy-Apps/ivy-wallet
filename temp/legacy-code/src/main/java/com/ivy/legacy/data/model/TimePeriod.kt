@@ -91,7 +91,7 @@ data class TimePeriod(
 
             lastNRange != null -> {
                 FromToTimeRange(
-                    from = lastNRange.fromDate().toUTC(),
+                    from = lastNRange.fromDate(timeProvider),
                     to = timeProvider.utcNow()
                 )
             }

@@ -3,7 +3,7 @@ package com.ivy.legacy.datamodel
 import androidx.compose.runtime.Immutable
 import com.ivy.base.model.LoanRecordType
 import com.ivy.data.db.entity.LoanRecordEntity
-import java.time.LocalDateTime
+import java.time.Instant
 import java.util.UUID
 
 @Deprecated("Legacy data model. Will be deleted")
@@ -12,7 +12,7 @@ data class LoanRecord(
     val loanId: UUID,
     val amount: Double,
     val note: String? = null,
-    val dateTime: LocalDateTime,
+    val dateTime: Instant,
     val interest: Boolean = false,
     val accountId: UUID? = null,
     // This is used store the converted amount for currencies which are different from the loan account currency

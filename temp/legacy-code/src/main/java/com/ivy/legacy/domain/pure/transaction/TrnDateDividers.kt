@@ -3,6 +3,7 @@ package com.ivy.legacy.domain.pure.transaction
 import arrow.core.Option
 import arrow.core.toOption
 import com.ivy.base.legacy.TransactionHistoryItem
+import com.ivy.base.time.TimeConverter
 import com.ivy.base.time.TimeProvider
 import com.ivy.base.time.convertToLocal
 import com.ivy.data.db.dao.read.AccountDao
@@ -76,7 +77,7 @@ suspend fun transactionsWithDateDividers(
     getTags: suspend (tagIds: List<TagId>) -> List<Tag> = { emptyList() },
 ): List<TransactionHistoryItem> {
     if (transactions.isEmpty()) return emptyList()
-    val transactionsMapper = TransactionMapper(accountRepository, timeProvider)
+    val transactionsMapper = TransactionMapper(accountRepository)
     return transactions
         .groupBy { it.time.convertToLocal().toLocalDate() }
         .filterKeys { it != null }
@@ -122,7 +123,8 @@ object LegacyTrnDateDividers {
     suspend fun List<com.ivy.base.legacy.Transaction>.withDateDividers(
         exchangeRatesLogic: ExchangeRatesLogic,
         settingsDao: SettingsDao,
-        accountDao: AccountDao
+        accountDao: AccountDao,
+        timeConverter: TimeConverter,
     ): List<TransactionHistoryItem> {
         return transactionsWithDateDividers(
             transactions = this,
@@ -135,7 +137,8 @@ object LegacyTrnDateDividers {
                     toCurrency = data.toCurrency,
                     amount = amount.toDouble()
                 ).toBigDecimal().toOption()
-            }
+            },
+            timeConverter = timeConverter,
         )
     }
 
@@ -143,6 +146,7 @@ object LegacyTrnDateDividers {
     suspend fun transactionsWithDateDividers(
         transactions: List<com.ivy.base.legacy.Transaction>,
         baseCurrencyCode: String,
+        timeConverter: TimeConverter,
 
         @SideEffect
         getAccount: suspend (accountId: UUID) -> Account?,
@@ -152,7 +156,7 @@ object LegacyTrnDateDividers {
         if (transactions.isEmpty()) return emptyList()
 
         return transactions
-            .groupBy { it.dateTime?.convertUTCtoLocal()?.toLocalDate() }
+            .groupBy { with(timeConverter) { it.dateTime?.toLocalDate() } }
             .filterKeys { it != null }
             .toSortedMap { date1, date2 ->
                 if (date1 == null || date2 == null) return@toSortedMap 0 // this case shouldn't happen
