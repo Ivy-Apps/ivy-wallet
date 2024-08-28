@@ -7,6 +7,8 @@ import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.ivy.base.time.TimeConverter
+import com.ivy.base.time.TimeProvider
 import com.ivy.ui.ComposeViewModel
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.utils.ioThread
@@ -23,7 +25,9 @@ class BalanceViewModel @Inject constructor(
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
     private val ivyContext: com.ivy.legacy.IvyWalletCtx,
     private val baseCurrencyAct: BaseCurrencyAct,
-    private val calcWalletBalanceAct: CalcWalletBalanceAct
+    private val calcWalletBalanceAct: CalcWalletBalanceAct,
+    private val timeProvider: TimeProvider,
+    private val timeConverter: TimeConverter,
 ) : ComposeViewModel<BalanceState, BalanceEvent>() {
 
     private val period = mutableStateOf(ivyContext.selectedPeriod)
@@ -69,7 +73,7 @@ class BalanceViewModel @Inject constructor(
 
             plannedPaymentsAmount.doubleValue = ioThread {
                 plannedPaymentsLogic.plannedPaymentsAmountFor(
-                    timePeriod.toRange(ivyContext.startDayOfMonth)
+                    timePeriod.toRange(ivyContext.startDayOfMonth, timeConverter, timeProvider)
                     // + positive if Income > Expenses else - negative
                 ) * if (numberOfMonthsAhead.intValue >= 0) {
                     numberOfMonthsAhead.intValue.toDouble()
