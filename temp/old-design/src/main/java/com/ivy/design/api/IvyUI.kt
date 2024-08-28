@@ -1,5 +1,6 @@
 package com.ivy.design.api
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,14 +10,25 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
+import com.ivy.base.time.TimeConverter
+import com.ivy.base.time.TimeProvider
 import com.ivy.design.IvyContext
 import com.ivy.design.l0_system.IvyTheme
 
 val LocalIvyContext = compositionLocalOf<IvyContext> { error("No LocalIvyContext") }
 
+@Deprecated("Used only for time migration to Instant. Never use it in new code!")
+val LocalTimeConverter = compositionLocalOf<TimeConverter> { error("No LocalTimeConverter") }
+@Deprecated("Used only for time migration to Instant. Never use it in new code!")
+val LocalTimeProvider = compositionLocalOf<TimeProvider> { error("No LocalTimeProvider") }
+
+
+@SuppressLint("ComposeModifierMissing")
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun IvyUI(
+    timeConverter: TimeConverter,
+    timeProvider: TimeProvider,
     design: IvyDesign,
     includeSurface: Boolean = true,
     content: @Composable BoxWithConstraintsScope.() -> Unit
@@ -25,6 +37,8 @@ fun IvyUI(
 
     CompositionLocalProvider(
         LocalIvyContext provides ivyContext,
+        LocalTimeConverter provides timeConverter,
+        LocalTimeProvider provides timeProvider,
     ) {
         IvyTheme(
             theme = ivyContext.theme,

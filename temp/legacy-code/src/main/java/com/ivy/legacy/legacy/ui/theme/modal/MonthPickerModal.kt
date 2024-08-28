@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.theme.modal
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -22,13 +23,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.utils.thenIf
 import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.data.model.Month
 import com.ivy.legacy.data.model.Month.Companion.monthsList
 import com.ivy.legacy.utils.dateNowUTC
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.hideKeyboard
 import com.ivy.legacy.utils.onScreenStart
-import com.ivy.design.utils.thenIf
 import com.ivy.ui.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Ivy
@@ -37,15 +39,16 @@ import com.ivy.wallet.ui.theme.findContrastTextColor
 import java.time.LocalDate
 import java.util.UUID
 
+@SuppressLint("ComposeModifierMissing")
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Suppress("ParameterNaming")
 @Composable
 fun BoxWithConstraintsScope.MonthPickerModal(
-    id: UUID = UUID.randomUUID(),
     initialDate: LocalDate,
     visible: Boolean,
     dismiss: () -> Unit,
-    onMonthSelected: (Int) -> Unit
+    onMonthSelected: (Int) -> Unit,
+    id: UUID = UUID.randomUUID(),
 ) {
     var selectedMonth by remember {
         mutableStateOf(initialDate.monthValue)
@@ -112,7 +115,7 @@ private fun MonthPicker(
 
 @Composable
 private fun MonthButton(
-    month: com.ivy.legacy.data.model.Month,
+    month: Month,
     selected: Boolean,
     onClick: () -> Unit,
 ) {
@@ -159,8 +162,8 @@ private fun Preview() {
         MonthPickerModal(
             initialDate = dateNowUTC(),
             visible = true,
-            dismiss = {}
-        ) {
-        }
+            dismiss = {},
+            onMonthSelected = {}
+        )
     }
 }

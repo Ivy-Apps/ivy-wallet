@@ -15,7 +15,7 @@ import io.mockk.mockk
 import org.junit.Before
 import org.junit.Test
 
-class StandardTimeConvertPropertyTest {
+class StandardTimeConverterPropertyTest {
 
     private val timeProvider = mockk<TimeProvider>()
 
@@ -23,7 +23,7 @@ class StandardTimeConvertPropertyTest {
 
     @Before
     fun setup() {
-        converter = StandardTimeConvert(
+        converter = StandardTimeConverter(
             timeZoneProvider = timeProvider
         )
     }

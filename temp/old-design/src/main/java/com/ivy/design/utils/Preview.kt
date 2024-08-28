@@ -9,6 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.ivy.base.legacy.Theme
+import com.ivy.base.time.impl.DeviceTimeProvider
+import com.ivy.base.time.impl.StandardTimeConverter
 import com.ivy.design.IvyContext
 import com.ivy.design.api.IvyDesign
 import com.ivy.design.api.IvyUI
@@ -18,6 +20,7 @@ import com.ivy.design.l0_system.UI
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun IvyComponentPreview(
+    modifier: Modifier = Modifier,
     design: IvyDesign = defaultDesign(),
     theme: Theme = Theme.LIGHT,
     content: @Composable BoxScope.() -> Unit
@@ -27,7 +30,7 @@ fun IvyComponentPreview(
         theme = theme
     ) {
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .background(UI.colors.pure),
             contentAlignment = Alignment.Center
@@ -40,14 +43,16 @@ fun IvyComponentPreview(
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun IvyPreview(
-    theme: Theme = Theme.LIGHT,
     design: IvyDesign,
-    Content: @Composable BoxWithConstraintsScope.() -> Unit
+    theme: Theme = Theme.LIGHT,
+    content: @Composable BoxWithConstraintsScope.() -> Unit
 ) {
     design.context().switchTheme(theme = theme)
     IvyUI(
         design = design,
-        content = Content
+        content = content,
+        timeConverter = StandardTimeConverter(DeviceTimeProvider()),
+        timeProvider = DeviceTimeProvider(),
     )
 }
 

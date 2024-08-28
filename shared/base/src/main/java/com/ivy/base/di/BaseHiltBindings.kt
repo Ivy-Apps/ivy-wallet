@@ -5,7 +5,7 @@ import com.ivy.base.threading.IvyDispatchersProvider
 import com.ivy.base.time.TimeConverter
 import com.ivy.base.time.TimeProvider
 import com.ivy.base.time.impl.DeviceTimeProvider
-import com.ivy.base.time.impl.StandardTimeConvert
+import com.ivy.base.time.impl.StandardTimeConverter
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -21,5 +21,5 @@ interface BaseHiltBindings {
     fun bindTimezoneProvider(impl: DeviceTimeProvider): TimeProvider
 
     @Binds
-    fun bindTimeConverter(impl: StandardTimeConvert): TimeConverter
+    fun bindTimeConverter(impl: StandardTimeConverter): TimeConverter
 }

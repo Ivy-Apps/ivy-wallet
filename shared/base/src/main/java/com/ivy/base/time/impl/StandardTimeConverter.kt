@@ -8,7 +8,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
 
-class StandardTimeConvert @Inject constructor(
+class StandardTimeConverter @Inject constructor(
     private val timeZoneProvider: TimeProvider
 ) : TimeConverter {
 

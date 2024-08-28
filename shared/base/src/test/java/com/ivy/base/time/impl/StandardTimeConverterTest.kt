@@ -16,7 +16,7 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 
 @RunWith(TestParameterInjector::class)
-class StandardTimeConvertTest {
+class StandardTimeConverterTest {
 
     private val timeProvider = mockk<TimeProvider>()
 
@@ -24,7 +24,7 @@ class StandardTimeConvertTest {
 
     @Before
     fun setup() {
-        converter = StandardTimeConvert(
+        converter = StandardTimeConverter(
             timeZoneProvider = timeProvider
         )
     }
