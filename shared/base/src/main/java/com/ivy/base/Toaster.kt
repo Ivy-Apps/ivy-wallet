@@ -11,10 +11,11 @@ import javax.inject.Inject
 class Toaster @Inject constructor(
     @ApplicationContext
     private val context: Context,
+    private val resourceProvider: ResourceProvider,
     private val dispatchers: DispatchersProvider,
 ) {
     suspend fun show(@StringRes messageId: Int, duration: Int = Toast.LENGTH_LONG) {
-        show(context.getString(messageId), duration)
+        show(resourceProvider.getString(messageId), duration)
     }
 
     suspend fun show(message: String, duration: Int = Toast.LENGTH_LONG) {
