@@ -3,8 +3,10 @@ package com.ivy.legacy.utils
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.ivy.base.legacy.stringRes
+import com.ivy.base.time.TimeConverter
 import com.ivy.frp.Total
 import com.ivy.ui.R
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -292,11 +294,15 @@ fun LocalDateTime.timeLeft(
     return result.trim()
 }
 
-fun startOfMonth(date: LocalDate): LocalDateTime =
-    date.withDayOfMonth(1).atStartOfDay().convertLocalToUTC()
+fun startOfMonth(date: LocalDate, timeConverter: TimeConverter): Instant {
+    val startOfMonthLocal = date.withDayOfMonth(1).atStartOfDay()
+    return with(timeConverter) { startOfMonthLocal.toUTC() }
+}
 
-fun endOfMonth(date: LocalDate): LocalDateTime =
-    date.withDayOfMonth(date.lengthOfMonth()).atEndOfDay().convertLocalToUTC()
+fun endOfMonth(date: LocalDate, timeConverter: TimeConverter): Instant {
+    val endOfMonthLocal = date.withDayOfMonth(date.lengthOfMonth()).atTime(LocalTime.MAX)
+    return with(timeConverter) { endOfMonthLocal.toUTC() }
+}
 
 fun LocalDate.atEndOfDay(): LocalDateTime =
     this.atTime(23, 59, 59)
@@ -304,9 +310,9 @@ fun LocalDate.atEndOfDay(): LocalDateTime =
 /**
  * +1 day so things won't fck up with Long overflow
  */
-fun beginningOfIvyTime(): LocalDateTime = LocalDateTime.now().minusYears(10)
+fun beginningOfIvyTime(): Instant = Instant.MIN
 
-fun toIvyFutureTime(): LocalDateTime = timeNowUTC().plusYears(30)
+fun toIvyFutureTime(): Instant = Instant.MAX
 
 fun LocalDate.withDayOfMonthSafe(targetDayOfMonth: Int): LocalDate {
     val maxDayOfMonth = this.lengthOfMonth()

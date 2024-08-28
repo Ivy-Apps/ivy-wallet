@@ -19,7 +19,7 @@ import com.ivy.data.model.primitive.toNonNegative
 import com.ivy.data.repository.mapper.TransactionMapper
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
-import java.time.LocalDateTime
+import java.time.Instant
 import java.util.UUID
 import javax.inject.Inject
 
@@ -82,8 +82,8 @@ class TransactionRepository @Inject constructor(
     ).filterIsInstance<Transfer>()
 
     suspend fun findAllBetween(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<Transaction> = withContext(dispatchersProvider.io) {
         val transactions = transactionDao.findAllBetween(startDate, endDate)
         val tagAssociationMap = getTagsForTransactionIds(transactions)
@@ -95,8 +95,8 @@ class TransactionRepository @Inject constructor(
 
     suspend fun findAllByAccountAndBetween(
         accountId: AccountId,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<Transaction> = retrieveTrns(
         dbCall = {
             transactionDao.findAllByAccountAndBetween(
@@ -109,8 +109,8 @@ class TransactionRepository @Inject constructor(
 
     suspend fun findAllToAccountAndBetween(
         toAccountId: AccountId,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<Transaction> = retrieveTrns(
         dbCall = {
             transactionDao.findAllToAccountAndBetween(
@@ -122,8 +122,8 @@ class TransactionRepository @Inject constructor(
     )
 
     suspend fun findAllDueToBetween(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<Transaction> = retrieveTrns(
         dbCall = {
             transactionDao.findAllDueToBetween(
@@ -134,8 +134,8 @@ class TransactionRepository @Inject constructor(
     )
 
     suspend fun findAllDueToBetweenByCategory(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime,
+        startDate: Instant,
+        endDate: Instant,
         categoryId: CategoryId
     ): List<Transaction> = retrieveTrns(
         dbCall = {
@@ -148,8 +148,8 @@ class TransactionRepository @Inject constructor(
     )
 
     suspend fun findAllDueToBetweenByCategoryUnspecified(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<Transaction> = retrieveTrns(
         dbCall = {
             transactionDao.findAllDueToBetweenByCategoryUnspecified(
@@ -160,8 +160,8 @@ class TransactionRepository @Inject constructor(
     )
 
     suspend fun findAllDueToBetweenByAccount(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime,
+        startDate: Instant,
+        endDate: Instant,
         accountId: AccountId
     ): List<Transaction> = retrieveTrns(
         dbCall = {
@@ -176,8 +176,8 @@ class TransactionRepository @Inject constructor(
     suspend fun findAllByCategoryAndTypeAndBetween(
         categoryId: UUID,
         type: TransactionType,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<Transaction> = retrieveTrns(
         dbCall = {
             transactionDao.findAllByCategoryAndTypeAndBetween(
@@ -191,8 +191,8 @@ class TransactionRepository @Inject constructor(
 
     suspend fun findAllUnspecifiedAndTypeAndBetween(
         type: TransactionType,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<Transaction> = retrieveTrns(
         dbCall = {
             transactionDao.findAllUnspecifiedAndTypeAndBetween(
@@ -204,8 +204,8 @@ class TransactionRepository @Inject constructor(
     )
 
     suspend fun findAllUnspecifiedAndBetween(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<Transaction> = retrieveTrns(
         dbCall = {
             transactionDao.findAllUnspecifiedAndBetween(
@@ -217,8 +217,8 @@ class TransactionRepository @Inject constructor(
 
     suspend fun findAllByCategoryAndBetween(
         categoryId: UUID,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<Transaction> = retrieveTrns(
         dbCall = {
             transactionDao.findAllByCategoryAndBetween(
