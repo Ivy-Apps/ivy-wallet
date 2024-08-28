@@ -45,36 +45,38 @@ class IvyTimeFormatter @Inject constructor(
     ): String {
         val patternNoWeekDay = "dd MMM"
         return when (this.toLocalDate()) {
-            today -> {
-                resourceProvider.getString(R.string.today_date, this.formatLocal(patternNoWeekDay))
-            }
+            // Today
+            today -> resourceProvider.getString(
+                R.string.today_date,
+                this.format(pattern = patternNoWeekDay)
+            )
 
+            // Yesterday
             today.minusDays(1) -> {
                 resourceProvider.getString(
                     R.string.yesterday_date,
-                    this.formatLocal(patternNoWeekDay)
+                    this.format(pattern = patternNoWeekDay)
                 )
             }
 
-            today.plusDays(1) -> {
-                resourceProvider.getString(
-                    R.string.tomorrow_date,
-                    this.formatLocal(patternNoWeekDay)
-                )
-            }
+            // Tomorrow
+            today.plusDays(1) -> resourceProvider.getString(
+                R.string.tomorrow_date,
+                this.format(pattern = patternNoWeekDay)
+            )
 
             else -> {
                 if (includeWeekDay) {
                     if (isThisYear) {
-                        this.formatLocal("EEE, dd MMM")
+                        this.format(pattern = "EEE, dd MMM")
                     } else {
-                        this.formatLocal("dd MMM, yyyy")
+                        this.format(pattern = "dd MMM, yyyy")
                     }
                 } else {
                     if (isThisYear) {
-                        this.formatLocal(patternNoWeekDay)
+                        this.format(pattern = patternNoWeekDay)
                     } else {
-                        this.formatLocal("dd MMM, yyyy")
+                        this.format(pattern = "dd MMM, yyyy")
                     }
                 }
             }
@@ -89,23 +91,26 @@ class IvyTimeFormatter @Inject constructor(
         val datePattern = if (includeWeekDay) "EEE, dd MMM" else "dd MMM"
 
         return when (this.toLocalDate()) {
-            today -> {
-                resourceProvider.getString(R.string.today_date, this.formatLocal(datePattern))
-            }
+            // Today
+            today -> resourceProvider.getString(R.string.today_date, this.format(datePattern))
 
-            today.minusDays(1) -> {
-                resourceProvider.getString(R.string.yesterday_date, this.formatLocal(datePattern))
-            }
+            // Yesterday
+            today.minusDays(1) -> resourceProvider.getString(
+                R.string.yesterday_date,
+                this.format(pattern = datePattern)
+            )
 
-            today.plusDays(1) -> {
-                resourceProvider.getString(R.string.tomorrow_date, this.formatLocal(datePattern))
-            }
+            // Tomorrow
+            today.plusDays(1) -> resourceProvider.getString(
+                R.string.tomorrow_date,
+                this.format(pattern = datePattern)
+            )
 
             else -> {
                 if (isThisYear) {
-                    this.formatLocal(datePattern)
+                    this.format(pattern = datePattern)
                 } else {
-                    this.formatLocal("dd MMM, yyyy")
+                    this.format(pattern = "dd MMM, yyyy")
                 }
             }
         }
@@ -125,7 +130,7 @@ class IvyTimeFormatter @Inject constructor(
         return localDateTime.format(style)
     }
 
-    private fun LocalDateTime.formatLocal(pattern: String): String {
+    private fun LocalDateTime.format(pattern: String): String {
         return this.format(DateTimeFormatter.ofPattern(pattern))
     }
 }
