@@ -80,12 +80,12 @@ class StandardTimeConvertPropertyTest {
             every { timeProvider.getZoneId() } returns zone
 
             // When
-            with(converter) {
+            val transformed = with(converter) {
                 original.toLocalDateTime().toUTC()
             }
 
             // Then
-            // no no crashes
+            // No crashes
         }
     }
 
@@ -96,13 +96,13 @@ class StandardTimeConvertPropertyTest {
             every { timeProvider.getZoneId() } returns zone
 
             // When
-            with(converter) {
+            val transformed = with(converter) {
                 val originalLocalDateTime = original.toLocalDateTime()
                 original.toLocalDate().atTime(originalLocalDateTime.toLocalTime()).toUTC()
             }
 
             // Then
-            // no no crashes
+            // No crashes
         }
     }
 }

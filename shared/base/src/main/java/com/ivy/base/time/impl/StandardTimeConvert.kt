@@ -16,8 +16,8 @@ class StandardTimeConvert @Inject constructor(
         val zoneId = timeZoneProvider.getZoneId()
         this.atZone(zoneId).toLocalDateTime()
     } catch (e: DateTimeException) {
-        // This happens when we overflow MIN/MAX
-        if (this.isAfter(Instant.EPOCH)) {
+        // This happens when we overflow MIN/MAX for LocalDateTime
+        if (this > Instant.EPOCH) {
             LocalDateTime.MAX
         } else {
             LocalDateTime.MIN
@@ -28,8 +28,8 @@ class StandardTimeConvert @Inject constructor(
         val zoneId = timeZoneProvider.getZoneId()
         this.atZone(zoneId).toLocalDate()
     } catch (e: DateTimeException) {
-        // This happens when we overflow MIN/MAX
-        if (this.isAfter(Instant.EPOCH)) {
+        // This happens when we overflow MIN/MAX for LocalDate
+        if (this > Instant.EPOCH) {
             LocalDate.MAX
         } else {
             LocalDate.MIN
