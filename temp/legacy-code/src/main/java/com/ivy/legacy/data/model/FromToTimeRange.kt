@@ -4,9 +4,9 @@ import androidx.compose.runtime.Immutable
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.time.TimeConverter
 import com.ivy.base.time.TimeProvider
-import com.ivy.legacy.utils.beginningOfIvyTime
+import com.ivy.legacy.utils.ivyMinTime
 import com.ivy.legacy.utils.dateNowUTC
-import com.ivy.legacy.utils.toIvyFutureTime
+import com.ivy.legacy.utils.ivyMaxTime
 import com.ivy.ui.time.TimeFormatter
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import java.time.Instant
@@ -18,10 +18,10 @@ data class FromToTimeRange(
     val to: Instant?,
 ) {
     fun from(): Instant =
-        from ?: Instant.MIN
+        from ?: ivyMinTime()
 
     fun to(): Instant =
-        to ?: Instant.MAX
+        to ?: ivyMaxTime()
 
     fun upcomingFrom(
         timeProvider: TimeProvider
@@ -125,14 +125,14 @@ fun FromToTimeRange.toCloseTimeRangeUnsafe(): ClosedTimeRange {
 
 fun FromToTimeRange.toCloseTimeRange(): ClosedTimeRange {
     return ClosedTimeRange(
-        from = from ?: beginningOfIvyTime(),
-        to = to ?: toIvyFutureTime()
+        from = from ?: ivyMinTime(),
+        to = to ?: ivyMaxTime()
     )
 }
 
 fun FromToTimeRange.toUTCCloseTimeRange(): ClosedTimeRange {
     return ClosedTimeRange(
-        from = from ?: beginningOfIvyTime(),
-        to = to ?: toIvyFutureTime()
+        from = from ?: ivyMinTime(),
+        to = to ?: ivyMaxTime()
     )
 }

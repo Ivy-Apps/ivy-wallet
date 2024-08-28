@@ -310,9 +310,13 @@ fun LocalDate.atEndOfDay(): LocalDateTime =
 /**
  * +1 day so things won't fck up with Long overflow
  */
-fun beginningOfIvyTime(): Instant = Instant.MIN
+fun ivyMinTime(): Instant = Instant.MIN.plusSeconds(
+    TimeUnit.DAYS.toSeconds(365 * 10)
+)
 
-fun toIvyFutureTime(): Instant = Instant.MAX
+fun ivyMaxTime(): Instant = Instant.MAX.minusSeconds(
+    TimeUnit.DAYS.toSeconds(365 * 10)
+)
 
 fun LocalDate.withDayOfMonthSafe(targetDayOfMonth: Int): LocalDate {
     val maxDayOfMonth = this.lengthOfMonth()
