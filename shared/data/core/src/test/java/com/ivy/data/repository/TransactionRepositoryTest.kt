@@ -26,6 +26,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.arbitrary
 import io.kotest.property.arbitrary.boolean
+import io.kotest.property.arbitrary.instant
 import io.kotest.property.arbitrary.list
 import io.kotest.property.arbitrary.localDateTime
 import io.kotest.property.arbitrary.map
@@ -209,8 +210,8 @@ class TransactionRepositoryTest {
 
     @Test
     fun `find all between`() {
-        val startDate = Arb.localDateTime().next()
-        val endDate = Arb.localDateTime().next()
+        val startDate = Arb.instant().next()
+        val endDate = Arb.instant().next()
 
         transactionsTestCase(
             daoMethod = {
@@ -231,8 +232,8 @@ class TransactionRepositoryTest {
     @Test
     fun findAllByAccountAndBetween() {
         val account = ModelFixtures.AccountId
-        val startDate = Arb.localDateTime().next()
-        val endDate = Arb.localDateTime().next()
+        val startDate = Arb.instant().next()
+        val endDate = Arb.instant().next()
 
         transactionsTestCase(
             daoMethod = {
@@ -255,8 +256,8 @@ class TransactionRepositoryTest {
     @Test
     fun findAllToAccountAndBetween() {
         val account = ModelFixtures.AccountId
-        val startDate = Arb.localDateTime().next()
-        val endDate = Arb.localDateTime().next()
+        val startDate = Arb.instant().next()
+        val endDate = Arb.instant().next()
 
         transactionsTestCase(
             daoMethod = {
@@ -279,8 +280,8 @@ class TransactionRepositoryTest {
     @Test
     fun findAllDueToBetweenByCategory() {
         val category = ModelFixtures.CategoryId
-        val startDate = Arb.localDateTime().next()
-        val endDate = Arb.localDateTime().next()
+        val startDate = Arb.instant().next()
+        val endDate = Arb.instant().next()
 
         transactionsTestCase(
             daoMethod = {
@@ -302,8 +303,8 @@ class TransactionRepositoryTest {
 
     @Test
     fun findAllDueToBetweenByCategoryUnspecified() {
-        val startDate = Arb.localDateTime().next()
-        val endDate = Arb.localDateTime().next()
+        val startDate = Arb.instant().next()
+        val endDate = Arb.instant().next()
 
         transactionsTestCase(
             daoMethod = {
@@ -324,8 +325,8 @@ class TransactionRepositoryTest {
     @Test
     fun findAllDueToBetweenByAccount() {
         val account = ModelFixtures.AccountId
-        val startDate = Arb.localDateTime().next()
-        val endDate = Arb.localDateTime().next()
+        val startDate = Arb.instant().next()
+        val endDate = Arb.instant().next()
 
         transactionsTestCase(
             daoMethod = {
@@ -349,8 +350,8 @@ class TransactionRepositoryTest {
     fun findAllByCategoryAndTypeAndBetween() {
         val categoryId = ModelFixtures.CategoryId
         val trnType = TransactionType.EXPENSE
-        val startDate = Arb.localDateTime().next()
-        val endDate = Arb.localDateTime().next()
+        val startDate = Arb.instant().next()
+        val endDate = Arb.instant().next()
 
         transactionsTestCase(
             daoMethod = {
