@@ -18,9 +18,9 @@ class StandardTimeConverter @Inject constructor(
     } catch (e: DateTimeException) {
         // This happens when we overflow MIN/MAX for LocalDateTime
         if (this > Instant.EPOCH) {
-            LocalDateTime.MAX
+            LocalDateTime.MAX.minusYears(10)
         } else {
-            LocalDateTime.MIN
+            LocalDateTime.MIN.plusYears(10)
         }
     }
 
@@ -30,9 +30,9 @@ class StandardTimeConverter @Inject constructor(
     } catch (e: DateTimeException) {
         // This happens when we overflow MIN/MAX for LocalDate
         if (this > Instant.EPOCH) {
-            LocalDate.MAX
+            LocalDate.MAX.minusYears(10)
         } else {
-            LocalDate.MIN
+            LocalDate.MIN.plusYears(10)
         }
     }
 

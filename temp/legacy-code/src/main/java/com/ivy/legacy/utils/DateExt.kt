@@ -256,44 +256,6 @@ fun LocalDate.formatLocal(
     )
 }
 
-fun LocalDateTime.timeLeft(
-    from: LocalDateTime = timeNowUTC(),
-    daysLabel: String = "d",
-    hoursLabel: String = "h",
-    minutesLabel: String = "m",
-    secondsLabel: String = "s"
-): String {
-    val timeLeftMs = this.millis() - from.millis()
-    if (timeLeftMs <= 0) return stringRes(R.string.expired)
-
-    val days = TimeUnit.MILLISECONDS.toDays(timeLeftMs)
-    var timeLeftAfterCalculations = timeLeftMs - TimeUnit.DAYS.toMillis(days)
-
-    val hours = TimeUnit.MILLISECONDS.toHours(timeLeftAfterCalculations)
-    timeLeftAfterCalculations -= TimeUnit.HOURS.toMillis(hours)
-
-    val minutes = TimeUnit.MILLISECONDS.toMinutes(timeLeftAfterCalculations)
-    timeLeftAfterCalculations -= TimeUnit.MINUTES.toMillis(minutes)
-
-    val seconds = TimeUnit.MILLISECONDS.toSeconds(timeLeftAfterCalculations)
-
-    var result = ""
-    if (days > 0) {
-        result += "$days$daysLabel "
-    }
-    if (hours > 0) {
-        result += "$hours$hoursLabel "
-    }
-    if (minutes > 0) {
-        result += "$minutes$minutesLabel "
-    }
-//    if (seconds > 0) {
-//        result += "$seconds$secondsLabel "
-//    }
-
-    return result.trim()
-}
-
 fun startOfMonth(date: LocalDate, timeConverter: TimeConverter): Instant {
     val startOfMonthLocal = date.withDayOfMonth(1).atStartOfDay()
     return with(timeConverter) { startOfMonthLocal.toUTC() }
