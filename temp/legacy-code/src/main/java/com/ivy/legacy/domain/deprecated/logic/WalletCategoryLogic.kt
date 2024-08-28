@@ -187,7 +187,8 @@ class WalletCategoryLogic @Inject constructor(
                 .withDateDividers(
                     exchangeRatesLogic = exchangeRatesLogic,
                     settingsDao = settingsDao,
-                    accountDao = accountDao
+                    accountDao = accountDao,
+                    timeConverter = timeConverter,
                 )
         }
     }
@@ -222,7 +223,8 @@ class WalletCategoryLogic @Inject constructor(
                 .withDateDividers(
                     exchangeRatesLogic = exchangeRatesLogic,
                     settingsDao = settingsDao,
-                    accountDao = accountDao
+                    accountDao = accountDao,
+                    timeConverter = timeConverter,
                 )
         }
     }

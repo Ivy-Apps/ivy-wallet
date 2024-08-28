@@ -2,6 +2,7 @@ package com.ivy.wallet.domain.action.transaction
 
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
+import com.ivy.base.time.TimeConverter
 import com.ivy.base.time.TimeProvider
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.repository.AccountRepository
@@ -44,7 +45,8 @@ class TrnsWithDateDivsAct @Inject constructor(
 @Deprecated("Uses legacy Transaction")
 class LegacyTrnsWithDateDivsAct @Inject constructor(
     private val accountDao: AccountDao,
-    private val exchangeAct: ExchangeAct
+    private val exchangeAct: ExchangeAct,
+    private val timeConverter: TimeConverter,
 ) : FPAction<LegacyTrnsWithDateDivsAct.Input, List<TransactionHistoryItem>>() {
 
     override suspend fun Input.compose(): suspend () -> List<TransactionHistoryItem> = suspend {
@@ -53,7 +55,8 @@ class LegacyTrnsWithDateDivsAct @Inject constructor(
             baseCurrencyCode = baseCurrency,
 
             getAccount = accountDao::findById then { it?.toLegacyDomain() },
-            exchange = ::actInput then exchangeAct
+            exchange = ::actInput then exchangeAct,
+            timeConverter = timeConverter,
         )
     }
 

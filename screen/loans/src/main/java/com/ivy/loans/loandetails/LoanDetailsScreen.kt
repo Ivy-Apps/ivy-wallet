@@ -38,6 +38,7 @@ import com.ivy.base.model.LoanRecordType
 import com.ivy.base.model.TransactionType
 import com.ivy.base.model.processByType
 import com.ivy.data.model.LoanType
+import com.ivy.design.api.LocalTimeFormatter
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
@@ -64,6 +65,7 @@ import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.ui.R
+import com.ivy.ui.time.TimeFormatter
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Gray
@@ -85,6 +87,7 @@ import com.ivy.wallet.ui.theme.modal.ProgressModal
 import com.ivy.wallet.ui.theme.toComposeColor
 import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalDateTime
+import java.time.ZoneOffset
 import java.util.UUID
 
 @Composable
@@ -695,11 +698,14 @@ private fun LoanRecordItem(
             Spacer(Modifier.height(20.dp))
         }
 
+        val timeFormatter = LocalTimeFormatter.current
         Text(
             modifier = Modifier.padding(horizontal = 24.dp),
-            text = loanRecord.dateTime.formatNicelyWithTime(
-                noWeekDay = false
-            ).uppercase(),
+            text = with(timeFormatter) {
+                loanRecord.dateTime.formatLocal(
+                    TimeFormatter.Style.DateTime(includeWeekDay = true)
+                ).uppercase()
+            },
             style = UI.typo.nC.style(
                 color = Gray,
                 fontWeight = FontWeight.Bold
@@ -913,7 +919,7 @@ private fun Preview_Records(theme: Theme = Theme.LIGHT) {
                     DisplayLoanRecord(
                         LoanRecord(
                             amount = 123.45,
-                            dateTime = testDateTime.minusDays(1),
+                            dateTime = testDateTime.minusDays(1).toInstant(ZoneOffset.UTC),
                             note = "Cash",
                             loanId = UUID.randomUUID(),
                             loanRecordType = LoanRecordType.INCREASE
@@ -922,7 +928,7 @@ private fun Preview_Records(theme: Theme = Theme.LIGHT) {
                     DisplayLoanRecord(
                         LoanRecord(
                             amount = 0.50,
-                            dateTime = testDateTime.minusYears(1),
+                            dateTime = testDateTime.minusYears(1).toInstant(ZoneOffset.UTC),
                             loanId = UUID.randomUUID(),
                             loanRecordType = LoanRecordType.DECREASE
                         )
@@ -930,7 +936,7 @@ private fun Preview_Records(theme: Theme = Theme.LIGHT) {
                     DisplayLoanRecord(
                         LoanRecord(
                             amount = 1000.00,
-                            dateTime = testDateTime.minusMonths(1),
+                            dateTime = testDateTime.minusMonths(1).toInstant(ZoneOffset.UTC),
                             note = "Revolut",
                             loanId = UUID.randomUUID(),
                             loanRecordType = LoanRecordType.INCREASE

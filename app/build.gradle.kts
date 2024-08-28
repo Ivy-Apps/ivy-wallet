@@ -148,6 +148,7 @@ dependencies {
     implementation(projects.shared.data.core)
     implementation(projects.shared.domain)
     implementation(projects.shared.ui.navigation)
+    implementation(projects.shared.ui.core)
     implementation(projects.temp.legacyCode)
     implementation(projects.temp.oldDesign)
     implementation(projects.widget.addTransaction)

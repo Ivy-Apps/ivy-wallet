@@ -47,6 +47,7 @@ import com.ivy.legacy.utils.timeNowLocal
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.NavigationRoot
 import com.ivy.ui.R
+import com.ivy.ui.time.TimeFormatter
 import com.ivy.wallet.ui.applocked.AppLockedScreen
 import com.ivy.widget.balance.WalletBalanceWidgetReceiver
 import com.ivy.widget.transaction.AddTransactionWidget
@@ -73,6 +74,9 @@ class RootActivity : AppCompatActivity(), RootScreen {
 
     @Inject
     lateinit var timeProvider: TimeProvider
+
+    @Inject
+    lateinit var timeFormatter: TimeFormatter
 
     private lateinit var createFileLauncher: ActivityResultLauncher<String>
     private lateinit var onFileCreated: (fileUri: Uri) -> Unit
@@ -121,6 +125,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
                         design = appDesign(ivyContext),
                         timeConverter = timeConverter,
                         timeProvider = timeProvider,
+                        timeFormatter = timeFormatter,
                     ) {
                         AppLockedScreen(
                             onShowOSBiometricsModal = {
@@ -142,6 +147,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
                             includeSurface = screen?.isLegacy ?: true,
                             timeConverter = timeConverter,
                             timeProvider = timeProvider,
+                            timeFormatter = timeFormatter,
                         ) {
                             IvyNavGraph(screen)
                         }

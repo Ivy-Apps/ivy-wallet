@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import com.ivy.base.ResourceProvider
 import com.ivy.base.legacy.Theme
 import com.ivy.base.time.impl.DeviceTimeProvider
 import com.ivy.base.time.impl.StandardTimeConverter
@@ -16,6 +18,7 @@ import com.ivy.design.api.IvyDesign
 import com.ivy.design.api.IvyUI
 import com.ivy.design.api.systems.IvyWalletDesign
 import com.ivy.design.l0_system.UI
+import com.ivy.ui.time.IvyTimeFormatter
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
@@ -48,11 +51,18 @@ fun IvyPreview(
     content: @Composable BoxWithConstraintsScope.() -> Unit
 ) {
     design.context().switchTheme(theme = theme)
+    val timeProvider = DeviceTimeProvider()
+    val timeConverter = StandardTimeConverter(timeProvider)
     IvyUI(
         design = design,
         content = content,
-        timeConverter = StandardTimeConverter(DeviceTimeProvider()),
-        timeProvider = DeviceTimeProvider(),
+        timeConverter = timeConverter,
+        timeProvider = timeProvider,
+        timeFormatter = IvyTimeFormatter(
+            resourceProvider = ResourceProvider(LocalContext.current),
+            timeProvider = timeProvider,
+            converter = timeConverter,
+        )
     )
 }
 
