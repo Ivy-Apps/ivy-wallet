@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
+import com.ivy.base.time.TimeConverter
+import com.ivy.base.time.TimeProvider
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.repository.mapper.TransactionMapper
@@ -84,7 +86,9 @@ class HomeViewModel @Inject constructor(
     private val updateAccCacheAct: UpdateAccCacheAct,
     private val updateCategoriesCacheAct: UpdateCategoriesCacheAct,
     private val syncExchangeRatesUseCase: SyncExchangeRatesUseCase,
-    private val transactionMapper: TransactionMapper
+    private val transactionMapper: TransactionMapper,
+    private val timeProvider: TimeProvider,
+    private val timeConverter: TimeConverter,
 ) : ComposeViewModel<HomeState, HomeEvent>() {
     private val currentTheme = mutableStateOf(Theme.AUTO)
     private val name = mutableStateOf("")
@@ -268,7 +272,13 @@ class HomeViewModel @Inject constructor(
         // This method is used to restore the theme when user imports locally backed up data
         ivyContext.switchTheme(theme = settings.theme)
 
-        Pair(settings, period.value.toRange(ivyContext.startDayOfMonth).toUTCCloseTimeRange())
+        Pair(
+            settings, period.value.toRange(
+                startDateOfMonth = ivyContext.startDayOfMonth,
+                timeConverter = timeConverter,
+                timeProvider = timeProvider
+            ).toUTCCloseTimeRange()
+        )
     } then ::loadAppBaseData then ::loadIncomeExpenseBalance then
             ::loadBuffer then ::loadTrnHistory then
             ::loadDueTrns thenInvokeAfter ::loadCustomerJourney

@@ -44,9 +44,13 @@ import com.ivy.data.model.CategoryId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
+import com.ivy.design.api.LocalTimeConverter
+import com.ivy.design.api.LocalTimeFormatter
+import com.ivy.design.api.LocalTimeProvider
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.utils.thenIf
+import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.horizontalSwipeListener
@@ -295,7 +299,13 @@ private fun Header(
                     }
                 ),
                 iconStart = R.drawable.ic_calendar,
-                text = period.toDisplayShort(com.ivy.legacy.ivyWalletCtx().startDayOfMonth),
+                text = period.toDisplayShort(
+                    startDateOfMonth = ivyWalletCtx().startDayOfMonth,
+                    timeConverter = LocalTimeConverter.current,
+                    timeProvider = LocalTimeProvider.current,
+                    timeFormatter = LocalTimeFormatter.current,
+
+                    ),
             ) {
                 onShowMonthModal()
             }
