@@ -14,6 +14,7 @@ import java.time.LocalDate
 
 private const val MonthNameAbbreviationLength = 3
 
+@Suppress("DataClassFunctions")
 @Immutable
 data class TimePeriod(
     val month: Month? = null,

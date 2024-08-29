@@ -33,6 +33,7 @@ class CalcAccBalanceAct @Inject constructor(
         )
     }
 
+    @Suppress("DataClassDefaultValues")
     data class Input(
         val account: Account,
         val range: ClosedTimeRange? = null

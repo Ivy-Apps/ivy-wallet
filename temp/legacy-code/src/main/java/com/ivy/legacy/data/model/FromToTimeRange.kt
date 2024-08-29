@@ -12,6 +12,7 @@ import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import java.time.Instant
 import java.time.ZoneOffset
 
+@Suppress("DataClassFunctions")
 @Immutable
 data class FromToTimeRange(
     val from: Instant?,

@@ -7,7 +7,6 @@ import com.ivy.legacy.datamodel.PlannedPaymentRule
 import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.incrementDate
 import java.time.Instant
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 class PlannedPaymentsGenerator @Inject constructor(
@@ -76,20 +75,20 @@ class PlannedPaymentsGenerator @Inject constructor(
     }
 
     private suspend fun generateTransaction(rule: PlannedPaymentRule, dueDate: Instant) {
-            Transaction(
-                type = rule.type,
-                accountId = rule.accountId,
-                recurringRuleId = rule.id,
-                categoryId = rule.categoryId,
-                amount = rule.amount.toBigDecimal(),
-                title = rule.title,
-                description = rule.description,
-                dueDate = dueDate,
-                dateTime = null,
-                toAccountId = null,
-                isSynced = false
-            ).toDomain(transactionMapper)?.let {
-                transactionRepository.save(it)
+        Transaction(
+            type = rule.type,
+            accountId = rule.accountId,
+            recurringRuleId = rule.id,
+            categoryId = rule.categoryId,
+            amount = rule.amount.toBigDecimal(),
+            title = rule.title,
+            description = rule.description,
+            dueDate = dueDate,
+            dateTime = null,
+            toAccountId = null,
+            isSynced = false
+        ).toDomain(transactionMapper)?.let {
+            transactionRepository.save(it)
         }
     }
 }

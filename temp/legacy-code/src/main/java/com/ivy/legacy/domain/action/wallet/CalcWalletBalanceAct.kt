@@ -63,6 +63,7 @@ class CalcWalletBalanceAct @Inject constructor(
             it.orNull() ?: BigDecimal.ZERO
         }
 
+    @Suppress("DataClassDefaultValues")
     data class Input(
         val baseCurrency: String,
         val balanceCurrency: String = baseCurrency,

@@ -273,7 +273,8 @@ class HomeViewModel @Inject constructor(
         ivyContext.switchTheme(theme = settings.theme)
 
         Pair(
-            settings, period.value.toRange(
+            settings,
+            period.value.toRange(
                 startDateOfMonth = ivyContext.startDayOfMonth,
                 timeConverter = timeConverter,
                 timeProvider = timeProvider

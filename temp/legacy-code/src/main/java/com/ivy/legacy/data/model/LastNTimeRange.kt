@@ -5,10 +5,9 @@ import com.ivy.base.time.TimeProvider
 import com.ivy.data.model.IntervalType
 import com.ivy.legacy.forDisplay
 import com.ivy.legacy.incrementDate
-import com.ivy.legacy.utils.timeNowUTC
 import java.time.Instant
-import java.time.LocalDateTime
 
+@Suppress("DataClassFunctions")
 @Immutable
 data class LastNTimeRange(
     val periodN: Int,

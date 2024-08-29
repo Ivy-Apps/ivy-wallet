@@ -42,6 +42,7 @@ class CalcAccIncomeExpenseAct @Inject constructor(
         )
     }
 
+    @Suppress("DataClassDefaultValues")
     data class Input(
         val account: com.ivy.data.model.Account,
         val range: ClosedTimeRange? = null,
