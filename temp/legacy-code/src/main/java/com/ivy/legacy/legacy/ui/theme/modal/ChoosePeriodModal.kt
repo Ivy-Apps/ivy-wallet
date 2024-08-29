@@ -500,7 +500,7 @@ private fun ColumnScope.LastNPeriod(
 }
 
 @Composable
-@Suppress("ParameterNaming")
+@Suppress("ParameterNaming", "MagicNumber")
 private fun ColumnScope.AllTime(
     timeRange: FromToTimeRange?,
     onSelected: (FromToTimeRange?) -> Unit,
@@ -555,6 +555,7 @@ private fun Preview_MonthSelected() {
     }
 }
 
+@Suppress("MagicNumber")
 @Preview
 @Composable
 private fun Preview_FromTo() {

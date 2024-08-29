@@ -89,6 +89,7 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.util.UUID
 
+@Suppress("CyclomaticComplexMethod")
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun TransactionCard(

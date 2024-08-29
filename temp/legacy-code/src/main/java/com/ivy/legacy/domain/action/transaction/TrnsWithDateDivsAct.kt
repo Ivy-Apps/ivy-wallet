@@ -3,7 +3,6 @@ package com.ivy.wallet.domain.action.transaction
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.time.TimeConverter
-import com.ivy.base.time.TimeProvider
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.repository.AccountRepository
 import com.ivy.data.repository.TagRepository
@@ -21,7 +20,6 @@ class TrnsWithDateDivsAct @Inject constructor(
     private val exchangeAct: ExchangeAct,
     private val tagRepository: TagRepository,
     private val accountRepository: AccountRepository,
-    private val timeProvider: TimeProvider,
 ) : FPAction<TrnsWithDateDivsAct.Input, List<TransactionHistoryItem>>() {
 
     override suspend fun Input.compose(): suspend () -> List<TransactionHistoryItem> = suspend {
@@ -31,7 +29,6 @@ class TrnsWithDateDivsAct @Inject constructor(
             getTags = { tagIds -> tagRepository.findByIds(tagIds) },
             getAccount = accountDao::findById then { it?.toLegacyDomain() },
             accountRepository = accountRepository,
-            timeProvider = timeProvider,
             exchange = ::actInput then exchangeAct
         )
     }

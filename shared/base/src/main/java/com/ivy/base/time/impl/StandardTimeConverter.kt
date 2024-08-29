@@ -1,11 +1,14 @@
 package com.ivy.base.time.impl
 
+import com.ivy.base.time.INSTANT_MAX_SAFE
+import com.ivy.base.time.INSTANT_MIN_SAFE
 import com.ivy.base.time.TimeConverter
 import com.ivy.base.time.TimeProvider
 import java.time.DateTimeException
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.ZoneOffset
 import javax.inject.Inject
 
 class StandardTimeConverter @Inject constructor(
@@ -18,9 +21,9 @@ class StandardTimeConverter @Inject constructor(
     } catch (e: DateTimeException) {
         // This happens when we overflow MIN/MAX for LocalDateTime
         if (this > Instant.EPOCH) {
-            LocalDateTime.MAX.minusYears(10)
+            INSTANT_MAX_SAFE.atZone(ZoneOffset.UTC).toLocalDateTime()
         } else {
-            LocalDateTime.MIN.plusYears(10)
+            INSTANT_MIN_SAFE.atZone(ZoneOffset.UTC).toLocalDateTime()
         }
     }
 
@@ -30,9 +33,9 @@ class StandardTimeConverter @Inject constructor(
     } catch (e: DateTimeException) {
         // This happens when we overflow MIN/MAX for LocalDate
         if (this > Instant.EPOCH) {
-            LocalDate.MAX.minusYears(10)
+            INSTANT_MAX_SAFE.atZone(ZoneOffset.UTC).toLocalDate()
         } else {
-            LocalDate.MIN.plusYears(10)
+            INSTANT_MIN_SAFE.atZone(ZoneOffset.UTC).toLocalDate()
         }
     }
 

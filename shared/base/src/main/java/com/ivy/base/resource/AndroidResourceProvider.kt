@@ -5,6 +5,7 @@ import androidx.annotation.StringRes
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
+@Suppress("UnnecessaryPassThroughClass")
 class AndroidResourceProvider @Inject constructor(
     @ApplicationContext
     private val context: Context,

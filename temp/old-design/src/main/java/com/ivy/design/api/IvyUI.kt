@@ -25,7 +25,6 @@ val LocalTimeProvider = compositionLocalOf<TimeProvider> { error("No LocalTimePr
 @Deprecated("Used only for time migration to Instant. Never use it in new code!")
 val LocalTimeFormatter = compositionLocalOf<TimeFormatter> { error("No LocalTimeFormatter") }
 
-
 @SuppressLint("ComposeModifierMissing")
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable

@@ -28,7 +28,6 @@ import io.kotest.property.arbitrary.arbitrary
 import io.kotest.property.arbitrary.boolean
 import io.kotest.property.arbitrary.instant
 import io.kotest.property.arbitrary.list
-import io.kotest.property.arbitrary.localDateTime
 import io.kotest.property.arbitrary.map
 import io.kotest.property.arbitrary.next
 import io.kotest.property.arbitrary.string

@@ -63,9 +63,6 @@ import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 import kotlin.math.absoluteValue
 
-private const val OverflowLengthOfBalance = 7
-private const val OverflowLengthOfMonthRange = 12
-
 @ExperimentalAnimationApi
 @Composable
 internal fun HomeHeader(

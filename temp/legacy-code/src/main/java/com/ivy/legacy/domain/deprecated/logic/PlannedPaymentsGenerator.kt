@@ -39,6 +39,7 @@ class PlannedPaymentsGenerator @Inject constructor(
         }
     }
 
+    @Suppress("MagicNumber")
     private suspend fun generateRecurring(rule: PlannedPaymentRule) {
         val startDate = rule.startDate!!
         val endDate = startDate.plusSeconds(94_608_000)

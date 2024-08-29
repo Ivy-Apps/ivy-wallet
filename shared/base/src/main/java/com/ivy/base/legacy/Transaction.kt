@@ -12,6 +12,7 @@ import java.util.UUID
 
 typealias LegacyTransaction = Transaction
 
+@Suppress("DataClassDefaultValues")
 @Deprecated("Legacy data model. Will be deleted")
 @Immutable
 data class Transaction(

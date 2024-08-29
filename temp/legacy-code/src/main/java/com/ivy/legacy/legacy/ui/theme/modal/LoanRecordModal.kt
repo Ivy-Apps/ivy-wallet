@@ -74,6 +74,7 @@ data class LoanRecordModalData(
     val id: UUID = UUID.randomUUID(),
 )
 
+@Suppress("CyclomaticComplexMethod", "LongMethod")
 @SuppressLint("ComposeModifierMissing")
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable

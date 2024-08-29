@@ -21,16 +21,11 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.base.legacy.Theme
 import com.ivy.budgets.model.DisplayBudget
 import com.ivy.design.api.LocalTimeFormatter
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.legacy.data.model.Month
-import com.ivy.legacy.data.model.TimePeriod
-import com.ivy.legacy.datamodel.Budget
 import com.ivy.legacy.legacy.ui.theme.components.BudgetBattery
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.format
@@ -44,7 +39,6 @@ import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.ReorderButton
 import com.ivy.wallet.ui.theme.components.ReorderModalSingleType
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
-import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun BoxWithConstraintsScope.BudgetScreen(screen: BudgetScreen) {

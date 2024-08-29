@@ -3,6 +3,8 @@ package com.ivy.legacy.utils
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.ivy.base.legacy.stringRes
+import com.ivy.base.time.INSTANT_MAX_SAFE
+import com.ivy.base.time.INSTANT_MIN_SAFE
 import com.ivy.base.time.TimeConverter
 import com.ivy.frp.Total
 import com.ivy.ui.R
@@ -14,7 +16,6 @@ import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Locale
-import java.util.concurrent.TimeUnit
 
 @Deprecated("Use the TimeProvider interface via DI")
 fun timeNowLocal(): LocalDateTime = LocalDateTime.now()
@@ -269,11 +270,9 @@ fun endOfMonth(date: LocalDate, timeConverter: TimeConverter): Instant {
 fun LocalDate.atEndOfDay(): LocalDateTime =
     this.atTime(23, 59, 59)
 
-fun ivyMinTime(): Instant = Instant.ofEpochMilli(Long.MIN_VALUE)
-    .plusSeconds(TimeUnit.DAYS.toSeconds(365 * 10))
+fun ivyMinTime(): Instant = INSTANT_MIN_SAFE
 
-fun ivyMaxTime(): Instant = Instant.ofEpochMilli(Long.MAX_VALUE)
-    .minusSeconds(TimeUnit.DAYS.toSeconds(365 * 10))
+fun ivyMaxTime(): Instant = INSTANT_MAX_SAFE
 
 fun LocalDate.withDayOfMonthSafe(targetDayOfMonth: Int): LocalDate {
     val maxDayOfMonth = this.lengthOfMonth()

@@ -20,7 +20,6 @@ import com.ivy.frp.then
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.temp.toImmutableLegacyTags
 import com.ivy.legacy.datamodel.temp.toLegacyDomain
-import com.ivy.legacy.utils.convertUTCtoLocal
 import com.ivy.legacy.utils.toEpochSeconds
 import com.ivy.wallet.domain.data.TransactionHistoryDateDivider
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
@@ -67,8 +66,6 @@ suspend fun transactionsWithDateDividers(
     transactions: List<Transaction>,
     baseCurrencyCode: String,
     accountRepository: AccountRepository,
-    timeProvider: TimeProvider,
-
     @SideEffect
     getAccount: suspend (accountId: UUID) -> Account?,
     @SideEffect

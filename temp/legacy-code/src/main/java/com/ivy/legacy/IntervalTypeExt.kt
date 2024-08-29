@@ -17,6 +17,7 @@ fun IntervalType.forDisplay(intervalN: Int): String {
     }
 }
 
+@Suppress("MagicNumber")
 fun IntervalType.incrementDate(date: Instant, intervalN: Long): Instant {
     return when (this) {
         IntervalType.DAY -> date.plus(intervalN, ChronoUnit.DAYS)
