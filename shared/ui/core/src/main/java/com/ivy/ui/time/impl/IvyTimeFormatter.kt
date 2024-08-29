@@ -42,7 +42,9 @@ class IvyTimeFormatter @Inject constructor(
                 append(localeTimeFormat())
             }
         }
-        val formatted = dateTime.format(DateTimeFormatter.ofPattern(pattern))
+        val formatted = dateTime.format(
+            DateTimeFormatter.ofPattern(pattern, deviceTimePreferences.locale())
+        )
         val prefix = when (relativeDay) {
             RelativeDay.Yesterday -> resourceProvider.getString(R.string.yesterday)
             RelativeDay.Today -> resourceProvider.getString(R.string.today)
@@ -58,7 +60,7 @@ class IvyTimeFormatter @Inject constructor(
     }
 
     override fun LocalTime.format(): String = this.format(
-        DateTimeFormatter.ofPattern(localeTimeFormat())
+        DateTimeFormatter.ofPattern(localeTimeFormat(), deviceTimePreferences.locale())
     )
 
     private fun localeTimeFormat(): String = if (deviceTimePreferences.is24HourFormat()) {

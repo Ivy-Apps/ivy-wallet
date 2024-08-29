@@ -19,13 +19,16 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneOffset
+import java.util.Locale
 
 @RunWith(TestParameterInjector::class)
 class IvyTimeFormatterTest {
 
     private val timeProvider = mockk<TimeProvider>()
     private val converter = mockk<TimeConverter>()
-    private val deviceTimePreferences = mockk<DeviceTimePreferences>()
+    private val deviceTimePreferences = mockk<DeviceTimePreferences> {
+        every { locale() } returns Locale.ENGLISH
+    }
 
     private lateinit var formatter: IvyTimeFormatter
 
@@ -65,7 +68,7 @@ class IvyTimeFormatterTest {
             date = LocalDateTime.of(2021, 9, 8, 0, 0),
             style = Style.DateOnly(includeWeekDay = true),
             today = LocalDate.of(2021, 9, 7),
-            expectedFormatted = "Tomorrow, Sept 8"
+            expectedFormatted = "Tomorrow, Sep 8"
         ),
         WITH_WEEK_DAY__NON_RELATIVE(
             date = LocalDateTime.of(2024, 8, 29, 0, 0),
@@ -95,7 +98,7 @@ class IvyTimeFormatterTest {
             date = LocalDateTime.of(2021, 9, 8, 0, 0),
             style = Style.DateOnly(includeWeekDay = false),
             today = LocalDate.of(2021, 9, 7),
-            expectedFormatted = "Sept 8"
+            expectedFormatted = "Sep 8"
         ),
         NO_WEEK_DAY__NON_RELATIVE(
             date = LocalDateTime.of(2024, 8, 29, 0, 0),
@@ -145,14 +148,14 @@ class IvyTimeFormatterTest {
             style = Style.DateAndTime(includeWeekDay = true),
             today = LocalDate.of(2021, 1, 1),
             is24HourFormat = false,
-            expectedFormatted = "Today, Jan 1 12:30 pm"
+            expectedFormatted = "Today, Jan 1 12:30 PM"
         ),
         NEW_YEAR_EVE_AM_PM(
             date = LocalDateTime.of(2021, 12, 31, 23, 59),
             style = Style.DateAndTime(includeWeekDay = true),
             today = LocalDate.of(2022, 1, 1),
             is24HourFormat = false,
-            expectedFormatted = "Yesterday, Dec 31 2021 11:59 pm"
+            expectedFormatted = "Yesterday, Dec 31 2021 11:59 PM"
         ),
         NEW_YEAR_EVE_24H(
             date = LocalDateTime.of(2021, 12, 31, 23, 59),
@@ -166,7 +169,7 @@ class IvyTimeFormatterTest {
             style = Style.DateAndTime(includeWeekDay = false),
             today = LocalDate.of(2023, 1, 1),
             is24HourFormat = false,
-            expectedFormatted = "May 4 7:20 am"
+            expectedFormatted = "May 4 7:20 AM"
         ),
     }
 
@@ -204,12 +207,12 @@ class IvyTimeFormatterTest {
         AM_7_30(
             time = LocalTime.of(7, 30),
             is24HourFormat = false,
-            expectedFormatted = "7:30 am"
+            expectedFormatted = "7:30 AM"
         ),
         PM_7_30(
             time = LocalTime.of(19, 30),
             is24HourFormat = false,
-            expectedFormatted = "7:30 pm"
+            expectedFormatted = "7:30 PM"
         ),
     }
 
