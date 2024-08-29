@@ -1,6 +1,7 @@
 package com.ivy.ui.time.impl
 
-import com.ivy.base.ResourceProvider
+import com.ivy.base.resource.AndroidResourceProvider
+import com.ivy.base.resource.ResourceProvider
 import com.ivy.base.time.TimeConverter
 import com.ivy.base.time.TimeProvider
 import com.ivy.ui.R

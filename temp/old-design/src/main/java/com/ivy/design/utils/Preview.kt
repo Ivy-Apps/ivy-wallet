@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import com.ivy.base.ResourceProvider
+import com.ivy.base.resource.AndroidResourceProvider
 import com.ivy.base.legacy.Theme
 import com.ivy.base.time.impl.DeviceTimeProvider
 import com.ivy.base.time.impl.StandardTimeConverter
@@ -60,7 +60,7 @@ fun IvyPreview(
         timeConverter = timeConverter,
         timeProvider = timeProvider,
         timeFormatter = IvyTimeFormatter(
-            resourceProvider = ResourceProvider(LocalContext.current),
+            resourceProvider = AndroidResourceProvider(LocalContext.current),
             timeProvider = timeProvider,
             converter = timeConverter,
             deviceTimePreferences = AndroidDeviceTimePreferences(LocalContext.current)

@@ -1,5 +1,7 @@
 package com.ivy.base.di
 
+import com.ivy.base.resource.AndroidResourceProvider
+import com.ivy.base.resource.ResourceProvider
 import com.ivy.base.threading.DispatchersProvider
 import com.ivy.base.threading.IvyDispatchersProvider
 import com.ivy.base.time.TimeConverter
@@ -22,4 +24,7 @@ interface BaseHiltBindings {
 
     @Binds
     fun bindTimeConverter(impl: StandardTimeConverter): TimeConverter
+
+    @Binds
+    fun resourceProvider(impl: AndroidResourceProvider): ResourceProvider
 }
