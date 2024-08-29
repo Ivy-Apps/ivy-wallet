@@ -14,8 +14,11 @@ import io.mockk.mockk
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.ZoneOffset
 
 @RunWith(TestParameterInjector::class)
 class IvyTimeFormatterTest {
@@ -178,6 +181,81 @@ class IvyTimeFormatterTest {
 
         // When
         val formatted = with(formatter) { date.format(testCase.style) }
+
+        // Then
+        formatted shouldBe testCase.expectedFormatted
+    }
+
+    enum class TimeFormattingTestCase(
+        val time: LocalTime,
+        val is24HourFormat: Boolean,
+        val expectedFormatted: String
+    ) {
+        H24_7_30(
+            time = LocalTime.of(7, 30),
+            is24HourFormat = true,
+            expectedFormatted = "07:30"
+        ),
+        H24_19_30(
+            time = LocalTime.of(19, 30),
+            is24HourFormat = true,
+            expectedFormatted = "19:30"
+        ),
+        AM_7_30(
+            time = LocalTime.of(7, 30),
+            is24HourFormat = false,
+            expectedFormatted = "7:30 am"
+        ),
+        PM_7_30(
+            time = LocalTime.of(19, 30),
+            is24HourFormat = false,
+            expectedFormatted = "7:30 pm"
+        ),
+    }
+
+    @Test
+    fun `validate time formatting`(
+        @TestParameter testCase: TimeFormattingTestCase
+    ) {
+        // Given
+        every { deviceTimePreferences.is24HourFormat() } returns testCase.is24HourFormat
+        val time = testCase.time
+
+        // When
+        val formatted = with(formatter) { time.format() }
+
+        // Then
+        formatted shouldBe testCase.expectedFormatted
+    }
+
+    @Test
+    fun `validate Instant - formatLocal (date-only)`(
+        @TestParameter testCase: DateOnlyTestCases
+    ) {
+        // Given
+        val instant = Instant.EPOCH
+        with(converter) {
+            every { instant.toLocalDateTime() } returns testCase.date
+        }
+        every { timeProvider.localDateNow() } returns testCase.today
+
+        // When
+        val formatted = with(formatter) { instant.formatLocal(testCase.style) }
+
+        // Then
+        formatted shouldBe testCase.expectedFormatted
+    }
+
+    @Test
+    fun `validate Instant - formatUtc (date-only)`(
+        @TestParameter testCase: DateOnlyTestCases
+    ) {
+        // Given
+        every { timeProvider.localDateNow() } returns testCase.today
+        val instant = testCase.date.toInstant(ZoneOffset.UTC)
+
+        // When
+        val formatted = with(formatter) { instant.formatUtc(testCase.style) }
 
         // Then
         formatted shouldBe testCase.expectedFormatted
