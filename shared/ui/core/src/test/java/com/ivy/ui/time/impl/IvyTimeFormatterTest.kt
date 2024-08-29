@@ -122,4 +122,64 @@ class IvyTimeFormatterTest {
         // Then
         formatted shouldBe testCase.expectedFormatted
     }
+
+    enum class DateAndTimeTestCases(
+        val date: LocalDateTime,
+        val style: Style.DateAndTime,
+        val today: LocalDate,
+        val is24HourFormat: Boolean,
+        val expectedFormatted: String
+    ) {
+        TODAY_24H_FORMAT(
+            date = LocalDateTime.of(2021, 1, 1, 12, 30),
+            style = Style.DateAndTime(includeWeekDay = true),
+            today = LocalDate.of(2021, 1, 1),
+            is24HourFormat = true,
+            expectedFormatted = "Today, Jan 1 12:30"
+        ),
+        TODAY_AM_PM_FORMAT(
+            date = LocalDateTime.of(2021, 1, 1, 12, 30),
+            style = Style.DateAndTime(includeWeekDay = true),
+            today = LocalDate.of(2021, 1, 1),
+            is24HourFormat = false,
+            expectedFormatted = "Today, Jan 1 12:30 pm"
+        ),
+        NEW_YEAR_EVE_AM_PM(
+            date = LocalDateTime.of(2021, 12, 31, 23, 59),
+            style = Style.DateAndTime(includeWeekDay = true),
+            today = LocalDate.of(2022, 1, 1),
+            is24HourFormat = false,
+            expectedFormatted = "Yesterday, Dec 31 2021 11:59 pm"
+        ),
+        NEW_YEAR_EVE_24H(
+            date = LocalDateTime.of(2021, 12, 31, 23, 59),
+            style = Style.DateAndTime(includeWeekDay = true),
+            today = LocalDate.of(2022, 1, 1),
+            is24HourFormat = true,
+            expectedFormatted = "Yesterday, Dec 31 2021 23:59"
+        ),
+        RANDOM_DAY_7AM(
+            date = LocalDateTime.of(2023, 5, 4, 7, 20),
+            style = Style.DateAndTime(includeWeekDay = false),
+            today = LocalDate.of(2023, 1, 1),
+            is24HourFormat = false,
+            expectedFormatted = "May 4 7:20 am"
+        ),
+    }
+
+    @Test
+    fun `validate date and time formatting`(
+        @TestParameter testCase: DateAndTimeTestCases
+    ) {
+        // Given
+        every { timeProvider.localDateNow() } returns testCase.today
+        every { deviceTimePreferences.is24HourFormat() } returns testCase.is24HourFormat
+        val date = testCase.date
+
+        // When
+        val formatted = with(formatter) { date.format(testCase.style) }
+
+        // Then
+        formatted shouldBe testCase.expectedFormatted
+    }
 }

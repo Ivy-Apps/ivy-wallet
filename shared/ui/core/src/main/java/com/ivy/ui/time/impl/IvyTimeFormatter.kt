@@ -1,6 +1,5 @@
 package com.ivy.ui.time.impl
 
-import com.ivy.base.resource.AndroidResourceProvider
 import com.ivy.base.resource.ResourceProvider
 import com.ivy.base.time.TimeConverter
 import com.ivy.base.time.TimeProvider
@@ -38,7 +37,7 @@ class IvyTimeFormatter @Inject constructor(
             if (dateTime.year != today.year) {
                 append(" yyyy")
             }
-            if (style is TimeFormatter.Style.DateTime) {
+            if (style is TimeFormatter.Style.DateAndTime) {
                 append(" ")
                 append(localeTimeFormat())
             }

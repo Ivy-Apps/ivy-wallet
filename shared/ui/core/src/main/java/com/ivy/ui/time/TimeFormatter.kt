@@ -24,7 +24,7 @@ interface TimeFormatter {
         /**
          * @param includeWeekDay whether to include Yesterday/Today/Tomorrow/Mon/Tue/Wed/.../Sun
          */
-        data class DateTime(
+        data class DateAndTime(
             override val includeWeekDay: Boolean,
         ) : Style
 

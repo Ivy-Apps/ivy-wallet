@@ -703,7 +703,7 @@ private fun LoanRecordItem(
             modifier = Modifier.padding(horizontal = 24.dp),
             text = with(timeFormatter) {
                 loanRecord.dateTime.formatLocal(
-                    TimeFormatter.Style.DateTime(includeWeekDay = true)
+                    TimeFormatter.Style.DateAndTime(includeWeekDay = true)
                 ).uppercase()
             },
             style = UI.typo.nC.style(
