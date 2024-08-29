@@ -4,7 +4,6 @@ import arrow.core.Option
 import arrow.core.toOption
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.time.TimeConverter
-import com.ivy.base.time.TimeProvider
 import com.ivy.base.time.convertToLocal
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.SettingsDao
@@ -41,7 +40,6 @@ suspend fun List<Transaction>.withDateDividers(
     accountDao: AccountDao,
     tagRepository: TagRepository,
     accountRepository: AccountRepository,
-    timeProvider: TimeProvider,
 ): List<TransactionHistoryItem> {
     return transactionsWithDateDividers(
         transactions = this,
