@@ -49,7 +49,6 @@ suspend fun List<Transaction>.withDateDividers(
         getAccount = accountDao::findById then { it?.toLegacyDomain() },
         getTags = { tagsIds -> tagRepository.findByIds(tagsIds) },
         accountRepository = accountRepository,
-        timeProvider = timeProvider,
         exchange = { data, amount ->
             exchangeRatesLogic.convertAmount(
                 baseCurrency = data.baseCurrency,
