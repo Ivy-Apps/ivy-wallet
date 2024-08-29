@@ -5,7 +5,7 @@ import androidx.room.Query
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.entity.TransactionEntity
 import java.time.Instant
-import java.util.*
+import java.util.UUID
 
 @Dao
 interface TransactionDao {

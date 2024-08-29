@@ -269,16 +269,11 @@ fun endOfMonth(date: LocalDate, timeConverter: TimeConverter): Instant {
 fun LocalDate.atEndOfDay(): LocalDateTime =
     this.atTime(23, 59, 59)
 
-/**
- * +1 day so things won't fck up with Long overflow
- */
-fun ivyMinTime(): Instant = Instant.MIN.plusSeconds(
-    TimeUnit.DAYS.toSeconds(365 * 10)
-)
+fun ivyMinTime(): Instant = Instant.ofEpochMilli(Long.MIN_VALUE)
+    .plusSeconds(TimeUnit.DAYS.toSeconds(365 * 10))
 
-fun ivyMaxTime(): Instant = Instant.MAX.minusSeconds(
-    TimeUnit.DAYS.toSeconds(365 * 10)
-)
+fun ivyMaxTime(): Instant = Instant.ofEpochMilli(Long.MAX_VALUE)
+    .minusSeconds(TimeUnit.DAYS.toSeconds(365 * 10))
 
 fun LocalDate.withDayOfMonthSafe(targetDayOfMonth: Int): LocalDate {
     val maxDayOfMonth = this.lengthOfMonth()
