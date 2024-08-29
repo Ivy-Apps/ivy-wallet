@@ -2,11 +2,11 @@ package com.ivy.wallet.domain.action.viewmodel.home
 
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
-import com.ivy.legacy.utils.beginningOfIvyTime
+import com.ivy.legacy.utils.ivyMinTime
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.domain.pure.transaction.isOverdue
-import java.time.LocalDateTime
+import java.time.Instant
 import javax.inject.Inject
 
 class OverdueAct @Inject constructor(
@@ -16,7 +16,7 @@ class OverdueAct @Inject constructor(
     override suspend fun Input.compose(): suspend () -> Output = suspend {
         DueTrnsInfoAct.Input(
             range = ClosedTimeRange(
-                from = beginningOfIvyTime(),
+                from = ivyMinTime(),
                 to = toRange
             ),
             baseCurrency = baseCurrency,
@@ -30,7 +30,7 @@ class OverdueAct @Inject constructor(
     }
 
     data class Input(
-        val toRange: LocalDateTime,
+        val toRange: Instant,
         val baseCurrency: String
     )
 

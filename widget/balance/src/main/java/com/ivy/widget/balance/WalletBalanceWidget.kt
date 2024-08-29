@@ -20,6 +20,8 @@ import androidx.glance.currentState
 import androidx.glance.state.PreferencesGlanceStateDefinition
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.model.TransactionType
+import com.ivy.base.time.TimeConverter
+import com.ivy.base.time.TimeProvider
 import com.ivy.domain.AppStarter
 import com.ivy.legacy.data.model.toCloseTimeRange
 import com.ivy.legacy.utils.shortenAmount
@@ -126,6 +128,12 @@ class WalletBalanceWidgetReceiver : GlanceAppWidgetReceiver() {
     @Inject
     lateinit var sharedPrefs: SharedPrefs
 
+    @Inject
+    lateinit var timeProvider: TimeProvider
+
+    @Inject
+    lateinit var timeConverter: TimeConverter
+
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
@@ -152,7 +160,12 @@ class WalletBalanceWidgetReceiver : GlanceAppWidgetReceiver() {
                 CalcIncomeExpenseAct.Input(
                     baseCurrency = settings.baseCurrency,
                     accounts = accounts,
-                    range = period.toRange(ivyContext.startDayOfMonth).toCloseTimeRange()
+                    range = period.toRange(
+                        startDateOfMonth = ivyContext.startDayOfMonth,
+                        timeConverter = timeConverter,
+                        timeProvider = timeProvider,
+
+                        ).toCloseTimeRange()
                 )
             )
 

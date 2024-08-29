@@ -31,6 +31,8 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.ivy.IvyNavGraph
+import com.ivy.base.time.TimeConverter
+import com.ivy.base.time.TimeProvider
 import com.ivy.design.api.IvyUI
 import com.ivy.domain.RootScreen
 import com.ivy.home.customerjourney.CustomerJourneyCardsProvider
@@ -45,6 +47,7 @@ import com.ivy.legacy.utils.timeNowLocal
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.NavigationRoot
 import com.ivy.ui.R
+import com.ivy.ui.time.TimeFormatter
 import com.ivy.wallet.ui.applocked.AppLockedScreen
 import com.ivy.widget.balance.WalletBalanceWidgetReceiver
 import com.ivy.widget.transaction.AddTransactionWidget
@@ -65,6 +68,15 @@ class RootActivity : AppCompatActivity(), RootScreen {
 
     @Inject
     lateinit var customerJourneyLogic: CustomerJourneyCardsProvider
+
+    @Inject
+    lateinit var timeConverter: TimeConverter
+
+    @Inject
+    lateinit var timeProvider: TimeProvider
+
+    @Inject
+    lateinit var timeFormatter: TimeFormatter
 
     private lateinit var createFileLauncher: ActivityResultLauncher<String>
     private lateinit var onFileCreated: (fileUri: Uri) -> Unit
@@ -110,7 +122,10 @@ class RootActivity : AppCompatActivity(), RootScreen {
 
                 true -> {
                     IvyUI(
-                        design = appDesign(ivyContext)
+                        design = appDesign(ivyContext),
+                        timeConverter = timeConverter,
+                        timeProvider = timeProvider,
+                        timeFormatter = timeFormatter,
                     ) {
                         AppLockedScreen(
                             onShowOSBiometricsModal = {
@@ -129,7 +144,10 @@ class RootActivity : AppCompatActivity(), RootScreen {
                     NavigationRoot(navigation = navigation) { screen ->
                         IvyUI(
                             design = appDesign(ivyContext),
-                            includeSurface = screen?.isLegacy ?: true
+                            includeSurface = screen?.isLegacy ?: true,
+                            timeConverter = timeConverter,
+                            timeProvider = timeProvider,
+                            timeFormatter = timeFormatter,
                         ) {
                             IvyNavGraph(screen)
                         }

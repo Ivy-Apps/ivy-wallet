@@ -28,6 +28,9 @@ import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.legacy.stringRes
+import com.ivy.design.api.LocalTimeConverter
+import com.ivy.design.api.LocalTimeFormatter
+import com.ivy.design.api.LocalTimeProvider
 import com.ivy.frp.forward
 import com.ivy.frp.then2
 import com.ivy.home.Constants.SWIPE_HORIZONTAL_THRESHOLD
@@ -324,6 +327,9 @@ fun HomeLazyColumn(
         }
     }
 
+    val timeProvider = LocalTimeProvider.current
+    val timeConverter = LocalTimeConverter.current
+    val timeFormatter = LocalTimeFormatter.current
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
@@ -373,7 +379,12 @@ fun HomeLazyColumn(
             emptyStateTitle = stringRes(R.string.no_transactions),
             emptyStateText = stringRes(
                 R.string.no_transactions_description,
-                period.toDisplayLong(ivyContext.startDayOfMonth)
+                period.toDisplayLong(
+                    startDateOfMonth = ivyContext.startDayOfMonth,
+                    timeProvider = timeProvider,
+                    timeConverter = timeConverter,
+                    timeFormatter = timeFormatter,
+                )
             ),
             onSkipTransaction = onSkipTransaction,
             onSkipAllTransactions = onSkipAllTransactions

@@ -8,17 +8,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.SharedPrefs
+import com.ivy.base.time.TimeConverter
+import com.ivy.base.time.TimeProvider
 import com.ivy.budgets.model.DisplayBudget
 import com.ivy.data.db.dao.write.WriteBudgetDao
+import com.ivy.data.model.Category
 import com.ivy.data.model.Expense
 import com.ivy.data.model.Income
 import com.ivy.data.model.Transaction
 import com.ivy.data.model.Transfer
+import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.temp.migration.getAccountId
 import com.ivy.data.temp.migration.getValue
-import com.ivy.ui.ComposeViewModel
-import com.ivy.data.model.Category
-import com.ivy.data.repository.CategoryRepository
 import com.ivy.frp.sumOfSuspend
 import com.ivy.legacy.data.model.FromToTimeRange
 import com.ivy.legacy.data.model.toCloseTimeRange
@@ -27,6 +28,7 @@ import com.ivy.legacy.datamodel.Budget
 import com.ivy.legacy.domain.deprecated.logic.BudgetCreator
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.isNotNullOrBlank
+import com.ivy.ui.ComposeViewModel
 import com.ivy.ui.R
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.budget.BudgetsAct
@@ -57,6 +59,8 @@ class BudgetViewModel @Inject constructor(
     private val baseCurrencyAct: BaseCurrencyAct,
     private val historyTrnsAct: HistoryTrnsAct,
     private val exchangeAct: ExchangeAct,
+    private val timeProvider: TimeProvider,
+    private val timeConverter: TimeConverter,
 ) : ComposeViewModel<BudgetScreenState, BudgetScreenEvent>() {
 
     private val baseCurrency = mutableStateOf("")
@@ -139,6 +143,7 @@ class BudgetViewModel @Inject constructor(
                 abs(totalRemainingBudget.doubleValue).format(baseCurrency.value),
                 baseCurrency.value
             )
+
             else -> null
         }
     }
@@ -150,13 +155,26 @@ class BudgetViewModel @Inject constructor(
 
     override fun onEvent(event: BudgetScreenEvent) {
         when (event) {
-            is BudgetScreenEvent.OnCreateBudget -> { createBudget(event.budgetData) }
-            is BudgetScreenEvent.OnEditBudget -> { editBudget(event.budget) }
-            is BudgetScreenEvent.OnDeleteBudget -> { deleteBudget(event.budget) }
-            is BudgetScreenEvent.OnReorder -> { reorder(event.newOrder) }
+            is BudgetScreenEvent.OnCreateBudget -> {
+                createBudget(event.budgetData)
+            }
+
+            is BudgetScreenEvent.OnEditBudget -> {
+                editBudget(event.budget)
+            }
+
+            is BudgetScreenEvent.OnDeleteBudget -> {
+                deleteBudget(event.budget)
+            }
+
+            is BudgetScreenEvent.OnReorder -> {
+                reorder(event.newOrder)
+            }
+
             is BudgetScreenEvent.OnReorderModalVisible -> {
                 reorderModalVisible.value = event.visible
             }
+
             is BudgetScreenEvent.OnBudgetModalData -> {
                 budgetModalData.value = event.budgetModalData
             }
@@ -171,7 +189,7 @@ class BudgetViewModel @Inject constructor(
             val startDateOfMonth = ivyContext.initStartDayOfMonthInMemory(sharedPrefs = sharedPrefs)
             val timeRange = com.ivy.legacy.data.model.TimePeriod.currentMonth(
                 startDayOfMonth = startDateOfMonth
-            ).toRange(startDateOfMonth = startDateOfMonth)
+            ).toRange(startDateOfMonth = startDateOfMonth, timeConverter, timeProvider)
             val budgets = budgetsAct(Unit)
 
             appBudgetMax.doubleValue = budgets
@@ -286,11 +304,11 @@ class BudgetViewModel @Inject constructor(
     }
 }
 
-    fun calculateTotalRemainingBudget(
-        budgets: ImmutableList<DisplayBudget>,
-        categoryBudgetsTotal: Double
-    ): Double {
-        return categoryBudgetsTotal - budgets
-            .filter { it.budget.categoryIdsSerialized.isNotNullOrBlank() }
-            .sumOf { it.spentAmount }
-    }
+fun calculateTotalRemainingBudget(
+    budgets: ImmutableList<DisplayBudget>,
+    categoryBudgetsTotal: Double
+): Double {
+    return categoryBudgetsTotal - budgets
+        .filter { it.budget.categoryIdsSerialized.isNotNullOrBlank() }
+        .sumOf { it.spentAmount }
+}

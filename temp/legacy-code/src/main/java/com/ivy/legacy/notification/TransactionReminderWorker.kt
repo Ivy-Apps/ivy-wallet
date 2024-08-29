@@ -6,12 +6,13 @@ import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.stringRes
+import com.ivy.base.time.TimeConverter
+import com.ivy.base.time.TimeProvider
 import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.domain.AppStarter
-import com.ivy.base.legacy.SharedPrefs
 import com.ivy.legacy.utils.atEndOfDay
-import com.ivy.legacy.utils.dateNowUTC
 import com.ivy.ui.R
 import com.ivy.wallet.android.notification.IvyNotificationChannel
 import com.ivy.wallet.android.notification.NotificationService
@@ -28,6 +29,8 @@ class TransactionReminderWorker @AssistedInject constructor(
     private val notificationService: NotificationService,
     private val sharedPrefs: SharedPrefs,
     private val appStarter: AppStarter,
+    private val timeProvider: TimeProvider,
+    private val timeConverter: TimeConverter,
 ) : CoroutineWorker(appContext, params) {
 
     companion object {
@@ -35,10 +38,12 @@ class TransactionReminderWorker @AssistedInject constructor(
     }
 
     override suspend fun doWork() = withContext(Dispatchers.IO) {
-        val transactionsToday = transactionDao.findAllBetween(
-            startDate = dateNowUTC().atStartOfDay(),
-            endDate = dateNowUTC().atEndOfDay()
-        )
+        val transactionsToday = with(timeConverter) {
+            transactionDao.findAllBetween(
+                startDate = timeProvider.localDateNow().atStartOfDay().toUTC(),
+                endDate = timeProvider.localDateNow().atEndOfDay().toUTC(),
+            )
+        }
 
         val showNotifications = fetchShowNotifications()
 
@@ -59,7 +64,7 @@ class TransactionReminderWorker @AssistedInject constructor(
                         1,
                         appStarter.getRootIntent(),
                         PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_UPDATE_CURRENT
-                            or PendingIntent.FLAG_IMMUTABLE
+                                or PendingIntent.FLAG_IMMUTABLE
                     )
                 )
 

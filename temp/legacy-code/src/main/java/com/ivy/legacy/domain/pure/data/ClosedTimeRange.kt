@@ -1,28 +1,24 @@
 package com.ivy.wallet.domain.pure.data
 
-import com.ivy.legacy.utils.beginningOfIvyTime
-import com.ivy.legacy.utils.timeNowUTC
-import java.time.LocalDateTime
+import com.ivy.base.time.TimeProvider
+import com.ivy.legacy.utils.ivyMinTime
+import java.time.Instant
 
 data class ClosedTimeRange(
-    val from: LocalDateTime,
-    val to: LocalDateTime
+    val from: Instant,
+    val to: Instant,
 ) {
     companion object {
-        fun allTimeIvy(): ClosedTimeRange = ClosedTimeRange(
-            from = beginningOfIvyTime(),
-            to = timeNowUTC()
+        fun allTimeIvy(
+            timeProvider: TimeProvider,
+        ): ClosedTimeRange = ClosedTimeRange(
+            from = ivyMinTime(),
+            to = timeProvider.utcNow(),
         )
 
-        fun to(to: LocalDateTime): ClosedTimeRange = ClosedTimeRange(
-            from = beginningOfIvyTime(),
+        fun to(to: Instant): ClosedTimeRange = ClosedTimeRange(
+            from = ivyMinTime(),
             to = to
         )
     }
-
-    fun toFromToRange(): com.ivy.legacy.data.model.FromToTimeRange =
-        com.ivy.legacy.data.model.FromToTimeRange(
-            from = from,
-            to = to
-        )
 }

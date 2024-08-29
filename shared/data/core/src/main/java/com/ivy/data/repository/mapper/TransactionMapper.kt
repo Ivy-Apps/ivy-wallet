@@ -5,7 +5,6 @@ import arrow.core.raise.either
 import arrow.core.raise.ensure
 import arrow.core.raise.ensureNotNull
 import com.ivy.base.model.TransactionType
-import com.ivy.base.time.TimeProvider
 import com.ivy.data.db.entity.TransactionEntity
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.CategoryId
@@ -23,12 +22,10 @@ import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.data.model.primitive.PositiveDouble
 import com.ivy.data.repository.AccountRepository
 import java.time.Instant
-import java.time.ZoneOffset
 import javax.inject.Inject
 
 class TransactionMapper @Inject constructor(
     private val accountRepository: AccountRepository,
-    private val timeProvider: TimeProvider,
 ) {
 
     suspend fun TransactionEntity.toDomain(
@@ -38,7 +35,7 @@ class TransactionMapper @Inject constructor(
 
         val metadata = TransactionMetadata(
             recurringRuleId = recurringRuleId,
-            paidForDateTime = paidForDateTime?.toInstant(ZoneOffset.UTC),
+            paidForDateTime = paidForDateTime,
             loanId = loanId,
             loanRecordId = loanRecordId
         )
@@ -130,13 +127,12 @@ class TransactionMapper @Inject constructor(
     }
 
     private fun TransactionEntity.mapTime(): Either<String, Instant> = either {
-        val time = (dateTime ?: dueDate)?.toInstant(ZoneOffset.UTC)
+        val time = (dateTime ?: dueDate)
         ensureNotNull(time) { "Missing transaction time for entity: $this" }
         time
     }
 
     fun Transaction.toEntity(): TransactionEntity {
-        val dateTime = time.atZone(ZoneOffset.UTC).toLocalDateTime()
         return TransactionEntity(
             accountId = getFromAccount().value,
             type = when (this) {
@@ -157,11 +153,10 @@ class TransactionMapper @Inject constructor(
             },
             title = title?.value,
             description = description?.value,
-            dateTime = dateTime.takeIf { settled },
+            dateTime = time.takeIf { settled },
             categoryId = category?.value,
-            dueDate = dateTime.takeIf { !settled },
-            paidForDateTime = metadata.paidForDateTime?.atZone(timeProvider.getZoneId())
-                ?.toLocalDateTime(),
+            dueDate = time.takeIf { !settled },
+            paidForDateTime = metadata.paidForDateTime,
             recurringRuleId = metadata.recurringRuleId,
             attachmentUrl = null,
             loanId = metadata.loanId,

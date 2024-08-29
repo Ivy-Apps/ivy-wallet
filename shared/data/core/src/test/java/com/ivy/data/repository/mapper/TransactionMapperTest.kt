@@ -4,7 +4,6 @@ import arrow.core.Some
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import com.ivy.base.model.TransactionType
-import com.ivy.base.time.TimeProvider
 import com.ivy.data.db.entity.TransactionEntity
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.CategoryId
@@ -27,7 +26,6 @@ import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.next
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.test.runTest
@@ -35,26 +33,18 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
 import java.util.UUID
 
 @RunWith(TestParameterInjector::class)
 class TransactionMapperTest {
 
     private val accountRepo = mockk<AccountRepository>()
-    private val timeProvider = mockk<TimeProvider> {
-        every { getZoneId() } returns ZoneId.of("UTC")
-    }
 
     private lateinit var mapper: TransactionMapper
 
     @Before
     fun setup() {
-        mapper = TransactionMapper(
-            accountRepository = accountRepo,
-            timeProvider = timeProvider,
-        )
+        mapper = TransactionMapper(accountRepository = accountRepo)
     }
 
     // region entity -> domain
@@ -88,7 +78,7 @@ class TransactionMapperTest {
         val entity = with(mapper) { income.toEntity() }
 
         // then
-        val dateTime = InstantNow.atZone(timeProvider.getZoneId()).toLocalDateTime()
+        val dateTime = InstantNow
         entity shouldBe TransactionEntity(
             accountId = AccountId.value,
             type = TransactionType.INCOME,
@@ -100,7 +90,7 @@ class TransactionMapperTest {
             dateTime = dateTime.takeIf { settled },
             categoryId = CategoryId.value,
             dueDate = dateTime.takeIf { !settled },
-            paidForDateTime = PaidForDateTime.atZone(timeProvider.getZoneId()).toLocalDateTime(),
+            paidForDateTime = PaidForDateTime,
             recurringRuleId = RecurringRuleId,
             attachmentUrl = null,
             loanId = LoanId,
@@ -141,7 +131,7 @@ class TransactionMapperTest {
         val entity = with(mapper) { expense.toEntity() }
 
         // then
-        val dateTime = InstantNow.atZone(timeProvider.getZoneId()).toLocalDateTime()
+        val dateTime = InstantNow
         entity shouldBe TransactionEntity(
             accountId = AccountId.value,
             type = TransactionType.EXPENSE,
@@ -153,7 +143,7 @@ class TransactionMapperTest {
             dateTime = dateTime.takeIf { settled },
             categoryId = CategoryId.value,
             dueDate = dateTime.takeIf { !settled },
-            paidForDateTime = PaidForDateTime.atZone(timeProvider.getZoneId()).toLocalDateTime(),
+            paidForDateTime = PaidForDateTime,
             recurringRuleId = RecurringRuleId,
             attachmentUrl = null,
             loanId = LoanId,
@@ -199,7 +189,7 @@ class TransactionMapperTest {
         val entity = with(mapper) { transfer.toEntity() }
 
         // then
-        val dateTime = InstantNow.atZone(timeProvider.getZoneId()).toLocalDateTime()
+        val dateTime = InstantNow
         entity shouldBe TransactionEntity(
             accountId = AccountId.value,
             type = TransactionType.TRANSFER,
@@ -211,7 +201,7 @@ class TransactionMapperTest {
             dateTime = dateTime.takeIf { settled },
             categoryId = CategoryId.value,
             dueDate = dateTime.takeIf { !settled },
-            paidForDateTime = PaidForDateTime.atZone(timeProvider.getZoneId()).toLocalDateTime(),
+            paidForDateTime = PaidForDateTime,
             recurringRuleId = RecurringRuleId,
             attachmentUrl = null,
             loanId = LoanId,
@@ -231,8 +221,8 @@ class TransactionMapperTest {
     ) = runTest {
         // given
         val entity = ValidIncome.copy(
-            dateTime = DateTime.takeIf { settled },
-            dueDate = DateTime.takeIf { !settled },
+            dateTime = InstantNow.takeIf { settled },
+            dueDate = InstantNow.takeIf { !settled },
             isDeleted = removed,
         )
         mockkAccounts(account = EUR)
@@ -249,7 +239,7 @@ class TransactionMapperTest {
                 title = NotBlankTrimmedString.unsafe("Income"),
                 description = NotBlankTrimmedString.unsafe("Income desc"),
                 category = CategoryId,
-                time = DateTime.atZone(timeProvider.getZoneId()).toInstant(),
+                time = InstantNow,
                 settled = settled,
                 metadata = TransactionMetadata(
                     recurringRuleId = RecurringRuleId,
@@ -360,8 +350,8 @@ class TransactionMapperTest {
     ) = runTest {
         // given
         val entity = ValidExpense.copy(
-            dateTime = DateTime.takeIf { settled },
-            dueDate = DateTime.takeIf { !settled },
+            dateTime = InstantNow.takeIf { settled },
+            dueDate = InstantNow.takeIf { !settled },
             isDeleted = removed
         )
         mockkAccounts(account = EUR)
@@ -378,7 +368,7 @@ class TransactionMapperTest {
                 title = NotBlankTrimmedString.unsafe("Expense"),
                 description = NotBlankTrimmedString.unsafe("Expense desc"),
                 category = CategoryId,
-                time = DateTime.atZone(timeProvider.getZoneId()).toInstant(),
+                time = InstantNow,
                 settled = settled,
                 metadata = TransactionMetadata(
                     recurringRuleId = RecurringRuleId,
@@ -489,8 +479,8 @@ class TransactionMapperTest {
     ) = runTest {
         // given
         val entity = ValidTransfer.copy(
-            dateTime = DateTime.takeIf { settled },
-            dueDate = DateTime.takeIf { !settled },
+            dateTime = InstantNow.takeIf { settled },
+            dueDate = InstantNow.takeIf { !settled },
             isDeleted = removed,
             amount = 50.0,
             toAmount = 55.0,
@@ -512,7 +502,7 @@ class TransactionMapperTest {
                 title = NotBlankTrimmedString.unsafe("Transfer"),
                 description = NotBlankTrimmedString.unsafe("Transfer desc"),
                 category = CategoryId,
-                time = DateTime.atZone(timeProvider.getZoneId()).toInstant(),
+                time = InstantNow,
                 settled = settled,
                 metadata = TransactionMetadata(
                     recurringRuleId = RecurringRuleId,
@@ -692,7 +682,6 @@ class TransactionMapperTest {
     }
 
     companion object {
-        val DateTime = LocalDateTime.now()
         val AccountId = AccountId(UUID.randomUUID())
         val ToAccountId = AccountId(UUID.randomUUID())
         val CategoryId = CategoryId(UUID.randomUUID())
@@ -711,10 +700,10 @@ class TransactionMapperTest {
             toAmount = null,
             title = "Income",
             description = "Income desc",
-            dateTime = DateTime,
+            dateTime = InstantNow,
             categoryId = CategoryId.value,
             dueDate = null,
-            paidForDateTime = PaidForDateTime.atZone(ZoneId.of("UTC")).toLocalDateTime(),
+            paidForDateTime = PaidForDateTime,
             recurringRuleId = RecurringRuleId,
             attachmentUrl = null,
             loanId = LoanId,
@@ -732,10 +721,10 @@ class TransactionMapperTest {
             toAmount = null,
             title = "Expense",
             description = "Expense desc",
-            dateTime = DateTime,
+            dateTime = InstantNow,
             categoryId = CategoryId.value,
             dueDate = null,
-            paidForDateTime = PaidForDateTime.atZone(ZoneId.of("UTC")).toLocalDateTime(),
+            paidForDateTime = PaidForDateTime,
             recurringRuleId = RecurringRuleId,
             attachmentUrl = null,
             loanId = LoanId,
@@ -753,10 +742,10 @@ class TransactionMapperTest {
             toAmount = 100.0,
             title = "Transfer",
             description = "Transfer desc",
-            dateTime = DateTime,
+            dateTime = InstantNow,
             categoryId = CategoryId.value,
             dueDate = null,
-            paidForDateTime = PaidForDateTime.atZone(ZoneId.of("UTC")).toLocalDateTime(),
+            paidForDateTime = PaidForDateTime,
             recurringRuleId = RecurringRuleId,
             attachmentUrl = null,
             loanId = LoanId,

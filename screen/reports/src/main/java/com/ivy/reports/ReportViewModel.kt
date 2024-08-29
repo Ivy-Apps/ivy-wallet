@@ -12,6 +12,8 @@ import com.ivy.base.legacy.LegacyTransaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
+import com.ivy.base.time.TimeConverter
+import com.ivy.base.time.TimeProvider
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
 import com.ivy.data.model.Expense
@@ -83,6 +85,8 @@ class ReportViewModel @Inject constructor(
     private val transactionMapper: TransactionMapper,
     private val tagRepository: TagRepository,
     private val exportCsvUseCase: ExportCsvUseCase,
+    private val timeProvider: TimeProvider,
+    private val timeConverter: TimeConverter,
 ) : ComposeViewModel<ReportScreenState, ReportScreenEvent>() {
     private val unSpecifiedCategory =
         Category(
@@ -325,7 +329,8 @@ class ReportViewModel @Inject constructor(
         val filterAccountIds = filter.accounts.map { it.id }
         val filterCategoryIds =
             filter.categories.map { if (it.id.value == unSpecifiedCategory.id.value) null else it.id }
-        val filterRange = filter.period?.toRange(ivyContext.startDayOfMonth)
+        val filterRange =
+            filter.period?.toRange(ivyContext.startDayOfMonth, timeConverter, timeProvider)
 
         val transactions = if (filter.selectedTags.isNotEmpty()) {
             tagRepository.findByAllAssociatedIdForTagId(filter.selectedTags)
@@ -352,7 +357,7 @@ class ReportViewModel @Inject constructor(
 
                 filterRange ?: return@filter false
 
-                filterRange.includes(it.time.atZone(ZoneId.systemDefault()).toLocalDateTime())
+                filterRange.includes(it.time)
             }
             .filter { trn ->
                 // Filter by Accounts

@@ -1,6 +1,7 @@
 package com.ivy.wallet.domain.action.account
 
 import arrow.core.nonEmptyListOf
+import com.ivy.base.time.TimeProvider
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
@@ -11,13 +12,14 @@ import java.math.BigDecimal
 import javax.inject.Inject
 
 class CalcAccIncomeExpenseAct @Inject constructor(
-    private val accTrnsAct: AccTrnsAct
+    private val accTrnsAct: AccTrnsAct,
+    private val timeProvider: TimeProvider
 ) : FPAction<CalcAccIncomeExpenseAct.Input, CalcAccIncomeExpenseAct.Output>() {
 
     override suspend fun Input.compose(): suspend () -> Output = suspend {
         AccTrnsAct.Input(
             accountId = account.id.value,
-            range = range
+            range = range ?: ClosedTimeRange.allTimeIvy(timeProvider)
         )
     } then accTrnsAct then { accTrns ->
         foldTransactions(
@@ -40,9 +42,10 @@ class CalcAccIncomeExpenseAct @Inject constructor(
         )
     }
 
+    @Suppress("DataClassDefaultValues")
     data class Input(
         val account: com.ivy.data.model.Account,
-        val range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
+        val range: ClosedTimeRange? = null,
         val includeTransfersInCalc: Boolean = false
     )
 

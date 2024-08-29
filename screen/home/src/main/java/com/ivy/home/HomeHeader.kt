@@ -18,9 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -32,8 +30,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ivy.base.model.TransactionType
+import com.ivy.design.api.LocalTimeConverter
+import com.ivy.design.api.LocalTimeFormatter
+import com.ivy.design.api.LocalTimeProvider
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.utils.thenIf
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.ui.component.transaction.TransactionsDividerLine
@@ -42,10 +44,9 @@ import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.horizontalSwipeListener
 import com.ivy.legacy.utils.isNotNullOrBlank
+import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.legacy.utils.rememberSwipeListenerState
 import com.ivy.legacy.utils.springBounce
-import com.ivy.design.utils.thenIf
-import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.legacy.utils.verticalSwipeListener
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.navigation.navigation
@@ -61,9 +62,6 @@ import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 import kotlin.math.absoluteValue
-
-private const val OverflowLengthOfBalance = 7
-private const val OverflowLengthOfMonthRange = 12
 
 @ExperimentalAnimationApi
 @Composable
@@ -164,15 +162,6 @@ private fun HeaderStickyRow(
 
             // Balance mini row
             if (percentExpanded < 1f) {
-                val lengthOfCurrencyAndBalance = (currency + balance.toString()).length
-                var lengthOfMonthRange = period.toDisplayShort(ivyWalletCtx().startDayOfMonth).length
-                val overflow by remember(lengthOfCurrencyAndBalance, lengthOfMonthRange) {
-                    derivedStateOf {
-                        lengthOfCurrencyAndBalance >= OverflowLengthOfBalance &&
-                            lengthOfMonthRange >= OverflowLengthOfMonthRange
-                    }
-                }
-
                 BalanceRowMini(
                     modifier = Modifier
                         .alpha(alpha = 1f - percentExpanded)
@@ -188,7 +177,6 @@ private fun HeaderStickyRow(
                     shortenBigNumbers = true,
                     hiddenMode = hideBalance,
                     doubleRowDisplay = true,
-
                 )
             }
         }
@@ -205,7 +193,12 @@ private fun HeaderStickyRow(
                 },
             ),
             iconStart = R.drawable.ic_calendar,
-            text = period.toDisplayShort(ivyWalletCtx().startDayOfMonth),
+            text = period.toDisplayShort(
+                startDateOfMonth = ivyWalletCtx().startDayOfMonth,
+                timeConverter = LocalTimeConverter.current,
+                timeProvider = LocalTimeProvider.current,
+                timeFormatter = LocalTimeFormatter.current,
+            ),
             minWidth = 130.dp,
         ) {
             onShowMonthModal()

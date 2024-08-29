@@ -1,10 +1,12 @@
 package com.ivy.wallet.ui.theme.modal
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,6 +33,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.data.model.IntervalType
+import com.ivy.design.api.LocalTimeConverter
+import com.ivy.design.api.LocalTimeProvider
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
@@ -44,7 +48,6 @@ import com.ivy.legacy.utils.addKeyboardListener
 import com.ivy.legacy.utils.dateNowUTC
 import com.ivy.legacy.utils.formatDateOnlyWithYear
 import com.ivy.legacy.utils.onScreenStart
-import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.ui.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientIvy
@@ -58,6 +61,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.util.UUID
+import java.util.concurrent.TimeUnit
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 data class ChoosePeriodModalData(
@@ -65,6 +69,7 @@ data class ChoosePeriodModalData(
     val period: TimePeriod
 )
 
+@SuppressLint("ComposeModifierMissing")
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Suppress("ParameterNaming")
 @Composable
@@ -156,7 +161,7 @@ fun BoxWithConstraintsScope.ChoosePeriodModal(
 
 @Composable
 @Suppress("ParameterNaming")
-private fun ChooseMonth(
+private fun ColumnScope.ChooseMonth(
     selectedMonthYear: MonthYear?,
     onSelected: (MonthYear) -> Unit,
 ) {
@@ -252,10 +257,10 @@ data class MonthYear(
 
 @Composable
 private fun MonthButton(
-    modifier: Modifier = Modifier,
     selected: Boolean,
     text: String,
-    onClick: () -> Unit
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
 ) {
     val background = if (selected) GradientIvy else Gradient.solid(UI.colors.medium)
     Text(
@@ -282,9 +287,9 @@ private fun MonthButton(
 
 @Composable
 @Suppress("ParameterNaming")
-private fun FromToRange(
-    timeRange: com.ivy.legacy.data.model.FromToTimeRange?,
-    onSelected: (com.ivy.legacy.data.model.FromToTimeRange?) -> Unit,
+private fun ColumnScope.FromToRange(
+    timeRange: FromToTimeRange?,
+    onSelected: (FromToTimeRange?) -> Unit,
 ) {
     Text(
         modifier = Modifier
@@ -298,19 +303,20 @@ private fun FromToRange(
 
     Spacer(Modifier.height(16.dp))
 
+    val converter = LocalTimeConverter.current
     IntervalFromToDate(
         border = IntervalBorder.FROM,
-        dateTime = timeRange?.from,
-        otherEndDateTime = timeRange?.to
+        dateTime = with(converter) { timeRange?.from?.toLocalDateTime() },
+        otherEndDateTime = with(converter) { timeRange?.to?.toLocalDateTime() }
     ) { from ->
         onSelected(
             if (from == null && timeRange?.to == null) {
                 null
             } else {
                 timeRange?.copy(
-                    from = from
-                ) ?: com.ivy.legacy.data.model.FromToTimeRange(
-                    from = from,
+                    from = with(converter) { from?.toUTC() }
+                ) ?: FromToTimeRange(
+                    from = with(converter) { from?.toUTC() },
                     to = null
                 )
             }
@@ -321,18 +327,18 @@ private fun FromToRange(
 
     IntervalFromToDate(
         border = IntervalBorder.TO,
-        dateTime = timeRange?.to,
-        otherEndDateTime = timeRange?.from
+        dateTime = with(converter) { timeRange?.to?.toLocalDateTime() },
+        otherEndDateTime = with(converter) { timeRange?.from?.toLocalDateTime() },
     ) { to ->
         onSelected(
             if (timeRange?.from == null && to == null) {
                 null
             } else {
                 timeRange?.copy(
-                    to = to?.plusDays(1)?.minusNanos(1)
-                ) ?: com.ivy.legacy.data.model.FromToTimeRange(
+                    to = with(converter) { to?.plusDays(1)?.minusNanos(1)?.toUTC() }
+                ) ?: FromToTimeRange(
                     from = null,
-                    to = to
+                    to = with(converter) { to?.toUTC() }
                 )
             }
         )
@@ -435,11 +441,11 @@ private enum class IntervalBorder {
 
 @Composable
 @Suppress("ParameterNaming")
-private fun LastNPeriod(
+private fun ColumnScope.LastNPeriod(
     modalScrollState: ScrollState,
-    lastNTimeRange: com.ivy.legacy.data.model.LastNTimeRange?,
+    lastNTimeRange: LastNTimeRange?,
 
-    onSelected: (com.ivy.legacy.data.model.LastNTimeRange) -> Unit
+    onSelected: (LastNTimeRange) -> Unit
 ) {
     val rootView = LocalView.current
     val coroutineScope = rememberCoroutineScope()
@@ -494,13 +500,14 @@ private fun LastNPeriod(
 }
 
 @Composable
-@Suppress("ParameterNaming")
-private fun AllTime(
-    timeRange: com.ivy.legacy.data.model.FromToTimeRange?,
-    onSelected: (com.ivy.legacy.data.model.FromToTimeRange?) -> Unit,
+@Suppress("ParameterNaming", "MagicNumber")
+private fun ColumnScope.AllTime(
+    timeRange: FromToTimeRange?,
+    onSelected: (FromToTimeRange?) -> Unit,
 ) {
+    val timeProvider = LocalTimeProvider.current
     val active = timeRange != null && timeRange.from == null &&
-        timeRange.to != null && timeRange.to!!.isAfter(timeNowUTC())
+            timeRange.to != null && timeRange.to!!.isAfter(timeProvider.utcNow())
 
     Text(
         modifier = Modifier
@@ -523,9 +530,9 @@ private fun AllTime(
             if (active) {
                 null
             } else {
-                com.ivy.legacy.data.model.FromToTimeRange(
+                FromToTimeRange(
                     from = null,
-                    to = timeNowUTC().plusDays(1)
+                    to = timeProvider.utcNow().plusSeconds(TimeUnit.HOURS.toSeconds(24L))
                 )
             }
         )
@@ -548,6 +555,7 @@ private fun Preview_MonthSelected() {
     }
 }
 
+@Suppress("MagicNumber")
 @Preview
 @Composable
 private fun Preview_FromTo() {
@@ -556,8 +564,9 @@ private fun Preview_FromTo() {
             modal = ChoosePeriodModalData(
                 period = TimePeriod(
                     fromToRange = FromToTimeRange(
-                        from = timeNowUTC(),
-                        to = timeNowUTC().plusDays(35)
+                        from = LocalTimeProvider.current.utcNow(),
+                        to = LocalTimeProvider.current.utcNow()
+                            .plusSeconds(TimeUnit.DAYS.toSeconds(36L))
                     )
                 )
             ),

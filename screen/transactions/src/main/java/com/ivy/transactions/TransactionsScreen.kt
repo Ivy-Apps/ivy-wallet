@@ -40,6 +40,9 @@ import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
 import com.ivy.data.model.Category
+import com.ivy.design.api.LocalTimeConverter
+import com.ivy.design.api.LocalTimeFormatter
+import com.ivy.design.api.LocalTimeProvider
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.utils.thenIf
@@ -286,6 +289,9 @@ private fun BoxWithConstraintsScope.UI(
         )
         val density = LocalDensity.current
 
+        val timeProvider = LocalTimeProvider.current
+        val timeConverter = LocalTimeConverter.current
+        val timeFormatter = LocalTimeFormatter.current
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -413,7 +419,12 @@ private fun BoxWithConstraintsScope.UI(
                 emptyStateTitle = stringRes(R.string.no_transactions),
                 emptyStateText = stringRes(
                     R.string.no_transactions_for_period,
-                    period.toDisplayLong(ivyContext.startDayOfMonth)
+                    period.toDisplayLong(
+                        startDateOfMonth = ivyContext.startDayOfMonth,
+                        timeProvider = timeProvider,
+                        timeConverter = timeConverter,
+                        timeFormatter = timeFormatter,
+                    )
                 )
             )
         }

@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.theme.modal
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -32,6 +33,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.model.LoanRecordType
 import com.ivy.data.model.primitive.NotBlankTrimmedString
+import com.ivy.design.api.LocalTimeConverter
+import com.ivy.design.api.LocalTimeProvider
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.utils.thenIf
@@ -44,7 +47,6 @@ import com.ivy.legacy.legacy.ui.theme.modal.ModalNameInput
 import com.ivy.legacy.utils.getDefaultFIATCurrency
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.selectEndTextFieldValue
-import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.ui.R
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
@@ -58,7 +60,7 @@ import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import com.ivy.wallet.ui.theme.toComposeColor
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
+import java.time.Instant
 import java.util.UUID
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
@@ -72,18 +74,21 @@ data class LoanRecordModalData(
     val id: UUID = UUID.randomUUID(),
 )
 
+@Suppress("CyclomaticComplexMethod", "LongMethod")
+@SuppressLint("ComposeModifierMissing")
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.LoanRecordModal(
     modal: LoanRecordModalData?,
-    accounts: List<Account> = emptyList(),
-    onCreateAccount: (CreateAccountData) -> Unit = {},
 
     onCreate: (CreateLoanRecordData) -> Unit,
     onEdit: (EditLoanRecordData) -> Unit,
     onDelete: (LoanRecord) -> Unit,
-    dismiss: () -> Unit
+    dismiss: () -> Unit,
+    accounts: List<Account> = emptyList(),
+    onCreateAccount: (CreateAccountData) -> Unit = {},
 ) {
+    val timeProvider = LocalTimeProvider.current
     val initialRecord = modal?.loanRecord
     var noteTextFieldValue by remember(modal) {
         mutableStateOf(selectEndTextFieldValue(initialRecord?.note))
@@ -95,7 +100,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
         mutableStateOf(modal?.loanRecord?.amount ?: 0.0)
     }
     var dateTime by remember(modal) {
-        mutableStateOf(modal?.loanRecord?.dateTime ?: timeNowUTC())
+        mutableStateOf(modal?.loanRecord?.dateTime ?: timeProvider.utcNow())
     }
     var selectedAcc by remember(modal) {
         mutableStateOf(modal?.selectedAccount)
@@ -201,10 +206,11 @@ fun BoxWithConstraintsScope.LoanRecordModal(
 
         Spacer(Modifier.height(24.dp))
 
+        val timeConverter = LocalTimeConverter.current
         DateTimeRow(
-            dateTime = dateTime,
+            dateTime = with(timeConverter) { dateTime.toLocalDateTime() },
             onSetDateTime = {
-                dateTime = it
+                dateTime = with(timeConverter) { it.toUTC() }
             }
         )
 
@@ -381,7 +387,7 @@ private fun save(
     loanRecord: LoanRecord?,
     noteTextFieldValue: TextFieldValue,
     amount: Double,
-    dateTime: LocalDateTime,
+    dateTime: Instant,
     loanRecordInterest: Boolean = false,
     createLoanRecordTransaction: Boolean = false,
     selectedAccount: Account? = null,
@@ -510,12 +516,12 @@ private fun LoanRecordType(
 @Composable
 @Suppress("ParameterNaming")
 private fun AccountsRow(
-    modifier: Modifier = Modifier,
     accounts: List<Account>,
     selectedAccount: Account?,
-    childrenTestTag: String? = null,
     onSelectedAccountChanged: (Account) -> Unit,
-    onAddNewAccount: () -> Unit
+    onAddNewAccount: () -> Unit,
+    modifier: Modifier = Modifier,
+    childrenTestTag: String? = null,
 ) {
     val lazyState = rememberLazyListState()
 
@@ -567,6 +573,7 @@ private fun AccountsRow(
     }
 }
 
+@SuppressLint("ComposeContentEmitterReturningValues", "ComposeMultipleContentEmitters")
 @Composable
 private fun Account(
     account: Account,
@@ -619,6 +626,7 @@ private fun Account(
     Spacer(Modifier.width(8.dp))
 }
 
+@SuppressLint("ComposeContentEmitterReturningValues", "ComposeMultipleContentEmitters")
 @Composable
 private fun AddAccount(
     onClick: () -> Unit
@@ -665,8 +673,8 @@ private fun Preview() {
             ),
             onCreate = {},
             onEdit = {},
-            onDelete = {}
-        ) {
-        }
+            onDelete = {},
+            dismiss = {},
+        )
     }
 }

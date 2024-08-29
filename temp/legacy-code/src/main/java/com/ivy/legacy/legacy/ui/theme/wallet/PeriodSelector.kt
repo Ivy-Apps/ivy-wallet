@@ -21,6 +21,9 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.api.LocalTimeConverter
+import com.ivy.design.api.LocalTimeFormatter
+import com.ivy.design.api.LocalTimeProvider
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletComponentPreview
@@ -32,11 +35,11 @@ import com.ivy.wallet.ui.theme.components.IvyIcon
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun PeriodSelector(
-    modifier: Modifier = Modifier,
-    period: com.ivy.legacy.data.model.TimePeriod,
+    period: TimePeriod,
     onPreviousMonth: () -> Unit,
     onNextMonth: () -> Unit,
     onShowChoosePeriodModal: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
@@ -82,7 +85,12 @@ fun PeriodSelector(
             Spacer(Modifier.width(4.dp))
 
             Text(
-                text = period.toDisplayShort(ivyWalletCtx().startDayOfMonth),
+                text = period.toDisplayShort(
+                    startDateOfMonth = ivyWalletCtx().startDayOfMonth,
+                    timeConverter = LocalTimeConverter.current,
+                    timeProvider = LocalTimeProvider.current,
+                    timeFormatter = LocalTimeFormatter.current,
+                ),
                 style = UI.typo.b2.style(
                     color = UI.colors.pureInverse,
                     fontWeight = FontWeight.Bold
@@ -118,8 +126,8 @@ private fun Preview() {
                 startDayOfMonth = 1
             ), // preview
             onPreviousMonth = { },
-            onNextMonth = { }
-        ) {
-        }
+            onNextMonth = { },
+            onShowChoosePeriodModal = {}
+        )
     }
 }

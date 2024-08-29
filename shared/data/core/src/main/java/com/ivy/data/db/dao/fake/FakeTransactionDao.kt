@@ -5,7 +5,7 @@ import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.db.entity.TransactionEntity
 import org.jetbrains.annotations.VisibleForTesting
-import java.time.LocalDateTime
+import java.time.Instant
 import java.util.UUID
 
 @VisibleForTesting
@@ -41,8 +41,8 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
     override suspend fun findAllByTypeAndAccountBetween(
         type: TransactionType,
         accountId: UUID,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<TransactionEntity> {
         return items.filter {
             val dateTime = it.dateTime ?: return@filter false
@@ -61,8 +61,8 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
 
     override suspend fun findAllTransfersToAccountBetween(
         toAccountId: UUID,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime,
+        startDate: Instant,
+        endDate: Instant,
         type: TransactionType
     ): List<TransactionEntity> {
         return items.filter {
@@ -75,8 +75,8 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
     }
 
     override suspend fun findAllBetween(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<TransactionEntity> {
         return items.filter {
             val dateTime = it.dateTime ?: return@filter false
@@ -86,8 +86,8 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
 
     override suspend fun findAllByAccountAndBetween(
         accountId: UUID,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<TransactionEntity> {
         return items.filter {
             val dateTime = it.dateTime ?: return@filter false
@@ -97,8 +97,8 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
 
     override suspend fun findAllByCategoryAndBetween(
         categoryId: UUID,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<TransactionEntity> {
         return items.filter {
             val dateTime = it.dateTime ?: return@filter false
@@ -107,8 +107,8 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
     }
 
     override suspend fun findAllUnspecifiedAndBetween(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<TransactionEntity> {
         return items.filter {
             val dateTime = it.dateTime ?: return@filter false
@@ -119,8 +119,8 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
     override suspend fun findAllByCategoryAndTypeAndBetween(
         categoryId: UUID,
         type: TransactionType,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<TransactionEntity> {
         return items.filter {
             val dateTime = it.dateTime ?: return@filter false
@@ -133,8 +133,8 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
 
     override suspend fun findAllUnspecifiedAndTypeAndBetween(
         type: TransactionType,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<TransactionEntity> {
         return items.filter {
             val dateTime = it.dateTime ?: return@filter false
@@ -144,8 +144,8 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
 
     override suspend fun findAllToAccountAndBetween(
         toAccountId: UUID,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<TransactionEntity> {
         return items.filter {
             val dateTime = it.dateTime ?: return@filter false
@@ -156,8 +156,8 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
     }
 
     override suspend fun findAllDueToBetween(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<TransactionEntity> {
         return items.filter {
             val dueDate = it.dueDate ?: return@filter false
@@ -166,8 +166,8 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
     }
 
     override suspend fun findAllDueToBetweenByCategory(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime,
+        startDate: Instant,
+        endDate: Instant,
         categoryId: UUID
     ): List<TransactionEntity> {
         return items.filter {
@@ -177,8 +177,8 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
     }
 
     override suspend fun findAllDueToBetweenByCategoryUnspecified(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<TransactionEntity> {
         return items.filter {
             val dueDate = it.dueDate ?: return@filter false
@@ -187,8 +187,8 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
     }
 
     override suspend fun findAllDueToBetweenByAccount(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime,
+        startDate: Instant,
+        endDate: Instant,
         accountId: UUID
     ): List<TransactionEntity> {
         return items.filter {
@@ -203,8 +203,8 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
     }
 
     override suspend fun findAllBetweenAndType(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime,
+        startDate: Instant,
+        endDate: Instant,
         type: TransactionType
     ): List<TransactionEntity> {
         return items.filter {
@@ -214,8 +214,8 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
     }
 
     override suspend fun findAllBetweenAndRecurringRuleId(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime,
+        startDate: Instant,
+        endDate: Instant,
         recurringRuleId: UUID
     ): List<TransactionEntity> {
         return items.filter {
@@ -326,9 +326,9 @@ class FakeTransactionDao : TransactionDao, WriteTransactionDao {
     }
 
     private fun isBetween(
-        dateTime: LocalDateTime,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        dateTime: Instant,
+        startDate: Instant,
+        endDate: Instant
     ): Boolean {
         return !dateTime.isAfter(endDate) && !dateTime.isBefore(startDate)
     }

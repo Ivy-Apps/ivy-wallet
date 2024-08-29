@@ -7,6 +7,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Transaction
+import com.ivy.base.time.TimeConverter
+import com.ivy.base.time.TimeProvider
 import com.ivy.ui.ComposeViewModel
 import com.ivy.data.repository.CategoryRepository
 import com.ivy.domain.features.Features
@@ -46,6 +48,8 @@ class CategoriesViewModel @Inject constructor(
     private val trnsWithRangeAndAccFiltersAct: TrnsWithRangeAndAccFiltersAct,
     private val categoryIncomeWithAccountFiltersAct: LegacyCategoryIncomeWithAccountFiltersAct,
     private val features: Features,
+    private val timeProvider: TimeProvider,
+    private val timeConverter: TimeConverter,
 ) : ComposeViewModel<CategoriesScreenState, CategoriesScreenEvent>() {
 
     private val baseCurrency = mutableStateOf("")
@@ -122,7 +126,7 @@ class CategoriesViewModel @Inject constructor(
         ioThread {
             val range = TimePeriod.currentMonth(
                 startDayOfMonth = ivyContext.startDayOfMonth
-            ).toRange(ivyContext.startDayOfMonth) // this must be monthly
+            ).toRange(ivyContext.startDayOfMonth, timeConverter, timeProvider) // this must be monthly
 
             allAccounts = accountsAct(Unit)
             baseCurrency.value = baseCurrencyAct(Unit)

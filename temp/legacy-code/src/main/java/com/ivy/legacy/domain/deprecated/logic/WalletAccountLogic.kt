@@ -4,6 +4,7 @@ import arrow.core.getOrElse
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.model.TransactionType
+import com.ivy.base.time.TimeProvider
 import com.ivy.data.model.AccountId
 import com.ivy.data.model.Expense
 import com.ivy.data.model.Income
@@ -15,7 +16,6 @@ import com.ivy.legacy.data.model.filterOverdue
 import com.ivy.legacy.data.model.filterUpcoming
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.temp.toDomain
-import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.wallet.domain.action.viewmodel.account.AccountDataAct
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import kotlinx.collections.immutable.toImmutableList
@@ -30,6 +30,7 @@ class WalletAccountLogic @Inject constructor(
     private val accountDataAct: AccountDataAct,
     private val sharedPrefs: SharedPrefs,
     private val currencyRepository: CurrencyRepository,
+    private val timeProvider: TimeProvider
 ) {
 
     suspend fun adjustBalance(
@@ -54,7 +55,7 @@ class WalletAccountLogic @Inject constructor(
                     title = adjustTransactionTitle,
                     amount = diff.absoluteValue.toBigDecimal(),
                     toAmount = diff.absoluteValue.toBigDecimal(),
-                    dateTime = timeNowUTC(),
+                    dateTime = timeProvider.utcNow(),
                     accountId = account.id,
                     isSynced = trnIsSyncedFlag
                 ).toDomain(transactionMapper)?.let {
@@ -69,7 +70,7 @@ class WalletAccountLogic @Inject constructor(
                     title = adjustTransactionTitle,
                     amount = diff.absoluteValue.toBigDecimal(),
                     toAmount = diff.absoluteValue.toBigDecimal(),
-                    dateTime = timeNowUTC(),
+                    dateTime = timeProvider.utcNow(),
                     accountId = account.id,
                     isSynced = trnIsSyncedFlag
                 ).toDomain(transactionMapper)?.let {
@@ -92,7 +93,7 @@ class WalletAccountLogic @Inject constructor(
         val accountsDataList = accountDataAct(
             AccountDataAct.Input(
                 accounts = accountList.toImmutableList(),
-                range = ClosedTimeRange.allTimeIvy(),
+                range = ClosedTimeRange.allTimeIvy(timeProvider),
                 baseCurrency = currencyRepository.getBaseCurrency().code,
                 includeTransfersInCalc = includeTransfersInCalc
             )
@@ -139,7 +140,7 @@ class WalletAccountLogic @Inject constructor(
     ): List<com.ivy.data.model.Transaction> {
         return transactionRepository.findAllDueToBetweenByAccount(
             accountId = AccountId(account.id),
-            startDate = range.upcomingFrom(),
+            startDate = range.upcomingFrom(timeProvider),
             endDate = range.to()
         ).filterUpcoming()
     }
@@ -151,7 +152,7 @@ class WalletAccountLogic @Inject constructor(
         return transactionRepository.findAllDueToBetweenByAccount(
             accountId = AccountId(account.id),
             startDate = range.from(),
-            endDate = range.overdueTo()
+            endDate = range.overdueTo(timeProvider)
         ).filterOverdue()
     }
 }

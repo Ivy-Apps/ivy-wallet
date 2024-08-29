@@ -1,19 +1,20 @@
 package com.ivy.legacy.data.model
 
 import androidx.compose.runtime.Immutable
+import com.ivy.base.time.TimeConverter
+import com.ivy.base.time.TimeProvider
 import com.ivy.legacy.utils.atEndOfDay
-import com.ivy.legacy.utils.convertLocalToUTC
 import com.ivy.legacy.utils.dateNowUTC
 import com.ivy.legacy.utils.endOfMonth
-import com.ivy.legacy.utils.formatLocal
 import com.ivy.legacy.utils.startOfMonth
-import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.withDayOfMonthSafe
+import com.ivy.ui.time.TimeFormatter
+import java.time.Instant
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 private const val MonthNameAbbreviationLength = 3
 
+@Suppress("DataClassFunctions")
 @Immutable
 data class TimePeriod(
     val month: Month? = null,
@@ -62,18 +63,21 @@ data class TimePeriod(
         month != null || fromToRange != null || lastNRange != null
 
     fun toRange(
-        startDateOfMonth: Int
-    ): FromToTimeRange {
-        return when {
+        startDateOfMonth: Int,
+        timeConverter: TimeConverter,
+        timeProvider: TimeProvider,
+    ): FromToTimeRange = with(timeConverter) {
+        when {
             month != null -> {
                 val date = if (year != null) month.toDate().withYear(year) else month.toDate()
                 val (from, to) = if (startDateOfMonth != 1) {
                     customStartDayOfMonthPeriodRange(
                         date = date,
-                        startDateOfMonth = startDateOfMonth
+                        startDateOfMonth = startDateOfMonth,
+                        timeConverter = timeConverter,
                     )
                 } else {
-                    Pair(startOfMonth(date), endOfMonth(date))
+                    Pair(startOfMonth(date, timeConverter), endOfMonth(date, timeConverter))
                 }
 
                 FromToTimeRange(
@@ -81,20 +85,23 @@ data class TimePeriod(
                     to = to
                 )
             }
+
             fromToRange != null -> {
                 fromToRange
             }
+
             lastNRange != null -> {
                 FromToTimeRange(
-                    from = lastNRange.fromDate(),
-                    to = timeNowUTC()
+                    from = lastNRange.fromDate(timeProvider),
+                    to = timeProvider.utcNow()
                 )
             }
+
             else -> {
                 val date = dateNowUTC()
                 FromToTimeRange(
-                    from = startOfMonth(date),
-                    to = endOfMonth(date)
+                    from = startOfMonth(date, timeConverter),
+                    to = endOfMonth(date, timeConverter)
                 )
             }
         }
@@ -102,12 +109,13 @@ data class TimePeriod(
 
     private fun customStartDayOfMonthPeriodRange(
         date: LocalDate,
-        startDateOfMonth: Int
-    ): Pair<LocalDateTime, LocalDateTime> {
+        startDateOfMonth: Int,
+        timeConverter: TimeConverter,
+    ): Pair<Instant, Instant> = with(timeConverter) {
         val from = date
             .withDayOfMonthSafe(startDateOfMonth)
             .atStartOfDay()
-            .convertLocalToUTC()
+            .toUTC()
 
         val to = date
             // startDayOfMonth != 1 just shift N day the month forward so to should +1 month
@@ -116,60 +124,87 @@ data class TimePeriod(
             // e.g. Correct: 14.10-13.11 (Incorrect: 14.10-14.11)
             .minusDays(1)
             .atEndOfDay()
-            .convertLocalToUTC()
+            .toUTC()
 
-        return Pair(from, to)
+        from to to
     }
 
     fun toDisplayShort(
-        startDateOfMonth: Int
-    ): String {
-        return when {
+        startDateOfMonth: Int,
+        timeConverter: TimeConverter,
+        timeProvider: TimeProvider,
+        timeFormatter: TimeFormatter,
+    ): String = with(timeFormatter) {
+        when {
             month != null -> {
                 if (startDateOfMonth == 1) {
-                    displayMonthStartingOn1st(month = month)
+                    displayMonthStartingOn1st(month = month, timeProvider)
                 } else {
-                    val range = toRange(startDateOfMonth)
-                    val pattern = "MMM dd"
-                    "${range.from?.formatLocal(pattern)} - ${range.to?.formatLocal(pattern)}"
+                    val range = toRange(
+                        startDateOfMonth = startDateOfMonth,
+                        timeConverter = timeConverter,
+                        timeProvider = timeProvider,
+                    )
+                    val style = TimeFormatter.Style.DateOnly(includeWeekDay = false)
+                    "${range.from?.formatLocal(style)} - ${range.to?.formatLocal(style)}"
                 }
             }
+
             fromToRange != null -> {
-                fromToRange.toDisplay()
+                fromToRange.toDisplay(timeFormatter)
             }
+
             lastNRange != null -> {
                 "Last ${lastNRange.forDisplay()}"
             }
+
             else -> "Custom"
         }
     }
 
     fun toDisplayLong(
-        startDateOfMonth: Int
+        startDateOfMonth: Int,
+        timeProvider: TimeProvider,
+        timeConverter: TimeConverter,
+        timeFormatter: TimeFormatter
     ): String {
         return when {
             month != null -> {
                 if (startDateOfMonth == 1) {
-                    displayMonthStartingOn1st(month = month)
+                    displayMonthStartingOn1st(month = month, timeProvider)
                 } else {
-                    toRange(startDateOfMonth).toDisplay()
+                    toRange(
+                        startDateOfMonth = startDateOfMonth,
+                        timeConverter = timeConverter,
+                        timeProvider = timeProvider
+                    ).toDisplay(timeFormatter)
                 }
             }
+
             fromToRange != null -> {
-                fromToRange.toDisplay()
+                fromToRange.toDisplay(timeFormatter)
             }
+
             lastNRange != null -> {
                 "the last ${lastNRange.forDisplay()}"
             }
+
             else -> {
-                toRange(startDateOfMonth).toDisplay()
+                toRange(
+                    startDateOfMonth = startDateOfMonth,
+                    timeConverter = timeConverter,
+                    timeProvider = timeProvider
+                ).toDisplay(timeFormatter)
             }
         }
     }
 
-    private fun displayMonthStartingOn1st(month: Month): String {
+    private fun displayMonthStartingOn1st(
+        month: Month,
+        timeProvider: TimeProvider,
+    ): String {
         val year = year
-        return if (year != null && dateNowUTC().year != year) {
+        return if (year != null && timeProvider.localNow().year != year) {
             // not this year
             "${month.name.substring(0, MonthNameAbbreviationLength)}, $year"
         } else {

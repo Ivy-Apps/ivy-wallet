@@ -12,6 +12,8 @@ import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.legacy.refreshWidget
 import com.ivy.base.model.TransactionType
+import com.ivy.base.time.TimeConverter
+import com.ivy.base.time.TimeProvider
 import com.ivy.data.db.dao.read.LoanDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.model.Category
@@ -36,8 +38,6 @@ import com.ivy.legacy.utils.convertUTCToLocal
 import com.ivy.legacy.utils.dateNowLocal
 import com.ivy.legacy.utils.getTrueDate
 import com.ivy.legacy.utils.ioThread
-import com.ivy.legacy.utils.timeNowLocal
-import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.timeUTC
 import com.ivy.legacy.utils.toLowerCaseLocal
 import com.ivy.legacy.utils.uiThread
@@ -107,7 +107,9 @@ class EditTransactionViewModel @Inject constructor(
     private val transactionMapper: TransactionMapper,
     private val tagRepository: TagRepository,
     private val tagMapper: TagMapper,
-    private val features: Features
+    private val features: Features,
+    private val timeConverter: TimeConverter,
+    private val timeProvider: TimeProvider,
 ) : ComposeViewModel<EditTransactionState, EditTransactionEvent>() {
 
     private val transactionType = mutableStateOf(TransactionType.EXPENSE)
@@ -376,10 +378,10 @@ class EditTransactionViewModel @Inject constructor(
 
         transactionType.value = transaction.type
         initialTitle.value = transaction.title
-        dateTime.value = transaction.dateTime
+        dateTime.value = with(timeConverter) { transaction.dateTime?.toLocalDateTime() }
         description.value = transaction.description
-        dueDate.value = transaction.dueDate
-        paidHistory.value = transaction.paidFor
+        dueDate.value = with(timeConverter) { transaction.dueDate?.toLocalDateTime() }
+        paidHistory.value = with(timeConverter) { transaction.paidFor?.toLocalDateTime() }
         val selectedAccount = accountByIdAct(transaction.accountId)!!
         account.value = selectedAccount
         toAccount.value = transaction.toAccountId?.let {
@@ -526,7 +528,7 @@ class EditTransactionViewModel @Inject constructor(
 
     private fun onDueDateChanged(newDueDate: LocalDateTime?) {
         loadedTransaction = loadedTransaction().copy(
-            dueDate = newDueDate
+            dueDate = with(timeConverter) { newDueDate?.toUTC() }
         )
         dueDate.value = newDueDate
 
@@ -535,7 +537,7 @@ class EditTransactionViewModel @Inject constructor(
 
     private fun onSetDateTime(newDateTime: LocalDateTime) {
         loadedTransaction = loadedTransaction().copy(
-            dateTime = newDateTime
+            dateTime = with(timeConverter) { newDateTime.toUTC() }
         )
         dateTime.value = newDateTime
 
@@ -585,9 +587,10 @@ class EditTransactionViewModel @Inject constructor(
                 syncTransaction = false
             ) { paidTransaction ->
                 loadedTransaction = paidTransaction
-                paidHistory.value = paidTransaction.paidFor
-                dueDate.value = paidTransaction.dueDate
-                dateTime.value = paidTransaction.dateTime
+                paidHistory.value =
+                    with(timeConverter) { paidTransaction.paidFor?.toLocalDateTime() }
+                dueDate.value = with(timeConverter) { paidTransaction.dueDate?.toLocalDateTime() }
+                dateTime.value = with(timeConverter) { paidTransaction.dateTime?.toLocalDateTime() }
 
                 saveIfEditMode(
                     closeScreen = true
@@ -613,7 +616,7 @@ class EditTransactionViewModel @Inject constructor(
                 loadedTransaction()
                     .copy(
                         id = UUID.randomUUID(),
-                        dateTime = timeNowLocal()
+                        dateTime = timeProvider.utcNow(),
                     )
                     .toDomain(transactionMapper)
                     ?.let {
@@ -699,12 +702,12 @@ class EditTransactionViewModel @Inject constructor(
                     description = description.value?.trim(),
                     amount = amount,
                     type = transactionType.value,
-                    dueDate = dueDate.value,
-                    paidFor = paidHistory.value,
+                    dueDate = with(timeConverter) { dueDate.value?.toUTC() },
+                    paidFor = with(timeConverter) { paidHistory.value?.toUTC() },
                     dateTime = when {
                         loadedTransaction().dateTime == null &&
                                 dueDate.value == null -> {
-                            timeNowUTC()
+                            timeProvider.utcNow()
                         }
 
                         else -> loadedTransaction().dateTime

@@ -2,54 +2,62 @@ package com.ivy.legacy.data.model
 
 import androidx.compose.runtime.Immutable
 import com.ivy.base.legacy.Transaction
-import com.ivy.legacy.utils.beginningOfIvyTime
-import com.ivy.legacy.utils.convertLocalToUTC
+import com.ivy.base.time.TimeConverter
+import com.ivy.base.time.TimeProvider
+import com.ivy.legacy.utils.ivyMinTime
 import com.ivy.legacy.utils.dateNowUTC
-import com.ivy.legacy.utils.formatDateOnly
-import com.ivy.legacy.utils.startOfDayNowUTC
-import com.ivy.legacy.utils.timeNowUTC
-import com.ivy.legacy.utils.toIvyFutureTime
+import com.ivy.legacy.utils.ivyMaxTime
+import com.ivy.ui.time.TimeFormatter
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
-import java.time.LocalDateTime
+import java.time.Instant
 import java.time.ZoneOffset
 
+@Suppress("DataClassFunctions")
 @Immutable
 data class FromToTimeRange(
-    val from: LocalDateTime?,
-    val to: LocalDateTime?,
+    val from: Instant?,
+    val to: Instant?,
 ) {
-    fun from(): LocalDateTime =
-        from ?: timeNowUTC().minusYears(30)
+    fun from(): Instant =
+        from ?: ivyMinTime()
 
-    fun to(): LocalDateTime =
-        to ?: timeNowUTC().plusYears(30)
+    fun to(): Instant =
+        to ?: ivyMaxTime()
 
-    fun upcomingFrom(): LocalDateTime {
-        val startOfDayNowUTC =
-            startOfDayNowUTC().minusDays(1) // -1 day to ensure that everything is included
+    fun upcomingFrom(
+        timeProvider: TimeProvider
+    ): Instant {
+        val startOfDayNowUTC = timeProvider.utcNow()
         return if (includes(startOfDayNowUTC)) startOfDayNowUTC else from()
     }
 
-    fun overdueTo(): LocalDateTime {
-        val startOfDayNowUTC =
-            startOfDayNowUTC().plusDays(1) // +1 day to ensure that everything is included
+    fun overdueTo(
+        timeProvider: TimeProvider
+    ): Instant {
+        val startOfDayNowUTC = timeProvider.utcNow()
         return if (includes(startOfDayNowUTC)) startOfDayNowUTC else to()
     }
 
-    fun includes(dateTime: LocalDateTime): Boolean =
+    fun includes(dateTime: Instant): Boolean =
         dateTime.isAfter(from()) && dateTime.isBefore(to())
 
-    fun toDisplay(): String {
-        return when {
+    fun toDisplay(
+        timeFormatter: TimeFormatter
+    ): String = with(timeFormatter) {
+        val style = TimeFormatter.Style.DateOnly(includeWeekDay = false)
+        when {
             from != null && to != null -> {
-                "${from.toLocalDate().formatDateOnly()} - ${to.toLocalDate().formatDateOnly()}"
+                "${from.formatLocal(style)} - ${to.formatLocal(style)}"
             }
+
             from != null && to == null -> {
-                "From ${from.toLocalDate().formatDateOnly()}"
+                "From ${from.formatLocal(style)}"
             }
+
             from == null && to != null -> {
-                "To ${to.toLocalDate().formatDateOnly()}"
+                "To ${to.formatLocal(style)}"
             }
+
             else -> {
                 "Range"
             }
@@ -58,12 +66,14 @@ data class FromToTimeRange(
 }
 
 @Deprecated("Uses legacy Transaction")
-fun Iterable<Transaction>.filterUpcomingLegacy(): List<Transaction> {
-    val todayStartOfDayUTC = dateNowUTC().atStartOfDay()
-
+fun Iterable<Transaction>.filterUpcomingLegacy(
+    timeProvider: TimeProvider,
+    timeConverter: TimeConverter,
+): List<Transaction> {
+    val todayStartOfDayUtc = todayStartOfDayUtc(timeProvider, timeConverter)
     return filter {
         // make sure that it's in the future
-        it.dueDate != null && it.dueDate!!.isAfter(todayStartOfDayUTC)
+        it.dueDate != null && it.dueDate!!.isAfter(todayStartOfDayUtc)
     }
 }
 
@@ -77,13 +87,25 @@ fun Iterable<com.ivy.data.model.Transaction>.filterUpcoming(): List<com.ivy.data
 }
 
 @Deprecated("Uses legacy Transaction")
-fun Iterable<Transaction>.filterOverdueLegacy(): List<Transaction> {
-    val todayStartOfDayUTC = dateNowUTC().atStartOfDay()
-
+fun Iterable<Transaction>.filterOverdueLegacy(
+    timeProvider: TimeProvider,
+    timeConverter: TimeConverter,
+): List<Transaction> {
+    val todayStartOfDayUTC = todayStartOfDayUtc(timeProvider, timeConverter)
     return filter {
         // make sure that it's in the past
         it.dueDate != null && it.dueDate!!.isBefore(todayStartOfDayUTC)
     }
+}
+
+fun todayStartOfDayUtc(
+    timeProvider: TimeProvider,
+    timeConverter: TimeConverter,
+): Instant = with(timeConverter) {
+    timeProvider.localNow()
+        .withHour(0)
+        .withDayOfMonth(0)
+        .toUTC()
 }
 
 fun Iterable<com.ivy.data.model.Transaction>.filterOverdue(): List<com.ivy.data.model.Transaction> {
@@ -104,14 +126,14 @@ fun FromToTimeRange.toCloseTimeRangeUnsafe(): ClosedTimeRange {
 
 fun FromToTimeRange.toCloseTimeRange(): ClosedTimeRange {
     return ClosedTimeRange(
-        from = from ?: beginningOfIvyTime(),
-        to = to ?: toIvyFutureTime()
+        from = from ?: ivyMinTime(),
+        to = to ?: ivyMaxTime()
     )
 }
 
 fun FromToTimeRange.toUTCCloseTimeRange(): ClosedTimeRange {
     return ClosedTimeRange(
-        from = from?.convertLocalToUTC() ?: beginningOfIvyTime(),
-        to = to?.convertLocalToUTC() ?: toIvyFutureTime()
+        from = from ?: ivyMinTime(),
+        to = to ?: ivyMaxTime()
     )
 }

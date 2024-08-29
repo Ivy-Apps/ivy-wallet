@@ -1,5 +1,6 @@
 package com.ivy.reports
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -45,6 +46,9 @@ import com.ivy.data.model.TagId
 import com.ivy.data.model.primitive.ColorInt
 import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
+import com.ivy.design.api.LocalTimeConverter
+import com.ivy.design.api.LocalTimeFormatter
+import com.ivy.design.api.LocalTimeProvider
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.domain.legacy.ui.theme.components.ListItem
@@ -85,6 +89,7 @@ import kotlinx.collections.immutable.toImmutableList
 import java.util.UUID
 import kotlin.math.roundToInt
 
+@SuppressLint("ComposeModifierMissing")
 @Suppress("LongMethod")
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -401,13 +406,13 @@ fun BoxWithConstraintsScope.FilterOverlay(
         allTagList = allTags,
         selectedTagList = selectedTags,
         onTagAdd = {
-                   // Do Nothing
+            // Do Nothing
         },
         onTagEdit = { oldTag, newTag ->
-                    // Do Nothing
+            // Do Nothing
         },
         onTagDelete = {
-                      // Do Nothing
+            // Do Nothing
         },
         onTagSelected = {
             localFilter = nonNullFilter(localFilter).copy(
@@ -415,7 +420,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
             )
         },
         onTagDeSelected = {
-           localFilter = nonNullFilter(localFilter).copy(
+            localFilter = nonNullFilter(localFilter).copy(
                 selectedTags = nonNullFilter(localFilter).selectedTags.minus(it.id)
             )
         },
@@ -471,6 +476,7 @@ fun ColumnScope.TagFilter(
     }
 }
 
+@SuppressLint("ComposeContentEmitterReturningValues", "ComposeMultipleContentEmitters")
 @Composable
 private fun TypeFilter(
     filter: ReportFilter?,
@@ -518,6 +524,7 @@ private fun TypeFilter(
     )
 }
 
+@SuppressLint("ComposeParameterOrder")
 @Composable
 private fun TypeFilterCheckbox(
     modifier: Modifier = Modifier,
@@ -553,6 +560,7 @@ private fun TypeFilterCheckbox(
     }
 }
 
+@SuppressLint("ComposeContentEmitterReturningValues", "ComposeMultipleContentEmitters")
 @Composable
 private fun PeriodFilter(
     filter: ReportFilter?,
@@ -571,7 +579,12 @@ private fun PeriodFilter(
             .fillMaxWidth()
             .padding(horizontal = 24.dp),
         iconStart = R.drawable.ic_calendar,
-        text = filter?.period?.toDisplayLong(ivyWalletCtx().startDayOfMonth)
+        text = filter?.period?.toDisplayLong(
+            startDateOfMonth = ivyWalletCtx().startDayOfMonth,
+            timeProvider = LocalTimeProvider.current,
+            timeConverter = LocalTimeConverter.current,
+            timeFormatter = LocalTimeFormatter.current,
+        )
             ?.capitalizeLocal()
             ?: stringResource(R.string.select_time_range),
         padding = 12.dp,
@@ -580,6 +593,7 @@ private fun PeriodFilter(
     }
 }
 
+@SuppressLint("ComposeContentEmitterReturningValues", "ComposeMultipleContentEmitters")
 @Composable
 private fun AccountsFilter(
     allAccounts: List<Account>,
@@ -648,6 +662,7 @@ private fun AccountsFilter(
     }
 }
 
+@SuppressLint("ComposeContentEmitterReturningValues", "ComposeMultipleContentEmitters")
 @Composable
 private fun CategoriesFilter(
     allCategories: List<Category>,
@@ -759,6 +774,7 @@ private fun ListFilterTitle(
     }
 }
 
+@SuppressLint("ComposeContentEmitterReturningValues", "ComposeMultipleContentEmitters")
 @Composable
 private fun AmountFilter(
     baseCurrency: String,
@@ -822,6 +838,7 @@ private fun AmountFilter(
     }
 }
 
+@SuppressLint("ComposeContentEmitterReturningValues", "ComposeMultipleContentEmitters")
 @Composable
 private fun KeywordsFilter(
     filter: ReportFilter?,
@@ -834,7 +851,7 @@ private fun KeywordsFilter(
     FilterTitleText(
         text = stringResource(R.string.keywords_optional),
         active = filter != null &&
-            (filter.includeKeywords.isNotEmpty() || filter.excludeKeywords.isNotEmpty())
+                (filter.includeKeywords.isNotEmpty() || filter.excludeKeywords.isNotEmpty())
     )
 
     Spacer(Modifier.height(12.dp))
@@ -951,6 +968,7 @@ private fun AddKeywordButton(text: String, modifier: Modifier = Modifier, onCLic
 
 private class AddKeywordButton
 
+@SuppressLint("ComposeContentEmitterReturningValues", "ComposeMultipleContentEmitters")
 @Composable
 private fun FilterDivider() {
     Spacer(modifier = Modifier.height(24.dp))

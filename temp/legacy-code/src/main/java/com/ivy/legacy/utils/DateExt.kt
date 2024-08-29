@@ -3,8 +3,12 @@ package com.ivy.legacy.utils
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.ivy.base.legacy.stringRes
+import com.ivy.base.time.INSTANT_MAX_SAFE
+import com.ivy.base.time.INSTANT_MIN_SAFE
+import com.ivy.base.time.TimeConverter
 import com.ivy.frp.Total
 import com.ivy.ui.R
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -12,7 +16,6 @@ import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Locale
-import java.util.concurrent.TimeUnit
 
 @Deprecated("Use the TimeProvider interface via DI")
 fun timeNowLocal(): LocalDateTime = LocalDateTime.now()
@@ -254,59 +257,22 @@ fun LocalDate.formatLocal(
     )
 }
 
-fun LocalDateTime.timeLeft(
-    from: LocalDateTime = timeNowUTC(),
-    daysLabel: String = "d",
-    hoursLabel: String = "h",
-    minutesLabel: String = "m",
-    secondsLabel: String = "s"
-): String {
-    val timeLeftMs = this.millis() - from.millis()
-    if (timeLeftMs <= 0) return stringRes(R.string.expired)
-
-    val days = TimeUnit.MILLISECONDS.toDays(timeLeftMs)
-    var timeLeftAfterCalculations = timeLeftMs - TimeUnit.DAYS.toMillis(days)
-
-    val hours = TimeUnit.MILLISECONDS.toHours(timeLeftAfterCalculations)
-    timeLeftAfterCalculations -= TimeUnit.HOURS.toMillis(hours)
-
-    val minutes = TimeUnit.MILLISECONDS.toMinutes(timeLeftAfterCalculations)
-    timeLeftAfterCalculations -= TimeUnit.MINUTES.toMillis(minutes)
-
-    val seconds = TimeUnit.MILLISECONDS.toSeconds(timeLeftAfterCalculations)
-
-    var result = ""
-    if (days > 0) {
-        result += "$days$daysLabel "
-    }
-    if (hours > 0) {
-        result += "$hours$hoursLabel "
-    }
-    if (minutes > 0) {
-        result += "$minutes$minutesLabel "
-    }
-//    if (seconds > 0) {
-//        result += "$seconds$secondsLabel "
-//    }
-
-    return result.trim()
+fun startOfMonth(date: LocalDate, timeConverter: TimeConverter): Instant {
+    val startOfMonthLocal = date.withDayOfMonth(1).atStartOfDay()
+    return with(timeConverter) { startOfMonthLocal.toUTC() }
 }
 
-fun startOfMonth(date: LocalDate): LocalDateTime =
-    date.withDayOfMonth(1).atStartOfDay().convertLocalToUTC()
-
-fun endOfMonth(date: LocalDate): LocalDateTime =
-    date.withDayOfMonth(date.lengthOfMonth()).atEndOfDay().convertLocalToUTC()
+fun endOfMonth(date: LocalDate, timeConverter: TimeConverter): Instant {
+    val endOfMonthLocal = date.withDayOfMonth(date.lengthOfMonth()).atTime(LocalTime.MAX)
+    return with(timeConverter) { endOfMonthLocal.toUTC() }
+}
 
 fun LocalDate.atEndOfDay(): LocalDateTime =
     this.atTime(23, 59, 59)
 
-/**
- * +1 day so things won't fck up with Long overflow
- */
-fun beginningOfIvyTime(): LocalDateTime = LocalDateTime.now().minusYears(10)
+fun ivyMinTime(): Instant = INSTANT_MIN_SAFE
 
-fun toIvyFutureTime(): LocalDateTime = timeNowUTC().plusYears(30)
+fun ivyMaxTime(): Instant = INSTANT_MAX_SAFE
 
 fun LocalDate.withDayOfMonthSafe(targetDayOfMonth: Int): LocalDate {
     val maxDayOfMonth = this.lengthOfMonth()
