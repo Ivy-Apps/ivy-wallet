@@ -11,6 +11,7 @@ import androidx.datastore.preferences.core.edit
 import com.ivy.data.datastore.DatastoreKeys
 import com.ivy.data.datastore.dataStore
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 @Immutable
@@ -22,16 +23,18 @@ class BoolFeature(
     @Composable
     fun asEnabledState(): Boolean {
         val context = LocalContext.current
-        val featureFlag = remember { enabled(context) }
+        val featureFlag = remember { enabledFlow(context) }
             .collectAsState(false).value
         return featureFlag ?: false
     }
 
-    fun enabled(appContext: Context): Flow<Boolean?> {
-        return appContext.dataStore.data.map {
+    suspend fun isEnabled(appContext: Context): Boolean =
+        enabledFlow(appContext).first() ?: false
+
+    fun enabledFlow(appContext: Context): Flow<Boolean?> = appContext.dataStore
+        .data.map {
             it[featureKey]
         }
-    }
 
     suspend fun set(appContext: Context, enabled: Boolean) {
         appContext.dataStore.edit {

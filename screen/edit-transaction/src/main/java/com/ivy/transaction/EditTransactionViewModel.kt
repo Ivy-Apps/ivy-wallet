@@ -110,7 +110,7 @@ class EditTransactionViewModel @Inject constructor(
     private val features: Features,
     private val timeConverter: TimeConverter,
     private val timeProvider: TimeProvider,
-) : ComposeViewModel<EditTransactionState, EditTransactionEvent>() {
+) : ComposeViewModel<EditTransactionViewState, EditTransactionEvent>() {
 
     private val transactionType = mutableStateOf(TransactionType.EXPENSE)
     private val initialTitle = mutableStateOf<String?>(null)
@@ -192,8 +192,8 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     @Composable
-    override fun uiState(): EditTransactionState {
-        return EditTransactionState(
+    override fun uiState(): EditTransactionViewState {
+        return EditTransactionViewState(
             transactionType = getTransactionType(),
             initialTitle = getInitialTitle(),
             titleSuggestions = getTitleSuggestions(),
@@ -961,6 +961,6 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     private suspend fun shouldSortCategoriesAlphabetically(): Boolean {
-        return features.sortCategoriesAlphabetically.enabled(context).firstOrNull() ?: false
+        return features.sortCategoriesAlphabetically.isEnabled(context)
     }
 }
