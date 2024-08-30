@@ -3,12 +3,12 @@ package com.ivy.domain.usecase.balance
 import com.ivy.base.TestDispatchersProvider
 import com.ivy.data.model.getFromAccount
 import com.ivy.data.model.getToAccount
+import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.model.testing.ModelFixtures
 import com.ivy.data.model.testing.transaction
 import com.ivy.domain.statSummary
 import com.ivy.domain.usecase.BalanceBuilder
 import com.ivy.domain.usecase.account.AccountStatsUseCase
-import io.kotest.matchers.maps.shouldNotBeEmpty
 import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.filter
@@ -47,33 +47,103 @@ class BalanceBuilderPropertyTest {
             // then
             BalanceBuilder().run {
                 processDeposits(incomes = stats.income.values, transfersIn = stats.transfersIn.values)
-                processWithdrawals(expenses = stats.income.values, transfersOut = stats.transfersOut.values)
+                processWithdrawals(expenses = stats.expense.values, transfersOut = stats.transfersOut.values)
                 build()
             } shouldBe emptyMap()
         }
     }
 
     @Test
-    fun `property - check all statSummary possibilities`() = runTest {
+    fun `property - check all BGP currency`() = runTest {
         // given
         val incomes = Arb.statSummary()
-        val transfersIn = Arb.statSummary()
+        val trnsIn = Arb.statSummary()
         val expenses = Arb.statSummary()
-        val transfersOut = Arb.statSummary()
+        val trnsOut = Arb.statSummary()
 
         checkAll(
             incomes,
-            transfersIn,
+            trnsIn,
             expenses,
-            transfersOut
+            trnsOut
         ) { incomes, transfersIn, expenses, transferOut ->
             // when
-            val balance = BalanceBuilder()
-            balance.processDeposits(incomes = incomes.values, transfersIn = transfersIn.values)
-            balance.processWithdrawals(expenses = expenses.values, transfersOut = transferOut.values)
+            val depositBGP = incomes.values[AssetCode.GBP]?.value?.plus(
+                transfersIn.values[AssetCode.GBP]?.value ?: 0.0
+            )
+            val withdrawalsBGP = expenses.values[AssetCode.GBP]?.value?.plus(
+                transferOut.values[AssetCode.GBP]?.value ?: 0.0
+            )
+            val totalBGP = depositBGP?.minus(withdrawalsBGP ?: 0.0)
 
-            // then
-            balance.build().shouldNotBeEmpty()
+            BalanceBuilder().run {
+                processDeposits(incomes = incomes.values, transfersIn = transfersIn.values)
+                processWithdrawals(expenses = expenses.values, transfersOut = transferOut.values)
+                build()
+            }[AssetCode.GBP] shouldBe totalBGP
+        }
+    }
+
+    @Test
+    fun `property - check all EUR currency`() = runTest {
+        // given
+        val incomes = Arb.statSummary()
+        val trnsIn = Arb.statSummary()
+        val expenses = Arb.statSummary()
+        val trnsOut = Arb.statSummary()
+
+        checkAll(
+            incomes,
+            trnsIn,
+            expenses,
+            trnsOut
+        ) { incomes, transfersIn, expenses, transferOut ->
+            // when
+            val depositEUR = incomes.values[AssetCode.EUR]?.value?.plus(transfersIn.values[AssetCode.EUR]?.value ?: 0.0)
+            val withdrawalsEUR = expenses.values[AssetCode.EUR]?.value?.plus(
+                transferOut.values[AssetCode.EUR]?.value
+                    ?: 0.0
+            )
+            val totalEUR = depositEUR?.minus(withdrawalsEUR ?: 0.0)
+
+            BalanceBuilder().run {
+                processDeposits(incomes = incomes.values, transfersIn = transfersIn.values)
+                processWithdrawals(expenses = expenses.values, transfersOut = transferOut.values)
+                build()
+            }[AssetCode.EUR] shouldBe totalEUR
+        }
+    }
+
+    @Test
+    fun `property - check all USD currency`() = runTest {
+        // given
+        val incomes = Arb.statSummary()
+        val trnsIn = Arb.statSummary()
+        val expenses = Arb.statSummary()
+        val trnsOut = Arb.statSummary()
+
+        checkAll(
+            incomes,
+            trnsIn,
+            expenses,
+            trnsOut
+        ) { incomes,
+            transfersIn,
+            expenses,
+            transferOut ->
+            // when
+            val depositUSD = incomes.values[AssetCode.USD]?.value?.plus(transfersIn.values[AssetCode.USD]?.value ?: 0.0)
+            val withdrawalsUSD = expenses.values[AssetCode.USD]?.value?.plus(
+                transferOut.values[AssetCode.USD]?.value
+                    ?: 0.0
+            )
+            val totalUSD = depositUSD?.minus(withdrawalsUSD ?: 0.0)
+
+            BalanceBuilder().run {
+                processDeposits(incomes = incomes.values, transfersIn = transfersIn.values)
+                processWithdrawals(expenses = expenses.values, transfersOut = transferOut.values)
+                build()
+            }[AssetCode.USD] shouldBe totalUSD
         }
     }
 }
