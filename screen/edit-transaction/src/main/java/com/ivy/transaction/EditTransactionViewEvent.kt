@@ -12,6 +12,7 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableSet
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -23,8 +24,8 @@ data class EditTransactionViewState(
     val titleSuggestions: ImmutableSet<String>,
     val currency: String,
     val description: String?,
-    val dateTime: LocalDateTime?,
-    val dueDate: LocalDateTime?,
+    val dateTime: Instant?,
+    val dueDate: Instant?,
     val accounts: ImmutableList<Account>,
     val categories: ImmutableList<Category>,
     val account: Account?,

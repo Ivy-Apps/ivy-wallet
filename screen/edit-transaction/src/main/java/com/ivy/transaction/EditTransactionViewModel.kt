@@ -71,9 +71,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -116,11 +116,8 @@ class EditTransactionViewModel @Inject constructor(
     private val titleSuggestions = mutableStateOf(persistentSetOf<String>())
     private val currency = mutableStateOf("")
     private val description = mutableStateOf<String?>(null)
-    private val dateTime = mutableStateOf<LocalDateTime?>(null)
-    private val dueDate = mutableStateOf<LocalDateTime?>(null)
-    private val paidHistory = mutableStateOf<LocalDateTime?>(null)
-    private val date = MutableStateFlow<LocalDate?>(null)
-    private val time = MutableStateFlow<LocalTime?>(null)
+    private val dateTime = mutableStateOf<Instant?>(null)
+    private val dueDate = mutableStateOf<Instant?>(null)
     private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
     private val categories = mutableStateOf<ImmutableList<Category>>(persistentListOf())
     private val tags = mutableStateOf<ImmutableList<Tag>>(persistentListOf())
@@ -131,6 +128,8 @@ class EditTransactionViewModel @Inject constructor(
     private val amount = mutableDoubleStateOf(0.0)
     private val hasChanges = mutableStateOf(false)
     private val displayLoanHelper = mutableStateOf(EditTransactionDisplayLoan())
+
+    private var paidHistory: Instant? = null
 
     // This is used to when the transaction is associated with a loan/loan record,
     // used to indicate the background updating of loan/loanRecord data
@@ -241,12 +240,12 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getDateTime(): LocalDateTime? {
+    private fun getDateTime(): Instant? {
         return dateTime.value
     }
 
     @Composable
-    private fun getDueDate(): LocalDateTime? {
+    private fun getDueDate(): Instant? {
         return dueDate.value
     }
 
@@ -377,10 +376,10 @@ class EditTransactionViewModel @Inject constructor(
 
         transactionType.value = transaction.type
         initialTitle.value = transaction.title
-        dateTime.value = with(timeConverter) { transaction.dateTime?.toLocalDateTime() }
+        dateTime.value = transaction.dateTime
         description.value = transaction.description
-        dueDate.value = with(timeConverter) { transaction.dueDate?.toLocalDateTime() }
-        paidHistory.value = with(timeConverter) { transaction.paidFor?.toLocalDateTime() }
+        dueDate.value = transaction.dueDate
+        paidHistory = transaction.paidFor
         val selectedAccount = accountByIdAct(transaction.accountId)!!
         account.value = selectedAccount
         toAccount.value = transaction.toAccountId?.let {
@@ -526,19 +525,21 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     private fun onDueDateChanged(newDueDate: LocalDateTime?) {
+        val newDueDateUtc = with(timeConverter) { newDueDate?.toUTC() }
         loadedTransaction = loadedTransaction().copy(
-            dueDate = with(timeConverter) { newDueDate?.toUTC() }
+            dueDate = newDueDateUtc
         )
-        dueDate.value = newDueDate
+        dueDate.value = newDueDateUtc
 
         saveIfEditMode()
     }
 
     private fun onSetDateTime(newDateTime: LocalDateTime) {
+        val newDateTimeUtc = with(timeConverter) { newDateTime.toUTC() }
         loadedTransaction = loadedTransaction().copy(
-            dateTime = with(timeConverter) { newDateTime.toUTC() }
+            dateTime = newDateTimeUtc
         )
-        dateTime.value = newDateTime
+        dateTime.value = newDateTimeUtc
 
         saveIfEditMode()
     }
@@ -547,7 +548,6 @@ class EditTransactionViewModel @Inject constructor(
         loadedTransaction = loadedTransaction().copy(
             date = newDate
         )
-        date.value = newDate
         onSetDateTime(
             getTrueDate(
                 loadedTransaction?.date ?: dateNowLocal(),
@@ -586,10 +586,9 @@ class EditTransactionViewModel @Inject constructor(
                 syncTransaction = false
             ) { paidTransaction ->
                 loadedTransaction = paidTransaction
-                paidHistory.value =
-                    with(timeConverter) { paidTransaction.paidFor?.toLocalDateTime() }
-                dueDate.value = with(timeConverter) { paidTransaction.dueDate?.toLocalDateTime() }
-                dateTime.value = with(timeConverter) { paidTransaction.dateTime?.toLocalDateTime() }
+                paidHistory = paidTransaction.paidFor
+                dueDate.value = paidTransaction.dueDate
+                dateTime.value = paidTransaction.dateTime
 
                 saveIfEditMode(
                     closeScreen = true
