@@ -36,7 +36,6 @@ import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.convertUTCToLocal
 import com.ivy.legacy.utils.dateNowLocal
-import com.ivy.legacy.utils.getTrueDate
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.timeUTC
 import com.ivy.legacy.utils.toLowerCaseLocal
@@ -700,8 +699,8 @@ class EditTransactionViewModel @Inject constructor(
                     description = description.value?.trim(),
                     amount = amount,
                     type = transactionType.value,
-                    dueDate = with(timeConverter) { dueDate.value?.toUTC() },
-                    paidFor = with(timeConverter) { paidHistory.value?.toUTC() },
+                    dueDate = dueDate.value,
+                    paidFor = paidHistory,
                     dateTime = when {
                         loadedTransaction().dateTime == null &&
                                 dueDate.value == null -> {

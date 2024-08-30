@@ -35,6 +35,7 @@ import com.ivy.base.model.TransactionType
 import com.ivy.data.model.Category
 import com.ivy.data.model.Tag
 import com.ivy.data.model.TagId
+import com.ivy.design.api.LocalTimeConverter
 import com.ivy.design.l0_system.Orange
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -84,9 +85,11 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentSetOf
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.ZoneOffset
 import java.util.UUID
 import kotlin.math.roundToInt
 
@@ -199,10 +202,10 @@ private fun BoxWithConstraintsScope.UI(
     titleSuggestions: ImmutableSet<String>,
     description: String?,
     category: Category?,
-    dateTime: LocalDateTime?,
+    dateTime: Instant?,
     account: Account?,
     toAccount: Account?,
-    dueDate: LocalDateTime?,
+    dueDate: Instant?,
     amount: Double,
 
     customExchangeRateState: CustomExchangeRateState,
@@ -357,10 +360,13 @@ private fun BoxWithConstraintsScope.UI(
 
         val ivyContext = ivyWalletCtx()
 
+        val timeConverter = LocalTimeConverter.current
         if (dueDate != null) {
             DueDate(dueDate = dueDate) {
                 ivyContext.datePicker(
-                    initialDate = dueDate.toLocalDate()
+                    initialDate = with(timeConverter) {
+                        dueDate.toLocalDate()
+                    }
                 ) {
                     onDueDateChange(it.atTime(12, 0))
                 }
@@ -380,14 +386,18 @@ private fun BoxWithConstraintsScope.UI(
             dueDateTime = dueDate,
             onEditDate = {
                 ivyContext.datePicker(
-                    initialDate = dateTime?.convertUTCtoLocal()?.toLocalDate()
+                    initialDate = with(timeConverter) {
+                        dateTime?.toLocalDate()
+                    }
                 ) { date ->
                     onSetDate((date))
                 }
             },
             onEditTime = {
                 ivyContext.timePicker(
-                    initialTime = dateTime?.toLocalTime()
+                    initialTime = with(timeConverter) {
+                        dateTime?.toLocalTime()
+                    }
                 ) { time ->
                     onSetTime(time)
                 }
@@ -665,6 +675,7 @@ private fun shouldFocusAmount(amount: Double) = amount == 0.0
 
 /** For Preview purpose **/
 private val testDateTime = LocalDateTime.of(2023, 4, 27, 0, 35)
+    .toInstant(ZoneOffset.UTC)
 
 @ExperimentalFoundationApi
 @Preview
