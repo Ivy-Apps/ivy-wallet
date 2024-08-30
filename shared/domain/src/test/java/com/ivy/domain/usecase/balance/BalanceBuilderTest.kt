@@ -296,6 +296,71 @@ class BalanceBuilderTest {
             expected = mapOf(
                 EUR to nonZeroDouble(40.0)
             )
+        ),
+        WhenBalanceIsZeroWithOverFlow(
+            values = AccountStats(
+                income = StatSummary(
+                    trnCount = count(2),
+                    values = mapOf(
+                        USD to positiveDouble(Double.MAX_VALUE),
+                        EUR to positiveDouble(Double.MAX_VALUE)
+                    )
+                ),
+                transfersIn = StatSummary(
+                    trnCount = count(2),
+                    values = mapOf(
+                        USD to positiveDouble(Double.MAX_VALUE),
+                        EUR to positiveDouble(Double.MAX_VALUE)
+                    )
+                ),
+                expense = StatSummary(
+                    trnCount = count(2),
+                    values = mapOf(
+                        USD to positiveDouble(Double.MAX_VALUE),
+                        EUR to positiveDouble(Double.MAX_VALUE)
+                    )
+                ),
+                transfersOut = StatSummary(
+                    trnCount = count(2),
+                    values = mapOf(
+                        EUR to positiveDouble(Double.MAX_VALUE),
+                        USD to positiveDouble(Double.MAX_VALUE),
+                    )
+                ),
+            ),
+            expected = emptyMap()
+        ),
+        NegativeBalanceFromOverFlowValues(
+            values = AccountStats(
+                income = StatSummary(
+                    trnCount = count(1),
+                    values = mapOf(
+                        USD to positiveDouble(Double.MAX_VALUE)
+                    )
+                ),
+                transfersIn = StatSummary(
+                    trnCount = count(1),
+                    values = mapOf(
+                        USD to positiveDouble(Double.MAX_VALUE),
+                    )
+                ),
+                expense = StatSummary(
+                    trnCount = count(2),
+                    values = mapOf(
+                        USD to positiveDouble(Double.MAX_VALUE),
+                        EUR to positiveDouble(Double.MAX_VALUE)
+                    )
+                ),
+                transfersOut = StatSummary(
+                    trnCount = count(1),
+                    values = mapOf(
+                        USD to positiveDouble(Double.MAX_VALUE),
+                    )
+                ),
+            ),
+            expected = mapOf(
+                EUR to nonZeroDouble(-Double.MAX_VALUE),
+            )
         )
     }
 
@@ -323,7 +388,6 @@ class BalanceBuilderTest {
     }
 
     companion object {
-
         private fun count(count: Int): NonNegativeInt = NonNegativeInt.unsafe(count)
 
         private fun positiveDouble(amount: Double): PositiveDouble = PositiveDouble.unsafe(amount)
