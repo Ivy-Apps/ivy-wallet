@@ -35,10 +35,7 @@ import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.convertUTCToLocal
-import com.ivy.legacy.utils.dateNowLocal
-import com.ivy.legacy.utils.getTrueDate
 import com.ivy.legacy.utils.ioThread
-import com.ivy.legacy.utils.timeUTC
 import com.ivy.legacy.utils.toLowerCaseLocal
 import com.ivy.legacy.utils.uiThread
 import com.ivy.navigation.EditTransactionScreen
@@ -71,10 +68,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -110,18 +106,15 @@ class EditTransactionViewModel @Inject constructor(
     private val features: Features,
     private val timeConverter: TimeConverter,
     private val timeProvider: TimeProvider,
-) : ComposeViewModel<EditTransactionState, EditTransactionEvent>() {
+) : ComposeViewModel<EditTransactionViewState, EditTransactionViewEvent>() {
 
     private val transactionType = mutableStateOf(TransactionType.EXPENSE)
     private val initialTitle = mutableStateOf<String?>(null)
     private val titleSuggestions = mutableStateOf(persistentSetOf<String>())
     private val currency = mutableStateOf("")
     private val description = mutableStateOf<String?>(null)
-    private val dateTime = mutableStateOf<LocalDateTime?>(null)
-    private val dueDate = mutableStateOf<LocalDateTime?>(null)
-    private val paidHistory = mutableStateOf<LocalDateTime?>(null)
-    private val date = MutableStateFlow<LocalDate?>(null)
-    private val time = MutableStateFlow<LocalTime?>(null)
+    private val dateTime = mutableStateOf<Instant?>(null)
+    private val dueDate = mutableStateOf<Instant?>(null)
     private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
     private val categories = mutableStateOf<ImmutableList<Category>>(persistentListOf())
     private val tags = mutableStateOf<ImmutableList<Tag>>(persistentListOf())
@@ -132,6 +125,8 @@ class EditTransactionViewModel @Inject constructor(
     private val amount = mutableDoubleStateOf(0.0)
     private val hasChanges = mutableStateOf(false)
     private val displayLoanHelper = mutableStateOf(EditTransactionDisplayLoan())
+
+    private var paidHistory: Instant? = null
 
     // This is used to when the transaction is associated with a loan/loan record,
     // used to indicate the background updating of loan/loanRecord data
@@ -192,8 +187,8 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     @Composable
-    override fun uiState(): EditTransactionState {
-        return EditTransactionState(
+    override fun uiState(): EditTransactionViewState {
+        return EditTransactionViewState(
             transactionType = getTransactionType(),
             initialTitle = getInitialTitle(),
             titleSuggestions = getTitleSuggestions(),
@@ -242,12 +237,12 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getDateTime(): LocalDateTime? {
+    private fun getDateTime(): Instant? {
         return dateTime.value
     }
 
     @Composable
-    private fun getDueDate(): LocalDateTime? {
+    private fun getDueDate(): Instant? {
         return dueDate.value
     }
 
@@ -311,40 +306,45 @@ class EditTransactionViewModel @Inject constructor(
         return transactionAssociatedTags.value
     }
 
-    override fun onEvent(event: EditTransactionEvent) {
+    @Suppress("CyclomaticComplexMethod")
+    override fun onEvent(event: EditTransactionViewEvent) {
         when (event) {
-            is EditTransactionEvent.CreateAccount -> createAccount(event.data)
-            is EditTransactionEvent.CreateCategory -> createCategory(event.data)
-            EditTransactionEvent.Delete -> delete()
-            EditTransactionEvent.Duplicate -> duplicate()
-            is EditTransactionEvent.EditCategory -> editCategory(event.updatedCategory)
-            is EditTransactionEvent.OnAccountChanged -> onAccountChanged(event.newAccount)
-            is EditTransactionEvent.OnAmountChanged -> onAmountChanged(event.newAmount)
-            is EditTransactionEvent.OnCategoryChanged -> onCategoryChanged(event.newCategory)
-            is EditTransactionEvent.OnDescriptionChanged ->
+            is EditTransactionViewEvent.CreateAccount -> createAccount(event.data)
+            is EditTransactionViewEvent.CreateCategory -> createCategory(event.data)
+            EditTransactionViewEvent.Delete -> delete()
+            EditTransactionViewEvent.Duplicate -> duplicate()
+            is EditTransactionViewEvent.EditCategory -> editCategory(event.updatedCategory)
+            is EditTransactionViewEvent.OnAccountChanged -> onAccountChanged(event.newAccount)
+            is EditTransactionViewEvent.OnAmountChanged -> onAmountChanged(event.newAmount)
+            is EditTransactionViewEvent.OnCategoryChanged -> onCategoryChanged(event.newCategory)
+            is EditTransactionViewEvent.OnDescriptionChanged ->
                 onDescriptionChanged(event.newDescription)
 
-            is EditTransactionEvent.OnDueDateChanged -> onDueDateChanged(event.newDueDate)
-            EditTransactionEvent.OnPayPlannedPayment -> onPayPlannedPayment()
-            is EditTransactionEvent.OnSetDateTime -> onSetDateTime(event.newDateTime)
-            is EditTransactionEvent.OnSetDate -> onSetDate(event.newDate)
-            is EditTransactionEvent.OnSetTime -> onSetTime(event.newTime)
-            is EditTransactionEvent.OnSetTransactionType ->
+            is EditTransactionViewEvent.OnDueDateChanged -> onDueDateChanged(event.newDueDate)
+            EditTransactionViewEvent.OnPayPlannedPayment -> onPayPlannedPayment()
+            is EditTransactionViewEvent.OnSetDateTime -> onSetDateTime(event.newDateTime)
+            is EditTransactionViewEvent.OnSetDate -> onSetDate(event.newDate)
+            is EditTransactionViewEvent.OnSetTime -> onSetTime(event.newTime)
+            is EditTransactionViewEvent.OnSetTransactionType ->
                 onSetTransactionType(event.newTransactionType)
 
-            is EditTransactionEvent.OnTitleChanged -> onTitleChanged(event.newTitle)
-            is EditTransactionEvent.OnToAccountChanged -> onToAccountChanged(event.newAccount)
-            is EditTransactionEvent.Save -> save(event.closeScreen)
-            is EditTransactionEvent.SetHasChanges -> setHasChanges(event.hasChangesValue)
-            is EditTransactionEvent.UpdateExchangeRate -> updateExchangeRate(event.exRate)
-            is EditTransactionEvent.TagEvent -> when (event) {
-                is EditTransactionEvent.TagEvent.SaveTag -> onTagSaved(event.name)
-                is EditTransactionEvent.TagEvent.OnTagSelect -> associateTagToTransaction(event.selectedTag)
-                is EditTransactionEvent.TagEvent.OnTagDeSelect -> removeTagAssociation(event.selectedTag)
-                is EditTransactionEvent.TagEvent.OnTagSearch -> searchTag(event.query)
-                is EditTransactionEvent.TagEvent.OnTagDelete -> deleteTag(event.selectedTag)
-                is EditTransactionEvent.TagEvent.OnTagEdit -> updateTagInformation(event.newTag)
-            }
+            is EditTransactionViewEvent.OnTitleChanged -> onTitleChanged(event.newTitle)
+            is EditTransactionViewEvent.OnToAccountChanged -> onToAccountChanged(event.newAccount)
+            is EditTransactionViewEvent.Save -> save(event.closeScreen)
+            is EditTransactionViewEvent.SetHasChanges -> setHasChanges(event.hasChangesValue)
+            is EditTransactionViewEvent.UpdateExchangeRate -> updateExchangeRate(event.exRate)
+            is EditTransactionViewEvent.TagEvent -> handleTagEvent(event)
+        }
+    }
+
+    private fun handleTagEvent(event: EditTransactionViewEvent.TagEvent) {
+        when (event) {
+            is EditTransactionViewEvent.TagEvent.SaveTag -> onTagSaved(event.name)
+            is EditTransactionViewEvent.TagEvent.OnTagSelect -> associateTagToTransaction(event.selectedTag)
+            is EditTransactionViewEvent.TagEvent.OnTagDeSelect -> removeTagAssociation(event.selectedTag)
+            is EditTransactionViewEvent.TagEvent.OnTagSearch -> searchTag(event.query)
+            is EditTransactionViewEvent.TagEvent.OnTagDelete -> deleteTag(event.selectedTag)
+            is EditTransactionViewEvent.TagEvent.OnTagEdit -> updateTagInformation(event.newTag)
         }
     }
 
@@ -378,10 +378,10 @@ class EditTransactionViewModel @Inject constructor(
 
         transactionType.value = transaction.type
         initialTitle.value = transaction.title
-        dateTime.value = with(timeConverter) { transaction.dateTime?.toLocalDateTime() }
+        dateTime.value = transaction.dateTime
         description.value = transaction.description
-        dueDate.value = with(timeConverter) { transaction.dueDate?.toLocalDateTime() }
-        paidHistory.value = with(timeConverter) { transaction.paidFor?.toLocalDateTime() }
+        dueDate.value = transaction.dueDate
+        paidHistory = transaction.paidFor
         val selectedAccount = accountByIdAct(transaction.accountId)!!
         account.value = selectedAccount
         toAccount.value = transaction.toAccountId?.let {
@@ -527,19 +527,21 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     private fun onDueDateChanged(newDueDate: LocalDateTime?) {
+        val newDueDateUtc = with(timeConverter) { newDueDate?.toUTC() }
         loadedTransaction = loadedTransaction().copy(
-            dueDate = with(timeConverter) { newDueDate?.toUTC() }
+            dueDate = newDueDateUtc
         )
-        dueDate.value = newDueDate
+        dueDate.value = newDueDateUtc
 
         saveIfEditMode()
     }
 
     private fun onSetDateTime(newDateTime: LocalDateTime) {
+        val newDateTimeUtc = with(timeConverter) { newDateTime.toUTC() }
         loadedTransaction = loadedTransaction().copy(
-            dateTime = with(timeConverter) { newDateTime.toUTC() }
+            dateTime = newDateTimeUtc
         )
-        dateTime.value = newDateTime
+        dateTime.value = newDateTimeUtc
 
         saveIfEditMode()
     }
@@ -548,13 +550,14 @@ class EditTransactionViewModel @Inject constructor(
         loadedTransaction = loadedTransaction().copy(
             date = newDate
         )
-        date.value = newDate
+        val localDateTime = with(timeConverter) {
+            (dateTime.value ?: timeProvider.utcNow()).toLocalDateTime()
+        }
         onSetDateTime(
-            getTrueDate(
-                loadedTransaction?.date ?: dateNowLocal(),
-                (dateTime.value?.toLocalTime() ?: timeUTC()),
-                true
-            )
+            localDateTime
+                .withDayOfMonth(newDate.dayOfMonth)
+                .withMonth(newDate.monthValue)
+                .withYear(newDate.year)
         )
     }
 
@@ -562,13 +565,15 @@ class EditTransactionViewModel @Inject constructor(
         loadedTransaction = loadedTransaction().copy(
             time = newTime.convertUTCToLocal()
         )
-        time.value = newTime
+        val localDateTime = with(timeConverter) {
+            (dateTime.value ?: timeProvider.utcNow()).toLocalDateTime()
+        }
         onSetDateTime(
-            getTrueDate(
-                dateTime.value?.toLocalDate() ?: dateNowLocal(),
-                loadedTransaction?.time ?: timeUTC(),
-                true
-            )
+            localDateTime
+                .withHour(newTime.hour)
+                .withMinute(newTime.minute)
+                .withSecond(0)
+                .withNano(0)
         )
     }
 
@@ -587,10 +592,9 @@ class EditTransactionViewModel @Inject constructor(
                 syncTransaction = false
             ) { paidTransaction ->
                 loadedTransaction = paidTransaction
-                paidHistory.value =
-                    with(timeConverter) { paidTransaction.paidFor?.toLocalDateTime() }
-                dueDate.value = with(timeConverter) { paidTransaction.dueDate?.toLocalDateTime() }
-                dateTime.value = with(timeConverter) { paidTransaction.dateTime?.toLocalDateTime() }
+                paidHistory = paidTransaction.paidFor
+                dueDate.value = paidTransaction.dueDate
+                dateTime.value = paidTransaction.dateTime
 
                 saveIfEditMode(
                     closeScreen = true
@@ -702,8 +706,8 @@ class EditTransactionViewModel @Inject constructor(
                     description = description.value?.trim(),
                     amount = amount,
                     type = transactionType.value,
-                    dueDate = with(timeConverter) { dueDate.value?.toUTC() },
-                    paidFor = with(timeConverter) { paidHistory.value?.toUTC() },
+                    dueDate = dueDate.value,
+                    paidFor = paidHistory,
                     dateTime = when {
                         loadedTransaction().dateTime == null &&
                                 dueDate.value == null -> {
@@ -961,6 +965,6 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     private suspend fun shouldSortCategoriesAlphabetically(): Boolean {
-        return features.sortCategoriesAlphabetically.enabled(context).firstOrNull() ?: false
+        return features.sortCategoriesAlphabetically.isEnabled(context)
     }
 }
