@@ -306,6 +306,7 @@ class EditTransactionViewModel @Inject constructor(
         return transactionAssociatedTags.value
     }
 
+    @Suppress("CyclomaticComplexMethod")
     override fun onEvent(event: EditTransactionViewEvent) {
         when (event) {
             is EditTransactionViewEvent.CreateAccount -> createAccount(event.data)
@@ -332,14 +333,18 @@ class EditTransactionViewModel @Inject constructor(
             is EditTransactionViewEvent.Save -> save(event.closeScreen)
             is EditTransactionViewEvent.SetHasChanges -> setHasChanges(event.hasChangesValue)
             is EditTransactionViewEvent.UpdateExchangeRate -> updateExchangeRate(event.exRate)
-            is EditTransactionViewEvent.TagEvent -> when (event) {
-                is EditTransactionViewEvent.TagEvent.SaveTag -> onTagSaved(event.name)
-                is EditTransactionViewEvent.TagEvent.OnTagSelect -> associateTagToTransaction(event.selectedTag)
-                is EditTransactionViewEvent.TagEvent.OnTagDeSelect -> removeTagAssociation(event.selectedTag)
-                is EditTransactionViewEvent.TagEvent.OnTagSearch -> searchTag(event.query)
-                is EditTransactionViewEvent.TagEvent.OnTagDelete -> deleteTag(event.selectedTag)
-                is EditTransactionViewEvent.TagEvent.OnTagEdit -> updateTagInformation(event.newTag)
-            }
+            is EditTransactionViewEvent.TagEvent -> handleTagEvent(event)
+        }
+    }
+
+    private fun handleTagEvent(event: EditTransactionViewEvent.TagEvent) {
+        when (event) {
+            is EditTransactionViewEvent.TagEvent.SaveTag -> onTagSaved(event.name)
+            is EditTransactionViewEvent.TagEvent.OnTagSelect -> associateTagToTransaction(event.selectedTag)
+            is EditTransactionViewEvent.TagEvent.OnTagDeSelect -> removeTagAssociation(event.selectedTag)
+            is EditTransactionViewEvent.TagEvent.OnTagSearch -> searchTag(event.query)
+            is EditTransactionViewEvent.TagEvent.OnTagDelete -> deleteTag(event.selectedTag)
+            is EditTransactionViewEvent.TagEvent.OnTagEdit -> updateTagInformation(event.newTag)
         }
     }
 

@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.ivy.design.api.LocalTimeConverter
 import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.utils.convertLocalToUTC
 import com.ivy.legacy.utils.convertUTCToLocal
@@ -36,7 +35,6 @@ fun DateTimeRow(
     ) {
         Spacer(Modifier.width(24.dp))
 
-        val timeConverter = LocalTimeConverter.current
         IvyOutlinedButton(
             text = dateTime.formatNicely(),
             iconStart = R.drawable.ic_date

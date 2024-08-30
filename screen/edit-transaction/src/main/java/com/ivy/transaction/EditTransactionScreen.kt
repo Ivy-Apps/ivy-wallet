@@ -44,11 +44,10 @@ import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.EditTransactionDisplayLoan
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.ivyWalletCtx
-import com.ivy.legacy.rootView
 import com.ivy.legacy.ui.component.edit.TransactionDateTime
+import com.ivy.legacy.ui.component.edit.core.Description
 import com.ivy.legacy.ui.component.tags.AddTagButton
 import com.ivy.legacy.ui.component.tags.ShowTagModal
-import com.ivy.legacy.utils.convertUTCtoLocal
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.EditTransactionScreen
@@ -57,11 +56,10 @@ import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
 import com.ivy.wallet.domain.data.CustomExchangeRateState
+import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.edit.core.Category
-import com.ivy.legacy.ui.component.edit.core.Description
-import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.ui.edit.core.DueDate
 import com.ivy.wallet.ui.edit.core.EditBottomSheet
 import com.ivy.wallet.ui.edit.core.Title
