@@ -4,6 +4,7 @@ import android.net.Uri
 import arrow.core.Either
 import com.ivy.base.model.TransactionType
 import com.ivy.base.threading.DispatchersProvider
+import com.ivy.base.time.TimeProvider
 import com.ivy.data.file.FileSystem
 import com.ivy.data.model.Account
 import com.ivy.data.model.AccountId
@@ -23,7 +24,6 @@ import org.apache.commons.text.StringEscapeUtils
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.time.Instant
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import javax.inject.Inject
@@ -34,7 +34,8 @@ class ExportCsvUseCase @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val transactionRepository: TransactionRepository,
     private val dispatchers: DispatchersProvider,
-    private val fileSystem: FileSystem
+    private val fileSystem: FileSystem,
+    private val timeProvider: TimeProvider
 ) {
 
     suspend fun exportToFile(
@@ -188,7 +189,8 @@ class ExportCsvUseCase @Inject constructor(
     )
 
     private fun Instant.csvFormat(): String {
-        return this.atZone(ZoneId.of("UTC")).toLocalDateTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        return this.atZone(timeProvider.getZoneId())
+            .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
     }
 
     private fun Double.csvFormat(): String = DecimalFormat(NUMBER_FORMAT).apply {
