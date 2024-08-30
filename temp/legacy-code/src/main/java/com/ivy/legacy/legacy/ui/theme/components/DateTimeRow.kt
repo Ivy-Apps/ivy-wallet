@@ -8,14 +8,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.ivy.design.api.LocalTimeConverter
 import com.ivy.legacy.ivyWalletCtx
+import com.ivy.legacy.utils.convertLocalToUTC
+import com.ivy.legacy.utils.convertUTCToLocal
 import com.ivy.legacy.utils.convertUTCtoLocal
 import com.ivy.legacy.utils.formatLocalTime
 import com.ivy.legacy.utils.formatNicely
-import com.ivy.legacy.utils.getTrueDate
+import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.ui.R
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 
 @Composable
 fun DateTimeRow(
@@ -31,6 +36,7 @@ fun DateTimeRow(
     ) {
         Spacer(Modifier.width(24.dp))
 
+        val timeConverter = LocalTimeConverter.current
         IvyOutlinedButton(
             text = dateTime.formatNicely(),
             iconStart = R.drawable.ic_date
@@ -57,4 +63,25 @@ fun DateTimeRow(
 
         Spacer(Modifier.width(24.dp))
     }
+}
+
+// The timepicker returns time in UTC, but the date picker returns date in LocalTimeZone
+// hence use this method to get both date & time in UTC
+@Deprecated("Rework this to use the TimeConverter API")
+fun getTrueDate(
+    date: LocalDate,
+    time: LocalTime,
+    convert: Boolean = true
+): LocalDateTime {
+    val timeLocal = if (convert) time.convertUTCToLocal() else time
+
+    return timeNowUTC()
+        .withYear(date.year)
+        .withMonth(date.monthValue)
+        .withDayOfMonth(date.dayOfMonth)
+        .withHour(timeLocal.hour)
+        .withMinute(timeLocal.minute)
+        .withSecond(0)
+        .withNano(0)
+        .convertLocalToUTC()
 }

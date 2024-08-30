@@ -35,9 +35,7 @@ import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.computationThread
 import com.ivy.legacy.utils.convertUTCToLocal
-import com.ivy.legacy.utils.dateNowLocal
 import com.ivy.legacy.utils.ioThread
-import com.ivy.legacy.utils.timeUTC
 import com.ivy.legacy.utils.toLowerCaseLocal
 import com.ivy.legacy.utils.uiThread
 import com.ivy.navigation.EditTransactionScreen
@@ -547,12 +545,14 @@ class EditTransactionViewModel @Inject constructor(
         loadedTransaction = loadedTransaction().copy(
             date = newDate
         )
+        val localDateTime = with(timeConverter) {
+            (dateTime.value ?: timeProvider.utcNow()).toLocalDateTime()
+        }
         onSetDateTime(
-            getTrueDate(
-                loadedTransaction?.date ?: dateNowLocal(),
-                (dateTime.value?.toLocalTime() ?: timeUTC()),
-                true
-            )
+            localDateTime
+                .withDayOfMonth(newDate.dayOfMonth)
+                .withMonth(newDate.monthValue)
+                .withYear(newDate.year)
         )
     }
 
@@ -560,13 +560,15 @@ class EditTransactionViewModel @Inject constructor(
         loadedTransaction = loadedTransaction().copy(
             time = newTime.convertUTCToLocal()
         )
-        time.value = newTime
+        val localDateTime = with(timeConverter) {
+            (dateTime.value ?: timeProvider.utcNow()).toLocalDateTime()
+        }
         onSetDateTime(
-            getTrueDate(
-                dateTime.value?.toLocalDate() ?: dateNowLocal(),
-                loadedTransaction?.time ?: timeUTC(),
-                true
-            )
+            localDateTime
+                .withHour(newTime.hour)
+                .withMinute(newTime.minute)
+                .withSecond(0)
+                .withNano(0)
         )
     }
 
