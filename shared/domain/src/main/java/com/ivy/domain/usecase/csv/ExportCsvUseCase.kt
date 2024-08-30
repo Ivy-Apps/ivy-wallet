@@ -4,6 +4,7 @@ import android.net.Uri
 import arrow.core.Either
 import com.ivy.base.model.TransactionType
 import com.ivy.base.threading.DispatchersProvider
+import com.ivy.base.time.TimeConverter
 import com.ivy.base.time.TimeProvider
 import com.ivy.data.file.FileSystem
 import com.ivy.data.model.Account
@@ -35,7 +36,8 @@ class ExportCsvUseCase @Inject constructor(
     private val transactionRepository: TransactionRepository,
     private val dispatchers: DispatchersProvider,
     private val fileSystem: FileSystem,
-    private val timeProvider: TimeProvider
+    private val timeProvider: TimeProvider,
+    private val timeConverter: TimeConverter
 ) {
 
     suspend fun exportToFile(
@@ -189,8 +191,9 @@ class ExportCsvUseCase @Inject constructor(
     )
 
     private fun Instant.csvFormat(): String {
-        return this.atZone(timeProvider.getZoneId())
-            .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        return with(timeConverter) {
+            this@csvFormat.toLocalDateTime()
+        }.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
     }
 
     private fun Double.csvFormat(): String = DecimalFormat(NUMBER_FORMAT).apply {
