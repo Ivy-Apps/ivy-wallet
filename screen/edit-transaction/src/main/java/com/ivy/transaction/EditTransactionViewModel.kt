@@ -72,7 +72,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -110,7 +109,7 @@ class EditTransactionViewModel @Inject constructor(
     private val features: Features,
     private val timeConverter: TimeConverter,
     private val timeProvider: TimeProvider,
-) : ComposeViewModel<EditTransactionViewState, EditTransactionEvent>() {
+) : ComposeViewModel<EditTransactionViewState, EditTransactionViewEvent>() {
 
     private val transactionType = mutableStateOf(TransactionType.EXPENSE)
     private val initialTitle = mutableStateOf<String?>(null)
@@ -311,39 +310,39 @@ class EditTransactionViewModel @Inject constructor(
         return transactionAssociatedTags.value
     }
 
-    override fun onEvent(event: EditTransactionEvent) {
+    override fun onEvent(event: EditTransactionViewEvent) {
         when (event) {
-            is EditTransactionEvent.CreateAccount -> createAccount(event.data)
-            is EditTransactionEvent.CreateCategory -> createCategory(event.data)
-            EditTransactionEvent.Delete -> delete()
-            EditTransactionEvent.Duplicate -> duplicate()
-            is EditTransactionEvent.EditCategory -> editCategory(event.updatedCategory)
-            is EditTransactionEvent.OnAccountChanged -> onAccountChanged(event.newAccount)
-            is EditTransactionEvent.OnAmountChanged -> onAmountChanged(event.newAmount)
-            is EditTransactionEvent.OnCategoryChanged -> onCategoryChanged(event.newCategory)
-            is EditTransactionEvent.OnDescriptionChanged ->
+            is EditTransactionViewEvent.CreateAccount -> createAccount(event.data)
+            is EditTransactionViewEvent.CreateCategory -> createCategory(event.data)
+            EditTransactionViewEvent.Delete -> delete()
+            EditTransactionViewEvent.Duplicate -> duplicate()
+            is EditTransactionViewEvent.EditCategory -> editCategory(event.updatedCategory)
+            is EditTransactionViewEvent.OnAccountChanged -> onAccountChanged(event.newAccount)
+            is EditTransactionViewEvent.OnAmountChanged -> onAmountChanged(event.newAmount)
+            is EditTransactionViewEvent.OnCategoryChanged -> onCategoryChanged(event.newCategory)
+            is EditTransactionViewEvent.OnDescriptionChanged ->
                 onDescriptionChanged(event.newDescription)
 
-            is EditTransactionEvent.OnDueDateChanged -> onDueDateChanged(event.newDueDate)
-            EditTransactionEvent.OnPayPlannedPayment -> onPayPlannedPayment()
-            is EditTransactionEvent.OnSetDateTime -> onSetDateTime(event.newDateTime)
-            is EditTransactionEvent.OnSetDate -> onSetDate(event.newDate)
-            is EditTransactionEvent.OnSetTime -> onSetTime(event.newTime)
-            is EditTransactionEvent.OnSetTransactionType ->
+            is EditTransactionViewEvent.OnDueDateChanged -> onDueDateChanged(event.newDueDate)
+            EditTransactionViewEvent.OnPayPlannedPayment -> onPayPlannedPayment()
+            is EditTransactionViewEvent.OnSetDateTime -> onSetDateTime(event.newDateTime)
+            is EditTransactionViewEvent.OnSetDate -> onSetDate(event.newDate)
+            is EditTransactionViewEvent.OnSetTime -> onSetTime(event.newTime)
+            is EditTransactionViewEvent.OnSetTransactionType ->
                 onSetTransactionType(event.newTransactionType)
 
-            is EditTransactionEvent.OnTitleChanged -> onTitleChanged(event.newTitle)
-            is EditTransactionEvent.OnToAccountChanged -> onToAccountChanged(event.newAccount)
-            is EditTransactionEvent.Save -> save(event.closeScreen)
-            is EditTransactionEvent.SetHasChanges -> setHasChanges(event.hasChangesValue)
-            is EditTransactionEvent.UpdateExchangeRate -> updateExchangeRate(event.exRate)
-            is EditTransactionEvent.TagEvent -> when (event) {
-                is EditTransactionEvent.TagEvent.SaveTag -> onTagSaved(event.name)
-                is EditTransactionEvent.TagEvent.OnTagSelect -> associateTagToTransaction(event.selectedTag)
-                is EditTransactionEvent.TagEvent.OnTagDeSelect -> removeTagAssociation(event.selectedTag)
-                is EditTransactionEvent.TagEvent.OnTagSearch -> searchTag(event.query)
-                is EditTransactionEvent.TagEvent.OnTagDelete -> deleteTag(event.selectedTag)
-                is EditTransactionEvent.TagEvent.OnTagEdit -> updateTagInformation(event.newTag)
+            is EditTransactionViewEvent.OnTitleChanged -> onTitleChanged(event.newTitle)
+            is EditTransactionViewEvent.OnToAccountChanged -> onToAccountChanged(event.newAccount)
+            is EditTransactionViewEvent.Save -> save(event.closeScreen)
+            is EditTransactionViewEvent.SetHasChanges -> setHasChanges(event.hasChangesValue)
+            is EditTransactionViewEvent.UpdateExchangeRate -> updateExchangeRate(event.exRate)
+            is EditTransactionViewEvent.TagEvent -> when (event) {
+                is EditTransactionViewEvent.TagEvent.SaveTag -> onTagSaved(event.name)
+                is EditTransactionViewEvent.TagEvent.OnTagSelect -> associateTagToTransaction(event.selectedTag)
+                is EditTransactionViewEvent.TagEvent.OnTagDeSelect -> removeTagAssociation(event.selectedTag)
+                is EditTransactionViewEvent.TagEvent.OnTagSearch -> searchTag(event.query)
+                is EditTransactionViewEvent.TagEvent.OnTagDelete -> deleteTag(event.selectedTag)
+                is EditTransactionViewEvent.TagEvent.OnTagEdit -> updateTagInformation(event.newTag)
             }
         }
     }
