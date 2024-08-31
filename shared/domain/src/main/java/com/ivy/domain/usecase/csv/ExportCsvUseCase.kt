@@ -75,7 +75,7 @@ class ExportCsvUseCase @Inject constructor(
         categoriesMap: Map<CategoryId, Category>,
     ): String = csvRow {
         // Date
-        csvAppend(date?.csvFormat())
+        csvAppend(date?.csvFormat(timeConverter))
         // Title
         csvAppend(title?.value)
         // Category
@@ -101,7 +101,7 @@ class ExportCsvUseCase @Inject constructor(
         // Description
         csvAppend(description?.value)
         // Due Date
-        csvAppend(dueData?.csvFormat())
+        csvAppend(dueData?.csvFormat(timeConverter))
         // ID
         csvAppend(id.value.toString())
     }
@@ -188,7 +188,7 @@ class ExportCsvUseCase @Inject constructor(
         id = id
     )
 
-    private fun Instant.csvFormat(): String {
+    private fun Instant.csvFormat(timeConverter: TimeConverter): String {
         return with(timeConverter) {
             this@csvFormat.toLocalDateTime()
         }.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
