@@ -42,6 +42,7 @@ fun LocalDateTime.toEpochSeconds() = this.toEpochSecond(ZoneOffset.UTC)
 
 fun LocalDateTime.millis() = this.toInstant(ZoneOffset.UTC).toEpochMilli()
 
+@Deprecated("Use the TimeConverter interface via DI")
 fun LocalDateTime.formatNicely(
     noWeekDay: Boolean = false,
     zone: ZoneId = ZoneOffset.systemDefault()
@@ -84,6 +85,7 @@ fun LocalDateTime.formatNicely(
 
 fun LocalDateTime.getISOFormattedDateTime(): String = this.formatLocal("yyyyMMdd-HHmm")
 
+@Deprecated("Use the TimeConverter interface via DI")
 fun LocalDateTime.formatNicelyWithTime(
     noWeekDay: Boolean = true,
     zone: ZoneId = ZoneOffset.systemDefault()
@@ -124,25 +126,25 @@ fun LocalDateTime.formatNicelyWithTime(
     }
 }
 
+@Deprecated("Use the TimeConverter interface via DI")
 @Composable
 fun LocalDateTime.formatLocalTime(): String {
     val timeFormat = android.text.format.DateFormat.getTimeFormat(LocalContext.current)
     return timeFormat.format(this.millis())
 }
 
+@Deprecated("Use the TimeConverter interface via DI")
 fun LocalDate.formatDateOnly(): String = this.formatLocal("MMM. dd", ZoneOffset.systemDefault())
 
-fun LocalDateTime.formatTimeOnly(): String = this.format(DateTimeFormatter.ofPattern("HH:mm"))
-
+@Deprecated("Use the TimeConverter interface via DI")
 fun LocalDate.formatDateOnlyWithYear(): String =
     this.formatLocal("dd MMM, yyyy", ZoneOffset.systemDefault())
 
-fun LocalDate.formatDateWeekDay(): String =
-    this.formatLocal("EEE, dd MMM", ZoneOffset.systemDefault())
-
+@Deprecated("Use the TimeConverter interface via DI")
 fun LocalDate.formatDateWeekDayLong(): String =
     this.formatLocal("EEEE, dd MMM", ZoneOffset.systemDefault())
 
+@Deprecated("Use the TimeConverter interface via DI")
 fun LocalDate.formatNicely(
     pattern: String = "EEE, dd MMM",
     patternNoWeekDay: String = "dd MMM",
@@ -227,22 +229,6 @@ fun LocalTime.convertUTCToLocal(): LocalTime {
 fun LocalDateTime.convertLocalToUTC(): LocalDateTime {
     val offset = timeNowLocal().atZone(ZoneOffset.systemDefault()).offset.totalSeconds.toLong()
     return this.minusSeconds(offset)
-}
-
-// The timepicker returns time in UTC, but the date picker returns date in LocalTimeZone
-// hence use this method to get both date & time in UTC
-fun getTrueDate(date: LocalDate, time: LocalTime, convert: Boolean = true): LocalDateTime {
-    val timeLocal = if (convert) time.convertUTCToLocal() else time
-
-    return timeNowUTC()
-        .withYear(date.year)
-        .withMonth(date.monthValue)
-        .withDayOfMonth(date.dayOfMonth)
-        .withHour(timeLocal.hour)
-        .withMinute(timeLocal.minute)
-        .withSecond(0)
-        .withNano(0)
-        .convertLocalToUTC()
 }
 
 fun LocalDate.formatLocal(

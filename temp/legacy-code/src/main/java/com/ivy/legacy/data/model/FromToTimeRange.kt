@@ -104,7 +104,8 @@ fun todayStartOfDayUtc(
 ): Instant = with(timeConverter) {
     timeProvider.localNow()
         .withHour(0)
-        .withDayOfMonth(0)
+        .withMinute(0)
+        .withSecond(0)
         .toUTC()
 }
 

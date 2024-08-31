@@ -23,7 +23,6 @@ fun hideKeyboard() {
     LocalView.current.hideKeyboard()
 }
 
-@Deprecated("Old design system. Use `:ivy-design` and Material3")
 fun View.hideKeyboard() {
     val imm: InputMethodManager =
         context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
