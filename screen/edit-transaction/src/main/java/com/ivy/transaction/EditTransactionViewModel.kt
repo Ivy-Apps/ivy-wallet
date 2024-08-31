@@ -34,7 +34,6 @@ import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.temp.toDomain
 import com.ivy.legacy.domain.deprecated.logic.AccountCreator
 import com.ivy.legacy.utils.computationThread
-import com.ivy.legacy.utils.convertUTCToLocal
 import com.ivy.legacy.utils.ioThread
 import com.ivy.legacy.utils.toLowerCaseLocal
 import com.ivy.legacy.utils.uiThread
@@ -43,6 +42,7 @@ import com.ivy.navigation.MainScreen
 import com.ivy.navigation.Navigation
 import com.ivy.ui.ComposeViewModel
 import com.ivy.ui.R
+import com.ivy.ui.time.impl.DateTimePicker
 import com.ivy.wallet.domain.action.account.AccountByIdAct
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.transaction.TrnByIdAct
@@ -71,9 +71,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.time.Instant
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.LocalTime
 import java.util.UUID
 import javax.inject.Inject
 
@@ -106,6 +104,7 @@ class EditTransactionViewModel @Inject constructor(
     private val features: Features,
     private val timeConverter: TimeConverter,
     private val timeProvider: TimeProvider,
+    private val dateTimePicker: DateTimePicker,
 ) : ComposeViewModel<EditTransactionViewState, EditTransactionViewEvent>() {
 
     private val transactionType = mutableStateOf(TransactionType.EXPENSE)
@@ -322,9 +321,8 @@ class EditTransactionViewModel @Inject constructor(
 
             is EditTransactionViewEvent.OnDueDateChanged -> onDueDateChanged(event.newDueDate)
             EditTransactionViewEvent.OnPayPlannedPayment -> onPayPlannedPayment()
-            is EditTransactionViewEvent.OnSetDateTime -> onSetDateTime(event.newDateTime)
-            is EditTransactionViewEvent.OnSetDate -> onSetDate(event.newDate)
-            is EditTransactionViewEvent.OnSetTime -> onSetTime(event.newTime)
+            is EditTransactionViewEvent.OnChangeDate -> handleChangeDate()
+            is EditTransactionViewEvent.OnChangeTime -> handleChangeTime()
             is EditTransactionViewEvent.OnSetTransactionType ->
                 onSetTransactionType(event.newTransactionType)
 
@@ -536,45 +534,47 @@ class EditTransactionViewModel @Inject constructor(
         saveIfEditMode()
     }
 
-    private fun onSetDateTime(newDateTime: LocalDateTime) {
+
+    private fun handleChangeDate() {
+        dateTimePicker.pickDate(
+            initialDate = loadedTransaction?.dateTime,
+        ) { localDate ->
+            val localTime = loadedTransaction().dateTime?.let {
+                with(timeConverter) { it.toLocalTime() }
+            } ?: timeProvider.localTimeNow()
+            loadedTransaction = loadedTransaction().copy(
+                date = localDate,
+            )
+            updateDateTime(localDate.atTime(localTime))
+        }
+    }
+
+    private fun handleChangeTime() {
+        dateTimePicker.pickTime(
+            initialTime = loadedTransaction?.dateTime?.let {
+                with(timeConverter) {
+                    it.toLocalDateTime()
+                }
+            }?.toLocalTime()
+        ) { localTime ->
+            val localDate = loadedTransaction().dateTime?.let {
+                with(timeConverter) { it.toLocalDate() }
+            } ?: timeProvider.localDateNow()
+            loadedTransaction = loadedTransaction().copy(
+                time = localTime,
+            )
+            updateDateTime(localDate.atTime(localTime))
+        }
+    }
+
+    private fun updateDateTime(newDateTime: LocalDateTime) {
         val newDateTimeUtc = with(timeConverter) { newDateTime.toUTC() }
         loadedTransaction = loadedTransaction().copy(
-            dateTime = newDateTimeUtc
+            dateTime = newDateTimeUtc,
         )
         dateTime.value = newDateTimeUtc
 
         saveIfEditMode()
-    }
-
-    private fun onSetDate(newDate: LocalDate) {
-        loadedTransaction = loadedTransaction().copy(
-            date = newDate
-        )
-        val localDateTime = with(timeConverter) {
-            (dateTime.value ?: timeProvider.utcNow()).toLocalDateTime()
-        }
-        onSetDateTime(
-            localDateTime
-                .withDayOfMonth(newDate.dayOfMonth)
-                .withMonth(newDate.monthValue)
-                .withYear(newDate.year)
-        )
-    }
-
-    private fun onSetTime(newTime: LocalTime) {
-        loadedTransaction = loadedTransaction().copy(
-            time = newTime.convertUTCToLocal()
-        )
-        val localDateTime = with(timeConverter) {
-            (dateTime.value ?: timeProvider.utcNow()).toLocalDateTime()
-        }
-        onSetDateTime(
-            localDateTime
-                .withHour(newTime.hour)
-                .withMinute(newTime.minute)
-                .withSecond(0)
-                .withNano(0)
-        )
     }
 
     private fun onSetTransactionType(newTransactionType: TransactionType) {

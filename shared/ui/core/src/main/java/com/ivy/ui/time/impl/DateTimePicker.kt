@@ -12,7 +12,7 @@ interface DateTimePicker {
 
     fun pickDate(
         initialDate: Instant?,
-        onDatePick: (Instant) -> Unit
+        onDatePick: (LocalDate) -> Unit
     )
     fun pickTime(
         initialTime: LocalTime?,

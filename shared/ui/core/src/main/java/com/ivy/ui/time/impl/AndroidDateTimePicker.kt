@@ -15,8 +15,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import com.ivy.base.time.TimeConverter
 import com.ivy.base.time.TimeProvider
 import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -25,6 +27,7 @@ import javax.inject.Singleton
 @Singleton
 class AndroidDateTimePicker @Inject constructor(
     private val timeProvider: TimeProvider,
+    private val timeConverter: TimeConverter,
 ) : DateTimePicker {
     private var datePickerViewState by mutableStateOf<DatePickerViewState?>(null)
     private var timePickerViewState by mutableStateOf<TimePickerViewState?>(null)
@@ -53,7 +56,9 @@ class AndroidDateTimePicker @Inject constructor(
                         datePickerViewState = null
                         pickerState.selectedDateMillis
                             ?.let(Instant::ofEpochMilli)
-                            ?.let(viewState.onDatePicked)
+                            ?.let {
+                                with(timeConverter) { it.toLocalDate() }
+                            }?.let(viewState.onDatePicked)
                     }
                 )
             }
@@ -104,7 +109,7 @@ class AndroidDateTimePicker @Inject constructor(
         }
     }
 
-    override fun pickDate(initialDate: Instant?, onDatePick: (Instant) -> Unit) {
+    override fun pickDate(initialDate: Instant?, onDatePick: (LocalDate) -> Unit) {
         datePickerViewState = DatePickerViewState(
             initialDate = initialDate,
             onDatePicked = onDatePick
@@ -121,7 +126,7 @@ class AndroidDateTimePicker @Inject constructor(
     @Immutable
     data class DatePickerViewState(
         val initialDate: Instant?,
-        val onDatePicked: (Instant) -> Unit
+        val onDatePicked: (LocalDate) -> Unit
     )
 
     @Immutable

@@ -13,9 +13,7 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableSet
 import java.time.Instant
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.LocalTime
 
 @Immutable
 data class EditTransactionViewState(
@@ -48,10 +46,11 @@ sealed interface EditTransactionViewEvent {
     data class OnAccountChanged(val newAccount: Account) : EditTransactionViewEvent
     data class OnToAccountChanged(val newAccount: Account) : EditTransactionViewEvent
     data class OnDueDateChanged(val newDueDate: LocalDateTime?) : EditTransactionViewEvent
-    data class OnSetDateTime(val newDateTime: LocalDateTime) : EditTransactionViewEvent
-    data class OnSetDate(val newDate: LocalDate) : EditTransactionViewEvent
-    data class OnSetTime(val newTime: LocalTime) : EditTransactionViewEvent
-    data class OnSetTransactionType(val newTransactionType: TransactionType) : EditTransactionViewEvent
+    data object OnChangeDate : EditTransactionViewEvent
+    data object OnChangeTime : EditTransactionViewEvent
+    data class OnSetTransactionType(val newTransactionType: TransactionType) :
+        EditTransactionViewEvent
+
     data object OnPayPlannedPayment : EditTransactionViewEvent
     data object Delete : EditTransactionViewEvent
     data object Duplicate : EditTransactionViewEvent
