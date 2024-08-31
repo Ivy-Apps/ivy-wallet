@@ -21,6 +21,8 @@ import io.kotest.property.arbitrary.next
 import io.kotest.property.checkAll
 import io.mockk.coEvery
 import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -43,7 +45,7 @@ class ExportCsvUseCasePropertyTest {
             transactionRepository = transactionRepository,
             dispatchers = TestDispatchersProvider,
             fileSystem = fileSystem,
-            timeConverter = timeConverter,
+            timeConverter = timeConverter
         )
     }
 

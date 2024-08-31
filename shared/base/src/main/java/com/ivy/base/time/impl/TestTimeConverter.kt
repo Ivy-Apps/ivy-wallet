@@ -20,8 +20,4 @@ class TestTimeConverter : TimeConverter {
     override fun LocalDateTime.toUTC(): Instant {
         return this.atZone(utcZoneId).toInstant()
     }
-
-    fun LocalDateTime.toInstant(): Instant {
-        return this.atZone(utcZoneId).toInstant()
-    }
 }
