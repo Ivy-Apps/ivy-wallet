@@ -1,5 +1,6 @@
 package com.ivy.ui.time.impl
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -15,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.ivy.base.time.TimeConverter
 import com.ivy.base.time.TimeProvider
 import java.time.Instant
@@ -92,7 +94,10 @@ class AndroidDateTimePicker @Inject constructor(
                 )
             }
         ) {
-            TimePicker(state = pickerState)
+            TimePicker(
+                modifier = Modifier.padding(16.dp),
+                state = pickerState
+            )
         }
     }
 
