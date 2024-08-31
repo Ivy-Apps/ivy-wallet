@@ -534,7 +534,6 @@ class EditTransactionViewModel @Inject constructor(
         saveIfEditMode()
     }
 
-
     private fun handleChangeDate() {
         dateTimePicker.pickDate(
             initialDate = loadedTransaction?.dateTime,
