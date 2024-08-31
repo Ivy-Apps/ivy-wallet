@@ -4,7 +4,7 @@ import com.ivy.base.resource.ResourceProvider
 import com.ivy.base.time.TimeConverter
 import com.ivy.base.time.TimeProvider
 import com.ivy.ui.R
-import com.ivy.ui.time.DeviceTimePreferences
+import com.ivy.ui.time.DevicePreferences
 import com.ivy.ui.time.TimeFormatter
 import java.time.Instant
 import java.time.LocalDate
@@ -18,7 +18,7 @@ class IvyTimeFormatter @Inject constructor(
     private val resourceProvider: ResourceProvider,
     private val timeProvider: TimeProvider,
     private val converter: TimeConverter,
-    private val deviceTimePreferences: DeviceTimePreferences,
+    private val devicePreferences: DevicePreferences,
 ) : TimeFormatter {
 
     override fun LocalDateTime.format(style: TimeFormatter.Style): String {
@@ -43,7 +43,7 @@ class IvyTimeFormatter @Inject constructor(
             }
         }
         val formatted = dateTime.format(
-            DateTimeFormatter.ofPattern(pattern, deviceTimePreferences.locale())
+            DateTimeFormatter.ofPattern(pattern, devicePreferences.locale())
         )
         val prefix = when (relativeDay) {
             RelativeDay.Yesterday -> resourceProvider.getString(R.string.yesterday)
@@ -60,10 +60,10 @@ class IvyTimeFormatter @Inject constructor(
     }
 
     override fun LocalTime.format(): String = this.format(
-        DateTimeFormatter.ofPattern(localeTimeFormat(), deviceTimePreferences.locale())
+        DateTimeFormatter.ofPattern(localeTimeFormat(), devicePreferences.locale())
     )
 
-    private fun localeTimeFormat(): String = if (deviceTimePreferences.is24HourFormat()) {
+    private fun localeTimeFormat(): String = if (devicePreferences.is24HourFormat()) {
         "HH:mm"
     } else {
         "h:mm a"

@@ -6,7 +6,7 @@ import com.ivy.base.resource.TestResourceProvider
 import com.ivy.base.time.TimeConverter
 import com.ivy.base.time.TimeProvider
 import com.ivy.ui.R
-import com.ivy.ui.time.DeviceTimePreferences
+import com.ivy.ui.time.DevicePreferences
 import com.ivy.ui.time.TimeFormatter.Style
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -26,7 +26,7 @@ class IvyTimeFormatterTest {
 
     private val timeProvider = mockk<TimeProvider>()
     private val converter = mockk<TimeConverter>()
-    private val deviceTimePreferences = mockk<DeviceTimePreferences> {
+    private val devicePreferences = mockk<DevicePreferences> {
         every { locale() } returns Locale.ENGLISH
     }
 
@@ -42,7 +42,7 @@ class IvyTimeFormatterTest {
             },
             timeProvider = timeProvider,
             converter = converter,
-            deviceTimePreferences = deviceTimePreferences
+            devicePreferences = devicePreferences
         )
     }
 
@@ -179,7 +179,7 @@ class IvyTimeFormatterTest {
     ) {
         // Given
         every { timeProvider.localDateNow() } returns testCase.today
-        every { deviceTimePreferences.is24HourFormat() } returns testCase.is24HourFormat
+        every { devicePreferences.is24HourFormat() } returns testCase.is24HourFormat
         val date = testCase.date
 
         // When
@@ -221,7 +221,7 @@ class IvyTimeFormatterTest {
         @TestParameter testCase: TimeFormattingTestCase
     ) {
         // Given
-        every { deviceTimePreferences.is24HourFormat() } returns testCase.is24HourFormat
+        every { devicePreferences.is24HourFormat() } returns testCase.is24HourFormat
         val time = testCase.time
 
         // When
