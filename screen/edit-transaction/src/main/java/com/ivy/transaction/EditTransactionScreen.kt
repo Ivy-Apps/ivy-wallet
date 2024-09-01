@@ -84,9 +84,7 @@ import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentSetOf
 import java.time.Instant
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.LocalTime
 import java.time.ZoneOffset
 import java.util.UUID
 import kotlin.math.roundToInt
@@ -126,10 +124,10 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransactionScreen)
         transactionAssociatedTags = uiState.transactionAssociatedTags,
         hasChanges = uiState.hasChanges,
         onSetDate = {
-            viewModel.onEvent(EditTransactionViewEvent.OnSetDate(it))
+            viewModel.onEvent(EditTransactionViewEvent.OnChangeDate)
         },
         onSetTime = {
-            viewModel.onEvent(EditTransactionViewEvent.OnSetTime(it))
+            viewModel.onEvent(EditTransactionViewEvent.OnChangeTime)
         },
         onTitleChange = {
             viewModel.onEvent(EditTransactionViewEvent.OnTitleChanged(it))
@@ -218,8 +216,8 @@ private fun BoxWithConstraintsScope.UI(
     onAccountChange: (Account) -> Unit,
     onToAccountChange: (Account) -> Unit,
     onDueDateChange: (LocalDateTime?) -> Unit,
-    onSetDate: (LocalDate) -> Unit,
-    onSetTime: (LocalTime) -> Unit,
+    onSetDate: () -> Unit,
+    onSetTime: () -> Unit,
     onSetTransactionType: (TransactionType) -> Unit,
 
     onCreateCategory: (CreateCategoryData) -> Unit,
@@ -382,24 +380,8 @@ private fun BoxWithConstraintsScope.UI(
         TransactionDateTime(
             dateTime = dateTime,
             dueDateTime = dueDate,
-            onEditDate = {
-                ivyContext.datePicker(
-                    initialDate = with(timeConverter) {
-                        dateTime?.toLocalDate()
-                    }
-                ) { date ->
-                    onSetDate((date))
-                }
-            },
-            onEditTime = {
-                ivyContext.timePicker(
-                    initialTime = with(timeConverter) {
-                        dateTime?.toLocalTime()
-                    }
-                ) { time ->
-                    onSetTime(time)
-                }
-            }
+            onEditDate = onSetDate,
+            onEditTime = onSetTime,
         )
 
         if (transactionType == TransactionType.TRANSFER && customExchangeRateState.showCard) {

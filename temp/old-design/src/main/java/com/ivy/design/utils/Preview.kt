@@ -18,7 +18,7 @@ import com.ivy.design.api.IvyDesign
 import com.ivy.design.api.IvyUI
 import com.ivy.design.api.systems.IvyWalletDesign
 import com.ivy.design.l0_system.UI
-import com.ivy.ui.time.impl.AndroidDeviceTimePreferences
+import com.ivy.ui.time.impl.AndroidDevicePreferences
 import com.ivy.ui.time.impl.IvyTimeFormatter
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
@@ -63,7 +63,7 @@ fun IvyPreview(
             resourceProvider = AndroidResourceProvider(LocalContext.current),
             timeProvider = timeProvider,
             converter = timeConverter,
-            deviceTimePreferences = AndroidDeviceTimePreferences(LocalContext.current)
+            devicePreferences = AndroidDevicePreferences(LocalContext.current)
         )
     )
 }

@@ -1,8 +1,10 @@
 package com.ivy.ui.di
 
-import com.ivy.ui.time.DeviceTimePreferences
+import com.ivy.ui.time.DevicePreferences
 import com.ivy.ui.time.TimeFormatter
-import com.ivy.ui.time.impl.AndroidDeviceTimePreferences
+import com.ivy.ui.time.impl.AndroidDateTimePicker
+import com.ivy.ui.time.impl.AndroidDevicePreferences
+import com.ivy.ui.time.impl.DateTimePicker
 import com.ivy.ui.time.impl.IvyTimeFormatter
 import dagger.Binds
 import dagger.Module
@@ -16,5 +18,8 @@ interface IvyUiBindings {
     fun timeFormatter(impl: IvyTimeFormatter): TimeFormatter
 
     @Binds
-    fun deviceTimePreferences(impl: AndroidDeviceTimePreferences): DeviceTimePreferences
+    fun deviceTimePreferences(impl: AndroidDevicePreferences): DevicePreferences
+
+    @Binds
+    fun dateTimePicker(impl: AndroidDateTimePicker): DateTimePicker
 }

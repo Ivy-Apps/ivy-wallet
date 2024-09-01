@@ -74,6 +74,10 @@ class BackupDataUseCaseAndroidTest {
             dispatchersProvider = TestDispatchersProvider,
             fileSystem = FileSystem(appContext),
             dataObserver = DataObserver(),
+            tagsReader = db.tagDao,
+            tagAssociationReader = db.tagAssociationDao,
+            tagsWriter = db.writeTagDao,
+            tagAssociationWriter = db.writeTagAssociationDao
         )
     }
 
