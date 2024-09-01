@@ -48,6 +48,7 @@ import com.ivy.navigation.Navigation
 import com.ivy.navigation.NavigationRoot
 import com.ivy.ui.R
 import com.ivy.ui.time.TimeFormatter
+import com.ivy.ui.time.impl.DateTimePicker
 import com.ivy.wallet.ui.applocked.AppLockedScreen
 import com.ivy.widget.balance.WalletBalanceWidgetReceiver
 import com.ivy.widget.transaction.AddTransactionWidget
@@ -77,6 +78,9 @@ class RootActivity : AppCompatActivity(), RootScreen {
 
     @Inject
     lateinit var timeFormatter: TimeFormatter
+
+    @Inject
+    lateinit var dateTimePicker: DateTimePicker
 
     private lateinit var createFileLauncher: ActivityResultLauncher<String>
     private lateinit var onFileCreated: (fileUri: Uri) -> Unit
@@ -154,6 +158,8 @@ class RootActivity : AppCompatActivity(), RootScreen {
                     }
                 }
             }
+
+            dateTimePicker.Content()
         }
     }
 

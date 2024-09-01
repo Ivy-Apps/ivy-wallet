@@ -8,6 +8,7 @@ import java.time.DateTimeException
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.ZoneOffset
 import javax.inject.Inject
 
@@ -43,4 +44,6 @@ class StandardTimeConverter @Inject constructor(
         val zoneId = timeZoneProvider.getZoneId()
         return this.atZone(zoneId).toInstant()
     }
+
+    override fun Instant.toLocalTime(): LocalTime = toLocalDateTime().toLocalTime()
 }

@@ -51,7 +51,7 @@ class FeaturesViewModel @Inject constructor(
     private fun toggleFeature(event: FeaturesUiEvent.ToggleFeature) {
         viewModelScope.launch {
             val feature = features.allFeatures[event.index]
-            val enabled = feature.enabled(context).first() ?: false
+            val enabled = feature.enabledFlow(context).first() ?: false
             feature.set(context, !enabled)
         }
     }

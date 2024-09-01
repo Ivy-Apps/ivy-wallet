@@ -16,19 +16,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.api.LocalTimeFormatter
+import com.ivy.design.api.LocalTimeProvider
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletComponentPreview
-import com.ivy.legacy.utils.formatDateOnly
-import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.ui.R
+import com.ivy.ui.time.TimeFormatter
 import com.ivy.wallet.ui.theme.components.IvyIcon
-import java.time.LocalDateTime
+import java.time.Instant
+import java.util.concurrent.TimeUnit
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun DueDate(
-    dueDate: LocalDateTime,
+    dueDate: Instant,
     onPickDueDate: () -> Unit,
 ) {
     DueDateCard(
@@ -41,7 +43,7 @@ fun DueDate(
 
 @Composable
 private fun DueDateCard(
-    dueDate: LocalDateTime,
+    dueDate: Instant,
     onClick: () -> Unit,
 ) {
     Row(
@@ -71,7 +73,9 @@ private fun DueDateCard(
         Spacer(Modifier.weight(1f))
 
         Text(
-            text = dueDate.toLocalDate().formatDateOnly(),
+            text = with(LocalTimeFormatter.current) {
+                dueDate.formatLocal(TimeFormatter.Style.DateOnly(includeWeekDay = false))
+            },
             style = UI.typo.nB2.style(
                 fontWeight = FontWeight.ExtraBold
             )
@@ -81,12 +85,14 @@ private fun DueDateCard(
     }
 }
 
+@Suppress("MagicNumber")
 @Preview
 @Composable
 private fun Preview_OneTime() {
     IvyWalletComponentPreview {
         DueDate(
-            dueDate = timeNowUTC().plusDays(5),
+            dueDate = LocalTimeProvider.current.utcNow()
+                .plusSeconds(TimeUnit.DAYS.toSeconds(6)),
         ) {
         }
     }
