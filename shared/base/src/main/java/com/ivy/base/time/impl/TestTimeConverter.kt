@@ -4,6 +4,7 @@ import com.ivy.base.time.TimeConverter
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.ZoneId
 
 class TestTimeConverter : TimeConverter {
@@ -15,6 +16,10 @@ class TestTimeConverter : TimeConverter {
 
     override fun Instant.toLocalDate(): LocalDate {
         return this.atZone(utcZoneId).toLocalDate()
+    }
+
+    override fun Instant.toLocalTime(): LocalTime {
+        return this.atZone(utcZoneId).toLocalTime()
     }
 
     override fun LocalDateTime.toUTC(): Instant {
