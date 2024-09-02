@@ -46,6 +46,7 @@ fun ColumnScope.Title(
     titleTextFieldValue: TextFieldValue,
     setTitleTextFieldValue: (TextFieldValue) -> Unit,
     suggestions: Set<String>,
+    showTitleSuggestions: Boolean,
     scrollState: ScrollState? = null,
 
     onTitleChanged: (String?) -> Unit,
@@ -79,16 +80,18 @@ fun ColumnScope.Title(
         onTitleChanged(it.text)
     }
 
-    val coroutineScope = rememberCoroutineScope()
-    Suggestions(
-        suggestions = suggestions,
-    ) { suggestion ->
-        setTitleTextFieldValue(selectEndTextFieldValue(suggestion))
-        onTitleChanged(suggestion)
+    if (showTitleSuggestions) {
+        val coroutineScope = rememberCoroutineScope()
+        Suggestions(
+            suggestions = suggestions,
+        ) { suggestion ->
+            setTitleTextFieldValue(selectEndTextFieldValue(suggestion))
+            onTitleChanged(suggestion)
 
-        coroutineScope.launch {
-            // scroll to top for better UX
-            scrollState?.animateScrollTo(0)
+            coroutineScope.launch {
+                // scroll to top for better UX
+                scrollState?.animateScrollTo(0)
+            }
         }
     }
 }
@@ -146,6 +149,7 @@ private fun PreviewTitleWithSuggestions() {
                     "Harem",
                     "Club 35"
                 ),
+                showTitleSuggestions = false,
                 onTitleChanged = {}
             ) {
             }

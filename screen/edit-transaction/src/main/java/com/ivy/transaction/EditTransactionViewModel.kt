@@ -206,7 +206,8 @@ class EditTransactionViewModel @Inject constructor(
             backgroundProcessingStarted = getBackgroundProcessingStarted(),
             customExchangeRateState = getCustomExchangeRateState(),
             tags = getTags(),
-            transactionAssociatedTags = getTransactionAssociatedTags()
+            transactionAssociatedTags = getTransactionAssociatedTags(),
+            showTitleSuggestion = getShowTitleSuggestions()
         )
     }
 
@@ -303,6 +304,11 @@ class EditTransactionViewModel @Inject constructor(
     @Composable
     private fun getTransactionAssociatedTags(): ImmutableList<TagId> {
         return transactionAssociatedTags.value
+    }
+
+    @Composable
+    private fun getShowTitleSuggestions(): Boolean {
+        return features.showTitleSuggestions.asEnabledState()
     }
 
     @Suppress("CyclomaticComplexMethod")

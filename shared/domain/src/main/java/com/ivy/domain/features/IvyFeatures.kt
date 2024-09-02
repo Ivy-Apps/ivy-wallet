@@ -25,10 +25,17 @@ class IvyFeatures @Inject constructor() : Features {
         description = "Activates a more streamlined and space-efficient interface for the \"Categories\" Screen"
     )
 
+    override val showTitleSuggestions = BoolFeature(
+        key = "show_title_suggestions",
+        name = "Show previous titles suggestions",
+        description = "Enables display of previous transaction titles when editing or creating a new transaction"
+    )
+
     override val allFeatures: List<BoolFeature>
         get() = listOf(
             sortCategoriesAlphabetically,
             compactAccountsMode,
-            compactCategoriesMode
+            compactCategoriesMode,
+            showTitleSuggestions
         )
 }
