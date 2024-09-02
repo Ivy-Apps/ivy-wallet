@@ -26,7 +26,7 @@ jvm-target = "17"
 detekt = "1.23.6" # https://detekt.dev/docs/gettingstarted/gradle/
 
 [libraries]
-android-gradle-plugin = { module = "com.android.tools.build:gradle", version = "8.5.2" }
+android-gradle-plugin = { module = "com.android.tools.build:gradle", version = "8.6.0" }
 
 # Kotlin
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -37,7 +37,7 @@ kotlin-coroutines-googleplay-temp = { module = "org.jetbrains.kotlinx:kotlinx-co
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-collections" }
 
 # KotlinX Serialization
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.7.1" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.7.2" }
 kotlinx-serialization-plugin = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 
 # Ktor
@@ -62,7 +62,7 @@ cashapp-molecule-plugin = { module = "app.cash.molecule:molecule-gradle-plugin",
 cashapp-turbine = { module = "app.cash.turbine:turbine", version = "1.1.0" }
 paparazzi-plugin = { module = "app.cash.paparazzi:paparazzi-gradle-plugin", version.ref = "paparazzi" }
 paparazzi = { module = "app.cash.paparazzi:paparazzi", version.ref = "paparazzi" }
-google-testparameterinjector = { module = "com.google.testparameterinjector:test-parameter-injector", version = "1.16" }
+google-testparameterinjector = { module = "com.google.testparameterinjector:test-parameter-injector", version = "1.17" }
 
 # Integartion (Android) testing
 androidx-test-runner = { module = "androidx.test:runner", version = "1.6.2" }
@@ -129,13 +129,13 @@ timber = { module = "com.jakewharton.timber:timber", version = "5.0.1" }
 # Legacy
 keval = { module = "com.notkamui.libs:keval", version = "1.1.1" }
 opencsv-csv = { module = "com.opencsv:opencsv", version = "5.9" }
-opencsv-apache-commons = { module = "org.apache.commons:commons-lang3", version = "3.16.0" }
+opencsv-apache-commons = { module = "org.apache.commons:commons-lang3", version = "3.17.0" }
 
 # Linters
 detekt-gradle-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 detekt-ruleset-compiler = { module = "com.braisgabin.detekt:kotlin-compiler-wrapper", version = "0.0.4" }
 detekt-ruleset-ktlint = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
-detekt-ruleset-compose = { module = "io.nlopez.compose.rules:detekt", version = "0.4.10" }
+detekt-ruleset-compose = { module = "io.nlopez.compose.rules:detekt", version = "0.4.11" }
 detekt-ruleset-ivy-explicit = { module = "com.github.Ivy-Apps:detekt-explicit", version = "v0.0.8" }
 slack-lint-compose = { module = "com.slack.lint.compose:compose-lint-checks", version = "1.3.1" }
 
@@ -143,7 +143,7 @@ slack-lint-compose = { module = "com.slack.lint.compose:compose-lint-checks", ve
 ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version = "2.0.20-1.0.24" }
 
 # Modules Graph
-module-graph-plugin = { module = "com.jraska.module.graph.assertion:plugin", version = "2.6.0" }
+module-graph-plugin = { module = "com.jraska.module.graph.assertion:plugin", version = "2.7.1" }
 
 
 [bundles]
