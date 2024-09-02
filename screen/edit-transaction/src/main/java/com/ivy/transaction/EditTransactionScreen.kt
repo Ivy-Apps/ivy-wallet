@@ -107,7 +107,6 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransactionScreen)
         baseCurrency = uiState.currency,
         initialTitle = uiState.initialTitle,
         titleSuggestions = uiState.titleSuggestions,
-        showTitleSuggestions = uiState.showTitleSuggestion,
         description = uiState.description,
         dateTime = uiState.dateTime,
         category = uiState.category,
@@ -197,7 +196,6 @@ private fun BoxWithConstraintsScope.UI(
     baseCurrency: String,
     initialTitle: String?,
     titleSuggestions: ImmutableSet<String>,
-    showTitleSuggestions: Boolean,
     description: String?,
     category: Category?,
     dateTime: Instant?,
@@ -313,7 +311,6 @@ private fun BoxWithConstraintsScope.UI(
                 titleTextFieldValue = it
             },
             suggestions = titleSuggestions,
-            showTitleSuggestions = showTitleSuggestions,
             scrollState = scrollState,
 
             onTitleChanged = onTitleChange,
@@ -669,7 +666,6 @@ private fun BoxWithConstraintsScope.Preview(isDark: Boolean = false) {
             screen = EditTransactionScreen(null, TransactionType.EXPENSE),
             initialTitle = "",
             titleSuggestions = persistentSetOf(),
-            showTitleSuggestions = false,
             tags = persistentListOf(),
             transactionAssociatedTags = persistentListOf(),
             baseCurrency = "BGN",

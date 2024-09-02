@@ -42,14 +42,11 @@ fun ColumnScope.Title(
     type: TransactionType,
     titleFocus: FocusRequester,
     initialTransactionId: UUID?,
-
     titleTextFieldValue: TextFieldValue,
     setTitleTextFieldValue: (TextFieldValue) -> Unit,
     suggestions: Set<String>,
-    showTitleSuggestions: Boolean,
-    scrollState: ScrollState? = null,
-
     onTitleChanged: (String?) -> Unit,
+    scrollState: ScrollState? = null,
     onNext: () -> Unit,
 ) {
     IvyTitleTextField(
@@ -80,18 +77,16 @@ fun ColumnScope.Title(
         onTitleChanged(it.text)
     }
 
-    if (showTitleSuggestions) {
-        val coroutineScope = rememberCoroutineScope()
-        Suggestions(
-            suggestions = suggestions,
-        ) { suggestion ->
-            setTitleTextFieldValue(selectEndTextFieldValue(suggestion))
-            onTitleChanged(suggestion)
+    val coroutineScope = rememberCoroutineScope()
+    Suggestions(
+        suggestions = suggestions,
+    ) { suggestion ->
+        setTitleTextFieldValue(selectEndTextFieldValue(suggestion))
+        onTitleChanged(suggestion)
 
-            coroutineScope.launch {
-                // scroll to top for better UX
-                scrollState?.animateScrollTo(0)
-            }
+        coroutineScope.launch {
+            // scroll to top for better UX
+            scrollState?.animateScrollTo(0)
         }
     }
 }
@@ -149,7 +144,6 @@ private fun PreviewTitleWithSuggestions() {
                     "Harem",
                     "Club 35"
                 ),
-                showTitleSuggestions = false,
                 onTitleChanged = {}
             ) {
             }

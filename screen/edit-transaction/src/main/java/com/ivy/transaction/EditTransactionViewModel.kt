@@ -123,6 +123,7 @@ class EditTransactionViewModel @Inject constructor(
     private val category = mutableStateOf<Category?>(null)
     private val amount = mutableDoubleStateOf(0.0)
     private val hasChanges = mutableStateOf(false)
+    private val showTitleSuggestions = mutableStateOf(false)
     private val displayLoanHelper = mutableStateOf(EditTransactionDisplayLoan())
 
     private var paidHistory: Instant? = null
@@ -149,6 +150,8 @@ class EditTransactionViewModel @Inject constructor(
             editMode = screen.initialTransactionId != null
 
             baseUserCurrency = baseCurrency()
+
+            showTitleSuggestions.value = shouldShowTitleSuggestions()
 
             val tagList = async { getAllTags() }
 
@@ -206,8 +209,7 @@ class EditTransactionViewModel @Inject constructor(
             backgroundProcessingStarted = getBackgroundProcessingStarted(),
             customExchangeRateState = getCustomExchangeRateState(),
             tags = getTags(),
-            transactionAssociatedTags = getTransactionAssociatedTags(),
-            showTitleSuggestion = getShowTitleSuggestions()
+            transactionAssociatedTags = getTransactionAssociatedTags()
         )
     }
 
@@ -223,7 +225,11 @@ class EditTransactionViewModel @Inject constructor(
 
     @Composable
     private fun getTitleSuggestions(): ImmutableSet<String> {
-        return titleSuggestions.value
+        return if (showTitleSuggestions.value) {
+            titleSuggestions.value
+        } else {
+            persistentSetOf()
+        }
     }
 
     @Composable
@@ -304,11 +310,6 @@ class EditTransactionViewModel @Inject constructor(
     @Composable
     private fun getTransactionAssociatedTags(): ImmutableList<TagId> {
         return transactionAssociatedTags.value
-    }
-
-    @Composable
-    private fun getShowTitleSuggestions(): Boolean {
-        return features.showTitleSuggestions.asEnabledState()
     }
 
     @Suppress("CyclomaticComplexMethod")
@@ -971,5 +972,9 @@ class EditTransactionViewModel @Inject constructor(
 
     private suspend fun shouldSortCategoriesAlphabetically(): Boolean {
         return features.sortCategoriesAlphabetically.isEnabled(context)
+    }
+
+    private suspend fun shouldShowTitleSuggestions(): Boolean {
+        return features.showTitleSuggestions.isEnabled(context)
     }
 }
