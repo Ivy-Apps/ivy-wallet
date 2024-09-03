@@ -123,7 +123,6 @@ class EditTransactionViewModel @Inject constructor(
     private val category = mutableStateOf<Category?>(null)
     private val amount = mutableDoubleStateOf(0.0)
     private val hasChanges = mutableStateOf(false)
-    private val showTitleSuggestions = mutableStateOf(false)
     private val displayLoanHelper = mutableStateOf(EditTransactionDisplayLoan())
 
     private var paidHistory: Instant? = null
@@ -150,8 +149,6 @@ class EditTransactionViewModel @Inject constructor(
             editMode = screen.initialTransactionId != null
 
             baseUserCurrency = baseCurrency()
-
-            showTitleSuggestions.value = shouldShowTitleSuggestions()
 
             val tagList = async { getAllTags() }
 
@@ -225,7 +222,7 @@ class EditTransactionViewModel @Inject constructor(
 
     @Composable
     private fun getTitleSuggestions(): ImmutableSet<String> {
-        return if (showTitleSuggestions.value) {
+        return if (features.showTitleSuggestions.asEnabledState()) {
             titleSuggestions.value
         } else {
             persistentSetOf()
@@ -972,9 +969,5 @@ class EditTransactionViewModel @Inject constructor(
 
     private suspend fun shouldSortCategoriesAlphabetically(): Boolean {
         return features.sortCategoriesAlphabetically.isEnabled(context)
-    }
-
-    private suspend fun shouldShowTitleSuggestions(): Boolean {
-        return features.showTitleSuggestions.isEnabled(context)
     }
 }
