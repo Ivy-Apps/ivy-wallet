@@ -222,7 +222,11 @@ class EditTransactionViewModel @Inject constructor(
 
     @Composable
     private fun getTitleSuggestions(): ImmutableSet<String> {
-        return titleSuggestions.value
+        return if (features.showTitleSuggestions.asEnabledState()) {
+            titleSuggestions.value
+        } else {
+            persistentSetOf()
+        }
     }
 
     @Composable

@@ -19,21 +19,22 @@ class BoolFeature(
     val key: String,
     val name: String? = null,
     val description: String? = null,
+    private val defaultValue: Boolean = false
 ) {
     @Composable
     fun asEnabledState(): Boolean {
         val context = LocalContext.current
         val featureFlag = remember { enabledFlow(context) }
-            .collectAsState(false).value
-        return featureFlag ?: false
+            .collectAsState(defaultValue).value
+        return featureFlag ?: defaultValue
     }
 
     suspend fun isEnabled(appContext: Context): Boolean =
-        enabledFlow(appContext).first() ?: false
+        enabledFlow(appContext).first() ?: defaultValue
 
     fun enabledFlow(appContext: Context): Flow<Boolean?> = appContext.dataStore
         .data.map {
-            it[featureKey]
+            it[featureKey] ?: defaultValue
         }
 
     suspend fun set(appContext: Context, enabled: Boolean) {
