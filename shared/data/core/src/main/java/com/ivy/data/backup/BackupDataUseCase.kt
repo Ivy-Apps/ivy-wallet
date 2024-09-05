@@ -3,6 +3,7 @@ package com.ivy.data.backup
 import android.content.Context
 import android.net.Uri
 import androidx.core.net.toUri
+import arrow.core.Either
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.unzip
 import com.ivy.base.legacy.zip
@@ -11,7 +12,6 @@ import com.ivy.data.DataObserver
 import com.ivy.data.DataWriteEvent
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.BudgetDao
-import com.ivy.data.db.dao.read.CategoryDao
 import com.ivy.data.db.dao.read.LoanDao
 import com.ivy.data.db.dao.read.LoanRecordDao
 import com.ivy.data.db.dao.read.PlannedPaymentRuleDao
@@ -20,7 +20,6 @@ import com.ivy.data.db.dao.read.TagAssociationDao
 import com.ivy.data.db.dao.read.TagDao
 import com.ivy.data.db.dao.read.TransactionDao
 import com.ivy.data.db.dao.write.WriteBudgetDao
-import com.ivy.data.db.dao.write.WriteCategoryDao
 import com.ivy.data.db.dao.write.WriteLoanDao
 import com.ivy.data.db.dao.write.WriteLoanRecordDao
 import com.ivy.data.db.dao.write.WritePlannedPaymentRuleDao
@@ -29,8 +28,11 @@ import com.ivy.data.db.dao.write.WriteTagAssociationDao
 import com.ivy.data.db.dao.write.WriteTagDao
 import com.ivy.data.db.dao.write.WriteTransactionDao
 import com.ivy.data.file.FileSystem
+import com.ivy.data.model.Category
 import com.ivy.data.repository.AccountRepository
+import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.repository.mapper.AccountMapper
+import com.ivy.data.repository.mapper.CategoryMapper
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.async
@@ -47,7 +49,6 @@ import javax.inject.Inject
 class BackupDataUseCase @Inject constructor(
     private val accountDao: AccountDao,
     private val budgetDao: BudgetDao,
-    private val categoryDao: CategoryDao,
     private val loanRecordDao: LoanRecordDao,
     private val loanDao: LoanDao,
     private val plannedPaymentRuleDao: PlannedPaymentRuleDao,
@@ -57,12 +58,13 @@ class BackupDataUseCase @Inject constructor(
     private val sharedPrefs: SharedPrefs,
     private val accountRepository: AccountRepository,
     private val accountMapper: AccountMapper,
-    private val categoryWriter: WriteCategoryDao,
     private val settingsWriter: WriteSettingsDao,
     private val budgetWriter: WriteBudgetDao,
     private val loanWriter: WriteLoanDao,
     private val loanRecordWriter: WriteLoanRecordDao,
     private val plannedPaymentRuleWriter: WritePlannedPaymentRuleDao,
+    private val categoryMapper: CategoryMapper,
+    private val categoryRepository: CategoryRepository,
     @ApplicationContext
     private val context: Context,
     private val json: Json,
@@ -98,7 +100,7 @@ class BackupDataUseCase @Inject constructor(
         return withContext(dispatchersProvider.io) {
             val accounts = async { accountDao.findAll() }
             val budgets = async { budgetDao.findAll() }
-            val categories = async { categoryDao.findAll() }
+            val categories = async { categoryRepository.findAll() }
             val loanRecords = async { loanRecordDao.findAll() }
             val loans = async { loanDao.findAll() }
             val plannedPaymentRules =
@@ -112,7 +114,11 @@ class BackupDataUseCase @Inject constructor(
             val completeData = IvyWalletCompleteData(
                 accounts = accounts.await(),
                 budgets = budgets.await(),
-                categories = categories.await(),
+                categories = categories.await().map {
+                    with(categoryMapper){
+                        it.toEntity()
+                    }
+                },
                 loanRecords = loanRecords.await(),
                 loans = loans.await(),
                 plannedPaymentRules = plannedPaymentRules.await(),
@@ -259,7 +265,20 @@ class BackupDataUseCase @Inject constructor(
             }
             val budgets = async { budgetWriter.saveMany(completeData.budgets) }
             val categories =
-                async { categoryWriter.saveMany(completeData.categories) }
+                async {
+                    with(categoryMapper) {
+                        val categoryList = completeData.categories.map {  it.toDomain() }
+                        val list = mutableListOf<Category>()
+                        categoryList.filter { either ->
+                            when(either){
+                                is Either.Left -> { error("Failed to insert data to db")}
+                                is Either.Right -> { list.add(either.value)}
+                            }
+
+                        }
+                        categoryRepository.saveMany(list)
+                    }
+                }
             accounts.await()
             budgets.await()
             categories.await()
@@ -325,10 +344,16 @@ class BackupDataUseCase @Inject constructor(
     private suspend fun getReplacementPairs(
         completeData: IvyWalletCompleteData
     ): List<Pair<UUID, UUID>> {
+
+
         return withContext(dispatchersProvider.io) {
             val existingAccountsList = accountDao.findAll()
-            val existingCategoryList = categoryDao.findAll()
-
+            val categoryList = categoryRepository.findAll()
+            val existingCategoryList = categoryList.map {
+                with(categoryMapper){
+                    it.toEntity()
+                }
+            }
             val backupAccountsList = completeData.accounts
             val backupCategoryList = completeData.categories
 

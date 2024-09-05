@@ -14,9 +14,11 @@ import com.ivy.data.DataObserver
 import com.ivy.data.db.IvyRoomDatabase
 import com.ivy.data.file.FileSystem
 import com.ivy.data.repository.AccountRepository
+import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.repository.CurrencyRepository
 import com.ivy.data.repository.fake.fakeRepositoryMemoFactory
 import com.ivy.data.repository.mapper.AccountMapper
+import com.ivy.data.repository.mapper.CategoryMapper
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.ints.shouldBeGreaterThan
 import kotlinx.coroutines.runBlocking
@@ -47,7 +49,6 @@ class BackupDataUseCaseAndroidTest {
         useCase = BackupDataUseCase(
             accountDao = db.accountDao,
             budgetDao = db.budgetDao,
-            categoryDao = db.categoryDao,
             loanRecordDao = db.loanRecordDao,
             loanDao = db.loanDao,
             plannedPaymentRuleDao = db.plannedPaymentRuleDao,
@@ -63,12 +64,19 @@ class BackupDataUseCaseAndroidTest {
                 memoFactory = fakeRepositoryMemoFactory(),
             ),
             accountMapper = accountMapper,
-            categoryWriter = db.writeCategoryDao,
             settingsWriter = db.writeSettingsDao,
             budgetWriter = db.writeBudgetDao,
             loanWriter = db.writeLoanDao,
             loanRecordWriter = db.writeLoanRecordDao,
             plannedPaymentRuleWriter = db.writePlannedPaymentRuleDao,
+            categoryMapper = CategoryMapper(),
+            categoryRepository = CategoryRepository(
+                mapper = CategoryMapper(),
+                categoryDao = db.categoryDao,
+                writeCategoryDao = db.writeCategoryDao,
+                dispatchersProvider = TestDispatchersProvider,
+                memoFactory = fakeRepositoryMemoFactory(),
+            ),
             context = appContext,
             json = KotlinxSerializationModule.provideJson(),
             dispatchersProvider = TestDispatchersProvider,
