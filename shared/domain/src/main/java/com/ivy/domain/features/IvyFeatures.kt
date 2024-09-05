@@ -32,11 +32,20 @@ class IvyFeatures @Inject constructor() : Features {
         defaultValue = true
     )
 
+
+    override val hideTotalBalance = BoolFeature(
+        key = "hide_total_balance",
+        name = "Hide total balance",
+        description = "Enable hide the total balance from the accounts tab",
+        defaultValue = false
+    )
+
     override val allFeatures: List<BoolFeature>
         get() = listOf(
             sortCategoriesAlphabetically,
             compactAccountsMode,
             compactCategoriesMode,
-            showTitleSuggestions
+            showTitleSuggestions,
+            hideTotalBalance
         )
 }

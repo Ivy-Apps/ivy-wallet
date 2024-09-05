@@ -88,8 +88,14 @@ class AccountsViewModel @Inject constructor(
             totalBalanceWithoutExcluded = getTotalBalanceWithoutExcluded(),
             totalBalanceWithoutExcludedText = getTotalBalanceWithoutExcludedText(),
             reorderVisible = getReorderVisible(),
-            compactAccountsModeEnabled = getCompactAccountsMode()
+            compactAccountsModeEnabled = getCompactAccountsMode(),
+            hideTotalBalance = getHideTotalBalance()
         )
+    }
+
+    @Composable
+    private fun getHideTotalBalance(): Boolean {
+        return features.hideTotalBalance.asEnabledState()
     }
 
     @Composable
@@ -104,7 +110,11 @@ class AccountsViewModel @Inject constructor(
 
     @Composable
     private fun getTotalBalanceWithExcluded(): String {
-        return totalBalanceWithExcluded.value
+        return if (features.hideTotalBalance.asEnabledState()) {
+            totalBalanceWithExcluded.value
+        } else {
+            totalBalanceWithExcluded.value
+        }
     }
 
     @Composable

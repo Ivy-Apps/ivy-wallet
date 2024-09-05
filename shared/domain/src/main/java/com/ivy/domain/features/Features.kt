@@ -5,6 +5,7 @@ interface Features {
     val compactAccountsMode: BoolFeature
     val compactCategoriesMode: BoolFeature
     val showTitleSuggestions: BoolFeature
+    val hideTotalBalance: BoolFeature
 
     val allFeatures: List<BoolFeature>
 }
