@@ -29,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.DividerW
 import com.ivy.design.l1_buildingBlocks.IvyText
 import com.ivy.design.l1_buildingBlocks.SpacerHor
@@ -312,7 +313,12 @@ private fun Section(
 
         SpacerHor(width = 16.dp)
 
-        IvyText(text = title, typo = UI.typo.b1)
+        IvyText(
+            text = title,
+            typo = UI.typo.b1.style(
+                color = UI.colors.pureInverse,
+            )
+        )
 
         SpacerHor(width = 16.dp)
 
