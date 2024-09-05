@@ -214,20 +214,18 @@ class ReportViewModel @Inject constructor(
     private suspend fun setFilter(reportFilter: ReportFilter?) {
         scopedIOThread { scope ->
             if (reportFilter == null) {
-                // clear filter
-                filter.value = reportFilter
                 setReportValues(
-                    incomeValue = 0.00,
-                    expenseValue = 0.00,
+                    income = 0.00,
+                    expense = 0.00,
                     upcomingIncomeExpenseTransferPair = IncomeExpenseTransferPair.zero(),
                     overDueIncomeExpenseTransferPair = IncomeExpenseTransferPair.zero(),
-                    historyValue = persistentListOf(),
-                    upcomingTransactionsListValue = persistentListOf(),
-                    overdueTransactionsValue = persistentListOf(),
-                    accountsValue = accountsAct(Unit),
-                    reportFilterValue = filter.value,
-                    accountFilterIdListValue = persistentListOf(),
-                    transactionsListValue = persistentListOf(),
+                    history = persistentListOf(),
+                    upcomingTransactions = persistentListOf(),
+                    overdueTransactions = persistentListOf(),
+                    accounts = accountsAct(Unit),
+                    reportFilter = filter.value,
+                    accountIdFilters = persistentListOf(),
+                    transactions = persistentListOf(),
                     balanceValue = 0.00
                 )
                 return@scopedIOThread
@@ -236,7 +234,6 @@ class ReportViewModel @Inject constructor(
             if (!reportFilter.validate()) return@scopedIOThread
             val tempAccounts = reportFilter.accounts
             val baseCurrency = baseCurrency.value
-            filter.value = reportFilter
             loading.value = true
 
             val transactionsList = filterTransactions(
@@ -309,21 +306,21 @@ class ReportViewModel @Inject constructor(
             )
 
             setReportValues(
-                incomeValue = tempIncome,
-                expenseValue = tempExpenses,
+                income = tempIncome,
+                expense = tempExpenses,
                 upcomingIncomeExpenseTransferPair = upcomingIncomeExpense,
                 overDueIncomeExpenseTransferPair = overdueIncomeExpense,
-                historyValue = historyWithDateDividers.await().toImmutableList(),
-                upcomingTransactionsListValue = upcomingTransactionsList.map {
+                history = historyWithDateDividers.await().toImmutableList(),
+                upcomingTransactions = upcomingTransactionsList.map {
                     it.toLegacy(transactionMapper)
                 }.toImmutableList(),
-                overdueTransactionsValue = overdue.map {
+                overdueTransactions = overdue.map {
                     it.toLegacy(transactionMapper)
                 }.toImmutableList(),
-                accountsValue = tempAccounts.toImmutableList(),
-                reportFilterValue = reportFilter,
-                accountFilterIdListValue = accountFilterIdList.await().toImmutableList(),
-                transactionsListValue = transactionsList.map {
+                accounts = tempAccounts.toImmutableList(),
+                reportFilter = reportFilter,
+                accountIdFilters = accountFilterIdList.await().toImmutableList(),
+                transactions = transactionsList.map {
                     it.toLegacy(transactionMapper)
                 }.toImmutableList(),
                 balanceValue = tempBalance
@@ -334,35 +331,35 @@ class ReportViewModel @Inject constructor(
     }
 
     private fun setReportValues(
-        incomeValue : Double,
-        expenseValue : Double,
+        income: Double,
+        expense: Double,
         upcomingIncomeExpenseTransferPair: IncomeExpenseTransferPair,
         overDueIncomeExpenseTransferPair: IncomeExpenseTransferPair,
-        historyValue: ImmutableList<TransactionHistoryItem>,
-        upcomingTransactionsListValue: ImmutableList<LegacyTransaction>,
-        overdueTransactionsValue: ImmutableList<LegacyTransaction>,
-        accountsValue: ImmutableList<Account>,
-        reportFilterValue: ReportFilter? = null,
-        accountFilterIdListValue: ImmutableList<UUID>,
-        transactionsListValue: ImmutableList<LegacyTransaction>,
+        history: ImmutableList<TransactionHistoryItem>,
+        upcomingTransactions: ImmutableList<LegacyTransaction>,
+        overdueTransactions: ImmutableList<LegacyTransaction>,
+        accounts: ImmutableList<Account>,
+        reportFilter: ReportFilter? = null,
+        accountIdFilters: ImmutableList<UUID>,
+        transactions: ImmutableList<LegacyTransaction>,
         balanceValue: Double
     ) {
-        income.doubleValue = incomeValue
-        expenses.doubleValue = expenseValue
-        upcomingExpenses.doubleValue = upcomingIncomeExpenseTransferPair.expense.toDouble()
-        upcomingIncome.doubleValue = upcomingIncomeExpenseTransferPair.income.toDouble()
-        overdueIncome.doubleValue = overDueIncomeExpenseTransferPair.income.toDouble()
-        overdueExpenses.doubleValue = overDueIncomeExpenseTransferPair.expense.toDouble()
-        history.value = historyValue
-        upcomingTransactions.value = upcomingTransactionsListValue
-        overdueTransactions.value = overdueTransactionsValue
-        accounts.value = accountsValue
-        filter.value = reportFilterValue
-        accountIdFilters.value = accountFilterIdListValue
-        transactions.value = transactionsListValue
-        balance.doubleValue = balanceValue
-        showTransfersAsIncExpCheckbox.value =
-            reportFilterValue?.trnTypes?.contains(TransactionType.TRANSFER) ?: false
+        this.income.doubleValue = income
+        this.expenses.doubleValue = expense
+        this.upcomingExpenses.doubleValue = upcomingIncomeExpenseTransferPair.expense.toDouble()
+        this.upcomingIncome.doubleValue = upcomingIncomeExpenseTransferPair.income.toDouble()
+        this.overdueIncome.doubleValue = overDueIncomeExpenseTransferPair.income.toDouble()
+        this.overdueExpenses.doubleValue = overDueIncomeExpenseTransferPair.expense.toDouble()
+        this.history.value = history
+        this.upcomingTransactions.value = upcomingTransactions
+        this.overdueTransactions.value = overdueTransactions
+        this.accounts.value = accounts
+        this.filter.value = reportFilter
+        this.accountIdFilters.value = accountIdFilters
+        this.transactions.value = transactions
+        this.balance.doubleValue = balanceValue
+        this.showTransfersAsIncExpCheckbox.value =
+            reportFilter?.trnTypes?.contains(TransactionType.TRANSFER) ?: false
     }
 
     private suspend fun filterTransactions(
