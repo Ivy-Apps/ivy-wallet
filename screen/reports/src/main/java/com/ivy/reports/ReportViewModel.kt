@@ -219,10 +219,8 @@ class ReportViewModel @Inject constructor(
                 setReportValues(
                     incomeValue = 0.00,
                     expenseValue = 0.00,
-                    upcomingIncomeValue = 0.00,
-                    upcomingExpenseValue = 0.00,
-                    overDueIncomeValue = 0.00,
-                    overDueExpenseValue = 0.00,
+                    upcomingIncomeExpenseTransferPair = IncomeExpenseTransferPair.zero(),
+                    overDueIncomeExpenseTransferPair = IncomeExpenseTransferPair.zero(),
                     historyValue = persistentListOf(),
                     upcomingTransactionsListValue = persistentListOf(),
                     overdueTransactionsValue = persistentListOf(),
@@ -313,10 +311,8 @@ class ReportViewModel @Inject constructor(
             setReportValues(
                 incomeValue = tempIncome,
                 expenseValue = tempExpenses,
-                upcomingIncomeValue = upcomingIncomeExpense.income.toDouble(),
-                upcomingExpenseValue = upcomingIncomeExpense.expense.toDouble(),
-                overDueIncomeValue = overdueIncomeExpense.income.toDouble(),
-                overDueExpenseValue = overdueIncomeExpense.expense.toDouble(),
+                upcomingIncomeExpenseTransferPair = upcomingIncomeExpense,
+                overDueIncomeExpenseTransferPair = overdueIncomeExpense,
                 historyValue = historyWithDateDividers.await().toImmutableList(),
                 upcomingTransactionsListValue = upcomingTransactionsList.map {
                     it.toLegacy(transactionMapper)
@@ -338,12 +334,10 @@ class ReportViewModel @Inject constructor(
     }
 
     private fun setReportValues(
-        incomeValue: Double,
-        expenseValue: Double,
-        upcomingIncomeValue: Double,
-        upcomingExpenseValue: Double,
-        overDueIncomeValue: Double,
-        overDueExpenseValue: Double,
+        incomeValue : Double,
+        expenseValue : Double,
+        upcomingIncomeExpenseTransferPair: IncomeExpenseTransferPair,
+        overDueIncomeExpenseTransferPair: IncomeExpenseTransferPair,
         historyValue: ImmutableList<TransactionHistoryItem>,
         upcomingTransactionsListValue: ImmutableList<LegacyTransaction>,
         overdueTransactionsValue: ImmutableList<LegacyTransaction>,
@@ -355,10 +349,10 @@ class ReportViewModel @Inject constructor(
     ) {
         income.doubleValue = incomeValue
         expenses.doubleValue = expenseValue
-        upcomingExpenses.doubleValue = upcomingExpenseValue
-        upcomingIncome.doubleValue = upcomingIncomeValue
-        overdueIncome.doubleValue = overDueIncomeValue
-        overdueExpenses.doubleValue = overDueExpenseValue
+        upcomingExpenses.doubleValue = upcomingIncomeExpenseTransferPair.expense.toDouble()
+        upcomingIncome.doubleValue = upcomingIncomeExpenseTransferPair.income.toDouble()
+        overdueIncome.doubleValue = overDueIncomeExpenseTransferPair.income.toDouble()
+        overdueExpenses.doubleValue = overDueIncomeExpenseTransferPair.expense.toDouble()
         history.value = historyValue
         upcomingTransactions.value = upcomingTransactionsListValue
         overdueTransactions.value = overdueTransactionsValue
