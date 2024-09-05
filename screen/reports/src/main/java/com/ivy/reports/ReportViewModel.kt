@@ -225,7 +225,7 @@ class ReportViewModel @Inject constructor(
                     overDueExpenseValue = 0.00,
                     historyValue = persistentListOf(),
                     upcomingTransactionsListValue = persistentListOf(),
-                    overdueTransactionsValue =persistentListOf(),
+                    overdueTransactionsValue = persistentListOf(),
                     accountsValue = accountsAct(Unit),
                     reportFilterValue = filter.value,
                     accountFilterIdListValue = persistentListOf(),
