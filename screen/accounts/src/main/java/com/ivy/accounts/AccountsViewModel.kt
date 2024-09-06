@@ -110,11 +110,7 @@ class AccountsViewModel @Inject constructor(
 
     @Composable
     private fun getTotalBalanceWithExcluded(): String {
-        return if (features.hideTotalBalance.asEnabledState()) {
-            totalBalanceWithExcluded.value
-        } else {
-            totalBalanceWithExcluded.value
-        }
+        return totalBalanceWithExcluded.value
     }
 
     @Composable
