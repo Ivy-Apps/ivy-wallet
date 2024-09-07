@@ -52,7 +52,6 @@ import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.formatNicely
-import com.ivy.legacy.utils.formatNicelyWithTime
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.legacy.utils.setStatusBarDarkTextCompat
@@ -793,18 +792,20 @@ private fun InitialRecordItem(
             padding = 8.dp,
         ) {}
 
-        loan.dateTime?.formatNicelyWithTime(
-            noWeekDay = false
-        )?.let { nicelyFormattedDate ->
-            Text(
-                modifier = Modifier.padding(horizontal = 24.dp),
-                text = nicelyFormattedDate.uppercase(),
-                style = UI.typo.nC.style(
-                    color = Gray,
-                    fontWeight = FontWeight.Bold
-                )
+        val timeFormatter = LocalTimeFormatter.current
+
+        Text(
+            modifier = Modifier.padding(horizontal = 24.dp),
+            text = with(timeFormatter) {
+                loan.dateTime!!.format(
+                    TimeFormatter.Style.DateAndTime(includeWeekDay = true)
+                ).uppercase()
+            },
+            style = UI.typo.nC.style(
+                color = Gray,
+                fontWeight = FontWeight.Bold
             )
-        }
+        )
 
         if (loan.note.isNotNullOrBlank()) {
             Text(

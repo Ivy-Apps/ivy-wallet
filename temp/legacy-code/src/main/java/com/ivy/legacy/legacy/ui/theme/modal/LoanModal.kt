@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.data.model.LoanType
 import com.ivy.data.model.primitive.NotBlankTrimmedString
+import com.ivy.design.api.LocalTimeProvider
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.domain.legacy.ui.IvyColorPicker
@@ -50,7 +51,6 @@ import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.selectEndTextFieldValue
 import com.ivy.design.utils.thenIf
 import com.ivy.legacy.legacy.ui.theme.modal.ModalNameInput
-import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.ui.R
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
@@ -96,11 +96,13 @@ fun BoxWithConstraintsScope.LoanModal(
     dismiss: () -> Unit,
 ) {
     val loan = modal?.loan
+    val timeProvider = LocalTimeProvider.current
+
     var nameTextFieldValue by remember(modal) {
         mutableStateOf(selectEndTextFieldValue(loan?.name))
     }
     var dateTime by remember(modal) {
-        mutableStateOf(modal?.loan?.dateTime ?: timeNowUTC())
+        mutableStateOf(modal?.loan?.dateTime ?: timeProvider.localNow())
     }
     var type by remember(modal) {
         mutableStateOf(modal?.loan?.type ?: LoanType.BORROW)

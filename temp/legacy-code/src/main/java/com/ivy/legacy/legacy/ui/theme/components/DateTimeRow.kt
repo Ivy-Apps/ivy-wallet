@@ -8,11 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.ivy.design.api.LocalTimeConverter
+import com.ivy.design.api.LocalTimeFormatter
 import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.utils.convertLocalToUTC
 import com.ivy.legacy.utils.convertUTCToLocal
-import com.ivy.legacy.utils.convertUTCtoLocal
-import com.ivy.legacy.utils.formatLocalTime
 import com.ivy.legacy.utils.formatNicely
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.ui.R
@@ -28,6 +28,8 @@ fun DateTimeRow(
     modifier: Modifier = Modifier
 ) {
     val ivyContext = ivyWalletCtx()
+    val timeFormatter = LocalTimeFormatter.current
+    val timeConverter = LocalTimeConverter.current
 
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -40,22 +42,24 @@ fun DateTimeRow(
             iconStart = R.drawable.ic_date
         ) {
             ivyContext.datePicker(
-                initialDate = dateTime.convertUTCtoLocal().toLocalDate()
+                initialDate = with(timeConverter) { dateTime.toLocalDate() }
             ) {
-                onSetDateTime(getTrueDate(it, dateTime.toLocalTime()))
+                onSetDateTime(getTrueDate(it, with(timeConverter) { dateTime.toLocalTime() }))
             }
         }
 
         Spacer(Modifier.weight(1f))
 
         IvyOutlinedButton(
-            text = dateTime.formatLocalTime(),
+            text = with(timeFormatter) {
+                dateTime.toLocalTime().format()
+            },
             iconStart = R.drawable.ic_date
         ) {
             ivyContext.timePicker(
-                initialTime = dateTime.convertUTCtoLocal().toLocalTime()
+                initialTime = with(timeConverter) { dateTime.toLocalTime() }
             ) {
-                onSetDateTime(getTrueDate(dateTime.convertUTCtoLocal().toLocalDate(), it))
+                onSetDateTime(getTrueDate(with(timeConverter) { dateTime.toLocalDate() }, it))
             }
         }
 
