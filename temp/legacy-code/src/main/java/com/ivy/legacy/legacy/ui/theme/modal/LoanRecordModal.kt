@@ -80,7 +80,8 @@ data class LoanRecordModalData(
 @Composable
 fun BoxWithConstraintsScope.LoanRecordModal(
     modal: LoanRecordModalData?,
-
+    onSetDate: () -> Unit,
+    onSetTime: () -> Unit,
     onCreate: (CreateLoanRecordData) -> Unit,
     onEdit: (EditLoanRecordData) -> Unit,
     onDelete: (LoanRecord) -> Unit,
@@ -90,6 +91,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
 ) {
     val timeProvider = LocalTimeProvider.current
     val initialRecord = modal?.loanRecord
+
     var noteTextFieldValue by remember(modal) {
         mutableStateOf(selectEndTextFieldValue(initialRecord?.note))
     }
@@ -209,9 +211,8 @@ fun BoxWithConstraintsScope.LoanRecordModal(
         val timeConverter = LocalTimeConverter.current
         DateTimeRow(
             dateTime = with(timeConverter) { dateTime.toLocalDateTime() },
-            onSetDateTime = {
-                dateTime = with(timeConverter) { it.toUTC() }
-            }
+            onEditDate = onSetDate,
+            onEditTime = onSetTime,
         )
 
         Spacer(Modifier.height(24.dp))
@@ -675,6 +676,8 @@ private fun Preview() {
             onEdit = {},
             onDelete = {},
             dismiss = {},
+            onSetDate = {},
+            onSetTime = {},
         )
     }
 }

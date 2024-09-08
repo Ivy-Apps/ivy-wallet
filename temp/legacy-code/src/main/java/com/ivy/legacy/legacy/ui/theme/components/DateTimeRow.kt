@@ -8,9 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.ivy.design.api.LocalTimeConverter
 import com.ivy.design.api.LocalTimeFormatter
-import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.utils.convertLocalToUTC
 import com.ivy.legacy.utils.convertUTCToLocal
 import com.ivy.legacy.utils.formatNicely
@@ -24,12 +22,11 @@ import java.time.LocalTime
 @Composable
 fun DateTimeRow(
     dateTime: LocalDateTime,
-    onSetDateTime: (LocalDateTime) -> Unit,
+    onEditDate: () -> Unit,
+    onEditTime: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val ivyContext = ivyWalletCtx()
     val timeFormatter = LocalTimeFormatter.current
-    val timeConverter = LocalTimeConverter.current
 
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -41,11 +38,7 @@ fun DateTimeRow(
             text = dateTime.formatNicely(),
             iconStart = R.drawable.ic_date
         ) {
-            ivyContext.datePicker(
-                initialDate = with(timeConverter) { dateTime.toLocalDate() }
-            ) {
-                onSetDateTime(getTrueDate(it, with(timeConverter) { dateTime.toLocalTime() }))
-            }
+            onEditDate()
         }
 
         Spacer(Modifier.weight(1f))
@@ -56,11 +49,7 @@ fun DateTimeRow(
             },
             iconStart = R.drawable.ic_date
         ) {
-            ivyContext.timePicker(
-                initialTime = with(timeConverter) { dateTime.toLocalTime() }
-            ) {
-                onSetDateTime(getTrueDate(with(timeConverter) { dateTime.toLocalDate() }, it))
-            }
+            onEditTime()
         }
 
         Spacer(Modifier.width(24.dp))

@@ -211,9 +211,8 @@ fun BoxWithConstraintsScope.LoanModal(
 
         DateTimeRow(
             dateTime = dateTime,
-            onSetDateTime = {
-                dateTime = it
-            }
+            onEditDate = {},
+            onEditTime = {}
         )
 
         Spacer(Modifier.height(24.dp))

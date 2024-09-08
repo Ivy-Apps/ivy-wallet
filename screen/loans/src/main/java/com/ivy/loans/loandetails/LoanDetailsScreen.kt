@@ -104,7 +104,7 @@ fun BoxWithConstraintsScope.LoanDetailsScreen(screen: LoanDetailsScreen) {
 @Composable
 private fun BoxWithConstraintsScope.UI(
     state: LoanDetailsScreenState,
-    onEventHandler: (LoanDetailsScreenEvent) -> Unit = {},
+    onEventHandler: (LoanDetailsScreenEvent) -> Unit = {}
 ) {
     val itemColor = state.loan?.color?.toComposeColor() ?: Gray
 
@@ -212,7 +212,8 @@ private fun BoxWithConstraintsScope.UI(
         onEventHandler.invoke(LoanModalEvent.PerformCalculation)
     })
 
-    LoanRecordModal(modal = state.loanRecordModalData, onCreate = {
+    LoanRecordModal(
+        modal = state.loanRecordModalData, onCreate = {
         onEventHandler.invoke(LoanRecordModalEvent.OnCreateLoanRecord(it))
     }, onEdit = {
         onEventHandler.invoke(LoanRecordModalEvent.OnEditLoanRecord(it))
@@ -222,7 +223,14 @@ private fun BoxWithConstraintsScope.UI(
         onEventHandler.invoke(LoanRecordModalEvent.OnDismissLoanRecord)
     }, onCreateAccount = { createAccountData ->
         onEventHandler.invoke(LoanDetailsScreenEvent.OnCreateAccount(createAccountData))
-    })
+    },
+        onSetDate = {
+            onEventHandler.invoke(LoanRecordModalEvent.OnChangeDate)
+        },
+        onSetTime = {
+            onEventHandler.invoke(LoanRecordModalEvent.OnChangeTime)
+        },
+    )
 
     DeleteModal(
         visible = state.isDeleteModalVisible,
@@ -794,18 +802,20 @@ private fun InitialRecordItem(
 
         val timeFormatter = LocalTimeFormatter.current
 
-        Text(
-            modifier = Modifier.padding(horizontal = 24.dp),
-            text = with(timeFormatter) {
-                loan.dateTime!!.format(
-                    TimeFormatter.Style.DateAndTime(includeWeekDay = true)
-                ).uppercase()
-            },
-            style = UI.typo.nC.style(
-                color = Gray,
-                fontWeight = FontWeight.Bold
+        loan.dateTime?.let { dateTime ->
+            Text(
+                modifier = Modifier.padding(horizontal = 24.dp),
+                text = with(timeFormatter) {
+                    dateTime.format(
+                        TimeFormatter.Style.DateAndTime(includeWeekDay = true)
+                    ).uppercase()
+                },
+                style = UI.typo.nC.style(
+                    color = Gray,
+                    fontWeight = FontWeight.Bold
+                )
             )
-        )
+        }
 
         if (loan.note.isNotNullOrBlank()) {
             Text(

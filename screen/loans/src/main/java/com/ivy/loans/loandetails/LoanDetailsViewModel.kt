@@ -8,6 +8,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.model.LoanRecordType
+import com.ivy.base.time.TimeConverter
+import com.ivy.base.time.TimeProvider
 import com.ivy.data.db.dao.read.LoanRecordDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.repository.TransactionRepository
@@ -29,6 +31,7 @@ import com.ivy.loans.loandetails.events.LoanRecordModalEvent
 import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.Navigation
 import com.ivy.ui.ComposeViewModel
+import com.ivy.ui.time.impl.DateTimePicker
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.loan.LoanByIdAct
 import com.ivy.wallet.domain.deprecated.logic.LoanCreator
@@ -44,6 +47,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import java.util.UUID
 import javax.inject.Inject
 
@@ -61,6 +65,9 @@ class LoanDetailsViewModel @Inject constructor(
     private val nav: Navigation,
     private val accountsAct: AccountsAct,
     private val loanByIdAct: LoanByIdAct,
+    private val timeConverter: TimeConverter,
+    private val timeProvider: TimeProvider,
+    private val dateTimePicker: DateTimePicker,
 ) : ComposeViewModel<LoanDetailsScreenState, LoanDetailsScreenEvent>() {
 
     private val baseCurrency = mutableStateOf("")
@@ -142,6 +149,12 @@ class LoanDetailsViewModel @Inject constructor(
                 editLoanRecord(event.loanRecordData)
             }
 
+            is LoanRecordModalEvent.OnChangeDate -> {
+                handleChangeDate()
+            }
+            is LoanRecordModalEvent.OnChangeTime -> {
+                handleChangeTime()
+            }
             else -> {}
         }
     }
@@ -446,6 +459,46 @@ class LoanDetailsViewModel @Inject constructor(
             loanTransactionsLogic.LoanRecord.deleteAssociatedLoanRecordTransaction(loanRecordId = loanRecord.id)
 
             TestIdlingResource.decrement()
+        }
+    }
+
+    private fun handleChangeDate() {
+        dateTimePicker.pickDate(
+            initialDate = loanRecordModalData.value?.loanRecord?.dateTime?.let {
+                with(timeConverter) { it.toLocalDateTime().toUTC() }
+            } ?: timeProvider.utcNow()
+        ) { localDate ->
+
+            val localTime = loanRecordModalData.value?.loanRecord?.dateTime?.let {
+                with(timeConverter) { it.toLocalTime() }
+            } ?: timeProvider.localTimeNow()
+
+            updateDateTime(localDate.atTime(localTime))
+        }
+    }
+
+    private fun handleChangeTime() {
+        dateTimePicker.pickTime(
+            initialTime = loanRecordModalData.value?.loanRecord?.dateTime?.let {
+                with(timeConverter) { it.toLocalTime() }
+            } ?: timeProvider.localTimeNow()
+        ) { localTime ->
+            val localDate = loanRecordModalData.value?.loanRecord?.dateTime?.let {
+                with(timeConverter) { it.toLocalDate() }
+            } ?: timeProvider.localDateNow()
+
+            updateDateTime(localDate.atTime(localTime))
+        }
+    }
+
+    private fun updateDateTime(newDateTime: LocalDateTime) {
+        val newDateTimeUtc = with(timeConverter) { newDateTime.toUTC() }
+        loanRecordModalData.value?.let { currentData ->
+            loanRecordModalData.value = currentData.copy(
+                loanRecord = currentData.loanRecord?.copy(
+                    dateTime = newDateTimeUtc
+                )
+            )
         }
     }
 
