@@ -85,6 +85,7 @@ import com.ivy.wallet.ui.theme.modal.LoanRecordModal
 import com.ivy.wallet.ui.theme.modal.ProgressModal
 import com.ivy.wallet.ui.theme.toComposeColor
 import kotlinx.collections.immutable.persistentListOf
+import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.util.UUID
@@ -200,7 +201,8 @@ private fun BoxWithConstraintsScope.UI(
         }
     }
 
-    LoanModal(modal = state.loanModalData, onCreateLoan = {
+    LoanModal(
+        modal = state.loanModalData, onCreateLoan = {
         // do nothing
     }, onEditLoan = { loan, createLoanTransaction ->
         onEventHandler.invoke(LoanModalEvent.OnEditLoanModal(loan, createLoanTransaction))
@@ -210,7 +212,14 @@ private fun BoxWithConstraintsScope.UI(
         onEventHandler.invoke(LoanDetailsScreenEvent.OnCreateAccount(createAccountData))
     }, accounts = state.accounts, onPerformCalculations = {
         onEventHandler.invoke(LoanModalEvent.PerformCalculation)
-    })
+    }, dateTime = state.dateTime,
+        onSetDate = {
+            onEventHandler.invoke(LoanModalEvent.OnChangeDate)
+        },
+        onSetTime = {
+            onEventHandler.invoke(LoanModalEvent.OnChangeTime)
+        },
+    )
 
     LoanRecordModal(
         modal = state.loanRecordModalData, onCreate = {
@@ -224,6 +233,7 @@ private fun BoxWithConstraintsScope.UI(
     }, onCreateAccount = { createAccountData ->
         onEventHandler.invoke(LoanDetailsScreenEvent.OnCreateAccount(createAccountData))
     },
+        dateTime = state.dateTime,
         onSetDate = {
             onEventHandler.invoke(LoanRecordModalEvent.OnChangeDate)
         },
@@ -903,7 +913,8 @@ private fun Preview_Empty() {
                 isDeleteModalVisible = false,
                 loanModalData = null,
                 loanRecordModalData = null,
-                waitModalVisible = false
+                waitModalVisible = false,
+                dateTime = Instant.now()
             )
         ) {}
     }
@@ -963,7 +974,8 @@ private fun Preview_Records(theme: Theme = Theme.LIGHT) {
                 isDeleteModalVisible = false,
                 loanModalData = null,
                 loanRecordModalData = null,
-                waitModalVisible = false
+                waitModalVisible = false,
+                dateTime = Instant.now()
             )
         ) {}
     }

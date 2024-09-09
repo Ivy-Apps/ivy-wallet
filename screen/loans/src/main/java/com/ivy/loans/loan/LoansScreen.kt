@@ -62,6 +62,7 @@ import com.ivy.wallet.ui.theme.modal.LoanModal
 import com.ivy.wallet.ui.theme.modal.LoanModalData
 import com.ivy.wallet.ui.theme.toComposeColor
 import kotlinx.collections.immutable.persistentListOf
+import java.time.Instant
 import java.time.LocalDateTime
 
 @Composable
@@ -176,6 +177,13 @@ private fun BoxWithConstraintsScope.UI(
         dismiss = {
             onEventHandler.invoke(LoanScreenEvent.OnLoanModalDismiss)
         },
+        dateTime = state.dateTime,
+        onSetDate = {
+            onEventHandler.invoke(LoanScreenEvent.OnChangeDate)
+        },
+        onSetTime = {
+            onEventHandler.invoke(LoanScreenEvent.OnChangeTime)
+        }
     )
 }
 
@@ -460,7 +468,8 @@ private fun Preview(theme: Theme = Theme.LIGHT) {
         ),
         reorderModalVisible = false,
         selectedAccount = null,
-        paidOffLoanVisibility = true
+        paidOffLoanVisibility = true,
+        dateTime = Instant.now()
     )
     IvyWalletPreview(theme) {
         UI(

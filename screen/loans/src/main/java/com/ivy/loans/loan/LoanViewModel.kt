@@ -7,6 +7,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.model.processByType
+import com.ivy.base.time.TimeConverter
+import com.ivy.base.time.TimeProvider
 import com.ivy.data.db.dao.read.LoanRecordDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteLoanDao
@@ -20,6 +22,7 @@ import com.ivy.legacy.utils.getDefaultFIATCurrency
 import com.ivy.legacy.utils.ioThread
 import com.ivy.loans.loan.data.DisplayLoan
 import com.ivy.ui.ComposeViewModel
+import com.ivy.ui.time.impl.DateTimePicker
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.loan.LoansAct
 import com.ivy.wallet.domain.deprecated.logic.LoanCreator
@@ -33,6 +36,8 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.Instant
+import java.time.LocalDateTime
 import java.util.UUID
 import javax.inject.Inject
 
@@ -48,6 +53,9 @@ class LoanViewModel @Inject constructor(
     private val loansAct: LoansAct,
     private val accountsAct: AccountsAct,
     private val loanWriter: WriteLoanDao,
+    private val timeConverter: TimeConverter,
+    private val timeProvider: TimeProvider,
+    private val dateTimePicker: DateTimePicker,
 ) : ComposeViewModel<LoanScreenState, LoanScreenEvent>() {
 
     private val baseCurrencyCode = mutableStateOf(getDefaultFIATCurrency().currencyCode)
@@ -56,6 +64,7 @@ class LoanViewModel @Inject constructor(
     private val selectedAccount = mutableStateOf<Account?>(null)
     private val loanModalData = mutableStateOf<LoanModalData?>(null)
     private val reorderModalVisible = mutableStateOf(false)
+    private var dateTime = mutableStateOf<Instant>(timeProvider.utcNow())
 
     /** If true paid off loans will be visible */
     private val paidOffLoanVisibility = mutableStateOf(true)
@@ -81,7 +90,8 @@ class LoanViewModel @Inject constructor(
             reorderModalVisible = getReorderModalVisible(),
             totalOweAmount = getTotalOweAmount(totalOweAmount, defaultCurrencyCode),
             totalOwedAmount = getTotalOwedAmount(totalOwedAmount, defaultCurrencyCode),
-            paidOffLoanVisibility = getPaidOffLoanVisibility()
+            paidOffLoanVisibility = getPaidOffLoanVisibility(),
+            dateTime = dateTime.value
         )
     }
 
@@ -126,6 +136,7 @@ class LoanViewModel @Inject constructor(
 
             is LoanScreenEvent.OnLoanModalDismiss -> {
                 loanModalData.value = null
+                dateTime.value = timeProvider.utcNow()
             }
 
             is LoanScreenEvent.OnReOrderModalShow -> {
@@ -143,12 +154,21 @@ class LoanViewModel @Inject constructor(
             LoanScreenEvent.OnTogglePaidOffLoanVisibility -> {
                 updatePaidOffLoanVisibility()
             }
+
+            is LoanScreenEvent.OnChangeDate -> {
+                handleChangeDate()
+            }
+            is LoanScreenEvent.OnChangeTime -> {
+                handleChangeTime()
+            }
         }
     }
 
     private fun start() {
         viewModelScope.launch(Dispatchers.Default) {
             TestIdlingResource.increment()
+
+            dateTime.value = timeProvider.utcNow()
 
             defaultCurrencyCode = ioThread {
                 settingsDao.findFirst().currency
@@ -223,6 +243,46 @@ class LoanViewModel @Inject constructor(
         selectedAccount.value = defaultAccountId(accountsList)
         selectedAccount.value?.let {
             baseCurrencyCode.value = it.currency ?: defaultCurrencyCode
+        }
+    }
+
+    private fun handleChangeDate() {
+        dateTimePicker.pickDate(
+            initialDate = loanModalData.value?.loan?.dateTime?.let {
+                with(timeConverter) { it.toUTC() }
+            } ?: timeProvider.utcNow()
+        ) { localDate ->
+            val localTime = loanModalData.value?.loan?.dateTime?.let {
+                with(timeConverter) { it.toLocalTime() }
+            } ?: timeProvider.localTimeNow()
+
+            updateDateTime(localDate.atTime(localTime))
+        }
+    }
+
+    private fun handleChangeTime() {
+        dateTimePicker.pickTime(
+            initialTime = loanModalData.value?.loan?.dateTime?.let {
+                with(timeConverter) { it.toLocalTime() }
+            } ?: timeProvider.localTimeNow()
+        ) { localTime ->
+            val localDate = loanModalData.value?.loan?.dateTime?.let {
+                with(timeConverter) { it.toLocalDate() }
+            } ?: timeProvider.localDateNow()
+
+            updateDateTime(localDate.atTime(localTime))
+        }
+    }
+
+    private fun updateDateTime(newDateTime: LocalDateTime) {
+        val newDateTimeUtc = with(timeConverter) { newDateTime.toUTC() }
+        loanModalData.value?.let { currentData ->
+            loanModalData.value = currentData.copy(
+                loan = currentData.loan?.copy(
+                    dateTime = newDateTime
+                )
+            )
+            dateTime.value = newDateTimeUtc
         }
     }
 

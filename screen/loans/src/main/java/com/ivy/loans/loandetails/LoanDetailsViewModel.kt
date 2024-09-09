@@ -47,6 +47,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
+import java.time.Instant
 import java.time.LocalDateTime
 import java.util.UUID
 import javax.inject.Inject
@@ -86,6 +87,7 @@ class LoanDetailsViewModel @Inject constructor(
     private val loanRecordModalData = mutableStateOf<LoanRecordModalData?>(null)
     private val waitModalVisible = mutableStateOf(false)
     private val isDeleteModalVisible = mutableStateOf(false)
+    private var dateTime = mutableStateOf<Instant>(timeProvider.utcNow())
     lateinit var screen: LoanDetailsScreen
 
     @Composable
@@ -107,7 +109,8 @@ class LoanDetailsViewModel @Inject constructor(
             loanModalData = loanModalData.value,
             loanRecordModalData = loanRecordModalData.value,
             waitModalVisible = waitModalVisible.value,
-            isDeleteModalVisible = isDeleteModalVisible.value
+            isDeleteModalVisible = isDeleteModalVisible.value,
+            dateTime = dateTime.value
         )
     }
 
@@ -143,6 +146,7 @@ class LoanDetailsViewModel @Inject constructor(
 
             LoanRecordModalEvent.OnDismissLoanRecord -> {
                 loanRecordModalData.value = null
+                dateTime.value = timeProvider.utcNow()
             }
 
             is LoanRecordModalEvent.OnEditLoanRecord -> {
@@ -163,6 +167,7 @@ class LoanDetailsViewModel @Inject constructor(
         when (event) {
             LoanModalEvent.OnDismissLoanModal -> {
                 loanModalData.value = null
+                dateTime.value = timeProvider.utcNow()
             }
 
             is LoanModalEvent.OnEditLoanModal -> {
@@ -171,6 +176,14 @@ class LoanDetailsViewModel @Inject constructor(
 
             LoanModalEvent.PerformCalculation -> {
                 waitModalVisible.value = true
+            }
+
+            LoanModalEvent.OnChangeDate -> {
+                handleLoanChangeDate()
+            }
+
+            LoanModalEvent.OnChangeTime -> {
+                handleLoanChangeTime()
             }
 
             else -> {}
@@ -238,6 +251,8 @@ class LoanDetailsViewModel @Inject constructor(
     private fun load(loanId: UUID) {
         viewModelScope.launch {
             TestIdlingResource.increment()
+
+            dateTime.value = timeProvider.utcNow()
 
             defaultCurrencyCode = ioThread {
                 settingsDao.findFirst().currency
@@ -499,6 +514,48 @@ class LoanDetailsViewModel @Inject constructor(
                     dateTime = newDateTimeUtc
                 )
             )
+            dateTime.value = newDateTimeUtc
+        }
+    }
+
+    private fun handleLoanChangeDate() {
+        dateTimePicker.pickDate(
+            initialDate = loanModalData.value?.loan?.dateTime?.let {
+                with(timeConverter) { it.toUTC() }
+            } ?: timeProvider.utcNow()
+        ) { localDate ->
+
+            val localTime = loanModalData.value?.loan?.dateTime?.let {
+                with(timeConverter) { it.toLocalTime() }
+            } ?: timeProvider.localTimeNow()
+
+            updateLoanDateTime(localDate.atTime(localTime))
+        }
+    }
+
+    private fun handleLoanChangeTime() {
+        dateTimePicker.pickTime(
+            initialTime = loanModalData.value?.loan?.dateTime?.let {
+                with(timeConverter) { it.toLocalTime() }
+            } ?: timeProvider.localTimeNow()
+        ) { localTime ->
+            val localDate = loanModalData.value?.loan?.dateTime?.let {
+                with(timeConverter) { it.toLocalDate() }
+            } ?: timeProvider.localDateNow()
+
+            updateLoanDateTime(localDate.atTime(localTime))
+        }
+    }
+
+    private fun updateLoanDateTime(newDateTime: LocalDateTime) {
+        val newDateTimeUtc = with(timeConverter) { newDateTime.toUTC() }
+        loanModalData.value?.let { currentData ->
+            loanModalData.value = currentData.copy(
+                loan = currentData.loan?.copy(
+                    dateTime = newDateTime
+                )
+            )
+            dateTime.value = newDateTimeUtc
         }
     }
 
