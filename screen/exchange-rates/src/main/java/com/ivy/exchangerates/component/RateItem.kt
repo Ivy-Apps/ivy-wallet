@@ -2,9 +2,13 @@ package com.ivy.exchangerates.component
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,32 +30,72 @@ fun RateItem(
     rate: RateUi,
     onDelete: (() -> Unit)?,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .border(1.dp, UI.colors.primary)
+        modifier = modifier
+            .padding(
+                horizontal = 16.dp
+            )
             .clickable(onClick = onClick)
-            .padding(horizontal = 16.dp, vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .border(2.dp, UI.colors.medium, UI.shapes.r4)
+
     ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically
+
+        ) {
+            val currencyValue: Double = 1.0
+            RateColumn(
+                label = "Sell",
+                rate = rate.from,
+                value = currencyValue.format(currencyCode = rate.from)
+            )
+
+            SpacerHor(width = 16.dp)
+            Icon(
+                imageVector = Icons.Filled.ArrowForward,
+                contentDescription = "arrow to next"
+            )
+            SpacerHor(width = 16.dp)
+            RateColumn(
+                label = "Buy",
+                rate = rate.to,
+                value = rate.rate.format(currencyCode = rate.to)
+            )
+
+            if (onDelete != null) {
+                SpacerWeight(weight = 1f)
+                DeleteButton(onClick = onDelete)
+            }
+        }
+    }
+}
+
+@Composable
+private fun RateColumn(label: String, rate: String, value: String) {
+    Column {
         Text(
-            text = "${rate.from}-${rate.to}:",
-            style = UI.typo.nB1.style(
+            text = label,
+            style = UI.typo.c.style(
                 fontWeight = FontWeight.Normal
             )
         )
-        SpacerHor(width = 8.dp)
         Text(
-            text = rate.rate.format(currencyCode = rate.to),
+            text = rate,
             style = UI.typo.nB1.style(
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.ExtraBold
             )
         )
-        if (onDelete != null) {
-            SpacerWeight(weight = 1f)
-            DeleteButton(onClick = onDelete)
-        }
+        Text(
+            text = value,
+            style = UI.typo.nB2.style(
+                fontWeight = FontWeight.Normal
+            )
+        )
     }
 }
 
@@ -62,10 +106,10 @@ private fun Preview() {
     IvyWalletComponentPreview {
         RateItem(
             rate = RateUi(
-                from = "BGN",
-                to = "EUR",
-                rate = 1.95583
-            ),
+            from = "BGN",
+            to = "EUR",
+            rate = 1.95583
+        ),
             onDelete = null,
             onClick = {}
         )
@@ -81,7 +125,7 @@ private fun Preview_Delete() {
                 from = "BGN",
                 to = "EUR",
                 rate = 1.95583
-            ),
+        ),
             onDelete = { },
             onClick = {}
         )
