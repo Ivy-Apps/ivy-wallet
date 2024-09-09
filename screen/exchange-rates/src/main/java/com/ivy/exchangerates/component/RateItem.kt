@@ -30,9 +30,10 @@ fun RateItem(
     rate: RateUi,
     onDelete: (() -> Unit)?,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .padding(
                 horizontal = 16.dp
             )
