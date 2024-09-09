@@ -36,10 +36,9 @@ fun DateTimeRow(
 
         IvyOutlinedButton(
             text = dateTime.formatNicely(),
-            iconStart = R.drawable.ic_date
-        ) {
-            onEditDate()
-        }
+            iconStart = R.drawable.ic_date,
+            onClick = onEditDate
+        )
 
         Spacer(Modifier.weight(1f))
 
@@ -47,10 +46,9 @@ fun DateTimeRow(
             text = with(timeFormatter) {
                 dateTime.toLocalTime().format()
             },
-            iconStart = R.drawable.ic_date
-        ) {
-            onEditTime()
-        }
+            iconStart = R.drawable.ic_date,
+            onClick = onEditTime
+        )
 
         Spacer(Modifier.width(24.dp))
     }

@@ -88,15 +88,14 @@ data class LoanModalData(
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.LoanModal(
-    accounts: List<Account> = emptyList(),
-    onCreateAccount: (CreateAccountData) -> Unit = {},
-
     modal: LoanModalData?,
     dateTime: Instant,
     onSetDate: () -> Unit,
     onSetTime: () -> Unit,
     onCreateLoan: (CreateLoanData) -> Unit,
     onEditLoan: (Loan, Boolean) -> Unit,
+    accounts: List<Account> = emptyList(),
+    onCreateAccount: (CreateAccountData) -> Unit = {},
     onPerformCalculations: () -> Unit = {},
     dismiss: () -> Unit,
 ) {
