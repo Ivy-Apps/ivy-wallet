@@ -4,8 +4,8 @@ import androidx.room.Dao
 import androidx.room.Query
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.entity.TransactionEntity
-import java.time.LocalDateTime
-import java.util.*
+import java.time.Instant
+import java.util.UUID
 
 @Dao
 interface TransactionDao {
@@ -34,8 +34,8 @@ interface TransactionDao {
     suspend fun findAllByTypeAndAccountBetween(
         type: TransactionType,
         accountId: UUID,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<TransactionEntity>
 
     @Query(
@@ -51,8 +51,8 @@ interface TransactionDao {
     )
     suspend fun findAllTransfersToAccountBetween(
         toAccountId: UUID,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime,
+        startDate: Instant,
+        endDate: Instant,
         type: TransactionType = TransactionType.TRANSFER
     ): List<TransactionEntity>
 
@@ -60,8 +60,8 @@ interface TransactionDao {
         "SELECT * FROM transactions WHERE isDeleted = 0 AND dateTime >= :startDate AND dateTime <= :endDate ORDER BY dateTime DESC"
     )
     suspend fun findAllBetween(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<TransactionEntity>
 
     @Query(
@@ -69,8 +69,8 @@ interface TransactionDao {
     )
     suspend fun findAllByAccountAndBetween(
         accountId: UUID,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<TransactionEntity>
 
     @Query(
@@ -78,16 +78,16 @@ interface TransactionDao {
     )
     suspend fun findAllByCategoryAndBetween(
         categoryId: UUID,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<TransactionEntity>
 
     @Query(
         "SELECT * FROM transactions WHERE isDeleted = 0 AND (categoryId IS NULL) AND dateTime >= :startDate AND dateTime <= :endDate ORDER BY dateTime DESC"
     )
     suspend fun findAllUnspecifiedAndBetween(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<TransactionEntity>
 
     @Query(
@@ -96,8 +96,8 @@ interface TransactionDao {
     suspend fun findAllByCategoryAndTypeAndBetween(
         categoryId: UUID,
         type: TransactionType,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<TransactionEntity>
 
     @Query(
@@ -105,8 +105,8 @@ interface TransactionDao {
     )
     suspend fun findAllUnspecifiedAndTypeAndBetween(
         type: TransactionType,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<TransactionEntity>
 
     @Query(
@@ -114,24 +114,24 @@ interface TransactionDao {
     )
     suspend fun findAllToAccountAndBetween(
         toAccountId: UUID,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<TransactionEntity>
 
     @Query(
         "SELECT * FROM transactions WHERE isDeleted = 0 AND dueDate >= :startDate AND dueDate <= :endDate ORDER BY dueDate ASC"
     )
     suspend fun findAllDueToBetween(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: Instant,
+        endDate: Instant
     ): List<TransactionEntity>
 
     @Query(
         "SELECT * FROM transactions WHERE isDeleted = 0 AND dueDate >= :startDate AND dueDate <= :endDate AND (categoryId = :categoryId) ORDER BY dateTime DESC, dueDate ASC"
     )
     suspend fun findAllDueToBetweenByCategory(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime,
+        startDate: Instant,
+        endDate: Instant,
         categoryId: UUID
     ): List<TransactionEntity>
 
@@ -139,16 +139,16 @@ interface TransactionDao {
         "SELECT * FROM transactions WHERE isDeleted = 0 AND dueDate >= :startDate AND dueDate <= :endDate AND (categoryId IS NULL) ORDER BY dateTime DESC, dueDate ASC"
     )
     suspend fun findAllDueToBetweenByCategoryUnspecified(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime,
+        startDate: Instant,
+        endDate: Instant,
     ): List<TransactionEntity>
 
     @Query(
         "SELECT * FROM transactions WHERE isDeleted = 0 AND dueDate >= :startDate AND dueDate <= :endDate AND accountId = :accountId ORDER BY dateTime DESC, dueDate ASC"
     )
     suspend fun findAllDueToBetweenByAccount(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime,
+        startDate: Instant,
+        endDate: Instant,
         accountId: UUID
     ): List<TransactionEntity>
 
@@ -161,8 +161,8 @@ interface TransactionDao {
         "SELECT * FROM transactions WHERE isDeleted = 0 AND dateTime >= :startDate AND dateTime <= :endDate AND type = :type ORDER BY dateTime DESC"
     )
     suspend fun findAllBetweenAndType(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime,
+        startDate: Instant,
+        endDate: Instant,
         type: TransactionType
     ): List<TransactionEntity>
 
@@ -170,8 +170,8 @@ interface TransactionDao {
         "SELECT * FROM transactions WHERE isDeleted = 0 AND dateTime >= :startDate AND dateTime <= :endDate AND recurringRuleId = :recurringRuleId ORDER BY dateTime DESC"
     )
     suspend fun findAllBetweenAndRecurringRuleId(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime,
+        startDate: Instant,
+        endDate: Instant,
         recurringRuleId: UUID
     ): List<TransactionEntity>
 

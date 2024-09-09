@@ -124,7 +124,6 @@ private fun BoxWithConstraintsScope.UI(
                 titleTextFieldValue = it
             },
             suggestions = emptySet(), // DO NOT display title suggestions for "Planned Payments"
-
             onTitleChanged = { onEvent(EditPlannedScreenEvent.OnTitleChanged(it)) },
             onNext = {
                 when {

@@ -4,13 +4,13 @@ import androidx.compose.runtime.Immutable
 import com.ivy.base.model.TransactionType
 import com.ivy.data.db.entity.PlannedPaymentRuleEntity
 import com.ivy.data.model.IntervalType
-import java.time.LocalDateTime
+import java.time.Instant
 import java.util.UUID
 
 @Deprecated("Legacy data model. Will be deleted")
 @Immutable
 data class PlannedPaymentRule(
-    val startDate: LocalDateTime?,
+    val startDate: Instant?,
     val intervalN: Int?,
     val intervalType: IntervalType?,
     val oneTime: Boolean,

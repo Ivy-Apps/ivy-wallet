@@ -142,7 +142,8 @@ private fun BoxWithConstraintsScope.UI(
                     incomeLabel = stringResource(id = R.string.total_balance),
                     income = state.totalBalanceWithoutExcluded.toDoubleOrNull() ?: 0.00,
                     expensesLabel = stringResource(id = R.string.total_balance_excluded),
-                    expenses = state.totalBalanceWithExcluded.toDoubleOrNull() ?: 0.00
+                    expenses = state.totalBalanceWithExcluded.toDoubleOrNull() ?: 0.00,
+                    hiddenMode = state.hideTotalBalance
                 )
             }
             Spacer(Modifier.height(16.dp))
@@ -413,7 +414,8 @@ private fun PreviewAccountsTabCompactModeDisabled(theme: Theme = Theme.LIGHT) {
             totalBalanceWithoutExcluded = "25.54",
             totalBalanceWithoutExcludedText = "BGN 25.54",
             reorderVisible = false,
-            compactAccountsModeEnabled = false
+            compactAccountsModeEnabled = false,
+            hideTotalBalance = false
         )
         UI(state = state)
     }
@@ -499,7 +501,8 @@ private fun PreviewAccountsTabCompactModeEnabled(theme: Theme = Theme.LIGHT) {
             totalBalanceWithoutExcluded = "25.54",
             totalBalanceWithoutExcludedText = "BGN 25.54",
             reorderVisible = false,
-            compactAccountsModeEnabled = true
+            compactAccountsModeEnabled = true,
+            hideTotalBalance = false
         )
         UI(state = state)
     }

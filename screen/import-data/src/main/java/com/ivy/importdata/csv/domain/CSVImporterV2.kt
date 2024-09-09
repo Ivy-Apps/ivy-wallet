@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.toArgb
 import arrow.core.raise.either
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.model.TransactionType
+import com.ivy.base.time.TimeConverter
 import com.ivy.data.backup.CSVRow
 import com.ivy.data.backup.ImportResult
 import com.ivy.data.db.dao.read.AccountDao
@@ -44,6 +45,7 @@ class CSVImporterV2 @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val currencyRepository: CurrencyRepository,
     private val accountRepository: AccountRepository,
+    private val timeConverter: TimeConverter,
 ) {
 
     lateinit var accounts: List<Account>
@@ -231,7 +233,7 @@ class CSVImporterV2 @Inject constructor(
             accountId = account.id,
             toAccountId = toAccount?.id,
             toAmount = toAmount?.toBigDecimal() ?: amount.toBigDecimal(),
-            dateTime = dateTime,
+            dateTime = with(timeConverter) { dateTime.toUTC() },
             dueDate = null,
             categoryId = category?.id?.value,
             title = title,

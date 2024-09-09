@@ -17,22 +17,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.api.LocalTimeConverter
+import com.ivy.design.api.LocalTimeFormatter
+import com.ivy.design.api.LocalTimeProvider
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletComponentPreview
-import com.ivy.legacy.utils.formatNicely
-import com.ivy.legacy.utils.formatTimeOnly
-import com.ivy.legacy.utils.timeNowLocal
-import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.ui.R
+import com.ivy.ui.time.TimeFormatter
 import com.ivy.wallet.ui.theme.components.IvyIcon
-import java.time.LocalDateTime
+import java.time.Instant
 
+@Suppress("MultipleEmitters")
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun TransactionDateTime(
-    dateTime: LocalDateTime?,
-    dueDateTime: LocalDateTime?,
+    dateTime: Instant?,
+    dueDateTime: Instant?,
     onEditDate: () -> Unit,
     onEditTime: () -> Unit,
     modifier: Modifier = Modifier
@@ -66,10 +67,14 @@ fun TransactionDateTime(
             Spacer(Modifier.width(24.dp))
             Spacer(Modifier.weight(1f))
 
+            val localDateTime = with(LocalTimeConverter.current) {
+                (dateTime ?: LocalTimeProvider.current.utcNow()).toLocalDateTime()
+            }
+            val timeFormatter = LocalTimeFormatter.current
             Text(
-                text = (dateTime ?: timeNowUTC()).formatNicely(
-                    noWeekDay = true
-                ),
+                text = with(timeFormatter) {
+                    localDateTime.format(TimeFormatter.Style.DateOnly(includeWeekDay = false))
+                },
                 style = UI.typo.nB2.style(
                     color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
@@ -78,8 +83,11 @@ fun TransactionDateTime(
                     onEditDate()
                 }
             )
+
             Text(
-                text = " " + (dateTime?.formatTimeOnly() ?: timeNowLocal().formatTimeOnly()),
+                text = " " + with(timeFormatter) {
+                    localDateTime.toLocalTime().format()
+                },
                 style = UI.typo.nB2.style(
                     color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
@@ -98,7 +106,7 @@ fun TransactionDateTime(
 private fun Preview() {
     IvyWalletComponentPreview {
         TransactionDateTime(
-            dateTime = timeNowUTC(),
+            dateTime = LocalTimeProvider.current.utcNow(),
             dueDateTime = null,
             onEditDate = {
             },

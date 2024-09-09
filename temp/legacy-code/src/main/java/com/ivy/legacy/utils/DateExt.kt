@@ -3,8 +3,12 @@ package com.ivy.legacy.utils
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.ivy.base.legacy.stringRes
+import com.ivy.base.time.INSTANT_MAX_SAFE
+import com.ivy.base.time.INSTANT_MIN_SAFE
+import com.ivy.base.time.TimeConverter
 import com.ivy.frp.Total
 import com.ivy.ui.R
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -12,7 +16,6 @@ import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Locale
-import java.util.concurrent.TimeUnit
 
 @Deprecated("Use the TimeProvider interface via DI")
 fun timeNowLocal(): LocalDateTime = LocalDateTime.now()
@@ -39,6 +42,7 @@ fun LocalDateTime.toEpochSeconds() = this.toEpochSecond(ZoneOffset.UTC)
 
 fun LocalDateTime.millis() = this.toInstant(ZoneOffset.UTC).toEpochMilli()
 
+@Deprecated("Use the TimeConverter interface via DI")
 fun LocalDateTime.formatNicely(
     noWeekDay: Boolean = false,
     zone: ZoneId = ZoneOffset.systemDefault()
@@ -81,6 +85,7 @@ fun LocalDateTime.formatNicely(
 
 fun LocalDateTime.getISOFormattedDateTime(): String = this.formatLocal("yyyyMMdd-HHmm")
 
+@Deprecated("Use the TimeConverter interface via DI")
 fun LocalDateTime.formatNicelyWithTime(
     noWeekDay: Boolean = true,
     zone: ZoneId = ZoneOffset.systemDefault()
@@ -121,25 +126,25 @@ fun LocalDateTime.formatNicelyWithTime(
     }
 }
 
+@Deprecated("Use the TimeConverter interface via DI")
 @Composable
 fun LocalDateTime.formatLocalTime(): String {
     val timeFormat = android.text.format.DateFormat.getTimeFormat(LocalContext.current)
     return timeFormat.format(this.millis())
 }
 
+@Deprecated("Use the TimeConverter interface via DI")
 fun LocalDate.formatDateOnly(): String = this.formatLocal("MMM. dd", ZoneOffset.systemDefault())
 
-fun LocalDateTime.formatTimeOnly(): String = this.format(DateTimeFormatter.ofPattern("HH:mm"))
-
+@Deprecated("Use the TimeConverter interface via DI")
 fun LocalDate.formatDateOnlyWithYear(): String =
     this.formatLocal("dd MMM, yyyy", ZoneOffset.systemDefault())
 
-fun LocalDate.formatDateWeekDay(): String =
-    this.formatLocal("EEE, dd MMM", ZoneOffset.systemDefault())
-
+@Deprecated("Use the TimeConverter interface via DI")
 fun LocalDate.formatDateWeekDayLong(): String =
     this.formatLocal("EEEE, dd MMM", ZoneOffset.systemDefault())
 
+@Deprecated("Use the TimeConverter interface via DI")
 fun LocalDate.formatNicely(
     pattern: String = "EEE, dd MMM",
     patternNoWeekDay: String = "dd MMM",
@@ -226,22 +231,6 @@ fun LocalDateTime.convertLocalToUTC(): LocalDateTime {
     return this.minusSeconds(offset)
 }
 
-// The timepicker returns time in UTC, but the date picker returns date in LocalTimeZone
-// hence use this method to get both date & time in UTC
-fun getTrueDate(date: LocalDate, time: LocalTime, convert: Boolean = true): LocalDateTime {
-    val timeLocal = if (convert) time.convertUTCToLocal() else time
-
-    return timeNowUTC()
-        .withYear(date.year)
-        .withMonth(date.monthValue)
-        .withDayOfMonth(date.dayOfMonth)
-        .withHour(timeLocal.hour)
-        .withMinute(timeLocal.minute)
-        .withSecond(0)
-        .withNano(0)
-        .convertLocalToUTC()
-}
-
 fun LocalDate.formatLocal(
     pattern: String = "dd MMM yyyy",
     zone: ZoneId = ZoneOffset.systemDefault()
@@ -254,59 +243,22 @@ fun LocalDate.formatLocal(
     )
 }
 
-fun LocalDateTime.timeLeft(
-    from: LocalDateTime = timeNowUTC(),
-    daysLabel: String = "d",
-    hoursLabel: String = "h",
-    minutesLabel: String = "m",
-    secondsLabel: String = "s"
-): String {
-    val timeLeftMs = this.millis() - from.millis()
-    if (timeLeftMs <= 0) return stringRes(R.string.expired)
-
-    val days = TimeUnit.MILLISECONDS.toDays(timeLeftMs)
-    var timeLeftAfterCalculations = timeLeftMs - TimeUnit.DAYS.toMillis(days)
-
-    val hours = TimeUnit.MILLISECONDS.toHours(timeLeftAfterCalculations)
-    timeLeftAfterCalculations -= TimeUnit.HOURS.toMillis(hours)
-
-    val minutes = TimeUnit.MILLISECONDS.toMinutes(timeLeftAfterCalculations)
-    timeLeftAfterCalculations -= TimeUnit.MINUTES.toMillis(minutes)
-
-    val seconds = TimeUnit.MILLISECONDS.toSeconds(timeLeftAfterCalculations)
-
-    var result = ""
-    if (days > 0) {
-        result += "$days$daysLabel "
-    }
-    if (hours > 0) {
-        result += "$hours$hoursLabel "
-    }
-    if (minutes > 0) {
-        result += "$minutes$minutesLabel "
-    }
-//    if (seconds > 0) {
-//        result += "$seconds$secondsLabel "
-//    }
-
-    return result.trim()
+fun startOfMonth(date: LocalDate, timeConverter: TimeConverter): Instant {
+    val startOfMonthLocal = date.withDayOfMonth(1).atStartOfDay()
+    return with(timeConverter) { startOfMonthLocal.toUTC() }
 }
 
-fun startOfMonth(date: LocalDate): LocalDateTime =
-    date.withDayOfMonth(1).atStartOfDay().convertLocalToUTC()
-
-fun endOfMonth(date: LocalDate): LocalDateTime =
-    date.withDayOfMonth(date.lengthOfMonth()).atEndOfDay().convertLocalToUTC()
+fun endOfMonth(date: LocalDate, timeConverter: TimeConverter): Instant {
+    val endOfMonthLocal = date.withDayOfMonth(date.lengthOfMonth()).atTime(LocalTime.MAX)
+    return with(timeConverter) { endOfMonthLocal.toUTC() }
+}
 
 fun LocalDate.atEndOfDay(): LocalDateTime =
     this.atTime(23, 59, 59)
 
-/**
- * +1 day so things won't fck up with Long overflow
- */
-fun beginningOfIvyTime(): LocalDateTime = LocalDateTime.now().minusYears(10)
+fun ivyMinTime(): Instant = INSTANT_MIN_SAFE
 
-fun toIvyFutureTime(): LocalDateTime = timeNowUTC().plusYears(30)
+fun ivyMaxTime(): Instant = INSTANT_MAX_SAFE
 
 fun LocalDate.withDayOfMonthSafe(targetDayOfMonth: Int): LocalDate {
     val maxDayOfMonth = this.lengthOfMonth()

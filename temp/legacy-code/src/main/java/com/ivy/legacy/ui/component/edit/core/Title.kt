@@ -42,13 +42,11 @@ fun ColumnScope.Title(
     type: TransactionType,
     titleFocus: FocusRequester,
     initialTransactionId: UUID?,
-
     titleTextFieldValue: TextFieldValue,
     setTitleTextFieldValue: (TextFieldValue) -> Unit,
     suggestions: Set<String>,
-    scrollState: ScrollState? = null,
-
     onTitleChanged: (String?) -> Unit,
+    scrollState: ScrollState? = null,
     onNext: () -> Unit,
 ) {
     IvyTitleTextField(

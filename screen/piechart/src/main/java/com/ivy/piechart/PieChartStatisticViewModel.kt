@@ -5,17 +5,19 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.model.TransactionType
+import com.ivy.base.time.TimeConverter
+import com.ivy.base.time.TimeProvider
 import com.ivy.data.db.dao.read.SettingsDao
-import com.ivy.ui.ComposeViewModel
-import com.ivy.legacy.IvyWalletCtx
-import com.ivy.base.legacy.SharedPrefs
 import com.ivy.data.model.Category
+import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.utils.ioThread
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.piechart.action.PieChartAct
+import com.ivy.ui.ComposeViewModel
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
@@ -32,7 +34,9 @@ class PieChartStatisticViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
     private val ivyContext: IvyWalletCtx,
     private val pieChartAct: PieChartAct,
-    private val sharedPrefs: SharedPrefs
+    private val sharedPrefs: SharedPrefs,
+    private val timeProvider: TimeProvider,
+    private val timeConverter: TimeConverter,
 ) : ComposeViewModel<PieChartStatisticState, PieChartStatisticEvent>() {
 
     private val treatTransfersAsIncomeExpense = mutableStateOf(false)
@@ -187,7 +191,7 @@ class PieChartStatisticViewModel @Inject constructor(
         val accountIdFilterList = accountIdFilterList.value
         val transactions = transactions.value
         val baseCurrency = baseCurrency.value
-        val range = periodValue.toRange(ivyContext.startDayOfMonth)
+        val range = periodValue.toRange(ivyContext.startDayOfMonth, timeConverter, timeProvider)
 
         val treatTransferAsIncExp =
             sharedPrefs.getBoolean(

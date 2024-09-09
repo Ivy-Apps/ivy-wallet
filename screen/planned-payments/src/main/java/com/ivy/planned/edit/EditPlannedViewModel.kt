@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.model.TransactionType
+import com.ivy.base.time.TimeConverter
 import com.ivy.data.db.dao.read.AccountDao
 import com.ivy.data.db.dao.read.PlannedPaymentRuleDao
 import com.ivy.data.db.dao.read.SettingsDao
@@ -52,7 +53,8 @@ class EditPlannedViewModel @Inject constructor(
     private val accountCreator: AccountCreator,
     private val accountsAct: AccountsAct,
     private val plannedPaymentRuleWriter: WritePlannedPaymentRuleDao,
-    private val transactionRepository: TransactionRepository
+    private val transactionRepository: TransactionRepository,
+    private val timeConverter: TimeConverter,
 ) : ComposeViewModel<EditPlannedScreenState, EditPlannedScreenEvent>() {
 
     private val transactionType = mutableStateOf(TransactionType.INCOME)
@@ -297,7 +299,7 @@ class EditPlannedViewModel @Inject constructor(
         this.title = rule.title
 
         transactionType.value = rule.type
-        startDate.value = rule.startDate
+        startDate.value = with(timeConverter) { rule.startDate?.toLocalDateTime() }
         intervalN.value = rule.intervalN
         oneTime.value = rule.oneTime
         intervalType.value = rule.intervalType
@@ -326,7 +328,7 @@ class EditPlannedViewModel @Inject constructor(
         intervalType: IntervalType?
     ) {
         loadedRule = loadedRule().copy(
-            startDate = startDate,
+            startDate = with(timeConverter) { startDate.toUTC() },
             intervalN = intervalN,
             intervalType = intervalType,
             oneTime = oneTime
@@ -413,7 +415,8 @@ class EditPlannedViewModel @Inject constructor(
                 ioThread {
                     loadedRule = loadedRule().copy(
                         type = transactionType.value ?: error("no transaction type"),
-                        startDate = startDate.value ?: error("no startDate"),
+                        startDate = with(timeConverter) { startDate.value?.toUTC() }
+                            ?: error("no startDate"),
                         intervalN = intervalN.value ?: error("no intervalN"),
                         intervalType = intervalType.value ?: error("no intervalType"),
                         categoryId = category.value?.id?.value,

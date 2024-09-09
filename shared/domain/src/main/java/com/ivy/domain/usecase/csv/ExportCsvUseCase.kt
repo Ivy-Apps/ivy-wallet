@@ -4,7 +4,7 @@ import android.net.Uri
 import arrow.core.Either
 import com.ivy.base.model.TransactionType
 import com.ivy.base.threading.DispatchersProvider
-import com.ivy.base.time.convertToLocal
+import com.ivy.base.time.TimeConverter
 import com.ivy.data.file.FileSystem
 import com.ivy.data.model.Account
 import com.ivy.data.model.AccountId
@@ -34,7 +34,8 @@ class ExportCsvUseCase @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val transactionRepository: TransactionRepository,
     private val dispatchers: DispatchersProvider,
-    private val fileSystem: FileSystem
+    private val fileSystem: FileSystem,
+    private val timeConverter: TimeConverter
 ) {
 
     suspend fun exportToFile(
@@ -74,7 +75,7 @@ class ExportCsvUseCase @Inject constructor(
         categoriesMap: Map<CategoryId, Category>,
     ): String = csvRow {
         // Date
-        csvAppend(date?.csvFormat())
+        csvAppend(date?.csvFormat(timeConverter))
         // Title
         csvAppend(title?.value)
         // Category
@@ -100,7 +101,7 @@ class ExportCsvUseCase @Inject constructor(
         // Description
         csvAppend(description?.value)
         // Due Date
-        csvAppend(dueData?.csvFormat())
+        csvAppend(dueData?.csvFormat(timeConverter))
         // ID
         csvAppend(id.value.toString())
     }
@@ -187,8 +188,11 @@ class ExportCsvUseCase @Inject constructor(
         id = id
     )
 
-    private fun Instant.csvFormat(): String = convertToLocal()
-        .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+    private fun Instant.csvFormat(timeConverter: TimeConverter): String {
+        return with(timeConverter) {
+            this@csvFormat.toLocalDateTime()
+        }.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+    }
 
     private fun Double.csvFormat(): String = DecimalFormat(NUMBER_FORMAT).apply {
         decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.ENGLISH)

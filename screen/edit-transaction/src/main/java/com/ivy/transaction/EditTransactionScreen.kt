@@ -24,6 +24,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -34,6 +35,7 @@ import com.ivy.base.model.TransactionType
 import com.ivy.data.model.Category
 import com.ivy.data.model.Tag
 import com.ivy.data.model.TagId
+import com.ivy.design.api.LocalTimeConverter
 import com.ivy.design.l0_system.Orange
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -42,11 +44,10 @@ import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.data.EditTransactionDisplayLoan
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.ivyWalletCtx
-import com.ivy.legacy.rootView
 import com.ivy.legacy.ui.component.edit.TransactionDateTime
+import com.ivy.legacy.ui.component.edit.core.Description
 import com.ivy.legacy.ui.component.tags.AddTagButton
 import com.ivy.legacy.ui.component.tags.ShowTagModal
-import com.ivy.legacy.utils.convertUTCtoLocal
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.EditTransactionScreen
@@ -55,11 +56,10 @@ import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
 import com.ivy.wallet.domain.data.CustomExchangeRateState
+import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.edit.core.Category
-import com.ivy.legacy.ui.component.edit.core.Description
-import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.ui.edit.core.DueDate
 import com.ivy.wallet.ui.edit.core.EditBottomSheet
 import com.ivy.wallet.ui.edit.core.Title
@@ -83,9 +83,9 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentSetOf
-import java.time.LocalDate
+import java.time.Instant
 import java.time.LocalDateTime
-import java.time.LocalTime
+import java.time.ZoneOffset
 import java.util.UUID
 import kotlin.math.roundToInt
 
@@ -99,7 +99,7 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransactionScreen)
         viewModel.start(screen)
     }
 
-    val view = rootView()
+    val view = LocalView.current
 
     UI(
         screen = screen,
@@ -124,62 +124,62 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransactionScreen)
         transactionAssociatedTags = uiState.transactionAssociatedTags,
         hasChanges = uiState.hasChanges,
         onSetDate = {
-            viewModel.onEvent(EditTransactionEvent.OnSetDate(it))
+            viewModel.onEvent(EditTransactionViewEvent.OnChangeDate)
         },
         onSetTime = {
-            viewModel.onEvent(EditTransactionEvent.OnSetTime(it))
+            viewModel.onEvent(EditTransactionViewEvent.OnChangeTime)
         },
         onTitleChange = {
-            viewModel.onEvent(EditTransactionEvent.OnTitleChanged(it))
+            viewModel.onEvent(EditTransactionViewEvent.OnTitleChanged(it))
         },
         onDescriptionChange = {
-            viewModel.onEvent(EditTransactionEvent.OnDescriptionChanged(it))
+            viewModel.onEvent(EditTransactionViewEvent.OnDescriptionChanged(it))
         },
         onAmountChange = {
-            viewModel.onEvent(EditTransactionEvent.OnAmountChanged(it))
+            viewModel.onEvent(EditTransactionViewEvent.OnAmountChanged(it))
         },
         onCategoryChange = {
-            viewModel.onEvent(EditTransactionEvent.OnCategoryChanged(it))
+            viewModel.onEvent(EditTransactionViewEvent.OnCategoryChanged(it))
         },
         onAccountChange = {
-            viewModel.onEvent(EditTransactionEvent.OnAccountChanged(it))
+            viewModel.onEvent(EditTransactionViewEvent.OnAccountChanged(it))
         },
         onToAccountChange = {
-            viewModel.onEvent(EditTransactionEvent.OnToAccountChanged(it))
+            viewModel.onEvent(EditTransactionViewEvent.OnToAccountChanged(it))
         },
         onDueDateChange = {
-            viewModel.onEvent(EditTransactionEvent.OnDueDateChanged(it))
+            viewModel.onEvent(EditTransactionViewEvent.OnDueDateChanged(it))
         },
         onSetTransactionType = {
-            viewModel.onEvent(EditTransactionEvent.OnSetTransactionType(it))
+            viewModel.onEvent(EditTransactionViewEvent.OnSetTransactionType(it))
         },
         onCreateCategory = {
-            viewModel.onEvent(EditTransactionEvent.CreateCategory(it))
+            viewModel.onEvent(EditTransactionViewEvent.CreateCategory(it))
         },
         onEditCategory = {
-            viewModel.onEvent(EditTransactionEvent.EditCategory(it))
+            viewModel.onEvent(EditTransactionViewEvent.EditCategory(it))
         },
         onPayPlannedPayment = {
-            viewModel.onEvent(EditTransactionEvent.OnPayPlannedPayment)
+            viewModel.onEvent(EditTransactionViewEvent.OnPayPlannedPayment)
         },
         onSave = {
             view.hideKeyboard()
-            viewModel.onEvent(EditTransactionEvent.Save(it))
+            viewModel.onEvent(EditTransactionViewEvent.Save(it))
         },
         onSetHasChanges = {
-            viewModel.onEvent(EditTransactionEvent.SetHasChanges(it))
+            viewModel.onEvent(EditTransactionViewEvent.SetHasChanges(it))
         },
         onDelete = {
-            viewModel.onEvent(EditTransactionEvent.Delete)
+            viewModel.onEvent(EditTransactionViewEvent.Delete)
         },
         onDuplicate = {
-            viewModel.onEvent(EditTransactionEvent.Duplicate)
+            viewModel.onEvent(EditTransactionViewEvent.Duplicate)
         },
         onCreateAccount = {
-            viewModel.onEvent(EditTransactionEvent.CreateAccount(it))
+            viewModel.onEvent(EditTransactionViewEvent.CreateAccount(it))
         },
         onExchangeRateChange = {
-            viewModel.onEvent(EditTransactionEvent.UpdateExchangeRate(it))
+            viewModel.onEvent(EditTransactionViewEvent.UpdateExchangeRate(it))
         },
         onTagOperation = {
             viewModel.onEvent(it)
@@ -198,10 +198,10 @@ private fun BoxWithConstraintsScope.UI(
     titleSuggestions: ImmutableSet<String>,
     description: String?,
     category: Category?,
-    dateTime: LocalDateTime?,
+    dateTime: Instant?,
     account: Account?,
     toAccount: Account?,
-    dueDate: LocalDateTime?,
+    dueDate: Instant?,
     amount: Double,
 
     customExchangeRateState: CustomExchangeRateState,
@@ -216,8 +216,8 @@ private fun BoxWithConstraintsScope.UI(
     onAccountChange: (Account) -> Unit,
     onToAccountChange: (Account) -> Unit,
     onDueDateChange: (LocalDateTime?) -> Unit,
-    onSetDate: (LocalDate) -> Unit,
-    onSetTime: (LocalTime) -> Unit,
+    onSetDate: () -> Unit,
+    onSetTime: () -> Unit,
     onSetTransactionType: (TransactionType) -> Unit,
 
     onCreateCategory: (CreateCategoryData) -> Unit,
@@ -229,7 +229,7 @@ private fun BoxWithConstraintsScope.UI(
     onDuplicate: () -> Unit,
     onCreateAccount: (CreateAccountData) -> Unit,
     onExchangeRateChange: (Double?) -> Unit = { },
-    onTagOperation: (EditTransactionEvent.TagEvent) -> Unit = {},
+    onTagOperation: (EditTransactionViewEvent.TagEvent) -> Unit = {},
     loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(),
     backgroundProcessing: Boolean = false,
     hasChanges: Boolean = false,
@@ -356,10 +356,13 @@ private fun BoxWithConstraintsScope.UI(
 
         val ivyContext = ivyWalletCtx()
 
+        val timeConverter = LocalTimeConverter.current
         if (dueDate != null) {
             DueDate(dueDate = dueDate) {
                 ivyContext.datePicker(
-                    initialDate = dueDate.toLocalDate()
+                    initialDate = with(timeConverter) {
+                        dueDate.toLocalDate()
+                    }
                 ) {
                     onDueDateChange(it.atTime(12, 0))
                 }
@@ -377,20 +380,8 @@ private fun BoxWithConstraintsScope.UI(
         TransactionDateTime(
             dateTime = dateTime,
             dueDateTime = dueDate,
-            onEditDate = {
-                ivyContext.datePicker(
-                    initialDate = dateTime?.convertUTCtoLocal()?.toLocalDate()
-                ) { date ->
-                    onSetDate((date))
-                }
-            },
-            onEditTime = {
-                ivyContext.timePicker(
-                    initialTime = dateTime?.toLocalTime()
-                ) { time ->
-                    onSetTime(time)
-                }
-            }
+            onEditDate = onSetDate,
+            onEditTime = onSetTime,
         )
 
         if (transactionType == TransactionType.TRANSFER && customExchangeRateState.showCard) {
@@ -626,27 +617,27 @@ private fun BoxWithConstraintsScope.UI(
         onDismiss = {
             tagModelVisible = false
             // Reset TagList, avoids showing incorrect tag list when user has searched for a tag
-            onTagOperation(EditTransactionEvent.TagEvent.OnTagSearch(""))
+            onTagOperation(EditTransactionViewEvent.TagEvent.OnTagSearch(""))
         },
         allTagList = tags,
         selectedTagList = transactionAssociatedTags,
         onTagAdd = {
-            onTagOperation(EditTransactionEvent.TagEvent.SaveTag(name = it))
+            onTagOperation(EditTransactionViewEvent.TagEvent.SaveTag(name = it))
         },
         onTagEdit = { oldTag, newTag ->
-            onTagOperation(EditTransactionEvent.TagEvent.OnTagEdit(oldTag, newTag))
+            onTagOperation(EditTransactionViewEvent.TagEvent.OnTagEdit(oldTag, newTag))
         },
         onTagDelete = {
-            onTagOperation(EditTransactionEvent.TagEvent.OnTagDelete(it))
+            onTagOperation(EditTransactionViewEvent.TagEvent.OnTagDelete(it))
         },
         onTagSelected = {
-            onTagOperation(EditTransactionEvent.TagEvent.OnTagSelect(it))
+            onTagOperation(EditTransactionViewEvent.TagEvent.OnTagSelect(it))
         },
         onTagDeSelected = {
-            onTagOperation(EditTransactionEvent.TagEvent.OnTagDeSelect(it))
+            onTagOperation(EditTransactionViewEvent.TagEvent.OnTagDeSelect(it))
         },
         onTagSearch = {
-            onTagOperation(EditTransactionEvent.TagEvent.OnTagSearch(it))
+            onTagOperation(EditTransactionViewEvent.TagEvent.OnTagSearch(it))
         }
     )
 }
@@ -664,6 +655,7 @@ private fun shouldFocusAmount(amount: Double) = amount == 0.0
 
 /** For Preview purpose **/
 private val testDateTime = LocalDateTime.of(2023, 4, 27, 0, 35)
+    .toInstant(ZoneOffset.UTC)
 
 @ExperimentalFoundationApi
 @Preview

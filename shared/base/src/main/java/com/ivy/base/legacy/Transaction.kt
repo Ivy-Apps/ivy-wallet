@@ -5,13 +5,14 @@ import com.ivy.base.model.TransactionType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.math.BigDecimal
+import java.time.Instant
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.LocalTime
 import java.util.UUID
 
 typealias LegacyTransaction = Transaction
 
+@Suppress("DataClassDefaultValues")
 @Deprecated("Legacy data model. Will be deleted")
 @Immutable
 data class Transaction(
@@ -23,16 +24,16 @@ data class Transaction(
     val toAmount: BigDecimal = amount,
     val title: String? = null,
     val description: String? = null,
-    val dateTime: LocalDateTime? = null,
+    val dateTime: Instant? = null,
     val categoryId: UUID? = null,
-    val dueDate: LocalDateTime? = null,
+    val dueDate: Instant? = null,
     val date: LocalDate? = null,
     val time: LocalTime? = null,
     val recurringRuleId: UUID? = null,
 
     /** to store the date for which the payment was made. */
     @Suppress("DataClassDefaultValues")
-    val paidFor: LocalDateTime? = null,
+    val paidFor: Instant? = null,
 
     val attachmentUrl: String? = null,
 

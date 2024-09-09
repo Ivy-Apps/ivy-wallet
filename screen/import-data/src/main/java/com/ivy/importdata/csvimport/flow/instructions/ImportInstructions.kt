@@ -277,6 +277,7 @@ fun UploadFileStep(
     }
 }
 
+@Suppress("MultipleEmitters")
 @Composable
 fun StepTitle(
     number: Int,

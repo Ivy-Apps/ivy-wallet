@@ -13,4 +13,7 @@ sealed interface LoanRecordModalEvent : LoanDetailsScreenEvent {
     data class OnDeleteLoanRecord(val loanRecord: LoanRecord) : LoanRecordModalEvent
     data class OnEditLoanRecord(val loanRecordData: EditLoanRecordData) : LoanRecordModalEvent
     data object OnDismissLoanRecord : LoanRecordModalEvent
+
+    data object OnChangeDate : LoanRecordModalEvent
+    data object OnChangeTime : LoanRecordModalEvent
 }

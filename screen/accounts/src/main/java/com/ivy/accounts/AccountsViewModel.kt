@@ -8,6 +8,8 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.SharedPrefs
+import com.ivy.base.time.TimeConverter
+import com.ivy.base.time.TimeProvider
 import com.ivy.data.DataObserver
 import com.ivy.data.DataWriteEvent
 import com.ivy.data.repository.AccountRepository
@@ -45,6 +47,8 @@ class AccountsViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
     private val dataObserver: DataObserver,
     private val features: Features,
+    private val timeProvider: TimeProvider,
+    private val timeConverter: TimeConverter,
 ) : ComposeViewModel<AccountsState, AccountsEvent>() {
     private val baseCurrency = mutableStateOf("")
     private val accountsData = mutableStateOf(listOf<AccountData>())
@@ -84,8 +88,14 @@ class AccountsViewModel @Inject constructor(
             totalBalanceWithoutExcluded = getTotalBalanceWithoutExcluded(),
             totalBalanceWithoutExcludedText = getTotalBalanceWithoutExcludedText(),
             reorderVisible = getReorderVisible(),
-            compactAccountsModeEnabled = getCompactAccountsMode()
+            compactAccountsModeEnabled = getCompactAccountsMode(),
+            hideTotalBalance = getHideTotalBalance()
         )
+    }
+
+    @Composable
+    private fun getHideTotalBalance(): Boolean {
+        return features.hideTotalBalance.asEnabledState()
     }
 
     @Composable
@@ -157,7 +167,7 @@ class AccountsViewModel @Inject constructor(
         val period = com.ivy.legacy.data.model.TimePeriod.currentMonth(
             startDayOfMonth = ivyContext.startDayOfMonth
         ) // this must be monthly
-        val range = period.toRange(ivyContext.startDayOfMonth)
+        val range = period.toRange(ivyContext.startDayOfMonth, timeConverter, timeProvider)
 
         val baseCurrencyCode = baseCurrencyAct(Unit)
         val accounts = accountRepository.findAll().toImmutableList()

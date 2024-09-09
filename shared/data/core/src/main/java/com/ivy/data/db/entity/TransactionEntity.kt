@@ -3,13 +3,13 @@ package com.ivy.data.db.entity
 import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.ivy.base.kotlinxserilzation.KSerializerLocalDateTime
+import com.ivy.base.kotlinxserilzation.KSerializerInstant
 import com.ivy.base.kotlinxserilzation.KSerializerUUID
 import com.ivy.base.model.TransactionType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.time.LocalDateTime
-import java.util.*
+import java.time.Instant
+import java.util.UUID
 
 @Suppress("DataClassDefaultValues")
 @Keep
@@ -33,20 +33,20 @@ data class TransactionEntity(
     @SerialName("description")
     val description: String? = null,
     @SerialName("dateTime")
-    @Serializable(with = KSerializerLocalDateTime::class)
-    val dateTime: LocalDateTime? = null,
+    @Serializable(with = KSerializerInstant::class)
+    val dateTime: Instant? = null,
     @SerialName("categoryId")
     @Serializable(with = KSerializerUUID::class)
     val categoryId: UUID? = null,
     @SerialName("dueDate")
-    @Serializable(with = KSerializerLocalDateTime::class)
-    val dueDate: LocalDateTime? = null,
+    @Serializable(with = KSerializerInstant::class)
+    val dueDate: Instant? = null,
     @SerialName("recurringRuleId")
     @Serializable(with = KSerializerUUID::class)
     val recurringRuleId: UUID? = null,
     @SerialName("paidForDateTime")
-    @Serializable(with = KSerializerLocalDateTime::class)
-    val paidForDateTime: LocalDateTime? = null,
+    @Serializable(with = KSerializerInstant::class)
+    val paidForDateTime: Instant? = null,
     @SerialName("attachmentUrl")
     val attachmentUrl: String? = null,
     // This refers to the loan id that is linked with a transaction

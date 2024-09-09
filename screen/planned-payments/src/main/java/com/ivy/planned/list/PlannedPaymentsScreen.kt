@@ -34,6 +34,7 @@ import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Orange
 import kotlinx.collections.immutable.persistentListOf
+import java.time.ZoneOffset
 import java.util.UUID
 
 @Composable
@@ -134,7 +135,7 @@ private fun Preview() {
                         title = "Lidl pazar",
                         categoryId = food.id.value,
                         amount = 250.75,
-                        startDate = timeNowUTC().plusDays(5),
+                        startDate = timeNowUTC().plusDays(5).toInstant(ZoneOffset.UTC),
                         oneTime = true,
                         intervalType = null,
                         intervalN = null,
@@ -149,7 +150,7 @@ private fun Preview() {
                         title = "Tabu",
                         categoryId = shisha.id.value,
                         amount = 1025.5,
-                        startDate = timeNowUTC().plusDays(5),
+                        startDate = timeNowUTC().plusDays(5).toInstant(ZoneOffset.UTC),
                         oneTime = false,
                         intervalType = IntervalType.MONTH,
                         intervalN = 1,

@@ -20,12 +20,10 @@ import io.kotest.property.arbitrary.next
 import io.kotest.property.checkAll
 import io.kotest.property.forAll
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import java.time.ZoneId
 
 class TransactionMapperPropertyTest {
 
@@ -35,12 +33,7 @@ class TransactionMapperPropertyTest {
 
     @Before
     fun setup() {
-        mapper = TransactionMapper(
-            accountRepository = accountRepo,
-            timeProvider = mockk {
-                every { getZoneId() } returns ZoneId.of("UTC")
-            }
-        )
+        mapper = TransactionMapper(accountRepository = accountRepo,)
     }
 
     @Test
