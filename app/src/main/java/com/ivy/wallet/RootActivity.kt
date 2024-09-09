@@ -40,10 +40,8 @@ import com.ivy.legacy.Constants
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.appDesign
 import com.ivy.legacy.utils.activityForResultLauncher
-import com.ivy.legacy.utils.convertLocalToUTC
 import com.ivy.legacy.utils.sendToCrashlytics
 import com.ivy.legacy.utils.simpleActivityForResultLauncher
-import com.ivy.legacy.utils.timeNowLocal
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.NavigationRoot
 import com.ivy.ui.R
@@ -210,7 +208,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
     private fun setupTimePicker() {
         ivyContext.onShowTimePicker = { initialTime,
                                         onTimePicked ->
-            val nowLocal = initialTime ?: timeNowLocal().toLocalTime()
+            val nowLocal = initialTime ?: timeProvider.localTimeNow()
             val is24Hour = android.text.format.DateFormat.is24HourFormat(this)
             val timeFormat = if (is24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
 
@@ -223,7 +221,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
             picker.show(supportFragmentManager, "timePicker")
             picker.addOnPositiveButtonClickListener {
                 onTimePicked(
-                    LocalTime.of(picker.hour, picker.minute).convertLocalToUTC().withSecond(0)
+                    LocalTime.of(picker.hour, picker.minute).withSecond(0)
                 )
             }
         }

@@ -6,6 +6,7 @@ import com.ivy.loans.loan.data.DisplayLoanRecord
 import com.ivy.wallet.ui.theme.modal.LoanModalData
 import com.ivy.wallet.ui.theme.modal.LoanRecordModalData
 import kotlinx.collections.immutable.ImmutableList
+import java.time.Instant
 
 data class LoanDetailsScreenState(
     val baseCurrency: String,
@@ -20,5 +21,6 @@ data class LoanDetailsScreenState(
     val loanModalData: LoanModalData?,
     val loanRecordModalData: LoanRecordModalData?,
     val waitModalVisible: Boolean,
-    val isDeleteModalVisible: Boolean
+    val isDeleteModalVisible: Boolean,
+    val dateTime: Instant
 )

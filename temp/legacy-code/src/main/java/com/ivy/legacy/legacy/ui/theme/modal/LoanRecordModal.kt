@@ -34,7 +34,6 @@ import androidx.compose.ui.unit.dp
 import com.ivy.base.model.LoanRecordType
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.design.api.LocalTimeConverter
-import com.ivy.design.api.LocalTimeProvider
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.utils.thenIf
@@ -80,7 +79,9 @@ data class LoanRecordModalData(
 @Composable
 fun BoxWithConstraintsScope.LoanRecordModal(
     modal: LoanRecordModalData?,
-
+    dateTime: Instant,
+    onSetDate: () -> Unit,
+    onSetTime: () -> Unit,
     onCreate: (CreateLoanRecordData) -> Unit,
     onEdit: (EditLoanRecordData) -> Unit,
     onDelete: (LoanRecord) -> Unit,
@@ -88,8 +89,8 @@ fun BoxWithConstraintsScope.LoanRecordModal(
     accounts: List<Account> = emptyList(),
     onCreateAccount: (CreateAccountData) -> Unit = {},
 ) {
-    val timeProvider = LocalTimeProvider.current
     val initialRecord = modal?.loanRecord
+
     var noteTextFieldValue by remember(modal) {
         mutableStateOf(selectEndTextFieldValue(initialRecord?.note))
     }
@@ -98,9 +99,6 @@ fun BoxWithConstraintsScope.LoanRecordModal(
     }
     var amount by remember(modal) {
         mutableStateOf(modal?.loanRecord?.amount ?: 0.0)
-    }
-    var dateTime by remember(modal) {
-        mutableStateOf(modal?.loanRecord?.dateTime ?: timeProvider.utcNow())
     }
     var selectedAcc by remember(modal) {
         mutableStateOf(modal?.selectedAccount)
@@ -121,6 +119,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
         mutableStateOf(modal?.loanRecord?.loanRecordType ?: LoanRecordType.DECREASE)
     }
 
+    var dateTime = modal?.loanRecord?.dateTime ?: dateTime
     var amountModalVisible by remember { mutableStateOf(false) }
     var deleteModalVisible by remember(modal) { mutableStateOf(false) }
     var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
@@ -209,9 +208,8 @@ fun BoxWithConstraintsScope.LoanRecordModal(
         val timeConverter = LocalTimeConverter.current
         DateTimeRow(
             dateTime = with(timeConverter) { dateTime.toLocalDateTime() },
-            onSetDateTime = {
-                dateTime = with(timeConverter) { it.toUTC() }
-            }
+            onEditDate = onSetDate,
+            onEditTime = onSetTime,
         )
 
         Spacer(Modifier.height(24.dp))
@@ -675,6 +673,9 @@ private fun Preview() {
             onEdit = {},
             onDelete = {},
             dismiss = {},
+            onSetDate = {},
+            onSetTime = {},
+            dateTime = Instant.now()
         )
     }
 }

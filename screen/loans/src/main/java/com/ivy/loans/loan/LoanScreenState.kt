@@ -4,6 +4,7 @@ import com.ivy.legacy.datamodel.Account
 import com.ivy.loans.loan.data.DisplayLoan
 import com.ivy.wallet.ui.theme.modal.LoanModalData
 import kotlinx.collections.immutable.ImmutableList
+import java.time.Instant
 
 data class LoanScreenState(
     val baseCurrency: String,
@@ -15,4 +16,5 @@ data class LoanScreenState(
     val totalOweAmount: String,
     val totalOwedAmount: String,
     val paidOffLoanVisibility: Boolean,
+    val dateTime: Instant
 )

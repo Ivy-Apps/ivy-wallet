@@ -8,4 +8,6 @@ sealed interface LoanModalEvent : LoanDetailsScreenEvent {
         LoanModalEvent
 
     data object PerformCalculation : LoanModalEvent
+    data object OnChangeDate : LoanModalEvent
+    data object OnChangeTime : LoanModalEvent
 }
