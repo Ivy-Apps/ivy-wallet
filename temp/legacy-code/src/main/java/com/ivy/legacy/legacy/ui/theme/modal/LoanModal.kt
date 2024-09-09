@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.data.model.LoanType
 import com.ivy.data.model.primitive.NotBlankTrimmedString
+import com.ivy.design.api.LocalTimeConverter
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.domain.legacy.ui.IvyColorPicker
@@ -50,7 +51,6 @@ import com.ivy.legacy.utils.onScreenStart
 import com.ivy.legacy.utils.selectEndTextFieldValue
 import com.ivy.design.utils.thenIf
 import com.ivy.legacy.legacy.ui.theme.modal.ModalNameInput
-import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.ui.R
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
@@ -69,6 +69,7 @@ import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import com.ivy.wallet.ui.theme.modal.edit.IconNameRow
 import com.ivy.wallet.ui.theme.toComposeColor
 import kotlinx.coroutines.launch
+import java.time.Instant
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -83,24 +84,29 @@ data class LoanModalData(
     val id: UUID = UUID.randomUUID()
 )
 
+@Suppress("CyclomaticComplexMethod", "LongMethod")
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun BoxWithConstraintsScope.LoanModal(
-    accounts: List<Account> = emptyList(),
-    onCreateAccount: (CreateAccountData) -> Unit = {},
-
     modal: LoanModalData?,
+    dateTime: Instant,
+    onSetDate: () -> Unit,
+    onSetTime: () -> Unit,
     onCreateLoan: (CreateLoanData) -> Unit,
     onEditLoan: (Loan, Boolean) -> Unit,
+    accounts: List<Account> = emptyList(),
+    onCreateAccount: (CreateAccountData) -> Unit = {},
     onPerformCalculations: () -> Unit = {},
     dismiss: () -> Unit,
 ) {
     val loan = modal?.loan
+    val timeConverter = LocalTimeConverter.current
+
     var nameTextFieldValue by remember(modal) {
         mutableStateOf(selectEndTextFieldValue(loan?.name))
     }
-    var dateTime by remember(modal) {
-        mutableStateOf(modal?.loan?.dateTime ?: timeNowUTC())
+    var dateTime = modal?.loan?.dateTime ?: with(timeConverter) {
+        dateTime.toLocalDateTime()
     }
     var type by remember(modal) {
         mutableStateOf(modal?.loan?.type ?: LoanType.BORROW)
@@ -209,9 +215,8 @@ fun BoxWithConstraintsScope.LoanModal(
 
         DateTimeRow(
             dateTime = dateTime,
-            onSetDateTime = {
-                dateTime = it
-            }
+            onEditDate = onSetDate,
+            onEditTime = onSetTime
         )
 
         Spacer(Modifier.height(24.dp))
@@ -655,7 +660,10 @@ private fun Preview() {
                 baseCurrency = "BGN",
             ),
             onCreateLoan = { },
-            onEditLoan = { _, _ -> }
+            onEditLoan = { _, _ -> },
+            onSetTime = { },
+            onSetDate = { },
+            dateTime = Instant.now()
         ) {
         }
     }

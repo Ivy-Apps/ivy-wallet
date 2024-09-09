@@ -52,7 +52,6 @@ import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.formatNicely
-import com.ivy.legacy.utils.formatNicelyWithTime
 import com.ivy.legacy.utils.isNotNullOrBlank
 import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.legacy.utils.setStatusBarDarkTextCompat
@@ -86,6 +85,7 @@ import com.ivy.wallet.ui.theme.modal.LoanRecordModal
 import com.ivy.wallet.ui.theme.modal.ProgressModal
 import com.ivy.wallet.ui.theme.toComposeColor
 import kotlinx.collections.immutable.persistentListOf
+import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.util.UUID
@@ -105,7 +105,7 @@ fun BoxWithConstraintsScope.LoanDetailsScreen(screen: LoanDetailsScreen) {
 @Composable
 private fun BoxWithConstraintsScope.UI(
     state: LoanDetailsScreenState,
-    onEventHandler: (LoanDetailsScreenEvent) -> Unit = {},
+    onEventHandler: (LoanDetailsScreenEvent) -> Unit = {}
 ) {
     val itemColor = state.loan?.color?.toComposeColor() ?: Gray
 
@@ -201,7 +201,8 @@ private fun BoxWithConstraintsScope.UI(
         }
     }
 
-    LoanModal(modal = state.loanModalData, onCreateLoan = {
+    LoanModal(
+        modal = state.loanModalData, onCreateLoan = {
         // do nothing
     }, onEditLoan = { loan, createLoanTransaction ->
         onEventHandler.invoke(LoanModalEvent.OnEditLoanModal(loan, createLoanTransaction))
@@ -211,9 +212,17 @@ private fun BoxWithConstraintsScope.UI(
         onEventHandler.invoke(LoanDetailsScreenEvent.OnCreateAccount(createAccountData))
     }, accounts = state.accounts, onPerformCalculations = {
         onEventHandler.invoke(LoanModalEvent.PerformCalculation)
-    })
+    }, dateTime = state.dateTime,
+        onSetDate = {
+            onEventHandler.invoke(LoanModalEvent.OnChangeDate)
+        },
+        onSetTime = {
+            onEventHandler.invoke(LoanModalEvent.OnChangeTime)
+        },
+    )
 
-    LoanRecordModal(modal = state.loanRecordModalData, onCreate = {
+    LoanRecordModal(
+        modal = state.loanRecordModalData, onCreate = {
         onEventHandler.invoke(LoanRecordModalEvent.OnCreateLoanRecord(it))
     }, onEdit = {
         onEventHandler.invoke(LoanRecordModalEvent.OnEditLoanRecord(it))
@@ -223,7 +232,15 @@ private fun BoxWithConstraintsScope.UI(
         onEventHandler.invoke(LoanRecordModalEvent.OnDismissLoanRecord)
     }, onCreateAccount = { createAccountData ->
         onEventHandler.invoke(LoanDetailsScreenEvent.OnCreateAccount(createAccountData))
-    })
+    },
+        dateTime = state.dateTime,
+        onSetDate = {
+            onEventHandler.invoke(LoanRecordModalEvent.OnChangeDate)
+        },
+        onSetTime = {
+            onEventHandler.invoke(LoanRecordModalEvent.OnChangeTime)
+        },
+    )
 
     DeleteModal(
         visible = state.isDeleteModalVisible,
@@ -793,12 +810,16 @@ private fun InitialRecordItem(
             padding = 8.dp,
         ) {}
 
-        loan.dateTime?.formatNicelyWithTime(
-            noWeekDay = false
-        )?.let { nicelyFormattedDate ->
+        val timeFormatter = LocalTimeFormatter.current
+
+        loan.dateTime?.let { dateTime ->
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp),
-                text = nicelyFormattedDate.uppercase(),
+                text = with(timeFormatter) {
+                    dateTime.format(
+                        TimeFormatter.Style.DateAndTime(includeWeekDay = true)
+                    ).uppercase()
+                },
                 style = UI.typo.nC.style(
                     color = Gray,
                     fontWeight = FontWeight.Bold
@@ -892,7 +913,8 @@ private fun Preview_Empty() {
                 isDeleteModalVisible = false,
                 loanModalData = null,
                 loanRecordModalData = null,
-                waitModalVisible = false
+                waitModalVisible = false,
+                dateTime = Instant.now()
             )
         ) {}
     }
@@ -952,7 +974,8 @@ private fun Preview_Records(theme: Theme = Theme.LIGHT) {
                 isDeleteModalVisible = false,
                 loanModalData = null,
                 loanRecordModalData = null,
-                waitModalVisible = false
+                waitModalVisible = false,
+                dateTime = Instant.now()
             )
         ) {}
     }

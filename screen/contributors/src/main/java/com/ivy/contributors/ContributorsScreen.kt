@@ -294,7 +294,9 @@ private fun ContributorCard(contributor: Contributor) {
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
         onClick = {
-            browser.openUri(contributor.githubProfileUrl)
+            if (contributor.githubProfileUrl.isNotBlank()) {
+                browser.openUri(contributor.githubProfileUrl)
+            }
         }
     ) {
         Row(
