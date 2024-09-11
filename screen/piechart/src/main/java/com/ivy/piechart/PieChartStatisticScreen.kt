@@ -61,6 +61,7 @@ import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
@@ -84,6 +85,7 @@ import com.ivy.wallet.ui.theme.pureBlur
 import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1Row
 import kotlinx.collections.immutable.persistentListOf
+import timber.log.Timber
 import java.util.UUID
 
 @ExperimentalFoundationApi
@@ -111,7 +113,9 @@ private fun BoxWithConstraintsScope.UI(
     onEvent: (PieChartStatisticEvent) -> Unit = {}
 ) {
     val nav = navigation()
-    val lazyState = rememberLazyListState()
+    val lazyState = rememberScrollPositionListState(
+        key = "item_pie_chart_lazy_column"
+    )
     val expanded = lazyState.firstVisibleItemIndex < 1
     val percentExpanded by animateFloatAsState(
         targetValue = if (expanded) 1f else 0f,
