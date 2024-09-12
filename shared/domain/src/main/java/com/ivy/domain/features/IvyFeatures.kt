@@ -32,7 +32,6 @@ class IvyFeatures @Inject constructor() : Features {
         defaultValue = true
     )
 
-
     override val showCategorySearchBar = BoolFeature(
         key = "show_category_search_bar",
         name = "Show category search bar",

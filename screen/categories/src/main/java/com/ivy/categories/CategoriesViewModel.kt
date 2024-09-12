@@ -80,7 +80,6 @@ class CategoriesViewModel @Inject constructor(
         )
     }
 
-
     @Composable
     private fun getCompactCategoriesMode(): Boolean {
         return features.compactCategoriesMode.asEnabledState()
@@ -191,7 +190,7 @@ class CategoriesViewModel @Inject constructor(
     }
 
     private fun filterCategories(queryString: String) {
-        var unsortedList : List<CategoryData>
+        var unsortedList: List<CategoryData>
         if (queryString.isNotEmpty()) {
             unsortedList = this.allCategories.value.filter {
                 it.category.name.value.toLowerCase().contains(queryString.toLowerCase().trim())
@@ -200,7 +199,7 @@ class CategoriesViewModel @Inject constructor(
         } else {
             unsortedList = this.allCategories.value
         }
-        this.categories.value  = sortList(unsortedList, sortOrder.value).toImmutableList()
+        this.categories.value = sortList(unsortedList, sortOrder.value).toImmutableList()
     }
 
     private suspend fun reorder(

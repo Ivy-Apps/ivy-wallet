@@ -29,7 +29,7 @@ fun SearchInput(
     searchQueryTextFieldValue: TextFieldValue,
     hint: String,
     focus: Boolean = true,
-    showClearIcon : Boolean = true,
+    showClearIcon: Boolean = true,
     onSetSearchQueryTextField: (TextFieldValue) -> Unit
 ) {
     Row(
@@ -62,7 +62,7 @@ fun SearchInput(
             }
         }
 
-        if(showClearIcon){
+        if (showClearIcon) {
             IvyIcon(
                 modifier = Modifier
                     .weight(1f)
@@ -72,6 +72,5 @@ fun SearchInput(
                 icon = R.drawable.ic_outline_clear_24
             )
         }
-
     }
 }
