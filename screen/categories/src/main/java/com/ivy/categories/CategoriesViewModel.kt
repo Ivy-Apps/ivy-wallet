@@ -185,7 +185,6 @@ class CategoriesViewModel @Inject constructor(
             val sortedList = sortList(categories, sortOrder.value).toImmutableList()
             this.allCategories.value = sortedList
             this.categories.value = this.allCategories.value
-
         }
     }
 
@@ -195,7 +194,6 @@ class CategoriesViewModel @Inject constructor(
             unsortedList = this.allCategories.value.filter {
                 it.category.name.value.toLowerCase().contains(queryString.toLowerCase().trim())
             }
-
         } else {
             unsortedList = this.allCategories.value
         }

@@ -872,7 +872,6 @@ private fun SearchField(
     )
 }
 
-
 /** For screenshot testing */
 @Composable
 fun CategoriesScreenUiTest(isDark: Boolean) {
