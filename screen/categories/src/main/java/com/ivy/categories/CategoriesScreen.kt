@@ -51,9 +51,11 @@ import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.legacy.ui.SearchInput
 import com.ivy.legacy.utils.balancePrefix
 import com.ivy.legacy.utils.compactBalancePrefix
 import com.ivy.legacy.utils.format
+import com.ivy.legacy.utils.selectEndTextFieldValue
 import com.ivy.navigation.CategoriesScreen
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
@@ -100,7 +102,10 @@ fun BoxWithConstraintsScope.CategoriesScreen(screen: CategoriesScreen) {
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    state: CategoriesScreenState = CategoriesScreenState(compactCategoriesModeEnabled = false),
+    state: CategoriesScreenState = CategoriesScreenState(
+        compactCategoriesModeEnabled = false,
+        showCategorySearchBar = false
+    ),
     onEvent: (CategoriesScreenEvent) -> Unit = {}
 ) {
     val nav = navigation()
@@ -158,6 +163,10 @@ private fun BoxWithConstraintsScope.UI(
                 Spacer(Modifier.width(24.dp))
             }
 
+            if (state.showCategorySearchBar) {
+                Spacer(Modifier.height(16.dp))
+                SearchField(onSearch = {})
+            }
             Spacer(Modifier.height(16.dp))
         }
 
@@ -679,11 +688,16 @@ private fun PreviewCategoriesCompactModeEnabled(theme: Theme = Theme.LIGHT) {
 
 @Preview
 @Composable
-private fun Preview(theme: Theme = Theme.LIGHT, compactModeEnabled: Boolean = false) {
+private fun Preview(
+    theme: Theme = Theme.LIGHT,
+    compactModeEnabled: Boolean = false,
+    displaySearchBarEnabled: Boolean = false
+) {
     com.ivy.legacy.IvyWalletPreview(theme) {
         val state = CategoriesScreenState(
             baseCurrency = "BGN",
             compactCategoriesModeEnabled = compactModeEnabled,
+            showCategorySearchBar = displaySearchBarEnabled,
             categories = persistentListOf(
                 CategoryData(
                     category = Category(
@@ -751,6 +765,27 @@ private fun Preview(theme: Theme = Theme.LIGHT, compactModeEnabled: Boolean = fa
         UI(state = state)
     }
 }
+
+@Composable
+private fun SearchField(
+    onSearch: (String) -> Unit,
+) {
+    var searchQueryTextFieldValue by remember {
+        mutableStateOf(selectEndTextFieldValue(""))
+    }
+
+    SearchInput(
+        searchQueryTextFieldValue = searchQueryTextFieldValue,
+        hint = "Search categories",
+        focus = false,
+        showClearIcon = searchQueryTextFieldValue.text.isNotEmpty(),
+        onSetSearchQueryTextField = {
+            searchQueryTextFieldValue = it
+            onSearch(it.text)
+        }
+    )
+}
+
 
 /** For screenshot testing */
 @Composable

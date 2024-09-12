@@ -74,12 +74,18 @@ class CategoriesViewModel @Inject constructor(
             sortOrder = getSortOrder(),
             sortModalVisible = getSortModalVisible(),
             compactCategoriesModeEnabled = getCompactCategoriesMode(),
+            showCategorySearchBar = getShowCategorySearchBar()
         )
     }
 
     @Composable
     private fun getCompactCategoriesMode(): Boolean {
         return features.compactCategoriesMode.asEnabledState()
+    }
+
+    @Composable
+    private fun getShowCategorySearchBar(): Boolean {
+        return features.showCategorySearchBar.asEnabledState()
     }
 
     @Composable
