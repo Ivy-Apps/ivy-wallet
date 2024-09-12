@@ -165,7 +165,7 @@ private fun BoxWithConstraintsScope.UI(
 
             if (state.showCategorySearchBar) {
                 Spacer(Modifier.height(16.dp))
-                SearchField(onSearch = {})
+                SearchField(onSearch = { onEvent(CategoriesScreenEvent.OnSearchQueryUpdate(it)) })
             }
             Spacer(Modifier.height(16.dp))
         }
@@ -799,10 +799,30 @@ fun CategoriesScreenUiTest(isDark: Boolean) {
 
 /** For screenshot testing */
 @Composable
+fun CategoriesScreenWithSearchBarUiTest(isDark: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    Preview(theme = theme, displaySearchBarEnabled = true)
+}
+
+/** For screenshot testing */
+@Composable
 fun CategoriesScreenCompactUiTest(isDark: Boolean) {
     val theme = when (isDark) {
         true -> Theme.DARK
         false -> Theme.LIGHT
     }
     Preview(theme, compactModeEnabled = true)
+}
+
+/** For screenshot testing */
+@Composable
+fun CategoriesScreenWithSearchBarCompactUiTest(isDark: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    Preview(theme, compactModeEnabled = true, displaySearchBarEnabled = true)
 }
