@@ -99,7 +99,9 @@ class CategoriesViewModel @Inject constructor(
     private fun getCategories(): ImmutableList<CategoryData> {
         val allCats = categories.value
         return remember(allCats, searchQuery.value) {
-            allCats.filter { searchQuery.value.lowercase().trim() in it.category.name.toString().lowercase() }.toImmutableList()
+            allCats.filter {
+                searchQuery.value.lowercase().trim() in it.category.name.toString().lowercase()
+            }.toImmutableList()
         }
     }
 
