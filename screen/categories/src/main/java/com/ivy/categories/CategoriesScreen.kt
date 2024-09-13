@@ -40,6 +40,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import com.ivy.legacy.IvyWalletPreview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -51,9 +52,11 @@ import com.ivy.data.model.primitive.IconAsset
 import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.legacy.ui.SearchInput
 import com.ivy.legacy.utils.balancePrefix
 import com.ivy.legacy.utils.compactBalancePrefix
 import com.ivy.legacy.utils.format
+import com.ivy.legacy.utils.selectEndTextFieldValue
 import com.ivy.navigation.CategoriesScreen
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
@@ -100,7 +103,10 @@ fun BoxWithConstraintsScope.CategoriesScreen(screen: CategoriesScreen) {
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    state: CategoriesScreenState = CategoriesScreenState(compactCategoriesModeEnabled = false),
+    state: CategoriesScreenState = CategoriesScreenState(
+        compactCategoriesModeEnabled = false,
+        showCategorySearchBar = false
+    ),
     onEvent: (CategoriesScreenEvent) -> Unit = {}
 ) {
     val nav = navigation()
@@ -158,6 +164,10 @@ private fun BoxWithConstraintsScope.UI(
                 Spacer(Modifier.width(24.dp))
             }
 
+            if (state.showCategorySearchBar) {
+                Spacer(Modifier.height(16.dp))
+                SearchField(onSearch = { onEvent(CategoriesScreenEvent.OnSearchQueryUpdate(it)) })
+            }
             Spacer(Modifier.height(16.dp))
         }
 
@@ -679,11 +689,22 @@ private fun PreviewCategoriesCompactModeEnabled(theme: Theme = Theme.LIGHT) {
 
 @Preview
 @Composable
-private fun Preview(theme: Theme = Theme.LIGHT, compactModeEnabled: Boolean = false) {
-    com.ivy.legacy.IvyWalletPreview(theme) {
+private fun PreviewCategoriesCompactModeEnabledAndSearchBarEnabled(theme: Theme = Theme.LIGHT) {
+    Preview(theme = theme, compactModeEnabled = true, displaySearchBarEnabled = true)
+}
+
+@Preview
+@Composable
+private fun Preview(
+    theme: Theme = Theme.LIGHT,
+    compactModeEnabled: Boolean = false,
+    displaySearchBarEnabled: Boolean = false
+) {
+    IvyWalletPreview(theme) {
         val state = CategoriesScreenState(
             baseCurrency = "BGN",
             compactCategoriesModeEnabled = compactModeEnabled,
+            showCategorySearchBar = displaySearchBarEnabled,
             categories = persistentListOf(
                 CategoryData(
                     category = Category(
@@ -752,6 +773,106 @@ private fun Preview(theme: Theme = Theme.LIGHT, compactModeEnabled: Boolean = fa
     }
 }
 
+@Preview
+@Composable
+private fun PreviewWithSearchBarEnabled(
+    theme: Theme = Theme.LIGHT,
+    compactModeEnabled: Boolean = false,
+    displaySearchBarEnabled: Boolean = true
+) {
+    IvyWalletPreview(theme) {
+        val state = CategoriesScreenState(
+            baseCurrency = "BGN",
+            compactCategoriesModeEnabled = compactModeEnabled,
+            showCategorySearchBar = displaySearchBarEnabled,
+            categories = persistentListOf(
+                CategoryData(
+                    category = Category(
+                        id = CategoryId(UUID.randomUUID()),
+                        name = NotBlankTrimmedString.unsafe("Groceries"),
+                        color = ColorInt(Green.toArgb()),
+                        icon = IconAsset.unsafe("groceries"),
+                        orderNum = 0.0,
+                    ),
+                    monthlyBalance = 2125.0,
+                    monthlyExpenses = 920.0,
+                    monthlyIncome = 3045.0
+                ),
+                CategoryData(
+                    category = Category(
+                        id = CategoryId(UUID.randomUUID()),
+                        name = NotBlankTrimmedString.unsafe("Fun"),
+                        color = ColorInt(Orange.toArgb()),
+                        icon = IconAsset.unsafe("game"),
+                        orderNum = 0.0,
+                    ),
+                    monthlyBalance = 1200.0,
+                    monthlyExpenses = 750.0,
+                    monthlyIncome = 0.0
+                ),
+                CategoryData(
+                    category = Category(
+                        id = CategoryId(UUID.randomUUID()),
+                        name = NotBlankTrimmedString.unsafe("Ivy"),
+                        color = ColorInt(IvyDark.toArgb()),
+                        icon = IconAsset.unsafe("star"),
+                        orderNum = 0.0,
+                    ),
+                    monthlyBalance = 1200.0,
+                    monthlyExpenses = 0.0,
+                    monthlyIncome = 5000.0
+                ),
+                CategoryData(
+                    category = Category(
+                        id = CategoryId(UUID.randomUUID()),
+                        name = NotBlankTrimmedString.unsafe("Food"),
+                        color = ColorInt(GreenLight.toArgb()),
+                        icon = IconAsset.unsafe("atom"),
+                        orderNum = 0.0,
+                    ),
+                    monthlyBalance = 12125.21,
+                    monthlyExpenses = 1350.50,
+                    monthlyIncome = 8000.48
+                ),
+                CategoryData(
+                    category = Category(
+                        id = CategoryId(UUID.randomUUID()),
+                        name = NotBlankTrimmedString.unsafe("Shisha"),
+                        color = ColorInt(GreenDark.toArgb()),
+                        icon = IconAsset.unsafe("drink"),
+                        orderNum = 0.0,
+                    ),
+                    monthlyBalance = 820.0,
+                    monthlyExpenses = 340.0,
+                    monthlyIncome = 400.0
+                ),
+
+                )
+        )
+        UI(state = state)
+    }
+}
+
+@Composable
+private fun SearchField(
+    onSearch: (String) -> Unit,
+) {
+    var searchQueryTextFieldValue by remember {
+        mutableStateOf(selectEndTextFieldValue(""))
+    }
+
+    SearchInput(
+        searchQueryTextFieldValue = searchQueryTextFieldValue,
+        hint = "Search categories",
+        focus = false,
+        showClearIcon = searchQueryTextFieldValue.text.isNotEmpty(),
+        onSetSearchQueryTextField = {
+            searchQueryTextFieldValue = it
+            onSearch(it.text)
+        }
+    )
+}
+
 /** For screenshot testing */
 @Composable
 fun CategoriesScreenUiTest(isDark: Boolean) {
@@ -764,10 +885,30 @@ fun CategoriesScreenUiTest(isDark: Boolean) {
 
 /** For screenshot testing */
 @Composable
+fun CategoriesScreenWithSearchBarUiTest(isDark: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    Preview(theme = theme, displaySearchBarEnabled = true)
+}
+
+/** For screenshot testing */
+@Composable
 fun CategoriesScreenCompactUiTest(isDark: Boolean) {
     val theme = when (isDark) {
         true -> Theme.DARK
         false -> Theme.LIGHT
     }
     Preview(theme, compactModeEnabled = true)
+}
+
+/** For screenshot testing */
+@Composable
+fun CategoriesScreenWithSearchBarCompactUiTest(isDark: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    Preview(theme, compactModeEnabled = true, displaySearchBarEnabled = true)
 }
