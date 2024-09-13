@@ -190,7 +190,7 @@ class CategoriesViewModel @Inject constructor(
         }
     }
 
-    private fun filterCategories(queryString: String) {
+    private fun updateSearchQuery(queryString: String) {
         searchQuery.value = queryString
     }
 
@@ -263,7 +263,7 @@ class CategoriesViewModel @Inject constructor(
                     categoryModalData.value = event.categoryModalData
                 }
 
-                is CategoriesScreenEvent.OnSearchQueryUpdate -> filterCategories(event.queryString)
+                is CategoriesScreenEvent.OnSearchQueryUpdate -> updateSearchQuery(event.queryString)
             }
         }
     }
