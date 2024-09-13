@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Transaction
@@ -55,8 +56,7 @@ class CategoriesViewModel @Inject constructor(
     private val baseCurrency = mutableStateOf("")
     private val categories =
         mutableStateOf<ImmutableList<CategoryData>>(persistentListOf<CategoryData>())
-    private val allCategories =
-        mutableStateOf<ImmutableList<CategoryData>>(persistentListOf<CategoryData>())
+    private val searchQuery = mutableStateOf("")
     private val reorderModalVisible = mutableStateOf(false)
     private val categoryModalData = mutableStateOf<CategoryModalData?>(null)
     private val sortModalVisible = mutableStateOf(false)
@@ -97,7 +97,10 @@ class CategoriesViewModel @Inject constructor(
 
     @Composable
     private fun getCategories(): ImmutableList<CategoryData> {
-        return categories.value
+        val allCats = categories.value
+        return remember(allCats, searchQuery.value) {
+            allCats.filter { searchQuery.value.lowercase().trim() in it.category.name.toString().lowercase() }.toImmutableList()
+        }
     }
 
     @Composable
@@ -183,21 +186,12 @@ class CategoriesViewModel @Inject constructor(
             }
 
             val sortedList = sortList(categories, sortOrder.value).toImmutableList()
-            this.allCategories.value = sortedList
-            this.categories.value = this.allCategories.value
+            this.categories.value = sortedList
         }
     }
 
     private fun filterCategories(queryString: String) {
-        var unsortedList: List<CategoryData>
-        if (queryString.isNotEmpty()) {
-            unsortedList = this.allCategories.value.filter {
-                it.category.name.value.toLowerCase().contains(queryString.toLowerCase().trim())
-            }
-        } else {
-            unsortedList = this.allCategories.value
-        }
-        this.categories.value = sortList(unsortedList, sortOrder.value).toImmutableList()
+        searchQuery.value = queryString
     }
 
     private suspend fun reorder(
