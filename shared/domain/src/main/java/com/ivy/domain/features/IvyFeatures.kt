@@ -36,7 +36,7 @@ class IvyFeatures @Inject constructor() : Features {
         key = "search_categories",
         name = "Search categories",
         description = "Show search bar in category screen",
-        defaultValue = false
+        defaultValue = true
     )
 
     override val hideTotalBalance = BoolFeature(
