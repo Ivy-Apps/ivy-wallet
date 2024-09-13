@@ -40,6 +40,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import com.ivy.legacy.IvyWalletPreview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -699,7 +700,7 @@ private fun Preview(
     compactModeEnabled: Boolean = false,
     displaySearchBarEnabled: Boolean = false
 ) {
-    com.ivy.legacy.IvyWalletPreview(theme) {
+    IvyWalletPreview(theme) {
         val state = CategoriesScreenState(
             baseCurrency = "BGN",
             compactCategoriesModeEnabled = compactModeEnabled,
@@ -779,7 +780,7 @@ private fun PreviewWithSearchBarEnabled(
     compactModeEnabled: Boolean = false,
     displaySearchBarEnabled: Boolean = true
 ) {
-    com.ivy.legacy.IvyWalletPreview(theme) {
+    IvyWalletPreview(theme) {
         val state = CategoriesScreenState(
             baseCurrency = "BGN",
             compactCategoriesModeEnabled = compactModeEnabled,
