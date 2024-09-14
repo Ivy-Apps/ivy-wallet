@@ -17,4 +17,5 @@ sealed interface CategoriesScreenEvent {
     data class OnSortOrderModalVisible(val visible: Boolean) : CategoriesScreenEvent
     data class OnCategoryModalVisible(val categoryModalData: CategoryModalData?) :
         CategoriesScreenEvent
+    data class OnSearchQueryUpdate(val queryString: String) : CategoriesScreenEvent
 }

@@ -8,8 +8,11 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -103,27 +106,25 @@ private fun BoxWithConstraintsScope.UI(
     var addRateModalVisible by remember {
         mutableStateOf(false)
     }
-    Button(
+
+    FloatingActionButton(
         modifier = Modifier
             .systemBarsPadding()
-            .align(Alignment.BottomCenter)
-            .padding(bottom = 24.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = UI.colors.primary,
-            contentColor = White,
-        ),
+            .align(Alignment.BottomEnd)
+            .padding(all = 24.dp),
+        containerColor = UI.colors.primary,
+        contentColor = White,
+        shape = RoundedCornerShape(100.dp),
         onClick = {
             addRateModalVisible = true
         }
     ) {
-        Text(
-            modifier = Modifier.padding(vertical = 16.dp),
-            text = "Add rate",
-            style = UI.typo.b1.style(
-                color = White
-            )
+        Icon(
+            imageVector = Icons.Filled.Add,
+            contentDescription = "Add rate Icon",
         )
     }
+
     AddRateModal(
         visible = addRateModalVisible,
         baseCurrency = state.baseCurrency,
