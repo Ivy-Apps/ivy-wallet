@@ -856,10 +856,9 @@ class EditTransactionViewModel @Inject constructor(
             }
 
             val exRate = exchangeRate
-                ?: if (customExchangeRateState.showCard &&
-                    toAccCurrencyCode == customExchangeRateState.toCurrencyCode &&
-                    fromAccCurrencyCode == customExchangeRateState.fromCurrencyCode &&
-                    !resetRate
+                ?: if (
+                    customExchangeRateState.showCard && toAccCurrencyCode == customExchangeRateState.toCurrencyCode &&
+                    fromAccCurrencyCode == customExchangeRateState.fromCurrencyCode && !resetRate
                 ) {
                     customExchangeRateState.exchangeRate
                 } else {
