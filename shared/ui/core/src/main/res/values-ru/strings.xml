@@ -27,6 +27,7 @@
     <string name="budget_info">Информация о бюджете: %1$s%2$s</string>
     <string name="total_budget_info">Общий оставшийся бюджет: %1$s %2$s</string>
     <string name="add_category">Добавить категорию</string>
+    <string name="add_manual_exchange_rate">Add  rate</string>
     <string name="expenses">Расходы</string>
     <string name="expenses_count">Количество расходов</string>
     <string name="income">Доходы</string>

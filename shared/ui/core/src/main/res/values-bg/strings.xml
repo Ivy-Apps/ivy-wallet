@@ -27,6 +27,7 @@
     <string name="budget_info">Бюджет: %1$s%2$s</string>
     <string name="total_budget_info">Общ останал бюджет: %1$s %2$s</string>
     <string name="add_category">Добави категория</string>
+    <string name="add_manual_exchange_rate">Add  rate</string>
     <string name="expenses">Разходи</string>
     <string name="expenses_count">Брой разходи</string>
     <string name="income">Приход</string>

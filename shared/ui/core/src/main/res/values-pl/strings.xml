@@ -27,6 +27,7 @@
     <string name="budget_info">Informacja o budżecie: %1$s%2$s</string>
     <string name="total_budget_info">Całkowity pozostały budżet: %1$s %2$s</string>
     <string name="add_category">Dodaj kategorię</string>
+    <string name="add_manual_exchange_rate">Add  rate</string>
     <string name="expenses">Wydatki</string>
     <string name="expenses_count">Ilość wydatków</string>
     <string name="income">Wpływy</string>
