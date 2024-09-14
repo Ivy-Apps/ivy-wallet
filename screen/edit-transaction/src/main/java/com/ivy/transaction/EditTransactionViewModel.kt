@@ -856,9 +856,10 @@ class EditTransactionViewModel @Inject constructor(
             }
 
             val exRate = exchangeRate
-                ?: if (
-                    customExchangeRateState.showCard && toAccCurrencyCode == customExchangeRateState.toCurrencyCode &&
-                    fromAccCurrencyCode == customExchangeRateState.fromCurrencyCode && !resetRate
+                ?: if (isCustomExchangeRateCurrencyCodeMatchingWithSourceAndDestinationAccountCurrencyCode(
+                        toAccCurrencyCode = toAccCurrencyCode,
+                        fromAccCurrencyCode = fromAccCurrencyCode
+                    ) && !resetRate
                 ) {
                     customExchangeRateState.exchangeRate
                 } else {
@@ -885,6 +886,15 @@ class EditTransactionViewModel @Inject constructor(
                 saveIfEditMode()
             }
         }
+    }
+
+    private fun isCustomExchangeRateCurrencyCodeMatchingWithSourceAndDestinationAccountCurrencyCode(
+        toAccCurrencyCode: String,
+        fromAccCurrencyCode: String
+    ): Boolean {
+        return customExchangeRateState.showCard &&
+                toAccCurrencyCode == customExchangeRateState.toCurrencyCode &&
+                fromAccCurrencyCode == customExchangeRateState.fromCurrencyCode
     }
 
     private fun saveIfEditMode(closeScreen: Boolean = false) {
