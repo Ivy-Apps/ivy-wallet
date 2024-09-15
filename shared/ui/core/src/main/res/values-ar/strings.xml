@@ -27,6 +27,7 @@
     <string name="budget_info">%2$s معلومات الميزانية: %1$s</string>
     <string name="total_budget_info"> إجمالي الميزانية المتبقية: %1$s %2$s</string>
     <string name="add_category">أضف فئة</string>
+    <string name="add_manual_exchange_rate">Add rate</string>
     <string name="expenses">الإنفاق</string>
     <string name="expenses_count">عدد الإنفاق</string>
     <string name="income">الدخل</string>

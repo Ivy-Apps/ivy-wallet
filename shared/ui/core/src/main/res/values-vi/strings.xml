@@ -27,6 +27,7 @@
     <string name="budget_info">Thông tin ngân sách: %1$s%2$s</string>
     <string name="total_budget_info">Tổng ngân sách còn lại: %1$s %2$s</string>
     <string name="add_category">Thêm danh mục</string>
+    <string name="add_manual_exchange_rate">Add rate</string>
     <string name="expenses">Khoản chi</string>
     <string name="expenses_count">Số lần chi</string>
     <string name="income">Khoản thu</string>

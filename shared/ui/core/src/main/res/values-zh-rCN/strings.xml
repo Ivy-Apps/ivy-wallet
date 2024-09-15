@@ -27,6 +27,7 @@
     <string name="budget_info">预算：%1$s%2$s</string>
     <string name="total_budget_info">剩余总预算：%1$s %2$s</string>
     <string name="add_category">添加类别</string>
+    <string name="add_manual_exchange_rate">Add rate</string>
     <string name="expenses">支出</string>
     <string name="expenses_count">支出次数</string>
     <string name="income">收入</string>
