@@ -319,8 +319,8 @@
     <string name="enter_loan_amount_uppercase">輸入借貸金額</string>
     <string name="confirm_account_change_warning">"如果您嘗試將與借貸關聯的帳戶更改為其他貨幣的帳戶，則所有借貸記錄將根據今天的匯率重新計算。"</string>
     <string name="loan_type">借貸類型</string>
-    <string name="borrow_money">借錢</string>
-    <string name="lend_money">借錢</string>
+    <string name="borrow_money">借入</string>
+    <string name="lend_money">借出</string>
     <string name="edit_record">編輯記錄</string>
     <string name="new_record">新記錄</string>
     <string name="note">注意</string>
