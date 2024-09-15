@@ -28,6 +28,7 @@
     <string name="total_budget_info">Total Remaining Budget: %1$s %2$s</string>
     <string name="budget_exceeded_info">Budget exceeded by %1$s %2$s</string>
     <string name="add_category">Add category</string>
+    <string name="add_manual_exchange_rate">Add rate</string>
     <string name="expenses">Expenses</string>
     <string name="expenses_count">Expenses count</string>
     <string name="income">Income</string>

@@ -28,6 +28,7 @@
     <string name="total_budget_info">總剩餘預算：%1$s %2$s</string>
     <string name="budget_exceeded_info">超出預算 %1$s %2$s</string>
     <string name="add_category">新增類別</string>
+    <string name="add_manual_exchange_rate">Add rate</string>
     <string name="expenses">支出</string>
     <string name="expenses_count">支出計數</string>
     <string name="income">收入</string>
