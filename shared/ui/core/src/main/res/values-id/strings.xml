@@ -27,7 +27,7 @@
     <string name="budget_info">Info anggaran: %1$s%2$s</string>
     <string name="total_budget_info">Total Anggaran Tersisa: %1$s %2$s</string>
     <string name="add_category">Tambahkan kategori</string>
-    <string name="add_manual_exchange_rate">Add  rate</string>
+    <string name="add_manual_exchange_rate">Add rate</string>
     <string name="expenses">Pengeluaran</string>
     <string name="expenses_count">Jumlah pengeluaran</string>
     <string name="income">Pendapatan</string>

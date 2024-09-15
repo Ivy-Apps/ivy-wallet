@@ -27,7 +27,7 @@
     <string name="budget_info">ಬಜೆಟ್ ಮಾಹಿತಿ: %1$s%2$s</string>
     <string name="total_budget_info">ಒಟ್ಟು ಉಳಿದಿರುವ ಬಜೆಟ್: %1$s %2$s</string>
     <string name="add_category">ವರ್ಗವನ್ನು ಸೇರಿಸಿ</string>
-    <string name="add_manual_exchange_rate">Add  rate</string>
+    <string name="add_manual_exchange_rate">Add rate</string>
     <string name="expenses">ಖರ್ಚು</string>
     <string name="expenses_count">ಖರ್ಚುಗಳ ಎಣಿಕೆ</string>
     <string name="income">ಆದಾಯ</string>

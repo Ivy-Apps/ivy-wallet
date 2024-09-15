@@ -27,7 +27,7 @@
     <string name="budget_info">Төсвийн задаргаа: %1$s%2$s</string>
     <string name="total_budget_info">Нийт үлдэгдэл төсөв: %1$s %2$s</string>
     <string name="add_category">Ангилал нэмэх</string>
-    <string name="add_manual_exchange_rate">Add  rate</string>
+    <string name="add_manual_exchange_rate">Add rate</string>
     <string name="expenses">Зарлага</string>
     <string name="expenses_count">Зарлагын тоо</string>
     <string name="income">Орлого</string>

@@ -27,7 +27,7 @@
     <string name="budget_info">información de presupuesto: %1$s%2$s</string>
     <string name="total_budget_info">Presupuesto total restante: %1$s %2$s</string>
     <string name="add_category">Agregar categoría</string>
-    <string name="add_manual_exchange_rate">Add  rate</string>
+    <string name="add_manual_exchange_rate">Add rate</string>
     <string name="expenses">Gastos</string>
     <string name="expenses_count">Cuenta de gastos</string>
     <string name="income">Ingresos</string>
