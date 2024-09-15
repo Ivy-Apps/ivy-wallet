@@ -11,7 +11,7 @@
     <string name="authenticate_text">驗證進入應用程式</string>
     <string name="unlock">解鎖</string>
     <string name="current_balance">當前餘額</string>
-    <string name="balance_after_payments">計劃付款後的餘額</string>
+    <string name="balance_after_payments">經常交易後的餘額</string>
     <string name="connect">連接</string>
     <string name="sync_transactions">同步交易</string>
     <string name="syncing_transactions">正在同步交易...</string>
@@ -28,7 +28,7 @@
     <string name="total_budget_info">總剩餘預算：%1$s %2$s</string>
     <string name="budget_exceeded_info">超出預算 %1$s %2$s</string>
     <string name="add_category">新增類別</string>
-    <string name="add_manual_exchange_rate">Add rate</string>
+    <string name="add_manual_exchange_rate">新增匯率</string>
     <string name="expenses">支出</string>
     <string name="expenses_count">支出計數</string>
     <string name="income">收入</string>
@@ -101,10 +101,10 @@
     <string name="savings_goal">儲蓄目標</string>
     <string name="quick_access">快速存取</string>
     <string name="settings">設定</string>
-        <string name="light_mode">明亮模式</string>
+    <string name="light_mode">明亮模式</string>
     <string name="dark_mode">深色模式</string>
     <string name="auto_mode">自動模式</string>
-    <string name="planned_payments">計劃\n付款</string>
+    <string name="planned_payments">經常\n交易</string>
     <string name="share_ivy">分享 Ivy</string>
     <string name="reports">報表</string>
     <string name="loans">借貸</string>
@@ -152,7 +152,7 @@
     <string name="agreed_privacy_policy">同意我們的隱私權政策</string>
     <string name="terms_and_conditions">條款與條件</string>
     <string name="privacy_policy">隱私權政策</string>
-    <string name="wallet_description">使用 Ivy 追蹤您的收入、支出和預算。\n\n直觀的介面、定期付款和計劃付款、管理多個帳戶、按類別組織交易、強大的統計數據、匯出到 CSV 等等。</string>
+    <string name="wallet_description">使用 Ivy 追蹤您的收入、支出和預算。\n\n直觀的介面、定期付款和經常交易、管理多個帳戶、按類別組織交易、強大的統計數據、匯出到 CSV 等等。</string>
     <string name="enter_your_name">輸入您的姓名\n以個性化您的\n錢包</string>
     <string name="what_is_your_name">你叫什麼名字?</string>
     <string name="enter">輸入</string>
@@ -192,7 +192,7 @@
     <string name="one_time_payments">一次性付款</string>
     <string name="recurring_payments">定期付款</string>
     <string name="no_planned_payments">沒有經常交易</string>
-    <string name="no_planned_payments_description">您沒有任何計劃付款。\n點擊底部的\'⚡\'按鈕即可新增。</string>
+    <string name="no_planned_payments_description">您沒有任何經常交易。\n點擊底部的\'⚡\'按鈕即可新增。</string>
     <string name="planned_payments_inline">經常交易</string>
     <string name="today">今天</string>
     <string name="yesterday">昨天</string>
@@ -380,7 +380,7 @@
     <string name="adjust_initial_balance">調整您的初始餘額</string>
     <string name="to_accounts">至帳戶</string>
     <string name="adjust_initial_balance_description"><![CDATA[讓我們開始吧。前往 \"帳戶\" -> 點選帳戶 -> 點選其餘額 -> 輸入目前餘額。就是這樣!]]></string>
-    <string name="create_first_planned_payment">建立您的第一個計劃付款</string>
+    <string name="create_first_planned_payment">建立您的第一個經常交易</string>
     <string name="create_first_planned_payment_description">追蹤您的常規交易，例如訂閱、租金和薪水。透過事先了解您所欠或預計收到的金額來掌握您的財務狀況。</string>
     <string name="did_you_know">你知道嗎?</string>
     <string name="widget_description">Ivy Wallet 有一個很酷的小部件，讓您只需從主畫面點擊一下即可新增交易。\n\n注意: 如果 "新增小工具" 按鈕不起作用，請從啟動器的小工具選單中手動新增。</string>
@@ -436,7 +436,7 @@
     <string name="sort_by">排序方式</string>
     <string name="skip_all">全部跳過</string>
     <string name="confirm_skip_all">確認跳過全部</string>
-    <string name="confirm_skip_all_description">您確定要跳過所有逾期的計劃付款嗎?</string>
+    <string name="confirm_skip_all_description">您確定要跳過所有逾期的經常交易嗎?</string>
     <string name="switch_to_offline_mode">切換到離線模式</string>
     <string name="delete_all_user_cloud_data_warning">警告!此操作將永久刪除您在雲端中儲存的所有資料 %1$s，儲存在本機應用程式中的離線資料將保留。</string>
     <string name="delete_all_cloud_data_question">刪除所有雲端儲存資料?</string>
