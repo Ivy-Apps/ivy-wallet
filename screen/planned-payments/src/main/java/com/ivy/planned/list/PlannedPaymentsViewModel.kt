@@ -3,8 +3,10 @@ package com.ivy.planned.list
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.ui.ComposeViewModel
@@ -31,19 +33,19 @@ class PlannedPaymentsViewModel @Inject constructor(
     private val accountsAct: AccountsAct
 ) : ComposeViewModel<PlannedPaymentsScreenState, PlannedPaymentsScreenEvent>() {
 
-    private val currency = mutableStateOf("")
-    private val categories = mutableStateOf<ImmutableList<Category>>(persistentListOf())
-    private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
-    private val oneTimePlannedPayment =
+    private var currency by mutableStateOf("")
+    private var categories by mutableStateOf<ImmutableList<Category>>(persistentListOf())
+    private var accounts by mutableStateOf<ImmutableList<Account>>(persistentListOf())
+    private var oneTimePlannedPayment by
         mutableStateOf<ImmutableList<PlannedPaymentRule>>(persistentListOf())
-    private val recurringPlannedPayment =
+    private var recurringPlannedPayment by
         mutableStateOf<ImmutableList<PlannedPaymentRule>>(persistentListOf())
-    private val oneTimeIncome = mutableDoubleStateOf(0.0)
-    private val oneTimeExpenses = mutableDoubleStateOf(0.0)
-    private val recurringIncome = mutableDoubleStateOf(0.0)
-    private val recurringExpenses = mutableDoubleStateOf(0.0)
-    private val isOneTimePaymentsExpanded = mutableStateOf(true)
-    private val isRecurringPaymentsExpanded = mutableStateOf(true)
+    private var oneTimeIncome by mutableDoubleStateOf(0.0)
+    private var oneTimeExpenses by mutableDoubleStateOf(0.0)
+    private var recurringIncome by mutableDoubleStateOf(0.0)
+    private var recurringExpenses by mutableDoubleStateOf(0.0)
+    private var isOneTimePaymentsExpanded by mutableStateOf(true)
+    private var isRecurringPaymentsExpanded by mutableStateOf(true)
 
     @Composable
     override fun uiState(): PlannedPaymentsScreenState {
@@ -68,66 +70,66 @@ class PlannedPaymentsViewModel @Inject constructor(
 
     @Composable
     private fun getCurrency(): String {
-        return currency.value
+        return currency
     }
 
     @Composable
     private fun getCategories(): ImmutableList<Category> {
-        return categories.value
+        return categories
     }
 
     @Composable
     private fun getAccounts(): ImmutableList<Account> {
-        return accounts.value
+        return accounts
     }
 
     @Composable
     private fun getOneTimePlannedPayment(): ImmutableList<PlannedPaymentRule> {
-        return oneTimePlannedPayment.value
+        return oneTimePlannedPayment
     }
 
     @Composable
     private fun getRecurringPlannedPayment(): ImmutableList<PlannedPaymentRule> {
-        return recurringPlannedPayment.value
+        return recurringPlannedPayment
     }
 
     @Composable
     private fun getOneTimeExpenses(): Double {
-        return oneTimeExpenses.doubleValue
+        return oneTimeExpenses
     }
 
     @Composable
     private fun getOneTimeIncome(): Double {
-        return oneTimeIncome.doubleValue
+        return oneTimeIncome
     }
 
     @Composable
     private fun getRecurringExpenses(): Double {
-        return recurringExpenses.doubleValue
+        return recurringExpenses
     }
 
     @Composable
     private fun getRecurringIncome(): Double {
-        return recurringIncome.doubleValue
+        return recurringIncome
     }
 
     @Composable
     private fun getRecurringPaymentsExpanded(): Boolean {
-        return isRecurringPaymentsExpanded.value
+        return isRecurringPaymentsExpanded
     }
 
     @Composable
     private fun getOneTimePaymentsExpanded(): Boolean {
-        return isOneTimePaymentsExpanded.value
+        return isOneTimePaymentsExpanded
     }
 
     override fun onEvent(event: PlannedPaymentsScreenEvent) {
         when (event) {
             is PlannedPaymentsScreenEvent.OnOneTimePaymentsExpanded -> {
-                isOneTimePaymentsExpanded.value = event.isExpanded
+                isOneTimePaymentsExpanded = event.isExpanded
             }
             is PlannedPaymentsScreenEvent.OnRecurringPaymentsExpanded -> {
-                isRecurringPaymentsExpanded.value = event.isExpanded
+                isRecurringPaymentsExpanded = event.isExpanded
             }
         }
     }
@@ -135,20 +137,20 @@ class PlannedPaymentsViewModel @Inject constructor(
     private fun start() {
         viewModelScope.launch {
             val settings = ioThread { settingsDao.findFirst() }
-            currency.value = settings.currency
+            currency = settings.currency
 
-            categories.value = categoriesRepository.findAll().toImmutableList()
-            accounts.value = accountsAct(Unit)
+            categories = categoriesRepository.findAll().toImmutableList()
+            accounts = accountsAct(Unit)
 
-            oneTimePlannedPayment.value =
+            oneTimePlannedPayment =
                 ioThread { plannedPaymentsLogic.oneTime() }.toImmutableList()
-            oneTimeIncome.doubleValue = ioThread { plannedPaymentsLogic.oneTimeIncome() }
-            oneTimeExpenses.doubleValue = ioThread { plannedPaymentsLogic.oneTimeExpenses() }
+            oneTimeIncome = ioThread { plannedPaymentsLogic.oneTimeIncome() }
+            oneTimeExpenses = ioThread { plannedPaymentsLogic.oneTimeExpenses() }
 
-            recurringPlannedPayment.value =
+            recurringPlannedPayment =
                 ioThread { plannedPaymentsLogic.recurring() }.toImmutableList()
-            recurringIncome.doubleValue = ioThread { plannedPaymentsLogic.recurringIncome() }
-            recurringExpenses.doubleValue = ioThread { plannedPaymentsLogic.recurringExpenses() }
+            recurringIncome = ioThread { plannedPaymentsLogic.recurringIncome() }
+            recurringExpenses = ioThread { plannedPaymentsLogic.recurringExpenses() }
         }
     }
 }

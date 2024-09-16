@@ -2,8 +2,10 @@ package com.ivy.piechart
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.Transaction
@@ -39,18 +41,18 @@ class PieChartStatisticViewModel @Inject constructor(
     private val timeConverter: TimeConverter,
 ) : ComposeViewModel<PieChartStatisticState, PieChartStatisticEvent>() {
 
-    private val treatTransfersAsIncomeExpense = mutableStateOf(false)
-    private val transactionType = mutableStateOf(TransactionType.INCOME)
-    private val period = mutableStateOf(TimePeriod())
-    private val baseCurrency = mutableStateOf("")
-    private val totalAmount = mutableDoubleStateOf(0.0)
-    private val categoryAmounts = mutableStateOf<ImmutableList<CategoryAmount>>(persistentListOf())
-    private val selectedCategory = mutableStateOf<SelectedCategory?>(null)
-    private val accountIdFilterList = mutableStateOf<ImmutableList<UUID>>(persistentListOf())
-    private val showCloseButtonOnly = mutableStateOf(false)
-    private val filterExcluded = mutableStateOf(false)
-    private val transactions = mutableStateOf<ImmutableList<Transaction>>(persistentListOf())
-    private val choosePeriodModal = mutableStateOf<ChoosePeriodModalData?>(null)
+    private var treatTransfersAsIncomeExpense by mutableStateOf(false)
+    private var transactionType by mutableStateOf(TransactionType.INCOME)
+    private var period by mutableStateOf(TimePeriod())
+    private var baseCurrency by mutableStateOf("")
+    private var totalAmount by mutableDoubleStateOf(0.0)
+    private var categoryAmounts by mutableStateOf<ImmutableList<CategoryAmount>>(persistentListOf())
+    private var selectedCategory by mutableStateOf<SelectedCategory?>(null)
+    private var accountIdFilterList by mutableStateOf<ImmutableList<UUID>>(persistentListOf())
+    private var showCloseButtonOnly by mutableStateOf(false)
+    private var filterExcluded by mutableStateOf(false)
+    private var transactions by mutableStateOf<ImmutableList<Transaction>>(persistentListOf())
+    private var choosePeriodModal by mutableStateOf<ChoosePeriodModalData?>(null)
 
     @Composable
     override fun uiState(): PieChartStatisticState {
@@ -71,57 +73,57 @@ class PieChartStatisticViewModel @Inject constructor(
 
     @Composable
     private fun getTransactionType(): TransactionType {
-        return transactionType.value
+        return transactionType
     }
 
     @Composable
     private fun getPeriod(): TimePeriod {
-        return period.value
+        return period
     }
 
     @Composable
     private fun getBaseCurrency(): String {
-        return baseCurrency.value
+        return baseCurrency
     }
 
     @Composable
     private fun getTotalAmount(): Double {
-        return totalAmount.doubleValue
+        return totalAmount
     }
 
     @Composable
     private fun getCategoryAmounts(): ImmutableList<CategoryAmount> {
-        return categoryAmounts.value
+        return categoryAmounts
     }
 
     @Composable
     private fun getSelectedCategory(): SelectedCategory? {
-        return selectedCategory.value
+        return selectedCategory
     }
 
     @Composable
     private fun getAccountIdFilterList(): ImmutableList<UUID> {
-        return accountIdFilterList.value
+        return accountIdFilterList
     }
 
     @Composable
     private fun getShowCloseButtonOnly(): Boolean {
-        return showCloseButtonOnly.value
+        return showCloseButtonOnly
     }
 
     @Composable
     private fun getFilterExcluded(): Boolean {
-        return filterExcluded.value
+        return filterExcluded
     }
 
     @Composable
     private fun getTransactions(): ImmutableList<Transaction> {
-        return transactions.value
+        return transactions
     }
 
     @Composable
     private fun getChoosePeriodModal(): ChoosePeriodModalData? {
-        return choosePeriodModal.value
+        return choosePeriodModal
     }
 
     override fun onEvent(event: PieChartStatisticEvent) {
@@ -161,7 +163,7 @@ class PieChartStatisticViewModel @Inject constructor(
         transfersAsIncomeExpenseValue: Boolean
     ) {
         initialise(period, type, accountIdFilterList, filterExclude, transactions)
-        treatTransfersAsIncomeExpense.value = transfersAsIncomeExpenseValue
+        treatTransfersAsIncomeExpense = transfersAsIncomeExpenseValue
         load(periodValue = period)
     }
 
@@ -175,29 +177,29 @@ class PieChartStatisticViewModel @Inject constructor(
         val settings = ioThread { settingsDao.findFirst() }
         val baseCurrencyValue = settings.currency
 
-        period.value = periodValue
-        transactionType.value = type
-        accountIdFilterList.value = accountIdFilterListValue
-        filterExcluded.value = filterExcludedValue
-        transactions.value = transactionsValue
-        showCloseButtonOnly.value = transactionsValue.isNotEmpty()
-        baseCurrency.value = baseCurrencyValue
+        period = periodValue
+        transactionType = type
+        accountIdFilterList = accountIdFilterListValue
+        filterExcluded = filterExcludedValue
+        transactions = transactionsValue
+        showCloseButtonOnly = transactionsValue.isNotEmpty()
+        baseCurrency = baseCurrencyValue
     }
 
     private suspend fun load(
         periodValue: TimePeriod
     ) {
-        val type = transactionType.value
-        val accountIdFilterList = accountIdFilterList.value
-        val transactions = transactions.value
-        val baseCurrency = baseCurrency.value
+        val type = transactionType
+        val accountIdFilterList = accountIdFilterList
+        val transactions = transactions
+        val baseCurrency = baseCurrency
         val range = periodValue.toRange(ivyContext.startDayOfMonth, timeConverter, timeProvider)
 
         val treatTransferAsIncExp =
             sharedPrefs.getBoolean(
                 SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE,
                 false
-            ) && accountIdFilterList.isNotEmpty() && treatTransfersAsIncomeExpense.value
+            ) && accountIdFilterList.isNotEmpty() && treatTransfersAsIncomeExpense
 
         val pieChartActOutput = ioThread {
             pieChartAct(
@@ -216,10 +218,10 @@ class PieChartStatisticViewModel @Inject constructor(
         val totalAmountValue = pieChartActOutput.totalAmount
         val categoryAmountsValue = pieChartActOutput.categoryAmounts
 
-        period.value = periodValue
-        totalAmount.doubleValue = totalAmountValue
-        categoryAmounts.value = categoryAmountsValue
-        selectedCategory.value = null
+        period = periodValue
+        totalAmount = totalAmountValue
+        categoryAmounts = categoryAmountsValue
+        selectedCategory = null
     }
 
     private suspend fun onSetPeriod(periodValue: TimePeriod) {
@@ -230,8 +232,8 @@ class PieChartStatisticViewModel @Inject constructor(
     }
 
     private suspend fun nextMonth() {
-        val month = period.value.month
-        val year = period.value.year ?: com.ivy.legacy.utils.dateNowUTC().year
+        val month = period.month
+        val year = period.year ?: com.ivy.legacy.utils.dateNowUTC().year
         if (month != null) {
             load(
                 periodValue = month.incrementMonthPeriod(ivyContext, 1L, year)
@@ -240,8 +242,8 @@ class PieChartStatisticViewModel @Inject constructor(
     }
 
     private suspend fun previousMonth() {
-        val month = period.value.month
-        val year = period.value.year ?: com.ivy.legacy.utils.dateNowUTC().year
+        val month = period.month
+        val year = period.year ?: com.ivy.legacy.utils.dateNowUTC().year
         if (month != null) {
             load(
                 periodValue = month.incrementMonthPeriod(ivyContext, -1L, year)
@@ -256,17 +258,17 @@ class PieChartStatisticViewModel @Inject constructor(
             null
         }
 
-        choosePeriodModal.value = choosePeriodModalData
+        choosePeriodModal = choosePeriodModalData
     }
 
     private suspend fun onCategoryClicked(clickedCategory: Category?) {
-        val selectedCategoryValue = if (clickedCategory == selectedCategory.value?.category) {
+        val selectedCategoryValue = if (clickedCategory == selectedCategory?.category) {
             null
         } else {
             clickedCategory?.let { SelectedCategory(category = it) }
         }
 
-        val existingCategoryAmounts = categoryAmounts.value
+        val existingCategoryAmounts = categoryAmounts
         val newCategoryAmounts = if (selectedCategoryValue != null) {
             existingCategoryAmounts
                 .sortedByDescending { it.amount }
@@ -279,7 +281,7 @@ class PieChartStatisticViewModel @Inject constructor(
             }
         }.toImmutableList()
 
-        selectedCategory.value = selectedCategoryValue
-        categoryAmounts.value = newCategoryAmounts
+        selectedCategory = selectedCategoryValue
+        categoryAmounts = newCategoryAmounts
     }
 }
