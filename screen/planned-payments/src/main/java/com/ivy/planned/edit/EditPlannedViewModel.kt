@@ -2,8 +2,10 @@ package com.ivy.planned.edit
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.model.TransactionType
 import com.ivy.base.time.TimeConverter
@@ -57,27 +59,27 @@ class EditPlannedViewModel @Inject constructor(
     private val timeConverter: TimeConverter,
 ) : ComposeViewModel<EditPlannedScreenState, EditPlannedScreenEvent>() {
 
-    private val transactionType = mutableStateOf(TransactionType.INCOME)
-    private val startDate = mutableStateOf<LocalDateTime?>(null)
-    private val intervalN = mutableStateOf<Int?>(null)
-    private val intervalType = mutableStateOf<IntervalType?>(null)
-    private val oneTime = mutableStateOf(false)
-    private val initialTitle = mutableStateOf<String?>(null)
-    private val description = mutableStateOf<String?>(null)
-    private val account = mutableStateOf<Account?>(null)
-    private val category = mutableStateOf<Category?>(null)
-    private val amount = mutableDoubleStateOf(0.0)
-    private val currency = mutableStateOf("")
-    private val categories = mutableStateOf<ImmutableList<Category>>(persistentListOf())
-    private val accounts = mutableStateOf<ImmutableList<Account>>(persistentListOf())
-    private val categoryModalVisible = mutableStateOf(false)
-    private val descriptionModalVisible = mutableStateOf(false)
-    private val deleteTransactionModalVisible = mutableStateOf(false)
-    private val transactionTypeModalVisible = mutableStateOf(false)
-    private val amountModalVisible = mutableStateOf(false)
-    private val recurringRuleModalData = mutableStateOf<RecurringRuleModalData?>(null)
-    private val categoryModalData = mutableStateOf<CategoryModalData?>(null)
-    private val accountModalData = mutableStateOf<AccountModalData?>(null)
+    private var transactionType by mutableStateOf(TransactionType.INCOME)
+    private var startDate by mutableStateOf<LocalDateTime?>(null)
+    private var intervalN by mutableStateOf<Int?>(null)
+    private var intervalType by mutableStateOf<IntervalType?>(null)
+    private var oneTime by mutableStateOf(false)
+    private var initialTitle by mutableStateOf<String?>(null)
+    private var description by mutableStateOf<String?>(null)
+    private var account by mutableStateOf<Account?>(null)
+    private var category by mutableStateOf<Category?>(null)
+    private var amount by mutableDoubleStateOf(0.0)
+    private var currency by mutableStateOf("")
+    private var categories by mutableStateOf<ImmutableList<Category>>(persistentListOf())
+    private var accounts by mutableStateOf<ImmutableList<Account>>(persistentListOf())
+    private var categoryModalVisible by mutableStateOf(false)
+    private var descriptionModalVisible by mutableStateOf(false)
+    private var deleteTransactionModalVisible by mutableStateOf(false)
+    private var transactionTypeModalVisible by mutableStateOf(false)
+    private var amountModalVisible by mutableStateOf(false)
+    private var recurringRuleModalData by mutableStateOf<RecurringRuleModalData?>(null)
+    private var categoryModalData by mutableStateOf<CategoryModalData?>(null)
+    private var accountModalData by mutableStateOf<AccountModalData?>(null)
 
     private var loadedRule: PlannedPaymentRule? = null
     private var editMode = false
@@ -112,107 +114,107 @@ class EditPlannedViewModel @Inject constructor(
 
     @Composable
     private fun getCurrency(): String {
-        return currency.value
+        return currency
     }
 
     @Composable
     private fun getCategories(): ImmutableList<Category> {
-        return categories.value
+        return categories
     }
 
     @Composable
     private fun getAccounts(): ImmutableList<Account> {
-        return accounts.value
+        return accounts
     }
 
     @Composable
     private fun getTransactionType(): TransactionType {
-        return transactionType.value
+        return transactionType
     }
 
     @Composable
     private fun getStartDate(): LocalDateTime? {
-        return startDate.value
+        return startDate
     }
 
     @Composable
     private fun getIntervalN(): Int? {
-        return intervalN.value
+        return intervalN
     }
 
     @Composable
     private fun getIntervalType(): IntervalType? {
-        return intervalType.value
+        return intervalType
     }
 
     @Composable
     private fun getOneTime(): Boolean {
-        return oneTime.value
+        return oneTime
     }
 
     @Composable
     private fun getInitialTitle(): String? {
-        return initialTitle.value
+        return initialTitle
     }
 
     @Composable
     private fun getDescription(): String? {
-        return description.value
+        return description
     }
 
     @Composable
     private fun getAccount(): Account? {
-        return account.value
+        return account
     }
 
     @Composable
     private fun getCategory(): Category? {
-        return category.value
+        return category
     }
 
     @Composable
     private fun getAmount(): Double {
-        return amount.doubleValue
+        return amount
     }
 
     @Composable
     private fun getCategoryModalVisibility(): Boolean {
-        return categoryModalVisible.value
+        return categoryModalVisible
     }
 
     @Composable
     private fun getDescriptionModalVisibility(): Boolean {
-        return descriptionModalVisible.value
+        return descriptionModalVisible
     }
 
     @Composable
     private fun getDeleteTransactionModalVisibility(): Boolean {
-        return deleteTransactionModalVisible.value
+        return deleteTransactionModalVisible
     }
 
     @Composable
     private fun getTransactionTypeModalVisibility(): Boolean {
-        return transactionTypeModalVisible.value
+        return transactionTypeModalVisible
     }
 
     @Composable
     private fun getAmountModalVisibility(): Boolean {
-        return amountModalVisible.value
+        return amountModalVisible
     }
 
     @Composable
     private fun getCategoryModalData(): CategoryModalData? {
-        return categoryModalData.value
+        return categoryModalData
     }
 
     @Composable
     private fun getAccountModalData(): AccountModalData? {
-        return accountModalData.value
+        return accountModalData
     }
 
     @Composable
     private fun getRecurringRuleModalData(): RecurringRuleModalData? {
-        return recurringRuleModalData.value
+        return recurringRuleModalData
     }
 
     override fun onEvent(event: EditPlannedScreenEvent) {
@@ -236,34 +238,34 @@ class EditPlannedViewModel @Inject constructor(
             is EditPlannedScreenEvent.OnCategoryChanged -> updateCategory(event.newCategory)
             is EditPlannedScreenEvent.OnEditCategory -> editCategory(event.updatedCategory)
             is EditPlannedScreenEvent.OnCategoryModalVisible ->
-                categoryModalVisible.value = event.visible
+                categoryModalVisible = event.visible
 
             is EditPlannedScreenEvent.OnCategoryModalDataChanged ->
-                categoryModalData.value = event.categoryModalData
+                categoryModalData = event.categoryModalData
 
             is EditPlannedScreenEvent.OnAccountModalDataChanged ->
-                accountModalData.value = event.accountModalData
+                accountModalData = event.accountModalData
 
             is EditPlannedScreenEvent.OnDescriptionModalVisible ->
-                descriptionModalVisible.value = event.visible
+                descriptionModalVisible = event.visible
 
             is EditPlannedScreenEvent.OnTransactionTypeModalVisible ->
-                transactionTypeModalVisible.value = event.visible
+                transactionTypeModalVisible = event.visible
 
             is EditPlannedScreenEvent.OnAmountModalVisible ->
-                amountModalVisible.value = event.visible
+                amountModalVisible = event.visible
 
             is EditPlannedScreenEvent.OnDeleteTransactionModalVisible ->
-                deleteTransactionModalVisible.value = event.visible
+                deleteTransactionModalVisible = event.visible
 
             is EditPlannedScreenEvent.OnRecurringRuleModalDataChanged ->
-                recurringRuleModalData.value = event.recurringRuleModalData
+                recurringRuleModalData = event.recurringRuleModalData
         }
     }
 
     fun start(screen: EditPlannedScreen) {
         viewModelScope.launch {
-            transactionType.value = screen.type
+            transactionType = screen.type
             editMode = screen.plannedPaymentRuleId != null
 
             val accounts = accountsAct(Unit)
@@ -271,8 +273,8 @@ class EditPlannedViewModel @Inject constructor(
                 nav.back()
                 return@launch
             }
-            this@EditPlannedViewModel.accounts.value = accounts
-            categories.value = categoryRepository.findAll().toImmutableList()
+            this@EditPlannedViewModel.accounts = accounts
+            categories = categoryRepository.findAll().toImmutableList()
 
             reset()
 
@@ -298,25 +300,25 @@ class EditPlannedViewModel @Inject constructor(
     private suspend fun display(rule: PlannedPaymentRule) {
         this.title = rule.title
 
-        transactionType.value = rule.type
-        startDate.value = with(timeConverter) { rule.startDate?.toLocalDateTime() }
-        intervalN.value = rule.intervalN
-        oneTime.value = rule.oneTime
-        intervalType.value = rule.intervalType
-        initialTitle.value = rule.title
-        description.value = rule.description
+        transactionType = rule.type
+        startDate = with(timeConverter) { rule.startDate?.toLocalDateTime() }
+        intervalN = rule.intervalN
+        oneTime = rule.oneTime
+        intervalType = rule.intervalType
+        initialTitle = rule.title
+        description = rule.description
         val selectedAccount = ioThread { accountDao.findById(rule.accountId)!!.toLegacyDomain() }
-        account.value = selectedAccount
-        category.value = rule.categoryId?.let {
+        account = selectedAccount
+        category = rule.categoryId?.let {
             ioThread { categoryRepository.findById(CategoryId(it)) }
         }
-        amount.doubleValue = rule.amount
+        amount = rule.amount
 
         updateCurrency(account = selectedAccount)
     }
 
     private suspend fun updateCurrency(account: Account) {
-        currency.value = account.currency ?: baseCurrency()
+        currency = account.currency ?: baseCurrency()
     }
 
     private suspend fun baseCurrency(): String = ioThread { settingsDao.findFirst().currency }
@@ -333,10 +335,10 @@ class EditPlannedViewModel @Inject constructor(
             intervalType = intervalType,
             oneTime = oneTime
         )
-        this@EditPlannedViewModel.startDate.value = startDate
-        this@EditPlannedViewModel.intervalN.value = intervalN
-        this@EditPlannedViewModel.intervalType.value = intervalType
-        this@EditPlannedViewModel.oneTime.value = oneTime
+        this@EditPlannedViewModel.startDate = startDate
+        this@EditPlannedViewModel.intervalN = intervalN
+        this@EditPlannedViewModel.intervalType = intervalType
+        this@EditPlannedViewModel.oneTime = oneTime
 
         saveIfEditMode()
     }
@@ -345,7 +347,7 @@ class EditPlannedViewModel @Inject constructor(
         loadedRule = loadedRule().copy(
             amount = newAmount
         )
-        this@EditPlannedViewModel.amount.doubleValue = newAmount
+        this@EditPlannedViewModel.amount = newAmount
 
         saveIfEditMode()
     }
@@ -363,7 +365,7 @@ class EditPlannedViewModel @Inject constructor(
         loadedRule = loadedRule().copy(
             description = newDescription
         )
-        this@EditPlannedViewModel.description.value = newDescription
+        this@EditPlannedViewModel.description = newDescription
 
         saveIfEditMode()
     }
@@ -372,7 +374,7 @@ class EditPlannedViewModel @Inject constructor(
         loadedRule = loadedRule().copy(
             categoryId = newCategory?.id?.value
         )
-        this@EditPlannedViewModel.category.value = newCategory
+        this@EditPlannedViewModel.category = newCategory
 
         saveIfEditMode()
     }
@@ -381,7 +383,7 @@ class EditPlannedViewModel @Inject constructor(
         loadedRule = loadedRule().copy(
             accountId = newAccount.id
         )
-        this@EditPlannedViewModel.account.value = newAccount
+        this@EditPlannedViewModel.account = newAccount
 
         viewModelScope.launch {
             updateCurrency(account = newAccount)
@@ -394,7 +396,7 @@ class EditPlannedViewModel @Inject constructor(
         loadedRule = loadedRule().copy(
             type = newTransactionType
         )
-        this@EditPlannedViewModel.transactionType.value = newTransactionType
+        this@EditPlannedViewModel.transactionType = newTransactionType
 
         saveIfEditMode()
     }
@@ -414,16 +416,16 @@ class EditPlannedViewModel @Inject constructor(
             try {
                 ioThread {
                     loadedRule = loadedRule().copy(
-                        type = transactionType.value ?: error("no transaction type"),
-                        startDate = with(timeConverter) { startDate.value?.toUTC() }
+                        type = transactionType ?: error("no transaction type"),
+                        startDate = with(timeConverter) { startDate?.toUTC() }
                             ?: error("no startDate"),
-                        intervalN = intervalN.value ?: error("no intervalN"),
-                        intervalType = intervalType.value ?: error("no intervalType"),
-                        categoryId = category.value?.id?.value,
-                        accountId = account.value?.id ?: error("no accountId"),
+                        intervalN = intervalN ?: error("no intervalN"),
+                        intervalType = intervalType ?: error("no intervalType"),
+                        categoryId = category?.id?.value,
+                        accountId = account?.id ?: error("no accountId"),
                         title = title?.trim(),
-                        description = description.value?.trim(),
-                        amount = amount.doubleValue ?: error("no amount"),
+                        description = description?.trim(),
+                        amount = amount ?: error("no amount"),
 
                         isSynced = false
                     )
@@ -442,31 +444,31 @@ class EditPlannedViewModel @Inject constructor(
     }
 
     private fun validate(): Boolean {
-        if (transactionType.value == TransactionType.TRANSFER) {
+        if (transactionType == TransactionType.TRANSFER) {
             return false
         }
 
-        if (amount.doubleValue == 0.0) {
+        if (amount == 0.0) {
             return false
         }
 
-        return if (oneTime.value) validateOneTime() else validateRecurring()
+        return if (oneTime) validateOneTime() else validateRecurring()
     }
 
     private fun validateOneTime(): Boolean {
-        return startDate.value != null
+        return startDate != null
     }
 
     private fun validateRecurring(): Boolean {
-        return startDate.value != null &&
-                intervalN.value != null &&
-                intervalN.value!! > 0 &&
-                intervalType.value != null
+        return startDate != null &&
+                intervalN != null &&
+                intervalN!! > 0 &&
+                intervalType != null
     }
 
     private fun delete() {
         viewModelScope.launch {
-            deleteTransactionModalVisible.value = false
+            deleteTransactionModalVisible = false
             ioThread {
                 loadedRule?.let {
                     plannedPaymentRuleWriter.deleteById(it.id)
@@ -482,7 +484,7 @@ class EditPlannedViewModel @Inject constructor(
     private fun createCategory(data: CreateCategoryData) {
         viewModelScope.launch {
             categoryCreator.createCategory(data) {
-                categories.value = categoryRepository.findAll().toImmutableList()
+                categories = categoryRepository.findAll().toImmutableList()
 
                 updateCategory(it)
             }
@@ -492,7 +494,7 @@ class EditPlannedViewModel @Inject constructor(
     private fun editCategory(updatedCategory: Category) {
         viewModelScope.launch {
             categoryCreator.editCategory(updatedCategory) {
-                categories.value = categoryRepository.findAll().toImmutableList()
+                categories = categoryRepository.findAll().toImmutableList()
             }
         }
     }
@@ -500,7 +502,7 @@ class EditPlannedViewModel @Inject constructor(
     private fun createAccount(data: CreateAccountData) {
         viewModelScope.launch {
             accountCreator.createAccount(data) {
-                accounts.value = accountsAct(Unit)
+                accounts = accountsAct(Unit)
             }
         }
     }
@@ -508,9 +510,9 @@ class EditPlannedViewModel @Inject constructor(
     private fun reset() {
         loadedRule = null
 
-        initialTitle.value = null
-        description.value = null
-        category.value = null
+        initialTitle = null
+        description = null
+        category = null
     }
 
     private fun loadedRule() = loadedRule ?: error("Loaded transaction is null")
