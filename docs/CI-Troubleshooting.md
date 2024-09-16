@@ -2,6 +2,12 @@
 
 If you see any of the PR checks failing (❌) go to [Actions](https://github.com/Ivy-Apps/ivy-wallet/actions) and find it there. Or simply click "Details" next to the failed check and explore the logs to see why it has failed.
 
+## PR description check
+
+It means that you didn't follow our [official PR template](../.github/PULL_REQUEST_TEMPLATE.md).
+Update your PR description with all necessary information. You can also check the exact error by
+clicking "Details" on the failing (❌) check.
+
 ## Detekt
 [Detekt](https://detekt.dev/) is a static code analyzer for Kotlin that we use to enforce code readability and good practices.
 
@@ -78,6 +84,15 @@ Screenshot testing is an effective way to verify how your UI looks to users. The
 A screenshot test is an automated test that takes a screenshot of a piece of UI and then compares it against a previously approved reference image. If the images don't match, the test fails and produces an HTML report to help you compare and find the differences.
 
 We also create an annotation called @IvyPreviews to serve the purpose of exporting and checking images for large-sized devices and small-sized devices.
+
+And every time a new module is created and requires the use of screenshot testing, we need to add the plugin for it: id("com.android.compose.screenshot"). In addition, we also need to set the image difference threshold for that module:
+
+`testOptions {
+screenshotTests {
+imageDifferenceThreshold = BuildConfigConstants.IMAGE_DIFFERENCE_THRESHOLD
+}
+}`
+You can check the implementation in other modules.
 
 1. Run `./gradlew validateDebugScreenshotTest` locally to execute the screenshot testing and identify the specific screens where failures occur.
 2. Upon failure, the system generates detailed reports pinpointing the changes introduced since the last successful test run. Review these reports to understand the nature of the failures. You can find the report at the following path: {module}/build/reports/screenshotTest/preview/{variant}/index.html
