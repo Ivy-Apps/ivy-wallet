@@ -3,9 +3,11 @@ package com.ivy.balance
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.time.TimeConverter
 import com.ivy.base.time.TimeProvider
@@ -30,12 +32,12 @@ class BalanceViewModel @Inject constructor(
     private val timeConverter: TimeConverter,
 ) : ComposeViewModel<BalanceState, BalanceEvent>() {
 
-    private val period = mutableStateOf(ivyContext.selectedPeriod)
-    private val baseCurrencyCode = mutableStateOf("")
-    private val currentBalance = mutableDoubleStateOf(0.0)
-    private val plannedPaymentsAmount = mutableDoubleStateOf(0.0)
-    private val balanceAfterPlannedPayments = mutableDoubleStateOf(0.0)
-    private val numberOfMonthsAhead = mutableIntStateOf(1)
+    private var period by mutableStateOf(ivyContext.selectedPeriod)
+    private var baseCurrencyCode by mutableStateOf("")
+    private var currentBalance by mutableDoubleStateOf(0.0)
+    private var plannedPaymentsAmount by mutableDoubleStateOf(0.0)
+    private var balanceAfterPlannedPayments by mutableDoubleStateOf(0.0)
+    private var numberOfMonthsAhead by mutableIntStateOf(1)
 
     @Composable
     override fun uiState(): BalanceState {
@@ -44,18 +46,18 @@ class BalanceViewModel @Inject constructor(
         }
 
         return BalanceState(
-            period = period.value,
-            balanceAfterPlannedPayments = balanceAfterPlannedPayments.doubleValue,
-            currentBalance = currentBalance.doubleValue,
-            baseCurrencyCode = baseCurrencyCode.value,
-            plannedPaymentsAmount = plannedPaymentsAmount.doubleValue
+            period = period,
+            balanceAfterPlannedPayments = balanceAfterPlannedPayments,
+            currentBalance = currentBalance,
+            baseCurrencyCode = baseCurrencyCode,
+            plannedPaymentsAmount = plannedPaymentsAmount
         )
     }
 
     override fun onEvent(event: BalanceEvent) {
         when (event) {
             is BalanceEvent.OnNextMonth -> nextMonth()
-            is BalanceEvent.OnSetPeriod -> setPeriod(event.timePeriod)
+            is BalanceEvent.OnSetPeriod -> setTimePeriod(event.timePeriod)
             is BalanceEvent.OnPreviousMonth -> previousMonth()
         }
     }
@@ -64,36 +66,36 @@ class BalanceViewModel @Inject constructor(
         timePeriod: TimePeriod = ivyContext.selectedPeriod
     ) {
         viewModelScope.launch {
-            baseCurrencyCode.value = baseCurrencyAct(Unit)
-            period.value = timePeriod
+            baseCurrencyCode = baseCurrencyAct(Unit)
+            period = timePeriod
 
-            currentBalance.doubleValue = calcWalletBalanceAct(
-                CalcWalletBalanceAct.Input(baseCurrencyCode.value)
+            currentBalance = calcWalletBalanceAct(
+                CalcWalletBalanceAct.Input(baseCurrencyCode)
             ).toDouble()
 
-            plannedPaymentsAmount.doubleValue = ioThread {
+            plannedPaymentsAmount = ioThread {
                 plannedPaymentsLogic.plannedPaymentsAmountFor(
                     timePeriod.toRange(ivyContext.startDayOfMonth, timeConverter, timeProvider)
                     // + positive if Income > Expenses else - negative
-                ) * if (numberOfMonthsAhead.intValue >= 0) {
-                    numberOfMonthsAhead.intValue.toDouble()
+                ) * if (numberOfMonthsAhead >= 0) {
+                    numberOfMonthsAhead.toDouble()
                 } else {
                     1.0
                 }
             }
-            balanceAfterPlannedPayments.doubleValue =
-                currentBalance.doubleValue + plannedPaymentsAmount.doubleValue
+            balanceAfterPlannedPayments =
+                currentBalance + plannedPaymentsAmount
         }
     }
 
-    private fun setPeriod(timePeriod: TimePeriod) {
+    private fun setTimePeriod(timePeriod: TimePeriod) {
         start(timePeriod = timePeriod)
     }
 
     private fun nextMonth() {
-        val month = period.value.month
-        val year = period.value.year ?: com.ivy.legacy.utils.dateNowUTC().year
-        numberOfMonthsAhead.intValue += 1
+        val month = period.month
+        val year = period.year ?: com.ivy.legacy.utils.dateNowUTC().year
+        numberOfMonthsAhead += 1
         if (month != null) {
             start(
                 timePeriod = month.incrementMonthPeriod(ivyContext, 1L, year = year)
@@ -102,9 +104,9 @@ class BalanceViewModel @Inject constructor(
     }
 
     private fun previousMonth() {
-        val month = period.value.month
-        val year = period.value.year ?: com.ivy.legacy.utils.dateNowUTC().year
-        numberOfMonthsAhead.intValue -= 1
+        val month = period.month
+        val year = period.year ?: com.ivy.legacy.utils.dateNowUTC().year
+        numberOfMonthsAhead -= 1
         if (month != null) {
             start(
                 timePeriod = month.incrementMonthPeriod(ivyContext, -1L, year = year)
