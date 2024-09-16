@@ -178,6 +178,7 @@ private fun SearchField(
         searchQueryTextFieldValue = searchQueryTextFieldValue,
         hint = "Search currency",
         focus = false,
+        showClearIcon = searchQueryTextFieldValue.text.isNotEmpty(),
         onSetSearchQueryTextField = {
             searchQueryTextFieldValue = it
             onSearch(it.text)
