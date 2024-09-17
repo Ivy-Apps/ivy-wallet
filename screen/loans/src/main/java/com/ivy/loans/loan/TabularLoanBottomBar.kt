@@ -38,7 +38,6 @@ import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.GradientPurple
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Purple
-import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IvyCircleButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
