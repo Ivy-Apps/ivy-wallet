@@ -60,6 +60,8 @@ val Red3Light = Color(0xFFFFCCE6)
 val IvyDark = Color(0xFF352680)
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
+val Purple1Dark = Color(0xFF622680)
+
 val Purple = Color(0xFFA020F0)
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
