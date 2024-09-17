@@ -87,6 +87,7 @@ val Transparent = Color(0x00000000)
 val GradientRed = Gradient(Red, Color(0xFFFF99AB))
 
 val GradientPurple = Gradient(Purple, Color(0xFFFF99AB))
+
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 val GradientGreen = Gradient(Green, Color(0xFF49F2C8))
 

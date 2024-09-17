@@ -37,6 +37,7 @@ import com.ivy.ui.R
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.GradientPurple
 import com.ivy.wallet.ui.theme.Green
+import com.ivy.wallet.ui.theme.Purple
 import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IvyCircleButton
@@ -65,7 +66,7 @@ internal fun BoxWithConstraintsScope.TabularLoanBottomBar(
             icon = R.drawable.ic_custom_loan_s,
             name = "Pending",
             selected = tab == LoanTab.PENDING,
-            selectedColor = Red
+            selectedColor = Purple
         ) {
             selectTab(LoanTab.PENDING)
         }
