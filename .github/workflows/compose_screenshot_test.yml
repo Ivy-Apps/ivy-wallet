@@ -30,4 +30,4 @@ jobs:
         if: always()
         with:
           name: my-artifact
-          path: screen/onboarding/build/reports
+          path: screen/disclaimer/build/reports
