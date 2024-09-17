@@ -59,7 +59,7 @@ internal fun BoxWithConstraintsScope.TabularLoanBottomBar(
             .background(pureBlur())
             .navigationBarsPadding(),
         verticalAlignment = Alignment.CenterVertically
-    ){
+    ) {
         Tab(
             icon = R.drawable.ic_custom_loan_s,
             name = "Pending",
@@ -86,6 +86,8 @@ internal fun BoxWithConstraintsScope.TabularLoanBottomBar(
     val fabStartY = ivyContext.screenHeight - navigationBarInset() -
             30.dp.toDensityPx() - FAB_BUTTON_SIZE.toDensityPx()
 
+    val fabZIndex = 200f
+
     IvyCircleButton(
         modifier = Modifier
             .layout { measurable, constraints ->
@@ -98,12 +100,12 @@ internal fun BoxWithConstraintsScope.TabularLoanBottomBar(
                 }
             }
             .size(FAB_BUTTON_SIZE)
-            .zIndex(200f),
+            .zIndex(fabZIndex),
         backgroundPadding = 8.dp,
         icon = R.drawable.ic_add,
         backgroundGradient = GradientRed,
         hasShadow = true,
-        tint =White
+        tint = White
     ) {
         onAdd()
     }

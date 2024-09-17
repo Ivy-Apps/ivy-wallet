@@ -46,14 +46,12 @@ class IvyFeatures @Inject constructor() : Features {
         defaultValue = false
     )
 
-    override val tabularLoanMode =  BoolFeature(
+    override val tabularLoanMode = BoolFeature(
         key = "tabular_loan_ui",
         name = "Tabular Loan UI",
         description = "Show Completed  and Pending loans in separate tabs",
         defaultValue = false
     )
-
-
 
     override val allFeatures: List<BoolFeature>
         get() = listOf(

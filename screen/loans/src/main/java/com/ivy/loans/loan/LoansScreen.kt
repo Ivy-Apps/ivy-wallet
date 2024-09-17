@@ -47,7 +47,6 @@ import com.ivy.navigation.navigation
 import com.ivy.ui.R
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gray
-import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.components.BalanceRow
 import com.ivy.wallet.ui.theme.components.CircleButtonFilled
@@ -487,61 +486,9 @@ private fun PreviewInTabularMode(theme: Theme = Theme.LIGHT) {
                 loanTotalAmount = 5500.0,
                 amountPaid = 0.0,
                 percentPaid = 0.4
-            ),
-            DisplayLoan(
-                loan = Loan(
-                    name = "Loan 2",
-                    icon = "atom",
-                    color = Orange.toArgb(),
-                    amount = 252.36,
-                    type = LoanType.BORROW,
-                    dateTime = testDateTime
-                ),
-                loanTotalAmount = 252.36,
-                amountPaid = 124.23,
-                percentPaid = 0.2
-            ),
-            DisplayLoan(
-                loan = Loan(
-                    name = "Loan 3",
-                    icon = "bank",
-                    color = Blue.toArgb(),
-                    amount = 7000.0,
-                    type = LoanType.LEND,
-                    dateTime = testDateTime
-                ),
-                loanTotalAmount = 7000.0,
-                amountPaid = 8000.0,
-                percentPaid = 0.8
-            ),
+            )
         ),
         completedLoans = persistentListOf(
-            DisplayLoan(
-                loan = Loan(
-                    name = "Loan 1",
-                    icon = "rocket",
-                    color = Red.toArgb(),
-                    amount = 5000.0,
-                    type = LoanType.BORROW,
-                    dateTime = testDateTime
-                ),
-                loanTotalAmount = 5500.0,
-                amountPaid = 0.0,
-                percentPaid = 0.4
-            ),
-            DisplayLoan(
-                loan = Loan(
-                    name = "Loan 2",
-                    icon = "atom",
-                    color = Orange.toArgb(),
-                    amount = 252.36,
-                    type = LoanType.BORROW,
-                    dateTime = testDateTime
-                ),
-                loanTotalAmount = 252.36,
-                amountPaid = 124.23,
-                percentPaid = 0.2
-            ),
             DisplayLoan(
                 loan = Loan(
                     name = "Loan 3",
@@ -557,32 +504,6 @@ private fun PreviewInTabularMode(theme: Theme = Theme.LIGHT) {
             ),
         ),
         pendingLoans = persistentListOf(
-            DisplayLoan(
-                loan = Loan(
-                    name = "Loan 1",
-                    icon = "rocket",
-                    color = Red.toArgb(),
-                    amount = 5000.0,
-                    type = LoanType.BORROW,
-                    dateTime = testDateTime
-                ),
-                loanTotalAmount = 5500.0,
-                amountPaid = 0.0,
-                percentPaid = 0.4
-            ),
-            DisplayLoan(
-                loan = Loan(
-                    name = "Loan 2",
-                    icon = "atom",
-                    color = Orange.toArgb(),
-                    amount = 252.36,
-                    type = LoanType.BORROW,
-                    dateTime = testDateTime
-                ),
-                loanTotalAmount = 252.36,
-                amountPaid = 124.23,
-                percentPaid = 0.2
-            ),
             DisplayLoan(
                 loan = Loan(
                     name = "Loan 3",
@@ -632,32 +553,6 @@ private fun PreviewInNonTabularMode(theme: Theme = Theme.LIGHT) {
         loans = persistentListOf(
             DisplayLoan(
                 loan = Loan(
-                    name = "Loan 1",
-                    icon = "rocket",
-                    color = Red.toArgb(),
-                    amount = 5000.0,
-                    type = LoanType.BORROW,
-                    dateTime = testDateTime
-                ),
-                loanTotalAmount = 5500.0,
-                amountPaid = 0.0,
-                percentPaid = 0.4
-            ),
-            DisplayLoan(
-                loan = Loan(
-                    name = "Loan 2",
-                    icon = "atom",
-                    color = Orange.toArgb(),
-                    amount = 252.36,
-                    type = LoanType.BORROW,
-                    dateTime = testDateTime
-                ),
-                loanTotalAmount = 252.36,
-                amountPaid = 124.23,
-                percentPaid = 0.2
-            ),
-            DisplayLoan(
-                loan = Loan(
                     name = "Loan 3",
                     icon = "bank",
                     color = Blue.toArgb(),
@@ -684,60 +579,8 @@ private fun PreviewInNonTabularMode(theme: Theme = Theme.LIGHT) {
                 amountPaid = 0.0,
                 percentPaid = 0.4
             ),
-            DisplayLoan(
-                loan = Loan(
-                    name = "Loan 2",
-                    icon = "atom",
-                    color = Orange.toArgb(),
-                    amount = 252.36,
-                    type = LoanType.BORROW,
-                    dateTime = testDateTime
-                ),
-                loanTotalAmount = 252.36,
-                amountPaid = 124.23,
-                percentPaid = 0.2
-            ),
-            DisplayLoan(
-                loan = Loan(
-                    name = "Loan 3",
-                    icon = "bank",
-                    color = Blue.toArgb(),
-                    amount = 7000.0,
-                    type = LoanType.LEND,
-                    dateTime = testDateTime
-                ),
-                loanTotalAmount = 7000.0,
-                amountPaid = 8000.0,
-                percentPaid = 0.8
-            ),
         ),
         pendingLoans = persistentListOf(
-            DisplayLoan(
-                loan = Loan(
-                    name = "Loan 1",
-                    icon = "rocket",
-                    color = Red.toArgb(),
-                    amount = 5000.0,
-                    type = LoanType.BORROW,
-                    dateTime = testDateTime
-                ),
-                loanTotalAmount = 5500.0,
-                amountPaid = 0.0,
-                percentPaid = 0.4
-            ),
-            DisplayLoan(
-                loan = Loan(
-                    name = "Loan 2",
-                    icon = "atom",
-                    color = Orange.toArgb(),
-                    amount = 252.36,
-                    type = LoanType.BORROW,
-                    dateTime = testDateTime
-                ),
-                loanTotalAmount = 252.36,
-                amountPaid = 124.23,
-                percentPaid = 0.2
-            ),
             DisplayLoan(
                 loan = Loan(
                     name = "Loan 3",
