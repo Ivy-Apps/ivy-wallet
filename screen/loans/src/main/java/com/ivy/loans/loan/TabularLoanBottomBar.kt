@@ -45,7 +45,7 @@ import com.ivy.wallet.ui.theme.pureBlur
 import kotlin.math.roundToInt
 
 val FAB_BUTTON_SIZE = 56.dp
-val FAB_ZINDEX = 200f
+const val FAB_ZINDEX = 200f
 
 @Composable
 internal fun BoxWithConstraintsScope.TabularLoanBottomBar(
@@ -86,8 +86,6 @@ internal fun BoxWithConstraintsScope.TabularLoanBottomBar(
     val fabStartX = ivyContext.screenWidth / 2 - FAB_BUTTON_SIZE.toDensityPx() / 2
     val fabStartY = ivyContext.screenHeight - navigationBarInset() -
             30.dp.toDensityPx() - FAB_BUTTON_SIZE.toDensityPx()
-
-
 
     IvyCircleButton(
         modifier = Modifier
