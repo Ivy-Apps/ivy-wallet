@@ -45,7 +45,7 @@ import com.ivy.wallet.ui.theme.pureBlur
 import kotlin.math.roundToInt
 
 val FAB_BUTTON_SIZE = 56.dp
-const val FAB_ZINDEX = 200f
+const val ZINDEX = 200f
 
 @Composable
 internal fun BoxWithConstraintsScope.TabularLoanBottomBar(
@@ -99,7 +99,7 @@ internal fun BoxWithConstraintsScope.TabularLoanBottomBar(
                 }
             }
             .size(FAB_BUTTON_SIZE)
-            .zIndex(FAB_ZINDEX),
+            .zIndex(ZINDEX),
         backgroundPadding = 8.dp,
         icon = R.drawable.ic_add,
         backgroundGradient = GradientRed,
