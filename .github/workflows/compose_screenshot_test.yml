@@ -8,7 +8,7 @@ on:
 
 jobs:
   sceenshot_test:
-    runs-on: macos-latest
+    runs-on: windows-latest
     steps:
       - name: Checkout GIT
         uses: actions/checkout@v4
