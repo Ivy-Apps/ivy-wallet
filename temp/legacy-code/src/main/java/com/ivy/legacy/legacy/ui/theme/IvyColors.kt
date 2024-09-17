@@ -60,7 +60,7 @@ val Red3Light = Color(0xFFFFCCE6)
 val IvyDark = Color(0xFF352680)
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
-val Purple1Dark = Color(0xFF622680)
+val Purple = Color(0xFFA020F0)
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 val GreenDark = Color(0xFF0A664F)
@@ -84,6 +84,7 @@ val Transparent = Color(0x00000000)
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 val GradientRed = Gradient(Red, Color(0xFFFF99AB))
 
+val GradientPurple = Gradient(Purple, Color(0xFFFF99AB))
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 val GradientGreen = Gradient(Green, Color(0xFF49F2C8))
 

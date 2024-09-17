@@ -35,7 +35,7 @@ import com.ivy.legacy.utils.navigationBarInset
 import com.ivy.legacy.utils.toDensityPx
 import com.ivy.ui.R
 import com.ivy.wallet.ui.theme.Blue
-import com.ivy.wallet.ui.theme.GradientRed
+import com.ivy.wallet.ui.theme.GradientPurple
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.White
@@ -102,7 +102,7 @@ internal fun BoxWithConstraintsScope.TabularLoanBottomBar(
             .zIndex(ZINDEX),
         backgroundPadding = 8.dp,
         icon = R.drawable.ic_add,
-        backgroundGradient = GradientRed,
+        backgroundGradient = GradientPurple,
         hasShadow = true,
         tint = White
     ) {
