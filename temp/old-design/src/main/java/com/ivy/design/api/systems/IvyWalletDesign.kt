@@ -161,7 +161,7 @@ abstract class IvyWalletDesign : IvyDesign {
                 override val isLight = false
             }
 
-            Theme.TRUE_BLACK -> object : IvyColors {
+            Theme.AMOLED_DARK -> object : IvyColors {
                 override val pure = TrueBlack
                 override val pureInverse = White
                 override val gray = Gray

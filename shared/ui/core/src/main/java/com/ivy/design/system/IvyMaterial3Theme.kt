@@ -72,15 +72,15 @@ private fun ivyDarkColorScheme(isTrueBlack: Boolean): ColorScheme = ColorScheme(
     errorContainer = IvyColors.Red.light,
     onErrorContainer = IvyColors.White,
 
-    background = if(isTrueBlack) IvyColors.TrueBlack else IvyColors.Black,
+    background = if (isTrueBlack) IvyColors.TrueBlack else IvyColors.Black,
     onBackground = IvyColors.White,
-    surface = if(isTrueBlack) IvyColors.TrueBlack else IvyColors.Black,
+    surface = if (isTrueBlack) IvyColors.TrueBlack else IvyColors.Black,
     onSurface = IvyColors.White,
     surfaceVariant = IvyColors.ExtraDarkGray,
     onSurfaceVariant = IvyColors.White,
     surfaceTint = IvyColors.White,
     inverseSurface = IvyColors.LightGray,
-    inverseOnSurface = if(isTrueBlack) IvyColors.TrueBlack else IvyColors.Black,
+    inverseOnSurface = if (isTrueBlack) IvyColors.TrueBlack else IvyColors.Black,
 
     outline = IvyColors.Gray,
     outlineVariant = IvyColors.LightGray,
