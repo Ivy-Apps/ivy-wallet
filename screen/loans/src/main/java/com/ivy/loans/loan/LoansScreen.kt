@@ -134,7 +134,6 @@ private fun BoxWithConstraintsScope.UI(
 
                 Spacer(Modifier.weight(1f))
             }
-
         } else {
             for (item in state.loans) {
                 Spacer(Modifier.height(16.dp))
@@ -161,8 +160,6 @@ private fun BoxWithConstraintsScope.UI(
                 Spacer(Modifier.weight(1f))
             }
         }
-
-
         Spacer(Modifier.height(150.dp)) // scroll hack
     }
 
@@ -188,8 +185,6 @@ private fun BoxWithConstraintsScope.UI(
             },
         )
     }
-
-
 
     ReorderModalSingleType(
         visible = state.reorderModalVisible,

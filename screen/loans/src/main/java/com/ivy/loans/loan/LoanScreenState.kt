@@ -18,7 +18,7 @@ data class LoanScreenState(
     val totalOweAmount: String,
     val totalOwedAmount: String,
     val paidOffLoanVisibility: Boolean,
-    val tabularLoanMode : Boolean,
+    val tabularLoanMode: Boolean,
     val dateTime: Instant,
     val selectedTab: LoanTab
 )
