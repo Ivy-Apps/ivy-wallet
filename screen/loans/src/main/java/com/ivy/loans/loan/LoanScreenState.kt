@@ -9,6 +9,8 @@ import java.time.Instant
 data class LoanScreenState(
     val baseCurrency: String,
     val loans: ImmutableList<DisplayLoan>,
+    val completedLoans: ImmutableList<DisplayLoan>,
+    val pendingLoans: ImmutableList<DisplayLoan>,
     val accounts: ImmutableList<Account>,
     val selectedAccount: Account?,
     val loanModalData: LoanModalData?,
@@ -16,5 +18,7 @@ data class LoanScreenState(
     val totalOweAmount: String,
     val totalOwedAmount: String,
     val paidOffLoanVisibility: Boolean,
-    val dateTime: Instant
+    val tabularLoanMode : Boolean,
+    val dateTime: Instant,
+    val selectedTab: LoanTab
 )
