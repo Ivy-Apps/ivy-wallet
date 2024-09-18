@@ -21,7 +21,7 @@ import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyCircleButton
 
 @Composable
-internal fun BoxWithConstraintsScope.LoanBottomBar(
+internal fun BoxWithConstraintsScope.NonTabularLoanBottomBar(
     isPaidOffLoanVisible: Boolean,
     onClose: () -> Unit,
     onAdd: () -> Unit,
@@ -54,7 +54,7 @@ internal fun BoxWithConstraintsScope.LoanBottomBar(
 
 @Preview
 @Composable
-private fun PreviewBottomBar() {
+private fun PreviewNonTabularBottomBar() {
     IvyWalletPreview {
         Column(
             Modifier
@@ -63,7 +63,7 @@ private fun PreviewBottomBar() {
         ) {
         }
 
-        LoanBottomBar(
+        NonTabularLoanBottomBar(
             isPaidOffLoanVisible = false,
             onAdd = {},
             onClose = {},
