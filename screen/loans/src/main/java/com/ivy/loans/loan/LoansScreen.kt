@@ -99,7 +99,7 @@ private fun BoxWithConstraintsScope.UI(
 
         Spacer(Modifier.height(8.dp))
 
-        val scrollState = getLoansListState(state.screenMode, state.selectedTab)
+        val scrollState = getLoansListState(state)
 
         if (state.screenMode == LoanScreenMode.TabularMode) {
             val loans = if (state.selectedTab == LoanTab.PENDING) {
@@ -236,10 +236,10 @@ private fun BoxWithConstraintsScope.UI(
 }
 
 @Composable
-private fun getLoansListState(screenMode: LoanScreenMode, selectedTab: LoanTab): LazyListState {
-    return when (screenMode) {
+private fun getLoansListState(state: LoanScreenState): LazyListState {
+    return when (state.screenMode) {
         LoanScreenMode.TabularMode -> {
-            if (selectedTab == LoanTab.PENDING) {
+            if (state.selectedTab == LoanTab.PENDING) {
                 rememberScrollPositionListState(
                     key = "loans_pending_lazy_column",
                     initialFirstVisibleItemIndex = ivyWalletCtx()
