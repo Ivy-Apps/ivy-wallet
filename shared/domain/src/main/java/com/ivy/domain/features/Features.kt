@@ -7,6 +7,7 @@ interface Features {
     val showTitleSuggestions: BoolFeature
     val showCategorySearchBar: BoolFeature
     val hideTotalBalance: BoolFeature
+    val tabularLoanMode: BoolFeature
 
     val allFeatures: List<BoolFeature>
 }
