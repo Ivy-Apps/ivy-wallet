@@ -85,7 +85,13 @@ class IvyWalletCtx @Inject constructor() : IvyContext() {
     var accountsListState: LazyListState? = null
 
     @Deprecated("Legacy code. Don't use it, please.")
-    var loansScrollState: ScrollState = ScrollState(0)
+    var loansPendingListState: LazyListState? = null
+
+    @Deprecated("Legacy code. Don't use it, please.")
+    var loansCompletedListState: LazyListState? = null
+
+    @Deprecated("Legacy code. Don't use it, please.")
+    var loansAllListState: LazyListState? = null
 
     @Deprecated("Legacy code. Don't use it, please.")
     var mainTab by mutableStateOf(com.ivy.legacy.data.model.MainTab.HOME)

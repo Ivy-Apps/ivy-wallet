@@ -14,7 +14,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,6 +47,7 @@ import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.LoansScreen
 import com.ivy.navigation.navigation
 import com.ivy.ui.R
+import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Red
@@ -80,17 +83,15 @@ private fun BoxWithConstraintsScope.UI(
     onEventHandler: (LoanScreenEvent) -> Unit = {}
 ) {
     val nav = navigation()
-    val scrollState = ivyWalletCtx().loansScrollState
     Column(
         modifier = Modifier
             .fillMaxSize()
             .systemBarsPadding()
-            .verticalScroll(scrollState),
     ) {
         Spacer(Modifier.height(32.dp))
 
         Toolbar(
-            isTabularModeOn = state.tabularLoanMode,
+            isTabularModeOn = state.screenMode == LoanScreenMode.TabularMode,
             onDismiss = {
                 nav.back()
             },
@@ -103,24 +104,41 @@ private fun BoxWithConstraintsScope.UI(
 
         Spacer(Modifier.height(8.dp))
 
-        if (state.tabularLoanMode) {
+        if (state.screenMode == LoanScreenMode.TabularMode) {
+            val scrollState: LazyListState
             val loans = if (state.selectedTab == LoanTab.PENDING) {
+                rememberScrollPositionListState(
+                    key = "loans_pending_lazy_column",
+                    initialFirstVisibleItemIndex = ivyWalletCtx().loansPendingListState?.firstVisibleItemIndex
+                        ?: 0,
+                    initialFirstVisibleItemScrollOffset = ivyWalletCtx().loansPendingListState?.firstVisibleItemScrollOffset
+                        ?: 0
+                ).also { scrollState = it }
                 state.pendingLoans
             } else {
+                scrollState = rememberScrollPositionListState(
+                    key = "loans_completed_lazy_column",
+                    initialFirstVisibleItemIndex = ivyWalletCtx().loansCompletedListState?.firstVisibleItemIndex
+                        ?: 0,
+                    initialFirstVisibleItemScrollOffset = ivyWalletCtx().loansCompletedListState?.firstVisibleItemScrollOffset
+                        ?: 0
+                )
                 state.completedLoans
             }
 
-            for (item in loans) {
-                Spacer(Modifier.height(16.dp))
+            LazyColumn(state = scrollState) {
+                items(loans) { item ->
+                    Spacer(Modifier.height(16.dp))
 
-                LoanItem(
-                    displayLoan = item
-                ) {
-                    nav.navigateTo(
-                        screen = LoanDetailsScreen(
-                            loanId = item.loan.id
+                    LoanItem(
+                        displayLoan = item
+                    ) {
+                        nav.navigateTo(
+                            screen = LoanDetailsScreen(
+                                loanId = item.loan.id
+                            )
                         )
-                    )
+                    }
                 }
             }
 
@@ -135,20 +153,28 @@ private fun BoxWithConstraintsScope.UI(
                 Spacer(Modifier.weight(1f))
             }
         } else {
-            for (item in state.loans) {
-                Spacer(Modifier.height(16.dp))
+            val scrollState = rememberScrollPositionListState(
+                key = "loans_all_lazy_column",
+                initialFirstVisibleItemIndex = ivyWalletCtx().loansAllListState?.firstVisibleItemIndex
+                    ?: 0,
+                initialFirstVisibleItemScrollOffset = ivyWalletCtx().loansAllListState?.firstVisibleItemScrollOffset
+                    ?: 0
+            )
+            LazyColumn(state = scrollState) {
+                items(state.loans) { item ->
+                    Spacer(Modifier.height(16.dp))
 
-                LoanItem(
-                    displayLoan = item
-                ) {
-                    nav.navigateTo(
-                        screen = LoanDetailsScreen(
-                            loanId = item.loan.id
+                    LoanItem(
+                        displayLoan = item
+                    ) {
+                        nav.navigateTo(
+                            screen = LoanDetailsScreen(
+                                loanId = item.loan.id
+                            )
                         )
-                    )
+                    }
                 }
             }
-
             if (state.loans.isEmpty()) {
                 Spacer(Modifier.weight(1f))
 
@@ -163,7 +189,7 @@ private fun BoxWithConstraintsScope.UI(
         Spacer(Modifier.height(150.dp)) // scroll hack
     }
 
-    if (state.tabularLoanMode) {
+    if (state.screenMode == LoanScreenMode.TabularMode) {
         TabularLoanBottomBar(
             tab = state.selectedTab,
             selectTab = { onEventHandler.invoke(LoanScreenEvent.OnTabChanged(it)) },
@@ -209,27 +235,30 @@ private fun BoxWithConstraintsScope.UI(
         )
     }
 
-    LoanModal(
-        accounts = state.accounts,
-        onCreateAccount = {
-            onEventHandler.invoke(LoanScreenEvent.OnCreateAccount(accountData = it))
-        },
-        modal = state.loanModalData,
-        onCreateLoan = {
-            onEventHandler.invoke(LoanScreenEvent.OnLoanCreate(createLoanData = it))
-        },
-        onEditLoan = { _, _ -> },
-        dismiss = {
-            onEventHandler.invoke(LoanScreenEvent.OnLoanModalDismiss)
-        },
-        dateTime = state.dateTime,
-        onSetDate = {
-            onEventHandler.invoke(LoanScreenEvent.OnChangeDate)
-        },
-        onSetTime = {
-            onEventHandler.invoke(LoanScreenEvent.OnChangeTime)
-        }
-    )
+    if(state.loanModalData!= null) {
+        LoanModal(
+            accounts = state.accounts,
+            onCreateAccount = {
+                onEventHandler.invoke(LoanScreenEvent.OnCreateAccount(accountData = it))
+            },
+            modal = state.loanModalData,
+            onCreateLoan = {
+                onEventHandler.invoke(LoanScreenEvent.OnLoanCreate(createLoanData = it))
+            },
+            onEditLoan = { _, _ -> },
+            dismiss = {
+                onEventHandler.invoke(LoanScreenEvent.OnLoanModalDismiss)
+            },
+            dateTime = state.dateTime,
+            onSetDate = {
+                onEventHandler.invoke(LoanScreenEvent.OnChangeDate)
+            },
+            onSetTime = {
+                onEventHandler.invoke(LoanScreenEvent.OnChangeTime)
+            }
+        )
+    }
+
 }
 
 @Composable
@@ -516,20 +545,11 @@ private fun PreviewInTabularMode(theme: Theme = Theme.LIGHT) {
         accounts = persistentListOf(),
         totalOweAmount = "1000.00 INR",
         totalOwedAmount = "1500.0 INR",
-        loanModalData = LoanModalData(
-            loan = Loan(
-                name = "",
-                color = Blue.toArgb(),
-                amount = 0.0,
-                type = LoanType.LEND,
-                dateTime = testDateTime
-            ),
-            baseCurrency = "INR"
-        ),
+        loanModalData = null,
         reorderModalVisible = false,
         selectedAccount = null,
         paidOffLoanVisibility = true,
-        tabularLoanMode = true,
+        screenMode = LoanScreenMode.TabularMode,
         dateTime = Instant.now()
     )
     IvyWalletPreview(theme) {
@@ -593,20 +613,11 @@ private fun PreviewInNonTabularMode(theme: Theme = Theme.LIGHT) {
         accounts = persistentListOf(),
         totalOweAmount = "1000.00 INR",
         totalOwedAmount = "1500.0 INR",
-        loanModalData = LoanModalData(
-            loan = Loan(
-                name = "",
-                color = Blue.toArgb(),
-                amount = 0.0,
-                type = LoanType.LEND,
-                dateTime = testDateTime
-            ),
-            baseCurrency = "INR"
-        ),
+        loanModalData = null,
         reorderModalVisible = false,
         selectedAccount = null,
         paidOffLoanVisibility = true,
-        tabularLoanMode = false,
+        screenMode = LoanScreenMode.NonTabularMode,
         dateTime = Instant.now()
     )
     IvyWalletPreview(theme) {

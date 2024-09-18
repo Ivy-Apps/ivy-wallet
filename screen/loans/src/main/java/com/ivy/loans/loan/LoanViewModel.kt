@@ -98,7 +98,7 @@ class LoanViewModel @Inject constructor(
             totalOweAmount = getTotalOweAmount(totalOweAmount, defaultCurrencyCode),
             totalOwedAmount = getTotalOwedAmount(totalOwedAmount, defaultCurrencyCode),
             paidOffLoanVisibility = getPaidOffLoanVisibility(),
-            tabularLoanMode = getTabularLoanMode(),
+            screenMode = getScreenMode(),
             dateTime = dateTime,
             selectedTab = getSelectedTab(),
             completedLoans = getCompletedLoans(),
@@ -126,8 +126,11 @@ class LoanViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getTabularLoanMode(): Boolean {
-        return features.tabularLoanMode.asEnabledState()
+    private fun getScreenMode(): LoanScreenMode {
+        return when(features.tabularLoanMode.asEnabledState()) {
+            true-> LoanScreenMode.TabularMode
+            else -> LoanScreenMode.NonTabularMode
+        }
     }
 
     @Composable
