@@ -99,7 +99,13 @@ private fun BoxWithConstraintsScope.UI(
 
         Spacer(Modifier.height(8.dp))
 
-        val scrollState = getLoansListState(state)
+        val scrollState = rememberScrollPositionListState(
+            key = "loans_lazy_column",
+            initialFirstVisibleItemIndex = ivyWalletCtx()
+                .loanListState?.firstVisibleItemIndex ?: 0,
+            initialFirstVisibleItemScrollOffset = ivyWalletCtx()
+                .loanListState?.firstVisibleItemScrollOffset ?: 0
+        )
 
         if (state.screenMode == LoanScreenMode.TabularMode) {
             val loans = if (state.selectedTab == LoanTab.PENDING) {
@@ -232,41 +238,6 @@ private fun BoxWithConstraintsScope.UI(
                 onEventHandler.invoke(LoanScreenEvent.OnChangeTime)
             }
         )
-    }
-}
-
-@Composable
-private fun getLoansListState(state: LoanScreenState): LazyListState {
-    return when (state.screenMode) {
-        LoanScreenMode.TabularMode -> {
-            if (state.selectedTab == LoanTab.PENDING) {
-                rememberScrollPositionListState(
-                    key = "loans_pending_lazy_column",
-                    initialFirstVisibleItemIndex = ivyWalletCtx()
-                        .loansPendingListState?.firstVisibleItemIndex ?: 0,
-                    initialFirstVisibleItemScrollOffset = ivyWalletCtx()
-                        .loansPendingListState?.firstVisibleItemScrollOffset ?: 0
-                )
-            } else {
-                rememberScrollPositionListState(
-                    key = "loans_completed_lazy_column",
-                    initialFirstVisibleItemIndex = ivyWalletCtx()
-                        .loansCompletedListState?.firstVisibleItemIndex ?: 0,
-                    initialFirstVisibleItemScrollOffset = ivyWalletCtx()
-                        .loansCompletedListState?.firstVisibleItemScrollOffset ?: 0
-                )
-            }
-        }
-
-        else -> {
-            rememberScrollPositionListState(
-                key = "loans_all_lazy_column",
-                initialFirstVisibleItemIndex = ivyWalletCtx().loansAllListState?.firstVisibleItemIndex
-                    ?: 0,
-                initialFirstVisibleItemScrollOffset = ivyWalletCtx().loansAllListState?.firstVisibleItemScrollOffset
-                    ?: 0
-            )
-        }
     }
 }
 
