@@ -48,7 +48,7 @@ val FAB_BUTTON_SIZE = 56.dp
 const val ZINDEX = 200f
 
 @Composable
-internal fun BoxWithConstraintsScope.TabularLoanBottomBar(
+internal fun BoxWithConstraintsScope.LoanBottomBar(
     tab: LoanTab,
     selectTab: (LoanTab) -> Unit,
     onAdd: () -> Unit
@@ -158,7 +158,7 @@ private fun PreviewTabularBottomBar() {
         ) {
         }
 
-        TabularLoanBottomBar(
+        LoanBottomBar(
             tab = LoanTab.PENDING,
             selectTab = {},
             onAdd = {}
