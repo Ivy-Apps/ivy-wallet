@@ -61,7 +61,6 @@ import com.ivy.wallet.ui.theme.components.ReorderModalSingleType
 import com.ivy.wallet.ui.theme.dynamicContrast
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.modal.LoanModal
-import com.ivy.wallet.ui.theme.modal.LoanModalData
 import com.ivy.wallet.ui.theme.toComposeColor
 import kotlinx.collections.immutable.persistentListOf
 import java.time.Instant
@@ -92,37 +91,20 @@ private fun BoxWithConstraintsScope.UI(
 
         Toolbar(
             isTabularModeOn = state.screenMode == LoanScreenMode.TabularMode,
-            onDismiss = {
-                nav.back()
-            },
-            setReorderModalVisible = {
-                onEventHandler.invoke(LoanScreenEvent.OnReOrderModalShow(show = it))
-            },
+            onDismiss = { nav.back() },
+            setReorderModalVisible = { onEventHandler.invoke(LoanScreenEvent.OnReOrderModalShow(show = it)) },
             state.totalOweAmount,
             state.totalOwedAmount
         )
 
         Spacer(Modifier.height(8.dp))
 
+        val scrollState = getLoansListState(state.screenMode, state.selectedTab)
+
         if (state.screenMode == LoanScreenMode.TabularMode) {
-            val scrollState: LazyListState
             val loans = if (state.selectedTab == LoanTab.PENDING) {
-                rememberScrollPositionListState(
-                    key = "loans_pending_lazy_column",
-                    initialFirstVisibleItemIndex = ivyWalletCtx().loansPendingListState?.firstVisibleItemIndex
-                        ?: 0,
-                    initialFirstVisibleItemScrollOffset = ivyWalletCtx().loansPendingListState?.firstVisibleItemScrollOffset
-                        ?: 0
-                ).also { scrollState = it }
                 state.pendingLoans
             } else {
-                scrollState = rememberScrollPositionListState(
-                    key = "loans_completed_lazy_column",
-                    initialFirstVisibleItemIndex = ivyWalletCtx().loansCompletedListState?.firstVisibleItemIndex
-                        ?: 0,
-                    initialFirstVisibleItemScrollOffset = ivyWalletCtx().loansCompletedListState?.firstVisibleItemScrollOffset
-                        ?: 0
-                )
                 state.completedLoans
             }
 
@@ -153,13 +135,6 @@ private fun BoxWithConstraintsScope.UI(
                 Spacer(Modifier.weight(1f))
             }
         } else {
-            val scrollState = rememberScrollPositionListState(
-                key = "loans_all_lazy_column",
-                initialFirstVisibleItemIndex = ivyWalletCtx().loansAllListState?.firstVisibleItemIndex
-                    ?: 0,
-                initialFirstVisibleItemScrollOffset = ivyWalletCtx().loansAllListState?.firstVisibleItemScrollOffset
-                    ?: 0
-            )
             LazyColumn(state = scrollState) {
                 items(state.loans) { item ->
                     Spacer(Modifier.height(16.dp))
@@ -235,7 +210,7 @@ private fun BoxWithConstraintsScope.UI(
         )
     }
 
-    if(state.loanModalData!= null) {
+    if (state.loanModalData != null) {
         LoanModal(
             accounts = state.accounts,
             onCreateAccount = {
@@ -258,7 +233,41 @@ private fun BoxWithConstraintsScope.UI(
             }
         )
     }
+}
 
+@Composable
+private fun getLoansListState(screenMode: LoanScreenMode, selectedTab: LoanTab): LazyListState {
+    return when (screenMode) {
+        LoanScreenMode.TabularMode -> {
+            if (selectedTab == LoanTab.PENDING) {
+                rememberScrollPositionListState(
+                    key = "loans_pending_lazy_column",
+                    initialFirstVisibleItemIndex = ivyWalletCtx()
+                        .loansPendingListState?.firstVisibleItemIndex ?: 0,
+                    initialFirstVisibleItemScrollOffset = ivyWalletCtx()
+                        .loansPendingListState?.firstVisibleItemScrollOffset ?: 0
+                )
+            } else {
+                rememberScrollPositionListState(
+                    key = "loans_completed_lazy_column",
+                    initialFirstVisibleItemIndex = ivyWalletCtx()
+                        .loansCompletedListState?.firstVisibleItemIndex ?: 0,
+                    initialFirstVisibleItemScrollOffset = ivyWalletCtx()
+                        .loansCompletedListState?.firstVisibleItemScrollOffset ?: 0
+                )
+            }
+        }
+
+        else -> {
+            rememberScrollPositionListState(
+                key = "loans_all_lazy_column",
+                initialFirstVisibleItemIndex = ivyWalletCtx().loansAllListState?.firstVisibleItemIndex
+                    ?: 0,
+                initialFirstVisibleItemScrollOffset = ivyWalletCtx().loansAllListState?.firstVisibleItemScrollOffset
+                    ?: 0
+            )
+        }
+    }
 }
 
 @Composable

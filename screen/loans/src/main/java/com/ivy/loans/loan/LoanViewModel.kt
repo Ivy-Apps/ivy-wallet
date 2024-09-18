@@ -127,8 +127,8 @@ class LoanViewModel @Inject constructor(
 
     @Composable
     private fun getScreenMode(): LoanScreenMode {
-        return when(features.tabularLoanMode.asEnabledState()) {
-            true-> LoanScreenMode.TabularMode
+        return when (features.tabularLoanMode.asEnabledState()) {
+            true -> LoanScreenMode.TabularMode
             else -> LoanScreenMode.NonTabularMode
         }
     }
@@ -200,6 +200,7 @@ class LoanViewModel @Inject constructor(
             is LoanScreenEvent.OnChangeTime -> {
                 handleChangeTime()
             }
+
             is LoanScreenEvent.OnTabChanged -> {
                 setTab(event.tab)
             }
