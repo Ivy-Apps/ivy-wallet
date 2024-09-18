@@ -15,7 +15,6 @@ import com.ivy.data.db.dao.read.LoanRecordDao
 import com.ivy.data.db.dao.read.SettingsDao
 import com.ivy.data.db.dao.write.WriteLoanDao
 import com.ivy.data.model.LoanType
-import com.ivy.domain.features.Features
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.Loan
@@ -58,12 +57,10 @@ class LoanViewModel @Inject constructor(
     private val loanWriter: WriteLoanDao,
     private val timeConverter: TimeConverter,
     private val timeProvider: TimeProvider,
-    private val dateTimePicker: DateTimePicker,
-    private val features: Features
+    private val dateTimePicker: DateTimePicker
 ) : ComposeViewModel<LoanScreenState, LoanScreenEvent>() {
 
     private var baseCurrencyCode by mutableStateOf(getDefaultFIATCurrency().currencyCode)
-    private var loans by mutableStateOf<ImmutableList<DisplayLoan>>(persistentListOf())
     private var completedLoans by mutableStateOf<ImmutableList<DisplayLoan>>(persistentListOf())
     private var pendingLoans by mutableStateOf<ImmutableList<DisplayLoan>>(persistentListOf())
     private var accounts by mutableStateOf<ImmutableList<Account>>(persistentListOf())
@@ -90,7 +87,6 @@ class LoanViewModel @Inject constructor(
 
         return LoanScreenState(
             baseCurrency = getBaseCurrencyCode(),
-            loans = getLoans(),
             accounts = getAccounts(),
             selectedAccount = getSelectedAccount(),
             loanModalData = getLoanModalData(),
@@ -98,7 +94,6 @@ class LoanViewModel @Inject constructor(
             totalOweAmount = getTotalOweAmount(totalOweAmount, defaultCurrencyCode),
             totalOwedAmount = getTotalOwedAmount(totalOwedAmount, defaultCurrencyCode),
             paidOffLoanVisibility = getPaidOffLoanVisibility(),
-            screenMode = getScreenMode(),
             dateTime = dateTime,
             selectedTab = getSelectedTab(),
             completedLoans = getCompletedLoans(),
@@ -126,23 +121,10 @@ class LoanViewModel @Inject constructor(
     }
 
     @Composable
-    private fun getScreenMode(): LoanScreenMode {
-        return when (features.tabularLoanMode.asEnabledState()) {
-            true -> LoanScreenMode.TabularMode
-            else -> LoanScreenMode.NonTabularMode
-        }
-    }
-
-    @Composable
     private fun getReorderModalVisible() = reorderModalVisible
 
     @Composable
     private fun getLoanModalData() = loanModalData
-
-    @Composable
-    private fun getLoans(): ImmutableList<DisplayLoan> {
-        return loans
-    }
 
     @Composable
     private fun getBaseCurrencyCode(): String {
@@ -258,7 +240,6 @@ class LoanViewModel @Inject constructor(
                         )
                     }.toImmutableList()
             }
-            filterLoans()
             loadPendingLoans()
             loadCompletedLoans()
 
@@ -367,14 +348,6 @@ class LoanViewModel @Inject constructor(
         }
     }
 
-    /** It filters [allLoans] and updates [loans] based on weather to show paid off loans or not */
-    private fun filterLoans() {
-        loans = when (paidOffLoanVisibility) {
-            true -> allLoans
-            false -> allLoans.filter { loan -> loan.percentPaid < 1.0 }.toImmutableList()
-        }
-    }
-
     private fun loadCompletedLoans() {
         completedLoans = allLoans.filter { loan -> loan.percentPaid == 1.0 }.toImmutableList()
     }
@@ -437,6 +410,5 @@ class LoanViewModel @Inject constructor(
 
     private fun updatePaidOffLoanVisibility() {
         paidOffLoanVisibility = paidOffLoanVisibility.not()
-        filterLoans()
     }
 }
