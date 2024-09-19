@@ -5,7 +5,9 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.time.TimeConverter
@@ -50,13 +52,13 @@ class AccountsViewModel @Inject constructor(
     private val timeProvider: TimeProvider,
     private val timeConverter: TimeConverter,
 ) : ComposeViewModel<AccountsState, AccountsEvent>() {
-    private val baseCurrency = mutableStateOf("")
-    private val accountsData = mutableStateOf(listOf<AccountData>())
-    private val totalBalanceWithExcluded = mutableStateOf("")
-    private val totalBalanceWithExcludedText = mutableStateOf("")
-    private val totalBalanceWithoutExcluded = mutableStateOf("")
-    private val totalBalanceWithoutExcludedText = mutableStateOf("")
-    private val reorderVisible = mutableStateOf(false)
+    private var baseCurrency by mutableStateOf("")
+    private var accountsData by mutableStateOf(listOf<AccountData>())
+    private var totalBalanceWithExcluded by mutableStateOf("")
+    private var totalBalanceWithExcludedText by mutableStateOf("")
+    private var totalBalanceWithoutExcluded by mutableStateOf("")
+    private var totalBalanceWithoutExcludedText by mutableStateOf("")
+    private var reorderVisible by mutableStateOf(false)
 
     init {
         viewModelScope.launch {
@@ -100,37 +102,37 @@ class AccountsViewModel @Inject constructor(
 
     @Composable
     private fun getBaseCurrency(): String {
-        return baseCurrency.value
+        return baseCurrency
     }
 
     @Composable
     private fun getAccountsData(): ImmutableList<AccountData> {
-        return accountsData.value.toImmutableList()
+        return accountsData.toImmutableList()
     }
 
     @Composable
     private fun getTotalBalanceWithExcluded(): String {
-        return totalBalanceWithExcluded.value
+        return totalBalanceWithExcluded
     }
 
     @Composable
     private fun getTotalBalanceWithExcludedText(): String {
-        return totalBalanceWithExcludedText.value
+        return totalBalanceWithExcludedText
     }
 
     @Composable
     private fun getTotalBalanceWithoutExcluded(): String {
-        return totalBalanceWithoutExcluded.value
+        return totalBalanceWithoutExcluded
     }
 
     @Composable
     private fun getTotalBalanceWithoutExcludedText(): String {
-        return totalBalanceWithoutExcludedText.value
+        return totalBalanceWithoutExcludedText
     }
 
     @Composable
     private fun getReorderVisible(): Boolean {
-        return reorderVisible.value
+        return reorderVisible
     }
 
     @Composable
@@ -197,18 +199,18 @@ class AccountsViewModel @Inject constructor(
             )
         ).toDouble()
 
-        baseCurrency.value = baseCurrencyCode
-        accountsData.value = accountsDataList
-        totalBalanceWithExcluded.value = totalBalanceWithExcludedAccounts.toString()
-        totalBalanceWithExcludedText.value = context.getString(
+        baseCurrency = baseCurrencyCode
+        accountsData = accountsDataList
+        totalBalanceWithExcluded = totalBalanceWithExcludedAccounts.toString()
+        totalBalanceWithExcludedText = context.getString(
             R.string.total,
             baseCurrencyCode,
             totalBalanceWithExcludedAccounts.format(
                 baseCurrencyCode
             )
         )
-        totalBalanceWithoutExcluded.value = totalBalanceWithoutExcludedAccounts.toString()
-        totalBalanceWithoutExcludedText.value = context.getString(
+        totalBalanceWithoutExcluded = totalBalanceWithoutExcludedAccounts.toString()
+        totalBalanceWithoutExcludedText = context.getString(
             R.string.total_exclusive,
             baseCurrencyCode,
             totalBalanceWithoutExcludedAccounts.format(
@@ -218,6 +220,6 @@ class AccountsViewModel @Inject constructor(
     }
 
     private fun reorderModalVisible(visible: Boolean) {
-        reorderVisible.value = visible
+        reorderVisible = visible
     }
 }

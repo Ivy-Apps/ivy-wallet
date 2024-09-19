@@ -3,7 +3,9 @@ package com.ivy.home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.Transaction
@@ -90,44 +92,44 @@ class HomeViewModel @Inject constructor(
     private val timeProvider: TimeProvider,
     private val timeConverter: TimeConverter,
 ) : ComposeViewModel<HomeState, HomeEvent>() {
-    private val currentTheme = mutableStateOf(Theme.AUTO)
-    private val name = mutableStateOf("")
-    private val period = mutableStateOf(ivyContext.selectedPeriod)
-    private val baseData = mutableStateOf(
+    private var currentTheme by mutableStateOf(Theme.AUTO)
+    private var name by mutableStateOf("")
+    private var period by mutableStateOf(ivyContext.selectedPeriod)
+    private var baseData by mutableStateOf(
         AppBaseData(
             baseCurrency = "",
             accounts = persistentListOf(),
             categories = persistentListOf()
         )
     )
-    private val history = mutableStateOf<ImmutableList<TransactionHistoryItem>>(persistentListOf())
-    private val stats = mutableStateOf(IncomeExpensePair.zero())
-    private val balance = mutableStateOf(BigDecimal.ZERO)
-    private val buffer = mutableStateOf(
+    private var history by mutableStateOf<ImmutableList<TransactionHistoryItem>>(persistentListOf())
+    private var stats by mutableStateOf(IncomeExpensePair.zero())
+    private var balance by mutableStateOf(BigDecimal.ZERO)
+    private var buffer by mutableStateOf(
         BufferInfo(
             amount = BigDecimal.ZERO,
             bufferDiff = BigDecimal.ZERO,
         )
     )
-    private val upcoming = mutableStateOf(
+    private var upcoming by mutableStateOf(
         LegacyDueSection(
             trns = persistentListOf(),
             stats = IncomeExpensePair.zero(),
             expanded = false,
         )
     )
-    private val overdue = mutableStateOf(
+    private var overdue by mutableStateOf(
         LegacyDueSection(
             trns = persistentListOf(),
             stats = IncomeExpensePair.zero(),
             expanded = false,
         )
     )
-    private val customerJourneyCards =
+    private var customerJourneyCards by
         mutableStateOf<ImmutableList<CustomerJourneyCardModel>>(persistentListOf())
-    private val hideBalance = mutableStateOf(false)
-    private val hideIncome = mutableStateOf(false)
-    private val expanded = mutableStateOf(true)
+    private var hideBalance by mutableStateOf(false)
+    private var hideIncome by mutableStateOf(false)
+    private var expanded by mutableStateOf(true)
 
     @Composable
     override fun uiState(): HomeState {
@@ -155,72 +157,72 @@ class HomeViewModel @Inject constructor(
 
     @Composable
     private fun getTheme(): Theme {
-        return currentTheme.value
+        return currentTheme
     }
 
     @Composable
     private fun getName(): String {
-        return name.value
+        return name
     }
 
     @Composable
     private fun getPeriod(): TimePeriod {
-        return period.value
+        return period
     }
 
     @Composable
     private fun getBaseData(): AppBaseData {
-        return baseData.value
+        return baseData
     }
 
     @Composable
     private fun getHistory(): ImmutableList<TransactionHistoryItem> {
-        return history.value
+        return history
     }
 
     @Composable
     private fun getStats(): IncomeExpensePair {
-        return stats.value
+        return stats
     }
 
     @Composable
     private fun getBalance(): BigDecimal {
-        return balance.value
+        return balance
     }
 
     @Composable
     private fun getBuffer(): BufferInfo {
-        return buffer.value
+        return buffer
     }
 
     @Composable
     private fun getUpcoming(): LegacyDueSection {
-        return upcoming.value
+        return upcoming
     }
 
     @Composable
     private fun getOverdue(): LegacyDueSection {
-        return overdue.value
+        return overdue
     }
 
     @Composable
     private fun getCustomerJourneyCards(): ImmutableList<CustomerJourneyCardModel> {
-        return customerJourneyCards.value
+        return customerJourneyCards
     }
 
     @Composable
     private fun getHideBalance(): Boolean {
-        return hideBalance.value
+        return hideBalance
     }
 
     @Composable
     private fun getExpanded(): Boolean {
-        return expanded.value
+        return expanded
     }
 
     @Composable
     private fun getHideIncome(): Boolean {
-        return hideIncome.value
+        return hideIncome
     }
 
     override fun onEvent(event: HomeEvent) {
@@ -263,18 +265,18 @@ class HomeViewModel @Inject constructor(
         val hideBalance = shouldHideBalanceAct(Unit)
         val hideIncome = shouldHideIncomeAct(Unit)
 
-        currentTheme.value = settings.theme
-        name.value = settings.name
-        period.value = timePeriod
-        this.hideBalance.value = hideBalance
-        this.hideIncome.value = hideIncome
+        currentTheme = settings.theme
+        name = settings.name
+        period = timePeriod
+        this.hideBalance = hideBalance
+        this.hideIncome = hideIncome
 
         // This method is used to restore the theme when user imports locally backed up data
         ivyContext.switchTheme(theme = settings.theme)
 
         Pair(
             settings,
-            period.value.toRange(
+            period.toRange(
                 startDateOfMonth = ivyContext.startDayOfMonth,
                 timeConverter = timeConverter,
                 timeProvider = timeProvider
@@ -296,7 +298,7 @@ class HomeViewModel @Inject constructor(
         } thenInvokeAfter { (accounts, categories) ->
             val (settings, timeRange) = input
 
-            baseData.value = AppBaseData(
+            baseData = AppBaseData(
                 baseCurrency = settings.baseCurrency,
                 categories = categories.toImmutableList(),
                 accounts = accounts.toImmutableList()
@@ -322,8 +324,8 @@ class HomeViewModel @Inject constructor(
             CalcWalletBalanceAct.Input(baseCurrency = settings.baseCurrency)
         )
 
-        balance.value = balanceAmount
-        stats.value = incomeExpense
+        balance = balanceAmount
+        stats = incomeExpense
 
         return Triple(settings, timeRange, balanceAmount)
     }
@@ -333,7 +335,7 @@ class HomeViewModel @Inject constructor(
     ): Pair<String, ClosedTimeRange> {
         val (settings, timeRange, balance) = input
 
-        buffer.value = BufferInfo(
+        buffer = BufferInfo(
             amount = settings.bufferAmount,
             bufferDiff = calcBufferDiffAct(
                 CalcBufferDiffAct.Input(
@@ -351,7 +353,7 @@ class HomeViewModel @Inject constructor(
     ): Pair<String, ClosedTimeRange> {
         val (baseCurrency, timeRange) = input
 
-        history.value = historyWithDateDivsAct(
+        history = historyWithDateDivsAct(
             HistoryWithDateDivsAct.Input(
                 range = timeRange,
                 baseCurrency = baseCurrency
@@ -366,42 +368,42 @@ class HomeViewModel @Inject constructor(
     ): Unit = suspend {
         UpcomingAct.Input(baseCurrency = input.first, range = input.second)
     } then upcomingAct then { result ->
-        upcoming.value = LegacyDueSection(
+        upcoming = LegacyDueSection(
             trns = with(transactionMapper) {
                 result.upcomingTrns.map {
                     it.toEntity().toLegacyDomain()
                 }.toImmutableList()
             },
             stats = result.upcoming,
-            expanded = upcoming.value.expanded
+            expanded = upcoming.expanded
         )
     } then {
         OverdueAct.Input(baseCurrency = input.first, toRange = input.second.to)
     } then overdueAct thenInvokeAfter { result ->
-        overdue.value = LegacyDueSection(
+        overdue = LegacyDueSection(
             trns = with(transactionMapper) {
                 result.overdueTrns.map {
                     it.toEntity().toLegacyDomain()
                 }.toImmutableList()
             },
             stats = result.overdue,
-            expanded = overdue.value.expanded
+            expanded = overdue.expanded
         )
     }
 
     private suspend fun loadCustomerJourney(unit: Unit) {
-        customerJourneyCards.value = ioThread {
+        customerJourneyCards = ioThread {
             customerJourneyLogic.loadCards().toImmutableList()
         }
     }
 // -----------------------------------------------------------------
 
     private fun setUpcomingExpanded(expanded: Boolean) {
-        upcoming.value = upcoming.value.copy(expanded = expanded)
+        upcoming = upcoming.copy(expanded = expanded)
     }
 
     private fun setOverdueExpanded(expanded: Boolean) {
-        overdue.value = overdue.value.copy(expanded = expanded)
+        overdue = overdue.copy(expanded = expanded)
     }
 
     private suspend fun onBalanceClick() {
@@ -417,21 +419,21 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun onHiddenBalanceClick() {
-        hideBalance.value = false
+        hideBalance = false
 
         // Showing Balance fow 5s
         delay(5000)
 
-        hideBalance.value = true
+        hideBalance = true
     }
 
     private suspend fun onHiddenIncomeClick() {
-        hideIncome.value = false
+        hideIncome = false
 
         // Showing Balance fow 5s
         delay(5000)
 
-        hideIncome.value = true
+        hideIncome = true
     }
 
     private fun switchTheme() {
@@ -439,7 +441,7 @@ class HomeViewModel @Inject constructor(
             settingsAct.getSettingsWithNextTheme().run {
                 updateSettingsAct(this)
                 ivyContext.switchTheme(this.theme)
-                currentTheme.value = this.theme
+                currentTheme = this.theme
             }
         }
     }
@@ -449,7 +451,7 @@ class HomeViewModel @Inject constructor(
             val currentSettings =
                 settingsAct.getSettings().copy(bufferAmount = newBuffer.toBigDecimal())
             updateSettingsAct(currentSettings)
-            buffer.value = buffer.value.copy(amount = currentSettings.bufferAmount)
+            buffer = buffer.copy(amount = currentSettings.bufferAmount)
         }
     }
 
@@ -500,8 +502,8 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun onSelectNextMonth() {
-        val month = period.value.month
-        val year = period.value.year ?: dateNowUTC().year
+        val month = period.month
+        val year = period.year ?: dateNowUTC().year
         val period = month?.incrementMonthPeriod(ivyContext, 1L, year = year)
         if (period != null) {
             setPeriod(period)
@@ -509,8 +511,8 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun onSelectPreviousMonth() {
-        val month = period.value.month
-        val year = period.value.year ?: dateNowUTC().year
+        val month = period.month
+        val year = period.year ?: dateNowUTC().year
         val period = month?.incrementMonthPeriod(ivyContext, -1L, year = year)
         if (period != null) {
             setPeriod(period)
@@ -521,7 +523,8 @@ class HomeViewModel @Inject constructor(
         reload(period)
     }
 
+    @JvmName("setExpandedMethod")
     private fun setExpanded(expanded: Boolean) {
-        this.expanded.value = expanded
+        this.expanded = expanded
     }
 }
