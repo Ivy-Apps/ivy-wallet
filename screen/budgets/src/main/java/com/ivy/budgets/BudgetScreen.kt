@@ -22,10 +22,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.ivy.base.legacy.Theme
 import com.ivy.budgets.model.DisplayBudget
 import com.ivy.design.api.LocalTimeFormatter
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.data.model.Month
+import com.ivy.legacy.data.model.TimePeriod
+import com.ivy.legacy.datamodel.Budget
 import com.ivy.legacy.legacy.ui.theme.components.BudgetBattery
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.format
@@ -34,11 +39,13 @@ import com.ivy.navigation.BudgetScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.ReorderButton
 import com.ivy.wallet.ui.theme.components.ReorderModalSingleType
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun BoxWithConstraintsScope.BudgetScreen(screen: BudgetScreen) {
@@ -54,7 +61,7 @@ fun BoxWithConstraintsScope.BudgetScreen(screen: BudgetScreen) {
 @Composable
 private fun BoxWithConstraintsScope.UI(
     state: BudgetScreenState,
-    onEvent: (BudgetScreenEvent) -> Unit = {}
+    onEvent: (BudgetScreenEvent) -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -170,7 +177,7 @@ private fun Toolbar(
     baseCurrency: String,
     appBudgetMax: Double,
     categoryBudgetsTotal: Double,
-    setReorderModalVisible: (Boolean) -> Unit
+    setReorderModalVisible: (Boolean) -> Unit,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -268,7 +275,7 @@ private fun Toolbar(
 private fun BudgetItem(
     displayBudget: DisplayBudget,
     baseCurrency: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -327,7 +334,7 @@ private fun BudgetItem(
 private fun NoBudgetsEmptyState(
     emptyStateTitle: String,
     emptyStateText: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -364,4 +371,91 @@ private fun NoBudgetsEmptyState(
 
         Spacer(Modifier.height(96.dp))
     }
+}
+
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
+@Composable
+private fun Preview_Empty() {
+    IvyWalletPreview {
+        UI(
+            state = BudgetScreenState(
+                timeRange = TimePeriod.currentMonth(
+                    startDayOfMonth = 1
+                ).fromToRange, // preview
+                baseCurrency = "BGN",
+                categories = persistentListOf(),
+                accounts = persistentListOf(),
+                budgets = persistentListOf(),
+                appBudgetMax = 5000.0,
+                categoryBudgetsTotal = 2400.0,
+                budgetModalData = null,
+                reorderModalVisible = false,
+                totalRemainingBudgetText = "TEST"
+            )
+        )
+    }
+}
+
+@IvyPreviews
+@Composable
+private fun Preview_Budgets(theme: Theme = Theme.LIGHT) {
+    IvyWalletPreview(theme) {
+        UI(
+            state = BudgetScreenState(
+                timeRange = TimePeriod(month = Month.monthsList().first()).fromToRange, // preview
+                baseCurrency = "BGN",
+                categories = persistentListOf(),
+                accounts = persistentListOf(),
+                appBudgetMax = 5000.0,
+                categoryBudgetsTotal = 0.0,
+                budgetModalData = null,
+                reorderModalVisible = false,
+                budgets = persistentListOf(
+                    DisplayBudget(
+                        budget = Budget(
+                            name = "Ivy Marketing",
+                            amount = 1000.0,
+                            accountIdsSerialized = null,
+                            categoryIdsSerialized = null,
+                            orderId = 0.0
+                        ),
+                        spentAmount = 260.0
+                    ),
+                    DisplayBudget(
+                        budget = Budget(
+                            name = "Ivy Marketing 2",
+                            amount = 1000.0,
+                            accountIdsSerialized = null,
+                            categoryIdsSerialized = null,
+                            orderId = 0.0
+                        ),
+                        spentAmount = 351.0
+                    ),
+                    DisplayBudget(
+                        budget = Budget(
+                            name = "Baldr Products, Fidgets",
+                            amount = 750.0,
+                            accountIdsSerialized = null,
+                            categoryIdsSerialized = "cat1,cat2,cat3",
+                            orderId = 0.1
+                        ),
+                        spentAmount = 50.0
+                    )
+                ),
+                totalRemainingBudgetText = "TEST"
+            )
+        )
+    }
+}
+
+
+/** For screenshot testing */
+@Composable
+fun BudgetScreenUiTest(isDark: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    Preview_Budgets(theme)
 }

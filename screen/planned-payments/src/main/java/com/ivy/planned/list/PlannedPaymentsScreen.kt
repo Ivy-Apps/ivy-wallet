@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.base.legacy.Theme
 import com.ivy.base.model.TransactionType
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
@@ -30,10 +31,12 @@ import com.ivy.navigation.PlannedPaymentsScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Orange
 import kotlinx.collections.immutable.persistentListOf
+import java.time.Instant
 import java.time.ZoneOffset
 import java.util.UUID
 
@@ -104,10 +107,10 @@ private fun BoxWithConstraintsScope.UI(
     )
 }
 
-@Preview
+@IvyPreviews
 @Composable
-private fun Preview() {
-    IvyWalletPreview {
+private fun PlannedPaymentsScreenPreview(theme: Theme = Theme.LIGHT) {
+    IvyWalletPreview(theme) {
         val account = Account(name = "Cash", Green.toArgb())
         val food = Category(
             name = NotBlankTrimmedString.unsafe("Food"),
@@ -135,7 +138,7 @@ private fun Preview() {
                         title = "Lidl pazar",
                         categoryId = food.id.value,
                         amount = 250.75,
-                        startDate = timeNowUTC().plusDays(5).toInstant(ZoneOffset.UTC),
+                        startDate = Instant.now(),
                         oneTime = true,
                         intervalType = null,
                         intervalN = null,
@@ -150,7 +153,7 @@ private fun Preview() {
                         title = "Tabu",
                         categoryId = shisha.id.value,
                         amount = 1025.5,
-                        startDate = timeNowUTC().plusDays(5).toInstant(ZoneOffset.UTC),
+                        startDate = Instant.now(),
                         oneTime = false,
                         intervalType = IntervalType.MONTH,
                         intervalN = 1,
@@ -164,4 +167,14 @@ private fun Preview() {
             )
         )
     }
+}
+
+/** For screenshot testing */
+@Composable
+fun PlannedPaymentScreenUiTest(isDark: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    PlannedPaymentsScreenPreview(theme)
 }

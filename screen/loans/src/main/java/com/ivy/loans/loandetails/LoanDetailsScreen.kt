@@ -64,6 +64,7 @@ import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.ui.time.TimeFormatter
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.ui.theme.Gradient
@@ -889,7 +890,7 @@ private fun NoLoanRecordsEmptyState() {
     }
 }
 
-@Preview
+@IvyPreviews
 @Composable
 private fun Preview_Empty() {
     IvyWalletPreview {
@@ -923,7 +924,7 @@ private fun Preview_Empty() {
 /** For Preview purpose **/
 private val testDateTime = LocalDateTime.of(2023, 4, 27, 0, 35)
 
-@Preview
+@IvyPreviews
 @Composable
 private fun Preview_Records(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme) {

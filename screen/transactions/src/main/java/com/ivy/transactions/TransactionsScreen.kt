@@ -32,7 +32,6 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.legacy.Theme
 import com.ivy.base.legacy.Transaction
@@ -43,6 +42,9 @@ import com.ivy.data.model.Category
 import com.ivy.design.api.LocalTimeConverter
 import com.ivy.design.api.LocalTimeFormatter
 import com.ivy.design.api.LocalTimeProvider
+import com.ivy.design.l0_system.Blue2Light
+import com.ivy.design.l0_system.Blue3Light
+import com.ivy.design.l0_system.BlueLight
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.utils.thenIf
@@ -64,16 +66,15 @@ import com.ivy.legacy.utils.rememberInteractionSource
 import com.ivy.legacy.utils.rememberSwipeListenerState
 import com.ivy.legacy.utils.setStatusBarDarkTextCompat
 import com.ivy.navigation.EditTransactionScreen
-import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.ui.theme.Gray
-import com.ivy.wallet.ui.theme.GreenDark
 import com.ivy.wallet.ui.theme.components.BalanceRow
 import com.ivy.wallet.ui.theme.components.BalanceRowMedium
 import com.ivy.wallet.ui.theme.components.ItemIconMDefaultIcon
@@ -819,10 +820,11 @@ private fun Item(
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
-private fun BoxWithConstraintsScope.Preview_empty() {
-    IvyPreview {
+private fun Preview_empty() {
+    IvyWalletPreview {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
@@ -840,7 +842,7 @@ private fun BoxWithConstraintsScope.Preview_empty() {
 
             history = persistentListOf(),
             category = null,
-            account = Account("DSK", color = GreenDark.toArgb(), icon = "pet"),
+            account = Account("Ivy", color = BlueLight.toArgb(), icon = "pet"),
             onSetPeriod = { },
             onPreviousMonth = {},
             onNextMonth = {},
@@ -860,10 +862,11 @@ private fun BoxWithConstraintsScope.Preview_empty() {
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
-private fun BoxWithConstraintsScope.Preview_crypto() {
-    IvyPreview {
+private fun Preview_crypto() {
+    IvyWalletPreview {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
@@ -882,8 +885,8 @@ private fun BoxWithConstraintsScope.Preview_crypto() {
             history = persistentListOf(),
             category = null,
             account = Account(
-                name = "DSK",
-                color = GreenDark.toArgb(),
+                name = "Ivy",
+                color = Blue3Light.toArgb(),
                 icon = "pet",
                 includeInBalance = false
             ),
@@ -906,10 +909,10 @@ private fun BoxWithConstraintsScope.Preview_crypto() {
     }
 }
 
-@Preview
+@IvyPreviews
 @Composable
-private fun BoxWithConstraintsScope.Preview_empty_upcoming() {
-    IvyPreview {
+private fun TransactionScreenUpcoming(theme: Theme = Theme.LIGHT) {
+    IvyWalletPreview(theme) {
         UI(
             period = TimePeriod(month = Month.monthsList().first(), year = 2023),
             baseCurrency = "BGN",
@@ -925,7 +928,7 @@ private fun BoxWithConstraintsScope.Preview_empty_upcoming() {
 
             history = persistentListOf(),
             category = null,
-            account = Account("DSK", color = GreenDark.toArgb(), icon = "pet"),
+            account = Account("Ivy", color = Blue2Light.toArgb(), icon = "pet"),
             onSetPeriod = { },
             onPreviousMonth = {},
             onNextMonth = {},
@@ -953,14 +956,11 @@ private fun BoxWithConstraintsScope.Preview_empty_upcoming() {
 }
 
 /** For screenshot testing */
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TransactionsUiTest(isDark: Boolean) {
     val theme = when (isDark) {
         true -> Theme.DARK
         false -> Theme.LIGHT
     }
-    IvyWalletPreview(theme) {
-        Preview_empty_upcoming()
-    }
+    TransactionScreenUpcoming(theme)
 }

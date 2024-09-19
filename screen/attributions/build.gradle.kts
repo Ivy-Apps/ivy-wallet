@@ -1,9 +1,15 @@
 plugins {
     id("ivy.feature")
+    id("com.android.compose.screenshot")
 }
 
 android {
     namespace = "com.ivy.attributions"
+    testOptions {
+        screenshotTests {
+            imageDifferenceThreshold = BuildConfigConstants.IMAGE_DIFFERENCE_THRESHOLD
+        }
+    }
 }
 
 dependencies {
@@ -11,6 +17,4 @@ dependencies {
     implementation(projects.shared.domain)
     implementation(projects.shared.ui.core)
     implementation(projects.shared.ui.navigation)
-
-    testImplementation(projects.shared.ui.testing)
 }

@@ -22,7 +22,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -49,6 +48,7 @@ import com.ivy.navigation.PieChartStatisticScreen
 import com.ivy.navigation.ReportScreen
 import com.ivy.navigation.navigation
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.ui.theme.Gray
@@ -75,7 +75,7 @@ import java.util.UUID
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.ReportScreen(
-    screen: ReportScreen
+    screen: ReportScreen,
 ) {
     val viewModel: ReportViewModel = viewModel()
     val state = viewModel.uiState()
@@ -90,7 +90,7 @@ fun BoxWithConstraintsScope.ReportScreen(
 @Composable
 private fun BoxWithConstraintsScope.UI(
     state: ReportScreenState = ReportScreenState(),
-    onEventHandler: (ReportScreenEvent) -> Unit = {}
+    onEventHandler: (ReportScreenEvent) -> Unit = {},
 ) {
     val legacyTransactions = state.transactions
     val nav = navigation()
@@ -312,7 +312,7 @@ private fun BoxWithConstraintsScope.UI(
 
 @Composable
 private fun NoFilterEmptyState(
-    setFilterOverlayVisible: (Boolean) -> Unit
+    setFilterOverlayVisible: (Boolean) -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -363,7 +363,7 @@ private fun NoFilterEmptyState(
 @Composable
 private fun Toolbar(
     onExport: () -> Unit,
-    onFilter: () -> Unit
+    onFilter: () -> Unit,
 ) {
     val nav = navigation()
     IvyToolbar(
@@ -400,7 +400,7 @@ private fun Toolbar(
 }
 
 @ExperimentalFoundationApi
-@Preview
+@IvyPreviews
 @Composable
 private fun Preview(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme) {
@@ -461,7 +461,7 @@ private fun Preview(theme: Theme = Theme.LIGHT) {
 }
 
 @ExperimentalFoundationApi
-@Preview
+@IvyPreviews
 @Composable
 private fun Preview_NO_FILTER(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme) {

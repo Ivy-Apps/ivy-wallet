@@ -57,6 +57,7 @@ import com.ivy.navigation.ReleasesScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gradient
@@ -1170,16 +1171,22 @@ private fun SettingsDefaultButton(
 }
 
 @ExperimentalFoundationApi
-@Preview
+@IvyPreviews
 @Composable
-private fun Preview(theme: Theme = Theme.LIGHT) {
+private fun SettingsScreenPreview(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme) {
         UI(
-            nameLocalAccount = null,
-            theme = Theme.AUTO,
+            currencyCode = "USD",
+            theme = theme,
             onSwitchTheme = {},
             lockApp = false,
-            currencyCode = "BGN",
+            nameLocalAccount = "Ivy",
+            startDateOfMonth = 1,
+            showNotifications = true,
+            hideCurrentBalance = false,
+            hideIncome = false,
+            progressState = false,
+            treatTransfersAsIncomeExpense = false,
             onSetCurrency = {},
             languageOptionVisible = true
         )
@@ -1194,5 +1201,5 @@ fun SettingsUiTest(isDark: Boolean) {
         true -> Theme.DARK
         false -> Theme.LIGHT
     }
-    Preview(theme)
+    SettingsScreenPreview(theme)
 }

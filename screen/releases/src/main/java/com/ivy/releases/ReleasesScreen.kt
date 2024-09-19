@@ -32,8 +32,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.navigation
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun ReleasesScreenImpl() {
@@ -52,7 +55,7 @@ fun ReleasesScreenImpl() {
 @Composable
 private fun ReleasesUi(
     uiState: ReleasesState,
-    onEvent: (ReleasesEvent) -> Unit
+    onEvent: (ReleasesEvent) -> Unit,
 ) {
     val browser = LocalUriHandler.current
     Scaffold(
@@ -110,7 +113,7 @@ private fun BackButton() {
 
 private fun LazyListScope.content(
     releasesState: ReleasesState,
-    onEvent: (ReleasesEvent) -> Unit
+    onEvent: (ReleasesEvent) -> Unit,
 ) {
     when (releasesState) {
         is ReleasesState.Error -> {
@@ -142,7 +145,7 @@ private fun LazyListScope.content(
 @Composable
 private fun ReleaseInfoCard(
     releaseInfo: ReleaseInfo,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val browser = LocalUriHandler.current
 
@@ -169,7 +172,7 @@ private fun ReleaseInfoCard(
 @Composable
 private fun ReleaseInfoRow(
     releaseInfo: ReleaseInfo,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier,
@@ -184,7 +187,7 @@ private fun ReleaseInfoRow(
 @Composable
 private fun ReleaseName(
     info: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Text(
         modifier = modifier,
@@ -198,7 +201,7 @@ private fun ReleaseName(
 @Composable
 private fun ReleaseDate(
     info: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Text(
         modifier = modifier,
@@ -212,7 +215,7 @@ private fun ReleaseDate(
 private fun ReleasesErrorState(
     message: String,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
@@ -235,7 +238,7 @@ private fun ReleasesErrorState(
 @Composable
 private fun GitHubButton(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     FloatingActionButton(
         modifier = modifier,
@@ -248,4 +251,65 @@ private fun GitHubButton(
             contentDescription = "GitHub"
         )
     }
+}
+
+@IvyPreviews
+@Composable
+private fun ReleaseScreenPreview(isDark: Boolean = false) {
+    val state = ReleasesState.Success(
+        releasesInfo = persistentListOf(
+            ReleaseInfo(
+                releaseName = "Release Name",
+                releaseCommits = persistentListOf("Commit A", "Commit B", "Commit C"),
+                releaseUrl = "",
+                releaseDate = "12/07/2024"
+            ),
+            ReleaseInfo(
+                releaseName = "Release Name",
+                releaseCommits = persistentListOf("Commit A", "Commit B", "Commit C"),
+                releaseUrl = "",
+                releaseDate = "12/07/2024"
+            ),
+            ReleaseInfo(
+                releaseName = "Release Name",
+                releaseCommits = persistentListOf("Commit A", "Commit B", "Commit C"),
+                releaseUrl = "",
+                releaseDate = "12/07/2024"
+            ),
+            ReleaseInfo(
+                releaseName = "Release Name",
+                releaseCommits = persistentListOf("Commit A", "Commit B", "Commit C"),
+                releaseUrl = "",
+                releaseDate = "12/07/2024"
+            ),
+            ReleaseInfo(
+                releaseName = "Release Name",
+                releaseCommits = persistentListOf("Commit A", "Commit B", "Commit C"),
+                releaseUrl = "",
+                releaseDate = "12/07/2024"
+            ),
+            ReleaseInfo(
+                releaseName = "Release Name",
+                releaseCommits = persistentListOf("Commit A", "Commit B", "Commit C"),
+                releaseUrl = "",
+                releaseDate = "12/07/2024"
+            ),
+            ReleaseInfo(
+                releaseName = "Release Name",
+                releaseCommits = persistentListOf("Commit A", "Commit B", "Commit C"),
+                releaseUrl = "",
+                releaseDate = "12/07/2024"
+            )
+        )
+    )
+    IvyPreview(isDark) {
+        ReleasesUi(
+            uiState = state
+        ) {}
+    }
+}
+
+@Composable
+fun ReleaseScreenUiTest(isDark: Boolean) {
+    ReleaseScreenPreview(isDark)
 }

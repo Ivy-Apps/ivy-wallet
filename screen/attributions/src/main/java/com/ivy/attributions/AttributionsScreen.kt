@@ -32,6 +32,7 @@ import com.ivy.navigation.Navigation
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -156,7 +157,7 @@ private fun AttributionsSectionDivider(
     )
 }
 
-@Preview
+@IvyPreviews
 @Composable
 private fun AttributionsUIPreview(isDark: Boolean = false) {
     val attributionItems = persistentListOf<AttributionItem>(

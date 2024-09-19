@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ivy.base.legacy.Theme
 import com.ivy.base.model.TransactionType
 import com.ivy.data.model.Category
 import com.ivy.data.model.CategoryId
@@ -49,6 +50,8 @@ import com.ivy.design.api.LocalTimeProvider
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.utils.thenIf
+import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.data.model.TimePeriod
 import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.format
@@ -60,6 +63,7 @@ import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Gray
@@ -89,7 +93,7 @@ import java.util.UUID
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.PieChartStatisticScreen(
-    screen: PieChartStatisticScreen
+    screen: PieChartStatisticScreen,
 ) {
     val viewModel: PieChartStatisticViewModel = screenScopedViewModel()
     val uiState = viewModel.uiState()
@@ -108,7 +112,7 @@ fun BoxWithConstraintsScope.PieChartStatisticScreen(
 @Composable
 private fun BoxWithConstraintsScope.UI(
     state: PieChartStatisticState,
-    onEvent: (PieChartStatisticEvent) -> Unit = {}
+    onEvent: (PieChartStatisticEvent) -> Unit = {},
 ) {
     val nav = navigation()
     val lazyState = rememberScrollPositionListState(
@@ -258,7 +262,7 @@ private fun Header(
 
     onClose: () -> Unit,
     onAdd: (TransactionType) -> Unit,
-    showCloseButtonOnly: Boolean = false
+    showCloseButtonOnly: Boolean = false,
 ) {
     Row(
         modifier = Modifier
@@ -353,7 +357,7 @@ private fun CategoryAmountCard(
 
     selectedCategory: SelectedCategory?,
 
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     val category = categoryAmount.category
     val amount = categoryAmount.amount
@@ -459,7 +463,7 @@ private fun PercentText(
     amount: Double,
     totalAmount: Double,
     selectedState: Boolean,
-    contrastColor: Color
+    contrastColor: Color,
 ) {
     Text(
         text = if (totalAmount != 0.0) {
@@ -566,13 +570,13 @@ private fun Preview_Expense() {
 }
 
 @ExperimentalFoundationApi
-@Preview
+@IvyPreviews
 @Composable
-private fun Preview_Income() {
-    com.ivy.legacy.IvyWalletPreview {
+private fun PieChartExpensePreview(theme: Theme = Theme.LIGHT) {
+    IvyWalletPreview(theme) {
         val state = PieChartStatisticState(
-            transactionType = TransactionType.INCOME,
-            period = com.ivy.legacy.data.model.TimePeriod.currentMonth(
+            transactionType = TransactionType.EXPENSE,
+            period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
             ), // preview
             baseCurrency = "BGN",
@@ -654,4 +658,15 @@ private fun Preview_Income() {
 
         UI(state = state)
     }
+}
+
+/** For screenshot testing */
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun PieChartStatisticScreenUiTest(isDark: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    PieChartExpensePreview(theme)
 }

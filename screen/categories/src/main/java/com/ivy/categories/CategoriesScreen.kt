@@ -62,6 +62,7 @@ import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.wallet.domain.data.SortOrder
 import com.ivy.wallet.ui.theme.Gradient
@@ -681,13 +682,13 @@ private fun SelectTypeButton(
     }
 }
 
-@Preview
+@IvyPreviews
 @Composable
 private fun PreviewCategoriesCompactModeEnabled(theme: Theme = Theme.LIGHT) {
     Preview(theme = theme, compactModeEnabled = true)
 }
 
-@Preview
+@IvyPreviews
 @Composable
 private fun PreviewCategoriesCompactModeEnabledAndSearchBarEnabled(theme: Theme = Theme.LIGHT) {
     Preview(theme = theme, compactModeEnabled = true, displaySearchBarEnabled = true)
