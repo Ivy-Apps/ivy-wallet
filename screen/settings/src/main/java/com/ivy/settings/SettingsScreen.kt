@@ -281,11 +281,13 @@ private fun BoxWithConstraintsScope.UI(
                 icon = when (theme) {
                     Theme.LIGHT -> R.drawable.home_more_menu_light_mode
                     Theme.DARK -> R.drawable.home_more_menu_dark_mode
+                    Theme.AMOLED_DARK -> R.drawable.home_more_menu_amoled_dark_mode
                     Theme.AUTO -> R.drawable.home_more_menu_auto_mode
                 },
                 label = when (theme) {
                     Theme.LIGHT -> stringResource(R.string.light_mode)
                     Theme.DARK -> stringResource(R.string.dark_mode)
+                    Theme.AMOLED_DARK -> stringResource(R.string.amoled_mode)
                     Theme.AUTO -> stringResource(R.string.auto_mode)
                 }
             ) {

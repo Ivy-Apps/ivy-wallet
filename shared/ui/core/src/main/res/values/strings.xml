@@ -103,6 +103,7 @@
     <string name="settings">Settings</string>
     <string name="light_mode">Light mode</string>
     <string name="dark_mode">Dark mode</string>
+    <string name="amoled_mode">Amoled Dark mode</string>
     <string name="auto_mode">Auto mode</string>
     <string name="planned_payments">Planned\nPayments</string>
     <string name="share_ivy">Share Ivy</string>

@@ -19,7 +19,8 @@ class SettingsAct @Inject constructor(
         val currentSettings = this(Unit)
         val newTheme = when (currentSettings.theme) {
             Theme.LIGHT -> Theme.DARK
-            Theme.DARK -> Theme.AUTO
+            Theme.DARK -> Theme.AMOLED_DARK
+            Theme.AMOLED_DARK -> Theme.AUTO
             Theme.AUTO -> Theme.LIGHT
         }
         return currentSettings.copy(theme = newTheme)

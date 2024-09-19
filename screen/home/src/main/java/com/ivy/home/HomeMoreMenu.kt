@@ -445,21 +445,25 @@ private fun QuickAccess(
                 icon = when (theme) {
                     Theme.LIGHT -> R.drawable.home_more_menu_light_mode
                     Theme.DARK -> R.drawable.home_more_menu_dark_mode
+                    Theme.AMOLED_DARK -> R.drawable.home_more_menu_amoled_dark_mode
                     Theme.AUTO -> R.drawable.home_more_menu_auto_mode
                 },
                 label = when (theme) {
                     Theme.LIGHT -> stringResource(R.string.light_mode)
                     Theme.DARK -> stringResource(R.string.dark_mode)
+                    Theme.AMOLED_DARK -> stringResource(R.string.amoled_mode)
                     Theme.AUTO -> stringResource(R.string.auto_mode)
                 },
                 backgroundColor = when (theme) {
                     Theme.LIGHT -> UI.colors.pure
                     Theme.DARK -> UI.colors.pureInverse
+                    Theme.AMOLED_DARK -> UI.colors.pureInverse
                     Theme.AUTO -> UI.colors.pure
                 },
                 tint = when (theme) {
                     Theme.LIGHT -> UI.colors.pureInverse
                     Theme.DARK -> UI.colors.pure
+                    Theme.AMOLED_DARK -> UI.colors.pure
                     Theme.AUTO -> UI.colors.pureInverse
                 }
             ) {

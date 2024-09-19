@@ -8,10 +8,11 @@ import com.ivy.design.system.colors.IvyColors
 @Composable
 fun IvyMaterial3Theme(
     dark: Boolean,
+    isTrueBlack: Boolean,
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
-        colorScheme = if (dark) ivyDarkColorScheme() else ivyLightColorScheme(),
+        colorScheme = if (dark) ivyDarkColorScheme(isTrueBlack) else ivyLightColorScheme(),
         content = content,
     )
 }
@@ -51,7 +52,7 @@ private fun ivyLightColorScheme(): ColorScheme = ColorScheme(
     scrim = IvyColors.ExtraDarkGray.copy(alpha = 0.8f)
 )
 
-private fun ivyDarkColorScheme(): ColorScheme = ColorScheme(
+private fun ivyDarkColorScheme(isTrueBlack: Boolean): ColorScheme = ColorScheme(
     primary = IvyColors.Purple.primary,
     onPrimary = IvyColors.White,
     primaryContainer = IvyColors.Purple.light,
@@ -71,15 +72,15 @@ private fun ivyDarkColorScheme(): ColorScheme = ColorScheme(
     errorContainer = IvyColors.Red.light,
     onErrorContainer = IvyColors.White,
 
-    background = IvyColors.Black,
+    background = if (isTrueBlack) IvyColors.TrueBlack else IvyColors.Black,
     onBackground = IvyColors.White,
-    surface = IvyColors.Black,
+    surface = if (isTrueBlack) IvyColors.TrueBlack else IvyColors.Black,
     onSurface = IvyColors.White,
     surfaceVariant = IvyColors.ExtraDarkGray,
     onSurfaceVariant = IvyColors.White,
     surfaceTint = IvyColors.White,
     inverseSurface = IvyColors.LightGray,
-    inverseOnSurface = IvyColors.Black,
+    inverseOnSurface = if (isTrueBlack) IvyColors.TrueBlack else IvyColors.Black,
 
     outline = IvyColors.Gray,
     outlineVariant = IvyColors.LightGray,
