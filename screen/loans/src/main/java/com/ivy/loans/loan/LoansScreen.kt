@@ -14,8 +14,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -46,11 +46,11 @@ import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.LoansScreen
 import com.ivy.navigation.navigation
 import com.ivy.ui.R
+import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gray
-import com.ivy.wallet.ui.theme.Orange
-import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.components.BalanceRow
+import com.ivy.wallet.ui.theme.components.CircleButtonFilled
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.ProgressBar
@@ -59,7 +59,6 @@ import com.ivy.wallet.ui.theme.components.ReorderModalSingleType
 import com.ivy.wallet.ui.theme.dynamicContrast
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.modal.LoanModal
-import com.ivy.wallet.ui.theme.modal.LoanModalData
 import com.ivy.wallet.ui.theme.toComposeColor
 import kotlinx.collections.immutable.persistentListOf
 import java.time.Instant
@@ -78,43 +77,56 @@ fun BoxWithConstraintsScope.LoansScreen(screen: LoansScreen) {
 @Composable
 private fun BoxWithConstraintsScope.UI(
     state: LoanScreenState,
-    onEventHandler: (LoanScreenEvent) -> Unit = {},
+    onEventHandler: (LoanScreenEvent) -> Unit = {}
 ) {
     val nav = navigation()
-    val scrollState = ivyWalletCtx().loansScrollState
     Column(
         modifier = Modifier
             .fillMaxSize()
             .systemBarsPadding()
-            .verticalScroll(scrollState),
     ) {
         Spacer(Modifier.height(32.dp))
 
         Toolbar(
-            setReorderModalVisible = {
-                onEventHandler.invoke(LoanScreenEvent.OnReOrderModalShow(show = it))
-            },
+            onDismiss = { nav.back() },
+            setReorderModalVisible = { onEventHandler.invoke(LoanScreenEvent.OnReOrderModalShow(show = it)) },
             state.totalOweAmount,
             state.totalOwedAmount
         )
 
         Spacer(Modifier.height(8.dp))
 
-        for (item in state.loans) {
-            Spacer(Modifier.height(16.dp))
+        val scrollState = rememberScrollPositionListState(
+            key = "loans_lazy_column",
+            initialFirstVisibleItemIndex = ivyWalletCtx()
+                .loanListState?.firstVisibleItemIndex ?: 0,
+            initialFirstVisibleItemScrollOffset = ivyWalletCtx()
+                .loanListState?.firstVisibleItemScrollOffset ?: 0
+        )
 
-            LoanItem(
-                displayLoan = item
-            ) {
-                nav.navigateTo(
-                    screen = LoanDetailsScreen(
-                        loanId = item.loan.id
+        val loans = if (state.selectedTab == LoanTab.PENDING) {
+            state.pendingLoans
+        } else {
+            state.completedLoans
+        }
+
+        LazyColumn(state = scrollState) {
+            items(loans) { item ->
+                Spacer(Modifier.height(16.dp))
+
+                LoanItem(
+                    displayLoan = item
+                ) {
+                    nav.navigateTo(
+                        screen = LoanDetailsScreen(
+                            loanId = item.loan.id
+                        )
                     )
-                )
+                }
             }
         }
 
-        if (state.loans.isEmpty()) {
+        if (loans.isEmpty()) {
             Spacer(Modifier.weight(1f))
 
             NoLoansEmptyState(
@@ -129,21 +141,16 @@ private fun BoxWithConstraintsScope.UI(
     }
 
     LoanBottomBar(
-        isPaidOffLoanVisible = state.paidOffLoanVisibility,
+        tab = state.selectedTab,
+        selectTab = { onEventHandler.invoke(LoanScreenEvent.OnTabChanged(it)) },
         onAdd = {
             onEventHandler.invoke(LoanScreenEvent.OnAddLoan)
-        },
-        onTogglePaidOffLoanVisibility = {
-            onEventHandler.invoke(LoanScreenEvent.OnTogglePaidOffLoanVisibility)
-        },
-        onClose = {
-            nav.back()
-        },
+        }
     )
 
     ReorderModalSingleType(
         visible = state.reorderModalVisible,
-        initialItems = state.loans,
+        initialItems = if (state.selectedTab == LoanTab.PENDING) state.pendingLoans else state.completedLoans,
         dismiss = {
             onEventHandler.invoke(LoanScreenEvent.OnReOrderModalShow(show = false))
         },
@@ -164,32 +171,34 @@ private fun BoxWithConstraintsScope.UI(
         )
     }
 
-    LoanModal(
-        accounts = state.accounts,
-        onCreateAccount = {
-            onEventHandler.invoke(LoanScreenEvent.OnCreateAccount(accountData = it))
-        },
-        modal = state.loanModalData,
-        onCreateLoan = {
-            onEventHandler.invoke(LoanScreenEvent.OnLoanCreate(createLoanData = it))
-        },
-        onEditLoan = { _, _ -> },
-        dismiss = {
-            onEventHandler.invoke(LoanScreenEvent.OnLoanModalDismiss)
-        },
-        dateTime = state.dateTime,
-        onSetDate = {
-            onEventHandler.invoke(LoanScreenEvent.OnChangeDate)
-        },
-        onSetTime = {
-            onEventHandler.invoke(LoanScreenEvent.OnChangeTime)
-        }
-    )
+    if (state.loanModalData != null) {
+        LoanModal(
+            accounts = state.accounts,
+            onCreateAccount = {
+                onEventHandler.invoke(LoanScreenEvent.OnCreateAccount(accountData = it))
+            },
+            modal = state.loanModalData,
+            onCreateLoan = {
+                onEventHandler.invoke(LoanScreenEvent.OnLoanCreate(createLoanData = it))
+            },
+            onEditLoan = { _, _ -> },
+            dismiss = {
+                onEventHandler.invoke(LoanScreenEvent.OnLoanModalDismiss)
+            },
+            dateTime = state.dateTime,
+            onSetDate = {
+                onEventHandler.invoke(LoanScreenEvent.OnChangeDate)
+            },
+            onSetTime = {
+                onEventHandler.invoke(LoanScreenEvent.OnChangeTime)
+            }
+        )
+    }
 }
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
 private fun Toolbar(
+    onDismiss: () -> Unit,
     setReorderModalVisible: (Boolean) -> Unit,
     totalOweAmount: String,
     totalOwedAmount: String
@@ -227,6 +236,14 @@ private fun Toolbar(
                 )
             }
         }
+
+        CircleButtonFilled(
+            modifier = Modifier,
+            icon = R.drawable.ic_dismiss,
+            onClick = onDismiss
+        )
+
+        Spacer(Modifier.width(8.dp))
 
         ReorderButton {
             setReorderModalVisible(true)
@@ -412,33 +429,23 @@ private val testDateTime = LocalDateTime.of(2023, 4, 20, 0, 35)
 private fun Preview(theme: Theme = Theme.LIGHT) {
     val state = LoanScreenState(
         baseCurrency = "BGN",
-        loans = persistentListOf(
+        selectedTab = LoanTab.PENDING,
+        completedLoans = persistentListOf(
             DisplayLoan(
                 loan = Loan(
-                    name = "Loan 1",
-                    icon = "rocket",
-                    color = Red.toArgb(),
-                    amount = 5000.0,
-                    type = LoanType.BORROW,
+                    name = "Loan 3",
+                    icon = "bank",
+                    color = Blue.toArgb(),
+                    amount = 7000.0,
+                    type = LoanType.LEND,
                     dateTime = testDateTime
                 ),
-                loanTotalAmount = 5500.0,
-                amountPaid = 0.0,
-                percentPaid = 0.4
+                loanTotalAmount = 7000.0,
+                amountPaid = 8000.0,
+                percentPaid = 0.8
             ),
-            DisplayLoan(
-                loan = Loan(
-                    name = "Loan 2",
-                    icon = "atom",
-                    color = Orange.toArgb(),
-                    amount = 252.36,
-                    type = LoanType.BORROW,
-                    dateTime = testDateTime
-                ),
-                loanTotalAmount = 252.36,
-                amountPaid = 124.23,
-                percentPaid = 0.2
-            ),
+        ),
+        pendingLoans = persistentListOf(
             DisplayLoan(
                 loan = Loan(
                     name = "Loan 3",
@@ -456,16 +463,7 @@ private fun Preview(theme: Theme = Theme.LIGHT) {
         accounts = persistentListOf(),
         totalOweAmount = "1000.00 INR",
         totalOwedAmount = "1500.0 INR",
-        loanModalData = LoanModalData(
-            loan = Loan(
-                name = "",
-                color = Blue.toArgb(),
-                amount = 0.0,
-                type = LoanType.LEND,
-                dateTime = testDateTime
-            ),
-            baseCurrency = "INR"
-        ),
+        loanModalData = null,
         reorderModalVisible = false,
         selectedAccount = null,
         paidOffLoanVisibility = true,

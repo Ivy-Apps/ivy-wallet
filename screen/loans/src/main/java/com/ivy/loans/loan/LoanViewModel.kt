@@ -57,16 +57,18 @@ class LoanViewModel @Inject constructor(
     private val loanWriter: WriteLoanDao,
     private val timeConverter: TimeConverter,
     private val timeProvider: TimeProvider,
-    private val dateTimePicker: DateTimePicker,
+    private val dateTimePicker: DateTimePicker
 ) : ComposeViewModel<LoanScreenState, LoanScreenEvent>() {
 
     private var baseCurrencyCode by mutableStateOf(getDefaultFIATCurrency().currencyCode)
-    private var loans by mutableStateOf<ImmutableList<DisplayLoan>>(persistentListOf())
+    private var completedLoans by mutableStateOf<ImmutableList<DisplayLoan>>(persistentListOf())
+    private var pendingLoans by mutableStateOf<ImmutableList<DisplayLoan>>(persistentListOf())
     private var accounts by mutableStateOf<ImmutableList<Account>>(persistentListOf())
     private var selectedAccount by mutableStateOf<Account?>(null)
     private var loanModalData by mutableStateOf<LoanModalData?>(null)
     private var reorderModalVisible by mutableStateOf(false)
     private var dateTime by mutableStateOf<Instant>(timeProvider.utcNow())
+    private var selectedTab by mutableStateOf(LoanTab.PENDING)
 
     /** If true paid off loans will be visible */
     private var paidOffLoanVisibility by mutableStateOf(true)
@@ -85,7 +87,6 @@ class LoanViewModel @Inject constructor(
 
         return LoanScreenState(
             baseCurrency = getBaseCurrencyCode(),
-            loans = getLoans(),
             accounts = getAccounts(),
             selectedAccount = getSelectedAccount(),
             loanModalData = getLoanModalData(),
@@ -93,8 +94,30 @@ class LoanViewModel @Inject constructor(
             totalOweAmount = getTotalOweAmount(totalOweAmount, defaultCurrencyCode),
             totalOwedAmount = getTotalOwedAmount(totalOwedAmount, defaultCurrencyCode),
             paidOffLoanVisibility = getPaidOffLoanVisibility(),
-            dateTime = dateTime
+            dateTime = dateTime,
+            selectedTab = getSelectedTab(),
+            completedLoans = getCompletedLoans(),
+            pendingLoans = getPendingLoans()
         )
+    }
+
+    fun setTab(tab: LoanTab) {
+        selectedTab = tab
+    }
+
+    @Composable
+    private fun getSelectedTab(): LoanTab {
+        return selectedTab
+    }
+
+    @Composable
+    private fun getCompletedLoans(): ImmutableList<DisplayLoan> {
+        return completedLoans
+    }
+
+    @Composable
+    private fun getPendingLoans(): ImmutableList<DisplayLoan> {
+        return pendingLoans
     }
 
     @Composable
@@ -102,11 +125,6 @@ class LoanViewModel @Inject constructor(
 
     @Composable
     private fun getLoanModalData() = loanModalData
-
-    @Composable
-    private fun getLoans(): ImmutableList<DisplayLoan> {
-        return loans
-    }
 
     @Composable
     private fun getBaseCurrencyCode(): String {
@@ -160,8 +178,13 @@ class LoanViewModel @Inject constructor(
             is LoanScreenEvent.OnChangeDate -> {
                 handleChangeDate()
             }
+
             is LoanScreenEvent.OnChangeTime -> {
                 handleChangeTime()
+            }
+
+            is LoanScreenEvent.OnTabChanged -> {
+                setTab(event.tab)
             }
         }
     }
@@ -217,7 +240,8 @@ class LoanViewModel @Inject constructor(
                         )
                     }.toImmutableList()
             }
-            filterLoans()
+            loadPendingLoans()
+            loadCompletedLoans()
 
             TestIdlingResource.decrement()
         }
@@ -324,12 +348,12 @@ class LoanViewModel @Inject constructor(
         }
     }
 
-    /** It filters [allLoans] and updates [loans] based on weather to show paid off loans or not */
-    private fun filterLoans() {
-        loans = when (paidOffLoanVisibility) {
-            true -> allLoans
-            false -> allLoans.filter { loan -> loan.percentPaid < 1.0 }.toImmutableList()
-        }
+    private fun loadCompletedLoans() {
+        completedLoans = allLoans.filter { loan -> loan.percentPaid == 1.0 }.toImmutableList()
+    }
+
+    private fun loadPendingLoans() {
+        pendingLoans = allLoans.filter { loan -> loan.percentPaid < 1.0 }.toImmutableList()
     }
 
     private fun createAccount(data: CreateAccountData) {
@@ -386,6 +410,5 @@ class LoanViewModel @Inject constructor(
 
     private fun updatePaidOffLoanVisibility() {
         paidOffLoanVisibility = paidOffLoanVisibility.not()
-        filterLoans()
     }
 }
