@@ -20,7 +20,8 @@ open class PaparazziScreenshotTest {
                 dark = when (theme) {
                     PaparazziTheme.Light -> false
                     PaparazziTheme.Dark -> true
-                }
+                },
+                isTrueBlack = false
             ) {
                 content()
             }

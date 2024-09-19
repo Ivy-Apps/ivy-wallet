@@ -9,6 +9,6 @@ fun IvyPreview(
     content: @Composable () -> Unit,
 ) {
     NavigationRoot(navigation = Navigation()) {
-        IvyMaterial3Theme(dark = dark, content = content)
+        IvyMaterial3Theme(dark = dark, isTrueBlack = false, content = content)
     }
 }

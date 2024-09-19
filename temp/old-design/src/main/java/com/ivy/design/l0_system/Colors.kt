@@ -175,6 +175,9 @@ val Red3Dark = Color(0xFF802653)
 // --------------------------------------------------------------------------------------------------
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
+val TrueBlack = Color(0xFF000000)
+
+@Deprecated("Old design system. Use `:ivy-design` and Material3")
 val MediumBlack = Color(0xFF2B2C2D)
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")

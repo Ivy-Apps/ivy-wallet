@@ -70,6 +70,7 @@ fun IvyTheme(
 
         IvyMaterial3Theme(
             dark = !colors.isLight,
+            isTrueBlack = theme == Theme.AMOLED_DARK,
             content = content,
         )
     }
