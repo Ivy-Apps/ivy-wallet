@@ -86,6 +86,7 @@ fun BoxWithConstraintsScope.ReportScreen(
     )
 }
 
+@Suppress("LongMethod")
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(

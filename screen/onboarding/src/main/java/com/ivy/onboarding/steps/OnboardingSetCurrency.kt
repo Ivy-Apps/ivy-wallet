@@ -1,5 +1,6 @@
 package com.ivy.onboarding.steps
 
+import android.icu.util.Currency
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -19,7 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.legacy.Theme
 import com.ivy.design.l0_system.UI
@@ -40,7 +40,7 @@ import com.ivy.wallet.ui.theme.components.OnboardingButton
 @Composable
 fun BoxWithConstraintsScope.OnboardingSetCurrency(
     preselectedCurrency: IvyCurrency,
-    onSetCurrency: (IvyCurrency) -> Unit
+    onSetCurrency: (IvyCurrency) -> Unit,
 ) {
     setStatusBarDarkTextCompat(darkText = UI.colors.isLight)
 
@@ -121,7 +121,7 @@ fun BoxWithConstraintsScope.OnboardingSetCurrency(
 private fun OnboardingSetCurrencyPreview(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme) {
         OnboardingSetCurrency(
-            preselectedCurrency = IvyCurrency.getDefault()
+            preselectedCurrency = IvyCurrency(fiatCurrency = Currency.getInstance("USD"))
         ) {
         }
     }

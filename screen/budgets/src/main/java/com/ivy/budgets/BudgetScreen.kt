@@ -449,7 +449,6 @@ private fun Preview_Budgets(theme: Theme = Theme.LIGHT) {
     }
 }
 
-
 /** For screenshot testing */
 @Composable
 fun BudgetScreenUiTest(isDark: Boolean) {

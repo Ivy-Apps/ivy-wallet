@@ -162,7 +162,6 @@ private fun FeatureRow(
     }
 }
 
-
 @IvyPreviews
 @Composable
 private fun FeatureScreenPreview(isDark: Boolean = false) {
@@ -202,4 +201,3 @@ private fun FeatureScreenPreview(isDark: Boolean = false) {
 fun FeatureScreenUiTest(isDark: Boolean) {
     FeatureScreenPreview(isDark)
 }
-

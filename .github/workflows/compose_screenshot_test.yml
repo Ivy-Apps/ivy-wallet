@@ -8,7 +8,7 @@ on:
 
 jobs:
   sceenshot_test:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Checkout GIT
         uses: actions/checkout@v4
@@ -19,21 +19,15 @@ jobs:
           distribution: 'adopt'
           java-version: '18'
 
-      - name: Enable Gradle Wrapper caching (optimization)
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+      - name: Gradle cache
+        uses: gradle/actions/setup-gradle@v4
+
       - name: Run Compose preview screenshot tests
-        run: ./gradlew :shared:ui:testing:validateDebugScreenshotTest
+        run: ./gradlew validateDebugScreenshotTest
 
       - name: Upload build reports
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: my-artifact
-          path: shared/ui/testing/build/reports
+          path: screen/onboarding/build/reports

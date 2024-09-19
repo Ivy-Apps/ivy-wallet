@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.legacy.Theme
 import com.ivy.base.model.TransactionType
@@ -25,7 +24,6 @@ import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.PlannedPaymentRule
-import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.PlannedPaymentsScreen
 import com.ivy.navigation.navigation
@@ -37,7 +35,6 @@ import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Orange
 import kotlinx.collections.immutable.persistentListOf
 import java.time.Instant
-import java.time.ZoneOffset
 import java.util.UUID
 
 @Composable

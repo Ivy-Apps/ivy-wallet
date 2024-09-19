@@ -682,12 +682,14 @@ private fun SelectTypeButton(
     }
 }
 
+@Suppress("UnusedPrivateMember")
 @IvyPreviews
 @Composable
 private fun PreviewCategoriesCompactModeEnabled(theme: Theme = Theme.LIGHT) {
     Preview(theme = theme, compactModeEnabled = true)
 }
 
+@Suppress("UnusedPrivateMember")
 @IvyPreviews
 @Composable
 private fun PreviewCategoriesCompactModeEnabledAndSearchBarEnabled(theme: Theme = Theme.LIGHT) {
