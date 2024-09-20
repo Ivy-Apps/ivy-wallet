@@ -349,7 +349,7 @@ class LoanViewModel @Inject constructor(
     }
 
     private fun loadCompletedLoans() {
-        completedLoans = allLoans.filter { loan -> loan.percentPaid == 1.0 }.toImmutableList()
+        completedLoans = allLoans.filter { loan -> loan.percentPaid >= 1.0 }.toImmutableList()
     }
 
     private fun loadPendingLoans() {
