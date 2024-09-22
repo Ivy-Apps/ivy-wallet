@@ -2,7 +2,7 @@
 <resources>
     <string name="accounts">帳戶</string>
     <string name="total">總計: %1$s %2$s</string>
-    <string name="month_income">本月營收</string>
+    <string name="month_income">本月收入</string>
     <string name="month_expenses">本月支出</string>
     <string name="excluded">(排除)</string>
     <string name="income_uppercase">收入</string>
