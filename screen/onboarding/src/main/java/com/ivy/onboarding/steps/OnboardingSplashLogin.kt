@@ -1,5 +1,6 @@
 package com.ivy.onboarding.steps
 
+import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateFloat
@@ -41,10 +42,11 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.base.legacy.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.utils.thenIf
 import com.ivy.legacy.Constants
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.IvyWalletPreview
@@ -53,13 +55,13 @@ import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.lerp
 import com.ivy.legacy.utils.openUrl
-import com.ivy.legacy.utils.springBounceSlow
-import com.ivy.design.utils.thenIf
 import com.ivy.legacy.utils.rememberInteractionSource
+import com.ivy.legacy.utils.springBounceSlow
 import com.ivy.legacy.utils.toDensityDp
 import com.ivy.legacy.utils.toDensityPx
 import com.ivy.onboarding.OnboardingState
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
@@ -238,7 +240,7 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
 
 private fun Modifier.animateXCenterToLeft(
     ivyContext: IvyWalletCtx,
-    percentTransition: Float
+    percentTransition: Float,
 ): Modifier {
     return this.layout { measurable, constraints ->
         val placeable = measurable.measure(constraints)
@@ -258,7 +260,7 @@ private fun Modifier.animateXCenterToLeft(
 @Composable
 private fun LoginSection(
     percentTransition: Float,
-    onSkip: () -> Unit
+    onSkip: () -> Unit,
 ) {
     if (percentTransition > 0.01f) {
         Column(
@@ -292,6 +294,7 @@ private fun LoginSection(
     }
 }
 
+@SuppressLint("ComposeMultipleContentEmitters", "ComposeContentEmitterReturningValues")
 @Composable
 private fun LocalAccountExplanation() {
     Text(
@@ -391,7 +394,7 @@ private fun LoginButton(
     textColor: Color,
     backgroundGradient: Gradient,
     hasShadow: Boolean,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -429,13 +432,22 @@ private fun LoginButton(
     }
 }
 
-@Preview
+@IvyPreviews
 @Composable
-private fun Preview() {
-    IvyWalletPreview {
+private fun OnboardingSplashLoginPreview(theme: Theme = Theme.LIGHT) {
+    IvyWalletPreview(theme) {
         OnboardingSplashLogin(
             onboardingState = OnboardingState.SPLASH,
             onSkip = {}
         )
     }
+}
+
+@Composable
+fun OnboardingSplashLoginUiTest(isDark: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    OnboardingSplashLoginPreview(theme)
 }

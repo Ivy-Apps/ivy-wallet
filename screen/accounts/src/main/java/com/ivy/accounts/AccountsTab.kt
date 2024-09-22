@@ -27,7 +27,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ivy.base.legacy.Theme
@@ -49,6 +48,7 @@ import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.GreenLight
@@ -334,7 +334,7 @@ private fun AccountHeader(
     }
 }
 
-@Preview
+@IvyPreviews
 @Composable
 private fun PreviewAccountsTabCompactModeDisabled(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme = theme) {
@@ -421,7 +421,7 @@ private fun PreviewAccountsTabCompactModeDisabled(theme: Theme = Theme.LIGHT) {
     }
 }
 
-@Preview
+@IvyPreviews
 @Composable
 private fun PreviewAccountsTabCompactModeEnabled(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme = theme) {
@@ -510,7 +510,7 @@ private fun PreviewAccountsTabCompactModeEnabled(theme: Theme = Theme.LIGHT) {
 
 /** For screen shot testing **/
 @Composable
-fun AccountsTabNonCompactUITest(dark: Boolean) {
+fun AccountsTabUITest(dark: Boolean) {
     val theme = when (dark) {
         true -> Theme.DARK
         false -> Theme.LIGHT
@@ -518,9 +518,8 @@ fun AccountsTabNonCompactUITest(dark: Boolean) {
     PreviewAccountsTabCompactModeDisabled(theme)
 }
 
-/** For screen shot testing **/
 @Composable
-fun AccountsTabCompactUITest(dark: Boolean) {
+fun AccountsTabUICompactModeTest(dark: Boolean) {
     val theme = when (dark) {
         true -> Theme.DARK
         false -> Theme.LIGHT

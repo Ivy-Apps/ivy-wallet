@@ -6,16 +6,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.base.legacy.Theme
+import com.ivy.data.backup.ImportResult
 import com.ivy.importdata.csvimport.flow.ImportFrom
 import com.ivy.importdata.csvimport.flow.ImportProcessing
 import com.ivy.importdata.csvimport.flow.ImportResultUI
 import com.ivy.importdata.csvimport.flow.instructions.ImportInstructions
+import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.domain.deprecated.logic.csv.model.ImportType
 import com.ivy.navigation.ImportScreen
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
-import com.ivy.data.backup.ImportResult
+import com.ivy.ui.annotation.IvyPreviews
 
 @OptIn(ExperimentalStdlibApi::class)
 @ExperimentalFoundationApi
@@ -111,10 +113,10 @@ private fun BoxWithConstraintsScope.UI(
 }
 
 @ExperimentalFoundationApi
-@Preview
+@IvyPreviews
 @Composable
-private fun Preview() {
-    com.ivy.legacy.IvyWalletPreview {
+private fun ImportScreenPreview(theme: Theme = Theme.LIGHT) {
+    IvyWalletPreview(theme) {
         UI(
             screen = ImportScreen(launchedFromOnboarding = true),
             importStep = ImportStep.IMPORT_FROM,
@@ -123,4 +125,15 @@ private fun Preview() {
             importResult = null
         )
     }
+}
+
+/** For screenshot testing */
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun ImportScreenUiTest(isDark: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    ImportScreenPreview(theme)
 }

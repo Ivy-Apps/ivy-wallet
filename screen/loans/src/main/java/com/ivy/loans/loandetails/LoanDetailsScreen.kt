@@ -30,7 +30,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.legacy.Theme
@@ -64,6 +63,7 @@ import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.TransactionsScreen
 import com.ivy.navigation.navigation
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.ui.time.TimeFormatter
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.ui.theme.Gradient
@@ -102,10 +102,11 @@ fun BoxWithConstraintsScope.LoanDetailsScreen(screen: LoanDetailsScreen) {
     )
 }
 
+@Suppress("LongMethod")
 @Composable
 private fun BoxWithConstraintsScope.UI(
     state: LoanDetailsScreenState,
-    onEventHandler: (LoanDetailsScreenEvent) -> Unit = {}
+    onEventHandler: (LoanDetailsScreenEvent) -> Unit = {},
 ) {
     val itemColor = state.loan?.color?.toComposeColor() ?: Gray
 
@@ -202,17 +203,24 @@ private fun BoxWithConstraintsScope.UI(
     }
 
     LoanModal(
-        modal = state.loanModalData, onCreateLoan = {
-        // do nothing
-    }, onEditLoan = { loan, createLoanTransaction ->
-        onEventHandler.invoke(LoanModalEvent.OnEditLoanModal(loan, createLoanTransaction))
-    }, dismiss = {
-        onEventHandler.invoke(LoanModalEvent.OnDismissLoanModal)
-    }, onCreateAccount = { createAccountData ->
-        onEventHandler.invoke(LoanDetailsScreenEvent.OnCreateAccount(createAccountData))
-    }, accounts = state.accounts, onPerformCalculations = {
-        onEventHandler.invoke(LoanModalEvent.PerformCalculation)
-    }, dateTime = state.dateTime,
+        modal = state.loanModalData,
+        onCreateLoan = {
+            // do nothing
+        },
+        onEditLoan = { loan, createLoanTransaction ->
+            onEventHandler.invoke(LoanModalEvent.OnEditLoanModal(loan, createLoanTransaction))
+        },
+        dismiss = {
+            onEventHandler.invoke(LoanModalEvent.OnDismissLoanModal)
+        },
+        onCreateAccount = { createAccountData ->
+            onEventHandler.invoke(LoanDetailsScreenEvent.OnCreateAccount(createAccountData))
+        },
+        accounts = state.accounts,
+        onPerformCalculations = {
+            onEventHandler.invoke(LoanModalEvent.PerformCalculation)
+        },
+        dateTime = state.dateTime,
         onSetDate = {
             onEventHandler.invoke(LoanModalEvent.OnChangeDate)
         },
@@ -222,17 +230,23 @@ private fun BoxWithConstraintsScope.UI(
     )
 
     LoanRecordModal(
-        modal = state.loanRecordModalData, onCreate = {
-        onEventHandler.invoke(LoanRecordModalEvent.OnCreateLoanRecord(it))
-    }, onEdit = {
-        onEventHandler.invoke(LoanRecordModalEvent.OnEditLoanRecord(it))
-    }, onDelete = { loanRecord ->
-        onEventHandler.invoke(LoanRecordModalEvent.OnDeleteLoanRecord(loanRecord))
-    }, accounts = state.accounts, dismiss = {
-        onEventHandler.invoke(LoanRecordModalEvent.OnDismissLoanRecord)
-    }, onCreateAccount = { createAccountData ->
-        onEventHandler.invoke(LoanDetailsScreenEvent.OnCreateAccount(createAccountData))
-    },
+        modal = state.loanRecordModalData,
+        onCreate = {
+            onEventHandler.invoke(LoanRecordModalEvent.OnCreateLoanRecord(it))
+        },
+        onEdit = {
+            onEventHandler.invoke(LoanRecordModalEvent.OnEditLoanRecord(it))
+        },
+        onDelete = { loanRecord ->
+            onEventHandler.invoke(LoanRecordModalEvent.OnDeleteLoanRecord(loanRecord))
+        },
+        accounts = state.accounts,
+        dismiss = {
+            onEventHandler.invoke(LoanRecordModalEvent.OnDismissLoanRecord)
+        },
+        onCreateAccount = { createAccountData ->
+            onEventHandler.invoke(LoanDetailsScreenEvent.OnCreateAccount(createAccountData))
+        },
         dateTime = state.dateTime,
         onSetDate = {
             onEventHandler.invoke(LoanRecordModalEvent.OnChangeDate)
@@ -272,7 +286,7 @@ private fun Header(
     onDeleteLoan: () -> Unit,
     loanAmountPaid: Double = 0.0,
     selectedLoanAccount: Account? = null,
-    onAddRecord: () -> Unit
+    onAddRecord: () -> Unit,
 ) {
     val contrastColor = findContrastTextColor(itemColor)
 
@@ -397,7 +411,7 @@ private fun LoanInfoCard(
     loanAmountPaid: Double = 0.0,
     selectedLoanAccount: Account? = null,
 
-    onAddRecord: () -> Unit
+    onAddRecord: () -> Unit,
 ) {
     val backgroundColor = if (isDarkColor(loan.color)) {
         MediumBlack.copy(alpha = 0.9f)
@@ -619,7 +633,7 @@ private fun LoanInfoCard(
 fun LazyListScope.loanRecords(
     loan: Loan,
     displayLoanRecords: List<DisplayLoanRecord> = emptyList(),
-    onClick: (DisplayLoanRecord) -> Unit
+    onClick: (DisplayLoanRecord) -> Unit,
 ) {
     items(items = displayLoanRecords) { displayLoanRecord ->
         LoanRecordItem(
@@ -643,7 +657,7 @@ private fun LoanRecordItem(
     baseCurrency: String,
     loanBaseCurrency: String = "",
     account: Account? = null,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     val nav = navigation()
     Column(
@@ -889,7 +903,8 @@ private fun NoLoanRecordsEmptyState() {
     }
 }
 
-@Preview
+@Suppress("UnusedPrivateMember")
+@IvyPreviews
 @Composable
 private fun Preview_Empty() {
     IvyWalletPreview {
@@ -923,7 +938,7 @@ private fun Preview_Empty() {
 /** For Preview purpose **/
 private val testDateTime = LocalDateTime.of(2023, 4, 27, 0, 35)
 
-@Preview
+@IvyPreviews
 @Composable
 private fun Preview_Records(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme) {

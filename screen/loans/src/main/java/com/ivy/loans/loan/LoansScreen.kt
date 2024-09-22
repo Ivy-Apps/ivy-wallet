@@ -46,6 +46,7 @@ import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.LoansScreen
 import com.ivy.navigation.navigation
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.ui.rememberScrollPositionListState
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gray
@@ -424,7 +425,7 @@ private fun NoLoansEmptyState(
 /** For Preview purpose **/
 private val testDateTime = LocalDateTime.of(2023, 4, 20, 0, 35)
 
-@Preview
+@IvyPreviews
 @Composable
 private fun Preview(theme: Theme = Theme.LIGHT) {
     val state = LoanScreenState(

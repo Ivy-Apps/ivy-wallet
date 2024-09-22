@@ -28,7 +28,6 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.legacy.Theme
 import com.ivy.base.model.TransactionType
@@ -51,10 +50,10 @@ import com.ivy.legacy.ui.component.tags.ShowTagModal
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.EditTransactionScreen
-import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.domain.data.CustomExchangeRateState
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
@@ -658,10 +657,10 @@ private val testDateTime = LocalDateTime.of(2023, 4, 27, 0, 35)
     .toInstant(ZoneOffset.UTC)
 
 @ExperimentalFoundationApi
-@Preview
+@IvyPreviews
 @Composable
-private fun BoxWithConstraintsScope.Preview(isDark: Boolean = false) {
-    IvyPreview(isDark) {
+private fun EditTransactionScreenPreview(theme: Theme = Theme.LIGHT) {
+    IvyWalletPreview(theme) {
         UI(
             screen = EditTransactionScreen(null, TransactionType.EXPENSE),
             initialTitle = "",
@@ -713,7 +712,5 @@ fun EditTransactionScreenUiTest(isDark: Boolean) {
         true -> Theme.DARK
         false -> Theme.LIGHT
     }
-    IvyWalletPreview(theme) {
-        Preview(isDark)
-    }
+    EditTransactionScreenPreview(theme = theme)
 }

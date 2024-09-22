@@ -13,7 +13,9 @@ import com.ivy.disclaimer.composables.AcceptTermsText
 import com.ivy.disclaimer.composables.AgreeButton
 import com.ivy.disclaimer.composables.AgreementCheckBox
 import com.ivy.disclaimer.composables.DisclaimerTopAppBar
+import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.screenScopedViewModel
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.ui.component.OpenSourceCard
 
 @Composable
@@ -80,4 +82,24 @@ private fun Content(
             Spacer(modifier = Modifier.height(48.dp))
         }
     }
+}
+
+@IvyPreviews
+@Composable
+private fun PreviewDisclaimerScreen(isDark: Boolean = false) {
+    IvyPreview(isDark) {
+        DisclaimerScreenUi(
+            viewState = DisclaimerViewState(
+                agreeButtonEnabled = true,
+                checkboxes = DisclaimerViewModel.LegalCheckboxes
+            ),
+            onEvent = {}
+        )
+    }
+}
+
+/** For screenshot testing */
+@Composable
+fun DisclaimerScreenUiTest(isDark: Boolean) {
+    PreviewDisclaimerScreen(isDark)
 }

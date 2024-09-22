@@ -25,8 +25,8 @@ dependencies {
     implementation(libs.ksp.plugin)
     implementation(libs.cashapp.molecule.plugin)
     implementation(libs.room.plugin)
-    implementation(libs.paparazzi.plugin)
     implementation(libs.module.graph.plugin)
+    implementation(libs.compose.screenshot.plugin)
 
     // Make version catalog available in precompiled scripts
     // https://github.com/gradle/gradle/issues/15383#issuecomment-1567461389

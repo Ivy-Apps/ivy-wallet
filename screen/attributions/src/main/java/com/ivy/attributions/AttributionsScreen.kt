@@ -25,13 +25,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -156,7 +156,7 @@ private fun AttributionsSectionDivider(
     )
 }
 
-@Preview
+@IvyPreviews
 @Composable
 private fun AttributionsUIPreview(isDark: Boolean = false) {
     val attributionItems = persistentListOf<AttributionItem>(

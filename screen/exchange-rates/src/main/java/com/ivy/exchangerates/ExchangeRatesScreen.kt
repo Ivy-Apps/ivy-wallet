@@ -32,6 +32,7 @@ import com.ivy.exchangerates.modal.AddRateModal
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.ui.SearchInput
 import com.ivy.legacy.utils.selectEndTextFieldValue
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.navigation.navigation
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import kotlinx.collections.immutable.persistentListOf
@@ -186,7 +187,7 @@ private fun SearchField(
     )
 }
 
-@Preview
+@IvyPreviews
 @Composable
 private fun Preview(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme) {

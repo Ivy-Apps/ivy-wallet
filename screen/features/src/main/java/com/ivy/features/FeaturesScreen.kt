@@ -28,14 +28,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.navigation.IvyPreview
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
+import com.ivy.ui.annotation.IvyPreviews
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun FeaturesScreenImpl(
-    viewModel: FeaturesViewModel = screenScopedViewModel()
+    viewModel: FeaturesViewModel = screenScopedViewModel(),
 ) {
     FeaturesUi(
         uiState = viewModel.uiState(),
@@ -158,4 +160,44 @@ private fun FeatureRow(
             Switch(checked = feature.enabled, onCheckedChange = { onToggleClick() })
         }
     }
+}
+
+@IvyPreviews
+@Composable
+private fun FeatureScreenPreview(isDark: Boolean = false) {
+    IvyPreview(isDark) {
+        FeaturesUi(
+            uiState = FeaturesUiState(
+                features = persistentListOf(
+                    FeatureUi(
+                        name = "Feature A",
+                        enabled = true,
+                        description = "Connected to process 13436 on device 'Pixel_7a_API_34 [emulator-5554]'"
+                    ),
+                    FeatureUi(
+                        name = "This is a very very long text feature name",
+                        enabled = false,
+                        description = "Connected to process 13436 on device 'Pixel_7a_API_34 [emulator-5554]'"
+                    ),
+                    FeatureUi(
+                        name = "Feature C",
+                        enabled = false,
+                        description = "Connected to process 13436 on device 'Pixel_7a_API_34 [emulator-5554]'"
+                    ),
+                    FeatureUi(
+                        name = "Feature D",
+                        enabled = true,
+                        description = "Connected to process 13436 on device 'Pixel_7a_API_34 [emulator-5554]'"
+                    ),
+                )
+            ),
+            onEvent = {},
+        )
+    }
+}
+
+/** For screenshot testing */
+@Composable
+fun FeatureScreenUiTest(isDark: Boolean) {
+    FeatureScreenPreview(isDark)
 }

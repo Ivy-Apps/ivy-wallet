@@ -22,19 +22,20 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.base.legacy.Theme
 import com.ivy.base.model.TransactionType
 import com.ivy.data.model.Category
 import com.ivy.data.model.IntervalType
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.datamodel.Account
+import com.ivy.legacy.ui.component.edit.core.Description
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
+import com.ivy.ui.annotation.IvyPreviews
 import com.ivy.wallet.ui.edit.core.Category
-import com.ivy.legacy.ui.component.edit.core.Description
 import com.ivy.wallet.ui.edit.core.EditBottomSheet
 import com.ivy.wallet.ui.edit.core.Title
 import com.ivy.wallet.ui.edit.core.Toolbar
@@ -422,10 +423,10 @@ private fun shouldFocusRecurring(
 private fun shouldFocusAmount(amount: Double) = amount == 0.0
 
 @ExperimentalFoundationApi
-@Preview
+@IvyPreviews
 @Composable
-private fun Preview() {
-    IvyWalletPreview {
+private fun EditPlannedScreenPreview(theme: Theme = Theme.LIGHT) {
+    IvyWalletPreview(theme) {
         UI(
             screen = EditPlannedScreen(null, TransactionType.EXPENSE),
             EditPlannedScreenState(
@@ -453,4 +454,15 @@ private fun Preview() {
             )
         ) {}
     }
+}
+
+/** For screenshot testing */
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun EditPlannedScreenUiTest(isDark: Boolean) {
+    val theme = when (isDark) {
+        true -> Theme.DARK
+        false -> Theme.LIGHT
+    }
+    EditPlannedScreenPreview(theme)
 }
