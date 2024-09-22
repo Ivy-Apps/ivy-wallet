@@ -18,7 +18,9 @@ data class ReportFilter(
     val maxAmount: Double?,
     val includeKeywords: List<String>,
     val excludeKeywords: List<String>,
-    val selectedTags: List<TagId>
+    val includedTags: List<TagId>,
+    val excludedTags: List<TagId>,
+
 ) {
     companion object {
         fun emptyFilter(
@@ -33,7 +35,8 @@ data class ReportFilter(
             excludeKeywords = emptyList(),
             minAmount = null,
             maxAmount = null,
-            selectedTags = emptyList()
+            includedTags = emptyList(),
+            excludedTags = emptyList()
         )
     }
 

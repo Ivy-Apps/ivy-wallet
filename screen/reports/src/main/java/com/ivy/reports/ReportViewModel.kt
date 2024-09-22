@@ -111,9 +111,9 @@ class ReportViewModel @Inject constructor(
     private var overdueExpenses by mutableDoubleStateOf(0.0)
     private var history by mutableStateOf<ImmutableList<TransactionHistoryItem>>(persistentListOf())
     private var upcomingTransactions by
-        mutableStateOf<ImmutableList<LegacyTransaction>>(persistentListOf())
+    mutableStateOf<ImmutableList<LegacyTransaction>>(persistentListOf())
     private var overdueTransactions by
-        mutableStateOf<ImmutableList<LegacyTransaction>>(persistentListOf())
+    mutableStateOf<ImmutableList<LegacyTransaction>>(persistentListOf())
     private var accounts by mutableStateOf<ImmutableList<Account>>(persistentListOf())
     private var upcomingExpanded by mutableStateOf(false)
     private var overdueExpanded by mutableStateOf(false)
@@ -375,8 +375,8 @@ class ReportViewModel @Inject constructor(
         val filterRange =
             filter.period?.toRange(ivyContext.startDayOfMonth, timeConverter, timeProvider)
 
-        val transactions = if (filter.selectedTags.isNotEmpty()) {
-            tagRepository.findByAllAssociatedIdForTagId(filter.selectedTags)
+        val transactions = if (filter.includedTags.isNotEmpty()) {
+            tagRepository.findByAllAssociatedIdForTagId(filter.includedTags)
                 .asSequence()
                 .flatMap { it.value }
                 .map { TransactionId(it.associatedId.value) }
@@ -389,7 +389,24 @@ class ReportViewModel @Inject constructor(
             transactionRepository.findAll()
         }
 
+        val exacludeableByTagTransactionsIds = if (filter.excludedTags.isNotEmpty()) {
+            tagRepository.findByAllAssociatedIdForTagId(filter.excludedTags)
+                .asSequence()
+                .flatMap { it.value }
+                .map { TransactionId(it.associatedId.value) }
+                .distinct()
+                .toList()
+                .let {
+                    transactionRepository.findByIds(it)
+                }.map {
+                    it.id
+                }
+        } else {
+            emptyList()
+        }
+
         return transactions
+            .filter { !exacludeableByTagTransactionsIds.contains(it.id) }
             .filter {
                 with(transactionMapper) {
                     filter.trnTypes.contains(it.getTransactionType())
