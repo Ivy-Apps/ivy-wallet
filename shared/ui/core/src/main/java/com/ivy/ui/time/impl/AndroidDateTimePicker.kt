@@ -3,10 +3,13 @@ package com.ivy.ui.time.impl
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimePicker
+import androidx.compose.material3.TimePickerDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
@@ -19,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ivy.base.time.TimeConverter
 import com.ivy.base.time.TimeProvider
+import com.ivy.design.system.IvyMaterial3Theme
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime
@@ -33,12 +37,17 @@ class AndroidDateTimePicker @Inject constructor(
 ) : DateTimePicker {
     private var datePickerViewState by mutableStateOf<DatePickerViewState?>(null)
     private var timePickerViewState by mutableStateOf<TimePickerViewState?>(null)
+    private var themeIsDark by  mutableStateOf(false)
+    private var themeIsTrueBlack by  mutableStateOf(false)
 
     @Composable
-    override fun Content() {
+    override fun Content(isDark: Boolean, isTrueBlack: Boolean) {
         datePickerViewState?.let { DatePicker(it) }
         timePickerViewState?.let { TimePicker(it) }
+        themeIsDark = isDark
+        themeIsTrueBlack = isTrueBlack
     }
+
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -47,25 +56,37 @@ class AndroidDateTimePicker @Inject constructor(
         modifier: Modifier = Modifier
     ) {
         val pickerState = rememberDatePickerState(
-            initialSelectedDateMillis = viewState.initialDate?.toEpochMilli(),
-        )
-        DatePickerDialog(
-            modifier = modifier,
-            onDismissRequest = { datePickerViewState = null },
-            confirmButton = {
-                ConfirmButton(
-                    onClick = {
-                        datePickerViewState = null
-                        pickerState.selectedDateMillis
-                            ?.let(Instant::ofEpochMilli)
-                            ?.let {
-                                with(timeConverter) { it.toLocalDate() }
-                            }?.let(viewState.onDatePicked)
-                    }
+        initialSelectedDateMillis = viewState.initialDate?.toEpochMilli(),
+    )
+
+        IvyMaterial3Theme(dark = themeIsDark,isTrueBlack = themeIsTrueBlack) {
+            DatePickerDialog(
+                modifier = modifier,
+                onDismissRequest = { datePickerViewState = null },
+                confirmButton = {
+                    ConfirmButton(
+                        onClick = {
+                            datePickerViewState = null
+                            pickerState.selectedDateMillis
+                                ?.let(Instant::ofEpochMilli)
+                                ?.let {
+                                    with(timeConverter) { it.toLocalDate() }
+                                }?.let(viewState.onDatePicked)
+                        }
+                    )
+                },
+                colors = DatePickerDefaults.colors(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
                 )
+            ) {
+                DatePicker(state = pickerState,colors = DatePickerDefaults.colors(
+                    titleContentColor = MaterialTheme.colorScheme.onBackground, // tittle color
+                    selectedDayContainerColor = MaterialTheme.colorScheme.primary, // selected date
+                    todayContentColor = MaterialTheme.colorScheme.onBackground, // today date
+                    todayDateBorderColor = MaterialTheme.colorScheme.onBackground, // today border color
+                    dayContentColor = MaterialTheme.colorScheme.onBackground, //changes color of all the dates
+                ))
             }
-        ) {
-            DatePicker(state = pickerState)
         }
     }
 
@@ -80,24 +101,33 @@ class AndroidDateTimePicker @Inject constructor(
             initialHour = time.hour,
             initialMinute = time.minute,
         )
-        DatePickerDialog(
-            modifier = modifier,
-            onDismissRequest = { timePickerViewState = null },
-            confirmButton = {
-                ConfirmButton(
-                    onClick = {
-                        timePickerViewState = null
-                        viewState.onTimePicked(
-                            LocalTime.of(pickerState.hour, pickerState.minute)
-                        )
-                    }
+        IvyMaterial3Theme(dark = themeIsDark,isTrueBlack = themeIsTrueBlack) {
+            DatePickerDialog(
+                modifier = modifier,
+                onDismissRequest = { timePickerViewState = null },
+                confirmButton = {
+                    ConfirmButton(
+                        onClick = {
+                            timePickerViewState = null
+                            viewState.onTimePicked(
+                                LocalTime.of(pickerState.hour, pickerState.minute)
+                            )
+                        }
+                    )
+                },
+                colors = DatePickerDefaults.colors(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                )
+            ) {
+                TimePicker(
+                    modifier = Modifier.padding(16.dp),
+                    state = pickerState,
+                    colors = TimePickerDefaults.colors(
+                        selectorColor = MaterialTheme.colorScheme.primary,
+                        timeSelectorSelectedContainerColor = MaterialTheme.colorScheme.primary
+                    )
                 )
             }
-        ) {
-            TimePicker(
-                modifier = Modifier.padding(16.dp),
-                state = pickerState
-            )
         }
     }
 
