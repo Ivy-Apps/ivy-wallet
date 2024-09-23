@@ -47,9 +47,10 @@ object UI {
 fun IvyTheme(
     theme: Theme,
     design: IvyDesign,
+    isDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colors = design.colors(theme, isSystemInDarkTheme())
+    val colors = design.colors(theme, isDarkTheme)
     val typography = design.typography()
     val shapes = design.shapes()
 

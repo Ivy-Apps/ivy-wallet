@@ -31,6 +31,7 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.ivy.IvyNavGraph
+import com.ivy.base.legacy.Theme
 import com.ivy.base.time.TimeConverter
 import com.ivy.base.time.TimeProvider
 import com.ivy.design.api.IvyUI
@@ -157,7 +158,10 @@ class RootActivity : AppCompatActivity(), RootScreen {
                 }
             }
 
-            dateTimePicker.Content()
+            dateTimePicker.Content(
+                isDark = appDesign(ivyContext).context().theme != Theme.LIGHT && isSystemInDarkTheme,
+                isTrueBlack = appDesign(ivyContext).context().theme == Theme.AMOLED_DARK
+            )
         }
     }
 

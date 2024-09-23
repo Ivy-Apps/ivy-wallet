@@ -9,7 +9,7 @@ import java.time.LocalTime
 @Stable
 interface DateTimePicker {
     @Composable
-    fun Content()
+    fun Content(isDark: Boolean, isTrueBlack: Boolean)
 
     fun pickDate(
         initialDate: Instant?,

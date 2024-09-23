@@ -1,5 +1,6 @@
 package com.ivy.design.system
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -7,8 +8,8 @@ import com.ivy.design.system.colors.IvyColors
 
 @Composable
 fun IvyMaterial3Theme(
-    dark: Boolean,
     isTrueBlack: Boolean,
+    dark: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
