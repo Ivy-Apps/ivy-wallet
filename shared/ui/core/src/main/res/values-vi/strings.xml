@@ -449,7 +449,7 @@
     <string name="decrease_loan">Giảm</string>
     <string name="msg_select_account_to_transfer">Chọn tài khoản đích</string>
     <string name="msg_source_account_destination_account_same_for_transfer">Chọn một tài khoản đích khác để chuyển</string>
-    <string name="others_optional">Khác (tùy chọn)</string>
+    <string name="tags_optional">Tags (optional)</string>
     <string name="tags">Thẻ</string>
     <string name="search_tags">Tìm thẻ</string>
     <string name="exchange_rates">Các tỷ giá hối đoái</string>

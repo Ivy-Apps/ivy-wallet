@@ -453,7 +453,7 @@
     <string name="decrease_loan">減少</string>
     <string name="msg_select_account_to_transfer">選擇傳輸目的地</string>
     <string name="msg_source_account_destination_account_same_for_transfer">選擇不同的目標帳戶進行轉帳</string>
-    <string name="others_optional">其他 (可選)</string>
+    <string name="tags_optional">Tags (optional)</string>
     <string name="tags">標籤</string>
     <string name="search_tags">搜尋標籤</string>
     <string name="exchange_rates">匯率</string>

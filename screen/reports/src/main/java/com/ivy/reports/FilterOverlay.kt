@@ -132,10 +132,16 @@ fun BoxWithConstraintsScope.FilterOverlay(
     var maxAmountModalShown by remember { mutableStateOf(false) }
     var includeKeywordModalShown by remember { mutableStateOf(false) }
     var excludeKeywordModalShown by remember { mutableStateOf(false) }
-    var tagModalVisible by remember { mutableStateOf(false) }
-    val selectedTags by remember(localFilter) {
+    var includedTagModalVisible by remember { mutableStateOf(false) }
+    var excludedTagModalVisible by remember { mutableStateOf(false) }
+    val includedTags by remember(localFilter) {
         derivedStateOf {
-            localFilter?.selectedTags?.toImmutableList() ?: persistentListOf()
+            localFilter?.includedTags?.toImmutableList() ?: persistentListOf()
+        }
+    }
+    val excludedTags by remember(localFilter) {
+        derivedStateOf {
+            localFilter?.excludedTags?.toImmutableList() ?: persistentListOf()
         }
     }
 
@@ -272,10 +278,13 @@ fun BoxWithConstraintsScope.FilterOverlay(
 
             FilterDivider()
 
-            OthersFilter(
+            TagsFilter(
                 filter = localFilter,
-                onTagButtonClick = {
-                    tagModalVisible = true
+                onIncludesTagButtonClick = {
+                    includedTagModalVisible = true
+                },
+                onExcludesTagButtonClick = {
+                    excludedTagModalVisible = true
                 }
             )
 
@@ -396,15 +405,15 @@ fun BoxWithConstraintsScope.FilterOverlay(
     }
 
     ShowTagModal(
-        visible = tagModalVisible,
+        visible = includedTagModalVisible,
         selectOnlyMode = true,
         onDismiss = {
-            tagModalVisible = false
+            includedTagModalVisible = false
             // Reset TagList, avoids showing incorrect tag list if user had searched for a tag previously
             onTagSearch("")
         },
         allTagList = allTags,
-        selectedTagList = selectedTags,
+        selectedTagList = includedTags,
         onTagAdd = {
             // Do Nothing
         },
@@ -416,12 +425,46 @@ fun BoxWithConstraintsScope.FilterOverlay(
         },
         onTagSelected = {
             localFilter = nonNullFilter(localFilter).copy(
-                selectedTags = nonNullFilter(localFilter).selectedTags.plus(it.id)
+                includedTags = nonNullFilter(localFilter).includedTags.plus(it.id)
             )
         },
         onTagDeSelected = {
             localFilter = nonNullFilter(localFilter).copy(
-                selectedTags = nonNullFilter(localFilter).selectedTags.minus(it.id)
+                includedTags = nonNullFilter(localFilter).includedTags.minus(it.id)
+            )
+        },
+        onTagSearch = {
+            onTagSearch(it)
+        }
+    )
+
+    ShowTagModal(
+        visible = excludedTagModalVisible,
+        selectOnlyMode = true,
+        onDismiss = {
+            excludedTagModalVisible = false
+            // Reset TagList, avoids showing incorrect tag list if user had searched for a tag previously
+            onTagSearch("")
+        },
+        allTagList = allTags,
+        selectedTagList = excludedTags,
+        onTagAdd = {
+            // Do Nothing
+        },
+        onTagEdit = { oldTag, newTag ->
+            // Do Nothing
+        },
+        onTagDelete = {
+            // Do Nothing
+        },
+        onTagSelected = {
+            localFilter = nonNullFilter(localFilter).copy(
+                excludedTags = nonNullFilter(localFilter).excludedTags.plus(it.id)
+            )
+        },
+        onTagDeSelected = {
+            localFilter = nonNullFilter(localFilter).copy(
+                excludedTags = nonNullFilter(localFilter).excludedTags.minus(it.id)
             )
         },
         onTagSearch = {
@@ -431,18 +474,45 @@ fun BoxWithConstraintsScope.FilterOverlay(
 }
 
 @Composable
-fun ColumnScope.OthersFilter(
+fun ColumnScope.TagsFilter(
     filter: ReportFilter?,
-    onTagButtonClick: () -> Unit,
+    onIncludesTagButtonClick: () -> Unit,
+    onExcludesTagButtonClick: () -> Unit,
+    @Suppress("UnusedParameter") modifier: Modifier = Modifier
 ) {
     FilterTitleText(
-        text = stringResource(R.string.others_optional),
+        text = stringResource(R.string.tags_optional),
         active = false
     )
 
+    Spacer(Modifier.height(12.dp))
+
+    Text(
+        modifier = Modifier.padding(start = 32.dp),
+        text = stringResource(R.string.includes_uppercase),
+        style = UI.typo.b2.style(
+            fontWeight = FontWeight.ExtraBold
+        )
+    )
+
     TagFilter(
-        selectedTags = filter?.selectedTags?.toImmutableList() ?: persistentListOf(),
-        onTagButtonClick = onTagButtonClick,
+        selectedTags = filter?.includedTags?.toImmutableList() ?: persistentListOf(),
+        onTagButtonClick = onIncludesTagButtonClick,
+    )
+
+    Spacer(Modifier.height(20.dp))
+
+    Text(
+        modifier = Modifier.padding(start = 32.dp),
+        text = stringResource(R.string.excludes_uppercase),
+        style = UI.typo.b2.style(
+            fontWeight = FontWeight.ExtraBold
+        )
+    )
+
+    TagFilter(
+        selectedTags = filter?.excludedTags?.toImmutableList() ?: persistentListOf(),
+        onTagButtonClick = onExcludesTagButtonClick,
     )
 }
 
@@ -452,14 +522,6 @@ fun ColumnScope.TagFilter(
     onTagButtonClick: () -> Unit,
     @Suppress("UnusedParameter") modifier: Modifier = Modifier
 ) {
-    Text(
-        modifier = Modifier.padding(start = 32.dp, top = 16.dp),
-        text = stringResource(R.string.tags),
-        style = UI.typo.b2.style(
-            fontWeight = FontWeight.ExtraBold
-        )
-    )
-
     Spacer(Modifier.height(12.dp))
 
     if (selectedTags.isEmpty()) {

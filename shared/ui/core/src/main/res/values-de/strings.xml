@@ -448,7 +448,7 @@
     <string name="decrease_loan">Verringern</string>
     <string name="msg_select_account_to_transfer">Wähle das Ziel für den Übertrag</string>
     <string name="msg_source_account_destination_account_same_for_transfer">Wählen ein anders Ziel-Konto für den Übertrag</string>
-    <string name="others_optional">Andere (optional)</string>
+    <string name="tags_optional">Tags (optional)</string>
     <string name="tags">Tags</string>
     <string name="search_tags">Tags durchsuchen</string>
     <string name="exchange_rates">Wechselkurse</string>
