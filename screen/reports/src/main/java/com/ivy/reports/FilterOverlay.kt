@@ -278,7 +278,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
 
             FilterDivider()
 
-            tagsFilter(
+            TagsFilter(
                 filter = localFilter,
                 onIncludesTagButtonClick = {
                     includedTagModalVisible = true
@@ -474,7 +474,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
 }
 
 @Composable
-fun ColumnScope.tagsFilter(
+fun ColumnScope.TagsFilter(
     filter: ReportFilter?,
     onIncludesTagButtonClick: () -> Unit,
     onExcludesTagButtonClick: () -> Unit,

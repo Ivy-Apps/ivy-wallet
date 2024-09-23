@@ -389,12 +389,12 @@ class ReportViewModel @Inject constructor(
             transactionRepository.findAll()
         }
 
-        val exacludeableByTagTransactionsIds = if (filter.excludedTags.isNotEmpty()) {
+        val excludeableByTagTransactionsIds = if (filter.excludedTags.isNotEmpty()) {
             tagRepository.findByAllAssociatedIdForTagId(filter.excludedTags)
                 .asSequence()
                 .flatMap { it.value }
-                .map { TransactionId(it.associatedId.value) }
                 .distinct()
+                .map { TransactionId(it.associatedId.value) }
                 .toList()
                 .let {
                     transactionRepository.findByIds(it)
@@ -406,7 +406,7 @@ class ReportViewModel @Inject constructor(
         }
 
         return transactions
-            .filter { !exacludeableByTagTransactionsIds.contains(it.id) }
+            .filter { !excludeableByTagTransactionsIds.contains(it.id) }
             .filter {
                 with(transactionMapper) {
                     filter.trnTypes.contains(it.getTransactionType())
