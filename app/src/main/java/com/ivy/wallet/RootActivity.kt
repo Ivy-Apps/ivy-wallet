@@ -112,7 +112,14 @@ class RootActivity : AppCompatActivity(), RootScreen {
         setContent {
             val viewModel: RootViewModel = viewModel()
             val isSystemInDarkTheme = isSystemInDarkTheme()
+            val isDarkThemeEnabled = when (appDesign(ivyContext).context().theme) {
+                Theme.LIGHT -> false
+                Theme.DARK -> true
+                Theme.AMOLED_DARK -> true
+                else -> isSystemInDarkTheme
+            }
 
+            val isTrueBlackEnabled = appDesign(ivyContext).context().theme == Theme.AMOLED_DARK
             LaunchedEffect(isSystemInDarkTheme) {
                 viewModel.start(isSystemInDarkTheme, intent)
             }
@@ -159,8 +166,8 @@ class RootActivity : AppCompatActivity(), RootScreen {
             }
 
             dateTimePicker.Content(
-                isDark = appDesign(ivyContext).context().theme != Theme.LIGHT && isSystemInDarkTheme,
-                isTrueBlack = appDesign(ivyContext).context().theme == Theme.AMOLED_DARK
+                isDark = isDarkThemeEnabled,
+                isTrueBlack = isTrueBlackEnabled
             )
         }
     }
