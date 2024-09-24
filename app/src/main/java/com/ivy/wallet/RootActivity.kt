@@ -34,7 +34,9 @@ import com.ivy.IvyNavGraph
 import com.ivy.base.legacy.Theme
 import com.ivy.base.time.TimeConverter
 import com.ivy.base.time.TimeProvider
+import com.ivy.design.api.IvyDesign
 import com.ivy.design.api.IvyUI
+import com.ivy.design.system.IvyMaterial3Theme
 import com.ivy.domain.RootScreen
 import com.ivy.home.customerjourney.CustomerJourneyCardsProvider
 import com.ivy.legacy.Constants
@@ -89,47 +91,22 @@ class RootActivity : AppCompatActivity(), RootScreen {
 
     private val viewModel: RootViewModel by viewModels()
 
-    @OptIn(
-        ExperimentalAnimationApi::class,
-        ExperimentalFoundationApi::class
-    )
+    @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-
-        setupActivityForResultLaunchers()
-
-        // Make the app drawing area fullscreen (draw behind status and nav bars)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-
-        setupDatePicker()
-        setupTimePicker()
-
-        AddTransactionWidget.updateBroadcast(this)
-        AddTransactionWidgetCompact.updateBroadcast(this)
-        WalletBalanceWidgetReceiver.updateBroadcast(this)
-
+        setupApp()
         setContent {
             val viewModel: RootViewModel = viewModel()
             val isSystemInDarkTheme = isSystemInDarkTheme()
-            val isDarkThemeEnabled = when (appDesign(ivyContext).context().theme) {
-                Theme.LIGHT -> false
-                Theme.DARK -> true
-                Theme.AMOLED_DARK -> true
-                else -> isSystemInDarkTheme
-            }
 
-            val isTrueBlackEnabled = appDesign(ivyContext).context().theme == Theme.AMOLED_DARK
             LaunchedEffect(isSystemInDarkTheme) {
                 viewModel.start(isSystemInDarkTheme, intent)
             }
 
             val appLocked by viewModel.appLocked.collectAsState()
             when (appLocked) {
-                null -> {
-                    // display nothing
+                null -> { // display nothing
                 }
-
                 true -> {
                     IvyUI(
                         design = appDesign(ivyContext),
@@ -165,11 +142,27 @@ class RootActivity : AppCompatActivity(), RootScreen {
                 }
             }
 
-            dateTimePicker.Content(
-                isDark = isDarkThemeEnabled,
-                isTrueBlack = isTrueBlackEnabled
-            )
+            IvyMaterial3Theme(
+                dark = isDarkThemeEnabled(
+                    ivyDesign = appDesign(ivyContext),
+                    systemDarkTheme = isSystemInDarkTheme
+                ),
+                isTrueBlack = appDesign(ivyContext).context().theme == Theme.AMOLED_DARK
+            ) {
+                dateTimePicker.Content()
+            }
         }
+    }
+
+    private fun setupApp() {
+        enableEdgeToEdge()
+        setupActivityForResultLaunchers()
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        setupDatePicker()
+        setupTimePicker()
+        AddTransactionWidget.updateBroadcast(this)
+        AddTransactionWidgetCompact.updateBroadcast(this)
+        WalletBalanceWidgetReceiver.updateBroadcast(this)
     }
 
     private companion object {
@@ -235,6 +228,15 @@ class RootActivity : AppCompatActivity(), RootScreen {
                     LocalTime.of(picker.hour, picker.minute).withSecond(0)
                 )
             }
+        }
+    }
+
+    private fun isDarkThemeEnabled(ivyDesign: IvyDesign, systemDarkTheme: Boolean): Boolean {
+        return when (ivyDesign.context().theme) {
+            Theme.LIGHT -> false
+            Theme.DARK -> true
+            Theme.AMOLED_DARK -> true
+            else -> systemDarkTheme
         }
     }
 
