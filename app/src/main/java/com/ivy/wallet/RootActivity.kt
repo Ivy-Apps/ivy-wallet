@@ -93,6 +93,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
 
     @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setupApp()
         setContent {
@@ -155,7 +156,6 @@ class RootActivity : AppCompatActivity(), RootScreen {
     }
 
     private fun setupApp() {
-        enableEdgeToEdge()
         setupActivityForResultLaunchers()
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setupDatePicker()
