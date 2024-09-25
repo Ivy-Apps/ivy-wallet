@@ -70,8 +70,7 @@ class AndroidDateTimePicker @Inject constructor(
         ) {
             DatePicker(
                 state = pickerState,
-                colors = DatePickerDefaults
-                    .colors(
+                colors = DatePickerDefaults.colors(
                     titleContentColor = MaterialTheme.colorScheme.onBackground,
                     selectedDayContainerColor = MaterialTheme.colorScheme.primary,
                     todayContentColor = MaterialTheme.colorScheme.onBackground,
