@@ -3,10 +3,13 @@ package com.ivy.ui.time.impl
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimePicker
+import androidx.compose.material3.TimePickerDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
@@ -53,19 +56,28 @@ class AndroidDateTimePicker @Inject constructor(
             modifier = modifier,
             onDismissRequest = { datePickerViewState = null },
             confirmButton = {
-                ConfirmButton(
-                    onClick = {
-                        datePickerViewState = null
-                        pickerState.selectedDateMillis
-                            ?.let(Instant::ofEpochMilli)
-                            ?.let {
-                                with(timeConverter) { it.toLocalDate() }
-                            }?.let(viewState.onDatePicked)
-                    }
-                )
-            }
+                ConfirmButton(onClick = {
+                    datePickerViewState = null
+                    pickerState.selectedDateMillis?.let(Instant::ofEpochMilli)
+                        ?.let {
+                            with(timeConverter) { it.toLocalDate() }
+                    }?.let(viewState.onDatePicked)
+                })
+            },
+            colors = DatePickerDefaults.colors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            )
         ) {
-            DatePicker(state = pickerState)
+            DatePicker(
+                state = pickerState,
+                colors = DatePickerDefaults.colors(
+                    titleContentColor = MaterialTheme.colorScheme.onBackground,
+                    selectedDayContainerColor = MaterialTheme.colorScheme.primary,
+                    todayContentColor = MaterialTheme.colorScheme.onBackground,
+                    todayDateBorderColor = MaterialTheme.colorScheme.onBackground,
+                    dayContentColor = MaterialTheme.colorScheme.onBackground
+                )
+            )
         }
     }
 
@@ -92,11 +104,18 @@ class AndroidDateTimePicker @Inject constructor(
                         )
                     }
                 )
-            }
+            },
+            colors = DatePickerDefaults.colors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            )
         ) {
             TimePicker(
                 modifier = Modifier.padding(16.dp),
-                state = pickerState
+                state = pickerState,
+                colors = TimePickerDefaults.colors(
+                    selectorColor = MaterialTheme.colorScheme.primary,
+                    timeSelectorSelectedContainerColor = MaterialTheme.colorScheme.primary
+                )
             )
         }
     }
