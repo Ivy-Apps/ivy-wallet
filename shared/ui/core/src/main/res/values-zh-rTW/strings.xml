@@ -101,10 +101,10 @@
     <string name="savings_goal">儲蓄目標</string>
     <string name="quick_access">快速存取</string>
     <string name="settings">設定</string>
-    <string name="light_mode">明亮模式</string>
-    <string name="dark_mode">深色模式</string>
-    <string name="amoled_mode">Amoled 純黑模式</string>
-    <string name="auto_mode">自動模式</string>
+    <string name="light_mode">亮色主題</string>
+    <string name="dark_mode">暗色主題</string>
+    <string name="amoled_mode">黑色主題</string>
+    <string name="auto_mode">系統主題</string>
     <string name="planned_payments">經常交易</string>
     <string name="share_ivy">分享 Ivy</string>
     <string name="reports">報表</string>
