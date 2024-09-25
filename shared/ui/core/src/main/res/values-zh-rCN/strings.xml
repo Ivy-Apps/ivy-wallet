@@ -450,7 +450,7 @@
     <string name="decrease_loan">减少</string>
     <string name="msg_select_account_to_transfer">选择转账目标账户</string>
     <string name="msg_source_account_destination_account_same_for_transfer">请选择不同的目标账户进行转账</string>
-    <string name="others_optional">其他（可选）</string>
+    <string name="tags_optional">Tags (optional)</string>
     <string name="tags">标签</string>
     <string name="search_tags">搜索标签</string>
     <string name="exchange_rates">汇率</string>
