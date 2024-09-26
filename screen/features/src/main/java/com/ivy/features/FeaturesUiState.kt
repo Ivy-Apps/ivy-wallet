@@ -3,16 +3,16 @@ package com.ivy.features
 import kotlinx.collections.immutable.ImmutableList
 
 data class FeaturesUiState(
-    val features: ImmutableList<Feature>,
+    val featureItemViewStates: ImmutableList<FeatureItemViewState>,
 )
 
-data class FeatureItem(
-    val key: String,
-    val name: String,
-    val enabled: Boolean,
-    val description: String?,
-) : Feature
+sealed interface FeatureItemViewState {
+    data class FeatureToggleViewState(
+        val key: String,
+        val name: String,
+        val enabled: Boolean,
+        val description: String?,
+    ) : FeatureItemViewState
 
-data class FeatureHeader(val name: String) : Feature
-
-interface Feature
+    data class FeatureHeaderViewState(val name: String) : FeatureItemViewState
+}

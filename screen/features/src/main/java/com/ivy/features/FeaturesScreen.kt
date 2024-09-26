@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Card
@@ -20,20 +20,18 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.ivy.design.l0_system.UI
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.ivy.design.l0_system.style
+import com.ivy.design.system.colors.IvyColors.Gray
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
-import com.ivy.wallet.ui.theme.Gray
-import com.ivy.wallet.ui.theme.components.IvySwitch
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -66,7 +64,7 @@ private fun FeaturesUi(
         content = { innerPadding ->
             Content(
                 modifier = Modifier.padding(innerPadding),
-                features = uiState.features,
+                featureItemViewStates = uiState.featureItemViewStates,
                 onToggleFeature = {
                     onEvent(FeaturesUiEvent.ToggleFeature(it))
                 }
@@ -107,7 +105,7 @@ private fun Title(
 
 @Composable
 private fun Content(
-    features: ImmutableList<Feature>,
+    featureItemViewStates: ImmutableList<FeatureItemViewState>,
     onToggleFeature: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -119,13 +117,13 @@ private fun Content(
         ),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        itemsIndexed(features) { index, item ->
+        items(featureItemViewStates) { item ->
             when (item) {
-                is FeatureHeader -> {
+                is FeatureItemViewState.FeatureHeaderViewState -> {
                     FeatureSectionDivider(text = item.name)
                 }
 
-                is FeatureItem -> {
+                is FeatureItemViewState.FeatureToggleViewState -> {
                     FeatureRow(
                         feature = item,
                         onToggleClick = { onToggleFeature(item.key) }
@@ -138,7 +136,7 @@ private fun Content(
 
 @Composable
 private fun FeatureRow(
-    feature: FeatureItem,
+    feature: FeatureItemViewState.FeatureToggleViewState,
     onToggleClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -165,7 +163,7 @@ private fun FeatureRow(
                 }
             }
             Spacer(modifier = Modifier.width(8.dp))
-            IvySwitch(enabled = feature.enabled, onEnabledChange = { onToggleClick() })
+            Switch(checked = feature.enabled, onCheckedChange = { onToggleClick() })
         }
     }
 }
@@ -176,12 +174,12 @@ private fun FeatureSectionDivider(
     color: Color = Gray
 ) {
     Column {
-        Spacer(Modifier.height(32.dp))
+        Spacer(Modifier.height(16.dp))
 
         Text(
-            modifier = Modifier.padding(start = 32.dp),
+            modifier = Modifier.padding(start = 16.dp),
             text = text,
-            style = UI.typo.b2.style(
+            style = MaterialTheme.typography.titleMedium.copy(
                 color = color,
                 fontWeight = FontWeight.Bold
             )
