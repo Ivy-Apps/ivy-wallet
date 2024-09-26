@@ -279,9 +279,9 @@
     <string name="sync_failed">同步失敗。點選同步</string>
     <string name="anonymous">匿名</string>
     <string name="export_to_csv">匯出為 CSV</string>
-    <string name="left_to_spend">剩下的花</string>
+    <string name="left_to_spend">剩餘費用</string>
     <string name="budget_exceeded_by">超出預算</string>
-    <string name="buffer_exceeded_by">緩衝區超出</string>
+    <string name="buffer_exceeded_by">低於目標</string>
     <string name="set_transaction_type">設定交易類型</string>
     <string name="transfer">傳輸</string>
     <string name="selected_text">已選擇</string>
