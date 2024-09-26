@@ -64,7 +64,7 @@ private fun FeaturesUi(
         content = { innerPadding ->
             Content(
                 modifier = Modifier.padding(innerPadding),
-                featureItemViewStates = uiState.featureItemViewStates,
+                items = uiState.featureItemViewStates,
                 onToggleFeature = {
                     onEvent(FeaturesUiEvent.ToggleFeature(it))
                 }
@@ -105,7 +105,7 @@ private fun Title(
 
 @Composable
 private fun Content(
-    featureItemViewStates: ImmutableList<FeatureItemViewState>,
+    items: ImmutableList<FeatureItemViewState>,
     onToggleFeature: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -117,7 +117,7 @@ private fun Content(
         ),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(featureItemViewStates) { item ->
+        items(items) { item ->
             when (item) {
                 is FeatureItemViewState.FeatureHeaderViewState -> {
                     FeatureSectionDivider(text = item.name)
