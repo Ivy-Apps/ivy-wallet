@@ -20,17 +20,20 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.ivy.design.l0_system.UI
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.design.l0_system.style
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.components.IvySwitch
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -104,8 +107,8 @@ private fun Title(
 
 @Composable
 private fun Content(
-    features: ImmutableList<FeatureUi>,
-    onToggleFeature: (Int) -> Unit,
+    features: ImmutableList<Feature>,
+    onToggleFeature: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -117,18 +120,25 @@ private fun Content(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         itemsIndexed(features) { index, item ->
-            FeatureRow(
-                feature = item,
-                onToggleClick = { onToggleFeature(index) }
-            )
+            when (item) {
+                is FeatureHeader -> {
+                    FeatureSectionDivider(text = item.name)
+                }
+
+                is FeatureItem -> {
+                    FeatureRow(
+                        feature = item,
+                        onToggleClick = { onToggleFeature(item.key) }
+                    )
+                }
+            }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun FeatureRow(
-    feature: FeatureUi,
+    feature: FeatureItem,
     onToggleClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -155,7 +165,26 @@ private fun FeatureRow(
                 }
             }
             Spacer(modifier = Modifier.width(8.dp))
-            Switch(checked = feature.enabled, onCheckedChange = { onToggleClick() })
+            IvySwitch(enabled = feature.enabled, onEnabledChange = { onToggleClick() })
         }
+    }
+}
+
+@Composable
+private fun FeatureSectionDivider(
+    text: String,
+    color: Color = Gray
+) {
+    Column {
+        Spacer(Modifier.height(32.dp))
+
+        Text(
+            modifier = Modifier.padding(start = 32.dp),
+            text = text,
+            style = UI.typo.b2.style(
+                color = color,
+                fontWeight = FontWeight.Bold
+            )
+        )
     }
 }

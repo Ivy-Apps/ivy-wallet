@@ -31,14 +31,26 @@ class FeaturesViewModel @Inject constructor(
     }
 
     @Composable
-    fun getFeatures(): ImmutableList<FeatureUi> {
-        val allFeatures = features.allFeatures.map {
-            FeatureUi(
-                name = it.name ?: it.key,
-                description = it.description,
-                enabled = it.asEnabledState()
-            )
+    fun getFeatures(): ImmutableList<Feature> {
+        val groups =
+            features.allFeatures.distinctBy { it.group }.map { it.group?.name ?: "" }.sorted()
+        val allFeatures: MutableList<Feature> = mutableListOf()
+        groups.forEach { group ->
+            allFeatures.add(FeatureHeader(name = group.toLowerCase().capitalize()))
+            val featuresByGroup: List<Feature> = features
+                .allFeatures
+                .filter { it.group?.name == group }
+                .map {
+                    FeatureItem(
+                        key = it.key,
+                        name = it.name ?: it.key,
+                        description = it.description,
+                        enabled = it.asEnabledState()
+                    )
+                }
+            allFeatures.addAll(featuresByGroup)
         }
+
         return allFeatures.toImmutableList()
     }
 
@@ -50,8 +62,8 @@ class FeaturesViewModel @Inject constructor(
 
     private fun toggleFeature(event: FeaturesUiEvent.ToggleFeature) {
         viewModelScope.launch {
-            val feature = features.allFeatures[event.index]
-            val enabled = feature.enabledFlow(context).first() ?: false
+            val feature = features.allFeatures.find { feature -> feature.key == event.key }
+            val enabled = feature!!.enabledFlow(context).first() ?: false
             feature.set(context, !enabled)
         }
     }
