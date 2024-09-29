@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.map
 @Immutable
 class BoolFeature(
     val key: String,
+    val group: FeatureGroup? = null,
     val name: String? = null,
     val description: String? = null,
     private val defaultValue: Boolean = false

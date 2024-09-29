@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Card
@@ -25,10 +25,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.design.system.colors.IvyColors.Gray
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import kotlinx.collections.immutable.ImmutableList
@@ -63,7 +64,7 @@ private fun FeaturesUi(
         content = { innerPadding ->
             Content(
                 modifier = Modifier.padding(innerPadding),
-                features = uiState.features,
+                items = uiState.featureItemViewStates,
                 onToggleFeature = {
                     onEvent(FeaturesUiEvent.ToggleFeature(it))
                 }
@@ -104,8 +105,8 @@ private fun Title(
 
 @Composable
 private fun Content(
-    features: ImmutableList<FeatureUi>,
-    onToggleFeature: (Int) -> Unit,
+    items: ImmutableList<FeatureItemViewState>,
+    onToggleFeature: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -116,19 +117,26 @@ private fun Content(
         ),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        itemsIndexed(features) { index, item ->
-            FeatureRow(
-                feature = item,
-                onToggleClick = { onToggleFeature(index) }
-            )
+        items(items) { item ->
+            when (item) {
+                is FeatureItemViewState.FeatureHeaderViewState -> {
+                    FeatureSectionDivider(text = item.name)
+                }
+
+                is FeatureItemViewState.FeatureToggleViewState -> {
+                    FeatureRow(
+                        feature = item,
+                        onToggleClick = { onToggleFeature(item.key) }
+                    )
+                }
+            }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun FeatureRow(
-    feature: FeatureUi,
+    feature: FeatureItemViewState.FeatureToggleViewState,
     onToggleClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -157,5 +165,24 @@ private fun FeatureRow(
             Spacer(modifier = Modifier.width(8.dp))
             Switch(checked = feature.enabled, onCheckedChange = { onToggleClick() })
         }
+    }
+}
+
+@Composable
+private fun FeatureSectionDivider(
+    text: String,
+    color: Color = Gray
+) {
+    Column {
+        Spacer(Modifier.height(16.dp))
+
+        Text(
+            modifier = Modifier.padding(start = 16.dp),
+            text = text,
+            style = MaterialTheme.typography.titleMedium.copy(
+                color = color,
+                fontWeight = FontWeight.Bold
+            )
+        )
     }
 }
