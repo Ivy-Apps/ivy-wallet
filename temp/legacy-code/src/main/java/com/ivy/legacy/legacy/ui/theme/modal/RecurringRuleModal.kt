@@ -47,7 +47,7 @@ import com.ivy.legacy.utils.hideKeyboard
 import com.ivy.legacy.utils.onScreenStart
 import com.ivy.design.utils.thenIf
 import com.ivy.legacy.utils.rememberInteractionSource
-import com.ivy.legacy.utils.timeNowUTC
+import com.ivy.legacy.utils.timeNowLocal
 import com.ivy.ui.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientIvy
@@ -81,7 +81,7 @@ fun BoxWithConstraintsScope.RecurringRuleModal(
     onRuleChanged: (LocalDateTime, oneTime: Boolean, Int?, IntervalType?) -> Unit,
 ) {
     var startDate by remember(modal) {
-        mutableStateOf(modal?.initialStartDate ?: timeNowUTC())
+        mutableStateOf(modal?.initialStartDate ?: timeNowLocal())
     }
     var oneTime by remember(modal) {
         mutableStateOf(modal?.initialOneTime ?: false)
