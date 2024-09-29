@@ -2,7 +2,7 @@
 <resources>
     <string name="accounts">帳戶</string>
     <string name="total">總計: %1$s %2$s</string>
-    <string name="month_income">本月營收</string>
+    <string name="month_income">本月收入</string>
     <string name="month_expenses">本月支出</string>
     <string name="excluded">(排除)</string>
     <string name="income_uppercase">收入</string>
@@ -101,10 +101,10 @@
     <string name="savings_goal">儲蓄目標</string>
     <string name="quick_access">快速存取</string>
     <string name="settings">設定</string>
-    <string name="light_mode">明亮模式</string>
-    <string name="dark_mode">深色模式</string>
-    <string name="amoled_mode">Amoled 純黑模式</string>
-    <string name="auto_mode">自動模式</string>
+    <string name="light_mode">亮色主題</string>
+    <string name="dark_mode">暗色主題</string>
+    <string name="amoled_mode">黑色主題</string>
+    <string name="auto_mode">系統主題</string>
     <string name="planned_payments">經常交易</string>
     <string name="share_ivy">分享 Ivy</string>
     <string name="reports">報表</string>
@@ -189,9 +189,9 @@
     <string name="planned_for_uppercase">"計畫用於 "</string>
     <string name="null_text">空值</string>
     <string name="starts_date">"開始 %1$s"</string>
-    <string name="add_payment">新增付款</string>
-    <string name="one_time_payments">一次性付款</string>
-    <string name="recurring_payments">定期付款</string>
+    <string name="add_payment">新增交易</string>
+    <string name="one_time_payments">一次性交易</string>
+    <string name="recurring_payments">定期交易</string>
     <string name="no_planned_payments">沒有經常交易</string>
     <string name="no_planned_payments_description">您沒有任何經常交易。\n點擊底部的\'⚡\'按鈕即可新增。</string>
     <string name="planned_payments_inline">經常交易</string>
@@ -279,9 +279,9 @@
     <string name="sync_failed">同步失敗。點選同步</string>
     <string name="anonymous">匿名</string>
     <string name="export_to_csv">匯出為 CSV</string>
-    <string name="left_to_spend">剩下的花</string>
+    <string name="left_to_spend">剩餘費用</string>
     <string name="budget_exceeded_by">超出預算</string>
-    <string name="buffer_exceeded_by">緩衝區超出</string>
+    <string name="buffer_exceeded_by">低於目標</string>
     <string name="set_transaction_type">設定交易類型</string>
     <string name="transfer">傳輸</string>
     <string name="selected_text">已選擇</string>
