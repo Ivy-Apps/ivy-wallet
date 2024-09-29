@@ -189,9 +189,9 @@
     <string name="planned_for_uppercase">"計畫用於 "</string>
     <string name="null_text">空值</string>
     <string name="starts_date">"開始 %1$s"</string>
-    <string name="add_payment">新增付款</string>
-    <string name="one_time_payments">一次性付款</string>
-    <string name="recurring_payments">定期付款</string>
+    <string name="add_payment">新增交易</string>
+    <string name="one_time_payments">一次性交易</string>
+    <string name="recurring_payments">定期交易</string>
     <string name="no_planned_payments">沒有經常交易</string>
     <string name="no_planned_payments_description">您沒有任何經常交易。\n點擊底部的\'⚡\'按鈕即可新增。</string>
     <string name="planned_payments_inline">經常交易</string>
