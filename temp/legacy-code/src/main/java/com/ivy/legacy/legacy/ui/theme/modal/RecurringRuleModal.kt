@@ -80,9 +80,9 @@ fun BoxWithConstraintsScope.RecurringRuleModal(
     dismiss: () -> Unit,
     onRuleChanged: (LocalDateTime, oneTime: Boolean, Int?, IntervalType?) -> Unit,
 ) {
-    val localTimeProvider = LocalTimeProvider.current
+    val timeProvider = LocalTimeProvider.current
     var startDate by remember(modal) {
-        mutableStateOf(modal?.initialStartDate ?: localTimeProvider.localNow())
+        mutableStateOf(modal?.initialStartDate ?: timeProvider.localNow())
     }
     var oneTime by remember(modal) {
         mutableStateOf(modal?.initialOneTime ?: false)
