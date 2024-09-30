@@ -56,8 +56,8 @@ class IvyFeatures @Inject constructor() : Features {
         key = "show_decimal_number",
         group = FeatureGroup.Other,
         name = "Show Decimal Number",
-        description = "Show Decimal Number in amounts",
-        defaultValue = false
+        description = "Whether to show the decimal part in amounts",
+        defaultValue = true
     )
 
     override val allFeatures: List<BoolFeature>
@@ -68,6 +68,9 @@ class IvyFeatures @Inject constructor() : Features {
             showTitleSuggestions,
             showCategorySearchBar,
             hideTotalBalance,
+            /* will be uncommented when this functionality
+             * will be available across the application in up-coming PRs
             showDecimalNumber
+             */
         )
 }
