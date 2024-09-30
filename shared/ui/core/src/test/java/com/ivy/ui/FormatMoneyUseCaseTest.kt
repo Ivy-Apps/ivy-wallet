@@ -1,102 +1,73 @@
 package com.ivy.ui
 
 import android.content.Context
-import androidx.test.platform.app.InstrumentationRegistry
-import com.ivy.domain.features.BoolFeature
-import com.ivy.domain.features.FeatureGroup
+import com.google.testing.junit.testparameterinjector.TestParameter
+import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import com.ivy.domain.features.Features
 import com.ivy.ui.time.DevicePreferences
 import io.kotest.common.runBlocking
 import io.kotest.matchers.shouldBe
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.ParameterizedRobolectricTestRunner
 import java.util.Locale
 
-@RunWith(ParameterizedRobolectricTestRunner::class)
-class FormatMoneyUseCaseTest(private val param: TestData) {
+@RunWith(TestParameterInjector::class)
+class FormatMoneyUseCaseTest {
 
-    private val context: Context = InstrumentationRegistry.getInstrumentation().context
     private val features = mockk<Features>()
     private val devicePreferences = mockk<DevicePreferences>()
 
-    class TestData(
-        val givenInput: Double,
-        val showDecimal: BoolFeature,
+    enum class MoneyFormatterTestCase(
+        val amount: Double,
+        val showDecimal: Boolean,
         val locale: Locale,
-        val expectedOutPut: String
-    )
+        val expectedOutput: String
+    ) {
+        ENG_SHOW_DECIMAL(
+            amount = 1000.12,
+            showDecimal = true,
+            locale = Locale.ENGLISH,
+            expectedOutput = "1,000.12"
+        ),
+        ENG_HIDE_DECIMAL(
+            amount = 1000.12,
+            showDecimal = false,
+            locale = Locale.ENGLISH,
+            expectedOutput = "1,000"
+        ),
+        GERMAN_SHOW_DECIMAL(
+            amount = 1000.12,
+            showDecimal = true,
+            locale = Locale.GERMAN,
+            expectedOutput = "1.000,12"
+        ),
+        GERMAN_HIDE_DECIMAL(
+            amount = 1000.12,
+            showDecimal = false,
+            locale = Locale.GERMAN,
+            expectedOutput = "1.000"
+        ),
+    }
 
     private lateinit var formatMoneyUseCase: FormatMoneyUseCase
 
     @Test
-    fun `validate decimal formatting`(): Unit = runBlocking {
+    fun `validate decimal formatting`(
+        @TestParameter testCase: MoneyFormatterTestCase
+    ): Unit = runBlocking {
         // given
-        every { features.showDecimalNumber } returns param.showDecimal
-        every { devicePreferences.locale() } returns param.locale
+        val context = mockk<Context>()
+        every { features.showDecimalNumber } returns mockk { coEvery { isEnabled(any()) } returns testCase.showDecimal }
+        every { devicePreferences.locale() } returns testCase.locale
         formatMoneyUseCase = FormatMoneyUseCase(features, devicePreferences, context)
 
         // when
-        val result = formatMoneyUseCase.format(value = param.givenInput)
+        val result = formatMoneyUseCase.format(value = testCase.amount)
 
         // then
-        result shouldBe param.expectedOutPut
-    }
-
-    companion object {
-        @JvmStatic
-        @ParameterizedRobolectricTestRunner.Parameters(name = "Input: {0}")
-        fun params() = listOf(
-            TestData(
-                givenInput = 1000.12,
-                showDecimal = BoolFeature(
-                    key = "show_decimal_number",
-                    group = FeatureGroup.Other,
-                    name = "Show Decimal Number",
-                    description = "Whether to show the decimal part in amounts",
-                    defaultValue = true
-                ),
-                locale = Locale.ENGLISH,
-                expectedOutPut = "1,000.12"
-            ),
-            TestData(
-                givenInput = 1000.12,
-                showDecimal = BoolFeature(
-                    key = "show_decimal_number",
-                    group = FeatureGroup.Other,
-                    name = "Show Decimal Number",
-                    description = "Whether to show the decimal part in amounts",
-                    defaultValue = false
-                ),
-                locale = Locale.ENGLISH,
-                expectedOutPut = "1,000"
-            ),
-            TestData(
-                givenInput = 1000.12,
-                showDecimal = BoolFeature(
-                    key = "show_decimal_number",
-                    group = FeatureGroup.Other,
-                    name = "Show Decimal Number",
-                    description = "Whether to show the decimal part in amounts",
-                    defaultValue = true
-                ),
-                locale = Locale.GERMAN,
-                expectedOutPut = "1.000,12"
-            ),
-            TestData(
-                givenInput = 1000.12,
-                showDecimal = BoolFeature(
-                    key = "show_decimal_number",
-                    group = FeatureGroup.Other,
-                    name = "Show Decimal Number",
-                    description = "Whether to show the decimal part in amounts",
-                    defaultValue = false
-                ),
-                locale = Locale.GERMAN,
-                expectedOutPut = "1.000"
-            ),
-        )
+        result shouldBe testCase.expectedOutput
     }
 }

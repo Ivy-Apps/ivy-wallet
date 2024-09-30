@@ -9,7 +9,7 @@ import java.text.DecimalFormatSymbols
 import javax.inject.Inject
 
 class FormatMoneyUseCase @Inject constructor(
-    private val feature: Features,
+    private val features: Features,
     private val devicePreferences: DevicePreferences,
     @ApplicationContext private val context: Context
 ) {
@@ -19,7 +19,7 @@ class FormatMoneyUseCase @Inject constructor(
     private val withDecimalFormatter = DecimalFormat("###,###.00", DecimalFormatSymbols(locale))
 
     suspend fun format(value: Double): String {
-        val showDecimalPoint = feature.showDecimalNumber.isEnabled(context)
+        val showDecimalPoint = features.showDecimalNumber.isEnabled(context)
 
         return when (showDecimalPoint) {
             true -> withDecimalFormatter.format(value)

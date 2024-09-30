@@ -9,6 +9,4 @@ android {
 dependencies {
     implementation(projects.shared.base)
     implementation(projects.shared.domain)
-
-    testImplementation(libs.roboelectric)
 }
