@@ -8,7 +8,7 @@ class IvyFeatures @Inject constructor() : Features {
 
     override val sortCategoriesAlphabetically = BoolFeature(
         key = "sort_categories_alphabetically",
-        group = FeatureGroup.Other,
+        group = FeatureGroup.Category,
         name = "Sort Categories Alphabetically",
         description = "Sort income and expenses" +
                 " categories alphabetically"
@@ -52,6 +52,14 @@ class IvyFeatures @Inject constructor() : Features {
         defaultValue = false
     )
 
+    override val showDecimalNumber = BoolFeature(
+        key = "show_decimal_number",
+        group = FeatureGroup.Other,
+        name = "Show Decimal Number",
+        description = "Whether to show the decimal part in amounts",
+        defaultValue = true
+    )
+
     override val allFeatures: List<BoolFeature>
         get() = listOf(
             sortCategoriesAlphabetically,
@@ -59,6 +67,10 @@ class IvyFeatures @Inject constructor() : Features {
             compactCategoriesMode,
             showTitleSuggestions,
             showCategorySearchBar,
-            hideTotalBalance
+            hideTotalBalance,
+            /* will be uncommented when this functionality
+             * will be available across the application in up-coming PRs
+            showDecimalNumber
+             */
         )
 }
