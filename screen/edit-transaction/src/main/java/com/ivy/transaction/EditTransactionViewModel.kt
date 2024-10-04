@@ -182,7 +182,6 @@ class EditTransactionViewModel @Inject constructor(
             transactionAssociatedTags =
                 tagRepository.findByAssociatedId(AssociationId(loadedTransaction().id)).map(Tag::id)
                     .toImmutableList()
-
             display(loadedTransaction!!)
         }
     }
@@ -622,17 +621,24 @@ class EditTransactionViewModel @Inject constructor(
     private fun duplicate() {
         viewModelScope.launch {
             ioThread {
-                loadedTransaction()
+                val id = UUID.randomUUID()
+                 loadedTransaction()
                     .copy(
-                        id = UUID.randomUUID(),
+                        id = id,
                         dateTime = timeProvider.utcNow(),
                     )
                     .toDomain(transactionMapper)
                     ?.let {
                         transactionRepo.save(it)
                     }
+
+                tagRepository.findByIds(transactionAssociatedTags).forEach {
+                    associateTagToTransaction(it, id)
+                }
+
                 refreshWidget(WalletBalanceWidgetReceiver::class.java)
             }
+
             closeScreen()
         }
     }
@@ -924,6 +930,15 @@ class EditTransactionViewModel @Inject constructor(
     private fun associateTagToTransaction(selectedTag: Tag) {
         viewModelScope.launch(Dispatchers.IO) {
             val associatedId = AssociationId(loadedTransaction().id)
+            tagRepository.associateTagToEntity(associatedId, selectedTag.id)
+            transactionAssociatedTags =
+                tagRepository.findByAssociatedId(associatedId).map(Tag::id).toImmutableList()
+        }
+    }
+
+    private fun associateTagToTransaction(selectedTag: Tag, id: UUID) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val associatedId = AssociationId(id)
             tagRepository.associateTagToEntity(associatedId, selectedTag.id)
             transactionAssociatedTags =
                 tagRepository.findByAssociatedId(associatedId).map(Tag::id).toImmutableList()
