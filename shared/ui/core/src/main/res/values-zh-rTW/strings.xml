@@ -354,7 +354,7 @@
     <string name="notification_3">您今天的交易記錄了嗎? 🏁</string>
     <string name="cash">現金</string>
     <string name="bank">銀行</string>
-    <string name="revoult">revoult</string>
+    <string name="revoult">Revolut</string>
     <string name="food_drinks"><![CDATA[食品和飲料]]></string>
     <string name="bills_fees"><![CDATA[帳單和支出]]></string>
     <string name="transport">交通</string>
@@ -408,8 +408,8 @@
     <string name="total_budget">總預算</string>
     <string name="category_budget">類別預算</string>
     <string name="multi_category_budget">多類別 (%1$s) 預算</string>
-    <string name="borrowed_uppercase">BORROWED</string>
-    <string name="lent_uppercase">LENT</string>
+    <string name="borrowed_uppercase">借用</string>
+    <string name="lent_uppercase">四旬期</string>
     <string name="january">一月</string>
     <string name="february">二月</string>
     <string name="march">三月</string>
@@ -453,7 +453,7 @@
     <string name="decrease_loan">減少</string>
     <string name="msg_select_account_to_transfer">選擇傳輸目的地</string>
     <string name="msg_source_account_destination_account_same_for_transfer">選擇不同的目標帳戶進行轉帳</string>
-    <string name="tags_optional">Tags (optional)</string>
+    <string name="tags_optional">標籤 (可選)</string>
     <string name="tags">標籤</string>
     <string name="search_tags">搜尋標籤</string>
     <string name="exchange_rates">匯率</string>
