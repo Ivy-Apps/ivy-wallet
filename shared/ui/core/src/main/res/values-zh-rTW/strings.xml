@@ -14,7 +14,7 @@
     <string name="balance_after_payments">經常交易後的餘額</string>
     <string name="connect">連接</string>
     <string name="sync_transactions">同步交易</string>
-    <string name="syncing_transactions">正在同步交易...</string>
+    <string name="syncing_transactions">正在同步交易…</string>
     <string name="bank_sync_enabled">啟用銀行同步: </string>
     <string name="remove_customer">刪除客戶</string>
     <string name="add_budget">新增預算</string>
@@ -129,7 +129,7 @@
     <string name="add_expense">新增支出</string>
     <string name="unspecified">未指定</string>
     <string name="percent">%1$s\%%</string>
-    <string name="account_transfers">帳戶轉帳</string>
+    <string name="account_transfers">帳戶轉移</string>
     <string name="no_transactions_for_period">您沒有 %1$s 的任何交易。\n您可以透過向下捲動並點擊頂部的 "新增收入" 或 "新增支出" 按鈕來新增一項。</string>
     <string name="account_confirm_deletion_description">注意: 刪除此帳戶將永久刪除所有關聯的交易。</string>
     <string name="category_confirm_deletion_description">注意: 刪除此類別將永久刪除它。</string>
@@ -140,7 +140,7 @@
     <string name="add_planned_payment">新增經常交易</string>
     <string name="add_income_uppercase">增加收入</string>
     <string name="add_expense_uppercase">新增支出</string>
-    <string name="account_transfer">帳戶轉帳</string>
+    <string name="account_transfer">帳戶轉移</string>
     <string name="skip">跳過</string>
     <string name="add_new">新增新的</string>
     <string name="from_date">來自%1$s</string>
@@ -166,12 +166,12 @@
     <string name="your_personal_money_manager">您的個人資金經理</string>
     <string name="opensource">#開源</string>
     <string name="google_error_try_again">錯誤。再試一次: %1$s</string>
-    <string name="google_signing_in">正在登入...</string>
-    <string name="google_signing_in_success">成功！</string>
+    <string name="google_signing_in">正在登入…</string>
+    <string name="google_signing_in_success">成功!</string>
     <string name="login_with_google">使用 Google 登入</string>
     <string name="offline_account">離線帳戶</string>
     <string name="sync_data_ivy_cloud">在 IVY 雲端同步您的資料</string>
-    <string name="data_integrity_protection_warning">無法保證資料完整性和保護！</string>
+    <string name="data_integrity_protection_warning">無法保證資料完整性和保護!</string>
     <string name="or_enter_with_offline_account">或使用離線帳戶輸入</string>
     <string name="offline_warning">您的資料將僅保存在本地，不會與雲端同步。解除安裝應用程式或更換裝置可能會導致資料遺失。如果需要，您可以稍後啟用同步。</string>
     <string name="terms_conditions"><![CDATA[條款與條件]]></string>
@@ -255,11 +255,11 @@
     <string name="danger_zone">危險區域</string>
     <string name="delete_all_user_data">刪除所有用戶資料</string>
     <string name="delete_all_user_data_question">刪除所有用戶資料?</string>
-    <string name="delete_all_user_data_warning">警告！此操作將永久刪除與 %1$s 關聯的所有資料。它無法恢復。</string>
+    <string name="delete_all_user_data_warning">警告!此操作將永久刪除與 %1$s 關聯的所有資料。它無法恢復。</string>
     <string name="your_account">您的帳戶</string>
     <string name="confirm_all_userd_data_deletion">確認永久刪除 %1$s</string>
     <string name="all_of_your_data">您的所有資料</string>
-    <string name="final_deletion_warning">最後的警告！點擊 "刪除" 後，您的資料將永遠消失。</string>
+    <string name="final_deletion_warning">最後的警告!點擊 "刪除" 後，您的資料將永遠消失。</string>
     <string name="exporting_data">匯出資料</string>
     <string name="exporting_data_description">請稍候，正在匯出資料</string>
     <string name="start_date_of_month">月份的開始日期</string>
@@ -396,7 +396,7 @@
     <string name="share_with_friends">與朋友分享</string>
     <string name="make_a_report_description">您可以產生報告以深入了解您的收入和支出。按類型、時間段、類別、帳戶、金額、關鍵字等過濾您的交易，以便更好地管理您的財務狀況。</string>
     <string name="make_a_report">製作報表</string>
-    <string name="make_ivy_wallet_better_description">您想讓 Ivy Wallet 變得更好嗎？給我們寫評論。這是我們實現您的需求的唯一方法。它還幫助我們在 Play 商店中排名更高，這樣我們就可以把錢花在產品上，而不是行銷上。\n\n我們盡力而為。\nIvy wallet 團隊。</string>
+    <string name="make_ivy_wallet_better_description">您想讓 Ivy Wallet 變得更好嗎?給我們寫評論。這是我們實現您的需求的唯一方法。它還幫助我們在 Play 商店中排名更高，這樣我們就可以把錢花在產品上，而不是行銷上。\n\n我們盡力而為。\nIvy wallet 團隊。</string>
     <string name="we_need_your_help">我們需要您的幫助!</string>
     <string name="we_need_your_help_description">我們需要您的支持來不斷改進該應用程式。請與您的朋友和家人分享 Ivy Wallet，並考慮在 Google Play 商店上留下評論。您的貢獻將幫助我們繼續我們的使命。</string>
     <string name="ivy_wallet_is_opensource">Ivy Wallet 開源了!</string>
@@ -430,8 +430,8 @@
     <string name="month">月</string>
     <string name="years">年</string>
     <string name="year">年</string>
-    <string name="transfers_as_income_expense"><![CDATA[作為收入和支出轉移]]></string>
-    <string name="transfers_as_income_expense_description">在帳戶畫面中將帳戶轉帳視為收入或支出</string>
+    <string name="transfers_as_income_expense"><![CDATA[轉移作為收入和支出]]></string>
+    <string name="transfers_as_income_expense_description">在帳戶畫面中將帳戶轉移視為收入或支出</string>
     <string name="home_category">首頁</string>
     <string name="generating_report">正在產生報表…</string>
     <string name="sort_by">排序方式</string>
@@ -452,7 +452,7 @@
     <string name="increase_loan">增加</string>
     <string name="decrease_loan">減少</string>
     <string name="msg_select_account_to_transfer">選擇傳輸目的地</string>
-    <string name="msg_source_account_destination_account_same_for_transfer">選擇不同的目標帳戶進行轉帳</string>
+    <string name="msg_source_account_destination_account_same_for_transfer">選擇不同的目標帳戶進行轉移</string>
     <string name="tags_optional">標籤 (可選)</string>
     <string name="tags">標籤</string>
     <string name="search_tags">搜尋標籤</string>
@@ -471,7 +471,7 @@
     <string name="done">完成</string>
     <string name="contributors_number">%1$s 貢獻者</string>
     <string name="error">錯誤</string>
-    <string name="loading">正在加載...</string>
+    <string name="loading">正在加載…</string>
     <string name="try_again">再試一次</string>
     <string name="one_contribution">1 貢獻</string>
     <string name="contributions_number">%1$s 貢獻</string>
