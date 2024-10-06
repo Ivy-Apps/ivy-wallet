@@ -1,5 +1,7 @@
 package com.ivy.ui.di
 
+import com.ivy.ui.FormatMoneyUseCase
+import com.ivy.ui.FormatMoneyUseCaseImpl
 import com.ivy.ui.time.DevicePreferences
 import com.ivy.ui.time.TimeFormatter
 import com.ivy.ui.time.impl.AndroidDateTimePicker
@@ -22,4 +24,7 @@ interface IvyUiBindings {
 
     @Binds
     fun dateTimePicker(impl: AndroidDateTimePicker): DateTimePicker
+
+    @Binds
+    fun formatMoneyUseCase(impl: FormatMoneyUseCaseImpl): FormatMoneyUseCase
 }

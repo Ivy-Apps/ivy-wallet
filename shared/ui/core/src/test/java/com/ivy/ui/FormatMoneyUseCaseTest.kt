@@ -62,7 +62,7 @@ class FormatMoneyUseCaseTest {
         val context = mockk<Context>()
         every { features.showDecimalNumber } returns mockk { coEvery { isEnabled(any()) } returns testCase.showDecimal }
         every { devicePreferences.locale() } returns testCase.locale
-        formatMoneyUseCase = FormatMoneyUseCase(features, devicePreferences, context)
+        formatMoneyUseCase = FormatMoneyUseCaseImpl(features, devicePreferences, context)
 
         // when
         val result = formatMoneyUseCase.format(value = testCase.amount)

@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.theme.components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -7,9 +8,15 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -19,9 +26,8 @@ import androidx.compose.ui.unit.sp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletComponentPreview
-import com.ivy.legacy.utils.format
-import com.ivy.legacy.utils.shortenAmount
-import com.ivy.legacy.utils.shouldShortAmount
+import com.ivy.legacy.utils.toDecimalFormat
+import kotlinx.coroutines.launch
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
@@ -82,6 +88,7 @@ fun BalanceRowMini(
     )
 }
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun BalanceRow(
     currency: String,
@@ -93,17 +100,16 @@ fun BalanceRow(
     currencyFontSize: TextUnit? = null,
     balanceFontSize: TextUnit? = null,
     currencyUpfront: Boolean = true,
-    balanceAmountPrefix: String? = null,
-    shortenBigNumbers: Boolean = false,
     doubleRowDisplay: Boolean = false,
 ) {
-    val shortAmount = shortenBigNumbers && shouldShortAmount(balance)
-    val integerPartFormatted = if (shortAmount) {
-        shortenAmount(balance)
-    } else {
-        balance.format(currency)
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    var formattedBalance by remember {
+        mutableStateOf("")
     }
-
+    scope.launch {
+        formattedBalance = balance.toDecimalFormat(context)
+    }
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center
@@ -124,8 +130,7 @@ fun BalanceRow(
             if (!doubleRowDisplay) {
                 val balanceText = when {
                     hiddenMode -> "****"
-                    balanceAmountPrefix != null -> "$balanceAmountPrefix$integerPartFormatted"
-                    else -> integerPartFormatted
+                    else -> formattedBalance
                 }
 
                 val balanceCurrencyText = if (currencyUpfront) {
@@ -159,8 +164,7 @@ fun BalanceRow(
                 Text(
                     text = when {
                         hiddenMode -> "****"
-                        balanceAmountPrefix != null -> "$balanceAmountPrefix$integerPartFormatted"
-                        else -> integerPartFormatted
+                        else -> formattedBalance
                     },
                     style = if (balanceFontSize == null) {
                         UI.typo.nH1.style(
