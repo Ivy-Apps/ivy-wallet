@@ -51,10 +51,7 @@ fun BalanceRowMedium(
         spacerCurrency = 12.dp,
         currencyFontSize = 24.sp,
         balanceFontSize = 26.sp,
-
-        balanceAmountPrefix = balanceAmountPrefix,
-        currencyUpfront = currencyUpfront,
-        shortenBigNumbers = shortenBigNumbers
+        currencyUpfront = currencyUpfront
     )
 }
 
@@ -80,10 +77,7 @@ fun BalanceRowMini(
         spacerCurrency = 8.dp,
         currencyFontSize = 20.sp,
         balanceFontSize = 22.sp,
-
-        balanceAmountPrefix = balanceAmountPrefix,
         currencyUpfront = currencyUpfront,
-        shortenBigNumbers = shortenBigNumbers,
         doubleRowDisplay = doubleRowDisplay
     )
 }
@@ -212,9 +206,7 @@ private fun Preview_Default() {
         BalanceRow(
             textColor = UI.colors.pureInverse,
             currency = "BGN",
-            balance = 3520000.60,
-            balanceAmountPrefix = null,
-            shortenBigNumbers = true
+            balance = 3520000.60
         )
     }
 }
