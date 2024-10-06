@@ -252,7 +252,7 @@ private fun BoxWithConstraintsScope.UI(
             SettingsDefaultButton(
                 icon = R.drawable.ic_vue_security_shield,
                 text = stringResource(R.string.backup_data),
-                iconPadding = 6.dp
+                iconPadding = 8.dp
             ) {
                 onBackupData()
             }
@@ -309,6 +309,7 @@ private fun BoxWithConstraintsScope.UI(
             if (languageOptionVisible) {
                 SettingsDefaultButton(
                     icon = R.drawable.ic_vue_location_global,
+                    iconPadding = 6.dp,
                     text = stringResource(R.string.language),
                     description = Locale.getDefault().displayName
                 ) {
@@ -430,7 +431,7 @@ private fun BoxWithConstraintsScope.UI(
 
             SettingsPrimaryButton(
                 icon = R.drawable.github_logo,
-                iconPadding = 8.dp,
+                iconPadding = 10.dp,
                 text = stringResource(R.string.ivy_wallet_is_opensource),
                 backgroundGradient = Gradient.solid(MediumBlack)
             ) {
@@ -590,7 +591,7 @@ private fun StartDateOfMonth(
             icon = R.drawable.ic_custom_calendar_m,
             tint = UI.colors.pureInverse,
             iconScale = IconScale.M,
-            padding = 0.dp
+            padding = 2.dp
         )
 
         Spacer(Modifier.width(8.dp))
@@ -654,7 +655,7 @@ private fun IvyTelegram() {
         icon = R.drawable.ic_telegram_24dp,
         text = stringResource(R.string.ivy_telegram),
         backgroundGradient = Gradient.solid(Blue),
-        iconPadding = 8.dp
+        iconPadding = 10.dp
     ) {
         rootActivity.openUrlInBrowser(Constants.URL_IVY_TELEGRAM_INVITE)
     }
@@ -711,7 +712,7 @@ private fun Releases(nav: Navigation) {
     SettingsDefaultButton(
         icon = R.drawable.ic_vue_money_tag,
         text = stringResource(R.string.releases),
-        iconPadding = 10.dp
+        iconPadding = 8.dp
     ) {
         nav.navigateTo(ReleasesScreen)
     }
@@ -722,7 +723,7 @@ private fun Contributors(nav: Navigation) {
     SettingsDefaultButton(
         icon = R.drawable.ic_vue_people_people,
         text = stringResource(R.string.project_contributors),
-        iconPadding = 6.dp
+        iconPadding = 8.dp
     ) {
         nav.navigateTo(ContributorsScreen)
     }
