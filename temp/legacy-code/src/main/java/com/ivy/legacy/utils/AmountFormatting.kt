@@ -6,6 +6,8 @@ import com.ivy.wallet.domain.data.IvyCurrency
 import dagger.hilt.EntryPoints
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import java.text.NumberFormat
+import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.log10
 import kotlin.math.truncate
@@ -204,6 +206,16 @@ suspend fun Double.toDecimalFormat(context: Context): String {
         EntryPoints.get(appContext, FormatMoneyUseCaseImpl.FormatMoneyUseCaseEntryPoint::class.java)
     val useCase = entryPoint.FormatMoneyUseCase()
     return useCase.format(this)
+}
+
+fun Double.toDecimalFormatWithFraction(fraction: Int = 2): String {
+    val defaultLocale: Locale = Locale.getDefault()
+
+    // Create a NumberFormat instance for the current locale
+    val numberFormat: NumberFormat = NumberFormat.getNumberInstance(defaultLocale)
+    numberFormat.minimumFractionDigits = fraction
+    numberFormat.maximumFractionDigits = fraction
+    return numberFormat.format(this)
 }
 
 /**
