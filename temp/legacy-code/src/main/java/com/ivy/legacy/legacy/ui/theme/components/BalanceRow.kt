@@ -27,7 +27,6 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.legacy.utils.toDecimalFormat
-import com.ivy.legacy.utils.toDecimalFormatWithDecimalPlaces
 import kotlinx.coroutines.launch
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
@@ -79,7 +78,7 @@ fun BalanceRowMini(
     )
 }
 
-@SuppressLint("CoroutineCreationDuringComposition")
+@SuppressLint("CoroutineCreationDuringComposition", "DefaultLocale")
 @Composable
 fun BalanceRow(
     currency: String,
@@ -96,7 +95,7 @@ fun BalanceRow(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var formattedBalance by remember {
-        mutableStateOf(balance.toDecimalFormatWithDecimalPlaces(context))
+        mutableStateOf(String.format("%.2f", balance))
     }
     scope.launch {
         formattedBalance = balance.toDecimalFormat(context)
