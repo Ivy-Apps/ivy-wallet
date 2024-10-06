@@ -174,7 +174,6 @@ private fun HeaderStickyRow(
                         },
                     currency = currency,
                     balance = balance,
-                    shortenBigNumbers = true,
                     hiddenMode = hideBalance,
                     doubleRowDisplay = true,
                 )
@@ -249,7 +248,6 @@ fun CashFlowInfo(
                 .testTag("home_balance"),
             currency = currency,
             balance = balance,
-            shortenBigNumbers = true,
             hiddenMode = hideBalance
         )
 
@@ -416,7 +414,6 @@ private fun RowScope.HeaderCard(
                 currency = currency,
                 textColor = textColor,
                 hideIncome = hideIncome,
-                shortenBigNumbers = true,
             )
 
             Spacer(Modifier.width(4.dp))

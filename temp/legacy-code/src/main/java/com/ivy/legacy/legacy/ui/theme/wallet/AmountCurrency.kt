@@ -83,7 +83,7 @@ fun AmountCurrencyB1(
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    var formattedAmount by remember { mutableStateOf("") }
+    var formattedAmount by remember { mutableStateOf("$amount") }
     scope.launch {
         formattedAmount = amount.toDecimalFormat(context)
     }

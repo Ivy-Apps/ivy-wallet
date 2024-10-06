@@ -36,9 +36,7 @@ fun BalanceRowMedium(
     balance: Double,
     modifier: Modifier = Modifier,
     textColor: Color = UI.colors.pureInverse,
-    balanceAmountPrefix: String? = null,
     currencyUpfront: Boolean = true,
-    shortenBigNumbers: Boolean = false,
     hiddenMode: Boolean = false,
 ) {
     BalanceRow(
@@ -61,9 +59,7 @@ fun BalanceRowMini(
     balance: Double,
     modifier: Modifier = Modifier,
     textColor: Color = UI.colors.pureInverse,
-    balanceAmountPrefix: String? = null,
     currencyUpfront: Boolean = true,
-    shortenBigNumbers: Boolean = false,
     hiddenMode: Boolean = false,
     doubleRowDisplay: Boolean = false,
 ) {
@@ -99,7 +95,7 @@ fun BalanceRow(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var formattedBalance by remember {
-        mutableStateOf("")
+        mutableStateOf("$balance")
     }
     scope.launch {
         formattedBalance = balance.toDecimalFormat(context)
@@ -218,8 +214,7 @@ private fun Preview_Medium() {
         BalanceRowMedium(
             textColor = UI.colors.pureInverse,
             currency = "BGN",
-            balance = 3520.60,
-            balanceAmountPrefix = null
+            balance = 3520.60
         )
     }
 }
@@ -231,9 +226,7 @@ private fun Preview_Mini() {
         BalanceRowMini(
             textColor = UI.colors.pureInverse,
             currency = "BGN",
-            balance = 3520.60,
-            balanceAmountPrefix = null,
-            shortenBigNumbers = true
+            balance = 3520.60
         )
     }
 }
