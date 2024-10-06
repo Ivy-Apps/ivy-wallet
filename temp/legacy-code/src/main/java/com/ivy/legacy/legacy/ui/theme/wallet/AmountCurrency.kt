@@ -72,7 +72,7 @@ fun AmountCurrencyB1Row(
     }
 }
 
-@SuppressLint("ComposeContentEmitterReturningValues")
+@SuppressLint("ComposeContentEmitterReturningValues","CoroutineCreationDuringComposition")
 @Composable
 fun AmountCurrencyB1(
     amount: Double,
