@@ -22,6 +22,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.toDecimalFormat
+import com.ivy.legacy.utils.toDecimalFormatWithDecimalPlaces
 import kotlinx.coroutines.launch
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
@@ -72,7 +73,7 @@ fun AmountCurrencyB1Row(
     }
 }
 
-@SuppressLint("ComposeContentEmitterReturningValues","CoroutineCreationDuringComposition")
+@SuppressLint("ComposeContentEmitterReturningValues", "CoroutineCreationDuringComposition")
 @Composable
 fun AmountCurrencyB1(
     amount: Double,
@@ -83,7 +84,7 @@ fun AmountCurrencyB1(
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    var formattedAmount by remember { mutableStateOf("$amount") }
+    var formattedAmount by remember { mutableStateOf(amount.toDecimalFormatWithDecimalPlaces(context)) }
     scope.launch {
         formattedAmount = amount.toDecimalFormat(context)
     }

@@ -206,6 +206,14 @@ suspend fun Double.toDecimalFormat(context: Context): String {
     return useCase.format(this)
 }
 
+fun Double.toDecimalFormatWithDecimalPlaces(context: Context): String {
+    val appContext = context.applicationContext ?: error("Application Context Not Found")
+    val entryPoint =
+        EntryPoints.get(appContext, FormatMoneyUseCaseImpl.FormatMoneyUseCaseEntryPoint::class.java)
+    val useCase = entryPoint.FormatMoneyUseCase()
+    return useCase.formatWithDecimalPlaces(this)
+}
+
 /**
 toInt on numbers in the range (-1.0, 0.0) (exclusive of boundaries) will produce a positive int 0
 So, this function append negative sign in that case

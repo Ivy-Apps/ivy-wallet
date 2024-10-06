@@ -38,8 +38,11 @@ class FormatMoneyUseCaseImpl @Inject constructor(
             false -> withoutDecimalFormatter.format(value)
         }
     }
+
+    override fun formatWithDecimalPlaces(value: Double): String = withDecimalFormatter.format(value)
 }
 
 interface FormatMoneyUseCase {
     suspend fun format(value: Double): String
+    fun formatWithDecimalPlaces(value: Double): String
 }

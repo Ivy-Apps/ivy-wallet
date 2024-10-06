@@ -27,6 +27,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.legacy.utils.toDecimalFormat
+import com.ivy.legacy.utils.toDecimalFormatWithDecimalPlaces
 import kotlinx.coroutines.launch
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
@@ -95,7 +96,7 @@ fun BalanceRow(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var formattedBalance by remember {
-        mutableStateOf("$balance")
+        mutableStateOf(balance.toDecimalFormatWithDecimalPlaces(context))
     }
     scope.launch {
         formattedBalance = balance.toDecimalFormat(context)
