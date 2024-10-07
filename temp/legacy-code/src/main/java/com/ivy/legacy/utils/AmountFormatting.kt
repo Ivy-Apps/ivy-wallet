@@ -198,20 +198,12 @@ fun formatInputAmount(
     return null
 }
 
-suspend fun Double.toDecimalFormatAsync(context: Context): String {
+suspend fun Double.toDecimalFormat(context: Context): String {
     val appContext = context.applicationContext ?: error("Application Context Not Found")
     val entryPoint =
         EntryPoints.get(appContext, FormatMoneyUseCase.FormatMoneyUseCaseEntryPoint::class.java)
     val useCase = entryPoint.FormatMoneyUseCase()
     return useCase.format(value = this)
-}
-
-fun Double.toDecimalFormatSync(context: Context, showDecimalPoint: Boolean = true): String {
-    val appContext = context.applicationContext ?: error("Application Context Not Found")
-    val entryPoint =
-        EntryPoints.get(appContext, FormatMoneyUseCase.FormatMoneyUseCaseEntryPoint::class.java)
-    val useCase = entryPoint.FormatMoneyUseCase()
-    return useCase.format(value = this, showDecimalPoint = showDecimalPoint)
 }
 
 /**

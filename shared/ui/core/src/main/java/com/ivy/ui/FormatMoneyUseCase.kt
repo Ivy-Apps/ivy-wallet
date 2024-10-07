@@ -34,11 +34,4 @@ class FormatMoneyUseCase(
             false -> withoutDecimalFormatter.format(value)
         }
     }
-
-    fun format(value: Double, showDecimalPoint: Boolean): String {
-        return when (showDecimalPoint) {
-            true -> withDecimalFormatter.format(value)
-            false -> withoutDecimalFormatter.format(value)
-        }
-    }
 }

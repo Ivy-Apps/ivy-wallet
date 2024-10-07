@@ -70,24 +70,4 @@ class FormatMoneyUseCaseTest {
         // then
         result shouldBe testCase.expectedOutput
     }
-
-    @Test
-    fun `validate decimal formatting when showDecimalPoint is passed as parameter`(
-        @TestParameter testCase: MoneyFormatterTestCase
-    ) {
-        // given
-        val context = mockk<Context>()
-        every { features.showDecimalNumber } returns mockk { coEvery { isEnabled(any()) } returns testCase.showDecimal }
-        every { devicePreferences.locale() } returns testCase.locale
-        formatMoneyUseCase = FormatMoneyUseCase(features, devicePreferences, context)
-
-        // when
-        val result = formatMoneyUseCase.format(
-            value = testCase.amount,
-            showDecimalPoint = testCase.showDecimal
-        )
-
-        // then
-        result shouldBe testCase.expectedOutput
-    }
 }

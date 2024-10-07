@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.utils.format
-import com.ivy.legacy.utils.toDecimalFormatAsync
+import com.ivy.legacy.utils.toDecimalFormat
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
@@ -81,9 +81,9 @@ fun AmountCurrencyB1(
     hideIncome: Boolean = false
 ) {
     val context = LocalContext.current
-    var formattedAmount by remember { mutableStateOf("$amount") }
+    var formattedAmount by remember { mutableStateOf(amount.format(2)) }
     LaunchedEffect(amount) {
-        formattedAmount = amount.toDecimalFormatAsync(context)
+        formattedAmount = amount.toDecimalFormat(context)
     }
     val text = if (hideIncome) {
         "****"
