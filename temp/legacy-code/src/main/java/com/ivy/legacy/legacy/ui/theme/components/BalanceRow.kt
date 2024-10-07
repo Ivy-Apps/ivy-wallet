@@ -27,7 +27,6 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.legacy.utils.toDecimalFormatAsync
-import com.ivy.legacy.utils.toDecimalFormatSync
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
@@ -94,7 +93,7 @@ fun BalanceRow(
 ) {
     val context = LocalContext.current
     var formattedBalance by remember {
-        mutableStateOf(balance.toDecimalFormatSync(context = context))
+        mutableStateOf("$balance")
     }
     LaunchedEffect(balance) {
         formattedBalance = balance.toDecimalFormatAsync(context = context)
