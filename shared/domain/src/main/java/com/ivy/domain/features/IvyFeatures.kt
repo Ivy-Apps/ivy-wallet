@@ -17,14 +17,14 @@ class IvyFeatures @Inject constructor() : Features {
         key = "compact_account_ui",
         group = FeatureGroup.Account,
         name = "Compact account cards",
-        description = "Make the \"Accounts\" tab UI more compact and dense"
+        description = "Make the Accounts tab UI more compact and dense"
     )
 
     override val compactCategoriesMode = BoolFeature(
         key = "compact_category_ui",
         group = FeatureGroup.Category,
         name = "Compact category cards",
-        description = "Simplified design of the \"Categories\" screen"
+        description = "Simplified design of the Categories screen"
     )
 
     override val showTitleSuggestions = BoolFeature(
@@ -39,7 +39,7 @@ class IvyFeatures @Inject constructor() : Features {
         key = "search_categories",
         group = FeatureGroup.Category,
         name = "Search within categories",
-        description = "Display a search bar on the \"Categories\" screen",
+        description = "Display a search bar on the Categories screen",
         defaultValue = true
     )
 
