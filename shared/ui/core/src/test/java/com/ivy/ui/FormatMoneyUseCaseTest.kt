@@ -82,7 +82,10 @@ class FormatMoneyUseCaseTest {
         formatMoneyUseCase = FormatMoneyUseCase(features, devicePreferences, context)
 
         // when
-        val result = formatMoneyUseCase.format(value = testCase.amount,showDecimalPoint = testCase.showDecimal)
+        val result = formatMoneyUseCase.format(
+            value = testCase.amount,
+            showDecimalPoint = testCase.showDecimal
+        )
 
         // then
         result shouldBe testCase.expectedOutput
