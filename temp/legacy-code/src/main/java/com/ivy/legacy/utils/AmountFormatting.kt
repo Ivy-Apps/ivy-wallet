@@ -1,13 +1,11 @@
 package com.ivy.legacy.utils
 
 import android.content.Context
-import com.ivy.ui.FormatMoneyUseCaseImpl
+import com.ivy.ui.FormatMoneyUseCase
 import com.ivy.wallet.domain.data.IvyCurrency
 import dagger.hilt.EntryPoints
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import java.text.NumberFormat
-import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.log10
 import kotlin.math.truncate
@@ -203,19 +201,9 @@ fun formatInputAmount(
 suspend fun Double.toDecimalFormat(context: Context): String {
     val appContext = context.applicationContext ?: error("Application Context Not Found")
     val entryPoint =
-        EntryPoints.get(appContext, FormatMoneyUseCaseImpl.FormatMoneyUseCaseEntryPoint::class.java)
+        EntryPoints.get(appContext, FormatMoneyUseCase.FormatMoneyUseCaseEntryPoint::class.java)
     val useCase = entryPoint.FormatMoneyUseCase()
     return useCase.format(this)
-}
-
-fun Double.toDecimalFormatWithFraction(fraction: Int = 2): String {
-    val defaultLocale: Locale = Locale.getDefault()
-
-    // Create a NumberFormat instance for the current locale
-    val numberFormat: NumberFormat = NumberFormat.getNumberInstance(defaultLocale)
-    numberFormat.minimumFractionDigits = fraction
-    numberFormat.maximumFractionDigits = fraction
-    return numberFormat.format(this)
 }
 
 /**

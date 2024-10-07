@@ -6,10 +6,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,8 +22,6 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.toDecimalFormat
-import com.ivy.legacy.utils.toDecimalFormatWithFraction
-import kotlinx.coroutines.launch
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
@@ -83,9 +81,8 @@ fun AmountCurrencyB1(
     hideIncome: Boolean = false
 ) {
     val context = LocalContext.current
-    val scope = rememberCoroutineScope()
-    var formattedAmount by remember { mutableStateOf(amount.toDecimalFormatWithFraction()) }
-    scope.launch {
+    var formattedAmount by remember { mutableStateOf("$amount") }
+    LaunchedEffect(amount) {
         formattedAmount = amount.toDecimalFormat(context)
     }
     val text = if (hideIncome) {
