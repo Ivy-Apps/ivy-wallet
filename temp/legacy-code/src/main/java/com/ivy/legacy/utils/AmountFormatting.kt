@@ -1,6 +1,9 @@
 package com.ivy.legacy.utils
 
+import android.content.Context
+import com.ivy.ui.FormatMoneyUseCase
 import com.ivy.wallet.domain.data.IvyCurrency
+import dagger.hilt.EntryPoints
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import kotlin.math.abs
@@ -193,6 +196,14 @@ fun formatInputAmount(
     }
 
     return null
+}
+
+suspend fun Double.toDecimalFormat(context: Context): String {
+    val appContext = context.applicationContext ?: error("Application Context Not Found")
+    val entryPoint =
+        EntryPoints.get(appContext, FormatMoneyUseCase.FormatMoneyUseCaseEntryPoint::class.java)
+    val useCase = entryPoint.FormatMoneyUseCase()
+    return useCase.format(value = this)
 }
 
 /**

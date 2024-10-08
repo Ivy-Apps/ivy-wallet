@@ -57,7 +57,6 @@ import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.ui.component.IncomeExpensesCards
 import com.ivy.legacy.ui.component.ItemStatisticToolbar
 import com.ivy.legacy.ui.component.transaction.transactions
-import com.ivy.legacy.utils.balancePrefix
 import com.ivy.legacy.utils.clickableNoIndication
 import com.ivy.legacy.utils.horizontalSwipeListener
 import com.ivy.legacy.utils.rememberInteractionSource
@@ -641,15 +640,7 @@ private fun Header(
                 },
             textColor = contrastColor,
             currency = currency,
-            balance = balance,
-            balanceAmountPrefix = if (category != null) {
-                balancePrefix(
-                    income = income,
-                    expenses = expenses
-                )
-            } else {
-                null
-            }
+            balance = balance
         )
 
         if (currency != baseCurrency && balanceBaseCurrency != null) {
@@ -661,15 +652,7 @@ private fun Header(
                     },
                 textColor = itemColor.dynamicContrast(),
                 currency = baseCurrency,
-                balance = balanceBaseCurrency,
-                balanceAmountPrefix = if (category != null) {
-                    balancePrefix(
-                        income = income,
-                        expenses = expenses
-                    )
-                } else {
-                    null
-                }
+                balance = balanceBaseCurrency
             )
         }
 

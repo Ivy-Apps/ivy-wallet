@@ -158,11 +158,7 @@ private fun BoxWithConstraintsScope.UI(
                     .padding(start = 32.dp),
                 textColor = UI.colors.pureInverse,
                 currency = state.baseCurrency,
-                balance = state.balance,
-                balanceAmountPrefix = when {
-                    state.balance > 0 -> "+"
-                    else -> null
-                }
+                balance = state.balance
             )
 
             Spacer(Modifier.height(20.dp))

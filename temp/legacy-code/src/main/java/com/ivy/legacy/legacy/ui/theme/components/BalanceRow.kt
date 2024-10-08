@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.theme.components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -7,9 +8,15 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -20,8 +27,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletComponentPreview
 import com.ivy.legacy.utils.format
-import com.ivy.legacy.utils.shortenAmount
-import com.ivy.legacy.utils.shouldShortAmount
+import com.ivy.legacy.utils.toDecimalFormat
 
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
@@ -30,9 +36,7 @@ fun BalanceRowMedium(
     balance: Double,
     modifier: Modifier = Modifier,
     textColor: Color = UI.colors.pureInverse,
-    balanceAmountPrefix: String? = null,
     currencyUpfront: Boolean = true,
-    shortenBigNumbers: Boolean = false,
     hiddenMode: Boolean = false,
 ) {
     BalanceRow(
@@ -45,10 +49,7 @@ fun BalanceRowMedium(
         spacerCurrency = 12.dp,
         currencyFontSize = 24.sp,
         balanceFontSize = 26.sp,
-
-        balanceAmountPrefix = balanceAmountPrefix,
-        currencyUpfront = currencyUpfront,
-        shortenBigNumbers = shortenBigNumbers
+        currencyUpfront = currencyUpfront
     )
 }
 
@@ -58,9 +59,7 @@ fun BalanceRowMini(
     balance: Double,
     modifier: Modifier = Modifier,
     textColor: Color = UI.colors.pureInverse,
-    balanceAmountPrefix: String? = null,
     currencyUpfront: Boolean = true,
-    shortenBigNumbers: Boolean = false,
     hiddenMode: Boolean = false,
     doubleRowDisplay: Boolean = false,
 ) {
@@ -74,14 +73,12 @@ fun BalanceRowMini(
         spacerCurrency = 8.dp,
         currencyFontSize = 20.sp,
         balanceFontSize = 22.sp,
-
-        balanceAmountPrefix = balanceAmountPrefix,
         currencyUpfront = currencyUpfront,
-        shortenBigNumbers = shortenBigNumbers,
         doubleRowDisplay = doubleRowDisplay
     )
 }
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun BalanceRow(
     currency: String,
@@ -93,17 +90,15 @@ fun BalanceRow(
     currencyFontSize: TextUnit? = null,
     balanceFontSize: TextUnit? = null,
     currencyUpfront: Boolean = true,
-    balanceAmountPrefix: String? = null,
-    shortenBigNumbers: Boolean = false,
     doubleRowDisplay: Boolean = false,
 ) {
-    val shortAmount = shortenBigNumbers && shouldShortAmount(balance)
-    val integerPartFormatted = if (shortAmount) {
-        shortenAmount(balance)
-    } else {
-        balance.format(currency)
+    val context = LocalContext.current
+    var formattedBalance by remember {
+        mutableStateOf(balance.format(2))
     }
-
+    LaunchedEffect(balance) {
+        formattedBalance = balance.toDecimalFormat(context = context)
+    }
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center
@@ -124,8 +119,7 @@ fun BalanceRow(
             if (!doubleRowDisplay) {
                 val balanceText = when {
                     hiddenMode -> "****"
-                    balanceAmountPrefix != null -> "$balanceAmountPrefix$integerPartFormatted"
-                    else -> integerPartFormatted
+                    else -> formattedBalance
                 }
 
                 val balanceCurrencyText = if (currencyUpfront) {
@@ -159,8 +153,7 @@ fun BalanceRow(
                 Text(
                     text = when {
                         hiddenMode -> "****"
-                        balanceAmountPrefix != null -> "$balanceAmountPrefix$integerPartFormatted"
-                        else -> integerPartFormatted
+                        else -> formattedBalance
                     },
                     style = if (balanceFontSize == null) {
                         UI.typo.nH1.style(
@@ -208,9 +201,7 @@ private fun Preview_Default() {
         BalanceRow(
             textColor = UI.colors.pureInverse,
             currency = "BGN",
-            balance = 3520000.60,
-            balanceAmountPrefix = null,
-            shortenBigNumbers = true
+            balance = 3520000.60
         )
     }
 }
@@ -222,8 +213,7 @@ private fun Preview_Medium() {
         BalanceRowMedium(
             textColor = UI.colors.pureInverse,
             currency = "BGN",
-            balance = 3520.60,
-            balanceAmountPrefix = null
+            balance = 3520.60
         )
     }
 }
@@ -235,9 +225,7 @@ private fun Preview_Mini() {
         BalanceRowMini(
             textColor = UI.colors.pureInverse,
             currency = "BGN",
-            balance = 3520.60,
-            balanceAmountPrefix = null,
-            shortenBigNumbers = true
+            balance = 3520.60
         )
     }
 }

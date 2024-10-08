@@ -549,9 +549,7 @@ private fun CategoryHeader(
 
             balanceFontSize = 30.sp,
             currencyFontSize = 30.sp,
-
-            currencyUpfront = false,
-            balanceAmountPrefix = balancePrefixValue
+            currencyUpfront = false
         )
 
         Spacer(Modifier.height(16.dp))
