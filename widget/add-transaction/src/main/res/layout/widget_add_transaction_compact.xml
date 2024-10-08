@@ -18,6 +18,8 @@
         android:paddingLeft="16dp"
         android:paddingTop="12dp"
         android:paddingRight="16dp"
+        android:showDividers="middle"
+        android:divider="@drawable/widget_compact_divider"
         android:paddingBottom="14dp">
 
 
