@@ -1,5 +1,6 @@
 package com.ivy.ui.time.impl
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
@@ -18,6 +19,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ivy.base.time.TimeConverter
@@ -109,14 +111,16 @@ class AndroidDateTimePicker @Inject constructor(
                 containerColor = MaterialTheme.colorScheme.surfaceVariant,
             )
         ) {
-            TimePicker(
-                modifier = Modifier.padding(16.dp),
-                state = pickerState,
-                colors = TimePickerDefaults.colors(
-                    selectorColor = MaterialTheme.colorScheme.primary,
-                    timeSelectorSelectedContainerColor = MaterialTheme.colorScheme.primary
+            Box(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+                TimePicker(
+                    modifier = Modifier.padding(16.dp),
+                    state = pickerState,
+                    colors = TimePickerDefaults.colors(
+                        selectorColor = MaterialTheme.colorScheme.primary,
+                        timeSelectorSelectedContainerColor = MaterialTheme.colorScheme.primary
+                    )
                 )
-            )
+            }
         }
     }
 
