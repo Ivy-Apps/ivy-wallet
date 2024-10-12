@@ -41,6 +41,9 @@ import com.ivy.legacy.datamodel.Loan
 import com.ivy.legacy.humanReadableType
 import com.ivy.legacy.ivyWalletCtx
 import com.ivy.legacy.utils.getDefaultFIATCurrency
+import com.ivy.legacy.utils.horizontalSwipeListener
+import com.ivy.legacy.utils.rememberSwipeListenerState
+import com.ivy.loans.loan.Constants.SWIPE_HORIZONTAL_THRESHOLD
 import com.ivy.loans.loan.data.DisplayLoan
 import com.ivy.navigation.LoanDetailsScreen
 import com.ivy.navigation.LoansScreen
@@ -84,6 +87,16 @@ private fun BoxWithConstraintsScope.UI(
         modifier = Modifier
             .fillMaxSize()
             .systemBarsPadding()
+            .horizontalSwipeListener(
+                sensitivity = SWIPE_HORIZONTAL_THRESHOLD,
+                state = rememberSwipeListenerState(),
+                onSwipeLeft = {
+                    onEventHandler.invoke(LoanScreenEvent.OnTabChanged(LoanTab.COMPLETED))
+                },
+                onSwipeRight = {
+                    onEventHandler.invoke(LoanScreenEvent.OnTabChanged(LoanTab.PENDING))
+                }
+            )
     ) {
         Spacer(Modifier.height(32.dp))
 
