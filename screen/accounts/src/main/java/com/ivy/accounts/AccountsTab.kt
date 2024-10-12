@@ -135,18 +135,19 @@ private fun BoxWithConstraintsScope.UI(
 
                 Spacer(Modifier.width(24.dp))
             }
-            Column {
+            if (!state.hideTotalBalance) {
+                Column {
+                    Spacer(Modifier.height(16.dp))
+                    IncomeExpensesRow(
+                        currency = state.baseCurrency,
+                        incomeLabel = stringResource(id = R.string.total_balance),
+                        income = state.totalBalanceWithoutExcluded.toDoubleOrNull() ?: 0.00,
+                        expensesLabel = stringResource(id = R.string.total_balance_excluded),
+                        expenses = state.totalBalanceWithExcluded.toDoubleOrNull() ?: 0.00
+                    )
+                }
                 Spacer(Modifier.height(16.dp))
-                IncomeExpensesRow(
-                    currency = state.baseCurrency,
-                    incomeLabel = stringResource(id = R.string.total_balance),
-                    income = state.totalBalanceWithoutExcluded.toDoubleOrNull() ?: 0.00,
-                    expensesLabel = stringResource(id = R.string.total_balance_excluded),
-                    expenses = state.totalBalanceWithExcluded.toDoubleOrNull() ?: 0.00,
-                    hiddenMode = state.hideTotalBalance
-                )
             }
-            Spacer(Modifier.height(16.dp))
         }
         items(state.accountsData) {
             Spacer(Modifier.height(16.dp))

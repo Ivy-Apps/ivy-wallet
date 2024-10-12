@@ -315,8 +315,7 @@ private fun IncomeExpenses(
             label = stringResource(R.string.income),
             currency = currency,
             amount = monthlyIncome,
-            testTag = "home_card_income",
-            hideIncome = hideIncome
+            testTag = "home_card_income"
         ) {
             if (hideIncome) {
                 onHiddenIncomeClick()
@@ -362,7 +361,6 @@ private fun RowScope.HeaderCard(
     currency: String,
     amount: Double,
     testTag: String,
-    hideIncome: Boolean = false,
     onClick: () -> Unit,
 ) {
     Column(
@@ -415,7 +413,6 @@ private fun RowScope.HeaderCard(
                 amount = amount,
                 currency = currency,
                 textColor = textColor,
-                hideIncome = hideIncome,
                 shortenBigNumbers = true,
             )
 
