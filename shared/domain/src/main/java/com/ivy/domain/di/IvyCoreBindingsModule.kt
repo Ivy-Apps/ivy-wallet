@@ -4,6 +4,7 @@ import com.ivy.domain.features.Features
 import com.ivy.domain.features.IvyFeatures
 import dagger.Binds
 import dagger.Module
+import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
@@ -12,4 +13,10 @@ import dagger.hilt.components.SingletonComponent
 interface IvyCoreBindingsModule {
     @Binds
     fun bindFeatures(features: IvyFeatures): Features
+}
+
+@EntryPoint
+@InstallIn(SingletonComponent::class)
+interface FeaturesEntryPoint {
+    fun getFeatures(): Features
 }

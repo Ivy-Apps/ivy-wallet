@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -39,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.domain.di.FeaturesEntryPoint
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.utils.amountToDouble
 import com.ivy.legacy.utils.amountToDoubleOrNull
@@ -54,6 +56,7 @@ import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalPositiveButton
 import com.ivy.wallet.ui.theme.modal.modalPreviewActionRowHeight
+import dagger.hilt.android.EntryPointAccessors
 import java.util.UUID
 import kotlin.math.truncate
 
@@ -224,8 +227,7 @@ fun AmountInput(
     amount: String,
     decimalCountMax: Int = 2,
     setAmount: (String) -> Unit,
-
-    ) {
+) {
     var firstInput by remember { mutableStateOf(true) }
 
     AmountKeyboard(
@@ -317,6 +319,36 @@ fun AmountKeyboard(
     FourthRowExtra: (@Composable RowScope.() -> Unit)? = null,
     onBackspace: () -> Unit,
 ) {
+    /**
+     * Retrieve `features` via EntryPointAccessors. `isStandardLayout` is stable and
+     * only changes via settings, so there isn't unnecessary recompositions.
+     * `isStandardLayout` doesn't change while the keyboard is shown.
+     * `AmountKeyboard` is self-contained, making it easy to reuse without passing parameters.
+     * Layout changes are rare, so recomposition has minimal impact on performance.
+     **/
+
+    val context = LocalContext.current
+    val features = EntryPointAccessors.fromApplication(
+        context.applicationContext,
+        FeaturesEntryPoint::class.java
+    ).getFeatures()
+    val isStandardLayout = features.standardKeypadLayout.asEnabledState()
+
+    // Decide the order of the numbers based on the keypad layout
+    val countButtonValues = if (isStandardLayout) {
+        listOf(
+            listOf("1", "2", "3"),
+            listOf("4", "5", "6"),
+            listOf("7", "8", "9"),
+        )
+    } else { // Calculator like numeric keypad layout
+        listOf(
+            listOf("7", "8", "9"),
+            listOf("4", "5", "6"),
+            listOf("1", "2", "3"),
+        )
+    }
+
     if (ZeroRow != null) {
         Row(
             modifier = Modifier
@@ -331,96 +363,32 @@ fun AmountKeyboard(
         Spacer(Modifier.height(8.dp))
     }
 
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = horizontalPadding),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceEvenly
+    // Loop through the rows to create CircleNumberButtons
+    countButtonValues.forEachIndexed { rowIndex, rowNumbers ->
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = horizontalPadding),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            rowNumbers.forEach { num ->
+                CircleNumberButton(
+                    forCalculator = forCalculator,
+                    value = num,
+                    onNumberPressed = onNumberPressed
+                )
+            }
 
-    ) {
-        CircleNumberButton(
-            forCalculator = forCalculator,
-            value = "7",
-            onNumberPressed = onNumberPressed
-        )
+            when (rowIndex) {
+                0 -> FirstRowExtra?.invoke(this)
+                1 -> SecondRowExtra?.invoke(this)
+                2 -> ThirdRowExtra?.invoke(this)
+            }
+        }
 
-        CircleNumberButton(
-            forCalculator = forCalculator,
-            value = "8",
-            onNumberPressed = onNumberPressed
-        )
-
-        CircleNumberButton(
-            forCalculator = forCalculator,
-            value = "9",
-            onNumberPressed = onNumberPressed
-        )
-
-        FirstRowExtra?.invoke(this)
+        Spacer(Modifier.height(8.dp))
     }
-
-    Spacer(Modifier.height(8.dp))
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = horizontalPadding),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceEvenly
-    ) {
-        CircleNumberButton(
-            forCalculator = forCalculator,
-            value = "4",
-            onNumberPressed = onNumberPressed
-        )
-
-        CircleNumberButton(
-            forCalculator = forCalculator,
-            value = "5",
-            onNumberPressed = onNumberPressed
-        )
-
-        CircleNumberButton(
-            forCalculator = forCalculator,
-            value = "6",
-            onNumberPressed = onNumberPressed
-        )
-
-        SecondRowExtra?.invoke(this)
-    }
-
-    Spacer(Modifier.height(8.dp))
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = horizontalPadding),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceEvenly
-    ) {
-        CircleNumberButton(
-            forCalculator = forCalculator,
-            value = "1",
-            onNumberPressed = onNumberPressed
-        )
-
-        CircleNumberButton(
-            forCalculator = forCalculator,
-            value = "2",
-            onNumberPressed = onNumberPressed
-        )
-
-        CircleNumberButton(
-            forCalculator = forCalculator,
-            value = "3",
-            onNumberPressed = onNumberPressed
-        )
-
-        ThirdRowExtra?.invoke(this)
-    }
-
-    Spacer(Modifier.height(8.dp))
 
     Row(
         modifier = Modifier

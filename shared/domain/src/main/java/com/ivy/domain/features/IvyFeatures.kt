@@ -59,6 +59,14 @@ class IvyFeatures @Inject constructor() : Features {
         defaultValue = true
     )
 
+    override val standardKeypadLayout = BoolFeature(
+        key = "enable_standard_keypad_layout",
+        group = FeatureGroup.Other,
+        name = "Standard keypad layout",
+        description = "Enable standard phone keypad layout instead of numeric calculator layout",
+        defaultValue = false
+    )
+
     override val allFeatures: List<BoolFeature>
         get() = listOf(
             sortCategoriesAscending,
@@ -67,6 +75,7 @@ class IvyFeatures @Inject constructor() : Features {
             showTitleSuggestions,
             showCategorySearchBar,
             hideTotalBalance,
+            standardKeypadLayout
             /* will be uncommented when this functionality
              * will be available across the application in up-coming PRs
             showDecimalNumber
