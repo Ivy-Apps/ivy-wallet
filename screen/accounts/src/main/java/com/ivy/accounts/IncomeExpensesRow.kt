@@ -31,7 +31,6 @@ fun IncomeExpensesRow(
     dividerColor: Color = UI.colors.medium,
     incomeLabel: String = stringResource(R.string.income_uppercase),
     expensesLabel: String = stringResource(R.string.expenses_uppercase),
-    hiddenMode: Boolean = false,
     center: Boolean = true,
     dividerSpacer: Dp? = null,
 ) {
@@ -48,8 +47,7 @@ fun IncomeExpensesRow(
             label = incomeLabel,
             amount = income,
             currency = currency,
-            center = center,
-            hiddenMode = hiddenMode
+            center = center
         )
 
         if (center) {
@@ -81,8 +79,7 @@ fun IncomeExpensesRow(
             label = expensesLabel,
             amount = expenses,
             currency = currency,
-            center = center,
-            hiddenMode = hiddenMode
+            center = center
         )
 
         if (center) {
@@ -97,8 +94,7 @@ private fun LabelAmountColumn(
     amount: Double,
     currency: String,
     textColor: Color,
-    center: Boolean,
-    hiddenMode: Boolean
+    center: Boolean
 ) {
     Column(
         horizontalAlignment = if (center) Alignment.CenterHorizontally else Alignment.Start
@@ -119,8 +115,7 @@ private fun LabelAmountColumn(
             AmountCurrencyB1(
                 textColor = textColor,
                 amount = amount,
-                currency = currency,
-                hideIncome = hiddenMode
+                currency = currency
             )
         }
     }

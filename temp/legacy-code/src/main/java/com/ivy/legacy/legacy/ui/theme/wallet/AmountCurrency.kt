@@ -18,6 +18,7 @@ import com.ivy.legacy.utils.format
 import com.ivy.legacy.utils.shortenAmount
 import com.ivy.legacy.utils.shouldShortAmount
 
+@SuppressLint("ComposeModifierMissing")
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun AmountCurrencyB2Row(
@@ -47,6 +48,7 @@ fun AmountCurrencyB2Row(
     }
 }
 
+@SuppressLint("ComposeModifierMissing")
 @Composable
 fun AmountCurrencyB1Row(
     amount: Double,
@@ -66,22 +68,21 @@ fun AmountCurrencyB1Row(
     }
 }
 
-@SuppressLint("ComposeContentEmitterReturningValues")
+@SuppressLint(
+    "ComposeContentEmitterReturningValues",
+    "ComposeMultipleContentEmitters",
+    "ComposeModifierMissing"
+)
 @Composable
 fun AmountCurrencyB1(
     amount: Double,
     currency: String,
     amountFontWeight: FontWeight = FontWeight.Bold,
     textColor: Color = UI.colors.pureInverse,
-    shortenBigNumbers: Boolean = false,
-    hideIncome: Boolean = false
+    shortenBigNumbers: Boolean = false
 ) {
     val shortAmount = shortenBigNumbers && shouldShortAmount(amount)
-    val text = if (hideIncome) {
-        "****"
-    } else {
-        if (shortAmount) shortenAmount(amount) else amount.format(currency)
-    }
+    val text = if (shortAmount) shortenAmount(amount) else amount.format(currency)
     Text(
         modifier = Modifier.testTag("amount_currency_b1"),
         text = text,
@@ -100,11 +101,16 @@ fun AmountCurrencyB1(
     )
 }
 
+@SuppressLint(
+    "ComposeContentEmitterReturningValues",
+    "ComposeMultipleContentEmitters",
+    "ComposeModifierMissing"
+)
 @Composable
 fun AmountCurrencyH1(
     amount: Double,
     currency: String,
-    textColor: Color = UI.colors.pureInverse
+    @SuppressLint("ComposeContentEmitterReturningValues") textColor: Color = UI.colors.pureInverse
 ) {
     Text(
         text = amount.format(currency),
@@ -123,6 +129,7 @@ fun AmountCurrencyH1(
     )
 }
 
+@SuppressLint("ComposeModifierMissing")
 @Composable
 fun AmountCurrencyH2Row(
     amount: Double,
@@ -150,6 +157,11 @@ fun AmountCurrencyH2Row(
     }
 }
 
+@SuppressLint(
+    "ComposeContentEmitterReturningValues",
+    "ComposeMultipleContentEmitters",
+    "ComposeModifierMissing"
+)
 @Composable
 fun AmountCurrencyCaption(
     amount: Double,
