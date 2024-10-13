@@ -328,10 +328,12 @@ fun AmountKeyboard(
      **/
 
     val context = LocalContext.current
-    val features = EntryPointAccessors.fromApplication(
-        context.applicationContext,
-        FeaturesEntryPoint::class.java
-    ).getFeatures()
+    val features = remember {
+        EntryPointAccessors.fromApplication(
+            context.applicationContext,
+            FeaturesEntryPoint::class.java
+        ).getFeatures()
+    }
     val isStandardLayout = features.standardKeypadLayout.asEnabledState()
 
     // Decide the order of the numbers based on the keypad layout
