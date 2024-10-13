@@ -8,6 +8,7 @@ interface Features {
     val showCategorySearchBar: BoolFeature
     val hideTotalBalance: BoolFeature
     val showDecimalNumber: BoolFeature
+    val standardKeypadLayout: BoolFeature
 
     val allFeatures: List<BoolFeature>
 }
