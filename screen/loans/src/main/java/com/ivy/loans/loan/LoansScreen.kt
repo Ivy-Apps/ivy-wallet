@@ -137,6 +137,10 @@ private fun BoxWithConstraintsScope.UI(
                     )
                 }
             }
+
+            item {
+                Spacer(Modifier.height(150.dp)) // scroll hack
+            }
         }
 
         if (loans.isEmpty()) {
