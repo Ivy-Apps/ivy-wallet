@@ -564,6 +564,7 @@ private fun BoxWithConstraintsScope.DeleteModals(
     ) {
         onDelete()
         updateAccountNameConfirmation("")
+        setDeleteModal1Visible(false)
     }
 
     DeleteModal(
