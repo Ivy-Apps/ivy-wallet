@@ -1,5 +1,5 @@
 package com.ivy.domain.features
 
 enum class FeatureGroup {
-    Category, Account, Other
+    Transactions, Category, Account, Other
 }

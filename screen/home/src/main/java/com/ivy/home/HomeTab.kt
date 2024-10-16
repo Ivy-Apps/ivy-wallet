@@ -187,7 +187,7 @@ fun BoxWithConstraintsScope.HomeUi(
 
             stats = uiState.stats,
             history = uiState.history,
-
+            compactTransactionsEnabled = uiState.compactTransactionsModeEnabled,
             customerJourneyCards = uiState.customerJourneyCards,
 
             onPayOrGet = forward<Transaction>() then2 {
@@ -295,7 +295,7 @@ fun HomeLazyColumn(
     balance: BigDecimal,
     stats: IncomeExpensePair,
     history: ImmutableList<TransactionHistoryItem>,
-
+    compactTransactionsEnabled: Boolean,
     customerJourneyCards: ImmutableList<CustomerJourneyCardModel>,
 
     setUpcomingExpanded: (Boolean) -> Unit,
@@ -387,7 +387,8 @@ fun HomeLazyColumn(
                 )
             ),
             onSkipTransaction = onSkipTransaction,
-            onSkipAllTransactions = onSkipAllTransactions
+            onSkipAllTransactions = onSkipAllTransactions,
+            compactModeEnabled = compactTransactionsEnabled
         )
     }
 }
@@ -428,7 +429,8 @@ private fun BoxWithConstraintsScope.PreviewHomeTab(isDark: Boolean = false) {
                 period = TimePeriod(month = Month.monthsList().first(), year = 2023),
                 hideBalance = false,
                 hideIncome = false,
-                expanded = false
+                expanded = false,
+                compactTransactionsModeEnabled = false
             ),
             onEvent = {}
         )

@@ -15,6 +15,7 @@ import com.ivy.base.time.TimeProvider
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.repository.mapper.TransactionMapper
+import com.ivy.domain.features.Features
 import com.ivy.domain.usecase.exchange.SyncExchangeRatesUseCase
 import com.ivy.frp.fixUnit
 import com.ivy.frp.then
@@ -81,6 +82,7 @@ class HomeViewModel @Inject constructor(
     private val upcomingAct: UpcomingAct,
     private val overdueAct: OverdueAct,
     private val hasTrnsAct: HasTrnsAct,
+    private val features: Features,
     private val startDayOfMonthAct: StartDayOfMonthAct,
     private val shouldHideBalanceAct: ShouldHideBalanceAct,
     private val shouldHideIncomeAct: ShouldHideIncomeAct,
@@ -151,7 +153,8 @@ class HomeViewModel @Inject constructor(
             customerJourneyCards = getCustomerJourneyCards(),
             hideBalance = getHideBalance(),
             expanded = getExpanded(),
-            hideIncome = getHideIncome()
+            hideIncome = getHideIncome(),
+            compactTransactionsModeEnabled = getCompactTransactionsMode()
         )
     }
 
@@ -223,6 +226,11 @@ class HomeViewModel @Inject constructor(
     @Composable
     private fun getHideIncome(): Boolean {
         return hideIncome
+    }
+
+    @Composable
+    private fun getCompactTransactionsMode(): Boolean {
+        return features.compactTransactionsMode.asEnabledState()
     }
 
     override fun onEvent(event: HomeEvent) {

@@ -105,7 +105,8 @@ private fun SearchUi(
                 onPayOrGet = { },
                 emptyStateTitle = emptyStateTitle,
                 emptyStateText = emptyStateText,
-                dateDividerMarginTop = 16.dp
+                dateDividerMarginTop = 16.dp,
+                compactModeEnabled = uiState.compactTransactionsModeEnabled
             )
 
             item {
@@ -134,7 +135,8 @@ private fun Preview(isDark: Boolean = false) {
                 transactions = persistentListOf(),
                 baseCurrency = "",
                 accounts = persistentListOf(),
-                categories = persistentListOf()
+                categories = persistentListOf(),
+                compactTransactionsModeEnabled = false
             ),
             onEvent = {}
         )

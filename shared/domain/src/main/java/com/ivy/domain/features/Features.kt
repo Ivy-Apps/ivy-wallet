@@ -1,6 +1,7 @@
 package com.ivy.domain.features
 
 interface Features {
+    val compactTransactionsMode: BoolFeature
     val sortCategoriesAscending: BoolFeature
     val compactAccountsMode: BoolFeature
     val compactCategoriesMode: BoolFeature

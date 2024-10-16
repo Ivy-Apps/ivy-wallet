@@ -33,5 +33,6 @@ data class ReportScreenState(
     val filterOverlayVisible: Boolean = false,
     val showTransfersAsIncExpCheckbox: Boolean = false,
     val treatTransfersAsIncExp: Boolean = false,
-    val allTags: ImmutableList<Tag> = persistentListOf()
+    val allTags: ImmutableList<Tag> = persistentListOf(),
+    val compactTransactionsModeEnabled: Boolean = false
 )

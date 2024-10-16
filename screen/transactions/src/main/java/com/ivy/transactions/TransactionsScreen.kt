@@ -201,7 +201,8 @@ fun BoxWithConstraintsScope.TransactionsScreen(screen: TransactionsScreen) {
         onChoosePeriodModal = {
             viewModel.onEvent(TransactionsEvent.OnChoosePeriodModalData(it))
         },
-        choosePeriodModal = uiState.choosePeriodModal
+        choosePeriodModal = uiState.choosePeriodModal,
+        compactTransactionsEnabled = uiState.compactTransactionsModeEnabled
     )
 }
 
@@ -231,7 +232,7 @@ private fun BoxWithConstraintsScope.UI(
     choosePeriodModal: ChoosePeriodModalData?,
 
     history: ImmutableList<TransactionHistoryItem>,
-
+    compactTransactionsEnabled: Boolean,
     onPreviousMonth: () -> Unit,
     onNextMonth: () -> Unit,
     onSetPeriod: (TimePeriod) -> Unit,
@@ -240,7 +241,6 @@ private fun BoxWithConstraintsScope.UI(
     onDelete: () -> Unit,
     deleteModal1Visible: Boolean,
     onDeleteModal1Visible: (Boolean) -> Unit,
-
     initWithTransactions: Boolean = false,
     treatTransfersAsIncomeExpense: Boolean = false,
     upcomingExpanded: Boolean = true,
@@ -410,7 +410,6 @@ private fun BoxWithConstraintsScope.UI(
                 lastItemSpacer = with(density) {
                     (ivyContext.screenHeight * 0.7f).toDp()
                 },
-
                 onPayOrGet = onPayOrGet,
                 onSkipTransaction = onSkipTransaction,
                 onSkipAllTransactions = {
@@ -425,7 +424,8 @@ private fun BoxWithConstraintsScope.UI(
                         timeConverter = timeConverter,
                         timeFormatter = timeFormatter,
                     )
-                )
+                ),
+                compactModeEnabled = compactTransactionsEnabled,
             )
         }
     }
@@ -857,6 +857,7 @@ private fun BoxWithConstraintsScope.Preview_empty() {
             onChoosePeriodModal = {},
             choosePeriodModal = null,
             screen = TransactionsScreen(),
+            compactTransactionsEnabled = false
         )
     }
 }
@@ -903,6 +904,7 @@ private fun BoxWithConstraintsScope.Preview_crypto() {
             onChoosePeriodModal = {},
             choosePeriodModal = null,
             screen = TransactionsScreen(),
+            compactTransactionsEnabled = false
         )
     }
 }
@@ -949,6 +951,7 @@ private fun BoxWithConstraintsScope.Preview_empty_upcoming() {
             onChoosePeriodModal = {},
             choosePeriodModal = null,
             screen = TransactionsScreen(),
+            compactTransactionsEnabled = false
         )
     }
 }
