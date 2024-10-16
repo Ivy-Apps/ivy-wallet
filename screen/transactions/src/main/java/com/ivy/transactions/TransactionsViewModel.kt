@@ -28,6 +28,7 @@ import com.ivy.data.repository.TagRepository
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.design.l0_system.RedLight
+import com.ivy.domain.features.Features
 import com.ivy.frp.then
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.model.TimePeriod
@@ -83,6 +84,7 @@ class TransactionsViewModel @Inject constructor(
     private val sharedPrefs: SharedPrefs,
     private val accountsAct: AccountsAct,
     private val accTrnsAct: AccTrnsAct,
+    private val features: Features,
     private val trnsWithDateDivsAct: LegacyTrnsWithDateDivsAct,
     private val baseCurrencyAct: BaseCurrencyAct,
     private val calcAccBalanceAct: CalcAccBalanceAct,
@@ -161,7 +163,8 @@ class TransactionsViewModel @Inject constructor(
             enableDeletionButton = getEnableDeletionButton(),
             skipAllModalVisible = getSkipAllModalVisible(),
             deleteModal1Visible = getDeleteModal1Visible(),
-            choosePeriodModal = getChoosePeriodModal()
+            choosePeriodModal = getChoosePeriodModal(),
+            compactTransactionsModeEnabled = getCompactTransactionsMode()
         )
     }
 
@@ -293,6 +296,11 @@ class TransactionsViewModel @Inject constructor(
     @Composable
     private fun getChoosePeriodModal(): ChoosePeriodModalData? {
         return choosePeriodModal.value
+    }
+
+    @Composable
+    private fun getCompactTransactionsMode(): Boolean {
+        return features.compactTransactionsMode.asEnabledState()
     }
 
     override fun onEvent(event: TransactionsEvent) {

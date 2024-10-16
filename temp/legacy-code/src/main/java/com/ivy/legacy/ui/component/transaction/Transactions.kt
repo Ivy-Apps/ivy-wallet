@@ -44,6 +44,7 @@ fun LazyListScope.transactions(
     upcoming: LegacyDueSection?,
     overdue: LegacyDueSection?,
     history: List<TransactionHistoryItem>,
+    compactModeEnabled: Boolean,
 
     emptyStateTitle: String = stringRes(R.string.no_transactions),
     emptyStateText: String,
@@ -60,7 +61,7 @@ fun LazyListScope.transactions(
     upcomingSection(
         baseData = baseData,
         upcoming = upcoming,
-
+        compactModeEnabled = compactModeEnabled,
         onPayOrGet = onPayOrGet,
         onSkipTransaction = onSkipTransaction,
         setExpanded = setUpcomingExpanded
@@ -69,7 +70,7 @@ fun LazyListScope.transactions(
     overdueSection(
         baseData = baseData,
         overdue = overdue,
-
+        compactModeEnabled = compactModeEnabled,
         onPayOrGet = onPayOrGet,
         onSkipTransaction = onSkipTransaction,
         onSkipAllTransactions = onSkipAllTransactions,
@@ -80,7 +81,7 @@ fun LazyListScope.transactions(
         baseData = baseData,
 
         history = history,
-
+        compactModeEnabled = compactModeEnabled,
         dateDividerMarginTop = dateDividerMarginTop,
         onPayOrGet = onPayOrGet
     )
@@ -110,7 +111,7 @@ private fun LazyListScope.upcomingSection(
     baseData: AppBaseData,
 
     upcoming: LegacyDueSection?,
-
+    compactModeEnabled: Boolean,
     onPayOrGet: (Transaction) -> Unit,
     onSkipTransaction: (Transaction) -> Unit,
     setExpanded: (Boolean) -> Unit
@@ -135,7 +136,7 @@ private fun LazyListScope.upcomingSection(
         if (upcoming.expanded) {
             trnItems(
                 baseData = baseData,
-
+                compactModeEnabled = compactModeEnabled,
                 transactions = upcoming.trns,
 
                 onPayOrGet = onPayOrGet,
@@ -149,7 +150,7 @@ private fun LazyListScope.overdueSection(
     baseData: AppBaseData,
 
     overdue: LegacyDueSection?,
-
+    compactModeEnabled: Boolean,
     onPayOrGet: (Transaction) -> Unit,
     onSkipTransaction: (Transaction) -> Unit,
     onSkipAllTransactions: (List<Transaction>) -> Unit,
@@ -200,7 +201,7 @@ private fun LazyListScope.overdueSection(
                 baseData = baseData,
 
                 transactions = overdue.trns,
-
+                compactModeEnabled = compactModeEnabled,
                 onPayOrGet = onPayOrGet,
                 onSkipTransaction = onSkipTransaction
             )
@@ -212,7 +213,7 @@ private fun LazyListScope.trnItems(
     baseData: AppBaseData,
 
     transactions: List<Transaction>,
-
+    compactModeEnabled: Boolean,
     onPayOrGet: (Transaction) -> Unit,
     onSkipTransaction: (Transaction) -> Unit,
 ) {
@@ -223,7 +224,7 @@ private fun LazyListScope.trnItems(
         val nav = navigation()
         TransactionCard(
             baseData = baseData,
-
+            compactModeEnabled = compactModeEnabled,
             transaction = it,
             onPayOrGet = onPayOrGet,
             onSkipTransaction = onSkipTransaction
@@ -240,7 +241,7 @@ private fun LazyListScope.historySection(
     baseData: AppBaseData,
 
     history: List<TransactionHistoryItem>,
-
+    compactModeEnabled: Boolean,
     dateDividerMarginTop: Dp? = null,
 
     onPayOrGet: (Transaction) -> Unit
@@ -262,7 +263,7 @@ private fun LazyListScope.historySection(
 
                     TransactionCard(
                         baseData = baseData,
-
+                        compactModeEnabled = compactModeEnabled,
                         transaction = it,
                         onPayOrGet = onPayOrGet
                     ) { trn ->

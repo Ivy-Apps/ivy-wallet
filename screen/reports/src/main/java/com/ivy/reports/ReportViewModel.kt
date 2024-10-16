@@ -33,6 +33,7 @@ import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.data.temp.migration.getTransactionType
 import com.ivy.data.temp.migration.getValue
 import com.ivy.domain.RootScreen
+import com.ivy.domain.features.Features
 import com.ivy.domain.usecase.csv.ExportCsvUseCase
 import com.ivy.frp.filterSuspend
 import com.ivy.legacy.IvyWalletCtx
@@ -80,6 +81,7 @@ class ReportViewModel @Inject constructor(
     private val ivyContext: IvyWalletCtx,
     private val exchangeAct: ExchangeAct,
     private val accountsAct: AccountsAct,
+    private val features: Features,
     private val categoryRepository: CategoryRepository,
     private val trnsWithDateDivsAct: TrnsWithDateDivsAct,
     private val calcTrnsIncomeExpenseAct: CalcTrnsIncomeExpenseAct,
@@ -157,8 +159,14 @@ class ReportViewModel @Inject constructor(
             upcomingExpenses = upcomingExpenses,
             upcomingIncome = upcomingIncome,
             upcomingTransactions = upcomingTransactions,
-            allTags = allTags
+            allTags = allTags,
+            compactTransactionsModeEnabled = getCompactTransactionsMode()
         )
+    }
+
+    @Composable
+    private fun getCompactTransactionsMode(): Boolean {
+        return features.compactTransactionsMode.asEnabledState()
     }
 
     override fun onEvent(event: ReportScreenEvent) {

@@ -270,7 +270,8 @@ private fun BoxWithConstraintsScope.UI(
                 },
                 onSkipAllTransactions = {
                     onEventHandler.invoke(ReportScreenEvent.SkipTransactionsLegacy(transactions = it))
-                }
+                },
+                compactModeEnabled = state.compactTransactionsModeEnabled
             )
         } else {
             item {

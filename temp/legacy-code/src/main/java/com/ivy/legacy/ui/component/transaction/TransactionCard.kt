@@ -111,15 +111,12 @@ import java.util.UUID
 @Composable
 fun TransactionCard(
     baseData: AppBaseData,
-
     transaction: Transaction,
-
     onPayOrGet: (Transaction) -> Unit,
-    modifier: Modifier = Modifier,
-    compactModeEnabled: Boolean = true, // TODO(Pass this down from viewmodels to ui to this component)
-    onSkipTransaction: (Transaction) -> Unit = {},
-
+    compactModeEnabled: Boolean,
     onClick: (Transaction) -> Unit,
+    modifier: Modifier = Modifier,
+    onSkipTransaction: (Transaction) -> Unit = {},
 ) {
     /**
      * State for tracking whether the buttons are expanded
@@ -865,8 +862,8 @@ private fun PreviewUpcomingExpense() {
                     ),
                     compactModeEnabled = false,
                     onPayOrGet = {},
-                ) {
-                }
+                    onClick = {},
+                )
             }
         }
     }
@@ -905,8 +902,8 @@ private fun PreviewUpcomingExpenseBadgeSecondRow() {
                     ),
                     compactModeEnabled = false,
                     onPayOrGet = {},
-                ) {
-                }
+                    onClick = {}
+                )
             }
         }
     }
@@ -944,8 +941,8 @@ private fun PreviewOverdueExpense() {
                     ),
                     compactModeEnabled = false,
                     onPayOrGet = {},
-                ) {
-                }
+                    onClick = {}
+                )
             }
         }
     }
@@ -982,8 +979,8 @@ private fun PreviewNormalExpense() {
                     ),
                     compactModeEnabled = false,
                     onPayOrGet = {},
-                ) {
-                }
+                    onClick = {}
+                )
             }
         }
     }
@@ -1020,8 +1017,8 @@ private fun PreviewIncome() {
                     ),
                     compactModeEnabled = false,
                     onPayOrGet = {},
-                ) {
-                }
+                    onClick = {}
+                )
             }
         }
     }
@@ -1052,8 +1049,8 @@ private fun PreviewTransfer() {
                     ),
                     compactModeEnabled = false,
                     onPayOrGet = {},
-                ) {
-                }
+                    onClick = {}
+                )
             }
         }
     }
@@ -1090,8 +1087,8 @@ private fun PreviewTransfer_differentCurrency() {
                     ),
                     compactModeEnabled = true,
                     onPayOrGet = {},
-                ) {
-                }
+                    onClick = {}
+                )
             }
         }
     }
@@ -1129,8 +1126,8 @@ private fun PreviewUpcomingIncome() {
                     ),
                     compactModeEnabled = false,
                     onPayOrGet = {},
-                ) {
-                }
+                    onClick = {}
+                )
             }
         }
     }
@@ -1167,8 +1164,8 @@ private fun PreviewCompactUpcomingExpense() {
                     ),
                     compactModeEnabled = true,
                     onPayOrGet = {},
-                ) {
-                }
+                    onClick = {}
+                )
             }
         }
     }
@@ -1207,8 +1204,8 @@ private fun PreviewCompactUpcomingExpenseBadgeSecondRow() {
                     ),
                     compactModeEnabled = true,
                     onPayOrGet = {},
-                ) {
-                }
+                    onClick = {}
+                )
             }
         }
     }
@@ -1246,8 +1243,8 @@ private fun PreviewCompactOverdueExpense() {
                     ),
                     compactModeEnabled = true,
                     onPayOrGet = {},
-                ) {
-                }
+                    onClick = {}
+                )
             }
         }
     }
@@ -1284,8 +1281,8 @@ private fun PreviewCompactNormalExpense() {
                     ),
                     compactModeEnabled = true,
                     onPayOrGet = {},
-                ) {
-                }
+                    onClick = {}
+                )
             }
         }
     }
@@ -1322,8 +1319,8 @@ private fun PreviewCompactIncome() {
                     ),
                     compactModeEnabled = true,
                     onPayOrGet = {},
-                ) {
-                }
+                    onClick = {}
+                )
             }
         }
     }
@@ -1354,8 +1351,8 @@ private fun PreviewCompactTransfer() {
                     ),
                     compactModeEnabled = true,
                     onPayOrGet = {},
-                ) {
-                }
+                    onClick = {}
+                )
             }
         }
     }
@@ -1392,8 +1389,8 @@ private fun PreviewCompactTransfer_differentCurrency() {
                     ),
                     compactModeEnabled = true,
                     onPayOrGet = {},
-                ) {
-                }
+                    onClick = {}
+                )
             }
         }
     }
@@ -1432,8 +1429,8 @@ private fun PreviewCompactUpcomingIncome() {
                     ),
                     compactModeEnabled = true,
                     onPayOrGet = {},
-                ) {
-                }
+                    onClick = {}
+                )
             }
         }
     }

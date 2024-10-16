@@ -10,6 +10,7 @@ import com.ivy.data.model.primitive.NotBlankTrimmedString
 import com.ivy.ui.ComposeViewModel
 import com.ivy.data.model.Category
 import com.ivy.data.repository.CategoryRepository
+import com.ivy.domain.features.Features
 import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.utils.getDefaultFIATCurrency
 import com.ivy.legacy.utils.ioThread
@@ -29,6 +30,7 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val trnsWithDateDivsAct: TrnsWithDateDivsAct,
     private val accountsAct: AccountsAct,
+    private val features: Features,
     private val categoryRepository: CategoryRepository,
     private val baseCurrencyAct: BaseCurrencyAct,
     private val allTrnsAct: AllTrnsAct
@@ -52,8 +54,14 @@ class SearchViewModel @Inject constructor(
             transactions = transactions.value,
             baseCurrency = baseCurrency.value,
             accounts = accounts.value,
-            categories = categories.value
+            categories = categories.value,
+            compactTransactionsModeEnabled = getCompactTransactionsMode()
         )
+    }
+
+    @Composable
+    private fun getCompactTransactionsMode(): Boolean {
+        return features.compactTransactionsMode.asEnabledState()
     }
 
     override fun onEvent(event: SearchEvent) {
