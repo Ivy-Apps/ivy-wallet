@@ -6,6 +6,13 @@ import javax.inject.Singleton
 @Singleton
 class IvyFeatures @Inject constructor() : Features {
 
+    override val compactTransactionsMode = BoolFeature(
+        key = "compact_transactions_ui",
+        group = FeatureGroup.Transactions,
+        name = "Compact transaction cards",
+        description = "Simplified design of the transaction card"
+    )
+
     override val sortCategoriesAscending = BoolFeature(
         key = "sort_categories_ascending",
         group = FeatureGroup.Category,
@@ -69,6 +76,7 @@ class IvyFeatures @Inject constructor() : Features {
 
     override val allFeatures: List<BoolFeature>
         get() = listOf(
+            compactTransactionsMode,
             sortCategoriesAscending,
             compactAccountsMode,
             compactCategoriesMode,
