@@ -493,6 +493,8 @@
     <string name="warning_import_csv_file">"\n!!!⚠️ADVERTENCIA: A importación pode duplicar as transaccións!!!\nAs transaccións duplicadas non se poden eliminar facilmente e terás que eliminalas manualmente unha a unha! \nMotivo: Non podemos analizar os identificadores de transacción porque Ivy Wallet só funciona con UUID e outras aplicacións non.\nSe estás comezando de cero, non te preocupes - ignora amablemente esta mensaxe."</string>
     <string name="select_tags">Seleccionar etiquetas</string>
     <string name="bill_paid">A túa factura de %1$s %2$s foi pagada</string>
+<!--    TODO - Edit this 'income_received' accordingly-->
+    <string name="income_received">A túa factura de %1$s %2$s foi pagada</string>
     <string name="language">Lingua</string>
     <string name="advanced_features">Funcionalidades avanzadas</string>
 </resources>

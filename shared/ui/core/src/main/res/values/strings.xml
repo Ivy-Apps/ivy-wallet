@@ -493,6 +493,7 @@
     <string name="warning_import_csv_file">"\n!!!⚠️ WARNING: Importing may create duplicate transactions!!!\nPlease note that duplicate transactions cannot be easily removed and will need to be deleted individually.\nReason: We cannot parse transaction IDs because Ivy Wallet uses UUIDs exclusively, while other apps do not.\nIf you\'re starting fresh, you can safely ignore this message."</string>
     <string name="select_tags">Select Tags</string>
     <string name="bill_paid">Your bill for %1$s %2$s has been paid</string>
+    <string name="income_received">Income for %1$s %2$s received</string>
     <string name="language">Language</string>
     <string name="advanced_features">Advanced features</string>
 </resources>

@@ -227,13 +227,14 @@ private fun LazyListScope.trnItems(
             compactModeEnabled = compactModeEnabled,
             transaction = it,
             onPayOrGet = onPayOrGet,
-            onSkipTransaction = onSkipTransaction
-        ) { trn ->
-            onTransactionClick(
-                nav = nav,
-                transaction = trn
-            )
-        }
+            onSkipTransaction = onSkipTransaction,
+            onClick = { trn ->
+                onTransactionClick(
+                    nav = nav,
+                    transaction = trn
+                )
+            }
+        )
     }
 }
 
@@ -265,13 +266,14 @@ private fun LazyListScope.historySection(
                         baseData = baseData,
                         compactModeEnabled = compactModeEnabled,
                         transaction = it,
-                        onPayOrGet = onPayOrGet
-                    ) { trn ->
-                        onTransactionClick(
-                            nav = nav,
-                            transaction = trn
-                        )
-                    }
+                        onPayOrGet = onPayOrGet,
+                        onClick = { trn ->
+                            onTransactionClick(
+                                nav = nav,
+                                transaction = trn
+                            )
+                        }
+                    )
                 }
 
                 is TransactionHistoryDateDivider -> {

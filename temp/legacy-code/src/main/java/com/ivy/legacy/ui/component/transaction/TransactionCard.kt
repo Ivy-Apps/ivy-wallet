@@ -335,12 +335,19 @@ private fun getTransactionDescription(transaction: Transaction): String? {
         transaction.recurringRuleId != null &&
                 transaction.dueDate == null &&
                 paidFor != null -> {
-            stringResource(
-                // Todo(Due transaction description: This needs to be set depending on whether it is income or expense)
-                R.string.bill_paid,
-                paidFor.month.name.lowercase().capitalizeLocal(),
-                paidFor.year.toString()
-            )
+                    when (transaction.type) {
+                        TransactionType.INCOME -> stringResource(
+                            R.string.income_received,
+                            paidFor.month.name.lowercase().capitalizeLocal(),
+                            paidFor.year.toString()
+                        )
+                        TransactionType.EXPENSE -> stringResource(
+                            R.string.bill_paid,
+                            paidFor.month.name.lowercase().capitalizeLocal(),
+                            paidFor.year.toString()
+                        )
+                        TransactionType.TRANSFER -> null
+                    }
         }
 
         else -> null
