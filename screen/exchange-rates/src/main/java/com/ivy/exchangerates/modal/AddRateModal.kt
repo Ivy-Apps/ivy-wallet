@@ -4,7 +4,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,6 +21,8 @@ import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.exchangerates.RatesEvent
 import com.ivy.exchangerates.data.RateUi
 import com.ivy.legacy.IvyWalletPreview
+import com.ivy.legacy.utils.selectEndTextFieldValue
+import com.ivy.wallet.ui.theme.components.IvyNameTextField
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalAdd
 import com.ivy.wallet.ui.theme.modal.ModalTitle
@@ -35,7 +36,7 @@ fun BoxWithConstraintsScope.AddRateModal(
     dismiss: () -> Unit,
     onAdd: (RatesEvent.AddRate) -> Unit,
 ) {
-    var toCurrency by remember { mutableStateOf("") }
+    var toCurrency by remember { mutableStateOf(selectEndTextFieldValue("")) }
     var amountModalVisible by remember { mutableStateOf(false) }
     var rate by remember { mutableStateOf<Double?>(null) }
 
@@ -51,7 +52,7 @@ fun BoxWithConstraintsScope.AddRateModal(
                     RatesEvent.AddRate(
                         RateUi(
                             from = baseCurrency,
-                            to = to,
+                            to = to.text,
                             rate = finalRate ?: 0.0,
                         )
                     )
@@ -63,16 +64,16 @@ fun BoxWithConstraintsScope.AddRateModal(
         SpacerVer(height = 16.dp)
         ModalTitle(text = "Add rate")
         SpacerVer(height = 24.dp)
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
+
+        IvyNameTextField(
+            modifier = Modifier.padding(horizontal = 32.dp),
+            underlineModifier = Modifier.padding(horizontal = 24.dp),
             value = toCurrency,
-            label = {
-                Text(text = "Currency")
-            },
-            onValueChange = { toCurrency = it },
-        )
+            hint = "Currency"
+        ) {
+            toCurrency = it
+        }
+
         SpacerVer(height = 12.dp)
         Text(
             modifier = Modifier
@@ -81,7 +82,7 @@ fun BoxWithConstraintsScope.AddRateModal(
                     amountModalVisible = true
                 }
                 .padding(horizontal = 16.dp, vertical = 12.dp),
-            text = "$baseCurrency-$toCurrency = ${rate ?: "???"}",
+            text = "$baseCurrency-${toCurrency.text} = ${rate ?: "???"}",
             style = UI.typo.nH2.style(
                 color = Orange,
                 textAlign = TextAlign.Center,
