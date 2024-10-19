@@ -137,6 +137,7 @@ fun BoxWithConstraintsScope.TransactionsScreen(screen: TransactionsScreen) {
         treatTransfersAsIncomeExpense = uiState.treatTransfersAsIncomeExpense,
 
         history = uiState.history,
+        shouldShowAccountSpecificColorInTransactions = uiState.showAccountColorsInTransactions,
 
         upcoming = uiState.upcoming,
         upcomingExpanded = uiState.upcomingExpanded,
@@ -231,6 +232,7 @@ private fun BoxWithConstraintsScope.UI(
     choosePeriodModal: ChoosePeriodModalData?,
 
     history: ImmutableList<TransactionHistoryItem>,
+    shouldShowAccountSpecificColorInTransactions: Boolean,
 
     onPreviousMonth: () -> Unit,
     onNextMonth: () -> Unit,
@@ -425,7 +427,8 @@ private fun BoxWithConstraintsScope.UI(
                         timeConverter = timeConverter,
                         timeFormatter = timeFormatter,
                     )
-                )
+                ),
+                shouldShowAccountSpecificColorInTransactions = shouldShowAccountSpecificColorInTransactions
             )
         }
     }
@@ -857,6 +860,7 @@ private fun BoxWithConstraintsScope.Preview_empty() {
             onChoosePeriodModal = {},
             choosePeriodModal = null,
             screen = TransactionsScreen(),
+            shouldShowAccountSpecificColorInTransactions = false
         )
     }
 }
@@ -903,6 +907,7 @@ private fun BoxWithConstraintsScope.Preview_crypto() {
             onChoosePeriodModal = {},
             choosePeriodModal = null,
             screen = TransactionsScreen(),
+            shouldShowAccountSpecificColorInTransactions = false
         )
     }
 }
@@ -949,6 +954,7 @@ private fun BoxWithConstraintsScope.Preview_empty_upcoming() {
             onChoosePeriodModal = {},
             choosePeriodModal = null,
             screen = TransactionsScreen(),
+            shouldShowAccountSpecificColorInTransactions = false
         )
     }
 }

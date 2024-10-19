@@ -33,6 +33,7 @@ import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.data.temp.migration.getTransactionType
 import com.ivy.data.temp.migration.getValue
 import com.ivy.domain.RootScreen
+import com.ivy.domain.features.Features
 import com.ivy.domain.usecase.csv.ExportCsvUseCase
 import com.ivy.frp.filterSuspend
 import com.ivy.legacy.IvyWalletCtx
@@ -89,6 +90,7 @@ class ReportViewModel @Inject constructor(
     private val exportCsvUseCase: ExportCsvUseCase,
     private val timeProvider: TimeProvider,
     private val timeConverter: TimeConverter,
+    private val features: Features
 ) : ComposeViewModel<ReportScreenState, ReportScreenEvent>() {
     private val unSpecifiedCategory =
         Category(
@@ -129,6 +131,11 @@ class ReportViewModel @Inject constructor(
     private val tagSearchDebounceTimeInMills: Long = 500
 
     @Composable
+    fun getShouldShowAccountSpecificColorInTransactions(): Boolean {
+        return features.showAccountColorsInTransactions.asEnabledState()
+    }
+
+    @Composable
     override fun uiState(): ReportScreenState {
         LaunchedEffect(Unit) {
             start()
@@ -157,7 +164,8 @@ class ReportViewModel @Inject constructor(
             upcomingExpenses = upcomingExpenses,
             upcomingIncome = upcomingIncome,
             upcomingTransactions = upcomingTransactions,
-            allTags = allTags
+            allTags = allTags,
+            showAccountColorsInTransactions = getShouldShowAccountSpecificColorInTransactions()
         )
     }
 

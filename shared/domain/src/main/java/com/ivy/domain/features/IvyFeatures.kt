@@ -67,6 +67,13 @@ class IvyFeatures @Inject constructor() : Features {
         defaultValue = false
     )
 
+    override val showAccountColorsInTransactions = BoolFeature(
+        key = "show_account_color",
+        group = FeatureGroup.Other,
+        name = "Show Account Color",
+        description = "Show account specific colors for accounts in transactions "
+    )
+
     override val allFeatures: List<BoolFeature>
         get() = listOf(
             sortCategoriesAscending,
@@ -75,7 +82,8 @@ class IvyFeatures @Inject constructor() : Features {
             showTitleSuggestions,
             showCategorySearchBar,
             hideTotalBalance,
-            standardKeypadLayout
+            standardKeypadLayout,
+            showAccountColorsInTransactions
             /* will be uncommented when this functionality
              * will be available across the application in up-coming PRs
             showDecimalNumber

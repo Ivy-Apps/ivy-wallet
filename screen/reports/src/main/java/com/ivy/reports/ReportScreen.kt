@@ -265,6 +265,7 @@ private fun BoxWithConstraintsScope.UI(
                 },
                 emptyStateTitle = stringRes(R.string.no_transactions),
                 emptyStateText = stringRes(R.string.no_transactions_for_your_filter),
+                shouldShowAccountSpecificColorInTransactions = state.showAccountColorsInTransactions,
                 onSkipTransaction = {
                     onEventHandler.invoke(ReportScreenEvent.SkipTransactionLegacy(transaction = it))
                 },

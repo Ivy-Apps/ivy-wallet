@@ -28,6 +28,7 @@ import com.ivy.data.repository.TagRepository
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.data.repository.mapper.TransactionMapper
 import com.ivy.design.l0_system.RedLight
+import com.ivy.domain.features.Features
 import com.ivy.frp.then
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.legacy.data.model.TimePeriod
@@ -95,6 +96,7 @@ class TransactionsViewModel @Inject constructor(
     private val tagRepository: TagRepository,
     private val timeProvider: TimeProvider,
     private val timeConverter: TimeConverter,
+    private val features: Features
 ) : ComposeViewModel<TransactionsState, TransactionsEvent>() {
 
     private val period = mutableStateOf(ivyContext.selectedPeriod)
@@ -161,8 +163,14 @@ class TransactionsViewModel @Inject constructor(
             enableDeletionButton = getEnableDeletionButton(),
             skipAllModalVisible = getSkipAllModalVisible(),
             deleteModal1Visible = getDeleteModal1Visible(),
-            choosePeriodModal = getChoosePeriodModal()
+            choosePeriodModal = getChoosePeriodModal(),
+            showAccountColorsInTransactions = getShouldShowAccountSpecificColorInTransactions()
         )
+    }
+
+    @Composable
+    fun getShouldShowAccountSpecificColorInTransactions(): Boolean {
+        return features.showAccountColorsInTransactions.asEnabledState()
     }
 
     @Composable

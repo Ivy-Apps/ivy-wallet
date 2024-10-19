@@ -15,6 +15,7 @@ import com.ivy.base.time.TimeProvider
 import com.ivy.data.model.primitive.AssetCode
 import com.ivy.data.repository.CategoryRepository
 import com.ivy.data.repository.mapper.TransactionMapper
+import com.ivy.domain.features.Features
 import com.ivy.domain.usecase.exchange.SyncExchangeRatesUseCase
 import com.ivy.frp.fixUnit
 import com.ivy.frp.then
@@ -91,6 +92,7 @@ class HomeViewModel @Inject constructor(
     private val transactionMapper: TransactionMapper,
     private val timeProvider: TimeProvider,
     private val timeConverter: TimeConverter,
+    private val features: Features
 ) : ComposeViewModel<HomeState, HomeEvent>() {
     private var currentTheme by mutableStateOf(Theme.AUTO)
     private var name by mutableStateOf("")
@@ -126,7 +128,7 @@ class HomeViewModel @Inject constructor(
         )
     )
     private var customerJourneyCards by
-        mutableStateOf<ImmutableList<CustomerJourneyCardModel>>(persistentListOf())
+    mutableStateOf<ImmutableList<CustomerJourneyCardModel>>(persistentListOf())
     private var hideBalance by mutableStateOf(false)
     private var hideIncome by mutableStateOf(false)
     private var expanded by mutableStateOf(true)
@@ -151,8 +153,14 @@ class HomeViewModel @Inject constructor(
             customerJourneyCards = getCustomerJourneyCards(),
             hideBalance = getHideBalance(),
             expanded = getExpanded(),
-            hideIncome = getHideIncome()
+            hideIncome = getHideIncome(),
+            shouldShowAccountSpecificColorInTransactions = getShouldShowAccountSpecificColorInTransactions()
         )
+    }
+
+    @Composable
+    fun getShouldShowAccountSpecificColorInTransactions(): Boolean {
+        return features.showAccountColorsInTransactions.asEnabledState()
     }
 
     @Composable
