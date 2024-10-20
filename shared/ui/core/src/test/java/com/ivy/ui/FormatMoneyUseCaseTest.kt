@@ -50,6 +50,30 @@ class FormatMoneyUseCaseTest {
             locale = Locale.GERMAN,
             expectedOutput = "1.000"
         ),
+        ENGLISH_MILLION(
+            amount = 1230000.10,
+            showDecimal = true,
+            locale = Locale.ENGLISH,
+            expectedOutput = "1.23M"
+        ),
+        ENGLISH_BILLION(
+            amount = 1233000000.10,
+            showDecimal = true,
+            locale = Locale.ENGLISH,
+            expectedOutput = "1.23B"
+        ),
+        GERMAN_MILLION(
+            amount = 1230000.10,
+            showDecimal = true,
+            locale = Locale.GERMAN,
+            expectedOutput = "1,23M"
+        ),
+        GERMAN_BILLION(
+            amount = 1233000000.10,
+            showDecimal = true,
+            locale = Locale.GERMAN,
+            expectedOutput = "1,23B"
+        ),
     }
 
     private lateinit var formatMoneyUseCase: FormatMoneyUseCase

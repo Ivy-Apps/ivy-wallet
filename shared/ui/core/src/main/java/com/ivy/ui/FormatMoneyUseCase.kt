@@ -8,6 +8,9 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import javax.inject.Inject
 
+const val MILLION = 1_000_000
+const val BILLION = 1_000_000_000
+
 class FormatMoneyUseCase @Inject constructor(
     private val features: Features,
     private val devicePreferences: DevicePreferences,
@@ -19,11 +22,24 @@ class FormatMoneyUseCase @Inject constructor(
     private val withDecimalFormatter = DecimalFormat("###,###.00", DecimalFormatSymbols(locale))
 
     suspend fun format(value: Double): String {
-        val showDecimalPoint = features.showDecimalNumber.isEnabled(context)
+        when (value >= MILLION) {
+            true -> {
+                val result = if (value >= BILLION) {
+                    String.format(locale, "%.2fB", value / BILLION)
+                } else {
+                    String.format(locale, "%.2fM", value / MILLION)
+                }
+                return result
+            }
 
-        return when (showDecimalPoint) {
-            true -> withDecimalFormatter.format(value)
-            false -> withoutDecimalFormatter.format(value)
+            else -> {
+                val showDecimalPoint = features.showDecimalNumber.isEnabled(context)
+
+                return when (showDecimalPoint) {
+                    true -> withDecimalFormatter.format(value)
+                    false -> withoutDecimalFormatter.format(value)
+                }
+            }
         }
     }
 }
