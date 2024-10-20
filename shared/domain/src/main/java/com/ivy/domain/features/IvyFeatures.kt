@@ -66,7 +66,7 @@ class IvyFeatures @Inject constructor() : Features {
         key = "enable_standard_keypad_layout",
         group = FeatureGroup.Other,
         name = "Standard keypad layout",
-        description = "Enable standard phone keypad layout instead of numeric calculator layout",
+        description = "Replace numeric keypad with standard phone layout",
         defaultValue = false
     )
 
