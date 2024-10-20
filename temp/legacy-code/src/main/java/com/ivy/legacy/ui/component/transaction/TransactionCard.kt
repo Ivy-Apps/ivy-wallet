@@ -344,14 +344,14 @@ private fun TransactionHeaderRow(
             )
 
             val accountBackgroundColor = if (shouldShowAccountSpecificColorInTransactions) {
-                account?.color?.toComposeColor()
+                account?.color?.toComposeColor() ?: UI.colors.pure
             } else {
                 UI.colors.pure
             }
 
             TransactionBadge(
                 text = account?.name ?: stringResource(R.string.deleted),
-                backgroundColor = accountBackgroundColor ?: UI.colors.pure,
+                backgroundColor = accountBackgroundColor,
                 icon = account?.icon,
                 defaultIcon = R.drawable.ic_custom_account_s
             ) {

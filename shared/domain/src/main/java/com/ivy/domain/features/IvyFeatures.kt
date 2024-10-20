@@ -71,7 +71,8 @@ class IvyFeatures @Inject constructor() : Features {
         key = "show_account_color",
         group = FeatureGroup.Other,
         name = "Show Account Color",
-        description = "Show account specific colors for accounts in transactions "
+        description = "Show account specific colors for accounts in transactions",
+        defaultValue = false
     )
 
     override val allFeatures: List<BoolFeature>
