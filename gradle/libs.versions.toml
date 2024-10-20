@@ -18,7 +18,7 @@ paparazzi = "1.3.3"
 min-sdk = "28"
 compile-sdk = "34"
 version-name = "2024.10.20"
-version-code = "203"
+version-code = "204"
 jvm-target = "17"
 
 
