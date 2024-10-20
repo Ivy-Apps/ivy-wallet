@@ -89,18 +89,16 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.util.UUID
 
-@Suppress("CyclomaticComplexMethod")
+@Suppress("CyclomaticComplexMethod", "LongMethod")
 @Deprecated("Old design system. Use `:ivy-design` and Material3")
 @Composable
 fun TransactionCard(
     baseData: AppBaseData,
-
     transaction: Transaction,
-
+    shouldShowAccountSpecificColorInTransactions: Boolean,
     onPayOrGet: (Transaction) -> Unit,
     modifier: Modifier = Modifier,
     onSkipTransaction: (Transaction) -> Unit = {},
-
     onClick: (Transaction) -> Unit,
 ) {
     Column(
@@ -132,11 +130,11 @@ fun TransactionCard(
             transaction = transaction,
             categories = baseData.categories,
             accounts = baseData.accounts,
+            shouldShowAccountSpecificColorInTransactions = shouldShowAccountSpecificColorInTransactions
         )
 
         if (transaction.dueDate != null) {
             Spacer(Modifier.height(12.dp))
-
             val timeFormatter = LocalTimeFormatter.current
             val timeProvider = LocalTimeProvider.current
             Text(
@@ -168,7 +166,6 @@ fun TransactionCard(
                     if (transaction.dueDate != null) 8.dp else 12.dp
                 )
             )
-
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp),
                 text = transaction.title!!,
@@ -226,7 +223,6 @@ fun TransactionCard(
         if (transaction.dueDate != null && transaction.dateTime == null) {
             // Pay/Get button
             Spacer(Modifier.height(16.dp))
-
             val isExpense = transaction.type == TransactionType.EXPENSE
             Row {
                 IvyButton(
@@ -310,6 +306,7 @@ private fun TransactionHeaderRow(
     transaction: Transaction,
     categories: List<Category>,
     accounts: List<Account>,
+    shouldShowAccountSpecificColorInTransactions: Boolean,
 ) {
     val nav = navigation()
 
@@ -346,9 +343,15 @@ private fun TransactionHeaderRow(
                 accounts = accounts
             )
 
+            val accountBackgroundColor = if (shouldShowAccountSpecificColorInTransactions) {
+                account?.color?.toComposeColor() ?: UI.colors.pure
+            } else {
+                UI.colors.pure
+            }
+
             TransactionBadge(
                 text = account?.name ?: stringResource(R.string.deleted),
-                backgroundColor = UI.colors.pure,
+                backgroundColor = accountBackgroundColor,
                 icon = account?.icon,
                 defaultIcon = R.drawable.ic_custom_account_s
             ) {
@@ -636,6 +639,7 @@ private fun PreviewUpcomingExpense() {
                         dateTime = null,
                         type = TransactionType.EXPENSE,
                     ),
+                    shouldShowAccountSpecificColorInTransactions = false,
                     onPayOrGet = {},
                 ) {
                 }
@@ -674,6 +678,7 @@ private fun PreviewUpcomingExpenseBadgeSecondRow() {
                         dateTime = null,
                         type = TransactionType.EXPENSE,
                     ),
+                    shouldShowAccountSpecificColorInTransactions = false,
                     onPayOrGet = {},
                 ) {
                 }
@@ -712,6 +717,7 @@ private fun PreviewOverdueExpense() {
                         dateTime = null,
                         type = TransactionType.EXPENSE
                     ),
+                    shouldShowAccountSpecificColorInTransactions = false,
                     onPayOrGet = {},
                 ) {
                 }
@@ -749,6 +755,7 @@ private fun PreviewNormalExpense() {
                         dateTime = timeNowUTC().toInstant(ZoneOffset.UTC),
                         type = TransactionType.EXPENSE
                     ),
+                    shouldShowAccountSpecificColorInTransactions = false,
                     onPayOrGet = {},
                 ) {
                 }
@@ -786,6 +793,7 @@ private fun PreviewIncome() {
                         dateTime = timeNowUTC().toInstant(ZoneOffset.UTC),
                         type = TransactionType.INCOME
                     ),
+                    shouldShowAccountSpecificColorInTransactions = false,
                     onPayOrGet = {},
                 ) {
                 }
@@ -817,6 +825,7 @@ private fun PreviewTransfer() {
                         dateTime = timeNowUTC().toInstant(ZoneOffset.UTC),
                         type = TransactionType.TRANSFER
                     ),
+                    shouldShowAccountSpecificColorInTransactions = false,
                     onPayOrGet = {},
                 ) {
                 }
@@ -854,6 +863,7 @@ private fun PreviewTransfer_differentCurrency() {
                         dateTime = timeNowUTC().toInstant(ZoneOffset.UTC),
                         type = TransactionType.TRANSFER
                     ),
+                    shouldShowAccountSpecificColorInTransactions = false,
                     onPayOrGet = {},
                 ) {
                 }

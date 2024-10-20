@@ -50,7 +50,7 @@ fun LazyListScope.transactions(
 
     dateDividerMarginTop: Dp? = null,
     lastItemSpacer: Dp? = null,
-
+    shouldShowAccountSpecificColorInTransactions: Boolean,
     onPayOrGet: (Transaction) -> Unit,
     setUpcomingExpanded: (Boolean) -> Unit,
     setOverdueExpanded: (Boolean) -> Unit,
@@ -60,7 +60,7 @@ fun LazyListScope.transactions(
     upcomingSection(
         baseData = baseData,
         upcoming = upcoming,
-
+        shouldShowAccountSpecificColorInTransactions = shouldShowAccountSpecificColorInTransactions,
         onPayOrGet = onPayOrGet,
         onSkipTransaction = onSkipTransaction,
         setExpanded = setUpcomingExpanded
@@ -73,6 +73,7 @@ fun LazyListScope.transactions(
         onPayOrGet = onPayOrGet,
         onSkipTransaction = onSkipTransaction,
         onSkipAllTransactions = onSkipAllTransactions,
+        shouldShowAccountSpecificColorInTransactions = shouldShowAccountSpecificColorInTransactions,
         setExpanded = setOverdueExpanded
     )
 
@@ -80,7 +81,7 @@ fun LazyListScope.transactions(
         baseData = baseData,
 
         history = history,
-
+        shouldShowAccountSpecificColorInTransactions = shouldShowAccountSpecificColorInTransactions,
         dateDividerMarginTop = dateDividerMarginTop,
         onPayOrGet = onPayOrGet
     )
@@ -110,7 +111,7 @@ private fun LazyListScope.upcomingSection(
     baseData: AppBaseData,
 
     upcoming: LegacyDueSection?,
-
+    shouldShowAccountSpecificColorInTransactions: Boolean,
     onPayOrGet: (Transaction) -> Unit,
     onSkipTransaction: (Transaction) -> Unit,
     setExpanded: (Boolean) -> Unit
@@ -137,7 +138,7 @@ private fun LazyListScope.upcomingSection(
                 baseData = baseData,
 
                 transactions = upcoming.trns,
-
+                shouldShowAccountSpecificColorInTransactions = shouldShowAccountSpecificColorInTransactions,
                 onPayOrGet = onPayOrGet,
                 onSkipTransaction = onSkipTransaction
             )
@@ -149,7 +150,7 @@ private fun LazyListScope.overdueSection(
     baseData: AppBaseData,
 
     overdue: LegacyDueSection?,
-
+    shouldShowAccountSpecificColorInTransactions: Boolean,
     onPayOrGet: (Transaction) -> Unit,
     onSkipTransaction: (Transaction) -> Unit,
     onSkipAllTransactions: (List<Transaction>) -> Unit,
@@ -200,7 +201,7 @@ private fun LazyListScope.overdueSection(
                 baseData = baseData,
 
                 transactions = overdue.trns,
-
+                shouldShowAccountSpecificColorInTransactions = shouldShowAccountSpecificColorInTransactions,
                 onPayOrGet = onPayOrGet,
                 onSkipTransaction = onSkipTransaction
             )
@@ -212,7 +213,7 @@ private fun LazyListScope.trnItems(
     baseData: AppBaseData,
 
     transactions: List<Transaction>,
-
+    shouldShowAccountSpecificColorInTransactions: Boolean,
     onPayOrGet: (Transaction) -> Unit,
     onSkipTransaction: (Transaction) -> Unit,
 ) {
@@ -225,6 +226,7 @@ private fun LazyListScope.trnItems(
             baseData = baseData,
 
             transaction = it,
+            shouldShowAccountSpecificColorInTransactions = shouldShowAccountSpecificColorInTransactions,
             onPayOrGet = onPayOrGet,
             onSkipTransaction = onSkipTransaction
         ) { trn ->
@@ -240,7 +242,7 @@ private fun LazyListScope.historySection(
     baseData: AppBaseData,
 
     history: List<TransactionHistoryItem>,
-
+    shouldShowAccountSpecificColorInTransactions: Boolean,
     dateDividerMarginTop: Dp? = null,
 
     onPayOrGet: (Transaction) -> Unit
@@ -264,6 +266,7 @@ private fun LazyListScope.historySection(
                         baseData = baseData,
 
                         transaction = it,
+                        shouldShowAccountSpecificColorInTransactions = shouldShowAccountSpecificColorInTransactions,
                         onPayOrGet = onPayOrGet
                     ) { trn ->
                         onTransactionClick(

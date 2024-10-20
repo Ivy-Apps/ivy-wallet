@@ -189,6 +189,7 @@ fun BoxWithConstraintsScope.HomeUi(
             history = uiState.history,
 
             customerJourneyCards = uiState.customerJourneyCards,
+            shouldShowAccountSpecificColorInTransactions = uiState.shouldShowAccountSpecificColorInTransactions,
 
             onPayOrGet = forward<Transaction>() then2 {
                 HomeEvent.PayOrGetPlanned(it)
@@ -289,6 +290,7 @@ fun HomeLazyColumn(
     period: TimePeriod,
 
     baseData: AppBaseData,
+    shouldShowAccountSpecificColorInTransactions: Boolean,
 
     upcoming: LegacyDueSection,
     overdue: LegacyDueSection,
@@ -386,6 +388,7 @@ fun HomeLazyColumn(
                     timeFormatter = timeFormatter,
                 )
             ),
+            shouldShowAccountSpecificColorInTransactions = shouldShowAccountSpecificColorInTransactions,
             onSkipTransaction = onSkipTransaction,
             onSkipAllTransactions = onSkipAllTransactions
         )
@@ -428,7 +431,8 @@ private fun BoxWithConstraintsScope.PreviewHomeTab(isDark: Boolean = false) {
                 period = TimePeriod(month = Month.monthsList().first(), year = 2023),
                 hideBalance = false,
                 hideIncome = false,
-                expanded = false
+                expanded = false,
+                shouldShowAccountSpecificColorInTransactions = false
             ),
             onEvent = {}
         )

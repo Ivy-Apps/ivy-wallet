@@ -1,6 +1,5 @@
 package com.ivy.reports
 
-import com.ivy.data.model.Transaction
 import com.ivy.base.legacy.TransactionHistoryItem
 import com.ivy.data.model.Category
 import com.ivy.data.model.Tag
@@ -33,5 +32,6 @@ data class ReportScreenState(
     val filterOverlayVisible: Boolean = false,
     val showTransfersAsIncExpCheckbox: Boolean = false,
     val treatTransfersAsIncExp: Boolean = false,
-    val allTags: ImmutableList<Tag> = persistentListOf()
+    val allTags: ImmutableList<Tag> = persistentListOf(),
+    val showAccountColorsInTransactions: Boolean = false
 )
