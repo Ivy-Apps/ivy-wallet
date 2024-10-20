@@ -28,70 +28,70 @@ class FormatMoneyUseCaseTest {
         val expectedOutput: String
     ) {
         ENG_SHOW_DECIMAL(
-            amount = 1000.12,
+            amount = 1_000.12,
             showDecimal = true,
             shortenAmount = false,
             locale = Locale.ENGLISH,
             expectedOutput = "1,000.12"
         ),
         ENG_HIDE_DECIMAL(
-            amount = 1000.12,
+            amount = 1_000.12,
             showDecimal = false,
             shortenAmount = false,
             locale = Locale.ENGLISH,
             expectedOutput = "1,000"
         ),
         GERMAN_SHOW_DECIMAL(
-            amount = 1000.12,
+            amount = 1_000.12,
             showDecimal = true,
             shortenAmount = false,
             locale = Locale.GERMAN,
             expectedOutput = "1.000,12"
         ),
         GERMAN_HIDE_DECIMAL(
-            amount = 1000.12,
+            amount = 1_000.12,
             showDecimal = false,
             shortenAmount = false,
             locale = Locale.GERMAN,
             expectedOutput = "1.000"
         ),
-        ENGLISH_100K_SHORT_AMT(
-            amount = 130000.10,
+        ENGLISH_1K_SHORT_AMT(
+            amount = 13_000.10,
             showDecimal = true,
             shortenAmount = true,
             locale = Locale.ENGLISH,
-            expectedOutput = "1.30k"
+            expectedOutput = "13.00k"
         ),
         ENGLISH_MILLION_SHORT_AMT(
-            amount = 1230000.10,
+            amount = 1_230_000.10,
             showDecimal = true,
             shortenAmount = true,
             locale = Locale.ENGLISH,
             expectedOutput = "1.23m"
         ),
         ENGLISH_BILLION_SHORT_AMT(
-            amount = 1233000000.10,
+            amount = 1_233_000_000.10,
             showDecimal = true,
             shortenAmount = true,
             locale = Locale.ENGLISH,
             expectedOutput = "1.23b"
         ),
-        GERMAN_100K_SHORT_AMT(
-            amount = 130000.10,
+        GERMAN_1K_SHORT_AMT(
+            amount = 13_000.10,
             showDecimal = true,
             shortenAmount = true,
             locale = Locale.GERMAN,
-            expectedOutput = "1,30k"
+            expectedOutput = "13,00k"
         ),
         GERMAN_MILLION_SHORT_AMT(
-            amount = 1230000.10,
+            amount = 1_230_000.10,
             showDecimal = true,
             shortenAmount = true,
             locale = Locale.GERMAN,
             expectedOutput = "1,23m"
         ),
         GERMAN_BILLION_SHORT_AMT(
-            amount = 1233000000.10,
+            amount = 1_233_000_000.10,
             showDecimal = true,
             shortenAmount = true,
             locale = Locale.GERMAN,

@@ -11,7 +11,7 @@ import kotlin.math.abs
 
 const val MILLION = 1_000_000
 const val BILLION = 1_000_000_000
-const val HUNDREDOFTHOUSAND = 100000
+const val THOUSAND = 1_000
 
 class FormatMoneyUseCase @Inject constructor(
     private val features: Features,
@@ -24,14 +24,14 @@ class FormatMoneyUseCase @Inject constructor(
     private val withDecimalFormatter = DecimalFormat("###,###.00", DecimalFormatSymbols(locale))
 
     suspend fun format(value: Double, shortenAmount: Boolean): String {
-        when (abs(value) >= HUNDREDOFTHOUSAND && shortenAmount) {
+        when (abs(value) >= THOUSAND && shortenAmount) {
             true -> {
                 val result = if (abs(value) >= BILLION) {
                     String.format(locale, "%.2fb", value / BILLION)
                 } else if (abs(value) >= MILLION) {
                     String.format(locale, "%.2fm", value / MILLION)
                 } else {
-                    String.format(locale, "%.2fk", value / HUNDREDOFTHOUSAND)
+                    String.format(locale, "%.2fk", value / THOUSAND)
                 }
                 return result
             }
