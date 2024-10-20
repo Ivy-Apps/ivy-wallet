@@ -50,7 +50,7 @@ class IvyFeatures @Inject constructor() : Features {
         key = "hide_total_balance",
         group = FeatureGroup.Account,
         name = "Hide account total balance",
-        description = "Replace the total balance values with asterisks on the Accounts screen",
+        description = "Hide total balance summary on the Accounts screen",
         defaultValue = false
     )
 
@@ -73,8 +73,8 @@ class IvyFeatures @Inject constructor() : Features {
     override val showAccountColorsInTransactions = BoolFeature(
         key = "show_account_color",
         group = FeatureGroup.Other,
-        name = "Show Account Color",
-        description = "Show account specific colors for accounts in transactions",
+        name = "Colorful account labels",
+        description = "Display account-specific colors in transactions",
         defaultValue = false
     )
 
