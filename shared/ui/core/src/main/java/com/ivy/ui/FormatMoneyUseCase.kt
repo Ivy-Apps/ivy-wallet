@@ -9,9 +9,9 @@ import java.text.DecimalFormatSymbols
 import javax.inject.Inject
 import kotlin.math.abs
 
+const val THOUSAND = 1_000
 const val MILLION = 1_000_000
 const val BILLION = 1_000_000_000
-const val THOUSAND = 1_000
 
 class FormatMoneyUseCase @Inject constructor(
     private val features: Features,
@@ -24,26 +24,24 @@ class FormatMoneyUseCase @Inject constructor(
     private val withDecimalFormatter = DecimalFormat("###,###.00", DecimalFormatSymbols(locale))
 
     suspend fun format(value: Double, shortenAmount: Boolean): String {
-        when (abs(value) >= THOUSAND && shortenAmount) {
-            true -> {
-                val result = if (abs(value) >= BILLION) {
-                    String.format(locale, "%.2fb", value / BILLION)
-                } else if (abs(value) >= MILLION) {
-                    String.format(locale, "%.2fm", value / MILLION)
-                } else {
-                    String.format(locale, "%.2fk", value / THOUSAND)
-                }
-                return result
-            }
+        val showDecimalPoint = features.showDecimalNumber.isEnabled(context)
 
-            else -> {
-                val showDecimalPoint = features.showDecimalNumber.isEnabled(context)
+        val formatter = when (showDecimalPoint) {
+            true -> withDecimalFormatter
+            false -> withoutDecimalFormatter
+        }
 
-                return when (showDecimalPoint) {
-                    true -> withDecimalFormatter.format(value)
-                    false -> withoutDecimalFormatter.format(value)
-                }
+        if (abs(value) >= THOUSAND && shortenAmount) {
+            val result = if (abs(value) >= BILLION) {
+                "${formatter.format(value / BILLION)}b"
+            } else if (abs(value) >= MILLION) {
+                "${formatter.format(value / MILLION)}m"
+            } else {
+                "${formatter.format(value / THOUSAND)}k"
             }
+            return result
+        } else {
+            return formatter.format(value)
         }
     }
 }
