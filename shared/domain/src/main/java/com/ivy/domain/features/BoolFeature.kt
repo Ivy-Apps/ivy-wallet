@@ -20,7 +20,7 @@ class BoolFeature(
     val group: FeatureGroup? = null,
     val name: String? = null,
     val description: String? = null,
-    private val defaultValue: Boolean = false
+    private val defaultValue: Boolean
 ) {
     @Composable
     fun asEnabledState(): Boolean {

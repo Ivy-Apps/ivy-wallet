@@ -10,21 +10,24 @@ class IvyFeatures @Inject constructor() : Features {
         key = "sort_categories_ascending",
         group = FeatureGroup.Category,
         name = "Sort categories list",
-        description = "Show categories in ascending order (A-Z) on the transaction entry screen"
+        description = "Show categories in ascending order (A-Z) on the transaction entry screen",
+        defaultValue = false
     )
 
     override val compactAccountsMode = BoolFeature(
         key = "compact_account_ui",
         group = FeatureGroup.Account,
         name = "Compact account cards",
-        description = "Make the Accounts tab UI more compact and dense"
+        description = "Make the Accounts tab UI more compact and dense",
+        defaultValue = false
     )
 
     override val compactCategoriesMode = BoolFeature(
         key = "compact_category_ui",
         group = FeatureGroup.Category,
         name = "Compact category cards",
-        description = "Simplified design of the Categories screen"
+        description = "Simplified design of the Categories screen",
+        defaultValue = false
     )
 
     override val showTitleSuggestions = BoolFeature(
