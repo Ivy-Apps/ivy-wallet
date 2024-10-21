@@ -23,32 +23,79 @@ class FormatMoneyUseCaseTest {
     enum class MoneyFormatterTestCase(
         val amount: Double,
         val showDecimal: Boolean,
+        val shortenAmount: Boolean,
         val locale: Locale,
         val expectedOutput: String
     ) {
         ENG_SHOW_DECIMAL(
-            amount = 1000.12,
+            amount = 1_000.12,
             showDecimal = true,
+            shortenAmount = false,
             locale = Locale.ENGLISH,
             expectedOutput = "1,000.12"
         ),
         ENG_HIDE_DECIMAL(
-            amount = 1000.12,
+            amount = 1_000.12,
             showDecimal = false,
+            shortenAmount = false,
             locale = Locale.ENGLISH,
             expectedOutput = "1,000"
         ),
         GERMAN_SHOW_DECIMAL(
-            amount = 1000.12,
+            amount = 1_000.12,
             showDecimal = true,
+            shortenAmount = false,
             locale = Locale.GERMAN,
             expectedOutput = "1.000,12"
         ),
         GERMAN_HIDE_DECIMAL(
-            amount = 1000.12,
+            amount = 1_000.12,
             showDecimal = false,
+            shortenAmount = false,
             locale = Locale.GERMAN,
             expectedOutput = "1.000"
+        ),
+        ENGLISH_1K_SHORT_AMT(
+            amount = 13_000.10,
+            showDecimal = true,
+            shortenAmount = true,
+            locale = Locale.ENGLISH,
+            expectedOutput = "13k"
+        ),
+        ENGLISH_MILLION_SHORT_AMT(
+            amount = 1_233_500.10,
+            showDecimal = true,
+            shortenAmount = true,
+            locale = Locale.ENGLISH,
+            expectedOutput = "1.23m"
+        ),
+        ENGLISH_BILLION_SHORT_AMT(
+            amount = 1_233_000_000.10,
+            showDecimal = true,
+            shortenAmount = true,
+            locale = Locale.ENGLISH,
+            expectedOutput = "1.23b"
+        ),
+        GERMAN_1K_SHORT_AMT(
+            amount = 13_000.10,
+            showDecimal = true,
+            shortenAmount = true,
+            locale = Locale.GERMAN,
+            expectedOutput = "13k"
+        ),
+        GERMAN_MILLION_SHORT_AMT(
+            amount = 1_233_500.10,
+            showDecimal = true,
+            shortenAmount = true,
+            locale = Locale.GERMAN,
+            expectedOutput = "1,23m"
+        ),
+        GERMAN_BILLION_SHORT_AMT(
+            amount = 1_233_000_000.10,
+            showDecimal = true,
+            shortenAmount = true,
+            locale = Locale.GERMAN,
+            expectedOutput = "1,23b"
         ),
     }
 
@@ -65,7 +112,10 @@ class FormatMoneyUseCaseTest {
         formatMoneyUseCase = FormatMoneyUseCase(features, devicePreferences, context)
 
         // when
-        val result = formatMoneyUseCase.format(value = testCase.amount)
+        val result = formatMoneyUseCase.format(
+            value = testCase.amount,
+            shortenAmount = testCase.shortenAmount
+        )
 
         // then
         result shouldBe testCase.expectedOutput
