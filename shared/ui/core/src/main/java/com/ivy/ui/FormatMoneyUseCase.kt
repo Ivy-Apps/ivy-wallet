@@ -22,25 +22,25 @@ class FormatMoneyUseCase @Inject constructor(
     private val locale = devicePreferences.locale()
     private val withoutDecimalFormatter = DecimalFormat("###,###", DecimalFormatSymbols(locale))
     private val withDecimalFormatter = DecimalFormat("###,###.00", DecimalFormatSymbols(locale))
+    private val shortenAmountFormatter = DecimalFormat("###,###.##", DecimalFormatSymbols(locale))
 
     suspend fun format(value: Double, shortenAmount: Boolean): String {
-        val showDecimalPoint = features.showDecimalNumber.isEnabled(context)
-
-        val formatter = when (showDecimalPoint) {
-            true -> withDecimalFormatter
-            false -> withoutDecimalFormatter
-        }
-
         if (abs(value) >= THOUSAND && shortenAmount) {
             val result = if (abs(value) >= BILLION) {
-                "${formatter.format(value / BILLION)}b"
+                "${shortenAmountFormatter.format(value / BILLION)}b"
             } else if (abs(value) >= MILLION) {
-                "${formatter.format(value / MILLION)}m"
+                "${shortenAmountFormatter.format(value / MILLION)}m"
             } else {
-                "${formatter.format(value / THOUSAND)}k"
+                "${shortenAmountFormatter.format(value / THOUSAND)}k"
             }
             return result
         } else {
+            val showDecimalPoint = features.showDecimalNumber.isEnabled(context)
+
+            val formatter = when (showDecimalPoint) {
+                true -> withDecimalFormatter
+                false -> withoutDecimalFormatter
+            }
             return formatter.format(value)
         }
     }

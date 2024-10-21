@@ -57,17 +57,10 @@ class FormatMoneyUseCaseTest {
         ),
         ENGLISH_1K_SHORT_AMT(
             amount = 13_000.10,
-            showDecimal = false,
-            shortenAmount = true,
-            locale = Locale.ENGLISH,
-            expectedOutput = "13k"
-        ),
-        ENGLISH_1K_SHORT_AMT_SHOW_DECIMAL(
-            amount = 13_000.10,
             showDecimal = true,
             shortenAmount = true,
             locale = Locale.ENGLISH,
-            expectedOutput = "13.00k"
+            expectedOutput = "13k"
         ),
         ENGLISH_MILLION_SHORT_AMT(
             amount = 1_233_500.10,
@@ -85,17 +78,10 @@ class FormatMoneyUseCaseTest {
         ),
         GERMAN_1K_SHORT_AMT(
             amount = 13_000.10,
-            showDecimal = false,
-            shortenAmount = true,
-            locale = Locale.GERMAN,
-            expectedOutput = "13k"
-        ),
-        GERMAN_1K_SHORT_AMT_SHOW_DECIMAL(
-            amount = 13_000.10,
             showDecimal = true,
             shortenAmount = true,
             locale = Locale.GERMAN,
-            expectedOutput = "13,00k"
+            expectedOutput = "13k"
         ),
         GERMAN_MILLION_SHORT_AMT(
             amount = 1_233_500.10,
