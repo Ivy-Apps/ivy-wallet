@@ -75,7 +75,7 @@ class IvyFeatures @Inject constructor() : Features {
         group = FeatureGroup.Other,
         name = "Colorful account labels",
         description = "Display account-specific colors in transactions",
-        defaultValue = false
+        defaultValue = true
     )
 
     override val allFeatures: List<BoolFeature>
