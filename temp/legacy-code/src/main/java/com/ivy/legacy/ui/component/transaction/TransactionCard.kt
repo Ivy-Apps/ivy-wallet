@@ -465,10 +465,10 @@ private fun TransferHeader(
     transaction: Transaction,
     shouldShowAccountSpecificColorInTransactions: Boolean
 ) {
-    val account = remember (accounts,transaction){
+    val account = remember(accounts, transaction) {
         accounts.find { transaction.accountId == it.id }
     }
-    val toAccount = remember(accounts,transaction) {
+    val toAccount = remember(accounts, transaction) {
         accounts.find { transaction.toAccountId == it.id }
     }
 
