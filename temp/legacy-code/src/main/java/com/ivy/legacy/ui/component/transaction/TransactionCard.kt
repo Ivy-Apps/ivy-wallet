@@ -462,7 +462,6 @@ private fun TransferHeader(
     transaction: Transaction,
     shouldShowAccountSpecificColorInTransactions: Boolean
 ) {
-
     val account = accounts.find { transaction.accountId == it.id }
     val toAccount = accounts.find { transaction.toAccountId == it.id }
 
@@ -474,8 +473,8 @@ private fun TransferHeader(
                         .background(
                             brush = Brush.horizontalGradient(
                                 0f to account.color.toComposeColor(),
-                                0.35f to account.color.toComposeColor(),
-                                0.65f to toAccount.color.toComposeColor(),
+                                (0.35f) to account.color.toComposeColor(),
+                                (1f - 0.35f) to toAccount.color.toComposeColor(),
                                 1f to toAccount.color.toComposeColor()
                             ),
                             shape = UI.shapes.rFull
