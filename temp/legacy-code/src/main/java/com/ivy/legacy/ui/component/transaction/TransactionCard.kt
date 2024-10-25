@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.testTag
@@ -325,7 +326,8 @@ private fun TransactionHeaderRow(
             }
             TransferHeader(
                 accounts = accounts,
-                transaction = transaction
+                transaction = transaction,
+                shouldShowAccountSpecificColorInTransactions = shouldShowAccountSpecificColorInTransactions
             )
         }
     } else {
@@ -457,16 +459,36 @@ private fun TransactionBadge(
 @Composable
 private fun TransferHeader(
     accounts: List<Account>,
-    transaction: Transaction
+    transaction: Transaction,
+    shouldShowAccountSpecificColorInTransactions: Boolean
 ) {
+
+    val account = accounts.find { transaction.accountId == it.id }
+    val toAccount = accounts.find { transaction.toAccountId == it.id }
+
     Row(
         modifier = Modifier
-            .background(UI.colors.pure, UI.shapes.rFull),
+            .then(
+                if (shouldShowAccountSpecificColorInTransactions && account != null && toAccount != null) {
+                    Modifier
+                        .background(
+                            brush = Brush.horizontalGradient(
+                                colors = listOf(
+                                    account.color.toComposeColor(),
+                                    toAccount.color.toComposeColor()
+                                )
+                            ),
+                            shape = UI.shapes.rFull
+                        )
+                } else {
+                    Modifier.background(UI.colors.pure, UI.shapes.rFull)
+                }
+            ),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(8.dp))
 
-        val account = accounts.find { transaction.accountId == it.id }
+
         ItemIconSDefaultIcon(
             iconName = account?.icon,
             defaultIcon = R.drawable.ic_custom_account_s
@@ -491,7 +513,6 @@ private fun TransferHeader(
 
         Spacer(Modifier.width(12.dp))
 
-        val toAccount = accounts.find { transaction.toAccountId == it.id }
         ItemIconSDefaultIcon(
             iconName = toAccount?.icon,
             defaultIcon = R.drawable.ic_custom_account_s
