@@ -21,9 +21,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.testTag
@@ -325,7 +327,8 @@ private fun TransactionHeaderRow(
             }
             TransferHeader(
                 accounts = accounts,
-                transaction = transaction
+                transaction = transaction,
+                shouldShowAccountSpecificColorInTransactions = shouldShowAccountSpecificColorInTransactions
             )
         }
     } else {
@@ -454,22 +457,54 @@ private fun TransactionBadge(
     }
 }
 
+private const val TransferHeaderGradientThreshold = 0.35f
+
 @Composable
 private fun TransferHeader(
     accounts: List<Account>,
-    transaction: Transaction
+    transaction: Transaction,
+    shouldShowAccountSpecificColorInTransactions: Boolean
 ) {
+    val account = remember(accounts, transaction) {
+        accounts.find { transaction.accountId == it.id }
+    }
+    val toAccount = remember(accounts, transaction) {
+        accounts.find { transaction.toAccountId == it.id }
+    }
+
     Row(
         modifier = Modifier
-            .background(UI.colors.pure, UI.shapes.rFull),
+            .then(
+                if (shouldShowAccountSpecificColorInTransactions && account != null && toAccount != null) {
+                    Modifier
+                        .background(
+                            brush = Brush.horizontalGradient(
+                                0f to account.color.toComposeColor(),
+                                (TransferHeaderGradientThreshold) to account.color.toComposeColor(),
+                                (1f - TransferHeaderGradientThreshold) to toAccount.color.toComposeColor(),
+                                1f to toAccount.color.toComposeColor()
+                            ),
+                            shape = UI.shapes.rFull
+                        )
+                } else {
+                    Modifier.background(UI.colors.pure, UI.shapes.rFull)
+                }
+            ),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(8.dp))
 
-        val account = accounts.find { transaction.accountId == it.id }
+        val accountContrastColor =
+            if (shouldShowAccountSpecificColorInTransactions && account != null) {
+                findContrastTextColor(account.color.toComposeColor())
+            } else {
+                UI.colors.pureInverse
+            }
+
         ItemIconSDefaultIcon(
             iconName = account?.icon,
-            defaultIcon = R.drawable.ic_custom_account_s
+            defaultIcon = R.drawable.ic_custom_account_s,
+            tint = accountContrastColor
         )
 
         Spacer(Modifier.width(4.dp))
@@ -481,20 +516,27 @@ private fun TransferHeader(
             text = account?.name.toString(),
             style = UI.typo.c.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = UI.colors.pureInverse
+                color = accountContrastColor
             )
         )
 
         Spacer(Modifier.width(12.dp))
 
-        IvyIcon(icon = R.drawable.ic_arrow_right)
+        IvyIcon(icon = R.drawable.ic_arrow_right, tint = accountContrastColor)
 
         Spacer(Modifier.width(12.dp))
 
-        val toAccount = accounts.find { transaction.toAccountId == it.id }
+        val toAccountContrastColor =
+            if (shouldShowAccountSpecificColorInTransactions && toAccount != null) {
+                findContrastTextColor(toAccount.color.toComposeColor())
+            } else {
+                UI.colors.pureInverse
+            }
+
         ItemIconSDefaultIcon(
             iconName = toAccount?.icon,
-            defaultIcon = R.drawable.ic_custom_account_s
+            defaultIcon = R.drawable.ic_custom_account_s,
+            tint = toAccountContrastColor
         )
 
         Spacer(Modifier.width(4.dp))
@@ -506,7 +548,7 @@ private fun TransferHeader(
             text = toAccount?.name.toString(),
             style = UI.typo.c.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = UI.colors.pureInverse
+                color = toAccountContrastColor
             )
         )
 
@@ -863,7 +905,7 @@ private fun PreviewTransfer_differentCurrency() {
                         dateTime = timeNowUTC().toInstant(ZoneOffset.UTC),
                         type = TransactionType.TRANSFER
                     ),
-                    shouldShowAccountSpecificColorInTransactions = false,
+                    shouldShowAccountSpecificColorInTransactions = true,
                     onPayOrGet = {},
                 ) {
                 }
