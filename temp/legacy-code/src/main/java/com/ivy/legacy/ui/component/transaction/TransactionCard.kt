@@ -21,6 +21,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -464,8 +465,12 @@ private fun TransferHeader(
     transaction: Transaction,
     shouldShowAccountSpecificColorInTransactions: Boolean
 ) {
-    val account = accounts.find { transaction.accountId == it.id }
-    val toAccount = accounts.find { transaction.toAccountId == it.id }
+    val account = remember (accounts,transaction){
+        accounts.find { transaction.accountId == it.id }
+    }
+    val toAccount = remember(accounts,transaction) {
+        accounts.find { transaction.toAccountId == it.id }
+    }
 
     Row(
         modifier = Modifier
