@@ -33,7 +33,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.base.Constants.TRANSFER_HEADER_GRADIENT_THRESHOLD
 import com.ivy.base.legacy.LegacyTag
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.model.TransactionType
@@ -457,6 +456,7 @@ private fun TransactionBadge(
     }
 }
 
+private const val TRANSFER_HEADER_GRADIENT_THRESHOLD = 0.35f
 @Composable
 private fun TransferHeader(
     accounts: List<Account>,
