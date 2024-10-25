@@ -456,7 +456,8 @@ private fun TransactionBadge(
     }
 }
 
-private const val TRANSFER_HEADER_GRADIENT_THRESHOLD = 0.35f
+private const val TransferHeaderGradientThreshold = 0.35f
+
 @Composable
 private fun TransferHeader(
     accounts: List<Account>,
@@ -474,8 +475,8 @@ private fun TransferHeader(
                         .background(
                             brush = Brush.horizontalGradient(
                                 0f to account.color.toComposeColor(),
-                                (TRANSFER_HEADER_GRADIENT_THRESHOLD) to account.color.toComposeColor(),
-                                (1f - TRANSFER_HEADER_GRADIENT_THRESHOLD) to toAccount.color.toComposeColor(),
+                                (TransferHeaderGradientThreshold) to account.color.toComposeColor(),
+                                (1f - TransferHeaderGradientThreshold) to toAccount.color.toComposeColor(),
                                 1f to toAccount.color.toComposeColor()
                             ),
                             shape = UI.shapes.rFull
