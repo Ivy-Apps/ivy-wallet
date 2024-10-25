@@ -33,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.base.Constants.TRANSFER_HEADER_GRADIENT_THRESHOLD
 import com.ivy.base.legacy.LegacyTag
 import com.ivy.base.legacy.Transaction
 import com.ivy.base.model.TransactionType
@@ -473,8 +474,8 @@ private fun TransferHeader(
                         .background(
                             brush = Brush.horizontalGradient(
                                 0f to account.color.toComposeColor(),
-                                (0.35f) to account.color.toComposeColor(),
-                                (1f - 0.35f) to toAccount.color.toComposeColor(),
+                                (TRANSFER_HEADER_GRADIENT_THRESHOLD) to account.color.toComposeColor(),
+                                (1f - TRANSFER_HEADER_GRADIENT_THRESHOLD) to toAccount.color.toComposeColor(),
                                 1f to toAccount.color.toComposeColor()
                             ),
                             shape = UI.shapes.rFull
