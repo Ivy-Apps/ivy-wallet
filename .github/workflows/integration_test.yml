@@ -39,7 +39,7 @@ jobs:
 
       - name: create AVD and generate snapshot for caching
         if: steps.avd-cache.outputs.cache-hit != 'true'
-        uses: reactivecircus/android-emulator-runner@v2.32.0
+        uses: reactivecircus/android-emulator-runner@v2.33.0
         with:
           api-level: 34
           target: google_apis
@@ -55,7 +55,7 @@ jobs:
           ./gradlew :shared:domain:assembleDebug :shared:domain:assembleAndroidTest
 
       - name: Run androidTest on emulator
-        uses: reactivecircus/android-emulator-runner@v2.32.0
+        uses: reactivecircus/android-emulator-runner@v2.33.0
         with:
           api-level: 34
           target: google_apis
