@@ -97,35 +97,37 @@ class TransactionRepository @Inject constructor(
         accountId: AccountId,
         startDate: Instant,
         endDate: Instant
-    ): List<Transaction> = withContext(dispatchersProvider.io) {
-        val transactions = transactionDao.findAllByAccountAndBetween(
-            accountId = accountId.value,
-            startDate = startDate,
-            endDate = endDate
-        )
-        val tagAssociationMap = getTagsForTransactionIds(transactions)
-        transactions.mapNotNull {
-            val tags = tagAssociationMap[it.id] ?: emptyList()
-            with(mapper) { it.toDomain(tags = tags).getOrNull() }
+    ): List<Transaction> = retrieveTrns(
+        dbCall = {
+            transactionDao.findAllByAccountAndBetween(
+                accountId = accountId.value,
+                startDate = startDate,
+                endDate = endDate
+            )
+        },
+        retrieveTags = {
+            getTagsForTransactionIds(listOf(it))[it.id] ?: emptyList()
         }
-    }
+    )
+
+
 
     suspend fun findAllToAccountAndBetween(
         toAccountId: AccountId,
         startDate: Instant,
         endDate: Instant
-    ): List<Transaction> = withContext(dispatchersProvider.io) {
-        val transactions = transactionDao.findAllToAccountAndBetween(
-            toAccountId = toAccountId.value,
-            startDate = startDate,
-            endDate = endDate
-        )
-        val tagAssociationMap = getTagsForTransactionIds(transactions)
-        transactions.mapNotNull {
-            val tags = tagAssociationMap[it.id] ?: emptyList()
-            with(mapper) { it.toDomain(tags = tags).getOrNull() }
+    ): List<Transaction> = retrieveTrns(
+        dbCall = {
+            transactionDao.findAllToAccountAndBetween(
+                toAccountId = toAccountId.value,
+                startDate = startDate,
+                endDate = endDate
+            )
+        },
+        retrieveTags = {
+            getTagsForTransactionIds(listOf(it))[it.id] ?: emptyList()
         }
-    }
+    )
 
     suspend fun findAllDueToBetween(
         startDate: Instant,
