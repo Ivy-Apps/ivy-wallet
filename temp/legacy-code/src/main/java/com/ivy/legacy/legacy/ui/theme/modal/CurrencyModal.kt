@@ -22,7 +22,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.legacy.IvyWalletPreview
 import com.ivy.ui.R
-import com.ivy.wallet.domain.data.IvyCurrency
+import com.ivy.legacy.domain.data.IvyCurrency
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.CurrencyPicker
 import java.util.UUID

@@ -16,7 +16,7 @@ import com.ivy.onboarding.steps.OnboardingSetCurrency
 import com.ivy.onboarding.steps.OnboardingSplashLogin
 import com.ivy.onboarding.steps.OnboardingType
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
-import com.ivy.wallet.domain.data.IvyCurrency
+import com.ivy.legacy.domain.data.IvyCurrency
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import kotlinx.collections.immutable.ImmutableList

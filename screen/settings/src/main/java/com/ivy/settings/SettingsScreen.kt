@@ -57,7 +57,7 @@ import com.ivy.navigation.ReleasesScreen
 import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
-import com.ivy.wallet.domain.data.IvyCurrency
+import com.ivy.legacy.domain.data.IvyCurrency
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen

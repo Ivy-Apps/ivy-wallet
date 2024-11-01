@@ -27,7 +27,7 @@ import com.ivy.onboarding.OnboardingDetailState
 import com.ivy.onboarding.OnboardingEvent
 import com.ivy.onboarding.OnboardingState
 import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.data.IvyCurrency
+import com.ivy.legacy.domain.data.IvyCurrency
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.PreloadDataLogic
 import com.ivy.wallet.domain.deprecated.logic.WalletAccountLogic

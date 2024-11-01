@@ -28,7 +28,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.legacy.utils.drawColoredShadow
 import com.ivy.legacy.utils.format
 import com.ivy.ui.R
-import com.ivy.wallet.domain.data.IvyCurrency
+import com.ivy.legacy.domain.data.IvyCurrency
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.MediumBlack

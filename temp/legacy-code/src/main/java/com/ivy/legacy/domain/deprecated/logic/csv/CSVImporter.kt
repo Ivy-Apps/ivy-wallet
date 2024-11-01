@@ -27,7 +27,7 @@ import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.utils.convertLocalToUTC
 import com.ivy.legacy.utils.timeNowUTC
 import com.ivy.legacy.utils.toLowerCaseLocal
-import com.ivy.wallet.domain.data.IvyCurrency
+import com.ivy.legacy.domain.data.IvyCurrency
 import com.ivy.wallet.domain.deprecated.logic.csv.model.RowMapping
 import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.opencsv.CSVReaderBuilder

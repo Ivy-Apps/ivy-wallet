@@ -27,7 +27,7 @@ import com.ivy.legacy.datamodel.Account
 import com.ivy.legacy.datamodel.temp.toLegacyDomain
 import com.ivy.legacy.datamodel.toEntity
 import com.ivy.legacy.utils.toLowerCaseLocal
-import com.ivy.wallet.domain.data.IvyCurrency
+import com.ivy.legacy.domain.data.IvyCurrency
 import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.IvyDark

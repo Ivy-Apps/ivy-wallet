@@ -24,6 +24,7 @@ class FormatMoneyUseCaseTest {
         val amount: Double,
         val showDecimal: Boolean,
         val shortenAmount: Boolean,
+        val isCrypto: Boolean,
         val locale: Locale,
         val expectedOutput: String
     ) {
@@ -31,6 +32,7 @@ class FormatMoneyUseCaseTest {
             amount = 1_000.12,
             showDecimal = true,
             shortenAmount = false,
+            isCrypto = false,
             locale = Locale.ENGLISH,
             expectedOutput = "1,000.12"
         ),
@@ -38,6 +40,7 @@ class FormatMoneyUseCaseTest {
             amount = 1_000.12,
             showDecimal = false,
             shortenAmount = false,
+            isCrypto = false,
             locale = Locale.ENGLISH,
             expectedOutput = "1,000"
         ),
@@ -45,6 +48,7 @@ class FormatMoneyUseCaseTest {
             amount = 1_000.12,
             showDecimal = true,
             shortenAmount = false,
+            isCrypto = false,
             locale = Locale.GERMAN,
             expectedOutput = "1.000,12"
         ),
@@ -52,6 +56,7 @@ class FormatMoneyUseCaseTest {
             amount = 1_000.12,
             showDecimal = false,
             shortenAmount = false,
+            isCrypto = false,
             locale = Locale.GERMAN,
             expectedOutput = "1.000"
         ),
@@ -59,6 +64,7 @@ class FormatMoneyUseCaseTest {
             amount = 13_000.10,
             showDecimal = true,
             shortenAmount = true,
+            isCrypto = false,
             locale = Locale.ENGLISH,
             expectedOutput = "13k"
         ),
@@ -66,6 +72,7 @@ class FormatMoneyUseCaseTest {
             amount = 1_233_500.10,
             showDecimal = true,
             shortenAmount = true,
+            isCrypto = false,
             locale = Locale.ENGLISH,
             expectedOutput = "1.23m"
         ),
@@ -73,6 +80,7 @@ class FormatMoneyUseCaseTest {
             amount = 1_233_000_000.10,
             showDecimal = true,
             shortenAmount = true,
+            isCrypto = false,
             locale = Locale.ENGLISH,
             expectedOutput = "1.23b"
         ),
@@ -80,6 +88,7 @@ class FormatMoneyUseCaseTest {
             amount = 13_000.10,
             showDecimal = true,
             shortenAmount = true,
+            isCrypto = false,
             locale = Locale.GERMAN,
             expectedOutput = "13k"
         ),
@@ -87,6 +96,7 @@ class FormatMoneyUseCaseTest {
             amount = 1_233_500.10,
             showDecimal = true,
             shortenAmount = true,
+            isCrypto = false,
             locale = Locale.GERMAN,
             expectedOutput = "1,23m"
         ),
@@ -94,8 +104,41 @@ class FormatMoneyUseCaseTest {
             amount = 1_233_000_000.10,
             showDecimal = true,
             shortenAmount = true,
+            isCrypto = false,
             locale = Locale.GERMAN,
             expectedOutput = "1,23b"
+        ),
+        ENG_SHOW_DECIMAL_CRYPTO(
+            amount = 123_456.0,
+            showDecimal = true,
+            shortenAmount = false,
+            isCrypto = true,
+            locale = Locale.ENGLISH,
+            expectedOutput = "123,456.000000000"
+        ),
+        ENG_HIDE_DECIMAL_CRYPTO(
+            amount = 123_456.0,
+            showDecimal = false,
+            shortenAmount = false,
+            isCrypto = true,
+            locale = Locale.ENGLISH,
+            expectedOutput = "123,456.000000000"
+        ),
+        GERMAN_SHOW_DECIMAL_CRYPTO(
+            amount = 123_456.0,
+            showDecimal = true,
+            shortenAmount = false,
+            isCrypto = true,
+            locale = Locale.GERMAN,
+            expectedOutput = "123.456,000000000"
+        ),
+        GERMAN_HIDE_DECIMAL_CRYPTO(
+            amount = 123_456.0,
+            showDecimal = false,
+            shortenAmount = false,
+            isCrypto = true,
+            locale = Locale.GERMAN,
+            expectedOutput = "123.456,000000000"
         ),
     }
 
@@ -114,7 +157,8 @@ class FormatMoneyUseCaseTest {
         // when
         val result = formatMoneyUseCase.format(
             value = testCase.amount,
-            shortenAmount = testCase.shortenAmount
+            shortenAmount = testCase.shortenAmount,
+            isCrypto = testCase.isCrypto
         )
 
         // then

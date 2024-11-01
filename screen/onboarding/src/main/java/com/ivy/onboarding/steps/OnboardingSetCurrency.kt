@@ -27,7 +27,7 @@ import com.ivy.legacy.IvyWalletPreview
 import com.ivy.legacy.utils.setStatusBarDarkTextCompat
 import com.ivy.navigation.navigation
 import com.ivy.ui.R
-import com.ivy.wallet.domain.data.IvyCurrency
+import com.ivy.legacy.domain.data.IvyCurrency
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.BackButton

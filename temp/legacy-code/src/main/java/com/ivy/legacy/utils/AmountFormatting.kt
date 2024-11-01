@@ -1,6 +1,6 @@
 package com.ivy.legacy.utils
 
-import com.ivy.wallet.domain.data.IvyCurrency
+import com.ivy.legacy.domain.data.IvyCurrency
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import kotlin.math.abs
