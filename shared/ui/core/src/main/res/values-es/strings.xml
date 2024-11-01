@@ -239,10 +239,18 @@
     <string name="backup_data">Respaldo de datos</string>
     <string name="import_data">Importar datos</string>
     <string name="app_settings">Ajustes de Aplicación</string>
+    <string name="tap_to_switch_theme">Toca para cambiar el tema</string>
     <string name="lock_app">Bloquear la aplicación</string>
     <string name="show_notifications">Mostrar notificaciones</string>
+    <string name="exchange_rates">Tasas de cambio</string>
+    <string name="attributions">Atribuciones</string>
+    <string name="advanced_features">Funciones avanzadas</string>
+    <string name="releases">Versiones</string>
     <string name="hide_balance">Ocultar saldo</string>
-    <string name="hide_balance_description">Haz click en el saldo oculto para mostrar el saldo por 5 segundos</string>
+    <string name="hide_balance_description">Toca en el saldo oculto para mostrarlo por 5 segundos</string>
+    <string name="hide_income">Ocultar ingresos</string>
+    <string name="hide_income_description">Toca los ingresos ocultos para mostrarlos por 5 segundos</string>
+    <string name="report_bug">Informar de un error</string>
     <string name="other">Otro</string>
     <string name="rate_us_on_google_play">Califícanos en Google Play</string>
     <string name="share_ivy_wallet">Compartir Ivy Wallet</string>
@@ -296,7 +304,7 @@
     <string name="choose_month">Elegir mes</string>
     <string name="or_custom_range">o rango personalizado</string>
     <string name="add_date">Agregar fecha</string>
-    <string name="or_in_the_last">o en el ultimo</string>
+    <string name="or_in_the_last">o en el último</string>
     <string name="or_all_time">o todo el tiempo</string>
     <string name="unselect_all_time">Deseleccionar todo el tiempo</string>
     <string name="select_all_time">Seleccionar todo el tiempo</string>
@@ -444,4 +452,5 @@
     <string name="search_tags">Etiquetas de búsqueda</string>
     <string name="language">Idioma</string>
     <string name="budget_exceeded_info">Presupuesto excedido por %1$s %2$s</string>
+    <string name="do_not_use_for_backup_purposes">⚠\uFE0F Uso no destinado a copia de seguridad</string>
 </resources>
