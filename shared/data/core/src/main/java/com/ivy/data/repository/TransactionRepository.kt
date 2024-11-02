@@ -110,8 +110,6 @@ class TransactionRepository @Inject constructor(
         }
     )
 
-
-
     suspend fun findAllToAccountAndBetween(
         toAccountId: AccountId,
         startDate: Instant,
