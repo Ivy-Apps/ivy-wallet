@@ -114,7 +114,7 @@ class FormatMoneyUseCaseTest {
             shortenAmount = false,
             isCrypto = true,
             locale = Locale.ENGLISH,
-            expectedOutput = "123,456.000000000"
+            expectedOutput = "123456"
         ),
         ENG_HIDE_DECIMAL_CRYPTO(
             amount = 123_456.0,
@@ -122,7 +122,7 @@ class FormatMoneyUseCaseTest {
             shortenAmount = false,
             isCrypto = true,
             locale = Locale.ENGLISH,
-            expectedOutput = "123,456.000000000"
+            expectedOutput = "123456"
         ),
         GERMAN_SHOW_DECIMAL_CRYPTO(
             amount = 123_456.0,
@@ -130,7 +130,7 @@ class FormatMoneyUseCaseTest {
             shortenAmount = false,
             isCrypto = true,
             locale = Locale.GERMAN,
-            expectedOutput = "123.456,000000000"
+            expectedOutput = "123456"
         ),
         GERMAN_HIDE_DECIMAL_CRYPTO(
             amount = 123_456.0,
@@ -138,7 +138,7 @@ class FormatMoneyUseCaseTest {
             shortenAmount = false,
             isCrypto = true,
             locale = Locale.GERMAN,
-            expectedOutput = "123.456,000000000"
+            expectedOutput = "123456"
         ),
     }
 

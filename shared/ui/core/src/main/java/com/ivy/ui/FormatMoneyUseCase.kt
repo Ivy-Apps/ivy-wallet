@@ -32,8 +32,7 @@ class FormatMoneyUseCase @Inject constructor(
     private val withoutDecimalFormatter = DecimalFormat("###,###", DecimalFormatSymbols(locale))
     private val withDecimalFormatter = DecimalFormat("###,###.00", DecimalFormatSymbols(locale))
     private val shortenAmountFormatter = DecimalFormat("###,###.##", DecimalFormatSymbols(locale))
-    private val cryptoFormatter =
-        DecimalFormat("###,###,##0.${"0".repeat(9)}", DecimalFormatSymbols(locale))
+    private val cryptoFormatter = DecimalFormat("#".repeat(9), DecimalFormatSymbols(locale))
 
     /**
      * Formats a currency or cryptocurrency amount based on the input parameters.
@@ -44,8 +43,8 @@ class FormatMoneyUseCase @Inject constructor(
      * @return The formatted string representation of the value.
      */
     suspend fun format(value: Double, shortenAmount: Boolean, isCrypto: Boolean = false): String {
-        val result = if (isCrypto) {
-            formatCrypto(value)
+        return if (isCrypto) {
+            cryptoFormatter.format(value)
         } else if (abs(value) >= THOUSAND && shortenAmount) {
             if (abs(value) >= BILLION) {
                 "${shortenAmountFormatter.format(value / BILLION)}b"
@@ -63,38 +62,5 @@ class FormatMoneyUseCase @Inject constructor(
             }
             formatter.format(value)
         }
-
-        return result
-    }
-
-    /**
-     * Formats a cryptocurrency value with up to 9 decimal places, removing unnecessary trailing zeros.
-     *
-     * @param value The cryptocurrency value to format.
-     * @return The formatted cryptocurrency value as a string.
-     */
-    private fun formatCrypto(value: Double): String {
-        val result = cryptoFormatter.format(value)
-        return when {
-            result.lastOrNull() == localDecimalSeparator().firstOrNull() -> {
-                val newResult = result.dropLast(1)
-                newResult.ifEmpty { "0" }
-            }
-
-            result.isEmpty() -> {
-                "0"
-            }
-
-            else -> result
-        }
-    }
-
-    /**
-     * Retrieves the local decimal separator based on the user's locale.
-     *
-     * @return The decimal separator as a string.
-     */
-    private fun localDecimalSeparator(): String {
-        return DecimalFormatSymbols(locale).decimalSeparator.toString()
     }
 }
