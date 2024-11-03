@@ -32,7 +32,7 @@ class FormatMoneyUseCase @Inject constructor(
     private val withoutDecimalFormatter = DecimalFormat("###,###", DecimalFormatSymbols(locale))
     private val withDecimalFormatter = DecimalFormat("###,###.00", DecimalFormatSymbols(locale))
     private val shortenAmountFormatter = DecimalFormat("###,###.##", DecimalFormatSymbols(locale))
-    private val cryptoFormatter = DecimalFormat("#".repeat(9), DecimalFormatSymbols(locale))
+    private val cryptoFormatter = DecimalFormat("###,###." + "#".repeat(9), DecimalFormatSymbols(locale))
 
     /**
      * Formats a currency or cryptocurrency amount based on the input parameters.

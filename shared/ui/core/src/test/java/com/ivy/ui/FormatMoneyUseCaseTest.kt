@@ -114,7 +114,15 @@ class FormatMoneyUseCaseTest {
             shortenAmount = false,
             isCrypto = true,
             locale = Locale.ENGLISH,
-            expectedOutput = "123456"
+            expectedOutput = "123,456"
+        ),
+        ENG_SHOW_DECIMAL_CRYPTO_LONGER_DECIMAL_PLACES(
+            amount = 0.000_345,
+            showDecimal = true,
+            shortenAmount = false,
+            isCrypto = true,
+            locale = Locale.ENGLISH,
+            expectedOutput = "0.000345"
         ),
         ENG_HIDE_DECIMAL_CRYPTO(
             amount = 123_456.0,
@@ -122,7 +130,15 @@ class FormatMoneyUseCaseTest {
             shortenAmount = false,
             isCrypto = true,
             locale = Locale.ENGLISH,
-            expectedOutput = "123456"
+            expectedOutput = "123,456"
+        ),
+        ENG_HIDE_DECIMAL_CRYPTO_LONGER_DECIMAL_PLACES(
+            amount = 0.000_345,
+            showDecimal = false,
+            shortenAmount = false,
+            isCrypto = true,
+            locale = Locale.ENGLISH,
+            expectedOutput = "0.000345"
         ),
         GERMAN_SHOW_DECIMAL_CRYPTO(
             amount = 123_456.0,
@@ -130,7 +146,15 @@ class FormatMoneyUseCaseTest {
             shortenAmount = false,
             isCrypto = true,
             locale = Locale.GERMAN,
-            expectedOutput = "123456"
+            expectedOutput = "123.456"
+        ),
+        GERMAN_SHOW_DECIMAL_CRYPTO_LONGER_DECIMAL_PLACES(
+            amount = 0.000_345,
+            showDecimal = true,
+            shortenAmount = false,
+            isCrypto = true,
+            locale = Locale.GERMAN,
+            expectedOutput = "0,000345"
         ),
         GERMAN_HIDE_DECIMAL_CRYPTO(
             amount = 123_456.0,
@@ -138,7 +162,15 @@ class FormatMoneyUseCaseTest {
             shortenAmount = false,
             isCrypto = true,
             locale = Locale.GERMAN,
-            expectedOutput = "123456"
+            expectedOutput = "123.456"
+        ),
+        GERMAN_HIDE_DECIMAL_CRYPTO_LONGER_DECIMAL_PLACES(
+            amount = 0.000_345,
+            showDecimal = false,
+            shortenAmount = false,
+            isCrypto = true,
+            locale = Locale.GERMAN,
+            expectedOutput = "0,000345"
         ),
     }
 
