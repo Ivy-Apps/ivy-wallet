@@ -59,6 +59,7 @@ class AccountsViewModel @Inject constructor(
     private var totalBalanceWithoutExcluded by mutableStateOf("")
     private var totalBalanceWithoutExcludedText by mutableStateOf("")
     private var reorderVisible by mutableStateOf(false)
+    private var hideVisible by mutableStateOf(false)
 
     init {
         viewModelScope.launch {
@@ -90,6 +91,7 @@ class AccountsViewModel @Inject constructor(
             totalBalanceWithoutExcluded = getTotalBalanceWithoutExcluded(),
             totalBalanceWithoutExcludedText = getTotalBalanceWithoutExcludedText(),
             reorderVisible = getReorderVisible(),
+            hideVisible = getHideVisible(),
             compactAccountsModeEnabled = getCompactAccountsMode(),
             hideTotalBalance = getHideTotalBalance()
         )
@@ -136,6 +138,11 @@ class AccountsViewModel @Inject constructor(
     }
 
     @Composable
+    private fun getHideVisible(): Boolean {
+        return reorderVisible
+    }
+
+    @Composable
     private fun getCompactAccountsMode(): Boolean {
         return features.compactAccountsMode.asEnabledState()
     }
@@ -145,6 +152,7 @@ class AccountsViewModel @Inject constructor(
             when (event) {
                 is AccountsEvent.OnReorder -> reorder(event.reorderedList)
                 is AccountsEvent.OnReorderModalVisible -> reorderModalVisible(event.reorderVisible)
+                is AccountsEvent.OnHideModalVisible -> hideModalVisible(event.hideVisible)
             }
         }
     }
@@ -221,5 +229,9 @@ class AccountsViewModel @Inject constructor(
 
     private fun reorderModalVisible(visible: Boolean) {
         reorderVisible = visible
+    }
+
+    private fun hideModalVisible(visible: Boolean) {
+        hideVisible = visible
     }
 }

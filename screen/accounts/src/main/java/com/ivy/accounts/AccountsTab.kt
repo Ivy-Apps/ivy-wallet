@@ -1,10 +1,13 @@
 package com.ivy.accounts
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -50,10 +54,12 @@ import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
 import com.ivy.ui.rememberScrollPositionListState
+import com.ivy.wallet.domain.data.Reorderable
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.GreenLight
 import com.ivy.wallet.ui.theme.components.BalanceRow
 import com.ivy.wallet.ui.theme.components.BalanceRowMini
+import com.ivy.wallet.ui.theme.components.CircleButtonFilled
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.components.ReorderButton
 import com.ivy.wallet.ui.theme.components.ReorderModalSingleType
@@ -127,6 +133,14 @@ private fun BoxWithConstraintsScope.UI(
 
                 Spacer(Modifier.weight(1f))
 
+                HideAccountsButton(modifier = Modifier.size(size = 48.dp)) {
+                    onEvent(
+                        AccountsEvent.OnHideModalVisible(hideVisible = true)
+                    )
+                }
+
+                Spacer(Modifier.width(16.dp))
+
                 ReorderButton {
                     onEvent(
                         AccountsEvent.OnReorderModalVisible(reorderVisible = true)
@@ -178,6 +192,15 @@ private fun BoxWithConstraintsScope.UI(
         }
     }
 
+    HideAccountsModal(
+        visible = state.hideVisible,
+        initialItems = state.accountsData,
+        OnDismiss = { onEvent(AccountsEvent.OnHideModalVisible(hideVisible = false)) },
+        onDone = { onEvent(AccountsEvent.OnVisibilityChange(updatedList = it)) },
+        onUpdateItemVisibility = { id, isVisible, list ->
+            list.find { it.id == id }
+        }
+    )
     ReorderModalSingleType(
         visible = state.reorderVisible,
         initialItems = state.accountsData,
@@ -415,6 +438,7 @@ private fun PreviewAccountsTabCompactModeDisabled(theme: Theme = Theme.LIGHT) {
             totalBalanceWithoutExcluded = "25.54",
             totalBalanceWithoutExcludedText = "BGN 25.54",
             reorderVisible = false,
+            hideVisible = false,
             compactAccountsModeEnabled = false,
             hideTotalBalance = false
         )
@@ -502,11 +526,37 @@ private fun PreviewAccountsTabCompactModeEnabled(theme: Theme = Theme.LIGHT) {
             totalBalanceWithoutExcluded = "25.54",
             totalBalanceWithoutExcludedText = "BGN 25.54",
             reorderVisible = false,
+            hideVisible = false,
             compactAccountsModeEnabled = true,
             hideTotalBalance = false
         )
         UI(state = state)
     }
+}
+
+@SuppressLint("ComposeModifierMissing")
+@Composable
+fun BoxScope.HideAccountsModal(
+    visible: Boolean,
+    initialItems: List<AccountData>,
+    OnDismiss: () -> Unit,
+    onUpdateItemVisibility: (id: AccountId, isVisible: Boolean, accounts: MutableList<Account>) -> Unit,
+    id: UUID = UUID.randomUUID(),
+    onDone: (List<AccountData>) -> Unit
+) {
+
+}
+
+@Composable
+fun HideAccountsButton(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    CircleButtonFilled(
+        modifier = modifier,
+        icon = R.drawable.ic_hide_m,
+        onClick = onClick
+    )
 }
 
 /** For screen shot testing **/
