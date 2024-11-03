@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -54,17 +55,20 @@ import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
 import com.ivy.ui.rememberScrollPositionListState
-import com.ivy.wallet.domain.data.Reorderable
+import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.GreenLight
+import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.BalanceRow
 import com.ivy.wallet.ui.theme.components.BalanceRowMini
 import com.ivy.wallet.ui.theme.components.CircleButtonFilled
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
+import com.ivy.wallet.ui.theme.components.IvyCircleButton
 import com.ivy.wallet.ui.theme.components.ReorderButton
 import com.ivy.wallet.ui.theme.components.ReorderModalSingleType
 import com.ivy.wallet.ui.theme.dynamicContrast
 import com.ivy.wallet.ui.theme.findContrastTextColor
+import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.toComposeColor
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
@@ -196,10 +200,7 @@ private fun BoxWithConstraintsScope.UI(
         visible = state.hideVisible,
         initialItems = state.accountsData,
         OnDismiss = { onEvent(AccountsEvent.OnHideModalVisible(hideVisible = false)) },
-        onDone = { onEvent(AccountsEvent.OnVisibilityChange(updatedList = it)) },
-        onUpdateItemVisibility = { id, isVisible, list ->
-            list.find { it.id == id }
-        }
+        onDone = { onEvent(AccountsEvent.OnVisibilityChange(updatedList = it)) }
     )
     ReorderModalSingleType(
         visible = state.reorderVisible,
@@ -532,19 +533,6 @@ private fun PreviewAccountsTabCompactModeEnabled(theme: Theme = Theme.LIGHT) {
         )
         UI(state = state)
     }
-}
-
-@SuppressLint("ComposeModifierMissing")
-@Composable
-fun BoxScope.HideAccountsModal(
-    visible: Boolean,
-    initialItems: List<AccountData>,
-    OnDismiss: () -> Unit,
-    onUpdateItemVisibility: (id: AccountId, isVisible: Boolean, accounts: MutableList<Account>) -> Unit,
-    id: UUID = UUID.randomUUID(),
-    onDone: (List<AccountData>) -> Unit
-) {
-
 }
 
 @Composable

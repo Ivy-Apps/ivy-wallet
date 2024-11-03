@@ -139,7 +139,7 @@ class AccountsViewModel @Inject constructor(
 
     @Composable
     private fun getHideVisible(): Boolean {
-        return reorderVisible
+        return hideVisible
     }
 
     @Composable
@@ -153,6 +153,7 @@ class AccountsViewModel @Inject constructor(
                 is AccountsEvent.OnReorder -> reorder(event.reorderedList)
                 is AccountsEvent.OnReorderModalVisible -> reorderModalVisible(event.reorderVisible)
                 is AccountsEvent.OnHideModalVisible -> hideModalVisible(event.hideVisible)
+                is AccountsEvent.OnVisibilityChange -> TODO()
             }
         }
     }

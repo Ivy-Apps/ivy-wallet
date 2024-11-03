@@ -18,5 +18,6 @@ data class Account(
     val color: ColorInt,
     val icon: IconAsset?,
     val includeInBalance: Boolean,
+    var isVisible: Boolean = true,
     override val orderNum: Double,
 ) : Identifiable<AccountId>, Reorderable
