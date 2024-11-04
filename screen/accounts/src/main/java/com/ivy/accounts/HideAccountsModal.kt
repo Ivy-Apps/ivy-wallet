@@ -46,7 +46,7 @@ import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.toComposeColor
 import kotlinx.collections.immutable.ImmutableList
 
-@Suppress("ModifierMissing", "MagicNumber")
+@Suppress("ModifierMissing")
 @SuppressLint("ComposeModifierMissing")
 @Composable
 fun BoxScope.HideAccountsModal(
@@ -120,6 +120,7 @@ fun BoxScope.HideAccountsModal(
     }
 }
 
+@Suppress("MagicNumber")
 @Composable
 private fun HideAccountsRow(
     account: Account,
