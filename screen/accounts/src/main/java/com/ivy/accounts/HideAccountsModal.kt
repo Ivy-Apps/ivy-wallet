@@ -46,7 +46,7 @@ import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.toComposeColor
 import kotlinx.collections.immutable.ImmutableList
 
-@Suppress("ModifierMissing")
+@Suppress("ModifierMissing", "MagicNumber")
 @SuppressLint("ComposeModifierMissing")
 @Composable
 fun BoxScope.HideAccountsModal(
@@ -126,9 +126,9 @@ private fun HideAccountsRow(
     onClick: (AccountId, Boolean) -> Unit
 ) {
     val contrastColor = findContrastTextColor(account.color.value.toComposeColor())
-    val alpha = if(account.isVisible) {
+    val alpha = if (account.isVisible) {
         1.0f
-    }else {
+    } else {
         0.6f
     }
     Row(
