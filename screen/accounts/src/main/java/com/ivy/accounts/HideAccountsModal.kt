@@ -129,7 +129,7 @@ private fun HideAccountsRow(
     val alpha = if(account.isVisible) {
         1.0f
     }else {
-        0.7f
+        0.6f
     }
     Row(
         modifier = Modifier
