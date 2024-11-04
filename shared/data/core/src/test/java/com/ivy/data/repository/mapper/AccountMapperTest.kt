@@ -47,6 +47,7 @@ class AccountMapperTest {
             icon = IconAsset.unsafe("icon"),
             includeInBalance = includeInBalance,
             orderNum = 3.14,
+            isVisible = true
         )
 
         // when
@@ -94,6 +95,7 @@ class AccountMapperTest {
                 icon = IconAsset.unsafe("icon"),
                 includeInBalance = includeInBalance,
                 orderNum = 42.0,
+                isVisible = true
             )
         }
     }

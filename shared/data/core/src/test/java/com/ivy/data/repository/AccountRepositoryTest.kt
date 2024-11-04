@@ -90,6 +90,7 @@ class AccountRepositoryTest {
             icon = null,
             includeInBalance = true,
             orderNum = 1.0,
+            isVisible = true
         )
     }
 
@@ -171,6 +172,7 @@ class AccountRepositoryTest {
                 icon = null,
                 includeInBalance = true,
                 orderNum = 1.0,
+                isVisible = true
             ),
             Account(
                 id = account2Id,
@@ -180,6 +182,7 @@ class AccountRepositoryTest {
                 icon = null,
                 includeInBalance = true,
                 orderNum = 2.0,
+                isVisible = true
             )
         )
     }
@@ -227,6 +230,7 @@ class AccountRepositoryTest {
                 icon = null,
                 includeInBalance = true,
                 orderNum = 1.0,
+                isVisible = true
             )
         )
     }
@@ -268,6 +272,7 @@ class AccountRepositoryTest {
             icon = null,
             includeInBalance = true,
             orderNum = 1.0,
+            isVisible = true
         )
 
         // when
@@ -306,6 +311,7 @@ class AccountRepositoryTest {
                 icon = null,
                 includeInBalance = true,
                 orderNum = 1.0,
+                isVisible = true
             ),
             Account(
                 id = account2Id,
@@ -315,6 +321,7 @@ class AccountRepositoryTest {
                 icon = null,
                 includeInBalance = true,
                 orderNum = 2.0,
+                isVisible = true
             )
         )
 
