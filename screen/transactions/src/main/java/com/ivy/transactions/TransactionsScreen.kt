@@ -844,7 +844,7 @@ private fun BoxWithConstraintsScope.Preview_empty() {
 
             history = persistentListOf(),
             category = null,
-            account = Account("DSK", color = GreenDark.toArgb(), icon = "pet"),
+            account = Account("DSK", color = GreenDark.toArgb(), isVisible = true, icon = "pet"),
             onSetPeriod = { },
             onPreviousMonth = {},
             onNextMonth = {},
@@ -890,7 +890,8 @@ private fun BoxWithConstraintsScope.Preview_crypto() {
                 name = "DSK",
                 color = GreenDark.toArgb(),
                 icon = "pet",
-                includeInBalance = false
+                includeInBalance = false,
+                isVisible = true,
             ),
             onSetPeriod = { },
             onPreviousMonth = {},
@@ -931,7 +932,7 @@ private fun BoxWithConstraintsScope.Preview_empty_upcoming() {
 
             history = persistentListOf(),
             category = null,
-            account = Account("DSK", color = GreenDark.toArgb(), icon = "pet"),
+            account = Account("DSK", color = GreenDark.toArgb(), isVisible = true, icon = "pet"),
             onSetPeriod = { },
             onPreviousMonth = {},
             onNextMonth = {},

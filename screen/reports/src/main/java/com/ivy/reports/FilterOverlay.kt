@@ -1062,8 +1062,8 @@ private fun FilterTitleText(
 @Composable
 private fun Preview() {
     IvyWalletPreview {
-        val acc1 = Account("Cash", color = Green.toArgb())
-        val acc2 = Account("DSK", color = GreenDark.toArgb())
+        val acc1 = Account("Cash", isVisible = true, color = Green.toArgb())
+        val acc2 = Account("DSK", isVisible = true, color = GreenDark.toArgb())
         val cat1 = Category(
             name = NotBlankTrimmedString.unsafe("Science"),
             color = ColorInt(Purple1Dark.toArgb()),
@@ -1079,8 +1079,8 @@ private fun Preview() {
             accounts = listOf(
                 acc1,
                 acc2,
-                Account("phyre", color = GreenLight.toArgb(), icon = "cash"),
-                Account("Revolut", color = IvyDark.toArgb()),
+                Account("phyre", isVisible = true, color = GreenLight.toArgb(), icon = "cash"),
+                Account("Revolut", isVisible = true, color = IvyDark.toArgb()),
             ),
             categories = listOf(
                 cat1,

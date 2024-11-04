@@ -437,7 +437,7 @@ private fun Preview() {
                 currency = "BGN",
                 description = null,
                 category = null,
-                account = Account(name = "phyre", Orange.toArgb()),
+                account = Account(name = "phyre",  isVisible = true, color = Orange.toArgb()),
                 amount = 0.0,
                 transactionType = TransactionType.INCOME,
                 categories = persistentListOf(),

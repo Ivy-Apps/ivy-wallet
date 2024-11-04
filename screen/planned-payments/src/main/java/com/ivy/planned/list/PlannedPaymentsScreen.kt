@@ -108,7 +108,7 @@ private fun BoxWithConstraintsScope.UI(
 @Composable
 private fun Preview() {
     IvyWalletPreview {
-        val account = Account(name = "Cash", Green.toArgb())
+        val account = Account(name = "Cash",  isVisible = true, color = Green.toArgb())
         val food = Category(
             name = NotBlankTrimmedString.unsafe("Food"),
             color = ColorInt(Purple.toArgb()),

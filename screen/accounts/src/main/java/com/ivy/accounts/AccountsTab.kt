@@ -1,16 +1,12 @@
 package com.ivy.accounts
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -55,20 +51,16 @@ import com.ivy.navigation.navigation
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.ui.R
 import com.ivy.ui.rememberScrollPositionListState
-import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.GreenLight
-import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.BalanceRow
 import com.ivy.wallet.ui.theme.components.BalanceRowMini
 import com.ivy.wallet.ui.theme.components.CircleButtonFilled
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
-import com.ivy.wallet.ui.theme.components.IvyCircleButton
 import com.ivy.wallet.ui.theme.components.ReorderButton
 import com.ivy.wallet.ui.theme.components.ReorderModalSingleType
 import com.ivy.wallet.ui.theme.dynamicContrast
 import com.ivy.wallet.ui.theme.findContrastTextColor
-import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.toComposeColor
 import kotlinx.collections.immutable.persistentListOf
 import java.util.UUID
@@ -92,7 +84,7 @@ private fun BoxWithConstraintsScope.UI(
     val nav = navigation()
     val ivyContext = com.ivy.legacy.ivyWalletCtx()
     var listState = rememberLazyListState()
-    if (!state.accountsData.isEmpty()) {
+    if (state.accountsData.any { it.account.isVisible }) {
         listState = rememberScrollPositionListState(
             key = "accounts_lazy_column",
             initialFirstVisibleItemIndex = ivyContext.accountsListState?.firstVisibleItemIndex ?: 0,
@@ -167,7 +159,7 @@ private fun BoxWithConstraintsScope.UI(
                 Spacer(Modifier.height(16.dp))
             }
         }
-        items(state.accountsData) {
+        items(state.accountsData.filter { it.account.isVisible }) {
             Spacer(Modifier.height(16.dp))
             AccountCard(
                 baseCurrency = state.baseCurrency,
@@ -199,8 +191,8 @@ private fun BoxWithConstraintsScope.UI(
     HideAccountsModal(
         visible = state.hideVisible,
         initialItems = state.accountsData,
-        OnDismiss = { onEvent(AccountsEvent.OnHideModalVisible(hideVisible = false)) },
-        onDone = { onEvent(AccountsEvent.OnVisibilityChange(updatedList = it)) }
+        onDismiss = { onEvent(AccountsEvent.OnHideModalVisible(hideVisible = false)) },
+        onComplete = { onEvent(AccountsEvent.OnVisibilityUpdate(updatedList = it)) }
     )
     ReorderModalSingleType(
         visible = state.reorderVisible,
@@ -371,6 +363,7 @@ private fun PreviewAccountsTabCompactModeDisabled(theme: Theme = Theme.LIGHT) {
             icon = null,
             includeInBalance = true,
             orderNum = 0.0,
+            isVisible = true,
         )
 
         val acc2 = Account(
@@ -381,6 +374,7 @@ private fun PreviewAccountsTabCompactModeDisabled(theme: Theme = Theme.LIGHT) {
             icon = null,
             includeInBalance = true,
             orderNum = 0.0,
+            isVisible = true,
         )
 
         val acc3 = Account(
@@ -391,6 +385,7 @@ private fun PreviewAccountsTabCompactModeDisabled(theme: Theme = Theme.LIGHT) {
             icon = IconAsset.unsafe("revolut"),
             includeInBalance = true,
             orderNum = 0.0,
+            isVisible = true,
         )
 
         val acc4 = Account(
@@ -401,6 +396,7 @@ private fun PreviewAccountsTabCompactModeDisabled(theme: Theme = Theme.LIGHT) {
             icon = IconAsset.unsafe("cash"),
             includeInBalance = true,
             orderNum = 0.0,
+            isVisible = true,
         )
         val state = AccountsState(
             baseCurrency = "BGN",
@@ -459,6 +455,7 @@ private fun PreviewAccountsTabCompactModeEnabled(theme: Theme = Theme.LIGHT) {
             icon = null,
             includeInBalance = true,
             orderNum = 0.0,
+            isVisible = true,
         )
 
         val acc2 = Account(
@@ -469,6 +466,7 @@ private fun PreviewAccountsTabCompactModeEnabled(theme: Theme = Theme.LIGHT) {
             icon = null,
             includeInBalance = true,
             orderNum = 0.0,
+            isVisible = true,
         )
 
         val acc3 = Account(
@@ -479,6 +477,7 @@ private fun PreviewAccountsTabCompactModeEnabled(theme: Theme = Theme.LIGHT) {
             icon = IconAsset.unsafe("revolut"),
             includeInBalance = true,
             orderNum = 0.0,
+            isVisible = true,
         )
 
         val acc4 = Account(
@@ -489,6 +488,7 @@ private fun PreviewAccountsTabCompactModeEnabled(theme: Theme = Theme.LIGHT) {
             icon = IconAsset.unsafe("cash"),
             includeInBalance = true,
             orderNum = 0.0,
+            isVisible = true,
         )
         val state = AccountsState(
             baseCurrency = "BGN",

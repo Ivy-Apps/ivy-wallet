@@ -25,7 +25,8 @@ data class AccountEntity(
     val orderNum: Double = 0.0,
     @SerialName("includeInBalance")
     val includeInBalance: Boolean = true,
-
+    @SerialName("isVisible")
+    val isVisible: Boolean = true,
     @Deprecated("Obsolete field used for cloud sync. Can't be deleted because of backwards compatibility")
     @SerialName("isSynced")
     val isSynced: Boolean = false,

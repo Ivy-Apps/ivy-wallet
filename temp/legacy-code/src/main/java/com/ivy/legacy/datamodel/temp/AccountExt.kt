@@ -12,5 +12,6 @@ fun AccountEntity.toLegacyDomain(): Account = Account(
     includeInBalance = includeInBalance,
     isSynced = isSynced,
     isDeleted = isDeleted,
+    isVisible = isVisible,
     id = id
 )

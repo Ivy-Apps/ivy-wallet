@@ -14,6 +14,7 @@ import com.ivy.base.time.TimeConverter
 import com.ivy.base.time.TimeProvider
 import com.ivy.data.DataObserver
 import com.ivy.data.DataWriteEvent
+import com.ivy.data.model.Account
 import com.ivy.data.repository.AccountRepository
 import com.ivy.domain.features.Features
 import com.ivy.legacy.IvyWalletCtx
@@ -153,7 +154,10 @@ class AccountsViewModel @Inject constructor(
                 is AccountsEvent.OnReorder -> reorder(event.reorderedList)
                 is AccountsEvent.OnReorderModalVisible -> reorderModalVisible(event.reorderVisible)
                 is AccountsEvent.OnHideModalVisible -> hideModalVisible(event.hideVisible)
-                is AccountsEvent.OnVisibilityChange -> TODO()
+                is AccountsEvent.OnVisibilityUpdate -> {
+                    updateVisibility(event.updatedList)
+                    hideVisible = false
+                }
             }
         }
     }
@@ -162,6 +166,16 @@ class AccountsViewModel @Inject constructor(
         ioThread {
             newOrder.mapIndexed { index, accountData ->
                 accountRepository.save(accountData.account.copy(orderNum = index.toDouble()))
+            }
+        }
+
+        startInternally()
+    }
+
+    private suspend fun updateVisibility(accounts: List<Account>) {
+        ioThread {
+            accounts.forEach { acc ->
+                accountRepository.save(acc)
             }
         }
 

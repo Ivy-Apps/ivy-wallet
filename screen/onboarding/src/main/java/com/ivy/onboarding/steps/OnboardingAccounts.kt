@@ -358,7 +358,8 @@ private fun Preview_Accounts() {
                     account = Account(
                         name = "Cash",
                         color = Green.toArgb(),
-                        icon = "cash"
+                        icon = "cash",
+                        isVisible = true,
                     ),
                     balance = 0.0
                 )
@@ -403,7 +404,8 @@ private fun Preview_Premium() {
                     account = Account(
                         name = "Cash",
                         color = Green.toArgb(),
-                        icon = "cash"
+                        icon = "cash",
+                        isVisible = true,
                     ),
                     balance = 0.0
                 ),
@@ -411,7 +413,8 @@ private fun Preview_Premium() {
                     account = Account(
                         name = "Revolut",
                         color = IvyDark.toArgb(),
-                        icon = "cash"
+                        icon = "cash",
+                        isVisible = true,
                     ),
                     balance = 0.0
                 ),
@@ -419,7 +422,8 @@ private fun Preview_Premium() {
                     account = Account(
                         name = "Revolut",
                         color = Color(0xFF4DCAFF).toArgb(),
-                        icon = "revolut"
+                        icon = "revolut",
+                        isVisible = true,
                     ),
                     balance = 0.0
                 ),

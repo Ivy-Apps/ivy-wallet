@@ -274,7 +274,7 @@ private fun RuleTextRow(
 private fun Preview_oneTime() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
-            val cash = Account(name = "Cash", Green.toArgb())
+            val cash = Account(name = "Cash", isVisible = true, color = Green.toArgb())
             val food = Category(
                 name = NotBlankTrimmedString.unsafe("Food"),
                 color = ColorInt(Blue.toArgb()),
@@ -312,7 +312,7 @@ private fun Preview_oneTime() {
 private fun Preview_recurring() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
-            val account = Account(name = "Revolut", Blue.toArgb())
+            val account = Account(name = "Revolut", isVisible = true, color = Blue.toArgb())
             val shisha = Category(
                 name = NotBlankTrimmedString.unsafe("Shisha"),
                 color = ColorInt(Orange.toArgb()),
@@ -350,7 +350,7 @@ private fun Preview_recurring() {
 private fun Preview_recurringError() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
-            val account = Account(name = "Revolut", Blue.toArgb())
+            val account = Account(name = "Revolut", isVisible = true, color = Blue.toArgb())
             val shisha = Category(
                 name = NotBlankTrimmedString.unsafe("Shisha"),
                 color = ColorInt(Orange.toArgb()),

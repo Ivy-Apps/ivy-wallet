@@ -1,7 +1,6 @@
 package com.ivy.accounts
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,10 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,24 +39,44 @@ import com.ivy.wallet.ui.theme.modal.IvyModal
 import java.util.UUID
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.toComposeColor
+import kotlinx.collections.immutable.ImmutableList
 
+@Suppress("ModifierMissing")
 @SuppressLint("ComposeModifierMissing")
 @Composable
 fun BoxScope.HideAccountsModal(
     visible: Boolean,
-    initialItems: List<AccountData>,
-    OnDismiss: () -> Unit,
+    initialItems: ImmutableList<AccountData>,
+    onDismiss: () -> Unit,
     id: UUID = UUID.randomUUID(),
-    onDone: (List<AccountData>) -> Unit
+    onComplete: (List<Account>) -> Unit
 ) {
+    val accounts: SnapshotStateList<Account> = remember(id) {
+        mutableStateListOf<Account>().apply {
+            addAll(initialItems.map { it.account })
+        }
+    }
+
+    val onUpdateItemVisibility: (AccountId, Boolean) -> Unit =
+        { id, isVisible ->
+            var selectedIndex = -1
+            accounts.forEachIndexed { index, account ->
+                if (account.id == id) {
+                    selectedIndex = index
+                }
+            }
+            accounts[selectedIndex] = accounts[selectedIndex].copy(isVisible = !isVisible)
+        }
+
     IvyModal(
         id = id,
         visible = visible,
         scrollState = null,
-        dismiss = OnDismiss,
+        dismiss = onDismiss,
         PrimaryAction = {
             IvyCircleButton(
                 modifier = Modifier
@@ -69,8 +85,7 @@ fun BoxScope.HideAccountsModal(
                 icon = R.drawable.ic_check,
                 tint = White
             ) {
-                //onUpdateItemVisibility()
-                OnDismiss.invoke()
+                onComplete.invoke(accounts)
             }
         }
     ) {
@@ -87,28 +102,12 @@ fun BoxScope.HideAccountsModal(
 
         Spacer(Modifier.height(24.dp))
 
-        val accounts = remember {
-            mutableStateListOf<Account>().apply {
-                addAll(initialItems.map { it.account })
-            }
-        }
-        val onUpdateItemVisibility: (AccountId, Boolean) -> Unit =
-            { id, isVisible ->
-                var selectedIndex = -1
-                accounts.forEachIndexed { index, account ->
-                    if (account.id == id) {
-                        selectedIndex = index
-                    }
-                }
-                accounts[selectedIndex] = accounts[selectedIndex].copy(isVisible = !isVisible)
-            }
-
         LazyColumn(
             modifier = Modifier.fillMaxHeight(),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(accounts) { account ->
-                HideAccountsColumn(
+                HideAccountsRow(
                     account = account,
                     onClick = onUpdateItemVisibility
                 )
@@ -117,16 +116,16 @@ fun BoxScope.HideAccountsModal(
                 Spacer(Modifier.height(150.dp))
             }
         }
-
     }
 }
 
 @Composable
-private fun HideAccountsColumn(
+private fun HideAccountsRow(
     account: Account,
     onClick: (AccountId, Boolean) -> Unit
 ) {
     val contrastColor = findContrastTextColor(account.color.value.toComposeColor())
+
     Row(
         modifier = Modifier
             .padding(horizontal = 16.dp)
@@ -135,7 +134,6 @@ private fun HideAccountsColumn(
             .background(color = account.color.value.toComposeColor()),
         verticalAlignment = Alignment.CenterVertically
     ) {
-
         Spacer(Modifier.width(12.dp))
 
         ItemIconSDefaultIcon(
@@ -162,7 +160,7 @@ private fun HideAccountsColumn(
 
         IvyIconScaled(
             modifier = Modifier
-                .size(size = 32.dp)
+                .size(size = 24.dp)
                 .clickable {
                     onClick.invoke(account.id, account.isVisible)
                 },
@@ -173,6 +171,5 @@ private fun HideAccountsColumn(
         )
 
         Spacer(Modifier.width(16.dp))
-
     }
 }

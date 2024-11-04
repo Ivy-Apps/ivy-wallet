@@ -282,7 +282,8 @@ class CSVImporterV2 @Inject constructor(
             ),
             color = colorArgb,
             icon = icon,
-            orderNum = orderNum ?: accountDao.findMaxOrderNum().nextOrderNum()
+            orderNum = orderNum ?: accountDao.findMaxOrderNum().nextOrderNum(),
+            isVisible = true,
         )
         val domainAccount = newAccount.toDomainAccount(currencyRepository).getOrNull()
             ?: return null

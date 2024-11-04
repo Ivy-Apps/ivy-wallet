@@ -405,8 +405,8 @@ private fun Toolbar(
 @Composable
 private fun Preview(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme) {
-        val acc1 = Account("Cash", color = Green.toArgb())
-        val acc2 = Account("DSK", color = GreenDark.toArgb())
+        val acc1 = Account("Cash", isVisible = true, color = Green.toArgb())
+        val acc2 = Account("DSK", isVisible = true, color = GreenDark.toArgb())
         val cat1 = Category(
             name = NotBlankTrimmedString.unsafe("Science"),
             color = ColorInt(Purple1Dark.toArgb()),
@@ -435,8 +435,8 @@ private fun Preview(theme: Theme = Theme.LIGHT) {
             accounts = persistentListOf(
                 acc1,
                 acc2,
-                Account("phyre", color = GreenLight.toArgb(), icon = "cash"),
-                Account("Revolut", color = IvyDark.toArgb()),
+                Account("phyre", isVisible = true, color = GreenLight.toArgb(), icon = "cash"),
+                Account("Revolut", isVisible = true, color = IvyDark.toArgb()),
             ),
             categories = persistentListOf(
                 cat1,
@@ -466,8 +466,8 @@ private fun Preview(theme: Theme = Theme.LIGHT) {
 @Composable
 private fun Preview_NO_FILTER(theme: Theme = Theme.LIGHT) {
     IvyWalletPreview(theme) {
-        val acc1 = Account("Cash", color = Green.toArgb())
-        val acc2 = Account("DSK", color = GreenDark.toArgb())
+        val acc1 = Account("Cash", isVisible = true, color = Green.toArgb())
+        val acc2 = Account("DSK", isVisible = true, color = GreenDark.toArgb())
         val cat1 = Category(
             name = NotBlankTrimmedString.unsafe("Science"),
             color = ColorInt(Purple1Dark.toArgb()),
@@ -498,8 +498,8 @@ private fun Preview_NO_FILTER(theme: Theme = Theme.LIGHT) {
             accounts = persistentListOf(
                 acc1,
                 acc2,
-                Account("phyre", color = GreenLight.toArgb(), icon = "cash"),
-                Account("Revolut", color = IvyDark.toArgb()),
+                Account("phyre", isVisible = true, color = GreenLight.toArgb(), icon = "cash"),
+                Account("Revolut", isVisible = true, color = IvyDark.toArgb()),
             ),
             categories = persistentListOf(
                 cat1,

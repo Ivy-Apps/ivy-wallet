@@ -9,4 +9,5 @@ data class CreateAccountData(
     val icon: String?,
     val balance: Double,
     val includeBalance: Boolean = true,
+    val isVisible: Boolean = true
 )

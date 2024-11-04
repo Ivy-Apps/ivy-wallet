@@ -795,7 +795,7 @@ private fun LabelAccountMini(
 @Composable
 private fun Preview() {
     IvyWalletPreview {
-        val acc1 = Account("Cash", color = Green.toArgb())
+        val acc1 = Account("Cash", isVisible = true, color = Green.toArgb())
 
         BoxWithConstraints(
             modifier = Modifier
@@ -812,9 +812,9 @@ private fun Preview() {
                 },
                 accounts = listOf(
                     acc1,
-                    Account("DSK", color = GreenDark.toArgb()),
-                    Account("phyre", color = GreenLight.toArgb()),
-                    Account("Revolut", color = IvyDark.toArgb()),
+                    Account("DSK", isVisible = true, color = GreenDark.toArgb()),
+                    Account("phyre", isVisible = true, color = GreenLight.toArgb()),
+                    Account("Revolut" ,isVisible = true, color = IvyDark.toArgb()),
                 ),
                 selectedAccount = acc1,
                 toAccount = null,
@@ -833,8 +833,8 @@ private fun Preview() {
 @Composable
 private fun Preview_Transfer() {
     IvyWalletPreview {
-        val acc1 = Account("Cash", color = Green.toArgb())
-        val acc2 = Account("DSK", color = GreenDark.toArgb())
+        val acc1 = Account("Cash",  isVisible = true, color = Green.toArgb())
+        val acc2 = Account("DSK",  isVisible = true, color = GreenDark.toArgb())
 
         BoxWithConstraints(
             modifier = Modifier
@@ -852,8 +852,8 @@ private fun Preview_Transfer() {
                 accounts = listOf(
                     acc1,
                     acc2,
-                    Account("phyre", color = GreenLight.toArgb(), icon = "cash"),
-                    Account("Revolut", color = IvyDark.toArgb()),
+                    Account("phyre",  isVisible = true, color = GreenLight.toArgb(), icon = "cash"),
+                    Account("Revolut",  isVisible = true, color = IvyDark.toArgb()),
                 ),
                 selectedAccount = acc1,
                 toAccount = acc2,
