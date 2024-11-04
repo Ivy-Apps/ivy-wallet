@@ -40,6 +40,7 @@ import java.util.UUID
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.draw.alpha
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.toComposeColor
@@ -125,10 +126,15 @@ private fun HideAccountsRow(
     onClick: (AccountId, Boolean) -> Unit
 ) {
     val contrastColor = findContrastTextColor(account.color.value.toComposeColor())
-
+    val alpha = if(account.isVisible) {
+        1.0f
+    }else {
+        0.7f
+    }
     Row(
         modifier = Modifier
             .padding(horizontal = 16.dp)
+            .alpha(alpha)
             .fillMaxWidth()
             .clip(UI.shapes.r4)
             .background(color = account.color.value.toComposeColor()),
