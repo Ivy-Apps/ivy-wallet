@@ -27,6 +27,7 @@ fun Arb.Companion.account(
         icon = Arb.maybe(Arb.iconAsset()).bind(),
         includeInBalance = includeInBalance.getOrElse { Arb.boolean().bind() },
         orderNum = orderNum.getOrElse { Arb.double().bind() },
+        isVisible = true
     )
 }
 
