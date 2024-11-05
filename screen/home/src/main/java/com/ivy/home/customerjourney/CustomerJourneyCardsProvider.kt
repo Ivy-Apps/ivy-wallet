@@ -55,17 +55,26 @@ class CustomerJourneyCardsProvider @Inject constructor(
 
     companion object {
         val ACTIVE_CARDS = listOf(
+            shutdownCard(),
             adjustBalanceCard(),
             addPlannedPaymentCard(),
             didYouKnow_pinAddTransactionWidgetCard(),
             didYouKnow_expensesPieChart(),
-            rateUsCard(),
-            shareIvyWalletCard(),
-            joinIvyTelegramCard(),
-            rateUsCard_2(),
-            joinTelegram2(),
-            ivyWalletIsOpenSource(),
-            bugsApology(),
+        )
+
+        @Suppress("MaxLineLength", "NoImplicitFunctionReturnType")
+        fun shutdownCard() = CustomerJourneyCardModel(
+            id = "shutdown",
+            condition = { _, _, _ -> true },
+            title = "Important Notice: App No Longer Maintained",
+            description = "As of Nov 5th 2024, Ivy Wallet is no longer maintained by the original developers. You may continue to use the app, but it will no longer receive updates, bug fixes, or support, and it may stop functioning at some point.",
+            cta = "Learn More",
+            ctaIcon = R.drawable.github_logo,
+            background = Gradient.solid(Red),
+            hasDismiss = true,
+            onAction = { _, _, ivyActivity ->
+                ivyActivity.openUrlInBrowser(Constants.URL_IVY_WALLET_REPO)
+            }
         )
 
         fun adjustBalanceCard() = CustomerJourneyCardModel(
