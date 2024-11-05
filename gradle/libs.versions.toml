@@ -1,17 +1,17 @@
 [versions]
-kotlin = "2.0.20"
-kotlin-coroutines = "1.8.1"
-ktor = "2.3.12"
+kotlin = "2.0.21"
+kotlin-coroutines = "1.9.0"
+ktor = "3.0.1"
 arrow = "1.2.4"
 kotest = "5.9.1"
 # https://developer.android.com/jetpack/androidx/releases/compose
-compose = "1.6.8"
-compose-material3 = "1.2.1"
-glance = "1.1.0"
+compose = "1.7.5"
+compose-material3 = "1.3.1"
+glance = "1.1.1"
 hilt = "2.52"
 room = "2.6.1"
-androidx-work = "2.9.1"
-kotlinx-collections = "0.3.7"
+androidx-work = "2.10.0"
+kotlinx-collections = "0.3.8"
 paparazzi = "1.3.3"
 
 # Android
@@ -23,10 +23,10 @@ jvm-target = "17"
 
 
 # Linters
-detekt = "1.23.6" # https://detekt.dev/docs/gettingstarted/gradle/
+detekt = "1.23.7" # https://detekt.dev/docs/gettingstarted/gradle/
 
 [libraries]
-android-gradle-plugin = { module = "com.android.tools.build:gradle", version = "8.5.2" }
+android-gradle-plugin = { module = "com.android.tools.build:gradle", version = "8.7.2" }
 
 # Kotlin
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -37,7 +37,7 @@ kotlin-coroutines-googleplay-temp = { module = "org.jetbrains.kotlinx:kotlinx-co
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-collections" }
 
 # KotlinX Serialization
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.7.1" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.7.3" }
 kotlinx-serialization-plugin = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 
 # Ktor
@@ -52,23 +52,23 @@ ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 arrowkt-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
 
 # Testing
-mockk = { module = "io.mockk:mockk", version = "1.13.12" }
+mockk = { module = "io.mockk:mockk", version = "1.13.13" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
 kotest-property-arrow = { module = "io.kotest.extensions:kotest-property-arrow", version.ref = "arrow" }
 kotest-assertions-arrow = { module = "io.kotest.extensions:kotest-assertions-arrow", version.ref = "arrow" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 cashapp-molecule-plugin = { module = "app.cash.molecule:molecule-gradle-plugin", version = "1.4.3" }
-cashapp-turbine = { module = "app.cash.turbine:turbine", version = "1.1.0" }
+cashapp-turbine = { module = "app.cash.turbine:turbine", version = "1.2.0" }
 paparazzi-plugin = { module = "app.cash.paparazzi:paparazzi-gradle-plugin", version.ref = "paparazzi" }
 paparazzi = { module = "app.cash.paparazzi:paparazzi", version.ref = "paparazzi" }
-google-testparameterinjector = { module = "com.google.testparameterinjector:test-parameter-injector", version = "1.16" }
+google-testparameterinjector = { module = "com.google.testparameterinjector:test-parameter-injector", version = "1.18" }
 
 # Integartion (Android) testing
 androidx-test-runner = { module = "androidx.test:runner", version = "1.6.2" }
 androidx-test-core = { module = "androidx.test:core-ktx", version = "1.6.1" }
 androidx-test-ext = { module = "androidx.test.ext:junit-ktx", version = "1.2.1" }
-mockk-android = { module = "io.mockk:mockk-android", version = "1.13.12" }
+mockk-android = { module = "io.mockk:mockk-android", version = "1.13.13" }
 
 # Compose
 compose-compiler-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
@@ -80,8 +80,8 @@ compose-material-icons-extended = { module = "androidx.compose.material:material
 compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
 compose-runtime-livedate-temp = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "compose" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
-compose-activity = { module = "androidx.activity:activity-compose", version = "1.9.1" }
-compose-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version = "2.8.4" }
+compose-activity = { module = "androidx.activity:activity-compose", version = "1.9.3" }
+compose-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version = "2.8.7" }
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-coil = { module = "io.coil-kt:coil-compose", version = "2.7.0" }
 glance = { module = "androidx.glance:glance", version.ref = "glance" }
@@ -107,14 +107,14 @@ hilt-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", 
 google-services-plugin = { module = "com.google.gms:google-services", version = "4.4.2" }
 google-play-update = { module = "com.google.android.play:app-update", version = "2.1.0" }
 google-play-services = { module = "com.google.android.gms:play-services-tasks", version = "18.2.0" }
-google-play-review = { module = "com.google.android.play:review-ktx", version = "2.0.1" }
-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version = "19.0.3" }
+google-play-review = { module = "com.google.android.play:review-ktx", version = "2.0.2" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version = "19.2.1" }
 firebase-crashlytics-gradle-plugin = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "3.0.2" }
 
 # AndroidX
 androidx-security = { module = "androidx.security:security-crypto", version = "1.0.0" }
 androidx-biometrics = { module = "androidx.biometric:biometric", version = "1.2.0-alpha05" }
-androidx-activity = { module = "androidx.activity:activity-ktx", version = "1.9.1" }
+androidx-activity = { module = "androidx.activity:activity-ktx", version = "1.9.3" }
 appcompat-activity = { module = "androidx.appcompat:appcompat", version = "1.7.0" }
 androidx-work = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "androidx-work" }
@@ -129,21 +129,21 @@ timber = { module = "com.jakewharton.timber:timber", version = "5.0.1" }
 # Legacy
 keval = { module = "com.notkamui.libs:keval", version = "1.1.1" }
 opencsv-csv = { module = "com.opencsv:opencsv", version = "5.9" }
-opencsv-apache-commons = { module = "org.apache.commons:commons-lang3", version = "3.16.0" }
+opencsv-apache-commons = { module = "org.apache.commons:commons-lang3", version = "3.17.0" }
 
 # Linters
 detekt-gradle-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 detekt-ruleset-compiler = { module = "com.braisgabin.detekt:kotlin-compiler-wrapper", version = "0.0.4" }
 detekt-ruleset-ktlint = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
-detekt-ruleset-compose = { module = "io.nlopez.compose.rules:detekt", version = "0.4.10" }
+detekt-ruleset-compose = { module = "io.nlopez.compose.rules:detekt", version = "0.4.17" }
 detekt-ruleset-ivy-explicit = { module = "com.github.Ivy-Apps:detekt-explicit", version = "v0.0.8" }
-slack-lint-compose = { module = "com.slack.lint.compose:compose-lint-checks", version = "1.3.1" }
+slack-lint-compose = { module = "com.slack.lint.compose:compose-lint-checks", version = "1.4.2" }
 
 # KSP
-ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version = "2.0.20-1.0.24" }
+ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version = "2.0.21-1.0.26" }
 
 # Modules Graph
-module-graph-plugin = { module = "com.jraska.module.graph.assertion:plugin", version = "2.6.0" }
+module-graph-plugin = { module = "com.jraska.module.graph.assertion:plugin", version = "2.7.1" }
 
 
 [bundles]
