@@ -75,8 +75,6 @@ Ivy Wallet is a great place to code and learn. That's why we also link to great 
 
 Make sure to check out our short **[Developer Guidelines 🏗️](docs/Guidelines.md)** to learn more about the technical side of the Ivy Wallet.
 
-[![PRs welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Ivy-Apps/ivy-wallet/blob/main/CONTRIBUTING.md)
-
 ## Tech Stack
 
 ### Core
