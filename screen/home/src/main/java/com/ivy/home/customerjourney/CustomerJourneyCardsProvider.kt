@@ -62,6 +62,7 @@ class CustomerJourneyCardsProvider @Inject constructor(
             didYouKnow_expensesPieChart(),
         )
 
+        @Suppress("MaxLineLength", "NoImplicitFunctionReturnType")
         fun shutdownCard() = CustomerJourneyCardModel(
             id = "shutdown",
             condition = { _, _, _ -> true },
@@ -75,7 +76,6 @@ class CustomerJourneyCardsProvider @Inject constructor(
                 ivyActivity.openUrlInBrowser(Constants.URL_IVY_WALLET_REPO)
             }
         )
-
 
         fun adjustBalanceCard() = CustomerJourneyCardModel(
             id = "adjust_balance",
