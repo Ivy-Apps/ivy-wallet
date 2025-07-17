@@ -4,6 +4,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import arrow.core.Either
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.ivy.data.datastore.IvyDataStore
@@ -35,15 +36,27 @@ class PollRepositoryImpl @Inject constructor(
     poll: PollId,
     option: PollOptionId
   ): Either<String, Unit> = suspendCoroutine { cont ->
-    Firebase.firestore
-      .collection("polls/${poll.id}")
-      .add(mapOf(deviceId.value to option.value))
+    // Define a reference to the document using the deviceId as its ID
+    val voteDocRef = Firebase.firestore
+      .collection("polls")
+      .document(poll.id)
+      .collection("votes")
+      .document(deviceId.value)
+
+    // Prepare the data for the vote
+    val voteData = mapOf(
+      "option" to option.value,
+      "timestamp" to FieldValue.serverTimestamp() // Good practice to store a timestamp
+    )
+
+    // Use .set() to create or overwrite the document with the specific ID
+    voteDocRef.set(voteData)
       .addOnSuccessListener {
         cont.resume(Either.Right(Unit))
       }
       .addOnFailureListener { e ->
         val message = e.message ?: "null message"
-        cont.resume(Either.Left("FireStore: $message"))
+        cont.resume(Either.Left("FireStore - $message"))
       }
   }
 
