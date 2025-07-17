@@ -9,11 +9,11 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.Toaster
 import com.ivy.navigation.Navigation
-import com.ivy.poll.data.PollRepository
 import com.ivy.poll.data.model.Poll
 import com.ivy.poll.data.model.PollId
 import com.ivy.poll.data.model.PollOption
 import com.ivy.poll.data.model.PollOptionId
+import com.ivy.poll.impl.domain.VoteUseCase
 import com.ivy.ui.ComposeViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
@@ -23,7 +23,7 @@ import javax.inject.Inject
 @Stable
 @HiltViewModel
 class PollViewModel @Inject constructor(
-  private val pollRepository: PollRepository,
+  private val voteUseCase: VoteUseCase,
   private val toaster: Toaster,
   private val navigation: Navigation,
 ) : ComposeViewModel<PollUiState, PollUiEvent>() {
@@ -92,7 +92,7 @@ class PollViewModel @Inject constructor(
 
     viewModelScope.launch {
       voteLoading = true
-      pollRepository.vote(
+      voteUseCase.vote(
         poll = poll.id,
         option = poll.options[selectedIndex].id,
       ).onLeft {

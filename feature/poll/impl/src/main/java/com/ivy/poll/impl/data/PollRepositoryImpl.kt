@@ -2,8 +2,10 @@ package com.ivy.poll.impl.data
 
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
 import arrow.core.Either
 import com.ivy.data.datastore.IvyDataStore
+import com.ivy.domain.usecase.android.DeviceId
 import com.ivy.poll.data.PollRepository
 import com.ivy.poll.data.model.PollId
 import com.ivy.poll.data.model.PollOptionId
@@ -18,7 +20,17 @@ class PollRepositoryImpl @Inject constructor(
     return dataStore.data.map { it[votedKey(poll)] ?: false }.first()
   }
 
-  override suspend fun vote(poll: PollId, option: PollOptionId): Either<String, Unit> {
+  override suspend fun setVoted(poll: PollId, voted: Boolean) {
+    dataStore.edit {
+      it[votedKey(poll)] = voted
+    }
+  }
+
+  override suspend fun vote(
+    deviceId: DeviceId,
+    poll: PollId,
+    option: PollOptionId
+  ): Either<String, Unit> {
     TODO("Not yet implemented")
   }
 
