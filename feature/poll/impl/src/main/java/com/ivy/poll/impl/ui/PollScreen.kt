@@ -1,5 +1,6 @@
 package com.ivy.poll.impl.ui
 
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,7 +26,8 @@ fun PollScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun PollUi(
+@VisibleForTesting
+internal fun PollUi(
   uiState: PollUiState,
   onEvent: (PollUiEvent) -> Unit
 ) {
