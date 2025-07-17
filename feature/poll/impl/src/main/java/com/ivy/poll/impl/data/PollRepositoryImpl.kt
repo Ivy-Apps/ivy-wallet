@@ -6,6 +6,7 @@ import arrow.core.Either
 import com.ivy.data.datastore.IvyDataStore
 import com.ivy.poll.data.PollRepository
 import com.ivy.poll.data.model.PollId
+import com.ivy.poll.data.model.PollOptionId
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -17,11 +18,11 @@ class PollRepositoryImpl @Inject constructor(
     return dataStore.data.map { it[votedKey(poll)] ?: false }.first()
   }
 
-  override suspend fun vote(poll: PollId, option: String): Either<String, Unit> {
+  override suspend fun vote(poll: PollId, option: PollOptionId): Either<String, Unit> {
     TODO("Not yet implemented")
   }
 
   private fun votedKey(poll: PollId): Preferences.Key<Boolean> {
-    return booleanPreferencesKey("poll.${poll.name.lowercase()}_voted")
+    return booleanPreferencesKey("poll.${poll.id}_voted")
   }
 }
