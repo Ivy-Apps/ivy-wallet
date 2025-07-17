@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-  namespace = "com.ivy.poll"
+  namespace = "com.ivy.poll.impl"
 }
 
 dependencies {

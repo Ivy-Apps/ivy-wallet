@@ -1,4 +1,4 @@
-package com.ivy.poll
+package com.ivy.poll.impl
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable

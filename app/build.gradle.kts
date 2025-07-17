@@ -122,7 +122,6 @@ android {
 }
 
 dependencies {
-
     implementation(projects.feature.attributions)
     implementation(projects.feature.balance)
     implementation(projects.feature.budgets)
@@ -139,6 +138,8 @@ dependencies {
     implementation(projects.feature.onboarding)
     implementation(projects.feature.piechart)
     implementation(projects.feature.plannedPayments)
+    implementation(projects.feature.poll.impl)
+    implementation(projects.feature.poll.public)
     implementation(projects.feature.releases)
     implementation(projects.feature.reports)
     implementation(projects.feature.search)
@@ -147,8 +148,8 @@ dependencies {
     implementation(projects.shared.base)
     implementation(projects.shared.data.core)
     implementation(projects.shared.domain)
-    implementation(projects.shared.ui.navigation)
     implementation(projects.shared.ui.core)
+    implementation(projects.shared.ui.navigation)
     implementation(projects.temp.legacyCode)
     implementation(projects.temp.oldDesign)
     implementation(projects.widget.addTransaction)
