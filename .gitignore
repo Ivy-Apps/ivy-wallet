@@ -104,3 +104,5 @@ node_modules/*
 
 # Kotlin Compiler
 .kotlin/sessions/*
+/.idea/AndroidProjectSystem.xml
+/.idea/runConfigurations.xml
