@@ -4,11 +4,16 @@ import androidx.compose.runtime.Immutable
 import kotlinx.collections.immutable.ImmutableList
 
 @Immutable
-data class PollUiState(
-  val poll: PollUi,
-  val selectedIndex: Int?,
-  val voteEnabled: Boolean,
-)
+sealed interface PollUiState {
+  data class Content(
+    val poll: PollUi,
+    val selectedIndex: Int?,
+    val voteEnabled: Boolean,
+    val voteLoading: Boolean,
+  ) : PollUiState
+
+  data object Voted : PollUiState
+}
 
 data class PollUi(
   val title: String,
@@ -16,6 +21,7 @@ data class PollUi(
 )
 
 sealed interface PollUiEvent {
+  data object BackClick : PollUiEvent
   data class SelectOption(val index: Int) : PollUiEvent
   data object VoteClick : PollUiEvent
 }

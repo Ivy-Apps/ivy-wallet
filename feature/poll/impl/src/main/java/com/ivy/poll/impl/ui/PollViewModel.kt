@@ -6,6 +6,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.viewModelScope
+import com.ivy.base.Toaster
+import com.ivy.navigation.Navigation
+import com.ivy.poll.data.PollRepository
 import com.ivy.poll.data.model.Poll
 import com.ivy.poll.data.model.PollId
 import com.ivy.poll.data.model.PollOption
@@ -13,12 +17,19 @@ import com.ivy.poll.data.model.PollOptionId
 import com.ivy.ui.ComposeViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @Stable
 @HiltViewModel
-class PollViewModel @Inject constructor() : ComposeViewModel<PollUiState, PollUiEvent>() {
+class PollViewModel @Inject constructor(
+  private val pollRepository: PollRepository,
+  private val toaster: Toaster,
+  private val navigation: Navigation,
+) : ComposeViewModel<PollUiState, PollUiEvent>() {
   private var selectedIndex by mutableStateOf<Int?>(null)
+  private var voteLoading by mutableStateOf(false)
+  private var voted by mutableStateOf(false)
 
   private val poll = Poll(
     id = PollId.PaidIvy,
@@ -41,11 +52,15 @@ class PollViewModel @Inject constructor() : ComposeViewModel<PollUiState, PollUi
 
   @Composable
   override fun uiState(): PollUiState {
-    return PollUiState(
-      poll = getPoll(),
-      selectedIndex = selectedIndex,
-      voteEnabled = selectedIndex != null,
-    )
+    return when {
+      voted -> PollUiState.Voted
+      else -> PollUiState.Content(
+        poll = getPoll(),
+        selectedIndex = selectedIndex,
+        voteEnabled = selectedIndex != null,
+        voteLoading = voteLoading,
+      )
+    }
   }
 
   @Composable
@@ -64,7 +79,28 @@ class PollViewModel @Inject constructor() : ComposeViewModel<PollUiState, PollUi
         selectedIndex = event.index
       }
 
-      PollUiEvent.VoteClick -> TODO()
+      PollUiEvent.VoteClick -> handleVoteClick()
+      PollUiEvent.BackClick -> {
+        navigation.back()
+      }
+    }
+  }
+
+  private fun handleVoteClick() {
+    val selectedIndex = selectedIndex
+      ?: throw IllegalStateException("Poll: Attempting to vote without selecting an option first")
+
+    viewModelScope.launch {
+      voteLoading = true
+      pollRepository.vote(
+        poll = poll.id,
+        option = poll.options[selectedIndex].id,
+      ).onLeft {
+        toaster.show(message = "Error: $it")
+      }.onRight {
+        voted = true
+      }
+      voteLoading = false
     }
   }
 }
