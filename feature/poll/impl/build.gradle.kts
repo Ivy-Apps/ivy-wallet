@@ -13,4 +13,6 @@ dependencies {
   implementation(projects.shared.ui.core)
   implementation(projects.shared.ui.navigation)
   implementation(projects.feature.poll.public)
+
+  implementation(libs.firebase.firestore)
 }
