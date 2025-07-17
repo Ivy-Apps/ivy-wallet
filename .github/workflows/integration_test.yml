@@ -55,7 +55,7 @@ jobs:
           ./gradlew :shared:domain:assembleDebug :shared:domain:assembleAndroidTest
 
       - name: Run androidTest on emulator
-        uses: reactivecircus/android-emulator-runner@v2.32.0
+        uses: reactivecircus/android-emulator-runner@v2.34.0
         with:
           api-level: 34
           target: google_apis
