@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import com.ivy.navigation.screenScopedViewModel
 import com.ivy.poll.impl.ui.composables.PollContent
 import com.ivy.poll.impl.ui.composables.VotedContent
+import com.ivy.ui.component.BackButton
 
 @Composable
 fun PollScreen() {
@@ -32,7 +33,14 @@ private fun PollUi(
     modifier = Modifier.systemBarsPadding(),
     topBar = {
       TopAppBar(
-        title = { Text("You decide") }
+        navigationIcon = {
+          BackButton(
+            onClick = {
+              onEvent(PollUiEvent.BackClick)
+            }
+          )
+        },
+        title = { Text("Help us decide") }
       )
     },
     content = { padding ->
