@@ -16,6 +16,7 @@ import com.ivy.legacy.data.model.MainTab
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.PieChartStatisticScreen
+import com.ivy.navigation.PollScreen
 import com.ivy.poll.data.PollRepository
 import com.ivy.poll.data.model.PollId
 import com.ivy.ui.R
@@ -169,7 +170,7 @@ class CustomerJourneyCardsProvider @Inject constructor(
       background = Gradient.solid(Ivy),
       // navigate to PollScreen
       onAction = { navigation: Navigation, _, _ ->
-
+        navigation.navigateTo(PollScreen)
       }
     )
   }

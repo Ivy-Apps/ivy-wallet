@@ -143,3 +143,5 @@ data object ContributorsScreen : Screen
 data object ReleasesScreen : Screen
 
 data object DisclaimerScreen : Screen
+
+data object PollScreen : Screen
