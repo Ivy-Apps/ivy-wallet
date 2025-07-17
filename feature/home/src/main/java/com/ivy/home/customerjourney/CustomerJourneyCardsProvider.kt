@@ -156,7 +156,8 @@ class CustomerJourneyCardsProvider @Inject constructor(
       }
     )
 
-    fun voteCard() = CustomerJourneyCardModel(
+    @Suppress("MaxLineLength", "NoImplicitFunctionReturnType")
+    private fun voteCard() = CustomerJourneyCardModel(
       id = "vote_card",
       // to users that haven't voted
       condition = { trnCount, _, _, deps ->

@@ -11,6 +11,7 @@ import com.ivy.poll.data.PollRepository
 @Immutable
 data class CustomerJourneyCardModel(
     val id: String,
+    @Suppress("MaximumLineLength", "ParameterWrapping", "MaxLineLength", "ParameterListWrapping")
     val condition: suspend (trnCount: Long, plannedPaymentsCount: Long, ivyContext: IvyWalletCtx, deps: CustomerJourneyDeps) -> Boolean,
     val title: String,
     val description: String,

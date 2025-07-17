@@ -91,7 +91,9 @@ class PollViewModel @Inject constructor(
 
   private fun handleVoteClick() {
     val selectedIndex = selectedIndex
-      ?: throw IllegalStateException("Poll: Attempting to vote without selecting an option first")
+    checkNotNull(selectedIndex) {
+      "Poll: Attempting to vote without selecting an option first"
+    }
 
     viewModelScope.launch {
       voteLoading = true

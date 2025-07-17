@@ -4,6 +4,7 @@ enum class PollId(val id: String) {
   PaidIvy("paid-ivy"),
 }
 
+@Suppress("DataClassTypedIDs")
 data class Poll(
   val id: PollId,
   val title: String,
@@ -11,6 +12,7 @@ data class Poll(
   val options: List<PollOption>
 )
 
+@Suppress("DataClassTypedIDs")
 data class PollOption(
   val id: PollOptionId,
   val text: String,
