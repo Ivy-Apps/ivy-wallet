@@ -3,6 +3,7 @@ package com.ivy.home.customerjourney
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
+import com.ivy.base.time.TimeProvider
 import com.ivy.data.db.dao.read.PlannedPaymentRuleDao
 import com.ivy.data.repository.TransactionRepository
 import com.ivy.design.l0_system.Gradient
@@ -21,6 +22,7 @@ import com.ivy.poll.data.PollRepository
 import com.ivy.poll.data.model.PollId
 import com.ivy.ui.R
 import com.ivy.widget.transaction.AddTransactionWidgetCompact
+import java.time.LocalDate
 import javax.inject.Inject
 
 @Deprecated("Legacy code")
@@ -30,6 +32,7 @@ class CustomerJourneyCardsProvider @Inject constructor(
   private val sharedPrefs: SharedPrefs,
   private val ivyContext: IvyWalletCtx,
   private val pollRepository: PollRepository,
+  private val timeProvider: TimeProvider,
 ) {
 
   suspend fun loadCards(): List<CustomerJourneyCardModel> {
@@ -37,6 +40,7 @@ class CustomerJourneyCardsProvider @Inject constructor(
     val plannedPaymentsCount = plannedPaymentRuleDao.countPlannedPayments()
     val deps = CustomerJourneyDeps(
       pollRepository = pollRepository,
+      timeProvider = timeProvider,
     )
 
     return ACTIVE_CARDS
@@ -161,7 +165,11 @@ class CustomerJourneyCardsProvider @Inject constructor(
       id = "vote_card",
       // to users that haven't voted
       condition = { trnCount, _, _, deps ->
-        trnCount > 3 && !deps.pollRepository.hasVoted(PollId.PaidIvy)
+        val expiry = LocalDate.of(2025, 7, 28)
+        trnCount > 3 &&
+            // set expiration
+            deps.timeProvider.localDateNow().isBefore(expiry) &&
+            !deps.pollRepository.hasVoted(PollId.PaidIvy)
       },
       title = "How much are you willing to pay for Ivy Wallet?",
       description = "Google Play requires us to update Ivy Wallet to target API level 35 (Android 15). We'd like to know if you will be interested to pay on a subscription basis so we can maintain the app.",
