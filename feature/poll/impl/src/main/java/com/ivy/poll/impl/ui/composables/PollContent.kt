@@ -2,6 +2,7 @@ package com.ivy.poll.impl.ui.composables
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -64,7 +65,9 @@ private fun VoteButton(
   onClick: () -> Unit,
 ) {
   Button(
-    modifier = modifier.fillMaxWidth(),
+    modifier = modifier
+      .fillMaxWidth()
+      .defaultMinSize(minHeight = 48.dp),
     enabled = enabled && !loading,
     onClick = onClick,
   ) {
