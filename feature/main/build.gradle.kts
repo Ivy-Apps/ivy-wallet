@@ -3,11 +3,12 @@ plugins {
 }
 
 android {
-    namespace = "com.ivy.importdata"
+    namespace = "com.ivy.main"
 }
 
 dependencies {
-    implementation(projects.screen.onboarding)
+    implementation(projects.feature.accounts)
+    implementation(projects.feature.home)
     implementation(projects.shared.base)
     implementation(projects.shared.data.core)
     implementation(projects.shared.domain)
@@ -15,6 +16,4 @@ dependencies {
     implementation(projects.shared.ui.navigation)
     implementation(projects.temp.legacyCode)
     implementation(projects.temp.oldDesign)
-
-    implementation(libs.bundles.opencsv)
 }

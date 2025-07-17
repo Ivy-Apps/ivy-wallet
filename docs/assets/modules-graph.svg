@@ -15,255 +15,255 @@
 <ellipse fill="none" stroke="black" cx="3095" cy="-594" rx="27" ry="18"/>
 <text text-anchor="middle" x="3095" y="-588.95" font-family="Times,serif" font-size="14.00">:app</text>
 </g>
-<!-- :screen:attributions -->
+<!-- :feature:attributions -->
 <g id="node2" class="node">
-<title>:screen:attributions</title>
+<title>:feature:attributions</title>
 <ellipse fill="none" stroke="black" cx="4822" cy="-378" rx="81.55" ry="18"/>
-<text text-anchor="middle" x="4822" y="-372.95" font-family="Times,serif" font-size="14.00">:screen:attributions</text>
+<text text-anchor="middle" x="4822" y="-372.95" font-family="Times,serif" font-size="14.00">:feature:attributions</text>
 </g>
-<!-- :app&#45;&gt;:screen:attributions -->
+<!-- :app&#45;&gt;:feature:attributions -->
 <g id="edge1" class="edge">
-<title>:app&#45;&gt;:screen:attributions</title>
+<title>:app&#45;&gt;:feature:attributions</title>
 <path fill="none" stroke="black" d="M3122.41,-592.9C3256.65,-592.17 3858.12,-586.37 4348,-540 4566.26,-519.34 4692.74,-633.95 4836,-468 4850.42,-451.29 4844.69,-425.97 4836.65,-406.6"/>
 <polygon fill="black" stroke="black" points="4839.89,-405.28 4832.54,-397.64 4833.53,-408.19 4839.89,-405.28"/>
 </g>
-<!-- :screen:balance -->
+<!-- :feature:balance -->
 <g id="node3" class="node">
-<title>:screen:balance</title>
+<title>:feature:balance</title>
 <ellipse fill="none" stroke="black" cx="3552" cy="-450" rx="67.73" ry="18"/>
-<text text-anchor="middle" x="3552" y="-444.95" font-family="Times,serif" font-size="14.00">:screen:balance</text>
+<text text-anchor="middle" x="3552" y="-444.95" font-family="Times,serif" font-size="14.00">:feature:balance</text>
 </g>
-<!-- :app&#45;&gt;:screen:balance -->
+<!-- :app&#45;&gt;:feature:balance -->
 <g id="edge2" class="edge">
-<title>:app&#45;&gt;:screen:balance</title>
+<title>:app&#45;&gt;:feature:balance</title>
 <path fill="none" stroke="black" d="M3121.69,-589.88C3170.38,-583.71 3276.46,-568.06 3362,-540 3416.73,-522.04 3476.34,-492.31 3513.92,-472.2"/>
 <polygon fill="black" stroke="black" points="3515.45,-475.36 3522.58,-467.52 3512.12,-469.2 3515.45,-475.36"/>
 </g>
-<!-- :screen:budgets -->
+<!-- :feature:budgets -->
 <g id="node4" class="node">
-<title>:screen:budgets</title>
+<title>:feature:budgets</title>
 <ellipse fill="none" stroke="black" cx="2718" cy="-450" rx="68.24" ry="18"/>
-<text text-anchor="middle" x="2718" y="-444.95" font-family="Times,serif" font-size="14.00">:screen:budgets</text>
+<text text-anchor="middle" x="2718" y="-444.95" font-family="Times,serif" font-size="14.00">:feature:budgets</text>
 </g>
-<!-- :app&#45;&gt;:screen:budgets -->
+<!-- :app&#45;&gt;:feature:budgets -->
 <g id="edge3" class="edge">
-<title>:app&#45;&gt;:screen:budgets</title>
+<title>:app&#45;&gt;:feature:budgets</title>
 <path fill="none" stroke="black" d="M3071.7,-584.22C3011.24,-561.45 2848.37,-500.1 2766.45,-469.25"/>
 <polygon fill="black" stroke="black" points="2767.93,-466.07 2757.33,-465.82 2765.46,-472.62 2767.93,-466.07"/>
 </g>
-<!-- :screen:categories -->
+<!-- :feature:categories -->
 <g id="node5" class="node">
-<title>:screen:categories</title>
+<title>:feature:categories</title>
 <ellipse fill="none" stroke="black" cx="3978" cy="-450" rx="76.94" ry="18"/>
-<text text-anchor="middle" x="3978" y="-444.95" font-family="Times,serif" font-size="14.00">:screen:categories</text>
+<text text-anchor="middle" x="3978" y="-444.95" font-family="Times,serif" font-size="14.00">:feature:categories</text>
 </g>
-<!-- :app&#45;&gt;:screen:categories -->
+<!-- :app&#45;&gt;:feature:categories -->
 <g id="edge4" class="edge">
-<title>:app&#45;&gt;:screen:categories</title>
+<title>:app&#45;&gt;:feature:categories</title>
 <path fill="none" stroke="black" d="M3122.13,-592.61C3237.36,-590.71 3686.45,-580.78 3821,-540 3868.08,-525.73 3916.47,-495.49 3946.85,-474.23"/>
 <polygon fill="black" stroke="black" points="3948.7,-477.21 3954.82,-468.55 3944.64,-471.5 3948.7,-477.21"/>
 </g>
-<!-- :screen:contributors -->
+<!-- :feature:contributors -->
 <g id="node6" class="node">
-<title>:screen:contributors</title>
+<title>:feature:contributors</title>
 <ellipse fill="none" stroke="black" cx="1056" cy="-378" rx="84.11" ry="18"/>
-<text text-anchor="middle" x="1056" y="-372.95" font-family="Times,serif" font-size="14.00">:screen:contributors</text>
+<text text-anchor="middle" x="1056" y="-372.95" font-family="Times,serif" font-size="14.00">:feature:contributors</text>
 </g>
-<!-- :app&#45;&gt;:screen:contributors -->
+<!-- :app&#45;&gt;:feature:contributors -->
 <g id="edge5" class="edge">
-<title>:app&#45;&gt;:screen:contributors</title>
+<title>:app&#45;&gt;:feature:contributors</title>
 <path fill="none" stroke="black" d="M3067.61,-592.7C2845.61,-590.25 1346.76,-572.49 1258,-540 1181.39,-511.96 1111.66,-442.47 1077.71,-404.6"/>
 <polygon fill="black" stroke="black" points="1080.49,-402.46 1071.25,-397.28 1075.24,-407.09 1080.49,-402.46"/>
 </g>
-<!-- :screen:disclaimer -->
+<!-- :feature:disclaimer -->
 <g id="node7" class="node">
-<title>:screen:disclaimer</title>
+<title>:feature:disclaimer</title>
 <ellipse fill="none" stroke="black" cx="1312" cy="-378" rx="78.48" ry="18"/>
-<text text-anchor="middle" x="1312" y="-372.95" font-family="Times,serif" font-size="14.00">:screen:disclaimer</text>
+<text text-anchor="middle" x="1312" y="-372.95" font-family="Times,serif" font-size="14.00">:feature:disclaimer</text>
 </g>
-<!-- :app&#45;&gt;:screen:disclaimer -->
+<!-- :app&#45;&gt;:feature:disclaimer -->
 <g id="edge6" class="edge">
-<title>:app&#45;&gt;:screen:disclaimer</title>
+<title>:app&#45;&gt;:feature:disclaimer</title>
 <path fill="none" stroke="black" d="M3067.57,-592.88C2860.22,-591.89 1542.84,-583.88 1372,-540 1303.85,-522.49 1267.74,-528.01 1231,-468 1222.65,-454.35 1223.39,-446.07 1231,-432 1238.33,-418.45 1250.79,-407.81 1263.77,-399.74"/>
 <polygon fill="black" stroke="black" points="1265.46,-402.8 1272.4,-394.8 1261.98,-396.72 1265.46,-402.8"/>
 </g>
-<!-- :screen:edit&#45;transaction -->
+<!-- :feature:edit&#45;transaction -->
 <g id="node8" class="node">
-<title>:screen:edit&#45;transaction</title>
+<title>:feature:edit&#45;transaction</title>
 <ellipse fill="none" stroke="black" cx="3220" cy="-522" rx="96.9" ry="18"/>
-<text text-anchor="middle" x="3220" y="-516.95" font-family="Times,serif" font-size="14.00">:screen:edit&#45;transaction</text>
+<text text-anchor="middle" x="3220" y="-516.95" font-family="Times,serif" font-size="14.00">:feature:edit&#45;transaction</text>
 </g>
-<!-- :app&#45;&gt;:screen:edit&#45;transaction -->
+<!-- :app&#45;&gt;:feature:edit&#45;transaction -->
 <g id="edge7" class="edge">
-<title>:app&#45;&gt;:screen:edit&#45;transaction</title>
+<title>:app&#45;&gt;:feature:edit&#45;transaction</title>
 <path fill="none" stroke="red" stroke-width="2" d="M3115.36,-581.6C3133.04,-571.7 3159.14,-557.08 3180.84,-544.93"/>
 <polygon fill="red" stroke="red" stroke-width="2" points="3181.12,-548.78 3188.14,-540.84 3177.7,-542.68 3181.12,-548.78"/>
 </g>
-<!-- :screen:exchange&#45;rates -->
+<!-- :feature:exchange&#45;rates -->
 <g id="node9" class="node">
-<title>:screen:exchange&#45;rates</title>
+<title>:feature:exchange&#45;rates</title>
 <ellipse fill="none" stroke="black" cx="1751" cy="-450" rx="94.86" ry="18"/>
-<text text-anchor="middle" x="1751" y="-444.95" font-family="Times,serif" font-size="14.00">:screen:exchange&#45;rates</text>
+<text text-anchor="middle" x="1751" y="-444.95" font-family="Times,serif" font-size="14.00">:feature:exchange&#45;rates</text>
 </g>
-<!-- :app&#45;&gt;:screen:exchange&#45;rates -->
+<!-- :app&#45;&gt;:feature:exchange&#45;rates -->
 <g id="edge8" class="edge">
-<title>:app&#45;&gt;:screen:exchange&#45;rates</title>
+<title>:app&#45;&gt;:feature:exchange&#45;rates</title>
 <path fill="none" stroke="black" d="M3067.59,-593.29C2913.51,-594.71 2154.16,-598.58 1929,-540 1875.89,-526.18 1820.17,-495.25 1785.52,-473.76"/>
 <polygon fill="black" stroke="black" points="1787.5,-470.88 1777.17,-468.51 1783.77,-476.8 1787.5,-470.88"/>
 </g>
-<!-- :screen:features -->
+<!-- :feature:features -->
 <g id="node10" class="node">
-<title>:screen:features</title>
+<title>:feature:features</title>
 <ellipse fill="none" stroke="black" cx="885" cy="-378" rx="68.75" ry="18"/>
-<text text-anchor="middle" x="885" y="-372.95" font-family="Times,serif" font-size="14.00">:screen:features</text>
+<text text-anchor="middle" x="885" y="-372.95" font-family="Times,serif" font-size="14.00">:feature:features</text>
 </g>
-<!-- :app&#45;&gt;:screen:features -->
+<!-- :app&#45;&gt;:feature:features -->
 <g id="edge9" class="edge">
-<title>:app&#45;&gt;:screen:features</title>
+<title>:app&#45;&gt;:feature:features</title>
 <path fill="none" stroke="black" d="M3067.84,-593C2849.05,-592.86 1377.64,-590.06 1188,-540 1080.64,-511.66 968.99,-439.23 916.21,-401.95"/>
 <polygon fill="black" stroke="black" points="918.46,-399.25 908.28,-396.29 914.39,-404.95 918.46,-399.25"/>
 </g>
-<!-- :screen:home -->
+<!-- :feature:home -->
 <g id="node11" class="node">
-<title>:screen:home</title>
+<title>:feature:home</title>
 <ellipse fill="none" stroke="black" cx="1301" cy="-450" rx="60.56" ry="18"/>
-<text text-anchor="middle" x="1301" y="-444.95" font-family="Times,serif" font-size="14.00">:screen:home</text>
+<text text-anchor="middle" x="1301" y="-444.95" font-family="Times,serif" font-size="14.00">:feature:home</text>
 </g>
-<!-- :app&#45;&gt;:screen:home -->
+<!-- :app&#45;&gt;:feature:home -->
 <g id="edge10" class="edge">
-<title>:app&#45;&gt;:screen:home</title>
+<title>:app&#45;&gt;:feature:home</title>
 <path fill="none" stroke="black" d="M3067.58,-592.92C2865.88,-592.26 1615.13,-586.26 1454,-540 1407.09,-526.53 1359.5,-495.52 1330.13,-473.92"/>
 <polygon fill="black" stroke="black" points="1332.57,-471.37 1322.47,-468.18 1328.37,-476.98 1332.57,-471.37"/>
 </g>
-<!-- :screen:import&#45;data -->
+<!-- :feature:import&#45;data -->
 <g id="node12" class="node">
-<title>:screen:import&#45;data</title>
+<title>:feature:import&#45;data</title>
 <ellipse fill="none" stroke="black" cx="2021" cy="-522" rx="83.08" ry="18"/>
-<text text-anchor="middle" x="2021" y="-516.95" font-family="Times,serif" font-size="14.00">:screen:import&#45;data</text>
+<text text-anchor="middle" x="2021" y="-516.95" font-family="Times,serif" font-size="14.00">:feature:import&#45;data</text>
 </g>
-<!-- :app&#45;&gt;:screen:import&#45;data -->
+<!-- :app&#45;&gt;:feature:import&#45;data -->
 <g id="edge11" class="edge">
-<title>:app&#45;&gt;:screen:import&#45;data</title>
+<title>:app&#45;&gt;:feature:import&#45;data</title>
 <path fill="none" stroke="black" d="M3067.7,-592.71C2952.24,-591.24 2492.66,-582.84 2118,-540 2109.73,-539.05 2101.1,-537.85 2092.55,-536.53"/>
 <polygon fill="black" stroke="black" points="2093.3,-533.11 2082.87,-534.97 2092.19,-540.02 2093.3,-533.11"/>
 </g>
-<!-- :screen:loans -->
+<!-- :feature:loans -->
 <g id="node13" class="node">
-<title>:screen:loans</title>
+<title>:feature:loans</title>
 <ellipse fill="none" stroke="black" cx="3407" cy="-450" rx="59.03" ry="18"/>
-<text text-anchor="middle" x="3407" y="-444.95" font-family="Times,serif" font-size="14.00">:screen:loans</text>
+<text text-anchor="middle" x="3407" y="-444.95" font-family="Times,serif" font-size="14.00">:feature:loans</text>
 </g>
-<!-- :app&#45;&gt;:screen:loans -->
+<!-- :app&#45;&gt;:feature:loans -->
 <g id="edge12" class="edge">
-<title>:app&#45;&gt;:screen:loans</title>
+<title>:app&#45;&gt;:feature:loans</title>
 <path fill="none" stroke="black" d="M3122.18,-591.96C3167.43,-589.16 3259.75,-578.73 3326,-540 3352.51,-524.51 3375.27,-497.47 3389.86,-477.25"/>
 <polygon fill="black" stroke="black" points="3392.63,-479.4 3395.48,-469.2 3386.88,-475.4 3392.63,-479.4"/>
 </g>
-<!-- :screen:main -->
+<!-- :feature:main -->
 <g id="node14" class="node">
-<title>:screen:main</title>
+<title>:feature:main</title>
 <ellipse fill="none" stroke="black" cx="1522" cy="-522" rx="58.52" ry="18"/>
-<text text-anchor="middle" x="1522" y="-516.95" font-family="Times,serif" font-size="14.00">:screen:main</text>
+<text text-anchor="middle" x="1522" y="-516.95" font-family="Times,serif" font-size="14.00">:feature:main</text>
 </g>
-<!-- :app&#45;&gt;:screen:main -->
+<!-- :app&#45;&gt;:feature:main -->
 <g id="edge13" class="edge">
-<title>:app&#45;&gt;:screen:main</title>
+<title>:app&#45;&gt;:feature:main</title>
 <path fill="none" stroke="black" d="M3068.01,-592.04C2933.21,-587.23 2319.36,-564.89 1817,-540 1739.26,-536.15 1650.05,-530.89 1590.27,-527.25"/>
 <polygon fill="black" stroke="black" points="1590.8,-523.77 1580.6,-526.66 1590.37,-530.76 1590.8,-523.77"/>
 </g>
-<!-- :screen:onboarding -->
+<!-- :feature:onboarding -->
 <g id="node15" class="node">
-<title>:screen:onboarding</title>
+<title>:feature:onboarding</title>
 <ellipse fill="none" stroke="black" cx="2022" cy="-450" rx="81.55" ry="18"/>
-<text text-anchor="middle" x="2022" y="-444.95" font-family="Times,serif" font-size="14.00">:screen:onboarding</text>
+<text text-anchor="middle" x="2022" y="-444.95" font-family="Times,serif" font-size="14.00">:feature:onboarding</text>
 </g>
-<!-- :app&#45;&gt;:screen:onboarding -->
+<!-- :app&#45;&gt;:feature:onboarding -->
 <g id="edge14" class="edge">
-<title>:app&#45;&gt;:screen:onboarding</title>
+<title>:app&#45;&gt;:feature:onboarding</title>
 <path fill="none" stroke="black" d="M3067.82,-592.48C2922.73,-589.6 2242.73,-574.31 2156,-540 2132.82,-530.83 2133.4,-518.32 2113,-504 2096.89,-492.69 2078.24,-481.52 2062.03,-472.37"/>
 <polygon fill="black" stroke="black" points="2064.06,-469.49 2053.62,-467.69 2060.66,-475.61 2064.06,-469.49"/>
 </g>
-<!-- :screen:piechart -->
+<!-- :feature:piechart -->
 <g id="node16" class="node">
-<title>:screen:piechart</title>
+<title>:feature:piechart</title>
 <ellipse fill="none" stroke="black" cx="4142" cy="-450" rx="69.26" ry="18"/>
-<text text-anchor="middle" x="4142" y="-444.95" font-family="Times,serif" font-size="14.00">:screen:piechart</text>
+<text text-anchor="middle" x="4142" y="-444.95" font-family="Times,serif" font-size="14.00">:feature:piechart</text>
 </g>
-<!-- :app&#45;&gt;:screen:piechart -->
+<!-- :app&#45;&gt;:feature:piechart -->
 <g id="edge15" class="edge">
-<title>:app&#45;&gt;:screen:piechart</title>
+<title>:app&#45;&gt;:feature:piechart</title>
 <path fill="none" stroke="black" d="M3122.29,-592.07C3242.5,-587.82 3725.37,-569.25 3874,-540 3954.16,-524.23 4043.53,-491.28 4096.14,-470.19"/>
 <polygon fill="black" stroke="black" points="4097.43,-473.45 4105.39,-466.45 4094.81,-466.96 4097.43,-473.45"/>
 </g>
-<!-- :screen:planned&#45;payments -->
+<!-- :feature:planned&#45;payments -->
 <g id="node17" class="node">
-<title>:screen:planned&#45;payments</title>
+<title>:feature:planned&#45;payments</title>
 <ellipse fill="none" stroke="black" cx="2345" cy="-450" rx="107.65" ry="18"/>
-<text text-anchor="middle" x="2345" y="-444.95" font-family="Times,serif" font-size="14.00">:screen:planned&#45;payments</text>
+<text text-anchor="middle" x="2345" y="-444.95" font-family="Times,serif" font-size="14.00">:feature:planned&#45;payments</text>
 </g>
-<!-- :app&#45;&gt;:screen:planned&#45;payments -->
+<!-- :app&#45;&gt;:feature:planned&#45;payments -->
 <g id="edge16" class="edge">
-<title>:app&#45;&gt;:screen:planned&#45;payments</title>
+<title>:app&#45;&gt;:feature:planned&#45;payments</title>
 <path fill="none" stroke="black" d="M3069.18,-588.11C2967.52,-568.86 2592.26,-497.82 2425.63,-466.27"/>
 <polygon fill="black" stroke="black" points="2426.44,-462.86 2415.97,-464.44 2425.14,-469.74 2426.44,-462.86"/>
 </g>
-<!-- :screen:releases -->
+<!-- :feature:releases -->
 <g id="node18" class="node">
-<title>:screen:releases</title>
+<title>:feature:releases</title>
 <ellipse fill="none" stroke="black" cx="477" cy="-378" rx="68.75" ry="18"/>
-<text text-anchor="middle" x="477" y="-372.95" font-family="Times,serif" font-size="14.00">:screen:releases</text>
+<text text-anchor="middle" x="477" y="-372.95" font-family="Times,serif" font-size="14.00">:feature:releases</text>
 </g>
-<!-- :app&#45;&gt;:screen:releases -->
+<!-- :app&#45;&gt;:feature:releases -->
 <g id="edge17" class="edge">
-<title>:app&#45;&gt;:screen:releases</title>
+<title>:app&#45;&gt;:feature:releases</title>
 <path fill="none" stroke="black" d="M3067.78,-592.8C2835.13,-591.05 1184.47,-577.36 968,-540 797.98,-510.66 606.31,-434.54 521.47,-398.48"/>
 <polygon fill="black" stroke="black" points="522.9,-395.29 512.33,-394.58 520.15,-401.73 522.9,-395.29"/>
 </g>
-<!-- :screen:reports -->
+<!-- :feature:reports -->
 <g id="node19" class="node">
-<title>:screen:reports</title>
+<title>:feature:reports</title>
 <ellipse fill="none" stroke="black" cx="4325" cy="-450" rx="65.17" ry="18"/>
-<text text-anchor="middle" x="4325" y="-444.95" font-family="Times,serif" font-size="14.00">:screen:reports</text>
+<text text-anchor="middle" x="4325" y="-444.95" font-family="Times,serif" font-size="14.00">:feature:reports</text>
 </g>
-<!-- :app&#45;&gt;:screen:reports -->
+<!-- :app&#45;&gt;:feature:reports -->
 <g id="edge18" class="edge">
-<title>:app&#45;&gt;:screen:reports</title>
+<title>:app&#45;&gt;:feature:reports</title>
 <path fill="none" stroke="black" d="M3122.2,-593.02C3228.76,-592.73 3628,-588.3 3952,-540 4067.01,-522.85 4198.71,-487.68 4270.79,-467.05"/>
 <polygon fill="black" stroke="black" points="4271.74,-470.42 4280.38,-464.29 4269.8,-463.7 4271.74,-470.42"/>
 </g>
-<!-- :screen:search -->
+<!-- :feature:search -->
 <g id="node20" class="node">
-<title>:screen:search</title>
+<title>:feature:search</title>
 <ellipse fill="none" stroke="black" cx="4764" cy="-450" rx="63.12" ry="18"/>
-<text text-anchor="middle" x="4764" y="-444.95" font-family="Times,serif" font-size="14.00">:screen:search</text>
+<text text-anchor="middle" x="4764" y="-444.95" font-family="Times,serif" font-size="14.00">:feature:search</text>
 </g>
-<!-- :app&#45;&gt;:screen:search -->
+<!-- :app&#45;&gt;:feature:search -->
 <g id="edge19" class="edge">
-<title>:app&#45;&gt;:screen:search</title>
+<title>:app&#45;&gt;:feature:search</title>
 <path fill="none" stroke="black" d="M3122.08,-592.63C3245.13,-590.74 3763.78,-580.65 4187,-540 4410.49,-518.53 4466.12,-508.23 4687,-468 4692.98,-466.91 4699.19,-465.69 4705.39,-464.41"/>
 <polygon fill="black" stroke="black" points="4705.92,-467.88 4714.98,-462.39 4704.48,-461.03 4705.92,-467.88"/>
 </g>
-<!-- :screen:settings -->
+<!-- :feature:settings -->
 <g id="node21" class="node">
-<title>:screen:settings</title>
+<title>:feature:settings</title>
 <ellipse fill="none" stroke="black" cx="3744" cy="-522" rx="67.73" ry="18"/>
-<text text-anchor="middle" x="3744" y="-516.95" font-family="Times,serif" font-size="14.00">:screen:settings</text>
+<text text-anchor="middle" x="3744" y="-516.95" font-family="Times,serif" font-size="14.00">:feature:settings</text>
 </g>
-<!-- :app&#45;&gt;:screen:settings -->
+<!-- :app&#45;&gt;:feature:settings -->
 <g id="edge20" class="edge">
-<title>:app&#45;&gt;:screen:settings</title>
+<title>:app&#45;&gt;:feature:settings</title>
 <path fill="none" stroke="black" d="M3121.99,-591.55C3203.69,-586.92 3455.45,-570.97 3662,-540 3668.7,-539 3675.68,-537.79 3682.61,-536.5"/>
 <polygon fill="black" stroke="black" points="3682.78,-540.03 3691.93,-534.69 3681.45,-533.16 3682.78,-540.03"/>
 </g>
-<!-- :screen:transactions -->
+<!-- :feature:transactions -->
 <g id="node22" class="node">
-<title>:screen:transactions</title>
+<title>:feature:transactions</title>
 <ellipse fill="none" stroke="black" cx="4561" cy="-450" rx="83.6" ry="18"/>
-<text text-anchor="middle" x="4561" y="-444.95" font-family="Times,serif" font-size="14.00">:screen:transactions</text>
+<text text-anchor="middle" x="4561" y="-444.95" font-family="Times,serif" font-size="14.00">:feature:transactions</text>
 </g>
-<!-- :app&#45;&gt;:screen:transactions -->
+<!-- :app&#45;&gt;:feature:transactions -->
 <g id="edge21" class="edge">
-<title>:app&#45;&gt;:screen:transactions</title>
+<title>:app&#45;&gt;:feature:transactions</title>
 <path fill="none" stroke="black" d="M3122.18,-592.68C3236.15,-591.07 3686.66,-582.24 4054,-540 4211.99,-521.83 4395.32,-485.92 4492.42,-465.71"/>
 <polygon fill="black" stroke="black" points="4492.98,-469.16 4502.06,-463.69 4491.55,-462.31 4492.98,-469.16"/>
 </g>
@@ -363,21 +363,21 @@
 <path fill="none" stroke="black" d="M3096.72,-575.59C3099.08,-551.61 3103.37,-508.14 3106.2,-479.42"/>
 <polygon fill="black" stroke="black" points="3109.67,-479.91 3107.16,-469.62 3102.7,-479.23 3109.67,-479.91"/>
 </g>
-<!-- :screen:attributions&#45;&gt;:shared:base -->
+<!-- :feature:attributions&#45;&gt;:shared:base -->
 <g id="edge30" class="edge">
-<title>:screen:attributions&#45;&gt;:shared:base</title>
+<title>:feature:attributions&#45;&gt;:shared:base</title>
 <path fill="none" stroke="black" d="M4832.99,-359.95C4864.63,-308.52 4948.78,-153.52 4870,-72 4817.87,-18.06 3680.97,-17.88 3388.9,-18.73"/>
 <polygon fill="black" stroke="black" points="3389.16,-15.23 3379.17,-18.76 3389.18,-22.23 3389.16,-15.23"/>
 </g>
-<!-- :screen:attributions&#45;&gt;:shared:domain -->
+<!-- :feature:attributions&#45;&gt;:shared:domain -->
 <g id="edge31" class="edge">
-<title>:screen:attributions&#45;&gt;:shared:domain</title>
+<title>:feature:attributions&#45;&gt;:shared:domain</title>
 <path fill="none" stroke="black" d="M4803.24,-360.09C4763.21,-325.22 4664.95,-246.11 4566,-216 4400.29,-165.57 3172.47,-162.73 2845.7,-162.88"/>
 <polygon fill="black" stroke="black" points="2845.97,-159.38 2835.97,-162.89 2845.97,-166.38 2845.97,-159.38"/>
 </g>
-<!-- :screen:attributions&#45;&gt;:shared:ui:navigation -->
+<!-- :feature:attributions&#45;&gt;:shared:ui:navigation -->
 <g id="edge33" class="edge">
-<title>:screen:attributions&#45;&gt;:shared:ui:navigation</title>
+<title>:feature:attributions&#45;&gt;:shared:ui:navigation</title>
 <path fill="none" stroke="black" d="M4742.42,-373.9C4647.9,-370.28 4485.48,-364.24 4346,-360 3570.59,-336.43 2634.88,-315.64 2332.42,-309.12"/>
 <polygon fill="black" stroke="black" points="2332.66,-305.62 2322.58,-308.91 2332.51,-312.62 2332.66,-305.62"/>
 </g>
@@ -387,807 +387,807 @@
 <ellipse fill="none" stroke="black" cx="2482" cy="-234" rx="65.68" ry="18"/>
 <text text-anchor="middle" x="2482" y="-228.95" font-family="Times,serif" font-size="14.00">:shared:ui:core</text>
 </g>
-<!-- :screen:attributions&#45;&gt;:shared:ui:core -->
+<!-- :feature:attributions&#45;&gt;:shared:ui:core -->
 <g id="edge32" class="edge">
-<title>:screen:attributions&#45;&gt;:shared:ui:core</title>
+<title>:feature:attributions&#45;&gt;:shared:ui:core</title>
 <path fill="none" stroke="black" d="M4767.6,-364.17C4678.44,-343.79 4495.4,-304.62 4338,-288 3984.7,-250.7 2863.89,-238.34 2559.13,-235.63"/>
 <polygon fill="black" stroke="black" points="2559.33,-232.13 2549.3,-235.54 2559.27,-239.13 2559.33,-232.13"/>
 </g>
-<!-- :screen:balance&#45;&gt;:shared:base -->
+<!-- :feature:balance&#45;&gt;:shared:base -->
 <g id="edge34" class="edge">
-<title>:screen:balance&#45;&gt;:shared:base</title>
+<title>:feature:balance&#45;&gt;:shared:base</title>
 <path fill="none" stroke="black" d="M3618.94,-446.47C3844.04,-436.7 4569.37,-394.54 4745,-252 4783.5,-220.75 4781.85,-192.79 4773,-144 4766.9,-110.37 4773.72,-91.99 4746,-72 4690.41,-31.93 3664.73,-21.52 3388.84,-19.45"/>
 <polygon fill="black" stroke="black" points="3388.96,-15.95 3378.94,-19.37 3388.91,-22.95 3388.96,-15.95"/>
 </g>
-<!-- :screen:balance&#45;&gt;:shared:domain -->
+<!-- :feature:balance&#45;&gt;:shared:domain -->
 <g id="edge35" class="edge">
-<title>:screen:balance&#45;&gt;:shared:domain</title>
+<title>:feature:balance&#45;&gt;:shared:domain</title>
 <path fill="none" stroke="black" d="M3556.94,-431.67C3561.33,-413.53 3566.17,-384.36 3560,-360 3537.22,-270.11 3496.83,-245.77 3409,-216 3306.64,-181.31 2993.24,-168.8 2845.12,-164.75"/>
 <polygon fill="black" stroke="black" points="2845.49,-161.26 2835.4,-164.49 2845.3,-168.25 2845.49,-161.26"/>
 </g>
-<!-- :screen:balance&#45;&gt;:shared:ui:navigation -->
+<!-- :feature:balance&#45;&gt;:shared:ui:navigation -->
 <g id="edge37" class="edge">
-<title>:screen:balance&#45;&gt;:shared:ui:navigation</title>
+<title>:feature:balance&#45;&gt;:shared:ui:navigation</title>
 <path fill="none" stroke="black" d="M3509.06,-435.68C3441.79,-415.45 3307.14,-377.49 3190,-360 2880.15,-313.74 2508.45,-306.86 2333.45,-306.45"/>
 <polygon fill="black" stroke="black" points="2333.48,-302.95 2323.47,-306.44 2333.46,-309.95 2333.48,-302.95"/>
 </g>
-<!-- :screen:balance&#45;&gt;:temp:legacy&#45;code -->
+<!-- :feature:balance&#45;&gt;:temp:legacy&#45;code -->
 <g id="edge38" class="edge">
-<title>:screen:balance&#45;&gt;:temp:legacy&#45;code</title>
+<title>:feature:balance&#45;&gt;:temp:legacy&#45;code</title>
 <path fill="none" stroke="black" d="M3502.43,-437.33C3493.34,-435.4 3483.9,-433.53 3475,-432 3355.73,-411.51 3216.49,-395.81 3129.77,-386.99"/>
 <polygon fill="black" stroke="black" points="3130.22,-383.51 3119.92,-385.99 3129.52,-390.48 3130.22,-383.51"/>
 </g>
-<!-- :screen:balance&#45;&gt;:temp:old&#45;design -->
+<!-- :feature:balance&#45;&gt;:temp:old&#45;design -->
 <g id="edge39" class="edge">
-<title>:screen:balance&#45;&gt;:temp:old&#45;design</title>
+<title>:feature:balance&#45;&gt;:temp:old&#45;design</title>
 <path fill="none" stroke="black" d="M3533.57,-432.43C3505.74,-407.42 3452.85,-359.89 3420.77,-331.06"/>
 <polygon fill="black" stroke="black" points="3423.22,-328.55 3413.44,-324.47 3418.54,-333.76 3423.22,-328.55"/>
 </g>
-<!-- :screen:balance&#45;&gt;:shared:ui:core -->
+<!-- :feature:balance&#45;&gt;:shared:ui:core -->
 <g id="edge36" class="edge">
-<title>:screen:balance&#45;&gt;:shared:ui:core</title>
+<title>:feature:balance&#45;&gt;:shared:ui:core</title>
 <path fill="none" stroke="black" d="M3552.05,-431.59C3551.11,-397.6 3543.66,-322.69 3498,-288 3460.74,-259.7 2788.92,-241.93 2558.67,-236.66"/>
 <polygon fill="black" stroke="black" points="2558.99,-233.16 2548.91,-236.43 2558.83,-240.16 2558.99,-233.16"/>
 </g>
-<!-- :screen:budgets&#45;&gt;:shared:base -->
+<!-- :feature:budgets&#45;&gt;:shared:base -->
 <g id="edge40" class="edge">
-<title>:screen:budgets&#45;&gt;:shared:base</title>
+<title>:feature:budgets&#45;&gt;:shared:base</title>
 <path fill="none" stroke="black" d="M2683.99,-434.02C2596.45,-395.59 2367.67,-295.94 2331,-288 2270.1,-274.82 1253.35,-296.76 1210,-252 1198.87,-240.51 1200.79,-229.08 1210,-216 1258.42,-147.22 1702.54,-76.34 1737,-72 2037.1,-34.17 2990.04,-22.23 3253.14,-19.61"/>
 <polygon fill="black" stroke="black" points="3252.93,-23.11 3262.9,-19.51 3252.86,-16.11 3252.93,-23.11"/>
 </g>
-<!-- :screen:budgets&#45;&gt;:shared:data:core -->
+<!-- :feature:budgets&#45;&gt;:shared:data:core -->
 <g id="edge41" class="edge">
-<title>:screen:budgets&#45;&gt;:shared:data:core</title>
+<title>:feature:budgets&#45;&gt;:shared:data:core</title>
 <path fill="none" stroke="black" d="M2751.76,-433.99C2794.32,-412.49 2862,-368.62 2862,-307 2862,-307 2862,-307 2862,-233 2862,-120.7 3702.18,-96.91 3975.91,-92.14"/>
 <polygon fill="black" stroke="black" points="3975.9,-95.64 3985.84,-91.97 3975.78,-88.64 3975.9,-95.64"/>
 </g>
-<!-- :screen:budgets&#45;&gt;:shared:domain -->
+<!-- :feature:budgets&#45;&gt;:shared:domain -->
 <g id="edge42" class="edge">
-<title>:screen:budgets&#45;&gt;:shared:domain</title>
+<title>:feature:budgets&#45;&gt;:shared:domain</title>
 <path fill="none" stroke="black" d="M2720.93,-431.54C2728.97,-383.66 2751.41,-249.95 2761.26,-191.24"/>
 <polygon fill="black" stroke="black" points="2764.65,-192.17 2762.86,-181.72 2757.75,-191.01 2764.65,-192.17"/>
 </g>
-<!-- :screen:budgets&#45;&gt;:shared:ui:navigation -->
+<!-- :feature:budgets&#45;&gt;:shared:ui:navigation -->
 <g id="edge44" class="edge">
-<title>:screen:budgets&#45;&gt;:shared:ui:navigation</title>
+<title>:feature:budgets&#45;&gt;:shared:ui:navigation</title>
 <path fill="none" stroke="black" d="M2652.02,-445.03C2584.97,-439.45 2478.89,-426.32 2392,-396 2345.64,-379.82 2297.05,-350.55 2265.98,-330"/>
 <polygon fill="black" stroke="black" points="2268.04,-327.17 2257.79,-324.51 2264.14,-332.99 2268.04,-327.17"/>
 </g>
-<!-- :screen:budgets&#45;&gt;:temp:legacy&#45;code -->
+<!-- :feature:budgets&#45;&gt;:temp:legacy&#45;code -->
 <g id="edge45" class="edge">
-<title>:screen:budgets&#45;&gt;:temp:legacy&#45;code</title>
+<title>:feature:budgets&#45;&gt;:temp:legacy&#45;code</title>
 <path fill="none" stroke="black" d="M2769.97,-437.91C2826.35,-425.88 2916.55,-406.63 2978.39,-393.43"/>
 <polygon fill="black" stroke="black" points="2979.07,-396.86 2988.12,-391.35 2977.61,-390.02 2979.07,-396.86"/>
 </g>
-<!-- :screen:budgets&#45;&gt;:temp:old&#45;design -->
+<!-- :feature:budgets&#45;&gt;:temp:old&#45;design -->
 <g id="edge46" class="edge">
-<title>:screen:budgets&#45;&gt;:temp:old&#45;design</title>
+<title>:feature:budgets&#45;&gt;:temp:old&#45;design</title>
 <path fill="none" stroke="black" d="M2766.64,-437.04C2798.75,-428.11 2841.16,-414.29 2876,-396 2899.61,-383.6 2899.21,-369.84 2924,-360 2992.32,-332.88 3194.96,-317.77 3310.63,-311.14"/>
 <polygon fill="black" stroke="black" points="3310.59,-314.64 3320.38,-310.59 3310.2,-307.66 3310.59,-314.64"/>
 </g>
-<!-- :screen:budgets&#45;&gt;:shared:ui:core -->
+<!-- :feature:budgets&#45;&gt;:shared:ui:core -->
 <g id="edge43" class="edge">
-<title>:screen:budgets&#45;&gt;:shared:ui:core</title>
+<title>:feature:budgets&#45;&gt;:shared:ui:core</title>
 <path fill="none" stroke="black" d="M2683.45,-434.16C2663.77,-424.8 2639.27,-411.55 2620,-396 2569.93,-355.6 2523.92,-295.33 2499.75,-261.15"/>
 <polygon fill="black" stroke="black" points="2502.71,-259.27 2494.11,-253.07 2496.97,-263.28 2502.71,-259.27"/>
 </g>
-<!-- :screen:categories&#45;&gt;:shared:base -->
+<!-- :feature:categories&#45;&gt;:shared:base -->
 <g id="edge47" class="edge">
-<title>:screen:categories&#45;&gt;:shared:base</title>
+<title>:feature:categories&#45;&gt;:shared:base</title>
 <path fill="none" stroke="black" d="M4032.39,-436.95C4042.84,-435 4053.72,-433.23 4064,-432 4110.88,-426.41 4880.33,-430.08 4913,-396 4924.07,-384.45 4916.4,-375.64 4913,-360 4900.04,-300.33 4856,-296.06 4856,-235 4856,-235 4856,-235 4856,-161 4856,-106.61 4821.54,-94.45 4772,-72 4708.37,-43.17 3666.81,-24.53 3388.77,-20.05"/>
 <polygon fill="black" stroke="black" points="3388.84,-16.55 3378.78,-19.89 3388.73,-23.55 3388.84,-16.55"/>
 </g>
-<!-- :screen:categories&#45;&gt;:shared:data:core -->
+<!-- :feature:categories&#45;&gt;:shared:data:core -->
 <g id="edge48" class="edge">
-<title>:screen:categories&#45;&gt;:shared:data:core</title>
+<title>:feature:categories&#45;&gt;:shared:data:core</title>
 <path fill="none" stroke="black" d="M4022.9,-434.98C4110.8,-404.8 4303.74,-324.46 4381,-180 4388.55,-165.89 4391.44,-156.12 4381,-144 4345.65,-102.98 4193.27,-117.7 4140,-108 4135.13,-107.11 4130.11,-106.15 4125.06,-105.14"/>
 <polygon fill="black" stroke="black" points="4126.01,-101.77 4115.51,-103.2 4124.61,-108.62 4126.01,-101.77"/>
 </g>
-<!-- :screen:categories&#45;&gt;:shared:domain -->
+<!-- :feature:categories&#45;&gt;:shared:domain -->
 <g id="edge49" class="edge">
-<title>:screen:categories&#45;&gt;:shared:domain</title>
+<title>:feature:categories&#45;&gt;:shared:domain</title>
 <path fill="none" stroke="black" d="M3971.35,-431.81C3963.36,-412.74 3948.57,-381.78 3929,-360 3891.67,-318.45 3877.37,-309.92 3826,-288 3648.49,-212.28 3058.1,-177.03 2844.22,-166.52"/>
 <polygon fill="black" stroke="black" points="2844.47,-163.02 2834.32,-166.03 2844.13,-170.02 2844.47,-163.02"/>
 </g>
-<!-- :screen:categories&#45;&gt;:shared:ui:navigation -->
+<!-- :feature:categories&#45;&gt;:shared:ui:navigation -->
 <g id="edge51" class="edge">
-<title>:screen:categories&#45;&gt;:shared:ui:navigation</title>
+<title>:feature:categories&#45;&gt;:shared:ui:navigation</title>
 <path fill="none" stroke="black" d="M3913.25,-439.98C3766.07,-419.57 3409.81,-370.82 3289,-360 2938,-328.57 2519.57,-314.47 2332.24,-309.39"/>
 <polygon fill="black" stroke="black" points="2332.38,-305.89 2322.29,-309.12 2332.19,-312.89 2332.38,-305.89"/>
 </g>
-<!-- :screen:categories&#45;&gt;:temp:legacy&#45;code -->
+<!-- :feature:categories&#45;&gt;:temp:legacy&#45;code -->
 <g id="edge52" class="edge">
-<title>:screen:categories&#45;&gt;:temp:legacy&#45;code</title>
+<title>:feature:categories&#45;&gt;:temp:legacy&#45;code</title>
 <path fill="none" stroke="black" d="M3905.64,-443.57C3736.17,-430.84 3314.12,-399.14 3131.95,-385.46"/>
 <polygon fill="black" stroke="black" points="3132.31,-381.97 3122.08,-384.71 3131.79,-388.95 3132.31,-381.97"/>
 </g>
-<!-- :screen:categories&#45;&gt;:temp:old&#45;design -->
+<!-- :feature:categories&#45;&gt;:temp:old&#45;design -->
 <g id="edge53" class="edge">
-<title>:screen:categories&#45;&gt;:temp:old&#45;design</title>
+<title>:feature:categories&#45;&gt;:temp:old&#45;design</title>
 <path fill="none" stroke="black" d="M3937.99,-434.26C3884.41,-414.97 3786.13,-381.14 3700,-360 3622.12,-340.89 3531.43,-326.09 3469.12,-317.05"/>
 <polygon fill="black" stroke="black" points="3469.72,-313.6 3459.32,-315.64 3468.72,-320.53 3469.72,-313.6"/>
 </g>
-<!-- :screen:categories&#45;&gt;:shared:ui:core -->
+<!-- :feature:categories&#45;&gt;:shared:ui:core -->
 <g id="edge50" class="edge">
-<title>:screen:categories&#45;&gt;:shared:ui:core</title>
+<title>:feature:categories&#45;&gt;:shared:ui:core</title>
 <path fill="none" stroke="black" d="M3964.65,-432.02C3935.25,-396.28 3860.77,-314.42 3776,-288 3660.13,-251.89 2819.22,-238.99 2558.72,-235.84"/>
 <polygon fill="black" stroke="black" points="2559.05,-232.34 2549,-235.72 2558.96,-239.34 2559.05,-232.34"/>
 </g>
-<!-- :screen:contributors&#45;&gt;:shared:base -->
+<!-- :feature:contributors&#45;&gt;:shared:base -->
 <g id="edge54" class="edge">
-<title>:screen:contributors&#45;&gt;:shared:base</title>
+<title>:feature:contributors&#45;&gt;:shared:base</title>
 <path fill="none" stroke="black" d="M1052.4,-359.53C1042.56,-306.24 1021.47,-144.94 1109,-72 1151.21,-36.83 2885.31,-22.19 3252.96,-19.48"/>
 <polygon fill="black" stroke="black" points="3252.96,-22.98 3262.93,-19.4 3252.91,-15.98 3252.96,-22.98"/>
 </g>
-<!-- :screen:contributors&#45;&gt;:shared:domain -->
+<!-- :feature:contributors&#45;&gt;:shared:domain -->
 <g id="edge55" class="edge">
-<title>:screen:contributors&#45;&gt;:shared:domain</title>
+<title>:feature:contributors&#45;&gt;:shared:domain</title>
 <path fill="none" stroke="black" d="M1100.88,-362.46C1197.12,-331.24 1415.86,-259.93 1431,-252 1454.62,-239.62 1453.88,-224.95 1479,-216 1592.25,-175.64 2423.45,-165.69 2686.45,-163.54"/>
 <polygon fill="black" stroke="black" points="2686.31,-167.04 2696.28,-163.46 2686.25,-160.04 2686.31,-167.04"/>
 </g>
-<!-- :screen:contributors&#45;&gt;:shared:ui:navigation -->
+<!-- :feature:contributors&#45;&gt;:shared:ui:navigation -->
 <g id="edge57" class="edge">
-<title>:screen:contributors&#45;&gt;:shared:ui:navigation</title>
+<title>:feature:contributors&#45;&gt;:shared:ui:navigation</title>
 <path fill="none" stroke="black" d="M1129.13,-368.76C1158.84,-365.64 1193.53,-362.29 1225,-360 1578.2,-334.27 1667.55,-346.16 2021,-324 2060.57,-321.52 2104.25,-318.13 2141.63,-315.03"/>
 <polygon fill="black" stroke="black" points="2141.83,-318.52 2151.51,-314.2 2141.25,-311.55 2141.83,-318.52"/>
 </g>
-<!-- :screen:contributors&#45;&gt;:shared:ui:core -->
+<!-- :feature:contributors&#45;&gt;:shared:ui:core -->
 <g id="edge56" class="edge">
-<title>:screen:contributors&#45;&gt;:shared:ui:core</title>
+<title>:feature:contributors&#45;&gt;:shared:ui:core</title>
 <path fill="none" stroke="black" d="M1130.11,-369.24C1223.1,-359.03 1377.06,-340.47 1432,-324 1467.8,-313.27 1471.77,-297.19 1508,-288 1677.18,-245.1 2205.36,-236.92 2404.76,-235.37"/>
 <polygon fill="black" stroke="black" points="2404.5,-238.87 2414.48,-235.29 2404.45,-231.87 2404.5,-238.87"/>
 </g>
-<!-- :screen:disclaimer&#45;&gt;:shared:data:core -->
+<!-- :feature:disclaimer&#45;&gt;:shared:data:core -->
 <g id="edge58" class="edge">
-<title>:screen:disclaimer&#45;&gt;:shared:data:core</title>
+<title>:feature:disclaimer&#45;&gt;:shared:data:core</title>
 <path fill="none" stroke="black" d="M1263.23,-363.68C1212.44,-346.9 1135.57,-312.67 1101,-252 1055.61,-172.35 1210.51,-145.34 1215,-144 1350.35,-103.47 3515.54,-93.06 3975.52,-91.3"/>
 <polygon fill="black" stroke="black" points="3975.53,-94.8 3985.52,-91.26 3975.51,-87.8 3975.53,-94.8"/>
 </g>
-<!-- :screen:disclaimer&#45;&gt;:shared:ui:navigation -->
+<!-- :feature:disclaimer&#45;&gt;:shared:ui:navigation -->
 <g id="edge60" class="edge">
-<title>:screen:disclaimer&#45;&gt;:shared:ui:navigation</title>
+<title>:feature:disclaimer&#45;&gt;:shared:ui:navigation</title>
 <path fill="none" stroke="black" d="M1386.01,-371.6C1514.99,-362.16 1789.33,-341.95 2021,-324 2060.12,-320.97 2103.29,-317.53 2140.4,-314.53"/>
 <polygon fill="black" stroke="black" points="2140.52,-318.04 2150.21,-313.74 2139.96,-311.06 2140.52,-318.04"/>
 </g>
-<!-- :screen:disclaimer&#45;&gt;:shared:ui:core -->
+<!-- :feature:disclaimer&#45;&gt;:shared:ui:core -->
 <g id="edge59" class="edge">
-<title>:screen:disclaimer&#45;&gt;:shared:ui:core</title>
+<title>:feature:disclaimer&#45;&gt;:shared:ui:core</title>
 <path fill="none" stroke="black" d="M1365.82,-364.49C1405.52,-354.76 1460.65,-340.23 1508,-324 1547.2,-310.56 1553.64,-297.37 1594,-288 1747.25,-252.44 2219,-239.91 2405.24,-236.28"/>
 <polygon fill="black" stroke="black" points="2405.11,-239.78 2415.04,-236.09 2404.97,-232.78 2405.11,-239.78"/>
 </g>
-<!-- :screen:edit&#45;transaction&#45;&gt;:shared:base -->
+<!-- :feature:edit&#45;transaction&#45;&gt;:shared:base -->
 <g id="edge61" class="edge">
-<title>:screen:edit&#45;transaction&#45;&gt;:shared:base</title>
+<title>:feature:edit&#45;transaction&#45;&gt;:shared:base</title>
 <path fill="none" stroke="black" d="M3313.74,-517.19C3404.18,-513.58 3544.95,-508.1 3667,-504 4214.92,-485.58 4355.56,-532.41 4900,-468 5110.94,-443.04 5350,-519.42 5350,-307 5350,-307 5350,-307 5350,-161 5350,-93.88 5291.52,-93.69 5228,-72 5139.38,-41.74 3718.59,-23.58 3388.93,-19.76"/>
 <polygon fill="black" stroke="black" points="3389.22,-16.26 3379.19,-19.65 3389.14,-23.26 3389.22,-16.26"/>
 </g>
-<!-- :screen:edit&#45;transaction&#45;&gt;:shared:data:core -->
+<!-- :feature:edit&#45;transaction&#45;&gt;:shared:data:core -->
 <g id="edge62" class="edge">
-<title>:screen:edit&#45;transaction&#45;&gt;:shared:data:core</title>
+<title>:feature:edit&#45;transaction&#45;&gt;:shared:data:core</title>
 <path fill="none" stroke="black" d="M3313.74,-517.24C3404.18,-513.65 3544.95,-508.2 3667,-504 3796.87,-499.53 4710.81,-502.86 4836,-468 4898.88,-450.49 4931.05,-452.34 4964,-396 5110.95,-144.73 4242.6,-216.09 4159,-180 4127.2,-166.27 4098.88,-137.87 4080.96,-116.82"/>
 <polygon fill="black" stroke="black" points="4083.74,-114.69 4074.68,-109.2 4078.34,-119.14 4083.74,-114.69"/>
 </g>
-<!-- :screen:edit&#45;transaction&#45;&gt;:shared:domain -->
+<!-- :feature:edit&#45;transaction&#45;&gt;:shared:domain -->
 <g id="edge63" class="edge">
-<title>:screen:edit&#45;transaction&#45;&gt;:shared:domain</title>
+<title>:feature:edit&#45;transaction&#45;&gt;:shared:domain</title>
 <path fill="none" stroke="black" d="M3313.57,-517.22C3591.69,-505.92 4394.32,-472.9 4399,-468 4410.06,-456.44 4407.81,-445.36 4399,-432 4305.95,-290.89 4207.2,-341.91 4047,-288 3935.79,-250.58 3908.76,-235.14 3793,-216 3610.94,-185.89 3053.26,-169.85 2845.29,-164.79"/>
 <polygon fill="black" stroke="black" points="2845.47,-161.29 2835.39,-164.55 2845.3,-168.29 2845.47,-161.29"/>
 </g>
-<!-- :screen:edit&#45;transaction&#45;&gt;:shared:ui:navigation -->
+<!-- :feature:edit&#45;transaction&#45;&gt;:shared:ui:navigation -->
 <g id="edge65" class="edge">
-<title>:screen:edit&#45;transaction&#45;&gt;:shared:ui:navigation</title>
+<title>:feature:edit&#45;transaction&#45;&gt;:shared:ui:navigation</title>
 <path fill="none" stroke="black" d="M3123.87,-519.4C2880.76,-514.87 2258.52,-500.19 2228,-468 2194.49,-432.66 2208.89,-370.89 2221.52,-335.01"/>
 <polygon fill="black" stroke="black" points="2224.76,-336.35 2224.97,-325.75 2218.2,-333.9 2224.76,-336.35"/>
 </g>
-<!-- :screen:edit&#45;transaction&#45;&gt;:temp:legacy&#45;code -->
+<!-- :feature:edit&#45;transaction&#45;&gt;:temp:legacy&#45;code -->
 <g id="edge66" class="edge">
-<title>:screen:edit&#45;transaction&#45;&gt;:temp:legacy&#45;code</title>
+<title>:feature:edit&#45;transaction&#45;&gt;:temp:legacy&#45;code</title>
 <path fill="none" stroke="black" d="M3217.91,-503.64C3214.64,-483.82 3206.53,-451.62 3187,-432 3168.28,-413.19 3142.24,-400.97 3117.63,-393.06"/>
 <polygon fill="black" stroke="black" points="3118.86,-389.78 3108.28,-390.26 3116.85,-396.48 3118.86,-389.78"/>
 </g>
-<!-- :screen:edit&#45;transaction&#45;&gt;:temp:old&#45;design -->
+<!-- :feature:edit&#45;transaction&#45;&gt;:temp:old&#45;design -->
 <g id="edge67" class="edge">
-<title>:screen:edit&#45;transaction&#45;&gt;:temp:old&#45;design</title>
+<title>:feature:edit&#45;transaction&#45;&gt;:temp:old&#45;design</title>
 <path fill="none" stroke="black" d="M3233.95,-503.85C3264.44,-466.35 3337.18,-376.88 3373.14,-332.65"/>
 <polygon fill="black" stroke="black" points="3375.68,-335.08 3379.28,-325.11 3370.25,-330.66 3375.68,-335.08"/>
 </g>
-<!-- :screen:edit&#45;transaction&#45;&gt;:widget:balance -->
+<!-- :feature:edit&#45;transaction&#45;&gt;:widget:balance -->
 <g id="edge68" class="edge">
-<title>:screen:edit&#45;transaction&#45;&gt;:widget:balance</title>
+<title>:feature:edit&#45;transaction&#45;&gt;:widget:balance</title>
 <path fill="none" stroke="red" stroke-width="2" d="M3193.41,-504.23C3178.65,-494.92 3160.09,-483.22 3144.14,-473.16"/>
 <polygon fill="red" stroke="red" stroke-width="2" points="3147.49,-471.14 3137.17,-468.76 3143.76,-477.06 3147.49,-471.14"/>
 </g>
-<!-- :screen:edit&#45;transaction&#45;&gt;:shared:ui:core -->
+<!-- :feature:edit&#45;transaction&#45;&gt;:shared:ui:core -->
 <g id="edge64" class="edge">
-<title>:screen:edit&#45;transaction&#45;&gt;:shared:ui:core</title>
+<title>:feature:edit&#45;transaction&#45;&gt;:shared:ui:core</title>
 <path fill="none" stroke="black" d="M3122.99,-520.85C2980.45,-519.18 2722.52,-510.19 2641,-468 2557.3,-424.68 2509.59,-314.82 2491.06,-262.94"/>
 <polygon fill="black" stroke="black" points="2494.42,-261.96 2487.85,-253.65 2487.8,-264.25 2494.42,-261.96"/>
 </g>
-<!-- :screen:exchange&#45;rates&#45;&gt;:shared:base -->
+<!-- :feature:exchange&#45;rates&#45;&gt;:shared:base -->
 <g id="edge69" class="edge">
-<title>:screen:exchange&#45;rates&#45;&gt;:shared:base</title>
+<title>:feature:exchange&#45;rates&#45;&gt;:shared:base</title>
 <path fill="none" stroke="black" d="M1684.6,-436.77C1672.14,-434.87 1659.2,-433.15 1647,-432 1496.51,-417.77 427.13,-452.69 287,-396 232.76,-374.06 190,-365.51 190,-307 190,-307 190,-307 190,-161 190,-103.14 231.38,-93.74 285,-72 427.03,-14.43 2816.65,-17.72 3252.92,-18.8"/>
 <polygon fill="black" stroke="black" points="3252.83,-22.3 3262.84,-18.83 3252.85,-15.3 3252.83,-22.3"/>
 </g>
-<!-- :screen:exchange&#45;rates&#45;&gt;:shared:data:core -->
+<!-- :feature:exchange&#45;rates&#45;&gt;:shared:data:core -->
 <g id="edge70" class="edge">
-<title>:screen:exchange&#45;rates&#45;&gt;:shared:data:core</title>
+<title>:feature:exchange&#45;rates&#45;&gt;:shared:data:core</title>
 <path fill="none" stroke="black" d="M1684.31,-436.8C1671.94,-434.91 1659.11,-433.19 1647,-432 1588.69,-426.26 633.72,-438.13 593,-396 581.88,-384.49 584.1,-373.3 593,-360 733.13,-150.67 870.35,-195.15 1117,-144 1260.41,-114.26 3507.02,-95.29 3975.72,-91.64"/>
 <polygon fill="black" stroke="black" points="3975.62,-95.14 3985.6,-91.57 3975.57,-88.14 3975.62,-95.14"/>
 </g>
-<!-- :screen:exchange&#45;rates&#45;&gt;:shared:domain -->
+<!-- :feature:exchange&#45;rates&#45;&gt;:shared:domain -->
 <g id="edge71" class="edge">
-<title>:screen:exchange&#45;rates&#45;&gt;:shared:domain</title>
+<title>:feature:exchange&#45;rates&#45;&gt;:shared:domain</title>
 <path fill="none" stroke="black" d="M1754.55,-431.82C1758.83,-413.29 1767.11,-383.33 1780,-360 1826.6,-275.69 1851.16,-248.08 1942,-216 2077.57,-168.13 2506.61,-162.74 2685.97,-162.65"/>
 <polygon fill="black" stroke="black" points="2685.9,-166.15 2695.9,-162.65 2685.9,-159.15 2685.9,-166.15"/>
 </g>
-<!-- :screen:exchange&#45;rates&#45;&gt;:shared:ui:navigation -->
+<!-- :feature:exchange&#45;rates&#45;&gt;:shared:ui:navigation -->
 <g id="edge73" class="edge">
-<title>:screen:exchange&#45;rates&#45;&gt;:shared:ui:navigation</title>
+<title>:feature:exchange&#45;rates&#45;&gt;:shared:ui:navigation</title>
 <path fill="none" stroke="black" d="M1772.53,-432.24C1800.02,-411.74 1849.81,-377.63 1898,-360 1942.21,-343.83 2061.89,-327.18 2145.51,-316.96"/>
 <polygon fill="black" stroke="black" points="2145.79,-320.45 2155.3,-315.78 2144.95,-313.5 2145.79,-320.45"/>
 </g>
-<!-- :screen:exchange&#45;rates&#45;&gt;:temp:legacy&#45;code -->
+<!-- :feature:exchange&#45;rates&#45;&gt;:temp:legacy&#45;code -->
 <g id="edge74" class="edge">
-<title>:screen:exchange&#45;rates&#45;&gt;:temp:legacy&#45;code</title>
+<title>:feature:exchange&#45;rates&#45;&gt;:temp:legacy&#45;code</title>
 <path fill="none" stroke="black" d="M1832.47,-440.49C1863.31,-437.49 1898.75,-434.29 1931,-432 1943.77,-431.09 2695.49,-395.56 2957.27,-383.19"/>
 <polygon fill="black" stroke="black" points="2957.28,-386.69 2967.11,-382.73 2956.95,-379.7 2957.28,-386.69"/>
 </g>
-<!-- :screen:exchange&#45;rates&#45;&gt;:temp:old&#45;design -->
+<!-- :feature:exchange&#45;rates&#45;&gt;:temp:old&#45;design -->
 <g id="edge75" class="edge">
-<title>:screen:exchange&#45;rates&#45;&gt;:temp:old&#45;design</title>
+<title>:feature:exchange&#45;rates&#45;&gt;:temp:old&#45;design</title>
 <path fill="none" stroke="black" d="M1832.87,-440.65C1995.41,-424.19 2370.39,-386.83 2686,-360 2912.74,-340.72 3180.67,-321.69 3312.45,-312.57"/>
 <polygon fill="black" stroke="black" points="3312.37,-316.08 3322.11,-311.9 3311.89,-309.1 3312.37,-316.08"/>
 </g>
-<!-- :screen:exchange&#45;rates&#45;&gt;:shared:ui:core -->
+<!-- :feature:exchange&#45;rates&#45;&gt;:shared:ui:core -->
 <g id="edge72" class="edge">
-<title>:screen:exchange&#45;rates&#45;&gt;:shared:ui:core</title>
+<title>:feature:exchange&#45;rates&#45;&gt;:shared:ui:core</title>
 <path fill="none" stroke="black" d="M1759.87,-431.81C1771.46,-411.22 1793.77,-377.33 1823,-360 1899.93,-314.38 1940.02,-361.97 2021,-324 2043.57,-313.42 2041.16,-297.97 2064,-288 2123.85,-261.87 2303.56,-246.41 2406.82,-239.44"/>
 <polygon fill="black" stroke="black" points="2406.84,-242.95 2416.59,-238.8 2406.38,-235.97 2406.84,-242.95"/>
 </g>
-<!-- :screen:features&#45;&gt;:shared:base -->
+<!-- :feature:features&#45;&gt;:shared:base -->
 <g id="edge76" class="edge">
-<title>:screen:features&#45;&gt;:shared:base</title>
+<title>:feature:features&#45;&gt;:shared:base</title>
 <path fill="none" stroke="black" d="M837.06,-364.77C732.65,-337.47 494,-271.11 494,-235 494,-235 494,-235 494,-161 494,-120.03 485.71,-97.22 518,-72 573.61,-28.56 2829.59,-20.33 3252.92,-19.17"/>
 <polygon fill="black" stroke="black" points="3252.82,-22.67 3262.81,-19.14 3252.81,-15.67 3252.82,-22.67"/>
 </g>
-<!-- :screen:features&#45;&gt;:shared:domain -->
+<!-- :feature:features&#45;&gt;:shared:domain -->
 <g id="edge77" class="edge">
-<title>:screen:features&#45;&gt;:shared:domain</title>
+<title>:feature:features&#45;&gt;:shared:domain</title>
 <path fill="none" stroke="black" d="M936.13,-365.56C945.07,-363.64 954.3,-361.72 963,-360 1052.89,-342.24 1081.43,-359.27 1166,-324 1191.61,-313.32 1191.51,-298.94 1217,-288 1292.37,-255.64 1326.52,-292.23 1398,-252 1416.92,-241.36 1411.31,-225.13 1431,-216 1544.58,-163.32 2416.1,-161.8 2686.35,-162.62"/>
 <polygon fill="black" stroke="black" points="2686.09,-166.12 2696.11,-162.65 2686.12,-159.12 2686.09,-166.12"/>
 </g>
-<!-- :screen:features&#45;&gt;:shared:ui:navigation -->
+<!-- :feature:features&#45;&gt;:shared:ui:navigation -->
 <g id="edge79" class="edge">
-<title>:screen:features&#45;&gt;:shared:ui:navigation</title>
+<title>:feature:features&#45;&gt;:shared:ui:navigation</title>
 <path fill="none" stroke="black" d="M933.87,-364.94C943.47,-362.97 953.51,-361.19 963,-360 1429.86,-301.67 1551.27,-350.81 2021,-324 2060.67,-321.74 2104.45,-318.37 2141.88,-315.23"/>
 <polygon fill="black" stroke="black" points="2142.1,-318.72 2151.77,-314.39 2141.51,-311.75 2142.1,-318.72"/>
 </g>
-<!-- :screen:features&#45;&gt;:shared:ui:core -->
+<!-- :feature:features&#45;&gt;:shared:ui:core -->
 <g id="edge78" class="edge">
-<title>:screen:features&#45;&gt;:shared:ui:core</title>
+<title>:feature:features&#45;&gt;:shared:ui:core</title>
 <path fill="none" stroke="black" d="M935.21,-365.27C944.42,-363.34 953.98,-361.49 963,-360 1102.9,-336.87 1140.32,-348.38 1280,-324 1348.39,-312.06 1363.27,-297.79 1432,-288 1619.99,-261.22 2196,-242.96 2405.12,-237.06"/>
 <polygon fill="black" stroke="black" points="2405.17,-240.56 2415.07,-236.78 2404.98,-233.56 2405.17,-240.56"/>
 </g>
-<!-- :screen:home&#45;&gt;:shared:base -->
+<!-- :feature:home&#45;&gt;:shared:base -->
 <g id="edge80" class="edge">
-<title>:screen:home&#45;&gt;:shared:base</title>
+<title>:feature:home&#45;&gt;:shared:base</title>
 <path fill="none" stroke="black" d="M1240.25,-448.42C993.07,-445.26 76,-425.56 76,-307 76,-307 76,-307 76,-161 76,-106.3 110.89,-93.93 161,-72 234.31,-39.91 2799.84,-22.28 3252.97,-19.42"/>
 <polygon fill="black" stroke="black" points="3252.72,-22.92 3262.7,-19.36 3252.68,-15.92 3252.72,-22.92"/>
 </g>
-<!-- :screen:home&#45;&gt;:shared:data:core -->
+<!-- :feature:home&#45;&gt;:shared:data:core -->
 <g id="edge81" class="edge">
-<title>:screen:home&#45;&gt;:shared:data:core</title>
+<title>:feature:home&#45;&gt;:shared:data:core</title>
 <path fill="none" stroke="black" d="M1240.5,-447.75C1041.35,-443.32 417.29,-427.03 388,-396 359,-365.26 310.37,-336.74 404,-216 459.34,-144.64 505.3,-160.94 594,-144 765,-111.33 3458.65,-94.42 3975.58,-91.47"/>
 <polygon fill="black" stroke="black" points="3975.54,-94.97 3985.52,-91.41 3975.5,-87.97 3975.54,-94.97"/>
 </g>
-<!-- :screen:home&#45;&gt;:shared:domain -->
+<!-- :feature:home&#45;&gt;:shared:domain -->
 <g id="edge82" class="edge">
-<title>:screen:home&#45;&gt;:shared:domain</title>
+<title>:feature:home&#45;&gt;:shared:domain</title>
 <path fill="none" stroke="black" d="M1253.58,-438.43C1230.8,-430.71 1205.56,-417.67 1192,-396 1183.51,-382.44 1182.86,-373.14 1192,-360 1218.26,-322.25 1246.58,-341.75 1289,-324 1323.85,-309.42 1331.01,-302.25 1366,-288 1410.91,-269.71 1423.72,-269.37 1469,-252 1507.69,-237.16 1514.56,-225.05 1555,-216 1771.35,-167.6 2451.86,-162.97 2685.96,-162.84"/>
 <polygon fill="black" stroke="black" points="2685.92,-166.34 2695.92,-162.84 2685.92,-159.34 2685.92,-166.34"/>
 </g>
-<!-- :screen:home&#45;&gt;:shared:ui:navigation -->
+<!-- :feature:home&#45;&gt;:shared:ui:navigation -->
 <g id="edge84" class="edge">
-<title>:screen:home&#45;&gt;:shared:ui:navigation</title>
+<title>:feature:home&#45;&gt;:shared:ui:navigation</title>
 <path fill="none" stroke="black" d="M1345.51,-437.4C1419.59,-418.51 1573.09,-381.08 1705,-360 1786.57,-346.97 2012.97,-326.18 2141.26,-314.91"/>
 <polygon fill="black" stroke="black" points="2141.43,-318.4 2151.09,-314.04 2140.82,-311.43 2141.43,-318.4"/>
 </g>
-<!-- :screen:home&#45;&gt;:temp:legacy&#45;code -->
+<!-- :feature:home&#45;&gt;:temp:legacy&#45;code -->
 <g id="edge85" class="edge">
-<title>:screen:home&#45;&gt;:temp:legacy&#45;code</title>
+<title>:feature:home&#45;&gt;:temp:legacy&#45;code</title>
 <path fill="none" stroke="black" d="M1357.31,-442.94C1393.69,-439.24 1442.1,-434.71 1485,-432 2043.16,-396.77 2715.16,-383.91 2955.28,-380.24"/>
 <polygon fill="black" stroke="black" points="2955.27,-383.74 2965.22,-380.09 2955.17,-376.74 2955.27,-383.74"/>
 </g>
-<!-- :screen:home&#45;&gt;:temp:old&#45;design -->
+<!-- :feature:home&#45;&gt;:temp:old&#45;design -->
 <g id="edge86" class="edge">
-<title>:screen:home&#45;&gt;:temp:old&#45;design</title>
+<title>:feature:home&#45;&gt;:temp:old&#45;design</title>
 <path fill="none" stroke="black" d="M1353.6,-440.71C1470.06,-422.7 1758.69,-380.04 2002,-360 2495.71,-319.34 3090.53,-309.82 3308.58,-307.63"/>
 <polygon fill="black" stroke="black" points="3308.44,-311.13 3318.4,-307.54 3308.37,-304.13 3308.44,-311.13"/>
 </g>
-<!-- :screen:home&#45;&gt;:widget:add&#45;transaction -->
+<!-- :feature:home&#45;&gt;:widget:add&#45;transaction -->
 <g id="edge87" class="edge">
-<title>:screen:home&#45;&gt;:widget:add&#45;transaction</title>
+<title>:feature:home&#45;&gt;:widget:add&#45;transaction</title>
 <path fill="none" stroke="black" d="M1243.84,-443.82C1151.71,-435.25 964.75,-416.98 807,-396 798.99,-394.93 790.65,-393.75 782.32,-392.51"/>
 <polygon fill="black" stroke="black" points="782.92,-389.06 772.5,-391.02 781.87,-395.98 782.92,-389.06"/>
 </g>
-<!-- :screen:home&#45;&gt;:shared:ui:core -->
+<!-- :feature:home&#45;&gt;:shared:ui:core -->
 <g id="edge83" class="edge">
-<title>:screen:home&#45;&gt;:shared:ui:core</title>
+<title>:feature:home&#45;&gt;:shared:ui:core</title>
 <path fill="none" stroke="black" d="M1331.95,-434.28C1351.71,-424.4 1377.56,-410.56 1399,-396 1419.62,-382 1420.02,-371.75 1442,-360 1492.23,-333.15 1510.71,-341.24 1565,-324 1612.02,-309.07 1621.63,-297.69 1670,-288 1809.37,-260.08 2231.35,-243.3 2405.54,-237.41"/>
 <polygon fill="black" stroke="black" points="2405.51,-240.91 2415.38,-237.08 2405.27,-233.91 2405.51,-240.91"/>
 </g>
-<!-- :screen:import&#45;data&#45;&gt;:screen:onboarding -->
+<!-- :feature:import&#45;data&#45;&gt;:feature:onboarding -->
 <g id="edge88" class="edge">
-<title>:screen:import&#45;data&#45;&gt;:screen:onboarding</title>
+<title>:feature:import&#45;data&#45;&gt;:feature:onboarding</title>
 <path fill="none" stroke="black" d="M2021.25,-503.7C2021.35,-496.41 2021.48,-487.73 2021.59,-479.54"/>
 <polygon fill="black" stroke="black" points="2025.09,-479.67 2021.73,-469.62 2018.09,-479.57 2025.09,-479.67"/>
 </g>
-<!-- :screen:import&#45;data&#45;&gt;:shared:base -->
+<!-- :feature:import&#45;data&#45;&gt;:shared:base -->
 <g id="edge89" class="edge">
-<title>:screen:import&#45;data&#45;&gt;:shared:base</title>
+<title>:feature:import&#45;data&#45;&gt;:shared:base</title>
 <path fill="none" stroke="black" d="M1939.98,-517.7C1853.36,-514.2 1711.98,-508.55 1590,-504 1134.92,-487.03 1018.9,-515.59 566,-468 322.01,-442.36 38,-552.33 38,-307 38,-307 38,-307 38,-161 38,-114.5 52.57,-94.98 93,-72 164.15,-31.56 2793.53,-20.79 3252.88,-19.22"/>
 <polygon fill="black" stroke="black" points="3252.77,-22.72 3262.76,-19.18 3252.75,-15.72 3252.77,-22.72"/>
 </g>
-<!-- :screen:import&#45;data&#45;&gt;:shared:data:core -->
+<!-- :feature:import&#45;data&#45;&gt;:shared:data:core -->
 <g id="edge90" class="edge">
-<title>:screen:import&#45;data&#45;&gt;:shared:data:core</title>
+<title>:feature:import&#45;data&#45;&gt;:shared:data:core</title>
 <path fill="none" stroke="black" d="M1939.66,-517.83C1616.86,-504.86 441.07,-453.79 388,-396 356.76,-361.98 421.72,-296.32 430,-288 483.86,-233.87 667,-158.35 742,-144 905.3,-112.75 3472.05,-94.77 3975.65,-91.53"/>
 <polygon fill="black" stroke="black" points="3975.66,-95.03 3985.64,-91.47 3975.62,-88.03 3975.66,-95.03"/>
 </g>
-<!-- :screen:import&#45;data&#45;&gt;:shared:domain -->
+<!-- :feature:import&#45;data&#45;&gt;:shared:domain -->
 <g id="edge91" class="edge">
-<title>:screen:import&#45;data&#45;&gt;:shared:domain</title>
+<title>:feature:import&#45;data&#45;&gt;:shared:domain</title>
 <path fill="none" stroke="black" d="M1938.72,-518.82C1796,-514.18 1514.84,-500.94 1485,-468 1474.26,-456.14 1477.88,-446.33 1485,-432 1555.72,-289.67 1620.75,-270.63 1770,-216 1855.02,-184.88 2465.83,-169.24 2686.63,-164.55"/>
 <polygon fill="black" stroke="black" points="2686.66,-168.05 2696.58,-164.34 2686.51,-161.05 2686.66,-168.05"/>
 </g>
-<!-- :screen:import&#45;data&#45;&gt;:shared:ui:navigation -->
+<!-- :feature:import&#45;data&#45;&gt;:shared:ui:navigation -->
 <g id="edge93" class="edge">
-<title>:screen:import&#45;data&#45;&gt;:shared:ui:navigation</title>
+<title>:feature:import&#45;data&#45;&gt;:shared:ui:navigation</title>
 <path fill="none" stroke="black" d="M2063.82,-506.35C2081.9,-497.96 2101.41,-485.53 2113,-468 2139.66,-427.67 2098.09,-399.48 2126,-360 2136.85,-344.65 2153.44,-333.52 2170.34,-325.56"/>
 <polygon fill="black" stroke="black" points="2171.69,-328.79 2179.47,-321.6 2168.9,-322.37 2171.69,-328.79"/>
 </g>
-<!-- :screen:import&#45;data&#45;&gt;:temp:legacy&#45;code -->
+<!-- :feature:import&#45;data&#45;&gt;:temp:legacy&#45;code -->
 <g id="edge94" class="edge">
-<title>:screen:import&#45;data&#45;&gt;:temp:legacy&#45;code</title>
+<title>:feature:import&#45;data&#45;&gt;:temp:legacy&#45;code</title>
 <path fill="none" stroke="black" d="M2103.55,-519.48C2316.53,-515.1 2873.31,-500.63 2950,-468 2966.76,-460.87 3000.18,-427.77 3022.82,-404.02"/>
 <polygon fill="black" stroke="black" points="3025.26,-406.53 3029.58,-396.86 3020.17,-401.72 3025.26,-406.53"/>
 </g>
-<!-- :screen:import&#45;data&#45;&gt;:temp:old&#45;design -->
+<!-- :feature:import&#45;data&#45;&gt;:temp:old&#45;design -->
 <g id="edge95" class="edge">
-<title>:screen:import&#45;data&#45;&gt;:temp:old&#45;design</title>
+<title>:feature:import&#45;data&#45;&gt;:temp:old&#45;design</title>
 <path fill="none" stroke="black" d="M2104.05,-520.26C2353.78,-517.6 3086.83,-506.56 3187,-468 3257.42,-440.89 3257.89,-405.62 3318,-360 3331.61,-349.67 3347.01,-338.79 3360.37,-329.59"/>
 <polygon fill="black" stroke="black" points="3362.16,-332.61 3368.44,-324.08 3358.21,-326.83 3362.16,-332.61"/>
 </g>
-<!-- :screen:import&#45;data&#45;&gt;:shared:ui:core -->
+<!-- :feature:import&#45;data&#45;&gt;:shared:ui:core -->
 <g id="edge92" class="edge">
-<title>:screen:import&#45;data&#45;&gt;:shared:ui:core</title>
+<title>:feature:import&#45;data&#45;&gt;:shared:ui:core</title>
 <path fill="none" stroke="black" d="M1977.17,-506.29C1959.57,-497.98 1941.08,-485.63 1931,-468 1923.06,-454.11 1924.31,-446.54 1931,-432 1961.82,-364.99 2003.24,-374.49 2057,-324 2073.27,-308.72 2072.08,-298.05 2092,-288 2145.62,-260.95 2309.5,-246.06 2406.92,-239.38"/>
 <polygon fill="black" stroke="black" points="2406.92,-242.89 2416.66,-238.73 2406.45,-235.9 2406.92,-242.89"/>
 </g>
-<!-- :screen:loans&#45;&gt;:shared:base -->
+<!-- :feature:loans&#45;&gt;:shared:base -->
 <g id="edge96" class="edge">
-<title>:screen:loans&#45;&gt;:shared:base</title>
+<title>:feature:loans&#45;&gt;:shared:base</title>
 <path fill="none" stroke="black" d="M3450.77,-437.5C3458.81,-435.55 3467.14,-433.63 3475,-432 3667.54,-392.12 4153.04,-313.53 4348,-288 4388.96,-282.64 4690.24,-282.59 4718,-252 4771.76,-192.76 4773.49,-129.63 4718,-72 4671.46,-23.66 3662.36,-19.29 3388.85,-18.99"/>
 <polygon fill="black" stroke="black" points="3389.05,-15.49 3379.04,-18.98 3389.04,-22.49 3389.05,-15.49"/>
 </g>
-<!-- :screen:loans&#45;&gt;:shared:data:core -->
+<!-- :feature:loans&#45;&gt;:shared:data:core -->
 <g id="edge97" class="edge">
-<title>:screen:loans&#45;&gt;:shared:data:core</title>
+<title>:feature:loans&#45;&gt;:shared:data:core</title>
 <path fill="none" stroke="black" d="M3451.45,-437.77C3544.89,-413.03 3766.75,-348.26 3933,-252 3976.44,-226.85 3989.4,-219.79 4020,-180 4034.17,-161.57 4044.89,-137.46 4051.81,-118.98"/>
 <polygon fill="black" stroke="black" points="4055.05,-120.33 4055.12,-109.73 4048.46,-117.97 4055.05,-120.33"/>
 </g>
-<!-- :screen:loans&#45;&gt;:shared:domain -->
+<!-- :feature:loans&#45;&gt;:shared:domain -->
 <g id="edge98" class="edge">
-<title>:screen:loans&#45;&gt;:shared:domain</title>
+<title>:feature:loans&#45;&gt;:shared:domain</title>
 <path fill="none" stroke="black" d="M3438.9,-434.47C3454.86,-425.58 3473.06,-412.7 3484,-396 3510.53,-355.51 3529.08,-325.11 3498,-288 3415.51,-189.51 3017.82,-168.61 2845.69,-164.19"/>
 <polygon fill="black" stroke="black" points="2845.78,-160.69 2835.7,-163.94 2845.61,-167.68 2845.78,-160.69"/>
 </g>
-<!-- :screen:loans&#45;&gt;:shared:ui:navigation -->
+<!-- :feature:loans&#45;&gt;:shared:ui:navigation -->
 <g id="edge100" class="edge">
-<title>:screen:loans&#45;&gt;:shared:ui:navigation</title>
+<title>:feature:loans&#45;&gt;:shared:ui:navigation</title>
 <path fill="none" stroke="black" d="M3361.26,-438.33C3322.19,-428.73 3264.75,-413.49 3216,-396 3178.92,-382.7 3173.28,-369.31 3135,-360 2985.38,-323.63 2534.8,-311.87 2332.83,-308.37"/>
 <polygon fill="black" stroke="black" points="2332.93,-304.87 2322.87,-308.2 2332.81,-311.87 2332.93,-304.87"/>
 </g>
-<!-- :screen:loans&#45;&gt;:temp:legacy&#45;code -->
+<!-- :feature:loans&#45;&gt;:temp:legacy&#45;code -->
 <g id="edge101" class="edge">
-<title>:screen:loans&#45;&gt;:temp:legacy&#45;code</title>
+<title>:feature:loans&#45;&gt;:temp:legacy&#45;code</title>
 <path fill="none" stroke="black" d="M3358.31,-439.56C3295.93,-427.46 3187.35,-406.41 3116.08,-392.59"/>
 <polygon fill="black" stroke="black" points="3116.94,-389.19 3106.46,-390.72 3115.61,-396.06 3116.94,-389.19"/>
 </g>
-<!-- :screen:loans&#45;&gt;:temp:old&#45;design -->
+<!-- :feature:loans&#45;&gt;:temp:old&#45;design -->
 <g id="edge102" class="edge">
-<title>:screen:loans&#45;&gt;:temp:old&#45;design</title>
+<title>:feature:loans&#45;&gt;:temp:old&#45;design</title>
 <path fill="none" stroke="black" d="M3405.41,-431.59C3403.21,-407.61 3399.23,-364.14 3396.6,-335.42"/>
 <polygon fill="black" stroke="black" points="3400.1,-335.26 3395.7,-325.62 3393.13,-335.9 3400.1,-335.26"/>
 </g>
-<!-- :screen:loans&#45;&gt;:shared:ui:core -->
+<!-- :feature:loans&#45;&gt;:shared:ui:core -->
 <g id="edge99" class="edge">
-<title>:screen:loans&#45;&gt;:shared:ui:core</title>
+<title>:feature:loans&#45;&gt;:shared:ui:core</title>
 <path fill="none" stroke="black" d="M3424.49,-432.79C3456.51,-401.24 3517.68,-330.91 3477,-288 3445.54,-254.82 2787.23,-240.29 2559.06,-236.24"/>
 <polygon fill="black" stroke="black" points="2559.12,-232.74 2549.06,-236.07 2559,-239.74 2559.12,-232.74"/>
 </g>
-<!-- :screen:main&#45;&gt;:screen:home -->
+<!-- :feature:main&#45;&gt;:feature:home -->
 <g id="edge104" class="edge">
-<title>:screen:main&#45;&gt;:screen:home</title>
+<title>:feature:main&#45;&gt;:feature:home</title>
 <path fill="none" stroke="black" d="M1482.23,-508.4C1445.77,-496.86 1391.58,-479.69 1351.96,-467.14"/>
 <polygon fill="black" stroke="black" points="1353.23,-463.87 1342.64,-464.19 1351.11,-470.54 1353.23,-463.87"/>
 </g>
-<!-- :screen:main&#45;&gt;:shared:base -->
+<!-- :feature:main&#45;&gt;:shared:base -->
 <g id="edge105" class="edge">
-<title>:screen:main&#45;&gt;:shared:base</title>
+<title>:feature:main&#45;&gt;:shared:base</title>
 <path fill="none" stroke="black" d="M1463.28,-521.43C1209.24,-522.93 212,-525.12 85,-468 35.12,-445.57 0,-433.7 0,-379 0,-379 0,-379 0,-161 0,-116.27 8.88,-95.4 47,-72 117.79,-28.54 2790.01,-20.26 3252.99,-19.15"/>
 <polygon fill="black" stroke="black" points="3252.96,-22.65 3262.95,-19.12 3252.94,-15.65 3252.96,-22.65"/>
 </g>
-<!-- :screen:main&#45;&gt;:shared:data:core -->
+<!-- :feature:main&#45;&gt;:shared:data:core -->
 <g id="edge106" class="edge">
-<title>:screen:main&#45;&gt;:shared:data:core</title>
+<title>:feature:main&#45;&gt;:shared:data:core</title>
 <path fill="none" stroke="black" d="M1463.54,-520.1C1283.43,-516.96 738.78,-504.61 566,-468 477.66,-449.28 427.31,-470.31 376,-396 359.14,-371.59 391.96,-294.48 396,-288 421.49,-247.13 436.93,-242.73 477,-216 507.59,-195.59 590.22,-152.48 626,-144 793.74,-104.23 3461.04,-93.06 3975.5,-91.28"/>
 <polygon fill="black" stroke="black" points="3975.39,-94.78 3985.38,-91.24 3975.37,-87.78 3975.39,-94.78"/>
 </g>
-<!-- :screen:main&#45;&gt;:shared:domain -->
+<!-- :feature:main&#45;&gt;:shared:domain -->
 <g id="edge107" class="edge">
-<title>:screen:main&#45;&gt;:shared:domain</title>
+<title>:feature:main&#45;&gt;:shared:domain</title>
 <path fill="none" stroke="black" d="M1499.55,-504.92C1470.97,-485.14 1419.47,-451.76 1371,-432 1309.11,-406.77 1266.21,-448.61 1225,-396 1215.13,-383.4 1215.49,-372.87 1225,-360 1257.32,-316.24 1290.13,-340.42 1342,-324 1489.93,-277.18 1521.38,-244.01 1674,-216 1868.41,-180.32 2469.28,-167.62 2686.56,-164.12"/>
 <polygon fill="black" stroke="black" points="2686.39,-167.62 2696.34,-163.96 2686.28,-160.62 2686.39,-167.62"/>
 </g>
-<!-- :screen:main&#45;&gt;:shared:ui:navigation -->
+<!-- :feature:main&#45;&gt;:shared:ui:navigation -->
 <g id="edge109" class="edge">
-<title>:screen:main&#45;&gt;:shared:ui:navigation</title>
+<title>:feature:main&#45;&gt;:shared:ui:navigation</title>
 <path fill="none" stroke="black" d="M1579.42,-517.88C1646.96,-512.86 1761.71,-500.03 1855,-468 1949.07,-435.7 1959.14,-398.14 2051,-360 2087.75,-344.74 2130.39,-332.07 2165.15,-322.95"/>
 <polygon fill="black" stroke="black" points="2165.87,-326.38 2174.68,-320.5 2164.12,-319.6 2165.87,-326.38"/>
 </g>
-<!-- :screen:main&#45;&gt;:temp:legacy&#45;code -->
+<!-- :feature:main&#45;&gt;:temp:legacy&#45;code -->
 <g id="edge110" class="edge">
-<title>:screen:main&#45;&gt;:temp:legacy&#45;code</title>
+<title>:feature:main&#45;&gt;:temp:legacy&#45;code</title>
 <path fill="none" stroke="black" d="M1579.62,-518.5C1658.48,-515.1 1804.45,-508.88 1929,-504 2038.21,-499.72 2811.23,-510.31 2912,-468 2933.45,-458.99 2931.22,-445.73 2950,-432 2966.29,-420.09 2985.55,-408.95 3002.52,-400"/>
 <polygon fill="black" stroke="black" points="3004.13,-403.11 3011.41,-395.41 3000.92,-396.89 3004.13,-403.11"/>
 </g>
-<!-- :screen:main&#45;&gt;:temp:old&#45;design -->
+<!-- :feature:main&#45;&gt;:temp:old&#45;design -->
 <g id="edge111" class="edge">
-<title>:screen:main&#45;&gt;:temp:old&#45;design</title>
+<title>:feature:main&#45;&gt;:temp:old&#45;design</title>
 <path fill="none" stroke="black" d="M1579.96,-518.58C1658.9,-515.27 1804.64,-509.18 1929,-504 2121.44,-495.98 2610.59,-523.6 2795,-468 2854.18,-450.16 2863.71,-431.95 2914,-396 2934.28,-381.51 2934.13,-369.91 2957,-360 3018.8,-333.22 3202.67,-318.19 3311.21,-311.43"/>
 <polygon fill="black" stroke="black" points="3311.16,-314.94 3320.93,-310.83 3310.74,-307.95 3311.16,-314.94"/>
 </g>
-<!-- :screen:main&#45;&gt;:shared:ui:core -->
+<!-- :feature:main&#45;&gt;:shared:ui:core -->
 <g id="edge108" class="edge">
-<title>:screen:main&#45;&gt;:shared:ui:core</title>
+<title>:feature:main&#45;&gt;:shared:ui:core</title>
 <path fill="none" stroke="black" d="M1505.87,-504.21C1490.2,-485.76 1470.69,-455.61 1485,-432 1520.86,-372.84 1694.46,-306.93 1761,-288 1880.29,-254.07 2245.1,-240.94 2405.25,-236.72"/>
 <polygon fill="black" stroke="black" points="2405.01,-240.22 2414.91,-236.47 2404.82,-233.23 2405.01,-240.22"/>
 </g>
-<!-- :screen:accounts -->
+<!-- :feature:accounts -->
 <g id="node32" class="node">
-<title>:screen:accounts</title>
+<title>:feature:accounts</title>
 <ellipse fill="none" stroke="black" cx="1566" cy="-450" rx="71.82" ry="18"/>
-<text text-anchor="middle" x="1566" y="-444.95" font-family="Times,serif" font-size="14.00">:screen:accounts</text>
+<text text-anchor="middle" x="1566" y="-444.95" font-family="Times,serif" font-size="14.00">:feature:accounts</text>
 </g>
-<!-- :screen:main&#45;&gt;:screen:accounts -->
+<!-- :feature:main&#45;&gt;:feature:accounts -->
 <g id="edge103" class="edge">
-<title>:screen:main&#45;&gt;:screen:accounts</title>
+<title>:feature:main&#45;&gt;:feature:accounts</title>
 <path fill="none" stroke="black" d="M1532.65,-504.05C1537.6,-496.18 1543.61,-486.62 1549.16,-477.79"/>
 <polygon fill="black" stroke="black" points="1551.98,-479.89 1554.34,-469.56 1546.05,-476.16 1551.98,-479.89"/>
 </g>
-<!-- :screen:onboarding&#45;&gt;:shared:base -->
+<!-- :feature:onboarding&#45;&gt;:shared:base -->
 <g id="edge112" class="edge">
-<title>:screen:onboarding&#45;&gt;:shared:base</title>
+<title>:feature:onboarding&#45;&gt;:shared:base</title>
 <path fill="none" stroke="black" d="M1951.4,-440.6C1921.68,-437.38 1886.7,-434 1855,-432 1692.39,-421.74 543.38,-448.1 389,-396 325.07,-374.42 266,-374.48 266,-307 266,-307 266,-307 266,-161 266,-78.07 349.81,-93.14 430,-72 570.74,-34.9 2829.82,-21.52 3252.99,-19.33"/>
 <polygon fill="black" stroke="black" points="3252.9,-22.83 3262.88,-19.28 3252.86,-15.83 3252.9,-22.83"/>
 </g>
-<!-- :screen:onboarding&#45;&gt;:shared:data:core -->
+<!-- :feature:onboarding&#45;&gt;:shared:data:core -->
 <g id="edge113" class="edge">
-<title>:screen:onboarding&#45;&gt;:shared:data:core</title>
+<title>:feature:onboarding&#45;&gt;:shared:data:core</title>
 <path fill="none" stroke="black" d="M1950.42,-440.97C1733.36,-415.26 1103.68,-329.92 1210,-216 1306.77,-112.31 3512.14,-94.1 3975.9,-91.42"/>
 <polygon fill="black" stroke="black" points="3975.69,-94.92 3985.67,-91.36 3975.65,-87.92 3975.69,-94.92"/>
 </g>
-<!-- :screen:onboarding&#45;&gt;:shared:domain -->
+<!-- :feature:onboarding&#45;&gt;:shared:domain -->
 <g id="edge114" class="edge">
-<title>:screen:onboarding&#45;&gt;:shared:domain</title>
+<title>:feature:onboarding&#45;&gt;:shared:domain</title>
 <path fill="none" stroke="black" d="M1983.83,-433.75C1920.62,-406.35 1805.81,-346.22 1855,-288 1908.68,-224.46 2478.76,-181.53 2688.84,-167.76"/>
 <polygon fill="black" stroke="black" points="2688.8,-171.27 2698.55,-167.13 2688.35,-164.29 2688.8,-171.27"/>
 </g>
-<!-- :screen:onboarding&#45;&gt;:shared:ui:navigation -->
+<!-- :feature:onboarding&#45;&gt;:shared:ui:navigation -->
 <g id="edge116" class="edge">
-<title>:screen:onboarding&#45;&gt;:shared:ui:navigation</title>
+<title>:feature:onboarding&#45;&gt;:shared:ui:navigation</title>
 <path fill="none" stroke="black" d="M2030.66,-431.89C2041.53,-412.01 2061.95,-379.46 2088,-360 2110.36,-343.3 2138.52,-331.41 2164.06,-323.19"/>
 <polygon fill="black" stroke="black" points="2164.84,-326.61 2173.37,-320.33 2162.79,-319.92 2164.84,-326.61"/>
 </g>
-<!-- :screen:onboarding&#45;&gt;:temp:legacy&#45;code -->
+<!-- :feature:onboarding&#45;&gt;:temp:legacy&#45;code -->
 <g id="edge117" class="edge">
-<title>:screen:onboarding&#45;&gt;:temp:legacy&#45;code</title>
+<title>:feature:onboarding&#45;&gt;:temp:legacy&#45;code</title>
 <path fill="none" stroke="black" d="M2096.83,-442.51C2135.91,-439.19 2184.52,-435.2 2228,-432 2493.93,-412.41 2808.78,-393.11 2958.49,-384.16"/>
 <polygon fill="black" stroke="black" points="2958.56,-387.66 2968.34,-383.57 2958.14,-380.68 2958.56,-387.66"/>
 </g>
-<!-- :screen:onboarding&#45;&gt;:temp:old&#45;design -->
+<!-- :feature:onboarding&#45;&gt;:temp:old&#45;design -->
 <g id="edge118" class="edge">
-<title>:screen:onboarding&#45;&gt;:temp:old&#45;design</title>
+<title>:feature:onboarding&#45;&gt;:temp:old&#45;design</title>
 <path fill="none" stroke="black" d="M2097.33,-442.71C2136.33,-439.48 2184.72,-435.49 2228,-432 2431.52,-415.6 2488.7,-448.57 2686,-396 2722.12,-386.38 2725.91,-369.72 2762,-360 2863.1,-332.78 3162.75,-316.75 3310.18,-310.31"/>
 <polygon fill="black" stroke="black" points="3310.03,-313.82 3319.87,-309.89 3309.73,-306.83 3310.03,-313.82"/>
 </g>
-<!-- :screen:onboarding&#45;&gt;:shared:ui:core -->
+<!-- :feature:onboarding&#45;&gt;:shared:ui:core -->
 <g id="edge115" class="edge">
-<title>:screen:onboarding&#45;&gt;:shared:ui:core</title>
+<title>:feature:onboarding&#45;&gt;:shared:ui:core</title>
 <path fill="none" stroke="black" d="M2024.74,-431.71C2028.37,-412.83 2036.11,-382.3 2051,-360 2052.71,-357.44 2132.21,-289.28 2135,-288 2221.62,-248.26 2331.9,-237.3 2404.61,-234.78"/>
 <polygon fill="black" stroke="black" points="2404.55,-238.28 2414.44,-234.49 2404.34,-231.29 2404.55,-238.28"/>
 </g>
-<!-- :screen:piechart&#45;&gt;:shared:base -->
+<!-- :feature:piechart&#45;&gt;:shared:base -->
 <g id="edge119" class="edge">
-<title>:screen:piechart&#45;&gt;:shared:base</title>
+<title>:feature:piechart&#45;&gt;:shared:base</title>
 <path fill="none" stroke="black" d="M4198.15,-439.12C4215.09,-436.45 4233.76,-433.8 4251,-432 4326.14,-424.17 4878.01,-450.82 4930,-396 5029.64,-290.94 5010.36,-160.81 4896,-72 4835.73,-25.19 3683.87,-19.72 3389.19,-19.08"/>
 <polygon fill="black" stroke="black" points="3389.37,-15.58 3379.36,-19.06 3389.35,-22.58 3389.37,-15.58"/>
 </g>
-<!-- :screen:piechart&#45;&gt;:shared:data:core -->
+<!-- :feature:piechart&#45;&gt;:shared:data:core -->
 <g id="edge120" class="edge">
-<title>:screen:piechart&#45;&gt;:shared:data:core</title>
+<title>:feature:piechart&#45;&gt;:shared:data:core</title>
 <path fill="none" stroke="black" d="M4202.1,-440.78C4267.44,-428.25 4368.58,-397.5 4414,-324 4456.06,-255.95 4466.2,-204.62 4414,-144 4380.13,-104.67 4239.44,-94.12 4146.23,-91.52"/>
 <polygon fill="black" stroke="black" points="4146.42,-88.02 4136.34,-91.27 4146.25,-95.02 4146.42,-88.02"/>
 </g>
-<!-- :screen:piechart&#45;&gt;:shared:domain -->
+<!-- :feature:piechart&#45;&gt;:shared:domain -->
 <g id="edge121" class="edge">
-<title>:screen:piechart&#45;&gt;:shared:domain</title>
+<title>:feature:piechart&#45;&gt;:shared:domain</title>
 <path fill="none" stroke="black" d="M4127.22,-432.17C4109.6,-412.86 4078.55,-381.13 4047,-360 3982.88,-317.05 3961.88,-313.38 3889,-288 3763.18,-244.19 3729.68,-236.32 3598,-216 3324.05,-173.73 2994.36,-165.04 2845.64,-163.35"/>
 <polygon fill="black" stroke="black" points="2845.94,-159.85 2835.9,-163.25 2845.87,-166.85 2845.94,-159.85"/>
 </g>
-<!-- :screen:piechart&#45;&gt;:shared:ui:navigation -->
+<!-- :feature:piechart&#45;&gt;:shared:ui:navigation -->
 <g id="edge123" class="edge">
-<title>:screen:piechart&#45;&gt;:shared:ui:navigation</title>
+<title>:feature:piechart&#45;&gt;:shared:ui:navigation</title>
 <path fill="none" stroke="black" d="M4091.79,-437.3C4082.58,-435.37 4073.02,-433.51 4064,-432 3792.56,-386.64 3723.32,-382.01 3449,-360 3035.29,-326.81 2540.61,-313.35 2332.73,-308.88"/>
 <polygon fill="black" stroke="black" points="2332.84,-305.38 2322.77,-308.67 2332.69,-312.38 2332.84,-305.38"/>
 </g>
-<!-- :screen:piechart&#45;&gt;:temp:legacy&#45;code -->
+<!-- :feature:piechart&#45;&gt;:temp:legacy&#45;code -->
 <g id="edge124" class="edge">
-<title>:screen:piechart&#45;&gt;:temp:legacy&#45;code</title>
+<title>:feature:piechart&#45;&gt;:temp:legacy&#45;code</title>
 <path fill="none" stroke="black" d="M4092.7,-436.99C4083.22,-435.04 4073.34,-433.25 4064,-432 3885.95,-408.12 3350.09,-388.79 3135.89,-381.8"/>
 <polygon fill="black" stroke="black" points="3136.02,-378.31 3125.91,-381.48 3135.8,-385.3 3136.02,-378.31"/>
 </g>
-<!-- :screen:piechart&#45;&gt;:temp:old&#45;design -->
+<!-- :feature:piechart&#45;&gt;:temp:old&#45;design -->
 <g id="edge125" class="edge">
-<title>:screen:piechart&#45;&gt;:temp:old&#45;design</title>
+<title>:feature:piechart&#45;&gt;:temp:old&#45;design</title>
 <path fill="none" stroke="black" d="M4095.82,-436.18C4026.72,-417.37 3892.11,-382.11 3776,-360 3671.31,-340.06 3549.13,-324.43 3471.68,-315.45"/>
 <polygon fill="black" stroke="black" points="3472.42,-312.02 3462.08,-314.35 3471.62,-318.97 3472.42,-312.02"/>
 </g>
-<!-- :screen:piechart&#45;&gt;:shared:ui:core -->
+<!-- :feature:piechart&#45;&gt;:shared:ui:core -->
 <g id="edge122" class="edge">
-<title>:screen:piechart&#45;&gt;:shared:ui:core</title>
+<title>:feature:piechart&#45;&gt;:shared:ui:core</title>
 <path fill="none" stroke="black" d="M4118.85,-432.69C4068.48,-398.26 3943.96,-318.79 3826,-288 3703.63,-256.06 2825.89,-240.22 2558.87,-236.11"/>
 <polygon fill="black" stroke="black" points="2559.31,-232.61 2549.26,-235.96 2559.21,-239.61 2559.31,-232.61"/>
 </g>
-<!-- :screen:planned&#45;payments&#45;&gt;:shared:base -->
+<!-- :feature:planned&#45;payments&#45;&gt;:shared:base -->
 <g id="edge126" class="edge">
-<title>:screen:planned&#45;payments&#45;&gt;:shared:base</title>
+<title>:feature:planned&#45;payments&#45;&gt;:shared:base</title>
 <path fill="none" stroke="black" d="M2250.81,-440.98C2208.68,-437.68 2158.38,-434.14 2113,-432 2065.43,-429.76 432.32,-430.03 399,-396 387.81,-384.57 392.65,-374.69 399,-360 431.2,-285.54 532,-316.12 532,-235 532,-235 532,-235 532,-161 532,-20.28 2826.45,-18.01 3253.14,-18.8"/>
 <polygon fill="black" stroke="black" points="3252.82,-22.3 3262.83,-18.82 3252.84,-15.3 3252.82,-22.3"/>
 </g>
-<!-- :screen:planned&#45;payments&#45;&gt;:shared:data:core -->
+<!-- :feature:planned&#45;payments&#45;&gt;:shared:data:core -->
 <g id="edge127" class="edge">
-<title>:screen:planned&#45;payments&#45;&gt;:shared:data:core</title>
+<title>:feature:planned&#45;payments&#45;&gt;:shared:data:core</title>
 <path fill="none" stroke="black" d="M2256.81,-439.35C2129.44,-423.4 1903.85,-386.87 1855,-324 1845.18,-311.37 1844.69,-300.24 1855,-288 1994.04,-122.9 3586.32,-95.86 3975.55,-91.71"/>
 <polygon fill="black" stroke="black" points="3975.51,-95.21 3985.47,-91.61 3975.44,-88.22 3975.51,-95.21"/>
 </g>
-<!-- :screen:planned&#45;payments&#45;&gt;:shared:domain -->
+<!-- :feature:planned&#45;payments&#45;&gt;:shared:domain -->
 <g id="edge128" class="edge">
-<title>:screen:planned&#45;payments&#45;&gt;:shared:domain</title>
+<title>:feature:planned&#45;payments&#45;&gt;:shared:domain</title>
 <path fill="none" stroke="black" d="M2343.78,-431.75C2341.73,-388.18 2342.98,-273.14 2407,-216 2447.16,-180.16 2593.65,-168.55 2686.63,-164.79"/>
 <polygon fill="black" stroke="black" points="2686.6,-168.3 2696.46,-164.42 2686.34,-161.3 2686.6,-168.3"/>
 </g>
-<!-- :screen:planned&#45;payments&#45;&gt;:shared:ui:navigation -->
+<!-- :feature:planned&#45;payments&#45;&gt;:shared:ui:navigation -->
 <g id="edge130" class="edge">
-<title>:screen:planned&#45;payments&#45;&gt;:shared:ui:navigation</title>
+<title>:feature:planned&#45;payments&#45;&gt;:shared:ui:navigation</title>
 <path fill="none" stroke="black" d="M2318.55,-432.16C2305.2,-422.71 2289.45,-410.01 2278,-396 2262.96,-377.59 2251.11,-353.33 2243.36,-334.79"/>
 <polygon fill="black" stroke="black" points="2246.7,-333.73 2239.73,-325.76 2240.21,-336.34 2246.7,-333.73"/>
 </g>
-<!-- :screen:planned&#45;payments&#45;&gt;:temp:legacy&#45;code -->
+<!-- :feature:planned&#45;payments&#45;&gt;:temp:legacy&#45;code -->
 <g id="edge131" class="edge">
-<title>:screen:planned&#45;payments&#45;&gt;:temp:legacy&#45;code</title>
+<title>:feature:planned&#45;payments&#45;&gt;:temp:legacy&#45;code</title>
 <path fill="none" stroke="black" d="M2435.57,-439.96C2572.59,-426.27 2830.61,-400.51 2963.01,-387.29"/>
 <polygon fill="black" stroke="black" points="2963.15,-390.79 2972.75,-386.31 2962.45,-383.83 2963.15,-390.79"/>
 </g>
-<!-- :screen:planned&#45;payments&#45;&gt;:temp:old&#45;design -->
+<!-- :feature:planned&#45;payments&#45;&gt;:temp:old&#45;design -->
 <g id="edge132" class="edge">
-<title>:screen:planned&#45;payments&#45;&gt;:temp:old&#45;design</title>
+<title>:feature:planned&#45;payments&#45;&gt;:temp:old&#45;design</title>
 <path fill="none" stroke="black" d="M2441.96,-441.92C2527.06,-434.47 2653.78,-420.35 2762,-396 2812.19,-384.71 2821.68,-370.66 2872,-360 3024.25,-327.75 3205.77,-314.94 3309.69,-309.99"/>
 <polygon fill="black" stroke="black" points="3309.7,-313.49 3319.53,-309.53 3309.38,-306.5 3309.7,-313.49"/>
 </g>
-<!-- :screen:planned&#45;payments&#45;&gt;:shared:ui:core -->
+<!-- :feature:planned&#45;payments&#45;&gt;:shared:ui:core -->
 <g id="edge129" class="edge">
-<title>:screen:planned&#45;payments&#45;&gt;:shared:ui:core</title>
+<title>:feature:planned&#45;payments&#45;&gt;:shared:ui:core</title>
 <path fill="none" stroke="black" d="M2355.98,-431.85C2379.78,-394.68 2436.27,-306.44 2464.83,-261.82"/>
 <polygon fill="black" stroke="black" points="2467.71,-263.82 2470.15,-253.51 2461.81,-260.04 2467.71,-263.82"/>
 </g>
-<!-- :screen:releases&#45;&gt;:shared:base -->
+<!-- :feature:releases&#45;&gt;:shared:base -->
 <g id="edge133" class="edge">
-<title>:screen:releases&#45;&gt;:shared:base</title>
+<title>:feature:releases&#45;&gt;:shared:base</title>
 <path fill="none" stroke="black" d="M468.13,-359.68C442.43,-306.82 374.88,-146.63 459,-72 512.96,-24.13 2824.77,-19.5 3253.11,-19.05"/>
 <polygon fill="black" stroke="black" points="3252.84,-22.55 3262.84,-19.04 3252.83,-15.55 3252.84,-22.55"/>
 </g>
-<!-- :screen:releases&#45;&gt;:shared:domain -->
+<!-- :feature:releases&#45;&gt;:shared:domain -->
 <g id="edge134" class="edge">
-<title>:screen:releases&#45;&gt;:shared:domain</title>
+<title>:feature:releases&#45;&gt;:shared:domain</title>
 <path fill="none" stroke="black" d="M517.3,-363.04C614.51,-330.13 870.15,-248.03 1091,-216 1404.61,-170.51 2397.35,-164.06 2686.35,-163.15"/>
 <polygon fill="black" stroke="black" points="2686.05,-166.65 2696.04,-163.12 2686.02,-159.65 2686.05,-166.65"/>
 </g>
-<!-- :screen:releases&#45;&gt;:shared:ui:navigation -->
+<!-- :feature:releases&#45;&gt;:shared:ui:navigation -->
 <g id="edge136" class="edge">
-<title>:screen:releases&#45;&gt;:shared:ui:navigation</title>
+<title>:feature:releases&#45;&gt;:shared:ui:navigation</title>
 <path fill="none" stroke="black" d="M533.48,-367.33C552.35,-364.47 573.53,-361.67 593,-360 1225.56,-305.87 1387.01,-357.39 2021,-324 2060.76,-321.91 2104.65,-318.56 2142.12,-315.39"/>
 <polygon fill="black" stroke="black" points="2142.37,-318.88 2152.03,-314.54 2141.77,-311.9 2142.37,-318.88"/>
 </g>
-<!-- :screen:releases&#45;&gt;:shared:ui:core -->
+<!-- :feature:releases&#45;&gt;:shared:ui:core -->
 <g id="edge135" class="edge">
-<title>:screen:releases&#45;&gt;:shared:ui:core</title>
+<title>:feature:releases&#45;&gt;:shared:ui:core</title>
 <path fill="none" stroke="black" d="M534.09,-367.77C651.37,-349.2 928.06,-307.46 1162,-288 1633.12,-248.81 2201.33,-238.37 2404.86,-235.79"/>
 <polygon fill="black" stroke="black" points="2404.83,-239.29 2414.78,-235.67 2404.74,-232.29 2404.83,-239.29"/>
 </g>
-<!-- :screen:reports&#45;&gt;:shared:base -->
+<!-- :feature:reports&#45;&gt;:shared:base -->
 <g id="edge137" class="edge">
-<title>:screen:reports&#45;&gt;:shared:base</title>
+<title>:feature:reports&#45;&gt;:shared:base</title>
 <path fill="none" stroke="black" d="M4383.03,-441.49C4409,-438.29 4440,-434.68 4468,-432 4615.29,-417.91 5122,-454.96 5122,-307 5122,-307 5122,-307 5122,-161 5122,-66.54 5020.92,-93.77 4929,-72 4777.87,-36.21 3675.56,-22.6 3388.95,-19.65"/>
 <polygon fill="black" stroke="black" points="3389.06,-16.15 3379.02,-19.55 3388.99,-23.15 3389.06,-16.15"/>
 </g>
-<!-- :screen:reports&#45;&gt;:shared:data:core -->
+<!-- :feature:reports&#45;&gt;:shared:data:core -->
 <g id="edge138" class="edge">
-<title>:screen:reports&#45;&gt;:shared:data:core</title>
+<title>:feature:reports&#45;&gt;:shared:data:core</title>
 <path fill="none" stroke="black" d="M4383.03,-441.52C4409,-438.33 4440.01,-434.72 4468,-432 4521.01,-426.86 4909.78,-435.05 4946,-396 4956.88,-384.27 4954.73,-373.41 4946,-360 4812.86,-155.39 4676.94,-206.65 4441,-144 4340.21,-117.24 4220.59,-103.39 4142.85,-96.66"/>
 <polygon fill="black" stroke="black" points="4143.46,-93.2 4133.2,-95.85 4142.88,-100.18 4143.46,-93.2"/>
 </g>
-<!-- :screen:reports&#45;&gt;:shared:domain -->
+<!-- :feature:reports&#45;&gt;:shared:domain -->
 <g id="edge139" class="edge">
-<title>:screen:reports&#45;&gt;:shared:domain</title>
+<title>:feature:reports&#45;&gt;:shared:domain</title>
 <path fill="none" stroke="black" d="M4303.19,-432.74C4276.44,-413.38 4229.21,-381.03 4185,-360 4093.62,-316.53 4065.88,-317.23 3969,-288 3851.74,-252.62 3823.9,-235.56 3703,-216 3538.7,-189.41 3039.86,-171.51 2845.09,-165.36"/>
 <polygon fill="black" stroke="black" points="2845.44,-161.87 2835.33,-165.05 2845.22,-168.86 2845.44,-161.87"/>
 </g>
-<!-- :screen:reports&#45;&gt;:shared:ui:navigation -->
+<!-- :feature:reports&#45;&gt;:shared:ui:navigation -->
 <g id="edge141" class="edge">
-<title>:screen:reports&#45;&gt;:shared:ui:navigation</title>
+<title>:feature:reports&#45;&gt;:shared:ui:navigation</title>
 <path fill="none" stroke="black" d="M4270.56,-439.78C4254.32,-437.14 4236.45,-434.35 4220,-432 4090.55,-413.55 4057.73,-412.37 3928,-396 3803.96,-380.35 3773.6,-370.35 3649,-360 3156.57,-319.1 2565.17,-309.75 2333.25,-307.62"/>
 <polygon fill="black" stroke="black" points="2333.35,-304.13 2323.32,-307.54 2333.29,-311.13 2333.35,-304.13"/>
 </g>
-<!-- :screen:reports&#45;&gt;:temp:legacy&#45;code -->
+<!-- :feature:reports&#45;&gt;:temp:legacy&#45;code -->
 <g id="edge142" class="edge">
-<title>:screen:reports&#45;&gt;:temp:legacy&#45;code</title>
+<title>:feature:reports&#45;&gt;:temp:legacy&#45;code</title>
 <path fill="none" stroke="black" d="M4272.01,-439.2C4255.41,-436.46 4236.99,-433.75 4220,-432 3817.8,-390.5 3334.76,-381.49 3137.07,-379.54"/>
 <polygon fill="black" stroke="black" points="3137.14,-376.04 3127.11,-379.44 3137.08,-383.04 3137.14,-376.04"/>
 </g>
-<!-- :screen:reports&#45;&gt;:temp:old&#45;design -->
+<!-- :feature:reports&#45;&gt;:temp:old&#45;design -->
 <g id="edge143" class="edge">
-<title>:screen:reports&#45;&gt;:temp:old&#45;design</title>
+<title>:feature:reports&#45;&gt;:temp:old&#45;design</title>
 <path fill="none" stroke="black" d="M4275.52,-437.9C4192.35,-419.56 4019.07,-382.7 3871,-360 3732.1,-338.71 3569.2,-322.47 3474.2,-313.86"/>
 <polygon fill="black" stroke="black" points="3474.74,-310.4 3464.47,-312.99 3474.11,-317.37 3474.74,-310.4"/>
 </g>
-<!-- :screen:reports&#45;&gt;:shared:ui:core -->
+<!-- :feature:reports&#45;&gt;:shared:ui:core -->
 <g id="edge140" class="edge">
-<title>:screen:reports&#45;&gt;:shared:ui:core</title>
+<title>:feature:reports&#45;&gt;:shared:ui:core</title>
 <path fill="none" stroke="black" d="M4294.26,-433.76C4224.37,-400 4047.3,-319.38 3889,-288 3631.45,-236.95 2815.37,-234.25 2559.5,-234.71"/>
 <polygon fill="black" stroke="black" points="2559.61,-231.21 2549.62,-234.73 2559.63,-238.21 2559.61,-231.21"/>
 </g>
-<!-- :screen:search&#45;&gt;:shared:base -->
+<!-- :feature:search&#45;&gt;:shared:base -->
 <g id="edge144" class="edge">
-<title>:screen:search&#45;&gt;:shared:base</title>
+<title>:feature:search&#45;&gt;:shared:base</title>
 <path fill="none" stroke="black" d="M4826.06,-446.01C4969.54,-437.4 5312,-406.45 5312,-307 5312,-307 5312,-307 5312,-161 5312,-73.74 5221.55,-93.57 5137,-72 4965.48,-28.23 3698.33,-20.47 3388.98,-19.22"/>
 <polygon fill="black" stroke="black" points="3389.05,-15.72 3379.04,-19.18 3389.02,-22.72 3389.05,-15.72"/>
 </g>
-<!-- :screen:search&#45;&gt;:shared:data:core -->
+<!-- :feature:search&#45;&gt;:shared:data:core -->
 <g id="edge145" class="edge">
-<title>:screen:search&#45;&gt;:shared:data:core</title>
+<title>:feature:search&#45;&gt;:shared:data:core</title>
 <path fill="none" stroke="black" d="M4822.44,-442.8C4879.86,-435.37 4961.6,-420.71 4981,-396 5038.06,-323.33 4957.07,-262.11 4877,-216 4784.91,-162.97 4753.19,-164.89 4649,-144 4472.23,-108.56 4260.79,-96.8 4145.77,-92.91"/>
 <polygon fill="black" stroke="black" points="4146.22,-89.42 4136.12,-92.6 4146,-96.42 4146.22,-89.42"/>
 </g>
-<!-- :screen:search&#45;&gt;:shared:domain -->
+<!-- :feature:search&#45;&gt;:shared:domain -->
 <g id="edge146" class="edge">
-<title>:screen:search&#45;&gt;:shared:domain</title>
+<title>:feature:search&#45;&gt;:shared:domain</title>
 <path fill="none" stroke="black" d="M4753.43,-431.9C4740.34,-412.03 4716.28,-379.48 4688,-360 4510.53,-237.75 4437.99,-248.79 4225,-216 3955.78,-174.56 3110.2,-165.34 2845.82,-163.45"/>
 <polygon fill="black" stroke="black" points="2845.95,-159.96 2835.93,-163.39 2845.91,-166.96 2845.95,-159.96"/>
 </g>
-<!-- :screen:search&#45;&gt;:shared:ui:navigation -->
+<!-- :feature:search&#45;&gt;:shared:ui:navigation -->
 <g id="edge148" class="edge">
-<title>:screen:search&#45;&gt;:shared:ui:navigation</title>
+<title>:feature:search&#45;&gt;:shared:ui:navigation</title>
 <path fill="none" stroke="black" d="M4710.36,-440.22C4692.46,-437.42 4672.39,-434.42 4654,-432 4580.86,-422.36 4067.59,-365.11 3994,-360 3363.05,-316.16 2602.44,-308.56 2333.29,-307.26"/>
 <polygon fill="black" stroke="black" points="2333.53,-303.76 2323.51,-307.22 2333.49,-310.76 2333.53,-303.76"/>
 </g>
-<!-- :screen:search&#45;&gt;:temp:legacy&#45;code -->
+<!-- :feature:search&#45;&gt;:temp:legacy&#45;code -->
 <g id="edge149" class="edge">
-<title>:screen:search&#45;&gt;:temp:legacy&#45;code</title>
+<title>:feature:search&#45;&gt;:temp:legacy&#45;code</title>
 <path fill="none" stroke="black" d="M4711.57,-439.58C4693.39,-436.67 4672.86,-433.76 4654,-432 4356.06,-404.17 3430.43,-385.8 3136.53,-380.55"/>
 <polygon fill="black" stroke="black" points="3136.67,-377.05 3126.61,-380.37 3136.54,-384.05 3136.67,-377.05"/>
 </g>
-<!-- :screen:search&#45;&gt;:temp:old&#45;design -->
+<!-- :feature:search&#45;&gt;:temp:old&#45;design -->
 <g id="edge150" class="edge">
-<title>:screen:search&#45;&gt;:temp:old&#45;design</title>
+<title>:feature:search&#45;&gt;:temp:old&#45;design</title>
 <path fill="none" stroke="black" d="M4716.38,-437.86C4632,-418.58 4450.45,-379.24 4295,-360 3996.59,-323.07 3639.29,-311.72 3479.06,-308.36"/>
 <polygon fill="black" stroke="black" points="3479.45,-304.87 3469.38,-308.16 3479.31,-311.86 3479.45,-304.87"/>
 </g>
-<!-- :screen:search&#45;&gt;:shared:ui:core -->
+<!-- :feature:search&#45;&gt;:shared:ui:core -->
 <g id="edge147" class="edge">
-<title>:screen:search&#45;&gt;:shared:ui:core</title>
+<title>:feature:search&#45;&gt;:shared:ui:core</title>
 <path fill="none" stroke="black" d="M4722.38,-436.19C4616.24,-404.18 4326.3,-320.93 4078,-288 3778.97,-248.34 2835.11,-237.81 2558.74,-235.54"/>
 <polygon fill="black" stroke="black" points="2559.18,-232.05 2549.15,-235.47 2559.12,-239.05 2559.18,-232.05"/>
 </g>
-<!-- :screen:settings&#45;&gt;:shared:base -->
+<!-- :feature:settings&#45;&gt;:shared:base -->
 <g id="edge151" class="edge">
-<title>:screen:settings&#45;&gt;:shared:base</title>
+<title>:feature:settings&#45;&gt;:shared:base</title>
 <path fill="none" stroke="black" d="M3811.66,-520.61C4050.64,-518.87 4854.32,-509.98 5108,-468 5249.62,-444.56 5388,-450.55 5388,-307 5388,-307 5388,-307 5388,-161 5388,-102.49 5345.23,-93.95 5291,-72 5201.16,-35.63 3726.54,-22.12 3389.31,-19.5"/>
 <polygon fill="black" stroke="black" points="3389.34,-16 3379.31,-19.42 3389.29,-23 3389.34,-16"/>
 </g>
-<!-- :screen:settings&#45;&gt;:shared:data:core -->
+<!-- :feature:settings&#45;&gt;:shared:data:core -->
 <g id="edge152" class="edge">
-<title>:screen:settings&#45;&gt;:shared:data:core</title>
+<title>:feature:settings&#45;&gt;:shared:data:core</title>
 <path fill="none" stroke="black" d="M3811.84,-520.92C4079.92,-520.29 5053.03,-514.76 5098,-468 5193.22,-368.98 5035.72,-288.45 4919,-216 4846.49,-170.99 4824.07,-163.54 4741,-144 4629.95,-117.87 4300.86,-101.05 4144.85,-94.33"/>
 <polygon fill="black" stroke="black" points="4145.12,-90.84 4134.98,-93.91 4144.82,-97.83 4145.12,-90.84"/>
 </g>
-<!-- :screen:settings&#45;&gt;:shared:domain -->
+<!-- :feature:settings&#45;&gt;:shared:domain -->
 <g id="edge153" class="edge">
-<title>:screen:settings&#45;&gt;:shared:domain</title>
+<title>:feature:settings&#45;&gt;:shared:domain</title>
 <path fill="none" stroke="black" d="M3810.81,-518.33C4018.44,-509.87 4639.53,-483.33 4654,-468 4664.98,-456.36 4663.63,-444.78 4654,-432 4514.63,-246.93 4376.33,-349.65 4153,-288 4032.46,-254.73 4004.59,-235.08 3881,-216 3681.08,-185.14 3065.73,-169.37 2845.45,-164.6"/>
 <polygon fill="black" stroke="black" points="2845.6,-161.1 2835.53,-164.38 2845.45,-168.1 2845.6,-161.1"/>
 </g>
-<!-- :screen:settings&#45;&gt;:shared:ui:navigation -->
+<!-- :feature:settings&#45;&gt;:shared:ui:navigation -->
 <g id="edge155" class="edge">
-<title>:screen:settings&#45;&gt;:shared:ui:navigation</title>
+<title>:feature:settings&#45;&gt;:shared:ui:navigation</title>
 <path fill="none" stroke="black" d="M3677.58,-518.1C3443.06,-507.83 2666.45,-473.48 2641,-468 2500.69,-437.81 2345.82,-364.8 2273.89,-328.39"/>
 <polygon fill="black" stroke="black" points="2275.74,-325.4 2265.24,-323.98 2272.56,-331.64 2275.74,-325.4"/>
 </g>
-<!-- :screen:settings&#45;&gt;:temp:legacy&#45;code -->
+<!-- :feature:settings&#45;&gt;:temp:legacy&#45;code -->
 <g id="edge156" class="edge">
-<title>:screen:settings&#45;&gt;:temp:legacy&#45;code</title>
+<title>:feature:settings&#45;&gt;:temp:legacy&#45;code</title>
 <path fill="none" stroke="black" d="M3679.96,-515.9C3599.65,-508.76 3458.05,-493.69 3339,-468 3293.28,-458.13 3171.98,-419.78 3100.6,-396.76"/>
 <polygon fill="black" stroke="black" points="3102.05,-393.56 3091.46,-393.81 3099.9,-400.22 3102.05,-393.56"/>
 </g>
-<!-- :screen:settings&#45;&gt;:temp:old&#45;design -->
+<!-- :feature:settings&#45;&gt;:temp:old&#45;design -->
 <g id="edge157" class="edge">
-<title>:screen:settings&#45;&gt;:temp:old&#45;design</title>
+<title>:feature:settings&#45;&gt;:temp:old&#45;design</title>
 <path fill="none" stroke="black" d="M3740.44,-503.7C3732.6,-470.24 3710.54,-396.71 3662,-360 3632.71,-337.85 3540.76,-323.1 3472.7,-314.91"/>
 <polygon fill="black" stroke="black" points="3473.41,-311.47 3463.07,-313.77 3472.6,-318.42 3473.41,-311.47"/>
 </g>
-<!-- :screen:settings&#45;&gt;:widget:balance -->
+<!-- :feature:settings&#45;&gt;:widget:balance -->
 <g id="edge158" class="edge">
-<title>:screen:settings&#45;&gt;:widget:balance</title>
+<title>:feature:settings&#45;&gt;:widget:balance</title>
 <path fill="none" stroke="black" d="M3682.25,-514.19C3564.71,-501.24 3309.32,-473.08 3182.92,-459.15"/>
 <polygon fill="black" stroke="black" points="3183.66,-455.71 3173.34,-458.09 3182.9,-462.67 3183.66,-455.71"/>
 </g>
-<!-- :screen:settings&#45;&gt;:shared:ui:core -->
+<!-- :feature:settings&#45;&gt;:shared:ui:core -->
 <g id="edge154" class="edge">
-<title>:screen:settings&#45;&gt;:shared:ui:core</title>
+<title>:feature:settings&#45;&gt;:shared:ui:core</title>
 <path fill="none" stroke="black" d="M3745.28,-503.81C3746.08,-485.53 3745.77,-456.02 3738,-432 3726.38,-396.1 3721.6,-384.62 3693,-360 3632.05,-307.54 3605.3,-306.33 3527,-288 3343.1,-244.95 2768.47,-236.87 2559.21,-235.35"/>
 <polygon fill="black" stroke="black" points="2559.27,-231.85 2549.25,-235.28 2559.22,-238.85 2559.27,-231.85"/>
 </g>
-<!-- :screen:transactions&#45;&gt;:shared:base -->
+<!-- :feature:transactions&#45;&gt;:shared:base -->
 <g id="edge159" class="edge">
-<title>:screen:transactions&#45;&gt;:shared:base</title>
+<title>:feature:transactions&#45;&gt;:shared:base</title>
 <path fill="none" stroke="black" d="M4630.29,-439.56C4650.2,-436.97 4671.95,-434.26 4692,-432 4815.26,-418.12 5236,-431.04 5236,-307 5236,-307 5236,-307 5236,-161 5236,-60.86 5126.76,-93.71 5029,-72 4867.26,-36.08 3687.21,-22.49 3389.21,-19.61"/>
 <polygon fill="black" stroke="black" points="3389.29,-16.11 3379.25,-19.52 3389.22,-23.11 3389.29,-16.11"/>
 </g>
-<!-- :screen:transactions&#45;&gt;:shared:data:core -->
+<!-- :feature:transactions&#45;&gt;:shared:data:core -->
 <g id="edge160" class="edge">
-<title>:screen:transactions&#45;&gt;:shared:data:core</title>
+<title>:feature:transactions&#45;&gt;:shared:data:core</title>
 <path fill="none" stroke="black" d="M4631.12,-439.85C4746.48,-424.79 4963.66,-396.39 4964,-396 4974.55,-383.97 4968.33,-375.4 4964,-360 4940.4,-276.14 4908.87,-255.07 4831,-216 4773.19,-186.99 4612.64,-155.52 4549,-144 4407.44,-118.37 4240.37,-103.5 4142.99,-96.34"/>
 <polygon fill="black" stroke="black" points="4143.49,-92.87 4133.27,-95.63 4142.99,-99.85 4143.49,-92.87"/>
 </g>
-<!-- :screen:transactions&#45;&gt;:shared:domain -->
+<!-- :feature:transactions&#45;&gt;:shared:domain -->
 <g id="edge161" class="edge">
-<title>:screen:transactions&#45;&gt;:shared:domain</title>
+<title>:feature:transactions&#45;&gt;:shared:domain</title>
 <path fill="none" stroke="black" d="M4554.7,-431.76C4541.41,-398.06 4507.14,-323.63 4452,-288 4294.77,-186.4 4223.13,-235.94 4037,-216 3588.4,-167.94 3046.4,-162.83 2845.73,-162.73"/>
 <polygon fill="black" stroke="black" points="2845.95,-159.23 2835.95,-162.73 2845.95,-166.23 2845.95,-159.23"/>
 </g>
-<!-- :screen:transactions&#45;&gt;:shared:ui:navigation -->
+<!-- :feature:transactions&#45;&gt;:shared:ui:navigation -->
 <g id="edge163" class="edge">
-<title>:screen:transactions&#45;&gt;:shared:ui:navigation</title>
+<title>:feature:transactions&#45;&gt;:shared:ui:navigation</title>
 <path fill="none" stroke="black" d="M4493.24,-439.13C4360.9,-420.27 4058.66,-379.29 3803,-360 3248.58,-318.17 2581.53,-309.35 2332.83,-307.49"/>
 <polygon fill="black" stroke="black" points="2333.2,-304 2323.18,-307.42 2333.15,-311 2333.2,-304"/>
 </g>
-<!-- :screen:transactions&#45;&gt;:temp:legacy&#45;code -->
+<!-- :feature:transactions&#45;&gt;:temp:legacy&#45;code -->
 <g id="edge164" class="edge">
-<title>:screen:transactions&#45;&gt;:temp:legacy&#45;code</title>
+<title>:feature:transactions&#45;&gt;:temp:legacy&#45;code</title>
 <path fill="none" stroke="black" d="M4489.32,-440.46C4461.19,-437.37 4428.62,-434.13 4399,-432 3924.2,-397.82 3353.96,-384.55 3136.36,-380.5"/>
 <polygon fill="black" stroke="black" points="3136.6,-377 3126.54,-380.32 3136.47,-384 3136.6,-377"/>
 </g>
-<!-- :screen:transactions&#45;&gt;:temp:old&#45;design -->
+<!-- :feature:transactions&#45;&gt;:temp:old&#45;design -->
 <g id="edge165" class="edge">
-<title>:screen:transactions&#45;&gt;:temp:old&#45;design</title>
+<title>:feature:transactions&#45;&gt;:temp:old&#45;design</title>
 <path fill="none" stroke="black" d="M4513.72,-434.77C4444.33,-414.51 4310.49,-377.85 4194,-360 3935.53,-320.4 3625.61,-310.38 3478.93,-307.85"/>
 <polygon fill="black" stroke="black" points="3479.38,-304.36 3469.32,-307.69 3479.26,-311.35 3479.38,-304.36"/>
 </g>
-<!-- :screen:transactions&#45;&gt;:shared:ui:core -->
+<!-- :feature:transactions&#45;&gt;:shared:ui:core -->
 <g id="edge162" class="edge">
-<title>:screen:transactions&#45;&gt;:shared:ui:core</title>
+<title>:feature:transactions&#45;&gt;:shared:ui:core</title>
 <path fill="none" stroke="black" d="M4520.88,-433.9C4426.42,-399.27 4181.9,-315.08 3969,-288 3692.19,-252.8 2823.59,-239.26 2559.15,-235.9"/>
 <polygon fill="black" stroke="black" points="2559.32,-232.4 2549.28,-235.77 2559.23,-239.4 2559.32,-232.4"/>
 </g>
@@ -1377,45 +1377,45 @@
 <path fill="none" stroke="red" stroke-width="2" d="M2529.54,-221.28C2578.18,-209.29 2653.9,-190.63 2706.5,-177.66"/>
 <polygon fill="red" stroke="red" stroke-width="2" points="2705.55,-181.51 2714.42,-175.71 2703.87,-174.71 2705.55,-181.51"/>
 </g>
-<!-- :screen:accounts&#45;&gt;:shared:base -->
+<!-- :feature:accounts&#45;&gt;:shared:base -->
 <g id="edge195" class="edge">
-<title>:screen:accounts&#45;&gt;:shared:base</title>
+<title>:feature:accounts&#45;&gt;:shared:base</title>
 <path fill="none" stroke="black" d="M1500.18,-442.34C1462.41,-438.75 1414.08,-434.54 1371,-432 1306.53,-428.19 265.18,-427.87 209,-396 168.14,-372.82 152,-353.97 152,-307 152,-307 152,-307 152,-161 152,-114.27 167.28,-94.94 208,-72 276.63,-33.33 2803.03,-21.13 3252.85,-19.27"/>
 <polygon fill="black" stroke="black" points="3252.83,-22.77 3262.81,-19.23 3252.8,-15.77 3252.83,-22.77"/>
 </g>
-<!-- :screen:accounts&#45;&gt;:shared:data:core -->
+<!-- :feature:accounts&#45;&gt;:shared:data:core -->
 <g id="edge196" class="edge">
-<title>:screen:accounts&#45;&gt;:shared:data:core</title>
+<title>:feature:accounts&#45;&gt;:shared:data:core</title>
 <path fill="none" stroke="black" d="M1500.17,-442.44C1462.4,-438.88 1414.07,-434.67 1371,-432 1317.07,-428.65 436.5,-434.91 399,-396 387.9,-384.48 390.56,-373.59 399,-360 460.49,-260.97 762.58,-166.25 877,-144 1033.23,-113.61 3485.41,-95 3975.97,-91.58"/>
 <polygon fill="black" stroke="black" points="3975.7,-95.08 3985.68,-91.51 3975.66,-88.08 3975.7,-95.08"/>
 </g>
-<!-- :screen:accounts&#45;&gt;:shared:domain -->
+<!-- :feature:accounts&#45;&gt;:shared:domain -->
 <g id="edge197" class="edge">
-<title>:screen:accounts&#45;&gt;:shared:domain</title>
+<title>:feature:accounts&#45;&gt;:shared:domain</title>
 <path fill="none" stroke="black" d="M1576.89,-431.85C1589.54,-412.81 1611.79,-381.88 1636,-360 1724.65,-279.9 1749.29,-252.67 1863,-216 2014.87,-167.02 2494.67,-162.41 2686.05,-162.58"/>
 <polygon fill="black" stroke="black" points="2685.9,-166.08 2695.9,-162.6 2685.91,-159.08 2685.9,-166.08"/>
 </g>
-<!-- :screen:accounts&#45;&gt;:shared:ui:navigation -->
+<!-- :feature:accounts&#45;&gt;:shared:ui:navigation -->
 <g id="edge199" class="edge">
-<title>:screen:accounts&#45;&gt;:shared:ui:navigation</title>
+<title>:feature:accounts&#45;&gt;:shared:ui:navigation</title>
 <path fill="none" stroke="black" d="M1601.49,-434.1C1650.45,-414.15 1741.87,-379.08 1823,-360 1929.71,-334.91 2055.02,-320.89 2138.76,-313.67"/>
 <polygon fill="black" stroke="black" points="2138.86,-317.17 2148.53,-312.84 2138.27,-310.19 2138.86,-317.17"/>
 </g>
-<!-- :screen:accounts&#45;&gt;:temp:legacy&#45;code -->
+<!-- :feature:accounts&#45;&gt;:temp:legacy&#45;code -->
 <g id="edge200" class="edge">
-<title>:screen:accounts&#45;&gt;:temp:legacy&#45;code</title>
+<title>:feature:accounts&#45;&gt;:temp:legacy&#45;code</title>
 <path fill="none" stroke="black" d="M1616.77,-436.98C1626.74,-435 1637.16,-433.21 1647,-432 1901.62,-400.69 2687.56,-384.98 2955.46,-380.43"/>
 <polygon fill="black" stroke="black" points="2955.23,-383.93 2965.17,-380.27 2955.11,-376.94 2955.23,-383.93"/>
 </g>
-<!-- :screen:accounts&#45;&gt;:temp:old&#45;design -->
+<!-- :feature:accounts&#45;&gt;:temp:old&#45;design -->
 <g id="edge201" class="edge">
-<title>:screen:accounts&#45;&gt;:temp:old&#45;design</title>
+<title>:feature:accounts&#45;&gt;:temp:old&#45;design</title>
 <path fill="none" stroke="black" d="M1618.14,-437.21C1627.71,-435.29 1637.63,-433.45 1647,-432 1803.71,-407.68 1844.39,-413.61 2002,-396 2133.27,-381.34 2165.39,-371.19 2297,-360 2673.65,-327.96 3124.82,-313.76 3309.21,-308.98"/>
 <polygon fill="black" stroke="black" points="3309.28,-312.48 3319.19,-308.73 3309.1,-305.49 3309.28,-312.48"/>
 </g>
-<!-- :screen:accounts&#45;&gt;:shared:ui:core -->
+<!-- :feature:accounts&#45;&gt;:shared:ui:core -->
 <g id="edge198" class="edge">
-<title>:screen:accounts&#45;&gt;:shared:ui:core</title>
+<title>:feature:accounts&#45;&gt;:shared:ui:core</title>
 <path fill="none" stroke="black" d="M1586.89,-432.55C1632.4,-397.85 1745.28,-317.89 1855,-288 1956.85,-260.26 2262.27,-244.2 2405.85,-237.99"/>
 <polygon fill="black" stroke="black" points="2405.79,-241.5 2415.63,-237.57 2405.49,-234.5 2405.79,-241.5"/>
 </g>
