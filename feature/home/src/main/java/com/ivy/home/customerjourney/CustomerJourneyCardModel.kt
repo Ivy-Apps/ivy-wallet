@@ -1,18 +1,17 @@
 package com.ivy.home.customerjourney
 
-import android.content.Context
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Immutable
 import com.ivy.design.l0_system.Gradient
 import com.ivy.domain.RootScreen
 import com.ivy.legacy.IvyWalletCtx
 import com.ivy.navigation.Navigation
-import com.ivy.wallet.io.persistence.datastore.IvyDataStore
+import com.ivy.poll.data.PollRepository
 
 @Immutable
 data class CustomerJourneyCardModel(
     val id: String,
-    val condition: suspend (trnCount: Long, plannedPaymentsCount: Long, ivyContext: IvyWalletCtx, context: Context) -> Boolean,
+    val condition: suspend (trnCount: Long, plannedPaymentsCount: Long, ivyContext: IvyWalletCtx, deps: CustomerJourneyDeps) -> Boolean,
     val title: String,
     val description: String,
     val cta: String?,
@@ -22,4 +21,9 @@ data class CustomerJourneyCardModel(
 
     val background: Gradient,
     val onAction: (Navigation, IvyWalletCtx, RootScreen) -> Unit
+)
+
+@Immutable
+data class CustomerJourneyDeps(
+    val pollRepository: PollRepository,
 )

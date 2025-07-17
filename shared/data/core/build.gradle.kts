@@ -12,7 +12,7 @@ dependencies {
     implementation(projects.shared.base)
     api(projects.shared.data.model)
 
-    implementation(libs.datastore)
+    api(libs.datastore)
     implementation(libs.bundles.ktor)
 
     testImplementation(projects.shared.data.modelTesting)

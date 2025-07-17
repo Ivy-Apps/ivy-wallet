@@ -1,6 +1,5 @@
 package com.ivy.home.customerjourney
 
-import android.content.Context
 import com.ivy.base.legacy.SharedPrefs
 import com.ivy.base.legacy.stringRes
 import com.ivy.base.model.TransactionType
@@ -17,9 +16,10 @@ import com.ivy.legacy.data.model.MainTab
 import com.ivy.navigation.EditPlannedScreen
 import com.ivy.navigation.Navigation
 import com.ivy.navigation.PieChartStatisticScreen
+import com.ivy.poll.data.PollRepository
+import com.ivy.poll.data.model.PollId
 import com.ivy.ui.R
 import com.ivy.widget.transaction.AddTransactionWidgetCompact
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 @Deprecated("Legacy code")
@@ -28,17 +28,24 @@ class CustomerJourneyCardsProvider @Inject constructor(
   private val plannedPaymentRuleDao: PlannedPaymentRuleDao,
   private val sharedPrefs: SharedPrefs,
   private val ivyContext: IvyWalletCtx,
-  @ApplicationContext
-  private val context: Context,
+  private val pollRepository: PollRepository,
 ) {
 
   suspend fun loadCards(): List<CustomerJourneyCardModel> {
     val trnCount = transactionRepository.countHappenedTransactions().value
     val plannedPaymentsCount = plannedPaymentRuleDao.countPlannedPayments()
+    val deps = CustomerJourneyDeps(
+      pollRepository = pollRepository,
+    )
 
     return ACTIVE_CARDS
       .filter {
-        it.condition(trnCount, plannedPaymentsCount, ivyContext, context) && !isCardDismissed(it)
+        it.condition(
+          trnCount,
+          plannedPaymentsCount,
+          ivyContext,
+          deps
+        ) && !isCardDismissed(it)
       }
   }
 
@@ -150,8 +157,10 @@ class CustomerJourneyCardsProvider @Inject constructor(
 
     fun voteCard() = CustomerJourneyCardModel(
       id = "vote_card",
-      // to users that haven't passed it
-      condition = { _, _, _, ctx -> true },
+      // to users that haven't voted
+      condition = { _, _, _, deps ->
+        !deps.pollRepository.hasVoted(PollId.PaidIvy)
+      },
       title = "How much are you willing to pay for Ivy Wallet?",
       description = "Google Play requires us to update Ivy Wallet to target API level 35 (Android 15). We'd like to know if you will be interested to pay on a subscription basis so we can maintain the app.",
       cta = "Vote",
