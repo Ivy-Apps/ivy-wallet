@@ -7,6 +7,7 @@ enum class PollId(val id: String) {
 data class Poll(
   val id: PollId,
   val title: String,
+  val description: String,
   val options: List<PollOption>
 )
 

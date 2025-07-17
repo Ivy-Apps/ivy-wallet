@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -63,7 +64,9 @@ private fun PollOption(
   modifier: Modifier = Modifier
 ) {
   Row(
-    modifier = modifier.clickable(onClick = onClick),
+    modifier = modifier
+      .clickable(onClick = onClick)
+      .defaultMinSize(minHeight = 48.dp),
     verticalAlignment = Alignment.CenterVertically,
   ) {
     RadioButton(
@@ -71,6 +74,9 @@ private fun PollOption(
       onClick = null,
     )
     Spacer(Modifier.width(16.dp))
-    Text(text = option)
+    Text(
+      text = option,
+      style = MaterialTheme.typography.bodyMedium,
+    )
   }
 }

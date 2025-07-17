@@ -39,10 +39,10 @@ fun VotedContent(
     )
     Spacer(Modifier.height(16.dp))
     Text(
-      text = "Thank you voting!",
-      style = MaterialTheme.typography.bodyLarge,
+      text = "Thanks for voting!",
+      style = MaterialTheme.typography.headlineSmall,
     )
-    Spacer(Modifier.height(16.dp))
+    Spacer(Modifier.height(48.dp))
     Button(
       onClick = onBackClick,
     ) {

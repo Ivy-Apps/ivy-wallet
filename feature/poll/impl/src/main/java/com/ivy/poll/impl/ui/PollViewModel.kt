@@ -34,6 +34,8 @@ class PollViewModel @Inject constructor(
   private val poll = Poll(
     id = PollId.PaidIvy,
     title = "How much are you willing to pay for Ivy Wallet?",
+    description = "To continue to exist, Ivy Wallet needs maintenance." +
+        " Updating it requires effort and we can't do it for free.",
     options = listOf(
       PollOption(
         id = PollOptionId("one_usd"),
@@ -45,7 +47,7 @@ class PollViewModel @Inject constructor(
       ),
       PollOption(
         id = PollOptionId("none"),
-        text = "None, I'll uninstall",
+        text = "None, I'll uninstall.",
       ),
     )
   )
@@ -68,6 +70,7 @@ class PollViewModel @Inject constructor(
     return remember(poll) {
       PollUi(
         title = poll.title,
+        description = poll.description,
         options = poll.options.map { it.text }.toImmutableList(),
       )
     }

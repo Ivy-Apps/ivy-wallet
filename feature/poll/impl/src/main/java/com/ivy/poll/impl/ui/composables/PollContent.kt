@@ -33,9 +33,8 @@ fun PollContent(
   ) {
     Spacer(Modifier.height(48.dp))
     Text(
-      text = "To continue to exist, Ivy Wallet needs maintenance." +
-          " Updating it requires effort and we can't do it for free",
-      style = MaterialTheme.typography.bodyMedium,
+      text = uiState.poll.description,
+      style = MaterialTheme.typography.bodyLarge,
     )
     Spacer(Modifier.height(48.dp))
     VoteCard(

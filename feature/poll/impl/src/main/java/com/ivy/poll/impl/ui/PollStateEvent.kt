@@ -17,6 +17,7 @@ sealed interface PollUiState {
 
 data class PollUi(
   val title: String,
+  val description: String,
   val options: ImmutableList<String>
 )
 
