@@ -159,8 +159,8 @@ class CustomerJourneyCardsProvider @Inject constructor(
     fun voteCard() = CustomerJourneyCardModel(
       id = "vote_card",
       // to users that haven't voted
-      condition = { _, _, _, deps ->
-        !deps.pollRepository.hasVoted(PollId.PaidIvy)
+      condition = { trnCount, _, _, deps ->
+        trnCount > 3 && !deps.pollRepository.hasVoted(PollId.PaidIvy)
       },
       title = "How much are you willing to pay for Ivy Wallet?",
       description = "Google Play requires us to update Ivy Wallet to target API level 35 (Android 15). We'd like to know if you will be interested to pay on a subscription basis so we can maintain the app.",
