@@ -1,5 +1,6 @@
 [versions]
-kotlin = "2.2.20-Beta1"
+kotlin = "2.2.0"
+ksp = "2.2.0-2.0.2"
 kotlin-coroutines = "1.10.2"
 ktor = "3.2.2"
 arrow = "2.1.2"
@@ -148,7 +149,7 @@ detekt-ruleset-ivy-explicit = { module = "com.github.Ivy-Apps:detekt-explicit", 
 slack-lint-compose = { module = "com.slack.lint.compose:compose-lint-checks", version = "1.4.2" }
 
 # KSP
-ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version = "2.2.0-2.0.2" }
+ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 
 # Modules Graph
 module-graph-plugin = { module = "com.jraska.module.graph.assertion:plugin", version = "2.9.0" }
@@ -244,3 +245,4 @@ opencsv = [
 [plugins]
 gradleWrapperUpgrade = { id = "org.gradle.wrapper-upgrade", version = "0.12" }
 koverPlugin = { id = "org.jetbrains.kotlinx.kover", version = "0.9.1" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
