@@ -55,8 +55,8 @@ arrowkt-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
 mockk = { module = "io.mockk:mockk", version = "1.14.5" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
-kotest-property-arrow = { module = "io.kotest.extensions:kotest-property-arrow", version.ref = "arrow" }
-kotest-assertions-arrow = { module = "io.kotest.extensions:kotest-assertions-arrow", version.ref = "arrow" }
+kotest-property-arrow = { module = "io.kotest.extensions:kotest-property-arrow", version = "2.0.0" }
+kotest-assertions-arrow = { module = "io.kotest.extensions:kotest-assertions-arrow", version = "2.0.0" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 cashapp-molecule-plugin = { module = "app.cash.molecule:molecule-gradle-plugin", version = "1.4.3" }
 cashapp-turbine = { module = "app.cash.turbine:turbine", version = "1.2.1" }
@@ -76,7 +76,7 @@ compose-animation = { module = "androidx.compose.animation:animation", version.r
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 compose-material3-windowsize = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "compose-material3" }
-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose" }
+compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version = "1.7.8" }
 compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
 compose-runtime-livedate-temp = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "compose" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
