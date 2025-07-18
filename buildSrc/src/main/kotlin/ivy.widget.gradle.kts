@@ -1,13 +1,6 @@
 plugins {
     id("ivy.module")
-    org.jetbrains.kotlin.plugin.compose
-}
-
-android {
-    // Compose
-    buildFeatures {
-        compose = true
-    }
+    id("ivy.compose")
 }
 
 dependencies {

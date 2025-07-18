@@ -2,13 +2,13 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("org.jetbrains.kotlin.android")
-    org.jetbrains.kotlin.plugin.compose
     id("dagger.hilt.android.plugin")
     id("org.jetbrains.kotlin.plugin.serialization")
     id("com.google.devtools.ksp")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("io.gitlab.arturbosch.detekt")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
@@ -106,6 +106,10 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 
     lint {
