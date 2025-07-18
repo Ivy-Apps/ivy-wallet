@@ -1,5 +1,5 @@
 [versions]
-kotlin = "2.2.0"
+kotlin = "2.1.21"
 kotlin-coroutines = "1.10.2"
 ktor = "3.2.2"
 arrow = "2.1.2"
@@ -17,7 +17,7 @@ strikt = "0.35.1"
 
 # Android
 min-sdk = "28"
-compile-sdk = "34"
+compile-sdk = "35"
 version-name = "2025.07.17"
 version-code = "206"
 jvm-target = "17"
@@ -146,7 +146,7 @@ detekt-ruleset-ivy-explicit = { module = "com.github.Ivy-Apps:detekt-explicit", 
 slack-lint-compose = { module = "com.slack.lint.compose:compose-lint-checks", version = "1.4.2" }
 
 # KSP
-ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version = "2.2.0-2.0.2" }
+ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version = "2.1.21-2.0.2" }
 
 # Modules Graph
 module-graph-plugin = { module = "com.jraska.module.graph.assertion:plugin", version = "2.9.0" }
