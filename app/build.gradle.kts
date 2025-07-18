@@ -108,6 +108,10 @@ android {
         buildConfig = true
     }
 
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
+
     lint {
         disable += "ComposeViewModelInjection"
         checkDependencies = true
