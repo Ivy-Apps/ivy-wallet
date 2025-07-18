@@ -1,5 +1,5 @@
 plugins {
-    org.jetbrains.kotlin.plugin.compose
+    id("org.jetbrains.kotlin.plugin.compose")
     id("ivy.module")
     id("app.cash.molecule")
 }
@@ -8,6 +8,10 @@ android {
     // Compose
     buildFeatures {
         compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = catalog.version("compose-compiler")
     }
 
     lint {

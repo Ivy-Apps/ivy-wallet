@@ -7,7 +7,6 @@ plugins {
     id("com.jraska.module.graph.assertion")
 
     alias(libs.plugins.gradleWrapperUpgrade)
-
     alias(libs.plugins.koverPlugin)
 }
 

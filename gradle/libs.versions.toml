@@ -1,11 +1,13 @@
 [versions]
-kotlin = "2.1.21"
+kotlin = "2.2.20-Beta1"
 kotlin-coroutines = "1.10.2"
 ktor = "3.2.2"
 arrow = "2.1.2"
 kotest = "5.9.1"
 # https://developer.android.com/jetpack/androidx/releases/compose
 compose = "1.8.3"
+# https://developer.android.com/jetpack/androidx/releases/compose-kotlin
+compose-compiler = "1.5.15"
 compose-material3 = "1.3.2"
 glance = "1.1.1"
 hilt = "2.56.2"
@@ -76,7 +78,7 @@ androidx-test-ext = { module = "androidx.test.ext:junit-ktx", version = "1.2.1" 
 mockk-android = { module = "io.mockk:mockk-android", version = "1.14.5" }
 
 # Compose
-compose-compiler-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
+compose-compiler-plugin = { module = "org.jetbrains.kotlin.plugin.compose:org.jetbrains.kotlin.plugin.compose.gradle.plugin", version.ref = "kotlin" }
 compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
@@ -146,7 +148,7 @@ detekt-ruleset-ivy-explicit = { module = "com.github.Ivy-Apps:detekt-explicit", 
 slack-lint-compose = { module = "com.slack.lint.compose:compose-lint-checks", version = "1.4.2" }
 
 # KSP
-ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version = "2.1.21-2.0.2" }
+ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version = "2.2.0-2.0.2" }
 
 # Modules Graph
 module-graph-plugin = { module = "com.jraska.module.graph.assertion:plugin", version = "2.9.0" }
