@@ -13,6 +13,7 @@ room = "2.7.2"
 androidx-work = "2.10.2"
 kotlinx-collections = "0.4.0"
 paparazzi = "1.3.5"
+strikt = "0.35.1"
 
 # Android
 min-sdk = "28"
@@ -63,6 +64,10 @@ cashapp-turbine = { module = "app.cash.turbine:turbine", version = "1.2.1" }
 paparazzi-plugin = { module = "app.cash.paparazzi:paparazzi-gradle-plugin", version.ref = "paparazzi" }
 paparazzi = { module = "app.cash.paparazzi:paparazzi", version.ref = "paparazzi" }
 google-testparameterinjector = { module = "com.google.testparameterinjector:test-parameter-injector", version = "1.18" }
+strikt-core = { module = "io.strikt:strikt-core", version.ref = "strikt" }
+strikt-arrow = { module = "io.strikt:strikt-arrow", version.ref = "strikt" }
+strikt-jvm = { module = "io.strikt:strikt-jvm", version.ref = "strikt" }
+
 
 # Integartion (Android) testing
 androidx-test-runner = { module = "androidx.test:runner", version = "1.6.2" }
@@ -177,7 +182,10 @@ testing = [
     "kotlin-coroutines-test",
     "mockk",
     "cashapp-turbine",
-    "google-testparameterinjector"
+    "google-testparameterinjector",
+    "strikt-core",
+    "strikt-arrow",
+    "strikt-jvm",
 ]
 integration-testing = [
     "kotest-assertions",
