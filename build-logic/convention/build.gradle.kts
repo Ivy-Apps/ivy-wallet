@@ -49,3 +49,16 @@ tasks {
     failOnWarning = true
   }
 }
+
+gradlePlugin {
+  plugins {
+    register("androidApplicationCompose") {
+      id = libs.plugins.ivy.android.application.compose.get().pluginId
+      implementationClass = "AndroidApplicationComposeConventionPlugin"
+    }
+    register("androidLibraryCompose") {
+      id = libs.plugins.ivy.android.library.compose.get().pluginId
+      implementationClass = "AndroidLibraryComposeConventionPlugin"
+    }
+  }
+}

@@ -16,6 +16,7 @@ androidx-work = "2.9.1"
 kotlinx-collections = "0.3.7"
 paparazzi = "1.3.3"
 ksp = "2.0.20-1.0.24"
+androidxComposeBom = "2025.02.00"
 
 # Android
 min-sdk = "28"
@@ -75,6 +76,9 @@ mockk-android = { module = "io.mockk:mockk-android", version = "1.13.12" }
 
 # Compose
 compose-compiler-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom-alpha", version.ref = "androidxComposeBom" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
