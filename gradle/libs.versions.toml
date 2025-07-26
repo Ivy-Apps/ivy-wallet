@@ -119,7 +119,6 @@ google-play-update = { module = "com.google.android.play:app-update", version = 
 google-play-services = { module = "com.google.android.gms:play-services-tasks", version = "18.2.0" }
 google-play-review = { module = "com.google.android.play:review-ktx", version = "2.0.1" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version = "19.0.3" }
-firebase-crashlytics-gradle-plugin = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "3.0.2" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore", version = "25.1.4" }
 
 # AndroidX
@@ -159,6 +158,7 @@ module-graph-plugin = { module = "com.jraska.module.graph.assertion:plugin", ver
 # Dependencies of the included build-logic
 android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
 room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
+firebase-crashlytics-gradlePlugin = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsPlugin" }
 
 
 [bundles]
@@ -260,5 +260,11 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "room" }
 
 # Plugins defined by this project
+ivy-android-application = { id = "ivy.android.application" }
 ivy-android-application-compose = { id = "ivy.android.application.compose" }
+ivy-android-application-firebase = { id = "ivy.android.application.firebase" }
+ivy-android-feature = { id = "ivy.android.feature" }
+ivy-android-library = { id = "ivy.android.library" }
 ivy-android-library-compose = { id = "ivy.android.library.compose" }
+ivy-android-room = { id = "ivy.android.room" }
+ivy-hilt = { id = "ivy.hilt" }

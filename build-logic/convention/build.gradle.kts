@@ -20,7 +20,7 @@ plugins {
   `kotlin-dsl`
 }
 
-group = "com.google.samples.apps.nowinandroid.buildlogic"
+group = "com.ivy.buildlogic"
 
 // Configure the build-logic plugins to target JDK 17
 // This matches the JDK used to build the project, and is not related to what is running on device.
@@ -42,6 +42,7 @@ dependencies {
   compileOnly(libs.kotlin.gradle.plugin)
   compileOnly(libs.ksp.plugin)
   compileOnly(libs.room.gradlePlugin)
+  compileOnly(libs.firebase.crashlytics.gradlePlugin)
 }
 
 tasks {
@@ -57,9 +58,33 @@ gradlePlugin {
       id = libs.plugins.ivy.android.application.compose.get().pluginId
       implementationClass = "AndroidApplicationComposeConventionPlugin"
     }
+    register("androidApplication") {
+      id = libs.plugins.ivy.android.application.asProvider().get().pluginId
+      implementationClass = "AndroidApplicationConventionPlugin"
+    }
     register("androidLibraryCompose") {
       id = libs.plugins.ivy.android.library.compose.get().pluginId
       implementationClass = "AndroidLibraryComposeConventionPlugin"
+    }
+    register("androidLibrary") {
+      id = libs.plugins.ivy.android.library.asProvider().get().pluginId
+      implementationClass = "AndroidLibraryConventionPlugin"
+    }
+    register("androidFeature") {
+      id = libs.plugins.ivy.android.feature.get().pluginId
+      implementationClass = "AndroidFeatureConventionPlugin"
+    }
+    register("hilt") {
+      id = libs.plugins.ivy.hilt.get().pluginId
+      implementationClass = "HiltConventionPlugin"
+    }
+    register("androidRoom") {
+      id = libs.plugins.ivy.android.room.get().pluginId
+      implementationClass = "AndroidRoomConventionPlugin"
+    }
+    register("androidFirebase") {
+      id = libs.plugins.ivy.android.application.firebase.get().pluginId
+      implementationClass = "AndroidApplicationFirebaseConventionPlugin"
     }
   }
 }
