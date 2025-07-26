@@ -7,12 +7,15 @@ kotest = "5.9.1"
 # https://developer.android.com/jetpack/androidx/releases/compose
 compose = "1.6.8"
 compose-material3 = "1.2.1"
+androidGradlePlugin = "8.5.2"
+androidTools = "31.9.0"
 glance = "1.1.0"
 hilt = "2.52"
 room = "2.6.1"
 androidx-work = "2.9.1"
 kotlinx-collections = "0.3.7"
 paparazzi = "1.3.3"
+ksp = "2.0.20-1.0.24"
 
 # Android
 min-sdk = "28"
@@ -26,7 +29,7 @@ jvm-target = "17"
 detekt = "1.23.6" # https://detekt.dev/docs/gettingstarted/gradle/
 
 [libraries]
-android-gradle-plugin = { module = "com.android.tools.build:gradle", version = "8.5.2" }
+android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 
 # Kotlin
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -141,11 +144,13 @@ detekt-ruleset-ivy-explicit = { module = "com.github.Ivy-Apps:detekt-explicit", 
 slack-lint-compose = { module = "com.slack.lint.compose:compose-lint-checks", version = "1.3.1" }
 
 # KSP
-ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version = "2.0.20-1.0.24" }
+ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 
 # Modules Graph
 module-graph-plugin = { module = "com.jraska.module.graph.assertion:plugin", version = "2.6.0" }
 
+# Dependencies of the included build-logic
+android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
 
 [bundles]
 kotlin = [
@@ -234,3 +239,7 @@ opencsv = [
 [plugins]
 gradleWrapperUpgrade = { id = "org.gradle.wrapper-upgrade", version = "0.11.4" }
 koverPlugin = { id = "org.jetbrains.kotlinx.kover", version = "0.8.3" }
+
+# Plugins defined by this project
+ivy-android-application-compose = { id = "ivy.android.application.compose" }
+ivy-android-library-compose = { id = "ivy.android.library.compose" }
