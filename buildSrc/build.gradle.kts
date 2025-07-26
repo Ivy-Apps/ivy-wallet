@@ -16,7 +16,6 @@ repositories {
 dependencies {
     implementation(libs.android.gradle.plugin)
     implementation(libs.kotlin.gradle.plugin)
-    implementation(libs.compose.compiler.plugin)
     implementation(libs.hilt.gradle.plugin)
     implementation(libs.google.services.plugin)
     implementation(libs.firebase.crashlytics.gradle.plugin)
