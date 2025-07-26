@@ -1,14 +1,14 @@
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    id("org.jetbrains.kotlin.android")
-    alias(libs.plugins.ivy.android.application.compose)
-    id("dagger.hilt.android.plugin")
-    id("org.jetbrains.kotlin.plugin.serialization")
-    id("com.google.devtools.ksp")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
-    id("io.gitlab.arturbosch.detekt")
+//    id("com.android.application")
+//    id("kotlin-android")
+//    id("org.jetbrains.kotlin.android")
+//    alias(libs.plugins.ivy.android.application.compose)
+//    id("dagger.hilt.android.plugin")
+//    id("org.jetbrains.kotlin.plugin.serialization")
+//    id("com.google.devtools.ksp")
+//    id("com.google.gms.google-services")
+//    id("com.google.firebase.crashlytics")
+//    id("io.gitlab.arturbosch.detekt")
 }
 
 android {

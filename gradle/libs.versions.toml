@@ -17,6 +17,7 @@ kotlinx-collections = "0.3.7"
 paparazzi = "1.3.3"
 ksp = "2.0.20-1.0.24"
 androidxComposeBom = "2025.02.00"
+firebaseCrashlyticsPlugin = "3.0.2"
 
 # Android
 min-sdk = "28"
@@ -39,6 +40,7 @@ kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-co
 kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlin-coroutines" }
 kotlin-coroutines-googleplay-temp = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlin-coroutines" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-collections" }
+kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
 
 # KotlinX Serialization
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.7.1" }
@@ -109,6 +111,7 @@ hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-work = { module = "androidx.hilt:hilt-work", version = "1.2.0" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
+hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hilt" }
 
 # Google
 google-services-plugin = { module = "com.google.gms:google-services", version = "4.4.2" }
@@ -155,6 +158,8 @@ module-graph-plugin = { module = "com.jraska.module.graph.assertion:plugin", ver
 
 # Dependencies of the included build-logic
 android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
+room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
+
 
 [bundles]
 kotlin = [
@@ -244,6 +249,15 @@ opencsv = [
 gradleWrapperUpgrade = { id = "org.gradle.wrapper-upgrade", version = "0.11.4" }
 koverPlugin = { id = "org.jetbrains.kotlinx.kover", version = "0.8.3" }
 compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsPlugin" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+room = { id = "androidx.room", version.ref = "room" }
 
 # Plugins defined by this project
 ivy-android-application-compose = { id = "ivy.android.application.compose" }
