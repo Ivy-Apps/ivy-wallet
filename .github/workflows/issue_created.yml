@@ -9,16 +9,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Java SDK
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'adopt'
           java-version: '18'
 
       - name: Gradle cache
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
 
       - name: Execute the "Issue Created" automation
         run: ./gradlew :ci-actions:issue-create-comment:run --args='issueNumber=${{ github.event.issue.number }} gitHubPAT=${{ secrets.IVYWALLET_BOT_GITHUB_PAT_2 }}'

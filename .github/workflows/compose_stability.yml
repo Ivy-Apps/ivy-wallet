@@ -11,16 +11,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout GIT
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Java SDK
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'adopt'
           java-version: '18'
 
       - name: Gradle cache
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
 
       - name: Build Compose compiler report (Jetpack Compose)
         run: ./gradlew assembleDemo -PcomposeCompilerReports=true
@@ -30,7 +30,7 @@ jobs:
 
       - name: Upload the Compose Stability report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: compose-stability-report
           path: ci-actions/compose-stability/ivy-compose-stability-report.txt
