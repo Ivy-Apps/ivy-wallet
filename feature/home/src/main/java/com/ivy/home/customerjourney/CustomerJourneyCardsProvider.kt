@@ -160,7 +160,7 @@ class CustomerJourneyCardsProvider @Inject constructor(
       }
     )
 
-    @Suppress("MaxLineLength", "NoImplicitFunctionReturnType")
+    @Suppress("MaxLineLength", "NoImplicitFunctionReturnType", "MagicNumber")
     private fun voteCard() = CustomerJourneyCardModel(
       id = "vote_card",
       // to users that haven't voted

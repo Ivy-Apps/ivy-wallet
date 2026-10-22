@@ -11127,12 +11127,12 @@
 
     <issue
         id="ComposeParameterOrder"
-        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [, id: UUID = UUID.randomUUID(), keyword: String, visible: Boolean, dismiss: () -> Unit, onKeywordChanged: (String) -> Unit] but should be [, keyword: String, visible: Boolean, dismiss: () -> Unit, id: UUID = UUID.randomUUID(), onKeywordChanged: (String) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
+        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [BoxWithConstraintsScope, id: UUID = UUID.randomUUID(), keyword: String, visible: Boolean, dismiss: () -> Unit, onKeywordChanged: (String) -> Unit] but should be [BoxWithConstraintsScope, keyword: String, visible: Boolean, dismiss: () -> Unit, id: UUID = UUID.randomUUID(), onKeywordChanged: (String) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
         errorLine1="fun BoxWithConstraintsScope.AddKeywordModal("
         errorLine2="                                           ^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/AddKeywordModal.kt"
-            line="31"
+            line="32"
             column="44"/>
     </issue>
 
@@ -11149,7 +11149,7 @@
 
     <issue
         id="ComposeParameterOrder"
-        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [, bottomInset: Dp = navigationBarInset().toDensityDp(), onBack: () -> Unit, PrimaryAction: @Composable () -> Unit] but should be [, onBack: () -> Unit, bottomInset: Dp = navigationBarInset().toDensityDp(), PrimaryAction: @Composable () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
+        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [BoxWithConstraintsScope, bottomInset: Dp = navigationBarInset().toDensityDp(), onBack: () -> Unit, PrimaryAction: @Composable () -> Unit] but should be [BoxWithConstraintsScope, onBack: () -> Unit, bottomInset: Dp = navigationBarInset().toDensityDp(), PrimaryAction: @Composable () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
         errorLine1="fun BoxWithConstraintsScope.BackBottomBar("
         errorLine2="                                         ^">
         <location
@@ -11215,12 +11215,12 @@
 
     <issue
         id="ComposeParameterOrder"
-        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [, title: String = stringResource(R.string.set_transaction_type), visible: Boolean, includeTransferType: Boolean, initialType: TransactionType, id: UUID = UUID.randomUUID(), dismiss: () -> Unit, onTransactionTypeChanged: (TransactionType) -> Unit] but should be [, visible: Boolean, includeTransferType: Boolean, initialType: TransactionType, dismiss: () -> Unit, title: String = stringResource(R.string.set_transaction_type), id: UUID = UUID.randomUUID(), onTransactionTypeChanged: (TransactionType) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
+        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [BoxWithConstraintsScope, title: String = stringResource(R.string.set_transaction_type), visible: Boolean, includeTransferType: Boolean, initialType: TransactionType, id: UUID = UUID.randomUUID(), dismiss: () -> Unit, onTransactionTypeChanged: (TransactionType) -> Unit] but should be [BoxWithConstraintsScope, visible: Boolean, includeTransferType: Boolean, initialType: TransactionType, dismiss: () -> Unit, title: String = stringResource(R.string.set_transaction_type), id: UUID = UUID.randomUUID(), onTransactionTypeChanged: (TransactionType) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
         errorLine1="fun BoxWithConstraintsScope.ChangeTransactionTypeModal("
         errorLine2="                                                      ^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ChangeTransactionTypeModal.kt"
-            line="44"
+            line="45"
             column="55"/>
     </issue>
 
@@ -11248,23 +11248,23 @@
 
     <issue
         id="ComposeParameterOrder"
-        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [, id: UUID = UUID.randomUUID(), visible: Boolean, initialCategory: Category?, categories: List&lt;Category>, showCategoryModal: (Category?) -> Unit, onCategoryChanged: (Category?) -> Unit, dismiss: () -> Unit] but should be [, visible: Boolean, initialCategory: Category?, categories: List&lt;Category>, showCategoryModal: (Category?) -> Unit, onCategoryChanged: (Category?) -> Unit, id: UUID = UUID.randomUUID(), dismiss: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
+        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [BoxWithConstraintsScope, id: UUID = UUID.randomUUID(), visible: Boolean, initialCategory: Category?, categories: List&lt;Category>, showCategoryModal: (Category?) -> Unit, onCategoryChanged: (Category?) -> Unit, dismiss: () -> Unit] but should be [BoxWithConstraintsScope, visible: Boolean, initialCategory: Category?, categories: List&lt;Category>, showCategoryModal: (Category?) -> Unit, onCategoryChanged: (Category?) -> Unit, id: UUID = UUID.randomUUID(), dismiss: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
         errorLine1="fun BoxWithConstraintsScope.ChooseCategoryModal("
         errorLine2="                                               ^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/ChooseCategoryModal.kt"
-            line="58"
+            line="62"
             column="48"/>
     </issue>
 
     <issue
         id="ComposeParameterOrder"
-        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [, visible: Boolean, initialIcon: String?, color: Color, id: UUID = UUID.randomUUID(), dismiss: () -> Unit, onIconChosen: (String?) -> Unit] but should be [, visible: Boolean, initialIcon: String?, color: Color, dismiss: () -> Unit, id: UUID = UUID.randomUUID(), onIconChosen: (String?) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
+        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [BoxWithConstraintsScope, visible: Boolean, initialIcon: String?, color: Color, id: UUID = UUID.randomUUID(), dismiss: () -> Unit, onIconChosen: (String?) -> Unit] but should be [BoxWithConstraintsScope, visible: Boolean, initialIcon: String?, color: Color, dismiss: () -> Unit, id: UUID = UUID.randomUUID(), onIconChosen: (String?) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
         errorLine1="fun BoxWithConstraintsScope.ChooseIconModal("
         errorLine2="                                           ^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/ChooseIconModal.kt"
-            line="51"
+            line="55"
             column="44"/>
     </issue>
 
@@ -11281,12 +11281,12 @@
 
     <issue
         id="ComposeParameterOrder"
-        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [, id: UUID = UUID.randomUUID(), visible: Boolean, selectedStartDateOfMonth: Int, dismiss: () -> Unit, onStartDateOfMonthSelected: (Int) -> Unit] but should be [, visible: Boolean, selectedStartDateOfMonth: Int, dismiss: () -> Unit, id: UUID = UUID.randomUUID(), onStartDateOfMonthSelected: (Int) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
+        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [BoxWithConstraintsScope, id: UUID = UUID.randomUUID(), visible: Boolean, selectedStartDateOfMonth: Int, dismiss: () -> Unit, onStartDateOfMonthSelected: (Int) -> Unit] but should be [BoxWithConstraintsScope, visible: Boolean, selectedStartDateOfMonth: Int, dismiss: () -> Unit, id: UUID = UUID.randomUUID(), onStartDateOfMonthSelected: (Int) -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
         errorLine1="fun BoxWithConstraintsScope.ChooseStartDateOfMonthModal("
         errorLine2="                                                       ^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/ChooseStartDateOfMonthModal.kt"
-            line="36"
+            line="37"
             column="56"/>
     </issue>
 
@@ -11369,12 +11369,12 @@
 
     <issue
         id="ComposeParameterOrder"
-        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [, id: UUID = UUID.randomUUID(), visible: Boolean, description: String?, onDescriptionChanged: (String?) -> Unit, dismiss: () -> Unit] but should be [, visible: Boolean, description: String?, onDescriptionChanged: (String?) -> Unit, id: UUID = UUID.randomUUID(), dismiss: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
+        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [BoxWithConstraintsScope, id: UUID = UUID.randomUUID(), visible: Boolean, description: String?, onDescriptionChanged: (String?) -> Unit, dismiss: () -> Unit] but should be [BoxWithConstraintsScope, visible: Boolean, description: String?, onDescriptionChanged: (String?) -> Unit, id: UUID = UUID.randomUUID(), dismiss: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
         errorLine1="fun BoxWithConstraintsScope.DescriptionModal("
         errorLine2="                                            ^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/edit/DescriptionModal.kt"
-            line="44"
+            line="45"
             column="45"/>
     </issue>
 
@@ -11611,12 +11611,12 @@
 
     <issue
         id="ComposeParameterOrder"
-        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [, id: UUID?, visible: Boolean, dismiss: () -> Unit, SecondaryActions: (@Composable () -> Unit)? = null, PrimaryAction: @Composable () -> Unit, scrollState: ScrollState? = rememberScrollState(), shiftIfKeyboardShown: Boolean = true, includeActionsRowPadding: Boolean = true, Content: @Composable ColumnScope.() -> Unit] but should be [, id: UUID?, visible: Boolean, dismiss: () -> Unit, PrimaryAction: @Composable () -> Unit, SecondaryActions: (@Composable () -> Unit)? = null, scrollState: ScrollState? = rememberScrollState(), shiftIfKeyboardShown: Boolean = true, includeActionsRowPadding: Boolean = true, Content: @Composable ColumnScope.() -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
+        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [BoxScope, id: UUID?, visible: Boolean, dismiss: () -> Unit, SecondaryActions: (@Composable () -> Unit)? = null, PrimaryAction: @Composable () -> Unit, scrollState: ScrollState? = rememberScrollState(), shiftIfKeyboardShown: Boolean = true, includeActionsRowPadding: Boolean = true, Content: @Composable ColumnScope.() -> Unit] but should be [BoxScope, id: UUID?, visible: Boolean, dismiss: () -> Unit, PrimaryAction: @Composable () -> Unit, SecondaryActions: (@Composable () -> Unit)? = null, scrollState: ScrollState? = rememberScrollState(), shiftIfKeyboardShown: Boolean = true, includeActionsRowPadding: Boolean = true, Content: @Composable ColumnScope.() -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
         errorLine1="fun BoxScope.IvyModal("
         errorLine2="                     ^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/modal/IvyModal.kt"
-            line="71"
+            line="72"
             column="22"/>
     </issue>
 
@@ -11732,12 +11732,12 @@
 
     <issue
         id="ComposeParameterOrder"
-        message="    Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;    Current params are: [, modifier: Modifier = Modifier, dividerModifier: Modifier = Modifier, value: TextFieldValue, textColor: Color = UI.colors.pureInverse, hint: String?, visualTransformation: VisualTransformation = VisualTransformation.None, keyboardOptions: KeyboardOptions = KeyboardOptions(&#xA;    autoCorrect = true,&#xA;    keyboardType = KeyboardType.Text,&#xA;    imeAction = ImeAction.Done,&#xA;    capitalization = KeyboardCapitalization.Sentences&#xA;), keyboardActions: KeyboardActions? = null, onValueChanged: (TextFieldValue) -> Unit] but should be [, value: TextFieldValue, hint: String?, modifier: Modifier = Modifier, dividerModifier: Modifier = Modifier, textColor: Color = UI.colors.pureInverse, visualTransformation: VisualTransformation = VisualTransformation.None, keyboardOptions: KeyboardOptions = KeyboardOptions(&#xA;    autoCorrect = true,&#xA;    keyboardType = KeyboardType.Text,&#xA;    imeAction = ImeAction.Done,&#xA;    capitalization = KeyboardCapitalization.Sentences&#xA;), keyboardActions: KeyboardActions? = null, onValueChanged: (TextFieldValue) -> Unit].&#xA;    See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
+        message="    Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;    Current params are: [ColumnScope, modifier: Modifier = Modifier, dividerModifier: Modifier = Modifier, value: TextFieldValue, textColor: Color = UI.colors.pureInverse, hint: String?, visualTransformation: VisualTransformation = VisualTransformation.None, keyboardOptions: KeyboardOptions = KeyboardOptions(&#xA;    autoCorrect = true,&#xA;    keyboardType = KeyboardType.Text,&#xA;    imeAction = ImeAction.Done,&#xA;    capitalization = KeyboardCapitalization.Sentences&#xA;), keyboardActions: KeyboardActions? = null, onValueChanged: (TextFieldValue) -> Unit] but should be [ColumnScope, value: TextFieldValue, hint: String?, modifier: Modifier = Modifier, dividerModifier: Modifier = Modifier, textColor: Color = UI.colors.pureInverse, visualTransformation: VisualTransformation = VisualTransformation.None, keyboardOptions: KeyboardOptions = KeyboardOptions(&#xA;    autoCorrect = true,&#xA;    keyboardType = KeyboardType.Text,&#xA;    imeAction = ImeAction.Done,&#xA;    capitalization = KeyboardCapitalization.Sentences&#xA;), keyboardActions: KeyboardActions? = null, onValueChanged: (TextFieldValue) -> Unit].&#xA;    See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
         errorLine1="fun ColumnScope.IvyTitleTextField("
         errorLine2="                                 ^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/IvyTitleTextField.kt"
-            line="40"
+            line="41"
             column="34"/>
     </issue>
 
@@ -11842,7 +11842,7 @@
 
     <issue
         id="ComposeParameterOrder"
-        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [, bottomInset: Dp = navigationBarInset().toDensityDp(), onClose: () -> Unit, onAdd: () -> Unit] but should be [, onClose: () -> Unit, bottomInset: Dp = navigationBarInset().toDensityDp(), onAdd: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
+        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [BoxWithConstraintsScope, bottomInset: Dp = navigationBarInset().toDensityDp(), onClose: () -> Unit, onAdd: () -> Unit] but should be [BoxWithConstraintsScope, onClose: () -> Unit, bottomInset: Dp = navigationBarInset().toDensityDp(), onAdd: () -> Unit].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
         errorLine1="fun BoxWithConstraintsScope.PlannedPaymentsBottomBar("
         errorLine2="                                                    ^">
         <location
@@ -11886,7 +11886,7 @@
 
     <issue
         id="ComposeParameterOrder"
-        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [, id: UUID = UUID.randomUUID(), title: String, description: String, visible: Boolean, color: Color = UI.colors.orange, dismiss: () -> Unit = {}] but should be [, title: String, description: String, visible: Boolean, id: UUID = UUID.randomUUID(), color: Color = UI.colors.orange, dismiss: () -> Unit = {}].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
+        message="Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;Current params are: [BoxWithConstraintsScope, id: UUID = UUID.randomUUID(), title: String, description: String, visible: Boolean, color: Color = UI.colors.orange, dismiss: () -> Unit = {}] but should be [BoxWithConstraintsScope, title: String, description: String, visible: Boolean, id: UUID = UUID.randomUUID(), color: Color = UI.colors.orange, dismiss: () -> Unit = {}].&#xA;See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
         errorLine1="fun BoxWithConstraintsScope.ProgressModal("
         errorLine2="                                         ^">
         <location
@@ -11897,7 +11897,7 @@
 
     <issue
         id="ComposeParameterOrder"
-        message="    Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;    Current params are: [, visible: Boolean, id: UUID = UUID.randomUUID(), TitleContent: @Composable ColumnScope.() -> Unit = {&#xA;    Text(&#xA;        modifier = Modifier.padding(start = 32.dp),&#xA;        text = stringResource(R.string.reorder),&#xA;        style = UI.typo.b1.style(&#xA;            UI.colors.pureInverse,&#xA;            FontWeight.ExtraBold&#xA;        )&#xA;    )&#xA;}, initialItems: List&lt;T>, dismiss: () -> Unit, onUpdateItemOrderNum: (item: T, newOrderNum: Double) -> Unit = { _, _ -> }, onReordered: ((List&lt;T>) -> Unit)? = null, ItemContent: @Composable (Int, T) -> Unit] but should be [, visible: Boolean, initialItems: List&lt;T>, dismiss: () -> Unit, id: UUID = UUID.randomUUID(), TitleContent: @Composable ColumnScope.() -> Unit = {&#xA;    Text(&#xA;        modifier = Modifier.padding(start = 32.dp),&#xA;        text = stringResource(R.string.reorder),&#xA;        style = UI.typo.b1.style(&#xA;            UI.colors.pureInverse,&#xA;            FontWeight.ExtraBold&#xA;        )&#xA;    )&#xA;}, onUpdateItemOrderNum: (item: T, newOrderNum: Double) -> Unit = { _, _ -> }, onReordered: ((List&lt;T>) -> Unit)? = null, ItemContent: @Composable (Int, T) -> Unit].&#xA;    See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
+        message="    Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;    Current params are: [BoxScope, visible: Boolean, id: UUID = UUID.randomUUID(), TitleContent: @Composable ColumnScope.() -> Unit = {&#xA;    Text(&#xA;        modifier = Modifier.padding(start = 32.dp),&#xA;        text = stringResource(R.string.reorder),&#xA;        style = UI.typo.b1.style(&#xA;            UI.colors.pureInverse,&#xA;            FontWeight.ExtraBold&#xA;        )&#xA;    )&#xA;}, initialItems: List&lt;T>, dismiss: () -> Unit, onUpdateItemOrderNum: (item: T, newOrderNum: Double) -> Unit = { _, _ -> }, onReordered: ((List&lt;T>) -> Unit)? = null, ItemContent: @Composable (Int, T) -> Unit] but should be [BoxScope, visible: Boolean, initialItems: List&lt;T>, dismiss: () -> Unit, id: UUID = UUID.randomUUID(), TitleContent: @Composable ColumnScope.() -> Unit = {&#xA;    Text(&#xA;        modifier = Modifier.padding(start = 32.dp),&#xA;        text = stringResource(R.string.reorder),&#xA;        style = UI.typo.b1.style(&#xA;            UI.colors.pureInverse,&#xA;            FontWeight.ExtraBold&#xA;        )&#xA;    )&#xA;}, onUpdateItemOrderNum: (item: T, newOrderNum: Double) -> Unit = { _, _ -> }, onReordered: ((List&lt;T>) -> Unit)? = null, ItemContent: @Composable (Int, T) -> Unit].&#xA;    See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
         errorLine1="fun &lt;T : Reorderable> BoxScope.ReorderModalSingleType("
         errorLine2="                                                     ^">
         <location
@@ -11908,12 +11908,12 @@
 
     <issue
         id="ComposeParameterOrder"
-        message="    Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;    Current params are: [, visible: Boolean, id: UUID = UUID.randomUUID(), TitleContent: @Composable ColumnScope.() -> Unit = {&#xA;    Text(&#xA;        modifier = Modifier.padding(start = 32.dp),&#xA;        text = stringResource(R.string.reorder),&#xA;        style = UI.typo.b1.style(&#xA;            UI.colors.pureInverse,&#xA;            FontWeight.ExtraBold&#xA;        )&#xA;    )&#xA;}, initialItems: List&lt;Any>, dismiss: () -> Unit, onUpdateItemOrderNum: (&#xA;    itemsInNewOrder: List&lt;Any>,&#xA;    item: T,&#xA;    newOrderNum: Double&#xA;) -> Unit = { _, _, _ -> }, onReordered: ((List&lt;Any>) -> Unit)? = null, ItemContent: @Composable RowScope.(Int, Any) -> Unit] but should be [, visible: Boolean, initialItems: List&lt;Any>, dismiss: () -> Unit, id: UUID = UUID.randomUUID(), TitleContent: @Composable ColumnScope.() -> Unit = {&#xA;    Text(&#xA;        modifier = Modifier.padding(start = 32.dp),&#xA;        text = stringResource(R.string.reorder),&#xA;        style = UI.typo.b1.style(&#xA;            UI.colors.pureInverse,&#xA;            FontWeight.ExtraBold&#xA;        )&#xA;    )&#xA;}, onUpdateItemOrderNum: (&#xA;    itemsInNewOrder: List&lt;Any>,&#xA;    item: T,&#xA;    newOrderNum: Double&#xA;) -> Unit = { _, _, _ -> }, onReordered: ((List&lt;Any>) -> Unit)? = null, ItemContent: @Composable RowScope.(Int, Any) -> Unit].&#xA;    See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
+        message="    Parameters in a composable function should be ordered following this pattern: params without defaults, modifiers, params with defaults and optionally, a trailing function that might not have a default param.&#xA;    Current params are: [BoxScope, visible: Boolean, id: UUID = UUID.randomUUID(), TitleContent: @Composable ColumnScope.() -> Unit = {&#xA;    Text(&#xA;        modifier = Modifier.padding(start = 32.dp),&#xA;        text = stringResource(R.string.reorder),&#xA;        style = UI.typo.b1.style(&#xA;            UI.colors.pureInverse,&#xA;            FontWeight.ExtraBold&#xA;        )&#xA;    )&#xA;}, initialItems: List&lt;Any>, dismiss: () -> Unit, onUpdateItemOrderNum: (&#xA;    itemsInNewOrder: List&lt;Any>,&#xA;    item: T,&#xA;    newOrderNum: Double&#xA;) -> Unit = { _, _, _ -> }, onReordered: ((List&lt;Any>) -> Unit)? = null, ItemContent: @Composable RowScope.(Int, Any) -> Unit] but should be [BoxScope, visible: Boolean, initialItems: List&lt;Any>, dismiss: () -> Unit, id: UUID = UUID.randomUUID(), TitleContent: @Composable ColumnScope.() -> Unit = {&#xA;    Text(&#xA;        modifier = Modifier.padding(start = 32.dp),&#xA;        text = stringResource(R.string.reorder),&#xA;        style = UI.typo.b1.style(&#xA;            UI.colors.pureInverse,&#xA;            FontWeight.ExtraBold&#xA;        )&#xA;    )&#xA;}, onUpdateItemOrderNum: (&#xA;    itemsInNewOrder: List&lt;Any>,&#xA;    item: T,&#xA;    newOrderNum: Double&#xA;) -> Unit = { _, _, _ -> }, onReordered: ((List&lt;Any>) -> Unit)? = null, ItemContent: @Composable RowScope.(Int, Any) -> Unit].&#xA;    See https://slackhq.github.io/compose-lints/rules/#ordering-composable-parameters-properly for more information."
         errorLine1="fun &lt;T : Reorderable> BoxScope.ReorderModal("
         errorLine2="                                           ^">
         <location
             file="src/main/java/com/ivy/legacy/legacy/ui/theme/components/ReorderModal.kt"
-            line="80"
+            line="81"
             column="44"/>
     </issue>
 
@@ -14346,6 +14346,50 @@
             file="src/main/res/layout/widget_add_transaction_compact.xml"
             line="40"
             column="10"/>
+    </issue>
+
+    <issue
+        id="SlotReused"
+        message="Slots should be invoked in at most once place to meet lifecycle expectations. Slots should not be invoked in multiple places in source code, where the invoking location changes based on some condition. This will preserve the slot&apos;s internal state when the invoking location changes. See https://slackhq.github.io/compose-lints/rules/#do-not-invoke-slots-in-more-than-once-place for more information."
+        errorLine1="    content: @Composable () -> Unit,"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ivy/design/api/IvyUI.kt"
+            line="75"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="ProduceStateDoesNotAssignValue"
+        message="produceState calls should assign `value` inside the producer lambda"
+        errorLine1="        return produceState&lt;ImportantFields?>("
+        errorLine2="               ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ivy/importdata/csv/CSVViewModel.kt"
+            line="235"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="ProduceStateDoesNotAssignValue"
+        message="produceState calls should assign `value` inside the producer lambda"
+        errorLine1="        return produceState&lt;TransferFields?>("
+        errorLine2="               ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ivy/importdata/csv/CSVViewModel.kt"
+            line="271"
+            column="16"/>
+    </issue>
+
+    <issue
+        id="ProduceStateDoesNotAssignValue"
+        message="produceState calls should assign `value` inside the producer lambda"
+        errorLine1="        return produceState&lt;OptionalFields?>("
+        errorLine2="               ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/ivy/importdata/csv/CSVViewModel.kt"
+            line="301"
+            column="16"/>
     </issue>
 
 </issues>
