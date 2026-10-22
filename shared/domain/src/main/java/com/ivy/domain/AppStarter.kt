@@ -8,6 +8,6 @@ import com.ivy.base.model.TransactionType
  */
 interface AppStarter {
     fun getRootIntent(): Intent
-    fun defaultStart()
-    fun addTransactionStart(type: TransactionType)
+    fun defaultStartIntent(): Intent
+    fun addTransactionStartIntent(type: TransactionType): Intent
 }

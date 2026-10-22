@@ -14,6 +14,7 @@ import androidx.glance.GlanceId
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
+import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.currentState
@@ -76,18 +77,18 @@ class WalletBalanceWidget(
                 currency = currency,
                 income = shortenAmount(income),
                 expense = shortenAmount(expense),
-                onIncomeClick = {
-                    getAppStarter().addTransactionStart(TransactionType.INCOME)
-                },
-                onExpenseClick = {
-                    getAppStarter().addTransactionStart(TransactionType.EXPENSE)
-                },
-                onTransferClick = {
-                    getAppStarter().addTransactionStart(TransactionType.TRANSFER)
-                },
-                onWidgetClick = {
-                    getAppStarter().defaultStart()
-                },
+                // Start the activity directly instead of from a callback, which
+                // Android 15+ may block as a background activity launch.
+                onIncomeClick = actionStartActivity(
+                    getAppStarter().addTransactionStartIntent(TransactionType.INCOME)
+                ),
+                onExpenseClick = actionStartActivity(
+                    getAppStarter().addTransactionStartIntent(TransactionType.EXPENSE)
+                ),
+                onTransferClick = actionStartActivity(
+                    getAppStarter().addTransactionStartIntent(TransactionType.TRANSFER)
+                ),
+                onWidgetClick = actionStartActivity(getAppStarter().defaultStartIntent()),
             )
         }
     }

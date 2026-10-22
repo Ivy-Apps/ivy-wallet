@@ -9,6 +9,7 @@ import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
+import androidx.glance.action.Action
 import androidx.glance.action.clickable
 import androidx.glance.background
 import androidx.glance.layout.Alignment
@@ -36,10 +37,10 @@ fun WalletBalanceWidgetContent(
     currency: String,
     income: String,
     expense: String,
-    onIncomeClick: () -> Unit,
-    onExpenseClick: () -> Unit,
-    onTransferClick: () -> Unit,
-    onWidgetClick: () -> Unit,
+    onIncomeClick: Action,
+    onExpenseClick: Action,
+    onTransferClick: Action,
+    onWidgetClick: Action,
 ) {
     val resources = LocalContext.current.resources
     Box(
@@ -75,7 +76,7 @@ fun WalletBalanceWidgetContent(
 @Composable
 fun RowScope.WidgetClickableItem(
     @DrawableRes image: Int,
-    onClick: () -> Unit,
+    onClick: Action,
 ) {
     Column(
         GlanceModifier
@@ -174,29 +175,23 @@ fun IncomeExpenseSection(
 
 @Composable
 fun ButtonsSection(
-    onIncomeClick: () -> Unit,
-    onExpenseClick: () -> Unit,
-    onTransferClick: () -> Unit,
+    onIncomeClick: Action,
+    onExpenseClick: Action,
+    onTransferClick: Action,
 ) {
     val buttons = listOf(
-        R.drawable.ic_widget_income to R.string.income,
-        R.drawable.ic_widget_expense to R.string.expense,
-        R.drawable.ic_widget_transfer to R.string.transfer
+        R.drawable.ic_widget_income to onIncomeClick,
+        R.drawable.ic_widget_expense to onExpenseClick,
+        R.drawable.ic_widget_transfer to onTransferClick,
     )
     Row(
         GlanceModifier.fillMaxWidth().padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        buttons.forEach { (image, text) ->
+        buttons.forEach { (image, onClick) ->
             WidgetClickableItem(
                 image = image,
-                onClick = {
-                    when (text) {
-                        R.string.income -> onIncomeClick()
-                        R.string.expense -> onExpenseClick()
-                        R.string.transfer -> onTransferClick()
-                    }
-                }
+                onClick = onClick,
             )
         }
     }
