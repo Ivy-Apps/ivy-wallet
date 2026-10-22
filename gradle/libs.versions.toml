@@ -16,7 +16,9 @@ paparazzi = "1.3.3"
 
 # Android
 min-sdk = "28"
-compile-sdk = "36"
+# Library modules stay on 35: Paparazzi 1.3.x crashes against the android-36 platform.
+compile-sdk = "35"
+target-sdk = "36"
 version-name = "2025.07.17"
 version-code = "206"
 jvm-target = "17"
@@ -138,7 +140,7 @@ detekt-ruleset-compiler = { module = "com.braisgabin.detekt:kotlin-compiler-wrap
 detekt-ruleset-ktlint = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 detekt-ruleset-compose = { module = "io.nlopez.compose.rules:detekt", version = "0.4.10" }
 detekt-ruleset-ivy-explicit = { module = "com.github.Ivy-Apps:detekt-explicit", version = "v0.0.8" }
-slack-lint-compose = { module = "com.slack.lint.compose:compose-lint-checks", version = "1.3.1" }
+slack-lint-compose = { module = "com.slack.lint.compose:compose-lint-checks", version = "1.4.2" }
 
 # KSP
 ksp-plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version = "2.0.20-1.0.24" }

@@ -20,7 +20,7 @@
         buildToolsVersion = "35.0.0";
 
         androidSdk = (pkgs.androidenv.composeAndroidPackages {
-          platformVersions = [ "36" ];
+          platformVersions = [ "35" "36" ];
           buildToolsVersions = [ buildToolsVersion ];
           includeEmulator = false;
           includeSystemImages = false;

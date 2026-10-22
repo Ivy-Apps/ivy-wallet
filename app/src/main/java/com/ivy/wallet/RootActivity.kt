@@ -372,7 +372,6 @@ class RootActivity : AppCompatActivity(), RootScreen {
         biometricPrompt.authenticate(promptInfo)
     }
 
-
     @Suppress("TooGenericExceptionCaught", "PrintStackTrace")
     override fun openUrlInBrowser(url: String) {
         try {
